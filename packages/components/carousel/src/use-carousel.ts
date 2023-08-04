@@ -239,10 +239,10 @@ export const useCarousel = (
     }, [])
     if (normalizeSlots?.length === 2 && props.loop) {
       isItemsTwoLength.value = true
-      return normalizeSlots.concat(normalizeSlots)
+      return normalizeSlots
     }
     isItemsTwoLength.value = false
-    return defaultSlots
+    return null
   }
 
   // watch

@@ -39,8 +39,8 @@
           </ElIcon>
         </button>
       </transition>
-      <slotDefaultNode v-if="isItemsTwoLength && !isCardType" />
-      <slot v-else />
+      <slotDefaultNode />
+      <slot />
     </div>
     <ul v-if="indicatorPosition !== 'none'" :class="indicatorsClasses">
       <li
