@@ -3,12 +3,12 @@ import ToggleButton from '../icons/toggle-button.vue'
 </script>
 
 <template>
-  <div class="sidebar-button flex items-center">
+  <button class="reset-btn sidebar-button flex items-center">
     <ElIcon :size="20" class="mr-2">
       <ToggleButton />
     </ElIcon>
     <span class="leading-6">Menu</span>
-  </div>
+  </button>
 </template>
 
 <style>

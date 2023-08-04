@@ -123,7 +123,10 @@
 
   thead {
     color: getCssVar('table-header-text-color');
-    font-weight: 500;
+
+    th {
+      font-weight: 600;
+    }
 
     &.is-group {
       th.#{$namespace}-table__cell {
@@ -170,6 +173,7 @@
     white-space: normal;
     word-break: break-all;
     line-height: 23px;
+    padding: 0 12px;
 
     &.#{$namespace}-tooltip {
       white-space: nowrap;

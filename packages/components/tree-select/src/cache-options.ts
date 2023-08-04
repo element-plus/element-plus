@@ -29,9 +29,18 @@ export default defineComponent({
             select.cachedOptions.set(item.value, item)
           }
         })
-        select.setSelected()
+
+        // fork from packages/select/src/useSelect.ts#330
+        const inputs = select.selectWrapper?.querySelectorAll('input') || []
+        if (
+          !Array.from(inputs).includes(
+            document.activeElement as HTMLInputElement
+          )
+        ) {
+          select.setSelected()
+        }
       },
-      { immediate: true, deep: true }
+      { flush: 'post', immediate: true }
     )
 
     return () => undefined

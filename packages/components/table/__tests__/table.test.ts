@@ -358,7 +358,7 @@ describe('Table.vue', () => {
       const filter = document.body.querySelector('.el-table-filter')
 
       triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
-      // confrim button
+      // confirm button
       await doubleWait()
       triggerEvent(
         filter.querySelector('.el-table-filter__bottom button'),
@@ -386,7 +386,7 @@ describe('Table.vue', () => {
       const filter = document.body.querySelector('.el-table-filter')
 
       triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
-      // confrim button
+      // confirm button
       await doubleWait()
       triggerEvent(
         filter.querySelector('.el-table-filter__bottom button'),
@@ -1173,7 +1173,7 @@ describe('Table.vue', () => {
   describe('tree', () => {
     let wrapper: VueWrapper<ComponentPublicInstance>
     afterEach(() => wrapper?.unmount())
-    it('render tree structual data', async () => {
+    it('render tree structural data', async () => {
       wrapper = mount({
         components: {
           ElTableColumn,
@@ -1553,5 +1553,110 @@ describe('Table.vue', () => {
     wrapper.findAll('.el-checkbox')[2].trigger('click')
     await doubleWait()
     expect(wrapper.vm.selected.length).toEqual(3)
+  })
+  it('change columns order when use v-for & key to render table', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+            <button class="change-column" @click="changeColumnData"></button>
+            <el-table :data="testData">
+              <el-table-column
+                v-for="item in columnsData"
+                :prop="item.prop"
+                :label="item.label"
+                :key="item.prop" />
+            </el-table>
+          `,
+      data() {
+        const testData = getTestData() as any
+
+        return {
+          testData,
+          columnsData: [
+            { label: 'name', prop: 'name' },
+            { label: 'release', prop: 'release' },
+            { label: 'director', prop: 'director' },
+            { label: 'runtime', prop: 'runtime' },
+          ],
+        }
+      },
+
+      methods: {
+        changeColumnData() {
+          ;[this.columnsData[0], this.columnsData[1]] = [
+            this.columnsData[1],
+            this.columnsData[0],
+          ]
+        },
+      },
+    })
+    await doubleWait()
+    wrapper.find('.change-column').trigger('click')
+    await doubleWait()
+    expect(wrapper.find('.el-table__header').findAll('.cell')[0].text()).toBe(
+      'release'
+    )
+    expect(wrapper.find('.el-table__header').findAll('.cell')[1].text()).toBe(
+      'name'
+    )
+  })
+
+  it('show-overflow-tooltip', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+
+      template: `
+      <el-table :data="testData" show-overflow-tooltip>
+        <el-table-column prop="name" label="name" />
+        <el-table-column prop="release" label="release" />
+      </el-table>
+    `,
+
+      data() {
+        const testData = getTestData() as any
+        return {
+          testData,
+        }
+      },
+    })
+
+    await doubleWait()
+    const findTooltipEl = wrapper.findAll('.el-tooltip').length
+    await doubleWait()
+    // 5 rows and 2 columns should be 10
+    expect(findTooltipEl).toEqual(10)
+  })
+
+  it('add show-overflow-tooltip to table and table-column', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+
+      template: `
+      <el-table :data="testData" show-overflow-tooltip>
+        <el-table-column prop="name" label="name" :show-overflow-tooltip="false" />
+        <el-table-column prop="release" label="release" />
+      </el-table>
+    `,
+
+      data() {
+        const testData = getTestData() as any
+        return {
+          testData,
+        }
+      },
+    })
+
+    await doubleWait()
+    const findTooltipEl = wrapper.findAll('.el-tooltip').length
+    expect(findTooltipEl).toEqual(5)
   })
 })
