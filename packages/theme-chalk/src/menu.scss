@@ -76,8 +76,11 @@
   @include m(horizontal) {
     display: flex;
     flex-wrap: nowrap;
-    border-bottom: solid 1px getCssVar('menu-border-color');
     border-right: none;
+
+    &.#{$namespace}-menu {
+      border-bottom: solid 1px getCssVar('menu-border-color');
+    }
 
     & > .#{$namespace}-menu-item {
       display: inline-flex;
@@ -92,11 +95,6 @@
       a,
       a:hover {
         color: inherit;
-      }
-
-      &:not(.is-disabled):hover,
-      &:not(.is-disabled):focus {
-        background-color: #fff;
       }
     }
     & > .#{$namespace}-sub-menu {
@@ -135,6 +133,7 @@
         display: flex;
         align-items: center;
         height: getCssVar('menu-horizontal-sub-item-height');
+        line-height: getCssVar('menu-horizontal-sub-item-height');
         padding: 0 10px;
         color: getCssVar('menu-text-color');
       }

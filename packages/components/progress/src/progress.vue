@@ -23,6 +23,8 @@
           :class="[
             ns.be('bar', 'inner'),
             { [ns.bem('bar', 'inner', 'indeterminate')]: indeterminate },
+            { [ns.bem('bar', 'inner', 'striped')]: striped },
+            { [ns.bem('bar', 'inner', 'striped-flow')]: stripedFlow },
           ]"
           :style="barStyle"
         >
@@ -47,6 +49,7 @@
           :class="ns.be('circle', 'track')"
           :d="trackPath"
           :stroke="`var(${ns.cssVarName('fill-color-light')}, #e5e9f2)`"
+          :stroke-linecap="strokeLinecap"
           :stroke-width="relativeStrokeWidth"
           fill="none"
           :style="trailPathStyle"

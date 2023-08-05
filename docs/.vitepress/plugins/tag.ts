@@ -9,9 +9,11 @@ export default (md: MarkdownIt): void => {
     const value = token.content
     /**
      * Add styles for some special tags
-     * vitepress/styles/content/tag-mark-content.scss
+     * vitepress/styles/content/tag-content.scss
      */
-    const tagClass = ['beta', 'deprecated', 'a11y'].includes(value) ? value : ''
+    const tagClass = ['beta', 'deprecated', 'a11y', 'required'].includes(value)
+      ? value
+      : ''
     return `<span class="vp-tag ${tagClass}">${value}</span>`
   }
 

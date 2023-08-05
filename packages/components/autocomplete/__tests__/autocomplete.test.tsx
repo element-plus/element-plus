@@ -440,4 +440,22 @@ describe('Autocomplete.vue', () => {
     await nextTick()
     expect(onBlur).toHaveBeenCalledTimes(1)
   })
+
+  describe('test a11y supports', () => {
+    test('test a11y attributes', async () => {
+      const wrapper = _mount()
+      await nextTick()
+
+      const container = wrapper.find('.el-autocomplete')
+      expect(container.attributes('role')).toBe('combobox')
+      expect(container.attributes('aria-haspopup')).toBe('listbox')
+      expect(container.attributes('aria-expanded')).toBe('false')
+
+      await wrapper.find('input').trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(container.attributes('aria-expanded')).toBe('true')
+    })
+  })
 })

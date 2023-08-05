@@ -18,11 +18,7 @@
     />
     <span
       v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
-      :class="[
-        ns.e('label'),
-        ns.em('label', 'left'),
-        ns.is('active', !checked),
-      ]"
+      :class="labelLeftKls"
     >
       <el-icon v-if="inactiveIcon">
         <component :is="inactiveIcon" />
@@ -48,15 +44,17 @@
         <el-icon v-if="loading" :class="ns.is('loading')">
           <loading />
         </el-icon>
+        <el-icon v-else-if="activeActionIcon && checked">
+          <component :is="activeActionIcon" />
+        </el-icon>
+        <el-icon v-else-if="inactiveActionIcon && !checked">
+          <component :is="inactiveActionIcon" />
+        </el-icon>
       </div>
     </span>
     <span
       v-if="!inlinePrompt && (activeIcon || activeText)"
-      :class="[
-        ns.e('label'),
-        ns.em('label', 'right'),
-        ns.is('active', checked),
-      ]"
+      :class="labelRightKls"
     >
       <el-icon v-if="activeIcon">
         <component :is="activeIcon" />
@@ -109,17 +107,27 @@ const { formItem } = useFormItem()
 const switchSize = useFormSize()
 const ns = useNamespace('switch')
 
-useDeprecated(
-  {
-    from: '"value"',
-    replacement: '"model-value" or "v-model"',
-    scope: COMPONENT_NAME,
-    version: '2.3.0',
-    ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
-    type: 'Attribute',
-  },
-  computed(() => !!vm.vnode.props?.value)
-)
+const useBatchDeprecated = (list: string[][]) => {
+  list.forEach((param) => {
+    useDeprecated(
+      {
+        from: param[0],
+        replacement: param[1],
+        scope: COMPONENT_NAME,
+        version: '2.3.0',
+        ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
+        type: 'Attribute',
+      },
+      computed(() => !!vm.vnode.props?.[param[2]])
+    )
+  })
+}
+useBatchDeprecated([
+  ['"value"', '"model-value" or "v-model"', 'value'],
+  ['"active-color"', 'CSS var `--el-switch-on-color`', 'activeColor'],
+  ['"inactive-color"', 'CSS var `--el-switch-off-color`', 'inactiveColor'],
+  ['"border-color"', 'CSS var `--el-switch-border-color`', 'borderColor'],
+])
 
 const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
@@ -135,6 +143,18 @@ const switchKls = computed(() => [
   ns.m(switchSize.value),
   ns.is('disabled', switchDisabled.value),
   ns.is('checked', checked.value),
+])
+
+const labelLeftKls = computed(() => [
+  ns.e('label'),
+  ns.em('label', 'left'),
+  ns.is('active', !checked.value),
+])
+
+const labelRightKls = computed(() => [
+  ns.e('label'),
+  ns.em('label', 'right'),
+  ns.is('active', checked.value),
 ])
 
 const coreStyle = computed<CSSProperties>(() => ({

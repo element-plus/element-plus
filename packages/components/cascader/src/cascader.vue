@@ -189,7 +189,7 @@
 import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
 import { isPromise } from '@vue/shared'
 import { cloneDeep, debounce } from 'lodash-unified'
-import { isClient, useCssVar, useResizeObserver } from '@vueuse/core'
+import { useCssVar, useResizeObserver } from '@vueuse/core'
 import ElCascaderPanel from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -199,7 +199,13 @@ import ElIcon from '@element-plus/components/icon'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { debugWarn, focusNode, getSibling, isKorean } from '@element-plus/utils'
+import {
+  debugWarn,
+  focusNode,
+  getSibling,
+  isClient,
+  isKorean,
+} from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -654,6 +660,11 @@ const handleInput = (val: string, e?: KeyboardEvent) => {
   val ? handleFilter() : hideSuggestionPanel()
 }
 
+const getInputInnerHeight = (inputInner: HTMLElement): number =>
+  Number.parseFloat(
+    useCssVar(nsInput.cssVarName('input-height'), inputInner).value
+  ) - 2
+
 watch(filtering, updatePopperPosition)
 
 watch([checkedNodes, isDisabled], calculatePresentTags)
@@ -662,15 +673,19 @@ watch(presentTags, () => {
   nextTick(() => updateStyle())
 })
 
+watch(realSize, async () => {
+  await nextTick()
+  const inputInner = input.value!.input!
+  inputInitialHeight = getInputInnerHeight(inputInner) || inputInitialHeight
+  updateStyle()
+})
+
 watch(presentText, syncPresentTextValue, { immediate: true })
 
 onMounted(() => {
   const inputInner = input.value!.input!
 
-  const inputInnerHeight =
-    Number.parseFloat(
-      useCssVar(nsInput.cssVarName('input-height'), inputInner).value
-    ) - 2
+  const inputInnerHeight = getInputInnerHeight(inputInner)
 
   inputInitialHeight = inputInner.offsetHeight || inputInnerHeight
   useResizeObserver(inputInner, updateStyle)
