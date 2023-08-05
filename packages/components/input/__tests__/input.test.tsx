@@ -266,8 +266,12 @@ describe('Input.vue', () => {
     ))
 
     const vm = wrapper.vm
-    expect(vm.$el.querySelector('input').value).toEqual('10000')
+    const event = new Event('input', { bubbles: true })
+    expect(vm.$el.querySelector('input').value).toEqual('10,000')
     expect(vm.$el.querySelector('input').value).not.toEqual('1000')
+    vm.$el.querySelector('input').value = '1,000,000'
+    vm.$el.querySelector('input').dispatchEvent(event)
+    expect(val.value).toEqual('1000000')
   })
 
   describe('Input Methods', () => {

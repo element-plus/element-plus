@@ -29,8 +29,8 @@ export const usePopperContentDOM = (
   const contentStyle = computed<StyleValue[]>(() => {
     return [
       { zIndex: unref(contentZIndex) } as CSSProperties,
-      props.popperStyle || {},
       unref(styles).popper as CSSProperties,
+      props.popperStyle || {},
     ]
   })
   const ariaModal = computed<string | undefined>(() =>

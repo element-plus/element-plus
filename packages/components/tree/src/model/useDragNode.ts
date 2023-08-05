@@ -110,7 +110,10 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
       dropNext = false
     }
 
-    const targetPosition = dropNode.$el.getBoundingClientRect()
+    // find target node without children, just calc content node height
+    const targetPosition = dropNode.$el
+      .querySelector(`.${ns.be('node', 'content')}`)
+      .getBoundingClientRect()
     const treePosition = el$.value.getBoundingClientRect()
 
     let dropType: NodeDropType

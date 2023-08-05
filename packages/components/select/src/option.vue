@@ -1,14 +1,7 @@
 <template>
   <li
     v-show="visible"
-    :class="[
-      ns.be('dropdown', 'item'),
-      ns.is('disabled', isDisabled),
-      {
-        selected: itemSelected,
-        hover,
-      },
-    ]"
+    :class="containerKls"
     @mouseenter="hoverItem"
     @click.stop="selectOptionClick"
   >
@@ -21,12 +14,14 @@
 <script lang="ts">
 // @ts-nocheck
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
   nextTick,
   onBeforeUnmount,
   reactive,
   toRefs,
+  unref,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
@@ -51,6 +46,16 @@ export default defineComponent({
 
   setup(props) {
     const ns = useNamespace('select')
+
+    const containerKls = computed(() => [
+      ns.be('dropdown', 'item'),
+      ns.is('disabled', unref(isDisabled)),
+      {
+        selected: unref(itemSelected),
+        hover: unref(hover),
+      },
+    ])
+
     const states = reactive({
       index: -1,
       groupDisabled: false,
@@ -86,12 +91,13 @@ export default defineComponent({
 
     function selectOptionClick() {
       if (props.disabled !== true && states.groupDisabled !== true) {
-        select.handleOptionSelect(vm, true)
+        select.handleOptionSelect(vm)
       }
     }
 
     return {
       ns,
+      containerKls,
       currentLabel,
       itemSelected,
       isDisabled,
