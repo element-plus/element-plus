@@ -2,7 +2,7 @@
   <span
     v-if="disableTransitions"
     :class="containerKls"
-    :style="{ backgroundColor: color }"
+    :style="tagStyle"
     @click="handleClick"
   >
     <span :class="ns.e('content')">
@@ -13,11 +13,7 @@
     </el-icon>
   </span>
   <transition v-else :name="`${ns.namespace.value}-zoom-in-center`" appear>
-    <span
-      :class="containerKls"
-      :style="{ backgroundColor: color }"
-      @click="handleClick"
-    >
+    <span :class="containerKls" :style="tagStyle" @click="handleClick">
       <span :class="ns.e('content')">
         <slot />
       </span>
@@ -35,6 +31,7 @@ import { Close } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
 
+import { useTagCustomStyle } from './tag-custom'
 import { tagEmits, tagProps } from './tag'
 
 defineOptions({
@@ -44,6 +41,7 @@ const props = defineProps(tagProps)
 const emit = defineEmits(tagEmits)
 
 const tagSize = useFormSize()
+const tagStyle = useTagCustomStyle(props)
 const ns = useNamespace('tag')
 const containerKls = computed(() => {
   const { type, hit, effect, closable, round } = props

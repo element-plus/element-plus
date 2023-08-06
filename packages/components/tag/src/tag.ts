@@ -1,6 +1,5 @@
 import { buildProps } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
-import type Tag from './tag.vue'
 
 import type { ExtractPropTypes } from 'vue'
 
@@ -32,6 +31,14 @@ export const tagProps = buildProps({
     type: String,
     default: '',
   },
+  /**
+   * @description custom tag color, automatically calculate color for dark, light, and plain themes.
+   */
+  customTagColor: String,
+  /**
+   * @description dark mode, which automatically converts `color` to dark mode colors
+   */
+  dark: Boolean,
   /**
    * @description size of Tag
    */
