@@ -60,6 +60,7 @@ export default defineComponent({
 
     const onModelValueUpdated = (val: any) => {
       emit('update:modelValue', val)
+      commonPicker.value?.blur()
     }
 
     return () => {
