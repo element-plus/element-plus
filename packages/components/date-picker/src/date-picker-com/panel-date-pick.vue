@@ -208,7 +208,7 @@ import {
   extractTimeFormat,
 } from '@element-plus/components/time-picker'
 import { ElIcon } from '@element-plus/components/icon'
-import { isArray, isFunction } from '@element-plus/utils'
+import { castArray, isArray, isFunction } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
   ArrowLeft,
@@ -363,12 +363,19 @@ type Shortcut = {
   onClick?: (ctx: Omit<SetupContext, 'expose'>) => void
 }
 
+const formatToDayjs = (value: any) => {
+  return dayjs(value).locale(lang.value)
+}
+
 const handleShortcutClick = (shortcut: Shortcut) => {
   const shortcutValue = isFunction(shortcut.value)
     ? shortcut.value()
     : shortcut.value
   if (shortcutValue) {
-    emit(dayjs(shortcutValue).locale(lang.value))
+    const emitValue = Array.isArray(shortcutValue)
+      ? shortcutValue.map(formatToDayjs)
+      : formatToDayjs(shortcutValue)
+    emit(emitValue)
     return
   }
   if (shortcut.onClick) {
@@ -574,7 +581,7 @@ const isValidValue = (date: unknown) => {
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
   if (selectionMode.value === 'dates') {
-    return (value as Dayjs[]).map((_) => _.format(props.format))
+    return (castArray(value) as Dayjs[]).map((_) => _.format(props.format))
   }
   return (value as Dayjs).format(props.format)
 }
