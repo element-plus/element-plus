@@ -138,6 +138,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   const filteredOptions = computed(() => {
+    if (props.filterable && isFunction(props.filterMethod)) return props.options
     const isValidOption = (o: Option): boolean => {
       // fill the conditions here.
       const query = states.inputValue
