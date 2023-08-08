@@ -52,6 +52,7 @@
               :format="timeFormat"
               :time-arrow-control="arrowControl"
               :parsed-value="innerDate"
+              :old-value="oldValue"
               @pick="handleTimePick"
             />
           </span>
@@ -218,6 +219,7 @@ import {
 } from '@element-plus/icons-vue'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
+import { useOldTimeValue } from '../composables/use-old-time-value'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -243,6 +245,7 @@ const attrs = useAttrs()
 const slots = useSlots()
 
 const { t, lang } = useLocale()
+const { getOldValue } = useOldTimeValue()
 const pickerBase = inject('EP_PICKER_BASE') as any
 const popper = inject(TOOLTIP_INJECTION_KEY)
 const { shortcuts, disabledDate, cellClassName, defaultTime, arrowControl } =
@@ -528,12 +531,16 @@ const getUnits = (date: Dayjs) => {
   }
 }
 
-const handleTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
-  const { hour, minute, second } = getUnits(value)
-  const newDate = props.parsedValue
+const handleTimePick = (
+  value: undefined | Dayjs,
+  visible: boolean,
+  first: boolean
+) => {
+  const oldTimeValue = getOldValue(value, visible)
+  const { hour, minute, second } = getUnits(oldTimeValue)
+  innerDate.value = props.parsedValue
     ? (props.parsedValue as Dayjs).hour(hour).minute(minute).second(second)
-    : value
-  innerDate.value = newDate
+    : oldTimeValue
   emit(innerDate.value, true)
   if (!first) {
     timePickerVisible.value = visible

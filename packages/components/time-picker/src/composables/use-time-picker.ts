@@ -1,6 +1,7 @@
 import { ref, watch } from 'vue'
 import { makeList } from '../utils'
 
+import type { Ref } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type {
   GetDisabledHoursState,
@@ -98,17 +99,18 @@ export const buildAvailableTimeSlotGetter = (
 }
 
 export const useOldValue = (props: {
-  parsedValue?: string | Dayjs | Dayjs[]
   visible: boolean
-}) => {
-  const oldValue = ref(props.parsedValue)
+  oldValue?: undefined | Dayjs | Dayjs[]
+}): Ref<Dayjs | Dayjs[]> => {
+  const oldValue = ref()
 
   watch(
     () => props.visible,
-    (val) => {
-      if (!val) {
-        oldValue.value = props.parsedValue
-      }
+    () => {
+      oldValue.value = props.oldValue
+    },
+    {
+      immediate: true,
     }
   )
 

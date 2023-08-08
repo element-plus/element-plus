@@ -485,6 +485,43 @@ describe('TimePicker', () => {
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(20)
   })
+
+  it('cancel button, value should be cleared without model value', async () => {
+    const value = ref()
+    const wrapper = mount(() => <TimePicker v-model={value.value} />, {
+      attachTo: document.body,
+    })
+    const input = wrapper.find('input')
+    const clickCancelButton = async () => {
+      input.trigger('blur')
+      await nextTick()
+      input.trigger('focus')
+      await nextTick()
+      // For skipping Transition animation
+      await rAF()
+      ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
+      await rAF()
+    }
+    const checkValue = () => {
+      expect(value.value).toEqual()
+      expect((wrapper.findComponent(Picker).vm as any).pickerVisible).toEqual(
+        false
+      )
+      expect(document.querySelector('.el-picker-panel')).toBeNull()
+    }
+
+    let count = Math.ceil(Math.max(Math.random() * 5, 2))
+    while (count) {
+      await clickCancelButton()
+      checkValue()
+      count--
+    }
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    expect(value.value).toBeInstanceOf(Date)
+  })
 })
 
 describe('TimePicker(range)', () => {
@@ -583,6 +620,27 @@ describe('TimePicker(range)', () => {
     value.value.forEach((v: unknown) => {
       expect(v).toBeInstanceOf(Date)
     })
+    await rAF()
+    expect(document.querySelector('.el-picker-panel')).toBeNull()
+
+    // clear value
+    const inputWrapper = wrapper.find('.el-date-editor')
+    await inputWrapper.trigger('mouseenter')
+    await rAF()
+    const clearIcon = wrapper.find('.el-range__close-icon')
+    await clearIcon.trigger('click')
+    expect(value.value).toBeNull()
+
+    // reopen panel
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    await rAF()
+    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    expect(value.value).toBeFalsy()
+    await nextTick()
+    await rAF()
+    expect(document.querySelector('.el-picker-panel')).toBeNull()
   })
 
   it('clear button', async () => {

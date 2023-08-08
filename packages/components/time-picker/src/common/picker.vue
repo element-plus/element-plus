@@ -137,6 +137,7 @@
         :visible="pickerVisible"
         :actual-visible="pickerActualVisible"
         :parsed-value="parsedValue"
+        :old-value="oldValueRef"
         :format="format"
         :unlink-panels="unlinkPanels"
         :type="type"
@@ -417,6 +418,23 @@ const handleBlurInput = (e?: FocusEvent) => {
 
 const pickerDisabled = computed(() => {
   return props.disabled || form?.disabled
+})
+
+const oldValueRef = computed(() => {
+  const { modelValue } = props
+  if (isArray(modelValue)) {
+    if (valueIsEmpty.value) {
+      return modelValue
+    }
+    const parsedModelValue = modelValue.map((d) =>
+      parseDate(d, props.valueFormat, lang.value)
+    )
+    if (isArray(parsedModelValue) && parsedModelValue.some((pv) => !pv)) {
+      return []
+    }
+    return parsedModelValue
+  }
+  return parseDate(modelValue, props.valueFormat, lang.value)
 })
 
 const parsedValue = computed(() => {
