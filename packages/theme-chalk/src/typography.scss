@@ -1,0 +1,12 @@
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+@use 'common/transition';
+@include b(typography) {
+  display: inline-block;
+  width: 100%;
+  // border: solid red 1px;
+  font-size: 14px;
+  // font-size: var(font-size-base);
+  color: var(--el-text-color-primary);
+}
