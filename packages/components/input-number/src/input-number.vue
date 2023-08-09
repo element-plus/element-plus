@@ -307,7 +307,9 @@ onMounted(() => {
   }
   innerInput.setAttribute(
     'aria-valuenow',
-    data.currentValue ? String(data.currentValue) : ''
+    data.currentValue || data.currentValue === 0
+      ? String(data.currentValue)
+      : ''
   )
   innerInput.setAttribute('aria-disabled', String(inputNumberDisabled.value))
   if (!isNumber(modelValue) && modelValue != null) {
@@ -320,7 +322,7 @@ onMounted(() => {
 })
 onUpdated(() => {
   const innerInput = input.value?.input
-  innerInput?.setAttribute('aria-valuenow', `${data.currentValue || ''}`)
+  innerInput?.setAttribute('aria-valuenow', `${data.currentValue ?? ''}`)
 })
 defineExpose({
   /** @description get focus the input component */
