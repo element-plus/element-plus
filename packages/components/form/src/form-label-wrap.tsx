@@ -11,7 +11,7 @@ import {
   watch,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
-import { throwError } from '@element-plus/utils'
+import { getStyle, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { formContextKey, formItemContextKey } from './constants'
 
@@ -41,7 +41,7 @@ export default defineComponent({
 
     const getLabelWidth = () => {
       if (el.value?.firstElementChild) {
-        const width = window.getComputedStyle(el.value.firstElementChild).width
+        const width = getStyle(el.value.firstElementChild as HTMLElement,'width')
         return Math.ceil(Number.parseFloat(width))
       } else {
         return 0
