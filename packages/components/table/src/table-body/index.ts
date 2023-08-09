@@ -7,7 +7,7 @@ import {
   onUnmounted,
   watch,
 } from 'vue'
-import { addClass, isClient, removeClass } from '@element-plus/utils'
+import { addClass, isClient, rAF, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import useLayoutObserver from '../layout-observer'
 import { removePopper } from '../util'
@@ -30,11 +30,8 @@ export default defineComponent({
 
     watch(props.store.states.hoverRow, (newVal: any, oldVal: any) => {
       if (!props.store.states.isComplex.value || !isClient) return
-      let raf = window.requestAnimationFrame
-      if (!raf) {
-        raf = (fn) => window.setTimeout(fn, 16)
-      }
-      raf(() => {
+
+      rAF(() => {
         // just get first level children; fix #9723
         const el = instance?.vnode.el as HTMLElement
         const rows = Array.from(el?.children || []).filter((e) =>
