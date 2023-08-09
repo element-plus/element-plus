@@ -33,8 +33,10 @@
           <div
             v-if="multiple"
             ref="tags"
+            tabindex="-1"
             :class="tagsKls"
             :style="selectTagsStyle"
+            @click="focus"
           >
             <transition
               v-if="collapseTags && selected.length"
@@ -279,7 +281,7 @@ import {
 import { useResizeObserver } from '@vueuse/core'
 import { placements } from '@popperjs/core'
 import { ClickOutside } from '@element-plus/directives'
-import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import ElTooltip, {
   useTooltipContentProps,
@@ -462,6 +464,7 @@ export default defineComponent({
       onOptionDestroy,
       handleMenuEnter,
       handleFocus,
+      focus,
       blur,
       handleBlur,
       handleClearClick,
@@ -488,9 +491,9 @@ export default defineComponent({
       handleMouseLeave,
       showTagList,
       collapseTagList,
+      // computed style
+      selectTagsStyle,
     } = useSelect(props, states, ctx)
-
-    const { focus } = useFocus(reference)
 
     const {
       inputWidth,
@@ -553,11 +556,6 @@ export default defineComponent({
           unref(filteredOptionsCount) === 0
       ),
     ])
-
-    const selectTagsStyle = computed(() => ({
-      maxWidth: `${unref(inputWidth) - 32}px`,
-      width: '100%',
-    }))
 
     const tagTextStyle = computed(() => {
       const maxWidth =
@@ -682,6 +680,7 @@ export default defineComponent({
       handleComposition,
       handleMenuEnter,
       handleFocus,
+      focus,
       blur,
       handleBlur,
       handleClearClick,
@@ -692,7 +691,6 @@ export default defineComponent({
       getValueKey,
       navigateOptions,
       dropMenuVisible,
-      focus,
 
       reference,
       input,
