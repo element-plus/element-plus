@@ -90,6 +90,7 @@ export default defineComponent({
           indexPath: indexPath.value,
           route: props.route,
         })
+        subMenu.handleMouseleave?.()
         emit('click', item)
       }
     }
