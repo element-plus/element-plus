@@ -322,11 +322,12 @@ import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
 import { selectV2InjectionKey } from './token'
 import { SelectProps } from './defaults'
+import { selectV2Emits } from './select'
+
 export default defineComponent({
   name: 'ElSelectV2',
   components: {
@@ -337,15 +338,7 @@ export default defineComponent({
   },
   directives: { ClickOutside, ModelText: vModelText },
   props: SelectProps,
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    'remove-tag',
-    'clear',
-    'visible-change',
-    'focus',
-    'blur',
-  ],
+  emits: selectV2Emits,
 
   setup(props, { emit }) {
     const modelValue = computed(() => {

@@ -13,3 +13,4 @@ export default _Select
 export const ElSelectV2 = _Select
 
 export * from './src/token'
+export * from './src/select'
