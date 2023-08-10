@@ -191,7 +191,7 @@ table-v2/colspan
 
 ## Rowspan
 
-Since we have covered [Colspan](#colspan), it's worth noting that we also have row span. it is a little bit different than colspan but the idea
+Since we have covered [Colspan](#colspan), it's worth noting that we also have row span. it's a little bit different than colspan but the idea
 is basically the same.
 
 :::demo
@@ -564,10 +564,10 @@ type SortState = Record<KeyType, SortOrder>
 #### How do I render a list with a checkbox in the first column?
 
 Since you are allowed to define your own cell renderer, you can do what the example
-[Customize Cell Renderer](#customize-cell-renderer) did to render `checkbox` yourself, and maintaining the
+[Customize Cell Renderer](#customize-cell-renderer) did to render `checkbox` yourself, and maintain the
 state by yourself.
 
-#### Why does virtualized table provides less features than [TableV1](./table.md)
+#### Why does virtualized table provide less features than [TableV1](./table.md)
 
 For virtualized table, we intend to provide less feature and let our users implement their own features as needed.
 Integrating too many features makes the code hard to maintain and for most users the basic features are enough. Some key
