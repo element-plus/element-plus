@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { inject } from 'vue'
+import { inject, ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import {
   ensurePosition,
@@ -29,11 +29,10 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     const classes = [ns.e('row')]
     if (
       parent?.props.highlightCurrentRow &&
-      row === props.store.states.currentRow.value
+      ref(row).value === props.store.states.currentRow.value
     ) {
       classes.push('current-row')
     }
-
     if (props.stripe && rowIndex % 2 === 1) {
       classes.push(ns.em('row', 'striped'))
     }
