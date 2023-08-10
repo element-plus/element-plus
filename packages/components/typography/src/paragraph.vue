@@ -1,7 +1,5 @@
 <template>
-  <div class="paragraph">
-    <slot />
-  </div>
+  <section class="paragraph"><slot /></section>
 </template>
 
 <script setup lang="ts">
@@ -13,6 +11,6 @@ import { defineProps } from 'vue'
   display: inline-block;
   width: inherit;
   margin-bottom: 1rem;
-  border: solid rebeccapurple 1px;
+  //border: solid rebeccapurple 1px;
 }
 </style>

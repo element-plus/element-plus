@@ -1,3 +1,6 @@
+// import { getDesignatedType } from './util'
+import type { inputProps } from '@element-plus/component/input/src/input'
+import type { InternalBlockProps } from './typography'
 import type { PropType } from 'vue'
 export interface EditConfig {
   editing?: boolean
@@ -7,9 +10,9 @@ export interface EditConfig {
   onCancel?: () => void
   onEnd?: () => void
   maxlength?: number
-  autoSize?: boolean
-  //  | AutoSizeType;
   triggerType?: ('icon' | 'text')[]
+  // ...getDesignatedType(inputProps, ['autosize']),
+  autoSize?: inputProps['autosize']
 }
 
 export interface copyConfig {
@@ -17,13 +20,10 @@ export interface copyConfig {
   onCopy: () => void
   tooltip: false
 }
-export interface InternalBlockProps {
-  editable?: boolean | EditConfig
-  copyable?: boolean | copyConfig
-}
+
 export const baseProps = () => ({
   editable: {
-    type: [Boolean, Object] as PropType<EditConfig>,
+    type: [Boolean, Object] as PropType<InternalBlockProps['editable']>,
     default: undefined as InternalBlockProps['editable'],
   },
   content: {
@@ -31,7 +31,19 @@ export const baseProps = () => ({
     default: '',
   },
   copyable: {
-    type: [Boolean, Object] as PropType<copyConfig>,
+    type: [Boolean, Object] as PropType<InternalBlockProps['copyable']>,
     default: undefined as InternalBlockProps['copyable'],
+  },
+  keyboard: {
+    type: Boolean,
+    default: false,
+  },
+  code: {
+    type: Boolean,
+    default: false,
+  },
+  left: {
+    type: String,
+    default: '',
   },
 })

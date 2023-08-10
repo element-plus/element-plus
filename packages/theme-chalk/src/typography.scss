@@ -5,8 +5,46 @@
 @include b(typography) {
   display: inline-block;
   width: 100%;
-  // border: solid red 1px;
   font-size: 14px;
-  // font-size: var(font-size-base);
-  color: var(--el-text-color-primary);
+  text-align: left;
+
+  @include e(base) {
+    // padding: 11px 5px;
+    position: relative;
+    vertical-align: middle;
+    display: inline;
+    // overflow: ;
+    font-size: inherit;
+    line-height: 1.5;
+    vertical-align: middle;
+    font-family: inherit;
+    // vertical-align: text;
+
+    span {
+      // line-height: 1.5;
+      vertical-align: middle;
+      // display: inline-block;
+    }
+    .el-icon {
+      color: var(--el-color-primary);
+    }
+  }
+  @include m(keyboard) {
+    margin: 0 0em;
+    padding-inline: 0.4em;
+    font-size: 90%;
+    background: rgba(150, 150, 150, 0.06);
+    border: 1px solid rgba(100, 100, 100, 0.2);
+    border-bottom-width: 2px;
+    border-radius: 2px;
+  }
+  @include m(code) {
+    margin: 0 0em;
+    padding-inline: 0.4em;
+    padding-block: 0em 0.1em;
+    font-size: 85%;
+    background: rgba(150, 150, 150, 0.1);
+    border: 1px solid rgba(100, 100, 100, 0.2);
+    border-radius: 3px;
+  }
 }
