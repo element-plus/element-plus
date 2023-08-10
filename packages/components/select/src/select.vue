@@ -149,6 +149,7 @@
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
               :style="inputStyle"
+              :aria-label="ariaLabel"
               @focus="handleFocus"
               @blur="handleBlur"
               @keyup="managePlaceholder"
@@ -191,6 +192,7 @@
             :validate-event="false"
             :class="[nsSelect.is('focus', visible)]"
             :tabindex="multiple && filterable ? -1 : undefined"
+            :aria-label="ariaLabel"
             @focus="handleFocus"
             @blur="handleBlur"
             @input="debouncedOnInputChange"
@@ -418,6 +420,7 @@ export default defineComponent({
       values: placements,
       default: 'bottom-start',
     },
+    ariaLabel: String,
   },
   emits: [
     UPDATE_MODEL_EVENT,
