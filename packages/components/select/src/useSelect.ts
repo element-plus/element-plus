@@ -11,7 +11,12 @@ import {
   watch,
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
-import { findLastIndex, get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
+import {
+  findLastIndex,
+  get,
+  isEqual,
+  debounce as lodashDebounce,
+} from 'lodash-unified'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
