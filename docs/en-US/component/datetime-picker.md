@@ -92,6 +92,7 @@ datetime-picker/default-time
 | shortcuts             | an object array to set shortcut options                                                               | object[{ text: string, value: date / function }] | —                                                             | —                   |
 | disabled-date         | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function(Date)                                   | —                                                             | —                   |
 | cell-class-name       | set custom className                                                                                  | Function(Date)                                   | —                                                             | —                   |
+| now-value             | set custom date for now button                                                                        | ^[Function]`() => Date`                          | —                                                             | —                   |
 | teleported            | whether datetime-picker dropdown is teleported to the body                                            | boolean                                          | true / false                                                  | true                |
 
 ## Events

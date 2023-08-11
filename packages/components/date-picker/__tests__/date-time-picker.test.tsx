@@ -113,6 +113,23 @@ describe('Datetime Picker', () => {
     expect(dayjs(value.value).diff(dayjs()) < 10).toBeTruthy()
   })
 
+  it('custom now date', async () => {
+    const now = new Date('2018-04-04T16:10:00.000Z')
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" nowValue={() => now} />
+    ))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(
+      document.querySelector('.el-picker-panel__link-btn') as HTMLElement
+    )?.click()
+    await nextTick()
+    expect(value.value).toEqual(now)
+  })
+
   it('time-picker select && input time && input date', async () => {
     const value = ref('')
     const wrapper = _mount(() => (

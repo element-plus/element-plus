@@ -215,6 +215,10 @@ export const timePickerDefaultProps = buildProps({
    * @description unlink two date-panels in range-picker
    */
   unlinkPanels: Boolean,
+  /**
+   * @description set custom now date
+   */
+  nowValue: Function,
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<
