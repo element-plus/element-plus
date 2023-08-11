@@ -7,6 +7,7 @@ import {
   shallowRef,
   toRaw,
   triggerRef,
+  unref,
   watch,
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
@@ -17,6 +18,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
+  ValidateComponentsMap,
   debugWarn,
   getComponentSize,
   isClient,
@@ -131,6 +133,14 @@ export const useSelect = (props, states: States, ctx) => {
       'reverse',
       iconComponent.value && states.visible && props.suffixTransition
     )
+  )
+
+  // Consistent with the processing of Form in the input component
+  const showStatusIconAndState = computed(
+    () =>
+      form?.statusIcon &&
+      formItem?.validateState &&
+      ValidateComponentsMap[formItem?.validateState]
   )
 
   const debounce = computed(() => (props.remote ? 300 : 0))
@@ -434,9 +444,14 @@ export const useSelect = (props, states: States, ctx) => {
     states.hoverIndex = -1
     if (props.multiple && props.filterable) {
       nextTick(() => {
-        const length = input.value!.value.length * 15 + 20
-        states.inputLength = props.collapseTags ? Math.min(50, length) : length
-        managePlaceholder()
+        // fix: https://github.com/element-plus/element-plus/issues/13872
+        if (!selectDisabled.value) {
+          const length = input.value!.value.length * 15 + 20
+          states.inputLength = props.collapseTags
+            ? Math.min(50, length)
+            : length
+          managePlaceholder()
+        }
         resetInputHeight()
       })
     }
@@ -930,6 +945,15 @@ export const useSelect = (props, states: States, ctx) => {
     deleteTag(event, tag)
     tagTooltipRef.value?.updatePopper?.()
   }
+
+  // computed style
+  // if in form and use statusIcon, the width of the icon needs to be subtracted, fix #13526
+  const selectTagsStyle = computed(() => ({
+    maxWidth: `${
+      unref(states.inputWidth) - 32 - (showStatusIconAndState.value ? 22 : 0)
+    }px`,
+    width: '100%',
+  }))
   return {
     optionList,
     optionsArray,
@@ -976,6 +1000,9 @@ export const useSelect = (props, states: States, ctx) => {
     groupQueryChange,
     showTagList,
     collapseTagList,
+
+    // computed style
+    selectTagsStyle,
 
     // DOM ref
     reference,
