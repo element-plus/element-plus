@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-unified'
-import { throwError } from '@element-plus/utils'
+import { isArray, throwError } from '@element-plus/utils'
 import type {
   UploadProgressEvent,
   UploadRequestHandler,
@@ -70,7 +70,7 @@ export const ajaxUpload: UploadRequestHandler = (option) => {
   const formData = new FormData()
   if (option.data) {
     for (const [key, value] of Object.entries(option.data)) {
-      if (Array.isArray(value)) formData.append(key, ...(value.length === 0 ? [''] : value))
+      if (isArray(value) && value.length) formData.append(key, ...value)
       else formData.append(key, value)
     }
   }
