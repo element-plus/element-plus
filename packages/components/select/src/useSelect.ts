@@ -444,9 +444,14 @@ export const useSelect = (props, states: States, ctx) => {
     states.hoverIndex = -1
     if (props.multiple && props.filterable) {
       nextTick(() => {
-        const length = input.value!.value.length * 15 + 20
-        states.inputLength = props.collapseTags ? Math.min(50, length) : length
-        managePlaceholder()
+        // fix: https://github.com/element-plus/element-plus/issues/13872
+        if (!selectDisabled.value) {
+          const length = input.value!.value.length * 15 + 20
+          states.inputLength = props.collapseTags
+            ? Math.min(50, length)
+            : length
+          managePlaceholder()
+        }
         resetInputHeight()
       })
     }
