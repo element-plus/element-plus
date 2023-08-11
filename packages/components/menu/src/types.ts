@@ -29,6 +29,9 @@ export interface MenuProvider {
   openMenu: (index: string, indexPath: string[]) => void
   closeMenu: (index: string, indexPath: string[]) => void
 
+  addFocusMenuItemsTask: (func: () => void) => void
+  invokeFocusMenuItemsTask: () => void
+
   handleMenuItemClick: (item: MenuItemClicked) => void
   handleSubMenuClick: (subMenu: MenuItemRegistered) => void
 }

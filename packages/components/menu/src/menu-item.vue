@@ -41,6 +41,7 @@ import {
   defineComponent,
   getCurrentInstance,
   inject,
+  nextTick,
   onBeforeUnmount,
   onMounted,
   reactive,
@@ -83,13 +84,22 @@ export default defineComponent({
       active,
     })
 
-    const handleClick = () => {
+    const handleClick = (event: MouseEvent) => {
       if (!props.disabled) {
         rootMenu.handleMenuItemClick({
           index: props.index,
           indexPath: indexPath.value,
           route: props.route,
         })
+        if (event.target.tabIndex === 0) {
+          rootMenu.addFocusMenuItemsTask(() => {
+            nextTick(() => {
+              event.target.blur()
+            })
+          })
+        } else {
+          rootMenu.invokeFocusMenuItemsTask()
+        }
         emit('click', item)
       }
     }
