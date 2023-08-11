@@ -50,7 +50,7 @@
     &:hover {
       color: getCssVar('color-primary');
 
-      & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input_wrapper {
+      & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__wrapper {
         box-shadow: 0 0 0 1px
           var(
             #{getCssVarName('input', 'focus-border-color')},

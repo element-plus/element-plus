@@ -62,11 +62,27 @@ export default defineComponent({
       whenMouse((e) => {
         if (props.disabled) {
           onItemLeave(e)
-        } else {
-          onItemEnter(e)
-          if (!e.defaultPrevented) {
-            ;(e.currentTarget as HTMLElement)?.focus()
-          }
+          return
+        }
+
+        const target = e.currentTarget as HTMLElement
+        /**
+         * This handles the following scenario:
+         *   when the item contains a form element such as input element
+         *   when the mouse is moving over the element itself which is contained by
+         *   the item, the default focusing logic should be prevented so that
+         *   it won't cause weird action.
+         */
+        if (
+          target === document.activeElement ||
+          target.contains(document.activeElement)
+        ) {
+          return
+        }
+
+        onItemEnter(e)
+        if (!e.defaultPrevented) {
+          target?.focus()
         }
       })
     )

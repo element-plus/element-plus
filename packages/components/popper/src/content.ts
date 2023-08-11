@@ -3,7 +3,7 @@ import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
 import type { Options, Placement } from '@popperjs/core'
-import type { Measurable } from '@element-plus/tokens'
+import type { Measurable } from './constants'
 import type Content from './content.vue'
 
 type ClassObjectType = Record<string, boolean>
@@ -30,15 +30,24 @@ export const popperCoreConfigProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description offset of the Tooltip
+   */
   offset: {
     type: Number,
     default: 12,
   },
+  /**
+   * @description position of Tooltip
+   */
   placement: {
     type: String,
     values: placements,
     default: 'bottom',
   },
+  /**
+   * @description [popper.js](https://popper.js.org/docs/v2/) parameters
+   */
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
     default: () => ({}),

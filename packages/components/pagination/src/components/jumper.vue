@@ -9,6 +9,7 @@
       :disabled="disabled"
       :model-value="innerValue"
       :validate-event="false"
+      :label="t('el.pagination.page')"
       type="number"
       @update:model-value="handleInput"
       @change="handleChange"
@@ -34,16 +35,16 @@ defineProps(paginationJumperProps)
 const { t } = useLocale()
 const ns = useNamespace('pagination')
 const { pageCount, disabled, currentPage, changeEvent } = usePagination()
-const userInput = ref<number>()
+const userInput = ref<number | string>()
 const innerValue = computed(() => userInput.value ?? currentPage?.value)
 
 function handleInput(val: number | string) {
-  userInput.value = +val
+  userInput.value = val ? +val : ''
 }
 
 function handleChange(val: number | string) {
   val = Math.trunc(+val)
-  changeEvent?.(+val)
+  changeEvent?.(val)
   userInput.value = undefined
 }
 </script>

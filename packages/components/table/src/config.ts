@@ -182,11 +182,11 @@ export function treeCellPrefix<T>(
     treeNode: TreeNode
     store: Store<T>
   },
-  createPlacehoder = false
+  createPlaceholder = false
 ) {
   const { ns } = store
   if (!treeNode) {
-    if (createPlacehoder) {
+    if (createPlaceholder) {
       return [
         h('span', {
           class: ns.e('placeholder'),

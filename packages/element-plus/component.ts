@@ -57,6 +57,7 @@ import {
   ElMenu,
   ElMenuItem,
   ElMenuItemGroup,
+  ElSubMenu,
 } from '@element-plus/components/menu'
 import { ElPageHeader } from '@element-plus/components/page-header'
 import { ElPagination } from '@element-plus/components/pagination'
@@ -90,6 +91,7 @@ import { ElTable, ElTableColumn } from '@element-plus/components/table'
 import { ElAutoResizer, ElTableV2 } from '@element-plus/components/table-v2'
 import { ElTabPane, ElTabs } from '@element-plus/components/tabs'
 import { ElTag } from '@element-plus/components/tag'
+import { ElText } from '@element-plus/components/text'
 import { ElTimePicker } from '@element-plus/components/time-picker'
 import { ElTimeSelect } from '@element-plus/components/time-select'
 import { ElTimeline, ElTimelineItem } from '@element-plus/components/timeline'
@@ -157,6 +159,7 @@ export default [
   ElMenu,
   ElMenuItem,
   ElMenuItemGroup,
+  ElSubMenu,
   ElPageHeader,
   ElPagination,
   ElPopconfirm,
@@ -189,6 +192,7 @@ export default [
   ElTabs,
   ElTabPane,
   ElTag,
+  ElText,
   ElTimePicker,
   ElTimeSelect,
   ElTimeline,

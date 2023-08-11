@@ -232,6 +232,10 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
     .#{$namespace}-input__icon {
       height: inherit;
+
+      &:not(:first-child) {
+        margin-left: 8px;
+      }
     }
   }
 
@@ -274,6 +278,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    width: 100%;
   }
 
   @include e(input-calculator) {

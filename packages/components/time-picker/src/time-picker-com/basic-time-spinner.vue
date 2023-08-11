@@ -85,6 +85,7 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
+import { getStyle } from '@element-plus/utils'
 import { timeUnits } from '../constants'
 import { buildTimeList } from '../utils'
 import { basicTimeSpinnerProps } from '../props/basic-time-spinner'
@@ -212,7 +213,11 @@ const adjustSpinner = (type: TimeUnit, value: number) => {
 
 const typeItemHeight = (type: TimeUnit): number => {
   const scrollbar = unref(listRefsMap[type])
-  return scrollbar?.$el.querySelector('li').offsetHeight || 0
+  const listItem = scrollbar?.$el.querySelector('li')
+  if (listItem) {
+    return Number.parseFloat(getStyle(listItem, 'height')) || 0
+  }
+  return 0
 }
 
 const onIncrement = () => {

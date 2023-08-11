@@ -168,6 +168,7 @@
         text
         size="small"
         :class="ppNs.e('link-btn')"
+        :disabled="disabledNow"
         @click="changeToNow"
       >
         {{ t('el.datepicker.now') }}
@@ -176,6 +177,7 @@
         plain
         size="small"
         :class="ppNs.e('link-btn')"
+        :disabled="disabledConfirm"
         @click="onConfirm"
       >
         {{ t('el.datepicker.confirm') }}
@@ -214,7 +216,7 @@ import {
   DArrowLeft,
   DArrowRight,
 } from '@element-plus/icons-vue'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
@@ -437,6 +439,14 @@ const footerVisible = computed(() => {
   return showTime.value || selectionMode.value === 'dates'
 })
 
+const disabledConfirm = computed(() => {
+  if (!disabledDate) return false
+  if (!props.parsedValue) return true
+  if (isArray(props.parsedValue)) {
+    return disabledDate(props.parsedValue[0].toDate())
+  }
+  return disabledDate(props.parsedValue.toDate())
+})
 const onConfirm = () => {
   if (selectionMode.value === 'dates') {
     emit(props.parsedValue as Dayjs[])
@@ -456,6 +466,10 @@ const onConfirm = () => {
   }
 }
 
+const disabledNow = computed(() => {
+  if (!disabledDate) return false
+  return disabledDate(dayjs().locale(lang.value).toDate())
+})
 const changeToNow = () => {
   // NOTE: not a permanent solution
   //       consider disable "now" button in the future
@@ -609,7 +623,9 @@ const handleKeydownTable = (event: KeyboardEvent) => {
     event.preventDefault()
   }
   if (
-    [EVENT_CODE.enter, EVENT_CODE.space].includes(code) &&
+    [EVENT_CODE.enter, EVENT_CODE.space, EVENT_CODE.numpadEnter].includes(
+      code
+    ) &&
     userInputDate.value === null &&
     userInputTime.value === null
   ) {

@@ -49,7 +49,12 @@
         </el-scrollbar>
       </template>
       <template v-if="!splitButton" #default>
-        <el-only-child :id="triggerId" role="button" :tabindex="tabindex">
+        <el-only-child
+          :id="triggerId"
+          ref="triggeringElementRef"
+          role="button"
+          :tabindex="tabindex"
+        >
           <slot name="default" />
         </el-only-child>
       </template>
@@ -91,10 +96,12 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
+  onBeforeUnmount,
   provide,
   ref,
   toRef,
   unref,
+  watch,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -102,10 +109,11 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
 import { ElOnlyChild } from '@element-plus/components/slot'
-import { addUnit } from '@element-plus/utils'
+import { useFormSize } from '@element-plus/components/form'
+import { addUnit, isArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { EVENT_CODE } from '@element-plus/constants'
-import { useId, useLocale, useNamespace, useSize } from '@element-plus/hooks'
+import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 
@@ -152,6 +160,48 @@ export default defineComponent({
       return props.id || defaultTriggerId
     })
 
+    // The goal of this code is to focus on the tooltip triggering element when it is hovered.
+    // This is a temporary fix for where closing the dropdown through pointerleave event focuses on a
+    // completely different element. For a permanent solution, remove all calls to any "element.focus()"
+    // that are triggered through pointer enter/leave events.
+    watch(
+      [triggeringElementRef, toRef(props, 'trigger')],
+      ([triggeringElement, trigger], [prevTriggeringElement]) => {
+        const triggerArray = isArray(trigger) ? trigger : [trigger]
+        if (prevTriggeringElement?.$el?.removeEventListener) {
+          prevTriggeringElement.$el.removeEventListener(
+            'pointerenter',
+            onAutofocusTriggerEnter
+          )
+        }
+        if (triggeringElement?.$el?.removeEventListener) {
+          triggeringElement.$el.removeEventListener(
+            'pointerenter',
+            onAutofocusTriggerEnter
+          )
+        }
+        if (
+          triggeringElement?.$el?.addEventListener &&
+          triggerArray.includes('hover')
+        ) {
+          triggeringElement.$el.addEventListener(
+            'pointerenter',
+            onAutofocusTriggerEnter
+          )
+        }
+      },
+      { immediate: true }
+    )
+
+    onBeforeUnmount(() => {
+      if (triggeringElementRef.value?.$el?.removeEventListener) {
+        triggeringElementRef.value.$el.removeEventListener(
+          'pointerenter',
+          onAutofocusTriggerEnter
+        )
+      }
+    })
+
     function handleClick() {
       handleClose()
     }
@@ -164,10 +214,14 @@ export default defineComponent({
       popperRef.value?.onOpen()
     }
 
-    const dropdownSize = useSize()
+    const dropdownSize = useFormSize()
 
     function commandHandler(...args: any[]) {
       emit('command', ...args)
+    }
+
+    function onAutofocusTriggerEnter() {
+      triggeringElementRef.value?.$el?.focus()
     }
 
     function onItemEnter() {
