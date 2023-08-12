@@ -50,7 +50,6 @@
             <time-pick-panel
               :visible="timePickerVisible"
               :format="timeFormat"
-              :time-arrow-control="arrowControl"
               :parsed-value="innerDate"
               @pick="handleTimePick"
             />
@@ -168,6 +167,7 @@
         text
         size="small"
         :class="ppNs.e('link-btn')"
+        :disabled="disabledNow"
         @click="changeToNow"
       >
         {{ t('el.datepicker.now') }}
@@ -176,6 +176,7 @@
         plain
         size="small"
         :class="ppNs.e('link-btn')"
+        :disabled="disabledConfirm"
         @click="onConfirm"
       >
         {{ t('el.datepicker.confirm') }}
@@ -243,8 +244,7 @@ const slots = useSlots()
 const { t, lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
 const popper = inject(TOOLTIP_INJECTION_KEY)
-const { shortcuts, disabledDate, cellClassName, defaultTime, arrowControl } =
-  pickerBase.props
+const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
 const currentViewRef = ref<{ focus: () => void }>()
@@ -437,6 +437,14 @@ const footerVisible = computed(() => {
   return showTime.value || selectionMode.value === 'dates'
 })
 
+const disabledConfirm = computed(() => {
+  if (!disabledDate) return false
+  if (!props.parsedValue) return true
+  if (isArray(props.parsedValue)) {
+    return disabledDate(props.parsedValue[0].toDate())
+  }
+  return disabledDate(props.parsedValue.toDate())
+})
 const onConfirm = () => {
   if (selectionMode.value === 'dates') {
     emit(props.parsedValue as Dayjs[])
@@ -456,6 +464,10 @@ const onConfirm = () => {
   }
 }
 
+const disabledNow = computed(() => {
+  if (!disabledDate) return false
+  return disabledDate(dayjs().locale(lang.value).toDate())
+})
 const changeToNow = () => {
   // NOTE: not a permanent solution
   //       consider disable "now" button in the future

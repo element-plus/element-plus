@@ -49,6 +49,9 @@ jobs:
   publish:
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - uses: actions/checkout@v3
@@ -69,6 +72,9 @@ jobs:
         run: echo "GIT_HEAD=${GITHUB_SHA}" >> $GITHUB_ENV
       - name: Gen npmrc
         run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
+
+      - name: Update npm
+        run: npm install npm@latest -g
 
       - name: Set Nightly
         run: sh ./scripts/nightly.sh

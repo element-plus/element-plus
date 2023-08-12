@@ -162,7 +162,7 @@ describe('Datetime Picker', () => {
   })
 
   it('now button: can not choose disabled date', async () => {
-    let isDisable = true
+    const isDisable = true
     const value = ref('')
     const disabledDate = () => isDisable
     const wrapper = _mount(() => (
@@ -185,11 +185,24 @@ describe('Datetime Picker', () => {
     await nextTick()
 
     expect(value.value).toBe('')
-    isDisable = false
+  })
+
+  it('now button: should be disabled when current date is disabled', async () => {
+    const isDisable = true
+    const disabledDate = () => isDisable
+    const wrapper = _mount(() => (
+      <DatePicker type="datetime" disabledDate={disabledDate} />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick()
-    btn.click()
-    await nextTick()
-    expect(value.value).not.toBe('')
+    // now button is disabled
+    const btn: HTMLElement = document.querySelector(
+      '.el-picker-panel__footer .is-text'
+    )!
+    expect(btn.getAttribute('disabled')).not.toBeUndefined()
   })
 
   it('confirm button honors picked date', async () => {

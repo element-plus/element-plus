@@ -5,16 +5,16 @@ lang: en-US
 
 # Virtualized Table ^(beta)
 
-Along with the evolutionary web development, table component has always been the most popular component in our web apps especially for dashboards, data analysis. For [Table V1](./table.md), with even just 1000 records of data, it can be very annoying when using it, because the poor performance.
+Along with evolutionary web development, table component has always been the most popular component in our web apps especially for dashboards, data analysis. For [Table V1](./table.md), with even just 1000 records of data, it can be very annoying when using it, because of the poor performance.
 
 With Virtualized Table, you can render massive chunks of data in a blink of an eye.
 
 :::tip
 
-This component is **still under testing**, use at your own risk. if you found any bug or issue please report it at [GitHub](https://github.com/element-plus/element-plus/issues) for us to fix. Also there were some APIs which was not mentioned in this documentation, some of them were not
-fully developed yet, so that we are not mentioning them here.
+This component is **still under testing**, use at your own risk. If you find any bugs or issues, please report them at [GitHub](https://github.com/element-plus/element-plus/issues) for us to fix. Also there were some APIs which are not mentioned in this documentation, some of them were not
+fully developed yet, which is why they are not mentioned here.
 
-**Even though** Virtualized Table is efficient, but when the data load is too big, your **network**, **memory size** can be the bottle neck of your app. So keep in mind that Virtualized Table is never the ultimate solution for everything, consider paginate your data, add filters etc.
+**Even though** Virtualized Table is efficient, when the data load is too large, your **network** and **memory size** can become the bottleneck of your app. So keep in mind that Virtualized Table is never the ultimate solution for everything, consider paginating your data, adding filters etc.
 
 :::
 
@@ -26,7 +26,7 @@ This component requires the `<client-only></client-only>` wrap when used in SSR 
 
 ## Basic usage
 
-Let's render a basic case of Virtualized Table with 10 columns by 1000 rows, to demonstrate how performant it is.
+Let's demonstrate the performance of the Virtualized Table by rendering a basic example with 10 columns and 1000 rows.
 
 :::demo
 
@@ -36,15 +36,15 @@ table-v2/basic
 
 ## Auto resizer
 
-When you do not feel like you want to pass the `width` and `height` property to the table, you can use the `AutoResizer`
-component to wrap the table component and it will update the width and height for you automatically.
+When you do not want to manually pass the `width` and `height` properties to the table, you can wrap the table component with the AutoResizer. 
+This will automatically update the width and height for you.
 
 Resize your browser to see how it works.
 
 :::tip
 
-Make sure the parent node of `AutoResizer` **HAS A FIXED HEIGHT**, because the height value was set to `100%` by default.
-You may also set it via passing through `style` attribute to `AutoResizer`.
+Make sure the parent node of the `AutoResizer` **HAS A FIXED HEIGHT**, since its default height value is set to 100%.
+Alternatively, you can define it by passing the `style` attribute to `AutoResizer`.
 
 :::
 
@@ -56,7 +56,7 @@ table-v2/auto-resizer
 
 ## Customize Cell Renderer{#customize-cell-renderer}
 
-Of course, you can render the table cell per your needs, here is a simple example of how to customize your cell.
+Of course, you can render the table cell according to your needs. Here's a simple example of how to customize your cell.
 
 :::demo
 
@@ -76,7 +76,7 @@ table-v2/selection
 
 ## Inline editing
 
-Just like selections we demonstrated above, you can use the same method to enable inline editing.
+Just as we demonstrated with selections above, you can use the same method to enable inline editing.
 
 :::demo
 
@@ -88,7 +88,7 @@ table-v2/inline-editing
 
 You can highlight your table content to distinguish between "success, information, warning, danger" and other states.
 
-Use `row-class-name` to customize how the row looks. In this case, every 10th row will be highlighted with `bg-blue-200` class, every 5th row will be highlighted with `bg-red-100` class.
+To customize the appearance of rows, use the `row-class-name` attribute. For example, every 10th row is highlighted using the `bg-blue-200` class, and every 5th row with the `bg-red-100` class.
 
 :::demo
 
@@ -98,9 +98,9 @@ table-v2/row-class
 
 ## Table with sticky rows
 
-You can make some rows stick to the top of the table, and that can be very easily achieved by using `fixed-data` attribute.
+You can make some rows stick to the top of the table, and that can be very easily achieved by using the `fixed-data` attribute.
 
-You can add dynamically set the sticky row with scroll events like this example did.
+You can dynamically set the sticky row based on scroll events, as shown in this example.
 
 :::demo
 
@@ -110,7 +110,7 @@ table-v2/sticky-rows
 
 ## Table with fixed columns
 
-For some reason, you want to make the columns stick on the left and right, you can do that by adding special attributes for table.
+If you want to have columns stick to the left or right for some reason, you can achieve this by adding special attributes to the table.
 
 You can set the column's attribute `fixed` to `true` (representing `FixedDir.LEFT`) or `FixedDir.LEFT` or `FixedDir.RIGHT`
 
@@ -122,11 +122,11 @@ table-v2/fixed-columns
 
 ## Grouping header
 
-By customizing your header renderer you can group your header like this example did.
+By customizing your header renderer, you can group your header as shown in this example.
 
 :::tip
 
-In this case we used `JSX` feature which is not supported in the playground, you may try them out in your local environment or online IDEs such as `codesandbox`.
+In this case we used `JSX` feature which is not supported in the playground. You may try them out in your local environment or on online IDEs such as `codesandbox`.
 
 It is recommended that you write your table component in JSX, since it contains VNode manipulations.
 
@@ -140,7 +140,7 @@ table-v2/grouping-header
 
 ## Filter
 
-Virtualized Table providers customizing header renderers for rendering customized header, then we can use that to render filters
+Virtualized Table provides custom header renderers for creating customized headers. We can then utilize these to render filters.
 
 :::demo
 
@@ -160,8 +160,8 @@ table-v2/sort
 
 ## Controlled Sort
 
-You can define multiple sortable column when you need it. Keep in mind that if you define multiple sortable columns, the UI
-might seem strange to your users since the it is unclear which column is being sorted.
+You can define multiple sortable columns as needed. Keep in mind that if you define multiple sortable columns, the UI
+may appear confusing to your users, as it becomes unclear which column is currently being sorted.
 
 :::demo
 
@@ -171,8 +171,7 @@ table-v2/controlled-sort
 
 ## Cross hovering
 
-When the list is big, and sometimes you get lost which row and column you are currently visiting, using this is extremely
-helpful.
+When dealing with a large list, it's easy to lose track of the current row and column you are visiting. In such cases, using this feature can be very helpful.
 
 :::demo
 
@@ -182,7 +181,7 @@ table-v2/cross-hovering
 
 ## Colspan
 
-Virtualized table did not use built-in `table` element, so that `colspan` and `rowspan` is a little bit different than [TableV1](./table.md). With customized row renderer, we can still do that. In this case, you'll learn how to do that.
+The virtualized table doesn't use the built-in `table` element, so `colspan` and `rowspan` behave a bit differently compared to [TableV1](./table.md). However, with a customized row renderer, these features can still be implemented. In this section, we'll demonstrate how to achieve this.
 
 :::demo
 
@@ -192,7 +191,7 @@ table-v2/colspan
 
 ## Rowspan
 
-Since we have [Colspan](#colspan) of course we have row span as well, it is a little bit different than colspan but the idea
+Since we have covered [Colspan](#colspan), it's worth noting that we also have row span. It's a little bit different from colspan but the idea
 is basically the same.
 
 :::demo
@@ -213,7 +212,7 @@ table-v2/spans
 
 ## Tree data
 
-Virtual Table can also render data like tree, you can expand/collapse the tree node by clicking the arrow icon.
+Virtual Table can also render data in a tree-like structure. By clicking the arrow icon, you can expand or collapse the tree nodes.
 
 :::demo
 
@@ -223,14 +222,14 @@ table-v2/tree-data
 
 ## Dynamic height rows
 
-Virtual Table can also render rows with dynamic height, when you have data without knowing how big the content it would be, you
-might want to use this feature for rendering a dynamic height row. You must pass down `estimated-row-height` to enable this
-feature, and the closer the estimated height is, the smoother the rendering will be.
+Virtual Table is capable of rendering rows with dynamic heights. If you're working with data and are uncertain about the content size, 
+this feature is ideal for rendering rows that adjust to the content's height. To enable this, pass down the `estimated-row-height` attribute. 
+The closer the estimated height matches the actual content, the smoother the rendering experience.
 
 :::tip
 
-The height of each row is dynamically measured while rendering the rows, so that the UI **might be** bouncing if you are trying
-to render a large amount of data.
+Each row's height is dynamically measured during rendering the rows. As a result, if you're trying to display a large amount of data, 
+the UI **might be** bouncing.
 
 :::
 
@@ -242,7 +241,7 @@ table-v2/dynamic-height
 
 ## Detail view
 
-With dynamic height rendering, we can use that to render detail view in the table.
+Using dynamic height rendering, you can also display a detailed view within the table.
 
 :::demo
 
@@ -252,7 +251,7 @@ table-v2/detailed-view
 
 ## Customized Footer
 
-Rendering a customized footer when you want to show a concluding message or information.
+Render a customized footer when you want to show a concluding message or information.
 
 :::demo
 
@@ -262,7 +261,7 @@ table-v2/footer
 
 ## Customized Empty Renderer
 
-Render customized empty element
+Render a customized empty element.
 
 :::demo
 
@@ -272,7 +271,7 @@ table-v2/empty
 
 ## Overlay
 
-Render an overlay above the table when you want to show a loading indicator or something else.
+Render an overlay on top of the table when you want to show a loading indicator or something else.
 
 :::demo
 
@@ -282,12 +281,12 @@ table-v2/overlay
 
 ## Manual scrolling
 
-Use the methods exposed by Table V2 to scroll manually/programmatically with desired offset/rows.
+Use the methods provided by Table V2 to scroll manually/programmatically with desired offset/rows.
 
 :::tip
 
 The second parameter for `scrollToRow` is the scrolling strategy which by default is `auto`, it calculates the position
-to scroll by itself. You can pass the strategy yourselves if you want to scroll to a specific position.
+to scroll by itself. If you wish to scroll to a specific position, you can define the strategy yourself.
 The available options are `"auto" | "center" | "end" | "start" | "smart"`
 
 The difference between `smart` and `auto` is that `auto` is a subset of `smart` scroll strategy.
@@ -304,30 +303,30 @@ table-v2/manual-scroll
 
 | Name                      | Description                                                                                                                | Type                                                 | Default   |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | --------- |
-| cache                     | Number of rows rendered in advance for boosting the performance                                                            | Number                                               | 2         |
+| cache                     | Number of rows rendered in advance to boost the performance                                                                | Number                                               | 2         |
 | estimated-row-height      | The estimated row height for rendering dynamic height rows                                                                 | Number                                               | -         |
 | header-class              | Customized class name passed to header wrapper                                                                             | String/Function\<[HeaderClassGetter](#typings)\>     | -         |
 | header-props              | Customized props name passed to header component                                                                           | Object/Function\<[HeaderPropsGetter](#typings)\>     | -         |
 | header-cell-props         | Customized props name passed to header cell component                                                                      | Object/Function\<[HeaderCellPropsGetter](#typings)\> | -         |
-| header-height             | The height of entire header, when it's array, it will render as many header rows as the given array's length               | Number/Array\<Number\>                               | 50        |
-| footer-height             | The height of the footer element, when presented, it will be part of the calculation of the table's height.                | Number                                               | 0         |
+| header-height             | The height of the header is set by `height`. If given an array, it renders header rows equal to its length                 | Number/Array\<Number\>                               | 50        |
+| footer-height             | The height of the footer element, when provided, will be part to the calculation of the table's height.                    | Number                                               | 0         |
 | row-class                 | Customized class name passed to row wrapper                                                                                | String/Function\<[RowClassGetter](#typings)\>        | -         |
-| row-key                   | The key of each row, if not provided, it will be the index of the row                                                      | String/Symbol/Number                                 | id        |
+| row-key                   | The key of each row, if not provided, will be the index of the row                                                         | String/Symbol/Number                                 | id        |
 | row-props                 | Customized props name passed to row component                                                                              | Object/Function\<[RowPropsGetter](#typings)\>        | -         |
 | row-height                | The height of each row, used for calculating the total height of the table                                                 | Number                                               | 50        |
 | cell-props                | extra props passed to each cell (except header cells)                                                                      | Object/Function\<[CellPropsGetter](#typings)\>       | -         |
 | columns                   | An array of column definitions.                                                                                            | Array\<[Column](#column-attribute)\>                 | -         |
 | data                      | An array of data to be rendered in the table.                                                                              | Array\<[Data](#typings)\>                            | []        |
-| data-getter               | An method which helps customizing the how to fetch the data from the data source.                                          | Function                                             | -         |
+| data-getter               | A method to customize data fetch from the data source.                                                                     | Function                                             | -         |
 | fixed-data                | Data for rendering rows above the main content and below the header                                                        | Array\<[Data](#typings)\>                            | -         |
 | expand-column-key         | The column key indicates which row is expandable                                                                           | String                                               | -         |
 | expanded-row-keys         | An array of keys for expanded rows, can be used with `v-model`                                                             | Array\<[KeyType](#typings)\>                         | -         |
 | default-expanded-row-keys | An array of keys for default expanded rows, **NON REACTIVE**                                                               | Array\<[KeyType](#typings)\>                         | -         |
-| class                     | Class name for the the virtual table, will be applied to all three tables (left, right, main)                              | String/Array/Object                                  | -         |
-| fixed                     | Flag indicates the table column's width is a fixed or flexible.                                                            | Boolean                                              | false     |
-| width \*                  | Width for the table, required                                                                                              | Number                                               | -         |
-| height \*                 | Height for the table, required                                                                                             | Number                                               | -         |
-| max-height                | Maximum height for the table                                                                                               | Number                                               | -         |
+| class                     | Class name for the virtual table, will be applied to all three tables (left, right, main)                                  | String/Array/Object                                  | -         |
+| fixed                     | Flag indicates the table column's width to be fixed or flexible.                                                           | Boolean                                              | false     |
+| width ^(required)         | Width of the table                                                                                                         | Number                                               | -         |
+| height ^(required)        | Height of the table                                                                                                        | Number                                               | -         |
+| max-height                | Maximum height of the table                                                                                                | Number                                               | -         |
 | h-scrollbar-size          | Indicates the horizontal scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse | Number                                               | 6         |
 | v-scrollbar-size          | Indicates the vertical scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse   | Number                                               | 6         |
 | scrollbar-always-on       | If true, the scrollbar will always be shown instead of when mouse is placed above the table                                | Boolean                                              | false     |
@@ -353,7 +352,7 @@ table-v2/manual-scroll
 | column-sort          | Invoked when column sorted                                            | Object\<ColumnSortParam\>                |
 | expanded-rows-change | Invoked when expanded rows changed                                    | `Array<KeyType>`                         |
 | end-reached          | Invoked when the end of the table is reached                          | -                                        |
-| scroll               | Invoked after scrolled                                                | Object\<[ScrollParams](#typings)\>       |
+| scroll               | Invoked after scrolling                                               | Object\<[ScrollParams](#typings)\>       |
 | rows-rendered        | Invoked when rows are rendered                                        | Object\<[RowsRenderedParams](#typings)\> |
 | row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon | Object\<[RowExpandParams](#typings)\>    |
 | row-event-handlers   | A collection of handlers attached to each row                         | Object\<[RowEventHandlers](#typings)\>   |
@@ -369,29 +368,29 @@ table-v2/manual-scroll
 
 :::tip
 
-Note that these are `JavaScript` Objects, so that you **CANNOT USE** kebab-case for these attributes
+Note that these are `JavaScript` Objects, so you **CANNOT USE** kebab-case for these attributes
 
 :::
 
 ## Column Attribute
 
-| Name               | Description                                                               | Type                                                                                                                                                             | Default |
-| ------------------ | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| align              | Alignment of the table cell content                                       | [Alignment](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L6)         | left    |
-| class              | Class name for the column                                                 | String                                                                                                                                                           | -       |
-| fixed              | Fixed direction of the column                                             | Boolean/[FixedDir](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L11) | false   |
-| flexGrow           | CSSProperties flex grow, Only useful when not this is not a fixed table   | Number                                                                                                                                                           | 0       |
-| flexShrink         | CSSProperties flex shrink, Only useful when not this is not a fixed table | Number                                                                                                                                                           | 1       |
-| headerClass        | Used for customizing header column class                                  | String                                                                                                                                                           | -       |
-| hidden             | Whether the column is invisible                                           | Boolean                                                                                                                                                          | -       |
-| style              | Customized style for column cell, will be merged with grid cell           | CSSProperties                                                                                                                                                    | -       |
-| sortable           | Indicates whether the column is sortable                                  | Boolean                                                                                                                                                          | -       |
-| title              | The default text rendered in header cell                                  | String                                                                                                                                                           | -       |
-| maxWidth           | Maximum width for the column                                              | String                                                                                                                                                           | -       |
-| minWidth           | Minimum width for the column                                              | String                                                                                                                                                           | -       |
-| width \*           | Width for the column **Required**                                         | Number                                                                                                                                                           | -       |
-| cellRenderer       | Customized Cell renderer                                                  | VueComponent/(props: [CellRenderProps](#typings)) => VNode                                                                                                       | -       |
-| headerCellRenderer | Customized Header renderer                                                | VueComponent/(props: [HeaderRenderProps](#typings)) => VNode                                                                                                     | -       |
+| Name               | Description                                                           | Type                                                                                                                                                             | Default |
+| ------------------ | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| align              | Alignment of the table cell content                                   | [Alignment](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L6)         | left    |
+| class              | Class name for the column                                             | String                                                                                                                                                           | -       |
+| fixed              | Fixed direction of the column                                         | Boolean/[FixedDir](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L11) | false   |
+| flexGrow           | CSSProperties flex grow, Only useful when this is not a fixed table   | Number                                                                                                                                                           | 0       |
+| flexShrink         | CSSProperties flex shrink, Only useful when this is not a fixed table | Number                                                                                                                                                           | 1       |
+| headerClass        | Used for customizing header column class                              | String                                                                                                                                                           | -       |
+| hidden             | Whether the column is invisible                                       | Boolean                                                                                                                                                          | -       |
+| style              | Customized style for column cell, will be merged with grid cell       | CSSProperties                                                                                                                                                    | -       |
+| sortable           | Indicates whether the column is sortable                              | Boolean                                                                                                                                                          | -       |
+| title              | The default text rendered in header cell                              | String                                                                                                                                                           | -       |
+| maxWidth           | Maximum width for the column                                          | String                                                                                                                                                           | -       |
+| minWidth           | Minimum width for the column                                          | String                                                                                                                                                           | -       |
+| width ^(required)  | Width for the column                                                  | Number                                                                                                                                                           | -       |
+| cellRenderer       | Customized Cell renderer                                              | VueComponent/(props: [CellRenderProps](#typings)) => VNode                                                                                                       | -       |
+| headerCellRenderer | Customized Header renderer                                            | VueComponent/(props: [HeaderRenderProps](#typings)) => VNode                                                                                                     | -       |
 
 ## Typings{#typings}
 
@@ -498,6 +497,32 @@ type HeaderCellSlotProps = {
   onColumnSorted: (e: MouseEvent) => void
 }
 
+type RowCommonParams = {
+  rowData: any
+  rowIndex: number
+}
+
+type RowEventHandlerParams = {
+  rowKey: KeyType
+  event: Event
+} & RowCommonParams
+
+type RowEventHandler = (params: RowEventHandlerParams) => void
+type RowEventHandlers = {
+  onClick?: RowEventHandler
+  onContextmenu?: RowEventHandler
+  onDblclick?: RowEventHandler
+  onMouseenter?: RowEventHandler
+  onMouseleave?: RowEventHandler
+}
+
+type RowsRenderedParams = {
+  rowCacheStart: number
+  rowCacheEnd: number
+  rowVisibleStart: number
+  rowVisibleEnd: number
+}
+
 type RowSlotProps = {
   columnIndex: number
   rowIndex: number
@@ -506,6 +531,11 @@ type RowSlotProps = {
   isScrolling?: boolean | undefined
   style: CSSProperties
 }
+
+type RowExpandParams = {
+  expanded: boolean
+  rowKey: KeyType
+} & RowCommonParams
 
 type Data = {
   [key: KeyType]: any
@@ -531,14 +561,14 @@ type SortState = Record<KeyType, SortOrder>
 
 ## FAQs
 
-#### How do I render a list with checkbox in the first column?
+#### How do I render a list with a checkbox in the first column?
 
 Since you are allowed to define your own cell renderer, you can do what the example
-[Customize Cell Renderer](#customize-cell-renderer) did to render `checkbox` yourselves, and maintaining the
-state by yourselves.
+[Customize Cell Renderer](#customize-cell-renderer) did to render `checkbox` yourself, and maintain the
+state by yourself.
 
-#### Why virtualized table provides less features than [TableV1](./table.md)
+#### Why does virtualized table provide less features than [TableV1](./table.md)
 
-For virtualized table, we intend to provide less feature and let our users to implement their own features per demand.
+For virtualized table, we intend to provide less feature and let our users implement their own features as needed.
 Integrating too many features makes the code hard to maintain and for most users the basic features are enough. Some key
 features were not developed yet. We would love to hear from you. Join [Discord](https://discord.com/invite/gXK9XNzW3X) to stay tuned.
