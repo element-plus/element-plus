@@ -1914,10 +1914,10 @@ describe('Select', () => {
     await nextTick()
 
     expect(innerInputEl.placeholder).toBe('')
-
     selectInput.trigger('keydown', {
       key: EVENT_CODE.backspace,
     })
+
     await nextTick()
     expect(innerInputEl.placeholder).toBe(placeholder)
     vi.useRealTimers()
@@ -2296,6 +2296,68 @@ describe('Select', () => {
       await nextTick()
       expect(vm.value).toBe(2)
       expect(findInnerInput().value).toBe('z')
+    })
+    // fix: https://github.com/element-plus/element-plus/issues/11991
+    it('backspace key should not delete disabled options', async () => {
+      const options = [
+        {
+          value: 'Option1',
+          label: 'Option1',
+          disable: true,
+        },
+        {
+          value: 'Option2',
+          label: 'Option2',
+          disable: false,
+        },
+      ]
+      const value = ['Option2', 'Option1']
+      const wrapper = _mount(
+        `
+          <el-select v-model="value"
+            multiple
+            filterable
+          >
+            <el-option
+              v-for="option in options"
+              :key="option.value"
+              :value="option.value"
+              :label="option.label"
+              :disabled="option.disable"
+            >
+            </el-option>
+          </el-select>
+        `,
+        () => ({
+          value,
+          options,
+        })
+      )
+      await nextTick()
+      const selectInput = wrapper.find('.el-select__input')
+      expect(wrapper.findAll('.el-tag').length).toBe(2)
+      // need trigger keydown twice because first keydown just select option, and second keydown is to delete
+      await selectInput.trigger('keydown', {
+        code: EVENT_CODE.backspace,
+        key: EVENT_CODE.backspace,
+      })
+      await selectInput.trigger('keydown', {
+        code: EVENT_CODE.backspace,
+        key: EVENT_CODE.backspace,
+      })
+      await nextTick()
+      expect(wrapper.findAll('.el-tag').length).toBe(1)
+      await selectInput.trigger('keydown', {
+        code: EVENT_CODE.backspace,
+        key: EVENT_CODE.backspace,
+      })
+      await selectInput.trigger('keydown', {
+        code: EVENT_CODE.backspace,
+        key: EVENT_CODE.backspace,
+      })
+      await nextTick()
+      // after the second deletion, an el-tag still exist
+      expect(wrapper.findAll('.el-tag').length).toBe(1)
     })
   })
 })
