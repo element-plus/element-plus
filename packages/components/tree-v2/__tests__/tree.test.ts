@@ -1183,7 +1183,7 @@ describe('Virtual Tree', () => {
           return {
             data: [
               {
-                id: '0',
+                id: 0,
                 label: 'node-0',
               },
               {
