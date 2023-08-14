@@ -1178,7 +1178,7 @@ describe('Virtual Tree', () => {
     })
 
     test('setCurrentKey', async () => {
-      const { treeRef } = createTree({
+      const { treeRef, wrapper } = createTree({
         data() {
           return {
             data: [
