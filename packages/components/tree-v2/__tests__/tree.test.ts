@@ -1230,6 +1230,7 @@ describe('Virtual Tree', () => {
       })
       await nextTick()
       treeRef.setCurrentKey('0')
+      await nextTick()
       const currentKeys = treeRef.getCurrentKey()
       const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
       expect(currentKeys.toString()).toBe(['0'].toString())
