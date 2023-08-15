@@ -1560,4 +1560,34 @@ describe('MonthRange', () => {
     await nextTick()
     expect(pickHandler).toHaveBeenCalledTimes(1)
   })
+
+  it('prop defaultTime should not confilt with prop shortcuts', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+          v-model="value"
+          type="datetime"
+          :shortcuts="[
+                { text: '12:00', value: new Date(2023, 0, 1, 12) }
+              , { text: '13:00', value: new Date(2023, 0, 1, 13) }
+              , { text: '14:00', value: new Date(2023, 0, 1, 14) }
+            ]"
+          :defaultTime="new Date(2023, 0, 1, 19, 0, 0)"
+        />`,
+      () => ({ value: '' })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    document
+      .querySelector('.el-picker-panel__sidebar .el-picker-panel__shortcut')
+      .click()
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value).toBeDefined()
+    expect(vm.value.getFullYear()).toBe(2023)
+    expect(vm.value.getMonth()).toBe(0)
+    expect(vm.value.getDate()).toBe(1)
+    expect(vm.value.getHours()).toBe(12)
+  })
 })
