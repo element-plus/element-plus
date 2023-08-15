@@ -686,8 +686,8 @@ describe('DatePicker Navigation', () => {
     expect(getMonthLabel()).toContain('June')
   })
 
-  it('year with fewer Feburary dates', async () => {
-    // Feburary 2008 has 29 days, Feburary 2007 has 28
+  it('year with fewer February dates', async () => {
+    // February 2008 has 29 days, February 2007 has 28
     await initNavigationTest(new Date(2008, 1, 29))
     prevYear.click()
     await nextTick()
