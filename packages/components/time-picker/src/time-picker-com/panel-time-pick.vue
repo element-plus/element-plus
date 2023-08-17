@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue'
+import { computed, inject, ref, toRef } from 'vue'
 import dayjs from 'dayjs'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -65,6 +65,7 @@ const {
   disabledSeconds,
   defaultValue,
 } = pickerBase.props
+const format = toRef(pickerBase.props, 'format')
 const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
   buildAvailableTimeSlotGetter(disabledHours, disabledMinutes, disabledSeconds)
 
@@ -80,11 +81,11 @@ const transitionName = computed(() => {
     : ''
 })
 const showSeconds = computed(() => {
-  return props.format.includes('ss')
+  return format.value.includes('ss')
 })
 const amPmMode = computed(() => {
-  if (props.format.includes('A')) return 'A'
-  if (props.format.includes('a')) return 'a'
+  if (format.value.includes('A')) return 'A'
+  if (format.value.includes('a')) return 'a'
   return ''
 })
 // method
@@ -156,12 +157,12 @@ const getRangeAvailableTime = (date: Dayjs) => {
 
 const parseUserInput = (value: Dayjs) => {
   if (!value) return null
-  return dayjs(value, props.format).locale(lang.value)
+  return dayjs(value, format.value).locale(lang.value)
 }
 
 const formatToString = (value: Dayjs) => {
   if (!value) return null
-  return value.format(props.format)
+  return value.format(format.value)
 }
 
 const getDefaultValue = () => {

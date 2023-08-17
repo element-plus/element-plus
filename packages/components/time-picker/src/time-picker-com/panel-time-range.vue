@@ -68,7 +68,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, unref } from 'vue'
+import { computed, inject, ref, toRef, unref } from 'vue'
 import dayjs from 'dayjs'
 import { union } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -106,6 +106,7 @@ const {
   disabledSeconds,
   defaultValue,
 } = pickerBase.props
+const format = toRef(pickerBase.props, 'format')
 
 const startContainerKls = computed(() => [
   nsTime.be('range-picker', 'body'),
@@ -127,11 +128,11 @@ const handleCancel = () => {
   emit('pick', oldValue.value, false)
 }
 const showSeconds = computed(() => {
-  return props.format.includes('ss')
+  return format.value.includes('ss')
 })
 const amPmMode = computed(() => {
-  if (props.format.includes('A')) return 'A'
-  if (props.format.includes('a')) return 'a'
+  if (format.value.includes('A')) return 'A'
+  if (format.value.includes('a')) return 'a'
   return ''
 })
 
@@ -284,17 +285,17 @@ const {
 const parseUserInput = (days: Dayjs[] | Dayjs) => {
   if (!days) return null
   if (isArray(days)) {
-    return days.map((d) => dayjs(d, props.format).locale(lang.value))
+    return days.map((d) => dayjs(d, format.value).locale(lang.value))
   }
-  return dayjs(days, props.format).locale(lang.value)
+  return dayjs(days, format.value).locale(lang.value)
 }
 
 const formatToString = (days: Dayjs[] | Dayjs) => {
   if (!days) return null
   if (isArray(days)) {
-    return days.map((d) => d.format(props.format))
+    return days.map((d) => d.format(format.value))
   }
-  return days.format(props.format)
+  return days.format(format.value)
 }
 
 const getDefaultValue = () => {

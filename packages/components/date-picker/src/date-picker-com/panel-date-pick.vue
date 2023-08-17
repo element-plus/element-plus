@@ -246,6 +246,7 @@ const pickerBase = inject('EP_PICKER_BASE') as any
 const popper = inject(TOOLTIP_INJECTION_KEY)
 const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
+const format = toRef(pickerBase.props, 'format')
 
 const currentViewRef = ref<{ focus: () => void }>()
 
@@ -273,7 +274,7 @@ const userInputTime = ref<string | null>(null)
 // todo update to disableHour
 const checkDateWithinRange = (date: ConfigType) => {
   return selectableRange.value.length > 0
-    ? timeWithinRange(date, selectableRange.value, props.format || 'HH:mm:ss')
+    ? timeWithinRange(date, selectableRange.value, format.value || 'HH:mm:ss')
     : true
 }
 const formatEmit = (emitDayjs: Dayjs) => {
@@ -493,11 +494,11 @@ const changeToNow = () => {
 }
 
 const timeFormat = computed(() => {
-  return extractTimeFormat(props.format)
+  return extractTimeFormat(format.value)
 })
 
 const dateFormat = computed(() => {
-  return extractDateFormat(props.format)
+  return extractDateFormat(format.value)
 })
 
 const visibleTime = computed(() => {
@@ -581,13 +582,13 @@ const isValidValue = (date: unknown) => {
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
   if (selectionMode.value === 'dates') {
-    return (value as Dayjs[]).map((_) => _.format(props.format))
+    return (value as Dayjs[]).map((_) => _.format(format.value))
   }
-  return (value as Dayjs).format(props.format)
+  return (value as Dayjs).format(format.value)
 }
 
 const parseUserInput = (value: Dayjs) => {
-  return dayjs(value, props.format).locale(lang.value)
+  return dayjs(value, format.value).locale(lang.value)
 }
 
 const getDefaultValue = () => {
