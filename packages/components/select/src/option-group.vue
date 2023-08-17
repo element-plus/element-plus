@@ -80,7 +80,9 @@ export default defineComponent({
     watch(
       groupQueryChange,
       () => {
-        visible.value = children.value.some((option) => option.visible === true)
+        visible.value =
+          children.value.some((option) => option.visible === true) ||
+          children.value.length === 0
       },
       { flush: 'post' }
     )
