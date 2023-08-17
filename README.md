@@ -137,8 +137,6 @@ We are now lacking of experts of `Testing`, `GitHub Actions`, `PM`, if you do fe
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Become a sponsor](https://opencollective.com/element-plus#sponsor)
 
-<a href="https://opencollective.com/element-plus/sponsor/0/website" target="_blank"><img src="https://opencollective.com/element-plus/sponsor/0/avatar.svg"></a>
-
 ## Contributors
 
 This project exists thanks to all the people who contribute.
