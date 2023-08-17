@@ -133,10 +133,6 @@ reach out to us, you are more than welcomed to join us! :heart:
 
 We are now lacking of experts of `Testing`, `GitHub Actions`, `PM`, if you do feel like you can and willing to help us, please do reach out to us. :pray:
 
-## Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Become a sponsor](https://opencollective.com/element-plus#sponsor)
-
 ## Contributors
 
 This project exists thanks to all the people who contribute.
