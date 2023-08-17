@@ -143,7 +143,7 @@ const TableV2 = defineComponent({
         data: _data,
         fixedData,
         estimatedRowHeight,
-        bodyWidth: unref(bodyWidth),
+        bodyWidth: unref(bodyWidth) + vScrollbarSize,
         headerHeight,
         headerWidth: unref(headerWidth),
         height: unref(mainTableHeight),
