@@ -491,6 +491,8 @@ export default defineComponent({
       handleMouseLeave,
       showTagList,
       collapseTagList,
+      // computed style
+      selectTagsStyle,
     } = useSelect(props, states, ctx)
 
     const {
@@ -554,11 +556,6 @@ export default defineComponent({
           unref(filteredOptionsCount) === 0
       ),
     ])
-
-    const selectTagsStyle = computed(() => ({
-      maxWidth: `${unref(inputWidth) - 32}px`,
-      width: '100%',
-    }))
 
     const tagTextStyle = computed(() => {
       const maxWidth =

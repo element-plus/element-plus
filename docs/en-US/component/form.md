@@ -170,19 +170,19 @@ form/accessibility
 
 ### FormItem Attributes
 
-| Name            | Description                                                                                                                                                   | Type                                                | Default |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------- |
-| prop            | A key of `model`. It could be an array of property paths (e.g `['a', 'b', 0]`). In the use of `validate` and `resetFields` method, the attribute is required. | ^[string] / ^[string&#91;&#93;]                     | —       |
-| label           | Label text.                                                                                                                                                   | ^[string]                                           | —       |
-| label-width     | Width of label, e.g. `'50px'`. `'auto'` is supported.                                                                                                         | ^[string] / ^[number]                               | ''      |
-| required        | Whether the field is required or not, will be determined by validation rules if omitted.                                                                      | ^[boolean]                                          | —       |
-| rules           | Validation rules of form, see the [following table](#formitemrule), more advanced usage at [async-validator](https://github.com/yiminghe/async-validator).    | ^[object]`Arrayable<FormItemRule>`                  | —       |
-| error           | Field error message, set its value and the field will validate error and show this message immediately.                                                       | ^[string]                                           | —       |
-| show-message    | Whether to show the error message.                                                                                                                            | ^[boolean]                                          | true    |
-| inline-message  | Inline style validate message.                                                                                                                                | ^[string] / ^[boolean]                              | ''      |
-| size            | Control the size of components in this form-item.                                                                                                             | ^[enum]`'' \| 'large' \| 'default' \| 'small'`      | —       |
-| for             | Same as for in native label.                                                                                                                                  | ^[string]                                           | —       |
-| validate-status | Validation state of formItem.                                                                                                                                 | ^[enum]`'' \| 'error' \| 'validating' \| 'success'` | —       |
+| Name            | Description                                                                                                                                                     | Type                                                | Default |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------- |
+| prop            | A key of `model`. It could be an array of property paths (e.g `['a', 'b', '0']`). In the use of `validate` and `resetFields` method, the attribute is required. | ^[string] / ^[string&#91;&#93;]                     | —       |
+| label           | Label text.                                                                                                                                                     | ^[string]                                           | —       |
+| label-width     | Width of label, e.g. `'50px'`. `'auto'` is supported.                                                                                                           | ^[string] / ^[number]                               | ''      |
+| required        | Whether the field is required or not, will be determined by validation rules if omitted.                                                                        | ^[boolean]                                          | —       |
+| rules           | Validation rules of form, see the [following table](#formitemrule), more advanced usage at [async-validator](https://github.com/yiminghe/async-validator).      | ^[object]`Arrayable<FormItemRule>`                  | —       |
+| error           | Field error message, set its value and the field will validate error and show this message immediately.                                                         | ^[string]                                           | —       |
+| show-message    | Whether to show the error message.                                                                                                                              | ^[boolean]                                          | true    |
+| inline-message  | Inline style validate message.                                                                                                                                  | ^[string] / ^[boolean]                              | ''      |
+| size            | Control the size of components in this form-item.                                                                                                               | ^[enum]`'' \| 'large' \| 'default' \| 'small'`      | —       |
+| for             | Same as for in native label.                                                                                                                                    | ^[string]                                           | —       |
+| validate-status | Validation state of formItem.                                                                                                                                   | ^[enum]`'' \| 'error' \| 'validating' \| 'success'` | —       |
 
 #### FormItemRule
 
