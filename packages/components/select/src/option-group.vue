@@ -50,7 +50,6 @@ export default defineComponent({
     )
 
     const select = inject(selectKey)
-    
     // get all instances of options
     const flattedChildren = (node) => {
       const children = []
