@@ -15,7 +15,7 @@ import {
   defineComponent,
   getCurrentInstance,
   inject,
-  onMounted,
+  onUpdated,
   provide,
   reactive,
   ref,
@@ -52,7 +52,7 @@ export default defineComponent({
 
     const select = inject(selectKey)
 
-    onMounted(() => {
+    onUpdated(() => {
       children.value = flattedChildren(instance.subTree)
     })
 
@@ -78,11 +78,9 @@ export default defineComponent({
 
     const { groupQueryChange } = toRaw(select)
     watch(
-      groupQueryChange,
+      [groupQueryChange, children],
       () => {
-        visible.value =
-          children.value.some((option) => option.visible === true) ||
-          children.value.length === 0
+        visible.value = children.value.some((option) => option.visible === true)
       },
       { flush: 'post' }
     )
