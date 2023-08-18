@@ -15,7 +15,6 @@ import {
   defineComponent,
   getCurrentInstance,
   inject,
-  onMounted,
   provide,
   reactive,
   ref,
@@ -51,11 +50,7 @@ export default defineComponent({
     )
 
     const select = inject(selectKey)
-
-    onMounted(() => {
-      children.value = flattedChildren(instance.subTree)
-    })
-
+    
     // get all instances of options
     const flattedChildren = (node) => {
       const children = []
@@ -80,6 +75,7 @@ export default defineComponent({
     watch(
       groupQueryChange,
       () => {
+        children.value = flattedChildren(instance.subTree)
         visible.value = children.value.some((option) => option.visible === true)
       },
       { flush: 'post' }
