@@ -74,6 +74,7 @@ import type {
   FormItemContext,
   FormItemRule,
   FormValidateFailure,
+  FormValidateResult,
 } from './types'
 import type { FormItemValidateState } from './form-item'
 
@@ -329,6 +330,11 @@ const clearValidate: FormItemContext['clearValidate'] = () => {
   isResettingField = false
 }
 
+const setValidateResult = (result: FormValidateResult) => {
+  setValidationState(result.state)
+  validateMessage.value = result.message
+}
+
 const resetField: FormItemContext['resetField'] = async () => {
   const model = formContext?.model
   if (!model || !props.prop) return
@@ -384,6 +390,7 @@ const context: FormItemContext = reactive({
   resetField,
   clearValidate,
   validate,
+  setValidateResult,
 })
 
 provide(formItemContextKey, context)
@@ -424,5 +431,9 @@ defineExpose({
    * @description Reset current field and remove validation result.
    */
   resetField,
+  /**
+   * @description Set validate result.
+   */
+  setValidateResult,
 })
 </script>

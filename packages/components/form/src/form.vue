@@ -70,6 +70,14 @@ const clearValidate: FormContext['clearValidate'] = (props = []) => {
   filterFields(fields, props).forEach((field) => field.clearValidate())
 }
 
+const setValidateResults = (results: FormValidationResult) => {
+  Object.keys(results).forEach((prop) => {
+    const field = fields.find((f) => f.prop && f.prop === prop)
+    if (!field) return
+    field.setValidateResult(results[prop])
+  })
+}
+
 const isValidatable = computed(() => {
   const hasModel = !!props.model
   if (!hasModel) {
@@ -170,6 +178,7 @@ provide(
     validateField,
     addField,
     removeField,
+    setValidateResults,
 
     ...useFormLabelWidth(),
   })
@@ -196,5 +205,9 @@ defineExpose({
    * @description Scroll to the specified fields.
    */
   scrollToField,
+  /**
+   * @description Set new validation result manually.
+   */
+  setValidateResults,
 })
 </script>
