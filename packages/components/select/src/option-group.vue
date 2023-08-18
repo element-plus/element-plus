@@ -75,7 +75,7 @@ export default defineComponent({
       groupQueryChange,
       () => {
         children.value = flattedChildren(instance.subTree)
-        visible.value = children.value.some((option) => option.visible === true)
+        visible.value = children.value.some((option) => option.visible === true) || !children.value.length
       },
       { flush: 'post' }
     )
