@@ -2360,4 +2360,32 @@ describe('Select', () => {
       expect(wrapper.findAll('.el-tag').length).toBe(1)
     })
   })
+
+  test('use delimiters to quickly create options', async () => {
+    wrapper = _mount(
+      `
+      <el-select
+      v-model="value"
+      multiple
+      filterable
+      allow-create
+      :reserve-keyword="false"
+      tokenSeparator=","
+    >
+      <el-option label="HTML" value="HTML" />
+      <el-option label="CSS" value="CSS" />
+      <el-option label="JavaScript" value="JavaScript" />
+    </el-select>`,
+      () => ({ value: [] })
+    )
+    const vm = wrapper.vm as any
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    input.element.focus()
+    selectVm.selectedLabel = 'Lucy,Jack'
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+    expect(vm.value).toEqual(['Lucy', 'Jack'])
+  })
 })
