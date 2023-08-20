@@ -151,13 +151,6 @@ export const uploadBaseProps = buildProps({
     default: '',
   },
   /**
-   * @description
-   */
-  type: {
-    type: String,
-    default: 'select',
-  },
-  /**
    * @description default uploaded files
    */
   fileList: {
