@@ -9,11 +9,13 @@ const locale = useNavbarLocale()
 <template>
   <div class="full-screen-theme-toggler">
     <span>Theme</span>
-    <CommonThemeToggler
-      :aria-label="locale['theme-toggler']"
-      :aria-checked="isDark"
-      @click="toggleDark()"
-    />
+    <ClientOnly>
+      <CommonThemeToggler
+        :aria-label="locale['theme-toggler']"
+        :aria-checked="isDark"
+        @click="toggleDark()"
+      />
+    </ClientOnly>
   </div>
 </template>
 

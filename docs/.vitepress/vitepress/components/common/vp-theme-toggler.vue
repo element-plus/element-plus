@@ -1,50 +1,35 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue'
+import { isDark } from '../../composables/dark'
 import DarkIcon from '../icons/dark.vue'
 import LightIcon from '../icons/light.vue'
-import VPSwitch from './vp-switch.vue'
+
+const darkMode = ref(isDark.value)
+
+watch(
+  () => isDark.value,
+  (val) => {
+    darkMode.value = val
+  }
+)
 </script>
 
 <template>
-  <VPSwitch>
-    <ElIcon :size="13">
-      <DarkIcon class="dark-icon" />
-      <LightIcon class="light-icon" />
-    </ElIcon>
-  </VPSwitch>
+  <el-switch
+    v-model="darkMode"
+    :active-action-icon="DarkIcon"
+    :inactive-action-icon="LightIcon"
+  />
 </template>
 
 <style lang="scss" scoped>
-.el-icon {
-  cursor: pointer;
-}
-
-.dark-icon,
-.light-icon {
-  transition: color var(--el-transition-duration),
-    opacity var(--el-transition-duration);
-}
-
-.light-icon {
-  opacity: 1;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.dark-icon {
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-@at-root .dark {
-  .dark-icon {
-    opacity: 1;
-  }
-
-  .light-icon {
-    opacity: 0;
+:deep(.el-switch__core) {
+  --el-switch-on-color: var(--bg-color-mute);
+  --el-switch-off-color: var(--bg-color-mute);
+  --el-switch-border-color: var(--border-color);
+  .el-switch__action {
+    width: 14px;
+    height: 14px;
   }
 }
 </style>
