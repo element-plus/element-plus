@@ -107,6 +107,10 @@ export interface FormValidateFailure {
   fields: ValidateFieldsError
 }
 
+export interface FormValidateResult {
+  state: FormItemValidateState
+  message: string
+}
 export type FormContext = FormProps &
   UnwrapRef<FormLabelWidthContext> & {
     emit: SetupContext<FormEmits>['emit']
@@ -120,6 +124,7 @@ export type FormContext = FormProps &
       props?: Arrayable<FormItemProp>,
       callback?: FormValidateCallback
     ) => FormValidationResult
+    setValidateResults: (results: Map<string, FormValidateResult>) => void
   }
 
 export interface FormItemContext extends FormItemProps {
@@ -138,4 +143,5 @@ export interface FormItemContext extends FormItemProps {
   ) => FormValidationResult
   resetField(): void
   clearValidate(): void
+  setValidateResult(result: FormValidateResult): void
 }
