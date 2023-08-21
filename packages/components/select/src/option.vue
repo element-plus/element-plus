@@ -56,7 +56,6 @@ export default defineComponent({
     const containerKls = computed(() => [
       ns.be('dropdown', 'item'),
       ns.is('disabled', unref(isDisabled)),
-      ns.is('showItem', unref(isShowItem)),
       {
         selected: unref(itemSelected),
         hover: unref(hover),
@@ -71,14 +70,8 @@ export default defineComponent({
       hover: false,
     })
 
-    const {
-      currentLabel,
-      itemSelected,
-      isDisabled,
-      isShowItem,
-      select,
-      hoverItem,
-    } = useOption(props, states)
+    const { currentLabel, itemSelected, isDisabled, select, hoverItem } =
+      useOption(props, states)
 
     const { visible, hover } = toRefs(states)
 
@@ -114,7 +107,6 @@ export default defineComponent({
       currentLabel,
       itemSelected,
       isDisabled,
-      isShowItem,
       select,
       hoverItem,
       visible,
