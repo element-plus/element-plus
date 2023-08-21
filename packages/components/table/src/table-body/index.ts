@@ -64,7 +64,7 @@ export default defineComponent({
   render() {
     const { wrappedRowRender, store } = this
     const data = store.states.data.value || []
-    return h('tbody', {}, [
+    return h('tbody', { tabIndex: -1 }, [
       data.reduce((acc: VNode[], row) => {
         return acc.concat(wrappedRowRender(row, acc.length))
       }, []),
