@@ -15,11 +15,15 @@ watch(
 </script>
 
 <template>
-  <el-switch
-    v-model="darkMode"
-    :active-action-icon="DarkIcon"
-    :inactive-action-icon="LightIcon"
-  />
+  <div>
+    <ClientOnly>
+      <el-switch
+        v-model="darkMode"
+        :active-action-icon="DarkIcon"
+        :inactive-action-icon="LightIcon"
+      />
+    </ClientOnly>
+  </div>
 </template>
 
 <style lang="scss" scoped>
