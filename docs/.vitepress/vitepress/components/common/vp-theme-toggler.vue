@@ -32,4 +32,12 @@ watch(
     height: 14px;
   }
 }
+:deep(.dark-icon) {
+  border-radius: 50%;
+  color: #cfd3dc;
+  background-color: #141414;
+}
+:deep(.light-icon) {
+  color: #606266;
+}
 </style>
