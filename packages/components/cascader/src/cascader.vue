@@ -660,6 +660,11 @@ const handleInput = (val: string, e?: KeyboardEvent) => {
   val ? handleFilter() : hideSuggestionPanel()
 }
 
+const getInputInnerHeight = (inputInner: HTMLElement): number =>
+  Number.parseFloat(
+    useCssVar(nsInput.cssVarName('input-height'), inputInner).value
+  ) - 2
+
 watch(filtering, updatePopperPosition)
 
 watch([checkedNodes, isDisabled], calculatePresentTags)
@@ -668,15 +673,19 @@ watch(presentTags, () => {
   nextTick(() => updateStyle())
 })
 
+watch(realSize, async () => {
+  await nextTick()
+  const inputInner = input.value!.input!
+  inputInitialHeight = getInputInnerHeight(inputInner) || inputInitialHeight
+  updateStyle()
+})
+
 watch(presentText, syncPresentTextValue, { immediate: true })
 
 onMounted(() => {
   const inputInner = input.value!.input!
 
-  const inputInnerHeight =
-    Number.parseFloat(
-      useCssVar(nsInput.cssVarName('input-height'), inputInner).value
-    ) - 2
+  const inputInnerHeight = getInputInnerHeight(inputInner)
 
   inputInitialHeight = inputInner.offsetHeight || inputInnerHeight
   useResizeObserver(inputInner, updateStyle)

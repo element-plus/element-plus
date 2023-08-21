@@ -49,6 +49,9 @@ jobs:
   publish:
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v3
 
@@ -68,6 +71,9 @@ jobs:
 
       - name: Gen npmrc
         run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
+
+      - name: Update npm
+        run: npm install npm@latest -g
 
       - name: Build&publish
         run: sh ./scripts/publish.sh
