@@ -73,6 +73,12 @@
     }
   }
 
+  &:not(.#{$namespace}-menu--collapse) .#{$namespace}-sub-menu__title {
+    padding-right: calc(
+      #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
+    );
+  }
+
   @include m(horizontal) {
     display: flex;
     flex-wrap: nowrap;
@@ -122,9 +128,6 @@
         height: 100%;
         border-bottom: 2px solid transparent;
         color: getCssVar('menu-text-color');
-        padding-right: calc(
-          #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
-        );
 
         &:hover {
           background-color: getCssVar('bg-color', 'overlay');
