@@ -9,8 +9,11 @@ export interface EditConfig {
   onChange?: (value: string) => void
   onCancel?: () => void
   onEnd?: () => void
-  maxlength?: number
-  triggerType?: ('icon' | 'text')[]
+  maxLength?: number
+  placeholder?: string
+  triggerType?: 'icon' | 'text'
+  icon?: string
+  triggerText?: string
   // ...getDesignatedType(inputProps, ['autosize']),
   autoSize?: inputProps['autosize']
 }

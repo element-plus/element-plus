@@ -7,23 +7,24 @@
   width: 100%;
   font-size: 14px;
   text-align: left;
+  margin-bottom: 20px;
 
   @include e(base) {
     // padding: 11px 5px;
+    // border: solid red 1px;
     position: relative;
     vertical-align: middle;
     display: inline;
     // overflow: ;
+    display: inline-block;
+
     font-size: inherit;
     line-height: 1.5;
     vertical-align: middle;
     font-family: inherit;
-    // vertical-align: text;
-
     span {
-      // line-height: 1.5;
+      display: inline-block;
       vertical-align: middle;
-      // display: inline-block;
     }
     .el-icon {
       color: var(--el-color-primary);
