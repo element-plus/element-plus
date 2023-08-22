@@ -110,6 +110,10 @@ export const SelectProps = {
     values: placements,
     default: 'bottom-start',
   },
+  remoteShowSuffix: {
+    type: Boolean,
+    default: false,
+  },
 }
 
 export const OptionProps = {

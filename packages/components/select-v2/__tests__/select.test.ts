@@ -6,7 +6,7 @@ import { hasClass } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
-import { CircleClose } from '@element-plus/icons-vue'
+import { ArrowUp, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import Select from '../src/select.vue'
 
@@ -115,6 +115,7 @@ const createSelect = (
         :reserve-keyword="reserveKeyword"
         :scrollbar-always-on="scrollbarAlwaysOn"
         :teleported="teleported"
+        :remote-show-suffix="remoteShowSuffix"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -1350,7 +1351,10 @@ describe('Select', () => {
   })
 
   describe('remote search', () => {
-    async function testRemoteSearch({ multiple = false }) {
+    async function testRemoteSearch({
+      multiple = false,
+      remoteShowSuffix = false,
+    }) {
       const remoteMethod = vi.fn()
       const wrapper = createSelect({
         data() {
@@ -1358,6 +1362,7 @@ describe('Select', () => {
             filterable: true,
             remote: true,
             multiple,
+            remoteShowSuffix,
           }
         },
         methods: {
@@ -1368,6 +1373,7 @@ describe('Select', () => {
       input.element.value = 'query'
       await input.trigger('input')
       expect(remoteMethod).toHaveBeenCalled()
+      return wrapper
     }
     it('should call remote method', async () => {
       await testRemoteSearch({ multiple: false })
@@ -1375,6 +1381,21 @@ describe('Select', () => {
 
     it('should call remote method in multiple mode', async () => {
       await testRemoteSearch({ multiple: true })
+    })
+
+    it('test remote show suffix ', async () => {
+      const wrapper = createSelect({
+        data() {
+          return {
+            remote: true,
+            filterable: true,
+            remoteShowSuffix: true,
+          }
+        },
+      })
+
+      const suffixIcon = wrapper.findComponent(ArrowUp)
+      expect(suffixIcon.exists()).toBe(true)
     })
   })
 
