@@ -99,9 +99,16 @@ export const inputProps = buildProps({
     default: false,
   },
   /**
-   * @description native input readonly
+   * @description whether input can be cleared
    */
   clearable: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * @description clearable icon must be always visible
+   */
+  alwaysShowClear: {
     type: Boolean,
     default: false,
   },

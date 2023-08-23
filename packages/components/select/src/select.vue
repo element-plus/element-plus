@@ -231,17 +231,17 @@
             </template>
             <template #suffix>
               <el-icon
-                v-if="iconComponent && !showClose"
-                :class="[nsSelect.e('caret'), nsSelect.e('icon'), iconReverse]"
-              >
-                <component :is="iconComponent" />
-              </el-icon>
-              <el-icon
                 v-if="showClose && clearIcon"
                 :class="[nsSelect.e('caret'), nsSelect.e('icon')]"
                 @click="handleClearClick"
               >
                 <component :is="clearIcon" />
+              </el-icon>
+              <el-icon
+                v-if="iconComponent"
+                :class="[nsSelect.e('caret'), nsSelect.e('icon'), iconReverse]"
+              >
+                <component :is="iconComponent" />
               </el-icon>
             </template>
           </el-input>
@@ -383,6 +383,10 @@ export default defineComponent({
      * @description whether select can be cleared
      */
     clearable: Boolean,
+    /**
+     * @description clearable icon must be always visible
+     */
+    alwaysShowClear: Boolean,
     /**
      * @description whether Select is filterable
      */
