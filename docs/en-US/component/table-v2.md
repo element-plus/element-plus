@@ -36,7 +36,7 @@ table-v2/basic
 
 ## Auto resizer
 
-When you do not want to manually pass the `width` and `height` properties to the table, you can wrap the table component with the AutoResizer. 
+When you do not want to manually pass the `width` and `height` properties to the table, you can wrap the table component with the AutoResizer.
 This will automatically update the width and height for you.
 
 Resize your browser to see how it works.
@@ -222,13 +222,13 @@ table-v2/tree-data
 
 ## Dynamic height rows
 
-Virtual Table is capable of rendering rows with dynamic heights. If you're working with data and are uncertain about the content size, 
-this feature is ideal for rendering rows that adjust to the content's height. To enable this, pass down the `estimated-row-height` attribute. 
+Virtual Table is capable of rendering rows with dynamic heights. If you're working with data and are uncertain about the content size,
+this feature is ideal for rendering rows that adjust to the content's height. To enable this, pass down the `estimated-row-height` attribute.
 The closer the estimated height matches the actual content, the smoother the rendering experience.
 
 :::tip
 
-Each row's height is dynamically measured during rendering the rows. As a result, if you're trying to display a large amount of data, 
+Each row's height is dynamically measured during rendering the rows. As a result, if you're trying to display a large amount of data,
 the UI **might be** bouncing.
 
 :::
