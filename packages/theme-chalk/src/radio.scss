@@ -26,7 +26,7 @@ $radio-font-size: map.merge(
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  white-space: nowrap;
+  // white-space: nowrap;
   outline: none;
   font-size: getCssVar('font-size', 'base');
   user-select: none;
