@@ -43,20 +43,58 @@
               @after-leave="resetInputHeight"
             >
               <span :class="tagWrapperKls">
-                <el-tag
-                  v-for="item in showTagList"
-                  :key="getValueKey(item)"
-                  :closable="!selectDisabled && !item.isDisabled"
-                  :size="collapseTagSize"
-                  :hit="item.hitState"
-                  :type="tagType"
-                  disable-transitions
-                  @close="deleteTag($event, item)"
-                >
-                  <span :class="nsSelect.e('tags-text')" :style="tagTextStyle">
-                    {{ item.currentLabel }}
-                  </span>
-                </el-tag>
+                <template v-if="tagTooltip">
+                  <el-tooltip
+                    v-for="item in showTagList"
+                    :key="getValueKey(item)"
+                    :fallback-placements="['bottom', 'top', 'right', 'left']"
+                    :effect="effect"
+                    placement="bottom"
+                    :teleported="teleported"
+                  >
+                    <el-tag
+                      :closable="!selectDisabled && !item.isDisabled"
+                      :size="collapseTagSize"
+                      :hit="item.hitState"
+                      :type="tagType"
+                      disable-transitions
+                      @close="deleteTag($event, item)"
+                    >
+                      <span
+                        :class="nsSelect.e('tags-text')"
+                        :style="tagTextStyle"
+                      >
+                        {{ item.currentLabel }}
+                      </span>
+                    </el-tag>
+                    <template #content>
+                      <span
+                        :class="nsSelect.e('tags-text')"
+                        :style="tagTextStyle"
+                        >{{ item.currentLabel }}</span
+                      >
+                    </template>
+                  </el-tooltip>
+                </template>
+                <tempalte v-else>
+                  <el-tag
+                    v-for="item in showTagList"
+                    :key="getValueKey(item)"
+                    :closable="!selectDisabled && !item.isDisabled"
+                    :size="collapseTagSize"
+                    :hit="item.hitState"
+                    :type="tagType"
+                    disable-transitions
+                    @close="deleteTag($event, item)"
+                  >
+                    <span
+                      :class="nsSelect.e('tags-text')"
+                      :style="tagTextStyle"
+                    >
+                      {{ item.currentLabel }}
+                    </span>
+                  </el-tag>
+                </tempalte>
                 <el-tag
                   v-if="selected.length > maxCollapseTags"
                   :closable="false"
@@ -459,6 +497,10 @@ export default defineComponent({
      * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true
      */
     collapseTagsTooltip: Boolean,
+    /**
+     * @description will the tooltip be displayed when the mouse cursor hovers over the selected tag
+     */
+    tagTooltip: Boolean,
     /**
      * @description the max tags number to be shown. To use this, `collapse-tags` must be true
      */

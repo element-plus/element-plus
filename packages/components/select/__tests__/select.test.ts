@@ -31,6 +31,7 @@ interface SelectProps {
   allowCreate?: boolean
   remote?: boolean
   collapseTags?: boolean
+  tagTooltip?: boolean
   automaticDropdown?: boolean
   multipleLimit?: number
   popperClass?: string
@@ -82,6 +83,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
     'allowCreate',
     'remote',
     'collapseTags',
+    'tagTooltip',
     'automaticDropdown',
     'fitInputWidth',
   ].forEach((config) => {
@@ -130,6 +132,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :default-first-option="defaultFirstOption"
       :filterable="filterable"
       :collapse-tags="collapseTags"
+      :tag-tooltip="tagTooltip"
       :allow-create="allowCreate"
       :filterMethod="filterMethod"
       :remote="remote"
@@ -155,6 +158,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       defaultFirstOption: configs.defaultFirstOption,
       filterable: configs.filterable,
       collapseTags: configs.collapseTags,
+      tagTooltip: configs.tagTooltip,
       allowCreate: configs.allowCreate,
       popperClass: configs.popperClass,
       automaticDropdown: configs.automaticDropdown,
@@ -177,6 +181,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
     'allowCreate',
     'remote',
     'collapseTags',
+    'tagTooltip',
     'automaticDropdown',
     'fitInputWidth',
   ].forEach((config) => {
@@ -262,6 +267,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       :clearable="clearable"
       :filterable="filterable"
       :collapse-tags="collapseTags"
+      :tag-tooltip="tagTooltip"
       :allow-create="allowCreate"
       :filterMethod="filterMethod"
       :remote="remote"
@@ -289,6 +295,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       clearable: configs.clearable,
       filterable: configs.filterable,
       collapseTags: configs.collapseTags,
+      tagTooltip: configs.tagTooltip,
       allowCreate: configs.allowCreate,
       popperClass: configs.popperClass,
       automaticDropdown: configs.automaticDropdown,
@@ -980,6 +987,65 @@ describe('Select', () => {
     wrapper = _mount(
       `
       <el-select v-model="selectedList" multiple collapseTags placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label:
+              '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+          },
+          {
+            value: '选项2',
+            label:
+              '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+          },
+          {
+            value: '选项5',
+            label: '北京烤鸭',
+          },
+        ],
+        selectedList: [],
+      })
+    )
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = getOptions()
+    const selectWrapper = wrapper.findComponent(Select)
+    const inputWrapper = selectWrapper.findComponent({ ref: 'reference' })
+    const inputDom = inputWrapper.element
+    const mockInputWidth = vi
+      .spyOn(inputDom as HTMLElement, 'offsetWidth', 'get')
+      .mockReturnValue(200)
+    selectWrapper.vm.handleResize()
+    options[0].click()
+    await nextTick()
+    options[1].click()
+    await nextTick()
+    options[2].click()
+    await nextTick()
+    const tagWrappers = wrapper.findAll('.el-select__tags-text')
+    const tagWrapperDom = tagWrappers[0].element
+    expect(Number.parseInt(tagWrapperDom.style.maxWidth) === 200 - 123).toBe(
+      true
+    )
+    mockInputWidth.mockRestore()
+  })
+
+  test('multiple selection with collapse tags when the content is overflowing and tooltip display when hovering over the selected tags', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="selectedList" multiple collapseTags tag-tooltip placeholder="请选择">
         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
