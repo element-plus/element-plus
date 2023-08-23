@@ -45,6 +45,37 @@ const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
     dataKey: `${prefix}${columnIndex}`,
     title: `Column ${columnIndex}`,
     width: 150,
+    cellRenderer: ({ rowData, column }) => {
+    const onChange = (value: string) => {
+      rowData[column.dataKey!].value = value
+    }
+    const onEnterEditMode = () => {
+      rowData[column.dataKey!].editing = true
+    }
+    
+    const onExitEditMode = () => (rowData[column.dataKey!].editing = false)
+    const input = ref()
+    const setRef = (el) => {
+      input.value = el
+      if (el) {
+        el.focus?.()
+      }
+    }
+
+    return rowData[column.dataKey!].editing ? (
+      <InputCell
+        forwardRef={setRef}
+        value={rowData[column.dataKey!].value}
+        onChange={onChange}
+        onBlur={onExitEditMode}
+        onKeydownEnter={onExitEditMode}
+      />
+    ) : (
+      <div class="table-v2-inline-editing-trigger" onClick={onEnterEditMode}>
+        {rowData[column.dataKey!].value}
+      </div>
+    )
+  },
   }))
 
 const generateData = (
@@ -55,53 +86,20 @@ const generateData = (
   Array.from({ length }).map((_, rowIndex) => {
     return columns.reduce(
       (rowData, column, columnIndex) => {
-        rowData[column.dataKey] = `Row ${rowIndex} - Col ${columnIndex}`
+        rowData[column.dataKey] = {
+          value: `Row ${rowIndex} - Col ${columnIndex}`,
+          editing : false,
+        }
         return rowData
       },
       {
         id: `${prefix}${rowIndex}`,
-        editing: false,
         parentId: null,
       }
     )
   })
 
 const columns: Column<any>[] = generateColumns(10)
-columns[0] = {
-  ...columns[0],
-  title: 'Editable Column',
-  cellRenderer: ({ rowData, column }) => {
-    const onChange = (value: string) => {
-      rowData[column.dataKey!] = value
-    }
-    const onEnterEditMode = () => {
-      rowData.editing = true
-    }
-
-    const onExitEditMode = () => (rowData.editing = false)
-    const input = ref()
-    const setRef = (el) => {
-      input.value = el
-      if (el) {
-        el.focus?.()
-      }
-    }
-
-    return rowData.editing ? (
-      <InputCell
-        forwardRef={setRef}
-        value={rowData[column.dataKey!]}
-        onChange={onChange}
-        onBlur={onExitEditMode}
-        onKeydownEnter={onExitEditMode}
-      />
-    ) : (
-      <div class="table-v2-inline-editing-trigger" onClick={onEnterEditMode}>
-        {rowData[column.dataKey!]}
-      </div>
-    )
-  },
-}
 
 const data = ref(generateData(columns, 200))
 </script>
