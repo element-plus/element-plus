@@ -1236,5 +1236,63 @@ describe('Virtual Tree', () => {
       expect(currentKeys).toBe(0)
       expect(nodes[0].classes()).toContain('is-current')
     })
+    test('scrollTo', async () => {
+      const { treeVm } = createTree({
+        data() {
+          return {
+            data: [
+              {
+                id: 0,
+                label: 'node-0',
+              },
+              {
+                id: '1',
+                label: 'node-1',
+                children: [
+                  {
+                    id: '1-1',
+                    label: 'node-1-1',
+                    children: [
+                      {
+                        id: '1-1-1',
+                        label: 'node-1-1-1',
+                      },
+                      {
+                        id: '1-1-2',
+                        label: 'node-1-1-2',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-2',
+                    label: 'node-1-2',
+                    children: [
+                      {
+                        id: '1-2-1',
+                        label: 'node-1-2-1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-3',
+                    label: 'node-1-3',
+                  },
+                ],
+              },
+              {
+                id: '2',
+                label: 'node-2',
+              },
+            ],
+          }
+        },
+      })
+      await nextTick()
+      const scrollToItem = vi.spyOn(treeVm.listRef, 'scrollToItem')
+      treeVm.scrollTo('22', 'start')
+      expect(scrollToItem).not.toHaveBeenCalled()
+      treeVm.scrollTo('1', 'start')
+      expect(scrollToItem).toHaveBeenCalledWith(1, 'start')
+    })
   })
 })

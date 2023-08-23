@@ -5,6 +5,7 @@
   >
     <fixed-size-list
       v-if="isNotEmpty"
+      ref="listRef"
       :class-name="ns.b('virtual-list')"
       :data="flattenTree"
       :total="flattenTree.length"
@@ -73,6 +74,7 @@ const ns = useNamespace('tree')
 const {
   flattenTree,
   isNotEmpty,
+  listRef,
   toggleExpand,
   isExpanded,
   isIndeterminate,
@@ -99,6 +101,7 @@ const {
   expandNode,
   collapseNode,
   setExpandedKeys,
+  scrollTo,
 } = useTree(props, emit)
 
 defineExpose({
@@ -118,5 +121,6 @@ defineExpose({
   expandNode,
   collapseNode,
   setExpandedKeys,
+  scrollTo,
 })
 </script>
