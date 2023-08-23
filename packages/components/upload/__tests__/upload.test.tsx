@@ -282,16 +282,13 @@ describe('<upload />', () => {
     })
 
     test('data support receive async function', async () => {
-      vi.useFakeTimers()
       const keyList: string[] = []
       const httpRequest = vi.fn(() => Promise.resolve())
 
       const dataFN = vi.fn(async (file: UploadRawFile) => {
         return new Promise((resolve) => {
-          setTimeout(() => {
-            keyList.push(file.name)
-            resolve({ key: file.name })
-          }, 1000)
+          keyList.push(file.name)
+          resolve({ key: file.name })
         })
       })
 
@@ -311,14 +308,11 @@ describe('<upload />', () => {
 
       await wrapper.find('input').trigger('change')
 
-      expect(dataFN).toHaveBeenCalled()
-
       await flushPromises()
 
-      vi.advanceTimersByTime(2 * 1000)
-      expect(keyList).toEqual(['test-file.txt', 'test-file2.txt'])
+      expect(dataFN).toHaveBeenCalledTimes(2)
 
-      vi.useRealTimers()
+      expect(keyList).toEqual(['test-file.txt', 'test-file2.txt'])
     })
 
     test('upload files and save keyList', async () => {
