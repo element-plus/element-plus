@@ -46,7 +46,7 @@ export const getDefaultClassName = (type) => {
 // 这些选项不应该被覆盖
 export const cellForced = {
   selection: {
-    renderHeader<T>({ store }: { store: Store<T> }) {
+    renderHeader<T>({ store, column }: { store: Store<T> }) {
       function isDisabled() {
         return store.states.data.value && store.states.data.value.length === 0
       }
@@ -58,6 +58,7 @@ export const cellForced = {
           !store.states.isAllSelected.value,
         'onUpdate:modelValue': store.toggleAllSelection,
         modelValue: store.states.isAllSelected.value,
+        ariaLabel: column.label,
       })
     },
     renderCell<T>({
@@ -81,6 +82,7 @@ export const cellForced = {
         },
         onClick: (event: Event) => event.stopPropagation(),
         modelValue: store.isSelected(row),
+        ariaLabel: column.label,
       })
     },
     sortable: false,
