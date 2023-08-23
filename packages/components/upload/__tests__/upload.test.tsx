@@ -315,9 +315,7 @@ describe('<upload />', () => {
 
       await flushPromises()
 
-      await nextTick()
-
-      vi.runAllTimers()
+      vi.advanceTimersByTime(2000)
       expect(keyList).toEqual(['test-file.txt', 'test-file2.txt'])
 
       vi.useRealTimers()
