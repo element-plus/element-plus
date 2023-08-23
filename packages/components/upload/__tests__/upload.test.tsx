@@ -291,7 +291,7 @@ describe('<upload />', () => {
           setTimeout(() => {
             keyList.push(file.name)
             resolve({ key: file.name })
-          }, 2000)
+          }, 1000)
         })
       })
 
@@ -315,7 +315,7 @@ describe('<upload />', () => {
 
       await flushPromises()
 
-      vi.advanceTimersByTime(2000)
+      vi.advanceTimersByTime(2 * 1000)
       expect(keyList).toEqual(['test-file.txt', 'test-file2.txt'])
 
       vi.useRealTimers()
