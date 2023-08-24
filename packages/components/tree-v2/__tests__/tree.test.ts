@@ -1176,5 +1176,65 @@ describe('Virtual Tree', () => {
       })
       expect(treeRef.getCurrentKey()).toBe('1-1-2')
     })
+
+    test('setCurrentKey', async () => {
+      const { treeRef, wrapper } = createTree({
+        data() {
+          return {
+            data: [
+              {
+                id: 0,
+                label: 'node-0',
+              },
+              {
+                id: '1',
+                label: 'node-1',
+                children: [
+                  {
+                    id: '1-1',
+                    label: 'node-1-1',
+                    children: [
+                      {
+                        id: '1-1-1',
+                        label: 'node-1-1-1',
+                      },
+                      {
+                        id: '1-1-2',
+                        label: 'node-1-1-2',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-2',
+                    label: 'node-1-2',
+                    children: [
+                      {
+                        id: '1-2-1',
+                        label: 'node-1-2-1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-3',
+                    label: 'node-1-3',
+                  },
+                ],
+              },
+              {
+                id: '2',
+                label: 'node-2',
+              },
+            ],
+          }
+        },
+      })
+      await nextTick()
+      treeRef.setCurrentKey(0)
+      await nextTick()
+      const currentKeys = treeRef.getCurrentKey()
+      const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+      expect(currentKeys).toBe(0)
+      expect(nodes[0].classes()).toContain('is-current')
+    })
   })
 })

@@ -189,12 +189,12 @@ cascader/panel
 
 ### Cascader Exposes
 
-| Name                | Description                                                                                                       | Type                                                            |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| getCheckedNodes     | get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false` | ^[Function]`(leafOnly: boolean) => CascaderNode[] \| undefined` |
-| cascaderPanelRef    | cascader panel ref                                                                                                | ^[object]`ComputedRef<any>`                                     |
-| togglePopperVisible | toggle the visible type of popper                                                                                 | ^[Function]`(visible?: boolean) => void`                        |
-| contentRef          | cascader content ref                                                                                              | ^[object]`ComputedRef<any>`                                     |
+| Name                          | Description                                                                                                       | Type                                                            |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| getCheckedNodes               | get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false` | ^[Function]`(leafOnly: boolean) => CascaderNode[] \| undefined` |
+| cascaderPanelRef              | cascader panel ref                                                                                                | ^[object]`ComputedRef<any>`                                     |
+| togglePopperVisible ^(2.2.31) | toggle the visible type of popper                                                                                 | ^[Function]`(visible?: boolean) => void`                        |
+| contentRef                    | cascader content ref                                                                                              | ^[object]`ComputedRef<any>`                                     |
 
 ## CascaderPanel API
 
