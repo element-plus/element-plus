@@ -168,7 +168,7 @@ cascader/panel
 | popper-append-to-body ^(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                    | true    |
 | tag-type                            | tag type                                                                                                                                                                         | ^[enum]`'success' \| 'info' \| 'warning' \| 'danger'`         | info    |
 | validate-event                      | whether to trigger form validation                                                                                                                                               | ^[boolean]                                                    | true    |
-| max-collapse-tags                   | The max tags number to be shown. To use this, `collpase-tags` must be true      | ^[number] | 1 |
+| max-collapse-tags ^(2.3.10)         | The max tags number to be shown. To use this, `collpase-tags` must be true                                                                                                       | ^[number]                                                     | 1       |
 
 ### Cascader Events
 
