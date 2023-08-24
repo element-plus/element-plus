@@ -23,7 +23,7 @@ export const drawerProps = buildProps({
   },
   headerAriaLevel: {
     type: String,
-    default: '1',
+    default: '2',
   },
 } as const)
 

@@ -49,7 +49,7 @@ export const dialogContentProps = buildProps({
    */
   ariaLevel: {
     type: String,
-    default: '1',
+    default: '2',
   },
 } as const)
 
