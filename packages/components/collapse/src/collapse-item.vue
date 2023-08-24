@@ -12,7 +12,7 @@
         role="button"
         :tabindex="disabled ? -1 : 0"
         @click="handleHeaderClick"
-        @keypress.space.enter.stop.prevent.self="handleEnterClick"
+        @keypress.space.enter.self.stop.prevent="handleEnterClick"
         @focus="handleFocus"
         @blur="focusing = false"
       >
