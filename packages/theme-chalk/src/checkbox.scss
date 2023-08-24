@@ -46,7 +46,7 @@ $checkbox-bordered-input-width: map.merge(
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  white-space: nowrap;
+  white-space: normal;
   user-select: none;
   margin-right: 30px;
   height: getCssVarWithDefault(
