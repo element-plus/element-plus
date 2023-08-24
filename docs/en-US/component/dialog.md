@@ -139,7 +139,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | destroy-on-close           | destroy elements in Dialog when closed                                                               | ^[boolean]                          | false   |
 | close-icon                 | custom close icon, default is Close                                                                  | ^[string] / ^[Component]            | —       |
 | z-index                    | same as z-index in native CSS, z-order of dialog                                                     | ^[number]                           | —       |
-| headerAriaLevel ^(a11y)    | header's `aria-level` attribute                                                                      | ^[string]                           | 2       |
+| header-aria-level ^(a11y)  | header's `aria-level` attribute                                                                      | ^[string]                           | 2       |
 
 :::warning
 
