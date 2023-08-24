@@ -39,7 +39,8 @@
       padding: 0;
       margin: 12px 0 0;
       line-height: 1.2;
-
+      max-height: calc(100vh - 450px);
+      overflow: auto;
       .toc-item {
         margin-top: 10px;
         font-size: 11px;
