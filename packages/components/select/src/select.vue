@@ -149,7 +149,7 @@
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
               :style="inputStyle"
-              :aria-label="label"
+              :aria-label="ariaLabel"
               @focus="handleFocus"
               @blur="handleBlur"
               @keyup="managePlaceholder"
@@ -192,7 +192,7 @@
             :validate-event="false"
             :class="[nsSelect.is('focus', visible)]"
             :tabindex="multiple && filterable ? -1 : undefined"
-            :label="label"
+            :label="ariaLabel"
             @focus="handleFocus"
             @blur="handleBlur"
             @input="debouncedOnInputChange"
@@ -531,7 +531,7 @@ export default defineComponent({
     /**
      * @description native input aria-label
      */
-    label: {
+    ariaLabel: {
       type: String,
       default: undefined,
     },

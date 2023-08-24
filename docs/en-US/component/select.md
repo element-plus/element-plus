@@ -163,7 +163,7 @@ select/value-key
 | placement ^(2.2.17)             | position of dropdown                                                                                                  | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start |
 | max-collapse-tags ^(2.3.0)      | the max tags number to be shown. To use this, `collapse-tags` must be true                                            | ^[number]                                                                                                                                                                   | 1            |
 | popper-options                  | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}           |
-| label ^(a11y)                   | same as `aria-label` in native input                                                                                  | ^[string]                                                                                                                                                                   | —            |
+| ariaLabel ^(a11y)               | same as `aria-label` in native input                                                                                  | ^[string]                                                                                                                                                                   | —            |
 
 :::warning
 
