@@ -914,11 +914,11 @@ export const useSelect = (props, states: States, ctx) => {
   )
 
   const showTagList = computed(() =>
-    states.selected.slice(0, props.maxCollapseTags)
+    states.selected.length ? states.selected.slice(0, props.maxCollapseTags) : []
   )
 
   const collapseTagList = computed(() =>
-    states.selected.slice(props.maxCollapseTags)
+    states.selected.length ? states.selected.slice(props.maxCollapseTags) : []
   )
 
   const navigateOptions = (direction) => {
