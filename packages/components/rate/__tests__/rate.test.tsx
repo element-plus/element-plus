@@ -61,11 +61,11 @@ describe('Rate.vue', () => {
       props: {
         showText: true,
         modelValue: 1,
-        textColor: '#d74209',
+        textColor: 'red',
       },
     })
     const text = wrapper.find('.el-rate__text').element as HTMLSpanElement
-    expect(text.style.color).toEqual('#d74209')
+    expect(text.style.color).toEqual('red')
   })
 
   it('value change', async () => {
