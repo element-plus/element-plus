@@ -61,13 +61,13 @@ describe('Rate.vue', () => {
       props: {
         showText: true,
         modelValue: 1,
-        textColor: '#d74209'
+        textColor: '#d74209',
       },
     })
-    const text = wrapper.find('.el-rate__text').element as HTMLDivElement
+    const text = wrapper.find('.el-rate__text').element as HTMLSpanElement
     expect(text.style.color).toEqual('#d74209')
   })
-  
+
   it('value change', async () => {
     const wrapper = mount(Rate, {
       props: {
