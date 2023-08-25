@@ -43,7 +43,11 @@
         </el-icon>
       </el-icon>
     </span>
-    <span v-if="showText || showScore" :class="ns.e('text')">
+    <span
+      v-if="showText || showScore"
+      :class="ns.e('text')"
+      :style="{ color: textColor }"
+    >
       {{ text }}
     </span>
   </div>
