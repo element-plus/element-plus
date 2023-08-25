@@ -31,6 +31,7 @@ import {
   isKorean,
   isNumber,
   isString,
+  isUndefined,
   scrollIntoView,
 } from '@element-plus/utils'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
@@ -361,6 +362,9 @@ export const useSelect = (props, states: States, ctx) => {
       }
       const inputs = selectWrapper.value?.querySelectorAll('input') || []
       if (
+        (!props.filterable &&
+          !props.defaultFirstOption &&
+          !isUndefined(props.modelValue)) ||
         !Array.from(inputs).includes(document.activeElement as HTMLInputElement)
       ) {
         setSelected()
