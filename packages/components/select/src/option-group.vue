@@ -31,11 +31,14 @@ export default defineComponent({
   componentName: 'ElOptionGroup',
 
   props: {
+    /**
+     * @description name of the group
+     */
     label: String,
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+    /**
+     * @description whether to disable all options in this group
+     */
+    disabled: Boolean,
   },
   setup(props) {
     const ns = useNamespace('select')

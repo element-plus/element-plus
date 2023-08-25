@@ -725,7 +725,7 @@ const onSetPickerOption = <T extends keyof PickerOptions>(
   pickerOptions.value.panelReady = true
 }
 
-const onCalendarChange = (e: [Date, false | Date]) => {
+const onCalendarChange = (e: [Date, null | Date]) => {
   emit('calendar-change', e)
 }
 
