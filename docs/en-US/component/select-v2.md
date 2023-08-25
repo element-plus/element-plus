@@ -173,6 +173,7 @@ select-v2/use-valueKey
 | validate-event                      | whether to trigger form validation                                                                                                       | boolean                            | -                                                                                                         | true          |
 | placement                           | position of dropdown                                                                                                                     | string                             | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | bottom-start  |
 | collapse-tags-tooltip ^(2.3.0)      | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                         | boolean                            | true / false                                                                                              | false         |
+| max-collapse-tags ^(2.3.0)          | The max tags number to be shown. To use this, `collapse-tags` must be true                                                               | number                             | —                                                                                                         | 1             |
 
 <span style="display: none;">
 <!-- | default-first-option | 在输入框按下回车，选择第一个匹配项。需配合 `filterable` 或 `remote` 使用 | boolean | - | false |

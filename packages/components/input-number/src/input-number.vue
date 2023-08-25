@@ -305,7 +305,12 @@ onMounted(() => {
   } else {
     innerInput.removeAttribute('aria-valuemin')
   }
-  innerInput.setAttribute('aria-valuenow', String(data.currentValue))
+  innerInput.setAttribute(
+    'aria-valuenow',
+    data.currentValue || data.currentValue === 0
+      ? String(data.currentValue)
+      : ''
+  )
   innerInput.setAttribute('aria-disabled', String(inputNumberDisabled.value))
   if (!isNumber(modelValue) && modelValue != null) {
     let val: number | null = Number(modelValue)
@@ -317,7 +322,7 @@ onMounted(() => {
 })
 onUpdated(() => {
   const innerInput = input.value?.input
-  innerInput?.setAttribute('aria-valuenow', `${data.currentValue}`)
+  innerInput?.setAttribute('aria-valuenow', `${data.currentValue ?? ''}`)
 })
 defineExpose({
   /** @description get focus the input component */

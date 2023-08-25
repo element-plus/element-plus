@@ -2,7 +2,7 @@
   <div :ref="composedDialogRef" :class="dialogKls" :style="style" tabindex="-1">
     <header ref="headerRef" :class="ns.e('header')">
       <slot name="header">
-        <span role="heading" :class="ns.e('title')">
+        <span role="heading" :aria-level="ariaLevel" :class="ns.e('title')">
           {{ title }}
         </span>
       </slot>
