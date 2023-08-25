@@ -56,6 +56,18 @@ describe('Rate.vue', () => {
     expect(text.textContent).toMatchInlineSnapshot('"4"')
   })
 
+  it('text color', () => {
+    const wrapper = mount(Rate, {
+      props: {
+        showText: true,
+        modelValue: 1,
+        textColor: '#d74209'
+      },
+    })
+    const text = wrapper.find('.el-rate__text').element as HTMLDivElement
+    expect(text.style.color).toEqual('#d74209')
+  })
+  
   it('value change', async () => {
     const wrapper = mount(Rate, {
       props: {
