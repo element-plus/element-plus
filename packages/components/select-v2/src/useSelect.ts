@@ -500,6 +500,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       }
       if (states.isSilentBlur) {
         states.isSilentBlur = false
+        emit('blur', event)
       } else {
         if (states.isComposing) {
           emit('blur', event)
