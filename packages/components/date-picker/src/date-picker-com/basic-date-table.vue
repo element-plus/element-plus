@@ -1,5 +1,6 @@
 <template>
   <table
+    ref="tableEl"
     role="grid"
     :aria-label="t('el.datepicker.dateTablePrompt')"
     cellspacing="0"
@@ -45,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, ref, unref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { flatten } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -72,6 +73,10 @@ const lastColumn = ref<number>()
 const tableRows = ref<DateCell[][]>([[], [], [], [], [], []])
 
 let focusWithClick = false
+const tableEl = ref<HTMLElement>()
+onMounted(() => {
+  changeUpdate(tableEl.value?.querySelector('td.available.current'))
+})
 
 // todo better way to get Day.js locale object
 const firstDayOfWeek = (props.date as any).$locale().weekStart || 7
@@ -388,14 +393,8 @@ const handleMouseUp = (event: MouseEvent) => {
   focusWithClick = false
 }
 
-const handlePickDate = (
-  event: FocusEvent | MouseEvent,
-  isKeyboardMovement = false
-) => {
-  const target = (event.target as HTMLElement).closest('td')
-
+const pickEmit = (target, isKeyboardMovement = false) => {
   if (!target) return
-
   const row = (target.parentNode as HTMLTableRowElement).rowIndex - 1
   const column = (target as HTMLTableCellElement).cellIndex
   const cell = rows.value[row][column]
@@ -436,6 +435,25 @@ const handlePickDate = (
     emit('pick', newValue)
   }
 }
+
+const handlePickDate = (
+  event: FocusEvent | MouseEvent,
+  isKeyboardMovement = false
+) => {
+  pickEmit((event.target as HTMLElement).closest('td'), isKeyboardMovement)
+}
+
+const changeUpdate = (target, isKeyboardMovement = false) => {
+  pickEmit(target, isKeyboardMovement)
+}
+
+watch(
+  () => props.parsedValue,
+  async () => {
+    await nextTick()
+    changeUpdate(tableEl.value?.querySelector('td.available.current'))
+  }
+)
 
 const isWeekActive = (cell: DateCell) => {
   if (props.selectionMode !== 'week') return false
