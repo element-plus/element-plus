@@ -9,7 +9,7 @@ export const descriptionProps = buildProps({
     default: false,
   },
   column: {
-    type: Number,
+    type: [Number, String],
     default: 3,
   },
   direction: {

@@ -40,7 +40,7 @@ export default defineComponent({
     const isVertical = direction === 'vertical'
     const label = this.cell?.children?.label?.() || item.label
     const content = this.cell?.children?.default?.()
-    const span = item.span
+    const span = +item.span
     const align = item.align ? `is-${item.align}` : ''
     const labelAlign = item.labelAlign ? `is-${item.labelAlign}` : '' || align
     const className = item.className

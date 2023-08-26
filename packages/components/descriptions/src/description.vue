@@ -50,17 +50,10 @@ provide(descriptionsKey, props)
 
 const descriptionKls = computed(() => [ns.b(), ns.m(descriptionsSize.value)])
 
-const filledNode = (node, span, count, isLast = false) => {
-  if (!node.props) {
-    node.props = {}
-  }
-  if (span > count) {
-    node.props.span = count
-  }
-  if (isLast) {
-    // set the last span
-    node.props.span = span
-  }
+const filledNode = (node, span) => {
+  node.props = Object.assign(node.props || {}, {
+    span,
+  })
   return node
 }
 
@@ -68,13 +61,12 @@ const getRows = () => {
   const children = flattedChildren(slots.default?.()).filter(
     (node) => node?.type?.name === 'ElDescriptionsItem'
   )
-  const rows = []
   let temp = []
-  let count = props.column
+  let count = +props.column
   let totalSpan = 0 // all spans number of item
 
-  children.forEach((node, index) => {
-    const span = node.props?.span || 1
+  return children.reduce((rows, node, index) => {
+    const span = +node.props?.span || 1
 
     if (index < children.length - 1) {
       totalSpan += span > count ? count : span
@@ -83,22 +75,21 @@ const getRows = () => {
     if (index === children.length - 1) {
       // calculate the last item span
       const lastSpan = props.column - (totalSpan % props.column)
-      temp.push(filledNode(node, lastSpan, count, true))
+      temp.push(filledNode(node, lastSpan))
       rows.push(temp)
-      return
+      return rows
     }
 
     if (span < count) {
       count -= span
       temp.push(node)
     } else {
-      temp.push(filledNode(node, span, count))
+      temp.push(filledNode(node, span > count ? count : span))
       rows.push(temp)
-      count = props.column
+      count = +props.column
       temp = []
     }
-  })
-
-  return rows
+    return rows
+  }, [])
 }
 </script>

@@ -11,7 +11,7 @@ export interface IDescriptionsInject {
 
 export interface IDescriptionsItemInject {
   label: string
-  span: number
+  span: number | string
   width: string | number
   minWidth: string | number
   align: string
