@@ -1,5 +1,14 @@
 ## Changelog
 
+### 2.3.11
+
+_2023-08-26_
+
+#### Other
+
+- Revert "refactor(components): [form-label-wrap] use getStyle method (… (#14106 by @btea)
+
+
 ### 2.3.10
 
 _2023-08-25_
