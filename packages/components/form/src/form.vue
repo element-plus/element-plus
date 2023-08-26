@@ -79,7 +79,7 @@ const isValidatable = computed(() => {
 })
 
 const obtainValidateFields = (props: Arrayable<FormItemProp>) => {
-  if (fields.length === 0) return []
+  if (!fields.length) return []
 
   const filteredFields = filterFields(fields, props)
   if (!filteredFields.length) {
@@ -99,7 +99,7 @@ const doValidateField = async (
   if (!isValidatable.value) return false
 
   const fields = obtainValidateFields(props)
-  if (fields.length === 0) return true
+  if (!fields.length) return true
 
   let validationErrors: ValidateFieldsError = {}
   for (const field of fields) {
@@ -113,8 +113,9 @@ const doValidateField = async (
     }
   }
 
-  if (Object.keys(validationErrors).length === 0) return true
-  return Promise.reject(validationErrors)
+  return !Object.keys(validationErrors).length
+    ? true
+    : Promise.reject(validationErrors)
 }
 
 const validateField: FormContext['validateField'] = async (

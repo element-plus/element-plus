@@ -57,6 +57,7 @@ import {
   addUnit,
   ensureArray,
   getProp,
+  isArray,
   isBoolean,
   isFunction,
   isString,
@@ -111,17 +112,17 @@ const labelStyle = computed<CSSProperties>(() => {
 })
 
 const contentStyle = computed<CSSProperties>(() => {
-  if (formContext?.labelPosition === 'top' || formContext?.inline) {
+  if (
+    formContext?.labelPosition === 'top' ||
+    formContext?.inline ||
+    (!props.label && !props.labelWidth && isNested) ||
+    props.label ||
+    slots.label
+  )
     return {}
-  }
-  if (!props.label && !props.labelWidth && isNested) {
-    return {}
-  }
+
   const labelWidth = addUnit(props.labelWidth || formContext?.labelWidth || '')
-  if (!props.label && !slots.label) {
-    return { marginLeft: labelWidth }
-  }
-  return {}
+  return { marginLeft: labelWidth }
 })
 
 const formItemClasses = computed(() => [
@@ -150,42 +151,30 @@ const validateClasses = computed(() => [
 ])
 
 const propString = computed(() => {
-  if (!props.prop) return ''
-  return isString(props.prop) ? props.prop : props.prop.join('.')
+  const { prop } = props
+  return !prop ? '' : isString(prop) ? prop : prop.join('.')
 })
 
-const hasLabel = computed<boolean>(() => {
-  return !!(props.label || slots.label)
-})
+const hasLabel = computed<boolean>(() => !!(props.label || slots.label))
 
-const labelFor = computed<string | undefined>(() => {
-  return props.for || inputIds.value.length === 1
-    ? inputIds.value[0]
-    : undefined
-})
+const labelFor = computed<string | undefined>(() =>
+  props.for || inputIds.value.length === 1 ? inputIds.value[0] : undefined
+)
 
-const isGroup = computed<boolean>(() => {
-  return !labelFor.value && hasLabel.value
-})
+const isGroup = computed<boolean>(() => !labelFor.value && hasLabel.value)
 
 const isNested = !!parentFormItemContext
 
 const fieldValue = computed(() => {
   const model = formContext?.model
-  if (!model || !props.prop) {
-    return
-  }
+  if (!model || !props.prop) return
   return getProp(model, props.prop).value
 })
 
 const normalizedRules = computed(() => {
   const { required } = props
 
-  const rules: FormItemRule[] = []
-
-  if (props.rules) {
-    rules.push(...ensureArray(props.rules))
-  }
+  const rules: FormItemRule[] = props.rules ? [...ensureArray(props.rules)] : []
 
   const formRules = formContext?.rules
   if (formRules && props.prop) {
@@ -224,11 +213,9 @@ const getFilteredRule = (trigger: string) => {
     rules
       .filter((rule) => {
         if (!rule.trigger || !trigger) return true
-        if (Array.isArray(rule.trigger)) {
-          return rule.trigger.includes(trigger)
-        } else {
-          return rule.trigger === trigger
-        }
+        return isArray(rule.trigger)
+          ? rule.trigger.includes(trigger)
+          : rule.trigger === trigger
       })
       // exclude trigger
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -293,9 +280,7 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
 
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
   // skip validation if its resetting
-  if (isResettingField || !props.prop) {
-    return false
-  }
+  if (isResettingField || !props.prop) return false
 
   const hasCallback = isFunction(callback)
   if (!validateEnabled.value) {
