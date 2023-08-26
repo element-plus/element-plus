@@ -322,6 +322,7 @@ function next() {
 
 function handleActions(action: ImageViewerAction, options = {}) {
   if (loading.value) return
+  const { minScale, maxScale } = props
   const { zoomRate, rotateDeg, enableTransition } = {
     zoomRate: props.zoomRate,
     rotateDeg: 90,
@@ -330,14 +331,14 @@ function handleActions(action: ImageViewerAction, options = {}) {
   }
   switch (action) {
     case 'zoomOut':
-      if (transform.value.scale > 0.2) {
+      if (transform.value.scale > minScale) {
         transform.value.scale = Number.parseFloat(
           (transform.value.scale / zoomRate).toFixed(3)
         )
       }
       break
     case 'zoomIn':
-      if (transform.value.scale < 7) {
+      if (transform.value.scale < maxScale) {
         transform.value.scale = Number.parseFloat(
           (transform.value.scale * zoomRate).toFixed(3)
         )
