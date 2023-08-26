@@ -407,7 +407,11 @@ export const useSelect = (props, states: States, ctx) => {
         originClientHeight ||
         (input.clientHeight > 0 ? input.clientHeight + 2 : 0)
       const _tags = tags.value
-      const gotSize = getComponentSize(selectSize.value || form?.size)
+      const cssVarOfSelectSize =
+        getComputedStyle(input).getPropertyValue('--el-input-height')
+      const gotSize = cssVarOfSelectSize
+        ? cssVarOfSelectSize
+        : getComponentSize(selectSize.value || form?.size)
 
       const sizeInMap =
         selectSize.value ||
