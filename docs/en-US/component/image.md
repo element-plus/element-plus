@@ -76,8 +76,8 @@ image/image-preview
 | preview-teleported    | whether to append image-viewer to body. A nested parent element attribute transform should have this attribute set to `true`.                     | ^[boolean]                                                              | false   |
 | infinite              | whether the viewer preview is infinite.                                                                                                           | ^[boolean]                                                              | true    |
 | zoom-rate             | the zoom rate of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 1.2     |
-| min-scale             | the min scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 1.2     |
-| max-scale             | the max scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 1.2     |
+| min-scale             | the min scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 0.2     |
+| max-scale             | the max scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 7       |
 
 ### Image Events
 
