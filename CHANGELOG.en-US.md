@@ -1,5 +1,53 @@
 ## Changelog
 
+### 2.3.11
+
+_2023-08-26_
+
+#### Other
+
+- Revert "refactor(components): [form-label-wrap] use getStyle method (… (#14106 by @btea)
+
+
+### 2.3.10
+
+_2023-08-25_
+
+#### Features
+
+- Ci enable provenance (#13799 by @btea)
+- Ci enable provenance (#13901 by @btea)
+- Components [card]  add body class (#11869 by @uxuip)
+- Components [cascader] add max-collpase-tags prop  (#13386 by @chenweiyi)
+- Components added aria-level attributes for dialog and drawer headers; Fixed input-number's aria-valuenow being null (#13822 by @Karolis-Stoncius)
+- Components [select] add aria-label to select's input (#13932 by @Karolis-Stoncius)
+
+#### Bug fixes
+
+- Components [tree] the issue with retrieving childrenKey (#13798 by @yj-liuzepeng)
+- Components [select] fix set value error(#13872 by @cc-hearts) (#13879)
+- Docs [table-v2.md] corrected en-US grammar, spelling, readability (#13900 by @MilesTails01)
+- Components [autocomplete] tooltip offset (#12216 by @MrWeilian)
+- Components fix the problem that chrome 72 table doesnotdisplaydata (#10640 by @LiZheGuang)
+- Components [table] add table selection checkbox aria-labels (#13908 by @Karolis-Stoncius)
+- Components [upload] fix empty array error (#13490 by @youpinyao)
+- Components [select] backspace delete disabled option (#11995 by @MrWeilian)
+- Components [tree-v2] modify the condition for when the value of currentKey is 0 (#13935 by @yj-liuzepeng)
+- Components [table-v2] calculate the width of MainTable in the same way (#13584 by @makedopamine)
+- Components [radio checkbox] fix click event triggered twice (#13936 by @FrontEndDog)
+- Components fix the attribute conflict (#13504 by @kamesan012)
+- Components [dropdown] adjust onItemLeave trigger (#13212 by @tolking)
+- Components [select] fix the logic of updating selected data (#13374 by @inottn)
+- Components [date-picker] fix the logic of checking the date range (#13377 by @inottn)
+- Components [date-picker] correct onCalendarChange param type (#13976 by @evanryuu)
+
+#### Refactors
+
+- Components [form-label-wrap] use getStyle method (#13913 by @tiansQAQ)
+- Components [table] reuse rAF (#13918 by @btea)
+- [date-picker] rename time-arrow-control (#13651 by @btea)
+- Components [upload] remove useless useSlot (#14053 by @HeftyKoo)
+
 ### 2.3.9
 
 _2023-08-04_
