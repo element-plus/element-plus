@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="value" placeholder="Select">
+  <el-select v-model="value" placeholder="Select" multiple collapse-tags>
     <el-option-group
       v-for="group in options"
       :key="group.label"
