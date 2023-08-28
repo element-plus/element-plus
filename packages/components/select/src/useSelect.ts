@@ -5,7 +5,6 @@ import {
   reactive,
   ref,
   shallowRef,
-  toRaw,
   triggerRef,
   unref,
   watch,
@@ -721,10 +720,9 @@ export const useSelect = (props, states: States, ctx) => {
   const getValueIndex = (arr: any[] = [], value) => {
     if (!isObject(value)) return arr.indexOf(value)
 
-    const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
-      if (toRaw(get(item, valueKey)) === get(value, valueKey)) {
+      if (getValueKey(item) === getValueKey(value)) {
         index = i
         return true
       }
