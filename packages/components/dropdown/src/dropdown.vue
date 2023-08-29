@@ -20,7 +20,7 @@
       :virtual-ref="triggeringElementRef"
       :virtual-triggering="splitButton"
       :disabled="disabled"
-      :transition="`${ns.namespace.value}-zoom-in-top`"
+      :transition="transitionName"
       :teleported="teleported"
       pure
       persistent
@@ -161,6 +161,10 @@ export default defineComponent({
       return props.id || defaultTriggerId
     })
 
+    const transitionName = computed<string>(
+      () => props.transition ?? `${ns.namespace.value}-zoom-in-top`
+    )
+
     // The goal of this code is to focus on the tooltip triggering element when it is hovered.
     // This is a temporary fix for where closing the dropdown through pointerleave event focuses on a
     // completely different element. For a permanent solution, remove all calls to any "element.focus()"
@@ -292,6 +296,7 @@ export default defineComponent({
     return {
       t,
       ns,
+      transitionName,
       scrollbar,
       wrapStyle,
       dropdownTriggerKls,
