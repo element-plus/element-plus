@@ -34,6 +34,12 @@
     }
   }
 
+  tbody {
+    &:focus {
+      outline: none;
+    }
+  }
+
   &.has-footer {
     &.#{$namespace}-table--scrollable-y,
     &.#{$namespace}-table--fluid-height {
