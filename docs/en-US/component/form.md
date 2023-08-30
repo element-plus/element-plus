@@ -237,7 +237,7 @@ interface FormItemRule extends RuleItem {
 }
 
 type Primitive = null | undefined | string | number | boolean | symbol | bigint
-type BrowserNativeObject = Date | FileList | File | Blob
+type BrowserNativeObject = Date | FileList | File | Blob | RegExp
 type IsTuple<T extends ReadonlyArray<any>> = number extends T['length']
   ? false
   : true

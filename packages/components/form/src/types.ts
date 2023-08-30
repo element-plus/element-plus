@@ -22,7 +22,7 @@ export interface FormItemRule extends RuleItem {
 }
 
 type Primitive = null | undefined | string | number | boolean | symbol | bigint
-type BrowserNativeObject = Date | FileList | File | Blob
+type BrowserNativeObject = Date | FileList | File | Blob | RegExp
 /**
  * Check whether it is tuple
  *
