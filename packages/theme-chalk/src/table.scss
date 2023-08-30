@@ -35,7 +35,7 @@
   }
 
   tbody {
-    &:focus {
+    &:focus-visible {
       outline: none;
     }
   }
