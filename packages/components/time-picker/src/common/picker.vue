@@ -15,7 +15,6 @@
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
     :hide-after="0"
-    persistent
     @before-show="onBeforeShow"
     @show="onShow"
     @hide="onHide"
@@ -455,7 +454,6 @@ const parsedValue = computed(() => {
 })
 
 const displayValue = computed<UserInput>(() => {
-  if (!pickerOptions.value.panelReady) return ''
   const formattedValue = formatDayjsToString(parsedValue.value)
   if (isArray(userInput.value)) {
     return [
@@ -593,7 +591,12 @@ const parseUserInputToDayjs = (value: UserInput) => {
 
 const formatDayjsToString = (value: DayOrDays) => {
   if (!value) return null
-  return pickerOptions.value.formatToString!(value)
+
+  if (Array.isArray(value)) {
+    return value.map((_) => _.format(props.format)) as UserInput
+  }
+
+  return value.format(props.format)
 }
 
 const isValidValue = (value: DayOrDays) => {

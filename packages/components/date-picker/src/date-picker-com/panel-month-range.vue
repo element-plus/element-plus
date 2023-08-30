@@ -104,10 +104,7 @@ import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
-import {
-  panelMonthRangeEmits,
-  panelMonthRangeProps,
-} from '../props/panel-month-range'
+import { panelMonthRangeProps } from '../props/panel-month-range'
 import { useMonthRangeHeader } from '../composables/use-month-range-header'
 import { useRangePicker } from '../composables/use-range-picker'
 import MonthTable from './basic-month-table.vue'
@@ -119,12 +116,11 @@ defineOptions({
 })
 
 const props = defineProps(panelMonthRangeProps)
-const emit = defineEmits(panelMonthRangeEmits)
 const unit = 'year'
 
 const { lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
-const { shortcuts, disabledDate, format } = pickerBase.props
+const { shortcuts, disabledDate } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(1, unit))
@@ -191,10 +187,6 @@ const handleRangePick = (val: RangePickValue, close = true) => {
   handleRangeConfirm()
 }
 
-const formatToString = (days: Dayjs[]) => {
-  return days.map((day) => day.format(format))
-}
-
 function onParsedValueChanged(
   minDate: Dayjs | undefined,
   maxDate: Dayjs | undefined
@@ -208,6 +200,4 @@ function onParsedValueChanged(
     rightDate.value = leftDate.value.add(1, unit)
   }
 }
-
-emit('set-picker-option', ['formatToString', formatToString])
 </script>

@@ -159,17 +159,11 @@ const parseUserInput = (value: Dayjs) => {
   return dayjs(value, props.format).locale(lang.value)
 }
 
-const formatToString = (value: Dayjs) => {
-  if (!value) return null
-  return value.format(props.format)
-}
-
 const getDefaultValue = () => {
   return dayjs(defaultValue).locale(lang.value)
 }
 
 emit('set-picker-option', ['isValidValue', isValidValue])
-emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['handleKeydownInput', handleKeydown])
 emit('set-picker-option', ['getRangeAvailableTime', getRangeAvailableTime])
