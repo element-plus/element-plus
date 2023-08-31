@@ -54,7 +54,7 @@ describe('Message.vue', () => {
       const wrapper = _mount({
         props: {
           dangerouslyUseHTMLString: true,
-          message: `<string class="${tagClass}"'>${AXIOM}</strong>`,
+          message: `<strong class="${tagClass}"'>${AXIOM}</strong>`,
         },
       })
 
@@ -66,7 +66,7 @@ describe('Message.vue', () => {
       const wrapper = _mount({
         props: {
           dangerouslyUseHTMLString: false,
-          message: `<string class="${tagClass}"'>${AXIOM}</strong>`,
+          message: `<strong class="${tagClass}"'>${AXIOM}</strong>`,
         },
       })
 

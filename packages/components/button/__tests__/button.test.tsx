@@ -166,6 +166,7 @@ describe('Button.vue', () => {
   it('tag', () => {
     const link = 'https://github.com/element-plus/element-plus'
     const wrapper = mount(() => (
+      // @ts-ignore
       <Button tag="a" href={link}>
         {AXIOM}
       </Button>
