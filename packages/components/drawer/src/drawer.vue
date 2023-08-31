@@ -47,6 +47,7 @@
                   v-if="!$slots.title"
                   :id="titleId"
                   role="heading"
+                  :aria-level="headerAriaLevel"
                   :class="ns.e('title')"
                 >
                   {{ title }}

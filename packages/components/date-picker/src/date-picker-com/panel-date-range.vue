@@ -56,7 +56,6 @@
                 :visible="minTimePickerVisible"
                 :format="timeFormat"
                 datetime-role="start"
-                :time-arrow-control="arrowControl"
                 :parsed-value="leftDate"
                 @pick="handleMinTimePick"
               />
@@ -99,7 +98,6 @@
                 datetime-role="end"
                 :visible="maxTimePickerVisible"
                 :format="timeFormat"
-                :time-arrow-control="arrowControl"
                 :parsed-value="rightDate"
                 @pick="handleMaxTimePick"
               />
@@ -287,14 +285,8 @@ const emit = defineEmits([
 const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject('EP_PICKER_BASE') as any
-const {
-  disabledDate,
-  cellClassName,
-  format,
-  defaultTime,
-  arrowControl,
-  clearable,
-} = pickerBase.props
+const { disabledDate, cellClassName, format, defaultTime, clearable } =
+  pickerBase.props
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
@@ -394,6 +386,15 @@ const timeFormat = computed(() => {
 const dateFormat = computed(() => {
   return extractDateFormat(format)
 })
+
+const isValidValue = (date: [Dayjs, Dayjs]) => {
+  return (
+    isValidRange(date) &&
+    (disabledDate
+      ? !disabledDate(date[0].toDate()) && !disabledDate(date[1].toDate())
+      : true)
+  )
+}
 
 const leftPrevYear = () => {
   leftDate.value = leftDate.value.subtract(1, 'year')
@@ -709,7 +710,7 @@ function onParsedValueChanged(
   }
 }
 
-emit('set-picker-option', ['isValidValue', isValidRange])
+emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['handleClear', handleClear])

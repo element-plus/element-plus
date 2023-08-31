@@ -160,7 +160,7 @@ export const inputProps = buildProps({
     default: true,
   },
   /**
-   * @description input or texearea element style
+   * @description input or textarea element style
    */
   inputStyle: {
     type: definePropType<StyleValue>([Object, Array, String]),

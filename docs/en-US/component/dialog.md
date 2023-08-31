@@ -111,7 +111,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 :::
 
-## API
+## Attributes
 
 ### Attributes
 
@@ -135,10 +135,11 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | before-close               | callback before Dialog closes, and it will prevent Dialog from closing, use done to close the dialog | ^[Function]`(done: DoneFn) => void` | —       |
 | draggable                  | enable dragging feature for Dialog                                                                   | ^[boolean]                          | false   |
 | center                     | whether to align the header and footer in center                                                     | ^[boolean]                          | false   |
-| align-center               | whether to align the dialog both horizontally and vertically                                         | ^[boolean]                          | false   |
+| align-center ^(2.2.16)     | whether to align the dialog both horizontally and vertically                                         | ^[boolean]                          | false   |
 | destroy-on-close           | destroy elements in Dialog when closed                                                               | ^[boolean]                          | false   |
 | close-icon                 | custom close icon, default is Close                                                                  | ^[string] / ^[Component]            | —       |
 | z-index                    | same as z-index in native CSS, z-order of dialog                                                     | ^[number]                           | —       |
+| header-aria-level ^(a11y)  | header's `aria-level` attribute                                                                      | ^[string]                           | 2       |
 
 :::warning
 
