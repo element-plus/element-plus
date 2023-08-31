@@ -4,6 +4,8 @@
       ref="popperRef"
       :role="role"
       :effect="effect"
+      :offset="offset"
+      :show-arrow="showArrow"
       :fallback-placements="['bottom', 'top']"
       :popper-options="popperOptions"
       :gpu-acceleration="false"
@@ -20,7 +22,7 @@
       :virtual-ref="triggeringElementRef"
       :virtual-triggering="splitButton"
       :disabled="disabled"
-      :transition="`${ns.namespace.value}-zoom-in-top`"
+      :transition="transition ?? `${ns.namespace.value}-zoom-in-top`"
       :teleported="teleported"
       pure
       persistent
