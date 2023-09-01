@@ -22,6 +22,7 @@ export interface FormItemRule extends RuleItem {
 }
 
 type Primitive = null | undefined | string | number | boolean | symbol | bigint
+type BrowserNativeObject = Date | FileList | File | Blob | RegExp
 /**
  * Check whether it is tuple
  *
@@ -60,7 +61,9 @@ type ArrayKey = number
  *
  * 用于通过一个类型递归构建路径的辅助类型
  */
-type PathImpl<K extends string | number, V> = V extends Primitive
+type PathImpl<K extends string | number, V> = V extends
+  | Primitive
+  | BrowserNativeObject
   ? `${K}`
   : `${K}` | `${K}.${Path<V>}`
 /**
@@ -85,7 +88,7 @@ type Path<T> = T extends ReadonlyArray<infer V>
  * 通过一个类型收集所有路径的类型
  *
  * @example
- * FieldPath<{ 1: number; a: number; b: string; c: { d: number; e: string }; f: [{ value: string }]; g: { value: string }[] }> => '1' | 'a' | 'b' | 'c' | 'f' | 'g' | 'c.d' | 'c.e' | 'f.0' | 'f.0.value' | 'g.number' | 'g.number.value'
+ * FieldPath<{ 1: number; a: number; b: string; c: { d: number; e: string }; f: [{ value: string }]; g: { value: string }[]; h: Date; i: FileList; j: File; k: Blob; l: RegExp }> => '1' | 'a' | 'b' | 'c' | 'f' | 'g' | 'c.d' | 'c.e' | 'f.0' | 'f.0.value' | 'g.number' | 'g.number.value' | 'h' | 'i' | 'j' | 'k' | 'l'
  */
 type FieldPath<T> = T extends object ? Path<T> : never
 export type FormRules<
