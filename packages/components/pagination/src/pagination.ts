@@ -140,7 +140,10 @@ export const paginationProps = buildProps({
   /**
    * @description whether Pagination size is teleported to body
    */
-  teleported: Boolean,
+  teleported: {
+    type: Boolean,
+    default: true,
+  },
   /**
    * @description whether to use small pagination
    */
