@@ -124,7 +124,9 @@ export type FormContext = FormProps &
       props?: Arrayable<FormItemProp>,
       callback?: FormValidateCallback
     ) => FormValidationResult
-    setValidateResults: (results: Map<string, FormValidateResult>) => void
+    setValidateResults: (results: {
+      [field: string]: FormValidateResult
+    }) => void
   }
 
 export interface FormItemContext extends FormItemProps {

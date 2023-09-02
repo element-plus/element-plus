@@ -19,6 +19,7 @@ import type {
   FormContext,
   FormItemContext,
   FormValidateCallback,
+  FormValidateResult,
   FormValidationResult,
 } from './types'
 import type { FormItemProp } from './form-item'
@@ -70,8 +71,10 @@ const clearValidate: FormContext['clearValidate'] = (props = []) => {
   filterFields(fields, props).forEach((field) => field.clearValidate())
 }
 
-const setValidateResults = (results: FormValidationResult) => {
-  Object.keys(results).forEach((prop) => {
+const setValidateResults = (results: {
+  [field: string]: FormValidateResult
+}) => {
+  Object.keys(results).forEach((prop: any) => {
     const field = fields.find((f) => f.prop && f.prop === prop)
     if (!field) return
     field.setValidateResult(results[prop])
