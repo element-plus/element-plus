@@ -26,6 +26,7 @@ export function useInput(handleInput: (event: InputEvent) => void) {
   }
 
   return {
+    isComposing,
     handleCompositionStart,
     handleCompositionUpdate,
     handleCompositionEnd,

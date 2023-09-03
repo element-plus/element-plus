@@ -27,10 +27,10 @@
     >
       <template #default>
         <div
-          ref="selectionRef"
+          ref="wrapperRef"
           :class="[
             nsSelectV2.e('wrapper'),
-            nsSelectV2.is('focused', states.isComposing || expanded),
+            nsSelectV2.is('focused', isFocused),
             nsSelectV2.is('hovering', states.comboBoxHovering),
             nsSelectV2.is('filterable', filterable),
             nsSelectV2.is('disabled', selectDisabled),
@@ -72,6 +72,7 @@
                 >
                   <el-tooltip
                     v-if="collapseTagsTooltip"
+                    ref="tagTooltipRef"
                     :disabled="dropdownMenuVisible"
                     :fallback-placements="['bottom', 'top', 'right', 'left']"
                     :effect="effect"

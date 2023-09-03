@@ -3,7 +3,11 @@ import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
 import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useFocusController,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   ValidateComponentsMap,
@@ -52,7 +56,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     comboBoxHovering: false,
     isOnComposition: false,
     isSilentBlur: false,
-    isComposing: false,
     inputLength: 20,
     selectWidth: 200,
     initialInputHeight: 0,
@@ -60,7 +63,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     previousValue: undefined,
     query: '',
     selectedLabel: '',
-    softFocus: false,
     tagInMultiLine: false,
   })
 
@@ -70,15 +72,33 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   // DOM & Component refs
   const controlRef = ref(null)
-  const inputRef = ref(null) // el-input ref
+  const inputRef = ref<HTMLElement>() // el-input ref
   const menuRef = ref(null)
   const popper = ref<InstanceType<typeof ElTooltip> | null>(null)
+  const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const selectRef = ref(null)
-  const selectionRef = ref(null) // tags ref
-  const calculatorRef = ref<HTMLElement>(null)
+  const calculatorRef = ref<HTMLElement>()
 
   // the controller of the expanded popup
   const expanded = ref(false)
+
+  const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
+    inputRef,
+    {
+      beforeBlur(event) {
+        return (
+          popper.value?.isFocusInsideContent(event) ||
+          tagTooltipRef.value?.isFocusInsideContent(event)
+        )
+      },
+      afterFocus() {
+        if (calculatorRef.value) {
+          states.calculatedWidth =
+            calculatorRef.value.getBoundingClientRect().width
+        }
+      },
+    }
+  )
 
   const selectDisabled = computed(() => props.disabled || elForm?.disabled)
 
@@ -192,7 +212,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   )
 
   const tagMaxWidth = computed(() => {
-    const select = selectionRef.value
+    const select = wrapperRef.value
     const size = collapseTagSize.value || 'default'
     const paddingLeft = select
       ? Number.parseInt(getComputedStyle(select).paddingLeft)
@@ -289,6 +309,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     clearAllNewOption,
   } = useAllowCreate(props, states)
   const {
+    isComposing,
     handleCompositionStart,
     handleCompositionUpdate,
     handleCompositionEnd,
@@ -303,7 +324,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const toggleMenu = () => {
     if (props.automaticDropdown) return
     if (!selectDisabled.value) {
-      if (states.isComposing) states.softFocus = true
       return nextTick(() => {
         expanded.value = !expanded.value
         inputRef.value?.focus?.()
@@ -380,7 +400,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const resetInputHeight = () => {
     return nextTick(() => {
       if (!inputRef.value) return
-      const selection = selectionRef.value
+      const selection = wrapperRef.value
 
       selectRef.value.height = selection.offsetHeight
       if (expanded.value && emptyText.value !== false) {
@@ -399,7 +419,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const resetInputWidth = () => {
-    const select = selectionRef.value
+    const select = wrapperRef.value
     if (select) {
       states.selectWidth = select.getBoundingClientRect().width
     }
@@ -447,7 +467,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       states.selectedLabel = option.label
       update(getValueKey(option))
       expanded.value = false
-      states.isComposing = false
       states.isSilentBlur = byClick
       selectNewOption(option)
       if (!option.created) {
@@ -469,44 +488,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       states.cachedOptions.splice(index, 1)
       update(value)
       emit('remove-tag', get(tag, valueKey))
-      states.softFocus = true
       removeNewOption(tag)
       return nextTick(focusAndUpdatePopup)
     }
     event.stopPropagation()
-  }
-
-  const handleFocus = (event: FocusEvent) => {
-    const focused = states.isComposing
-    states.isComposing = true
-    if (!states.softFocus) {
-      // If already in the focus state, shouldn't trigger event
-      if (!focused) emit('focus', event)
-    } else {
-      states.softFocus = false
-    }
-  }
-
-  const handleBlur = (event: FocusEvent) => {
-    states.softFocus = false
-
-    // reset input value when blurred
-    // https://github.com/ElemeFE/element/pull/10822
-    return nextTick(() => {
-      inputRef.value?.blur?.()
-      if (calculatorRef.value) {
-        states.calculatedWidth =
-          calculatorRef.value.getBoundingClientRect().width
-      }
-      if (states.isSilentBlur) {
-        states.isSilentBlur = false
-      } else {
-        if (states.isComposing) {
-          emit('blur', event)
-        }
-      }
-      states.isComposing = false
-    })
   }
 
   // keyboard handlers
@@ -529,14 +514,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const handleClear = () => {
-    let emptyValue: string | any[]
+    let emptyValue: string | any[] | undefined
     if (isArray(props.modelValue)) {
       emptyValue = []
     } else {
       emptyValue = undefined
     }
 
-    states.softFocus = true
     if (props.multiple) {
       states.cachedOptions = []
     } else {
@@ -628,6 +612,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const onInput = (event) => {
+    if (isComposing.value) return
     const value = event.target.value
     onUpdateInputValue(value)
     if (states.displayInputValue.length > 0 && !expanded.value) {
@@ -647,7 +632,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const handleClickOutside = () => {
     expanded.value = false
-    return handleBlur()
   }
 
   const handleMenuEnter = () => {
@@ -774,6 +758,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   return {
     // data exports
+    isFocused,
     collapseTagSize,
     currentPlaceholder,
     expanded,
@@ -804,7 +789,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     menuRef,
     popper,
     selectRef,
-    selectionRef,
+    wrapperRef,
 
     popperRef,
 
