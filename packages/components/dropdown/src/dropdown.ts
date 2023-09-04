@@ -93,7 +93,7 @@ export const dropdownProps = buildProps({
   },
   offset: {
     type: Number,
-    default: undefined,
+    default: 0,
   },
   teleported: useTooltipContentProps.teleported,
   transition: useTooltipContentProps.transition,
