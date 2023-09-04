@@ -821,11 +821,14 @@ describe('Select', () => {
       await nextTick()
       selectVm.toggleMenu()
       await nextTick()
-      // Simulate click the outside
-      selectVm.handleClickOutside()
-      await nextTick()
+      await input.trigger('blur')
       expect(onFocus).toHaveBeenCalledTimes(1)
-      expect(onBlur).toHaveBeenCalled()
+      expect(onBlur).toHaveBeenCalledTimes(1)
+
+      await input.trigger('focus')
+      expect(onFocus).toHaveBeenCalledTimes(2)
+      await input.trigger('blur')
+      expect(onBlur).toHaveBeenCalledTimes(2)
     })
 
     it('focus & blur for multiple & filterable select', async () => {
@@ -860,11 +863,58 @@ describe('Select', () => {
       options[2].click()
       await nextTick()
       expect(onFocus).toHaveBeenCalledTimes(1)
-      // Simulate click the outside
-      selectVm.handleClickOutside()
+      await input.trigger('blur')
+      expect(onBlur).toHaveBeenCalledTimes(1)
+
+      await input.trigger('focus')
+      expect(onFocus).toHaveBeenCalledTimes(2)
+      await input.trigger('blur')
+      expect(onBlur).toHaveBeenCalledTimes(2)
+    })
+
+    it('focus & blur for multiple & tag', async () => {
+      const onFocus = vi.fn()
+      const onBlur = vi.fn()
+      const wrapper = createSelect({
+        data() {
+          return {
+            multiple: true,
+            options: [
+              {
+                value: 1,
+                label: 'option 1',
+              },
+              {
+                value: 2,
+                label: 'option 2',
+              },
+              {
+                value: 3,
+                label: 'option 3',
+              },
+            ],
+            value: [2, 3],
+          }
+        },
+        methods: {
+          onFocus,
+          onBlur,
+        },
+      })
       await nextTick()
-      await nextTick()
-      expect(onBlur).toHaveBeenCalled()
+
+      const input = wrapper.find('input')
+      await input.trigger('focus')
+      const tagCloseIcons = wrapper.findAll('.el-tag__close')
+      expect(onFocus).toHaveBeenCalledTimes(1)
+      expect(tagCloseIcons.length).toBe(2)
+      await tagCloseIcons[1].trigger('click')
+      await tagCloseIcons[0].trigger('click')
+      expect(wrapper.findAll('.el-tag__close').length).toBe(0)
+      expect(onBlur).toHaveBeenCalledTimes(0)
+
+      await input.trigger('blur')
+      expect(onBlur).toHaveBeenCalledTimes(1)
     })
 
     it('only emit change on user input', async () => {

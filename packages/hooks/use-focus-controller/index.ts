@@ -5,6 +5,10 @@ import type { ShallowRef } from 'vue'
 
 interface UseFocusControllerOptions {
   afterFocus?: () => void
+  /**
+   * return true to cancel blur
+   * @param event FocusEvent
+   */
   beforeBlur?: (event: FocusEvent) => boolean
   afterBlur?: () => void
 }
@@ -26,7 +30,7 @@ export function useFocusController<T extends HTMLElement>(
   }
 
   const handleBlur = (event: FocusEvent) => {
-    const cancelBlur = isFunction(beforeBlur) ? beforeBlur(event) : true
+    const cancelBlur = isFunction(beforeBlur) ? beforeBlur(event) : false
     if (
       cancelBlur ||
       (event.relatedTarget &&

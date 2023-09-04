@@ -52,4 +52,47 @@ describe('useFocusController', () => {
     expect(wrapper.find('span').text()).toBe('false')
     expect(blurHandler).toHaveBeenCalledTimes(1)
   })
+
+  it('it will avoid trigger unnecessary blur event by beforeBlur', async () => {
+    const beforeBlur = vi.fn()
+    const wrapper = mount({
+      emits: ['focus', 'blur'],
+      setup() {
+        const targetRef = ref()
+        const { wrapperRef, isFocused, handleFocus, handleBlur } =
+          useFocusController(targetRef, {
+            afterBlur: () => {
+              beforeBlur()
+              return true
+            },
+          })
+
+        return () => (
+          <>
+            <div ref={wrapperRef}>
+              <input
+                ref={targetRef}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              />
+            </div>
+            <span>{String(isFocused.value)}</span>
+          </>
+        )
+      },
+    })
+
+    await nextTick()
+    expect(wrapper.find('span').text()).toBe('false')
+    expect(beforeBlur).toHaveBeenCalledTimes(0)
+
+    await wrapper.find('input').trigger('focus')
+    expect(wrapper.emitted()).toHaveProperty('focus')
+    expect(wrapper.find('span').text()).toBe('true')
+    expect(beforeBlur).toHaveBeenCalledTimes(0)
+
+    await wrapper.find('span').trigger('click')
+    expect(wrapper.emitted()).not.toHaveProperty('blur')
+    expect(beforeBlur).toHaveBeenCalledTimes(0)
+  })
 })
