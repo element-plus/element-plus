@@ -42,7 +42,6 @@ export const rowProps = buildProps({
   align: {
     type: String,
     values: RowAlign,
-    default: 'top',
   },
 } as const)
 

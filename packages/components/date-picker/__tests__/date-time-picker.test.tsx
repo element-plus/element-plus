@@ -162,7 +162,7 @@ describe('Datetime Picker', () => {
   })
 
   it('now button: can not choose disabled date', async () => {
-    let isDisable = true
+    const isDisable = true
     const value = ref('')
     const disabledDate = () => isDisable
     const wrapper = _mount(() => (
@@ -185,11 +185,24 @@ describe('Datetime Picker', () => {
     await nextTick()
 
     expect(value.value).toBe('')
-    isDisable = false
+  })
+
+  it('now button: should be disabled when current date is disabled', async () => {
+    const isDisable = true
+    const disabledDate = () => isDisable
+    const wrapper = _mount(() => (
+      <DatePicker type="datetime" disabledDate={disabledDate} />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick()
-    btn.click()
-    await nextTick()
-    expect(value.value).not.toBe('')
+    // now button is disabled
+    const btn: HTMLElement = document.querySelector(
+      '.el-picker-panel__footer .is-text'
+    )!
+    expect(btn.getAttribute('disabled')).not.toBeUndefined()
   })
 
   it('confirm button honors picked date', async () => {
@@ -759,5 +772,35 @@ describe('Datetimerange', () => {
     const [startInput, endInput] = wrapper.findAll('input')
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
+  })
+
+  it('prop defaultTime should not confilt with prop shortcuts', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetime"
+        shortcuts={[
+          { text: '12:00', value: new Date(2023, 0, 1, 12) },
+          { text: '13:00', value: new Date(2023, 0, 1, 13) },
+          { text: '14:00', value: new Date(2023, 0, 1, 14) },
+        ]}
+        default-time={new Date(2023, 0, 1, 19, 0, 0)}
+      />
+    ))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(
+      document.querySelector(
+        '.el-picker-panel__sidebar .el-picker-panel__shortcut'
+      ) as HTMLElement
+    ).click()
+    await nextTick()
+    expect(value.value).toBeDefined()
+    expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toStrictEqual(
+      '2023-01-01 12:00:00'
+    )
   })
 })

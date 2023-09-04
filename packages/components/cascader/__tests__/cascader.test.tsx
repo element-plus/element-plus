@@ -10,6 +10,7 @@ import ElForm, { ElFormItem } from '@element-plus/components/form'
 import Cascader from '../src/cascader.vue'
 
 import type { VNode } from 'vue'
+import type ElCascader from '@element-plus/components/cascader'
 
 vi.mock('lodash-unified', async () => {
   return {
@@ -255,6 +256,36 @@ describe('Cascader.vue', () => {
     expect(tooltipTags[1].textContent).toBe('Zhejiang / Wenzhou')
   })
 
+  test('max collapse tags', async () => {
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[
+          ['zhejiang', 'hangzhou'],
+          ['zhejiang', 'ningbo'],
+          ['zhejiang', 'wenzhou'],
+        ]}
+        collapseTags
+        collapseTagsTooltip
+        props={props}
+        options={OPTIONS}
+        maxCollapseTags={2}
+      />
+    ))
+
+    await nextTick()
+    const tags = wrapper.findAll(TAG)
+    const [firstTag, secondTag, thirdTag] = tags
+    expect(tags.length).toBe(3)
+    expect(firstTag.text()).toBe('Zhejiang / Hangzhou')
+    expect(secondTag.text()).toBe('Zhejiang / Ningbo')
+    expect(thirdTag.text()).toBe('+ 1')
+    const tooltipTags = document.querySelectorAll(
+      `.el-cascader__collapse-tags ${TAG}`
+    )
+    expect(tooltipTags.length).toBe(1)
+  })
+
   test('tag type', async () => {
     const props = { multiple: true }
     const wrapper = _mount(() => (
@@ -428,8 +459,9 @@ describe('Cascader.vue', () => {
   })
 
   test('should be able to trigger togglePopperVisible outside the component', async () => {
+    let cascader: InstanceType<typeof ElCascader>
     const clickFn = () => {
-      wrapper.findComponent(Cascader).vm.togglePopperVisible()
+      cascader.togglePopperVisible()
     }
     const wrapper = _mount(() => (
       <div>
@@ -437,11 +469,37 @@ describe('Cascader.vue', () => {
         <button onClick={clickFn} />
       </div>
     ))
+
+    cascader = wrapper.findComponent(Cascader).vm
     const dropdown = wrapper.findComponent(ArrowDown).element as HTMLDivElement
     expect(dropdown.style.display).not.toBe('none')
     const button = wrapper.find('button')
     await button.trigger('click')
     await nextTick()
     expect(dropdown?.style.display).not.toBe('none')
+  })
+  test('height should be changed by size when multiple', async () => {
+    const cascaderSize = ref<'small' | 'default' | 'large'>('default')
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader props={props} size={cascaderSize.value} />
+    ))
+    await nextTick()
+    const inputEl = wrapper.find('input').element as HTMLElement
+    const sizeMap: Record<string, number> = {
+      small: 24,
+      default: 32,
+      large: 40,
+    }
+
+    for (const size in sizeMap) {
+      cascaderSize.value = size as 'small' | 'default' | 'large'
+      inputEl.style.setProperty('--el-input-height', `${sizeMap[size]}px`)
+      // first is wait for the watch callback function of realSize which is to be called after nextTick
+      await nextTick()
+      // second is wait for input to set the height attribute
+      await nextTick()
+      expect(inputEl.style.height).toEqual(`${sizeMap[size] - 2}px`)
+    }
   })
 })

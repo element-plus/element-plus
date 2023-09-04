@@ -8,17 +8,17 @@
     >
       <slot />
     </span>
-    <el-icon v-if="separatorIcon" :class="ns.e('separator')">
-      <component :is="separatorIcon" />
+    <el-icon v-if="breadcrumbContext?.separatorIcon" :class="ns.e('separator')">
+      <component :is="breadcrumbContext.separatorIcon" />
     </el-icon>
     <span v-else :class="ns.e('separator')" role="presentation">
-      {{ separator }}
+      {{ breadcrumbContext?.separator }}
     </span>
   </span>
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, inject, ref, toRefs } from 'vue'
+import { getCurrentInstance, inject, ref } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { breadcrumbKey } from './constants'
@@ -33,10 +33,9 @@ defineOptions({
 const props = defineProps(breadcrumbItemProps)
 
 const instance = getCurrentInstance()!
-const breadcrumbContext = inject(breadcrumbKey, undefined)!
+const breadcrumbContext = inject(breadcrumbKey, undefined)
 const ns = useNamespace('breadcrumb')
 
-const { separator, separatorIcon } = toRefs(breadcrumbContext)
 const router = instance.appContext.config.globalProperties.$router as Router
 
 const link = ref<HTMLSpanElement>()

@@ -4,6 +4,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import Tree from '../src/tree.vue'
+import Button from '../../button/src/button.vue'
 import type Node from '../src/model/node'
 
 const ALL_NODE_COUNT = 9
@@ -594,7 +595,7 @@ describe('Tree.vue', () => {
     expect(tree.getCheckedNodes().length).toEqual(0)
     expect(tree.getCheckedKeys().length).toEqual(0)
   })
-  69
+
   test('setCheckedKeys with leafOnly=false', async () => {
     const { wrapper } = getTreeVm(
       `:props="defaultProps" show-checkbox node-key="id"`
@@ -1381,6 +1382,104 @@ describe('Tree.vue', () => {
       })
     )
     expect(flag).toBe(true)
+  })
+
+  test('custom children and label', async () => {
+    const wrapper = mount({
+      template: `
+        <div>
+          <el-tree ref="tree1" :data="data" node-key="id" :props="defaultProps"></el-tree>
+          <el-button @click="addNewNode">add</el-button>
+        </div>
+      `,
+      components: {
+        'el-tree': Tree,
+        'el-button': Button,
+      },
+      data() {
+        return {
+          data: [
+            {
+              id: 1,
+              l: '一级 1',
+              c: [
+                {
+                  id: 11,
+                  l: '二级 1-1',
+                  c: [
+                    {
+                      id: 111,
+                      l: '三级 1-1',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: 2,
+              l: '一级 2',
+              c: [
+                {
+                  id: 21,
+                  l: '二级 2-1',
+                },
+                {
+                  id: 22,
+                  l: '二级 2-2',
+                },
+              ],
+            },
+            {
+              id: 3,
+              l: '一级 3',
+              c: [
+                {
+                  id: 31,
+                  l: '二级 3-1',
+                },
+                {
+                  id: 32,
+                  l: '二级 3-2',
+                },
+              ],
+            },
+          ],
+          defaultProps: {
+            children: 'c',
+            label: 'l',
+          },
+        }
+      },
+      methods: {
+        addNewNode() {
+          this.data[0].c.push({
+            id: 12,
+            l: 'new node',
+          })
+        },
+      },
+    })
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    const button = wrapper.findComponent({ name: 'ElButton' })
+    const firstNode = wrapper.find('.el-tree-node')
+
+    expect(tree.vm.getNode(1).data.l).toEqual('一级 1')
+    expect(tree.vm.getNode(1).data.c[0].l).toEqual('二级 1-1')
+
+    firstNode.trigger('click')
+    await nextTick()
+
+    const firstChildrenNode = firstNode.element.querySelector(
+      '.el-tree-node__children'
+    )
+    expect(firstChildrenNode.children.length).toEqual(1)
+
+    button.trigger('click')
+    await nextTick()
+
+    expect(tree.vm.getNode(1).data.c[1].l).toEqual('new node')
+    expect(firstChildrenNode.children.length).toEqual(2)
+    expect(firstChildrenNode.children[1].textContent).toEqual('new node')
   })
 
   test('navigate with lazy and without node-key', async () => {
