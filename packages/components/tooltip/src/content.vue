@@ -35,7 +35,7 @@
         @blur="onBlur"
         @close="onClose"
       >
-        <template v-if="shouldShow">
+        <template v-if="!destroyed">
           <slot />
         </template>
       </el-popper-content>
