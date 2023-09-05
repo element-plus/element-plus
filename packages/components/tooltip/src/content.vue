@@ -8,7 +8,8 @@
       @before-leave="onBeforeLeave"
     >
       <el-popper-content
-        v-if="shouldRender && shouldShow"
+        v-if="shouldRender"
+        v-show="shouldShow"
         :id="id"
         ref="contentRef"
         v-bind="$attrs"
