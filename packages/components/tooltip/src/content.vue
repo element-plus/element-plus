@@ -8,8 +8,7 @@
       @before-leave="onBeforeLeave"
     >
       <el-popper-content
-        v-if="shouldRender"
-        v-show="shouldShow"
+        v-if="shouldRender && shouldShow"
         :id="id"
         ref="contentRef"
         v-bind="$attrs"
@@ -36,7 +35,7 @@
         @blur="onBlur"
         @close="onClose"
       >
-        <template v-if="!destroyed">
+        <template v-if="shouldShow">
           <slot />
         </template>
       </el-popper-content>
