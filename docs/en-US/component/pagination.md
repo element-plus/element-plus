@@ -84,6 +84,7 @@ pagination/more-elements
 | next-text                           | text for the next button                                                                                                        | ^[string]                                                                         | ''                                   |
 | next-icon                           | icon for the next button, has a lower priority than `next-text`                                                                 | ^[string] / ^[Component]                                                          | ArrowRight                           |
 | disabled                            | whether Pagination is disabled                                                                                                  | ^[boolean]                                                                        | false                                |
+| teleported ^(2.3.13)       | whether Pagination select dropdown is teleported to the body                                                                    | ^[boolean]                                                                        | true                                |
 | hide-on-single-page                 | whether to hide when there's only one page                                                                                      | ^[boolean]                                                                        | false                                |
 
 :::warning
