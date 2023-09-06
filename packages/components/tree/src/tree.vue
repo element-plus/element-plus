@@ -329,10 +329,9 @@ export default defineComponent({
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentKey')
 
-      handleCurrentChange(store, ctx.emit, () => {
-        broadcastExpanded()
+      handleCurrentChange(store, ctx.emit, () =>
         store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
-      })
+      )
     }
 
     const getNode = (data: TreeKey | TreeNodeData): Node => {
