@@ -135,10 +135,11 @@ const timePartials = computed<Record<TimeUnit, number>>(() => {
 
 const timeList = computed(() => {
   const { hours, minutes } = unref(timePartials)
+  const { spinnerDate } = props
   return {
-    hours: getHoursList(props.role),
-    minutes: getMinutesList(hours, props.role),
-    seconds: getSecondsList(hours, minutes, props.role),
+    hours: getHoursList(props.role, spinnerDate),
+    minutes: getMinutesList(hours, props.role, spinnerDate),
+    seconds: getSecondsList(hours, minutes, props.role, spinnerDate),
   }
 })
 
