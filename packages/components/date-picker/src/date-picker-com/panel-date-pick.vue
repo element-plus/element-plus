@@ -253,6 +253,8 @@ const innerDate = ref(dayjs().locale(lang.value))
 
 const isChangeToNow = ref(false)
 
+let isShortcut = false
+
 const defaultTimeD = computed(() => {
   return dayjs(defaultTime).locale(lang.value)
 })
@@ -275,7 +277,12 @@ const checkDateWithinRange = (date: ConfigType) => {
     : true
 }
 const formatEmit = (emitDayjs: Dayjs) => {
-  if (defaultTime && !visibleTime.value && !isChangeToNow.value) {
+  if (
+    defaultTime &&
+    !visibleTime.value &&
+    !isChangeToNow.value &&
+    !isShortcut
+  ) {
     return defaultTimeD.value
       .year(emitDayjs.year())
       .month(emitDayjs.month())
@@ -296,6 +303,7 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   userInputDate.value = null
   userInputTime.value = null
   isChangeToNow.value = false
+  isShortcut = false
 }
 const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
   if (selectionMode.value === 'date') {
@@ -366,6 +374,7 @@ const handleShortcutClick = (shortcut: Shortcut) => {
     ? shortcut.value()
     : shortcut.value
   if (shortcutValue) {
+    isShortcut = true
     emit(dayjs(shortcutValue).locale(lang.value))
     return
   }
