@@ -2,6 +2,7 @@
 import { provide, ref } from 'vue'
 import { addClass, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
+import { reInitChecked } from './node'
 import type { InjectionKey } from 'vue'
 import type Node from './node'
 import type { NodeDropType } from '../tree.type'
@@ -162,11 +163,14 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     const { draggingNode, dropType, dropNode } = dragState.value
     event.preventDefault()
     event.dataTransfer.dropEffect = 'move'
-
+    const parent = draggingNode.node.parent
+    const { checkStrictly, key } = store.value
+    const nodes = parent.getChildCheckedNodes(!checkStrictly)
     if (draggingNode && dropNode) {
       const draggingNodeCopy = { data: draggingNode.node.data }
       if (dropType !== 'none') {
         draggingNode.node.remove()
+        parent.data?.[key] && !checkStrictly && reInitChecked(parent)
       }
       if (dropType === 'before') {
         dropNode.node.parent.insertBefore(draggingNodeCopy, dropNode.node)
@@ -177,6 +181,7 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
       }
       if (dropType !== 'none') {
         store.value.registerNode(draggingNodeCopy)
+        key && store.value.setCheckedNodes(nodes, !checkStrictly)
       }
 
       removeClass(dropNode.$el, ns.is('drop-inner'))
