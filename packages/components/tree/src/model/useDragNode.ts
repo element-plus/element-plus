@@ -1,5 +1,6 @@
 // @ts-nocheck
-import { provide, ref } from 'vue'
+import { provide, reactive, ref } from 'vue'
+import { cloneDeep } from 'lodash'
 import { addClass, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import type { InjectionKey } from 'vue'
@@ -164,7 +165,8 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     event.dataTransfer.dropEffect = 'move'
 
     if (draggingNode && dropNode) {
-      const draggingNodeCopy = { data: draggingNode.node.data }
+      // const draggingNodeCopy = { data: draggingNode.node.data }
+      const draggingNodeCopy = reactive(cloneDeep(draggingNode.node))
       if (dropType !== 'none') {
         draggingNode.node.remove()
       }

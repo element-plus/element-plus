@@ -123,7 +123,7 @@ class Node {
     }
   }
 
-  initialize() {
+  initialize(type?: 'Node' | 'FakeNode') {
     const store = this.store
     if (!store) {
       throw new Error('[Node]store is required!')
@@ -139,7 +139,7 @@ class Node {
     }
 
     if (store.lazy !== true && this.data) {
-      this.setData(this.data)
+      this.setData(type === 'Node' ? this : this.data)
 
       if (store.defaultExpandAll) {
         this.expanded = true
@@ -178,23 +178,32 @@ class Node {
       this.canFocus = true
   }
 
-  setData(data: TreeNodeData): void {
-    if (!Array.isArray(data)) {
-      markNodeData(this, data)
-    }
-
-    this.data = data
-    this.childNodes = []
-
-    let children
-    if (this.level === 0 && Array.isArray(this.data)) {
-      children = this.data
+  setData(data: TreeNodeData | Node): void {
+    if (data instanceof Node) {
+      const childNodes = this.childNodes
+      this.childNodes = []
+      childNodes.forEach((child) => {
+        child.remove()
+        this.insertChild(child)
+      })
     } else {
-      children = getPropertyFromData(this, 'children') || []
-    }
+      if (!Array.isArray(data)) {
+        markNodeData(this, data)
+      }
 
-    for (let i = 0, j = children.length; i < j; i++) {
-      this.insertChild({ data: children[i] })
+      this.data = data
+      this.childNodes = []
+
+      let children
+      if (this.level === 0 && Array.isArray(this.data)) {
+        children = this.data
+      } else {
+        children = getPropertyFromData(this, 'children') || []
+      }
+
+      for (let i = 0, j = children.length; i < j; i++) {
+        this.insertChild({ data: children[i] })
+      }
     }
   }
 
@@ -250,17 +259,17 @@ class Node {
   insertChild(child?: FakeNode | Node, index?: number, batch?: boolean): void {
     if (!child) throw new Error('InsertChild error: child is required.')
 
-    if (!(child instanceof Node)) {
-      if (!batch) {
-        const children = this.getChildren(true)
-        if (!children.includes(child.data)) {
-          if (typeof index === 'undefined' || index < 0) {
-            children.push(child.data)
-          } else {
-            children.splice(index, 0, child.data)
-          }
+    if (!batch) {
+      const children = this.getChildren(true)
+      if (!children.includes(child.data)) {
+        if (typeof index === 'undefined' || index < 0) {
+          children.push(child.data)
+        } else {
+          children.splice(index, 0, child.data)
         }
       }
+    }
+    if (!(child instanceof Node)) {
       Object.assign(child, {
         parent: this,
         store: this.store,
@@ -269,6 +278,13 @@ class Node {
       if (child instanceof Node) {
         child.initialize()
       }
+    } else {
+      child.parent = reactive(this)
+      child.store = reactive(this.store)
+      if (child.parent) {
+        child.level = child.parent.level + 1
+      }
+      child.initialize('Node')
     }
 
     ;(child as Node).level = this.level + 1
