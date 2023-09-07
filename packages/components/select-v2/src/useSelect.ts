@@ -55,7 +55,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     hoveringIndex: -1,
     comboBoxHovering: false,
     isOnComposition: false,
-    isSilentBlur: false,
     inputLength: 20,
     selectWidth: 200,
     initialInputHeight: 0,
@@ -425,7 +424,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const onSelect = (option: Option, idx: number, byClick = true) => {
+  const onSelect = (option: Option, idx: number) => {
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
@@ -467,7 +466,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       states.selectedLabel = option.label
       update(getValueKey(option))
       expanded.value = false
-      states.isSilentBlur = byClick
       selectNewOption(option)
       if (!option.created) {
         clearAllNewOption()
@@ -590,8 +588,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     ) {
       onSelect(
         filteredOptions.value[states.hoveringIndex],
-        states.hoveringIndex,
-        false
+        states.hoveringIndex
       )
     }
   }
