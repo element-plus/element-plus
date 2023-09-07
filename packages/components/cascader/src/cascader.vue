@@ -96,7 +96,9 @@
                 <template #content>
                   <div :class="nsCascader.e('collapse-tags')">
                     <div
-                      v-for="(tag2, idx) in allPresentTags.slice(1)"
+                      v-for="(tag2, idx) in allPresentTags.slice(
+                        maxCollapseTags
+                      )"
                       :key="idx"
                       :class="nsCascader.e('collapse-tag')"
                     >
@@ -422,10 +424,11 @@ const calculatePresentTags = () => {
   allPresentTags.value = allTags
 
   if (nodes.length) {
-    const [first, ...rest] = nodes
+    nodes
+      .slice(0, props.maxCollapseTags)
+      .forEach((node) => tags.push(genTag(node)))
+    const rest = nodes.slice(props.maxCollapseTags)
     const restCount = rest.length
-
-    tags.push(genTag(first))
 
     if (restCount) {
       if (props.collapseTags) {
