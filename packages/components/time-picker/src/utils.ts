@@ -24,7 +24,7 @@ export const extractDateFormat = (format: string) => {
 
 export const extractTimeFormat = (format: string) => {
   return format
-    .replace(/\W?D{1,2}|\W?Do|\W?d{1,4}|\W?M{1,4}|\W?Y{2,4}/g, '')
+    .replace(/\W?D{1,2}\W?|\W?Do|\W?d{1,4}\W?|\W?M{1,4}\W?|\W?Y{2,4}\W?/g, '')
     .trim()
 }
 
