@@ -136,6 +136,9 @@
       calc(#{getCssVar('upload-dragger-padding-vertical')} - 1px);
     background-color: getCssVar('color', 'primary', 'light-9');
     border: 2px dashed getCssVar('color-primary');
+    * {
+      pointer-events: none;
+    }
   }
 }
 
