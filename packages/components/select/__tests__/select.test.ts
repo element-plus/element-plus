@@ -858,6 +858,41 @@ describe('Select', () => {
     expect((wrapper.vm as any).value).toBe('new')
   })
 
+  test('allow create with default first option', async () => {
+    wrapper = getSelectVm(
+      {
+        filterable: true,
+        allowCreate: true,
+        defaultFirstOption: true,
+      },
+      [
+        {
+          value: 'HTML',
+          label: 'HTML',
+        },
+        {
+          value: 'CSS',
+          label: 'CSS',
+        },
+        {
+          value: 'JavaScript',
+          label: 'JavaScript',
+        },
+      ]
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    input.element.focus()
+    selectVm.selectedLabel = 'Java'
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+    const options = [...getOptions()]
+    expect(Array.from(options[0].classList)).toContain('hover')
+    options[0].click()
+    expect((wrapper.vm as any).value).toBe('Java')
+  })
+
   test('allow create async option', async () => {
     const options = [
       {
