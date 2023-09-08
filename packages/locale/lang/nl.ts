@@ -114,14 +114,14 @@ export default {
       hasCheckedFormat: '{checked}/{total} geselecteerd',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'MISLUKT',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Terug',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Ja',
+      cancelButtonText: 'Nee',
     },
   },
 }

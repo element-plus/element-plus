@@ -365,6 +365,32 @@ describe('DatePicker', () => {
     expect(document.querySelector('.disabled')).not.toBeNull()
   })
 
+  it('should work when using disabledDate prop and daterange type', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="daterange"
+        :disabledDate="disabledDate"
+    />`,
+      () => ({
+        value: ['2000-10-01', '2002-10-01'],
+        disabledDate(time) {
+          return time.getTime() > new Date(2002, 11)
+        },
+      })
+    )
+    const input = wrapper.findAll('input')[1]
+    input.element.value = '2001-10-01'
+    await input.trigger('input')
+    await input.trigger('change')
+    expect(dayjs(wrapper.vm.value[1]).toDate()).toEqual(new Date(2001, 9))
+
+    input.element.value = '2003-10-01'
+    await input.trigger('input')
+    await input.trigger('change')
+    expect(dayjs(wrapper.vm.value[1]).toDate()).toEqual(new Date(2001, 9))
+  })
+
   it('ref focus', async () => {
     _mount(
       `<el-date-picker

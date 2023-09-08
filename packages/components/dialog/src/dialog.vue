@@ -46,6 +46,7 @@
               :fullscreen="fullscreen"
               :show-close="showClose"
               :title="title"
+              :aria-level="headerAriaLevel"
               @close="handleClose"
             >
               <template #header>
