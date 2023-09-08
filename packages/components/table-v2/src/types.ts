@@ -73,11 +73,11 @@ export type Column<T = any> = {
   title?: string
   hidden?: boolean
   headerClass?: HeaderClassGetter<T> | string
-  maxWidth?: number
-  minWidth?: number
+  maxWidth?: number | string
+  minWidth?: number | string
   style?: CSSProperties
   sortable?: boolean
-  width: number
+  width: number | string
   /**
    * Renderers
    */
