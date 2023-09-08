@@ -1,7 +1,6 @@
 <template>
   <div
     ref="selectRef"
-    v-click-outside:[popperRef]="handleClickOutside"
     :class="[nsSelectV2.b(), nsSelectV2.m(selectSize)]"
     @click.stop="toggleMenu"
     @mouseenter="states.comboBoxHovering = true"

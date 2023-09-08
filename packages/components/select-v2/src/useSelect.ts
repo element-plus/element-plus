@@ -91,6 +91,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         )
       },
       afterFocus() {
+        expanded.value = false
         if (calculatorRef.value) {
           states.calculatedWidth =
             calculatorRef.value.getBoundingClientRect().width
@@ -627,10 +628,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const handleClickOutside = () => {
-    expanded.value = false
-  }
-
   const handleMenuEnter = () => {
     states.inputValue = states.displayInputValue
     return nextTick(() => {
@@ -802,7 +799,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     getValueKey,
     handleBlur,
     handleClear,
-    handleClickOutside,
     handleDel,
     handleEsc,
     handleFocus,
