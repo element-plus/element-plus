@@ -223,6 +223,9 @@ function show() {
 }
 
 function hide() {
+  if(!showPicker.value){
+    return
+  }
   debounceSetShowPicker(false)
   resetColor()
 }
