@@ -169,11 +169,11 @@ import {
   ValidateComponentsMap,
   debugWarn,
   isClient,
-  isKorean,
   isObject,
 } from '@element-plus/utils'
 import {
   useAttrs,
+  useComposition,
   useCursor,
   useFocusController,
   useNamespace,
@@ -246,7 +246,6 @@ const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
 
 const hovering = ref(false)
-const isComposing = ref(false)
 const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
@@ -427,25 +426,12 @@ const handleChange = (event: Event) => {
   emit('change', (event.target as TargetElement).value)
 }
 
-const handleCompositionStart = (event: CompositionEvent) => {
-  emit('compositionstart', event)
-  isComposing.value = true
-}
-
-const handleCompositionUpdate = (event: CompositionEvent) => {
-  emit('compositionupdate', event)
-  const text = (event.target as HTMLInputElement)?.value
-  const lastCharacter = text[text.length - 1] || ''
-  isComposing.value = !isKorean(lastCharacter)
-}
-
-const handleCompositionEnd = (event: CompositionEvent) => {
-  emit('compositionend', event)
-  if (isComposing.value) {
-    isComposing.value = false
-    handleInput(event)
-  }
-}
+const {
+  isComposing,
+  handleCompositionStart,
+  handleCompositionUpdate,
+  handleCompositionEnd,
+} = useComposition({ emit, afterComposition: handleInput })
 
 const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value

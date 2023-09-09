@@ -3,7 +3,7 @@ import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
 import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useComposition, useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   ValidateComponentsMap,
@@ -17,7 +17,6 @@ import { useAllowCreate } from './useAllowCreate'
 
 import { flattenOptions } from './util'
 
-import { useInput } from './useInput'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { SelectProps } from './defaults'
 import type { CSSProperties, ExtractPropTypes } from 'vue'
@@ -288,11 +287,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     selectNewOption,
     clearAllNewOption,
   } = useAllowCreate(props, states)
-  const {
-    handleCompositionStart,
-    handleCompositionUpdate,
-    handleCompositionEnd,
-  } = useInput((e) => onInput(e))
+  const { handleComposition } = useComposition({
+    afterComposition: (e) => onInput(e),
+  })
 
   // methods
   const focusAndUpdatePopup = () => {
@@ -834,9 +831,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     onSelect,
     onHover: updateHoveringIndex,
     onUpdateInputValue,
-    handleCompositionStart,
-    handleCompositionEnd,
-    handleCompositionUpdate,
+    handleComposition,
   }
 }
 

@@ -28,13 +28,17 @@ import {
   getComponentSize,
   isClient,
   isFunction,
-  isKorean,
   isNumber,
   isString,
   isUndefined,
   scrollIntoView,
 } from '@element-plus/utils'
-import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useComposition,
+  useDeprecated,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 
 import type { ComponentPublicInstance } from 'vue'
@@ -63,7 +67,6 @@ export function useSelectStates(props) {
     cachedPlaceHolder: '',
     currentPlaceholder: t('el.select.placeholder') as string | (() => string),
     menuVisibleOnFocus: false,
-    isOnComposition: false,
     prefixWidth: 11,
     mouseEnter: false,
     focused: false,
@@ -75,6 +78,12 @@ type States = ReturnType<typeof useSelectStates>
 export const useSelect = (props, states: States, ctx) => {
   const { t } = useLocale()
   const ns = useNamespace('select')
+  const { isComposing, handleComposition } = useComposition({
+    afterComposition(event) {
+      const text = (event.target as HTMLInputElement)?.value
+      handleQueryChange(text)
+    },
+  })
 
   useDeprecated(
     {
@@ -439,7 +448,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const handleQueryChange = async (val) => {
-    if (states.previousQuery === val || states.isOnComposition) return
+    if (states.previousQuery === val || isComposing.value) return
     if (
       states.previousQuery === null &&
       (isFunction(props.filterMethod) || isFunction(props.remoteMethod))
@@ -803,17 +812,6 @@ export const useSelect = (props, states: States, ctx) => {
     return option.hitState
   }
 
-  const handleComposition = (event) => {
-    const text = event.target.value
-    if (event.type === 'compositionend') {
-      states.isOnComposition = false
-      nextTick(() => handleQueryChange(text))
-    } else {
-      const lastCharacter = text[text.length - 1] || ''
-      states.isOnComposition = !isKorean(lastCharacter)
-    }
-  }
-
   const handleMenuEnter = () => {
     nextTick(() => scrollToOption(states.selected))
   }
@@ -927,7 +925,7 @@ export const useSelect = (props, states: States, ctx) => {
       return
     }
     if (states.options.size === 0 || states.filteredOptionsCount === 0) return
-    if (states.isOnComposition) return
+    if (isComposing.value) return
 
     if (!optionsAllDisabled.value) {
       if (direction === 'next') {
