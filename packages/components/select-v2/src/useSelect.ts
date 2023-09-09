@@ -90,7 +90,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
           tagTooltipRef.value?.isFocusInsideContent(event)
         )
       },
-      afterFocus() {
+      afterBlur() {
         expanded.value = false
         if (calculatorRef.value) {
           states.calculatedWidth =
