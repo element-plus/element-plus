@@ -200,17 +200,34 @@ describe('Dialog.vue', () => {
     })
 
     test('should open and close with delay', async () => {
+      const openDelay = 200
+      const closeDelay = 300
       const wrapper = mount(
-        <Dialog openDelay={200} closeDelay={200} modelValue={false}>
+        <Dialog
+          openDelay={openDelay}
+          closeDelay={closeDelay}
+          modelValue={false}
+        >
           {AXIOM}
         </Dialog>
       )
-
-      expect(wrapper.vm.visible).toBe(false)
+      vi.useFakeTimers()
 
       await wrapper.setProps({
         modelValue: true,
       })
+      expect(wrapper.vm.visible).toBe(false)
+      vi.advanceTimersByTime(openDelay)
+      expect(wrapper.vm.visible).toBe(true)
+
+      await wrapper.setProps({
+        modelValue: false,
+      })
+      expect(wrapper.vm.visible).toBe(true)
+      vi.advanceTimersByTime(closeDelay)
+      expect(wrapper.vm.visible).toBe(false)
+
+      vi.useRealTimers()
     })
 
     test('should destroy on close', async () => {

@@ -4,10 +4,13 @@
 
 <p align="center">
   <a href="https://www.npmjs.org/package/element-plus">
-    <img src="https://img.shields.io/npm/v/element-plus.svg">
+    <img src="https://img.shields.io/npm/v/element-plus.svg" />
+  </a>
+  <a href="https://github.com/element-plus/element-plus">
+    <img src="https://img.shields.io/badge/node-%20%3E%3D%2016-47c219" />
   </a>
   <a href="https://npmcharts.com/compare/element-plus?minimal=true">
-    <img src="https://img.shields.io/npm/dm/element-plus.svg">
+    <img src="https://img.shields.io/npm/dm/element-plus.svg" />
   </a>
   <a href="https://codecov.io/gh/element-plus/element-plus">
     <img src="https://codecov.io/gh/element-plus/element-plus/branch/dev/graph/badge.svg?token=BKSBO2GLZI"/>
@@ -132,12 +135,6 @@ Welcome :star_struck:! We are looking for talented developers to join us and mak
 reach out to us, you are more than welcomed to join us! :heart:
 
 We are now lacking of experts of `Testing`, `GitHub Actions`, `PM`, if you do feel like you can and willing to help us, please do reach out to us. :pray:
-
-## Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Become a sponsor](https://opencollective.com/element-plus#sponsor)
-
-<a href="https://opencollective.com/element-plus/sponsor/0/website" target="_blank"><img src="https://opencollective.com/element-plus/sponsor/0/avatar.svg"></a>
 
 ## Contributors
 
