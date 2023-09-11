@@ -524,11 +524,12 @@ type RowsRenderedParams = {
 }
 
 type RowSlotProps = {
-  columnIndex: number
-  rowIndex: number
-  data: any
-  key: number | string
+  cells: VNode[]
+  columns: Column<any>[]
+  depth: number
   isScrolling?: boolean | undefined
+  rowData: any
+  rowIndex: number
   style: CSSProperties
 }
 
