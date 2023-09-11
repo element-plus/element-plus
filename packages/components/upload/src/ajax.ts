@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-unified'
-import { isArray, throwError } from '@element-plus/utils'
+import { isArray, isBlob, throwError } from '@element-plus/utils'
 import type {
   UploadProgressEvent,
   UploadRequestHandler,
@@ -52,6 +52,10 @@ function getBody(xhr: XMLHttpRequest): XMLHttpRequestResponseType {
   }
 }
 
+function isFormBlobValue(value: unknown): value is [Blob] | [Blob, string] {
+  return isArray(value) && value.length < 2 && isBlob(value[0])
+}
+
 export const ajaxUpload: UploadRequestHandler = (option) => {
   if (typeof XMLHttpRequest === 'undefined')
     throwError(SCOPE, 'XMLHttpRequest is undefined')
@@ -70,7 +74,7 @@ export const ajaxUpload: UploadRequestHandler = (option) => {
   const formData = new FormData()
   if (option.data) {
     for (const [key, value] of Object.entries(option.data)) {
-      if (isArray(value) && value.length) formData.append(key, ...value)
+      if (isFormBlobValue(value)) formData.append(key, ...value)
       else formData.append(key, value)
     }
   }

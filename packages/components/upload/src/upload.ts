@@ -20,7 +20,7 @@ export interface UploadProgressEvent extends ProgressEvent {
 export interface UploadRequestOptions {
   action: string
   method: string
-  data: Record<string, string | Blob | [string | Blob, string]>
+  data: Record<string, string | Blob | [Blob, string]>
   filename: string
   file: UploadRawFile
   headers: Headers | Record<string, string | number | null | undefined>

@@ -36,3 +36,11 @@ export const isStringNumber = (val: string): boolean => {
   }
   return !Number.isNaN(Number(val))
 }
+
+export const isBlob = (val: unknown): val is Blob => {
+  return val instanceof Blob
+}
+
+export const isFile = (val: unknown): val is File => {
+  return val instanceof File
+}

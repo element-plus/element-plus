@@ -31,7 +31,7 @@ import { shallowRef } from 'vue'
 import { isPlainObject } from '@vue/shared'
 import { cloneDeep, isEqual } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
-import { entriesOf, isFunction } from '@element-plus/utils'
+import { entriesOf, isBlob, isFile, isFunction } from '@element-plus/utils'
 import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
 import { uploadContentProps } from './upload-content'
@@ -110,8 +110,8 @@ const upload = async (rawFile: UploadRawFile): Promise<void> => {
   }
 
   let file: File = rawFile
-  if (hookResult instanceof Blob) {
-    if (hookResult instanceof File) {
+  if (isBlob(hookResult)) {
+    if (isFile(hookResult)) {
       file = hookResult
     } else {
       file = new File([hookResult], rawFile.name, {

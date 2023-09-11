@@ -1,7 +1,7 @@
 import { watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { useVModel } from '@vueuse/core'
-import { debugWarn, throwError } from '@element-plus/utils'
+import { debugWarn, isFile, throwError } from '@element-plus/utils'
 import { genFileId } from './upload'
 import type { ShallowRef } from 'vue'
 import type {
@@ -109,7 +109,7 @@ export const useHandlers = (
   const handleRemove: UploadContentProps['onRemove'] = async (
     file
   ): Promise<void> => {
-    const uploadFile = file instanceof File ? getFile(file) : file
+    const uploadFile = isFile(file) ? getFile(file) : file
     if (!uploadFile) throwError(SCOPE, 'file to be removed not found')
 
     const doRemove = (file: UploadFile) => {
