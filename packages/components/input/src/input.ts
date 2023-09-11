@@ -166,6 +166,12 @@ export const inputProps = buildProps({
     type: definePropType<StyleValue>([Object, Array, String]),
     default: () => mutable({} as const),
   },
+  /**
+   * @description native input autofocus
+   */
+  autofocus: {
+    type: Boolean,
+  },
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>
 
