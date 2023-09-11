@@ -171,6 +171,7 @@ export const inputProps = buildProps({
    */
   autofocus: {
     type: Boolean,
+    default: false,
   },
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>
