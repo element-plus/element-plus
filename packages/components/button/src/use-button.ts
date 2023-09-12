@@ -71,7 +71,7 @@ export const useButton = (
     emit('click', evt)
   }
   const mouseDown = (evt: MouseEvent) => {
-    if (props.PreventFocus) {
+    if (props.preventFocus) {
       evt.preventDefault()
     }
     emit('mousedown', evt)
