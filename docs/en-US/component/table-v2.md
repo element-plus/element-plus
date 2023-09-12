@@ -527,9 +527,12 @@ type RowSlotProps = {
   cells: VNode[]
   columns: Column<any>[]
   depth: number
-  isScrolling?: boolean | undefined
   rowData: any
+  columnIndex: number
   rowIndex: number
+  data: any
+  key: number | string
+  isScrolling?: boolean
   style: CSSProperties
 }
 
