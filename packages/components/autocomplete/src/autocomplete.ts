@@ -51,7 +51,7 @@ export const autocompleteProps = buildProps({
     default: 300,
   },
   /**
-   * @description the placeholder of Autocomplete
+   * @description placement of the popup menu
    */
   placement: {
     type: definePropType<Placement>(String),
