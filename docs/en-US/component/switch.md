@@ -115,7 +115,7 @@ switch/custom-action-icon
 | before-change                 | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | ^[boolean] / ^[Function]`() => Promise<boolean>` | —       |
 | id                            | id for input                                                                                                                                    | ^[string]                                        | —       |
 | tabindex                      | tabindex for input                                                                                                                              | ^[string] / ^[number]                            | —       |
-| label ^(a11y)                 | same as `aria-label` in native input                                                                                                            | ^[string]                                        | —       |
+| label ^(a11y)                 | same as `aria-label` in native input                                                                                                            | ^[string]                                        | Switch  |
 
 ### Events
 
