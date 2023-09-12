@@ -184,6 +184,7 @@ const handleRangePick = (val: RangePickValue, close = true) => {
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {
     return
   }
+  emit('calendar-change', [minDate_.toDate(), maxDate_ && maxDate_.toDate()])
   maxDate.value = maxDate_
   minDate.value = minDate_
 
