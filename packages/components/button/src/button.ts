@@ -111,6 +111,11 @@ export const buttonProps = buildProps({
     type: definePropType<string | Component>([String, Object]),
     default: 'button',
   },
+  /**
+    * @description PreventFocus  prevent the button from being focused after being clicked
+    */
+  PreventFocus: Boolean,
+
 } as const)
 export const buttonEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,

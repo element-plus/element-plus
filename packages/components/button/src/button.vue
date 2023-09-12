@@ -18,6 +18,7 @@
     ]"
     :style="buttonStyle"
     @click="handleClick"
+    @mousedown="mouseDown"
   >
     <template v-if="loading">
       <slot v-if="$slots.loading" name="loading" />
@@ -54,7 +55,7 @@ const emit = defineEmits(buttonEmits)
 
 const buttonStyle = useButtonCustomStyle(props)
 const ns = useNamespace('button')
-const { _ref, _size, _type, _disabled, _props, shouldAddSpace, handleClick } =
+const { _ref, _size, _type, _disabled, _props, shouldAddSpace, handleClick,mouseDown } =
   useButton(props, emit)
 
 defineExpose({

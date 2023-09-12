@@ -70,6 +70,12 @@ export const useButton = (
     }
     emit('click', evt)
   }
+  const mouseDown = (evt: MouseEvent) => {
+    if (props.PreventFocus) {
+      evt.preventDefault()
+    }
+    emit('mousedown', evt)
+  }
 
   return {
     _disabled,
@@ -79,5 +85,6 @@ export const useButton = (
     _props,
     shouldAddSpace,
     handleClick,
+    mouseDown
   }
 }
