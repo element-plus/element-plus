@@ -524,9 +524,7 @@ type RowsRenderedParams = {
 }
 
 type RowSlotProps = {
-  cells: VNode[]
   columns: Column<any>[]
-  depth: number
   rowData: any
   columnIndex: number
   rowIndex: number
