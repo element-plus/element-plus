@@ -766,4 +766,5 @@ contextEmit('set-picker-option', ['isValidValue', isValidValue])
 contextEmit('set-picker-option', ['formatToString', formatToString])
 contextEmit('set-picker-option', ['parseUserInput', parseUserInput])
 contextEmit('set-picker-option', ['handleFocusPicker', handleFocusPicker])
+contextEmit('set-picker-option', ['getDefaultValue', getDefaultValue])
 </script>
