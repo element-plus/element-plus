@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { reactive } from 'vue'
+import { cloneDeep } from 'lodash'
 import { hasOwn } from '@element-plus/utils'
 import { NODE_KEY, markNodeData } from './util'
 import type TreeStore from './tree-store'
@@ -34,7 +35,7 @@ export const getChildState = (node: Node[]): TreeNodeChildState => {
   return { all, none, allWithoutDisable, half: !all && !none }
 }
 
-const reInitChecked = function (node: Node): void {
+export const reInitChecked = function (node: Node): void {
   if (node.childNodes.length === 0 || node.loading) return
 
   const { all, none, half } = getChildState(node.childNodes)
@@ -406,6 +407,31 @@ class Node {
       return
     }
     this.isLeaf = false
+  }
+
+  getChildCheckedNodes(
+    leafOnly = false,
+    includeHalfChecked = false
+  ): TreeNodeData[] {
+    const checkedNodes: TreeNodeData[] = []
+    const traverse = function (node: TreeStore | Node) {
+      const childNodes = (node as Node).childNodes
+      if (!childNodes?.length) return
+      childNodes.forEach((child) => {
+        if (
+          (child.checked || (includeHalfChecked && child.indeterminate)) &&
+          (!leafOnly || (leafOnly && child.isLeaf))
+        ) {
+          checkedNodes.push(cloneDeep(child.data))
+        }
+
+        traverse(child)
+      })
+    }
+
+    traverse(this)
+
+    return checkedNodes
   }
 
   setChecked(
