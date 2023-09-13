@@ -773,4 +773,34 @@ describe('Datetimerange', () => {
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
   })
+
+  it('prop defaultTime should not confilt with prop shortcuts', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetime"
+        shortcuts={[
+          { text: '12:00', value: new Date(2023, 0, 1, 12) },
+          { text: '13:00', value: new Date(2023, 0, 1, 13) },
+          { text: '14:00', value: new Date(2023, 0, 1, 14) },
+        ]}
+        default-time={new Date(2023, 0, 1, 19, 0, 0)}
+      />
+    ))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(
+      document.querySelector(
+        '.el-picker-panel__sidebar .el-picker-panel__shortcut'
+      ) as HTMLElement
+    ).click()
+    await nextTick()
+    expect(value.value).toBeDefined()
+    expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toStrictEqual(
+      '2023-01-01 12:00:00'
+    )
+  })
 })

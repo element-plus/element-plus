@@ -36,8 +36,8 @@ const onClick = (item: string) => {
     <h1>{{ resourceLang.title }}</h1>
     <p>{{ resourceLang.lineOne }}</p>
     <p v-html="resourceLang.lineTwo" />
-    <div class="flex flex-wrap justify-center mt-32px">
-      <div class="inline-flex w-full md:w-1/3" p="2" pl-0>
+    <div class="flex flex-wrap justify-center mt-32px" m="-2">
+      <div class="inline-flex w-full md:w-1/2 lg:w-1/3 3xl:w-1/4" p="2">
         <el-card class="card" shadow="hover">
           <axure-components-svg w="30" alt="axure" />
           <h3>{{ resourceLang.axure }}</h3>
@@ -53,7 +53,7 @@ const onClick = (item: string) => {
           </a>
         </el-card>
       </div>
-      <div class="inline-flex w-full md:w-1/3" p="2">
+      <div class="inline-flex w-full md:w-1/2 lg:w-1/3 3xl:w-1/4" p="2">
         <el-card class="card" shadow="hover">
           <sketch-template-svg w="30" alt="Sketch" />
           <h3>{{ resourceLang.sketch }}</h3>
@@ -69,7 +69,7 @@ const onClick = (item: string) => {
           </a>
         </el-card>
       </div>
-      <div class="inline-flex w-full md:w-1/3" p="2">
+      <div class="inline-flex w-full md:w-1/2 lg:w-1/3 3xl:w-1/4" p="2">
         <el-card class="card" shadow="hover">
           <figma-template-svg w="30" alt="Figma" />
           <h3>{{ resourceLang.figma }}</h3>
@@ -85,6 +85,24 @@ const onClick = (item: string) => {
           </a>
         </el-card>
       </div>
+      <div class="inline-flex w-full md:w-1/2 lg:w-1/3 3xl:w-1/4" p="2">
+        <el-card class="card" shadow="hover">
+          <figma-variables-svg w="30" alt="Figma" />
+          <h3>{{ resourceLang.figmaVariables }}</h3>
+          <p>
+            {{ resourceLang.figmaVariablesIntro }}
+          </p>
+          <a
+            href="https://www.figma.com/community/file/1256091634199852065"
+            target="_blank"
+            @click="onClick('figma')"
+          >
+            <el-button type="primary">{{ resourceLang.download }}</el-button>
+          </a>
+        </el-card>
+      </div>
+      <div class="inline-flex w-full md:w-1/3" p="2" />
+      <div class="inline-flex w-full md:w-1/3" p="2" />
     </div>
   </div>
 </template>
@@ -109,6 +127,7 @@ const onClick = (item: string) => {
 }
 
 .card {
+  width: 100%;
   text-align: center;
   padding: 32px 0;
 
