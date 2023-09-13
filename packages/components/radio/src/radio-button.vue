@@ -18,6 +18,7 @@
       :disabled="disabled"
       @focus="focus = true"
       @blur="focus = false"
+      @click.stop
     />
     <span
       :class="ns.be('button', 'inner')"

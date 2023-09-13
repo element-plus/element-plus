@@ -103,7 +103,6 @@ declare module '@vue/runtime-core' {
     VpSponsors: typeof import('./.vitepress/vitepress/components/vp-sponsors.vue')['default']
     VpSponsorSmall: typeof import('./.vitepress/vitepress/components/vp-sponsor-small.vue')['default']
     VpSubnav: typeof import('./.vitepress/vitepress/components/vp-subnav.vue')['default']
-    VpSwitch: typeof import('./.vitepress/vitepress/components/common/vp-switch.vue')['default']
     VpTableOfContent: typeof import('./.vitepress/vitepress/components/doc-content/vp-table-of-content.vue')['default']
     VpThemeToggler: typeof import('./.vitepress/vitepress/components/navbar/vp-theme-toggler.vue')['default']
     VpTranslation: typeof import('./.vitepress/vitepress/components/navbar/vp-translation.vue')['default']
