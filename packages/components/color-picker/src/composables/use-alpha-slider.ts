@@ -68,8 +68,10 @@ export const useAlphaSlider = (props: AlphaSliderProps) => {
   }
 
   function handleKeydown(event: KeyboardEvent) {
-    const step = 1
-    switch (event.code) {
+    const { code, shiftKey } = event
+    const step = shiftKey ? 10 : 1
+
+    switch (code) {
       case EVENT_CODE.left:
       case EVENT_CODE.down:
         event.preventDefault()
