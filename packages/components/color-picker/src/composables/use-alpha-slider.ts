@@ -29,6 +29,7 @@ export const useAlphaSlider = (props: AlphaSliderProps) => {
     if (target !== thumb.value) {
       handleDrag(event)
     }
+    thumb.value?.focus()
   }
 
   function handleDrag(event: MouseEvent | TouchEvent) {
