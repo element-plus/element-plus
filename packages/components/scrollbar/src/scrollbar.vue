@@ -6,6 +6,7 @@
         ref="resizeRef"
         :class="resizeKls"
         :style="viewStyle"
+        tabindex="0"
       >
         <slot />
       </component>
