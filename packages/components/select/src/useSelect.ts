@@ -182,7 +182,7 @@ export const useSelect = (props, states: States, ctx) => {
         newList.push(list[index])
       }
     })
-    return newList.length ? newList : list
+    return newList.length >= list.length ? newList : list
   })
 
   const cachedOptionsArray = computed(() =>
@@ -914,11 +914,11 @@ export const useSelect = (props, states: States, ctx) => {
   )
 
   const showTagList = computed(() =>
-    states.selected.slice(0, props.maxCollapseTags)
+    props.multiple ? states.selected.slice(0, props.maxCollapseTags) : []
   )
 
   const collapseTagList = computed(() =>
-    states.selected.slice(props.maxCollapseTags)
+    props.multiple ? states.selected.slice(props.maxCollapseTags) : []
   )
 
   const navigateOptions = (direction) => {

@@ -116,6 +116,7 @@ image/image-preview
 | ------ | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | close  | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | ^[Function]`() => void`              |
 | switch | trigger when switching images.                                                                    | ^[Function]`(index: number) => void` |
+| rotate ^(2.3.13) | trigger when rotating images.                                                                     | ^[Function]`(deg: number) => void`   |
 
 ### Image Viewer Exposes
 
