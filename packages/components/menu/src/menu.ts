@@ -98,7 +98,7 @@ export const menuEmits = {
 }
 export type MenuEmits = typeof menuEmits
 
-export default defineComponent({
+const ElMenu = defineComponent({
   name: 'ElMenu',
 
   props: menuProps,
@@ -436,3 +436,11 @@ export default defineComponent({
     }
   },
 })
+
+export type MenuInstance = InstanceType<typeof ElMenu> & {
+  open: (index: string) => void
+  close: (index: string) => void
+  handleResize: () => void
+}
+
+export default ElMenu
