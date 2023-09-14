@@ -74,6 +74,13 @@ export const scrollbarProps = buildProps({
     type: Number,
     default: 20,
   },
+  /**
+   * @description Wrap tabindex
+   */
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
 } as const)
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
 

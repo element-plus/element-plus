@@ -1,12 +1,17 @@
 <template>
   <div ref="scrollbarRef" :class="ns.b()">
-    <div ref="wrapRef" :class="wrapKls" :style="style" @scroll="handleScroll">
+    <div
+      ref="wrapRef"
+      :class="wrapKls"
+      :style="style"
+      :tabindex="props.tabindex"
+      @scroll="handleScroll"
+    >
       <component
         :is="tag"
         ref="resizeRef"
         :class="resizeKls"
         :style="viewStyle"
-        tabindex="0"
       >
         <slot />
       </component>
