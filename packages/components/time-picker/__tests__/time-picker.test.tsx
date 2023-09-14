@@ -585,25 +585,25 @@ describe('TimePicker(range)', () => {
     })
   })
 
-  // it('clear button', async () => {
-  //   const value = ref([
-  //     new Date(2016, 9, 10, 9, 40),
-  //     new Date(2016, 9, 10, 15, 40),
-  //   ])
-  //   const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
+  it('clear button', async () => {
+    const value = ref([
+      new Date(2016, 9, 10, 9, 40),
+      new Date(2016, 9, 10, 15, 40),
+    ])
+    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
 
-  //   const findInputWrapper = () => wrapper.find('.el-date-editor')
-  //   const findClear = () => wrapper.find('.el-range__close-icon')
+    const findInputWrapper = () => wrapper.find('.el-date-editor')
+    const findClear = () => wrapper.find('.el-range__close-icon')
 
-  //   await nextTick()
-  //   const inputWrapper = findInputWrapper()
-  //   await inputWrapper.trigger('mouseenter')
-  //   await rAF()
-  //   const clearIcon = findClear()
-  //   await clearIcon.trigger('click')
-  //   await nextTick()
-  //   expect(value.value).toEqual(null)
-  // })
+    await nextTick()
+    const inputWrapper = findInputWrapper()
+    await inputWrapper.trigger('mouseenter')
+    await rAF()
+    const clearIcon = findClear()
+    await clearIcon.trigger('click')
+    await nextTick()
+    expect(value.value).toEqual(null)
+  })
 
   it('selectableRange ', async () => {
     // left ['08:00:00 - 12:59:59'] right ['11:00:00 - 16:59:59']
@@ -770,23 +770,23 @@ describe('TimePicker(range)', () => {
       )
     })
 
-    // it('specified id attachment', async () => {
-    //   const wrapper = mount(() => (
-    //     <ElFormItem label="Foobar" data-test-ref="item">
-    //       <TimePicker id="foobar" />
-    //     </ElFormItem>
-    //   ))
+    it('specified id attachment', async () => {
+      const wrapper = mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <TimePicker id="foobar" />
+        </ElFormItem>
+      ))
 
-    //   await nextTick()
-    //   const formItem = wrapper.find('[data-test-ref="item"]')
-    //   const formItemLabel = formItem.find('.el-form-item__label')
-    //   const timePickerInput = wrapper.find('.el-input__inner')
-    //   expect(formItem.attributes().role).toBeFalsy()
-    //   expect(timePickerInput.attributes().id).toBe('foobar')
-    //   expect(formItemLabel.attributes().for).toBe(
-    //     timePickerInput.attributes().id
-    //   )
-    // })
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const timePickerInput = wrapper.find('.el-input__inner')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(timePickerInput.attributes().id).toBe('foobar')
+      expect(formItemLabel.attributes().for).toBe(
+        timePickerInput.attributes().id
+      )
+    })
 
     it('form item role is group when multiple inputs', async () => {
       const wrapper = mount(() => (
@@ -859,14 +859,14 @@ describe('TimePicker(range)', () => {
     })
   })
 
-  // it('display value', async () => {
-  //   const value = ref([undefined, undefined])
-  //   const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
+  it('display value', async () => {
+    const value = ref([undefined, undefined])
+    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
 
-  //   await nextTick()
+    await nextTick()
 
-  //   const [startInput, endInput] = wrapper.findAll('input')
-  //   expect(startInput.element.value).toBe('')
-  //   expect(endInput.element.value).toBe('')
-  // })
+    const [startInput, endInput] = wrapper.findAll('input')
+    expect(startInput.element.value).toBe('')
+    expect(endInput.element.value).toBe('')
+  })
 })

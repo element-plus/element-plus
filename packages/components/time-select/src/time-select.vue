@@ -94,7 +94,6 @@ const items = computed(() => {
       currentTime = dayjs(current, 'HH:mm')
         .locale(lang.value)
         .format(props.format)
-        .concat('test')
       result.push({
         value: currentTime,
         disabled:
