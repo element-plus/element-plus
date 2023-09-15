@@ -22,6 +22,7 @@
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
       :persistent="persistent"
+      :append-to="appendTo"
       @show="handleMenuEnter"
     >
       <template #default>
@@ -527,6 +528,13 @@ export default defineComponent({
       type: String,
       values: placements,
       default: 'bottom-start',
+    },
+    /**
+     * @description which element the selection dropdown appends to
+     */
+    appendTo: {
+      type: String,
+      default: undefined,
     },
     /**
      * @description native input aria-label
