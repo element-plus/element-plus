@@ -14,12 +14,10 @@ export default ElMenu
 export const ElMenuItem = withNoopInstall(MenuItem)
 export const ElMenuItemGroup = withNoopInstall(MenuItemGroup)
 export const ElSubMenu = withNoopInstall(SubMenu)
-export type MenuItemInstance = InstanceType<typeof MenuItem>
-export type MenuItemGroupInstance = InstanceType<typeof MenuItemGroup>
-export type SubMenuInstance = InstanceType<typeof SubMenu>
 
 export * from './src/menu'
 export * from './src/menu-item'
 export * from './src/menu-item-group'
 export * from './src/sub-menu'
 export * from './src/types'
+export * from './src/instance'
