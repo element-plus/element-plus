@@ -6,6 +6,7 @@ interface Tree {
   id: string
   label: string
   children?: Tree[]
+  disabled: boolean
 }
 
 const getKey = (prefix: string, id: number) => {
@@ -32,6 +33,7 @@ const createData = (
         children: childrenNumber
           ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, nodeKey)
           : undefined,
+        disabled: nodeKey.includes('2'),
       }
     })
 }

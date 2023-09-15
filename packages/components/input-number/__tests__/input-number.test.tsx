@@ -44,7 +44,7 @@ describe('InputNumber.vue', () => {
     await nextTick()
     expect(wrapper.find('input').element.value).toEqual('')
     expect(wrapper.find('input').element.getAttribute('aria-valuenow')).toEqual(
-      'null'
+      ''
     )
   })
 

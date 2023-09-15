@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
-import { getStyle, hasClass } from '@element-plus/utils'
+import { hasClass } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import { createTablePopper, getCell, getColumnByCell } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
@@ -49,6 +49,19 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   const handleMouseLeave = debounce(() => {
     props.store.commit('setHoverRow', null)
   }, 30)
+  const getPadding = (el: HTMLElement) => {
+    const style = window.getComputedStyle(el, null)
+    const paddingLeft = Number.parseInt(style.paddingLeft, 10) || 0
+    const paddingRight = Number.parseInt(style.paddingRight, 10) || 0
+    const paddingTop = Number.parseInt(style.paddingTop, 10) || 0
+    const paddingBottom = Number.parseInt(style.paddingBottom, 10) || 0
+    return {
+      left: paddingLeft,
+      right: paddingRight,
+      top: paddingTop,
+      bottom: paddingBottom,
+    }
+  }
   const handleCellMouseEnter = (
     event: MouseEvent,
     row: T,
@@ -102,12 +115,23 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
      *    - Expected: 188
      *    - Actual: 188.00000762939453
      */
-    const rangeWidth = Math.round(range.getBoundingClientRect().width)
-    const padding =
-      (Number.parseInt(getStyle(cellChild, 'paddingLeft'), 10) || 0) +
-      (Number.parseInt(getStyle(cellChild, 'paddingRight'), 10) || 0)
+    let rangeWidth = range.getBoundingClientRect().width
+    let rangeHeight = range.getBoundingClientRect().height
+    const offsetWidth = rangeWidth - Math.floor(rangeWidth)
+    if (offsetWidth < 0.001) {
+      rangeWidth = Math.floor(rangeWidth)
+    }
+    const offsetHeight = rangeHeight - Math.floor(rangeHeight)
+    if (offsetHeight < 0.001) {
+      rangeHeight = Math.floor(rangeHeight)
+    }
+
+    const { top, left, right, bottom } = getPadding(cellChild)
+    const horizontalPadding = left + right
+    const verticalPadding = top + bottom
     if (
-      rangeWidth + padding > cellChild.offsetWidth ||
+      rangeWidth + horizontalPadding > cellChild.offsetWidth ||
+      rangeHeight + verticalPadding > cellChild.offsetHeight ||
       cellChild.scrollWidth > cellChild.offsetWidth
     ) {
       createTablePopper(
