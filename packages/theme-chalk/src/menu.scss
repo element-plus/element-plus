@@ -78,6 +78,8 @@
     flex-wrap: nowrap;
     border-right: none;
 
+    height: getCssVar('menu-horizontal-height');
+
     &.#{$namespace}-menu {
       border-bottom: solid 1px getCssVar('menu-border-color');
     }
