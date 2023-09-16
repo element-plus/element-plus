@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootKls" role="tablist" aria-multiselectable="true">
+  <div :class="rootKls">
     <slot />
   </div>
 </template>
