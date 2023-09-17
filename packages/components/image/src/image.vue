@@ -1,28 +1,26 @@
 <template>
   <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
-    <img
-      v-if="imageSrc !== undefined && !hasLoadError"
-      v-bind="attrs"
-      :src="imageSrc"
-      :loading="loading"
-      :style="imageStyle"
-      :class="[
-        ns.e('inner'),
-        preview && ns.e('preview'),
-        isLoading && ns.is('loading'),
-      ]"
-      @click="clickHandler"
-      @load="handleLoad"
-      @error="handleError"
-    />
-    <div v-if="isLoading || hasLoadError" :class="ns.e('wrapper')">
-      <slot v-if="isLoading" name="placeholder">
-        <div :class="ns.e('placeholder')" />
-      </slot>
-      <slot v-else-if="hasLoadError" name="error">
-        <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
-      </slot>
-    </div>
+    <slot v-if="hasLoadError" name="error">
+      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
+    </slot>
+    <template v-else>
+      <img
+        v-if="imageSrc !== undefined"
+        v-bind="attrs"
+        :src="imageSrc"
+        :loading="loading"
+        :style="imageStyle"
+        :class="imageKls"
+        @click="clickHandler"
+        @load="handleLoad"
+        @error="handleError"
+      />
+      <div v-if="isLoading" :class="ns.e('wrapper')">
+        <slot name="placeholder">
+          <div :class="ns.e('placeholder')" />
+        </slot>
+      </div>
+    </template>
     <template v-if="preview">
       <image-viewer
         v-if="showViewer"
@@ -54,11 +52,12 @@ import {
   useAttrs as useRawAttrs,
   watch,
 } from 'vue'
-import { isClient, useEventListener, useThrottleFn } from '@vueuse/core'
+import { useEventListener, useThrottleFn } from '@vueuse/core'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
+  isClient,
   isElement,
   isInContainer,
   isString,
@@ -92,6 +91,12 @@ const _scrollContainer = ref<HTMLElement | Window>()
 const supportLoading = isClient && 'loading' in HTMLImageElement.prototype
 let stopScrollListener: (() => void) | undefined
 let stopWheelListener: (() => void) | undefined
+
+const imageKls = computed(() => [
+  ns.e('inner'),
+  preview.value && ns.e('preview'),
+  isLoading.value && ns.is('loading'),
+])
 
 const containerStyle = computed(() => rawAttrs.style as StyleValue)
 
@@ -150,7 +155,7 @@ function handleLazyLoad() {
   }
 }
 
-const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
+const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200, true)
 
 async function addLazyLoadListener() {
   if (!isClient) return

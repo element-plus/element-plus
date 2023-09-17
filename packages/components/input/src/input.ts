@@ -160,7 +160,7 @@ export const inputProps = buildProps({
     default: true,
   },
   /**
-   * @description input or texearea element style
+   * @description input or textarea element style
    */
   inputStyle: {
     type: definePropType<StyleValue>([Object, Array, String]),
@@ -171,6 +171,13 @@ export const inputProps = buildProps({
    */
   countGraphemes: {
     type: Function,
+  },
+  /**
+   * @description native input autofocus
+   */
+  autofocus: {
+    type: Boolean,
+    default: false,
   },
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>

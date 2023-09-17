@@ -40,6 +40,7 @@ export const useCarousel = (
   const timer = ref<ReturnType<typeof setInterval> | null>(null)
   const hover = ref(false)
   const root = ref<HTMLDivElement>()
+  const containerHeight = ref<number>(0)
 
   // computed
   const arrowDisplay = computed(
@@ -52,6 +53,18 @@ export const useCarousel = (
 
   const isCardType = computed(() => props.type === 'card')
   const isVertical = computed(() => props.direction === 'vertical')
+
+  const containerStyle = computed(() => {
+    if (props.height !== 'auto') {
+      return {
+        height: props.height,
+      }
+    }
+    return {
+      height: `${containerHeight.value}px`,
+      overflow: 'hidden',
+    }
+  })
 
   // methods
   const throttledArrowClick = throttle(
@@ -192,6 +205,11 @@ export const useCarousel = (
     startTimer()
   }
 
+  function setContainerHeight(height: number) {
+    if (props.height !== 'auto') return
+    containerHeight.value = height
+  }
+
   // watch
   watch(
     () => activeIndex.value,
@@ -222,16 +240,19 @@ export const useCarousel = (
     }
   )
 
-  watch(
-    () => items.value,
-    () => {
-      if (items.value.length > 0) setActiveItem(props.initialIndex)
-    }
-  )
-
   const resizeObserver = shallowRef<ReturnType<typeof useResizeObserver>>()
   // lifecycle
   onMounted(() => {
+    watch(
+      () => items.value,
+      () => {
+        if (items.value.length > 0) setActiveItem(props.initialIndex)
+      },
+      {
+        immediate: true,
+      }
+    )
+
     resizeObserver.value = useResizeObserver(root.value, () => {
       resetItemPosition()
     })
@@ -253,6 +274,7 @@ export const useCarousel = (
     addItem,
     removeItem,
     setActiveItem,
+    setContainerHeight,
   })
 
   return {
@@ -263,6 +285,8 @@ export const useCarousel = (
     hover,
     isCardType,
     items,
+    isVertical,
+    containerStyle,
     handleButtonEnter,
     handleButtonLeave,
     handleIndicatorClick,

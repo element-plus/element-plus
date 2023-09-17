@@ -12,6 +12,7 @@ import {
   watchEffect,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
+import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {
@@ -191,7 +192,7 @@ export default defineComponent({
       }
 
       const { index, indexPath } = menuItem
-      if (index === undefined || indexPath === undefined) return
+      if (isNil(index) || isNil(indexPath)) return
 
       if (props.router && router) {
         const route = menuItem.route || index
@@ -229,7 +230,10 @@ export default defineComponent({
     const calcSliceIndex = () => {
       if (!menu.value) return -1
       const items = Array.from(menu.value?.childNodes ?? []).filter(
-        (item) => item.nodeName !== '#text' || item.nodeValue
+        (item) =>
+          // remove comment type node #12634
+          item.nodeName !== '#comment' &&
+          (item.nodeName !== '#text' || item.nodeValue)
       ) as HTMLElement[]
       const moreItemWidth = 64
       const paddingLeft = Number.parseInt(

@@ -159,6 +159,8 @@ export default defineComponent({
           ]
         : [
             'right-start',
+            'right',
+            'right-end',
             'left-start',
             'bottom-start',
             'bottom-end',
@@ -195,6 +197,7 @@ export default defineComponent({
       active,
     })
 
+    const ulStyle = useMenuCssVar(rootMenu.props, subMenu.level + 1)
     const titleStyle = computed<CSSProperties>(() => {
       if (mode.value !== 'horizontal') {
         return {
@@ -352,8 +355,6 @@ export default defineComponent({
           }
         ),
       ]
-
-      const ulStyle = useMenuCssVar(rootMenu.props, subMenu.level + 1)
 
       // this render function is only used for bypass `Vue`'s compiler caused patching issue.
       // temporarily mark ElPopper as any due to type inconsistency.

@@ -27,18 +27,25 @@ const typeMap = {
   vue: ['Component', 'VNode', 'CSSProperties', 'StyleValue'],
 }
 
-const reComponentName: ReComponentName = (title) =>
-  `el-${hyphenate(title).replace(/[ ]+/g, '-')}`
+const removeTag = (str: string) => {
+  return str.replaceAll(/\^\([^)]*\)/g, '').trim()
+}
+
+const reComponentName: ReComponentName = (title) => {
+  return `el-${hyphenate(removeTag(title)).replace(/[ ]+/g, '-')}`
+}
 
 const reDocUrl: ReDocUrl = (fileName, header) => {
   const docs = 'https://element-plus.org/en-US/component/'
-  const _header = header ? header.replaceAll(/\s+/g, '-').toLowerCase() : ''
+  const _header = header
+    ? removeTag(header).replaceAll(/\s+/g, '-').toLowerCase()
+    : ''
 
   return `${docs}${fileName}.html${_header ? '#' : ''}${_header}`
 }
 
 const reWebTypesSource: ReWebTypesSource = (title) => {
-  const symbol = `El${title
+  const symbol = `El${removeTag(title)
     .replaceAll(/-/g, ' ')
     .replaceAll(/^\w|\s+\w/g, (item) => {
       return item.trim().toUpperCase()
@@ -48,11 +55,11 @@ const reWebTypesSource: ReWebTypesSource = (title) => {
 }
 
 const reAttribute: ReAttribute = (value, key) => {
-  const str = value
+  const str = removeTag(value)
+    .replaceAll(/<del>.*<\/del>/g, '')
     .replace(/^\*\*(.*)\*\*$/, '$1')
     .replace(/^`(.*)`$/, '$1')
     .replace(/^~~(.*)~~$/, '')
-    .replaceAll(/<del>.*<\/del>/g, '')
 
   if (key === 'Name' && /^(-|—)$/.test(str)) {
     return 'default'
@@ -100,11 +107,12 @@ const reAttribute: ReAttribute = (value, key) => {
 
 const reWebTypesType: ReWebTypesType = (type) => {
   const isPublicType = isCommonType(type)
+  const isNumber = /^\d+$/.test(type)
   const symbol = getTypeSymbol(type)
   const isUnion = isUnionType(symbol)
   const module = findModule(symbol)
 
-  return isPublicType || !symbol || isUnion
+  return isPublicType || isNumber || !symbol || isUnion
     ? type
     : { name: type, source: { symbol, module } }
 }
