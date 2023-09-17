@@ -2240,7 +2240,7 @@ describe('Select', () => {
         })
       )
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const innerInput = wrapper.find('.el-input__inner')
@@ -2260,7 +2260,7 @@ describe('Select', () => {
         })
       )
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const innerInput = wrapper.find('.el-input__inner')
@@ -2284,7 +2284,7 @@ describe('Select', () => {
         })
       )
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })

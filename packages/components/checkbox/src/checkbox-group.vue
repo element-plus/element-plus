@@ -1,12 +1,5 @@
 <template>
-  <component
-    :is="tag"
-    :id="groupId"
-    :class="ns.b('group')"
-    role="group"
-    :aria-label="!isLabeledByFormItem ? label || 'checkbox-group' : undefined"
-    :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
-  >
+  <component :is="tag" :class="ns.b('group')" role="group">
     <slot />
   </component>
 </template>
@@ -17,7 +10,7 @@ import { pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
+import { useFormItem } from '@element-plus/components/form'
 import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
 import { checkboxGroupContextKey } from './constants'
 
@@ -32,9 +25,6 @@ const emit = defineEmits(checkboxGroupEmits)
 const ns = useNamespace('checkbox')
 
 const { formItem } = useFormItem()
-const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
-  formItemContext: formItem,
-})
 
 const changeEvent = async (value: CheckboxGroupValueType) => {
   emit(UPDATE_MODEL_EVENT, value)

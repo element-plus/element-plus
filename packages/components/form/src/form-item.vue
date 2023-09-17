@@ -96,6 +96,7 @@ const validateState = ref<FormItemValidateState>('')
 const validateStateDebounced = refDebounced(validateState, 100)
 const validateMessage = ref('')
 const formItemRef = ref<HTMLDivElement>()
+const isShouldAssociated = ref(false)
 // special inline value.
 let initialValue: any = undefined
 let isResettingField = false
@@ -159,10 +160,21 @@ const hasLabel = computed<boolean>(() => {
 })
 
 const labelFor = computed<string | undefined>(() => {
-  return props.for || inputIds.value.length === 1
+  return isShouldAssociated.value && (props.for || inputIds.value.length === 1)
     ? inputIds.value[0]
     : undefined
 })
+
+const associatedElement = () => {
+  const id = inputIds.value[0]
+  const el = formItemRef.value?.querySelector(`#${id}`)
+  if (el) {
+    const tag = el.tagName.toLowerCase()
+    if (tag !== 'div') {
+      isShouldAssociated.value = true
+    }
+  }
+}
 
 const isGroup = computed<boolean>(() => {
   return !labelFor.value && hasLabel.value
@@ -393,6 +405,7 @@ onMounted(() => {
     formContext?.addField(context)
     initialValue = clone(fieldValue.value)
   }
+  nextTick(associatedElement)
 })
 
 onBeforeUnmount(() => {

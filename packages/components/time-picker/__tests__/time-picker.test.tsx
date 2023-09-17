@@ -759,8 +759,7 @@ describe('TimePicker(range)', () => {
           <TimePicker />
         </ElFormItem>
       ))
-
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const timePickerInput = wrapper.find('.el-input__inner')
@@ -776,8 +775,7 @@ describe('TimePicker(range)', () => {
           <TimePicker id="foobar" />
         </ElFormItem>
       ))
-
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const timePickerInput = wrapper.find('.el-input__inner')
@@ -796,7 +794,7 @@ describe('TimePicker(range)', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })

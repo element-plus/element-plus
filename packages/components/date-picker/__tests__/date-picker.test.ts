@@ -12,6 +12,7 @@ import enUs from '@element-plus/locale/lang/en'
 import 'dayjs/locale/zh-cn'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import DatePicker from '../src/date-picker'
 
 const _mount = (template: string, data = () => ({}), otherObj?) =>
@@ -1509,7 +1510,7 @@ describe('MonthRange', () => {
         () => ({})
       )
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const datePickerInput = wrapper.find('.el-input__inner')
@@ -1527,7 +1528,7 @@ describe('MonthRange', () => {
         () => ({})
       )
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const datePickerInput = wrapper.find('.el-input__inner')

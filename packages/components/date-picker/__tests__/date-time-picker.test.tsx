@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ElFormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import DatePicker from '../src/date-picker'
 import type { VNode } from 'vue'
 
@@ -719,7 +720,7 @@ describe('Datetimerange', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const datePickerInput = wrapper.find('.el-input__inner')
@@ -736,7 +737,7 @@ describe('Datetimerange', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const datePickerInput = wrapper.find('.el-input__inner')
@@ -755,7 +756,7 @@ describe('Datetimerange', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
