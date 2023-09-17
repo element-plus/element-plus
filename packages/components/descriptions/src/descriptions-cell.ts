@@ -1,24 +1,25 @@
-// @ts-nocheck
 import { defineComponent, h, inject } from 'vue'
 import { isNil } from 'lodash-unified'
 import { addUnit, getNormalizedProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { descriptionsKey } from './token'
 
-import type { VNode } from 'vue'
+import type { PropType, VNode } from 'vue'
 import type {
   IDescriptionsInject,
   IDescriptionsItemInject,
 } from './descriptions.type'
+import type { DescriptionItemVNode } from './description-item'
 
 export default defineComponent({
   name: 'ElDescriptionsCell',
   props: {
     cell: {
-      type: Object,
+      type: Object as PropType<DescriptionItemVNode>,
     },
     tag: {
       type: String,
+      default: 'td',
     },
     type: {
       type: String,

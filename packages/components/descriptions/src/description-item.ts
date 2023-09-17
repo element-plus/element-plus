@@ -1,6 +1,8 @@
 import { defineComponent } from 'vue'
 
-export default defineComponent({
+import type { SetupContext, VNode } from 'vue'
+
+const DescriptionItem = defineComponent({
   name: 'ElDescriptionsItem',
   props: {
     label: {
@@ -37,3 +39,9 @@ export default defineComponent({
     },
   },
 })
+export default DescriptionItem
+
+export type DescriptionItemVNode = VNode & {
+  children: SetupContext['slots']
+  props: InstanceType<typeof DescriptionItem>['$props']
+}
