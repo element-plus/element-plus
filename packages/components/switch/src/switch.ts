@@ -169,6 +169,13 @@ export const switchProps = buildProps({
     type: [Boolean, String, Number],
     default: false,
   },
+  /**
+   * @description native input aria-label
+   */
+  label: {
+    type: String,
+    default: 'Switch',
+  },
 } as const)
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>
