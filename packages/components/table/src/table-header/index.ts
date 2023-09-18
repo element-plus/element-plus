@@ -57,6 +57,10 @@ export default defineComponent({
         }
       },
     },
+    appendFilterPanelTo: {
+      type: String,
+      default: 'body',
+    },
   },
   setup(props, { emit }) {
     const instance = getCurrentInstance() as TableHeader
@@ -222,6 +226,7 @@ export default defineComponent({
                       h(FilterPanel, {
                         store,
                         placement: column.filterPlacement || 'bottom-start',
+                        appendTo: $parent.appendFilterPanelTo,
                         column,
                         upDataColumn: (key, value) => {
                           column[key] = value
