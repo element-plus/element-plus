@@ -46,10 +46,12 @@ describe('menu', () => {
     const backgroundColor = '#f00'
     const textColor = '#000'
     const activeTextColor = '#0f0'
+    const activeBgColor = '#00f'
 
     const wrapper = _mount(
       `<el-menu default-active="2"
         background-color="${backgroundColor}"
+        active-bg-color="${activeBgColor}"
         text-color="${textColor}"
         active-text-color="${activeTextColor}">
         <el-menu-item index="1" ref="item1">处理中心</el-menu-item>
