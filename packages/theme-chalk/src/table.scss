@@ -389,6 +389,15 @@
     }
   }
 
+  @include e((header-wrapper)) {
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   @include e((header-wrapper, body-wrapper)) {
     .#{$namespace}-table-column--selection {
       > .cell {

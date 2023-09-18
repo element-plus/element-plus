@@ -35,6 +35,9 @@
         ref="headerWrapper"
         v-mousewheel="handleHeaderFooterMousewheel"
         :class="ns.e('header-wrapper')"
+        @scroll="headerScrollHandle"
+        @mouseenter="headerMouseEnter"
+        @mouseleave="headerMouseLeave"
       >
         <table
           ref="tableHeader"
@@ -57,7 +60,11 @@
           />
         </table>
       </div>
-      <div ref="bodyWrapper" :class="ns.e('body-wrapper')">
+      <div
+        ref="bodyWrapper"
+        :class="ns.e('body-wrapper')"
+        @mouseenter="headerMouseLeave"
+      >
         <el-scrollbar
           ref="scrollBarRef"
           :view-style="scrollbarViewStyle"
@@ -162,6 +169,7 @@ import defaultProps from './table/defaults'
 import { TABLE_INJECTION_KEY } from './tokens'
 import { hColgroup } from './h-helper'
 import { useScrollbar } from './composables/use-scrollbar'
+import useHeaderScroll from './table/header-scroll-helper'
 
 import type { Table } from './table/defaults'
 
@@ -275,6 +283,9 @@ export default defineComponent({
 
     useKeyRender(table)
 
+    const { headerScrollHandle, headerMouseEnter, headerMouseLeave } =
+      useHeaderScroll(table)
+
     return {
       ns,
       layout,
@@ -317,6 +328,9 @@ export default defineComponent({
       scrollTo,
       setScrollLeft,
       setScrollTop,
+      headerScrollHandle,
+      headerMouseEnter,
+      headerMouseLeave,
     }
   },
 })
