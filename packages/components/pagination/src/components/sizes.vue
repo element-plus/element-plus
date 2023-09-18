@@ -7,6 +7,7 @@
       :size="size"
       :teleported="teleported"
       :validate-event="false"
+      :append-to="appendDropdownTo"
       @change="handleChange"
     >
       <el-option
