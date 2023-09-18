@@ -195,6 +195,7 @@ import type {
   UserInput,
 } from './props'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { HideType } from '../props/shared'
 
 // Date object and string
 
@@ -228,6 +229,7 @@ const inputRef = ref<HTMLElement | ComponentPublicInstance>()
 const pickerVisible = ref(false)
 const pickerActualVisible = ref(false)
 const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
+const hideType = ref<HideType>('')
 
 let hasJustTabExitedInput = false
 let ignoreFocusEvent = false
@@ -235,10 +237,16 @@ let ignoreFocusEvent = false
 watch(pickerVisible, (val) => {
   if (!val) {
     userInput.value = null
+    if (!props.isImmediately && hideType.value !== 'confirm') {
+      const changValue =
+        valueOnOpen.value as TimePickerDefaultProps['modelValue']
+      return emitInput(changValue)
+    }
     nextTick(() => {
       emitChange(props.modelValue)
     })
   } else {
+    hideType.value = ''
     nextTick(() => {
       if (val) {
         valueOnOpen.value = props.modelValue
@@ -302,9 +310,10 @@ const focusOnInputBox = () => {
   })
 }
 
-const onPick = (date: any = '', visible = false) => {
+const onPick = (date: any = '', visible = false, type: HideType = '') => {
   if (!visible) {
     ignoreFocusEvent = true
+    hideType.value = type
   }
   pickerVisible.value = visible
   let result

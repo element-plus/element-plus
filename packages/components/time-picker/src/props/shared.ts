@@ -45,3 +45,5 @@ export const timePanelSharedProps = buildProps({
 } as const)
 
 export type TimePanelSharedProps = ExtractPropTypes<typeof timePanelSharedProps>
+
+export type HideType = 'confirm' | '' | null

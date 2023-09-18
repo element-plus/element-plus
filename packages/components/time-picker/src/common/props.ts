@@ -125,6 +125,10 @@ export const timePickerDefaultProps = buildProps({
     default: true,
   },
   unlinkPanels: Boolean,
+  isImmediately: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<

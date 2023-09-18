@@ -70,6 +70,9 @@ time-picker/range
 | disabled-minutes      | To specify the array of minutes that cannot be selected  | Function(selectedHour)                 | —                                                             | —           |
 | disabled-seconds      | To specify the array of seconds that cannot be selected  | Function(selectedHour, selectedMinute) | —                                                             | —           |
 | teleported            | whether time-picker dropdown is teleported to the body   | boolean                                | true / false                                                  | true        |
+—                                                             | —           |
+| isImmediately         | Do you want to update now? Otherwise, update only after clicking OK | boolean           |
+true / false                                                  | true        |
 
 ## Events
 

@@ -136,8 +136,8 @@ const amPmMode = computed(() => {
   return ''
 })
 
-const handleConfirm = (visible = false) => {
-  emit('pick', [startTime.value, endTime.value], visible)
+const handleConfirm = (visible = false, type = 'confirm') => {
+  emit('pick', [startTime.value, endTime.value], visible, type)
 }
 
 const handleMinChange = (date: Dayjs) => {

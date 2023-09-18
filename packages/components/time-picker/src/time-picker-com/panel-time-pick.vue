@@ -96,9 +96,9 @@ const isValidValue = (_date: Dayjs) => {
 const handleCancel = () => {
   emit('pick', oldValue.value, false)
 }
-const handleConfirm = (visible = false, first = false) => {
+const handleConfirm = (visible = false, first = false, type = 'confirm') => {
   if (first) return
-  emit('pick', props.parsedValue, visible)
+  emit('pick', props.parsedValue, visible, type)
 }
 const handleChange = (_date: Dayjs) => {
   // visible avoids edge cases, when use scrolls during panel closing animation
