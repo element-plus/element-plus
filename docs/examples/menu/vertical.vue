@@ -43,6 +43,7 @@
       <h5 class="mb-2">Custom colors</h5>
       <el-menu
         active-text-color="#ffd04b"
+        active-bg-color="#434a50"
         background-color="#545c64"
         class="el-menu-vertical-demo"
         default-active="2"

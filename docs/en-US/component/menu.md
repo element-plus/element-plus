@@ -17,7 +17,7 @@ This component requires the `<client-only></client-only>` wrap when used in SSR 
 
 Top bar Menu can be used in a variety of scenarios.
 
-:::demo By default Menu is vertical, but you can change it to horizontal by setting the mode prop to 'horizontal'. In addition, you can use the sub-menu component to create a second level menu. Menu provides `background-color`, `text-color` and `active-text-color` to customize the colors.
+:::demo By default Menu is vertical, but you can change it to horizontal by setting the mode prop to 'horizontal'. In addition, you can use the sub-menu component to create a second level menu. Menu provides `background-color`, `text-color`, `active-text-color` and `active-bg-color` to customize the colors.
 
 menu/basic
 
@@ -59,6 +59,7 @@ menu/collapse
 | collapse                | whether the menu is collapsed (available only in vertical mode)                                                                                                       | boolean | —                     | false    |
 | ellipsis                | whether the menu is ellipsis (available only in horizontal mode)                                                                                                      | boolean | —                     | true     |
 | background-color        | background color of Menu (hex format) (deprecated, use `--bg-color` instead)                                                                                          | string  | —                     | #ffffff  |
+| active-bg-color         | background color of currently active menu item (hex format) (deprecated, use `--active-bg-color` instead)                                                             | string  | —                     | —        |
 | text-color              | text color of Menu (hex format) (deprecated, use `--text-color` instead)                                                                                              | string  | —                     | #303133  |
 | active-text-color       | text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)                                                                      | string  | —                     | #409EFF  |
 | default-active          | index of active menu on page load                                                                                                                                     | string  | —                     | —        |
