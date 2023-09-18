@@ -71,6 +71,7 @@ describe('menu', () => {
     // expect(item1.vm.$el.style.backgroundColor).toEqual(backgroundColor)
     // expect(item1.vm.$el.style.color).toEqual(textColor)
     // expect(item2.vm.$el.style.color).toEqual(activeTextColor)
+    // expect(item2.vm.$el.style.backgroundColor).toEqual(activeBgColor)
     await item1.trigger('mouseenter')
     await nextTick()
     // expect(item1.vm.$el.style.backgroundColor).toEqual('rgb(204, 0, 0)')
