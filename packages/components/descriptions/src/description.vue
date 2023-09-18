@@ -74,7 +74,7 @@ const filledNode = (
 const getRows = () => {
   if (!slots.default) return []
 
-  const children = flattedChildren(slots.default?.()).filter(
+  const children = flattedChildren(slots.default()).filter(
     (node): node is DescriptionItemVNode =>
       (node as any)?.type?.name === 'ElDescriptionsItem'
   )

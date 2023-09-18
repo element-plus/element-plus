@@ -1,47 +1,51 @@
 import { defineComponent } from 'vue'
+import { buildProps } from '@element-plus/utils'
 
-import type { SetupContext, VNode } from 'vue'
+import type { ExtractPropTypes, Slot, VNode } from 'vue'
 
-const DescriptionItem = defineComponent({
-  name: 'ElDescriptionsItem',
-  props: {
-    label: {
-      type: String,
-      default: '',
-    },
-    span: {
-      type: Number,
-      default: 1,
-    },
-    width: {
-      type: [String, Number],
-      default: '',
-    },
-    minWidth: {
-      type: [String, Number],
-      default: '',
-    },
-    align: {
-      type: String,
-      default: 'left',
-    },
-    labelAlign: {
-      type: String,
-      default: '',
-    },
-    className: {
-      type: String,
-      default: '',
-    },
-    labelClassName: {
-      type: String,
-      default: '',
-    },
+const descriptionItemProps = buildProps({
+  label: {
+    type: String,
+    default: '',
+  },
+  span: {
+    type: Number,
+    default: 1,
+  },
+  width: {
+    type: [String, Number],
+    default: '',
+  },
+  minWidth: {
+    type: [String, Number],
+    default: '',
+  },
+  align: {
+    type: String,
+    default: 'left',
+  },
+  labelAlign: {
+    type: String,
+    default: '',
+  },
+  className: {
+    type: String,
+    default: '',
+  },
+  labelClassName: {
+    type: String,
+    default: '',
   },
 })
+const DescriptionItem = defineComponent({
+  name: 'ElDescriptionsItem',
+  props: descriptionItemProps,
+})
+
 export default DescriptionItem
 
+type DescriptionItemProps = ExtractPropTypes<typeof descriptionItemProps>
 export type DescriptionItemVNode = VNode & {
-  children: SetupContext['slots']
-  props: InstanceType<typeof DescriptionItem>['$props']
+  children: { [name: string]: Slot } | null
+  props: Partial<DescriptionItemProps> | null
 }
