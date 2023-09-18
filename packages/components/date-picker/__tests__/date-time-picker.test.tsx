@@ -51,7 +51,7 @@ describe('Datetime Picker', () => {
     format.value = 'MM-DD-YYYY HH a'
     await nextTick()
     expect(dateInput.value).toBe('03-05-2018')
-    expect(timeInput.value).toBe('10 am')
+    expect(timeInput.value).toBe('10:15:24')
   })
 
   it('both picker show correct value', async () => {
