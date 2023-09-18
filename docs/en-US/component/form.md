@@ -172,7 +172,7 @@ form/accessibility
 
 | Name            | Description                                                                                                                                                     | Type                                                | Default |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------- |
-| prop            | A key of `model`. It could be an array of property paths (e.g `['a', 'b', '0']`). In the use of `validate` and `resetFields` method, the attribute is required. | ^[string] / ^[string&#91;&#93;]                     | —       |
+| prop            | A key of `model`. It could be a path of the property (e.g `a.b.0` or `['a', 'b', '0']`). In the use of `validate` and `resetFields` method, the attribute is required. | ^[string] / ^[string&#91;&#93;]                     | —       |
 | label           | Label text.                                                                                                                                                     | ^[string]                                           | —       |
 | label-width     | Width of label, e.g. `'50px'`. `'auto'` is supported.                                                                                                           | ^[string] / ^[number]                               | ''      |
 | required        | Whether the field is required or not, will be determined by validation rules if omitted.                                                                        | ^[boolean]                                          | —       |
