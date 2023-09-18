@@ -97,6 +97,14 @@
               :store="store"
               :stripe="stripe"
             />
+            <table-footer
+              v-if="showSummary && tableLayout === 'auto'"
+              :border="border"
+              :default-sort="defaultSort"
+              :store="store"
+              :sum-text="computedSumText"
+              :summary-method="summaryMethod"
+            />
           </table>
           <div
             v-if="isEmpty"
@@ -118,20 +126,31 @@
         </el-scrollbar>
       </div>
       <div
-        v-if="showSummary"
+        v-if="showSummary && tableLayout === 'fixed'"
         v-show="!isEmpty"
         ref="footerWrapper"
         v-mousewheel="handleHeaderFooterMousewheel"
         :class="ns.e('footer-wrapper')"
       >
-        <table-footer
-          :border="border"
-          :default-sort="defaultSort"
-          :store="store"
+        <table
+          :class="ns.e('footer')"
+          cellspacing="0"
+          cellpadding="0"
+          border="0"
           :style="tableBodyStyles"
-          :sum-text="computedSumText"
-          :summary-method="summaryMethod"
-        />
+        >
+          <hColgroup
+            :columns="store.states.columns.value"
+            :table-layout="tableLayout"
+          />
+          <table-footer
+            :border="border"
+            :default-sort="defaultSort"
+            :store="store"
+            :sum-text="computedSumText"
+            :summary-method="summaryMethod"
+          />
+        </table>
       </div>
       <div v-if="border || isGroup" :class="ns.e('border-left-patch')" />
     </div>
