@@ -13,6 +13,7 @@ export const useMenuCssVar = (props: MenuProps, level: number) => {
       'bg-color': props.backgroundColor || '',
       'hover-bg-color': useMenuColor(props).value || '',
       'active-color': props.activeTextColor || '',
+      'active-bg-color': props.activeBgColor || props.backgroundColor || '',
       level: `${level}`,
     })
   })

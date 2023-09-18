@@ -189,6 +189,9 @@ export default defineComponent({
 
     const backgroundColor = computed(() => rootMenu.props.backgroundColor || '')
     const activeTextColor = computed(() => rootMenu.props.activeTextColor || '')
+    const activeBgColor = computed(
+      () => rootMenu.props.activeBgColor || backgroundColor.value
+    )
     const textColor = computed(() => rootMenu.props.textColor || '')
     const mode = computed(() => rootMenu.props.mode)
     const item = reactive({
@@ -414,7 +417,11 @@ export default defineComponent({
                     class: nsSubMenu.e('title'),
                     style: [
                       titleStyle.value,
-                      { backgroundColor: backgroundColor.value },
+                      {
+                        backgroundColor: active.value
+                          ? activeBgColor.value
+                          : backgroundColor.value,
+                      },
                     ],
                     onClick: handleClick,
                   },
@@ -429,7 +436,11 @@ export default defineComponent({
                 class: nsSubMenu.e('title'),
                 style: [
                   titleStyle.value,
-                  { backgroundColor: backgroundColor.value },
+                  {
+                    backgroundColor: active.value
+                      ? activeBgColor.value
+                      : backgroundColor.value,
+                  },
                 ],
                 ref: verticalTitleRef,
                 onClick: handleClick,

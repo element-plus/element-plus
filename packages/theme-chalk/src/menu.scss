@@ -115,6 +115,7 @@
         .#{$namespace}-sub-menu__title {
           border-bottom: 2px solid getCssVar('menu-active-color');
           color: getCssVar('menu-active-color');
+          background-color: getCssVar('menu-active-bg-color');
         }
       }
 
@@ -147,6 +148,7 @@
       & .#{$namespace}-menu-item.is-active,
       & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title {
         color: getCssVar('menu-active-color');
+        background-color: getCssVar('menu-active-bg-color');
       }
     }
     & .#{$namespace}-menu-item:not(.is-disabled):hover,
@@ -158,6 +160,7 @@
     & > .#{$namespace}-menu-item.is-active {
       border-bottom: 2px solid getCssVar('menu-active-color');
       color: getCssVar('menu-active-color') !important;
+      background-color: getCssVar('menu-active-bg-color') !important;
     }
   }
   @include m(collapse) {
@@ -226,6 +229,7 @@
   }
   @include when(active) {
     color: getCssVar('menu-active-color');
+    background-color: getCssVar('menu-active-bg-color');
     i {
       color: inherit;
     }
