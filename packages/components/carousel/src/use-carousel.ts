@@ -250,6 +250,10 @@ export const useCarousel = (
     () => activeIndex.value,
     (current, prev) => {
       resetItemPosition(prev)
+      if (isItemsTwoLength.value) {
+        current = current % 2
+        prev = prev % 2
+      }
       if (prev > -1) {
         emit('change', current, prev)
       }
