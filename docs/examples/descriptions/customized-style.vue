@@ -25,10 +25,10 @@
   </el-descriptions>
 </template>
 <style scoped>
-.my-label {
-  background: var(--el-color-success-light-9);
+:deep(.my-label) {
+  background: var(--el-color-success-light-9) !important;
 }
-.my-content {
+:deep(.my-content) {
   background: var(--el-color-danger-light-9);
 }
 </style>

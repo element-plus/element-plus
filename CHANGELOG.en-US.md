@@ -1,5 +1,45 @@
 ## Changelog
 
+### 2.3.14
+
+_2023-09-14_
+
+Fix release error. The changelog is the same as 2.3.13.
+
+
+### 2.3.13
+
+_2023-09-14_
+
+#### Features
+
+- Components [el-pagination] add teleported prop (#14072 by @boomboy4)
+- Components [image-viewer] Add rotate event when rotating images (#14138 by @HADB)
+- Components [upload] support async data (#14015 by @jianjunyuu)
+
+#### Bug fixes
+
+- Components [select] gurad value type error (#14074 by @sseinHu)
+- Components [collapse] allow nested inputs in ElCollapseItem (#14061 by @kinggq)
+- Components [rate] bind the textColor property (#14092 by @yj-liuzepeng)
+- Components [table] add tabindex to tbody to fix #13991 (#14020 by @FrankFang)
+- Components [form] improve types (#14062 by @ModyQyW)
+- Components [select] fix hover index error when creating option (#12635 by @wzc520pyfm)
+- I18n improve Dutch(nl) translation (#14164 by @JBtje)
+- Components [color-picker] first click should be trigger (#14209 by @wonderl17)
+- Docs [date-picker] `calendar-change` event parameter type error (#14237 by @btea)
+- Docs [upload] fix the version of supporting async data (#14242 by @HADB)
+- Components [collapse] fix accessibility issues (#13832 by @Karolis-Stoncius)
+- Components [date-picker] month range should emit `calendar-change` (#14262 by @Justineo)
+- Components [input] missing autofocus types (#14246 by @HeftyKoo)
+
+#### Refactors
+
+- Components [upload] reuse revkoeObjectURL function (#14126 by @HeftyKoo)
+- Components [collapse] replace `keypress` with `keydown` (#14137 by @btea)
+- Components [date-picker] add aria-labels to date picker btns (#14149 by @Karolis-Stoncius)
+- Components [date-picker] basic-date-table (#10344 by @jw-foss)
+
 ### 2.3.11
 
 _2023-08-26_
