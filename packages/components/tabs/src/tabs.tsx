@@ -99,20 +99,18 @@ export default defineComponent({
       props.modelValue ?? props.activeName ?? '0'
     )
 
-    const changeCurrentName = (value: TabPaneName) => {
-      currentName.value = value
-      emit(UPDATE_MODEL_EVENT, value)
-      emit('tabChange', value)
-    }
-
-    const setCurrentName = async (value?: TabPaneName) => {
+    const setCurrentName = async (value?: TabPaneName, trigger = false) => {
       // should do nothing.
       if (currentName.value === value || isUndefined(value)) return
 
       try {
         const canLeave = await props.beforeLeave?.(value, currentName.value)
         if (canLeave !== false) {
-          changeCurrentName(value)
+          currentName.value = value
+          if (trigger) {
+            emit(UPDATE_MODEL_EVENT, value)
+            emit('tabChange', value)
+          }
 
           // call exposed function, Vue doesn't support expose in typescript yet.
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -128,7 +126,7 @@ export default defineComponent({
       event: Event
     ) => {
       if (tab.props.disabled) return
-      setCurrentName(tabName)
+      setCurrentName(tabName, true)
       emit('tabClick', tab, event)
     }
 
