@@ -3,8 +3,8 @@ import { isNil } from 'lodash-unified'
 import { addUnit, getNormalizedProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { descriptionsKey } from './token'
+import type { DirectiveArguments, PropType, VNode } from 'vue'
 
-import type { PropType, VNode } from 'vue'
 import type {
   IDescriptionsInject,
   IDescriptionsItemInject,
@@ -37,10 +37,10 @@ export default defineComponent({
       this.cell as VNode
     ) as IDescriptionsItemInject
 
-    const directives = (this.cell.dirs || []).map((dire) => {
+    const directives = (this.cell?.dirs || []).map((dire) => {
       const { dir, arg, modifiers, value } = dire
       return [dir, value, arg, modifiers]
-    })
+    }) as DirectiveArguments
 
     const { border, direction } = this.descriptions
     const isVertical = direction === 'vertical'
