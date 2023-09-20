@@ -409,9 +409,8 @@ export const useSelect = (props, states: States, ctx) => {
       const _tags = tags.value
       const cssVarOfSelectSize =
         getComputedStyle(input).getPropertyValue('--el-input-height')
-      const gotSize = cssVarOfSelectSize
-        ? cssVarOfSelectSize
-       const gotSize = cssVarOfSelectSize || getComponentSize(selectSize.value || form?.size)
+      const gotSize =
+        cssVarOfSelectSize || getComponentSize(selectSize.value || form?.size)
 
       const sizeInMap =
         selectSize.value ||
