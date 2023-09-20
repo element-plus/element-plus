@@ -411,7 +411,7 @@ export const useSelect = (props, states: States, ctx) => {
         getComputedStyle(input).getPropertyValue('--el-input-height')
       const gotSize = cssVarOfSelectSize
         ? cssVarOfSelectSize
-        : getComponentSize(selectSize.value || form?.size)
+       const gotSize = cssVarOfSelectSize || getComponentSize(selectSize.value || form?.size)
 
       const sizeInMap =
         selectSize.value ||
