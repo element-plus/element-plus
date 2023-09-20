@@ -5,7 +5,15 @@ import type { ExtractPropTypes } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type { DatePickType } from '@element-plus/constants'
 
-const selectionModes = ['date', 'dates', 'year', 'month', 'week', 'range']
+const selectionModes = [
+  'date',
+  'dates',
+  'year',
+  'quarter',
+  'month',
+  'week',
+  'range',
+]
 
 export type RangeState = {
   endDate: null | Dayjs
@@ -54,7 +62,7 @@ export const panelRangeSharedProps = buildProps({
 } as const)
 
 export const selectionModeWithDefault = (
-  mode: typeof selectionModes[number]
+  mode: (typeof selectionModes)[number]
 ) => {
   return {
     type: String,

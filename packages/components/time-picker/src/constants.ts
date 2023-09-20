@@ -8,10 +8,11 @@ export const DEFAULT_FORMATS_DATEPICKER = {
   week: 'gggg[w]ww',
   year: 'YYYY',
   month: 'YYYY-MM',
+  quarter: 'YYYY-[Q]Q',
   datetime: `${DEFAULT_FORMATS_DATE} ${DEFAULT_FORMATS_TIME}`,
   monthrange: 'YYYY-MM',
   daterange: DEFAULT_FORMATS_DATE,
   datetimerange: `${DEFAULT_FORMATS_DATE} ${DEFAULT_FORMATS_TIME}`,
 }
 
-export type TimeUnit = typeof timeUnits[number]
+export type TimeUnit = (typeof timeUnits)[number]

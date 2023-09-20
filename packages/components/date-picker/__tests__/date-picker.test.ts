@@ -81,6 +81,11 @@ const testDatePickerPanelChange = async (type: 'date' | 'daterange') => {
   expect(mode).toBe('year')
 }
 
+const _getQuarter = (date) => {
+  const month = date.getMonth()
+  return Math.floor(month / 3) + 1
+}
+
 describe('DatePicker', () => {
   it('create & custom class & style', async () => {
     const popperClassName = 'popper-class-test'
@@ -799,6 +804,61 @@ describe('MonthPicker', () => {
     }
     await nextTick()
     expect(wrapper.findComponent(Input).vm.modelValue).toBe('2020-01')
+    expect((wrapper.vm as any).value).toBe(
+      dayjs(new Date(2020, 0, 1)).format(valueFormat)
+    )
+  })
+})
+
+describe('QuarterPicker', () => {
+  it('basic', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+    type='quarter'
+    v-model="value"
+  />`,
+      () => ({ value: new Date(2023, 10, 1) })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    expect(
+      (document.querySelector('.el-quarter-table') as HTMLElement).style.display
+    ).toBe('')
+    expect(document.querySelector('.el-year-table')).toBeNull()
+    ;(document.querySelector('.el-quarter-table .cell') as HTMLElement).click()
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(_getQuarter(vm.value)).toBe(1)
+  })
+
+  it('value-format', async () => {
+    const valueFormat = '[Element-Plus] YYYY-Q'
+    const wrapper = _mount(
+      `
+      <el-date-picker
+        type="quarter"
+        v-model="value"
+        value-format="${valueFormat}"
+      ></el-date-picker>
+    `,
+      () => ({ value: dayjs(new Date(2020, 0, 1)).format(valueFormat) })
+    )
+    await nextTick()
+    console.log('输出值', wrapper.findComponent(Input).vm.modelValue)
+    expect(wrapper.findComponent(Input).vm.modelValue).toBe('2020-Q1')
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    {
+      ;(
+        document.querySelector('.el-quarter-table .cell') as HTMLElement
+      ).click()
+    }
+    await nextTick()
+    expect(wrapper.findComponent(Input).vm.modelValue).toBe('2020-Q1')
     expect((wrapper.vm as any).value).toBe(
       dayjs(new Date(2020, 0, 1)).format(valueFormat)
     )

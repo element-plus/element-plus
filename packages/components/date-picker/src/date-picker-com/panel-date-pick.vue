@@ -59,7 +59,9 @@
           v-show="currentView !== 'time'"
           :class="[
             dpNs.e('header'),
-            (currentView === 'year' || currentView === 'month') &&
+            (currentView === 'year' ||
+              currentView === 'month' ||
+              currentView === 'quarter') &&
               dpNs.e('header--bordered'),
           ]"
         >
@@ -129,6 +131,14 @@
           </span>
         </div>
         <div :class="ppNs.e('content')" @keydown="handleKeydownTable">
+          <quarter-table
+            v-if="currentView === 'quarter'"
+            ref="currentViewRef"
+            :date="innerDate"
+            :parsed-value="parsedValue"
+            :disabled-date="disabledDate"
+            @pick="handleQuarterPick"
+          />
           <date-table
             v-if="currentView === 'date'"
             ref="currentViewRef"
@@ -220,6 +230,7 @@ import { panelDatePickProps } from '../props/panel-date-pick'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
+import QuarterTable from './basic-quarter-table.vue'
 
 import type { SetupContext } from 'vue'
 import type { ConfigType, Dayjs } from 'dayjs'
@@ -389,7 +400,7 @@ const handleShortcutClick = (shortcut: Shortcut) => {
 
 const selectionMode = computed<DatePickType>(() => {
   const { type } = props
-  if (['week', 'month', 'year', 'dates'].includes(type)) return type
+  if (['week', 'month', 'year', 'dates', 'quarter'].includes(type)) return type
   return 'date' as DatePickType
 })
 
@@ -422,14 +433,22 @@ const handleYearPick = async (year: number) => {
     emit(innerDate.value, false)
   } else {
     innerDate.value = innerDate.value.year(year)
-    currentView.value = 'month'
-    if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
+    currentView.value = props.type
+    if (
+      ['month', 'year', 'date', 'week', 'quarter'].includes(selectionMode.value)
+    ) {
       emit(innerDate.value, true)
       await nextTick()
       handleFocusPicker()
     }
   }
   handlePanelChange('year')
+}
+
+const handleQuarterPick = async (quarter: number) => {
+  innerDate.value = innerDate.value.startOf('quarter').quarter(quarter)
+  emit(innerDate.value, false)
+  handlePanelChange('quarter')
 }
 
 const showPicker = async (view: 'month' | 'year') => {
@@ -604,7 +623,9 @@ const getDefaultValue = () => {
 }
 
 const handleFocusPicker = async () => {
-  if (['week', 'month', 'year', 'date'].includes(selectionMode.value)) {
+  if (
+    ['week', 'month', 'year', 'quarter', 'date'].includes(selectionMode.value)
+  ) {
     currentViewRef.value?.focus()
     if (selectionMode.value === 'week') {
       handleKeyControl(EVENT_CODE.down)
@@ -664,6 +685,14 @@ const handleKeyControl = (code: string) => {
       offset: (date: Date, step: number) =>
         date.setFullYear(date.getFullYear() + step),
     },
+    quarter: {
+      [up]: -4,
+      [down]: 4,
+      [left]: -1,
+      [right]: 1,
+      offset: (date: Date, step: number) =>
+        date.setMonth(date.getMonth() + step * 3),
+    },
     month: {
       [up]: -4,
       [down]: 4,
@@ -715,14 +744,14 @@ const handleKeyControl = (code: string) => {
   }
 }
 
-const handlePanelChange = (mode: 'month' | 'year') => {
+const handlePanelChange = (mode: 'month' | 'year' | 'quarter') => {
   contextEmit('panel-change', innerDate.value.toDate(), mode, currentView.value)
 }
 
 watch(
   () => selectionMode.value,
   (val) => {
-    if (['month', 'year'].includes(val)) {
+    if (['month', 'year', 'quarter'].includes(val)) {
       currentView.value = val
       return
     }
