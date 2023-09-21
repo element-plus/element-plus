@@ -14,7 +14,10 @@ export default defineComponent({
       if (slots.default) {
         const list = slots.default(cell).filter((item) => {
           return (
-            item.patchFlag !== -2 && item.type.toString() !== 'Symbol(Comment)'
+            item.patchFlag !== -2 &&
+            item.type.toString() !== 'Symbol(Comment)' &&
+            item.type.toString() !== 'Symbol(v-cmt)' &&
+            item.type.toString() !== 'template'
           )
         })
         if (list.length) {
