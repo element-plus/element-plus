@@ -28,7 +28,7 @@ import TabNav from './tab-nav'
 
 import type { TabNavInstance } from './tab-nav'
 import type { TabsPaneContext } from './constants'
-import type { ExtractPropTypes, UnwrapRef } from 'vue'
+import type { ExtractPropTypes } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
 
 export type TabPaneName = string | number
