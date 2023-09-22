@@ -535,6 +535,13 @@ export default defineComponent({
       type: String,
       default: undefined,
     },
+    /**
+     * @description Whether to display a label if value cannot be matched option
+     */
+    noOptionShow: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: [
     UPDATE_MODEL_EVENT,

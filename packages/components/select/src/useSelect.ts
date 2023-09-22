@@ -527,8 +527,10 @@ export const useSelect = (props, states: States, ctx) => {
       } else {
         states.createdSelected = false
       }
-      states.selectedLabel = option.currentLabel
-      states.selected = option
+      if (props.noOptionShow || !option.noMatch) {
+        states.selectedLabel = option.currentLabel
+        states.selected = option
+      }
       if (props.filterable) states.query = states.selectedLabel
       return
     } else {
@@ -575,6 +577,7 @@ export const useSelect = (props, states: States, ctx) => {
     const newOption = {
       value,
       currentLabel: label,
+      noMatch: true,
     }
     if (props.multiple) {
       ;(newOption as any).hitState = false
