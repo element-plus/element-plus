@@ -41,7 +41,6 @@ export function useFocusController<T extends HTMLElement>(
 
   watch(wrapperRef, (el) => {
     if (el) {
-      el.setAttribute('role', 'button')
       el.setAttribute('tabindex', '-1')
     }
   })
