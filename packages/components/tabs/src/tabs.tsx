@@ -79,7 +79,7 @@ export type TabsEmits = typeof tabsEmits
 
 export type TabsPanes = Record<number, TabsPaneContext>
 
-export default defineComponent({
+const Tabs = defineComponent({
   name: 'ElTabs',
 
   props: tabsProps,
@@ -112,9 +112,6 @@ export default defineComponent({
             emit('tabChange', value)
           }
 
-          // call exposed function, Vue doesn't support expose in typescript yet.
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
           nav$.value?.removeFocus?.()
         }
       } catch {}
@@ -166,9 +163,6 @@ export default defineComponent({
 
     watch(currentName, async () => {
       await nextTick()
-      // call exposed function, Vue doesn't support expose in typescript yet.
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
       nav$.value?.scrollToActiveTab()
     })
 
@@ -244,3 +238,9 @@ export default defineComponent({
     }
   },
 })
+
+export type TabsInstance = InstanceType<typeof Tabs> & {
+  currentName: TabPaneName
+}
+
+export default Tabs
