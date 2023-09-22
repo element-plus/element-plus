@@ -56,6 +56,14 @@ export const timePickerDefaultProps = buildProps({
    */
   valueFormat: String,
   /**
+   * @description optional, format of the date displayed value in TimePicker's dropdown
+   */
+  dateFormat: String,
+  /**
+   * @description optional, format of the time displayed value in TimePicker's dropdown
+   */
+  timeFormat: String,
+  /**
    * @description type of the picker
    */
   type: {
