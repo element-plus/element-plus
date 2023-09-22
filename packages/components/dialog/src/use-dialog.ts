@@ -15,7 +15,7 @@ import {
   useZIndex,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { addUnit, isClient } from '@element-plus/utils'
+import { addUnit, isClient, isNumber } from '@element-plus/utils'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
 
 import type { CSSProperties, Ref, SetupContext } from 'vue'
@@ -35,7 +35,7 @@ export const useDialog = (
   const visible = ref(false)
   const closed = ref(false)
   const rendered = ref(false) // when desctroyOnClose is true, we initialize it as false vise versa
-  const zIndex = ref(props.zIndex || nextZIndex())
+  const zIndex = ref(isNumber(props.zIndex) ? props.zIndex : nextZIndex())
 
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
@@ -161,7 +161,7 @@ export const useDialog = (
         closed.value = false
         open()
         rendered.value = true // enables lazy rendering
-        zIndex.value = props.zIndex ? zIndex.value++ : nextZIndex()
+        zIndex.value = isNumber(props.zIndex) ? zIndex.value++ : nextZIndex()
         // this.$el.addEventListener('scroll', this.updatePopper)
         nextTick(() => {
           emit('open')
