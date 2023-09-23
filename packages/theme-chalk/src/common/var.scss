@@ -950,6 +950,7 @@ $text-font-size: map.merge(
 $tree: () !default;
 $tree: map.merge(
   (
+    'node-content-height': 26px,
     'node-hover-bg-color': getCssVar('fill-color', 'light'),
     'text-color': getCssVar('text-color-regular'),
     'expand-icon-color': getCssVar('text-color-placeholder'),
@@ -1036,6 +1037,7 @@ $menu: map.merge(
     'hover-bg-color': getCssVar('color-primary-light-9'),
     'item-height': 56px,
     'sub-item-height': calc(#{getCssVar('menu-item-height')} - 6px),
+    'horizontal-height': 60px,
     'horizontal-sub-item-height': 36px,
     'item-font-size': getCssVar('font-size-base'),
     'item-hover-fill': getCssVar('color-primary-light-9'),

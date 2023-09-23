@@ -13,6 +13,13 @@ defineOptions({
 
 const ns = useNamespace('collapse-transition')
 
+const reset = (el: RendererElement) => {
+  el.style.maxHeight = ''
+  el.style.overflow = el.dataset.oldOverflow
+  el.style.paddingTop = el.dataset.oldPaddingTop
+  el.style.paddingBottom = el.dataset.oldPaddingBottom
+}
+
 const on = {
   beforeEnter(el: RendererElement) {
     if (!el.dataset) el.dataset = {}
@@ -29,20 +36,21 @@ const on = {
     el.dataset.oldOverflow = el.style.overflow
     if (el.scrollHeight !== 0) {
       el.style.maxHeight = `${el.scrollHeight}px`
-      el.style.paddingTop = el.dataset.oldPaddingTop
-      el.style.paddingBottom = el.dataset.oldPaddingBottom
     } else {
       el.style.maxHeight = 0
-      el.style.paddingTop = el.dataset.oldPaddingTop
-      el.style.paddingBottom = el.dataset.oldPaddingBottom
     }
-
+    el.style.paddingTop = el.dataset.oldPaddingTop
+    el.style.paddingBottom = el.dataset.oldPaddingBottom
     el.style.overflow = 'hidden'
   },
 
   afterEnter(el: RendererElement) {
     el.style.maxHeight = ''
     el.style.overflow = el.dataset.oldOverflow
+  },
+
+  enterCancelled(el: RendererElement) {
+    reset(el)
   },
 
   beforeLeave(el: RendererElement) {
@@ -64,10 +72,11 @@ const on = {
   },
 
   afterLeave(el: RendererElement) {
-    el.style.maxHeight = ''
-    el.style.overflow = el.dataset.oldOverflow
-    el.style.paddingTop = el.dataset.oldPaddingTop
-    el.style.paddingBottom = el.dataset.oldPaddingBottom
+    reset(el)
+  },
+
+  leaveCancelled(el: RendererElement) {
+    reset(el)
   },
 }
 </script>

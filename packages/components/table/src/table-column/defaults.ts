@@ -113,9 +113,12 @@ export default {
   columnKey: String,
   align: String,
   headerAlign: String,
-  showOverflowTooltip: [Boolean, Object] as PropType<
-    TableColumnCtx<DefaultRow>['showOverflowTooltip']
-  >,
+  showOverflowTooltip: {
+    type: [Boolean, Object] as PropType<
+      TableColumnCtx<DefaultRow>['showOverflowTooltip']
+    >,
+    default: undefined,
+  },
   fixed: [Boolean, String],
   formatter: Function as PropType<TableColumnCtx<DefaultRow>['formatter']>,
   selectable: Function as PropType<TableColumnCtx<DefaultRow>['selectable']>,

@@ -6,5 +6,4 @@ export const ElInput = withInstall(Input)
 export default ElInput
 
 export * from './src/input'
-
-export type InputInstance = InstanceType<typeof Input>
+export type { InputInstance } from './src/instance'

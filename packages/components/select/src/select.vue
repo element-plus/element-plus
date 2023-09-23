@@ -33,22 +33,16 @@
           <div
             v-if="multiple"
             ref="tags"
-            :class="[
-              nsSelect.e('tags'),
-              nsSelect.is('disabled', selectDisabled),
-            ]"
+            tabindex="-1"
+            :class="tagsKls"
             :style="selectTagsStyle"
+            @click="focus"
           >
             <transition
               v-if="collapseTags && selected.length"
               @after-leave="resetInputHeight"
             >
-              <span
-                :class="[
-                  nsSelect.b('tags-wrapper'),
-                  { 'has-prefix': prefixWidth && selected.length },
-                ]"
-              >
+              <span :class="tagWrapperKls">
                 <el-tag
                   v-for="item in showTagList"
                   :key="getValueKey(item)"
@@ -72,6 +66,7 @@
                 >
                   <el-tooltip
                     v-if="collapseTagsTooltip"
+                    ref="tagTooltipRef"
                     :disabled="dropMenuVisible"
                     :fallback-placements="['bottom', 'top', 'right', 'left']"
                     :effect="effect"
@@ -98,7 +93,7 @@
                             :type="tagType"
                             disable-transitions
                             :style="{ margin: '2px' }"
-                            @close="deleteTag($event, item)"
+                            @close="handleDeleteTooltipTag($event, item)"
                           >
                             <span
                               :class="nsSelect.e('tags-text')"
@@ -120,10 +115,12 @@
             </transition>
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
               <span
-                :class="[
-                  nsSelect.b('tags-wrapper'),
-                  { 'has-prefix': prefixWidth && selected.length },
-                ]"
+                :class="tagWrapperKls"
+                :style="
+                  prefixWidth && selected.length
+                    ? { marginLeft: `${prefixWidth}px` }
+                    : ''
+                "
               >
                 <el-tag
                   v-for="item in selected"
@@ -144,26 +141,15 @@
               </span>
             </transition>
             <input
-              v-if="filterable"
+              v-if="filterable && !selectDisabled"
               ref="input"
               v-model="query"
               type="text"
-              :class="[
-                nsSelect.e('input'),
-                nsSelect.is(selectSize),
-                nsSelect.is('disabled', selectDisabled),
-              ]"
+              :class="inputKls"
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
-              :style="{
-                marginLeft:
-                  (prefixWidth && !selected.length) || tagInMultiLine
-                    ? `${prefixWidth}px`
-                    : '',
-                flexGrow: 1,
-                width: `${inputLength / (inputWidth - 32)}%`,
-                maxWidth: `${inputWidth - 42}px`,
-              }"
+              :style="inputStyle"
+              :aria-label="ariaLabel"
               @focus="handleFocus"
               @blur="handleBlur"
               @keyup="managePlaceholder"
@@ -184,11 +170,7 @@
           <input
             v-if="isIOS && !multiple && filterable && readonly"
             ref="iOSInput"
-            :class="[
-              nsSelect.e('input'),
-              nsSelect.is(selectSize),
-              nsSelect.em('input', 'iOS'),
-            ]"
+            :class="iOSInputKls"
             :disabled="selectDisabled"
             type="text"
           />
@@ -210,6 +192,7 @@
             :validate-event="false"
             :class="[nsSelect.is('focus', visible)]"
             :tabindex="multiple && filterable ? -1 : undefined"
+            :label="ariaLabel"
             @focus="handleFocus"
             @blur="handleBlur"
             @input="debouncedOnInputChange"
@@ -261,12 +244,7 @@
             tag="ul"
             :wrap-class="nsSelect.be('dropdown', 'wrap')"
             :view-class="nsSelect.be('dropdown', 'list')"
-            :class="[
-              nsSelect.is(
-                'empty',
-                !allowCreate && Boolean(query) && filteredOptionsCount === 0
-              ),
-            ]"
+            :class="scrollbarKls"
           >
             <el-option v-if="showNewOption" :value="query" :created="true" />
             <el-options @update-options="onOptionsRendered">
@@ -305,7 +283,7 @@ import {
 import { useResizeObserver } from '@vueuse/core'
 import { placements } from '@popperjs/core'
 import { ClickOutside } from '@element-plus/directives'
-import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import ElTooltip, {
   useTooltipContentProps,
@@ -342,105 +320,220 @@ export default defineComponent({
   },
   directives: { ClickOutside },
   props: {
+    /**
+     * @description the name attribute of select input
+     */
     name: String,
+    /**
+     * @description native input id
+     */
     id: String,
+    /**
+     * @description binding value
+     */
     modelValue: {
       type: [Array, String, Number, Boolean, Object],
       default: undefined,
     },
+    /**
+     * @description the autocomplete attribute of select input
+     */
     autocomplete: {
       type: String,
       default: 'off',
     },
+    /**
+     * @description for non-filterable Select, this prop decides if the option menu pops up when the input is focused
+     */
     automaticDropdown: Boolean,
+    /**
+     * @description size of Input
+     */
     size: {
       type: String as PropType<ComponentSize>,
       validator: isValidComponentSize,
     },
+    /**
+     * @description tooltip theme, built-in theme: `dark` / `light`
+     */
     effect: {
       type: String as PropType<'light' | 'dark' | string>,
       default: 'light',
     },
+    /**
+     * @description whether Select is disabled
+     */
     disabled: Boolean,
+    /**
+     * @description whether select can be cleared
+     */
     clearable: Boolean,
+    /**
+     * @description whether Select is filterable
+     */
     filterable: Boolean,
+    /**
+     * @description whether creating new items is allowed. To use this, `filterable` must be true
+     */
     allowCreate: Boolean,
+    /**
+     * @description whether Select is loading data from server
+     */
     loading: Boolean,
+    /**
+     * @description custom class name for Select's dropdown
+     */
     popperClass: {
       type: String,
       default: '',
     },
+    /**
+     * @description [popper.js](https://popper.js.org/docs/v2/) parameters
+     */
     popperOptions: {
       type: Object as PropType<Partial<Options>>,
       default: () => ({} as Partial<Options>),
     },
+    /**
+     * @description whether options are loaded from server
+     */
     remote: Boolean,
+    /**
+     * @description displayed text while loading data from server, default is 'Loading'
+     */
     loadingText: String,
+    /**
+     * @description displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'
+     */
     noMatchText: String,
+    /**
+     * @description displayed text when there is no options, you can also use slot `empty`, default is 'No data'
+     */
     noDataText: String,
+    /**
+     * @description custom remote search method
+     */
     remoteMethod: Function,
+    /**
+     * @description custom filter method
+     */
     filterMethod: Function,
+    /**
+     * @description whether multiple-select is activated
+     */
     multiple: Boolean,
+    /**
+     * @description maximum number of options user can select when `multiple` is `true`. No limit when set to 0
+     */
     multipleLimit: {
       type: Number,
       default: 0,
     },
+    /**
+     * @description placeholder, default is 'Select'
+     */
     placeholder: {
       type: String,
     },
+    /**
+     * @description select first matching option on enter key. Use with `filterable` or `remote`
+     */
     defaultFirstOption: Boolean,
+    /**
+     * @description when `multiple` and `filter` is true, whether to reserve current keyword after selecting an option
+     */
     reserveKeyword: {
       type: Boolean,
       default: true,
     },
+    /**
+     * @description unique identity key name for value, required when value is an object
+     */
     valueKey: {
       type: String,
       default: 'value',
     },
+    /**
+     * @description whether to collapse tags to a text when multiple selecting
+     */
     collapseTags: Boolean,
-    collapseTagsTooltip: {
-      type: Boolean,
-      default: false,
-    },
+    /**
+     * @description whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true
+     */
+    collapseTagsTooltip: Boolean,
+    /**
+     * @description the max tags number to be shown. To use this, `collapse-tags` must be true
+     */
     maxCollapseTags: {
       type: Number,
       default: 1,
     },
+    /**
+     * @description whether select dropdown is teleported to the body
+     */
     teleported: useTooltipContentProps.teleported,
+    /**
+     * @description when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed
+     */
     persistent: {
       type: Boolean,
       default: true,
     },
+    /**
+     * @description custom clear icon component
+     */
     clearIcon: {
       type: iconPropType,
       default: CircleClose,
     },
-    fitInputWidth: {
-      type: Boolean,
-      default: false,
-    },
+    /**
+     * @description whether the width of the dropdown is the same as the input
+     */
+    fitInputWidth: Boolean,
+    /**
+     * @description custom suffix icon component
+     */
     suffixIcon: {
       type: iconPropType,
       default: ArrowDown,
     },
+    /**
+     * @description tag type
+     */
     // eslint-disable-next-line vue/require-prop-types
     tagType: { ...tagProps.type, default: 'info' },
+    /**
+     * @description whether to trigger form validation
+     */
     validateEvent: {
       type: Boolean,
       default: true,
     },
-    remoteShowSuffix: {
-      type: Boolean,
-      default: false,
-    },
+    /**
+     * @description in remote search method show suffix icon
+     */
+    remoteShowSuffix: Boolean,
+    /**
+     * @deprecated will be removed in version 2.4.0, please use override style scheme
+     */
     suffixTransition: {
       type: Boolean,
       default: true,
     },
+    /**
+     * @description position of dropdown
+     */
     placement: {
       type: String,
       values: placements,
       default: 'bottom-start',
+    },
+    /**
+     * @description native input aria-label
+     */
+    ariaLabel: {
+      type: String,
+      default: undefined,
     },
   },
   emits: [
@@ -488,6 +581,7 @@ export default defineComponent({
       onOptionDestroy,
       handleMenuEnter,
       handleFocus,
+      focus,
       blur,
       handleBlur,
       handleClearClick,
@@ -497,12 +591,14 @@ export default defineComponent({
       selectOption,
       getValueKey,
       navigateOptions,
+      handleDeleteTooltipTag,
       dropMenuVisible,
 
       reference,
       input,
       iOSInput,
       tooltipRef,
+      tagTooltipRef,
       tags,
       selectWrapper,
       scrollbar,
@@ -512,9 +608,9 @@ export default defineComponent({
       handleMouseLeave,
       showTagList,
       collapseTagList,
+      // computed style
+      selectTagsStyle,
     } = useSelect(props, states, ctx)
-
-    const { focus } = useFocus(reference)
 
     const {
       inputWidth,
@@ -533,7 +629,6 @@ export default defineComponent({
       cachedOptions,
       optionsCount,
       prefixWidth,
-      tagInMultiLine,
     } = toRefs(states)
 
     const wrapperKls = computed(() => {
@@ -548,10 +643,36 @@ export default defineComponent({
       return classList
     })
 
-    const selectTagsStyle = computed(() => ({
-      maxWidth: `${unref(inputWidth) - 32}px`,
-      width: '100%',
-    }))
+    const tagsKls = computed(() => [
+      nsSelect.e('tags'),
+      nsSelect.is('disabled', unref(selectDisabled)),
+    ])
+
+    const tagWrapperKls = computed(() => [
+      nsSelect.b('tags-wrapper'),
+      { 'has-prefix': unref(prefixWidth) && unref(selected).length },
+    ])
+
+    const inputKls = computed(() => [
+      nsSelect.e('input'),
+      nsSelect.is(unref(selectSize)),
+      nsSelect.is('disabled', unref(selectDisabled)),
+    ])
+
+    const iOSInputKls = computed(() => [
+      nsSelect.e('input'),
+      nsSelect.is(unref(selectSize)),
+      nsSelect.em('input', 'iOS'),
+    ])
+
+    const scrollbarKls = computed(() => [
+      nsSelect.is(
+        'empty',
+        !props.allowCreate &&
+          Boolean(unref(query)) &&
+          unref(filteredOptionsCount) === 0
+      ),
+    ])
 
     const tagTextStyle = computed(() => {
       const maxWidth =
@@ -560,6 +681,13 @@ export default defineComponent({
           : unref(inputWidth) - 75
       return { maxWidth: `${maxWidth}px` }
     })
+
+    const inputStyle = computed(() => ({
+      marginLeft: `${unref(prefixWidth)}px`,
+      flexGrow: 1,
+      width: `${unref(inputLength) / (unref(inputWidth) - 32)}%`,
+      maxWidth: `${unref(inputWidth) - 42}px`,
+    }))
 
     provide(
       selectKey,
@@ -604,7 +732,7 @@ export default defineComponent({
         if (ctx.slots.prefix) {
           const prefix = refEl.querySelector(`.${nsInput.e('prefix')}`)
           prefixWidth.value = Math.max(
-            prefix.getBoundingClientRect().width + 5,
+            prefix.getBoundingClientRect().width + 11,
             30
           )
         }
@@ -630,7 +758,6 @@ export default defineComponent({
     return {
       isIOS,
       onOptionsRendered,
-      tagInMultiLine,
       prefixWidth,
       selectSize,
       readonly,
@@ -640,6 +767,7 @@ export default defineComponent({
       debouncedQueryChange,
       deletePrevTag,
       deleteTag,
+      handleDeleteTooltipTag,
       deleteSelected,
       handleOptionSelect,
       scrollToOption,
@@ -669,6 +797,7 @@ export default defineComponent({
       handleComposition,
       handleMenuEnter,
       handleFocus,
+      focus,
       blur,
       handleBlur,
       handleClearClick,
@@ -679,7 +808,6 @@ export default defineComponent({
       getValueKey,
       navigateOptions,
       dropMenuVisible,
-      focus,
 
       reference,
       input,
@@ -691,13 +819,20 @@ export default defineComponent({
       scrollbar,
 
       wrapperKls,
+      tagsKls,
+      tagWrapperKls,
+      inputKls,
+      iOSInputKls,
+      scrollbarKls,
       selectTagsStyle,
       nsSelect,
       tagTextStyle,
+      inputStyle,
       handleMouseEnter,
       handleMouseLeave,
       showTagList,
       collapseTagList,
+      tagTooltipRef,
     }
   },
 })
