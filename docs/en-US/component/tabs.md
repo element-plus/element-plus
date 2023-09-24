@@ -67,6 +67,14 @@ tabs/dynamic-tabs
 
 :::
 
+## Customized add button icon ^(2.3.15)
+
+:::demo
+
+tabs/customized-add-button-icon
+
+:::
+
 ## Customized trigger button of new tab
 
 :::demo
@@ -100,9 +108,10 @@ tabs/customized-trigger
 
 ## Tabs Slots
 
-| Name | Description               | Subtags  |
-| ---- | ------------------------- | -------- |
-| -    | customize default content | Tab-pane |
+| Name              | Description               | Subtags  |
+| ----------------- | ------------------------- | -------- |
+| -                 | customize default content | Tab-pane |
+| addIcon ^(2.3.15) | customize add button icon | -        |
 
 ## Tab-pane Attributes
 
