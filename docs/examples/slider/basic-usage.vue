@@ -19,6 +19,10 @@
     <span class="demonstration">Disabled</span>
     <el-slider v-model="value5" disabled />
   </div>
+  <div class="slider-demo-block">
+    <span class="demonstration">Always show</span>
+    <el-slider v-model="value6" :tooltip="{ show: true }" />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -29,6 +33,7 @@ const value2 = ref(0)
 const value3 = ref(0)
 const value4 = ref(0)
 const value5 = ref(0)
+const value6 = ref(0)
 
 const formatTooltip = (val: number) => {
   return val / 100

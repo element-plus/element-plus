@@ -115,6 +115,7 @@ slider/show-marks
 | placement             | position of Tooltip                                                                                      | string          | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | top     |
 | marks                 | marks, type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style | object          | —                                                                                                         | —       |
 | validate-event        | whether to trigger form validation                                                                       | boolean         | -                                                                                                         | true    |
+| tooltip               | configuration options, see the following `SliderTooltipProps` table.                                     | undefined/^[object]`SliderTooltipProps`          | -                                                                                  | undefined    |
 
 ## Events
 
@@ -122,3 +123,12 @@ slider/show-marks
 | ------ | ----------------------------------------------------------------------------------------------------------------- | -------------------- |
 | change | triggers when the value changes (if the mouse is being dragged, this event only fires when the mouse is released) | value after changing |
 | input  | triggers when the data changes (It'll be emitted in real time during sliding)                                     | value after changing |
+
+## SliderTooltipProps
+
+| Attribute      | Description                                                                                                                                                                                                                              | Type            | Accepted Values                 | Default |
+| -------------- |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|-----------------------------------------------------------------------------------------------------------|---------|
+| show  | When it is true, Tooltip will show always, when it is false, it will not be displayed even if dragging or hovering, when it is undefined, it will be displayed when moving in and dragging, and it will not be displayed when moving out | boolean/undefined        | true / false / undefined                                                                                                 |    undefined     |
+| format  | Same as format-tooltip                                                                                                                                                                                                                   | function(value) | -                                                                                                         | -       |
+| placement  | Same as placement                                                                                                                                                                                                                  | string          | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | top     |
+| popperClass  | Same as tooltip-class                                                                                                                                                                                                                  | string          | -                                                                                                        |         |
