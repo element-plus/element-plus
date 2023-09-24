@@ -15,11 +15,11 @@
     <el-tooltip
       ref="tooltip"
       :visible="tooltipVisible"
-      :placement="placement"
+      :placement="initTooltipData.placement"
       :fallback-placements="['top', 'bottom', 'right', 'left']"
       :stop-popper-mouse-event="false"
-      :popper-class="tooltipClass"
-      :disabled="!showTooltip"
+      :popper-class="initTooltipData.popperClass"
+      :disabled="isDisabled"
       persistent
     >
       <template #content>
@@ -64,7 +64,6 @@ const {
   disabled,
   button,
   tooltip,
-  showTooltip,
   tooltipVisible,
   wrapperStyle,
   formatValue,
@@ -73,8 +72,9 @@ const {
   onButtonDown,
   onKeyDown,
   setPosition,
+  initTooltipData,
+  isDisabled,
 } = useSliderButton(props, initData, emit)
-
 const { hovering, dragging } = toRefs(initData)
 
 defineExpose({

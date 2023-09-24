@@ -28,8 +28,6 @@
         ref="firstButton"
         :model-value="firstValue"
         :vertical="vertical"
-        :tooltip-class="tooltipClass"
-        :placement="placement"
         role="slider"
         :aria-label="
           range || !isLabeledByFormItem ? firstButtonLabel : undefined
@@ -50,8 +48,6 @@
         ref="secondButton"
         :model-value="secondValue"
         :vertical="vertical"
-        :tooltip-class="tooltipClass"
-        :placement="placement"
         role="slider"
         :aria-label="secondButtonLabel"
         :aria-valuemin="firstValue"

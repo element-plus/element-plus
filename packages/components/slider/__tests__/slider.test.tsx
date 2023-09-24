@@ -1,5 +1,5 @@
 import { h, nextTick, onMounted, ref } from 'vue'
-import { mount } from '@vue/test-utils'
+import { DOMWrapper, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
@@ -24,6 +24,7 @@ describe('Slider', () => {
 
   afterEach(() => {
     vi.useRealTimers()
+    document.body.innerHTML = ''
   })
 
   it('create', () => {
@@ -693,4 +694,89 @@ describe('Slider', () => {
       expect(formItem.attributes().role).toBe('group')
     })
   })
+  it.each([
+    [{ tooltip: { show: undefined } }, true, false],
+    [{ tooltip: { show: false } }, false, false],
+    [{ tooltip: { show: true } }, true, true],
+  ])('tooltip props: show : %o -> %s && %s', async (props, ...expected) => {
+    const value = ref(0)
+    const wrapper = mount({
+      setup() {
+        return () => <Slider ref="slider" v-model={value.value} {...props} />
+      },
+    })
+    const slider = wrapper.findComponent({ name: 'ElSliderButton' })
+    slider.vm.handleMouseEnter()
+    expect(slider.vm.tooltipVisible).toEqual(expected[0])
+    slider.vm.handleMouseLeave()
+    expect(slider.vm.tooltipVisible).toEqual(expected[1])
+  })
+  it.each([
+    [true, {}, 0],
+    [
+      true,
+      {
+        tooltip: {
+          format: (val: number) => `$${val}`,
+        },
+      },
+      '$0',
+    ],
+    [
+      false,
+      {
+        formatTooltip: (val: number) => `$${val}`,
+      },
+      '$0',
+    ],
+  ])(
+    'old and new tooltip props format: isNew: %s && props: %s && asserts value is %s',
+    async (isNew, props, asserts) => {
+      const value = ref(0)
+      const wrapper = mount(() => <Slider v-model={value.value} {...props} />)
+      const slider = wrapper.findComponent({ name: 'ElSliderButton' })
+      await nextTick()
+      expect(slider.vm.formatValue).toBe(asserts)
+    }
+  )
+  it.each([
+    [
+      false,
+      {
+        'tooltip-class': 'custom_tooltip0',
+      },
+    ],
+    [
+      true,
+      {
+        tooltip: {
+          placement: 'left',
+          popperClass: 'custom_tooltip1',
+        },
+      },
+      'left',
+    ],
+    [
+      false,
+      {
+        placement: 'right',
+        'tooltip-class': 'custom_tooltip2',
+      },
+      'right',
+    ],
+  ])(
+    'old and new tooltip props "placement && class": isNew: %s && props: %s && asserts value is %s',
+    async (isNew, props: any, asserts = 'top') => {
+      const wrapper = mount(() => <Slider {...props} />)
+      const slider = wrapper.findComponent({ name: 'ElSliderButton' })
+      const className = isNew
+        ? props['tooltip']['popperClass']
+        : props['tooltip-class']
+      expect(slider.vm.initTooltipData.placement).toEqual(asserts)
+      const tooltipWrapper = new DOMWrapper(
+        document.querySelector(`.${className}`) as HTMLElement
+      )
+      expect(tooltipWrapper.classes()).toContain(className)
+    }
+  )
 })

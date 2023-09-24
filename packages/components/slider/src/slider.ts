@@ -15,6 +15,7 @@ import type { Arrayable } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { SliderMarkerProps } from './marker'
 import type Slider from './slider.vue'
+import type { Placement } from '@popperjs/core'
 
 type SliderMarks = Record<number, string | SliderMarkerProps['mark']>
 
@@ -25,8 +26,17 @@ export interface SliderInitData {
   dragging: boolean
   sliderSize: number
 }
-
+export interface SliderTooltipProps {
+  show?: boolean | undefined
+  format?: (val: number) => number | string
+  placement?: Placement
+  popperClass?: string | undefined
+}
 export const sliderProps = buildProps({
+  tooltip: {
+    type: definePropType<SliderTooltipProps>(Object),
+    default: undefined,
+  },
   modelValue: {
     type: definePropType<Arrayable<number>>([Number, Array]),
     default: 0,

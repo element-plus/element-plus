@@ -1,45 +1,57 @@
-import { computed, inject, nextTick, ref, watch } from 'vue'
+import { computed, inject, nextTick, ref, unref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isUndefined } from '@element-plus/utils'
 import { sliderContextKey } from '../constants'
 
-import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue'
-import type { SliderProps } from '../slider'
+import type { CSSProperties, ComputedRef, SetupContext } from 'vue'
 import type {
   SliderButtonEmits,
   SliderButtonInitData,
   SliderButtonProps,
+  SliderTooltipInitData,
 } from '../button'
-
 const { left, down, right, up, home, end, pageUp, pageDown } = EVENT_CODE
 
 const useTooltip = (
   props: SliderButtonProps,
-  formatTooltip: Ref<SliderProps['formatTooltip']>,
-  showTooltip: Ref<SliderProps['showTooltip']>
+  initTooltipData: SliderTooltipInitData,
+  isNewTooltipProps: boolean
 ) => {
   // TODO any is temporary, replace with `TooltipInstance` later
   const tooltip = ref<any>()
-
-  const tooltipVisible = ref(false)
+  const tooltipVisible = ref(
+    isNewTooltipProps
+      ? isUndefined(initTooltipData.show)
+        ? false
+        : initTooltipData.show
+      : false
+  )
 
   const enableFormat = computed(() => {
-    return formatTooltip.value instanceof Function
+    return initTooltipData.format instanceof Function
   })
 
   const formatValue = computed(() => {
     return (
-      (enableFormat.value && formatTooltip.value!(props.modelValue)) ||
+      (enableFormat.value && initTooltipData.format!(props.modelValue)) ||
       props.modelValue
     )
   })
-
   const displayTooltip = debounce(() => {
-    showTooltip.value && (tooltipVisible.value = true)
+    if (isNewTooltipProps) {
+      isUndefined(initTooltipData.show) && (tooltipVisible.value = true)
+    } else {
+      initTooltipData.show && (tooltipVisible.value = true)
+    }
   }, 50)
 
   const hideTooltip = debounce(() => {
-    showTooltip.value && (tooltipVisible.value = false)
+    if (isNewTooltipProps) {
+      isUndefined(initTooltipData.show) && (tooltipVisible.value = false)
+    } else {
+      initTooltipData.show && (tooltipVisible.value = false)
+    }
   }, 50)
 
   return {
@@ -68,10 +80,44 @@ export const useSliderButton = (
     emitChange,
     resetSize,
     updateDragging,
+    tooltip: TooltipProps,
+    placement,
+    tooltipClass,
   } = inject(sliderContextKey)!
-
+  const isNewTooltipProps = computed(() => !isUndefined(unref(TooltipProps)))
+  const initTooltipData = computed<SliderTooltipInitData>(() => {
+    const tooltipProps = unref(TooltipProps)
+    const result: SliderTooltipInitData = {
+      placement: placement.value,
+      show: showTooltip.value,
+    }
+    if (!isUndefined(formatTooltip!.value)) {
+      result.format = formatTooltip!.value
+    }
+    if (!isUndefined(tooltipClass!.value)) {
+      result.popperClass = tooltipClass!.value
+    }
+    if (unref(isNewTooltipProps)) {
+      result.show = tooltipProps!.show
+      if (!isUndefined(tooltipProps!.format)) {
+        result.format = tooltipProps!.format
+      }
+      if (!isUndefined(tooltipProps!.popperClass)) {
+        result.popperClass = tooltipProps!.popperClass
+      }
+      result.placement = tooltipProps!.placement || 'top'
+    }
+    return result
+  })
+  const isDisabled = computed(() => {
+    return isNewTooltipProps.value
+      ? isUndefined(initTooltipData.value.show)
+        ? false
+        : !initTooltipData.value.show
+      : !initTooltipData.value.show
+  })
   const { tooltip, tooltipVisible, formatValue, displayTooltip, hideTooltip } =
-    useTooltip(props, formatTooltip!, showTooltip)
+    useTooltip(props, unref(initTooltipData), isNewTooltipProps.value)
 
   const button = ref<HTMLDivElement>()
 
@@ -286,5 +332,7 @@ export const useSliderButton = (
     onButtonDown,
     onKeyDown,
     setPosition,
+    initTooltipData,
+    isDisabled,
   }
 }
