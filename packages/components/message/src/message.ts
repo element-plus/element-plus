@@ -5,16 +5,19 @@ import {
   isClient,
   mutable,
 } from '@element-plus/utils'
-import type { AppContext, ExtractPropTypes, VNode } from 'vue'
+import type { AppContext, Component, ExtractPropTypes, VNode } from 'vue'
 import type { Mutable } from '@element-plus/utils'
 import type MessageConstructor from './message.vue'
 
 export const messageTypes = ['success', 'info', 'warning', 'error'] as const
 
-export type messageType = typeof messageTypes[number]
+export type messageType = (typeof messageTypes)[number]
+
+export type IconMapType = { [key in messageType]?: string | Component }
 
 export interface MessageConfigContext {
   max?: number
+  iconMap?: IconMapType
 }
 
 export const messageDefaults = mutable({

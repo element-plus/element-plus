@@ -9,10 +9,16 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { ElMessage } from 'element-plus'
+
+import { Coffee } from '@element-plus/icons-vue'
+
 const config = reactive({
   max: 3,
+  iconMap: {
+    info: Coffee,
+  },
 })
 const open = () => {
-  ElMessage('This is a message.')
+  ElMessage('You cannot order more than 3 cups of coffee.')
 }
 </script>

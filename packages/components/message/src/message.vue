@@ -49,7 +49,10 @@ import { useEventListener, useResizeObserver, useTimeoutFn } from '@vueuse/core'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
-import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
+import {
+  messageConfig,
+  useGlobalComponentSettings,
+} from '@element-plus/components/config-provider'
 import { ElIcon } from '@element-plus/components/icon'
 import { messageEmits, messageProps } from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
@@ -82,7 +85,11 @@ const typeClass = computed(() => {
   return { [ns.bm('icon', type)]: type && TypeComponentsMap[type] }
 })
 const iconComponent = computed(
-  () => props.icon || TypeComponentsMap[props.type] || ''
+  () =>
+    props.icon ||
+    messageConfig.iconMap?.[props.type] ||
+    TypeComponentsMap[props.type] ||
+    ''
 )
 
 const lastOffset = computed(() => getLastOffset(props.id))
