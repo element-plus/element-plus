@@ -250,7 +250,7 @@ const handleInput = (value: string) => {
   data.userInput = value
   const newVal = value === '' ? null : Number(value)
   emit(INPUT_EVENT, newVal)
-  setCurrentValue(newVal, false)
+  setCurrentValue(newVal)
 }
 const handleInputChange = (value: string) => {
   const newVal = value !== '' ? Number(value) : ''
