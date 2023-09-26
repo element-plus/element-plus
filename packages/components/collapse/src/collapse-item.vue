@@ -7,6 +7,7 @@
       :aria-controls="scopedContentId"
       :aria-describedby="scopedContentId"
       :tabindex="disabled ? -1 : 0"
+      type="button"
       @click="handleHeaderClick"
       @keydown.space.enter.stop.prevent="handleEnterClick"
       @focus="handleFocus"

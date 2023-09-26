@@ -240,16 +240,19 @@ export const useCarousel = (
     }
   )
 
-  watch(
-    () => items.value,
-    () => {
-      if (items.value.length > 0) setActiveItem(props.initialIndex)
-    }
-  )
-
   const resizeObserver = shallowRef<ReturnType<typeof useResizeObserver>>()
   // lifecycle
   onMounted(() => {
+    watch(
+      () => items.value,
+      () => {
+        if (items.value.length > 0) setActiveItem(props.initialIndex)
+      },
+      {
+        immediate: true,
+      }
+    )
+
     resizeObserver.value = useResizeObserver(root.value, () => {
       resetItemPosition()
     })
