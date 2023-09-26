@@ -172,7 +172,7 @@ form/accessibility
 
 | Name            | Description                                                                                                                                                     | Type                                                | Default |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------- |
-| prop            | A key of `model`. It could be an array of property paths (e.g `['a', 'b', '0']`). In the use of `validate` and `resetFields` method, the attribute is required. | ^[string] / ^[string&#91;&#93;]                     | —       |
+| prop            | A key of `model`. It could be a path of the property (e.g `a.b.0` or `['a', 'b', '0']`). In the use of `validate` and `resetFields` method, the attribute is required. | ^[string] / ^[string&#91;&#93;]                     | —       |
 | label           | Label text.                                                                                                                                                     | ^[string]                                           | —       |
 | label-width     | Width of label, e.g. `'50px'`. `'auto'` is supported.                                                                                                           | ^[string] / ^[number]                               | ''      |
 | required        | Whether the field is required or not, will be determined by validation rules if omitted.                                                                        | ^[boolean]                                          | —       |
@@ -235,7 +235,39 @@ type FormValidateCallback = (
 interface FormItemRule extends RuleItem {
   trigger?: Arrayable<string>
 }
-type FormRules = Partial<Record<string, Arrayable<FormItemRule>>>
+
+type Primitive = null | undefined | string | number | boolean | symbol | bigint
+type BrowserNativeObject = Date | FileList | File | Blob | RegExp
+type IsTuple<T extends ReadonlyArray<any>> = number extends T['length']
+  ? false
+  : true
+type ArrayMethodKey = keyof any[]
+type TupleKey<T extends ReadonlyArray<any>> = Exclude<keyof T, ArrayMethodKey>
+type ArrayKey = number
+type PathImpl<K extends string | number, V> = V extends
+  | Primitive
+  | BrowserNativeObject
+  ? `${K}`
+  : `${K}` | `${K}.${Path<V>}`
+type Path<T> = T extends ReadonlyArray<infer V>
+  ? IsTuple<T> extends true
+    ? {
+        [K in TupleKey<T>]-?: PathImpl<Exclude<K, symbol>, T[K]>
+      }[TupleKey<T>]
+    : PathImpl<ArrayKey, V>
+  : {
+      [K in keyof T]-?: PathImpl<Exclude<K, symbol>, T[K]>
+    }[keyof T]
+type FieldPath<T> = T extends object ? Path<T> : never
+// MaybeRef: see [@vueuse/core](https://github.com/vueuse/vueuse/blob/main/packages/shared/utils/types.ts)
+// UnwrapRef: see [vue](https://github.com/vuejs/core/blob/main/packages/reactivity/src/ref.ts)
+type FormRules<T extends MaybeRef<Record<string, any> | string> = string> =
+  Partial<
+    Record<
+      UnwrapRef<T> extends string ? UnwrapRef<T> : FieldPath<UnwrapRef<T>>,
+      Arrayable<FormItemRule>
+    >
+  >
 ```
 
 </details>

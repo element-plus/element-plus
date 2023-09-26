@@ -1,9 +1,9 @@
 import { NOOP } from '@vue/shared'
 import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import { ajaxUpload } from './ajax'
+import type { Awaitable, Mutable } from '@element-plus/utils'
 
 import type { UploadAjaxError } from './ajax'
-import type { Awaitable } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type Upload from './upload.vue'
 
@@ -78,6 +78,8 @@ export interface UploadHooks {
   onExceed: (files: File[], uploadFiles: UploadUserFile[]) => void
 }
 
+export type UploadData = Mutable<Record<string, any>>
+
 export const uploadBaseProps = buildProps({
   action: {
     type: String,
@@ -91,7 +93,10 @@ export const uploadBaseProps = buildProps({
     default: 'post',
   },
   data: {
-    type: Object,
+    type: definePropType<
+      | Awaitable<UploadData>
+      | ((rawFile: UploadRawFile) => Awaitable<UploadData>)
+    >([Object, Function, Promise]),
     default: () => mutable({} as const),
   },
   multiple: {

@@ -346,9 +346,11 @@ function handleActions(action: ImageViewerAction, options = {}) {
       break
     case 'clockwise':
       transform.value.deg += rotateDeg
+      emit('rotate', transform.value.deg)
       break
     case 'anticlockwise':
       transform.value.deg -= rotateDeg
+      emit('rotate', transform.value.deg)
       break
   }
   transform.value.enableTransition = enableTransition

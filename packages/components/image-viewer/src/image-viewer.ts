@@ -84,6 +84,7 @@ export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 export const imageViewerEmits = {
   close: () => true,
   switch: (index: number) => isNumber(index),
+  rotate: (deg: number) => isNumber(deg),
 }
 export type ImageViewerEmits = typeof imageViewerEmits
 
