@@ -177,7 +177,7 @@ export const useSelect = (props, states: States, ctx) => {
     const list = Array.from(states.options.values())
     const newList = []
     optionList.value.forEach((item) => {
-      const index = list.findIndex((i) => i.currentLabel === item)
+      const index = list.findIndex((i) => i.value === item)
       if (index > -1) {
         newList.push(list[index])
       }

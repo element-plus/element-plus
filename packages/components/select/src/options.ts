@@ -36,7 +36,7 @@ export default defineComponent({
                 : item.children
             )
           } else if (name === 'ElOption') {
-            filteredOptions.push(item.props?.label)
+            filteredOptions.push(item.props?.value)
           } else if (Array.isArray(item.children)) {
             filterOptions(item.children)
           }
