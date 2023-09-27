@@ -93,7 +93,7 @@ image/image-preview
 | ----------- | -------------------------------------------------------- |
 | placeholder | custom placeholder content when image hasn't loaded yet. |
 | error       | custom image load failed content.                        |
-| viewer      | description of the image.                                |
+| viewer      | custom content when image preview.                       |
 
 ## Image Viewer API
 
@@ -107,7 +107,7 @@ image/image-preview
 | infinite              | whether preview is infinite.                                                                                                  | ^[boolean]            | true    |
 | hide-on-click-modal   | whether user can emit close event when clicking backdrop.                                                                     | ^[boolean]            | false   |
 | teleported            | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true`. | ^[boolean]            | false   |
-| zoom-rate             | the zoom rate of the image viewer zoom event.                                                                                 | ^[number]             | 1.2     |
+| zoom-rate ^(2.2.27)   | the zoom rate of the image viewer zoom event.                                                                                 | ^[number]             | 1.2     |
 | close-on-press-escape | whether the image-viewer can be closed by pressing ESC.                                                                       | ^[boolean]            | true    |
 
 ### Image Viewer Events
@@ -116,6 +116,7 @@ image/image-preview
 | ------ | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | close  | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | ^[Function]`() => void`              |
 | switch | trigger when switching images.                                                                    | ^[Function]`(index: number) => void` |
+| rotate ^(2.3.13) | trigger when rotating images.                                                                     | ^[Function]`(deg: number) => void`   |
 
 ### Image Viewer Exposes
 

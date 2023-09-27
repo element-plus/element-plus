@@ -13,6 +13,7 @@
       @change="handleChange"
       @focus="isFocused = true"
       @blur="isFocused = false"
+      @click.stop
     />
     <input
       v-else
@@ -26,6 +27,7 @@
       @change="handleChange"
       @focus="isFocused = true"
       @blur="isFocused = false"
+      @click.stop
     />
 
     <span
