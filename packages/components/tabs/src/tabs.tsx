@@ -199,9 +199,21 @@ const Tabs = defineComponent({
           </span>
         ) : null
 
+      const prefixSlot = slots.prefix
+      const prefix = prefixSlot ? (
+        <span class={ns.e('prefix')}>{renderSlot(slots, 'prefix')}</span>
+      ) : null
+
+      const suffixSlot = slots.suffix
+      const suffix = suffixSlot ? (
+        <span class={ns.e('suffix')}>{renderSlot(slots, 'suffix')}</span>
+      ) : null
+
       const header = (
         <div class={[ns.e('header'), ns.is(props.tabPosition)]}>
           {newButton}
+          {prefix}
+          {suffix}
           <TabNav
             ref={nav$}
             currentName={currentName.value}
