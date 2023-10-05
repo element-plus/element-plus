@@ -17,8 +17,10 @@
     height: 2px;
     background-color: getCssVar('color-primary');
     z-index: 1;
-    transition: width getCssVar('transition-duration') getCssVar('transition-function-ease-in-out-bezier'),
-      transform getCssVar('transition-duration') getCssVar('transition-function-ease-in-out-bezier');
+    transition: width getCssVar('transition-duration')
+        getCssVar('transition-function-ease-in-out-bezier'),
+      transform getCssVar('transition-duration')
+        getCssVar('transition-function-ease-in-out-bezier');
     list-style: none;
   }
 
@@ -131,7 +133,7 @@
       min-width: 100%;
       display: flex;
 
-      &>* {
+      & > * {
         flex: 1;
         text-align: center;
       }
@@ -164,7 +166,8 @@
     & .is-icon-close {
       border-radius: 50%;
       text-align: center;
-      transition: all getCssVar('transition-duration') getCssVar('transition-function-ease-in-out-bezier');
+      transition: all getCssVar('transition-duration')
+        getCssVar('transition-function-ease-in-out-bezier');
       margin-left: 5px;
 
       &:before {
@@ -199,27 +202,27 @@
   }
 
   @include m(card) {
-    >.#{$namespace}-tabs__header {
+    > .#{$namespace}-tabs__header {
       border-bottom: 1px solid getCssVar('border-color-light');
       height: getCssVar('tabs', 'header-height');
     }
 
-    >.#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
     }
 
-    >.#{$namespace}-tabs__header .#{$namespace}-tabs__nav {
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav {
       border: 1px solid getCssVar('border-color-light');
       border-bottom: none;
       border-radius: 4px 4px 0 0;
       box-sizing: border-box;
     }
 
-    >.#{$namespace}-tabs__header .#{$namespace}-tabs__active-bar {
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__active-bar {
       display: none;
     }
 
-    >.#{$namespace}-tabs__header .#{$namespace}-tabs__item .is-icon-close {
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__item .is-icon-close {
       position: relative;
       font-size: 12px;
       width: 0;
@@ -229,11 +232,13 @@
       transform-origin: 100% 50%;
     }
 
-    >.#{$namespace}-tabs__header .#{$namespace}-tabs__item {
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
       border-bottom: 1px solid transparent;
       border-left: 1px solid getCssVar('border-color-light');
-      transition: color getCssVar('transition-duration') getCssVar('transition-function-ease-in-out-bezier'),
-        padding getCssVar('transition-duration') getCssVar('transition-function-ease-in-out-bezier');
+      transition: color getCssVar('transition-duration')
+          getCssVar('transition-function-ease-in-out-bezier'),
+        padding getCssVar('transition-duration')
+          getCssVar('transition-function-ease-in-out-bezier');
 
       &:first-child {
         border-left: none;
@@ -264,11 +269,11 @@
       }
     }
 
-    >.#{$namespace}-tabs__header .#{$namespace}-tabs__prefix {
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__prefix {
       border-bottom: none;
     }
 
-    >.#{$namespace}-tabs__header .#{$namespace}-tabs__suffix {
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__suffix {
       border-bottom: none;
     }
   }
@@ -277,22 +282,23 @@
     background: getCssVar('bg-color', 'overlay');
     border: 1px solid getCssVar('border-color');
 
-    >.#{$namespace}-tabs__content {
+    > .#{$namespace}-tabs__content {
       padding: 15px;
     }
 
-    >.#{$namespace}-tabs__header {
+    > .#{$namespace}-tabs__header {
       background-color: getCssVar('fill-color', 'light');
       border-bottom: 1px solid getCssVar('border-color-light');
       margin: 0;
     }
 
-    >.#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
     }
 
-    >.#{$namespace}-tabs__header .#{$namespace}-tabs__item {
-      transition: all getCssVar('transition-duration') getCssVar('transition-function-ease-in-out-bezier');
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
+      transition: all getCssVar('transition-duration')
+        getCssVar('transition-function-ease-in-out-bezier');
       border: 1px solid transparent;
       margin-top: -1px;
       color: getCssVar('text-color', 'secondary');
@@ -301,7 +307,7 @@
         margin-left: -1px;
       }
 
-      &+.#{$namespace}-tabs__item {
+      & + .#{$namespace}-tabs__item {
         margin-left: -1px;
       }
 
@@ -321,18 +327,20 @@
       }
     }
 
-    >.#{$namespace}-tabs__header .is-scrollable .#{$namespace}-tabs__item:first-child {
+    > .#{$namespace}-tabs__header
+      .is-scrollable
+      .#{$namespace}-tabs__item:first-child {
       margin-left: 0;
     }
 
-    >.#{$namespace}-tabs__header .#{$namespace}-tabs__prefix {
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__prefix {
       padding: 0 16px;
       border: 1px solid transparent;
       border-right: 1px solid getCssVar('border-color');
       margin-top: -1px;
     }
 
-    >.#{$namespace}-tabs__header .#{$namespace}-tabs__suffix {
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__suffix {
       padding: 0 16px;
       border: 1px solid transparent;
       border-left: 1px solid getCssVar('border-color');
@@ -341,7 +349,6 @@
   }
 
   @include m((top, bottom)) {
-
     .#{$namespace}-tabs__item.is-top:nth-child(2),
     .#{$namespace}-tabs__item.is-bottom:nth-child(2) {
       padding-left: 0;
@@ -356,7 +363,7 @@
     &.#{$namespace}-tabs--card,
     .#{$namespace}-tabs--left,
     .#{$namespace}-tabs--right {
-      >.#{$namespace}-tabs__header {
+      > .#{$namespace}-tabs__header {
         .#{$namespace}-tabs__item:nth-child(2) {
           padding-left: 20px;
 
@@ -432,8 +439,8 @@
     .#{$namespace}-tabs__nav-wrap.is-right {
       margin-bottom: 0;
 
-      >.#{$namespace}-tabs__nav-prev,
-      >.#{$namespace}-tabs__nav-next {
+      > .#{$namespace}-tabs__nav-prev,
+      > .#{$namespace}-tabs__nav-next {
         height: 30px;
         line-height: 30px;
         width: 100%;
@@ -449,12 +456,12 @@
         width: 100%;
       }
 
-      >.#{$namespace}-tabs__nav-prev {
+      > .#{$namespace}-tabs__nav-prev {
         left: auto;
         top: 0;
       }
 
-      >.#{$namespace}-tabs__nav-next {
+      > .#{$namespace}-tabs__nav-next {
         right: auto;
         bottom: 0;
       }
@@ -495,7 +502,6 @@
     }
 
     &.#{$namespace}-tabs--border-card {
-
       .#{$namespace}-tabs__prefix,
       .#{$namespace}-tabs__suffix {
         width: 100%;
@@ -515,6 +521,15 @@
   }
 
   @include m(left) {
+    .#{$namespace}-tabs__prefix,
+    .#{$namespace}-tabs__suffix {
+      justify-content: flex-end;
+      border-right: 2px solid getCssVar('border-color-light');
+      margin-right: -1px;
+      padding-left: 0;
+      padding-right: 16px;
+    }
+
     .#{$namespace}-tabs__header.is-left {
       float: left;
       margin-bottom: 0;
@@ -581,15 +596,17 @@
       .#{$namespace}-tabs__new-tab {
         float: none;
       }
-    }
 
-    .#{$namespace}-tabs__prefix,
-    .#{$namespace}-tabs__suffix {
-      justify-content: flex-end;
-      border-right: 2px solid getCssVar('border-color-light');
-      margin-right: -1px;
-      padding-left: 0;
-      padding-right: 16px;
+      .#{$namespace}-tabs__header.is-left {
+        .#{$namespace}-tabs__prefix,
+        .#{$namespace}-tabs__suffix {
+          border-right-width: 1px;
+        }
+
+        .#{$namespace}-tabs__suffix {
+          margin-bottom: -1px;
+        }
+      }
     }
 
     &.#{$namespace}-tabs--border-card {
@@ -605,20 +622,6 @@
           border-color: transparent;
           border-top-color: rgb(209, 219, 229);
           border-bottom-color: rgb(209, 219, 229);
-        }
-      }
-    }
-
-    &.#{$namespace}-tabs--card {
-      .#{$namespace}-tabs__header.is-left {
-
-        .#{$namespace}-tabs__prefix,
-        .#{$namespace}-tabs__suffix {
-          border-right-width: 1px;
-        }
-
-        .#{$namespace}-tabs__suffix {
-          margin-bottom: -1px;
         }
       }
     }
@@ -653,7 +656,6 @@
     }
 
     &.#{$namespace}-tabs--card {
-
       .#{$namespace}-tabs__prefix,
       .#{$namespace}-tabs__suffix {
         border-left-width: 1px;
@@ -712,8 +714,6 @@
         }
       }
     }
-
-
   }
 }
 
