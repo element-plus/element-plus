@@ -6,8 +6,8 @@
         type="datetime"
         placeholder="Pick a Date"
         format="YYYY-MM-DD HH:mm:ss"
-        date-format="YYYY/MM/DD ddd"
-        time-format="A hh:mm:ss"
+        date-format="MMM DD, YYYY"
+        time-format="HH:mm"
       />
     </div>
     <div class="line" />
