@@ -115,6 +115,16 @@ date-picker/custom-content
 
 :::
 
+## Custom date/time format
+
+Custom input box displays time and date format.
+
+:::demo
+
+date-picker/custom-format
+
+:::
+
 For data details, please refer:
 
 ```ts
@@ -158,6 +168,8 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | end-placeholder       | placeholder for the end date in range mode                                                            | string                                             | —                                                                        | —           |
 | type                  | type of the picker                                                                                    | string                                             | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date        |
 | format                | format of the displayed value in the input box                                                        | string                                             | see [date formats](/en-US/component/date-picker#date-formats)            | YYYY-MM-DD  |
+| extract-date-format   | extract date format string based on format value                                                      | Function                                           | —                                                                        | —           |
+| extract-time-format   | extract time format string based on format value                                                      | Function                                           | —                                                                        | —           |
 | popper-class          | custom class name for DatePicker's dropdown                                                           | string                                             | —                                                                        | —           |
 | popper-options        | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                      | object                                             | —                                                                        | —           |
 | range-separator       | range separator                                                                                       | string                                             | —                                                                        | '-'         |

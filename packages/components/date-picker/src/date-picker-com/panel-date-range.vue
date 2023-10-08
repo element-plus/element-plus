@@ -272,6 +272,7 @@ import {
 import { panelDateRangeProps } from '../props/panel-date-range'
 import { useRangePicker } from '../composables/use-range-picker'
 import { getDefaultValue, isValidRange } from '../utils'
+import { ROOT_PICKER_INJECTION_FORMAT } from '../constants'
 import DateTable from './basic-date-table.vue'
 
 import type { Dayjs } from 'dayjs'
@@ -293,6 +294,7 @@ const emit = defineEmits([
 const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject('EP_PICKER_BASE') as any
+const formatFn = inject(ROOT_PICKER_INJECTION_FORMAT)
 const { disabledDate, cellClassName, format, defaultTime, clearable } =
   pickerBase.props
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
@@ -388,11 +390,11 @@ const maxVisibleTime = computed(() => {
 })
 
 const timeFormat = computed(() => {
-  return extractTimeFormat(format)
+  return (formatFn?.extractTimeFormat || extractTimeFormat)(format)
 })
 
 const dateFormat = computed(() => {
-  return extractDateFormat(format)
+  return (formatFn?.extractDateFormat || extractDateFormat)(format)
 })
 
 const isValidValue = (date: [Dayjs, Dayjs]) => {

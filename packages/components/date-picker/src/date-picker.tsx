@@ -14,7 +14,10 @@ import {
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_DATEPICKER,
 } from '@element-plus/components/time-picker'
-import { ROOT_PICKER_INJECTION_KEY } from './constants'
+import {
+  ROOT_PICKER_INJECTION_FORMAT,
+  ROOT_PICKER_INJECTION_KEY,
+} from './constants'
 
 import { datePickerProps } from './props/date-picker'
 import { getPanel } from './panel-utils'
@@ -41,6 +44,10 @@ export default defineComponent({
     provide(ROOT_PICKER_INJECTION_KEY, {
       slots,
       pickerNs: ns,
+    })
+    provide(ROOT_PICKER_INJECTION_FORMAT, {
+      extractTimeFormat: props.extractTimeFormat,
+      extractDateFormat: props.extractDateFormat,
     })
 
     const commonPicker = ref<InstanceType<typeof CommonPicker>>()

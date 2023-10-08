@@ -217,6 +217,7 @@ import {
 } from '@element-plus/icons-vue'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
+import { ROOT_PICKER_INJECTION_FORMAT } from '../constants'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -244,6 +245,7 @@ const slots = useSlots()
 const { t, lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
 const popper = inject(TOOLTIP_INJECTION_KEY)
+const formatFn = inject(ROOT_PICKER_INJECTION_FORMAT)
 const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
@@ -493,11 +495,11 @@ const changeToNow = () => {
 }
 
 const timeFormat = computed(() => {
-  return extractTimeFormat(props.format)
+  return (formatFn?.extractTimeFormat || extractTimeFormat)(props.format)
 })
 
 const dateFormat = computed(() => {
-  return extractDateFormat(props.format)
+  return (formatFn?.extractDateFormat || extractDateFormat)(props.format)
 })
 
 const visibleTime = computed(() => {

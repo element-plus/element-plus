@@ -25,6 +25,7 @@ export type GetDisabledSeconds = (
   role: string,
   comparingDate?: Dayjs
 ) => number[]
+export type FormatFunction = (format: string) => string
 
 export const timePickerDefaultProps = buildProps({
   /**
@@ -215,6 +216,18 @@ export const timePickerDefaultProps = buildProps({
    * @description unlink two date-panels in range-picker
    */
   unlinkPanels: Boolean,
+  /**
+   * @description extract date format string based on format value
+   */
+  extractDateFormat: {
+    type: definePropType<(format: string) => string>(Function),
+  },
+  /**
+   * @description extract time format string based on format value
+   */
+  extractTimeFormat: {
+    type: definePropType<(format: string) => string>(Function),
+  },
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<
