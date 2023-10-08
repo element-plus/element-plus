@@ -42,9 +42,7 @@ const extractDateFormat1 = (f: string) => {
   </div>
 </template>
 <style scoped>
-.demo-custom-format {
-  .two {
-    margin-left: 20px;
-  }
+.demo-custom-format .two {
+  margin-left: 20px;
 }
 </style>
