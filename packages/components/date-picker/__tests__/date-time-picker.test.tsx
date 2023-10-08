@@ -48,6 +48,16 @@ describe('Datetime Picker', () => {
     expect(dateInput.value).toBe('2018/03/05')
     expect(timeInput.value).toBe('10:15 AM')
 
+    format.value = 'YYYY年MM月DD日 HH时mm分ss秒'
+    await nextTick()
+    expect(dateInput.value).toBe('2018年03月05日')
+    expect(timeInput.value).toBe('10时15分24秒')
+
+    format.value = 'HH:mm:ss YYYY_MM_DD '
+    await nextTick()
+    expect(dateInput.value).toBe('2018_03_05')
+    expect(timeInput.value).toBe('10:15:24')
+
     format.value = 'MM-DD-YYYY HH a'
     await nextTick()
     expect(dateInput.value).toBe('03-05-2018')

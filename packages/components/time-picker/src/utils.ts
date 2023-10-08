@@ -16,16 +16,41 @@ export const rangeArr = (n: number) =>
   Array.from(Array.from({ length: n }).keys())
 
 export const extractDateFormat = (format: string) => {
-  return format
-    .replace(/\W?m{1,2}|\W?ZZ/g, '')
-    .replace(/\W?h{1,2}|\W?s{1,3}|\W?a/gi, '')
-    .trim()
+  const list = [
+    'h{1,2}',
+    'H{1,2}',
+    'm{1,2}',
+    's{1,2}',
+    'SSS',
+    'Z{1,2}',
+    '(a|A)',
+    '(k|K)',
+    '(x|X)',
+  ]
+  const reg = new RegExp(
+    list.map((item) => `[^A-Za-z ]*${item}[^A-Za-z ]*`).join('|'),
+    'g'
+  )
+  return format.replace(reg, '').trim()
 }
 
 export const extractTimeFormat = (format: string) => {
-  return format
-    .replace(/\W?D{1,2}|\W?Do|\W?d{1,4}|\W?M{1,4}|\W?Y{2,4}/g, '')
-    .trim()
+  const list = [
+    'Do',
+    'D{1,2}',
+    'd{1,4}',
+    'M{1,4}',
+    'Y{2,4}',
+    'Q',
+    'wo',
+    'w{1,2}',
+    'gggg',
+  ]
+  const reg = new RegExp(
+    list.map((item) => `[^A-Za-z ]*${item}[^A-Za-z ]*`).join('|'),
+    'g'
+  )
+  return format.replace(reg, '').trim()
 }
 
 export const dateEquals = function (a: Date | unknown, b: Date | unknown) {
