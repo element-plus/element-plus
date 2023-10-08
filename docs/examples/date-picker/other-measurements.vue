@@ -37,6 +37,17 @@
         />
       </div>
     </div>
+    <div class="container">
+      <div class="block">
+        <span class="demonstration">Quarter</span>
+        <el-date-picker
+          v-model="value5"
+          type="quarter"
+          placeholder="Pick a quarter"
+        />
+      </div>
+      <div class="block" />
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -46,6 +57,7 @@ const value1 = ref('')
 const value2 = ref('')
 const value3 = ref('')
 const value4 = ref('')
+const value5 = ref('')
 </script>
 <style scoped>
 .demo-date-picker {
