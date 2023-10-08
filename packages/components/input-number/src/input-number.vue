@@ -39,7 +39,7 @@
       :id="id"
       ref="input"
       type="number"
-      :step="step"
+      step="any"
       :model-value="displayValue"
       :placeholder="placeholder"
       :readonly="readonly"
