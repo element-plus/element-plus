@@ -276,6 +276,7 @@ import { ROOT_PICKER_INJECTION_FORMAT } from '../constants'
 import DateTable from './basic-date-table.vue'
 
 import type { Dayjs } from 'dayjs'
+import type { DatePickerFormat } from '../constants'
 
 type ChangeType = 'min' | 'max'
 type UserInput = {
@@ -294,7 +295,7 @@ const emit = defineEmits([
 const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject('EP_PICKER_BASE') as any
-const formatFn = inject(ROOT_PICKER_INJECTION_FORMAT)
+const formatFn = inject(ROOT_PICKER_INJECTION_FORMAT) as DatePickerFormat
 const { disabledDate, cellClassName, format, defaultTime, clearable } =
   pickerBase.props
 const shortcuts = toRef(pickerBase.props, 'shortcuts')

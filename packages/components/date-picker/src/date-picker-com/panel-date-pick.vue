@@ -230,6 +230,7 @@ import type {
   DatesPickerEmits,
   WeekPickerEmits,
 } from '../props/basic-date-table'
+import type { DatePickerFormat } from '../constants'
 
 type DatePickType = PanelDatePickProps['type']
 // todo
@@ -245,7 +246,7 @@ const slots = useSlots()
 const { t, lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
 const popper = inject(TOOLTIP_INJECTION_KEY)
-const formatFn = inject(ROOT_PICKER_INJECTION_FORMAT)
+const formatFn = inject(ROOT_PICKER_INJECTION_FORMAT) as DatePickerFormat
 const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 

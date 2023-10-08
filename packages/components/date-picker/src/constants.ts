@@ -5,7 +5,7 @@ interface DatePickerContext {
   slots: SetupContext['slots']
   pickerNs: UseNamespaceReturn
 }
-interface DatePickerFormat {
+export interface DatePickerFormat {
   extractTimeFormat: ((format: string) => string) | undefined
   extractDateFormat: ((format: string) => string) | undefined
 }
