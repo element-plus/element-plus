@@ -126,6 +126,13 @@ describe('InputNumber.vue', () => {
     expect(wrapper.find('input').element.value).toEqual('4')
   })
 
+  // fix: #11658
+  test('disable native step validation', async () => {
+    const num = ref(0.5)
+    const wrapper = mount(() => <InputNumber v-model={num.value} step={2} />)
+    expect(wrapper.find('input:invalid').exists()).toBe(false)
+  })
+
   test('value decimals miss prop precision', async () => {
     const num = ref(0.2)
     const wrapper = mount(() => (
