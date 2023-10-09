@@ -14,8 +14,8 @@ watch(
 )
 
 let resolveFn: (value: boolean | PromiseLike<boolean>) => void
-// @ts-expect-error
 const isAppearanceTransition =
+  // @ts-expect-error
   document.startViewTransition &&
   !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 const switchTheme = (event: MouseEvent) => {

@@ -49,7 +49,6 @@ h6 {
 }
 
 .doc-content {
-
   h1,
   h2,
   h3,
@@ -115,7 +114,7 @@ h2 {
   /* overflow-x: auto; */
 }
 
-h2+h3 {
+h2 + h3 {
   margin-top: 1.5rem;
 }
 
@@ -192,18 +191,18 @@ ol {
   padding-left: 1.25em;
 }
 
-li>ul,
-li>ol {
+li > ul,
+li > ol {
   margin: 0;
 }
 
-.doc-content>div .vp-table {
+.doc-content > div .vp-table {
   width: 100%;
   overflow-y: hidden;
   overflow-x: auto;
   margin-bottom: 45px;
 
-  &>table {
+  & > table {
     border-collapse: collapse;
     width: 100%;
     background-color: var(--bg-color);
@@ -245,7 +244,7 @@ blockquote {
   color: var(--text-color-lighter);
 }
 
-blockquote>p {
+blockquote > p {
   margin: 0;
 }
 
