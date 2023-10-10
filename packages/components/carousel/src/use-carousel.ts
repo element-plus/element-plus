@@ -19,7 +19,8 @@ import type { SetupContext } from 'vue'
 import type { CarouselItemContext } from './constants'
 import type { CarouselEmits, CarouselProps } from './carousel'
 
-const THROTTLE_TIME = 300
+// Set THROTTLE_TIME to a value longer than the transition-duration(0.4s) specified in carousel-item.scss. This is to avoid applying incorrect styles to CarouselItem when switching CarouselItem frequently.
+const THROTTLE_TIME = 420
 
 export const useCarousel = (
   props: CarouselProps,
@@ -129,8 +130,46 @@ export const useCarousel = (
   }
 
   function resetItemPosition(oldIndex?: number) {
+    const processedIndices: number[] = []
     items.value.forEach((item, index) => {
-      item.translateItem(index, activeIndex.value, oldIndex)
+      const processedIndex = item.translateItem(
+        index,
+        activeIndex.value,
+        oldIndex
+      )
+      processedIndices.push(processedIndex)
+    })
+
+    function findMaxDiff(arr: number[]) {
+      const n = arr.length
+      let maxDiff = Math.abs(arr[0] - arr[n - 1])
+      let maxI = 0
+      let maxJ = n - 1
+
+      for (let i = 0; i < n - 1; i++) {
+        const diff = Math.abs(arr[i] - arr[i + 1])
+        if (diff > maxDiff) {
+          maxDiff = diff
+          maxI = i
+          maxJ = i + 1
+        }
+      }
+
+      return [maxI, maxJ, maxDiff]
+    }
+
+    const [maxI, maxJ] = findMaxDiff(processedIndices)
+
+    items.value.forEach((item, index) => {
+      if (index === maxI || index === maxJ) {
+        item.setIsSide(true)
+      } else {
+        item.setIsSide(false)
+      }
+
+      if (index === items.value.length - 1) {
+        item.setIsLastItem(true)
+      }
     })
   }
 

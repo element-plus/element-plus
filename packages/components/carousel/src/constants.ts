@@ -16,7 +16,13 @@ export type CarouselItemContext = {
   props: CarouselItemProps
   states: CarouselItemStates
   uid: number
-  translateItem: (index: number, activeIndex: number, oldIndex?: number) => void
+  translateItem: (
+    index: number,
+    activeIndex: number,
+    oldIndex?: number
+  ) => number
+  setIsSide: (isSide: boolean) => void
+  setIsLastItem: (isLastItem: boolean) => void
 }
 
 export type CarouselContext = {
