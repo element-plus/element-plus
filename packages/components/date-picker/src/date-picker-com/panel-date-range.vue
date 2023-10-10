@@ -548,7 +548,6 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
       return
     }
     if (type === 'min') {
-      leftDate.value = parsedValueD
       minDate.value = (minDate.value || leftDate.value)
         .year(parsedValueD.year())
         .month(parsedValueD.month())
@@ -561,7 +560,6 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         maxDate.value = minDate.value.add(1, 'month')
       }
     } else {
-      rightDate.value = parsedValueD
       maxDate.value = (maxDate.value || rightDate.value)
         .year(parsedValueD.year())
         .month(parsedValueD.month())
@@ -601,7 +599,6 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
         .hour(parsedValueD.hour())
         .minute(parsedValueD.minute())
         .second(parsedValueD.second())
-      rightDate.value = maxDate.value
       if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
         minDate.value = maxDate.value
       }
@@ -612,10 +609,8 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
 const handleTimeChange = (value: string | null, type: ChangeType) => {
   timeUserInput.value[type] = null
   if (type === 'min') {
-    leftDate.value = minDate.value!
     minTimePickerVisible.value = false
   } else {
-    rightDate.value = maxDate.value!
     maxTimePickerVisible.value = false
   }
 }
@@ -636,7 +631,6 @@ const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
 
   if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
     maxDate.value = minDate.value
-    rightDate.value = value
   }
 }
 
