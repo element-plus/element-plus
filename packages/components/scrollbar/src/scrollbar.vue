@@ -1,9 +1,15 @@
 <template>
-  <div ref="scrollbarRef" :class="ns.b()">
-    <div ref="wrapRef" :class="wrapKls" :style="style" @scroll="handleScroll">
+  <div ref="scrollbarRef" :class="scrollbarKls" :style="style">
+    <div
+      ref="wrapRef"
+      :class="wrapKls"
+      :style="wrapStyle"
+      @scroll="handleScroll"
+    >
       <component
         :is="tag"
         ref="resizeRef"
+        v-bind="attrs"
         :class="resizeKls"
         :style="viewStyle"
       >
@@ -35,7 +41,7 @@ import {
 } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { addUnit, debugWarn, isNumber, isObject } from '@element-plus/utils'
-import { useNamespace } from '@element-plus/hooks'
+import { useAttrs, useNamespace } from '@element-plus/hooks'
 import { GAP } from './util'
 import Bar from './bar.vue'
 import { scrollbarContextKey } from './constants'
@@ -47,12 +53,14 @@ const COMPONENT_NAME = 'ElScrollbar'
 
 defineOptions({
   name: COMPONENT_NAME,
+  inheritAttrs: false,
 })
 
 const props = defineProps(scrollbarProps)
 const emit = defineEmits(scrollbarEmits)
 
 const ns = useNamespace('scrollbar')
+const attrs = useAttrs()
 
 let stopResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
@@ -67,7 +75,11 @@ const barRef = ref<BarInstance>()
 const ratioY = ref(1)
 const ratioX = ref(1)
 
-const style = computed<StyleValue>(() => {
+const scrollbarKls = computed(() => {
+  return [props.class, ns.b()]
+})
+
+const wrapStyle = computed<StyleValue>(() => {
   const style: CSSProperties = {}
   if (props.height) style.height = addUnit(props.height)
   if (props.maxHeight) style.maxHeight = addUnit(props.maxHeight)

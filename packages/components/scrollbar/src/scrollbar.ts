@@ -25,6 +25,20 @@ export const scrollbarProps = buildProps({
     default: false,
   },
   /**
+   * @description style of scrollbar
+   */
+  style: {
+    type: definePropType<StyleValue>([String, Object, Array]),
+    default: '',
+  },
+  /**
+   * @description class of scrollbar
+   */
+  class: {
+    type: [String, Array],
+    default: '',
+  },
+  /**
    * @description style of wrap
    */
   wrapStyle: {

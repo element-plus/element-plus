@@ -102,7 +102,7 @@ export const useSelect = (props, states: States, ctx) => {
   const scrollbar = ref<{
     handleScroll: () => void
   } | null>(null)
-  const hoverOption = ref(-1)
+  const hoverOption = ref()
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
   const optionList = ref<string[]>([])
@@ -976,6 +976,7 @@ export const useSelect = (props, states: States, ctx) => {
   return {
     optionList,
     optionsArray,
+    hoverOption,
     selectSize,
     handleResize,
     debouncedOnInputChange,

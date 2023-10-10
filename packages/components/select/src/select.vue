@@ -149,7 +149,13 @@
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
               :style="inputStyle"
+              role="combobox"
+              :aria-activedescendant="hoverOption?.id || ''"
+              :aria-controls="contentId"
+              :aria-expanded="dropMenuVisible"
               :aria-label="ariaLabel"
+              aria-autocomplete="none"
+              aria-haspopup="listbox"
               @focus="handleFocus"
               @blur="handleBlur"
               @keyup="managePlaceholder"
@@ -166,7 +172,6 @@
               @input="debouncedQueryChange"
             />
           </div>
-          <!-- fix: https://github.com/element-plus/element-plus/issues/11415 -->
           <input
             v-if="isIOS && !multiple && filterable && readonly"
             ref="iOSInput"
@@ -192,7 +197,13 @@
             :validate-event="false"
             :class="[nsSelect.is('focus', visible)]"
             :tabindex="multiple && filterable ? -1 : undefined"
-            :label="ariaLabel"
+            role="combobox"
+            :aria-activedescendant="hoverOption?.id || ''"
+            :aria-controls="contentId"
+            :aria-expanded="dropMenuVisible"
+            :aria-label="ariaLabel"
+            aria-autocomplete="none"
+            aria-haspopup="listbox"
             @focus="handleFocus"
             @blur="handleBlur"
             @input="debouncedOnInputChange"
@@ -240,11 +251,15 @@
         <el-select-menu>
           <el-scrollbar
             v-show="options.size > 0 && !loading"
+            :id="contentId"
             ref="scrollbar"
             tag="ul"
             :wrap-class="nsSelect.be('dropdown', 'wrap')"
             :view-class="nsSelect.be('dropdown', 'list')"
             :class="scrollbarKls"
+            role="listbox"
+            :aria-label="ariaLabel"
+            aria-orientation="vertical"
           >
             <el-option v-if="showNewOption" :value="query" :created="true" />
             <el-options @update-options="onOptionsRendered">
@@ -283,7 +298,7 @@ import {
 import { useResizeObserver } from '@vueuse/core'
 import { placements } from '@popperjs/core'
 import { ClickOutside } from '@element-plus/directives'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import ElTooltip, {
   useTooltipContentProps,
@@ -550,10 +565,12 @@ export default defineComponent({
     const nsSelect = useNamespace('select')
     const nsInput = useNamespace('input')
     const { t } = useLocale()
+    const contentId = useId()
     const states = useSelectStates(props)
     const {
       optionList,
       optionsArray,
+      hoverOption,
       selectSize,
       readonly,
       handleResize,
@@ -833,6 +850,8 @@ export default defineComponent({
       showTagList,
       collapseTagList,
       tagTooltipRef,
+      contentId,
+      hoverOption,
     }
   },
 })

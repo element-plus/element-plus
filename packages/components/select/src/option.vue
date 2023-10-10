@@ -1,7 +1,11 @@
 <template>
   <li
     v-show="visible"
+    :id="id"
     :class="containerKls"
+    role="option"
+    :aria-disabled="isDisabled || undefined"
+    :aria-selected="itemSelected || undefined"
     @mouseenter="hoverItem"
     @click.stop="selectOptionClick"
   >
@@ -23,7 +27,7 @@ import {
   toRefs,
   unref,
 } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useId, useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import type { SelectOptionProxy } from './token'
 
@@ -52,6 +56,7 @@ export default defineComponent({
 
   setup(props) {
     const ns = useNamespace('select')
+    const id = useId()
 
     const containerKls = computed(() => [
       ns.be('dropdown', 'item'),
@@ -103,6 +108,7 @@ export default defineComponent({
 
     return {
       ns,
+      id,
       containerKls,
       currentLabel,
       itemSelected,
