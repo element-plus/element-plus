@@ -58,7 +58,7 @@ scrollbar/manual-scroll
 | min-size                | minimum size of scrollbar                                                                                                       | ^[number]                                                           | 20      |
 | id                      | id of view                                                                                                                      | ^[string]                                                           | —       |
 | role ^(a11y)            | role of view                                                                                                                    | ^[string]                                                           | —       |
-| ariaLabel ^(a11y)       | aria-label of view                                                                                                              | ^[string]                                                           | —       |
+| aria-label ^(a11y)       | aria-label of view                                                                                                              | ^[string]                                                           | —       |
 | ariaOrientation ^(a11y) | aria-orientation of view                                                                                                        | ^[enum]`'horizontal' \| 'vertical'`                                 | —       |
 
 ### Events
