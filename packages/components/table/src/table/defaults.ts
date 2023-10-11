@@ -146,7 +146,7 @@ interface TableProps<T> {
   scrollbarAlwaysOn?: boolean
   flexible?: boolean
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
-  bodyTabindex?: number | string
+  scrollbarTabindex?: number | string
 }
 
 interface Sort {
@@ -274,7 +274,7 @@ export default {
   showOverflowTooltip: [Boolean, Object] as PropType<
     TableProps<DefaultRow>['showOverflowTooltip']
   >,
-  bodyTabindex: {
+  scrollbarTabindex: {
     type: [Number, String],
     default: undefined,
   },

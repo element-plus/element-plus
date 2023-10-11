@@ -63,7 +63,7 @@
           :view-style="scrollbarViewStyle"
           :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
-          :tabindex="bodyTabindex"
+          :tabindex="scrollbarTabindex"
         >
           <table
             ref="tableBody"
@@ -318,7 +318,7 @@ export default defineComponent({
       scrollTo,
       setScrollLeft,
       setScrollTop,
-      bodyTabindex: props.bodyTabindex,
+      scrollbarTabindex: props.scrollbarTabindex,
     }
   },
 })
