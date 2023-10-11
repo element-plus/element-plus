@@ -249,7 +249,6 @@ describe('Carousel', () => {
     })
 
     await nextTick()
-
     expect(items[0].classList.contains('is-active')).toBeTruthy()
 
     const container = wrapper.find<HTMLElement>(
