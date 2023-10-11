@@ -82,6 +82,7 @@
             <table-header
               v-if="showHeader && tableLayout === 'auto'"
               ref="tableHeaderRef"
+              :class="ns.e('body-header')"
               :border="border"
               :default-sort="defaultSort"
               :store="store"
