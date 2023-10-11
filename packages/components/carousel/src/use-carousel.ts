@@ -1,5 +1,4 @@
 import {
-  Fragment,
   computed,
   getCurrentInstance,
   isVNode,
@@ -18,7 +17,7 @@ import { debugWarn, flattedChildren, isString } from '@element-plus/utils'
 import { useOrderedChildren } from '@element-plus/hooks'
 import { carouselContextKey } from './constants'
 
-import type { Component, SetupContext, VNode } from 'vue'
+import type { SetupContext } from 'vue'
 import type { CarouselItemContext } from './constants'
 import type { CarouselEmits, CarouselProps } from './carousel'
 
