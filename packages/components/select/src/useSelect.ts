@@ -407,8 +407,9 @@ export const useSelect = (props, states: States, ctx) => {
         originClientHeight ||
         (input.clientHeight > 0 ? input.clientHeight + 2 : 0)
       const _tags = tags.value
-      const cssVarOfSelectSize =
-        getComputedStyle(input).getPropertyValue('--el-input-height')
+      const cssVarOfSelectSize = getComputedStyle(input).getPropertyValue(
+        ns.cssVarName('input-height')
+      )
       const gotSize =
         cssVarOfSelectSize || getComponentSize(selectSize.value || form?.size)
 
