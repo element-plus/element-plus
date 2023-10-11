@@ -325,7 +325,6 @@
         &.#{$namespace}-table-fixed-column--left,
         &.#{$namespace}-table-fixed-column--right {
           position: sticky !important;
-          z-index: 2;
           background: inherit;
           z-index: calc(getCssVar('table-index') + 1);
           &.is-last-column,
