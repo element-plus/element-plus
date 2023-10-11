@@ -276,7 +276,7 @@ export default {
   >,
   bodyTabindex: {
     type: [Number, String],
-    default: 0,
+    default: undefined,
   },
 }
 export type {
