@@ -2,6 +2,7 @@ import {
   Fragment,
   computed,
   getCurrentInstance,
+  isVNode,
   onBeforeUnmount,
   onMounted,
   provide,
@@ -13,7 +14,7 @@ import {
 } from 'vue'
 import { throttle } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import { debugWarn, isString } from '@element-plus/utils'
+import { debugWarn, flattedChildren, isString } from '@element-plus/utils'
 import { useOrderedChildren } from '@element-plus/hooks'
 import { carouselContextKey } from './constants'
 
@@ -222,21 +223,16 @@ export const useCarousel = (
 
   function slotDefaultNode() {
     const defaultSlots = slots.default?.()
+    if (!defaultSlots) return null
+
+    const flatSlots = flattedChildren(defaultSlots)
+
     const carouselItemsName = 'ElCarouselItem'
-    const normalizeSlots = defaultSlots?.reduce((acc: VNode[], cur) => {
-      if (cur.type === Fragment && Array.isArray(cur.children)) {
-        const carouselItems = (cur.children as VNode[])?.filter(
-          (it) => (it.type as Component).name === carouselItemsName
-        )
-        acc.push(...(carouselItems as VNode[]))
-        return acc
-      }
-      if ((cur.type as Component)?.name === carouselItemsName) {
-        acc.push(cur)
-        return acc
-      }
-      return acc
-    }, [])
+
+    const normalizeSlots = flatSlots.filter((slot) => {
+      return isVNode(slot) && (slot.type as any).name === carouselItemsName
+    })
+
     if (normalizeSlots?.length === 2 && props.loop && !isCardType.value) {
       isItemsTwoLength.value = true
       return normalizeSlots
