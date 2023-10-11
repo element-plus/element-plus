@@ -163,7 +163,7 @@ export const paginationProps = buildProps({
   /**
    * @description which element the size dropdown appends to.
    */
-  appendSizeDropdownTo: String,
+  appendSizeTo: String,
 } as const)
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
 
@@ -382,7 +382,7 @@ export default defineComponent({
           disabled: props.disabled,
           teleported: props.teleported,
           size: props.small ? 'small' : 'default',
-          appendDropdownTo: props.appendSizeDropdownTo,
+          appendSizeTo: props.appendSizeTo,
         }),
         slot: slots?.default?.() ?? null,
         total: h(Total, { total: isAbsent(props.total) ? 0 : props.total }),
