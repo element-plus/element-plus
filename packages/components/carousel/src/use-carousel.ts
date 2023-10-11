@@ -220,7 +220,8 @@ export const useCarousel = (
     containerHeight.value = height
   }
 
-  function slotDefaultNode() {
+  function PlaceholderItem() {
+    // fix: https://github.com/element-plus/element-plus/issues/12139
     const defaultSlots = slots.default?.()
     if (!defaultSlots) return null
 
@@ -330,7 +331,7 @@ export const useCarousel = (
     setActiveItem,
     prev,
     next,
-    slotDefaultNode,
+    PlaceholderItem,
     isTwoLengthShow,
     throttledArrowClick,
     throttledIndicatorHover,

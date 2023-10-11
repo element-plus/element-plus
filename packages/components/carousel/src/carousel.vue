@@ -39,7 +39,7 @@
           </ElIcon>
         </button>
       </transition>
-      <slotDefaultNode />
+      <PlaceholderItem />
       <slot />
     </div>
     <ul v-if="indicatorPosition !== 'none'" :class="indicatorsClasses">
@@ -96,7 +96,7 @@ const {
   setActiveItem,
   prev,
   next,
-  slotDefaultNode,
+  PlaceholderItem,
   isTwoLengthShow,
   throttledArrowClick,
   throttledIndicatorHover,
