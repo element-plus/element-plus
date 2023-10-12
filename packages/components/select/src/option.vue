@@ -5,7 +5,7 @@
     :class="containerKls"
     role="option"
     :aria-disabled="isDisabled || undefined"
-    :aria-selected="itemSelected || undefined"
+    :aria-selected="itemSelected"
     @mouseenter="hoverItem"
     @click.stop="selectOptionClick"
   >
