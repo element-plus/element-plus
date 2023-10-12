@@ -100,6 +100,7 @@
             />
             <table-footer
               v-if="showSummary && tableLayout === 'auto'"
+              :class="ns.e('body-footer')"
               :border="border"
               :default-sort="defaultSort"
               :store="store"
