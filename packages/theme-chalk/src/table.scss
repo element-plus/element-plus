@@ -393,6 +393,11 @@
     }
   }
 
+  @include e((footer-wrapper)) {
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
   @include e((header-wrapper, body-wrapper)) {
     .#{$namespace}-table-column--selection {
       > .cell {
@@ -558,10 +563,18 @@
     }
   }
 
-  @include e(body-header) {
-    position: sticky;
-    top: 0;
-    z-index: calc(getCssVar('table-index') + 2);
+  &.#{$namespace}-table--scrollable-y {
+    @include e(body-header) {
+      position: sticky;
+      top: 0;
+      z-index: calc(getCssVar('table-index') + 2);
+    }
+
+    @include e(body-footer) {
+      position: sticky;
+      bottom: 0;
+      z-index: calc(getCssVar('table-index') + 2);
+    }
   }
 
   @include e(column-resize-proxy) {
