@@ -141,6 +141,13 @@
     }
   }
 
+  tfoot {
+    td.#{$namespace}-table__cell {
+      background-color: getCssVar('table-row-hover-bg-color');
+      color: getCssVar('table-text-color');
+    }
+  }
+
   .#{$namespace}-table__cell {
     padding: map.get($table-padding, 'default');
     min-width: 0;
@@ -244,10 +251,6 @@
     &.gutter {
       width: 0;
     }
-  }
-
-  @include e((footer-wrapper)) {
-    border-top: getCssVar('table-border');
   }
 
   // 拥有多级表头
@@ -381,7 +384,7 @@
     border-collapse: separate;
   }
 
-  @include e((header-wrapper, footer-wrapper)) {
+  @include e((header-wrapper)) {
     overflow: hidden;
 
     & tbody td.#{$namespace}-table__cell {
