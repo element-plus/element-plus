@@ -755,7 +755,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   // fix the problem that scrollTop is not reset in filterable mode
   watch(filteredOptions, () => {
-    return nextTick(menuRef.value.resetScrollTop)
+    return menuRef.value && nextTick(menuRef.value.resetScrollTop)
   })
 
   watch(
