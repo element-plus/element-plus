@@ -76,8 +76,8 @@ image/image-preview
 | preview-teleported    | whether to append image-viewer to body. A nested parent element attribute transform should have this attribute set to `true`.                     | ^[boolean]                                                              | false   |
 | infinite              | whether the viewer preview is infinite.                                                                                                           | ^[boolean]                                                              | true    |
 | zoom-rate             | the zoom rate of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 1.2     |
-| min-scale             | the min scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 0.2     |
-| max-scale             | the max scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 7       |
+| min-scale ^(2.4.0)    | the min scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 0.2     |
+| max-scale ^(2.4.0)    | the max scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 7       |
 
 ### Image Events
 
@@ -110,8 +110,8 @@ image/image-preview
 | hide-on-click-modal   | whether user can emit close event when clicking backdrop.                                                                     | ^[boolean]            | false   |
 | teleported            | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true`. | ^[boolean]            | false   |
 | zoom-rate ^(2.2.27)   | the zoom rate of the image viewer zoom event.                                                                                 | ^[number]             | 1.2     |
-| min-scale ^(2.3.13)   | the min scale of the image viewer zoom event.                                                                                 | ^[number]             | 0.2     |
-| max-scale ^(2.3.13)   | the max scale of the image viewer zoom event.                                                                                 | ^[number]             | 7       |
+| min-scale ^(2.4.0)   | the min scale of the image viewer zoom event.                                                                                 | ^[number]             | 0.2     |
+| max-scale ^(2.4.0)   | the max scale of the image viewer zoom event.                                                                                 | ^[number]             | 7       |
 | close-on-press-escape | whether the image-viewer can be closed by pressing ESC.                                                                       | ^[boolean]            | true    |
 
 ### Image Viewer Events
