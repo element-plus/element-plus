@@ -201,7 +201,7 @@
             :aria-activedescendant="hoverOption?.id || ''"
             :aria-controls="contentId"
             :aria-expanded="dropMenuVisible"
-            :aria-label="ariaLabel"
+            :label="ariaLabel"
             aria-autocomplete="none"
             aria-haspopup="listbox"
             @focus="handleFocus"
