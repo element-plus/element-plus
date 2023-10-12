@@ -318,7 +318,6 @@ export default defineComponent({
       scrollTo,
       setScrollLeft,
       setScrollTop,
-      scrollbarTabindex: props.scrollbarTabindex,
     }
   },
 })

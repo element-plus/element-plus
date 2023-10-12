@@ -4,7 +4,7 @@
       ref="wrapRef"
       :class="wrapKls"
       :style="style"
-      :tabindex="props.tabindex"
+      :tabindex="tabindex"
       @scroll="handleScroll"
     >
       <component
