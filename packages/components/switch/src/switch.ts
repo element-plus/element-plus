@@ -174,7 +174,7 @@ export const switchProps = buildProps({
    */
   label: {
     type: String,
-    default: 'Switch',
+    default: undefined,
   },
 } as const)
 
