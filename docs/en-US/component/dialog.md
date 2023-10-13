@@ -111,7 +111,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 :::
 
-## Attributes
+## API
 
 ### Attributes
 
