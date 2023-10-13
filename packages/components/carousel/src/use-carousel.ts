@@ -212,7 +212,8 @@ export const useCarousel = (
 
   function resetTimer() {
     pauseTimer()
-    startTimer()
+
+    if (!props.pauseOnHover) startTimer()
   }
 
   function setContainerHeight(height: number) {
