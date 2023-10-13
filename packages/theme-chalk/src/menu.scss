@@ -130,7 +130,7 @@
         color: getCssVar('menu-text-color');
 
         &:hover {
-          background-color: getCssVar('bg-color', 'overlay');
+          background-color: getCssVar('menu-bg-color');
         }
       }
     }
