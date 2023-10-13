@@ -55,9 +55,8 @@ function update(options: any) {
 }
 
 function convertUrlToCurrentLang(url: string) {
-  const arr = url.split('/')
-  return langs.value.includes(arr[1])
-    ? `/${lang.value}/${arr.slice(2).join('/')}`
+  return langs.value.some((el) => url.startsWith(`/${el}/`))
+    ? url.replace(/^\/[^/]+/, `/${lang.value}`)
     : url
 }
 
