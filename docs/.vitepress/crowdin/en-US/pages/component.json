@@ -326,7 +326,8 @@
       },
       {
         "link": "/watermark",
-        "text": "Watermark"
+        "text": "Watermark",
+        "promotion": "2.4.0"
       }
     ]
   }
