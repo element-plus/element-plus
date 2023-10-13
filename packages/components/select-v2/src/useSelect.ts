@@ -14,9 +14,6 @@ import { useFormItem, useFormSize } from '@element-plus/components/form'
 
 import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
-
-import { flattenOptions } from './util'
-
 import { useInput } from './useInput'
 import { useProps } from './useProps'
 
