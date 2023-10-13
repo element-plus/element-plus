@@ -31,6 +31,7 @@ import {
   isKorean,
   isNumber,
   isString,
+  isUndefined,
   scrollIntoView,
 } from '@element-plus/utils'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
@@ -101,7 +102,7 @@ export const useSelect = (props, states: States, ctx) => {
   const scrollbar = ref<{
     handleScroll: () => void
   } | null>(null)
-  const hoverOption = ref(-1)
+  const hoverOption = ref()
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
   const optionList = ref<string[]>([])
@@ -181,7 +182,7 @@ export const useSelect = (props, states: States, ctx) => {
         newList.push(list[index])
       }
     })
-    return newList.length ? newList : list
+    return newList.length >= list.length ? newList : list
   })
 
   const cachedOptionsArray = computed(() =>
@@ -361,6 +362,9 @@ export const useSelect = (props, states: States, ctx) => {
       }
       const inputs = selectWrapper.value?.querySelectorAll('input') || []
       if (
+        (!props.filterable &&
+          !props.defaultFirstOption &&
+          !isUndefined(props.modelValue)) ||
         !Array.from(inputs).includes(document.activeElement as HTMLInputElement)
       ) {
         setSelected()
@@ -403,7 +407,11 @@ export const useSelect = (props, states: States, ctx) => {
         originClientHeight ||
         (input.clientHeight > 0 ? input.clientHeight + 2 : 0)
       const _tags = tags.value
-      const gotSize = getComponentSize(selectSize.value || form?.size)
+      const cssVarOfSelectSize = getComputedStyle(input).getPropertyValue(
+        ns.cssVarName('input-height')
+      )
+      const gotSize =
+        cssVarOfSelectSize || getComponentSize(selectSize.value || form?.size)
 
       const sizeInMap =
         selectSize.value ||
@@ -910,11 +918,11 @@ export const useSelect = (props, states: States, ctx) => {
   )
 
   const showTagList = computed(() =>
-    states.selected.slice(0, props.maxCollapseTags)
+    props.multiple ? states.selected.slice(0, props.maxCollapseTags) : []
   )
 
   const collapseTagList = computed(() =>
-    states.selected.slice(props.maxCollapseTags)
+    props.multiple ? states.selected.slice(props.maxCollapseTags) : []
   )
 
   const navigateOptions = (direction) => {
@@ -972,6 +980,7 @@ export const useSelect = (props, states: States, ctx) => {
   return {
     optionList,
     optionsArray,
+    hoverOption,
     selectSize,
     handleResize,
     debouncedOnInputChange,

@@ -109,6 +109,7 @@
             <button
               type="button"
               :class="ppNs.e('icon-btn')"
+              :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               @click="leftPrevYear"
             >
@@ -117,6 +118,7 @@
             <button
               type="button"
               :class="ppNs.e('icon-btn')"
+              :aria-label="t(`el.datepicker.prevMonth`)"
               class="arrow-left"
               @click="leftPrevMonth"
             >
@@ -127,6 +129,7 @@
               type="button"
               :disabled="!enableYearArrow"
               :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :aria-label="t(`el.datepicker.nextYear`)"
               class="d-arrow-right"
               @click="leftNextYear"
             >
@@ -140,6 +143,7 @@
                 ppNs.e('icon-btn'),
                 { 'is-disabled': !enableMonthArrow },
               ]"
+              :aria-label="t(`el.datepicker.nextMonth`)"
               class="arrow-right"
               @click="leftNextMonth"
             >
@@ -167,6 +171,7 @@
               type="button"
               :disabled="!enableYearArrow"
               :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               @click="rightPrevYear"
             >
@@ -180,6 +185,7 @@
                 ppNs.e('icon-btn'),
                 { 'is-disabled': !enableMonthArrow },
               ]"
+              :aria-label="t(`el.datepicker.prevMonth`)"
               class="arrow-left"
               @click="rightPrevMonth"
             >
@@ -187,6 +193,7 @@
             </button>
             <button
               type="button"
+              :aria-label="t(`el.datepicker.nextYear`)"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-right"
               @click="rightNextYear"
@@ -196,6 +203,7 @@
             <button
               type="button"
               :class="ppNs.e('icon-btn')"
+              :aria-label="t(`el.datepicker.nextMonth`)"
               class="arrow-right"
               @click="rightNextMonth"
             >
@@ -380,12 +388,21 @@ const maxVisibleTime = computed(() => {
 })
 
 const timeFormat = computed(() => {
-  return extractTimeFormat(format)
+  return props.timeFormat || extractTimeFormat(format)
 })
 
 const dateFormat = computed(() => {
-  return extractDateFormat(format)
+  return props.dateFormat || extractDateFormat(format)
 })
+
+const isValidValue = (date: [Dayjs, Dayjs]) => {
+  return (
+    isValidRange(date) &&
+    (disabledDate
+      ? !disabledDate(date[0].toDate()) && !disabledDate(date[1].toDate())
+      : true)
+  )
+}
 
 const leftPrevYear = () => {
   leftDate.value = leftDate.value.subtract(1, 'year')
@@ -701,7 +718,7 @@ function onParsedValueChanged(
   }
 }
 
-emit('set-picker-option', ['isValidValue', isValidRange])
+emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['handleClear', handleClear])

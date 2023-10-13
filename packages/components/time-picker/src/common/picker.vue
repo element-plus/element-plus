@@ -138,6 +138,8 @@
         :actual-visible="pickerActualVisible"
         :parsed-value="parsedValue"
         :format="format"
+        :date-format="dateFormat"
+        :time-format="timeFormat"
         :unlink-panels="unlinkPanels"
         :type="type"
         :default-value="defaultValue"
@@ -725,7 +727,7 @@ const onSetPickerOption = <T extends keyof PickerOptions>(
   pickerOptions.value.panelReady = true
 }
 
-const onCalendarChange = (e: [Date, false | Date]) => {
+const onCalendarChange = (e: [Date, null | Date]) => {
   emit('calendar-change', e)
 }
 
