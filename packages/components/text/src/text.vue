@@ -1,5 +1,9 @@
 <template>
-  <component :is="tag" :class="textKls">
+  <component
+    :is="tag"
+    :class="textKls"
+    :style="{ '-webkit-line-clamp': lineClamp }"
+  >
     <slot />
   </component>
 </template>
@@ -8,6 +12,7 @@
 import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
+import { isUndefined } from '@element-plus/utils'
 import { textProps } from './text'
 
 defineOptions({
@@ -24,5 +29,6 @@ const textKls = computed(() => [
   ns.m(props.type),
   ns.m(textSize.value),
   ns.is('truncated', props.truncated),
+  ns.is('line-clamp', !isUndefined(props.lineClamp)),
 ])
 </script>
