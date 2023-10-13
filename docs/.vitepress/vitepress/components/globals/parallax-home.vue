@@ -115,9 +115,9 @@ useEventListener(window, 'scroll', handleScroll)
 <template>
   <div ref="target" class="home-page">
     <div class="banner" text="center">
-      <div class="banner-desc" m="t-4">
+      <div class="banner-desc">
         <h1>{{ homeLang['title'] }}</h1>
-        <p m="t-2">{{ homeLang['title_sub'] }}</p>
+        <p m="t-4">{{ homeLang['title_sub'] }}</p>
       </div>
     </div>
     <div ref="jumbotronRef" class="jumbotron">
@@ -150,6 +150,12 @@ useEventListener(window, 'scroll', handleScroll)
 <style lang="scss">
 @use '../../styles/mixins' as *;
 
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis-Bold.woff2') format('woff2');
+  font-display: swap;
+}
+
 .home-page {
   .mobile-banner {
     display: none;
@@ -170,14 +176,15 @@ useEventListener(window, 'scroll', handleScroll)
   }
   .banner-desc {
     h1 {
-      font-size: 34px;
+      font-size: 40px;
       margin: 0;
-      line-height: 48px;
       color: var(--text-color);
+      font-family: Metropolis, sans-serif;
     }
 
     p {
-      font-size: 18px;
+      margin-top: 1rem;
+      font-size: 16px;
       color: var(--text-color-light);
     }
   }
@@ -257,9 +264,6 @@ useEventListener(window, 'scroll', handleScroll)
   }
 
   @media (max-width: 768px) {
-    .banner-desc {
-      padding-top: 0px;
-    }
     .cards {
       li {
         width: 80%;
@@ -276,16 +280,11 @@ useEventListener(window, 'scroll', handleScroll)
     }
     .banner-desc {
       h1 {
-        font-size: 22px;
-      }
-      #line2 {
-        display: none;
-      }
-      h2 {
-        font-size: 32px;
+        font-size: 28px;
       }
       p {
-        width: auto;
+        margin-top: 0.5rem;
+        font-size: 14px;
       }
     }
     .banner-dot h1 span {
