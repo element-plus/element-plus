@@ -105,7 +105,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   const iconComponent = computed(() =>
-    props.remote && props.filterable ? '' : ArrowUp
+    props.remote && props.filterable && !props.remoteShowSuffix ? '' : ArrowUp
   )
 
   const iconReverse = computed(
