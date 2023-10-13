@@ -73,6 +73,12 @@
     }
   }
 
+  &:not(.#{$namespace}-menu--collapse) .#{$namespace}-sub-menu__title {
+    padding-right: calc(
+      #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
+    );
+  }
+
   @include m(horizontal) {
     display: flex;
     flex-wrap: nowrap;
@@ -124,7 +130,7 @@
         color: getCssVar('menu-text-color');
 
         &:hover {
-          background-color: getCssVar('bg-color', 'overlay');
+          background-color: getCssVar('menu-bg-color');
         }
       }
     }
@@ -250,9 +256,6 @@
 
   @include e(title) {
     @include menu-item;
-    padding-right: calc(
-      #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
-    );
 
     &:hover {
       background-color: getCssVar('menu-hover-bg-color');
