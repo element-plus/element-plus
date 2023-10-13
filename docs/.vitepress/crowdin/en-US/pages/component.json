@@ -46,6 +46,10 @@
       {
         "link": "/typography",
         "text": "Typography"
+      },
+      {
+        "link": "/typography-module",
+        "text": "typography module"
       }
     ]
   },

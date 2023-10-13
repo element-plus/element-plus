@@ -1,27 +1,29 @@
-// import { getDesignatedType } from './util'
-import type { inputProps } from '@element-plus/component/input/src/input'
-import type { InternalBlockProps } from './typography'
+import { textProps } from '@element-plus/components/text'
 import type { PropType } from 'vue'
+// import { getDesignatedType } from './util'
+import type { InputAutoSize } from '@element-plus/components/input'
+import type { InternalBlockProps } from './typography'
 export interface EditConfig {
+  value: string
   editing?: boolean
   tooltip?: boolean
   onStart?: () => void
   onChange?: (value: string) => void
   onCancel?: () => void
   onEnd?: () => void
-  maxLength?: number
+  // maxLength?: number
   placeholder?: string
   triggerType?: 'icon' | 'text'
-  icon?: string
+  icon?: any
   triggerText?: string
-  // ...getDesignatedType(inputProps, ['autosize']),
-  autoSize?: inputProps['autosize']
+  autoSize?: InputAutoSize
+  tooltipContent?: string
 }
-
 export interface copyConfig {
   text: string | (() => string)
   onCopy: () => void
-  tooltip: false
+  tooltip: boolean
+  tooltipContent: string
 }
 
 export const baseProps = () => ({
@@ -49,4 +51,9 @@ export const baseProps = () => ({
     type: String,
     default: '',
   },
+  color: {
+    type: String,
+    default: '',
+  },
+  ...textProps,
 })

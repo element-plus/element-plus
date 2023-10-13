@@ -1,19 +1,31 @@
 import { buildProps } from '@element-plus/utils'
-
 import { useSizeProp } from '@element-plus/hooks'
 import { getDesignatedType } from './util'
 import { baseProps } from './base'
 import type { EditConfig, copyConfig } from './base'
-import type Typography from './typography.vue'
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes, InjectionKey } from 'vue'
+
 export interface InternalBlockProps {
   editable?: boolean | EditConfig
   copyable?: boolean | copyConfig
 }
+export const commonInjection = buildProps({
+  color: String,
+  font: String,
+} as const)
+
 export const typographyProps = buildProps({
   size: useSizeProp,
+  ...commonInjection,
   ...getDesignatedType(baseProps(), ['editable', 'copyable']),
 })
+export type commonInjectionType = ExtractPropTypes<typeof typographyProps>
 
 export type TypographyProps = ExtractPropTypes<typeof typographyProps>
-export type TypographyInstance = InstanceType<typeof Typography>
+
+export const typographyContextKey: InjectionKey<commonInjectionType> = Symbol(
+  'typographyContextKey'
+)
+export const paragraphContextKey: InjectionKey<
+  ExtractPropTypes<typeof commonInjection>
+> = Symbol('paragraphContextKey')

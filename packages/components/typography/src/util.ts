@@ -16,7 +16,6 @@ export const getDesignatedType = function <T extends object, K extends keyof T>(
 }
 export const getTextNode = function (el: HTMLElement) {
   if (!el) return false
-  console.log(el)
   return {
     width: `${el.offsetWidth}px`,
     height: `${el.offsetHeight}px `,

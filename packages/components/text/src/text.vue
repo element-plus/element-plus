@@ -1,6 +1,7 @@
 <template>
   <component :is="tag" :class="textKls">
     <slot />
+    <slot name="suffix" />
   </component>
 </template>
 

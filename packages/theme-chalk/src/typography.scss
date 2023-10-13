@@ -3,49 +3,87 @@
 @use 'common/var' as *;
 @use 'common/transition';
 @include b(typography) {
-  display: inline-block;
   width: 100%;
-  font-size: 14px;
-  text-align: left;
+  font-size: var(--el-font-size-base);
   margin-bottom: 20px;
-
-  @include e(base) {
-    // padding: 11px 5px;
-    // border: solid red 1px;
-    position: relative;
-    vertical-align: middle;
-    display: inline;
-    // overflow: ;
+  text-align: left;
+  display: inline-block;
+  @include e(paragraph) {
+    font-size: var(--el-font-size-base);
+    color: var(--el-text-color-regular);
+    word-break: break-all;
     display: inline-block;
-
+    width: 100%;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  @include e(base) {
+    position: relative;
+    // right: 0;
+    // left: 0;
+    z-index: var(--el-index-norma);
+    align-items: center;
+    // vertical-align: center;
+    display: inline-flex;
+    text-align: left;
     font-size: inherit;
-    line-height: 1.5;
-    vertical-align: middle;
-    font-family: inherit;
+
+    line-height: 1.6;
     span {
       display: inline-block;
-      vertical-align: middle;
+    }
+
+    .el-text {
+      width: 100%;
     }
     .el-icon {
       color: var(--el-color-primary);
     }
   }
+
+  @include e(edit) {
+    display: inline-block;
+    align-self: flex-end;
+    .inputBox {
+      background-color: var(--el-color-white);
+      z-index: var(--el-index-top);
+      position: absolute;
+      top: 0;
+      left: 0;
+      // right: 0;
+      bottom: 0;
+    }
+  }
+
   @include m(keyboard) {
-    margin: 0 0em;
+    margin: 0.1em 0.4em;
     padding-inline: 0.4em;
-    font-size: 90%;
+    font-size: 80%;
     background: rgba(150, 150, 150, 0.06);
     border: 1px solid rgba(100, 100, 100, 0.2);
     border-bottom-width: 2px;
     border-radius: 2px;
+    // padding: 0 2rem;
   }
   @include m(code) {
     margin: 0 0em;
-    padding-inline: 0.4em;
-    padding-block: 0em 0.1em;
+    padding-inline: 0.3em;
+    padding-block: 0em 0.08em;
     font-size: 85%;
     background: rgba(150, 150, 150, 0.1);
-    border: 1px solid rgba(100, 100, 100, 0.2);
+    border: 1px solid rgba(100, 100, 100, 0.1);
     border-radius: 3px;
+  }
+
+  blockquote {
+    border-left: 3px solid #d1d1d1;
+    color: #636363;
+    margin: 1.4em 0;
+    padding-left: 1em;
+  }
+  pre {
+    font-size: 0.9em;
+    white-space: pre;
+    word-break: normal;
   }
 }
