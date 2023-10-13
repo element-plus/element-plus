@@ -5,19 +5,14 @@
     :aria-controls="indeterminate ? controls : null"
     @click="onClickRoot"
   >
-    <span
-      :class="spanKls"
-      :tabindex="indeterminate ? 0 : undefined"
-      :role="indeterminate ? 'checkbox' : undefined"
-      :aria-checked="indeterminate ? 'mixed' : undefined"
-    >
+    <span :class="spanKls">
       <input
         v-if="trueLabel || falseLabel"
         :id="inputId"
         v-model="model"
         :class="ns.e('original')"
         type="checkbox"
-        :aria-hidden="indeterminate ? 'true' : 'false'"
+        :indeterminate="indeterminate"
         :name="name"
         :tabindex="tabindex"
         :disabled="isDisabled"
@@ -34,7 +29,7 @@
         v-model="model"
         :class="ns.e('original')"
         type="checkbox"
-        :aria-hidden="indeterminate ? 'true' : 'false'"
+        :indeterminate="indeterminate"
         :disabled="isDisabled"
         :value="label"
         :name="name"
