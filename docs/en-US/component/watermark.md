@@ -69,6 +69,6 @@ watermark/custom
 | ---------- | ----------- | ---------------------------------------------------- | --------------- |
 | color      | font color  | ^[string]                                            | rgba(0,0,0,.15) |
 | fontSize   | font size   | ^[number]                                            | 16              |
-| fontWeight | font weight | ^[enum]`'normal \| 'light' \| 'weight' \| number`    | normal          |
+| fontWeight | font weight | ^[enum]`'normal' \| 'light' \| 'weight' \| number`   | normal          |
 | fontFamily | font family | ^[string]                                            | sans-serif      |
 | fontStyle  | font style  | ^[enum]`'none' \| 'normal' \| 'italic' \| 'oblique'` | normal          |
