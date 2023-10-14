@@ -74,7 +74,7 @@ jobs:
         run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
 
       - name: Update npm
-        run: npm install npm@latest -g
+        run: npm install npm@9 -g
 
       - name: Set Nightly
         run: sh ./scripts/nightly.sh
