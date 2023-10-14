@@ -353,7 +353,7 @@ export default defineComponent({
       () => props.modelValue,
       () => {
         manualChecked = false
-        syncCheckedValue()
+        syncCheckedValue(false, true)
       },
       {
         deep: true,
