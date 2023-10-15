@@ -196,7 +196,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     const valueMap = new Map()
 
     filteredOptions.value.forEach((option, index) => {
-      valueMap.set(getValueKey(option), { option, index })
+      valueMap.set(getValueKey(option.value), { option, index })
     })
     return valueMap
   })
@@ -429,7 +429,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
-      const index = getValueIndex(selectedOptions, getValueKey(option))
+      const index = getValueIndex(selectedOptions, option.value)
       if (index > -1) {
         selectedOptions = [
           ...selectedOptions.slice(0, index),
@@ -441,7 +441,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         props.multipleLimit <= 0 ||
         selectedOptions.length < props.multipleLimit
       ) {
-        selectedOptions = [...selectedOptions, getValueKey(option)]
+        selectedOptions = [...selectedOptions, option.value]
         states.cachedOptions.push(option)
         selectNewOption(option)
         updateHoveringIndex(idx)
@@ -465,7 +465,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     } else {
       selectedIndex.value = idx
       states.selectedLabel = option.label
-      update(getValueKey(option))
+      update(option.value)
       expanded.value = false
       selectNewOption(option)
       if (!option.created) {
@@ -475,19 +475,20 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const deleteTag = (event: MouseEvent, tag: Option) => {
-    const { valueKey } = props
-    const index = (props.modelValue as Array<any>).indexOf(get(tag, valueKey))
+  const deleteTag = (event: MouseEvent, option: Option) => {
+    let selectedOptions = (props.modelValue as any[]).slice()
+
+    const index = getValueIndex(selectedOptions, option.value)
 
     if (index > -1 && !selectDisabled.value) {
-      const value = [
+      selectedOptions = [
         ...(props.modelValue as Array<unknown>).slice(0, index),
         ...(props.modelValue as Array<unknown>).slice(index + 1),
       ]
       states.cachedOptions.splice(index, 1)
-      update(value)
-      emit('remove-tag', get(tag, valueKey))
-      removeNewOption(tag)
+      update(selectedOptions)
+      emit('remove-tag', option.value)
+      removeNewOption(option)
       return nextTick(focusAndUpdatePopup)
     }
     event.stopPropagation()
@@ -651,8 +652,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.previousValue = props.modelValue.toString()
 
         for (const value of props.modelValue) {
-          if (filteredOptionsValueMap.value.has(value)) {
-            const { index, option } = filteredOptionsValueMap.value.get(value)
+          const selectValue = getValueKey(value)
+
+          if (filteredOptionsValueMap.value.has(selectValue)) {
+            const { index, option } =
+              filteredOptionsValueMap.value.get(selectValue)
+
             states.cachedOptions.push(option)
             if (!initHovering) {
               updateHoveringIndex(index)
@@ -669,7 +674,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.previousValue = props.modelValue
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
-          (option) => getValueKey(option) === getValueKey(props.modelValue)
+          (option) =>
+            getValueKey(option.value) === getValueKey(props.modelValue)
         )
         if (~selectedItemIndex) {
           states.selectedLabel = options[selectedItemIndex].label
@@ -733,7 +739,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   // fix the problem that scrollTop is not reset in filterable mode
   watch(filteredOptions, () => {
-    return nextTick(menuRef.value.resetScrollTop)
+    return menuRef.value && nextTick(menuRef.value.resetScrollTop)
   })
 
   watch(

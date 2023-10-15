@@ -9,7 +9,7 @@ interface UseFocusControllerOptions {
    * return true to cancel blur
    * @param event FocusEvent
    */
-  beforeBlur?: (event: FocusEvent) => boolean
+  beforeBlur?: (event: FocusEvent) => boolean | undefined
   afterBlur?: () => void
 }
 
