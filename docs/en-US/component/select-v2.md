@@ -3,7 +3,7 @@ title: Virtualized Select
 lang: en-US
 ---
 
-# <ElBadge value="beta">Select V2 virtualized selector</ElBadge>
+# Select V2 virtualized selector ^(beta)
 
 :::tip
 
@@ -131,25 +131,29 @@ select-v2/remote-search
 
 :::
 
-## Aliases for custom options ^(2.4.0)
+## Use value-key attribute
 
-:::demo When your `options` format is different from the default format, you can customize the alias of the `options` through the `props` attribute
+when `options.value` is an object, you should set a unique identity key name for value
 
-select-v2/props
+::: tip
+
+Before ^(2.4.0), `value-key` was used both as the unique value of the selected object and as an alias for the value in `options`. Now `value-key` is only used as the unique value of the selected object, and the alias for the value in options is `props.value`.
 
 :::
 
-## Select object
-
-:::demo when `options.value` is an object, you should set a unique identity key name for value
+:::demo
 
 select-v2/use-valueKey
 
 :::
 
-::: tip
+## Aliases for custom options ^(2.4.1)
 
-Before ^(2.4.0), `value-key` was used both as the unique value of the selected object and as an alias for the value in `options`. Now `value-key` is only used as the unique value of the selected object, and the alias for the value in options is `props.value`.
+When your `options` format is different from the default format, you can customize the alias of the `options` through the `props` attribute
+
+:::demo
+
+select-v2/props
 
 :::
 
@@ -159,7 +163,7 @@ Before ^(2.4.0), `value-key` was used both as the unique value of the selected o
 | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------- | ------------- |
 | model-value / v-model               | biding value                                                                                                                             | string / number / boolean / object | —                                                                                                         | —             |
 | options                             | data of the options, the key of `value` and `label` can be customize by `props`                                                          | Array                              | —                                                                                                         | —             |
-| props ^(2.4.0)                      | configuration options, see the following table                                                                                           | object                             | —                                                                                                         | —             |
+| props ^(2.4.1)                      | configuration options, see the following table                                                                                           | object                             | —                                                                                                         | —             |
 | multiple                            | is multiple                                                                                                                              | boolean                            | —                                                                                                         | false         |
 | disabled                            | is disabled                                                                                                                              | boolean                            | —                                                                                                         | false         |
 | value-key                           | unique identity key name for value, required when value is an object                                                                     | string                             | —                                                                                                         | value         |
