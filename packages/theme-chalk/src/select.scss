@@ -57,9 +57,11 @@
   line-height: map.get($input-height, 'default');
 
   @include e(popper) {
-    @include picker-popper(map.get($select-dropdown, 'bg-color'),
+    @include picker-popper(
+      map.get($select-dropdown, 'bg-color'),
       map.get($select-dropdown, 'border'),
-      map.get($select-dropdown, 'shadow'));
+      map.get($select-dropdown, 'shadow')
+    );
   }
 
   .#{$namespace}-select-tags-wrapper {
@@ -80,7 +82,7 @@
     }
   }
 
-  .#{$namespace}-select__tags>span {
+  .#{$namespace}-select__tags > span {
     display: inline-block;
   }
 
