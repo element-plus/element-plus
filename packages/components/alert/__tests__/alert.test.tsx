@@ -34,7 +34,11 @@ describe('Alert.vue', () => {
   })
 
   test('title slot', () => {
-    const wrapper = mount(() => <Alert title={AXIOM} />)
+    const wrapper = mount(Alert, {
+      slots: {
+        title: AXIOM,
+      },
+    })
     expect(wrapper.find('.el-alert__title').text()).toEqual(AXIOM)
   })
 
