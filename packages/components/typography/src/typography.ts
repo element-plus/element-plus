@@ -19,13 +19,13 @@ export const typographyProps = buildProps({
   ...commonInjection,
   ...getDesignatedType(baseProps(), ['editable', 'copyable']),
 })
-export type commonInjectionType = ExtractPropTypes<typeof typographyProps>
+export type commonInjectionType = ExtractPropTypes<typeof commonInjection>
 
 export type TypographyProps = ExtractPropTypes<typeof typographyProps>
 
-export const typographyContextKey: InjectionKey<commonInjectionType> = Symbol(
+export const typographyContextKey: InjectionKey<TypographyProps> = Symbol(
   'typographyContextKey'
 )
-export const paragraphContextKey: InjectionKey<
-  ExtractPropTypes<typeof commonInjection>
-> = Symbol('paragraphContextKey')
+export const paragraphContextKey: InjectionKey<commonInjectionType> = Symbol(
+  'paragraphContextKey'
+)

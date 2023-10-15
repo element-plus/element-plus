@@ -13,6 +13,7 @@
           icon: Search,
         }"
         type="danger"
+        @onVisibleChange="change"
       >
         Life is like a deck of cards, rewash it..... But life is a flush, and
         everything's gone in the wash
@@ -21,7 +22,7 @@
       <el-base
         :copyable="{
           tooltip: true,
-          text: () => 111,
+          text: () => '111',
         }"
       >
         Leave a message bottle, put the future to the new chance.
@@ -39,4 +40,7 @@ import { ref } from 'vue'
 import { Delete, Edit, Search, Share, upload } from '@element-plus/icons-vue'
 import { ElBase, ElParagraph, ElTypography } from '@element-plus/components'
 import '@element-plus/theme-chalk/src/index.scss'
+const change = (value) => {
+  console.log(value)
+}
 </script>

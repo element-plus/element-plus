@@ -1,5 +1,5 @@
 <template>
-  <el-typography font="Times New Roman" color="#333">
+  <el-typography font="Times New Roman">
     <h2>introduce</h2>
     <el-paragraph color="#409EFF">
       《三体》是刘慈欣创作的长篇科幻小说系列，由《三体》《三体2：黑暗森林》《三体3：死神永生》组成，第一部于2006年5月起在《科幻世界》杂志上连载，第二部于2008年5月首次出版，第三部则于2010年11月出版。
@@ -41,8 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Delete, Edit, Search, Share, upload } from '@element-plus/icons-vue'
+// import { ref } from 'vue'
 import { ElBase, ElParagraph, ElTypography } from '@element-plus/components'
 import '@element-plus/theme-chalk/src/index.scss'
 </script>

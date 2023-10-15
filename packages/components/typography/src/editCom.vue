@@ -1,8 +1,7 @@
 <template>
   <div ref="editBox" :class="ns.e('edit')">
-    {{ props }}
-    <el-button text :icon="props.icon || Edit" @click="triggerClick">
-      {{ props.triggerText }}
+    <el-button text :icon="editable.icon || Edit" @click="triggerClick">
+      {{ editable.triggerText }}
     </el-button>
     <template v-if="!hub">
       <el-input
@@ -10,8 +9,8 @@
         v-model="editValue"
         resize="none"
         class="inputBox"
-        :placeholder="props.placeholder"
-        :autosize="props.autoSize || true"
+        :placeholder="editable.placeholder"
+        :autosize="editable.autoSize || true"
         type="textarea"
         @change="textChange"
         @blur="inputComplete"
@@ -22,26 +21,19 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, defineProps, nextTick, ref } from 'vue'
+import { defineEmits, defineProps, nextTick, reactive, ref } from 'vue'
 import { Edit } from '@element-plus/icons-vue'
 import { ElButton, ElInput } from '@element-plus/components'
-import { ns } from './util'
+import { getDesignatedType, ns } from './util'
 import { baseProps } from './base'
-import type { ExtractPropTypes } from 'vue'
-// import type { PropType } from 'vue'
-import type { EditConfig } from './base'
-
-// import type { InternalBlockProps } from './typography'
-// import { getDesignatedType, ns } from './util'
 
 const emit = defineEmits(['onEnd', 'onStart', 'onChange', 'onTextChange'])
-type presentProps = {
-  value: string
-  // ...baseProps()['editable']
-}
-console.log(baseProps())
-const props = defineProps<presentProps>()
 
+const props = defineProps({
+  value: String,
+  ...getDesignatedType(baseProps(), ['editable']),
+})
+const editable = reactive(props.editable)
 const editValue = ref('')
 const hub = ref(true)
 const editInputRef = ref<HTMLInputElement | null>(null)
@@ -53,7 +45,7 @@ const triggerClick = async () => {
   emit('onChange', hub.value)
   emit('onStart')
 }
-const textChange = (value) => {
+const textChange = (value: any) => {
   emit('onTextChange', value)
 }
 const inputComplete = () => {
@@ -63,11 +55,4 @@ const inputComplete = () => {
 }
 </script>
 
-<style lang="scss" scoped>
-.edit {
-  display: inline-block;
-}
-.inputBox {
-  width: 100%;
-}
-</style>
+<style lang="scss" scoped></style>

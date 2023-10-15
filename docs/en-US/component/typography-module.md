@@ -9,6 +9,7 @@ Basic text writing, including headings, body text, lists, and more.
 :::tip
 Inherit ElText full attribute, can be added
 :::
+
 ## Article
 
 :::demo
@@ -39,8 +40,34 @@ Global definitions of EditConfig and copyConfig are exposed in Typography and ca
 typography-module/articleGlobal
 
 :::
+For data details, please refer:
 
+```ts
+interface EditConfig {
+  editing?: boolean
+  tooltip?: boolean
+  onStart?: () => void
+  onChange?: (value: string) => void
+  onCancel?: () => void
+  onEnd?: () => void
+  placeholder?: string
+  triggerType?: 'icon' | 'text'
+  icon?: any
+  triggerText?: string
+  autoSize?: InputAutoSize
+  tooltipContent?: string
+}
+```
 
+```ts
+interface copyConfig {
+  text?: string | (() => string)
+  triggerText?: string
+  onCopy?: () => void
+  tooltip?: boolean
+  tooltipContent?: string
+}
+```
 
 ## Typography API
 
@@ -52,6 +79,44 @@ typography-module/articleGlobal
 | font  | font        | ^[string]                                             | —       |
 | type  | button type | ^[enum]`'primary'\| 'success'\| 'warning'\| 'danger'` | —       |
 
+### Typography Slots
+
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |
+
+### Typography Exposes
+
+| Name | Description             | Type                              |
+| ---- | ----------------------- | --------------------------------- |
+| ref  | typography html element | ^[object]`Ref<HTMLButtonElement>` |
+
+## Paragraph API
+
+### Paragraph Attributes
+
+| Name     | Description | Type                                                  | Default |
+| -------- | ----------- | ----------------------------------------------------- | ------- |
+| color    | color       | ^[string]                                             | —       |
+| font     | font        | ^[string]                                             | —       |
+| type     | button type | ^[enum]`'primary'\| 'success'\| 'warning'\| 'danger'` | —       |
+| editable | editable    | ^[Boolean / Object]`EditConfig`                       | false   |
+| copyable | copyable    | ^[Boolean / Object]`copyConfig`                       | false   |
+
+### Paragraph Slots
+
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |
+
+### Paragraph Exposes
+
+| Name | Description            | Type                              |
+| ---- | ---------------------- | --------------------------------- |
+| ref  | Paragraph html element | ^[object]`Ref<HTMLButtonElement>` |
+
+## Bate API
+
 ### Bate Attributes
 
 | Name     | Description    | Type                                                  | Default |
@@ -59,42 +124,27 @@ typography-module/articleGlobal
 | editable | editable       | ^[Boolean / Object]`EditConfig`                       | false   |
 | copyable | copyable       | ^[Boolean / Object]`copyConfig`                       | false   |
 | content  | content        | ^[string]                                             | —       |
-| type     | type           | ^[enum]`'primary'\| 'success'\| 'warning'\| 'danger'` | —       |
+| type     | type style     | ^[enum]`'primary'\| 'success'\| 'warning'\| 'danger'` | —       |
 | keyboard | Keyboard style | ^[Boolean]                                            | false   |
 | code     | code           | ^[Boolean]                                            | false   |
 
-### Typography Slots
+## Tabs Events
 
-| Name    | Description                 |
-| ------- | --------------------------- |
-| default | customize default content   |
+| Name            | Description                 | Parameters |
+| --------------- | --------------------------- | ---------- |
+| onVisibleChange | enter box switch event      | (value)    |
+| onEnd           | Input ending event          | ()         |
+| onStart         | input starts when it occurs | ()         |
+| onCopy          | Copy and finish             | (value)    |
 
 ### Bate Slots
 
-| Name    | Description                 |
-| ------- | --------------------------- |
-| default | customize default content   |
-### Button Exposes
-
-| Name           | Description          | Type                                                                                                           |
-| -------------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
-| ref            | button html element  | ^[object]`Ref<HTMLButtonElement>`                                                                              |
-| size           | button size          | ^[object]`ComputedRef<'' \| 'small' \| 'default' \| 'large'>`                                                  |
-| type           | button type          | ^[object]`ComputedRef<'' \| 'default' \| 'primary' \| 'success' \| 'warning' \| 'info' \| 'danger' \| 'text'>` |
-| disabled       | button disabled      | ^[object]`ComputedRef<boolean>`                                                                                |
-| shouldAddSpace | whether adding space | ^[object]`ComputedRef<boolean>`                                                                                |
-
-## ButtonGroup API
-
-### ButtonGroup Attributes
-
-| Name | Description                                      | Type                                                           | Default |
-| ---- | ------------------------------------------------ | -------------------------------------------------------------- | ------- |
-| size | control the size of buttons in this button-group | ^[enum]`'large'\| 'default'\| 'small'`                         | —       |
-| type | control the type of buttons in this button-group | ^[enum]`'primary'\| 'success'\| 'warning'\| 'danger'\| 'info'` | —       |
-
-### ButtonGroup Slots
-
 | Name    | Description                    | Subtags |
 | ------- | ------------------------------ | ------- |
-| default | customize button group content | Button  |
+| default | customize button group content | Bate    |
+
+### Bate Exposes
+
+| Name | Description       | Type                              |
+| ---- | ----------------- | --------------------------------- |
+| ref  | base html element | ^[object]`Ref<HTMLButtonElement>` |

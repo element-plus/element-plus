@@ -1,17 +1,15 @@
 import { textProps } from '@element-plus/components/text'
-import type { PropType } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 // import { getDesignatedType } from './util'
 import type { InputAutoSize } from '@element-plus/components/input'
 import type { InternalBlockProps } from './typography'
 export interface EditConfig {
-  value: string
   editing?: boolean
   tooltip?: boolean
   onStart?: () => void
-  onChange?: (value: string) => void
+  onVisibleChange?: (value: string) => void
   onCancel?: () => void
   onEnd?: () => void
-  // maxLength?: number
   placeholder?: string
   triggerType?: 'icon' | 'text'
   icon?: any
@@ -19,11 +17,13 @@ export interface EditConfig {
   autoSize?: InputAutoSize
   tooltipContent?: string
 }
+
 export interface copyConfig {
-  text: string | (() => string)
-  onCopy: () => void
-  tooltip: boolean
-  tooltipContent: string
+  text?: string | (() => string)
+  triggerText?: string
+  onCopy?: () => void
+  tooltip?: boolean
+  tooltipContent?: string
 }
 
 export const baseProps = () => ({

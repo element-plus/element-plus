@@ -19,7 +19,6 @@ defineOptions({
 const _ref = ref<HTMLButtonElement>()
 
 const props = defineProps(typographyProps)
-
 provide(
   typographyContextKey,
   reactive({

@@ -22,30 +22,29 @@
         <template #suffix>
           <template v-if="editable.editing">
             <el-tooltip
-              :disabled="!!props.editable?.tooltip"
+              :disabled="props.editable?.tooltip"
               :content="props.editable?.tooltipContent ?? 'edit'"
             >
-              <!-- {{ editable }} -->
               <editCom
                 :value="content"
-                v-bind="editable"
+                v-bind="{ editable }"
                 @onEnd="end"
                 @onChange="editChange"
                 @onTextChange="editText"
               />
             </el-tooltip>
           </template>
-
-          <template v-if="!!props.copyable || !!typographyContext.copyable">
+          <template v-if="copyable">
             <slot name="copy">
               <el-tooltip
-                :disabled="!!props.copyable?.tooltip"
-                :content="props.copyable?.tooltipContent ?? 'copy'"
+                :disabled="!copyable"
+                :content="copyable?.tooltipContent ?? 'copy'"
               >
                 <el-button text @click="copyText">
                   <el-icon>
                     <CopyDocument />
                   </el-icon>
+                  {{ copyable?.triggerText }}
                 </el-button>
               </el-tooltip>
             </slot>
@@ -76,10 +75,10 @@ import { paragraphContextKey, typographyContextKey } from './typography'
 defineOptions({
   name: 'ElBase',
 })
-const typographyContext = inject(typographyContextKey, undefined)
-const paragraphContext = inject(paragraphContextKey, undefined)
+const typographyContext = inject(typographyContextKey, undefined) || {}
+const paragraphContext = inject(paragraphContextKey, undefined) || {}
 
-const emit = defineEmits(['onChange', 'onCopy', 'onEnd'])
+const emit = defineEmits(['onVisibleChange', 'onCopy', 'onEnd'])
 const props = defineProps(baseProps())
 const _ref = ref<HTMLElement | null>(null)
 const editValue = ref('')
@@ -96,11 +95,7 @@ const end = () => {
   emit('onEnd')
 }
 
-const editChange = (value: boolean) => emit('onChange', value)
-
-const editText = (value) => {
-  editValue.value = value
-}
+const editChange = (value: boolean) => emit('onVisibleChange', value)
 const editable = computed(() => {
   const editable = props.editable || typographyContext.editable
   if (!editable) return { editing: false }
@@ -108,6 +103,17 @@ const editable = computed(() => {
   return {
     ...(typeof editable === 'object' ? editable : null),
     editing: true,
+  }
+})
+const editText = (value: any) => {
+  editValue.value = value
+}
+const copyable = computed(() => {
+  const editable = props.copyable || typographyContext.copyable
+  if (!editable) return false
+
+  return {
+    ...(typeof editable === 'object' ? editable : null),
   }
 })
 
