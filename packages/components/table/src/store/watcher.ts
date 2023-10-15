@@ -15,7 +15,7 @@ import useTree from './tree'
 
 import type { Ref } from 'vue'
 import type { TableColumnCtx } from '../table-column/defaults'
-import type { Table, TableRefs } from '../table/defaults'
+import type { DefaultRow, Table, TableRefs } from '../table/defaults'
 import type { StoreFilter } from '.'
 
 const sortData = (data, states) => {
@@ -217,29 +217,37 @@ function useWatcher<T>() {
     isAllSelected.value = value
 
     let selectionChanged = false
-    let childrenCount = 0
-    const rowKey = instance?.store?.states?.rowKey.value
-
+    let rowIndex = 0
+    const { childrenColumnName } = instance.store.states
     const treeProps = {
-      children: instance?.store?.states?.childrenColumnName.value,
-      checkStrictly: instance?.store?.states?.checkStrictly.value,
+      children: childrenColumnName.value,
+      checkStrictly: false, // Disable checkStrictly when selecting all
     }
-    data.value.forEach((row, index) => {
-      const rowIndex = index + childrenCount
-      if (selectable.value) {
-        if (
-          selectable.value.call(null, row, rowIndex) &&
-          toggleRowStatus(selection.value, row, value, treeProps)
-        ) {
-          selectionChanged = true
+
+    const toggleSelectedStatus = (data: DefaultRow[]) => {
+      data.forEach((row) => {
+        if (selectable.value) {
+          if (
+            selectable.value.call(null, row, rowIndex) &&
+            toggleRowStatus(selection.value, row, value, treeProps)
+          ) {
+            selectionChanged = true
+          }
+        } else {
+          if (toggleRowStatus(selection.value, row, value, treeProps)) {
+            selectionChanged = true
+          }
         }
-      } else {
-        if (toggleRowStatus(selection.value, row, value, treeProps)) {
-          selectionChanged = true
+
+        rowIndex++
+
+        if (row[childrenColumnName.value]?.length) {
+          toggleSelectedStatus(row[childrenColumnName.value])
         }
-      }
-      childrenCount += getChildrenCount(getRowIdentity(row, rowKey))
-    })
+      })
+    }
+
+    toggleSelectedStatus(data.value)
 
     if (selectionChanged) {
       instance.emit(
@@ -268,54 +276,53 @@ function useWatcher<T>() {
       return
     }
 
-    let selectedMap
-    if (rowKey.value) {
-      selectedMap = getKeysMap(selection.value, rowKey.value)
-    }
-    const isSelected = function (row) {
+    const { childrenColumnName } = instance.store.states
+    const selectedMap = rowKey.value
+      ? getKeysMap(selection.value, rowKey.value)
+      : undefined
+
+    let rowIndex = 0
+    let selectedCount = 0
+
+    const isSelected = (row: DefaultRow) => {
       if (selectedMap) {
         return !!selectedMap[getRowIdentity(row, rowKey.value)]
       } else {
         return selection.value.includes(row)
       }
     }
-    let isAllSelected_ = true
-    let selectedCount = 0
-    let childrenCount = 0
-    for (let i = 0, j = (data.value || []).length; i < j; i++) {
-      const keyProp = instance?.store?.states?.rowKey.value
-      const rowIndex = i + childrenCount
-      const item = data.value[i]
-      const isRowSelectable =
-        selectable.value && selectable.value.call(null, item, rowIndex)
-      if (!isSelected(item)) {
-        if (!selectable.value || isRowSelectable) {
-          isAllSelected_ = false
+    const checkSelectedStatus = (data: DefaultRow[]) => {
+      let status = true
+
+      for (const row of data) {
+        const isRowSelectable =
+          selectable.value && selectable.value.call(null, row, rowIndex)
+
+        if (!isSelected(row)) {
+          if (!selectable.value || isRowSelectable) {
+            status = false
+            break
+          }
+        } else {
+          selectedCount++
+        }
+        rowIndex++
+
+        if (
+          row[childrenColumnName.value]?.length &&
+          !checkSelectedStatus(row[childrenColumnName.value])
+        ) {
+          status = false
           break
         }
-      } else {
-        selectedCount++
       }
-      childrenCount += getChildrenCount(getRowIdentity(item, keyProp))
+
+      return status
     }
 
-    if (selectedCount === 0) isAllSelected_ = false
-    isAllSelected.value = isAllSelected_
-  }
+    const _isAllSelected = checkSelectedStatus(data.value || [])
 
-  // gets the number of all child nodes by rowKey
-  const getChildrenCount = (rowKey: string) => {
-    if (!instance || !instance.store) return 0
-    const { treeData } = instance.store.states
-    let count = 0
-    const children = treeData.value[rowKey]?.children
-    if (children) {
-      count += children.length
-      children.forEach((childKey) => {
-        count += getChildrenCount(childKey)
-      })
-    }
-    return count
+    isAllSelected.value = selectedCount === 0 ? false : _isAllSelected
   }
 
   // 过滤与排序

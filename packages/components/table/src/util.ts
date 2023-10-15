@@ -274,15 +274,6 @@ export function toggleRowStatus<T>(
       statusArr.splice(index, 1)
     }
     changed = true
-    // Adding the checkStrictly attribute can solve bugs: #13352
-    if (
-      !tableTreeProps?.checkStrictly &&
-      isArray(row[tableTreeProps?.children])
-    ) {
-      row[tableTreeProps.children].forEach((item) => {
-        toggleRowStatus(statusArr, item, newVal ?? !included, tableTreeProps)
-      })
-    }
   }
 
   if (isBoolean(newVal)) {
@@ -293,6 +284,15 @@ export function toggleRowStatus<T>(
     }
   } else {
     included ? toggleStatus('remove') : toggleStatus('add')
+  }
+
+  if (
+    !tableTreeProps?.checkStrictly &&
+    isArray(row[tableTreeProps?.children])
+  ) {
+    row[tableTreeProps.children].forEach((item) => {
+      toggleRowStatus(statusArr, item, newVal ?? !included, tableTreeProps)
+    })
   }
   return changed
 }

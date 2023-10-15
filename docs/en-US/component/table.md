@@ -189,6 +189,14 @@ table/tree-and-lazy
 
 :::
 
+## Selectable tree
+
+:::demo When `treeProps.checkStrictly` is true, the selection state of parent and child nodes is no longer associated, that is, when the parent node is selected, its child nodes will not be selected; when `treeProps.checkStrictly` is false, the selection state of parent and child nodes will be associated with the selection state of child nodes, that is, when the parent node is selected, all its child nodes will be selected.
+
+table/check-strictly
+
+:::
+
 ## Summary row
 
 For table of numbers, you can add an extra row at the table footer displaying each column's sum.
