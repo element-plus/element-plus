@@ -229,6 +229,14 @@ $form-item-label-top-margin-bottom: map.merge(
       }
     }
 
+    .#{$namespace}-select {
+      .#{$namespace}-input {
+        .#{$namespace}-input__wrapper {
+          box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
+        }
+      }
+    }
+
     .#{$namespace}-input__wrapper {
       box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
     }

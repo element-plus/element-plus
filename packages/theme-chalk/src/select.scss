@@ -95,10 +95,7 @@
     cursor: pointer;
 
     @include when(focus) {
-      @include inset-input-border(
-        getCssVar('select-input-focus-border-color'),
-        true
-      );
+      @include inset-input-border(getCssVar('select-input-focus-border-color'));
     }
   }
 
@@ -157,10 +154,7 @@
     }
 
     &.is-focus .#{$namespace}-input__wrapper {
-      @include inset-input-border(
-        getCssVar('select-input-focus-border-color'),
-        true
-      );
+      @include inset-input-border(getCssVar('select-input-focus-border-color'));
     }
   }
 
