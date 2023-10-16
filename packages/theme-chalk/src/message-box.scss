@@ -244,15 +244,3 @@
     opacity: 1;
   }
 }
-
-@keyframes msgbox-fade-out {
-  0% {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translate3d(0, -20px, 0);
-    opacity: 0;
-  }
-}

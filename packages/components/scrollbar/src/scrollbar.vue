@@ -3,15 +3,19 @@
     <div
       ref="wrapRef"
       :class="wrapKls"
-      :style="style"
+      :style="wrapStyle"
       :tabindex="tabindex"
       @scroll="handleScroll"
     >
       <component
         :is="tag"
+        :id="id"
         ref="resizeRef"
         :class="resizeKls"
         :style="viewStyle"
+        :role="role"
+        :aria-label="ariaLabel"
+        :aria-orientation="ariaOrientation"
       >
         <slot />
       </component>
@@ -73,7 +77,7 @@ const barRef = ref<BarInstance>()
 const ratioY = ref(1)
 const ratioX = ref(1)
 
-const style = computed<StyleValue>(() => {
+const wrapStyle = computed<StyleValue>(() => {
   const style: CSSProperties = {}
   if (props.height) style.height = addUnit(props.height)
   if (props.maxHeight) style.maxHeight = addUnit(props.maxHeight)
