@@ -8,6 +8,7 @@
       role="switch"
       :aria-checked="checked"
       :aria-disabled="switchDisabled"
+      :aria-label="label"
       :name="name"
       :true-value="activeValue"
       :false-value="inactiveValue"
