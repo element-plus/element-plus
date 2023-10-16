@@ -77,13 +77,13 @@ autocomplete/remote-search
 
 ### Slots
 
-| Name    | Description                                                           |
-| ------- | --------------------------------------------------------------------- |
-| default | custom content for input suggestions. The scope parameter is { item } |
-| prefix  | content as Input prefix                                               |
-| suffix  | content as Input suffix                                               |
-| prepend | content to prepend before Input                                       |
-| append  | content to append after Input                                         |
+| Name    | Description                                                             |
+| ------- | ----------------------------------------------------------------------- |
+| default | custom content for input suggestions. The scope parameter is `{ item }` |
+| prefix  | content as Input prefix                                                 |
+| suffix  | content as Input suffix                                                 |
+| prepend | content to prepend before Input                                         |
+| append  | content to append after Input                                           |
 
 ### Exposes
 
