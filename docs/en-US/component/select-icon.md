@@ -9,9 +9,9 @@ Select the component with the `icon` icon, and the default icon library uses `@e
 
 ## Basic usage
 
-Click to select the icon, and click again to cancel the selection. It is necessary to adjust the `pagination` initialization attribute based on the number of components to display the best performance of the components `pagination` attribute is the same as[pagination](./pagination.md#attributes)
+Click to select the icon, and click again to cancel the selection. It is necessary to adjust the `pagination` initialization attribute based on the number of components to display the best performance of the components `pagination` attribute is the same as [pagination](./pagination.md#attributes)
 
-:::demo 
+:::demo
 
 select-icon/basic
 
@@ -77,31 +77,35 @@ select-icon/custom-icon-render
 
 :::
 
+## Used in conjunction with the Feedback component
 
+:::demo
+
+select-icon/feedback-demo
+
+:::
 
 ## Attribute
 
-| Attribute Name             | illustrate                                                         | type                                | Optional values                  | Default value  |
-| ------------------ | ------------------------------------------------------------ | ----------------------------------- | ----------------------- | ------- |
-| v-model            | bind value                                                       | string/ string[] / null / undefined | —                       | —       |
-| icons              | List of icons to add                                             | {name:string;val:string}[]          | —                       | []      |
-| pagination         | Paging properties, same as[pagination](./pagination.md#attributes)         | —                                   | —                       | —       |
-| iconBackgroundSize | The size of the icon background                                               | string                              | large / default / small | default |
-| filter             | Filter conditions                                                     | string                              | —                       | —       |
-| iconColor          | Icon Color                                                     | string                              | —                       | #000000 |
-| backgroundColor    | Component background color                                                 | string                              | —                       | #ffffff |
-| selectedColor      | Selected icon color                                               | string                              | —                       | #409eff |
-| iconSize           | size                                                     | number                              | —24                     |         |
-| multiple           | multiple choice                                                         | boolean                             | —                       | false   |
-| hiddenPagination   | Do you want to hide pagination? The pagination function is still available. If you need to customize the pagination component, please hide it | boolean                             | —                       | false   |
-| useDefaultIcon     | Do you want to use the default icon set                                         | boolean                             | —                       | true    |
-
-
+| Attribute Name     | illustrate                                                                                                                                    | type                                | Optional values         | Default value |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ----------------------- | ------------- |
+| v-model            | bind value                                                                                                                                    | string/ string[] / null / undefined | —                       | —             |
+| icons              | List of icons to add                                                                                                                          | {name:string;val:string}[]          | —                       | []            |
+| pagination         | Paging properties, same as [pagination](./pagination.md#attributes)                                                                           | —                                   | —                       | —             |
+| iconBackgroundSize | The size of the icon background                                                                                                               | string                              | large / default / small | default       |
+| filter             | Filter conditions                                                                                                                             | string                              | —                       | —             |
+| iconColor          | Icon Color                                                                                                                                    | string                              | —                       | #000000       |
+| backgroundColor    | Component background color                                                                                                                    | string                              | —                       | #ffffff       |
+| selectedColor      | Selected icon color                                                                                                                           | string                              | —                       | #409eff       |
+| iconSize           | size                                                                                                                                          | number                              | —                     |       24        |
+| multiple           | multiple choice                                                                                                                               | boolean                             | —                       | false         |
+| hiddenPagination   | Do you want to hide pagination? The pagination function is still available. If you need to customize the pagination component, please hide it | boolean                             | —                       | false         |
+| useDefaultIcon     | Do you want to use the default icon set                                                                                                       | boolean                             | —                       | true          |
+| scrollbar | same as [scrollbar](./scrollbar.md#Attributes) | — | — | — |
 
 ### Slots
 
-| Slot Name  | illustrate         |
-| ------- | ------------ |
-| default | Custom rendering area |
-| search  | Filter component area   |
-
+| Slot Name | illustrate            |
+| --------- | --------------------- |
+| default   | Custom rendering area |
+| search    | Filter component area |
