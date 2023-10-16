@@ -11,6 +11,7 @@ import { useSizeProp } from '@element-plus/hooks'
 import type { ExtractPropTypes } from 'vue'
 import type { selectIconPropsIcons } from './types'
 import type { PaginationProps } from '@element-plus/components/pagination'
+import type { ScrollbarProps } from '@element-plus/components/scrollbar'
 
 export const selectIconProps = buildProps({
   icons: {
@@ -69,6 +70,10 @@ export const selectIconProps = buildProps({
   useDefaultIcon: {
     type: definePropType<boolean>(Boolean),
     default: true,
+  },
+  scrollbar: {
+    type: definePropType<ScrollbarProps>(Object),
+    default: () => ({}),
   },
 } as const)
 export type SelectIconProps = ExtractPropTypes<typeof selectIconProps>

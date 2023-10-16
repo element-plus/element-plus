@@ -5,8 +5,6 @@
 @use 'common/var' as *;
 
 @include b(select-icon) {
-  width: 100%;
-  height: 100%;
 
   .#{$namespace}-select-icon__default_content {
     display: flex;

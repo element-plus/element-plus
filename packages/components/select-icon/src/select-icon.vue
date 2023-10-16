@@ -4,7 +4,7 @@
     :style="{ 'background-color': props.backgroundColor }"
   >
     <slot name="search" />
-    <el-scrollbar>
+    <el-scrollbar v-bind="{ ...props.scrollbar }">
       <div :class="ns.b() + '__default_content'">
         <el-button
           v-for="iconItem in  getPageDataByArrar(props.pagination!.currentPage!, props.pagination!.pageSize!, filterIcons) "
