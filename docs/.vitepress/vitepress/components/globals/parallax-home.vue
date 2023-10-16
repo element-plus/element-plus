@@ -117,7 +117,7 @@ useEventListener(window, 'scroll', handleScroll)
     <div class="banner" text="center">
       <div class="banner-desc">
         <h1>{{ homeLang['title'] }}</h1>
-        <p m="t-4">{{ homeLang['title_sub'] }}</p>
+        <p m="t-2">{{ homeLang['title_sub'] }}</p>
       </div>
     </div>
     <div ref="jumbotronRef" class="jumbotron">
@@ -151,8 +151,8 @@ useEventListener(window, 'scroll', handleScroll)
 @use '../../styles/mixins' as *;
 
 @font-face {
-  font-family: 'Metropolis';
-  src: url('/fonts/Metropolis-Bold.woff2') format('woff2');
+  font-family: 'Element';
+  src: url('/fonts/Element-Regular.woff2') format('woff2');
   font-display: swap;
 }
 
@@ -176,14 +176,13 @@ useEventListener(window, 'scroll', handleScroll)
   }
   .banner-desc {
     h1 {
-      font-size: 40px;
+      font-size: 48px;
       margin: 0;
       color: var(--text-color);
-      font-family: Metropolis, sans-serif;
+      font-family: Element, sans-serif;
     }
 
     p {
-      margin-top: 1rem;
       font-size: 16px;
       color: var(--text-color-light);
     }
@@ -280,10 +279,9 @@ useEventListener(window, 'scroll', handleScroll)
     }
     .banner-desc {
       h1 {
-        font-size: 28px;
+        font-size: 36px;
       }
       p {
-        margin-top: 0.5rem;
         font-size: 14px;
       }
     }
