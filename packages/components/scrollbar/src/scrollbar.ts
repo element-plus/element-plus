@@ -74,6 +74,25 @@ export const scrollbarProps = buildProps({
     type: Number,
     default: 20,
   },
+  /**
+   * @description id of view
+   */
+  id: String,
+  /**
+   * @description role of view
+   */
+  role: String,
+  /**
+   * @description aria-label of view
+   */
+  ariaLabel: String,
+  /**
+   * @description aria-orientation of view
+   */
+  ariaOrientation: {
+    type: String,
+    values: ['horizontal', 'vertical'],
+  },
 } as const)
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
 

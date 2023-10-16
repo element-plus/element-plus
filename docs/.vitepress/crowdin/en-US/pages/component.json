@@ -31,6 +31,11 @@
         "text": "Link"
       },
       {
+        "link": "/text",
+        "text": "Text",
+        "promotion": "2.3.0"
+      },
+      {
         "link": "/scrollbar",
         "text": "Scrollbar"
       },
@@ -222,6 +227,11 @@
       {
         "link": "/tree-v2",
         "text": "Virtualized Tree"
+      },
+      {
+        "link": "/statistic",
+        "text": "Statistic",
+        "promotion": "2.2.30"
       }
     ]
   },
@@ -313,6 +323,11 @@
       {
         "link": "/divider",
         "text": "Divider"
+      },
+      {
+        "link": "/watermark",
+        "text": "Watermark",
+        "promotion": "2.4.0"
       }
     ]
   }

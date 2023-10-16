@@ -1,13 +1,17 @@
 <template>
   <div
     v-show="ready"
+    ref="carouselItemRef"
     :class="[
       ns.e('item'),
       ns.is('active', active),
       ns.is('in-stage', inStage),
       ns.is('hover', hover),
       ns.is('animating', animating),
-      { [ns.em('item', 'card')]: isCardType },
+      {
+        [ns.em('item', 'card')]: isCardType,
+        [ns.em('item', 'card-vertical')]: isCardType && isVertical,
+      },
     ]"
     :style="itemStyle"
     @click="handleItemClick"
@@ -34,6 +38,7 @@ const ns = useNamespace('carousel')
 const COMPONENT_NAME = 'ElCarouselItem'
 // inject
 const {
+  carouselItemRef,
   active,
   animating,
   hover,

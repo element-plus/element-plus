@@ -60,18 +60,24 @@ color-picker/sizes
 | predefine             | predefined color options                     | ^[object]`string[]`                                                                                              | —       |
 | validate-event        | whether to trigger form validation           | ^[boolean]                                                                                                       | true    |
 | tabindex              | ColorPicker tabindex                         | ^[string] / ^[number]                                                                                            | 0       |
-| label<A11yTag/>       | ColorPicker aria-label                       | ^[string]                                                                                                        | —       |
+| label ^(a11y)         | ColorPicker aria-label                       | ^[string]                                                                                                        | —       |
 | id                    | ColorPicker id                               | ^[string]                                                                                                        | —       |
 
 ### Events
 
-| Name          | Description                                    | Type                                 |
-| ------------- | ---------------------------------------------- | ------------------------------------ |
-| change        | triggers when input value changes              | ^[Function]`(value: string) => void` |
-| active-change | triggers when the current active color changes | ^[Function]`(value: string) => void` |
+| Name           | Description                                    | Type                                     |
+| -------------- | ---------------------------------------------- | ---------------------------------------- |
+| change         | triggers when input value changes              | ^[Function]`(value: string) => void`     |
+| active-change  | triggers when the current active color changes | ^[Function]`(value: string) => void`     |
+| focus ^(2.4.0) | triggers when Component focuses                | ^[Function]`(event: FocusEvent) => void` |
+| blur ^(2.4.0)  | triggers when Component blurs                  | ^[Function]`(event: FocusEvent) => void` |
 
 ### Exposes
 
-| Name  | Description          | Type             |
-| ----- | -------------------- | ---------------- |
-| color | current color object | ^[object]`Color` |
+| Name            | Description               | Type                    |
+| --------------- | ------------------------- | ----------------------- |
+| color           | current color object      | ^[object]`Color`        |
+| show ^(2.3.3)   | manually show ColorPicker | ^[Function]`() => void` |
+| hide ^(2.3.3)   | manually hide ColorPicker | ^[Function]`() => void` |
+| focus ^(2.3.13) | focus the picker element  | ^[Function]`() => void` |
+| blur ^(2.3.13)  | blur the picker element   | ^[Function]`() => void` |

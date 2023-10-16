@@ -15,7 +15,7 @@
     <div :class="ns.e('body')">
       <table :class="[ns.e('table'), ns.is('bordered', border)]">
         <tbody>
-          <template v-for="(row, index) in getRows()" :key="index">
+          <template v-for="(row, _index) in getRows()" :key="_index">
             <el-descriptions-row :row="row" />
           </template>
         </tbody>
@@ -25,13 +25,16 @@
 </template>
 
 <script lang="ts" setup>
-// @ts-nocheck
 import { computed, provide, useSlots } from 'vue'
 import { flattedChildren } from '@element-plus/utils'
-import { useNamespace, useSize } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
+import { useFormSize } from '@element-plus/components/form'
 import ElDescriptionsRow from './descriptions-row.vue'
 import { descriptionsKey } from './token'
 import { descriptionProps } from './description'
+
+import type { IDescriptionsInject } from './descriptions.type'
+import type { DescriptionItemVNode } from './description-item'
 
 defineOptions({
   name: 'ElDescriptions',
@@ -41,15 +44,20 @@ const props = defineProps(descriptionProps)
 
 const ns = useNamespace('descriptions')
 
-const descriptionsSize = useSize()
+const descriptionsSize = useFormSize()
 
 const slots = useSlots()
 
-provide(descriptionsKey, props)
+provide(descriptionsKey, props as IDescriptionsInject)
 
 const descriptionKls = computed(() => [ns.b(), ns.m(descriptionsSize.value)])
 
-const filledNode = (node, span, count, isLast = false) => {
+const filledNode = (
+  node: DescriptionItemVNode,
+  span: number,
+  count: number,
+  isLast = false
+) => {
   if (!node.props) {
     node.props = {}
   }
@@ -64,11 +72,14 @@ const filledNode = (node, span, count, isLast = false) => {
 }
 
 const getRows = () => {
-  const children = flattedChildren(slots.default?.()).filter(
-    (node) => node?.type?.name === 'ElDescriptionsItem'
+  if (!slots.default) return []
+
+  const children = flattedChildren(slots.default()).filter(
+    (node): node is DescriptionItemVNode =>
+      (node as any)?.type?.name === 'ElDescriptionsItem'
   )
-  const rows = []
-  let temp = []
+  const rows: DescriptionItemVNode[][] = []
+  let temp: DescriptionItemVNode[] = []
   let count = props.column
   let totalSpan = 0 // all spans number of item
 

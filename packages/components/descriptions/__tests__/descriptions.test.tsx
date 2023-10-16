@@ -9,8 +9,8 @@ describe('Descriptions.vue', () => {
   test('render test', () => {
     const wrapper = mount(() => (
       <ElDescriptions title="title" extra="extra">
-        {Array.from({ length: 4 }).map(() => (
-          <ElDescriptionsItem />
+        {Array.from({ length: 4 }).map((_, index) => (
+          <ElDescriptionsItem label={String(index)} />
         ))}
       </ElDescriptions>
     ))
@@ -18,6 +18,20 @@ describe('Descriptions.vue', () => {
     expect(wrapper.find('.el-descriptions__title').text()).toEqual('title')
     expect(wrapper.find('.el-descriptions__extra').text()).toEqual('extra')
     expect(wrapper.findAll('.el-descriptions__label').length).toEqual(4)
+    expect(wrapper.findAll('.el-descriptions__content').length).toEqual(4)
+  })
+
+  test('render empty label', () => {
+    const wrapper = mount(() => (
+      <ElDescriptions>
+        {Array.from({ length: 3 }).map(() => (
+          <ElDescriptionsItem />
+        ))}
+      </ElDescriptions>
+    ))
+
+    expect(wrapper.findAll('.el-descriptions__label').length).toEqual(0)
+    expect(wrapper.findAll('.el-descriptions__content').length).toEqual(3)
   })
 
   test('should render border props', () => {

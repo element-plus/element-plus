@@ -86,7 +86,7 @@ Don't do:
 </template>
 ```
 
-:::demo When using multiple selection, all selected tags will display by default. You can set `collapse-tags = true` to fold selected tags. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
+:::demo When using multiple selection, all selected tags will display by default. You can set `collapse-tags = true` to fold selected tags. You can set `max-collapse-tags` to show max tags number, default 1. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
 
 cascader/multiple-selection
 
@@ -142,95 +142,204 @@ cascader/panel
 
 :::
 
-## Cascader Attributes
+## Cascader API
 
-| Name                              | Description                                                                                                                                                                      | Type                    | Accepted Values             | Default |
-| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | --------------------------- | ------- |
-| model-value / v-model             | binding value                                                                                                                                                                    | -                       | —                           | —       |
-| options                           | data of the options, the key of `value` and `label` can be customize by `Props`.                                                                                                 | array                   | —                           | —       |
-| props                             | configuration options, see the following table.                                                                                                                                  | object                  | —                           | —       |
-| size                              | size of input                                                                                                                                                                    | string                  | large / default /small      | —       |
-| placeholder                       | placeholder of input                                                                                                                                                             | string                  | —                           | Select  |
-| disabled                          | whether Cascader is disabled                                                                                                                                                     | boolean                 | —                           | false   |
-| clearable                         | whether selected value can be cleared                                                                                                                                            | boolean                 | —                           | false   |
-| show-all-levels                   | whether to display all levels of the selected value in the input                                                                                                                 | boolean                 | —                           | true    |
-| collapse-tags                     | whether to collapse tags in multiple selection mode                                                                                                                              | boolean                 | -                           | false   |
-| collapse-tags-tooltip             | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                                                                 | boolean                 | -                           | false   |
-| separator                         | option label separator                                                                                                                                                           | string                  | —                           | ' / '   |
-| filterable                        | whether the options can be searched                                                                                                                                              | boolean                 | —                           | —       |
-| filter-method                     | customize search logic, the first parameter is `node`, the second is `keyword`, and need return a boolean value indicating whether it hits.                                      | function(node, keyword) | -                           | -       |
-| debounce                          | debounce delay when typing filter keyword, in milliseconds                                                                                                                       | number                  | —                           | 300     |
-| before-filter                     | hook function before filtering with the value to be filtered as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, filtering will be aborted | function(value)         | —                           | —       |
-| popper-class                      | custom class name for Cascader's dropdown                                                                                                                                        | string                  | —                           | —       |
-| teleported                        | whether cascader popup is teleported                                                                                                                                             | boolean                 | true / false                | true    |
-| popper-append-to-body(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | boolean                 | -                           | true    |
-| tag-type                          | tag type                                                                                                                                                                         | string                  | success/info/warning/danger | info    |
-| validate-event                    | whether to trigger form validation                                                                                                                                               | boolean                 | -                           | true    |
+### Cascader Attributes
 
-## Cascader Events
+| Name                                | Description                                                                                                                                                                      | Type                                                          | Default |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| model-value / v-model               | binding value                                                                                                                                                                    | ^[string]/^[number]/^[object]`string[] \| number[] \| any`    | —       |
+| options                             | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[object]`Record<string, unknown>[]`                          | —       |
+| props                               | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                      | —       |
+| size                                | size of input                                                                                                                                                                    | ^[enum]`'large' \| 'default' \| 'small'`                      | —       |
+| placeholder                         | placeholder of input                                                                                                                                                             | ^[string]                                                     | —       |
+| disabled                            | whether Cascader is disabled                                                                                                                                                     | ^[boolean]                                                    | —       |
+| clearable                           | whether selected value can be cleared                                                                                                                                            | ^[boolean]                                                    | —       |
+| show-all-levels                     | whether to display all levels of the selected value in the input                                                                                                                 | ^[boolean]                                                    | true    |
+| collapse-tags                       | whether to collapse tags in multiple selection mode                                                                                                                              | ^[boolean]                                                    | —       |
+| collapse-tags-tooltip               | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                                                                 | ^[boolean]                                                    | false   |
+| separator                           | option label separator                                                                                                                                                           | ^[string]                                                     | ' / '   |
+| filterable                          | whether the options can be searched                                                                                                                                              | ^[boolean]                                                    | —       |
+| filter-method                       | customize search logic, the first parameter is `node`, the second is `keyword`, and need return a boolean value indicating whether it hits.                                      | ^[Function]`(node: CascaderNode, keyword: string) => boolean` | —       |
+| debounce                            | debounce delay when typing filter keyword, in milliseconds                                                                                                                       | ^[number]                                                     | 300     |
+| before-filter                       | hook function before filtering with the value to be filtered as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, filtering will be aborted | ^[Function]`(value: string) => boolean`                       | —       |
+| popper-class                        | custom class name for Cascader's dropdown                                                                                                                                        | ^[string]                                                     | ''      |
+| teleported                          | whether cascader popup is teleported                                                                                                                                             | ^[boolean]                                                    | true    |
+| popper-append-to-body ^(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                    | true    |
+| tag-type                            | tag type                                                                                                                                                                         | ^[enum]`'success' \| 'info' \| 'warning' \| 'danger'`         | info    |
+| validate-event                      | whether to trigger form validation                                                                                                                                               | ^[boolean]                                                    | true    |
+| max-collapse-tags ^(2.3.10)         | The max tags number to be shown. To use this, `collpase-tags` must be true                                                                                                       | ^[number]                                                     | 1       |
 
-| Name           | Description                                         | Parameters                                    |
-| -------------- | --------------------------------------------------- | --------------------------------------------- |
-| change         | triggers when the binding value changes             | value                                         |
-| expand-change  | triggers when expand option changes                 | an array of the expanding node's parent nodes |
-| blur           | triggers when Cascader blurs                        | (event: FocusEvent)                           |
-| focus          | triggers when Cascader focuses                      | (event: FocusEvent)                           |
-| visible-change | triggers when the dropdown appears/disappears       | true when it appears, and false otherwise     |
-| remove-tag     | triggers when remove tag in multiple selection mode | the value of the tag which is removed         |
+### Cascader Events
 
-## Cascader Methods
+| Name           | Description                                         | Type                                                        |
+| -------------- | --------------------------------------------------- | ----------------------------------------------------------- |
+| change         | triggers when the binding value changes             | ^[Function]`(value: CascaderValue) => void`                 |
+| expand-change  | triggers when expand option changes                 | ^[Function]`(value: CascaderValue) => void`                 |
+| blur           | triggers when Cascader blurs                        | ^[Function]`(event: FocusEvent) => void`                    |
+| focus          | triggers when Cascader focuses                      | ^[Function]`(event: FocusEvent) => void`                    |
+| visible-change | triggers when the dropdown appears/disappears       | ^[Function]`(value: boolean) => void`                       |
+| remove-tag     | triggers when remove tag in multiple selection mode | ^[Function]`(value: CascaderNode['valueByOption']) => void` |
 
-| Method Name     | Description                             | Parameters                                                                |
-| --------------- | --------------------------------------- | ------------------------------------------------------------------------- |
-| getCheckedNodes | get an array of currently selected node | (leafOnly) whether only return the leaf checked nodes, default is `false` |
+### Cascader Slots
 
-## Cascader Slots
+| Name    | Description                                                                                    | Scope                               |
+| ------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
+| default | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
+| empty   | content when there is no matched options.                                                      | —                                   |
 
-| Name  | Description                                                                                                                     |
-| ----- | ------------------------------------------------------------------------------------------------------------------------------- |
-| -     | the custom content of cascader node, the parameter is { node, data }, which are current Node object and node data respectively. |
-| empty | content when there is no matched options.                                                                                       |
+### Cascader Exposes
 
-## CascaderPanel Attributes
+| Name                          | Description                                                                                                       | Type                                                            |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| getCheckedNodes               | get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false` | ^[Function]`(leafOnly: boolean) => CascaderNode[] \| undefined` |
+| cascaderPanelRef              | cascader panel ref                                                                                                | ^[object]`ComputedRef<any>`                                     |
+| togglePopperVisible ^(2.2.31) | toggle the visible type of popper                                                                                 | ^[Function]`(visible?: boolean) => void`                        |
+| contentRef                    | cascader content ref                                                                                              | ^[object]`ComputedRef<any>`                                     |
 
-| Name                  | Description                                                                      | Type   | Accepted Values | Default |
-| --------------------- | -------------------------------------------------------------------------------- | ------ | --------------- | ------- |
-| model-value / v-model | binding value                                                                    | -      | —               | —       |
-| options               | data of the options, the key of `value` and `label` can be customize by `Props`. | array  | —               | —       |
-| props                 | configuration options, see the following table.                                  | object | —               | —       |
+## CascaderPanel API
 
-## CascaderPanel Events
+### CascaderPanel Attributes
 
-| Name          | Description                             | Parameters                                    |
-| ------------- | --------------------------------------- | --------------------------------------------- |
-| change        | triggers when the binding value changes | value                                         |
-| expand-change | triggers when expand option changes     | an array of the expanding node's parent nodes |
+| Name                  | Description                                                                              | Type                                                       | Default |
+| --------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------- |
+| model-value / v-model | binding value                                                                            | ^[string]/^[number]/^[object]`string[] \| number[] \| any` | —       |
+| options               | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`Record<string, unknown>[]`                       | —       |
+| props                 | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                   | —       |
 
-## CascaderPanel Methods
+### CascaderPanel Events
 
-| Method Name       | Description                             | Parameters                                                                |
-| ----------------- | --------------------------------------- | ------------------------------------------------------------------------- |
-| getCheckedNodes   | get an array of currently selected node | (leafOnly) whether only return the leaf checked nodes, default is `false` |
-| clearCheckedNodes | clear checked nodes                     | -                                                                         |
+| Name          | Description                                                             | Type                                                |
+| ------------- | ----------------------------------------------------------------------- | --------------------------------------------------- |
+| change        | triggers when the binding value changes                                 | ^[Function]`(value: CascaderValue) => void`         |
+| expand-change | triggers when expand option changes                                     | ^[Function]`(value: CascaderNodePathValue) => void` |
+| close         | close panel event, provided to Cascader to put away the panel judgment. | ^[Function]`() => void`                             |
 
-## CascaderPanel Slots
+### CascaderPanel Slots
 
-| Name | Description                                                                                                                     |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------- |
-| -    | the custom content of cascader node, the parameter is { node, data }, which are current Node object and node data respectively. |
+| Name    | Description                                                                                    | Scope                               |
+| ------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
+| default | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
 
-## Props
+### CascaderPanel Exposes
 
-| Attribute     | Description                                                                                                | Type                    | Accepted Values | Default    |
-| ------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------- | --------------- | ---------- |
-| expandTrigger | trigger mode of expanding options                                                                          | string                  | click / hover   | 'click'    |
-| multiple      | whether multiple selection is enabled                                                                      | boolean                 | -               | false      |
-| checkStrictly | whether checked state of a node not affects its parent and child nodes                                     | boolean                 | -               | false      |
-| emitPath      | when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node. | boolean                 | -               | true       |
-| lazy          | whether to dynamic load child nodes, use with `lazyload` attribute                                         | boolean                 | -               | false      |
-| lazyLoad      | method for loading child nodes data, only works when `lazy` is true                                        | function(node, resolve) | -               | -          |
-| value         | specify which key of node object is used as the node's value                                               | string                  | —               | 'value'    |
-| label         | specify which key of node object is used as the node's label                                               | string                  | —               | 'label'    |
-| children      | specify which key of node object is used as the node's children                                            | string                  | —               | 'children' |
-| disabled      | specify which key of node object is used as the node's disabled                                            | string                  | —               | 'disabled' |
-| leaf          | specify which key of node object is used as the node's leaf field                                          | string                  | —               | 'leaf'     |
+| Name              | Description                                                                                                       | Type                                                            |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| getCheckedNodes   | get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false` | ^[Function]`(leafOnly: boolean) => CascaderNode[] \| undefined` |
+| clearCheckedNodes | clear checked nodes                                                                                               | ^[Function]`() => void`                                         |
+
+## CascaderProps
+
+| Attribute      | Description                                                                                                | Type                                                | Default  |
+| -------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | -------- |
+| expandTrigger  | trigger mode of expanding options                                                                          | ^[enum]`'click' \| 'hover'`                         | click    |
+| multiple       | whether multiple selection is enabled                                                                      | ^[boolean]                                          | false    |
+| checkStrictly  | whether checked state of a node not affects its parent and child nodes                                     | ^[boolean]                                          | false    |
+| emitPath       | when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node. | ^[boolean]                                          | true     |
+| lazy           | whether to dynamic load child nodes, use with `lazyload` attribute                                         | ^[boolean]                                          | false    |
+| lazyLoad       | method for loading child nodes data, only works when `lazy` is true                                        | ^[Function]`(node: Node, resolve: Resolve) => void` | —        |
+| value          | specify which key of node object is used as the node's value                                               | ^[string]                                           | value    |
+| label          | specify which key of node object is used as the node's label                                               | ^[string]                                           | label    |
+| children       | specify which key of node object is used as the node's children                                            | ^[string]                                           | children |
+| disabled       | specify which key of node object is used as the node's disabled                                            | ^[string]                                           | disabled |
+| leaf           | specify which key of node object is used as the node's leaf field                                          | ^[string]                                           | leaf     |
+| hoverThreshold | hover threshold of expanding options                                                                       | ^[number]                                           | 500      |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type CascaderNodeValue = string | number
+type CascaderNodePathValue = CascaderNodeValue[]
+type CascaderValue =
+  | CascaderNodeValue
+  | CascaderNodePathValue
+  | (CascaderNodeValue | CascaderNodePathValue)[]
+
+type Resolve = (data: any) => void
+
+type ExpandTrigger = 'click' | 'hover'
+
+type LazyLoad = (node: Node, resolve: Resolve) => void
+
+type isDisabled = (data: CascaderOption, node: Node) => boolean
+
+type isLeaf = (data: CascaderOption, node: Node) => boolean
+
+interface CascaderOption extends Record<string, unknown> {
+  label?: string
+  value?: CascaderNodeValue
+  children?: CascaderOption[]
+  disabled?: boolean
+  leaf?: boolean
+}
+
+interface CascaderProps {
+  expandTrigger?: ExpandTrigger
+  multiple?: boolean
+  checkStrictly?: boolean
+  emitPath?: boolean
+  lazy?: boolean
+  lazyLoad?: LazyLoad
+  value?: string
+  label?: string
+  children?: string
+  disabled?: string | isDisabled
+  leaf?: string | isLeaf
+  hoverThreshold?: number
+}
+
+class Node {
+  readonly uid: number
+  readonly level: number
+  readonly value: CascaderNodeValue
+  readonly label: string
+  readonly pathNodes: Node[]
+  readonly pathValues: CascaderNodePathValue
+  readonly pathLabels: string[]
+
+  childrenData: ChildrenData
+  children: Node[]
+  text: string
+  loaded: boolean
+  /**
+   * Is it checked
+   *
+   * @default false
+   */
+  checked: boolean
+  /**
+   * Used to indicate the intermediate state of unchecked and fully checked child nodes
+   *
+   * @default false
+   */
+  indeterminate: boolean
+  /**
+   * Loading Status
+   *
+   * @default false
+   */
+  loading: boolean
+
+  // getter
+  isDisabled: boolean
+  isLeaf: boolean
+  valueByOption: CascaderNodeValue | CascaderNodePathValue
+
+  // method
+  appendChild(childData: CascaderOption): Node
+  calcText(allLevels: boolean, separator: string): string
+  broadcast(event: string, ...args: unknown[]): void
+  emit(event: string, ...args: unknown[]): void
+  onParentCheck(checked: boolean): void
+  onChildCheck(): void
+  setCheckState(checked: boolean): void
+  doCheck(checked: boolean): void
+}
+
+Node as CascaderNode
+```
+
+</details>

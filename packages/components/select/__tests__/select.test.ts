@@ -50,10 +50,18 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) =>
       },
       template,
       data,
+      setup() {
+        return usePopperContainerId()
+      },
       ...otherObj,
     },
     {
       attachTo: 'body',
+      global: {
+        provide: {
+          namespace: 'el',
+        },
+      },
     }
   )
 
@@ -850,6 +858,41 @@ describe('Select', () => {
     expect((wrapper.vm as any).value).toBe('new')
   })
 
+  test('allow create with default first option', async () => {
+    wrapper = getSelectVm(
+      {
+        filterable: true,
+        allowCreate: true,
+        defaultFirstOption: true,
+      },
+      [
+        {
+          value: 'HTML',
+          label: 'HTML',
+        },
+        {
+          value: 'CSS',
+          label: 'CSS',
+        },
+        {
+          value: 'JavaScript',
+          label: 'JavaScript',
+        },
+      ]
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    input.element.focus()
+    selectVm.selectedLabel = 'Java'
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+    const options = [...getOptions()]
+    expect(Array.from(options[0].classList)).toContain('hover')
+    options[0].click()
+    expect((wrapper.vm as any).value).toBe('Java')
+  })
+
   test('allow create async option', async () => {
     const options = [
       {
@@ -1077,6 +1120,55 @@ describe('Select', () => {
     expect(tags[3].textContent).toBe('蚵仔煎')
   })
 
+  test('multiple select with maxCollapseTags', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="selectedList" multiple collapseTags :max-collapse-tags="3" placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+          },
+          {
+            value: '选项5',
+            label: '北京烤鸭',
+          },
+        ],
+        selectedList: [],
+      })
+    )
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = getOptions()
+
+    options[0].click()
+    await nextTick()
+    options[1].click()
+    await nextTick()
+    options[2].click()
+    await nextTick()
+    const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
+    expect(triggerWrappers[0]).toBeDefined()
+    const tags = document.querySelectorAll('.el-select__tags-text')
+    expect(tags.length).toBe(3)
+  })
+
   test('multiple remove-tag', async () => {
     wrapper = _mount(
       `
@@ -1164,9 +1256,72 @@ describe('Select', () => {
 
     expect(input.exists()).toBe(true)
     await input.trigger('focus')
-    expect(handleFocus).toHaveBeenCalled()
+    expect(handleFocus).toHaveBeenCalledTimes(1)
     await input.trigger('blur')
-    expect(handleBlur).toHaveBeenCalled()
+    expect(handleBlur).toHaveBeenCalledTimes(1)
+
+    await input.trigger('focus')
+    expect(handleFocus).toHaveBeenCalledTimes(2)
+    await input.trigger('blur')
+    expect(handleBlur).toHaveBeenCalledTimes(2)
+  })
+
+  test('event:focus & blur for clearable & filterable', async () => {
+    const handleFocus = vi.fn()
+    const handleBlur = vi.fn()
+    wrapper = _mount(
+      `<el-select
+        v-model="value"
+        clearable
+        filterable
+        @focus="handleFocus"
+        @blur="handleBlur"
+      >
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value"
+        />
+      </el-select>`,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+        ],
+        value: '选项1',
+        handleFocus,
+        handleBlur,
+      })
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const vm = wrapper.vm as any
+    const selectVm = select.vm as any
+    selectVm.inputHovering = true
+    await selectVm.$nextTick()
+
+    const iconClear = wrapper.findComponent(CircleClose)
+    expect(iconClear.exists()).toBe(true)
+    await iconClear.trigger('click')
+    expect(vm.value).toBe('')
+    expect(handleFocus).toHaveBeenCalledTimes(1)
+    expect(handleBlur).not.toHaveBeenCalled()
+
+    const options = getOptions()
+    options[0].click()
+    await nextTick()
+    expect(vm.value).toBe('选项1')
+    selectVm.inputHovering = true
+    await iconClear.trigger('click')
+    expect(handleFocus).toHaveBeenCalledTimes(1)
+    expect(handleBlur).not.toHaveBeenCalled()
+
+    const input = select.find('input')
+    await input.trigger('blur')
+    expect(handleBlur).toHaveBeenCalledTimes(1)
   })
 
   test('event:focus & blur for multiple & filterable select', async () => {
@@ -1193,6 +1348,72 @@ describe('Select', () => {
     expect(handleFocus).toHaveBeenCalled()
     await input.trigger('blur')
     expect(handleBlur).toHaveBeenCalled()
+
+    await input.trigger('focus')
+    expect(handleFocus).toHaveBeenCalledTimes(2)
+    await input.trigger('blur')
+    expect(handleBlur).toHaveBeenCalledTimes(2)
+  })
+
+  test('event:focus & blur for multiple tag close', async () => {
+    const handleFocus = vi.fn()
+    const handleBlur = vi.fn()
+    wrapper = _mount(
+      `<el-select
+        v-model="value"
+        multiple
+        @focus="handleFocus"
+        @blur="handleBlur"
+      >
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+          <p>{{item.label}} {{item.value}}</p>
+        </el-option>
+      </el-select>`,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+          },
+          {
+            value: '选项5',
+            label: '北京烤鸭',
+          },
+        ],
+        value: ['选项1', '选项2'],
+        handleFocus,
+        handleBlur,
+      })
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const input = select.find('input')
+
+    await input.trigger('focus')
+    expect(handleFocus).toHaveBeenCalledTimes(1)
+    const tagCloseIcons = wrapper.findAll('.el-tag__close')
+    await tagCloseIcons[1].trigger('click')
+    await tagCloseIcons[0].trigger('click')
+    expect(handleFocus).toHaveBeenCalledTimes(1)
+    expect(handleBlur).not.toHaveBeenCalled()
+    await input.trigger('blur')
+    expect(handleBlur).toHaveBeenCalledTimes(1)
   })
 
   test('should not open popper when automatic-dropdown not set', async () => {
@@ -1728,10 +1949,10 @@ describe('Select', () => {
     await nextTick()
 
     expect(innerInputEl.placeholder).toBe('')
-
     selectInput.trigger('keydown', {
       key: EVENT_CODE.backspace,
     })
+
     await nextTick()
     expect(innerInputEl.placeholder).toBe(placeholder)
     vi.useRealTimers()
@@ -1896,8 +2117,8 @@ describe('Select', () => {
       )
 
       await nextTick()
-      const { selector } = usePopperContainerId()
-      expect(document.body.querySelector(selector.value).innerHTML).not.toBe('')
+      const { selector } = wrapper.vm
+      expect(document.body.querySelector(selector).innerHTML).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
@@ -1925,8 +2146,8 @@ describe('Select', () => {
       )
 
       await nextTick()
-      const { selector } = usePopperContainerId()
-      expect(document.body.querySelector(selector.value).innerHTML).toBe('')
+      const { selector } = wrapper.vm
+      expect(document.body.querySelector(selector).innerHTML).toBe('')
     })
   })
 
@@ -1984,6 +2205,18 @@ describe('Select', () => {
       default: 32,
       large: 40,
     }
+
+    Object.defineProperty(inputEl, 'offsetParent', {
+      get() {
+        return {}
+      },
+    })
+
+    Object.defineProperty(inputEl, 'clientHeight', {
+      get() {
+        return Number.parseInt(getComputedStyle(inputEl).height)
+      },
+    })
 
     for (const size in sizeMap) {
       await wrapper.setProps({
@@ -2099,5 +2332,142 @@ describe('Select', () => {
       expect(vm.value).toBe(2)
       expect(findInnerInput().value).toBe('z')
     })
+
+    it('should update selected data when the options prop is changed and the select is focused', async () => {
+      const options = [
+        {
+          value: '1',
+          label: 'option 1',
+        },
+        {
+          value: '2',
+          label: 'option 2',
+        },
+        {
+          value: '3',
+          label: 'option 3',
+        },
+      ]
+
+      const wrapper = getSelectVm()
+      const vm = wrapper.vm
+      const input = wrapper.find('input')
+      const nativeInput = input.element
+
+      await wrapper.setProps({ modelValue: '1' })
+      expect(nativeInput.value).toEqual('1')
+
+      nativeInput.focus()
+      vm.options = options
+      await nextTick()
+      expect(nativeInput.value).toEqual('option 1')
+
+      vm.options = []
+      await wrapper.setProps({ modelValue: ['1'] })
+      await wrapper.setProps({ multiple: true })
+
+      nativeInput.focus()
+      vm.options = options
+      await nextTick()
+      expect(wrapper.findAll('.el-tag')[0].text()).toBe('option 1')
+    })
+
+    // fix: https://github.com/element-plus/element-plus/issues/11991
+    it('backspace key should not delete disabled options', async () => {
+      const options = [
+        {
+          value: 'Option1',
+          label: 'Option1',
+          disable: true,
+        },
+        {
+          value: 'Option2',
+          label: 'Option2',
+          disable: false,
+        },
+      ]
+      const value = ['Option2', 'Option1']
+      const wrapper = _mount(
+        `
+          <el-select v-model="value"
+            multiple
+            filterable
+          >
+            <el-option
+              v-for="option in options"
+              :key="option.value"
+              :value="option.value"
+              :label="option.label"
+              :disabled="option.disable"
+            >
+            </el-option>
+          </el-select>
+        `,
+        () => ({
+          value,
+          options,
+        })
+      )
+      await nextTick()
+      const selectInput = wrapper.find('.el-select__input')
+      expect(wrapper.findAll('.el-tag').length).toBe(2)
+      // need trigger keydown twice because first keydown just select option, and second keydown is to delete
+      await selectInput.trigger('keydown', {
+        code: EVENT_CODE.backspace,
+        key: EVENT_CODE.backspace,
+      })
+      await selectInput.trigger('keydown', {
+        code: EVENT_CODE.backspace,
+        key: EVENT_CODE.backspace,
+      })
+      await nextTick()
+      expect(wrapper.findAll('.el-tag').length).toBe(1)
+      await selectInput.trigger('keydown', {
+        code: EVENT_CODE.backspace,
+        key: EVENT_CODE.backspace,
+      })
+      await selectInput.trigger('keydown', {
+        code: EVENT_CODE.backspace,
+        key: EVENT_CODE.backspace,
+      })
+      await nextTick()
+      // after the second deletion, an el-tag still exist
+      expect(wrapper.findAll('.el-tag').length).toBe(1)
+    })
+  })
+
+  it('It should generate accessible attributes', async () => {
+    wrapper = _mount(
+      `<el-select v-model="value">
+        <el-option label="label" value="1" />
+        <el-option label="disabled" value="2" disabled />
+      </el-select>`,
+      () => ({ value: '1' })
+    )
+
+    const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
+    const input = wrapper.find('input')
+    const list = dropdown.find('.el-select-dropdown__list')
+    const option = dropdown.find('.el-select-dropdown__item')
+    const disabledOption = dropdown.find(
+      '.el-select-dropdown__item:nth-child(2)'
+    )
+
+    expect(input.attributes('role')).toBe('combobox')
+    expect(input.attributes('aria-autocomplete')).toBe('none')
+    expect(input.attributes('aria-controls')).toBe(list.attributes('id'))
+    expect(input.attributes('aria-expanded')).toBe('false')
+    expect(input.attributes('aria-haspopup')).toBe('listbox')
+    expect(input.attributes('aria-activedescendant')).toBe('')
+
+    expect(list.attributes('id')).toBeTruthy()
+    expect(list.attributes('role')).toBe('listbox')
+    expect(list.attributes('aria-orientation')).toBe('vertical')
+
+    expect(option.attributes('id')).toBeTruthy()
+    expect(option.attributes('role')).toBe('option')
+    expect(option.attributes('aria-disabled')).toBe(undefined)
+    expect(option.attributes('aria-selected')).toBe('true')
+    expect(disabledOption.attributes('aria-disabled')).toBe('true')
   })
 })

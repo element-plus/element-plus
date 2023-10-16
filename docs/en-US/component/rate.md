@@ -77,7 +77,7 @@ Use `css/scss` language to change the global or local color. We set some global 
 ### Default Variables
 
 | Variable                      | Default Color                 |
-|-------------------------------|-------------------------------|
+| ----------------------------- | ----------------------------- |
 | --el-rate-void-color          | var(--el-border-color-darker) |
 | --el-rate-fill-color          | #f7ba2a                       |
 | --el-rate-disabled-void-color | var(--el-fill-color)          |
@@ -88,7 +88,7 @@ Use `css/scss` language to change the global or local color. We set some global 
 ### Attributes
 
 | Name                  | Description                                                                                                                                                                                                                    | Type                                                                      | Default                                                            |
-|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|--------------------------------------------------------------------|
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- | ------------------------------------------------------------------ |
 | model-value / v-model | binding value                                                                                                                                                                                                                  | ^[number]                                                                 | 0                                                                  |
 | max                   | max rating score                                                                                                                                                                                                               | ^[number]                                                                 | 5                                                                  |
 | size                  | size of Rate                                                                                                                                                                                                                   | ^[enum]`'large' \| 'default' \| 'small'`                                  | —                                                                  |
@@ -104,22 +104,22 @@ Use `css/scss` language to change the global or local color. We set some global 
 | disabled-void-icon    | component of unselected read-only icons                                                                                                                                                                                        | ^[string] / ^[Component]                                                  | StarFilled                                                         |
 | show-text             | whether to display texts                                                                                                                                                                                                       | ^[boolean]                                                                | false                                                              |
 | show-score            | whether to display current score. show-score and show-text cannot be true at the same time                                                                                                                                     | ^[boolean]                                                                | false                                                              |
-| text-color            | color of texts                                                                                                                                                                                                                 | ^[string]                                                                 | #1F2D3D                                                            |
+| text-color            | color of texts                                                                                                                                                                                                                 | ^[string]                                                                 | ''                                                                 |
 | texts                 | text array                                                                                                                                                                                                                     | ^[array]`string[]`                                                        | ['Extremely bad', 'Disappointed', 'Fair', 'Satisfied', 'Surprise'] |
 | score-template        | score template                                                                                                                                                                                                                 | ^[string]                                                                 | {value}                                                            |
-| clearable             | whether value can be reset to `0`                                                                                                                                                                                              | ^[boolean]                                                                | false                                                              |
+| clearable ^(2.2.18)   | whether value can be reset to `0`                                                                                                                                                                                              | ^[boolean]                                                                | false                                                              |
 | id                    | native `id` attribute                                                                                                                                                                                                          | ^[string]                                                                 | —                                                                  |
-| label<A11yTag />      | same as `aria-label` in Rate                                                                                                                                                                                                   | ^[string]                                                                 | —                                                                  |
+| label ^(a11y)         | same as `aria-label` in Rate                                                                                                                                                                                                   | ^[string]                                                                 | —                                                                  |
 
 ### Events
 
 | Name   | Description                         | Type                                 |
-|--------|-------------------------------------|--------------------------------------|
+| ------ | ----------------------------------- | ------------------------------------ |
 | change | Triggers when rate value is changed | ^[Function]`(value: number) => void` |
 
 ### Exposes
 
 | Name              | Description         | Type                                 |
-|-------------------|---------------------|--------------------------------------|
+| ----------------- | ------------------- | ------------------------------------ |
 | setCurrentValue   | set current value   | ^[Function]`(value: number) => void` |
 | resetCurrentValue | reset current value | ^[Function]`() => void`              |

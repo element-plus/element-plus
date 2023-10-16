@@ -7,32 +7,35 @@ import {
   shallowRef,
   toRaw,
   triggerRef,
+  unref,
   watch,
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
-import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
-import { isClient } from '@vueuse/core'
+import {
+  findLastIndex,
+  get,
+  isEqual,
+  debounce as lodashDebounce,
+} from 'lodash-unified'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
+  ValidateComponentsMap,
   debugWarn,
   getComponentSize,
+  isClient,
   isFunction,
   isKorean,
   isNumber,
   isString,
+  isUndefined,
   scrollIntoView,
 } from '@element-plus/utils'
-import {
-  useDeprecated,
-  useFormItem,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
+import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
+import { useFormItem, useFormSize } from '@element-plus/components/form'
 
 import type { ComponentPublicInstance } from 'vue'
 import type ElTooltip from '@element-plus/components/tooltip'
@@ -43,6 +46,7 @@ export function useSelectStates(props) {
   return reactive({
     options: new Map(),
     cachedOptions: new Map(),
+    disabledOptions: new Map(),
     createdLabel: null,
     createdSelected: false,
     selected: props.multiple ? [] : ({} as any),
@@ -51,20 +55,18 @@ export function useSelectStates(props) {
     optionsCount: 0,
     filteredOptionsCount: 0,
     visible: false,
-    softFocus: false,
     selectedLabel: '',
     hoverIndex: -1,
     query: '',
     previousQuery: null,
     inputHovering: false,
     cachedPlaceHolder: '',
-    currentPlaceholder: t('el.select.placeholder'),
+    currentPlaceholder: t('el.select.placeholder') as string | (() => string),
     menuVisibleOnFocus: false,
     isOnComposition: false,
-    isSilentBlur: false,
     prefixWidth: 11,
-    tagInMultiLine: false,
     mouseEnter: false,
+    focused: false,
   })
 }
 
@@ -92,15 +94,19 @@ export const useSelect = (props, states: States, ctx) => {
     input: HTMLInputElement
   }> | null>(null)
   const input = ref<HTMLInputElement | null>(null)
+  const iOSInput = ref<HTMLInputElement | null>(null)
   const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
+  const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const tags = ref<HTMLElement | null>(null)
   const selectWrapper = ref<HTMLElement | null>(null)
   const scrollbar = ref<{
     handleScroll: () => void
   } | null>(null)
-  const hoverOption = ref(-1)
+  const hoverOption = ref()
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
+  const optionList = ref<string[]>([])
+  let originClientHeight = 0
 
   const { form, formItem } = useFormItem()
 
@@ -136,6 +142,14 @@ export const useSelect = (props, states: States, ctx) => {
     )
   )
 
+  // Consistent with the processing of Form in the input component
+  const showStatusIconAndState = computed(
+    () =>
+      form?.statusIcon &&
+      formItem?.validateState &&
+      ValidateComponentsMap[formItem?.validateState]
+  )
+
   const debounce = computed(() => (props.remote ? 300 : 0))
 
   const emptyText = computed(() => {
@@ -159,7 +173,17 @@ export const useSelect = (props, states: States, ctx) => {
     return null
   })
 
-  const optionsArray = computed(() => Array.from(states.options.values()))
+  const optionsArray = computed(() => {
+    const list = Array.from(states.options.values())
+    const newList = []
+    optionList.value.forEach((item) => {
+      const index = list.findIndex((i) => i.currentLabel === item)
+      if (index > -1) {
+        newList.push(list[index])
+      }
+    })
+    return newList.length >= list.length ? newList : list
+  })
 
   const cachedOptionsArray = computed(() =>
     Array.from(states.cachedOptions.values())
@@ -181,7 +205,7 @@ export const useSelect = (props, states: States, ctx) => {
     )
   })
 
-  const selectSize = useSize()
+  const selectSize = useFormSize()
 
   const collapseTagSize = computed(() =>
     ['small'].includes(selectSize.value) ? 'small' : 'default'
@@ -210,6 +234,15 @@ export const useSelect = (props, states: States, ctx) => {
     () => props.placeholder,
     (val) => {
       states.cachedPlaceHolder = states.currentPlaceholder = val
+
+      const hasValue =
+        props.multiple &&
+        Array.isArray(props.modelValue) &&
+        props.modelValue.length > 0
+
+      if (hasValue) {
+        states.currentPlaceholder = ''
+      }
     }
   )
 
@@ -254,7 +287,6 @@ export const useSelect = (props, states: States, ctx) => {
             props.remoteMethod('')
           }
         }
-        input.value && input.value.blur()
         states.query = ''
         states.previousQuery = null
         states.selectedLabel = ''
@@ -296,6 +328,7 @@ export const useSelect = (props, states: States, ctx) => {
         if (props.filterable) {
           states.filteredOptionsCount = states.optionsCount
           states.query = props.remote ? '' : states.selectedLabel
+          iOSInput.value?.focus?.()
           if (props.multiple) {
             input.value?.focus()
           } else {
@@ -329,6 +362,9 @@ export const useSelect = (props, states: States, ctx) => {
       }
       const inputs = selectWrapper.value?.querySelectorAll('input') || []
       if (
+        (!props.filterable &&
+          !props.defaultFirstOption &&
+          !isUndefined(props.modelValue)) ||
         !Array.from(inputs).includes(document.activeElement as HTMLInputElement)
       ) {
         setSelected()
@@ -362,28 +398,43 @@ export const useSelect = (props, states: States, ctx) => {
 
   // methods
   const resetInputHeight = () => {
-    if (props.collapseTags && !props.filterable) return
     nextTick(() => {
       if (!reference.value) return
       const input = reference.value.$el.querySelector(
         'input'
       ) as HTMLInputElement
+      originClientHeight =
+        originClientHeight ||
+        (input.clientHeight > 0 ? input.clientHeight + 2 : 0)
       const _tags = tags.value
+      const cssVarOfSelectSize = getComputedStyle(input).getPropertyValue(
+        ns.cssVarName('input-height')
+      )
+      const gotSize =
+        cssVarOfSelectSize || getComponentSize(selectSize.value || form?.size)
 
-      const sizeInMap = getComponentSize(selectSize.value || form?.size)
+      const sizeInMap =
+        selectSize.value ||
+        gotSize === originClientHeight ||
+        originClientHeight <= 0
+          ? gotSize
+          : originClientHeight
+
+      const isElHidden = input.offsetParent === null
+
       // it's an inner input so reduce it by 2px.
-      input.style.height = `${
-        (states.selected.length === 0
-          ? sizeInMap
-          : Math.max(
-              _tags
-                ? _tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)
-                : 0,
-              sizeInMap
-            )) - 2
-      }px`
-
-      states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
+      !isElHidden &&
+        (input.style.height = `${
+          (states.selected.length === 0
+            ? sizeInMap
+            : Math.max(
+                _tags
+                  ? _tags.clientHeight +
+                      (_tags.clientHeight > sizeInMap ? 6 : 0)
+                  : 0,
+                sizeInMap
+              )) - 2
+        }px`)
 
       if (states.visible && emptyText.value !== false) {
         tooltipRef.value?.updatePopper?.()
@@ -407,9 +458,14 @@ export const useSelect = (props, states: States, ctx) => {
     states.hoverIndex = -1
     if (props.multiple && props.filterable) {
       nextTick(() => {
-        const length = input.value!.value.length * 15 + 20
-        states.inputLength = props.collapseTags ? Math.min(50, length) : length
-        managePlaceholder()
+        // fix: https://github.com/element-plus/element-plus/issues/13872
+        if (!selectDisabled.value) {
+          const length = input.value!.value.length * 15 + 20
+          states.inputLength = props.collapseTags
+            ? Math.min(50, length)
+            : length
+          managePlaceholder()
+        }
         resetInputHeight()
       })
     }
@@ -557,7 +613,7 @@ export const useSelect = (props, states: States, ctx) => {
   const handleResize = () => {
     resetInputWidth()
     tooltipRef.value?.updatePopper?.()
-    if (props.multiple && !props.filterable) resetInputHeight()
+    props.multiple && resetInputHeight()
   }
 
   const resetInputWidth = () => {
@@ -585,10 +641,16 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
+  const getLastNotDisabledIndex = (value) =>
+    findLastIndex(value, (it) => !states.disabledOptions.has(it))
+
   const deletePrevTag = (e) => {
+    if (e.code === EVENT_CODE.delete) return
     if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
       const value = props.modelValue.slice()
-      value.pop()
+      const lastNotDisabledIndex = getLastNotDisabledIndex(value)
+      if (lastNotDisabledIndex < 0) return
+      value.splice(lastNotDisabledIndex, 1)
       ctx.emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
     }
@@ -608,6 +670,7 @@ export const useSelect = (props, states: States, ctx) => {
       ctx.emit('remove-tag', tag.value)
     }
     event.stopPropagation()
+    focus()
   }
 
   const deleteSelected = (event) => {
@@ -623,9 +686,10 @@ export const useSelect = (props, states: States, ctx) => {
     states.hoverIndex = -1
     states.visible = false
     ctx.emit('clear')
+    focus()
   }
 
-  const handleOptionSelect = (option, byClick) => {
+  const handleOptionSelect = (option) => {
     if (props.multiple) {
       const value = (props.modelValue || []).slice()
       const optionIndex = getValueIndex(value, option.value)
@@ -650,7 +714,7 @@ export const useSelect = (props, states: States, ctx) => {
       emitChange(option.value)
       states.visible = false
     }
-    states.isSilentBlur = byClick
+
     setSoftFocus()
     if (states.visible) return
     nextTick(() => {
@@ -674,7 +738,6 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const setSoftFocus = () => {
-    states.softFocus = true
     const _input = input.value || reference.value
     if (_input) {
       _input?.focus()
@@ -710,6 +773,7 @@ export const useSelect = (props, states: States, ctx) => {
     states.filteredOptionsCount++
     states.options.set(vm.value, vm)
     states.cachedOptions.set(vm.value, vm)
+    vm.disabled && states.disabledOptions.set(vm.value, vm)
   }
 
   const onOptionDestroy = (key, vm: SelectOptionProxy) => {
@@ -728,7 +792,10 @@ export const useSelect = (props, states: States, ctx) => {
 
   const toggleLastOptionHitState = (hit?: boolean) => {
     if (!Array.isArray(states.selected)) return
-    const option = states.selected[states.selected.length - 1]
+    const lastNotDisabledIndex = getLastNotDisabledIndex(
+      states.selected.map((it) => it.value)
+    )
+    const option = states.selected[lastNotDisabledIndex]
     if (!option) return
 
     if (hit === true || hit === false) {
@@ -756,34 +823,46 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const handleFocus = (event: FocusEvent) => {
-    if (!states.softFocus) {
+    if (!states.focused) {
       if (props.automaticDropdown || props.filterable) {
         if (props.filterable && !states.visible) {
           states.menuVisibleOnFocus = true
         }
         states.visible = true
       }
+      states.focused = true
       ctx.emit('focus', event)
+    }
+  }
+
+  const focus = () => {
+    if (states.visible) {
+      ;(input.value || reference.value)?.focus()
     } else {
-      states.softFocus = false
+      reference.value?.focus()
     }
   }
 
   const blur = () => {
     states.visible = false
     reference.value?.blur()
+    iOSInput.value?.blur?.()
   }
 
   const handleBlur = (event: FocusEvent) => {
-    // https://github.com/ElemeFE/element/pull/10822
-    nextTick(() => {
-      if (states.isSilentBlur) {
-        states.isSilentBlur = false
-      } else {
-        ctx.emit('blur', event)
-      }
-    })
-    states.softFocus = false
+    // validate current focus event is inside el-tooltip-content or el-select
+    // if so, ignore the blur event.
+    if (
+      tooltipRef.value?.isFocusInsideContent(event) ||
+      tagTooltipRef.value?.isFocusInsideContent(event) ||
+      selectWrapper.value?.contains(event.relatedTarget)
+    ) {
+      return
+    }
+
+    states.visible && handleClose()
+    states.focused = false
+    ctx.emit('blur', event)
   }
 
   const handleClearClick = (event: Event) => {
@@ -814,9 +893,7 @@ export const useSelect = (props, states: States, ctx) => {
           states.visible = !states.visible
         }
       }
-      if (states.visible) {
-        ;(input.value || reference.value)?.focus()
-      }
+      focus()
     }
   }
 
@@ -825,7 +902,7 @@ export const useSelect = (props, states: States, ctx) => {
       toggleMenu()
     } else {
       if (optionsArray.value[states.hoverIndex]) {
-        handleOptionSelect(optionsArray.value[states.hoverIndex], undefined)
+        handleOptionSelect(optionsArray.value[states.hoverIndex])
       }
     }
   }
@@ -838,6 +915,14 @@ export const useSelect = (props, states: States, ctx) => {
     optionsArray.value
       .filter((option) => option.visible)
       .every((option) => option.disabled)
+  )
+
+  const showTagList = computed(() =>
+    props.multiple ? states.selected.slice(0, props.maxCollapseTags) : []
+  )
+
+  const collapseTagList = computed(() =>
+    props.multiple ? states.selected.slice(props.maxCollapseTags) : []
   )
 
   const navigateOptions = (direction) => {
@@ -879,9 +964,23 @@ export const useSelect = (props, states: States, ctx) => {
   const handleMouseLeave = () => {
     states.mouseEnter = false
   }
+  const handleDeleteTooltipTag = (event, tag) => {
+    deleteTag(event, tag)
+    tagTooltipRef.value?.updatePopper?.()
+  }
 
+  // computed style
+  // if in form and use statusIcon, the width of the icon needs to be subtracted, fix #13526
+  const selectTagsStyle = computed(() => ({
+    maxWidth: `${
+      unref(states.inputWidth) - 32 - (showStatusIconAndState.value ? 22 : 0)
+    }px`,
+    width: '100%',
+  }))
   return {
+    optionList,
     optionsArray,
+    hoverOption,
     selectSize,
     handleResize,
     debouncedOnInputChange,
@@ -909,6 +1008,7 @@ export const useSelect = (props, states: States, ctx) => {
     onOptionDestroy,
     handleMenuEnter,
     handleFocus,
+    focus,
     blur,
     handleBlur,
     handleClearClick,
@@ -918,14 +1018,22 @@ export const useSelect = (props, states: States, ctx) => {
     selectOption,
     getValueKey,
     navigateOptions,
+    handleDeleteTooltipTag,
     dropMenuVisible,
     queryChange,
     groupQueryChange,
+    showTagList,
+    collapseTagList,
+
+    // computed style
+    selectTagsStyle,
 
     // DOM ref
     reference,
     input,
+    iOSInput,
     tooltipRef,
+    tagTooltipRef,
     tags,
     selectWrapper,
     scrollbar,

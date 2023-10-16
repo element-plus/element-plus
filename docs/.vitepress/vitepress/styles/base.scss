@@ -60,7 +60,8 @@ h6 {
     position: relative;
 
     // Special case for handling tagged header.
-    .el-tag {
+    .el-tag,
+    .vp-tag {
       margin-left: 8px;
     }
   }
@@ -145,6 +146,14 @@ textarea {
   touch-action: manipulation;
 }
 
+button.reset-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
 a {
   font-weight: 500;
   text-decoration: inherit;
@@ -162,6 +171,7 @@ a.header-anchor {
   padding-right: 0.23em;
   font-size: 0.85em;
   opacity: 0;
+
   &:hover,
   :focus {
     text-decoration: none;
@@ -191,6 +201,7 @@ li > ol {
   overflow-y: hidden;
   overflow-x: auto;
   margin-bottom: 45px;
+
   & > table {
     border-collapse: collapse;
     width: 100%;
@@ -246,17 +257,8 @@ details {
     margin: 16px 0;
     font-size: 18px;
     font-weight: 600;
+    cursor: pointer;
   }
-}
-
-.el-popover.is-light.translation-popup {
-  background-color: var(--bg-color) !important;
-  border-color: var(--border-color);
-  border-radius: 8px;
-  padding: 12px 0;
-  min-width: 192px;
-  border: 1px solid transparent;
-  transition: background-color 0.5s;
 }
 
 #nprogress .bar {
@@ -271,6 +273,7 @@ details {
   p:not(.custom-block-title) {
     font-size: 0.9rem;
   }
+
   &.tip {
     padding: 8px 16px;
     background-color: var(--block-tip-bg-color);
@@ -286,4 +289,36 @@ details {
     border-left: 5px solid var(--el-color-danger);
     margin: 20px 0;
   }
+}
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2147483646;
+}
+
+.dark::view-transition-old(root) {
+  z-index: 2147483646;
+}
+
+.dark::view-transition-new(root) {
+  z-index: 1;
 }
