@@ -30,7 +30,7 @@ import useMenu from './use-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 
 import type { Placement } from '@element-plus/components/popper'
-import type { CSSProperties, ExtractPropTypes, VNodeArrayChildren } from 'vue'
+import type { ExtractPropTypes, VNodeArrayChildren } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
 
 export const subMenuProps = buildProps({
@@ -187,9 +187,6 @@ export default defineComponent({
       return isActive
     })
 
-    const backgroundColor = computed(() => rootMenu.props.backgroundColor || '')
-    const activeTextColor = computed(() => rootMenu.props.activeTextColor || '')
-    const textColor = computed(() => rootMenu.props.textColor || '')
     const mode = computed(() => rootMenu.props.mode)
     const item = reactive({
       index: props.index,
@@ -198,21 +195,6 @@ export default defineComponent({
     })
 
     const ulStyle = useMenuCssVar(rootMenu.props, subMenu.level + 1)
-    const titleStyle = computed<CSSProperties>(() => {
-      if (mode.value !== 'horizontal') {
-        return {
-          color: textColor.value,
-        }
-      }
-      return {
-        borderBottomColor: active.value
-          ? rootMenu.props.activeTextColor
-            ? activeTextColor.value
-            : ''
-          : 'transparent',
-        color: active.value ? activeTextColor.value : textColor.value,
-      }
-    })
 
     // methods
     const doDestroy = () =>
@@ -412,10 +394,6 @@ export default defineComponent({
                   'div',
                   {
                     class: nsSubMenu.e('title'),
-                    style: [
-                      titleStyle.value,
-                      { backgroundColor: backgroundColor.value },
-                    ],
                     onClick: handleClick,
                   },
                   titleTag
@@ -427,10 +405,6 @@ export default defineComponent({
               'div',
               {
                 class: nsSubMenu.e('title'),
-                style: [
-                  titleStyle.value,
-                  { backgroundColor: backgroundColor.value },
-                ],
                 ref: verticalTitleRef,
                 onClick: handleClick,
               },
