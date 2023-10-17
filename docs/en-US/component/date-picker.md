@@ -177,14 +177,14 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ## Events
 
-| Name            | Description                                                               | Parameters                    |
-| --------------- | ------------------------------------------------------------------------- | ----------------------------- |
-| change          | triggers when user confirms the value                                     | `(val: typeof v-model)`       |
-| blur            | triggers when Input blurs                                                 | `(e: FocusEvent)`             |
-| focus           | triggers when Input focuses                                               | `(e: FocusEvent)`             |
-| calendar-change | triggers when the calendar selected date is changed. Only for `daterange` | `(val: [Date, null \| Date])` |
-| panel-change    | triggers when the navigation button click.                                | `(date, mode, view)`          |
-| visible-change  | triggers when the DatePicker's dropdown appears/disappears                | `(visibility: boolean)`       |
+| Name            | Description                                                | Parameters                    |
+| --------------- | ---------------------------------------------------------- | ----------------------------- |
+| change          | triggers when user confirms the value                      | `(val: typeof v-model)`       |
+| blur            | triggers when Input blurs                                  | `(e: FocusEvent)`             |
+| focus           | triggers when Input focuses                                | `(e: FocusEvent)`             |
+| calendar-change | triggers when the calendar selected date is changed.       | `(val: [Date, null \| Date])` |
+| panel-change    | triggers when the navigation button click.                 | `(date, mode, view)`          |
+| visible-change  | triggers when the DatePicker's dropdown appears/disappears | `(visibility: boolean)`       |
 
 ## Methods
 

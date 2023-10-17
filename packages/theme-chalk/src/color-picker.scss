@@ -246,9 +246,9 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   line-height: normal;
   outline: none;
 
-  &:hover:not(.is-disabled) {
+  &:hover:not(.is-disabled, .is-focused) {
     .#{$namespace}-color-picker__trigger {
-      border: 1px solid getCssVar('border-color-hover');
+      border-color: getCssVar('border-color-hover');
     }
   }
 
@@ -256,6 +256,12 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     .#{$namespace}-color-picker__trigger {
       outline: 2px solid getCssVar('color-primary');
       outline-offset: 1px;
+    }
+  }
+
+  @include when(focused) {
+    .#{$namespace}-color-picker__trigger {
+      border-color: getCssVar('color-primary');
     }
   }
 
