@@ -1,11 +1,15 @@
 import { createVNode, render } from 'vue'
-import { isClient } from '@vueuse/core'
-import { useZIndex } from '@element-plus/hooks'
-import { debugWarn, isElement, isString, isVNode } from '@element-plus/utils'
+import {
+  debugWarn,
+  isClient,
+  isElement,
+  isString,
+  isVNode,
+} from '@element-plus/utils'
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'
 
-import type { AppContext, ComponentPublicInstance, VNode } from 'vue'
+import type { AppContext, Ref, VNode } from 'vue'
 import type {
   NotificationOptions,
   NotificationProps,
@@ -45,13 +49,10 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
     })
     verticalOffset += GAP_SIZE
 
-    const { nextZIndex } = useZIndex()
-
     const id = `notification_${seed++}`
     const userOnClose = options.onClose
     const props: Partial<NotificationProps> = {
       ...options,
-      zIndex: nextZIndex(),
       offset: verticalOffset,
       id,
       onClose: () => {
@@ -102,9 +103,8 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
       // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
       // for out component, so that all closing steps will not be skipped.
       close: () => {
-        ;(
-          vm.component!.proxy as ComponentPublicInstance<{ visible: boolean }>
-        ).visible = false
+        ;(vm.component!.exposed as { visible: Ref<boolean> }).visible.value =
+          false
       },
     }
   }
@@ -167,9 +167,8 @@ export function closeAll(): void {
   for (const orientedNotifications of Object.values(notifications)) {
     orientedNotifications.forEach(({ vm }) => {
       // same as the previous close method, we'd like to make sure lifecycle gets handle properly.
-      ;(
-        vm.component!.proxy as ComponentPublicInstance<{ visible: boolean }>
-      ).visible = false
+      ;(vm.component!.exposed as { visible: Ref<boolean> }).visible.value =
+        false
     })
   }
 }

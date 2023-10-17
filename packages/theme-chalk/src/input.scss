@@ -101,8 +101,8 @@
 
   @include when(disabled) {
     .#{$namespace}-textarea__inner {
+      @include inset-input-border(#{getCssVar('disabled-border-color')});
       background-color: map.get($input-disabled, 'fill');
-      border-color: map.get($input-disabled, 'border');
       color: map.get($input-disabled, 'text-color');
       cursor: not-allowed;
 
@@ -114,7 +114,7 @@
 
   @include when(exceed) {
     .#{$namespace}-textarea__inner {
-      border-color: getCssVar('color-danger');
+      @include mixed-input-border(#{getCssVar('color-danger')});
     }
 
     .#{$namespace}-input__count {
@@ -133,9 +133,10 @@
   position: relative;
   font-size: getCssVar('font-size', 'base');
   display: inline-flex;
-  width: 100%;
+  width: getCssVar('input-width');
   line-height: getCssVar('input-height');
   box-sizing: border-box;
+  vertical-align: middle;
   @include scroll-bar;
 
   & .#{$namespace}-input__clear,
@@ -179,7 +180,9 @@
       'input-border-radius',
       map.get($input, 'border-radius')
     );
+    cursor: text;
     transition: getCssVar('transition-box-shadow');
+    transform: translate3d(0, 0, 0);
     @include inset-input-border(
       var(
         #{getCssVarName('input-border-color')},
@@ -317,6 +320,7 @@
 
     .#{$namespace}-input__inner {
       color: map.get($input-disabled, 'text-color');
+      -webkit-text-fill-color: map.get($input-disabled, 'text-color');
       cursor: not-allowed;
 
       &::placeholder {

@@ -1,34 +1,58 @@
-import type { DirectiveBinding, ObjectDirective } from 'vue'
+import { isFunction } from '@element-plus/utils'
 
-const RepeatClick: ObjectDirective = {
-  beforeMount(el: HTMLElement, binding: DirectiveBinding) {
-    let interval: ReturnType<typeof setInterval> | null = null
-    let isHandlerCalled = false
+import type { ObjectDirective } from 'vue'
 
-    const handler = () => binding.value && binding.value()
+export const REPEAT_INTERVAL = 100
+export const REPEAT_DELAY = 600
+
+export interface RepeatClickOptions {
+  interval?: number
+  delay?: number
+  handler: (...args: unknown[]) => unknown
+}
+
+export const vRepeatClick: ObjectDirective<
+  HTMLElement,
+  RepeatClickOptions | RepeatClickOptions['handler']
+> = {
+  beforeMount(el, binding) {
+    const value = binding.value
+    const { interval = REPEAT_INTERVAL, delay = REPEAT_DELAY } = isFunction(
+      value
+    )
+      ? {}
+      : value
+
+    let intervalId: ReturnType<typeof setInterval> | undefined
+    let delayId: ReturnType<typeof setTimeout> | undefined
+
+    const handler = () => (isFunction(value) ? value() : value.handler())
 
     const clear = () => {
-      clearInterval(interval!)
-      interval = null
-
-      if (!isHandlerCalled) {
-        handler()
+      if (delayId) {
+        clearTimeout(delayId)
+        delayId = undefined
       }
-      isHandlerCalled = false
+      if (intervalId) {
+        clearInterval(intervalId)
+        intervalId = undefined
+      }
     }
 
-    el.addEventListener('mousedown', (e: MouseEvent) => {
-      if (e.button !== 0) return
+    el.addEventListener('mousedown', (evt: MouseEvent) => {
+      if (evt.button !== 0) return
+      clear()
+      handler()
 
-      document.addEventListener('mouseup', clear, { once: true })
+      document.addEventListener('mouseup', () => clear(), {
+        once: true,
+      })
 
-      clearInterval(interval!)
-      interval = setInterval(() => {
-        isHandlerCalled = true
-        handler()
-      }, 100)
+      delayId = setTimeout(() => {
+        intervalId = setInterval(() => {
+          handler()
+        }, interval)
+      }, delay)
     })
   },
 }
-
-export default RepeatClick

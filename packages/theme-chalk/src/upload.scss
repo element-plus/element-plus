@@ -62,7 +62,7 @@
 
     @include utils-inline-flex-center;
 
-    i {
+    > i {
       font-size: 28px;
       color: getCssVar('text-color', 'secondary');
     }
@@ -261,13 +261,6 @@
     }
   }
 
-  @include when(disabled) {
-    .#{bem('upload-list', 'item')}:hover,
-    .#{bem('upload-list', 'item-status-label')} {
-      display: block;
-    }
-  }
-
   @include e(item-name) {
     color: getCssVar('text-color', 'regular');
     display: inline-flex;
@@ -440,6 +433,8 @@
       box-sizing: border-box;
       margin-top: 10px;
       padding: 10px;
+      display: flex;
+      align-items: center;
 
       .#{bem('icon', '' ,'check')},
       .#{bem('icon', '' ,'circle-check')} {
@@ -449,7 +444,7 @@
       &:hover {
         .#{bem('upload-list', 'item-status-label')} {
           opacity: 0;
-          display: block;
+          display: inline-flex;
         }
 
         .#{bem('progress', 'text')} {

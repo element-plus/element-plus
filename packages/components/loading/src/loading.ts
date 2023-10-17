@@ -2,6 +2,7 @@ import {
   Transition,
   createApp,
   createVNode,
+  defineComponent,
   h,
   reactive,
   ref,
@@ -10,15 +11,16 @@ import {
   withCtx,
   withDirectives,
 } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
 import { removeClass } from '@element-plus/utils'
+import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
+import type { UseNamespaceReturn } from '@element-plus/hooks'
 import type { LoadingOptionsResolved } from './types'
 
 export function createLoadingComponent(options: LoadingOptionsResolved) {
   let afterLeaveTimer: number
-
-  const ns = useNamespace('loading')
+  // IMPORTANT NOTE: this is only a hacking way to expose the injections on an
+  // instance, DO NOT FOLLOW this pattern in your own code.
   const afterLeaveFlag = ref(false)
   const data = reactive({
     ...options,
@@ -33,6 +35,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
 
   function destroySelf() {
     const target = data.parent
+    const ns = (vm as any).ns as UseNamespaceReturn
     if (!target.vLoadingAddClassList) {
       let loadingNumber: number | string | null =
         target.getAttribute('loading-number')
@@ -54,17 +57,10 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
   function close() {
     if (options.beforeClose && !options.beforeClose()) return
 
-    const target = data.parent
-    target.vLoadingAddClassList = undefined
     afterLeaveFlag.value = true
     clearTimeout(afterLeaveTimer)
 
-    afterLeaveTimer = window.setTimeout(() => {
-      if (afterLeaveFlag.value) {
-        afterLeaveFlag.value = false
-        destroySelf()
-      }
-    }, 400)
+    afterLeaveTimer = window.setTimeout(handleAfterLeave, 400)
     data.visible = false
 
     options.closed?.()
@@ -72,27 +68,36 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
 
   function handleAfterLeave() {
     if (!afterLeaveFlag.value) return
+    const target = data.parent
     afterLeaveFlag.value = false
+    target.vLoadingAddClassList = undefined
     destroySelf()
   }
 
-  const elLoadingComponent = {
+  const elLoadingComponent = defineComponent({
     name: 'ElLoading',
-    setup() {
+    setup(_, { expose }) {
+      const { ns, zIndex } = useGlobalComponentSettings('loading')
+
+      expose({
+        ns,
+        zIndex,
+      })
+
       return () => {
         const svg = data.spinner || data.svg
         const spinner = h(
           'svg',
           {
             class: 'circular',
-            viewBox: data.svgViewBox ? data.svgViewBox : '25 25 50 50',
+            viewBox: data.svgViewBox ? data.svgViewBox : '0 0 50 50',
             ...(svg ? { innerHTML: svg } : {}),
           },
           [
             h('circle', {
               class: 'path',
-              cx: '50',
-              cy: '50',
+              cx: '25',
+              cy: '25',
               r: '20',
               fill: 'none',
             }),
@@ -141,7 +146,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
         )
       }
     },
-  }
+  })
 
   const loadingInstance = createApp(elLoadingComponent)
   const vm = loadingInstance.mount(document.createElement('div'))

@@ -193,17 +193,34 @@ $form-item-label-top-margin-bottom: map.merge(
 
   @include when(required) {
     @include pseudo('not(.is-no-asterisk)') {
-      > .#{$namespace}-form-item__label:before,
-      > .#{$namespace}-form-item__label-wrap
-        > .#{$namespace}-form-item__label:before {
-        content: '*';
-        color: getCssVar('color-danger');
-        margin-right: 4px;
+      &.asterisk-left {
+        > .#{$namespace}-form-item__label:before,
+        > .#{$namespace}-form-item__label-wrap
+          > .#{$namespace}-form-item__label:before {
+          content: '*';
+          color: getCssVar('color-danger');
+          margin-right: 4px;
+        }
+      }
+      &.asterisk-right {
+        > .#{$namespace}-form-item__label:after,
+        > .#{$namespace}-form-item__label-wrap
+          > .#{$namespace}-form-item__label:after {
+          content: '*';
+          color: getCssVar('color-danger');
+          margin-left: 4px;
+        }
       }
     }
   }
 
   @include when(error) {
+    .#{$namespace}-select-v2__wrapper {
+      &.is-focused {
+        border-color: transparent;
+      }
+    }
+
     .#{$namespace}-select-v2__wrapper,
     .#{$namespace}-textarea__inner {
       &,
@@ -211,6 +228,7 @@ $form-item-label-top-margin-bottom: map.merge(
         box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
       }
     }
+
     .#{$namespace}-input__wrapper {
       box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
     }

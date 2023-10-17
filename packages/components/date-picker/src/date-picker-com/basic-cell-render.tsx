@@ -1,6 +1,6 @@
 import { defineComponent, inject } from 'vue'
-import { ROOT_PICKER_INJECTION_KEY } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
+import { ROOT_PICKER_INJECTION_KEY } from '../constants'
 import { basicCellProps } from '../props/basic-cell'
 
 export default defineComponent({
@@ -14,7 +14,9 @@ export default defineComponent({
       if (slots.default) {
         const list = slots.default(cell).filter((item) => {
           return (
-            item.patchFlag !== -2 && item.type.toString() !== 'Symbol(Comment)'
+            item.patchFlag !== -2 &&
+            item.type.toString() !== 'Symbol(Comment)' &&
+            item.type.toString() !== 'Symbol(v-cmt)'
           )
         })
         if (list.length) {

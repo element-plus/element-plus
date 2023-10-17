@@ -1,13 +1,5 @@
 <template>
-  <component
-    :is="tag"
-    :class="[
-      ns.b(),
-      ns.is(`justify-${props.justify}`, justify !== 'start'),
-      ns.is(`align-${props.align}`, align !== 'top'),
-    ]"
-    :style="style"
-  >
+  <component :is="tag" :class="rowKls" :style="style">
     <slot />
   </component>
 </template>
@@ -15,7 +7,7 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { rowContextKey } from '@element-plus/tokens'
+import { rowContextKey } from './constants'
 import { rowProps } from './row'
 import type { CSSProperties } from 'vue'
 
@@ -41,4 +33,10 @@ const style = computed(() => {
   styles.marginRight = styles.marginLeft = `-${props.gutter / 2}px`
   return styles
 })
+
+const rowKls = computed(() => [
+  ns.b(),
+  ns.is(`justify-${props.justify}`, props.justify !== 'start'),
+  ns.is(`align-${props.align}`, !!props.align),
+])
 </script>

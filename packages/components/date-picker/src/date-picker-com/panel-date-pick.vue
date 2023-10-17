@@ -29,6 +29,7 @@
               :placeholder="t('el.datepicker.selectDate')"
               :model-value="visibleDate"
               size="small"
+              :validate-event="false"
               @input="(val) => (userInputDate = val)"
               @change="handleVisibleDateChange"
             />
@@ -41,6 +42,7 @@
               :placeholder="t('el.datepicker.selectTime')"
               :model-value="visibleTime"
               size="small"
+              :validate-event="false"
               @focus="onTimePickerInputFocus"
               @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"
@@ -48,7 +50,6 @@
             <time-pick-panel
               :visible="timePickerVisible"
               :format="timeFormat"
-              :time-arrow-control="arrowControl"
               :parsed-value="innerDate"
               @pick="handleTimePick"
             />
@@ -166,6 +167,7 @@
         text
         size="small"
         :class="ppNs.e('link-btn')"
+        :disabled="disabledNow"
         @click="changeToNow"
       >
         {{ t('el.datepicker.now') }}
@@ -174,6 +176,7 @@
         plain
         size="small"
         :class="ppNs.e('link-btn')"
+        :disabled="disabledConfirm"
         @click="onConfirm"
       >
         {{ t('el.datepicker.confirm') }}
@@ -241,13 +244,16 @@ const slots = useSlots()
 const { t, lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
 const popper = inject(TOOLTIP_INJECTION_KEY)
-const { shortcuts, disabledDate, cellClassName, defaultTime, arrowControl } =
-  pickerBase.props
+const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
 const currentViewRef = ref<{ focus: () => void }>()
 
 const innerDate = ref(dayjs().locale(lang.value))
+
+const isChangeToNow = ref(false)
+
+let isShortcut = false
 
 const defaultTimeD = computed(() => {
   return dayjs(defaultTime).locale(lang.value)
@@ -271,7 +277,12 @@ const checkDateWithinRange = (date: ConfigType) => {
     : true
 }
 const formatEmit = (emitDayjs: Dayjs) => {
-  if (defaultTime && !visibleTime.value) {
+  if (
+    defaultTime &&
+    !visibleTime.value &&
+    !isChangeToNow.value &&
+    !isShortcut
+  ) {
     return defaultTimeD.value
       .year(emitDayjs.year())
       .month(emitDayjs.month())
@@ -291,6 +302,8 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   }
   userInputDate.value = null
   userInputTime.value = null
+  isChangeToNow.value = false
+  isShortcut = false
 }
 const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
   if (selectionMode.value === 'date') {
@@ -361,6 +374,7 @@ const handleShortcutClick = (shortcut: Shortcut) => {
     ? shortcut.value()
     : shortcut.value
   if (shortcutValue) {
+    isShortcut = true
     emit(dayjs(shortcutValue).locale(lang.value))
     return
   }
@@ -432,6 +446,14 @@ const footerVisible = computed(() => {
   return showTime.value || selectionMode.value === 'dates'
 })
 
+const disabledConfirm = computed(() => {
+  if (!disabledDate) return false
+  if (!props.parsedValue) return true
+  if (isArray(props.parsedValue)) {
+    return disabledDate(props.parsedValue[0].toDate())
+  }
+  return disabledDate(props.parsedValue.toDate())
+})
 const onConfirm = () => {
   if (selectionMode.value === 'dates') {
     emit(props.parsedValue as Dayjs[])
@@ -451,11 +473,16 @@ const onConfirm = () => {
   }
 }
 
+const disabledNow = computed(() => {
+  if (!disabledDate) return false
+  return disabledDate(dayjs().locale(lang.value).toDate())
+})
 const changeToNow = () => {
   // NOTE: not a permanent solution
   //       consider disable "now" button in the future
   const now = dayjs().locale(lang.value)
   const nowDate = now.toDate()
+  isChangeToNow.value = true
   if (
     (!disabledDate || !disabledDate(nowDate)) &&
     checkDateWithinRange(nowDate)
@@ -466,11 +493,11 @@ const changeToNow = () => {
 }
 
 const timeFormat = computed(() => {
-  return extractTimeFormat(props.format)
+  return props.timeFormat || extractTimeFormat(props.format)
 })
 
 const dateFormat = computed(() => {
-  return extractDateFormat(props.format)
+  return props.dateFormat || extractDateFormat(props.format)
 })
 
 const visibleTime = computed(() => {
@@ -603,7 +630,9 @@ const handleKeydownTable = (event: KeyboardEvent) => {
     event.preventDefault()
   }
   if (
-    [EVENT_CODE.enter, EVENT_CODE.space].includes(code) &&
+    [EVENT_CODE.enter, EVENT_CODE.space, EVENT_CODE.numpadEnter].includes(
+      code
+    ) &&
     userInputDate.value === null &&
     userInputTime.value === null
   ) {

@@ -5,7 +5,7 @@ import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
 import HomeSponsors from '../home/home-sponsors.vue'
 import HomeCards from '../home/home-cards.vue'
-import HomeFooter from './home-footer.vue'
+import HomeFooter from './vp-footer.vue'
 import type { CSSProperties } from 'vue'
 const target = ref<HTMLElement | null>(null)
 const parallax = reactive(useParallax(target))
@@ -144,7 +144,7 @@ useEventListener(window, 'scroll', handleScroll)
     <HomeSponsors />
     <HomeCards />
   </div>
-  <HomeFooter />
+  <HomeFooter :is-home="true" />
 </template>
 
 <style lang="scss">
@@ -395,6 +395,12 @@ useEventListener(window, 'scroll', handleScroll)
         }
       }
     }
+  }
+}
+
+.dark {
+  .parallax-container {
+    filter: drop-shadow(0px 0px 10px #409eff);
   }
 }
 </style>

@@ -25,13 +25,13 @@
 
     <div :class="ns.e('content')" :style="contentStyle">
       <slot />
-      <transition :name="`${ns.namespace.value}-zoom-in-top`">
+      <transition-group :name="`${ns.namespace.value}-zoom-in-top`">
         <slot v-if="shouldShowError" name="error" :error="validateMessage">
           <div :class="validateClasses">
             {{ validateMessage }}
           </div>
         </slot>
-      </transition>
+      </transition-group>
     </div>
   </div>
 </template>
@@ -51,7 +51,7 @@ import {
   watch,
 } from 'vue'
 import AsyncValidator from 'async-validator'
-import { clone, isEqual } from 'lodash-unified'
+import { clone } from 'lodash-unified'
 import { refDebounced } from '@vueuse/core'
 import {
   addUnit,
@@ -61,19 +61,20 @@ import {
   isFunction,
   isString,
 } from '@element-plus/utils'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
-import { useId, useNamespace, useSize } from '@element-plus/hooks'
+import { useId, useNamespace } from '@element-plus/hooks'
+import { useFormSize } from './hooks'
 import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
+import { formContextKey, formItemContextKey } from './constants'
 
 import type { CSSProperties } from 'vue'
 import type { RuleItem } from 'async-validator'
+import type { Arrayable } from '@element-plus/utils'
 import type {
   FormItemContext,
   FormItemRule,
   FormValidateFailure,
-} from '@element-plus/tokens'
-import type { Arrayable } from '@element-plus/utils'
+} from './types'
 import type { FormItemValidateState } from './form-item'
 
 defineOptions({
@@ -85,7 +86,7 @@ const slots = useSlots()
 const formContext = inject(formContextKey, undefined)
 const parentFormItemContext = inject(formItemContextKey, undefined)
 
-const _size = useSize(undefined, { formItem: false })
+const _size = useFormSize(undefined, { formItem: false })
 const ns = useNamespace('form-item')
 
 const labelId = useId().value
@@ -131,6 +132,9 @@ const formItemClasses = computed(() => [
   ns.is('success', validateState.value === 'success'),
   ns.is('required', isRequired.value || props.required),
   ns.is('no-asterisk', formContext?.hideRequiredAsterisk),
+  formContext?.requireAsteriskPosition === 'right'
+    ? 'asterisk-right'
+    : 'asterisk-left',
   { [ns.m('feedback')]: formContext?.statusIcon },
 ])
 
@@ -155,9 +159,9 @@ const hasLabel = computed<boolean>(() => {
 })
 
 const labelFor = computed<string | undefined>(() => {
-  return props.for || inputIds.value.length === 1
-    ? inputIds.value[0]
-    : undefined
+  return (
+    props.for || (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
+  )
 })
 
 const isGroup = computed<boolean>(() => {
@@ -174,8 +178,14 @@ const fieldValue = computed(() => {
   return getProp(model, props.prop).value
 })
 
-const _rules = computed(() => {
-  const rules: FormItemRule[] = props.rules ? ensureArray(props.rules) : []
+const normalizedRules = computed(() => {
+  const { required } = props
+
+  const rules: FormItemRule[] = []
+
+  if (props.rules) {
+    rules.push(...ensureArray(props.rules))
+  }
 
   const formRules = formContext?.rules
   if (formRules && props.prop) {
@@ -188,17 +198,28 @@ const _rules = computed(() => {
     }
   }
 
-  if (props.required !== undefined) {
-    rules.push({ required: !!props.required })
+  if (required !== undefined) {
+    const requiredRules = rules
+      .map((rule, i) => [rule, i] as const)
+      .filter(([rule]) => Object.keys(rule).includes('required'))
+
+    if (requiredRules.length > 0) {
+      for (const [rule, i] of requiredRules) {
+        if (rule.required === required) continue
+        rules[i] = { ...rule, required }
+      }
+    } else {
+      rules.push({ required })
+    }
   }
 
   return rules
 })
 
-const validateEnabled = computed(() => _rules.value.length > 0)
+const validateEnabled = computed(() => normalizedRules.value.length > 0)
 
 const getFilteredRule = (trigger: string) => {
-  const rules = _rules.value
+  const rules = normalizedRules.value
   return (
     rules
       .filter((rule) => {
@@ -216,7 +237,7 @@ const getFilteredRule = (trigger: string) => {
 }
 
 const isRequired = computed(() =>
-  _rules.value.some((rule) => rule.required === true)
+  normalizedRules.value.some((rule) => rule.required)
 )
 
 const shouldShowError = computed(
@@ -272,8 +293,7 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
 
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
   // skip validation if its resetting
-  if (isResettingField) {
-    isResettingField = false
+  if (isResettingField || !props.prop) {
     return false
   }
 
@@ -306,6 +326,7 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
 const clearValidate: FormItemContext['clearValidate'] = () => {
   setValidationState('')
   validateMessage.value = ''
+  isResettingField = false
 }
 
 const resetField: FormItemContext['resetField'] = async () => {
@@ -314,14 +335,15 @@ const resetField: FormItemContext['resetField'] = async () => {
 
   const computedValue = getProp(model, props.prop)
 
-  if (!isEqual(computedValue.value, initialValue)) {
-    // prevent validation from being triggered
-    isResettingField = true
-    computedValue.value = clone(initialValue)
-  }
+  // prevent validation from being triggered
+  isResettingField = true
+
+  computedValue.value = clone(initialValue)
 
   await nextTick()
   clearValidate()
+
+  isResettingField = false
 }
 
 const addInputId: FormItemContext['addInputId'] = (id: string) => {
@@ -356,6 +378,7 @@ const context: FormItemContext = reactive({
   labelId,
   inputIds,
   isGroup,
+  hasLabel,
   addInputId,
   removeInputId,
   resetField,
@@ -377,17 +400,29 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
-  /** @description form item size */
+  /**
+   * @description Form item size.
+   */
   size: _size,
-  /** @description validation message */
+  /**
+   * @description Validation message.
+   */
   validateMessage,
-  /** @description validation state */
+  /**
+   * @description Validation state.
+   */
   validateState,
-  /** @description validate form item */
+  /**
+   * @description Validate form item.
+   */
   validate,
-  /** @description clear validation status */
+  /**
+   * @description Remove validation status of the field.
+   */
   clearValidate,
-  /** @description reset field value */
+  /**
+   * @description Reset current field and remove validation result.
+   */
   resetField,
 })
 </script>

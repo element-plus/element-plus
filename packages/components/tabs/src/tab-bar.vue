@@ -5,20 +5,20 @@
     :style="barStyle"
   />
 </template>
+
 <script lang="ts" setup>
-// @ts-nocheck
 import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { capitalize, throwError } from '@element-plus/utils'
-import { tabsRootContextKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
+import { tabsRootContextKey } from './constants'
 import { tabBarProps } from './tab-bar'
 
 import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElTabBar'
 defineOptions({
-  name: 'ElTabBar',
+  name: COMPONENT_NAME,
 })
 const props = defineProps(tabBarProps)
 
@@ -39,20 +39,19 @@ const getBarStyle = (): CSSProperties => {
     ? 'width'
     : 'height'
   const sizeDir = sizeName === 'width' ? 'x' : 'y'
+  const position = sizeDir === 'x' ? 'left' : 'top'
 
   props.tabs.every((tab) => {
-    const $el = instance.parent?.refs?.[`tab-${tab.paneName}`] as HTMLElement
+    const $el = instance.parent?.refs?.[`tab-${tab.uid}`] as HTMLElement
     if (!$el) return false
 
     if (!tab.active) {
       return true
     }
 
+    offset = $el[`offset${capitalize(position)}`]
     tabSize = $el[`client${capitalize(sizeName)}`]
-    const position = sizeDir === 'x' ? 'left' : 'top'
-    offset =
-      $el.getBoundingClientRect()[position] -
-      ($el.parentElement?.getBoundingClientRect()[position] ?? 0)
+
     const tabStyles = window.getComputedStyle($el)
 
     if (sizeName === 'width') {

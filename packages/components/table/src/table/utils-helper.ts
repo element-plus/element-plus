@@ -15,13 +15,13 @@ function useUtils<T>(store: Store<T>) {
   const clearSelection = () => {
     store.clearSelection()
   }
-  const clearFilter = (columnKeys: string[]) => {
+  const clearFilter = (columnKeys?: string[]) => {
     store.clearFilter(columnKeys)
   }
   const toggleAllSelection = () => {
     store.commit('toggleAllSelection')
   }
-  const toggleRowExpansion = (row: T, expanded: boolean) => {
+  const toggleRowExpansion = (row: T, expanded?: boolean) => {
     store.toggleRowExpansionAdapter(row, expanded)
   }
   const clearSort = () => {

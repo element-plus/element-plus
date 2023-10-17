@@ -2,22 +2,7 @@
   <div
     v-show="type !== 'hidden'"
     v-bind="containerAttrs"
-    :class="[
-      type === 'textarea' ? nsTextarea.b() : nsInput.b(),
-      nsInput.m(inputSize),
-      nsInput.is('disabled', inputDisabled),
-      nsInput.is('exceed', inputExceed),
-      {
-        [nsInput.b('group')]: $slots.prepend || $slots.append,
-        [nsInput.bm('group', 'append')]: $slots.append,
-        [nsInput.bm('group', 'prepend')]: $slots.prepend,
-        [nsInput.m('prefix')]: $slots.prefix || prefixIcon,
-        [nsInput.m('suffix')]:
-          $slots.suffix || suffixIcon || clearable || showPassword,
-        [nsInput.bm('suffix', 'password-clear')]: showClear && showPwdVisible,
-      },
-      $attrs.class,
-    ]"
+    :class="containerKls"
     :style="containerStyle"
     :role="containerRole"
     @mouseenter="handleMouseEnter"
@@ -30,7 +15,7 @@
         <slot name="prepend" />
       </div>
 
-      <div :class="[nsInput.e('wrapper'), nsInput.is('focus', focused)]">
+      <div ref="wrapperRef" :class="wrapperKls">
         <!-- prefix slot -->
         <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
           <span :class="nsInput.e('prefix-inner')">
@@ -56,6 +41,8 @@
           :aria-label="label"
           :placeholder="placeholder"
           :style="inputStyle"
+          :form="props.form"
+          :autofocus="props.autofocus"
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
@@ -131,6 +118,8 @@
         :style="textareaStyle"
         :aria-label="label"
         :placeholder="placeholder"
+        :form="props.form"
+        :autofocus="props.autofocus"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -154,10 +143,8 @@
 <script lang="ts" setup>
 import {
   computed,
-  getCurrentInstance,
   nextTick,
   onMounted,
-  onUpdated,
   ref,
   shallowRef,
   toRef,
@@ -165,7 +152,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { isClient, useResizeObserver } from '@vueuse/core'
+import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import {
@@ -174,20 +161,24 @@ import {
   View as IconView,
 } from '@element-plus/icons-vue'
 import {
+  useFormDisabled,
+  useFormItem,
+  useFormItemInputId,
+  useFormSize,
+} from '@element-plus/components/form'
+import {
   NOOP,
   ValidateComponentsMap,
   debugWarn,
+  isClient,
   isKorean,
   isObject,
 } from '@element-plus/utils'
 import {
   useAttrs,
   useCursor,
-  useDisabled,
-  useFormItem,
-  useFormItemInputId,
+  useFocusController,
   useNamespace,
-  useSize,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { calcTextareaHeight } from './utils'
@@ -195,10 +186,6 @@ import { inputEmits, inputProps } from './input'
 import type { StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
-const PENDANT_MAP = {
-  suffix: 'append',
-  prefix: 'prepend',
-} as const
 
 defineOptions({
   name: 'ElInput',
@@ -207,7 +194,6 @@ defineOptions({
 const props = defineProps(inputProps)
 const emit = defineEmits(inputEmits)
 
-const instance = getCurrentInstance()!
 const rawAttrs = useRawAttrs()
 const slots = useSlots()
 
@@ -221,6 +207,29 @@ const containerAttrs = computed(() => {
   return comboBoxAttrs
 })
 
+const containerKls = computed(() => [
+  props.type === 'textarea' ? nsTextarea.b() : nsInput.b(),
+  nsInput.m(inputSize.value),
+  nsInput.is('disabled', inputDisabled.value),
+  nsInput.is('exceed', inputExceed.value),
+  {
+    [nsInput.b('group')]: slots.prepend || slots.append,
+    [nsInput.bm('group', 'append')]: slots.append,
+    [nsInput.bm('group', 'prepend')]: slots.prepend,
+    [nsInput.m('prefix')]: slots.prefix || props.prefixIcon,
+    [nsInput.m('suffix')]:
+      slots.suffix || props.suffixIcon || props.clearable || props.showPassword,
+    [nsInput.bm('suffix', 'password-clear')]:
+      showClear.value && showPwdVisible.value,
+  },
+  rawAttrs.class,
+])
+
+const wrapperKls = computed(() => [
+  nsInput.e('wrapper'),
+  nsInput.is('focus', isFocused.value),
+])
+
 const attrs = useAttrs({
   excludeKeys: computed<string[]>(() => {
     return Object.keys(containerAttrs.value)
@@ -230,15 +239,14 @@ const { form, formItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
-const inputSize = useSize()
-const inputDisabled = useDisabled()
+const inputSize = useFormSize()
+const inputDisabled = useFormDisabled()
 const nsInput = useNamespace('input')
 const nsTextarea = useNamespace('textarea')
 
 const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
 
-const focused = ref(false)
 const hovering = ref(false)
 const isComposing = ref(false)
 const passwordVisible = ref(false)
@@ -246,6 +254,17 @@ const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
 
 const _ref = computed(() => input.value || textarea.value)
+
+const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
+  _ref,
+  {
+    afterBlur() {
+      if (props.validateEvent) {
+        formItem?.validate?.('blur').catch((err) => debugWarn(err))
+      }
+    },
+  }
+)
 
 const needStatusIcon = computed(() => form?.statusIcon ?? false)
 const validateState = computed(() => formItem?.validateState || '')
@@ -273,7 +292,7 @@ const showClear = computed(
     !inputDisabled.value &&
     !props.readonly &&
     !!nativeInputValue.value &&
-    (focused.value || hovering.value)
+    (isFocused.value || hovering.value)
 )
 const showPwdVisible = computed(
   () =>
@@ -281,7 +300,7 @@ const showPwdVisible = computed(
     !inputDisabled.value &&
     !props.readonly &&
     !!nativeInputValue.value &&
-    (!!nativeInputValue.value || focused.value)
+    (!!nativeInputValue.value || isFocused.value)
 )
 const isWordLimitVisible = computed(
   () =>
@@ -292,7 +311,7 @@ const isWordLimitVisible = computed(
     !props.readonly &&
     !props.showPassword
 )
-const textLength = computed(() => Array.from(nativeInputValue.value).length)
+const textLength = computed(() => nativeInputValue.value.length)
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
@@ -312,6 +331,7 @@ const suffixVisible = computed(
 const [recordCursor, setCursor] = useCursor(input)
 
 useResizeObserver(textarea, (entries) => {
+  onceInitSizeTextarea()
   if (!isWordLimitVisible.value || props.resize !== 'both') return
   const entry = entries[0]
   const { width } = entry.contentRect
@@ -324,50 +344,55 @@ useResizeObserver(textarea, (entries) => {
 const resizeTextarea = () => {
   const { type, autosize } = props
 
-  if (!isClient || type !== 'textarea') return
+  if (!isClient || type !== 'textarea' || !textarea.value) return
 
   if (autosize) {
     const minRows = isObject(autosize) ? autosize.minRows : undefined
     const maxRows = isObject(autosize) ? autosize.maxRows : undefined
+    const textareaStyle = calcTextareaHeight(textarea.value, minRows, maxRows)
+
+    // If the scrollbar is displayed, the height of the textarea needs more space than the calculated height.
+    // If set textarea height in this case, the scrollbar will not hide.
+    // So we need to hide scrollbar first, and reset it in next tick.
+    // see https://github.com/element-plus/element-plus/issues/8825
     textareaCalcStyle.value = {
-      ...calcTextareaHeight(textarea.value!, minRows, maxRows),
+      overflowY: 'hidden',
+      ...textareaStyle,
     }
+
+    nextTick(() => {
+      // NOTE: Force repaint to make sure the style set above is applied.
+      textarea.value!.offsetHeight
+      textareaCalcStyle.value = textareaStyle
+    })
   } else {
     textareaCalcStyle.value = {
-      minHeight: calcTextareaHeight(textarea.value!).minHeight,
+      minHeight: calcTextareaHeight(textarea.value).minHeight,
     }
   }
 }
+
+const createOnceInitResize = (resizeTextarea: () => void) => {
+  let isInit = false
+  return () => {
+    if (isInit || !props.autosize) return
+    const isElHidden = textarea.value?.offsetParent === null
+    if (!isElHidden) {
+      resizeTextarea()
+      isInit = true
+    }
+  }
+}
+// fix: https://github.com/element-plus/element-plus/issues/12074
+const onceInitSizeTextarea = createOnceInitResize(resizeTextarea)
 
 const setNativeInputValue = () => {
   const input = _ref.value
-  if (!input || input.value === nativeInputValue.value) return
-  input.value = nativeInputValue.value
-}
-
-const calcIconOffset = (place: 'prefix' | 'suffix') => {
-  const { el } = instance.vnode
-  if (!el) return
-  const elList = Array.from(
-    (el as Element).querySelectorAll<HTMLSpanElement>(`.${nsInput.e(place)}`)
-  )
-  const target = elList.find((item) => item.parentNode === el)
-  if (!target) return
-
-  const pendant = PENDANT_MAP[place]
-
-  if (slots[pendant]) {
-    target.style.transform = `translateX(${place === 'suffix' ? '-' : ''}${
-      el.querySelector(`.${nsInput.be('group', pendant)}`).offsetWidth
-    }px)`
-  } else {
-    target.removeAttribute('style')
-  }
-}
-
-const updateIconOffset = () => {
-  calcIconOffset('prefix')
-  calcIconOffset('suffix')
+  const formatterValue = props.formatter
+    ? props.formatter(nativeInputValue.value)
+    : nativeInputValue.value
+  if (!input || input.value === formatterValue) return
+  input.value = formatterValue
 }
 
 const handleInput = async (event: Event) => {
@@ -377,7 +402,6 @@ const handleInput = async (event: Event) => {
 
   if (props.formatter) {
     value = props.parser ? props.parser(value) : value
-    value = props.formatter(value)
   }
 
   // should not emit input during composition
@@ -386,7 +410,10 @@ const handleInput = async (event: Event) => {
 
   // hack for https://github.com/ElemeFE/element/issues/8548
   // should remove the following line when we don't support IE
-  if (value === nativeInputValue.value) return
+  if (value === nativeInputValue.value) {
+    setNativeInputValue()
+    return
+  }
 
   emit(UPDATE_MODEL_EVENT, value)
   emit('input', value)
@@ -434,19 +461,6 @@ const focus = async () => {
 }
 
 const blur = () => _ref.value?.blur()
-
-const handleFocus = (event: FocusEvent) => {
-  focused.value = true
-  emit('focus', event)
-}
-
-const handleBlur = (event: FocusEvent) => {
-  focused.value = false
-  emit('blur', event)
-  if (props.validateEvent) {
-    formItem?.validate?.('blur').catch((err) => debugWarn(err))
-  }
-}
 
 const handleMouseLeave = (evt: MouseEvent) => {
   hovering.value = false
@@ -497,11 +511,10 @@ watch(
     await nextTick()
     setNativeInputValue()
     resizeTextarea()
-    updateIconOffset()
   }
 )
 
-onMounted(async () => {
+onMounted(() => {
   if (!props.formatter && props.parser) {
     debugWarn(
       'ElInput',
@@ -509,14 +522,7 @@ onMounted(async () => {
     )
   }
   setNativeInputValue()
-  updateIconOffset()
-  await nextTick()
-  resizeTextarea()
-})
-
-onUpdated(async () => {
-  await nextTick()
-  updateIconOffset()
+  nextTick(resizeTextarea)
 })
 
 defineExpose({

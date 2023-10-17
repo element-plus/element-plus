@@ -26,5 +26,10 @@ export const getInstance = (id: string) => {
 export const getLastOffset = (id: string): number => {
   const { prev } = getInstance(id)
   if (!prev) return 0
-  return prev.vm.exposeProxy!.bottom
+  return prev.vm.exposed!.bottom.value
+}
+
+export const getOffsetOrSpace = (id: string, offset: number) => {
+  const idx = instances.findIndex((instance) => instance.id === id)
+  return idx > 0 ? 20 : offset
 }

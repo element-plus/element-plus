@@ -26,6 +26,7 @@
             :aria-label="title || undefined"
             :aria-labelledby="!title ? titleId : undefined"
             :aria-describedby="bodyId"
+            v-bind="$attrs"
             :class="[ns.b(), direction, visible && 'open', customClass]"
             :style="
               isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
@@ -46,6 +47,7 @@
                   v-if="!$slots.title"
                   :id="titleId"
                   role="heading"
+                  :aria-level="headerAriaLevel"
                   :class="ns.e('title')"
                 >
                   {{ title }}
@@ -99,6 +101,7 @@ export default defineComponent({
     ElIcon,
     Close,
   },
+  inheritAttrs: false,
   props: drawerProps,
   emits: drawerEmits,
 
@@ -112,6 +115,17 @@ export default defineComponent({
         ref: 'https://element-plus.org/en-US/component/drawer.html#slots',
       },
       computed(() => !!slots.title)
+    )
+    useDeprecated(
+      {
+        scope: 'el-drawer',
+        from: 'custom-class',
+        replacement: 'class',
+        version: '2.3.0',
+        ref: 'https://element-plus.org/en-US/component/drawer.html#attributes',
+        type: 'Attribute',
+      },
+      computed(() => !!props.customClass)
     )
 
     const drawerRef = ref<HTMLElement>()

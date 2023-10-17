@@ -12,24 +12,20 @@
         <slot name="file" :file="file" />
       </template>
       <template #append>
-        <upload-content
-          v-if="listType === 'picture-card'"
-          ref="uploadRef"
-          v-bind="uploadContentProps"
-        >
-          <slot v-if="slots.trigger" name="trigger" />
-          <slot v-if="!slots.trigger && slots.default" />
+        <upload-content ref="uploadRef" v-bind="uploadContentProps">
+          <slot v-if="$slots.trigger" name="trigger" />
+          <slot v-if="!$slots.trigger && $slots.default" />
         </upload-content>
       </template>
     </upload-list>
 
     <upload-content
-      v-if="listType !== 'picture-card'"
+      v-if="!isPictureCard || (isPictureCard && !showFileList)"
       ref="uploadRef"
       v-bind="uploadContentProps"
     >
-      <slot v-if="slots.trigger" name="trigger" />
-      <slot v-if="!slots.trigger && slots.default" />
+      <slot v-if="$slots.trigger" name="trigger" />
+      <slot v-if="!$slots.trigger && $slots.default" />
     </upload-content>
 
     <slot v-if="$slots.trigger" />
@@ -50,21 +46,14 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  onBeforeUnmount,
-  provide,
-  shallowRef,
-  toRef,
-  useSlots,
-} from 'vue'
-import { uploadContextKey } from '@element-plus/tokens'
-import { useDisabled } from '@element-plus/hooks'
-
+import { computed, onBeforeUnmount, provide, shallowRef, toRef } from 'vue'
+import { useFormDisabled } from '@element-plus/components/form'
+import { uploadContextKey } from './constants'
 import UploadList from './upload-list.vue'
 import UploadContent from './upload-content.vue'
 import { useHandlers } from './use-handlers'
 import { uploadProps } from './upload'
+
 import type {
   UploadContentInstance,
   UploadContentProps,
@@ -76,8 +65,7 @@ defineOptions({
 
 const props = defineProps(uploadProps)
 
-const slots = useSlots()
-const disabled = useDisabled()
+const disabled = useFormDisabled()
 
 const uploadRef = shallowRef<UploadContentInstance>()
 const {
@@ -90,12 +78,14 @@ const {
   handleRemove,
   handleSuccess,
   handleProgress,
+  revokeFileObjectURL,
 } = useHandlers(props, uploadRef)
 
 const isPictureCard = computed(() => props.listType === 'picture-card')
 
 const uploadContentProps = computed<UploadContentProps>(() => ({
   ...props,
+  fileList: uploadFiles.value,
   onStart: handleStart,
   onProgress: handleProgress,
   onSuccess: handleSuccess,
@@ -104,9 +94,7 @@ const uploadContentProps = computed<UploadContentProps>(() => ({
 }))
 
 onBeforeUnmount(() => {
-  uploadFiles.value.forEach(({ url }) => {
-    if (url?.startsWith('blob:')) URL.revokeObjectURL(url)
-  })
+  uploadFiles.value.forEach(revokeFileObjectURL)
 })
 
 provide(uploadContextKey, {

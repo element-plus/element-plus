@@ -1,7 +1,7 @@
 <template>
-  <el-button text @click="dialogVisible = true"
-    >click to open the Dialog</el-button
-  >
+  <el-button text @click="dialogVisible = true">
+    click to open the Dialog
+  </el-button>
 
   <el-dialog
     v-model="dialogVisible"
@@ -13,9 +13,9 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >Confirm</el-button
-        >
+        <el-button type="primary" @click="dialogVisible = false">
+          Confirm
+        </el-button>
       </span>
     </template>
   </el-dialog>

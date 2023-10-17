@@ -1,28 +1,24 @@
-import { isClient, unrefElement } from '@vueuse/core'
+import { unrefElement } from '@vueuse/core'
+import { isClient } from '@element-plus/utils'
 
 import type { ComponentPublicInstance } from 'vue'
 import type { MaybeRef } from '@vueuse/core'
-import type { Measurable } from '@element-plus/tokens'
-import type { UsePopperCoreConfigProps } from './content'
-
-type ArrowProps = {
-  arrowEl: HTMLElement | undefined
-  arrowOffset: number | undefined
-}
+import type { Modifier } from '@popperjs/core'
+import type { Measurable } from './constants'
+import type { PopperCoreConfigProps } from './content'
 
 export const buildPopperOptions = (
-  props: UsePopperCoreConfigProps,
-  arrowProps: ArrowProps
+  props: PopperCoreConfigProps,
+  modifiers: Modifier<any, any>[] = []
 ) => {
   const { placement, strategy, popperOptions } = props
   const options = {
     placement,
     strategy,
     ...popperOptions,
-    modifiers: genModifiers(props),
+    modifiers: [...genModifiers(props), ...modifiers],
   }
 
-  attachArrow(options, arrowProps)
   deriveExtraModifiers(options, popperOptions?.modifiers)
   return options
 }
@@ -34,7 +30,7 @@ export const unwrapMeasurableEl = (
   return unrefElement($el as HTMLElement)
 }
 
-function genModifiers(options: UsePopperCoreConfigProps) {
+function genModifiers(options: PopperCoreConfigProps) {
   const { offset, gpuAcceleration, fallbackPlacements } = options
   return [
     {
@@ -58,32 +54,21 @@ function genModifiers(options: UsePopperCoreConfigProps) {
       name: 'flip',
       options: {
         padding: 5,
-        fallbackPlacements: fallbackPlacements ?? [],
+        fallbackPlacements,
       },
     },
     {
       name: 'computeStyles',
       options: {
         gpuAcceleration,
-        adaptive: gpuAcceleration,
       },
     },
   ]
 }
 
-function attachArrow(options: any, { arrowEl, arrowOffset }: ArrowProps) {
-  options.modifiers.push({
-    name: 'arrow',
-    options: {
-      element: arrowEl,
-      padding: arrowOffset ?? 5,
-    },
-  } as any)
-}
-
 function deriveExtraModifiers(
   options: any,
-  modifiers: UsePopperCoreConfigProps['popperOptions']['modifiers']
+  modifiers: PopperCoreConfigProps['popperOptions']['modifiers']
 ) {
   if (modifiers) {
     options.modifiers = [...options.modifiers, ...(modifiers ?? [])]

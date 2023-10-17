@@ -9,7 +9,7 @@ import {
   watchEffect,
 } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
-import { useSize } from '@element-plus/hooks'
+import { useFormSize } from '@element-plus/components/form'
 
 import type { Table, TableProps } from './defaults'
 import type { Store } from '../store'
@@ -47,6 +47,7 @@ function useStyle<T>(
   const bodyScrollHeight = ref(0)
   const headerScrollHeight = ref(0)
   const footerScrollHeight = ref(0)
+  const appendScrollHeight = ref(0)
 
   watchEffect(() => {
     layout.setHeight(props.height)
@@ -57,7 +58,7 @@ function useStyle<T>(
   watch(
     () => [props.currentRowKey, store.states.rowKey],
     ([currentRowKey, rowKey]) => {
-      if (!unref(rowKey)) return
+      if (!unref(rowKey) || !unref(currentRowKey)) return
       store.setCurrentRowKey(`${currentRowKey}`)
     },
     {
@@ -112,7 +113,7 @@ function useStyle<T>(
       layout.updateElsHeight()
     }
     layout.updateColumnsWidth()
-    requestAnimationFrame(syncPostion)
+    requestAnimationFrame(syncPosition)
   }
   onMounted(async () => {
     await nextTick()
@@ -163,7 +164,7 @@ function useStyle<T>(
     const { tableWrapper } = table.refs
     return !!(tableWrapper && tableWrapper.classList.contains(className))
   }
-  const syncPostion = function () {
+  const syncPosition = function () {
     if (!table.refs.scrollBarRef) return
     if (!layout.scrollX.value) {
       const scrollingNoneClass = 'is-scrolling-none'
@@ -172,7 +173,7 @@ function useStyle<T>(
       }
       return
     }
-    const scrollContainer = table.refs.scrollBarRef.wrap$
+    const scrollContainer = table.refs.scrollBarRef.wrapRef
     if (!scrollContainer) return
     const { scrollLeft, offsetWidth, scrollWidth } = scrollContainer
     const { headerWrapper, footerWrapper } = table.refs
@@ -190,21 +191,32 @@ function useStyle<T>(
 
   const bindEvents = () => {
     if (!table.refs.scrollBarRef) return
-    if (table.refs.scrollBarRef.wrap$) {
-      useEventListener(table.refs.scrollBarRef.wrap$, 'scroll', syncPostion, {
-        passive: true,
-      })
+    if (table.refs.scrollBarRef.wrapRef) {
+      useEventListener(
+        table.refs.scrollBarRef.wrapRef,
+        'scroll',
+        syncPosition,
+        {
+          passive: true,
+        }
+      )
     }
     if (props.fit) {
       useResizeObserver(table.vnode.el as HTMLElement, resizeListener)
     } else {
       useEventListener(window, 'resize', resizeListener)
     }
+
+    useResizeObserver(table.refs.bodyWrapper, () => {
+      resizeListener()
+      table.refs?.scrollBarRef?.update()
+    })
   }
   const resizeListener = () => {
-    if (!table.$ready) return
-    let shouldUpdateLayout = false
     const el = table.vnode.el
+    if (!table.$ready || !el) return
+
+    let shouldUpdateLayout = false
     const {
       width: oldWidth,
       height: oldHeight,
@@ -221,18 +233,23 @@ function useStyle<T>(
       shouldUpdateLayout = true
     }
 
-    const tableHeader: HTMLElement = table.refs.headerWrapper
+    const tableHeader: HTMLElement =
+      props.tableLayout === 'fixed'
+        ? table.refs.headerWrapper
+        : table.refs.tableHeaderRef?.$el
     if (props.showHeader && tableHeader?.offsetHeight !== oldHeaderHeight) {
       shouldUpdateLayout = true
     }
 
     tableScrollHeight.value = table.refs.tableWrapper?.scrollHeight || 0
     headerScrollHeight.value = tableHeader?.scrollHeight || 0
-    footerScrollHeight.value = table.refs.footerWrapper?.scrollHeight || 0
+    footerScrollHeight.value = table.refs.footerWrapper?.offsetHeight || 0
+    appendScrollHeight.value = table.refs.appendWrapper?.offsetHeight || 0
     bodyScrollHeight.value =
       tableScrollHeight.value -
       headerScrollHeight.value -
-      footerScrollHeight.value
+      footerScrollHeight.value -
+      appendScrollHeight.value
 
     if (shouldUpdateLayout) {
       resizeState.value = {
@@ -243,7 +260,7 @@ function useStyle<T>(
       doLayout()
     }
   }
-  const tableSize = useSize()
+  const tableSize = useFormSize()
   const bodyWidth = computed(() => {
     const { bodyWidth: bodyWidth_, scrollY, gutterWidth } = layout
     return bodyWidth_.value
@@ -259,7 +276,7 @@ function useStyle<T>(
   const emptyBlockStyle = computed(() => {
     if (props.data && props.data.length) return null
     let height = '100%'
-    if (bodyScrollHeight.value) {
+    if (props.height && bodyScrollHeight.value) {
       height = `${bodyScrollHeight.value}px`
     }
     const width = tableWidth.value
@@ -295,16 +312,12 @@ function useStyle<T>(
     }
     if (props.maxHeight) {
       if (!Number.isNaN(Number(props.maxHeight))) {
-        const headerHeight = table.refs.headerWrapper?.scrollHeight || 0
-        const footerHeight = table.refs.footerWrapper?.scrollHeight || 0
-        const maxHeight = props.maxHeight
-        const reachMaxHeight = tableScrollHeight.value >= Number(maxHeight)
-        if (reachMaxHeight) {
-          return {
-            maxHeight: `${
-              tableScrollHeight.value - headerHeight - footerHeight
-            }px`,
-          }
+        return {
+          maxHeight: `${
+            props.maxHeight -
+            headerScrollHeight.value -
+            footerScrollHeight.value
+          }px`,
         }
       } else {
         return {

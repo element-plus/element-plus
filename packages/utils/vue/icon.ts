@@ -9,6 +9,7 @@ import {
   WarningFilled,
 } from '@element-plus/icons-vue'
 import { definePropType } from './props'
+
 import type { Component } from 'vue'
 
 export const iconPropType = definePropType<string | Component>([

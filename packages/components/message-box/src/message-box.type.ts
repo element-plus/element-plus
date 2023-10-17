@@ -103,10 +103,10 @@ export interface ElMessageBoxOptions {
   draggable?: boolean
 
   /** Content of the MessageBox */
-  message?: string | VNode
+  message?: string | VNode | (() => VNode)
 
   /** Title of the MessageBox */
-  title?: string
+  title?: string | ElMessageBoxOptions
 
   /** Message type, used for icon display */
   type?: MessageType
@@ -170,6 +170,9 @@ export interface ElMessageBoxOptions {
 
   /** Custom size of confirm and cancel buttons */
   buttonSize?: ComponentSize
+
+  /** Custom element to append the message box to */
+  appendTo?: HTMLElement | string
 }
 
 export type ElMessageBoxShortcutMethod = ((

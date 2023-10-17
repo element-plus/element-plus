@@ -25,14 +25,15 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-
+    position: relative;
     box-sizing: border-box;
     cursor: pointer;
     padding: 1px 30px 1px 0;
     border: 1px solid getCssVar('border-color');
     border-radius: getCssVar('border-radius-base');
-    transition: border-color getCssVar('transition-duration-fast')
-      getCssVar('ease-in-out-bezier-function');
+    background-color: getCssVar('fill-color', 'blank');
+    transition: getCssVar('transition', 'duration');
+
     &:hover {
       border-color: getCssVar('text-color', 'placeholder');
     }
@@ -47,7 +48,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
     @include when(hovering) {
       &:not(.is-focused) {
-        border-color: getCssVar('text-color', 'placeholder');
+        border-color: getCssVar('border-color-hover');
       }
     }
 
@@ -94,8 +95,18 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     }
 
     #{$selector}__input-wrapper input {
-      line-height: map.get($input-height, 'default') - 8px;
-      height: map.get($input-height, 'default') - 8px;
+      @include set-css-var-value(
+        'input-inner-height',
+        calc(
+          var(
+              #{getCssVarName('component-size')},
+              #{map.get($input-height, 'default')}
+            ) - 8px
+        )
+      );
+
+      height: getCssVar('input-inner-height');
+      line-height: getCssVar('input-inner-height');
       min-width: 4px;
       width: 100%;
 
@@ -170,6 +181,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
   #{$selector}__combobox-input {
     padding-right: 35px;
     display: block;
+    color: getCssVar('text-color', 'regular');
 
     &:focus {
       border-color: getCssVar('select-input-focus-border-color');
@@ -220,13 +232,17 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
     .#{$namespace}-input__icon {
       height: inherit;
+
+      &:not(:first-child) {
+        margin-left: 8px;
+      }
     }
   }
 
   @include e(caret) {
     color: getCssVar('select-input-color');
     font-size: getCssVar('select-input-font-size');
-    transition: transform getCssVar('transition-duration');
+    transition: getCssVar('transition', 'duration');
     transform: rotateZ(180deg);
     cursor: pointer;
 
@@ -249,6 +265,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
     &.#{$namespace}-icon {
       height: inherit;
+
       svg {
         vertical-align: middle;
       }
@@ -261,15 +278,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-  }
-
-  @include e(wrapper) {
-    background-color: getCssVar('fill-color', 'blank');
-    border: 1px solid getCssVar('border-color');
-    border-radius: getCssVar('border-radius-base');
-    position: relative;
-    transition: all getCssVar('transition-duration')
-      getCssVar('ease-in-out-bezier-function');
+    width: 100%;
   }
 
   @include e(input-calculator) {
@@ -287,6 +296,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     user-select: none;
     // using this to keep the item centered in both vertically and horizontally
     display: flex;
+    flex-wrap: wrap;
   }
 
   @include e(placeholder) {

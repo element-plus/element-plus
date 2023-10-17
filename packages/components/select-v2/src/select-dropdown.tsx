@@ -1,4 +1,12 @@
-import { computed, defineComponent, inject, ref, unref } from 'vue'
+import {
+  computed,
+  defineComponent,
+  inject,
+  ref,
+  toRaw,
+  unref,
+  watch,
+} from 'vue'
 import { get } from 'lodash-unified'
 import { isObject, isUndefined } from '@element-plus/utils'
 import {
@@ -33,6 +41,14 @@ export default defineComponent({
 
     const listRef = ref()
 
+    const size = computed(() => props.data.length)
+    watch(
+      () => size.value,
+      () => {
+        select.popper.value.updatePopper?.()
+      }
+    )
+
     const isSized = computed(() =>
       isUndefined(select.props.estimatedOptionHeight)
     )
@@ -61,7 +77,7 @@ export default defineComponent({
       return (
         arr &&
         arr.some((item) => {
-          return get(item, valueKey) === get(target, valueKey)
+          return toRaw(get(item, valueKey)) === get(target, valueKey)
         })
       )
     }
@@ -75,11 +91,10 @@ export default defineComponent({
     }
 
     const isItemSelected = (modelValue: any[] | any, target: Option) => {
-      const { valueKey } = select.props
       if (select.props.multiple) {
-        return contains(modelValue, get(target, valueKey))
+        return contains(modelValue, target.value)
       }
-      return isEqual(modelValue, get(target, valueKey))
+      return isEqual(modelValue, target.value)
     }
 
     const isItemDisabled = (modelValue: any[] | any, selected: boolean) => {

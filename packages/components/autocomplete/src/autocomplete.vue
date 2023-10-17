@@ -13,8 +13,8 @@
     trigger="click"
     :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
+    role="listbox"
     @before-show="onSuggestionShow"
-    @show="onShow"
     @hide="onHide"
   >
     <div
@@ -29,6 +29,9 @@
       <el-input
         ref="inputRef"
         v-bind="attrs"
+        :clearable="clearable"
+        :disabled="disabled"
+        :name="name"
         :model-value="modelValue"
         @input="handleInput"
         @change="handleChange"
@@ -74,7 +77,9 @@
           role="listbox"
         >
           <li v-if="suggestionLoading">
-            <el-icon :class="ns.is('loading')"><Loading /></el-icon>
+            <el-icon :class="ns.is('loading')">
+              <Loading />
+            </el-icon>
           </li>
           <template v-else>
             <li
@@ -96,17 +101,11 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  nextTick,
-  onMounted,
-  ref,
-  useAttrs as useRawAttrs,
-} from 'vue'
+import { computed, onMounted, ref, useAttrs as useRawAttrs } from 'vue'
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
-import { useAttrs, useDisabled, useNamespace } from '@element-plus/hooks'
+import { useAttrs, useNamespace } from '@element-plus/hooks'
 import { generateId, isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -117,6 +116,7 @@ import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
+import { useFormDisabled } from '@element-plus/components/form'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
 import type { AutocompleteData } from './autocomplete'
 
@@ -124,19 +124,18 @@ import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 
+const COMPONENT_NAME = 'ElAutocomplete'
 defineOptions({
-  name: 'ElAutocomplete',
+  name: COMPONENT_NAME,
   inheritAttrs: false,
 })
-
-const COMPONENT_NAME = 'ElAutocomplete'
 
 const props = defineProps(autocompleteProps)
 const emit = defineEmits(autocompleteEmits)
 
 const attrs = useAttrs()
 const rawAttrs = useRawAttrs()
-const disabled = useDisabled()
+const disabled = useFormDisabled()
 const ns = useNamespace('autocomplete')
 
 const inputRef = ref<InputInstance>()
@@ -144,6 +143,7 @@ const regionRef = ref<HTMLElement>()
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
 
+let readonly = false
 let ignoreFocusEvent = false
 const suggestions = ref<AutocompleteData>([])
 const highlightedIndex = ref(-1)
@@ -171,19 +171,13 @@ const refInput = computed<HTMLInputElement[]>(() => {
   return []
 })
 
-const onSuggestionShow = async () => {
-  await nextTick()
+const onSuggestionShow = () => {
   if (suggestionVisible.value) {
     dropdownWidth.value = `${inputRef.value!.$el.offsetWidth}px`
   }
 }
 
-const onShow = () => {
-  ignoreFocusEvent = true
-}
-
 const onHide = () => {
-  ignoreFocusEvent = false
   highlightedIndex.value = -1
 }
 
@@ -245,18 +239,29 @@ const handleChange = (value: string) => {
 }
 
 const handleFocus = (evt: FocusEvent) => {
-  if (ignoreFocusEvent) return
+  if (!ignoreFocusEvent) {
+    activated.value = true
+    emit('focus', evt)
 
-  activated.value = true
-  emit('focus', evt)
-  if (props.triggerOnFocus) {
-    debouncedGetData(String(props.modelValue))
+    if (props.triggerOnFocus && !readonly) {
+      debouncedGetData(String(props.modelValue))
+    }
+  } else {
+    ignoreFocusEvent = false
   }
 }
 
 const handleBlur = (evt: FocusEvent) => {
-  if (ignoreFocusEvent) return
-  emit('blur', evt)
+  setTimeout(() => {
+    // validate current focus event is inside el-tooltip-content
+    // if so, ignore the blur event and the next focus event
+    if (popperRef.value?.isFocusInsideContent()) {
+      ignoreFocusEvent = true
+      return
+    }
+    activated.value && close()
+    emit('blur', evt)
+  })
 }
 
 const handleClear = () => {
@@ -355,6 +360,8 @@ onMounted(() => {
     'aria-activedescendant',
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
+  // get readonly attr
+  readonly = (inputRef.value as any).ref!.hasAttribute('readonly')
 })
 
 defineExpose({

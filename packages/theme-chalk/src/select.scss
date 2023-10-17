@@ -13,6 +13,35 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  cursor: pointer;
+
+  .#{$namespace}-tag {
+    box-sizing: border-box;
+    border-color: transparent;
+    margin: 2px 6px 2px 0;
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .#{$namespace}-icon-close {
+      background-color: getCssVar('text-color', 'placeholder');
+      right: -7px;
+      top: 0;
+      color: $color-white;
+
+      &:hover {
+        background-color: getCssVar('text-color', 'secondary');
+      }
+
+      &::before {
+        display: block;
+        transform: translate(0, 0.5px);
+      }
+    }
+  }
+  .#{$namespace}-tag--info {
+    background-color: getCssVar('fill-color');
+  }
 }
 
 @include b(select) {
@@ -22,6 +51,7 @@
 @include b(select) {
   display: inline-block;
   position: relative;
+  vertical-align: middle;
   line-height: map.get($input-height, 'default');
 
   @include e(popper) {
@@ -83,17 +113,17 @@
       color: getCssVar('select-input-color');
       font-size: getCssVar('select-input-font-size');
       transition: transform getCssVar('transition-duration');
-      transform: rotateZ(180deg);
+      transform: rotateZ(0deg);
       cursor: pointer;
 
       @include when(reverse) {
-        transform: rotateZ(0deg);
+        transform: rotateZ(-180deg);
       }
 
       @include when(show-close) {
         font-size: getCssVar('select-font-size');
         text-align: center;
-        transform: rotateZ(180deg);
+        transform: rotateZ(0deg);
         border-radius: getCssVar('border-radius-circle');
         color: getCssVar('select-input-color');
         transition: getCssVar('transition', 'color');
@@ -144,6 +174,21 @@
     appearance: none;
     height: 28px;
     background-color: transparent;
+
+    @include when(disabled) {
+      cursor: not-allowed;
+    }
+
+    &--iOS {
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 6;
+    }
+
+    @include when(small) {
+      height: 14px;
+    }
   }
 
   @include e(close) {
@@ -167,6 +212,9 @@
     top: 50%;
     transform: translateY(-50%);
     @include select-tag-normal;
+    @include when(disabled) {
+      cursor: not-allowed;
+    }
   }
 
   @include e(collapse-tags) {
@@ -177,35 +225,5 @@
     line-height: inherit;
     height: inherit;
     display: flex;
-  }
-
-  .#{$namespace}-select__tags {
-    .#{$namespace}-tag {
-      box-sizing: border-box;
-      border-color: transparent;
-      margin: 2px 6px 2px 0;
-      &:last-child {
-        margin-right: 0;
-      }
-
-      .#{$namespace}-icon-close {
-        background-color: getCssVar('text-color', 'placeholder');
-        right: -7px;
-        top: 0;
-        color: $color-white;
-
-        &:hover {
-          background-color: getCssVar('text-color', 'secondary');
-        }
-
-        &::before {
-          display: block;
-          transform: translate(0, 0.5px);
-        }
-      }
-    }
-    .#{$namespace}-tag--info {
-      background-color: getCssVar('fill-color');
-    }
   }
 }

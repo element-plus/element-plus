@@ -1,6 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { CaretLeft, CaretRight } from '@element-plus/icons-vue'
 import Pagination from '../src/pagination'
 import selectDropdownVue from '../../select/src/select-dropdown.vue'
 import type { VueWrapper } from '@vue/test-utils'
@@ -174,6 +175,25 @@ describe('Pagination', () => {
       await nextTick()
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
     })
+
+    test('test custom icon', async () => {
+      const wrapper = mount(() => (
+        <Pagination
+          layout="prev, pager, next"
+          total={1000}
+          prev-icon={CaretLeft}
+          next-icon={CaretRight}
+        />
+      ))
+
+      const btnPrev = wrapper.findComponent(CaretLeft).element
+      const caretLeftIcon = mount(CaretLeft).find('svg').element
+      expect(btnPrev.innerHTML).toBe(caretLeftIcon.innerHTML)
+
+      const nextPrev = wrapper.findComponent(CaretRight).element
+      const caretRightIcon = mount(CaretRight).find('svg').element
+      expect(nextPrev.innerHTML).toBe(caretRightIcon.innerHTML)
+    })
   })
 
   describe('test pageSize & currentPage reactive change', () => {
@@ -265,38 +285,37 @@ describe('Pagination', () => {
 
   describe('test a11y supports', () => {
     test('test a11y attributes', async () => {
+      // 1 2 3 4 5 6 ... 10
       const wrapper = mount(() => <Pagination total={100} />)
-      expect(wrapper.find('.el-pagination').attributes('aria-label')).toBe(
-        'pagination'
+      const prev = wrapper.find('.el-pagination .btn-prev')
+      const next = wrapper.find('.el-pagination .btn-next')
+      const pagers = wrapper.findAll('.el-pagination .el-pager .number')
+      const first = pagers[0]
+      const last = pagers[pagers.length - 1]
+
+      expect(prev.attributes('aria-label')).toBe('Go to previous page')
+      expect(next.attributes('aria-label')).toBe('Go to next page')
+      expect(last.attributes('aria-label')).toBe('page 10')
+      pagers.slice(0, 6).forEach((item, index) => {
+        expect(item.attributes('aria-label')).toBe(`page ${index + 1}`)
+      })
+      expect(wrapper.find('.more').attributes('aria-label')).toBe(
+        'Next 5 pages'
       )
-      expect(wrapper.find('.el-pagination').attributes('role')).toBe(
-        'pagination'
+
+      expect(prev.attributes('aria-disabled')).toBe('true')
+      expect(next.attributes('aria-disabled')).toBe('false')
+      expect(first.attributes('aria-current')).toBe('true')
+      expect(last.attributes('aria-current')).toBe('false')
+
+      await last.trigger('click')
+      expect(prev.attributes('aria-disabled')).toBe('false')
+      expect(next.attributes('aria-disabled')).toBe('true')
+      expect(first.attributes('aria-current')).toBe('false')
+      expect(last.attributes('aria-current')).toBe('true')
+      expect(wrapper.find('.more').attributes('aria-label')).toBe(
+        'Previous 5 pages'
       )
-      expect(
-        wrapper.find('.el-pagination .btn-prev').attributes('aria-disabled')
-      ).toBe('true')
-      expect(
-        wrapper.find('.el-pagination .btn-next').attributes('aria-disabled')
-      ).toBe('false')
-      expect(
-        wrapper.find('.el-pager li:first-child').attributes('aria-current')
-      ).toBe('true')
-      expect(
-        wrapper.find('.el-pager li:last-child').attributes('aria-current')
-      ).toBe('false')
-      await wrapper.find('.el-pager li:last-child').trigger('click')
-      expect(
-        wrapper.find('.el-pagination .btn-prev').attributes('aria-disabled')
-      ).toBe('false')
-      expect(
-        wrapper.find('.el-pagination .btn-next').attributes('aria-disabled')
-      ).toBe('true')
-      expect(
-        wrapper.find('.el-pager li:first-child').attributes('aria-current')
-      ).toBe('false')
-      expect(
-        wrapper.find('.el-pager li:last-child').attributes('aria-current')
-      ).toBe('true')
     })
 
     test('test tabindex interactive', async () => {

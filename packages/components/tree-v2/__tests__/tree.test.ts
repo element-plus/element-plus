@@ -122,6 +122,7 @@ const createTree = (
         :check-strictly="checkStrictly"
         :default-expanded-keys="defaultExpandedKeys"
         :indent="indent"
+        :item-size="itemSize"
         :icon-class="iconClass"
         :expand-on-click-node="expandOnClickNode"
         :check-on-click-node="checkOnClickNode"
@@ -152,6 +153,7 @@ const createTree = (
           checkStrictly: false,
           defaultExpandedKeys: undefined,
           indent: 16,
+          itemSize: 26,
           iconClass: undefined,
           expandOnClickNode: true,
           checkOnClickNode: false,
@@ -183,9 +185,11 @@ const createTree = (
 
 describe('Virtual Tree', () => {
   test('create', async () => {
-    const { treeVm } = createTree()
+    const { wrapper, treeVm } = createTree()
     await nextTick()
     expect(treeVm.flattenTree.length).toEqual(NODE_NUMBER)
+    const iconWrapper = wrapper.find(TREE_NODE_EXPAND_ICON_CLASS_NAME)
+    expect(iconWrapper.find('svg').exists()).toBeTruthy()
   })
 
   test('click node', async () => {
@@ -227,6 +231,21 @@ describe('Virtual Tree', () => {
     await nextTick()
     const el = wrapper.find('.el-tree-virtual-list').element as any
     expect(el.style.height).toBe('300px')
+  })
+
+  test('item-size', async () => {
+    const { wrapper } = createTree({
+      data() {
+        return {
+          itemSize: 40,
+        }
+      },
+    })
+    await nextTick()
+    const node = wrapper.find('.el-tree-node').element
+    const content = wrapper.find('.el-tree-node__content').element
+    expect(node.style.height).toBe('40px')
+    expect(content.style.height).toBe('40px')
   })
 
   test('props', async () => {
@@ -1156,6 +1175,66 @@ describe('Virtual Tree', () => {
         label: 'node-1-1-2',
       })
       expect(treeRef.getCurrentKey()).toBe('1-1-2')
+    })
+
+    test('setCurrentKey', async () => {
+      const { treeRef, wrapper } = createTree({
+        data() {
+          return {
+            data: [
+              {
+                id: 0,
+                label: 'node-0',
+              },
+              {
+                id: '1',
+                label: 'node-1',
+                children: [
+                  {
+                    id: '1-1',
+                    label: 'node-1-1',
+                    children: [
+                      {
+                        id: '1-1-1',
+                        label: 'node-1-1-1',
+                      },
+                      {
+                        id: '1-1-2',
+                        label: 'node-1-1-2',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-2',
+                    label: 'node-1-2',
+                    children: [
+                      {
+                        id: '1-2-1',
+                        label: 'node-1-2-1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-3',
+                    label: 'node-1-3',
+                  },
+                ],
+              },
+              {
+                id: '2',
+                label: 'node-2',
+              },
+            ],
+          }
+        },
+      })
+      await nextTick()
+      treeRef.setCurrentKey(0)
+      await nextTick()
+      const currentKeys = treeRef.getCurrentKey()
+      const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+      expect(currentKeys).toBe(0)
+      expect(nodes[0].classes()).toContain('is-current')
     })
   })
 })
