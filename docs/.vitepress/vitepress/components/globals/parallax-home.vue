@@ -397,4 +397,10 @@ useEventListener(window, 'scroll', handleScroll)
     }
   }
 }
+
+.dark {
+  .parallax-container {
+    filter: drop-shadow(0px 0px 10px #409eff);
+  }
+}
 </style>

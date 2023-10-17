@@ -95,6 +95,13 @@ export const dialogProps = buildProps({
     type: Boolean,
     default: false,
   },
+  /**
+   * @description header's aria-level attribute
+   */
+  headerAriaLevel: {
+    type: String,
+    default: '2',
+  },
 } as const)
 
 export type DialogProps = ExtractPropTypes<typeof dialogProps>

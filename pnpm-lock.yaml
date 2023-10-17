@@ -151,7 +151,7 @@ importers:
 
   docs:
     specifiers:
-      '@crowdin/cli': ^3.7.8
+      '@crowdin/cli': ^3.7.10
       '@docsearch/js': ^3.1.0
       '@docsearch/react': ^3.1.0
       '@element-plus/build': workspace:*
@@ -196,14 +196,14 @@ importers:
       '@vueuse/core': 9.1.0_vue@3.2.37
       axios: 0.27.2
       clipboard-copy: 4.0.1
-      element-plus: 2.2.32_vue@3.2.37
+      element-plus: 2.3.14_vue@3.2.37
       markdown-it: 13.0.1
       normalize.css: 8.0.1
       nprogress: 0.2.0
       prism-theme-vars: 0.2.3
       vue: 3.2.37
     devDependencies:
-      '@crowdin/cli': 3.7.8
+      '@crowdin/cli': 3.14.0
       '@docsearch/react': 3.1.0
       '@element-plus/build': link:../internal/build
       '@element-plus/build-constants': link:../internal/build-constants
@@ -1940,12 +1940,15 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@crowdin/cli/3.7.8:
-    resolution: {integrity: sha512-DDA2ggfnYsfoprWmxNpZ5QOxO58RSsbFHHSi+558bqBJMag1z0RjSGSCriqfCQtvBnn2SIVnBsBOaw+HDWXF4w==}
+  /@crowdin/cli/3.14.0:
+    resolution: {integrity: sha512-8MnJvGPkrLprrpLT+jPgBn7aKdv/8eyxLXMN929qYadDy7ZjZiB2CzlTvdGh4DUBoMOr/anoYWDhn9kxP0fn/Q==}
     hasBin: true
     dependencies:
-      njre: 0.2.0
+      command-exists-promise: 2.0.2
+      node-fetch: 2.6.7
       shelljs: 0.8.5
+      tar: 4.4.19
+      yauzl: 2.10.0
     transitivePeerDependencies:
       - encoding
     dev: true
@@ -3099,14 +3102,14 @@ packages:
   /@types/lodash-es/4.17.6:
     resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
     dependencies:
-      '@types/lodash': 4.14.182
+      '@types/lodash': 4.14.184
 
   /@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
+    dev: false
 
   /@types/lodash/4.14.184:
     resolution: {integrity: sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==}
-    dev: false
 
   /@types/lru-cache/5.1.1:
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
@@ -5112,8 +5115,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
-      JSONStream: 1.3.5
       is-text-path: 1.0.1
+      JSONStream: 1.3.5
       lodash: 4.17.21
       meow: 8.1.2
       split2: 3.2.2
@@ -5531,8 +5534,8 @@ packages:
   /electron-to-chromium/1.4.147:
     resolution: {integrity: sha512-czclPqxLMPqPMkahKcske4TaS5lcznsc26ByBlEFDU8grTBVK9C5W6K9I6oEEhm4Ai4jTihGnys90xY1yjXcRg==}
 
-  /element-plus/2.2.32_vue@3.2.37:
-    resolution: {integrity: sha512-DTJMhYOy6MApbmh6z/95hPTK5WrBiNHGzV4IN+uEkup1WoimQ+Qyt8RxKdTe/X1LWEJ8YgWv/Cl8P4ocrt5z5g==}
+  /element-plus/2.3.14_vue@3.2.37:
+    resolution: {integrity: sha512-9yvxUaU4jXf2ZNPdmIxoj/f8BG8CDcGM6oHa9JIqxLjQlfY4bpzR1E5CjNimnOX3rxO93w1TQ0jTVt0RSxh9kA==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -8776,18 +8779,6 @@ packages:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
     dev: true
 
-  /njre/0.2.0:
-    resolution: {integrity: sha512-+Wq8R6VmjK+jI8a9NdzfU6Vh50r3tjsdvl5KJE1OyHeH8I/nx5Ptm12qpO3qNUbstXuZfBDgDL0qQZw9JyjhMw==}
-    engines: {node: '>=8'}
-    dependencies:
-      command-exists-promise: 2.0.2
-      node-fetch: 2.6.7
-      tar: 4.4.19
-      yauzl: 2.10.0
-    transitivePeerDependencies:
-      - encoding
-    dev: true
-
   /node-fetch-native/0.1.3:
     resolution: {integrity: sha512-Jf1IQZdovUIv9E+5avmN6Sf+bND+rnMlODnBQhdE2VRyuWP9WgqZb/KEgPekh19DAN1X2C4vbS1VCOaz2OH19g==}
     dev: true
@@ -9666,7 +9657,7 @@ packages:
     resolution: {integrity: sha512-HFM8rkZ+i3zrV+4LQjwQ0W+ez98pApMGM3HUrN04j3CqzPOzl9nmP15Y8YXNm8QHGv/eacOVEjqhmWpkRV0NAw==}
     engines: {node: '>= 0.10'}
     dependencies:
-      resolve: 1.22.0
+      resolve: 1.22.1
 
   /redent/3.0.0:
     resolution: {integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==}
@@ -12426,7 +12417,7 @@ packages:
     dev: false
 
   /yauzl/2.10.0:
-    resolution: {integrity: sha1-x+sXyT4RLLEIb6bY5R+wZnt5pfk=}
+    resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}
     dependencies:
       buffer-crc32: 0.2.13
       fd-slicer: 1.1.0

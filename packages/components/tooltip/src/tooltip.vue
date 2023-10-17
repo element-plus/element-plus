@@ -154,10 +154,12 @@ watch(
   }
 )
 
-const isFocusInsideContent = () => {
+const isFocusInsideContent = (event?: FocusEvent) => {
   const popperContent: HTMLElement | undefined =
     contentRef.value?.contentRef?.popperContentRef
-  return popperContent && popperContent.contains(document.activeElement)
+  const activeElement = (event?.relatedTarget as Node) || document.activeElement
+
+  return popperContent && popperContent.contains(activeElement)
 }
 
 onDeactivated(() => open.value && hide())
