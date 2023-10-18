@@ -80,6 +80,11 @@
   }
 
   @include m(horizontal) {
+    // reset menu-item popup height
+    &.#{$namespace}-menu--popup-container {
+      height: unset;
+    }
+
     display: flex;
     flex-wrap: nowrap;
     border-right: none;
