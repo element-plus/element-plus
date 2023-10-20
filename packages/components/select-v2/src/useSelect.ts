@@ -421,6 +421,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       }
       resetInputHeight()
       setSoftFocus()
+      if (filteredOptions.value.length === 1) {
+        expanded.value = false
+      }
     } else {
       selectedIndex.value = idx
       states.selectedLabel = option.label
