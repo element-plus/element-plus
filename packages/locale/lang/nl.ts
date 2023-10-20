@@ -76,6 +76,12 @@ export default {
       pagesize: '/pagina',
       total: 'Totaal {total}',
       pageClassifier: '',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
     },
     messagebox: {
       title: 'Bericht',
@@ -108,14 +114,14 @@ export default {
       hasCheckedFormat: '{checked}/{total} geselecteerd',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'MISLUKT',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Terug',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Ja',
+      cancelButtonText: 'Nee',
     },
   },
 }

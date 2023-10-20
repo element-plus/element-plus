@@ -200,7 +200,7 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
   </div>
 </ElRow>
 
-## Icon Collection
+## Icon Collection{#icon-collection}
 
 :::tip
 
@@ -212,15 +212,17 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
 
 <IconList />
 
-## Icon Attributes
+## API
 
-| Name    | Description                | Type                           | Default                |
-| ------- | -------------------------- | ------------------------------ | ---------------------- |
-| `color` | SVG tag's fill attribute   | `Pick<CSSProperties, 'color'>` | inherit from color     |
-| `size`  | SVG icon size, size x size | `number \| string`             | inherit from font size |
+### Attributes
 
-## Icon Slots
+| Name  | Description                | Type                  | Default                |
+| ----- | -------------------------- | --------------------- | ---------------------- |
+| color | SVG tag's fill attribute   | ^[string]             | inherit from color     |
+| size  | SVG icon size, size x size | ^[number] / ^[string] | inherit from font size |
 
-| Name      | Description               |
-| --------- | ------------------------- |
-| `default` | customize default content |
+### Slots
+
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |

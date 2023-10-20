@@ -29,6 +29,8 @@
   --success-color: var(--el-color-success);
   --warning-color: var(--el-color-warning);
   --danger-color: var(--el-color-danger);
+  --purple-color: #6222c2;
+  --purple-color-light: #9065db;
 
   // header vars
   --header-height: 55px;
@@ -55,7 +57,7 @@
   --content-min-width: 16rem;
   --content-max-width: 48rem;
 
-  --nav-z-index: 11;
+  --nav-z-index: 12;
   --sub-nav-z-index: 11;
   --sidebar-z-index: 40;
   --overlay-z-index: 30;
@@ -67,6 +69,8 @@
   --code-bg-color: var(--el-fill-color-light);
   --code-text-color: var(--text-color);
   --code-font-family: var(--font-family-mono);
+  --code-tooltip-bg-color: var(--code-bg-color);
+  --code-tooltip-color: #0c61c9;
 
   // tip block
   --block-tip-bg-color: rgba(var(--el-color-primary-rgb), 0.1);
@@ -80,4 +84,8 @@
   --bg-color-rgb: 0, 0, 0;
   --bg-color-soft: #242424;
   --bg-color-mute: #2c2c2c;
+  --code-tooltip-bg-color: rgba(var(--el-color-primary-rgb), 0.1);
+  --code-tooltip-color: var(--brand-color);
+  --purple-color: #9065db;
+  --purple-color-light: #6222c2;
 }

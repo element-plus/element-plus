@@ -7,7 +7,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'
-import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { usePopperContainerId } from '@element-plus/hooks'
 import Select from '../src/select.vue'
 
 vi.mock('lodash-unified', async () => {
@@ -54,6 +54,7 @@ interface SelectProps {
   multiple?: boolean
   collapseTags?: boolean
   collapseTagsTooltip?: boolean
+  maxCollapseTags?: number
   filterable?: boolean
   remote?: boolean
   multipleLimit?: number
@@ -105,6 +106,7 @@ const createSelect = (
         :multiple="multiple"
         :collapseTags="collapseTags"
         :collapseTagsTooltip="collapseTagsTooltip"
+        :max-collapse-tags="maxCollapseTags"
         :filterable="filterable"
         :multiple-limit="multipleLimit"
         :placeholder="placeholder"
@@ -146,6 +148,7 @@ const createSelect = (
           multiple: false,
           collapseTags: false,
           collapseTagsTooltip: false,
+          maxCollapseTags: 1,
           remote: false,
           filterable: false,
           reserveKeyword: false,
@@ -269,22 +272,19 @@ describe('Select', () => {
   it('default value is Object', async () => {
     const wrapper = createSelect({
       data: () => ({
-        valueKey: 'value',
-        value: {
-          value: '1',
-          label: 'option_a',
-        },
+        valueKey: 'id',
+        value: { id: 1 },
         options: [
           {
-            value: '1',
+            value: { id: 1 },
             label: 'option_a',
           },
           {
-            value: '2',
+            value: { id: 2 },
             label: 'option_b',
           },
           {
-            value: '3',
+            value: { id: 3 },
             label: 'option_c',
           },
         ],
@@ -295,9 +295,7 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
       vm.options[0].label
     )
-    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
-      vm.value.label
-    )
+    expect(vm.value).toEqual(vm.options[0].value)
   })
 
   it('sync set value and options', async () => {
@@ -349,22 +347,19 @@ describe('Select', () => {
         return {
           options: [
             {
-              id: 'id 1',
-              value: 'value 1',
+              value: { id: 1 },
               label: 'option 1',
             },
             {
-              id: 'id 2',
-              value: 'value 2',
+              value: { id: 2 },
               label: 'option 2',
             },
             {
-              id: 'id 3',
-              value: 'value 3',
+              value: { id: 3 },
               label: 'option 3',
             },
           ],
-          value: '',
+          value: undefined,
           valueKey: 'id',
         }
       },
@@ -375,12 +370,11 @@ describe('Select', () => {
     const options = getOptions()
     options[1].click()
     await nextTick()
-    expect(vm.value).toBe(vm.options[1].id)
-    vm.valueKey = 'value'
-    await nextTick()
+    expect(vm.value).toEqual(vm.options[1].value)
+
     options[2].click()
     await nextTick()
-    expect(vm.value).toBe(vm.options[2].value)
+    expect(vm.value).toEqual(vm.options[2].value)
   })
 
   it('disabled option', async () => {
@@ -478,6 +472,55 @@ describe('Select', () => {
     expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
   })
 
+  describe('initial value', () => {
+    it.each([
+      [null, DEFAULT_PLACEHOLDER],
+      [undefined, DEFAULT_PLACEHOLDER],
+      ['', ''],
+      [[], DEFAULT_PLACEHOLDER],
+      [{}, '[object Object]'],
+    ])(
+      '[single select] initial value is %s, placeholder is "%s"',
+      async (value, placeholder) => {
+        const wrapper = createSelect({
+          data: () => {
+            return {
+              value,
+            }
+          },
+        })
+        await nextTick()
+        expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+          placeholder
+        )
+      }
+    )
+
+    it.each([
+      [null, DEFAULT_PLACEHOLDER],
+      [undefined, DEFAULT_PLACEHOLDER],
+      ['', DEFAULT_PLACEHOLDER],
+      [[], DEFAULT_PLACEHOLDER],
+      [{}, DEFAULT_PLACEHOLDER],
+    ])(
+      '[multiple select] initial value is %s, placeholder is "%s"',
+      async (value, placeholder) => {
+        const wrapper = createSelect({
+          data: () => {
+            return {
+              multiple: true,
+              value,
+            }
+          },
+        })
+        await nextTick()
+        expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+          placeholder
+        )
+      }
+    )
+  })
+
   describe('multiple', () => {
     it('multiple select', async () => {
       const wrapper = createSelect({
@@ -564,18 +607,15 @@ describe('Select', () => {
           return {
             options: [
               {
-                id: 'id 1',
-                value: 'value 1',
+                value: { id: 1, value: 'a' },
                 label: 'option 1',
               },
               {
-                id: 'id 2',
-                value: 'value 2',
+                value: { id: 2, value: 'b' },
                 label: 'option 2',
               },
               {
-                id: 'id 3',
-                value: 'value 3',
+                value: { id: 3, value: 'c' },
                 label: 'option 3',
               },
             ],
@@ -592,13 +632,24 @@ describe('Select', () => {
       options[1].click()
       await nextTick()
       expect(vm.value.length).toBe(1)
-      expect(vm.value[0]).toBe(vm.options[1].id)
-      vm.valueKey = 'value'
-      await nextTick()
+      expect(vm.value).toContainEqual(vm.options[1].value)
       options[2].click()
       await nextTick()
       expect(vm.value.length).toBe(2)
-      expect(vm.value[1]).toBe(vm.options[2].value)
+      expect(vm.value).toContainEqual(vm.options[2].value)
+      options[2].click()
+      await nextTick()
+      expect(vm.value.length).toBe(1)
+      expect(vm.value).not.toContainEqual(vm.options[2].value)
+
+      vm.valueKey = 'value'
+      await nextTick()
+      expect(vm.value.length).toBe(1)
+      expect(vm.value).toContainEqual(vm.options[1].value)
+      options[0].click()
+      await nextTick()
+      expect(vm.value.length).toBe(2)
+      expect(vm.value).toContainEqual(vm.options[0].value)
     })
   })
 
@@ -655,6 +706,36 @@ describe('Select', () => {
       await nextTick()
       expect(vm.value.length).toBe(3)
       expect(wrapper.findAll('.el-tag')[3].element.textContent).toBe('c2')
+    })
+
+    it('use maxCollapseTags', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            collapseTags: true,
+            collapseTagsTooltip: true,
+            maxCollapseTags: 3,
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+      const vm = wrapper.vm as any
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      options[1].click()
+      await nextTick()
+      options[2].click()
+      await nextTick()
+      options[3].click()
+      await nextTick()
+      expect(vm.value.length).toBe(4)
+      const tags = wrapper.findAll('.el-tag').filter((item) => {
+        return !hasClass(item.element, 'in-tooltip')
+      })
+      expect(tags.length).toBe(4)
     })
   })
 
@@ -1502,9 +1583,10 @@ describe('Select', () => {
       })
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML
-      ).not.toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value)!.innerHTML).not.toBe(
+        ''
+      )
     })
 
     it('should not mount on the popper container', async () => {
@@ -1542,9 +1624,43 @@ describe('Select', () => {
       })
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
-      ).toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value).innerHTML).toBe('')
     })
+  })
+
+  it('filterable case-insensitive', async () => {
+    const wrapper = createSelect({
+      data: () => {
+        return {
+          filterable: true,
+          options: [
+            {
+              value: '1',
+              label: 'option 1',
+            },
+            {
+              value: '2',
+              label: 'option 2',
+            },
+            {
+              value: '3',
+              label: 'OPtion 3',
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    selectVm.expanded = true
+    await nextTick()
+    await rAF()
+    const input = wrapper.find('input')
+    input.element.value = 'op'
+    await input.trigger('input')
+    await nextTick()
+    expect(selectVm.filteredOptions.length).toBe(3)
   })
 })

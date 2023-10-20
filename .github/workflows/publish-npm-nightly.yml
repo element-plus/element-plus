@@ -27,7 +27,7 @@ jobs:
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v3
         name: Setup pnpm cache
@@ -49,6 +49,9 @@ jobs:
   publish:
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - uses: actions/checkout@v3
@@ -63,12 +66,15 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+        run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
 
       - name: Get git head
         run: echo "GIT_HEAD=${GITHUB_SHA}" >> $GITHUB_ENV
       - name: Gen npmrc
         run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
+
+      - name: Update npm
+        run: npm install npm@9 -g
 
       - name: Set Nightly
         run: sh ./scripts/nightly.sh

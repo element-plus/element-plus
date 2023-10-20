@@ -30,12 +30,17 @@ import type { Arrayable } from '@element-plus/utils'
 import type { AlignItemsProperty } from 'csstype'
 
 export const spaceProps = buildProps({
+  /**
+   * @description Placement direction
+   */
   direction: {
     type: String,
     values: ['horizontal', 'vertical'],
     default: 'horizontal',
   },
-
+  /**
+   * @description Classname
+   */
   class: {
     type: definePropType<Arrayable<Record<string, boolean> | string>>([
       String,
@@ -44,36 +49,52 @@ export const spaceProps = buildProps({
     ]),
     default: '',
   },
-
+  /**
+   * @description Extra style rules
+   */
   style: {
     type: definePropType<StyleValue>([String, Array, Object]),
     default: '',
   },
-
+  /**
+   * @description Controls the alignment of items
+   */
   alignment: {
     type: definePropType<AlignItemsProperty>(String),
     default: 'center',
   },
-
+  /**
+   * @description Prefix for space-items
+   */
   prefixCls: {
     type: String,
   },
-
+  /**
+   * @description Spacer
+   */
   spacer: {
     type: definePropType<VNodeChild>([Object, String, Number, Array]),
     default: null,
     validator: (val: unknown) => isVNode(val) || isNumber(val) || isString(val),
   },
-
+  /**
+   * @description Auto wrapping
+   */
   wrap: Boolean,
-
+  /**
+   * @description Whether to fill the container
+   */
   fill: Boolean,
-
+  /**
+   * @description Ratio of fill
+   */
   fillRatio: {
     type: Number,
     default: 100,
   },
-
+  /**
+   * @description Spacing size
+   */
   size: {
     type: [String, Array, Number],
     values: componentSizes,
@@ -87,7 +108,7 @@ export const spaceProps = buildProps({
 } as const)
 export type SpaceProps = ExtractPropTypes<typeof spaceProps>
 
-export default defineComponent({
+const Space = defineComponent({
   name: 'ElSpace',
 
   props: spaceProps,
@@ -223,3 +244,7 @@ export default defineComponent({
     }
   },
 })
+
+export type SpaceInstance = InstanceType<typeof Space>
+
+export default Space

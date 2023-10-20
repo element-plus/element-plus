@@ -21,7 +21,7 @@ jobs:
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v3
         name: Setup pnpm cache
@@ -57,6 +57,7 @@ jobs:
         run: pnpm docs:build
         env:
           DOC_ENV: production
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.3.4

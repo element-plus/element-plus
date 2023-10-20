@@ -13,6 +13,12 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 
 :::
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Date and time
 
 :::demo You can select date and time in one picker at the same time by setting `type` to `datetime`. The way to use shortcuts is the same as Date Picker.
@@ -38,6 +44,16 @@ Pay attention to capitalization
 :::demo
 
 datetime-picker/date-and-time-formats
+
+:::
+
+## Date and time formats in dropdown panel
+
+Use `date-format` and `time-format` to control displayed text's format in the dropdown panel's input box.
+
+:::demo
+
+datetime-picker/date-and-time-formats-panel
 
 :::
 
@@ -70,7 +86,7 @@ datetime-picker/default-time
 | placeholder           | placeholder in non-range mode                                                                         | string                                           | —                                                             | —                   |
 | start-placeholder     | placeholder for the start date in range mode                                                          | string                                           | —                                                             | —                   |
 | end-placeholder       | placeholder for the end date in range mode                                                            | string                                           | —                                                             | —                   |
-| time-arrow-control    | whether to pick time using arrow buttons                                                              | boolean                                          | —                                                             | false               |
+| arrow-control         | whether to pick time using arrow buttons                                                              | boolean                                          | —                                                             | false               |
 | type                  | type of the picker                                                                                    | string                                           | year/month/date/datetime/ week/datetimerange/daterange        | date                |
 | format                | format of the displayed value in the input box                                                        | string                                           | see [date formats](/en-US/component/date-picker#date-formats) | YYYY-MM-DD HH:mm:ss |
 | popper-class          | custom class name for DateTimePicker's dropdown                                                       | string                                           | —                                                             | —                   |
@@ -78,9 +94,11 @@ datetime-picker/default-time
 | default-value         | optional, default date of the calendar                                                                | Date / [Date, Date]                              |                                                               | —                   |
 | default-time          | the default time value after picking a date. Time `00:00:00` will be used if not specified            | Date / [Date, Date]                              | —                                                             | —                   |
 | value-format          | optional, format of binding value. If not specified, the binding value will be a Date object          | string                                           | see [date formats](https://day.js.org/docs/en/display/format) | —                   |
+| date-format ^(2.4.0) | optional, format of the date displayed value in TimePicker's dropdown                                 | string                                           | see [date formats](https://day.js.org/docs/en/display/format) | —                   |
+| time-format ^(2.4.0) | optional, format of the time displayed value in TimePicker's dropdown                                 | string                                           | see [date formats](https://day.js.org/docs/en/display/format) | —                   |
 | id                    | same as `id` in native input                                                                          | string / [string, string]                        | —                                                             | —                   |
 | name                  | same as `name` in native input                                                                        | string                                           | —                                                             | —                   |
-| unlink-panels         | unllink two date-panels in range-picker                                                               | boolean                                          | —                                                             | false               |
+| unlink-panels         | unlink two date-panels in range-picker                                                                | boolean                                          | —                                                             | false               |
 | prefix-icon           | Custom prefix icon component                                                                          | `string \| Component`                            | —                                                             | Date                |
 | clear-icon            | Custom clear icon component                                                                           | `string \| Component`                            | —                                                             | CircleClose         |
 | shortcuts             | an object array to set shortcut options                                                               | object[{ text: string, value: date / function }] | —                                                             | —                   |

@@ -1,35 +1,18 @@
 <template>
   <component
     :is="!hasOwnLabel && isLabeledByFormItem ? 'span' : 'label'"
-    :class="[
-      ns.b(),
-      ns.m(checkboxSize),
-      ns.is('disabled', isDisabled),
-      ns.is('bordered', border),
-      ns.is('checked', isChecked),
-    ]"
+    :class="compKls"
     :aria-controls="indeterminate ? controls : null"
     @click="onClickRoot"
   >
-    <span
-      :class="[
-        ns.e('input'),
-        ns.is('disabled', isDisabled),
-        ns.is('checked', isChecked),
-        ns.is('indeterminate', indeterminate),
-        ns.is('focus', isFocused),
-      ]"
-      :tabindex="indeterminate ? 0 : undefined"
-      :role="indeterminate ? 'checkbox' : undefined"
-      :aria-checked="indeterminate ? 'mixed' : undefined"
-    >
+    <span :class="spanKls">
       <input
         v-if="trueLabel || falseLabel"
         :id="inputId"
         v-model="model"
         :class="ns.e('original')"
         type="checkbox"
-        :aria-hidden="indeterminate ? 'true' : 'false'"
+        :indeterminate="indeterminate"
         :name="name"
         :tabindex="tabindex"
         :disabled="isDisabled"
@@ -38,6 +21,7 @@
         @change="handleChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
+        @click.stop
       />
       <input
         v-else
@@ -45,7 +29,7 @@
         v-model="model"
         :class="ns.e('original')"
         type="checkbox"
-        :aria-hidden="indeterminate ? 'true' : 'false'"
+        :indeterminate="indeterminate"
         :disabled="isDisabled"
         :value="label"
         :name="name"
@@ -53,6 +37,7 @@
         @change="handleChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
+        @click.stop
       />
       <span :class="ns.e('inner')" />
     </span>
@@ -64,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useSlots } from 'vue'
+import { computed, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { checkboxEmits, checkboxProps } from './checkbox'
 import { useCheckbox } from './composables'
@@ -91,4 +76,24 @@ const {
 } = useCheckbox(props, slots)
 
 const ns = useNamespace('checkbox')
+
+const compKls = computed(() => {
+  return [
+    ns.b(),
+    ns.m(checkboxSize.value),
+    ns.is('disabled', isDisabled.value),
+    ns.is('bordered', props.border),
+    ns.is('checked', isChecked.value),
+  ]
+})
+
+const spanKls = computed(() => {
+  return [
+    ns.e('input'),
+    ns.is('disabled', isDisabled.value),
+    ns.is('checked', isChecked.value),
+    ns.is('indeterminate', props.indeterminate),
+    ns.is('focus', isFocused.value),
+  ]
+})
 </script>

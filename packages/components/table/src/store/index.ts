@@ -73,7 +73,8 @@ function useStore<T>() {
     insertColumn(
       states: StoreStates,
       column: TableColumnCtx<T>,
-      parent: TableColumnCtx<T>
+      parent: TableColumnCtx<T>,
+      updateColumnOrder: () => void
     ) {
       const array = unref(states._columns)
       let newColumns = []
@@ -89,6 +90,7 @@ function useStore<T>() {
       }
       sortColumn(newColumns)
       states._columns.value = newColumns
+      states.updateOrderFns.push(updateColumnOrder)
       if (column.type === 'selection') {
         states.selectable.value = column.selectable
         states.reserveSelection.value = column.reserveSelection
@@ -99,10 +101,22 @@ function useStore<T>() {
       }
     },
 
+    updateColumnOrder(states: StoreStates, column: TableColumnCtx<T>) {
+      const newColumnIndex = column.getColumnIndex?.()
+      if (newColumnIndex === column.no) return
+
+      sortColumn(states._columns.value)
+
+      if (instance.$ready) {
+        instance.store.updateColumns()
+      }
+    },
+
     removeColumn(
       states: StoreStates,
       column: TableColumnCtx<T>,
-      parent: TableColumnCtx<T>
+      parent: TableColumnCtx<T>,
+      updateColumnOrder: () => void
     ) {
       const array = unref(states._columns) || []
       if (parent) {
@@ -110,9 +124,12 @@ function useStore<T>() {
           parent.children.findIndex((item) => item.id === column.id),
           1
         )
-        if (parent.children.length === 0) {
-          delete parent.children
-        }
+        // fix #10699, delete parent.children immediately will trigger again
+        nextTick(() => {
+          if (parent.children?.length === 0) {
+            delete parent.children
+          }
+        })
         states._columns.value = replaceColumn(array, parent)
       } else {
         const index = array.indexOf(column)
@@ -121,6 +138,9 @@ function useStore<T>() {
           states._columns.value = array
         }
       }
+
+      const updateFnIndex = states.updateOrderFns.indexOf(updateColumnOrder)
+      updateFnIndex > -1 && states.updateOrderFns.splice(updateFnIndex, 1)
 
       if (instance.$ready) {
         instance.store.updateColumns() // hack for dynamics remove column

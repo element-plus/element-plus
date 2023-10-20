@@ -19,7 +19,10 @@
   >
     <div
       :class="ns.be('node', 'content')"
-      :style="{ paddingLeft: `${(node.level - 1) * indent}px` }"
+      :style="{
+        paddingLeft: `${(node.level - 1) * indent}px`,
+        height: itemSize + 'px',
+      }"
     >
       <el-icon
         v-if="icon"
@@ -51,6 +54,7 @@
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
 import ElIcon from '@element-plus/components/icon'
+import { CaretRight } from '@element-plus/icons-vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
 import ElNodeContent from './tree-node-content'
@@ -61,8 +65,6 @@ import {
   treeNodeProps,
 } from './virtual-tree'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
-
-const DEFAULT_ICON = 'caret-right'
 
 defineOptions({
   name: 'ElTreeNode',
@@ -79,7 +81,7 @@ const indent = computed(() => {
 })
 
 const icon = computed(() => {
-  return tree?.props.icon ?? DEFAULT_ICON
+  return tree?.props.icon ?? CaretRight
 })
 
 const handleClick = (e: MouseEvent) => {

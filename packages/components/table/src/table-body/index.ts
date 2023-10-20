@@ -7,8 +7,7 @@ import {
   onUnmounted,
   watch,
 } from 'vue'
-import { isClient } from '@vueuse/core'
-import { addClass, removeClass } from '@element-plus/utils'
+import { addClass, isClient, rAF, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import useLayoutObserver from '../layout-observer'
 import { removePopper } from '../util'
@@ -31,11 +30,8 @@ export default defineComponent({
 
     watch(props.store.states.hoverRow, (newVal: any, oldVal: any) => {
       if (!props.store.states.isComplex.value || !isClient) return
-      let raf = window.requestAnimationFrame
-      if (!raf) {
-        raf = (fn) => window.setTimeout(fn, 16)
-      }
-      raf(() => {
+
+      rAF(() => {
         // just get first level children; fix #9723
         const el = instance?.vnode.el as HTMLElement
         const rows = Array.from(el?.children || []).filter((e) =>
@@ -68,7 +64,12 @@ export default defineComponent({
   render() {
     const { wrappedRowRender, store } = this
     const data = store.states.data.value || []
-    return h('tbody', {}, [
+    // Why do we need tabIndex: -1 ?
+    // If you set the tabindex attribute on an element ,
+    // then its child content cannot be scrolled with the arrow keys,
+    // unless you set tabindex on the content too
+    // See https://github.com/facebook/react/issues/25462#issuecomment-1274775248 or https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/tabindex
+    return h('tbody', { tabIndex: -1 }, [
       data.reduce((acc: VNode[], row) => {
         return acc.concat(wrappedRowRender(row, acc.length))
       }, []),

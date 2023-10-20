@@ -1,15 +1,13 @@
-import { useFormItem, useFormItemInputId } from '@element-plus/hooks'
+import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import { isArray } from '@element-plus/utils'
-import {
-  useCheckboxDisabled,
-  useCheckboxEvent,
-  useCheckboxModel,
-  useCheckboxStatus,
-} from '../composables'
+import { useCheckboxDisabled } from './use-checkbox-disabled'
+import { useCheckboxEvent } from './use-checkbox-event'
+import { useCheckboxModel } from './use-checkbox-model'
+import { useCheckboxStatus } from './use-checkbox-status'
 
 import type { ComponentInternalInstance } from 'vue'
 import type { CheckboxProps } from '../checkbox'
-import type { CheckboxModel } from '../composables'
+import type { CheckboxModel } from './use-checkbox-model'
 
 const setStoreValue = (
   props: CheckboxProps,
