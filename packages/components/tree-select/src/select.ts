@@ -8,7 +8,7 @@ import type ElTree from '@element-plus/components/tree'
 
 export const useSelect = (
   props,
-  { attrs },
+  { attrs, emit },
   {
     tree,
     key,
@@ -23,6 +23,10 @@ export const useSelect = (
   const result = {
     ...pick(toRefs(props), Object.keys(ElSelect.props)),
     ...attrs,
+    // attrs is not reactive, when v-model binding source changes,
+    // this listener is still old, see the bug(or test 'v-model source change'):
+    // https://github.com/element-plus/element-plus/issues/14204
+    'onUpdate:modelValue': (value) => emit('update:modelValue', value),
     valueKey: key,
     popperClass: computed(() => {
       const classes = [ns.e('popper')]
