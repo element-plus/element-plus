@@ -2,8 +2,9 @@
   <div
     :class="[ns.b('dragger'), ns.is('dragover', dragover)]"
     @drop.prevent="onDrop"
+    @dragenter.prevent="onDragenter"
     @dragover.prevent="onDragover"
-    @dragleave.prevent="dragover = false"
+    @dragleave.prevent="onDragleave"
   >
     <slot />
   </div>
@@ -36,8 +37,10 @@ if (!uploaderContext) {
 const ns = useNamespace('upload')
 const dragover = ref(false)
 const disabled = useFormDisabled()
+let outerElement: EventTarget | null
 
 const onDrop = (e: DragEvent) => {
+  outerElement = null
   if (disabled.value) return
   dragover.value = false
 
@@ -75,7 +78,19 @@ const onDrop = (e: DragEvent) => {
   emit('file', filesFiltered)
 }
 
-const onDragover = () => {
+const onDragover = (e) => {
   if (!disabled.value) dragover.value = true
+}
+
+const onDragenter = (e) => {
+  outerElement = e.target
+  dragover.value = true
+}
+
+const onDragleave = (e) => {
+  if (outerElement === e.target) {
+    dragover.value = false
+    outerElement = null
+  }
 }
 </script>
