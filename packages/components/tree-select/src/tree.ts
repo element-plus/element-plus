@@ -2,7 +2,7 @@
 import { computed, nextTick, toRefs, watch } from 'vue'
 import { isEqual, pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isFunction } from '@element-plus/utils'
+import { escapeStringRegexp, isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
 import {
@@ -148,15 +148,16 @@ export const useTree = (
         props.renderContent
           ? () => props.renderContent(h, { node, data, store })
           : slots.default
-          ? () => slots.default({ node, data, store })
-          : undefined
+            ? () => slots.default({ node, data, store })
+            : undefined
       )
     },
     filterNodeMethod: (value, data, node) => {
       if (props.filterNodeMethod)
         return props.filterNodeMethod(value, data, node)
       if (!value) return true
-      return getNodeValByProp('label', data)?.includes(value)
+      const regexp = new RegExp(escapeStringRegexp(value), 'i')
+      return regexp.test(getNodeValByProp('label', data) || '')
     },
     onNodeClick: (data, node, e) => {
       attrs.onNodeClick?.(data, node, e)
@@ -186,11 +187,11 @@ export const useTree = (
       const uncachedCheckedKeys = params.checkedKeys
       const cachedKeys = props.multiple
         ? toValidArray(props.modelValue).filter(
-            (item) =>
-              item in cacheOptionsMap.value &&
-              !tree.value.getNode(item) &&
-              !uncachedCheckedKeys.includes(item)
-          )
+          (item) =>
+            item in cacheOptionsMap.value &&
+            !tree.value.getNode(item) &&
+            !uncachedCheckedKeys.includes(item)
+        )
         : []
       const checkedKeys = uncachedCheckedKeys.concat(cachedKeys)
 
@@ -201,8 +202,8 @@ export const useTree = (
           props.multiple
             ? checkedKeys
             : checkedKeys.includes(dataValue)
-            ? dataValue
-            : undefined
+              ? dataValue
+              : undefined
         )
       }
       // only can select leaf node
