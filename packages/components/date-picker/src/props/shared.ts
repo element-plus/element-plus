@@ -64,7 +64,7 @@ export const panelRangeSharedProps = buildProps({
 } as const)
 
 export const selectionModeWithDefault = (
-  mode: (typeof selectionModes)[number]
+  mode: typeof selectionModes[number]
 ) => {
   return {
     type: String,

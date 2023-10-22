@@ -15,4 +15,4 @@ export const DEFAULT_FORMATS_DATEPICKER = {
   datetimerange: `${DEFAULT_FORMATS_DATE} ${DEFAULT_FORMATS_TIME}`,
 }
 
-export type TimeUnit = (typeof timeUnits)[number]
+export type TimeUnit = typeof timeUnits[number]
