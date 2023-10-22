@@ -28,6 +28,8 @@
         :initial-index="imageIndex"
         :infinite="infinite"
         :zoom-rate="zoomRate"
+        :min-scale="minScale"
+        :max-scale="maxScale"
         :url-list="previewSrcList"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="previewTeleported"

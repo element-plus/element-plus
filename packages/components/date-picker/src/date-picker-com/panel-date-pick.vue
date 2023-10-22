@@ -512,11 +512,11 @@ const changeToNow = () => {
 }
 
 const timeFormat = computed(() => {
-  return extractTimeFormat(props.format)
+  return props.timeFormat || extractTimeFormat(props.format)
 })
 
 const dateFormat = computed(() => {
-  return extractDateFormat(props.format)
+  return props.dateFormat || extractDateFormat(props.format)
 })
 
 const visibleTime = computed(() => {

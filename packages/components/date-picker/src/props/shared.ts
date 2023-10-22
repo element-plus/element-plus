@@ -52,6 +52,8 @@ export const panelSharedProps = buildProps({
     required: true,
     values: datePickTypes,
   },
+  dateFormat: String,
+  timeFormat: String,
 } as const)
 
 export const panelRangeSharedProps = buildProps({
