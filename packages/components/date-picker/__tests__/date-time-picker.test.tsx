@@ -28,8 +28,16 @@ describe('Datetime Picker', () => {
   it('both picker show correct formated value (extract date-format and time-format from format property', async () => {
     const value = ref(new Date(2018, 2, 5, 10, 15, 24))
     const format = ref('YYYY/MM/DD HH:mm A')
+    const dateFormat = ref('')
+    const timeFormat = ref('')
     const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetime" format={format.value} />
+      <DatePicker
+        v-model={value.value}
+        type="datetime"
+        format={format.value}
+        dateFormat={dateFormat.value}
+        timeFormat={timeFormat.value}
+      />
     ))
 
     const input = wrapper.find('input')
@@ -52,6 +60,12 @@ describe('Datetime Picker', () => {
     await nextTick()
     expect(dateInput.value).toBe('03-05-2018')
     expect(timeInput.value).toBe('10 am')
+
+    dateFormat.value = 'YYYY/MM/DD ddd'
+    timeFormat.value = 'A hh:mm:ss'
+    await nextTick()
+    expect(dateInput.value).toBe('2018/03/05 Mon')
+    expect(timeInput.value).toBe('AM 10:15:24')
   })
 
   it('both picker show correct value', async () => {
@@ -162,7 +176,7 @@ describe('Datetime Picker', () => {
   })
 
   it('now button: can not choose disabled date', async () => {
-    let isDisable = true
+    const isDisable = true
     const value = ref('')
     const disabledDate = () => isDisable
     const wrapper = _mount(() => (
@@ -185,11 +199,24 @@ describe('Datetime Picker', () => {
     await nextTick()
 
     expect(value.value).toBe('')
-    isDisable = false
+  })
+
+  it('now button: should be disabled when current date is disabled', async () => {
+    const isDisable = true
+    const disabledDate = () => isDisable
+    const wrapper = _mount(() => (
+      <DatePicker type="datetime" disabledDate={disabledDate} />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick()
-    btn.click()
-    await nextTick()
-    expect(value.value).not.toBe('')
+    // now button is disabled
+    const btn: HTMLElement = document.querySelector(
+      '.el-picker-panel__footer .is-text'
+    )!
+    expect(btn.getAttribute('disabled')).not.toBeUndefined()
   })
 
   it('confirm button honors picked date', async () => {
@@ -365,12 +392,16 @@ describe('Datetimerange', () => {
       new Date(2000, 10, 8, 10, 10),
       new Date(2000, 10, 11, 10, 10),
     ])
+    const dateFormat = ref('')
+    const timeFormat = ref('')
     const wrapper = _mount(() => (
       <DatePicker
         v-model={value.value}
         type="datetimerange"
         default-time={new Date(2020, 1, 1, 1, 1, 1)}
         format="YYYY/MM/DD HH:mm A"
+        dateFormat={dateFormat.value}
+        timeFormat={timeFormat.value}
       />
     ))
 
@@ -423,6 +454,14 @@ describe('Datetimerange', () => {
     expect((left.timeInput as HTMLInputElement).value).toBe('01:01 AM')
     expect((right.dateInput as HTMLInputElement).value).toBe('2000/12/01')
     expect((right.timeInput as HTMLInputElement).value).toBe('01:01 AM')
+
+    dateFormat.value = 'YYYY/MM/DD ddd'
+    timeFormat.value = 'A hh:mm:ss'
+    await nextTick()
+    expect((left.dateInput as HTMLInputElement).value).toBe('2000/11/01 Wed')
+    expect((left.timeInput as HTMLInputElement).value).toBe('AM 01:01:01')
+    expect((right.dateInput as HTMLInputElement).value).toBe('2000/12/01 Fri')
+    expect((right.timeInput as HTMLInputElement).value).toBe('AM 01:01:01')
   })
 
   it('input date', async () => {
@@ -759,5 +798,35 @@ describe('Datetimerange', () => {
     const [startInput, endInput] = wrapper.findAll('input')
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
+  })
+
+  it('prop defaultTime should not confilt with prop shortcuts', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetime"
+        shortcuts={[
+          { text: '12:00', value: new Date(2023, 0, 1, 12) },
+          { text: '13:00', value: new Date(2023, 0, 1, 13) },
+          { text: '14:00', value: new Date(2023, 0, 1, 14) },
+        ]}
+        default-time={new Date(2023, 0, 1, 19, 0, 0)}
+      />
+    ))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(
+      document.querySelector(
+        '.el-picker-panel__sidebar .el-picker-panel__shortcut'
+      ) as HTMLElement
+    ).click()
+    await nextTick()
+    expect(value.value).toBeDefined()
+    expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toStrictEqual(
+      '2023-01-01 12:00:00'
+    )
   })
 })

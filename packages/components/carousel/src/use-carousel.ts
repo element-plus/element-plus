@@ -1,17 +1,19 @@
 import {
   computed,
   getCurrentInstance,
+  isVNode,
   onBeforeUnmount,
   onMounted,
   provide,
   ref,
   shallowRef,
   unref,
+  useSlots,
   watch,
 } from 'vue'
 import { throttle } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import { debugWarn, isString } from '@element-plus/utils'
+import { debugWarn, flattedChildren, isString } from '@element-plus/utils'
 import { useOrderedChildren } from '@element-plus/hooks'
 import { carouselContextKey } from './constants'
 
@@ -35,12 +37,15 @@ export const useCarousel = (
     'ElCarouselItem'
   )
 
+  const slots = useSlots()
+
   // refs
   const activeIndex = ref(-1)
   const timer = ref<ReturnType<typeof setInterval> | null>(null)
   const hover = ref(false)
   const root = ref<HTMLDivElement>()
   const containerHeight = ref<number>(0)
+  const isItemsTwoLength = ref(true)
 
   // computed
   const arrowDisplay = computed(
@@ -78,6 +83,11 @@ export const useCarousel = (
   const throttledIndicatorHover = throttle((index: number) => {
     handleIndicatorHover(index)
   }, THROTTLE_TIME)
+
+  const isTwoLengthShow = (index: number) => {
+    if (!isItemsTwoLength.value) return true
+    return activeIndex.value <= 1 ? index <= 1 : index > 1
+  }
 
   function pauseTimer() {
     if (timer.value) {
@@ -202,7 +212,7 @@ export const useCarousel = (
 
   function resetTimer() {
     pauseTimer()
-    startTimer()
+    if (!props.pauseOnHover) startTimer()
   }
 
   function setContainerHeight(height: number) {
@@ -210,11 +220,36 @@ export const useCarousel = (
     containerHeight.value = height
   }
 
+  function PlaceholderItem() {
+    // fix: https://github.com/element-plus/element-plus/issues/12139
+    const defaultSlots = slots.default?.()
+    if (!defaultSlots) return null
+
+    const flatSlots = flattedChildren(defaultSlots)
+
+    const carouselItemsName = 'ElCarouselItem'
+
+    const normalizeSlots = flatSlots.filter((slot) => {
+      return isVNode(slot) && (slot.type as any).name === carouselItemsName
+    })
+
+    if (normalizeSlots?.length === 2 && props.loop && !isCardType.value) {
+      isItemsTwoLength.value = true
+      return normalizeSlots
+    }
+    isItemsTwoLength.value = false
+    return null
+  }
+
   // watch
   watch(
     () => activeIndex.value,
     (current, prev) => {
       resetItemPosition(prev)
+      if (isItemsTwoLength.value) {
+        current = current % 2
+        prev = prev % 2
+      }
       if (prev > -1) {
         emit('change', current, prev)
       }
@@ -240,16 +275,19 @@ export const useCarousel = (
     }
   )
 
-  watch(
-    () => items.value,
-    () => {
-      if (items.value.length > 0) setActiveItem(props.initialIndex)
-    }
-  )
-
   const resizeObserver = shallowRef<ReturnType<typeof useResizeObserver>>()
   // lifecycle
   onMounted(() => {
+    watch(
+      () => items.value,
+      () => {
+        if (items.value.length > 0) setActiveItem(props.initialIndex)
+      },
+      {
+        immediate: true,
+      }
+    )
+
     resizeObserver.value = useResizeObserver(root.value, () => {
       resetItemPosition()
     })
@@ -284,6 +322,7 @@ export const useCarousel = (
     items,
     isVertical,
     containerStyle,
+    isItemsTwoLength,
     handleButtonEnter,
     handleButtonLeave,
     handleIndicatorClick,
@@ -292,6 +331,8 @@ export const useCarousel = (
     setActiveItem,
     prev,
     next,
+    PlaceholderItem,
+    isTwoLengthShow,
     throttledArrowClick,
     throttledIndicatorHover,
   }

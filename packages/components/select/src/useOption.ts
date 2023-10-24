@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { computed, getCurrentInstance, inject, toRaw, unref, watch } from 'vue'
 import { get } from 'lodash-unified'
-import { escapeStringRegexp } from '@element-plus/utils'
+import { isObject as _isObject, escapeStringRegexp } from '@element-plus/utils'
 import { selectGroupKey, selectKey } from './token'
 
 import type { Ref } from 'vue'
@@ -13,12 +13,7 @@ export function useOption(props, states) {
   const selectGroup = inject(selectGroupKey, { disabled: false })
 
   // computed
-  const isObject = computed(() => {
-    return (
-      Object.prototype.toString.call(props.value).toLowerCase() ===
-      '[object object]'
-    )
-  })
+  const isObject = computed(() => _isObject(props.value))
 
   const itemSelected = computed(() => {
     if (!select.props.multiple) {
@@ -104,8 +99,8 @@ export function useOption(props, states) {
       if (!props.created && !remote) {
         if (
           valueKey &&
-          typeof val === 'object' &&
-          typeof oldVal === 'object' &&
+          _isObject(val) &&
+          _isObject(oldVal) &&
           val[valueKey] === oldVal[valueKey]
         ) {
           return

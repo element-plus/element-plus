@@ -28,7 +28,7 @@ export const formItemProps = buildProps({
     default: '',
   },
   /**
-   * @description  A key of `model`. It could be an array of property paths (e.g `['a', 'b', 0]`). In the use of `validate` and `resetFields` method, the attribute is required.
+   * @description  A key of `model`. It could be an array of property paths (e.g `['a', 'b', '0']`). In the use of `validate` and `resetFields` method, the attribute is required.
    */
   prop: {
     type: definePropType<FormItemProp>([String, Array]),

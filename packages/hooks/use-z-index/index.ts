@@ -1,4 +1,4 @@
-import { computed, inject, ref, unref } from 'vue'
+import { computed, getCurrentInstance, inject, ref, unref } from 'vue'
 import { isNumber } from '@element-plus/utils'
 
 import type { InjectionKey, Ref } from 'vue'
@@ -10,7 +10,9 @@ export const zIndexContextKey: InjectionKey<Ref<number | undefined>> =
   Symbol('zIndexContextKey')
 
 export const useZIndex = (zIndexOverrides?: Ref<number>) => {
-  const zIndexInjection = zIndexOverrides || inject(zIndexContextKey, undefined)
+  const zIndexInjection =
+    zIndexOverrides ||
+    (getCurrentInstance() ? inject(zIndexContextKey, undefined) : undefined)
   const initialZIndex = computed(() => {
     const zIndexFromInjection = unref(zIndexInjection)
     return isNumber(zIndexFromInjection)
