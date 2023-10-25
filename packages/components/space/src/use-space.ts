@@ -27,6 +27,11 @@ export function useSpace(props: SpaceProps) {
     const alignment: CSSProperties = {
       alignItems: props.alignment,
     }
+
+    if (props.fill) {
+      wrapKls.width = '100%'
+    }
+
     return [wrapKls, alignment, props.style]
   })
 
