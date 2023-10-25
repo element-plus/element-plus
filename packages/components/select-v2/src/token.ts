@@ -7,7 +7,7 @@ export interface SelectV2Context {
   props: ExtractPropTypes<typeof SelectProps>
   expanded: boolean
   popper: Ref<TooltipInstance>
-  onSelect: (option: Option<any>, index: number, byClick?: boolean) => void
+  onSelect: (option: Option, index: number, byClick?: boolean) => void
   onHover: (idx: number) => void
   onKeyboardNavigate: (direction: 'forward' | 'backward') => void
   onKeyboardSelect: () => void
