@@ -1,12 +1,12 @@
 export default {
-  name: 'en',
+  name: 'sw',
   el: {
     colorpicker: {
       confirm: 'sawa',
       clear: 'futa',
       defaultLabel: 'kichagua rangi',
       description:
-        'rangi ya sasa ni {rangi}. bonyeza kitufe cha kuingia ili kuchagua rangi mpya.',
+        'rangi ya sasa ni {color}. bonyeza kitufe cha kuingia ili kuchagua rangi mpya.',
     },
     datepicker: {
       now: 'sasa',
@@ -98,7 +98,7 @@ export default {
     pagination: {
       goto: 'enda kwenye',
       pagesize: '/kurasa',
-      total: 'jumla {jumla}',
+      total: 'jumla {total}',
       pageClassifier: '',
       page: 'kurasa',
       prev: 'Nenda kwenye ukurasa uliopita',
@@ -106,7 +106,7 @@ export default {
       currentPage: 'kurasa {pager}',
       prevPages: 'Kurasa za {pager} zilizopita',
       nextPages: 'Kurasa {pager} zinazofuata',
-      deprecation Warning:
+      deprecationWarning:
         'Matumizi yaliyoacha kutumika yamegunduliwa, tafadhali rejelea hati za el-pagination kwa maelezo zaidi',
     },
     dialog: {
@@ -129,7 +129,7 @@ export default {
       continue: 'endelea',
     },
     slider: {
-      defaultLabel: 'kitelelzi kati ya {ndogo} na {kubwa}',
+      defaultLabel: 'kitelelzi kati ya {min} na {max}',
       defaultRangeStartLabel: 'cahgua thamani ya kuanzia',
       defaultRangeEndLabel: 'chagua thamani ya mwisho',
     },
@@ -146,16 +146,16 @@ export default {
     transfer: {
       noMatch: 'hakuna data inayolingana',
       noData: 'hakuna data',
-      titles: ['orodha ya kwanza', 'orodha ya pili'], // to be translated
-      filterPlaceholder: 'Ingiza neno kuu', // to be translated
-      noCheckedFormat: '{jumla} vitu', // to be translated
-      hasCheckedFormat: '{imechaguliwa}/{jumla} imechaguliwa', // to be translated
+      titles: ['orodha ya kwanza', 'orodha ya pili'],
+      filterPlaceholder: 'Ingiza neno kuu',
+      noCheckedFormat: '{total} vitu',
+      hasCheckedFormat: '{checked}/{total} imechaguliwa',
     },
     image: {
       error: 'imeshindwa',
     },
     pageHeader: {
-      title: 'nyuma', // to be translated
+      title: 'nyuma',
     },
     popconfirm: {
       confirmButtonText: 'ndio',
