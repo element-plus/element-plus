@@ -17,6 +17,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import GroupItem from './group-item.vue'
 import OptionItem from './option-item.vue'
+import { useProps } from './useProps'
 
 import { selectV2InjectionKey } from './token'
 
@@ -37,6 +38,8 @@ export default defineComponent({
   setup(props, { slots, expose }) {
     const select = inject(selectV2InjectionKey)!
     const ns = useNamespace('select')
+    const { getLabel, getValue, getDisabled } = useProps(select.props)
+
     const cachedHeights = ref<Array<number>>([])
 
     const listRef = ref()
@@ -92,9 +95,9 @@ export default defineComponent({
 
     const isItemSelected = (modelValue: any[] | any, target: Option) => {
       if (select.props.multiple) {
-        return contains(modelValue, target.value)
+        return contains(modelValue, getValue(target))
       }
-      return isEqual(modelValue, target.value)
+      return isEqual(modelValue, getValue(target))
     }
 
     const isItemDisabled = (modelValue: any[] | any, selected: boolean) => {
@@ -159,7 +162,7 @@ export default defineComponent({
         <OptionItem
           {...itemProps}
           selected={isSelected}
-          disabled={item.disabled || isDisabled}
+          disabled={getDisabled(item) || isDisabled}
           created={!!item.created}
           hovering={isHovering}
           item={item}
@@ -168,7 +171,7 @@ export default defineComponent({
         >
           {{
             default: (props: OptionItemProps) =>
-              slots.default?.(props) || <span>{item.label}</span>,
+              slots.default?.(props) || <span>{getLabel(item)}</span>,
           }}
         </OptionItem>
       )
