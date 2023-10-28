@@ -34,13 +34,15 @@
           <component :is="activeComponent" v-show="item <= currentValue" />
           <component :is="voidComponent" v-show="!(item <= currentValue)" />
         </template>
-        <el-icon
-          v-if="showDecimalIcon(item)"
-          :style="decimalStyle"
-          :class="[ns.e('icon'), ns.e('decimal')]"
-        >
-          <component :is="decimalIconComponent" />
-        </el-icon>
+        <template v-if="showDecimalIcon(item)">
+          <component :is="voidComponent" :class="[ns.em('decimal', 'box')]" />
+          <el-icon
+            :style="decimalStyle"
+            :class="[ns.e('icon'), ns.e('decimal')]"
+          >
+            <component :is="decimalIconComponent" />
+          </el-icon>
+        </template>
       </el-icon>
     </span>
     <span
