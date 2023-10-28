@@ -700,7 +700,7 @@ const useSelect = (props: ISelectProps, emit) => {
           states.selectedLabel = getLabel(options[selectedItemIndex])
           updateHoveringIndex(selectedItemIndex)
         } else {
-          states.selectedLabel = `${props.modelValue}`
+          states.selectedLabel = getValueKey(props.modelValue)
         }
       } else {
         states.selectedLabel = ''
