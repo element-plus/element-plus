@@ -478,7 +478,7 @@ describe('Select', () => {
       [undefined, DEFAULT_PLACEHOLDER],
       ['', ''],
       [[], DEFAULT_PLACEHOLDER],
-      [{}, '[object Object]'],
+      [{}, ''],
     ])(
       '[single select] initial value is %s, placeholder is "%s"',
       async (value, placeholder) => {
