@@ -275,7 +275,7 @@ export function toggleRowStatus<T>(
   }
 
   if (isBoolean(newVal)) {
-    if (newVal) {
+    if (newVal && !included) {
       toggleStatus('add')
     } else if (!newVal && included) {
       toggleStatus('remove')
