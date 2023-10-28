@@ -16,7 +16,8 @@ export default {
       confirm: 'sawa',
       dateTablePrompt:
         'Tumia vitufe vya vishale na uweke ili kuchagua siku katika mwezi',
-      monthTablePrompt: 'Tumia vitufe vya vishale na uingize ili kuchagua mwezi',
+      monthTablePrompt:
+        'Tumia vitufe vya vishale na uingize ili kuchagua mwezi',
       yearTablePrompt: 'Tumia vitufe vya vishale na uingize ili kuchagua mwaka',
       selectedDate: 'tarehe iliyochaguliwa',
       selectDate: 'chagua tarehe',
