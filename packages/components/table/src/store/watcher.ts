@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
-import { cloneDeep } from 'lodash-unified'
-import { hasOwn } from '@element-plus/utils'
+import { hasOwn, isArray } from '@element-plus/utils'
 import {
   getColumnById,
   getColumnByKey,
@@ -208,7 +207,7 @@ function useWatcher<T>() {
   const _flattenData = (target: T[], result: T[]) => {
     target.forEach((item) => {
       result.push(item)
-      if (item.children) {
+      if (isArray(item.children)) {
         _flattenData(item.children, result)
       }
     })
