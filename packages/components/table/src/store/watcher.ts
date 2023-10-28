@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
+import { cloneDeep } from 'lodash-unified'
 import { hasOwn } from '@element-plus/utils'
 import {
   getColumnById,
@@ -204,6 +205,16 @@ function useWatcher<T>() {
     }
   }
 
+  const _flattenData = (target: T[], result: T[]) => {
+    target.forEach((item) => {
+      result.push(item)
+      if (item.children) {
+        _flattenData(item.children, result)
+      }
+    })
+    return result
+  }
+
   const _toggleAllSelection = () => {
     // when only some rows are selected (but not all), select or deselect all of them
     // depending on the value of selectOnIndeterminate
@@ -215,7 +226,10 @@ function useWatcher<T>() {
     let selectionChanged = false
     let childrenCount = 0
     const rowKey = instance?.store?.states?.rowKey.value
-    data.value.forEach((row, index) => {
+
+    const flatData = _flattenData(data.value, [])
+
+    flatData.forEach((row, index) => {
       const rowIndex = index + childrenCount
       if (selectable.value) {
         if (
