@@ -1,5 +1,75 @@
 ## Changelog
 
+### 2.4.1
+
+_2023-10-18_
+
+#### Features
+
+- Components [switch] add label attribute for accessibility (#14319 by @Karolis-Stoncius)
+
+#### Bug fixes
+
+- Components inconsistent style rounded button (#14552 by @cuongle-hdwebsoft)
+- Components prevent carousel from auto playing (#14553 by @cuongle-hdwebsoft)
+- Components [watermark] missing the CSS file (#14564 by @tolking)
+- Theme-chalk menu horizontal popover height, close #14566 (#14573 by @YunYouJun)
+- Components [select] input height calculation error (#14565 by @tolking)
+
+### 2.4.0
+
+_2023-10-13_
+
+#### Features
+
+- Components watermark component (#14236 by @TomatoDroid)
+- Add menu horizontal height for img center (#14307 by @YunYouJun)
+- Components [tabs] add addIcon slot (#12970 by @btea)
+- Components [form-item]Label attribute for judging modification (#14344 by @Xaw-xu)
+- Components [color-picker] add focus and blur event (#14244 by @tolking)
+- Docs theme switch use startViewTransition api (#14489 by @btea)
+- Feat(components): [date-picker] add dateFormat and timeFormat props (#14330 by @FrontEndDog)
+- Components [select] accessibility enhancement (#14503 by @tolking)
+- Components [image-viewer] add `minScale` and `maxScale` (#14120 by @IceyWu)
+
+#### Bug fixes
+
+- Components [menu] export MenuInstance (#14284 by @HeftyKoo)
+- Components [carousel] Watch items causing state loss(#13010 by @SaberA1ter) (#13011)
+- Components [collapse] fix triggering form action when inside it (#14308 by @Karolis-Stoncius)
+- Docs [form] `label-position` type error (#14312 by @btea)
+- Components row-class-name bgColor can not cover fixed column (#14225 by @StephenKe)
+- Components [tabs] Fix some events accidentally firing (#14224 by @Mario34)
+- Cannot find type definition file for `element-plus/global` (#13698 by @mioxs)
+- Components [description] use `withDirectives` add custom directive (#14299 by @btea)
+- Components fix: update timepicker options when changing locale (#14287 by @cuongle-hdwebsoft)
+- Components [popper] invalid when props z-index is zero (#14375 by @betavs)
+- Theme-chalk table tr bg in dark mode (#14443 by @YunYouJun)
+- Components [date-picker] slot compatible with Vue3.3.x (#14354 by @FrontEndDog)
+- Components [select-v2] read properties of null (#14321 by @FrontEndDog)
+- Play apply esbuild plugin to tsx component (#14480 by @btea)
+- Components [color-picker] exposed show method wrong behavior (#14064 by @wonderl17)
+- Components [table] table-layout auto fixed by sticky (#11742 by @MrWeilian)
+- Components [carousel] two length transform optimize (#12174 by @MrWeilian)
+- Components inline style doesn't use the custom sass setting value (#14117 by @kamesan012)
+- Components [table] fix summary row cells on table with layout auto not aligned with data cells (#14315 by @FrontEndDog)
+- Components [upload] icon style abnormal (#14471 by @betavs)
+- Components [table] show-summary style error when table-layout=auto (#14523 by @tolking)
+- Components [checkbox] indeterminate checkbox a11y fix (#14322 by @Karolis-Stoncius)
+- Components [sub-menu] style error in collapsed state (#13135 by @Lucky-Ya-Q)
+- Components [menu] remove excess inline styles (#13693 by @tolking)
+- Components [text] not support multi-line ellipsis (#11976 by @gimjin)
+- Chore(MessageBox): unused keyframe (#14335 by @zhousg)
+- Chore(components): [table] fix typo (#14473 by @FrontEndDog)
+
+#### Refactors
+
+- Descriptions improve types (#14313 by @makedopamine)
+- Components [tabs] enhance instance type (#14352 by @HeftyKoo)
+- Components [select] use utils function (#14345 by @btea)
+- Components [checkbox] set the label default value to `undefined` (#14011 by @btea)
+- Components!: [select-v2] value-key is used for object select (#13263 by @tolking)
+
 ### 2.3.14
 
 _2023-09-14_

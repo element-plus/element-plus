@@ -323,6 +323,11 @@
       {
         "link": "/divider",
         "text": "Divider"
+      },
+      {
+        "link": "/watermark",
+        "text": "Watermark",
+        "promotion": "2.4.0"
       }
     ]
   }
