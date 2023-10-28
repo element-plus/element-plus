@@ -30,10 +30,14 @@
           ns.is('active', item <= currentValue),
         ]"
       >
-        <template v-if="!showDecimalIcon(item)">
-          <component :is="activeComponent" v-show="item <= currentValue" />
-          <component :is="voidComponent" v-show="!(item <= currentValue)" />
-        </template>
+        <component
+          :is="activeComponent"
+          v-show="showHalfIcon(item, currentValue)"
+        />
+        <component
+          :is="voidComponent"
+          v-show="!showHalfIcon(item, currentValue)"
+        />
         <el-icon
           v-if="showDecimalIcon(item)"
           :style="decimalStyle"
@@ -189,6 +193,13 @@ const voidComponent = computed(() =>
 const activeComponent = computed(() =>
   getValueFromMap(currentValue.value, componentMap.value)
 )
+
+function showHalfIcon(item: number, currentValue: number) {
+  const base = item <= currentValue
+  return props.allowHalf
+    ? base || (item - 0.5 <= currentValue && item > currentValue)
+    : base
+}
 
 function showDecimalIcon(item: number) {
   const showWhenDisabled =
