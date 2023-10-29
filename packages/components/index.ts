@@ -70,6 +70,7 @@ export * from './tree-v2'
 export * from './typography'
 export * from './upload'
 export * from './virtual-list'
+export * from './watermark'
 
 // plugins
 export * from './infinite-scroll'

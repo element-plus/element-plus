@@ -50,7 +50,6 @@
             <time-pick-panel
               :visible="timePickerVisible"
               :format="timeFormat"
-              :time-arrow-control="arrowControl"
               :parsed-value="innerDate"
               @pick="handleTimePick"
             />
@@ -245,8 +244,7 @@ const slots = useSlots()
 const { t, lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
 const popper = inject(TOOLTIP_INJECTION_KEY)
-const { shortcuts, disabledDate, cellClassName, defaultTime, arrowControl } =
-  pickerBase.props
+const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
 const currentViewRef = ref<{ focus: () => void }>()
@@ -254,6 +252,8 @@ const currentViewRef = ref<{ focus: () => void }>()
 const innerDate = ref(dayjs().locale(lang.value))
 
 const isChangeToNow = ref(false)
+
+let isShortcut = false
 
 const defaultTimeD = computed(() => {
   return dayjs(defaultTime).locale(lang.value)
@@ -277,7 +277,12 @@ const checkDateWithinRange = (date: ConfigType) => {
     : true
 }
 const formatEmit = (emitDayjs: Dayjs) => {
-  if (defaultTime && !visibleTime.value && !isChangeToNow.value) {
+  if (
+    defaultTime &&
+    !visibleTime.value &&
+    !isChangeToNow.value &&
+    !isShortcut
+  ) {
     return defaultTimeD.value
       .year(emitDayjs.year())
       .month(emitDayjs.month())
@@ -298,6 +303,7 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   userInputDate.value = null
   userInputTime.value = null
   isChangeToNow.value = false
+  isShortcut = false
 }
 const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
   if (selectionMode.value === 'date') {
@@ -368,6 +374,7 @@ const handleShortcutClick = (shortcut: Shortcut) => {
     ? shortcut.value()
     : shortcut.value
   if (shortcutValue) {
+    isShortcut = true
     emit(dayjs(shortcutValue).locale(lang.value))
     return
   }
@@ -486,11 +493,11 @@ const changeToNow = () => {
 }
 
 const timeFormat = computed(() => {
-  return extractTimeFormat(props.format)
+  return props.timeFormat || extractTimeFormat(props.format)
 })
 
 const dateFormat = computed(() => {
-  return extractDateFormat(props.format)
+  return props.dateFormat || extractDateFormat(props.format)
 })
 
 const visibleTime = computed(() => {

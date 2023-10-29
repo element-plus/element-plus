@@ -166,6 +166,7 @@ describe('Button.vue', () => {
   it('tag', () => {
     const link = 'https://github.com/element-plus/element-plus'
     const wrapper = mount(() => (
+      // @ts-ignore
       <Button tag="a" href={link}>
         {AXIOM}
       </Button>
@@ -261,7 +262,7 @@ describe('Button Group', () => {
     )
   })
 
-  it('shoule use props of form', async () => {
+  it('should use props of form', async () => {
     const wrapper = mount({
       setup: () => () =>
         (
@@ -277,7 +278,7 @@ describe('Button Group', () => {
     expect(btn.emitted('click')).toBeUndefined()
   })
 
-  it('shoule use size of form-item', async () => {
+  it('should use size of form-item', async () => {
     const wrapper = mount({
       setup: () => () =>
         (
