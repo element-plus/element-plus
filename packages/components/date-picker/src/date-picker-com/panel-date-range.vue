@@ -50,7 +50,7 @@
                 :validate-event="false"
                 @focus="minTimePickerVisible = true"
                 @input="(val) => handleTimeInput(val, 'min')"
-                @change="(val) => handleTimeChange(val, 'min')"
+                @change="(val) => handleTimeChange(String(val), 'min')"
               />
               <time-pick-panel
                 :visible="minTimePickerVisible"
@@ -92,7 +92,7 @@
                 :validate-event="false"
                 @focus="minDate && (maxTimePickerVisible = true)"
                 @input="(val) => handleTimeInput(val, 'max')"
-                @change="(val) => handleTimeChange(val, 'max')"
+                @change="(val) => handleTimeChange(String(val), 'max')"
               />
               <time-pick-panel
                 datetime-role="end"

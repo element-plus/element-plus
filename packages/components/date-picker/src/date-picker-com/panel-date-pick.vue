@@ -547,8 +547,8 @@ const handleTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
   }
 }
 
-const handleVisibleTimeChange = (value: string) => {
-  const newDate = dayjs(value, timeFormat.value).locale(lang.value)
+const handleVisibleTimeChange = (value: string | FileList) => {
+  const newDate = dayjs(String(value), timeFormat.value).locale(lang.value)
   if (newDate.isValid() && checkDateWithinRange(newDate)) {
     const { year, month, date } = getUnits(innerDate.value)
     innerDate.value = newDate.year(year).month(month).date(date)
@@ -558,8 +558,8 @@ const handleVisibleTimeChange = (value: string) => {
   }
 }
 
-const handleVisibleDateChange = (value: string) => {
-  const newDate = dayjs(value, dateFormat.value).locale(lang.value)
+const handleVisibleDateChange = (value: string | FileList) => {
+  const newDate = dayjs(String(value), dateFormat.value).locale(lang.value)
   if (newDate.isValid()) {
     if (disabledDate && disabledDate(newDate.toDate())) {
       return
