@@ -65,7 +65,11 @@ import { useId, useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
 import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
-import { formContextKey, formItemContextKey } from './constants'
+import {
+  formContextKey,
+  formItemContextKey,
+  undeclaredValue,
+} from './constants'
 
 import type { CSSProperties } from 'vue'
 import type { RuleItem } from 'async-validator'
@@ -97,8 +101,7 @@ const validateStateDebounced = refDebounced(validateState, 100)
 const validateMessage = ref('')
 const formItemRef = ref<HTMLDivElement>()
 // special inline value.
-const emptyValue = Symbol('empty')
-let initialValue: any = emptyValue
+let initialValue: any = undeclaredValue
 let isResettingField = false
 
 const labelStyle = computed<CSSProperties>(() => {
@@ -339,7 +342,7 @@ const resetField: FormItemContext['resetField'] = async () => {
   // prevent validation from being triggered
   isResettingField = true
 
-  if (initialValue === emptyValue) {
+  if (initialValue === undeclaredValue) {
     unset(model, props.prop)
   } else {
     computedValue.value = clone(initialValue)
