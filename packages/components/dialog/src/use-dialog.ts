@@ -161,7 +161,7 @@ export const useDialog = (
         closed.value = false
         open()
         rendered.value = true // enables lazy rendering
-        zIndex.value = props.zIndex || props.zIndex === 0 ? zIndex.value++ : nextZIndex()
+        zIndex.value = isUndefined(props.zIndex) ? nextZIndex() :  zIndex.value++ 
         // this.$el.addEventListener('scroll', this.updatePopper)
         nextTick(() => {
           emit('open')
