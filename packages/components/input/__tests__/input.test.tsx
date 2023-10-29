@@ -356,8 +356,8 @@ describe('Input.vue', () => {
       const content = ref('a')
       const value = ref('')
 
-      const handleChange = (val: string) => {
-        value.value = val
+      const handleChange = (val: string | FileList) => {
+        value.value = String(val)
       }
 
       // NOTE: should be same as native's change behavior
