@@ -327,6 +327,7 @@ const suffixVisible = computed(
     isWordLimitVisible.value ||
     (!!validateState.value && needStatusIcon.value)
 )
+const isFileType = computed(() => props.type === 'file')
 
 const [recordCursor, setCursor] = useCursor(input)
 
@@ -391,15 +392,13 @@ const setNativeInputValue = () => {
   const formatterValue = props.formatter
     ? props.formatter(nativeInputValue.value)
     : nativeInputValue.value
-  if (!input || input.value === formatterValue) return
+  if (!input || input.value === formatterValue || isFileType.value) return
   input.value = formatterValue
 }
 
 const handleInput = async (event: Event) => {
   recordCursor()
-
   let { value } = event.target as TargetElement
-
   if (props.formatter) {
     value = props.parser ? props.parser(value) : value
   }
@@ -426,7 +425,10 @@ const handleInput = async (event: Event) => {
 }
 
 const handleChange = (event: Event) => {
-  emit('change', (event.target as TargetElement).value)
+  const value = isFileType.value
+    ? (event.target as HTMLInputElement).files!
+    : (event.target as TargetElement).value
+  emit('change', value)
 }
 
 const handleCompositionStart = (event: CompositionEvent) => {
