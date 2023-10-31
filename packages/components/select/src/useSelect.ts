@@ -411,7 +411,8 @@ export const useSelect = (props, states: States, ctx) => {
         ns.cssVarName('input-height')
       )
       const gotSize =
-        cssVarOfSelectSize || getComponentSize(selectSize.value || form?.size)
+        Number.parseFloat(cssVarOfSelectSize) ||
+        getComponentSize(selectSize.value || form?.size)
 
       const sizeInMap =
         selectSize.value ||

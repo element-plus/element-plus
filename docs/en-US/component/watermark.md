@@ -58,17 +58,19 @@ watermark/custom
 | rotate  | When the watermark is drawn, the rotation Angle, unit `°`                                       | ^[number]                        | -22                        |
 | zIndex  | The z-index of the appended watermark element                                                   | ^[number]                        | 9                          |
 | image   | Image source, it is recommended to export 2x or 3x image, high priority                         | ^[string]                        | -                          |
-| content | Watermark text content                                                                          | ^[string] \| ^[object]`string[]` | -                          |
+| content | Watermark text content                                                                          | ^[string]/^[object]`string[]` | -                          |
 | font    | Text style                                                                                      | [Font](#font)                    | [Font](#font)              |
 | gap     | The spacing between watermarks                                                                  | ^[object]`[number, number]`      | \[100, 100\]               |
 | offset  | The offset of the watermark from the upper left corner of the container. The default is `gap/2` | ^[object]`[number, number]`      | \[gap\[0\]/2, gap\[1\]/2\] |
 
 ### Font
 
-| Name       | Description | Type                                                 | Default         |
-| ---------- | ----------- | ---------------------------------------------------- | --------------- |
-| color      | font color  | ^[string]                                            | rgba(0,0,0,.15) |
-| fontSize   | font size   | ^[number]                                            | 16              |
-| fontWeight | font weight | ^[enum]`'normal' \| 'light' \| 'weight' \| number`   | normal          |
-| fontFamily | font family | ^[string]                                            | sans-serif      |
-| fontStyle  | font style  | ^[enum]`'none' \| 'normal' \| 'italic' \| 'oblique'` | normal          |
+| Name         | Description   | Type                                                                                 | Default         |
+| ------------ | ------------- | ------------------------------------------------------------------------------------ | --------------- |
+| color        | font color    | ^[string]                                                                            | rgba(0,0,0,.15) |
+| fontSize     | font size     | ^[number]                                                                            | 16              |
+| fontWeight   | font weight   | ^[enum]`'normal' \| 'light' \| 'weight' \| number`                                   | normal          |
+| fontFamily   | font family   | ^[string]                                                                            | sans-serif      |
+| fontStyle    | font style    | ^[enum]`'none' \| 'normal' \| 'italic' \| 'oblique'`                                 | normal          |
+| textAlign    | text align    | ^[enum]`'left' \| 'right' \| 'center'\| 'start' \| 'end' `                           | center          |
+| textBaseline | text baseline | ^[enum]`'top' \| 'hanging' \| 'middle' \| 'alphabetic' \| 'ideographic' \| 'bottom'` | top             |
