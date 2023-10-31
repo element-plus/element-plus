@@ -143,7 +143,7 @@ const displayValue = computed(() => {
   if (data.userInput !== null) {
     return data.userInput
   }
-  let currentValue: number | string | undefined | null = data.currentValue
+  let currentValue: number | string | undefined | null = props.modelValue
   if (isNil(currentValue)) return ''
   if (isNumber(currentValue)) {
     if (Number.isNaN(currentValue)) return ''
