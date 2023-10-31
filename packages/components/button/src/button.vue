@@ -53,7 +53,9 @@ const props = defineProps(buttonProps)
 const emit = defineEmits(buttonEmits)
 
 const buttonStyle = useButtonCustomStyle(props)
+
 const ns = useNamespace('button')
+
 const { _ref, _size, _type, _disabled, _props, shouldAddSpace, handleClick } =
   useButton(props, emit)
 
