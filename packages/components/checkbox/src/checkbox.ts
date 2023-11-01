@@ -20,6 +20,7 @@ export const checkboxProps = {
    */
   label: {
     type: [String, Boolean, Number, Object],
+    default: undefined,
   },
   /**
    * @description Set indeterminate state, only responsible for style control
