@@ -102,7 +102,7 @@ export const useSelect = (props, states: States, ctx) => {
   const scrollbar = ref<{
     handleScroll: () => void
   } | null>(null)
-  const hoverOption = ref(-1)
+  const hoverOption = ref()
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
   const optionList = ref<string[]>([])
@@ -407,7 +407,12 @@ export const useSelect = (props, states: States, ctx) => {
         originClientHeight ||
         (input.clientHeight > 0 ? input.clientHeight + 2 : 0)
       const _tags = tags.value
-      const gotSize = getComponentSize(selectSize.value || form?.size)
+      const cssVarOfSelectSize = getComputedStyle(input).getPropertyValue(
+        ns.cssVarName('input-height')
+      )
+      const gotSize =
+        Number.parseFloat(cssVarOfSelectSize) ||
+        getComponentSize(selectSize.value || form?.size)
 
       const sizeInMap =
         selectSize.value ||
@@ -976,6 +981,7 @@ export const useSelect = (props, states: States, ctx) => {
   return {
     optionList,
     optionsArray,
+    hoverOption,
     selectSize,
     handleResize,
     debouncedOnInputChange,
