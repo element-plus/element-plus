@@ -260,7 +260,7 @@ describe('Color-picker', () => {
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPicker)
-    const svPanelWrapper = colorPickerWrapper.findComponent({ ref: 'svPanel' })
+    const svPanelWrapper = colorPickerWrapper.findComponent({ ref: 'sv' })
     ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({
       type: 'mousemove',
       clientX: 0,
@@ -452,5 +452,21 @@ describe('Color-picker', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+  })
+
+  it('it will target the focus & blur', async () => {
+    const focusHandler = vi.fn()
+    const blurHandler = vi.fn()
+    const wrapper = mount(() => (
+      <ColorPicker onFocus={focusHandler} onBlur={blurHandler} />
+    ))
+
+    await nextTick()
+    await wrapper.find('.el-color-picker').trigger('focus')
+    expect(focusHandler).toHaveBeenCalledTimes(1)
+
+    await wrapper.find('.el-color-picker').trigger('blur')
+    expect(blurHandler).toHaveBeenCalledTimes(1)
+    wrapper.unmount()
   })
 })

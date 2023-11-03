@@ -58,9 +58,11 @@
   }
 
   @include e(content) {
+    @include css-var-from-global('checkbox-height', 'tree-node-content-height');
+
     display: flex;
     align-items: center;
-    height: 26px;
+    height: getCssVar('tree-node-content-height');
     cursor: pointer;
 
     & > .#{$namespace}-tree-node__expand-icon {
@@ -102,6 +104,7 @@
     &.is-leaf {
       color: transparent;
       cursor: default;
+      visibility: hidden;
     }
     &.is-hidden {
       visibility: hidden;

@@ -47,6 +47,16 @@ datetime-picker/date-and-time-formats
 
 :::
 
+## Date and time formats in dropdown panel
+
+Use `date-format` and `time-format` to control displayed text's format in the dropdown panel's input box.
+
+:::demo
+
+datetime-picker/date-and-time-formats-panel
+
+:::
+
 ## Date and time range
 
 :::demo You can select date and time range by setting `type` to `datetimerange`.
@@ -76,7 +86,7 @@ datetime-picker/default-time
 | placeholder           | placeholder in non-range mode                                                                         | string                                           | —                                                             | —                   |
 | start-placeholder     | placeholder for the start date in range mode                                                          | string                                           | —                                                             | —                   |
 | end-placeholder       | placeholder for the end date in range mode                                                            | string                                           | —                                                             | —                   |
-| time-arrow-control    | whether to pick time using arrow buttons                                                              | boolean                                          | —                                                             | false               |
+| arrow-control         | whether to pick time using arrow buttons                                                              | boolean                                          | —                                                             | false               |
 | type                  | type of the picker                                                                                    | string                                           | year/month/date/datetime/ week/datetimerange/daterange        | date                |
 | format                | format of the displayed value in the input box                                                        | string                                           | see [date formats](/en-US/component/date-picker#date-formats) | YYYY-MM-DD HH:mm:ss |
 | popper-class          | custom class name for DateTimePicker's dropdown                                                       | string                                           | —                                                             | —                   |
@@ -84,6 +94,8 @@ datetime-picker/default-time
 | default-value         | optional, default date of the calendar                                                                | Date / [Date, Date]                              |                                                               | —                   |
 | default-time          | the default time value after picking a date. Time `00:00:00` will be used if not specified            | Date / [Date, Date]                              | —                                                             | —                   |
 | value-format          | optional, format of binding value. If not specified, the binding value will be a Date object          | string                                           | see [date formats](https://day.js.org/docs/en/display/format) | —                   |
+| date-format ^(2.4.0) | optional, format of the date displayed value in TimePicker's dropdown                                 | string                                           | see [date formats](https://day.js.org/docs/en/display/format) | —                   |
+| time-format ^(2.4.0) | optional, format of the time displayed value in TimePicker's dropdown                                 | string                                           | see [date formats](https://day.js.org/docs/en/display/format) | —                   |
 | id                    | same as `id` in native input                                                                          | string / [string, string]                        | —                                                             | —                   |
 | name                  | same as `name` in native input                                                                        | string                                           | —                                                             | —                   |
 | unlink-panels         | unlink two date-panels in range-picker                                                                | boolean                                          | —                                                             | false               |

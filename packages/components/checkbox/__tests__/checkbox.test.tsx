@@ -21,6 +21,11 @@ describe('Checkbox', () => {
     expect(wrapper.classes('is-checked')).toBe(false)
   })
 
+  test('label set to number 0', async () => {
+    const wrapper = mount(() => <Checkbox label={0} />)
+    expect(wrapper.find('.el-checkbox__label').text()).toBe('0')
+  })
+
   describe('no v-model', () => {
     test('checkbox without label', async () => {
       const checked = ref(false)

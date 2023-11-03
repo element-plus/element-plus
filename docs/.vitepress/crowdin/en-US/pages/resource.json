@@ -8,5 +8,7 @@
   "sketch": "Sketch Template",
   "sketchIntro": "Newly designed Sketch component library in 2022 with full components for Element Plus to improve design efficiency while keeping a unified visual style.",
   "figma": "Figma Template",
-  "figmaIntro": "Newly designed Figma component library in 2022 with new features such as Auto-layout and Variants."
+  "figmaIntro": "Newly designed Figma component library in 2022 with new features such as Auto-layout and Variants.",
+  "figmaVariables": "Figma Variables",
+  "figmaVariablesIntro": "Components all use variables to quickly switch between dark and light modes."
 }

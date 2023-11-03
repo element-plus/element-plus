@@ -91,13 +91,6 @@ $form-item-label-top-margin-bottom: map.merge(
         display: block;
       }
     }
-
-    .#{$namespace}-input {
-      @include set-css-var-value(
-        'input-width',
-        getCssVar('form-inline-content-width')
-      );
-    }
   }
 
   @each $size in (large, default, small) {
@@ -238,7 +231,35 @@ $form-item-label-top-margin-bottom: map.merge(
 
     .#{$namespace}-input__wrapper {
       box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
+      &:hover {
+        box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
+      }
+      &.is-focus {
+        box-shadow: 0 0 0 1px getCssVar('color-danger') inset !important;
+      }
     }
+
+    .#{$namespace}-select {
+       &:hover{
+         box-shadow: 0 0 0 1px transparent;
+       }
+
+      .#{$namespace}-input{
+        .#{$namespace}-input__wrapper {
+          &:hover{
+            box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
+          }
+        }
+
+        &.is-focus {
+          .#{$namespace}-input__wrapper {
+            box-shadow: 0 0 0 1px getCssVar('color-danger') inset !important;
+          }
+        }
+      }
+    }
+
+
     .#{$namespace}-input-group__append,
     .#{$namespace}-input-group__prepend {
       .#{$namespace}-input__wrapper {

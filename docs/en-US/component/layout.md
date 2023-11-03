@@ -109,7 +109,7 @@ The classes are:
 | ------- | ----------------------------------- | -------------------------------------------------------------------------------------------- | ------- |
 | gutter  | grid spacing                        | ^[number]                                                                                    | 0       |
 | justify | horizontal alignment of flex layout | ^[enum]`'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| 'space-evenly'` | start   |
-| align   | vertical alignment of flex layout   | ^[enum]`'top' \| 'middle' \| 'bottom'`                                                       | top     |
+| align   | vertical alignment of flex layout   | ^[enum]`'top' \| 'middle' \| 'bottom'`                                                       | —       |
 | tag     | custom element tag                  | ^[string]                                                                                    | div     |
 
 ### Row Slots
