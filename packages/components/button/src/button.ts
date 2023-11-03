@@ -107,7 +107,7 @@ export const buttonProps = buildProps({
   /**
    * @description automatically blur after el-button was clicked to restore its original style
    */
-  autoBlur: {
+  clickAutoBlur: {
     type: Boolean,
     default: false,
   },
