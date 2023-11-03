@@ -676,4 +676,31 @@ describe('TreeSelect.vue', () => {
     await nextTick()
     expect(select.vm.modelValue).equal(2)
   })
+
+  test('v-model source change', async () => {
+    const spy1 = vi.fn()
+    const wrapper = mount({
+      components: { TreeSelect },
+      data() {
+        return {
+          data: [{ value: 1, handleChange: spy1 }],
+          options: [{ value: 1 }, { value: 2 }],
+        }
+      },
+      template: `<TreeSelect v-for="item in data" v-model="item.value" :data="options" @update:modelValue="item.handleChange" />`,
+    })
+    const select = wrapper.findComponent({
+      name: 'ElSelect',
+    })
+
+    select.vm.handleOptionSelect(select.vm.options.get(1))
+    expect(spy1).toBeCalledWith(1)
+
+    const spy2 = vi.fn()
+    wrapper.vm.data = [{ value: 1, handleChange: spy2 }]
+    await nextTick()
+
+    select.vm.handleOptionSelect(select.vm.options.get(2))
+    expect(spy2).toBeCalledWith(2)
+  })
 })
