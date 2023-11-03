@@ -68,6 +68,14 @@ export const formProps = buildProps({
     default: '',
   },
   /**
+   * @description Suffix of the label.
+   */
+  cueSuffix: {
+    type: String,
+    default: '',
+  },
+
+  /**
    * @description Whether the form is inline.
    */
   inline: Boolean,

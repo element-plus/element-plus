@@ -33,6 +33,18 @@
         </slot>
       </transition-group>
     </div>
+    <component
+      :is="cueFor ? 'span' : 'div'"
+      v-if="hasCue"
+      :id="cueId"
+      :for="cueFor"
+      :class="ns.e('cue')"
+      :style="cueStyle"
+    >
+      <slot name="cue" :cue="currentCue">
+        {{ currentCue }}
+      </slot>
+    </component>
   </div>
 </template>
 
@@ -90,6 +102,7 @@ const _size = useFormSize(undefined, { formItem: false })
 const ns = useNamespace('form-item')
 
 const labelId = useId().value
+const cueId = useId().value
 const inputIds = ref<string[]>([])
 
 const validateState = ref<FormItemValidateState>('')
@@ -101,6 +114,16 @@ let initialValue: any = undefined
 let isResettingField = false
 
 const labelStyle = computed<CSSProperties>(() => {
+  if (formContext?.labelPosition === 'top') {
+    return {}
+  }
+
+  const labelWidth = addUnit(props.labelWidth || formContext?.labelWidth || '')
+  if (labelWidth) return { width: labelWidth }
+  return {}
+})
+
+const cueStyle = computed<CSSProperties>(() => {
   if (formContext?.labelPosition === 'top') {
     return {}
   }
@@ -158,7 +181,17 @@ const hasLabel = computed<boolean>(() => {
   return !!(props.label || slots.label)
 })
 
+const hasCue = computed<boolean>(() => {
+  return !!(props.label || slots.label)
+})
+
 const labelFor = computed<string | undefined>(() => {
+  return (
+    props.for || (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
+  )
+})
+
+const cueFor = computed<string | undefined>(() => {
   return (
     props.for || (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
   )
@@ -249,6 +282,9 @@ const shouldShowError = computed(
 
 const currentLabel = computed(
   () => `${props.label || ''}${formContext?.labelSuffix || ''}`
+)
+const currentCue = computed(
+  () => `${props.cue || ''}${formContext?.cueSuffix || ''}`
 )
 
 const setValidationState = (state: FormItemValidateState) => {

@@ -82,5 +82,9 @@ export const formItemProps = buildProps({
     type: String,
     values: componentSizes,
   },
+  cue: {
+    type: String,
+    default: '',
+  },
 } as const)
 export type FormItemProps = ExtractPropTypes<typeof formItemProps>
