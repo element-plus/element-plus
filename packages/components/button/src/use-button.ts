@@ -68,6 +68,13 @@ export const useButton = (
     if (props.nativeType === 'reset') {
       form?.resetFields()
     }
+
+    // when button clicked, auto blur it immediately to restore its original style
+    if (props.clickAutoBlur) {
+      const currentTargetEl = evt.currentTarget as HTMLElement
+      currentTargetEl?.blur()
+    }
+
     emit('click', evt)
   }
 
