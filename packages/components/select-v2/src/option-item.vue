@@ -13,28 +13,33 @@
     @click.stop="selectOptionClick"
   >
     <slot :item="item" :index="index" :disabled="disabled">
-      <span>{{ item.label }}</span>
+      <span>{{ getLabel(item) }}</span>
     </slot>
   </li>
 </template>
 
 <script lang="ts">
-// @ts-nocheck
-import { defineComponent } from 'vue'
+import { defineComponent, inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
+import { useProps } from './useProps'
 import { OptionProps } from './defaults'
+import { selectV2InjectionKey } from './token'
 
 export default defineComponent({
   props: OptionProps,
   emits: ['select', 'hover'],
   setup(props, { emit }) {
+    const select = inject(selectV2InjectionKey)!
     const ns = useNamespace('select')
     const { hoverItem, selectOptionClick } = useOption(props, { emit })
+    const { getLabel } = useProps(select.props)
+
     return {
       ns,
       hoverItem,
       selectOptionClick,
+      getLabel,
     }
   },
 })
