@@ -319,8 +319,7 @@ export default defineComponent({
         if (
           opened.value &&
           !mouseInChild.value &&
-          !subMenu.mouseInChild.value &&
-          rootMenu.openedMenus.length
+          !subMenu.mouseInChild.value
         ) {
           timeout?.()
           subMenu.mouseInChild.value = false
