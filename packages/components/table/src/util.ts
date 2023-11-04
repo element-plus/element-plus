@@ -364,10 +364,25 @@ export function createTablePopper(
     arrow.className = `${ns}-popper__arrow`
     return arrow
   }
-  function showPopper() {
-    popperInstance && popperInstance.update()
+  function togglePopperVisible(display: 'none' | 'block') {
+    return {
+      name: 'updateState',
+      enabled: true,
+      phase: 'beforeWrite',
+      fn: ({ state }) => {
+        state.styles.popper.display = display
+      },
+      requires: ['computeStyles'],
+    }
   }
-  removePopper?.()
+  function showPopper() {
+    if (tooltipOptions.showAfter) {
+      popperInstance?.setOptions({
+        modifiers: [togglePopperVisible('block')],
+      })
+    }
+    popperInstance?.update()
+  }
   removePopper = () => {
     try {
       popperInstance && popperInstance.destroy()
@@ -379,19 +394,17 @@ export function createTablePopper(
     } catch {}
   }
   let popperInstance: Nullable<PopperInstance> = null
-  let onOpen = showPopper
-  let onClose = removePopper
-  if (tooltipOptions.enterable) {
-    ;({ onOpen, onClose } = useDelayedToggle({
-      showAfter: tooltipOptions.showAfter,
-      hideAfter: tooltipOptions.hideAfter,
-      open: showPopper,
-      close: removePopper,
-    }))
-  }
+  const { onOpen, onClose } = useDelayedToggle({
+    showAfter: tooltipOptions.showAfter,
+    hideAfter: tooltipOptions.hideAfter,
+    open: showPopper,
+    close: removePopper,
+  })
   const content = renderContent()
-  content.onmouseenter = onOpen
-  content.onmouseleave = onClose
+  if (tooltipOptions.enterable) {
+    content.onmouseenter = onOpen
+    content.onmouseleave = onClose
+  }
   const modifiers = []
   if (tooltipOptions.offset) {
     modifiers.push({
@@ -411,6 +424,9 @@ export function createTablePopper(
       },
     })
   }
+  if (tooltipOptions.showAfter) {
+    modifiers.push(togglePopperVisible('none'))
+  }
   const popperOptions = tooltipOptions.popperOptions || {}
   popperInstance = createPopper(trigger, content, {
     placement: tooltipOptions.placement || 'top',
@@ -423,6 +439,7 @@ export function createTablePopper(
   trigger.addEventListener('mouseenter', onOpen)
   trigger.addEventListener('mouseleave', onClose)
   scrollContainer?.addEventListener('scroll', removePopper)
+  onOpen()
   return popperInstance
 }
 
