@@ -316,7 +316,11 @@ export default defineComponent({
     onClickOutside(
       computed(() => vPopper.value),
       () => {
-        if (!mouseInChild.value && !subMenu.mouseInChild.value) {
+        if (
+          !mouseInChild.value &&
+          !subMenu.mouseInChild.value &&
+          rootMenu.openedMenus.length
+        ) {
           timeout?.()
           subMenu.mouseInChild.value = false
           ;({ stop: timeout } = useTimeoutFn(
