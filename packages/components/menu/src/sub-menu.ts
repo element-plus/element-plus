@@ -317,6 +317,7 @@ export default defineComponent({
       computed(() => vPopper.value),
       () => {
         if (
+          opened.value &&
           !mouseInChild.value &&
           !subMenu.mouseInChild.value &&
           rootMenu.openedMenus.length
