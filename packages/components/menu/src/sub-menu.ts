@@ -322,8 +322,6 @@ export default defineComponent({
           !subMenu.mouseInChild.value
         ) {
           timeout?.()
-          subMenu.mouseInChild.value = false
-          mouseInChild.value = false
           ;({ stop: timeout } = useTimeoutFn(
             () => rootMenu.closeMenu(props.index, indexPath.value),
             props.hideTimeout
