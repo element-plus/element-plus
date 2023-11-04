@@ -234,7 +234,10 @@ export interface PickerOptions {
   handleKeydownInput: (event: KeyboardEvent) => void
   parseUserInput: (value: UserInput) => DayOrDays
   formatToString: (value: DayOrDays) => UserInput
-  getRangeAvailableTime: (date: DayOrDays) => DayOrDays
+  getRangeAvailableTime: (
+    date: DayOrDays,
+    modelValue?: ModelValueType | null
+  ) => DayOrDays
   getDefaultValue: () => DayOrDays
   panelReady: boolean
   handleClear: () => void

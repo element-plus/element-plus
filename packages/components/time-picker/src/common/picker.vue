@@ -439,7 +439,8 @@ const parsedValue = computed(() => {
 
   if (pickerOptions.value.getRangeAvailableTime) {
     const availableResult = pickerOptions.value.getRangeAvailableTime(
-      dayOrDays!
+      dayOrDays!,
+      props.modelValue as SingleOrRange<DateModelType> | null
     )
     if (!isEqual(availableResult, dayOrDays!)) {
       dayOrDays = availableResult

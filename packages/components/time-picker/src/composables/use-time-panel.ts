@@ -1,4 +1,5 @@
 import type { Dayjs } from 'dayjs'
+import type { ModelValueType } from '../common/props'
 
 import type {
   GetDisabledHoursState,
@@ -21,7 +22,8 @@ export const useTimePanel = ({
     date: Dayjs,
     role: string,
     first: boolean,
-    compareDate?: Dayjs
+    compareDate?: Dayjs,
+    modelValue?: ModelValueType | null
   ) => {
     const availableTimeGetters = {
       hour: getAvailableHours,
@@ -30,7 +32,7 @@ export const useTimePanel = ({
     } as const
     let result = date
     ;(['hour', 'minute', 'second'] as const).forEach((type) => {
-      if (availableTimeGetters[type]) {
+      if (availableTimeGetters[type] && modelValue) {
         let availableTimeSlots: number[]
         const method = availableTimeGetters[type]
         switch (type) {
