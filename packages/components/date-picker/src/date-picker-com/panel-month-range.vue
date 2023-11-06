@@ -175,10 +175,6 @@ type RangePickValue = {
 }
 
 const handleRangePick = (val: RangePickValue, close = true) => {
-  // const defaultTime = props.defaultTime || []
-  // const minDate_ = modifyWithTimeString(val.minDate, defaultTime[0])
-  // const maxDate_ = modifyWithTimeString(val.maxDate, defaultTime[1])
-  // todo
   const minDate_ = val.minDate
   const maxDate_ = val.maxDate
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {
