@@ -15,6 +15,7 @@
           class="available"
           :class="getCellStyle(cell)"
           :aria-selected="`${isSelectedCell(cell)}`"
+          :aria-label="t(`el.datepicker.year${+cell.text + 1}`)"
           :tabindex="isSelectedCell(cell) ? 0 : -1"
           @keydown.space.prevent.stop="handleYearTableClick"
           @keydown.enter.prevent.stop="handleYearTableClick"
@@ -144,7 +145,7 @@ const rows = computed(() => {
   return rows
 })
 
-const getCellStyle = (cell: any) => {
+const getCellStyle = (cell: YearCell) => {
   const style = {} as any
   const today = dayjs().locale(lang.value)
   const year = cell.text
@@ -175,7 +176,7 @@ const getCellStyle = (cell: any) => {
   return style
 }
 
-const handleYearTableClick = (event: MouseEvent) => {
+const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
   let target = (event.target as HTMLElement)?.closest(
     'td'
   ) as HTMLTableCellElement
@@ -264,13 +265,16 @@ const getCellKls = (year: number) => {
   return kls
 }
 
-const isSelectedCell = (year: number) => {
-  return (
-    (year === startYear.value &&
-      props.date.year() < startYear.value &&
-      props.date.year() > startYear.value + 9) ||
-    castArray(props.date).findIndex((date) => date.year() === year) >= 0
-  )
+const isSelectedCell = (cell: YearCell) => {
+  const year = cell.text
+  // return (
+  //   (year === startYear.value &&
+  //     props.date.year() < startYear.value &&
+  //     props.date.year() > startYear.value + 9) ||
+  //   castArray(props.date).findIndex((date) => date.year() === year) >= 0
+  // )
+
+  return castArray(props.date).findIndex((date) => date.year() === year) >= 0
 }
 
 watch(

@@ -12,13 +12,17 @@
 
   td {
     text-align: center;
-    padding: 20px 3px;
+    padding: 20px 0px;
     cursor: pointer;
 
     &.today {
       .cell {
         color: getCssVar('color', 'primary');
         font-weight: bold;
+      }
+      &.start-date .cell,
+      &.end-date .cell {
+        color: $color-white;
       }
     }
 
@@ -41,9 +45,38 @@
       border-radius: 18px;
       margin: 0 auto;
 
+      border-radius: 18px;
+
       &:hover {
         color: getCssVar('datepicker-hover-text-color');
       }
+    }
+
+    &.in-range div {
+      background-color: getCssVar('datepicker-inrange-bg-color');
+      &:hover {
+        background-color: getCssVar('datepicker-inrange-hover-bg-color');
+      }
+    }
+    &.start-date div,
+    &.end-date div {
+      color: $color-white;
+    }
+
+    &.start-date .cell,
+    &.end-date .cell {
+      color: $color-white;
+      background-color: getCssVar('datepicker-active-color');
+    }
+
+    &.start-date div {
+      border-top-left-radius: 24px;
+      border-bottom-left-radius: 24px;
+    }
+
+    &.end-date div {
+      border-top-right-radius: 24px;
+      border-bottom-right-radius: 24px;
     }
 
     &.current:not(.disabled) .cell {
