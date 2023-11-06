@@ -39,6 +39,7 @@
             :class="dpNs.e('editor-wrap')"
           >
             <el-input
+              ref="timePickerInputRef"
               :placeholder="t('el.datepicker.selectTime')"
               :model-value="visibleTime"
               size="small"
@@ -248,6 +249,7 @@ const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
 const currentViewRef = ref<{ focus: () => void }>()
+const timePickerInputRef = ref<{ blur: () => void }>()
 
 const innerDate = ref(dayjs().locale(lang.value))
 
@@ -761,6 +763,13 @@ watch(
   },
   { immediate: true }
 )
+
+// When close time-pick-panel, blur the timePickerInput
+watch(timePickerVisible, (newValue) => {
+  if (!newValue) {
+    timePickerInputRef.value?.blur()
+  }
+})
 
 contextEmit('set-picker-option', ['isValidValue', isValidValue])
 contextEmit('set-picker-option', ['formatToString', formatToString])
