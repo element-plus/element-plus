@@ -6,6 +6,9 @@
     <div :class="[ns.e('body'), bodyClass]" :style="bodyStyle">
       <slot />
     </div>
+    <div v-if="$slots.footer || footer" :class="ns.e('footer')">
+      <slot name="footer">{{ footer }}</slot>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
