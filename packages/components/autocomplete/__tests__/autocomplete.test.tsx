@@ -1,4 +1,4 @@
-import { nextTick, reactive } from 'vue'
+import { defineComponent, nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
 import { NOOP } from '@vue/shared'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'
@@ -14,61 +14,73 @@ const _mount = (
   payload = {},
   type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'fn-async' | 'arr' = 'fn-cb'
 ) =>
-  mount({
-    setup() {
-      const state = reactive({
-        value: '',
-        list: [
-          { value: 'Java', tag: 'java' },
-          { value: 'Go', tag: 'go' },
-          { value: 'JavaScript', tag: 'javascript' },
-          { value: 'Python', tag: 'python' },
-        ],
-        payload,
-      })
+  mount(
+    defineComponent({
+      setup(_, { expose }) {
+        const state = reactive({
+          value: '',
+          list: [
+            { value: 'Java', tag: 'java' },
+            { value: 'Go', tag: 'go' },
+            { value: 'JavaScript', tag: 'javascript' },
+            { value: 'Python', tag: 'python' },
+          ],
+          payload,
+        })
 
-      function filterList(queryString: string) {
-        return queryString
-          ? state.list.filter(
-              (i) => i.value.indexOf(queryString.toLowerCase()) === 0
-            )
-          : state.list
-      }
-
-      const querySearch = (() => {
-        switch (type) {
-          case 'fn-cb':
-            return (
-              queryString: string,
-              cb: (arg: typeof state.list) => void
-            ) => {
-              cb(filterList(queryString))
-            }
-          case 'fn-promise':
-            return (queryString: string) =>
-              Promise.resolve(filterList(queryString))
-          case 'fn-async':
-            return async (queryString: string) => {
-              await Promise.resolve()
-              return filterList(queryString)
-            }
-          case 'fn-arr':
-            return (queryString: string) => filterList(queryString)
-          case 'arr':
-            return state.list
+        function filterList(queryString: string) {
+          return queryString
+            ? state.list.filter(
+                (i) => i.value.indexOf(queryString.toLowerCase()) === 0
+              )
+            : state.list
         }
-      })()
 
-      return () => (
-        <Autocomplete
-          ref="autocomplete"
-          v-model={state.value}
-          fetch-suggestions={querySearch}
-          {...state.payload}
-        />
-      )
-    },
-  })
+        const querySearch = (() => {
+          switch (type) {
+            case 'fn-cb':
+              return (
+                queryString: string,
+                cb: (arg: typeof state.list) => void
+              ) => {
+                cb(filterList(queryString))
+              }
+            case 'fn-promise':
+              return (queryString: string) =>
+                Promise.resolve(filterList(queryString))
+            case 'fn-async':
+              return async (queryString: string) => {
+                await Promise.resolve()
+                return filterList(queryString)
+              }
+            case 'fn-arr':
+              return (queryString: string) => filterList(queryString)
+            case 'arr':
+              return state.list
+          }
+        })()
+        const containerExposes = usePopperContainerId()
+
+        expose(containerExposes)
+
+        return () => (
+          <Autocomplete
+            ref="autocomplete"
+            v-model={state.value}
+            fetch-suggestions={querySearch}
+            {...state.payload}
+          />
+        )
+      },
+    }),
+    {
+      global: {
+        provide: {
+          namespace: 'el',
+        },
+      },
+    }
+  )
 
 describe('Autocomplete.vue', () => {
   beforeEach(() => {
@@ -318,24 +330,22 @@ describe('Autocomplete.vue', () => {
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')
-      _mount()
+      const { vm } = _mount()
 
       await nextTick()
-      const { selector } = usePopperContainerId()
-      expect(document.body.querySelector(selector.value)?.innerHTML).not.toBe(
-        ''
-      )
+      const { selector } = vm
+      expect(document.body.querySelector(selector)?.innerHTML).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('')
-      _mount({
+      const { vm } = _mount({
         teleported: false,
       })
 
       await nextTick()
-      const { selector } = usePopperContainerId()
-      expect(document.body.querySelector(selector.value)?.innerHTML).toBe('')
+      const { selector } = vm
+      expect(document.body.querySelector(selector)?.innerHTML).toBe('')
     })
   })
 
@@ -382,6 +392,70 @@ describe('Autocomplete.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+  })
+
+  test('event:focus', async () => {
+    const onFocus = vi.fn()
+    const wrapper = _mount({ onFocus })
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+
+    await wrapper.find('input').trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+    expect(onFocus).toHaveBeenCalledTimes(1)
+
+    await target.handleSelect({ value: 'Go', tag: 'go' })
+    expect(target.modelValue).toBe('Go')
+    vi.runAllTimers()
+    await nextTick()
+    expect(onFocus).toHaveBeenCalledTimes(1)
+
+    await wrapper.find('input').trigger('blur')
+    vi.runAllTimers()
+    await nextTick()
+    expect(onFocus).toHaveBeenCalledTimes(1)
+  })
+
+  test('event:blur', async () => {
+    const onBlur = vi.fn()
+    const wrapper = _mount({ onBlur })
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+
+    await wrapper.find('input').trigger('focus')
+    await target.handleSelect({ value: 'Go', tag: 'go' })
+    expect(target.modelValue).toBe('Go')
+    expect(onBlur).toHaveBeenCalledTimes(0)
+
+    await wrapper.find('input').trigger('blur')
+    vi.runAllTimers()
+    await nextTick()
+    expect(onBlur).toHaveBeenCalledTimes(1)
+  })
+
+  describe('test a11y supports', () => {
+    test('test a11y attributes', async () => {
+      const wrapper = _mount()
+      await nextTick()
+
+      const container = wrapper.find('.el-autocomplete')
+      expect(container.attributes('role')).toBe('combobox')
+      expect(container.attributes('aria-haspopup')).toBe('listbox')
+      expect(container.attributes('aria-expanded')).toBe('false')
+
+      await wrapper.find('input').trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(container.attributes('aria-expanded')).toBe('true')
     })
   })
 })

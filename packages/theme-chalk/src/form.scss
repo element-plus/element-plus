@@ -215,6 +215,12 @@ $form-item-label-top-margin-bottom: map.merge(
   }
 
   @include when(error) {
+    .#{$namespace}-select-v2__wrapper {
+      &.is-focused {
+        border-color: transparent;
+      }
+    }
+
     .#{$namespace}-select-v2__wrapper,
     .#{$namespace}-textarea__inner {
       &,
@@ -222,9 +228,38 @@ $form-item-label-top-margin-bottom: map.merge(
         box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
       }
     }
+
     .#{$namespace}-input__wrapper {
       box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
+      &:hover {
+        box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
+      }
+      &.is-focus {
+        box-shadow: 0 0 0 1px getCssVar('color-danger') inset !important;
+      }
     }
+
+    .#{$namespace}-select {
+       &:hover{
+         box-shadow: 0 0 0 1px transparent;
+       }
+
+      .#{$namespace}-input{
+        .#{$namespace}-input__wrapper {
+          &:hover{
+            box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
+          }
+        }
+
+        &.is-focus {
+          .#{$namespace}-input__wrapper {
+            box-shadow: 0 0 0 1px getCssVar('color-danger') inset !important;
+          }
+        }
+      }
+    }
+
+
     .#{$namespace}-input-group__append,
     .#{$namespace}-input-group__prepend {
       .#{$namespace}-input__wrapper {

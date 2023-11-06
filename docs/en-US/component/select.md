@@ -109,109 +109,121 @@ select/allow-create
 
 :::
 
-:::tip
+## Use value-key attribute
 
 If the binding value of Select is an object, make sure to assign `value-key` as its unique identity key name.
 
+:::demo By using the `value-key` attribute, data with duplicate labels can be properly handled. The value of the `label` property is duplicated, but the option can be identified through the `id`.
+
+select/value-key
+
 :::
 
-## Select Attributes
+## Select API
 
-| Name                               | Description                                                                                                                 | Type                                       | Accepted Values                                                                                           | Default          |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------- | ---------------- |
-| model-value / v-model              | binding value                                                                                                               | array / string / number / boolean / object | —                                                                                                         | —                |
-| multiple                           | whether multiple-select is activated                                                                                        | boolean                                    | true / false                                                                                              | false            |
-| disabled                           | whether Select is disabled                                                                                                  | boolean                                    | true / false                                                                                              | false            |
-| value-key                          | unique identity key name for value, required when value is an object                                                        | string                                     | —                                                                                                         | value            |
-| size                               | size of Input                                                                                                               | string                                     | large/default/small                                                                                       | default          |
-| clearable                          | whether select can be cleared                                                                                               | boolean                                    | true / false                                                                                              | false            |
-| collapse-tags                      | whether to collapse tags to a text when multiple selecting                                                                  | boolean                                    | true / false                                                                                              | false            |
-| collapse-tags-tooltip              | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true            | boolean                                    | true / false                                                                                              | false            |
-| multiple-limit                     | maximum number of options user can select when `multiple` is `true`. No limit when set to 0                                 | number                                     | —                                                                                                         | 0                |
-| name                               | the name attribute of select input                                                                                          | string                                     | —                                                                                                         | —                |
-| effect                             | Tooltip theme, built-in theme: `dark` / `light`                                                                             | string                                     | string                                                                                                    | light            |
-| autocomplete                       | the autocomplete attribute of select input                                                                                  | string                                     | —                                                                                                         | off              |
-| placeholder                        | placeholder                                                                                                                 | string                                     | —                                                                                                         | Select           |
-| filterable                         | whether Select is filterable                                                                                                | boolean                                    | true / false                                                                                              | false            |
-| allow-create                       | whether creating new items is allowed. To use this, `filterable` must be true                                               | boolean                                    | true / false                                                                                              | false            |
-| filter-method                      | custom filter method                                                                                                        | function                                   | —                                                                                                         | —                |
-| remote                             | whether options are loaded from server                                                                                      | boolean                                    | true / false                                                                                              | false            |
-| remote-method                      | custom remote search method                                                                                                 | function                                   | —                                                                                                         | —                |
-| remote-show-suffix                 | in remote search method show suffix icon                                                                                    | boolean                                    | true / false                                                                                              | false            |
-| loading                            | whether Select is loading data from server                                                                                  | boolean                                    | true / false                                                                                              | false            |
-| loading-text                       | displayed text while loading data from server                                                                               | string                                     | —                                                                                                         | Loading          |
-| no-match-text                      | displayed text when no data matches the filtering query, you can also use slot `empty`                                      | string                                     | —                                                                                                         | No matching data |
-| no-data-text                       | displayed text when there is no options, you can also use slot `empty`                                                      | string                                     | —                                                                                                         | No data          |
-| popper-class                       | custom class name for Select's dropdown                                                                                     | string                                     | —                                                                                                         | —                |
-| reserve-keyword                    | when `multiple` and `filter` is true, whether to reserve current keyword after selecting an option                          | boolean                                    | true / false                                                                                              | true             |
-| default-first-option               | select first matching option on enter key. Use with `filterable` or `remote`                                                | boolean                                    | true / false                                                                                              | false            |
-| popper-append-to-body(deprecated)  | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean                                    | true / false                                                                                              | true             |
-| teleported                         | whether select dropdown is teleported to the body                                                                           | boolean                                    | true / false                                                                                              | true             |
-| persistent                         | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                             | boolean                                    | true / false                                                                                              | true             |
-| automatic-dropdown                 | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                           | boolean                                    | true / false                                                                                              | false            |
-| clear-icon                         | Custom clear icon component                                                                                                 | `string \| Component`                      | —                                                                                                         | CircleClose      |
-| fit-input-width                    | whether the width of the dropdown is the same as the input                                                                  | boolean                                    | true / false                                                                                              | false            |
-| suffix-icon                        | Custom suffix icon component                                                                                                | `string \| Component`                      | —                                                                                                         | ArrowDown        |
-| suffix-transition<DeprecatedTag /> | animation when dropdown appears/disappears icon                                                                             | boolean                                    | true / false                                                                                              | true             |
-| tag-type                           | tag type                                                                                                                    | string                                     | success/info/warning/danger                                                                               | info             |
-| validate-event                     | whether to trigger form validation                                                                                          | boolean                                    | true / false                                                                                              | true             |
-| placement                          | position of dropdown                                                                                                        | string                                     | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | bottom-start     |
+### Select Attributes
+
+| Name                            | Description                                                                                                           | Type                                                                                                                                                                        | Default      |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| model-value / v-model           | binding value                                                                                                         | ^[string] / ^[number] / ^[boolean] / ^[object] / ^[array]                                                                                                                   | —            |
+| multiple                        | whether multiple-select is activated                                                                                  | ^[boolean]                                                                                                                                                                  | false        |
+| disabled                        | whether Select is disabled                                                                                            | ^[boolean]                                                                                                                                                                  | false        |
+| value-key                       | unique identity key name for value, required when value is an object                                                  | ^[string]                                                                                                                                                                   | value        |
+| size                            | size of Input                                                                                                         | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | —            |
+| clearable                       | whether select can be cleared                                                                                         | ^[boolean]                                                                                                                                                                  | false        |
+| collapse-tags                   | whether to collapse tags to a text when multiple selecting                                                            | ^[boolean]                                                                                                                                                                  | false        |
+| collapse-tags-tooltip ^(2.3.0)  | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true      | ^[boolean]                                                                                                                                                                  | false        |
+| multiple-limit                  | maximum number of options user can select when `multiple` is `true`. No limit when set to 0                           | ^[number]                                                                                                                                                                   | 0            |
+| name                            | the name attribute of select input                                                                                    | ^[string]                                                                                                                                                                   | —            |
+| effect                          | tooltip theme, built-in theme: `dark` / `light`                                                                       | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light        |
+| autocomplete                    | the autocomplete attribute of select input                                                                            | ^[string]                                                                                                                                                                   | off          |
+| placeholder                     | placeholder, default is 'Select'                                                                                      | ^[string]                                                                                                                                                                   | —            |
+| filterable                      | whether Select is filterable                                                                                          | ^[boolean]                                                                                                                                                                  | false        |
+| allow-create                    | whether creating new items is allowed. To use this, `filterable` must be true                                         | ^[boolean]                                                                                                                                                                  | false        |
+| filter-method                   | custom filter method                                                                                                  | ^[Function]`() => void`                                                                                                                                                     | —            |
+| remote                          | whether options are loaded from server                                                                                | ^[boolean]                                                                                                                                                                  | false        |
+| remote-method                   | custom remote search method                                                                                           | ^[Function]`() => void`                                                                                                                                                     | —            |
+| remote-show-suffix              | in remote search method show suffix icon                                                                              | ^[boolean]                                                                                                                                                                  | false        |
+| loading                         | whether Select is loading data from server                                                                            | ^[boolean]                                                                                                                                                                  | false        |
+| loading-text                    | displayed text while loading data from server, default is 'Loading'                                                   | ^[string]                                                                                                                                                                   | —            |
+| no-match-text                   | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data' | ^[string]                                                                                                                                                                   | —            |
+| no-data-text                    | displayed text when there is no options, you can also use slot `empty`, default is 'No data'                          | ^[string]                                                                                                                                                                   | —            |
+| popper-class                    | custom class name for Select's dropdown                                                                               | ^[string]                                                                                                                                                                   | ''           |
+| reserve-keyword                 | when `multiple` and `filter` is true, whether to reserve current keyword after selecting an option                    | ^[boolean]                                                                                                                                                                  | true         |
+| default-first-option            | select first matching option on enter key. Use with `filterable` or `remote`                                          | ^[boolean]                                                                                                                                                                  | false        |
+| teleported                      | whether select dropdown is teleported to the body                                                                     | ^[boolean]                                                                                                                                                                  | true         |
+| persistent                      | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                       | ^[boolean]                                                                                                                                                                  | true         |
+| automatic-dropdown              | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                     | ^[boolean]                                                                                                                                                                  | false        |
+| clear-icon                      | custom clear icon component                                                                                           | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose  |
+| fit-input-width                 | whether the width of the dropdown is the same as the input                                                            | ^[boolean]                                                                                                                                                                  | false        |
+| suffix-icon                     | custom suffix icon component                                                                                          | ^[string] / ^[object]`Component`                                                                                                                                            | ArrowDown    |
+| suffix-transition ^(deprecated) | animation when dropdown appears/disappears icon                                                                       | ^[boolean]                                                                                                                                                                  | true         |
+| tag-type                        | tag type                                                                                                              | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info         |
+| validate-event                  | whether to trigger form validation                                                                                    | ^[boolean]                                                                                                                                                                  | true         |
+| placement ^(2.2.17)             | position of dropdown                                                                                                  | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start |
+| max-collapse-tags ^(2.3.0)      | the max tags number to be shown. To use this, `collapse-tags` must be true                                            | ^[number]                                                                                                                                                                   | 1            |
+| popper-options                  | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}           |
+| aria-label ^(a11y)              | same as `aria-label` in native input                                                                                  | ^[string]                                                                                                                                                                   | —            |
 
 :::warning
 
-`suffix-transition` has been **deprecated**, and **will be** removed in<VersionTag version="2.3.0" />, please use override style scheme.
+`suffix-transition` has been **deprecated**, and **will be** removed in ^(2.4.0), please use override style scheme.
 
 :::
 
-## Select Events
+### Select Events
 
-| Name           | Description                                                   | Parameters                                |
-| -------------- | ------------------------------------------------------------- | ----------------------------------------- |
-| change         | triggers when the selected value changes                      | current selected value                    |
-| visible-change | triggers when the dropdown appears/disappears                 | true when it appears, and false otherwise |
-| remove-tag     | triggers when a tag is removed in multiple mode               | removed tag value                         |
-| clear          | triggers when the clear icon is clicked in a clearable Select | —                                         |
-| blur           | triggers when Input blurs                                     | (event: FocusEvent)                       |
-| focus          | triggers when Input focuses                                   | (event: FocusEvent)                       |
+| Name           | Description                                                   | Type                                     |
+| -------------- | ------------------------------------------------------------- | ---------------------------------------- |
+| change         | triggers when the selected value changes                      | ^[Function]`(value: any) => void`        |
+| visible-change | triggers when the dropdown appears/disappears                 | ^[Function]`(visible: boolean) => void`  |
+| remove-tag     | triggers when a tag is removed in multiple mode               | ^[Function]`(tagValue: any) => void`     |
+| clear          | triggers when the clear icon is clicked in a clearable Select | ^[Function]`() => void`                  |
+| blur           | triggers when Input blurs                                     | ^[Function]`(event: FocusEvent) => void` |
+| focus          | triggers when Input focuses                                   | ^[Function]`(event: FocusEvent) => void` |
 
-## Select Slots
+### Select Slots
 
-| Name   | Description                      | Subtags               |
-| ------ | -------------------------------- | --------------------- |
-| —      | Option component list            | Option Group / Option |
-| prefix | content as Select prefix         | —                     |
-| empty  | content when there is no options | —                     |
+| Name    | Description                      | Subtags               |
+| ------- | -------------------------------- | --------------------- |
+| default | option component list            | Option Group / Option |
+| prefix  | content as Select prefix         | —                     |
+| empty   | content when there is no options | —                     |
 
-## Option Group Attributes
+### Select Exposes
 
-| Name     | Description                                  | Type    | Accepted Values | Default |
-| -------- | -------------------------------------------- | ------- | --------------- | ------- |
-| label    | name of the group                            | string  | —               | —       |
-| disabled | whether to disable all options in this group | boolean | —               | false   |
+| Method | Description                                     | Type                    |
+| ------ | ----------------------------------------------- | ----------------------- |
+| focus  | focus the Input component                       | ^[Function]`() => void` |
+| blur   | blur the Input component, and hide the dropdown | ^[Function]`() => void` |
 
-## Option Group Slots
+## Option Group API
 
-| Name | Description               | Subtags |
-| ---- | ------------------------- | ------- |
-| -    | customize default content | Option  |
+### Option Group Attributes
 
-## Option Attributes
+| Name     | Description                                  | Type       | Default |
+| -------- | -------------------------------------------- | ---------- | ------- |
+| label    | name of the group                            | ^[string]  | —       |
+| disabled | whether to disable all options in this group | ^[boolean] | false   |
 
-| Name     | Description                                 | Type                               | Accepted Values | Default |
-| -------- | ------------------------------------------- | ---------------------------------- | --------------- | ------- |
-| value    | value of option                             | string / number / boolean / object | —               | —       |
-| label    | label of option, same as `value` if omitted | string/number                      | —               | —       |
-| disabled | whether option is disabled                  | boolean                            | —               | false   |
+### Option Group Slots
 
-## Option Slots
+| Name    | Description               | Subtags |
+| ------- | ------------------------- | ------- |
+| default | customize default content | Option  |
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+## Option API
 
-## Methods
+### Option Attributes
 
-| Method | Description                                     | Parameters |
-| ------ | ----------------------------------------------- | ---------- |
-| focus  | focus the Input component                       | -          |
-| blur   | blur the Input component, and hide the dropdown | -          |
+| Name     | Description                                 | Type                                           | Default |
+| -------- | ------------------------------------------- | ---------------------------------------------- | ------- |
+| value    | value of option                             | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
+| label    | label of option, same as `value` if omitted | ^[string] / ^[number]                          | —       |
+| disabled | whether option is disabled                  | ^[boolean]                                     | false   |
+
+### Option Slots
+
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |

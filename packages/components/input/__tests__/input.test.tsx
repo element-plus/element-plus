@@ -71,17 +71,17 @@ describe('Input.vue', () => {
 
       const elCount = wrapper.find('.el-input__count-inner')
       expect(elCount.exists()).toBe(true)
-      expect(elCount.text()).toMatchInlineSnapshot(`"3 / 4"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"4 / 4"`)
 
       inputVal.value = '1👌3😄'
       await nextTick()
       expect(nativeInput.value).toMatchInlineSnapshot(`"1👌3😄"`)
-      expect(elCount.text()).toMatchInlineSnapshot(`"4 / 4"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4"`)
 
       inputVal.value = '哈哈1👌3😄'
       await nextTick()
       expect(nativeInput.value).toMatchInlineSnapshot(`"哈哈1👌3😄"`)
-      expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"8 / 4"`)
       expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
         [
           "el-input",
@@ -108,12 +108,12 @@ describe('Input.vue', () => {
 
       const elCount = wrapper.find('.el-input__count')
       expect(elCount.exists()).toBe(true)
-      expect(elCount.text()).toMatchInlineSnapshot(`"3 / 4"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"4 / 4"`)
 
       inputVal.value = '哈哈1👌3😄'
       await nextTick()
       expect(nativeInput.value).toMatchInlineSnapshot(`"哈哈1👌3😄"`)
-      expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"8 / 4"`)
       expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
         [
           "el-textarea",
@@ -266,8 +266,12 @@ describe('Input.vue', () => {
     ))
 
     const vm = wrapper.vm
-    expect(vm.$el.querySelector('input').value).toEqual('10000')
+    const event = new Event('input', { bubbles: true })
+    expect(vm.$el.querySelector('input').value).toEqual('10,000')
     expect(vm.$el.querySelector('input').value).not.toEqual('1000')
+    vm.$el.querySelector('input').value = '1,000,000'
+    vm.$el.querySelector('input').dispatchEvent(event)
+    expect(val.value).toEqual('1000000')
   })
 
   describe('Input Methods', () => {

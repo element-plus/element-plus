@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import { Loading, Search } from '@element-plus/icons-vue'
 
+import Form from '@element-plus/components/form'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -161,6 +162,20 @@ describe('Button.vue', () => {
 
     expect(wrapper.find('.custom-loading').exists()).toBeTruthy()
   })
+
+  it('tag', () => {
+    const link = 'https://github.com/element-plus/element-plus'
+    const wrapper = mount(() => (
+      // @ts-ignore
+      <Button tag="a" href={link}>
+        {AXIOM}
+      </Button>
+    ))
+
+    expect(wrapper.text()).toEqual(AXIOM)
+    expect(wrapper.element.nodeName).toBe('A')
+    expect(wrapper.attributes('href')).toBe(link)
+  })
 })
 describe('Button Group', () => {
   it('create', () => {
@@ -245,5 +260,36 @@ describe('Button Group', () => {
     expect(wrapper.find('.el-button span').classes()).toContain(
       'el-button__text--expand'
     )
+  })
+
+  it('should use props of form', async () => {
+    const wrapper = mount({
+      setup: () => () =>
+        (
+          <Form size="large" disabled>
+            <Button>{{ AXIOM }}</Button>
+          </Form>
+        ),
+    })
+    const btn = wrapper.findComponent(Button)
+    expect(btn.classes()).toContain('el-button--large')
+    expect(btn.classes()).toContain('is-disabled')
+    await btn.trigger('click')
+    expect(btn.emitted('click')).toBeUndefined()
+  })
+
+  it('should use size of form-item', async () => {
+    const wrapper = mount({
+      setup: () => () =>
+        (
+          <Form size="large" disabled>
+            <Form.FormItem size="small">
+              <Button>{{ AXIOM }}</Button>
+            </Form.FormItem>
+          </Form>
+        ),
+    })
+    const btn = wrapper.findComponent(Button)
+    expect(btn.classes()).toContain('el-button--small')
   })
 })

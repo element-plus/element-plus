@@ -4,14 +4,14 @@
 
 <script lang="ts" setup>
 import { computed, provide, ref } from 'vue'
-import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
+import { POPPER_INJECTION_KEY } from './constants'
 import { popperProps } from './popper'
 
 import type { Instance as PopperInstance } from '@popperjs/core'
-import type { ElPopperInjectionContext } from '@element-plus/tokens'
+import type { ElPopperInjectionContext } from './constants'
 
 defineOptions({
-  name: 'ElPopperRoot',
+  name: 'ElPopper',
   inheritAttrs: false,
 })
 const props = defineProps(popperProps)

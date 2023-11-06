@@ -1,4 +1,4 @@
-import { cAF, isFirefox, rAF } from '@element-plus/utils'
+import { cAF, rAF } from '@element-plus/utils'
 
 import type { ComputedRef } from 'vue'
 
@@ -21,9 +21,9 @@ export const useGridWheel = (
 
   const hasReachedEdge = (x: number, y: number) => {
     const xEdgeReached =
-      (x < 0 && atXStartEdge.value) || (x > 0 && atXEndEdge.value)
+      (x <= 0 && atXStartEdge.value) || (x >= 0 && atXEndEdge.value)
     const yEdgeReached =
-      (y < 0 && atYStartEdge.value) || (y > 0 && atYEndEdge.value)
+      (y <= 0 && atYStartEdge.value) || (y >= 0 && atYEndEdge.value)
     return xEdgeReached && yEdgeReached
   }
 
@@ -54,9 +54,7 @@ export const useGridWheel = (
     xOffset += x
     yOffset += y
 
-    if (!isFirefox()) {
-      e.preventDefault()
-    }
+    e.preventDefault()
 
     frameHandle = rAF(() => {
       onWheelDelta(xOffset, yOffset)

@@ -34,16 +34,22 @@
           <component :is="activeComponent" v-show="item <= currentValue" />
           <component :is="voidComponent" v-show="!(item <= currentValue)" />
         </template>
-        <el-icon
-          v-if="showDecimalIcon(item)"
-          :style="decimalStyle"
-          :class="[ns.e('icon'), ns.e('decimal')]"
-        >
-          <component :is="decimalIconComponent" />
-        </el-icon>
+        <template v-if="showDecimalIcon(item)">
+          <component :is="voidComponent" :class="[ns.em('decimal', 'box')]" />
+          <el-icon
+            :style="decimalStyle"
+            :class="[ns.e('icon'), ns.e('decimal')]"
+          >
+            <component :is="decimalIconComponent" />
+          </el-icon>
+        </template>
       </el-icon>
     </span>
-    <span v-if="showText || showScore" :class="ns.e('text')">
+    <span
+      v-if="showText || showScore"
+      :class="ns.e('text')"
+      :style="{ color: textColor }"
+    >
       {{ text }}
     </span>
   </div>
@@ -52,9 +58,14 @@
 import { computed, inject, markRaw, ref, watch } from 'vue'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { hasClass, isArray, isObject, isString } from '@element-plus/utils'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
+import {
+  formContextKey,
+  formItemContextKey,
+  useFormItemInputId,
+  useFormSize,
+} from '@element-plus/components/form'
 import { ElIcon } from '@element-plus/components/icon'
-import { useFormItemInputId, useNamespace, useSize } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
 import { rateEmits, rateProps } from './rate'
 import type { iconPropType } from '@element-plus/utils'
 import type { CSSProperties, Component } from 'vue'
@@ -88,7 +99,7 @@ const emit = defineEmits(rateEmits)
 
 const formContext = inject(formContextKey, undefined)
 const formItemContext = inject(formItemContextKey, undefined)
-const rateSize = useSize()
+const rateSize = useFormSize()
 const ns = useNamespace('rate')
 const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext,
@@ -248,11 +259,11 @@ function handleKey(e: KeyboardEvent) {
   return _currentValue
 }
 
-function setCurrentValue(value: number, event: MouseEvent) {
+function setCurrentValue(value: number, event?: MouseEvent) {
   if (rateDisabled.value) {
     return
   }
-  if (props.allowHalf) {
+  if (props.allowHalf && event) {
     // TODO: use cache via computed https://github.com/element-plus/element-plus/pull/5456#discussion_r786472092
     let target = event.target as HTMLElement
     if (hasClass(target, ns.e('item'))) {

@@ -41,26 +41,31 @@
           </div>
           <div v-if="multiple" :class="nsSelectV2.e('selection')">
             <template v-if="collapseTags && modelValue.length > 0">
-              <div :class="nsSelectV2.e('selected-item')">
+              <div
+                v-for="item in showTagList"
+                :key="getValueKey(getValue(item))"
+                :class="nsSelectV2.e('selected-item')"
+              >
                 <el-tag
-                  :closable="
-                    !selectDisabled && !states.cachedOptions[0]?.disable
-                  "
+                  :closable="!selectDisabled && !getDisabled(item)"
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
-                  @close="deleteTag($event, states.cachedOptions[0])"
+                  @close="deleteTag($event, item)"
                 >
                   <span
                     :class="nsSelectV2.e('tags-text')"
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
-                    >{{ states.cachedOptions[0]?.label }}</span
                   >
+                    {{ getLabel(item) }}
+                  </span>
                 </el-tag>
+              </div>
+              <div :class="nsSelectV2.e('selected-item')">
                 <el-tag
-                  v-if="modelValue.length > 1"
+                  v-if="modelValue.length > maxCollapseTags"
                   :closable="false"
                   :size="collapseTagSize"
                   type="info"
@@ -80,21 +85,21 @@
                         :style="{
                           maxWidth: `${tagMaxWidth}px`,
                         }"
-                        >+ {{ modelValue.length - 1 }}</span
                       >
+                        + {{ modelValue.length - maxCollapseTags }}
+                      </span>
                     </template>
                     <template #content>
                       <div :class="nsSelectV2.e('selection')">
                         <div
-                          v-for="(selected, idx) in states.cachedOptions.slice(
-                            1
-                          )"
-                          :key="idx"
+                          v-for="selected in collapseTagList"
+                          :key="getValueKey(getValue(selected))"
                           :class="nsSelectV2.e('selected-item')"
                         >
                           <el-tag
-                            :key="getValueKey(selected)"
-                            :closable="!selectDisabled && !selected.disabled"
+                            :closable="
+                              !selectDisabled && !getDisabled(selected)
+                            "
                             :size="collapseTagSize"
                             class="in-tooltip"
                             type="info"
@@ -106,8 +111,9 @@
                               :style="{
                                 maxWidth: `${tagMaxWidth}px`,
                               }"
-                              >{{ getLabel(selected) }}</span
                             >
+                              {{ getLabel(selected) }}
+                            </span>
                           </el-tag>
                         </div>
                       </div>
@@ -119,21 +125,21 @@
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
-                    >+ {{ modelValue.length - 1 }}</span
                   >
+                    + {{ modelValue.length - maxCollapseTags }}
+                  </span>
                 </el-tag>
               </div>
             </template>
 
             <template v-else>
               <div
-                v-for="(selected, idx) in states.cachedOptions"
-                :key="idx"
+                v-for="selected in states.cachedOptions"
+                :key="getValueKey(getValue(selected))"
                 :class="nsSelectV2.e('selected-item')"
               >
                 <el-tag
-                  :key="getValueKey(selected)"
-                  :closable="!selectDisabled && !selected.disabled"
+                  :closable="!selectDisabled && !getDisabled(selected)"
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
@@ -144,8 +150,9 @@
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
-                    >{{ getLabel(selected) }}</span
                   >
+                    {{ getLabel(selected) }}
+                  </span>
                 </el-tag>
               </div>
             </template>

@@ -9,7 +9,7 @@ import {
   isObject,
   throwError,
 } from '@element-plus/utils'
-import { useDelayedToggle, useZIndex } from '@element-plus/hooks'
+import { useDelayedToggle } from '@element-plus/hooks'
 import type { PopperInstance } from '@element-plus/components/popper'
 import type { Nullable } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'
@@ -331,6 +331,7 @@ export function createTablePopper(
   parentNode: HTMLElement | undefined,
   trigger: HTMLElement,
   popperContent: string,
+  nextZIndex: () => number,
   tooltipOptions?: TableOverflowTooltipOptions
 ) {
   // TODO transition
@@ -341,7 +342,6 @@ export function createTablePopper(
     } as TableOverflowTooltipOptions,
     tooltipOptions
   )
-  const { nextZIndex } = useZIndex()
   const ns = parentNode?.dataset.prefix
   const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
   function renderContent(): HTMLDivElement {

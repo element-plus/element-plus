@@ -36,7 +36,7 @@ const TableV2HeaderRow = defineComponent({
       }
 
       return (
-        <div class={props.class} style={style}>
+        <div class={props.class} style={style} role="row">
           {Cells}
         </div>
       )
