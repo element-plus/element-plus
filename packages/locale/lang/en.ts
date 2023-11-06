@@ -18,6 +18,7 @@ export default {
         'Use the arrow keys and enter to select the day of the month',
       monthTablePrompt: 'Use the arrow keys and enter to select the month',
       yearTablePrompt: 'Use the arrow keys and enter to select the year',
+      quarterTablePrompt: 'Use the arrow keys and enter to select a quarter',
       selectedDate: 'Selected date',
       selectDate: 'Select date',
       selectTime: 'Select time',
@@ -42,6 +43,10 @@ export default {
       month10: 'October',
       month11: 'November',
       month12: 'December',
+      quarter1: 'Q1',
+      quarter2: 'Q2',
+      quarter3: 'Q3',
+      quarter4: 'Q4',
       week: 'week',
       weeks: {
         sun: 'Sun',

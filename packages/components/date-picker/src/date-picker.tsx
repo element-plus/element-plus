@@ -8,6 +8,7 @@ import weekYear from 'dayjs/plugin/weekYear.js'
 import dayOfYear from 'dayjs/plugin/dayOfYear.js'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js'
+import quarterOfYear from 'dayjs/plugin/quarterOfYear'
 import { useNamespace } from '@element-plus/hooks'
 import {
   CommonPicker,
@@ -28,6 +29,7 @@ dayjs.extend(weekYear)
 dayjs.extend(dayOfYear)
 dayjs.extend(isSameOrAfter)
 dayjs.extend(isSameOrBefore)
+dayjs.extend(quarterOfYear)
 
 export default defineComponent({
   name: 'ElDatePicker',

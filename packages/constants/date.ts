@@ -1,5 +1,6 @@
 export const datePickTypes = [
   'year',
+  'quarter',
   'month',
   'date',
   'dates',

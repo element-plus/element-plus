@@ -175,7 +175,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import { debugWarn, isArray } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
-import { formatter, parseDate, valueEquals } from '../utils'
+import { formatter, parseDate, parseQuarter, valueEquals } from '../utils'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
@@ -433,7 +433,10 @@ const parsedValue = computed(() => {
         parseDate(d, props.valueFormat, lang.value)
       ) as [Dayjs, Dayjs]
     } else {
-      dayOrDays = parseDate(props.modelValue, props.valueFormat, lang.value)!
+      dayOrDays =
+        props.type === 'quarter'
+          ? parseQuarter(props.modelValue, props.valueFormat, lang.value)
+          : parseDate(props.modelValue, props.valueFormat, lang.value)!
     }
   }
 
@@ -733,7 +736,7 @@ const onCalendarChange = (e: [Date, null | Date]) => {
 
 const onPanelChange = (
   value: [Dayjs, Dayjs],
-  mode: 'month' | 'year',
+  mode: 'month' | 'year' | 'quarter',
   view: unknown
 ) => {
   emit('panel-change', value, mode, view)

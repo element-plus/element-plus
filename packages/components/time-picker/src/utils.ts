@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import { isArray, isDate, isEmpty } from '@element-plus/utils'
 
+import { DEFAULT_FORMATS_DATEPICKER } from './constants'
 import type { Dayjs } from 'dayjs'
 export type TimeList = [number | undefined, number, undefined | number]
 
@@ -67,6 +68,28 @@ export const parseDate = function (
     isEmpty(format) || format === 'x'
       ? dayjs(date).locale(lang)
       : dayjs(date, format).locale(lang)
+  return day.isValid() ? day : undefined
+}
+
+export const parseQuarter = (
+  date: string | number | Date,
+  valueFormat: string | undefined = DEFAULT_FORMATS_DATEPICKER.quarter,
+  lang: string
+) => {
+  let day
+  // dayjs(date, format) format 参数无法解析季度，需单独处理 eg: dayjs(2023-Q1 , 'YYYY-[Q]Q') 无效
+  if (typeof date === 'string' && date.includes('Q')) {
+    const matches = date.match(/(\d{4})[^0-9]*Q(\d)/)
+    if (!matches) return null
+    const year = matches[1]
+    const quarter = matches[2]
+    const month = (+quarter - 1) * 3 + 1
+    const monthStr = month.toString().padStart(2, '0')
+    const newFormat = valueFormat.replace(/\[Q\]Q/, 'MM')
+    day = dayjs(`${year}-${monthStr}`, newFormat).locale(lang)
+  } else {
+    day = dayjs(date).locale(lang)
+  }
   return day.isValid() ? day : undefined
 }
 
