@@ -67,16 +67,17 @@ const startYear = computed(() => {
   return Math.floor(props.date.year() / 10) * 10
 })
 
-// MyCodes
-const tableRows = ref<YearCell[][]>([[], [], []])
-const lastRow = ref(null)
-const lastColumn = ref(null)
+const tableRows = ref<YearCell[][]>([
+  [] as YearCell[],
+  [] as YearCell[],
+  [] as YearCell[],
+])
+const lastRow = ref<number>()
+const lastColumn = ref<number>()
 const rows = computed(() => {
-  // 三行
   const rows = tableRows.value
-  // 当前年份, 需区分时区
   const now = dayjs().locale(lang.value).startOf('year')
-  // 计算每个cell位置的数据
+
   for (let i = 0; i < 3; i++) {
     const row = rows[i]
     for (let j = 0; j < 4; j++) {
@@ -106,7 +107,6 @@ const rows = computed(() => {
         (props.rangeState.selecting && props.minDate) ||
         null
 
-      // 计算是否处于时间范围区间ß
       cell.inRange =
         !!(
           props.minDate &&
@@ -121,7 +121,6 @@ const rows = computed(() => {
           calTime.isSameOrAfter(calEndDate, 'year')
         )
 
-      // 计算 cell.start 和 cell.end
       if (props.minDate?.isSameOrAfter(calEndDate)) {
         cell.start = !!(calEndDate && calTime.isSame(calEndDate, 'year'))
         cell.end = !!(props.minDate && calTime.isSame(props.minDate, 'year'))
@@ -145,6 +144,10 @@ const rows = computed(() => {
   return rows
 })
 
+const focus = () => {
+  currentCellRef.value?.focus()
+}
+
 const getCellStyle = (cell: YearCell) => {
   const style = {} as any
   const today = dayjs().locale(lang.value)
@@ -153,11 +156,6 @@ const getCellStyle = (cell: YearCell) => {
   style.disabled = props.disabledDate
     ? datesInYear(year, lang.value).every(props.disabledDate)
     : false
-
-  style.current =
-    castArray(props.parsedValue).findIndex(
-      (date) => dayjs.isDayjs(date) && date.year() === year
-    ) >= 0
 
   style.today = today.year() === year
 
@@ -172,8 +170,12 @@ const getCellStyle = (cell: YearCell) => {
       style['end-date'] = true
     }
   }
-
   return style
+}
+
+const isSelectedCell = (cell: YearCell) => {
+  const year = cell.text
+  return castArray(props.date).findIndex((date) => date.year() === year) >= 0
 }
 
 const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
@@ -242,39 +244,6 @@ const handleMouseMove = (event: MouseEvent) => {
         .add(row * 4 + column, 'year'),
     })
   }
-}
-
-// MyCodes end
-const focus = () => {
-  currentCellRef.value?.focus()
-}
-
-const getCellKls = (year: number) => {
-  const kls: Record<string, boolean> = {}
-  const today = dayjs().locale(lang.value)
-
-  kls.disabled = props.disabledDate
-    ? datesInYear(year, lang.value).every(props.disabledDate)
-    : false
-
-  kls.current =
-    castArray(props.parsedValue).findIndex((d) => d!.year() === year) >= 0
-
-  kls.today = today.year() === year
-
-  return kls
-}
-
-const isSelectedCell = (cell: YearCell) => {
-  const year = cell.text
-  // return (
-  //   (year === startYear.value &&
-  //     props.date.year() < startYear.value &&
-  //     props.date.year() > startYear.value + 9) ||
-  //   castArray(props.date).findIndex((date) => date.year() === year) >= 0
-  // )
-
-  return castArray(props.date).findIndex((date) => date.year() === year) >= 0
 }
 
 watch(

@@ -15,6 +15,12 @@
     padding: 20px 0px;
     cursor: pointer;
 
+    & div {
+      height: 48px;
+      padding: 6px 0;
+      box-sizing: border-box;
+    }
+
     &.today {
       .cell {
         color: getCssVar('color', 'primary');
@@ -37,7 +43,7 @@
     }
 
     .cell {
-      width: 48px;
+      width: 60px;
       height: 36px;
       display: block;
       line-height: 36px;

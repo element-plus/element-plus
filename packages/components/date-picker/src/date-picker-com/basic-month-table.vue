@@ -154,11 +154,11 @@ const getCellStyle = (cell: MonthCell) => {
   style.disabled = props.disabledDate
     ? datesInMonth(year, month, lang.value).every(props.disabledDate)
     : false
-  // style.current =
-  //   castArray(props.parsedValue).findIndex(
-  //     (date) =>
-  //       dayjs.isDayjs(date) && date.year() === year && date.month() === month
-  //   ) >= 0
+  style.current =
+    castArray(props.parsedValue).findIndex(
+      (date) =>
+        dayjs.isDayjs(date) && date.year() === year && date.month() === month
+    ) >= 0
   style.today = today.getFullYear() === year && today.getMonth() === month
 
   if (cell.inRange) {
