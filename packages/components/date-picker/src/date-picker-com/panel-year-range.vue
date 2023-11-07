@@ -95,248 +95,203 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-// @ts-nocheck
-import { computed, defineComponent, inject, ref, toRef, watch } from 'vue'
+<script lang="ts" setup>
+import { computed, inject, ref, toRef, watch } from 'vue'
 import dayjs from 'dayjs'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
+import {
+  panelYearRangeEmits,
+  panelYearRangeProps,
+} from '../props/panel-year-range'
+import { useShortcut } from '../composables/use-shortcut'
+import { isValidRange } from '../utils'
 import YearTable from './basic-year-table.vue'
 
-import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
+import type { RangeState } from '../props/shared'
 
-export default defineComponent({
-  components: { YearTable, ElIcon, DArrowLeft, DArrowRight },
-
-  props: {
-    unlinkPanels: Boolean,
-    parsedValue: {
-      type: Array as PropType<Dayjs[]>,
-    },
-  },
-
-  emits: ['pick', 'set-picker-option'],
-
-  setup(props, ctx) {
-    const { t, lang } = useLocale()
-    const leftDate = ref(dayjs().locale(lang.value))
-    const rightDate = ref(leftDate.value.add(10, 'year'))
-
-    const hasShortcuts = computed(() => !!shortcuts.length)
-
-    const handleShortcutClick = (shortcut) => {
-      const shortcutValues =
-        typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
-      if (shortcutValues) {
-        ctx.emit('pick', [
-          dayjs(shortcutValues[0]).locale(lang.value),
-          dayjs(shortcutValues[1]).locale(lang.value),
-        ])
-        return
-      }
-      if (shortcut.onClick) {
-        shortcut.onClick(ctx)
-      }
-    }
-
-    const leftPrevYear = () => {
-      leftDate.value = leftDate.value.subtract(10, 'year')
-      if (!props.unlinkPanels) {
-        rightDate.value = rightDate.value.subtract(10, 'year')
-      }
-    }
-
-    const rightNextYear = () => {
-      if (!props.unlinkPanels) {
-        leftDate.value = leftDate.value.add(10, 'year')
-      }
-      rightDate.value = rightDate.value.add(10, 'year')
-    }
-
-    const leftNextYear = () => {
-      leftDate.value = leftDate.value.add(10, 'year')
-    }
-
-    const rightPrevYear = () => {
-      rightDate.value = rightDate.value.subtract(10, 'year')
-    }
-    const leftLabel = computed(() => {
-      const leftStartDate = dayjs()
-        .year(Math.floor(leftDate.value.year() / 10) * 10)
-        .year()
-      return `${leftStartDate}-${leftStartDate + 9}`
-    })
-
-    const rightLabel = computed(() => {
-      const rightStartDate = dayjs()
-        .year(Math.floor(rightDate.value.year() / 10) * 10)
-        .year()
-      return `${rightStartDate}-${rightStartDate + 9}`
-    })
-
-    const leftYear = computed(() => {
-      const leftEndDate =
-        dayjs()
-          .year(Math.floor(leftDate.value.year() / 10) * 10)
-          .year() + 9
-      return leftEndDate
-    })
-
-    const rightYear = computed(() => {
-      const rightStartDate = dayjs()
-        .year(Math.floor(rightDate.value.year() / 10) * 10)
-        .year()
-      return rightStartDate
-    })
-
-    // 时间范围切换箭头
-    const enableYearArrow = computed(() => {
-      return props.unlinkPanels && rightYear.value > leftYear.value + 1
-    })
-
-    // 允许选择的时间区间
-    const minDate = ref(null)
-    const maxDate = ref(null)
-
-    // 是否正在选择日期范围中
-    const rangeState = ref({
-      endDate: null,
-      selecting: false,
-    })
-
-    const handleChangeRange = (val) => {
-      rangeState.value = val
-    }
-
-    // 时间范围选中
-    const handleRangePick = (val, close = true) => {
-      const minDate_ = val.minDate
-      const maxDate_ = val.maxDate
-      if (maxDate.value === maxDate_ && minDate.value === minDate_) {
-        return
-      }
-      maxDate.value = maxDate_
-      minDate.value = minDate_
-
-      if (!close) return
-      handleConfirm()
-    }
-
-    const isValidValue = (value) => {
-      return (
-        Array.isArray(value) &&
-        value &&
-        value[0] &&
-        value[1] &&
-        value[0].valueOf() <= value[1].valueOf()
-      )
-    }
-
-    const handleConfirm = (visible = false) => {
-      if (isValidValue([minDate.value, maxDate.value])) {
-        ctx.emit('pick', [minDate.value, maxDate.value], visible)
-      }
-    }
-
-    const onSelect = (selecting) => {
-      rangeState.value.selecting = selecting
-      if (!selecting) {
-        rangeState.value.endDate = null
-      }
-    }
-
-    const formatToString = (value) => {
-      return value.map((_) => _.format(format))
-    }
-
-    const getDefaultValue = () => {
-      let start: Dayjs
-      if (Array.isArray(defaultValue.value)) {
-        const left = dayjs(defaultValue.value[0])
-        let right = dayjs(defaultValue.value[1])
-        if (!props.unlinkPanels) {
-          right = left.add(10, 'year')
-        }
-        return [left, right]
-      } else if (defaultValue.value) {
-        start = dayjs(defaultValue.value)
-      } else {
-        start = dayjs()
-      }
-      start = start.locale(lang.value)
-      return [start, start.add(10, 'year')]
-    }
-
-    // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
-    ctx.emit('set-picker-option', ['formatToString', formatToString])
-    const pickerBase = inject('EP_PICKER_BASE') as any
-    const { shortcuts, disabledDate, format } = pickerBase.props
-    const defaultValue = toRef(pickerBase.props, 'defaultValue')
-
-    watch(
-      () => defaultValue.value,
-      (val) => {
-        if (val) {
-          const defaultArr = getDefaultValue()
-          leftDate.value = defaultArr[0]
-          rightDate.value = defaultArr[1]
-        }
-      },
-      { immediate: true }
-    )
-
-    watch(
-      () => props.parsedValue,
-      (newVal) => {
-        if (newVal && newVal.length === 2) {
-          minDate.value = newVal[0]
-          maxDate.value = newVal[1]
-          leftDate.value = minDate.value
-          if (props.unlinkPanels && maxDate.value) {
-            const minDateYear = minDate.value.year()
-            const maxDateYear = maxDate.value.year()
-            rightDate.value =
-              minDateYear === maxDateYear
-                ? maxDate.value.add(10, 'year')
-                : maxDate.value
-          } else {
-            rightDate.value = leftDate.value.add(10, 'year')
-          }
-        } else {
-          const defaultArr = getDefaultValue()
-          minDate.value = null
-          maxDate.value = null
-          leftDate.value = defaultArr[0]
-          rightDate.value = defaultArr[1]
-        }
-      },
-      { immediate: true }
-    )
-
-    return {
-      shortcuts,
-      disabledDate,
-      onSelect,
-      handleRangePick,
-      rangeState,
-      handleChangeRange,
-      minDate,
-      maxDate,
-      enableYearArrow,
-      leftLabel,
-      rightLabel,
-      leftNextYear,
-      leftPrevYear,
-      rightNextYear,
-      rightPrevYear,
-      t,
-      leftDate,
-      rightDate,
-      hasShortcuts,
-      handleShortcutClick,
-    }
-  },
+defineOptions({
+  name: 'DatePickerYearRange',
 })
+
+const props = defineProps(panelYearRangeProps)
+const emit = defineEmits(panelYearRangeEmits)
+// const unit = 'year'
+
+const { lang } = useLocale()
+const leftDate = ref(dayjs().locale(lang.value))
+const rightDate = ref(leftDate.value.add(10, 'year'))
+
+const hasShortcuts = computed(() => !!shortcuts.length)
+
+const handleShortcutClick = useShortcut(lang)
+
+const leftPrevYear = () => {
+  leftDate.value = leftDate.value.subtract(10, 'year')
+  if (!props.unlinkPanels) {
+    rightDate.value = rightDate.value.subtract(10, 'year')
+  }
+}
+
+const rightNextYear = () => {
+  if (!props.unlinkPanels) {
+    leftDate.value = leftDate.value.add(10, 'year')
+  }
+  rightDate.value = rightDate.value.add(10, 'year')
+}
+
+const leftNextYear = () => {
+  leftDate.value = leftDate.value.add(10, 'year')
+}
+
+const rightPrevYear = () => {
+  rightDate.value = rightDate.value.subtract(10, 'year')
+}
+const leftLabel = computed(() => {
+  const leftStartDate = dayjs()
+    .year(Math.floor(leftDate.value.year() / 10) * 10)
+    .year()
+  return `${leftStartDate}-${leftStartDate + 9}`
+})
+
+const rightLabel = computed(() => {
+  const rightStartDate = dayjs()
+    .year(Math.floor(rightDate.value.year() / 10) * 10)
+    .year()
+  return `${rightStartDate}-${rightStartDate + 9}`
+})
+
+const leftYear = computed(() => {
+  const leftEndDate =
+    dayjs()
+      .year(Math.floor(leftDate.value.year() / 10) * 10)
+      .year() + 9
+  return leftEndDate
+})
+
+const rightYear = computed(() => {
+  const rightStartDate = dayjs()
+    .year(Math.floor(rightDate.value.year() / 10) * 10)
+    .year()
+  return rightStartDate
+})
+
+// 时间范围切换箭头
+const enableYearArrow = computed(() => {
+  return props.unlinkPanels && rightYear.value > leftYear.value + 1
+})
+
+// 允许选择的时间区间
+const minDate = ref<Dayjs>()
+const maxDate = ref<Dayjs>()
+
+// 是否正在选择日期范围中
+const rangeState = ref<RangeState>({
+  endDate: null,
+  selecting: false,
+})
+
+const handleChangeRange = (val: RangeState) => {
+  rangeState.value = val
+}
+
+type RangePickValue = {
+  minDate: Dayjs
+  maxDate: Dayjs
+}
+const handleRangePick = (val: RangePickValue, close = true) => {
+  const minDate_ = val.minDate
+  const maxDate_ = val.maxDate
+  if (maxDate.value === maxDate_ && minDate.value === minDate_) {
+    return
+  }
+  emit('calendar-change', [minDate_.toDate(), maxDate_ && maxDate_.toDate()])
+  maxDate.value = maxDate_
+  minDate.value = minDate_
+
+  if (!close) return
+  handleConfirm()
+}
+
+const handleConfirm = (visible = false) => {
+  if (isValidRange([minDate.value, maxDate.value])) {
+    emit('pick', [minDate.value, maxDate.value], visible)
+  }
+}
+
+const onSelect = (selecting: boolean) => {
+  rangeState.value.selecting = selecting
+  if (!selecting) {
+    rangeState.value.endDate = null
+  }
+}
+
+const formatToString = (days: Dayjs[]) => {
+  return days.map((day) => day.format(format))
+}
+const getDefaultValue = () => {
+  let start: Dayjs
+  if (Array.isArray(defaultValue.value)) {
+    const left = dayjs(defaultValue.value[0])
+    let right = dayjs(defaultValue.value[1])
+    if (!props.unlinkPanels) {
+      right = left.add(10, 'year')
+    }
+    return [left, right]
+  } else if (defaultValue.value) {
+    start = dayjs(defaultValue.value)
+  } else {
+    start = dayjs()
+  }
+  start = start.locale(lang.value)
+  return [start, start.add(10, 'year')]
+}
+
+// pickerBase.hub.emit('SetPickerOption', ['isValidRange', isValidRange])
+emit('set-picker-option', ['formatToString', formatToString])
+const pickerBase = inject('EP_PICKER_BASE') as any
+const { shortcuts, disabledDate, format } = pickerBase.props
+const defaultValue = toRef(pickerBase.props, 'defaultValue')
+
+watch(
+  () => defaultValue.value,
+  (val) => {
+    if (val) {
+      const defaultArr = getDefaultValue()
+      leftDate.value = defaultArr[0]
+      rightDate.value = defaultArr[1]
+    }
+  },
+  { immediate: true }
+)
+
+watch(
+  () => props.parsedValue,
+  (newVal) => {
+    if (newVal && newVal.length === 2) {
+      minDate.value = newVal[0]
+      maxDate.value = newVal[1]
+      leftDate.value = minDate.value
+      if (props.unlinkPanels && maxDate.value) {
+        const minDateYear = minDate.value.year()
+        const maxDateYear = maxDate.value.year()
+        rightDate.value =
+          minDateYear === maxDateYear
+            ? maxDate.value.add(10, 'year')
+            : maxDate.value
+      } else {
+        rightDate.value = leftDate.value.add(10, 'year')
+      }
+    } else {
+      const defaultArr = getDefaultValue()
+      minDate.value = undefined
+      maxDate.value = undefined
+      leftDate.value = defaultArr[0]
+      rightDate.value = defaultArr[1]
+    }
+  },
+  { immediate: true }
+)
 </script>
