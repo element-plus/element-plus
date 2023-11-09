@@ -313,7 +313,7 @@ export default defineComponent({
       rootMenu.removeSubMenu(item)
     })
 
-    if (rootMenu.props.collapseOnClickOutSide) {
+    if (rootMenu.props.collapseOnClickOutside) {
       onClickOutside(
         computed(() => vPopper.value),
         () => {

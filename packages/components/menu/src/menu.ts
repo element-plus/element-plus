@@ -59,7 +59,7 @@ export const menuProps = buildProps({
   backgroundColor: String,
   textColor: String,
   activeTextColor: String,
-  collapseOnClickOutSide: Boolean,
+  collapseOnClickOutside: Boolean,
   collapseTransition: {
     type: Boolean,
     default: true,
