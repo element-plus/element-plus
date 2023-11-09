@@ -7,6 +7,7 @@
       </div>
     </template>
     <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+    <template #footer>Footer content</template>
   </el-card>
 </template>
 
