@@ -313,22 +313,24 @@ export default defineComponent({
       rootMenu.removeSubMenu(item)
     })
 
-    onClickOutside(
-      computed(() => vPopper.value),
-      () => {
-        if (
-          opened.value &&
-          !mouseInChild.value &&
-          !subMenu.mouseInChild.value
-        ) {
-          timeout?.()
-          ;({ stop: timeout } = useTimeoutFn(
-            () => rootMenu.closeMenu(props.index, indexPath.value),
-            props.hideTimeout
-          ))
+    if (rootMenu.props.collapseOnClickOutSide) {
+      onClickOutside(
+        computed(() => vPopper.value),
+        () => {
+          if (
+            opened.value &&
+            !mouseInChild.value &&
+            !subMenu.mouseInChild.value
+          ) {
+            timeout?.()
+            ;({ stop: timeout } = useTimeoutFn(
+              () => rootMenu.closeMenu(props.index, indexPath.value),
+              props.hideTimeout
+            ))
+          }
         }
-      }
-    )
+      )
+    }
 
     return () => {
       const titleTag: VNodeArrayChildren = [
