@@ -437,6 +437,18 @@ export default defineComponent({
         return false
       }
 
+      const constructIndexPath = (index: string) => {
+        const indexPath: string[] = []
+        const splits = index.split('-')
+
+        for (let i = 0; i < splits.length; i++) {
+          const nextIndexPath = splits.slice(0, i + 1).join('-')
+          indexPath.push(nextIndexPath)
+        }
+
+        return indexPath
+      }
+
       const vMenu = withDirectives(
         h(
           'ul',
@@ -463,10 +475,13 @@ export default defineComponent({
 
               if (!hasMouseInMenu) {
                 timeout?.()
-                ;({ stop: timeout } = useTimeoutFn(
-                  () => (openedMenus.value = []),
-                  300
-                ))
+                ;({ stop: timeout } = useTimeoutFn(() => {
+                  openedMenus.value.forEach((openedMenu) => {
+                    emit('close', openedMenu, constructIndexPath(openedMenu))
+                  })
+
+                  openedMenus.value = []
+                }, 300))
               }
             },
           ],
