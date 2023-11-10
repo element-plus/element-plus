@@ -3,6 +3,7 @@ import {
   defineComponent,
   getCurrentInstance,
   h,
+  isVNode,
   nextTick,
   onMounted,
   provide,
@@ -31,7 +32,12 @@ import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
-import type { ExtractPropTypes, VNode, VNodeArrayChildren } from 'vue'
+import type {
+  ComponentInternalInstance,
+  ExtractPropTypes,
+  VNode,
+  VNodeArrayChildren,
+} from 'vue'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
@@ -417,16 +423,22 @@ export default defineComponent({
 
       const ulStyle = useMenuCssVar(props, 0)
 
-      const recusiveMouseInSubMenu = (slot: any): boolean => {
-        if (!slot || slot.type.name !== 'ElSubMenu') return false
+      const recusiveMouseInSubMenu = (
+        slot: ComponentInternalInstance
+      ): boolean => {
+        if (!slot || !isVNode(slot) || slot.type.name !== 'ElSubMenu')
+          return false
 
-        if (slot.component.exposed.mouseInChild.value) return true
+        if (slot.component?.exposed?.mouseInChild.value) return true
 
-        const subMenuSlots = slot.component.slots.default()
+        const subMenuSlots =
+          slot.component?.slots?.default?.() as unknown as ComponentInternalInstance[]
+
+        if (!subMenuSlots || !subMenuSlots.entries()) return false
 
         for (const [i, subMenuSlot] of subMenuSlots.entries()) {
           if (subMenuSlot.type.name === 'ElSubMenu') {
-            const value = recusiveMouseInSubMenu(subMenuSlot[i])
+            const value = recusiveMouseInSubMenu(subMenuSlots[i])
             if (value) return value
           }
         }
@@ -467,7 +479,9 @@ export default defineComponent({
             vClickoutside,
             () => {
               const hasMouseInMenu = slot.some((slotItem) =>
-                recusiveMouseInSubMenu(slotItem)
+                recusiveMouseInSubMenu(
+                  slotItem as unknown as ComponentInternalInstance
+                )
               )
 
               if (!hasMouseInMenu) {
