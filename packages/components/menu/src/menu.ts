@@ -32,8 +32,9 @@ import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
+import type { VNodeChildAtom } from '@element-plus/utils'
 import type {
-  ComponentInternalInstance,
+  Component,
   ExtractPropTypes,
   VNode,
   VNodeArrayChildren,
@@ -424,20 +425,23 @@ export default defineComponent({
       const ulStyle = useMenuCssVar(props, 0)
 
       const recusiveMouseInSubMenu = (
-        slot: ComponentInternalInstance
+        slot: VNodeArrayChildren | VNodeChildAtom
       ): boolean => {
-        if (!slot || !isVNode(slot) || slot.type.name !== 'ElSubMenu')
+        if (
+          !slot ||
+          !isVNode(slot) ||
+          (slot.type as Component).name !== 'ElSubMenu'
+        )
           return false
 
         if (slot.component?.exposed?.mouseInChild.value) return true
 
-        const subMenuSlots =
-          slot.component?.slots?.default?.() as unknown as ComponentInternalInstance[]
+        const subMenuSlots = slot.component?.slots?.default?.()
 
         if (!subMenuSlots || !subMenuSlots.entries()) return false
 
         for (const [i, subMenuSlot] of subMenuSlots.entries()) {
-          if (subMenuSlot.type.name === 'ElSubMenu') {
+          if ((subMenuSlot.type as Component).name === 'ElSubMenu') {
             const value = recusiveMouseInSubMenu(subMenuSlots[i])
             if (value) return value
           }
@@ -479,9 +483,7 @@ export default defineComponent({
             vClickoutside,
             () => {
               const hasMouseInMenu = slot.some((slotItem) =>
-                recusiveMouseInSubMenu(
-                  slotItem as unknown as ComponentInternalInstance
-                )
+                recusiveMouseInSubMenu(slotItem)
               )
 
               if (!hasMouseInMenu) {
