@@ -482,6 +482,8 @@ export default defineComponent({
           [
             vClickoutside,
             () => {
+              if (!props.collapseOnClickOutside) return
+
               const hasMouseInMenu = slot.some((slotItem) =>
                 recusiveMouseInSubMenu(slotItem)
               )
