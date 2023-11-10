@@ -106,7 +106,9 @@ import {
   panelYearRangeProps,
 } from '../props/panel-year-range'
 import { useShortcut } from '../composables/use-shortcut'
+import { useYearRangeHeader } from '../composables/use-year-range-header'
 import { isValidRange } from '../utils'
+// import { ROOT_PICKER_INJECTION_KEY } from '../constants'
 import YearTable from './basic-year-table.vue'
 
 import type { Dayjs } from 'dayjs'
@@ -118,76 +120,39 @@ defineOptions({
 
 const props = defineProps(panelYearRangeProps)
 const emit = defineEmits(panelYearRangeEmits)
-// const unit = 'year'
 
 const { lang } = useLocale()
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(leftDate.value.add(10, 'year'))
+// const { pickerNs } = inject(ROOT_PICKER_INJECTION_KEY)!
+// const drpNs = useNamespace('date-range-picker')
 
 const hasShortcuts = computed(() => !!shortcuts.length)
 
 const handleShortcutClick = useShortcut(lang)
 
-const leftPrevYear = () => {
-  leftDate.value = leftDate.value.subtract(10, 'year')
-  if (!props.unlinkPanels) {
-    rightDate.value = rightDate.value.subtract(10, 'year')
-  }
-}
-
-const rightNextYear = () => {
-  if (!props.unlinkPanels) {
-    leftDate.value = leftDate.value.add(10, 'year')
-  }
-  rightDate.value = rightDate.value.add(10, 'year')
-}
-
-const leftNextYear = () => {
-  leftDate.value = leftDate.value.add(10, 'year')
-}
-
-const rightPrevYear = () => {
-  rightDate.value = rightDate.value.subtract(10, 'year')
-}
-const leftLabel = computed(() => {
-  const leftStartDate = dayjs()
-    .year(Math.floor(leftDate.value.year() / 10) * 10)
-    .year()
-  return `${leftStartDate}-${leftStartDate + 9}`
+const {
+  leftPrevYear,
+  rightNextYear,
+  leftNextYear,
+  rightPrevYear,
+  leftLabel,
+  rightLabel,
+  leftYear,
+  rightYear,
+} = useYearRangeHeader({
+  unlinkPanels: toRef(props, 'unlinkPanels'),
+  leftDate,
+  rightDate,
 })
 
-const rightLabel = computed(() => {
-  const rightStartDate = dayjs()
-    .year(Math.floor(rightDate.value.year() / 10) * 10)
-    .year()
-  return `${rightStartDate}-${rightStartDate + 9}`
-})
-
-const leftYear = computed(() => {
-  const leftEndDate =
-    dayjs()
-      .year(Math.floor(leftDate.value.year() / 10) * 10)
-      .year() + 9
-  return leftEndDate
-})
-
-const rightYear = computed(() => {
-  const rightStartDate = dayjs()
-    .year(Math.floor(rightDate.value.year() / 10) * 10)
-    .year()
-  return rightStartDate
-})
-
-// 时间范围切换箭头
 const enableYearArrow = computed(() => {
   return props.unlinkPanels && rightYear.value > leftYear.value + 1
 })
 
-// 允许选择的时间区间
 const minDate = ref<Dayjs>()
 const maxDate = ref<Dayjs>()
 
-// 是否正在选择日期范围中
 const rangeState = ref<RangeState>({
   endDate: null,
   selecting: false,
@@ -249,7 +214,6 @@ const getDefaultValue = () => {
   return [start, start.add(10, 'year')]
 }
 
-// pickerBase.hub.emit('SetPickerOption', ['isValidRange', isValidRange])
 emit('set-picker-option', ['formatToString', formatToString])
 const pickerBase = inject('EP_PICKER_BASE') as any
 const { shortcuts, disabledDate, format } = pickerBase.props
