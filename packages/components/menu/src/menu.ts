@@ -35,6 +35,7 @@ import { useMenuCssVar } from './use-menu-css-var'
 import type { VNodeChildAtom } from '@element-plus/utils'
 import type {
   Component,
+  DirectiveArguments,
   ExtractPropTypes,
   VNode,
   VNodeArrayChildren,
@@ -462,6 +463,32 @@ export default defineComponent({
         return indexPath
       }
 
+      const directives: DirectiveArguments = props.collapseOnClickOutside
+        ? [
+            [
+              vClickoutside,
+              () => {
+                if (!props.collapseOnClickOutside) return
+
+                const hasMouseInMenu = slot.some((slotItem) =>
+                  recusiveMouseInSubMenu(slotItem)
+                )
+
+                if (!hasMouseInMenu) {
+                  timeout?.()
+                  ;({ stop: timeout } = useTimeoutFn(() => {
+                    openedMenus.value.forEach((openedMenu) => {
+                      emit('close', openedMenu, constructIndexPath(openedMenu))
+                    })
+
+                    openedMenus.value = []
+                  }, 300))
+                }
+              },
+            ],
+          ]
+        : []
+
       const vMenu = withDirectives(
         h(
           'ul',
@@ -478,29 +505,7 @@ export default defineComponent({
           },
           [...slot, ...vShowMore]
         ),
-        [
-          [
-            vClickoutside,
-            () => {
-              if (!props.collapseOnClickOutside) return
-
-              const hasMouseInMenu = slot.some((slotItem) =>
-                recusiveMouseInSubMenu(slotItem)
-              )
-
-              if (!hasMouseInMenu) {
-                timeout?.()
-                ;({ stop: timeout } = useTimeoutFn(() => {
-                  openedMenus.value.forEach((openedMenu) => {
-                    emit('close', openedMenu, constructIndexPath(openedMenu))
-                  })
-
-                  openedMenus.value = []
-                }, 300))
-              }
-            },
-          ],
-        ]
+        directives
       )
 
       if (props.collapseTransition && props.mode === 'vertical') {
