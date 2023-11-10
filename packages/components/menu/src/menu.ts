@@ -10,8 +10,10 @@ import {
   ref,
   watch,
   watchEffect,
+  withDirectives,
 } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
+
+import { useResizeObserver, useTimeoutFn } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
@@ -24,14 +26,15 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
+import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
+import type { ExtractPropTypes, VNode, VNodeArrayChildren } from 'vue'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
-import type { ExtractPropTypes, VNode, VNodeArrayChildren } from 'vue'
 import type { UseResizeObserverReturn } from '@vueuse/core'
 
 export const menuProps = buildProps({
@@ -111,6 +114,7 @@ export default defineComponent({
     const menu = ref<HTMLUListElement>()
     const nsMenu = useNamespace('menu')
     const nsSubMenu = useNamespace('sub-menu')
+    let timeout: (() => void) | undefined
 
     // data
     const sliceIndex = ref(-1)
@@ -372,6 +376,8 @@ export default defineComponent({
       })
     }
 
+    const elSubMenuRef = ref([])
+
     return () => {
       let slot: VNodeArrayChildren = slots.default?.() ?? []
       const vShowMore: VNode[] = []
@@ -394,6 +400,7 @@ export default defineComponent({
               {
                 index: 'sub-menu-more',
                 class: nsSubMenu.e('hide-arrow'),
+                ref: elSubMenuRef,
               },
               {
                 title: () =>
@@ -413,20 +420,57 @@ export default defineComponent({
 
       const ulStyle = useMenuCssVar(props, 0)
 
-      const vMenu = h(
-        'ul',
-        {
-          key: String(props.collapse),
-          role: 'menubar',
-          ref: menu,
-          style: ulStyle.value,
-          class: {
-            [nsMenu.b()]: true,
-            [nsMenu.m(props.mode)]: true,
-            [nsMenu.m('collapse')]: props.collapse,
+      const recusiveMouseInSubMenu = (slot: any): boolean => {
+        if (!slot || slot.type.name !== 'ElSubMenu') return false
+
+        if (slot.component.exposed.mouseInChild.value) return true
+
+        const subMenuSlots = slot.component.slots.default()
+
+        for (const [i, subMenuSlot] of subMenuSlots.entries()) {
+          if (subMenuSlot.type.name === 'ElSubMenu') {
+            const value = recusiveMouseInSubMenu(subMenuSlot[i])
+            if (value) return value
+          }
+        }
+
+        return false
+      }
+
+      const vMenu = withDirectives(
+        h(
+          'ul',
+          {
+            key: String(props.collapse),
+            role: 'menubar',
+            ref: menu,
+            style: ulStyle.value,
+            class: {
+              [nsMenu.b()]: true,
+              [nsMenu.m(props.mode)]: true,
+              [nsMenu.m('collapse')]: props.collapse,
+            },
           },
-        },
-        [...slot, ...vShowMore]
+          [...slot, ...vShowMore]
+        ),
+        [
+          [
+            vClickoutside,
+            () => {
+              const hasMouseInMenu = slot.some((slotItem) =>
+                recusiveMouseInSubMenu(slotItem)
+              )
+
+              if (!hasMouseInMenu) {
+                timeout?.()
+                ;({ stop: timeout } = useTimeoutFn(
+                  () => (openedMenus.value = []),
+                  300
+                ))
+              }
+            },
+          ],
+        ]
       )
 
       if (props.collapseTransition && props.mode === 'vertical') {

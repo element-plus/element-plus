@@ -14,7 +14,7 @@ import {
   watch,
   withDirectives,
 } from 'vue'
-import { onClickOutside, useTimeoutFn } from '@vueuse/core'
+import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElTooltip from '@element-plus/components/tooltip'
 import {
@@ -300,6 +300,7 @@ export default defineComponent({
     // expose
     expose({
       opened,
+      mouseInChild,
     })
 
     // lifecycle
@@ -312,25 +313,6 @@ export default defineComponent({
       subMenu.removeSubMenu(item)
       rootMenu.removeSubMenu(item)
     })
-
-    if (rootMenu.props.collapseOnClickOutside) {
-      onClickOutside(
-        computed(() => vPopper.value),
-        () => {
-          if (
-            opened.value &&
-            !mouseInChild.value &&
-            !subMenu.mouseInChild.value
-          ) {
-            timeout?.()
-            ;({ stop: timeout } = useTimeoutFn(
-              () => rootMenu.closeMenu(props.index, indexPath.value),
-              props.hideTimeout
-            ))
-          }
-        }
-      )
-    }
 
     return () => {
       const titleTag: VNodeArrayChildren = [
