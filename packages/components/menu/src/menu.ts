@@ -376,8 +376,6 @@ export default defineComponent({
       })
     }
 
-    const elSubMenuRef = ref([])
-
     return () => {
       let slot: VNodeArrayChildren = slots.default?.() ?? []
       const vShowMore: VNode[] = []
@@ -400,7 +398,6 @@ export default defineComponent({
               {
                 index: 'sub-menu-more',
                 class: nsSubMenu.e('hide-arrow'),
-                ref: elSubMenuRef,
               },
               {
                 title: () =>
