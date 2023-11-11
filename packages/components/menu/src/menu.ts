@@ -71,6 +71,10 @@ export const menuProps = buildProps({
   textColor: String,
   activeTextColor: String,
   collapseOnClickOutside: Boolean,
+  hideTimeout: {
+    type: Number,
+    default: 300,
+  },
   collapseTransition: {
     type: Boolean,
     default: true,
@@ -487,7 +491,7 @@ export default defineComponent({
                     })
 
                     openedMenus.value = []
-                  }, 300))
+                  }, props.hideTimeout))
                 }
               },
             ],

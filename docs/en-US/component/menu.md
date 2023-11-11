@@ -68,6 +68,8 @@ menu/collapse
 | router                  | whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action. Use with `default-active` to set the active item on load. | boolean | —                     | false    |
 | collapse-transition     | whether to enable the collapse transition                                                                                                                             | boolean | —                     | true     |
 | popper-effect ^(2.2.26) | Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed                                                                                                | string  | dark / light          | dark     |
+| collapse-on-click-outside ^(2.4.2) | optional, whether menu is collapsed when clicking outside              | `boolean`             | —               | false                                           |
+| hide-timeout ^(2.4.2) | timeout before hiding a sub-menu when clicking outside          | `number`             | —               | 300                                           |
 
 ## Menu Methods
 
@@ -106,7 +108,6 @@ menu/collapse
 | expand-open-icon                  | Icon when menu are expanded and submenu are opened, `expand-open-icon` and `expand-close-icon` need to be passed together to take effect      | `string \| Component` | —               | —                                               |
 | collapse-close-icon               | Icon when menu are collapsed and submenu are closed, `collapse-close-icon` and `collapse-open-icon` need to be passed together to take effect | `string \| Component` | —               | —                                               |
 | collapse-open-icon                | Icon when menu are collapsed and submenu are opened, `collapse-open-icon` and `collapse-close-icon` need to be passed together to take effect | `string \| Component` | —               | —                                               |
-| collapse-on-click-outside ^(2.4.2) | optional, whether menu is collapsed when clicking outside              | `boolean`             | —               | false                                           |
 ## SubMenu Slots
 
 | Name  | Description               | Subtags                               |
