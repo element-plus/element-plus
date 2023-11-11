@@ -430,10 +430,19 @@ export default defineComponent({
       ): boolean => {
         if (
           !slot ||
-          !isVNode(slot) ||
-          (slot.type as Component).name !== 'ElSubMenu'
+          (isVNode(slot) && (slot.type as Component).name !== 'ElSubMenu') ||
+          typeof slot !== 'object'
         )
           return false
+
+        if (Array.isArray(slot)) {
+          for (const element of slot) {
+            const value = recusiveMouseInSubMenu(element)
+            if (value) return true
+          }
+
+          return false
+        }
 
         if (slot.component?.exposed?.mouseInChild.value) return true
 
@@ -470,9 +479,7 @@ export default defineComponent({
               () => {
                 if (!props.collapseOnClickOutside) return
 
-                const hasMouseInMenu = slot.some((slotItem) =>
-                  recusiveMouseInSubMenu(slotItem)
-                )
+                const hasMouseInMenu = recusiveMouseInSubMenu(slot)
 
                 if (!hasMouseInMenu) {
                   timeout?.()
