@@ -83,6 +83,7 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     // for interrupt sync check status in lazy mode
     let manualChecked = false
+    let hasManualChecked = false
 
     const ns = useNamespace('cascader')
     const config = useCascaderConfig(props)
@@ -166,7 +167,7 @@ export default defineComponent({
       const { checkStrictly, multiple } = config.value
       const oldNode = checkedNodes.value[0]
       manualChecked = true
-
+      hasManualChecked = true
       !multiple && oldNode?.doCheck(false)
       node.doCheck(checked)
       calculateCheckedValue()
@@ -205,7 +206,9 @@ export default defineComponent({
       const nodes = sortByOriginalOrder(oldNodes, newNodes)
       const values = nodes.map((node) => node.valueByOption)
       checkedNodes.value = nodes
-      checkedValue.value = multiple ? values : values[0] ?? null
+      checkedValue.value = multiple
+        ? cloneDeep(values)
+        : cloneDeep(values[0]) ?? null
     }
 
     const syncCheckedValue = (loaded = false, forced = false) => {
@@ -214,9 +217,10 @@ export default defineComponent({
       const leafOnly = !checkStrictly
 
       if (
-        !initialLoaded.value ||
-        manualChecked ||
-        (!forced && isEqual(modelValue, checkedValue.value))
+        !hasManualChecked &&
+        (!initialLoaded.value ||
+          manualChecked ||
+          (!forced && isEqual(modelValue, checkedValue.value)))
       )
         return
 
@@ -353,7 +357,7 @@ export default defineComponent({
       () => props.modelValue,
       () => {
         manualChecked = false
-        syncCheckedValue(false, true)
+        syncCheckedValue()
       },
       {
         deep: true,
