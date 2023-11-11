@@ -425,7 +425,7 @@ export default defineComponent({
 
       const ulStyle = useMenuCssVar(props, 0)
 
-      const recusiveMouseInSubMenu = (
+      const recursiveMouseInSubMenu = (
         slot: VNodeArrayChildren | VNodeChildAtom
       ): boolean => {
         if (
@@ -437,7 +437,7 @@ export default defineComponent({
 
         if (Array.isArray(slot)) {
           for (const element of slot) {
-            const value = recusiveMouseInSubMenu(element)
+            const value = recursiveMouseInSubMenu(element)
             if (value) return true
           }
 
@@ -452,7 +452,7 @@ export default defineComponent({
 
         for (const [i, subMenuSlot] of subMenuSlots.entries()) {
           if ((subMenuSlot.type as Component).name === 'ElSubMenu') {
-            const value = recusiveMouseInSubMenu(subMenuSlots[i])
+            const value = recursiveMouseInSubMenu(subMenuSlots[i])
             if (value) return value
           }
         }
@@ -477,7 +477,7 @@ export default defineComponent({
             [
               vClickoutside,
               () => {
-                const hasMouseInMenu = recusiveMouseInSubMenu(slot)
+                const hasMouseInMenu = recursiveMouseInSubMenu(slot)
 
                 if (!hasMouseInMenu) {
                   timeout?.()
