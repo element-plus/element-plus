@@ -22,6 +22,7 @@ import {
   buildProps,
   definePropType,
   flattedChildren,
+  isArray,
   isObject,
   isString,
   mutable,
@@ -435,11 +436,11 @@ export default defineComponent({
         if (
           !slot ||
           (isVNode(slot) && (slot.type as Component).name !== 'ElSubMenu') ||
-          typeof slot !== 'object'
+          !isObject(slot)
         )
           return false
 
-        if (Array.isArray(slot)) {
+        if (isArray(slot)) {
           for (const element of slot) {
             const value = recursiveMouseInSubMenu(element)
             if (value) return true
