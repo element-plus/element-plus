@@ -99,12 +99,13 @@ We'll detect some deprecated usages, if your pagination don't appeared or worked
 
 ### Events
 
-| Name           | Description                                                       | Type                                 |
-| -------------- | ----------------------------------------------------------------- | ------------------------------------ |
-| size-change    | triggers when `page-size` changes                                 | ^[Function]`(value: number) => void` |
-| current-change | triggers when `current-page` changes                              | ^[Function]`(value: number) => void` |
-| prev-click     | triggers when the prev button is clicked and current page changes | ^[Function]`(value: number) => void` |
-| next-click     | triggers when the next button is clicked and current page changes | ^[Function]`(value: number) => void` |
+| Name            | Description                                                       | Type                                                         |
+| --------------- | ----------------------------------------------------------------- | ------------------------------------------------------------ |
+| size-change     | triggers when `page-size` changes                                 | ^[Function]`(value: number) => void`                         |
+| current-change  | triggers when `current-page` changes                              | ^[Function]`(value: number) => void`                         |
+| change ^(2.4.3) | triggers when `page-size` or `current-page` changes               | ^[Function]`(currentPage: number, pageSize: number) => void` |
+| prev-click      | triggers when the prev button is clicked and current page changes | ^[Function]`(value: number) => void`                         |
+| next-click      | triggers when the next button is clicked and current page changes | ^[Function]`(value: number) => void`                         |
 
 :::warning
 

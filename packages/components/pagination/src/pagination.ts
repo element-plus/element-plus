@@ -167,6 +167,8 @@ export const paginationEmits = {
   'update:current-page': (val: number) => isNumber(val),
   'update:page-size': (val: number) => isNumber(val),
   'size-change': (val: number) => isNumber(val),
+  change: (currentPage: number, pageSize: number) =>
+    isNumber(currentPage) && isNumber(pageSize),
   'current-change': (val: number) => isNumber(val),
   'prev-click': (val: number) => isNumber(val),
   'next-click': (val: number) => isNumber(val),
@@ -235,6 +237,22 @@ export default defineComponent({
       isAbsent(props.defaultCurrentPage) ? 1 : props.defaultCurrentPage
     )
 
+    const debounceMicrotask = (fn: () => void) => {
+      let scheduled = false
+      return () => {
+        if (scheduled) return
+        scheduled = true
+        Promise.resolve().then(() => {
+          scheduled = false
+          fn()
+        })
+      }
+    }
+
+    const handlePageChange = debounceMicrotask(() => {
+      emit('change', currentPageBridge.value, pageSizeBridge.value)
+    })
+
     const pageSizeBridge = computed({
       get() {
         return isAbsent(props.pageSize) ? innerPageSize.value : props.pageSize
@@ -246,6 +264,7 @@ export default defineComponent({
         if (hasPageSizeListener) {
           emit('update:page-size', v)
           emit('size-change', v)
+          handlePageChange()
         }
       },
     })
@@ -279,6 +298,7 @@ export default defineComponent({
         if (hasCurrentPageListener) {
           emit('update:current-page', newCurrentPage)
           emit('current-change', newCurrentPage)
+          handlePageChange()
         }
       },
     })

@@ -261,18 +261,25 @@ describe('Pagination', () => {
     test('test listener work', async () => {
       const pageSizeWatcher = vi.fn()
       const currentPageWatcher = vi.fn()
+      let count = 0
+      const pageWatcher = () => {
+        count += 1
+      }
       const wrapper = mount(() => (
         <Pagination
           total={100}
           layout="prev, pager, next, sizes"
           onUpdate:current-page={currentPageWatcher}
           onUpdate:page-size={pageSizeWatcher}
+          onChange={pageWatcher}
         />
       ))
 
       await wrapper.find('.el-pager li:last-child').trigger('click')
       assertCurrent(wrapper, 10 /* Math.ceil(100/10) */)
       expect(currentPageWatcher).toHaveBeenCalled()
+      await nextTick()
+      expect(count).toBe(1)
       await wrapper.find('.el-select').trigger('click')
       await wrapper
         .getComponent(selectDropdownVue)
@@ -280,6 +287,8 @@ describe('Pagination', () => {
         .trigger('click')
       expect(pageSizeWatcher).toHaveBeenCalled()
       assertCurrent(wrapper, 5 /* Math.ceil(100/20) */)
+      await nextTick()
+      expect(count).toBe(2)
     })
   })
 
