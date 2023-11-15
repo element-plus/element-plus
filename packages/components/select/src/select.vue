@@ -693,7 +693,8 @@ export default defineComponent({
 
     const tagTextStyle = computed(() => {
       const maxWidth =
-        unref(inputWidth) > 123
+        unref(inputWidth) > 123 &&
+        unref(selected).length > props.maxCollapseTags
           ? unref(inputWidth) - 123
           : unref(inputWidth) - 75
       return { maxWidth: `${maxWidth}px` }
