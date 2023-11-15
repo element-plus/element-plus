@@ -41,11 +41,7 @@ const content = computed<string>(() => {
 })
 
 const isRTL = computed(() => {
-  if (props.rtl === true) {
-    return true
-  } else {
-    return false
-  }
+  return !!props.rtl
 })
 
 defineExpose({

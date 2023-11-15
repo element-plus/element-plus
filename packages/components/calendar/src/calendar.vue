@@ -87,11 +87,7 @@ const i18nDate = computed(() => {
 })
 
 const isRTL = computed(() => {
-  if (props.rtl === true) {
-    return true
-  } else {
-    return false
-  }
+  return !!props.rtl
 })
 
 defineExpose({

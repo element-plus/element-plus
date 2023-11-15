@@ -33,10 +33,6 @@ onMounted(() => {
   }
 })
 const isRTL = computed(() => {
-  if (props.rtl === true) {
-    return true
-  } else {
-    return false
-  }
+  return !!props.rtl
 })
 </script>
