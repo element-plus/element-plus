@@ -167,7 +167,10 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     event.dataTransfer.dropEffect = 'move'
 
     if (draggingNode && dropNode) {
-      const draggingNodeCopy = { data: draggingNode.node.data }
+      const draggingNodeCopy = {
+        data: draggingNode.node.data,
+        checked: draggingNode.node.checked,
+      }
       if (dropType !== 'none') {
         draggingNode.node.remove()
       }
