@@ -482,6 +482,8 @@ export default defineComponent({
             [
               vClickoutside,
               () => {
+                if (!openedMenus.value.length) return
+
                 const hasMouseInMenu = recursiveMouseInSubMenu(slot)
 
                 if (!hasMouseInMenu) {
