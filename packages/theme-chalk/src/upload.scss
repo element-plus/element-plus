@@ -88,8 +88,8 @@
 }
 
 @include b(upload-dragger) {
-  padding: getCssVar('upload-dragger-padding-horizontal')
-    getCssVar('upload-dragger-padding-vertical');
+  padding: getCssVar('upload-dragger-padding-vertical')
+    getCssVar('upload-dragger-padding-horizontal');
   background-color: getCssVar('fill-color', 'blank');
   border: 1px dashed getCssVar('border-color');
   border-radius: 6px;
