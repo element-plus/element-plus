@@ -81,7 +81,7 @@ select/custom-header
 
 ## Footer of the dropdown
 
-You can customize the header of the dropdown.
+You can customize the footer of the dropdown.
 
 ::: demo Use slot to customize the content.
 
