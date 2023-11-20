@@ -265,6 +265,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 5px;
 
       @if $slot == prefix {
         > :last-child {

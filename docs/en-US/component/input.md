@@ -36,6 +36,7 @@ input/disabled
 ## Clearable
 
 :::demo Make the Input clearable with the `clearable` attribute.
+You can add `always-show-clear` if you want to always show the clearable icon
 
 input/clearable
 
@@ -128,6 +129,7 @@ input/length-limiting
 | show-word-limit       | whether show word count, only works when `type` is 'text' or 'textarea'                                                                | ^[boolean]                                                                                                                                                                                                                   | false   |
 | placeholder           | placeholder of Input                                                                                                                   | ^[string]                                                                                                                                                                                                                    | —       |
 | clearable             | whether to show clear button, only works when `type` is not 'textarea'                                                                 | ^[boolean]                                                                                                                                                                                                                   | false   |
+| always-show-clear     | whether the clear icon must be always visible                                                                                          | ^[boolean]                                                                                                                                                                                                                   | false   |
 | formatter             | specifies the format of the value presented input.(only works when `type` is 'text')                                                   | ^[Function]`(value: string \| number) => string`                                                                                                                                                                             | —       |
 | parser                | specifies the value extracted from formatter input.(only works when `type` is 'text')                                                  | ^[Function]`(value: string) => string`                                                                                                                                                                                       | —       |
 | show-password         | whether to show toggleable password input                                                                                              | ^[boolean]                                                                                                                                                                                                                   | false   |
