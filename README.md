@@ -57,7 +57,7 @@ You can also try Element Plus out with the components built-in playground.
 [![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-demo-dxtcr)
 
 <p align="center">
-  <b>Special thanks to the generous sponsorship by:</b>
+  <b>Special thank you to the generous sponsorship by:</b>
 </p>
 <br/>
 <p align="center">
