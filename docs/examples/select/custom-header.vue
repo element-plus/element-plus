@@ -5,6 +5,7 @@
     clearable
     collapse-tags
     placeholder="Select"
+    popper-class="custom-header"
     :max-collapse-tags="1"
   >
     <template #header>
@@ -81,3 +82,12 @@ const handleCheckAll = (val: CheckboxValueType) => {
   }
 }
 </script>
+
+<style lang="scss">
+.custom-header {
+  .el-checkbox {
+    display: flex;
+    height: unset;
+  }
+}
+</style>

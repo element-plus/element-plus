@@ -17,9 +17,9 @@
           placeholder="input option name"
           size="small"
         />
-        <el-button type="primary" size="small" @click="onConfirm"
-          >confirm</el-button
-        >
+        <el-button type="primary" size="small" @click="onConfirm">
+          confirm
+        </el-button>
         <el-button size="small" @click="clear">cancel</el-button>
       </template>
     </template>
