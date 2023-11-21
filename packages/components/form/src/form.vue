@@ -170,6 +170,7 @@ provide(
     validateField,
     addField,
     removeField,
+    fields,
 
     ...useFormLabelWidth(),
   })
