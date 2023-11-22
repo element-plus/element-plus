@@ -104,9 +104,6 @@ const resourceCards = computed(() => [
           </a>
         </el-card>
       </div>
-
-      <div class="inline-flex w-full md:w-1/3" p="2" />
-      <div class="inline-flex w-full md:w-1/3" p="2" />
     </div>
   </div>
 </template>
