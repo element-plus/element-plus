@@ -196,7 +196,9 @@ export default class TreeStore {
       this.deregisterNode(child)
     })
 
-    delete this.nodesMap[node.key]
+    if (node === this.nodesMap[node.key]) {
+      delete this.nodesMap[node.key]
+    }
   }
 
   getCheckedNodes(
