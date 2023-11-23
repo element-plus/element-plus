@@ -2,10 +2,13 @@ import { onBeforeUnmount, onMounted, watchEffect } from 'vue'
 import { addUnit } from '@element-plus/utils'
 import type { ComputedRef, Ref } from 'vue'
 
+import type { ElOverlay } from '@element-plus/components/overlay'
+
 export const useDraggable = (
   targetRef: Ref<HTMLElement | undefined>,
-  dragRef: Ref<HTMLElement | undefined>,
-  draggable: ComputedRef<boolean>
+  dragRef: Ref<InstanceType<typeof ElOverlay> | null>,
+  draggable: ComputedRef<boolean>,
+  overlayRef: Ref<HTMLElement | undefined>
 ) => {
   let transform = {
     offsetX: 0,
@@ -22,9 +25,9 @@ export const useDraggable = (
     const targetTop = targetRect.top
     const targetWidth = targetRect.width
     const targetHeight = targetRect.height
-
-    const clientWidth = document.documentElement.clientWidth
-    const clientHeight = document.documentElement.clientHeight
+    const clientDom = overlayRef?.value?.$el || document.documentElement
+    const clientWidth = clientDom.clientWidth
+    const clientHeight = clientDom.clientHeight
 
     const minLeft = -targetLeft + offsetX
     const minTop = -targetTop + offsetY

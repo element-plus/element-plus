@@ -43,7 +43,8 @@ defineOptions({ name: 'ElDialogContent' })
 const props = defineProps(dialogContentProps)
 defineEmits(dialogContentEmits)
 
-const { dialogRef, headerRef, bodyId, ns, style } = inject(dialogInjectionKey)!
+const { dialogRef, headerRef, overlayRef, bodyId, ns, style } =
+  inject(dialogInjectionKey)!
 const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
 
 const dialogKls = computed(() => [
@@ -58,5 +59,5 @@ const dialogKls = computed(() => [
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 
 const draggable = computed(() => props.draggable)
-useDraggable(dialogRef, headerRef, draggable)
+useDraggable(dialogRef, headerRef, draggable, overlayRef)
 </script>

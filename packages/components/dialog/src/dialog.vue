@@ -11,6 +11,7 @@
     >
       <el-overlay
         v-show="visible"
+        ref="overlayRef"
         custom-mask-event
         :mask="modal"
         :overlay-class="modalClass"
@@ -119,6 +120,7 @@ useDeprecated(
 const ns = useNamespace('dialog')
 const dialogRef = ref<HTMLElement>()
 const headerRef = ref<HTMLElement>()
+const overlayRef = ref<InstanceType<typeof ElOverlay>>()
 const dialogContentRef = ref()
 
 const {
@@ -143,6 +145,7 @@ const {
 provide(dialogInjectionKey, {
   dialogRef,
   headerRef,
+  overlayRef,
   bodyId,
   ns,
   rendered,
