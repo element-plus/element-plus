@@ -167,10 +167,7 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     event.dataTransfer.dropEffect = 'move'
 
     if (draggingNode && dropNode) {
-      const draggingNodeCopy = {
-        data: draggingNode.node.data,
-        checked: draggingNode.node.checked,
-      }
+      const draggingNodeCopy = { data: draggingNode.node.data }
       if (dropType !== 'none') {
         draggingNode.node.remove()
       }
@@ -183,6 +180,13 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
       }
       if (dropType !== 'none') {
         store.value.registerNode(draggingNodeCopy)
+        //restore checkbox state after dragging
+        draggingNode.node.eachNode((node) => {
+          store.value.nodesMap[node.data[store.value.key]]?.setChecked(
+            node.checked,
+            !store.value.checkStrictly
+          )
+        })
       }
 
       removeClass(dropNode.$el, ns.is('drop-inner'))

@@ -23,7 +23,6 @@ export declare type TreeData = TreeNodeData[]
 export declare type TreeKey = string | number
 export declare interface FakeNode {
   data: TreeNodeData
-  checked?: boolean
 }
 export declare interface TreeNodeData {
   [key: string]: any
