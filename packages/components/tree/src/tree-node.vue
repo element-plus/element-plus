@@ -328,9 +328,7 @@ export default defineComponent({
       // Current node's checkbox state needs to be recalculated based on the child nodes
       if (childNodes.length) {
         const checkedLength = childNodes.filter((i) => i.checked).length
-        const checked = childNodes.length === checkedLength
-        if (checked) node.setChecked(true, !node.store.checkStrictly)
-        else node.checked = false
+        node.setCheckedReInitPState(childNodes.length === checkedLength)
         node.indeterminate =
           (!node.checked && checkedLength !== 0) ||
           childNodes.some((i) => i.indeterminate)
