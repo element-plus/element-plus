@@ -568,9 +568,7 @@ class Node {
     }
   }
 
-  setCheckedReInitPState(value: boolean) {
-    this.checked = !!value
-    if (this.store.checkStrictly) return
+  reInitChecked() {
     reInitChecked(this)
   }
 }

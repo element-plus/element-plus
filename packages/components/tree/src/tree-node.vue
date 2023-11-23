@@ -183,11 +183,10 @@ export default defineComponent({
       }
     )
 
-    /**
-     * Listen for childNodes length
-     * Indicating that the node has been dragged, and the current node's checkbox state needs to be recalculated based on the child nodes
-     */
-    watch(() => props.node.childNodes.length, refreshCheckedState)
+    watch(
+      () => props.node.childNodes.length,
+      () => props.node.reInitChecked()
+    )
 
     watch(
       () => props.node.expanded,
@@ -320,22 +319,6 @@ export default defineComponent({
     const handleDragEnd = (event: DragEvent) => {
       if (!tree.props.draggable) return
       dragEvents.treeNodeDragEnd(event)
-    }
-
-    function refreshCheckedState() {
-      const node = props.node
-      const childNodes = node.childNodes
-      // Current node's checkbox state needs to be recalculated based on the child nodes
-      if (childNodes.length) {
-        const checkedLength = childNodes.filter((i) => i.checked).length
-        node.setCheckedReInitPState(childNodes.length === checkedLength)
-        node.indeterminate =
-          (!node.checked && checkedLength !== 0) ||
-          childNodes.some((i) => i.indeterminate)
-      } else {
-        // No children set indeterminate is false
-        node.indeterminate = false
-      }
     }
 
     return {
