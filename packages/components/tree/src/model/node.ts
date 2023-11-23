@@ -564,6 +564,12 @@ class Node {
       callback(node)
     }
   }
+
+  setCheckedReInitPState(value: boolean) {
+    this.checked = !!value
+    if (this.store.checkStrictly) return
+    reInitChecked(this)
+  }
 }
 
 export default Node
