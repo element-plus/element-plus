@@ -48,6 +48,10 @@ const formClasses = computed(() => {
   ]
 })
 
+const getField: FormContext['getField'] = (prop) => {
+  return fields.find((field) => field.prop === prop)
+}
+
 const addField: FormContext['addField'] = (field) => {
   fields.push(field)
 }
@@ -168,6 +172,7 @@ provide(
     resetFields,
     clearValidate,
     validateField,
+    getField,
     addField,
     removeField,
 
