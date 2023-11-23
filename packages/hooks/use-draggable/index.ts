@@ -6,9 +6,9 @@ import type { ElOverlay } from '@element-plus/components/overlay'
 
 export const useDraggable = (
   targetRef: Ref<HTMLElement | undefined>,
-  dragRef: Ref<InstanceType<typeof ElOverlay> | null>,
+  dragRef: Ref<HTMLElement | undefined>,
   draggable: ComputedRef<boolean>,
-  overlayRef: Ref<HTMLElement | undefined>
+  overlayRef: Ref<InstanceType<typeof ElOverlay> | undefined>
 ) => {
   let transform = {
     offsetX: 0,
