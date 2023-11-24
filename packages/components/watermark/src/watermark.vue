@@ -7,18 +7,19 @@
 <script lang="ts" setup>
 import {
   computed,
+  getCurrentInstance,
   onBeforeUnmount,
   onMounted,
   ref,
   shallowRef,
   watch,
 } from 'vue'
-import { useMutationObserver } from '@vueuse/core'
+import { useIntersectionObserver, useMutationObserver } from '@vueuse/core'
 import { watermarkProps } from './watermark'
 import { getPixelRatio, getStyleStr, reRendering } from './utils'
 import useClips, { FontGap } from './useClips'
 import type { WatermarkProps } from './watermark'
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, RendererNode } from 'vue'
 
 defineOptions({
   name: 'ElWatermark',
@@ -76,6 +77,7 @@ const getMarkStyle = () => {
 
 const containerRef = shallowRef<HTMLDivElement | null>(null)
 const watermarkRef = shallowRef<HTMLDivElement>()
+const parentDom = shallowRef<RendererNode | HTMLElement>(null)
 const stopObservation = ref(false)
 
 const destroyWatermark = () => {
@@ -192,7 +194,12 @@ const renderWatermark = () => {
   }
 }
 
+const getParentDom = () => {
+  parentDom.value = getCurrentInstance().parent.vnode.el || document.body
+}
+
 onMounted(() => {
+  getParentDom()
   renderWatermark()
 })
 
@@ -222,6 +229,10 @@ const onMutate = (mutations: MutationRecord[]) => {
     }
   })
 }
+
+useIntersectionObserver(containerRef, ([{ isIntersecting }]) => {
+  if (!isIntersecting) parentDom.value.append(containerRef.value)
+})
 
 useMutationObserver(containerRef, onMutate, {
   attributes: true,
