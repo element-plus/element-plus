@@ -285,7 +285,8 @@ function resetCurrentValue() {
     return
   }
   if (props.allowHalf) {
-    pointerAtLeftHalf.value = props.modelValue !== Math.floor(props.modelValue)
+    pointerAtLeftHalf.value =
+      props.modelValue !== Math.floor(props.modelValue || 0)
   }
   currentValue.value = props.modelValue ?? props.defaultValue
   hoverIndex.value = -1
@@ -295,7 +296,8 @@ watch(
   () => props.modelValue,
   (val) => {
     currentValue.value = val ?? props.defaultValue
-    pointerAtLeftHalf.value = props.modelValue !== Math.floor(props.modelValue)
+    pointerAtLeftHalf.value =
+      props.modelValue !== Math.floor(props.modelValue || 0)
   }
 )
 
