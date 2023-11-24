@@ -106,7 +106,7 @@ const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
 })
 
 const currentValue = ref(props.modelValue ?? props.defaultValue)
-const modelValue = props.modelValue || 0
+const modelValueBase = props.modelValue || 0
 const hoverIndex = ref(-1)
 const pointerAtLeftHalf = ref(true)
 
@@ -125,7 +125,7 @@ const text = computed(() => {
   if (props.showScore) {
     result = props.scoreTemplate.replace(
       /\{\s*value\s*\}/,
-      rateDisabled.value ? `${modelValue}` : `${currentValue.value}`
+      rateDisabled.value ? `${modelValueBase}` : `${currentValue.value}`
     )
   } else if (props.showText) {
     result = props.texts[Math.ceil(currentValue.value) - 1]
@@ -133,7 +133,7 @@ const text = computed(() => {
   return result
 })
 const valueDecimal = computed(
-  () => modelValue * 100 - Math.floor(modelValue) * 100
+  () => modelValueBase * 100 - Math.floor(modelValueBase) * 100
 )
 const colorMap = computed(() =>
   isArray(props.colors)
@@ -178,7 +178,7 @@ const componentMap = computed(() => {
     : icons
 })
 const decimalIconComponent = computed(() =>
-  getValueFromMap(modelValue, componentMap.value)
+  getValueFromMap(modelValueBase, componentMap.value)
 )
 const voidComponent = computed(() =>
   rateDisabled.value
@@ -197,8 +197,8 @@ function showDecimalIcon(item: number) {
   const showWhenDisabled =
     rateDisabled.value &&
     valueDecimal.value > 0 &&
-    item - 1 < modelValue &&
-    item > modelValue
+    item - 1 < modelValueBase &&
+    item > modelValueBase
   const showWhenAllowHalf =
     props.allowHalf &&
     pointerAtLeftHalf.value &&
