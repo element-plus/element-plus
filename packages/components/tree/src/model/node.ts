@@ -566,6 +566,7 @@ class Node {
   }
 
   reInitChecked() {
+    if (this.store.checkStrictly) return
     reInitChecked(this)
   }
 }
