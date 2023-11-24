@@ -46,7 +46,7 @@ export const useBackTop = (
 
   const handleClick = (event: MouseEvent) => {
     // el.value?.scrollTo({ top: 0, behavior: 'smooth' })
-    el.value && scrollToTop()
+    scrollToTop()
     emit('click', event)
   }
 
