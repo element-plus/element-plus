@@ -17,7 +17,7 @@ export const rateProps = buildProps({
    */
   modelValue: {
     type: Number,
-    default: 0,
+    // default: 0,
   },
   /**
    * @description native `id` attribute
@@ -152,6 +152,13 @@ export const rateProps = buildProps({
   clearable: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * @description default value
+   */
+  defaultValue: {
+    type: Number,
+    default: 5,
   },
 } as const)
 

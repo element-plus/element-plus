@@ -105,7 +105,7 @@ const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext,
 })
 
-const currentValue = ref(props.modelValue)
+const currentValue = ref(props.modelValue ?? props.defaultValue)
 const hoverIndex = ref(-1)
 const pointerAtLeftHalf = ref(true)
 
@@ -219,11 +219,11 @@ function emitValue(value: number) {
 }
 
 function selectValue(value: number) {
-  if (rateDisabled.value) {
+  if (rateDisabled.value || props.modelValue == undefined) {
     return
   }
   if (props.allowHalf && pointerAtLeftHalf.value) {
-    emitValue(currentValue.value)
+    emitValue(currentValue.value || 0)
   } else {
     emitValue(value)
   }
@@ -287,15 +287,24 @@ function resetCurrentValue() {
   if (props.allowHalf) {
     pointerAtLeftHalf.value = props.modelValue !== Math.floor(props.modelValue)
   }
-  currentValue.value = props.modelValue
+  currentValue.value = props.modelValue ?? props.defaultValue
   hoverIndex.value = -1
 }
 
 watch(
   () => props.modelValue,
   (val) => {
-    currentValue.value = val
+    currentValue.value = val ?? props.defaultValue
     pointerAtLeftHalf.value = props.modelValue !== Math.floor(props.modelValue)
+  }
+)
+
+watch(
+  () => props.defaultValue,
+  (val) => {
+    if (!props.modelValue) {
+      currentValue.value = val || 0
+    }
   }
 )
 
