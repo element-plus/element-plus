@@ -73,6 +73,16 @@ message/grouping
 
 :::
 
+## Singleton
+
+Update message with unique msgKey.
+
+:::demo Set `msgKey` .
+
+message/singleton
+
+:::
+
 ## Global method
 
 Element Plus has added a global method `$message` for `app.config.globalProperties`. So in a vue instance you can call `Message` like what we did in this page.
@@ -125,6 +135,7 @@ ElMessage({}, appContext)
 | appendTo                 | set the root element for the message, default to `document.body`                                     | ^[string] / ^[HTMLElement]                           | —       |
 | grouping                 | merge messages with the same content, type of VNode message is not supported                         | ^[boolean]                                           | false   |
 | repeatNum                | The number of repetitions, similar to badge, is used as the initial number when used with `grouping` | ^[number]                                            | 1       |
+| msgKey                | The unique identifier of the Message | ^[number]                                            | —       |
 
 ### Methods
 

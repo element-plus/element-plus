@@ -24,6 +24,8 @@ export const messageDefaults = mutable({
   duration: 3000,
   icon: undefined,
   id: '',
+  msgKey: undefined,
+  times: 0,
   message: '',
   onClose: undefined,
   showClose: false,
@@ -77,6 +79,20 @@ export const messageProps = buildProps({
   id: {
     type: String,
     default: messageDefaults.id,
+  },
+  /**
+   * @description message key
+   */
+  msgKey: {
+    type: definePropType<number | undefined>([Number]),
+    default: messageDefaults.msgKey,
+  },
+  /**
+   * @description message update times
+   */
+  times: {
+    type: Number,
+    default: messageDefaults.times,
   },
   /**
    * @description message text

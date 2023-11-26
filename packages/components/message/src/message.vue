@@ -131,6 +131,16 @@ watch(
   }
 )
 
+watch(
+  () => props.times,
+  (times) => {
+    if (times > 0) {
+      clearTimer()
+      startTimer()
+    }
+  }
+)
+
 useEventListener(document, 'keydown', keydown)
 
 useResizeObserver(messageRef, () => {
