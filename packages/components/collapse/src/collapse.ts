@@ -16,7 +16,13 @@ export const emitChangeFn = (value: CollapseModelValue) =>
   typeof isNumber(value) || isString(value) || Array.isArray(value)
 
 export const collapseProps = buildProps({
+  /**
+   * @description whether to activate accordion mode
+   */
   accordion: Boolean,
+  /**
+   * @description currently active panel, the type is `string` in accordion mode, otherwise it is `array`
+   */
   modelValue: {
     type: definePropType<CollapseModelValue>([Array, String, Number]),
     default: () => mutable([] as const),
