@@ -4,6 +4,12 @@ import type { ExtractPropTypes } from 'vue'
 import type UploadDragger from './upload-dragger.vue'
 
 export const uploadDraggerProps = buildProps({
+  beforeUpload: {
+    type: Function,
+  },
+  onRemove: {
+    type: Function,
+  },
   disabled: {
     type: Boolean,
     default: false,

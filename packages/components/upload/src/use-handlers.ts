@@ -107,8 +107,16 @@ export const useHandlers = (
   }
 
   const handleRemove: UploadContentProps['onRemove'] = async (
-    file
+    file,
+    _,
+    isDrag,
+    fileList
   ): Promise<void> => {
+    if (isDrag) {
+      props.onRemove(file as UploadFile, fileList || [])
+      return
+    }
+
     const uploadFile = file instanceof File ? getFile(file) : file
     if (!uploadFile) throwError(SCOPE, 'file to be removed not found')
 
