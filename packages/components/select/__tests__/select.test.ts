@@ -1058,12 +1058,15 @@ describe('Select', () => {
     selectWrapper.vm.handleResize()
     options[0].click()
     await nextTick()
+    const tagWrappers = wrapper.findAll('.el-select__tags-text')
+    const tagWrapperDom = tagWrappers[0].element
+    expect(Number.parseInt(tagWrapperDom.style.maxWidth) === 200 - 75).toBe(
+      true
+    )
     options[1].click()
     await nextTick()
     options[2].click()
     await nextTick()
-    const tagWrappers = wrapper.findAll('.el-select__tags-text')
-    const tagWrapperDom = tagWrappers[0].element
     expect(Number.parseInt(tagWrapperDom.style.maxWidth) === 200 - 123).toBe(
       true
     )
