@@ -79,7 +79,7 @@ select/custom-header
 
 :::
 
-## Footer of the dropdown
+## Footer of the dropdown ^(2.4.3)
 
 You can customize the footer of the dropdown.
 
@@ -207,8 +207,8 @@ select/value-key
 | Name    | Description                           | Subtags               |
 | ------- | ------------------------------------- | --------------------- |
 | default | option component list                 | Option Group / Option |
-| header  | content at the top of the dropdown    | —                     |
-| footer  | content at the bottom of the dropdown | —                     |
+| header ^(2.4.3)  | content at the top of the dropdown    | —                     |
+| footer ^(2.4.3)  | content at the bottom of the dropdown | —                     |
 | prefix  | content as Select prefix              | —                     |
 | empty   | content when there is no options      | —                     |
 
