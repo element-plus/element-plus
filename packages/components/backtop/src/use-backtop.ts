@@ -1,6 +1,6 @@
 import { onMounted, ref, shallowRef } from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
-import { throwError } from '@element-plus/utils'
+import { rAF, throwError } from '@element-plus/utils'
 import type { SetupContext } from 'vue'
 import type { BacktopEmits, BacktopProps } from './backtop'
 
@@ -16,13 +16,6 @@ export const useBackTop = (
   const cubic = (value: number): number => value ** 3
   const easeInOutCubic = (value: number): number =>
     value < 0.5 ? cubic(value * 2) / 2 : 1 - cubic((1 - value) * 2) / 2
-  const rAF = (callback: any) => {
-    if (typeof window !== 'undefined' && 'requestAnimationFrame' in window) {
-      return window.requestAnimationFrame(callback)
-    } else {
-      return +setTimeout(callback, 16)
-    }
-  }
   const scrollToTop = () => {
     if (!el.value) return
     const beginTime = Date.now()
@@ -46,7 +39,7 @@ export const useBackTop = (
 
   const handleClick = (event: MouseEvent) => {
     // el.value?.scrollTo({ top: 0, behavior: 'smooth' })
-    el.value && scrollToTop()
+    scrollToTop()
     emit('click', event)
   }
 
