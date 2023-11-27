@@ -75,7 +75,8 @@ export const rateProps = buildProps({
     type: definePropType<
       Array<string | Component> | Record<number, string | Component>
     >([Array, Object]),
-    default: () => [StarFilled, StarFilled, StarFilled],
+    default: () =>
+      [StarFilled, StarFilled, StarFilled] as [Component, Component, Component],
   },
   /**
    * @description component of unselected icons
@@ -89,7 +90,7 @@ export const rateProps = buildProps({
    */
   disabledVoidIcon: {
     type: iconPropType,
-    default: () => StarFilled,
+    default: () => StarFilled as Component,
   },
   /**
    * @description whether Rate is read-only
