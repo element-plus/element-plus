@@ -83,7 +83,7 @@ export const rateProps = buildProps({
    */
   voidIcon: {
     type: iconPropType,
-    default: () => Star,
+    default: () => Star as Component,
   },
   /**
    * @description component of unselected read-only icons
