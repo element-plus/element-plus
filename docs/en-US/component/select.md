@@ -69,7 +69,7 @@ select/custom-template
 
 :::
 
-## Header of the dropdown
+## Header of the dropdown ^(2.4.3)
 
 You can customize the header of the dropdown.
 
