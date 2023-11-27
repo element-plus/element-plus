@@ -67,13 +67,23 @@ You can also try Element Plus out with the components built-in playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
+        <a href="https://js.design?source=element-plus" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/17680888/160634485-df0d00af-8633-4ab8-9a72-aac2b65d1d36.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
         <a href="https://www.vform666.com/" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/17680888/156870588-b25a42d5-888b-4943-8b1b-5239dfd8f4d2.png">
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://js.design?source=element-plus" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/17680888/160634485-df0d00af-8633-4ab8-9a72-aac2b65d1d36.png">
+        <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
+          <img width="150px" src="https://github-production-user-asset-6210df.s3.amazonaws.com/82012629/285874192-0d562df0-2ebc-4bb3-bf8f-8674ac07c38a.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231127%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231127T131759Z&X-Amz-Expires=300&X-Amz-Signature=532bfe31066712d205616b9a91002be8a187b7111e692a487356943a19c1772e&X-Amz-SignedHeaders=host&actor_id=82012629&key_id=0&repo_id=281319253">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="http://github.crmeb.net/u/Element?from=element-plus" target="_blank">
+          <img width="150px" src="https://github-production-user-asset-6210df.s3.amazonaws.com/82012629/285873679-8bfb17c9-1038-466f-a9fa-bb7c51724271.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231127%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231127T131557Z&X-Amz-Expires=300&X-Amz-Signature=299bf7a14476685ef3534d59a5363a003e9694cd637d953784884d418fa35a80&X-Amz-SignedHeaders=host&actor_id=82012629&key_id=0&repo_id=281319253">
         </a>
       </td>
       <td align="center" valign="middle">
