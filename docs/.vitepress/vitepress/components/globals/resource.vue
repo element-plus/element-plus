@@ -4,6 +4,13 @@ import { isClient } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import resourceLocale from '../../../i18n/pages/resource.json'
 import { sendEvent } from '../../../config/analytics'
+
+import AxureComponentsSvg from './resources/axure-components-svg.vue'
+import SketchTemplateSvg from './resources/sketch-template-svg.vue'
+import FigmaTemplateSvg from './resources/figma-template-svg.vue'
+import FigmaVariablesSvg from './resources/figma-variables-svg.vue'
+import FigmaUiKitSvg from './resources/figma-ui-kit-svg.vue'
+
 const mirrorUrl = 'element-plus.gitee.io'
 const isMirrorUrl = () => {
   if (!isClient) return
@@ -29,6 +36,47 @@ const resourceLang = computed(() => resourceLocale[lang.value])
 const onClick = (item: string) => {
   sendEvent('resource_download', item)
 }
+
+const resourceCards = computed(() => [
+  {
+    key: 'axure',
+    title: resourceLang.value.axure,
+    description: 'Axure RP 9.0',
+    icon: AxureComponentsSvg,
+    intro: resourceLang.value.axureIntro,
+    url: resourceUrl.axure,
+  },
+  {
+    key: 'sketch',
+    title: resourceLang.value.sketch,
+    description: 'Sketch 70.6',
+    icon: SketchTemplateSvg,
+    intro: resourceLang.value.sketchIntro,
+    url: resourceUrl.sketch,
+  },
+  {
+    key: 'figma',
+    title: resourceLang.value.figma,
+    icon: FigmaTemplateSvg,
+    intro: resourceLang.value.figmaIntro,
+    url: 'https://www.figma.com/community/file/1021254029764378306',
+  },
+  {
+    key: 'figma-variables',
+    title: resourceLang.value.figmaVariables,
+    icon: FigmaVariablesSvg,
+    intro: resourceLang.value.figmaVariablesIntro,
+    url: 'https://www.figma.com/community/file/1256091634199852065',
+  },
+  {
+    key: '2023-figma-ui-kit',
+    title: resourceLang.value.figma2023,
+    description: '2023 Figma UI Kit',
+    icon: FigmaUiKitSvg,
+    intro: resourceLang.value.figma2023Intro,
+    url: 'https://www.figma.com/community/file/1305760370797950824/element-plus-design-system-ui-kit',
+  },
+])
 </script>
 
 <template>
@@ -37,72 +85,25 @@ const onClick = (item: string) => {
     <p>{{ resourceLang.lineOne }}</p>
     <p v-html="resourceLang.lineTwo" />
     <div class="flex flex-wrap justify-center mt-32px" m="-2">
-      <div class="inline-flex w-full md:w-1/2 lg:w-1/3 3xl:w-1/4" p="2">
+      <div
+        v-for="card in resourceCards"
+        :key="card.title"
+        class="inline-flex w-full md:w-1/2 lg:w-1/3 3xl:w-1/4"
+        p="2"
+      >
         <el-card class="card" shadow="hover">
-          <axure-components-svg w="30" alt="axure" />
-          <h3>{{ resourceLang.axure }}</h3>
+          <div class="w-30 m-auto">
+            <component :is="card.icon" alt="icon" />
+          </div>
+          <h3>{{ card.title }}</h3>
           <p>
-            {{ resourceLang.axureIntro }}
+            {{ card.intro }}
           </p>
-          <a
-            target="_blank"
-            :href="resourceUrl.axure"
-            @click="onClick('axure')"
-          >
+          <a target="_blank" :href="card.url" @click="onClick(card.title)">
             <el-button type="primary">{{ resourceLang.download }}</el-button>
           </a>
         </el-card>
       </div>
-      <div class="inline-flex w-full md:w-1/2 lg:w-1/3 3xl:w-1/4" p="2">
-        <el-card class="card" shadow="hover">
-          <sketch-template-svg w="30" alt="Sketch" />
-          <h3>{{ resourceLang.sketch }}</h3>
-          <p>
-            {{ resourceLang.sketchIntro }}
-          </p>
-          <a
-            target="_blank"
-            :href="resourceUrl.sketch"
-            @click="onClick('sketch')"
-          >
-            <el-button type="primary">{{ resourceLang.download }}</el-button>
-          </a>
-        </el-card>
-      </div>
-      <div class="inline-flex w-full md:w-1/2 lg:w-1/3 3xl:w-1/4" p="2">
-        <el-card class="card" shadow="hover">
-          <figma-template-svg w="30" alt="Figma" />
-          <h3>{{ resourceLang.figma }}</h3>
-          <p>
-            {{ resourceLang.figmaIntro }}
-          </p>
-          <a
-            href="https://www.figma.com/community/file/1021254029764378306"
-            target="_blank"
-            @click="onClick('figma')"
-          >
-            <el-button type="primary">{{ resourceLang.download }}</el-button>
-          </a>
-        </el-card>
-      </div>
-      <div class="inline-flex w-full md:w-1/2 lg:w-1/3 3xl:w-1/4" p="2">
-        <el-card class="card" shadow="hover">
-          <figma-variables-svg w="30" alt="Figma" />
-          <h3>{{ resourceLang.figmaVariables }}</h3>
-          <p>
-            {{ resourceLang.figmaVariablesIntro }}
-          </p>
-          <a
-            href="https://www.figma.com/community/file/1256091634199852065"
-            target="_blank"
-            @click="onClick('figma')"
-          >
-            <el-button type="primary">{{ resourceLang.download }}</el-button>
-          </a>
-        </el-card>
-      </div>
-      <div class="inline-flex w-full md:w-1/3" p="2" />
-      <div class="inline-flex w-full md:w-1/3" p="2" />
     </div>
   </div>
 </template>

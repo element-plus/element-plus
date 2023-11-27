@@ -10,5 +10,7 @@
   "figma": "Figma Template",
   "figmaIntro": "Newly designed Figma component library in 2022 with new features such as Auto-layout and Variants.",
   "figmaVariables": "Figma Variables",
-  "figmaVariablesIntro": "Components all use variables to quickly switch between dark and light modes."
+  "figmaVariablesIntro": "Components all use variables to quickly switch between dark and light modes.",
+  "figma2023": "2023 Figma UI Kit",
+  "figma2023Intro": "Components designed using Figma's latest variable configuration provide Light/Dark/Dark Alpha theme switching to help you quickly build interface designs."
 }
