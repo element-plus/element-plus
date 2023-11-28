@@ -43,6 +43,7 @@
           :style="inputStyle"
           :form="props.form"
           :autofocus="props.autofocus"
+          :inputmode="props.inputmode"
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
