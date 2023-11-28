@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { reactive } from 'vue'
 import { hasOwn } from '@element-plus/utils'
-import { NODE_KEY, markNodeData } from './util'
+import { NODE_KEY, getNodeKey, markNodeData } from './util'
 import type TreeStore from './tree-store'
 
 import type { Nullable } from '@element-plus/utils'
@@ -204,8 +204,8 @@ class Node {
 
   get key(): TreeKey {
     const nodeKey = this.store.key
-    if (this.data) return this.data[nodeKey]
-    return null
+    if (this.data && !Array.isArray(this.data))
+      return getNodeKey(nodeKey, this.data)
   }
 
   get disabled(): boolean {

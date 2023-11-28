@@ -21,6 +21,7 @@ export interface RootTreeType {
 export declare type hType = typeof h
 export declare type TreeData = TreeNodeData[]
 export declare type TreeKey = string | number
+export declare type NodeKey = string | ((d: TreeNodeData) => TreeKey)
 export declare interface FakeNode {
   data: TreeNodeData
 }
@@ -45,7 +46,7 @@ export declare interface TreeStoreNodesMap {
   [key: string]: Node
 }
 export declare interface TreeStoreOptions {
-  key: TreeKey
+  key: NodeKey
   data: TreeData
   lazy: boolean
   props: TreeOptionProps
@@ -100,7 +101,7 @@ export declare interface TreeComponentProps {
   data: TreeData
   emptyText: string
   renderAfterExpand: boolean
-  nodeKey: string
+  nodeKey: NodeKey
   checkStrictly: boolean
   expandOnClickNode: boolean
   defaultExpandAll: boolean

@@ -80,7 +80,7 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    nodeKey: String,
+    nodeKey: [String, Function] as PropType<TreeComponentProps['nodeKey']>,
     checkStrictly: Boolean,
     defaultExpandAll: Boolean,
     expandOnClickNode: {
@@ -285,7 +285,7 @@ export default defineComponent({
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in getCurrentKey')
       const currentNode = getCurrentNode()
-      return currentNode ? currentNode[props.nodeKey] : null
+      return currentNode ? getNodeKeyUtil(props.nodeKey, currentNode) : null
     }
 
     const setCheckedNodes = (nodes: Node[], leafOnly?: boolean) => {
