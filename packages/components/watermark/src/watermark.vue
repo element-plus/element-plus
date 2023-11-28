@@ -122,7 +122,9 @@ const getMarkSize = (ctx: CanvasRenderingContext2D) => {
 
       return [
         metrics.width,
-        metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent,
+        metrics.fontBoundingBoxAscent != null
+          ? metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent
+          : metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent,
       ]
     })
     defaultWidth = Math.ceil(Math.max(...sizes.map((size) => size[0])))
