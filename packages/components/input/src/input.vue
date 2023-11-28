@@ -81,7 +81,7 @@
             </el-icon>
             <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
               <span :class="nsInput.e('count-inner')">
-                {{ textLength }} / {{ attrs.maxlength }}
+                {{ textLength }} / {{ maxlength }}
               </span>
             </span>
             <el-icon
@@ -134,7 +134,7 @@
         :style="countStyle"
         :class="nsInput.e('count')"
       >
-        {{ textLength }} / {{ attrs.maxlength }}
+        {{ textLength }} / {{ maxlength }}
       </span>
     </template>
   </div>
@@ -171,6 +171,7 @@ import {
   ValidateComponentsMap,
   debugWarn,
   isClient,
+  isFunction,
   isKorean,
   isObject,
 } from '@element-plus/utils'
@@ -232,9 +233,20 @@ const wrapperKls = computed(() => [
 
 const attrs = useAttrs({
   excludeKeys: computed<string[]>(() => {
-    return Object.keys(containerAttrs.value)
+    const _attrs = Object.keys(containerAttrs.value)
+    if (props.countGraphemes) {
+      _attrs.push('maxlength', 'minlength')
+    }
+    return _attrs
   }),
 })
+const maxlength = computed(() => {
+  if (props.showWordLimit && rawAttrs.maxlength) {
+    return rawAttrs.maxlength
+  }
+  return 0
+})
+
 const { form, formItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
@@ -252,6 +264,7 @@ const isComposing = ref(false)
 const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
+const saveValue = ref('')
 
 const _ref = computed(() => input.value || textarea.value)
 
@@ -305,18 +318,26 @@ const showPwdVisible = computed(
 const isWordLimitVisible = computed(
   () =>
     props.showWordLimit &&
-    !!attrs.value.maxlength &&
+    !!maxlength.value &&
     (props.type === 'text' || props.type === 'textarea') &&
     !inputDisabled.value &&
     !props.readonly &&
     !props.showPassword
 )
-const textLength = computed(() => nativeInputValue.value.length)
+const textLength = computed(() => {
+  if (
+    props.countGraphemes &&
+    isFunction(props.countGraphemes) &&
+    props.showWordLimit
+  ) {
+    return props.countGraphemes(nativeInputValue.value)
+  }
+  return nativeInputValue.value.length
+})
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
-    !!isWordLimitVisible.value &&
-    textLength.value > Number(attrs.value.maxlength)
+    !!isWordLimitVisible.value && textLength.value > Number(maxlength.value)
 )
 const suffixVisible = computed(
   () =>
@@ -404,6 +425,13 @@ const handleInput = async (event: Event) => {
     value = props.parser ? props.parser(value) : value
   }
 
+  if (props.countGraphemes && isFunction(props.countGraphemes)) {
+    const graphemes = props.countGraphemes(value)
+    const saveGraphemes = props.countGraphemes(saveValue.value)
+    if (graphemes > Number(maxlength.value) && graphemes > saveGraphemes) {
+      value = saveValue.value
+    }
+  }
   // should not emit input during composition
   // see: https://github.com/ElemeFE/element/issues/10516
   if (isComposing.value) return
@@ -414,6 +442,7 @@ const handleInput = async (event: Event) => {
     setNativeInputValue()
     return
   }
+  saveValue.value = value
 
   emit(UPDATE_MODEL_EVENT, value)
   emit('input', value)
@@ -495,6 +524,14 @@ watch(
       formItem?.validate?.('change').catch((err) => debugWarn(err))
     }
   }
+)
+
+watch(
+  () => nativeInputValue.value,
+  (val) => {
+    saveValue.value = val
+  },
+  { immediate: true }
 )
 
 // native input value is set explicitly

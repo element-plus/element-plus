@@ -167,6 +167,12 @@ export const inputProps = buildProps({
     default: () => mutable({} as const),
   },
   /**
+   * @description Count graphemes of input value. If it's set, native maxlength and minlength won't be used.
+   */
+  countGraphemes: {
+    type: Function,
+  },
+  /**
    * @description native input autofocus
    */
   autofocus: {

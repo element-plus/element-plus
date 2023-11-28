@@ -115,6 +115,14 @@ input/length-limiting
 
 :::
 
+## Count graphemes
+
+:::demo Set `count-graphemes` to calculate text length. If it's set, native `maxlength` and `minlength` won't be used.
+
+input/count-graphemes
+
+:::
+
 ## API
 
 ### Attributes
@@ -128,6 +136,7 @@ input/length-limiting
 | show-word-limit       | whether show word count, only works when `type` is 'text' or 'textarea'                                                                | ^[boolean]                                                                                                                                                                                                                   | false   |
 | placeholder           | placeholder of Input                                                                                                                   | ^[string]                                                                                                                                                                                                                    | —       |
 | clearable             | whether to show clear button, only works when `type` is not 'textarea'                                                                 | ^[boolean]                                                                                                                                                                                                                   | false   |
+| count-graphemes       | Count graphemes of input value. If it's set, native maxlength and minlength won't be used.                                             | ^[Function]`(value: string) => number`                                                                                                                                                                                       | —       |
 | formatter             | specifies the format of the value presented input.(only works when `type` is 'text')                                                   | ^[Function]`(value: string \| number) => string`                                                                                                                                                                             | —       |
 | parser                | specifies the value extracted from formatter input.(only works when `type` is 'text')                                                  | ^[Function]`(value: string) => string`                                                                                                                                                                                       | —       |
 | show-password         | whether to show toggleable password input                                                                                              | ^[boolean]                                                                                                                                                                                                                   | false   |
