@@ -1,13 +1,15 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vitepress'
 import { isClient, useStorage } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 import { PREFERRED_LANG_KEY } from '../constant'
 
 import langs from '../../i18n/lang.json'
-import translationLocale from '../../i18n/component/translation.json'
 import { useLang } from './lang'
 
 export const useTranslation = () => {
+  const { locale } = useI18n()
+
   const route = useRoute()
   const router = useRouter()
   const lang = useLang()
@@ -20,7 +22,6 @@ export const useTranslation = () => {
     'ja-JP': '日本語',
   }
 
-  const locale = computed(() => translationLocale[lang.value])
   const langsRef = computed(() => {
     const currentLang = lang.value
 
@@ -43,6 +44,7 @@ export const useTranslation = () => {
   const switchLang = (targetLang: string) => {
     if (lang.value === targetLang) return
 
+    locale.value = targetLang
     language.value = targetLang
 
     const firstSlash = route.path.indexOf('/', 1)

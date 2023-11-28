@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { useEventListener, useParallax, useThrottleFn } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 import { useLang } from '../../composables/lang'
-import homeLocale from '../../../i18n/pages/home.json'
 import HomeSponsors from '../home/home-sponsors.vue'
 import HomeCards from '../home/home-cards.vue'
 import HomeFooter from './vp-footer.vue'
@@ -12,7 +12,8 @@ const parallax = reactive(useParallax(target))
 const jumbotronRedOffset = ref(0)
 const jumbotronRef = ref<HTMLElement | null>(null)
 const lang = useLang()
-const homeLang = computed(() => homeLocale[lang.value])
+
+const { t } = useI18n()
 
 function jumpTo(path: string) {
   // vitepress has not router
@@ -116,8 +117,8 @@ useEventListener(window, 'scroll', handleScroll)
   <div ref="target" class="home-page">
     <div class="banner" text="center">
       <div class="banner-desc" m="t-4">
-        <h1>{{ homeLang['title'] }}</h1>
-        <p m="t-2">{{ homeLang['title_sub'] }}</p>
+        <h1>{{ t('home.title') }}</h1>
+        <p m="t-2">{{ t('home.title_sub') }}</p>
       </div>
     </div>
     <div ref="jumbotronRef" class="jumbotron">

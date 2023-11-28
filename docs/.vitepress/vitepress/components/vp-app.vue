@@ -155,4 +155,5 @@ onMounted(async () => {
     </VPContent>
     <Debug />
   </div>
+  <EpThemeEditor />
 </template>

@@ -8,6 +8,7 @@ import {
 import type { Route } from 'vitepress'
 
 export * from './colors'
+export * from './helper'
 
 export {
   isArray,
