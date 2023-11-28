@@ -6,7 +6,12 @@
     @keydown.self.enter.space="handleKeydown"
   >
     <template v-if="drag">
-      <upload-dragger :disabled="disabled" @file="uploadFiles">
+      <upload-dragger
+        :disabled="disabled"
+        :before-upload="beforeUpload"
+        :on-remove="onRemove"
+        @file="uploadFiles"
+      >
         <slot />
       </upload-dragger>
     </template>

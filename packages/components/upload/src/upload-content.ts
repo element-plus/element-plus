@@ -21,7 +21,12 @@ export const uploadContentProps = buildProps({
   },
   onRemove: {
     type: definePropType<
-      (file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void
+      (
+        file: UploadFile | UploadRawFile,
+        rawFile?: UploadRawFile,
+        isDrag?: boolean,
+        fileList?: UploadFile[]
+      ) => void
     >(Function),
     default: NOOP,
   },

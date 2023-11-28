@@ -22,7 +22,7 @@ defineOptions({
   name: COMPONENT_NAME,
 })
 
-defineProps(uploadDraggerProps)
+const props = defineProps(uploadDraggerProps)
 const emit = defineEmits(uploadDraggerEmits)
 
 const uploaderContext = inject(uploadContextKey)
@@ -37,7 +37,7 @@ const ns = useNamespace('upload')
 const dragover = ref(false)
 const disabled = useFormDisabled()
 
-const onDrop = (e: DragEvent) => {
+const onDrop = async (e: DragEvent) => {
   if (disabled.value) return
   dragover.value = false
 
@@ -50,27 +50,53 @@ const onDrop = (e: DragEvent) => {
     return
   }
 
-  const filesFiltered = files.filter((file) => {
+  const filesFiltered: File[] = []
+
+  const acceptTypes = accept
+    .split(',')
+    .map((type) => type.trim())
+    .filter((type) => type)
+  for (const file of files) {
     const { type, name } = file
     const extension = name.includes('.') ? `.${name.split('.').pop()}` : ''
     const baseType = type.replace(/\/.*$/, '')
-    return accept
-      .split(',')
-      .map((type) => type.trim())
-      .filter((type) => type)
-      .some((acceptedType) => {
-        if (acceptedType.startsWith('.')) {
-          return extension === acceptedType
-        }
-        if (/\/\*$/.test(acceptedType)) {
-          return baseType === acceptedType.replace(/\/\*$/, '')
-        }
-        if (/^[^/]+\/[^/]+$/.test(acceptedType)) {
-          return type === acceptedType
-        }
-        return false
-      })
-  })
+
+    let uploadRes = true
+    if (props.beforeUpload) {
+      try {
+        uploadRes = await props.beforeUpload(file)
+      } catch {
+        uploadRes = false
+      }
+    }
+
+    if (uploadRes === false && props.onRemove) {
+      props.onRemove(file, undefined, true, files)
+      continue
+    }
+
+    const isAccept = acceptTypes.some((acceptedType) => {
+      if (acceptedType.startsWith('.')) {
+        return extension === acceptedType
+      }
+      if (/\/\*$/.test(acceptedType)) {
+        return baseType === acceptedType.replace(/\/\*$/, '')
+      }
+      if (/^[^/]+\/[^/]+$/.test(acceptedType)) {
+        return type === acceptedType
+      }
+      return false
+    })
+
+    if (!isAccept && props.onRemove) {
+      props.onRemove(file, undefined, true, files)
+      continue
+    }
+
+    if (isAccept) {
+      filesFiltered.push(file)
+    }
+  }
 
   emit('file', filesFiltered)
 }
