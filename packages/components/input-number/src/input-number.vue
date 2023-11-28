@@ -50,6 +50,7 @@
       :name="name"
       :label="label"
       :validate-event="false"
+      :inputmode="inputmode"
       @wheel.prevent
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"

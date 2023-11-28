@@ -1,12 +1,12 @@
 import { isNil } from 'lodash-unified'
 import { useSizeProp } from '@element-plus/hooks'
-import { buildProps, isNumber } from '@element-plus/utils'
+import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, HTMLAttributes } from 'vue'
 import type InputNumber from './input-number.vue'
 
 export const inputNumberProps = buildProps({
@@ -108,6 +108,13 @@ export const inputNumberProps = buildProps({
   validateEvent: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @description native input mode for virtual keyboards
+   */
+  inputmode: {
+    type: definePropType<HTMLAttributes['inputmode']>(String),
+    default: undefined,
   },
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>

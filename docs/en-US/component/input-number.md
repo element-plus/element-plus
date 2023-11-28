@@ -100,6 +100,7 @@ input-number/controlled
 | label                   | same as `label` in native input                  | ^[string]                                     | —         |
 | placeholder             | same as `placeholder` in native input            | ^[string]                                     | —         |
 | id                      | same as `id` in native input                     | ^[string]                                     | —         |
+| inputmode               | same as `inputmode` in native input              | ^[string]                                     | —         |
 | value-on-clear ^(2.2.0) | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —         |
 | validate-event          | whether to trigger form validation               | ^[boolean]                                    | true      |
 
