@@ -23,6 +23,7 @@ import ApiNumberType from './components/globals/vp-api-number.vue'
 import ApiRefType from './components/globals/vp-api-ref.vue'
 import ApiEnumType from './components/globals/vp-api-enum.vue'
 import ApiExternalType from './components/globals/vp-api-external.vue'
+import PropsTable from './components/globals/props-table.vue'
 import IconList from './components/globals/icons.vue'
 
 import type { Component } from 'vue'
@@ -41,4 +42,5 @@ export const globals: [string, Component][] = [
   ['NumberType', ApiNumberType],
   ['RefType', ApiRefType],
   ['ExternalType', ApiExternalType],
+  ['PropsTable', PropsTable],
 ]
