@@ -1,5 +1,23 @@
 ## Changelog
 
+### 2.4.3
+
+_2023-11-27_
+
+#### Features
+
+- Components [card] adds footer slot (#10357 by @faga295)
+- Components [dialog] append dialog to any element (#14317 by @Karolis-Stoncius)
+- Docs add 2023 figma ui kit (#14922 by @YunYouJun)
+- Components [select] add header and footer slot (#14876 by @Cheerwhy)
+
+#### Bug fixes
+
+- Components [select] style error in multiple collapseTags (#14602 by @Fuphoenixes)
+- Components [date-picker] add the vertical-align attribute  to d… (#14798 by @yj-liuzepeng)
+- Docs [watermark] adjusting the text color in dark mode (#14871 by @btea)
+- Components [tree] default slots not displayed (#14939 by @FrontEndDog)
+
 ### 2.4.2
 
 _2023-11-03_
