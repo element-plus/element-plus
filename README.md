@@ -83,7 +83,7 @@ You can also try Element Plus out with the components built-in playground.
       </td>
       <td align="center" valign="middle">
         <a href="http://github.crmeb.net/u/Element?from=element-plus" target="_blank">
-          <img width="150px" src="https://github-production-user-asset-6210df.s3.amazonaws.com/82012629/285873679-8bfb17c9-1038-466f-a9fa-bb7c51724271.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231127%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231127T131557Z&X-Amz-Expires=300&X-Amz-Signature=299bf7a14476685ef3534d59a5363a003e9694cd637d953784884d418fa35a80&X-Amz-SignedHeaders=host&actor_id=82012629&key_id=0&repo_id=281319253">
+          <img width="150px" src="https://github-production-user-asset-6210df.s3.amazonaws.com/82012629/286477993-570c3e32-c32c-43ea-997b-2c5fc8df198a.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231129%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231129T043748Z&X-Amz-Expires=300&X-Amz-Signature=b4f0d40ae84855c2c9cdab96e90aaf8fcbbba67240bbe2588c32775b41cc1720&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=281319253">
         </a>
       </td>
       <td align="center" valign="middle">
