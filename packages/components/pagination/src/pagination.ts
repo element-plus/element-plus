@@ -237,7 +237,7 @@ export default defineComponent({
       isAbsent(props.defaultCurrentPage) ? 1 : props.defaultCurrentPage
     )
 
-    const debounceMicrotask = (fn: () => void) => {
+    const debounceMicroTask = (fn: () => void) => {
       let scheduled = false
       return () => {
         if (scheduled) return
@@ -249,7 +249,7 @@ export default defineComponent({
       }
     }
 
-    const handlePageChange = debounceMicrotask(() => {
+    const handlePageChange = debounceMicroTask(() => {
       emit('change', currentPageBridge.value, pageSizeBridge.value)
     })
 
