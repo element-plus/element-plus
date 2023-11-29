@@ -117,7 +117,7 @@ useEventListener(window, 'scroll', handleScroll)
     <div class="banner" text="center">
       <div class="banner-desc">
         <h1>{{ homeLang['title'] }}</h1>
-        <p m="t-2">{{ homeLang['title_sub'] }}</p>
+        <p>{{ homeLang['title_sub'] }}</p>
       </div>
     </div>
     <div ref="jumbotronRef" class="jumbotron">
@@ -151,9 +151,11 @@ useEventListener(window, 'scroll', handleScroll)
 @use '../../styles/mixins' as *;
 
 @font-face {
-  font-family: 'Element';
-  src: url('/fonts/Element-Regular.woff2') format('woff2');
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
   font-display: swap;
+  src: url('/fonts/Inter-ExtraBold.woff2') format('woff2');
 }
 
 .home-page {
@@ -177,13 +179,15 @@ useEventListener(window, 'scroll', handleScroll)
   .banner-desc {
     h1 {
       font-size: 48px;
+      font-weight: 800;
       margin: 0;
       color: var(--text-color);
-      font-family: Element, sans-serif;
+      font-family: 'Inter', sans-serif;
     }
 
     p {
       font-size: 16px;
+      margin-top: 20px;
       color: var(--text-color-light);
     }
   }
@@ -244,6 +248,7 @@ useEventListener(window, 'scroll', handleScroll)
     }
 
     .mobile-banner {
+      margin-top: 10px;
       display: inline-block;
     }
   }
@@ -282,6 +287,7 @@ useEventListener(window, 'scroll', handleScroll)
         font-size: 36px;
       }
       p {
+        margin-top: 10px;
         font-size: 14px;
       }
     }
@@ -307,7 +313,7 @@ useEventListener(window, 'scroll', handleScroll)
       }
       .cd-str {
         font-size: 12px;
-        margin-top: 0px;
+        margin-top: 0;
       }
     }
     .sponsors-list {
