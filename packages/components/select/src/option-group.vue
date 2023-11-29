@@ -1,6 +1,10 @@
 <template>
   <ul v-show="visible" :class="ns.be('group', 'wrap')">
-    <li :class="ns.be('group', 'title')">{{ label }}</li>
+    <li :class="ns.be('group', 'title')">
+      <slot name="title" :label="label" :disabled="disabled">
+        {{ label }}
+      </slot>
+    </li>
     <li>
       <ul :class="ns.b('group')">
         <slot />
