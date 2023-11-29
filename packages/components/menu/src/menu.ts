@@ -114,11 +114,6 @@ export default defineComponent({
     // data
     const sliceIndex = ref(-1)
 
-    const openedMenus = ref<MenuProvider['openedMenus']>(
-      props.defaultOpeneds && !props.collapse
-        ? props.defaultOpeneds.slice(0)
-        : []
-    )
     const activeIndex = ref<MenuProvider['activeIndex']>(props.defaultActive)
     const items = ref<MenuProvider['items']>({})
     const subMenus = ref<MenuProvider['subMenus']>({})
@@ -129,6 +124,12 @@ export default defineComponent({
         props.mode === 'horizontal' ||
         (props.mode === 'vertical' && props.collapse)
       )
+    })
+
+    const openedMenus = computed<MenuProvider['openedMenus']>(() => {
+      return props.defaultOpeneds && !props.collapse
+        ? props.defaultOpeneds.slice(0)
+        : []
     })
 
     // methods
