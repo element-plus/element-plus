@@ -115,9 +115,9 @@ useEventListener(window, 'scroll', handleScroll)
 <template>
   <div ref="target" class="home-page">
     <div class="banner" text="center">
-      <div class="banner-desc" m="t-4">
+      <div class="banner-desc">
         <h1>{{ homeLang['title'] }}</h1>
-        <p m="t-2">{{ homeLang['title_sub'] }}</p>
+        <p>{{ homeLang['title_sub'] }}</p>
       </div>
     </div>
     <div ref="jumbotronRef" class="jumbotron">
@@ -150,6 +150,14 @@ useEventListener(window, 'scroll', handleScroll)
 <style lang="scss">
 @use '../../styles/mixins' as *;
 
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/Inter-ExtraBold.woff2') format('woff2');
+}
+
 .home-page {
   .mobile-banner {
     display: none;
@@ -170,14 +178,16 @@ useEventListener(window, 'scroll', handleScroll)
   }
   .banner-desc {
     h1 {
-      font-size: 34px;
+      font-size: 48px;
+      font-weight: 800;
       margin: 0;
-      line-height: 48px;
       color: var(--text-color);
+      font-family: 'Inter', sans-serif;
     }
 
     p {
-      font-size: 18px;
+      font-size: 16px;
+      margin-top: 20px;
       color: var(--text-color-light);
     }
   }
@@ -238,6 +248,7 @@ useEventListener(window, 'scroll', handleScroll)
     }
 
     .mobile-banner {
+      margin-top: 10px;
       display: inline-block;
     }
   }
@@ -257,9 +268,6 @@ useEventListener(window, 'scroll', handleScroll)
   }
 
   @media (max-width: 768px) {
-    .banner-desc {
-      padding-top: 0px;
-    }
     .cards {
       li {
         width: 80%;
@@ -276,16 +284,11 @@ useEventListener(window, 'scroll', handleScroll)
     }
     .banner-desc {
       h1 {
-        font-size: 22px;
-      }
-      #line2 {
-        display: none;
-      }
-      h2 {
-        font-size: 32px;
+        font-size: 36px;
       }
       p {
-        width: auto;
+        margin-top: 10px;
+        font-size: 14px;
       }
     }
     .banner-dot h1 span {
@@ -310,7 +313,7 @@ useEventListener(window, 'scroll', handleScroll)
       }
       .cd-str {
         font-size: 12px;
-        margin-top: 0px;
+        margin-top: 0;
       }
     }
     .sponsors-list {
