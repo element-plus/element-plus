@@ -174,7 +174,7 @@ useEventListener(window, 'scroll', handleScroll)
       font-weight: 800;
       margin: 0;
       color: var(--text-color);
-      font-family: 'Inter', sans-serif;
+      font-family: Inter, sans-serif;
     }
 
     p {
