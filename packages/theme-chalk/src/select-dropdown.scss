@@ -89,3 +89,13 @@ $checked-icon: "data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='
   margin: 0;
   box-sizing: border-box;
 }
+
+@include b(select-dropdown__header) {
+  padding: map.get($select-dropdown, 'header-padding');
+  border-bottom: map.get($select-dropdown, 'border');
+}
+
+@include b(select-dropdown__footer) {
+  padding: map.get($select-dropdown, 'footer-padding');
+  border-top: map.get($select-dropdown, 'border');
+}
