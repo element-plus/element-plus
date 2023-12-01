@@ -300,7 +300,6 @@ export default defineComponent({
     // expose
     expose({
       opened,
-      mouseInChild,
     })
 
     // lifecycle
