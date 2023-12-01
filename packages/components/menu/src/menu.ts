@@ -3,12 +3,12 @@ import {
   defineComponent,
   getCurrentInstance,
   h,
-  isVNode,
   nextTick,
   onMounted,
   provide,
   reactive,
   ref,
+  unref,
   watch,
   watchEffect,
   withDirectives,
@@ -22,7 +22,6 @@ import {
   buildProps,
   definePropType,
   flattedChildren,
-  isArray,
   isObject,
   isString,
   mutable,
@@ -33,9 +32,7 @@ import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
-import type { VNodeChildAtom } from '@element-plus/utils'
 import type {
-  Component,
   DirectiveArguments,
   ExtractPropTypes,
   VNode,
@@ -324,6 +321,8 @@ export default defineComponent({
       else resizeStopper?.()
     })
 
+    const mouseInChild = ref(false)
+
     // provide
     {
       const addSubMenu: MenuProvider['addSubMenu'] = (item) => {
@@ -364,7 +363,7 @@ export default defineComponent({
       provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
-        mouseInChild: ref(false),
+        mouseInChild,
         level: 0,
       })
     }
@@ -430,41 +429,6 @@ export default defineComponent({
 
       const ulStyle = useMenuCssVar(props, 0)
 
-      const recursiveMouseInSubMenu = (
-        slot: VNodeArrayChildren | VNodeChildAtom
-      ): boolean => {
-        if (
-          !slot ||
-          (isVNode(slot) && (slot.type as Component).name !== 'ElSubMenu') ||
-          !isObject(slot)
-        )
-          return false
-
-        if (isArray(slot)) {
-          for (const element of slot) {
-            const value = recursiveMouseInSubMenu(element)
-            if (value) return true
-          }
-
-          return false
-        }
-
-        if (slot.component?.exposed?.mouseInChild.value) return true
-
-        const subMenuSlots = slot.component?.slots?.default?.()
-
-        if (!subMenuSlots || !subMenuSlots.entries()) return false
-
-        for (const [i, subMenuSlot] of subMenuSlots.entries()) {
-          if ((subMenuSlot.type as Component).name === 'ElSubMenu') {
-            const value = recursiveMouseInSubMenu(subMenuSlots[i])
-            if (value) return value
-          }
-        }
-
-        return false
-      }
-
       const constructIndexPath = (index: string) => {
         const indexPath: string[] = []
         const splits = index.split('-')
@@ -484,7 +448,7 @@ export default defineComponent({
               () => {
                 if (!openedMenus.value.length) return
 
-                const hasMouseInMenu = recursiveMouseInSubMenu(slot)
+                const hasMouseInMenu = unref(mouseInChild)
 
                 if (!hasMouseInMenu) {
                   timeout?.()
