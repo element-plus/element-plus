@@ -383,6 +383,9 @@ export function createTablePopper(
     }
     popperInstance?.update()
   }
+
+  const triggerChanged = removePopper?.trigger !== trigger
+  removePopper?.()
   removePopper = () => {
     try {
       popperInstance && popperInstance.destroy()
@@ -393,6 +396,8 @@ export function createTablePopper(
       removePopper = undefined
     } catch {}
   }
+  removePopper.trigger = trigger
+
   let popperInstance: Nullable<PopperInstance> = null
   const { onOpen, onClose } = useDelayedToggle({
     showAfter: tooltipOptions.showAfter,
@@ -424,7 +429,7 @@ export function createTablePopper(
       },
     })
   }
-  if (tooltipOptions.showAfter) {
+  if (tooltipOptions.showAfter && triggerChanged) {
     modifiers.push(togglePopperVisible('none'))
   }
   const popperOptions = tooltipOptions.popperOptions || {}
