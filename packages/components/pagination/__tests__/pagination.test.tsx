@@ -194,6 +194,34 @@ describe('Pagination', () => {
       const caretRightIcon = mount(CaretRight).find('svg').element
       expect(nextPrev.innerHTML).toBe(caretRightIcon.innerHTML)
     })
+
+    test('test number slot', async () => {
+      const wrapper = mount({
+        components: {
+          Pagination,
+        },
+        template: `
+        <pagination layout="pager" :total="500">
+          <template #number="{ page }">
+            <span :class="'page-' + page">
+              {{ page }}P
+            </span>
+          </template>
+        </pagination>
+        `,
+      })
+      const pagerFirst = wrapper.find('span.page-1')
+      expect(pagerFirst.exists()).toBe(true)
+      expect(pagerFirst.element.innerHTML.trim()).toBe('1P')
+
+      const pagerCenter = wrapper.find('span.page-4')
+      expect(pagerCenter.exists()).toBe(true)
+      expect(pagerCenter.element.innerHTML.trim()).toBe('4P')
+
+      const pagerLast = wrapper.find('span.page-50')
+      expect(pagerLast.exists()).toBe(true)
+      expect(pagerLast.element.innerHTML.trim()).toBe('50P')
+    })
   })
 
   describe('test pageSize & currentPage reactive change', () => {

@@ -356,13 +356,19 @@ export default defineComponent({
         jumper: h(Jumper, {
           size: props.small ? 'small' : 'default',
         }),
-        pager: h(Pager, {
-          currentPage: currentPageBridge.value,
-          pageCount: pageCountBridge.value,
-          pagerCount: props.pagerCount,
-          onChange: handleCurrentChange,
-          disabled: props.disabled,
-        }),
+        pager: h(
+          Pager,
+          {
+            currentPage: currentPageBridge.value,
+            pageCount: pageCountBridge.value,
+            pagerCount: props.pagerCount,
+            onChange: handleCurrentChange,
+            disabled: props.disabled,
+          },
+          {
+            number: slots.number,
+          }
+        ),
         next: h(Next, {
           disabled: props.disabled,
           currentPage: currentPageBridge.value,
