@@ -7,9 +7,6 @@ import Input from '../src/input.vue'
 import type { CSSProperties } from 'vue'
 import type { InputAutoSize, InputInstance, InputProps } from '../src/input'
 
-const mockGetFile = (element: HTMLInputElement, files: File[]) =>
-  vi.spyOn(element, 'files', 'get').mockImplementation((): any => files)
-
 describe('Input.vue', () => {
   afterEach(() => {
     vi.restoreAllMocks()
@@ -546,16 +543,14 @@ describe('Input.vue', () => {
     })
   })
 
-  test('input change event return FileList when type is file', async () => {
+  test('input change event return Event', async () => {
     const onChange = vi.fn()
-    const wrapper = mount(() => <Input type="file" onChange={onChange} />)
+    const wrapper = mount(() => <Input onChange={onChange} />)
 
-    const fileList = [new File(['content'], 'test-file.txt')]
-    mockGetFile(wrapper.find('input').element, fileList)
     await wrapper.find('input').trigger('change')
     await nextTick()
 
-    expect(onChange).toHaveBeenCalledWith('', fileList)
+    expect(onChange).toHaveBeenCalledWith('', expect.any(Event))
   })
 
   // TODO: validateEvent & input containes select cases should be added after the rest components finished
