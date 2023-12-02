@@ -234,8 +234,8 @@ const handleMouseDown = (event: MouseEvent) => {
   }
 }
 
-const handleChange = (value: string | FileList) => {
-  emit(CHANGE_EVENT, String(value))
+const handleChange = (value: string) => {
+  emit(CHANGE_EVENT, value)
 }
 
 const handleFocus = (evt: FocusEvent) => {

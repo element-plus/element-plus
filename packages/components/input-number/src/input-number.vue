@@ -252,7 +252,7 @@ const handleInput = (value: string) => {
   emit(INPUT_EVENT, newVal)
   setCurrentValue(newVal, false)
 }
-const handleInputChange = (value: string | FileList) => {
+const handleInputChange = (value: string) => {
   const newVal = value !== '' ? Number(value) : ''
   if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
     setCurrentValue(newVal)
