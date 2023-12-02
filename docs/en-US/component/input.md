@@ -157,7 +157,7 @@ input/length-limiting
 | ------ | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | blur   | triggers when Input blurs                                                                             | ^[Function]`(event: FocusEvent) => void`       |
 | focus  | triggers when Input focuses                                                                           | ^[Function]`(event: FocusEvent) => void`       |
-| change | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | ^[Function]`(value: string \| number) => void` |
+| change | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | ^[Function]`(value: string \| number,evt?: Event) => void` |
 | input  | triggers when the Input value change                                                                  | ^[Function]`(value: string \| number) => void` |
 | clear  | triggers when the Input is cleared by clicking the clear button                                       | ^[Function]`() => void`                        |
 
