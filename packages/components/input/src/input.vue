@@ -397,7 +397,9 @@ const setNativeInputValue = () => {
 
 const handleInput = async (event: Event) => {
   recordCursor()
+
   let { value } = event.target as TargetElement
+
   if (props.formatter) {
     value = props.parser ? props.parser(value) : value
   }
@@ -424,7 +426,7 @@ const handleInput = async (event: Event) => {
 }
 
 const handleChange = (event: Event) => {
-  emit('change', (event.target as TargetElement).value)
+  emit('change', (event.target as TargetElement).value, event)
 }
 
 const handleCompositionStart = (event: CompositionEvent) => {

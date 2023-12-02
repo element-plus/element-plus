@@ -42,7 +42,7 @@ function handleInput(val: number | string) {
   userInput.value = val ? +val : ''
 }
 
-function handleChange(val: number | string | FileList) {
+function handleChange(val: number | string) {
   val = Math.trunc(+val)
   changeEvent?.(val)
   userInput.value = undefined

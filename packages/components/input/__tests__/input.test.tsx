@@ -354,7 +354,7 @@ describe('Input.vue', () => {
       const value = ref('')
 
       const handleChange = (val: string) => {
-        value.value = String(val)
+        value.value = val
       }
 
       // NOTE: should be same as native's change behavior
