@@ -543,7 +543,7 @@ describe('Input.vue', () => {
     })
   })
 
-  test('input change event return Event', async () => {
+  test('input change event return Event parameter', async () => {
     const onChange = vi.fn()
     const wrapper = mount(() => <Input onChange={onChange} />)
 
