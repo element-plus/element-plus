@@ -51,6 +51,16 @@ pagination/auto-hide-pagination
 
 :::
 
+## Customize page number rendering
+
+You can customize number rendering by using `number` slot.
+
+:::demo
+
+pagination/customize-number-rendering
+
+:::
+
 ## More elements
 
 Add more modules based on your scenario.
@@ -117,3 +127,4 @@ Events above are not recommended(but are still supported for compatible reason),
 | Name    | Description                                                         |
 | ------- | ------------------------------------------------------------------- |
 | default | custom content. To use this, you need to declare `slot` in `layout` |
+| number  | rendering customize element in page number                          |
