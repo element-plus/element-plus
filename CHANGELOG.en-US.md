@@ -1,5 +1,45 @@
 ## Changelog
 
+### 2.4.3
+
+_2023-11-27_
+
+#### Features
+
+- Components [card] adds footer slot (#10357 by @faga295)
+- Components [dialog] append dialog to any element (#14317 by @Karolis-Stoncius)
+- Docs add 2023 figma ui kit (#14922 by @YunYouJun)
+- Components [select] add header and footer slot (#14876 by @Cheerwhy)
+
+#### Bug fixes
+
+- Components [select] style error in multiple collapseTags (#14602 by @Fuphoenixes)
+- Components [date-picker] add the vertical-align attribute  to d… (#14798 by @yj-liuzepeng)
+- Docs [watermark] adjusting the text color in dark mode (#14871 by @btea)
+- Components [tree] default slots not displayed (#14939 by @FrontEndDog)
+
+### 2.4.2
+
+_2023-11-03_
+
+#### Features
+
+- Components [select-v2] add props attribute (#14536 by @tolking)
+- I18n add Swahili(sw) translation (#14660 by @Manonicu)
+- Components [watermark] add font textAlign and textBaseline (#14567 by @IceyWu)
+
+#### Bug fixes
+
+- Components [select] Fix border and shadow color error (#12757 by @baiwusanyu-c)
+- Components [message-box] uncaught on draggable (#14618 by @betavs)
+- Components [select-v2] label error when value not in the options (#14656 by @tolking)
+- Components [rate] Fix the background rate when decimal (#14622 by @cc-hearts)
+- Components [dialog] fix el-dialog z-index bug (#14373 by @nothing-sy)
+- Components [dialog] consistent imports of lodash
+- Components [tree-select] v-model invalid when source changes (#14603 by @yujinpan)
+- Components [table] tooltipOptions.showAfter is not effective (#13175 by @xingyixiang)
+- Revert "fix(components): [table] tooltipOptions.showAfter is not effe… (#14735 by @btea)
+
 ### 2.4.1
 
 _2023-10-18_

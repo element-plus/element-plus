@@ -21,6 +21,7 @@
   @include set-component-css-var('input', $input);
   position: relative;
   text-align: left;
+  vertical-align: middle;
 
   &.#{$namespace}-input__wrapper {
     @include inset-input-border(

@@ -6,6 +6,9 @@ import type { IDatePickerType } from '../date-picker.type'
 
 export const datePickerProps = buildProps({
   ...timePickerDefaultProps,
+  /**
+   * @description type of the picker
+   */
   type: {
     type: definePropType<IDatePickerType>(String),
     default: 'date',
