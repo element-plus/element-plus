@@ -72,7 +72,7 @@ const ns = useNamespace('time')
 const { t, lang } = useLocale()
 // data
 const selectionRange = ref([0, 2])
-// const oldValue = useOldValue(props)
+const oldValue = useOldValue(props)
 // computed
 const transitionName = computed(() => {
   return isUndefined(props.actualVisible)
@@ -93,11 +93,18 @@ const isValidValue = (_date: Dayjs) => {
   const result = getRangeAvailableTime(parsedDate)
   return parsedDate.isSame(result)
 }
+
+const inputStatus = ref<boolean>(false)
 const handleCancel = () => {
-  emit('pick', '', false)
+  if (inputStatus.value) {
+    emit('pick', oldValue.value, false)
+  } else {
+    emit('pick', '', false)
+  }
 }
 const handleConfirm = (visible = false, first = false) => {
   if (first) return
+  inputStatus.value = true
   emit('pick', props.parsedValue, visible)
 }
 const handleChange = (_date: Dayjs) => {
