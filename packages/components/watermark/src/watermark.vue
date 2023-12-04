@@ -123,7 +123,7 @@ const getMarkSize = (ctx: CanvasRenderingContext2D) => {
       return [
         metrics.width,
         // Using `actualBoundingBoxAscent` to be compatible with lower version browsers (eg: Firefox < 116)
-        metrics.fontBoundingBoxAscent != null
+        metrics.fontBoundingBoxAscent !== undefined
           ? metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent
           : metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent,
       ]
