@@ -271,6 +271,8 @@ export default defineComponent({
       return sliceIndex === items.length ? -1 : sliceIndex
     }
 
+    const getIndexPath = (index: string) => subMenus.value[index].indexPath
+
     // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms, In order to avoid a certain chance of repeated triggering when `resize`, set wait to 16.67 * 2 = 33.34
     const debounce = (fn: () => void, wait = 33.34) => {
       let timmer: ReturnType<typeof setTimeout> | null
@@ -429,18 +431,6 @@ export default defineComponent({
 
       const ulStyle = useMenuCssVar(props, 0)
 
-      const constructIndexPath = (index: string) => {
-        const indexPath: string[] = []
-        const splits = index.split('-')
-
-        for (let i = 0; i < splits.length; i++) {
-          const nextIndexPath = splits.slice(0, i + 1).join('-')
-          indexPath.push(nextIndexPath)
-        }
-
-        return indexPath
-      }
-
       const directives: DirectiveArguments = props.collapseOnClickOutside
         ? [
             [
@@ -453,9 +443,9 @@ export default defineComponent({
                 if (!hasMouseInMenu) {
                   timeout?.()
                   ;({ stop: timeout } = useTimeoutFn(() => {
-                    openedMenus.value.forEach((openedMenu) => {
-                      emit('close', openedMenu, constructIndexPath(openedMenu))
-                    })
+                    openedMenus.value.forEach((openedMenu) =>
+                      emit('close', openedMenu, getIndexPath(openedMenu))
+                    )
 
                     openedMenus.value = []
                   }, props.hideTimeout))
