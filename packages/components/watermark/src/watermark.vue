@@ -225,5 +225,7 @@ const onMutate = (mutations: MutationRecord[]) => {
 
 useMutationObserver(containerRef, onMutate, {
   attributes: true,
+  subtree: true,
+  childList: true,
 })
 </script>
