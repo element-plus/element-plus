@@ -19,6 +19,7 @@ import {
   buildProps,
   definePropType,
   flattedChildren,
+  iconPropType,
   isObject,
   isString,
   mutable,
@@ -31,7 +32,12 @@ import { useMenuCssVar } from './use-menu-css-var'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
-import type { ExtractPropTypes, VNode, VNodeArrayChildren } from 'vue'
+import type {
+  Component,
+  ExtractPropTypes,
+  VNode,
+  VNodeArrayChildren,
+} from 'vue'
 import type { UseResizeObserverReturn } from '@vueuse/core'
 
 export const menuProps = buildProps({
@@ -66,6 +72,13 @@ export const menuProps = buildProps({
   ellipsis: {
     type: Boolean,
     default: true,
+  },
+  ellipsisPopperOffset: {
+    type: Number,
+    default: 6,
+  },
+  ellipsisIcon: {
+    type: iconPropType,
   },
   popperEffect: {
     type: String,
@@ -393,6 +406,7 @@ export default defineComponent({
               {
                 index: 'sub-menu-more',
                 class: nsSubMenu.e('hide-arrow'),
+                popperOffset: props.ellipsisPopperOffset,
               },
               {
                 title: () =>
@@ -401,7 +415,12 @@ export default defineComponent({
                     {
                       class: nsSubMenu.e('icon-more'),
                     },
-                    { default: () => h(More) }
+                    {
+                      default: () =>
+                        props.ellipsisIcon
+                          ? h(props.ellipsisIcon as Component)
+                          : h(More),
+                    }
                   ),
                 default: () => slotMore,
               }
