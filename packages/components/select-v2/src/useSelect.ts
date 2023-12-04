@@ -83,7 +83,7 @@ const useSelect = (props: ISelectProps, emit) => {
   const selectDisabled = computed(() => props.disabled || elForm?.disabled)
 
   const popupHeight = computed(() => {
-    const totalHeight = filteredOptions.value.length * 34
+    const totalHeight = filteredOptions.value.length * props.itemHeight
     return totalHeight > props.height ? props.height : totalHeight
   })
 
