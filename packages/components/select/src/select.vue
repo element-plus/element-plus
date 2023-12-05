@@ -249,6 +249,9 @@
       </template>
       <template #content>
         <el-select-menu>
+          <template v-if="$slots.header" #header>
+            <slot name="header" />
+          </template>
           <el-scrollbar
             v-show="options.size > 0 && !loading"
             :id="contentId"
@@ -276,6 +279,9 @@
             <p v-else :class="nsSelect.be('dropdown', 'empty')">
               {{ emptyText }}
             </p>
+          </template>
+          <template v-if="$slots.footer" #footer>
+            <slot name="footer" />
           </template>
         </el-select-menu>
       </template>
@@ -693,7 +699,8 @@ export default defineComponent({
 
     const tagTextStyle = computed(() => {
       const maxWidth =
-        unref(inputWidth) > 123
+        unref(inputWidth) > 123 &&
+        unref(selected).length > props.maxCollapseTags
           ? unref(inputWidth) - 123
           : unref(inputWidth) - 75
       return { maxWidth: `${maxWidth}px` }
