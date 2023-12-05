@@ -1521,4 +1521,66 @@ describe('Tree.vue', () => {
     )
     expect(flag).toBe(false)
   })
+
+  test('customize some node contents', async () => {
+    const wrapper = mount({
+      template: `
+        <el-tree :data="data">
+          <template #default="{ data }">
+            <div v-if="data.id === '1'">
+              customize: {{ data.label }}
+            </div>
+          </template>
+        </el-tree>
+      `,
+      components: {
+        'el-tree': Tree,
+      },
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'Level one 1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'Level two 1-1',
+                  children: [
+                    {
+                      label: 'Level three 1-1-1',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: '2',
+              label: 'Level one 2',
+              children: [
+                {
+                  id: '2-1',
+                  label: 'Level two 2-1',
+                  children: [
+                    {
+                      label: 'Level three 2-1-1',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+    const nodeContentWrapper1 = wrapper.findAll('.el-tree-node__content')[0]
+    const nodeContentWrapper2 = wrapper.findAll('.el-tree-node__content')[1]
+
+    const nodeLabelWrapper1 = nodeContentWrapper1.find('div')
+    const nodeLabelWrapper2 = nodeContentWrapper2.find(
+      'span.el-tree-node__label'
+    )
+    expect(nodeLabelWrapper1.text()).toEqual('customize: Level one 1')
+    expect(nodeLabelWrapper2.text()).toEqual('Level one 2')
+  })
 })
