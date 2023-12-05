@@ -79,6 +79,7 @@ export const menuProps = buildProps({
   },
   ellipsisIcon: {
     type: iconPropType,
+    default: () => More,
   },
   popperEffect: {
     type: String,
@@ -416,10 +417,7 @@ export default defineComponent({
                       class: nsSubMenu.e('icon-more'),
                     },
                     {
-                      default: () =>
-                        props.ellipsisIcon
-                          ? h(props.ellipsisIcon as Component)
-                          : h(More),
+                      default: () => h(props.ellipsisIcon as Component),
                     }
                   ),
                 default: () => slotMore,

@@ -1,7 +1,7 @@
 <template>
   <el-menu
     ellipsis
-    class="el-menu-ellipsis-demo"
+    class="el-menu-popper-demo"
     mode="horizontal"
     :popper-offset="16"
     style="width: 600px"
