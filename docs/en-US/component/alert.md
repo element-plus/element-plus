@@ -79,16 +79,16 @@ alert/icon-description
 
 ### Attributes
 
-| Name        | Description                              | Type                                                  | Default   | Required |
-| ----------- | ---------------------------------------- | ----------------------------------------------------- | --------- | -------- |
-| title       | alert title.                             | ^[string]                                             | —         | No       |
-| type        | alert type.                              | ^[enum]`'success' \| 'warning' \| 'info' \| 'error' ` | `info`    | No       |
-| description | descriptive text.                        | ^[string]                                             | —         | No       |
-| closable    | whether alert can be dismissed.          | ^[boolean]                                            | `true`    | No       |
-| center      | whether content is placed in the center. | ^[boolean]                                            | `false`   | No       |
-| close-text  | customized close button text.            | ^[string]                                             | —         | No       |
-| show-icon   | whether a type icon is displayed.        | ^[boolean]                                            | `false`   | No       |
-| effect      | theme style.                             | ^[enum]`'light' \| 'dark'`                            | `'light'` | No       |
+| Name        | Description                              | Type                                                  | Default |
+| ----------- | ---------------------------------------- | ----------------------------------------------------- | ------- |
+| title       | alert title.                             | ^[string]                                             | —       |
+| type        | alert type.                              | ^[enum]`'success' \| 'warning' \| 'info' \| 'error' ` | info    |
+| description | descriptive text.                        | ^[string]                                             | —       |
+| closable    | whether alert can be dismissed.          | ^[boolean]                                            | true    |
+| center      | whether content is placed in the center. | ^[boolean]                                            | false   |
+| close-text  | customized close button text.            | ^[string]                                             | —       |
+| show-icon   | whether a type icon is displayed.        | ^[boolean]                                            | false   |
+| effect      | theme style.                             | ^[enum]`'light' \| 'dark'`                            | light   |
 
 ### Events
 
