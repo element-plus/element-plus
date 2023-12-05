@@ -51,7 +51,7 @@ menu/collapse
 
 :::
 
-## PopperOffset ^(2.4.4)
+## Popper Offset ^(2.5.0)
 
 menu with popperOffset and overrides submenu popperOffset.
 
