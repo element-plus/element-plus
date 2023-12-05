@@ -20,7 +20,7 @@
       </el-sub-menu>
     </el-sub-menu>
     <el-sub-menu index="3" :popper-offset="8">
-      <template #title>Override PopperOffset</template>
+      <template #title>Override Popper Offset</template>
       <el-menu-item index="3-1">item one</el-menu-item>
       <el-menu-item index="3-2">item two</el-menu-item>
       <el-menu-item index="3-3">item three</el-menu-item>
