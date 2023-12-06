@@ -58,7 +58,7 @@ export const subMenuProps = buildProps({
   },
   popperOffset: {
     type: Number,
-    default: 6,
+    default: undefined,
   },
   expandCloseIcon: {
     type: iconPropType,
@@ -195,6 +195,10 @@ export default defineComponent({
     })
 
     const ulStyle = useMenuCssVar(rootMenu.props, subMenu.level + 1)
+
+    const subMenuPopperOffset = computed(() => {
+      return props.popperOffset ?? rootMenu.props.popperOffset
+    })
 
     // methods
     const doDestroy = () =>
@@ -351,7 +355,7 @@ export default defineComponent({
               visible: opened.value,
               effect: 'light',
               pure: true,
-              offset: props.popperOffset,
+              offset: subMenuPopperOffset.value,
               showArrow: false,
               persistent: true,
               popperClass: props.popperClass,
