@@ -38,6 +38,7 @@ import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type {
   Component,
+  DirectiveArguments,
   ExtractPropTypes,
   VNode,
   VNodeArrayChildren,
