@@ -281,10 +281,9 @@ const handleBlur = (event: MouseEvent | FocusEvent) => {
 
 watch(
   () => props.modelValue,
-  (value) => {
-    const userInput = verifyValue(data.userInput)
+  (value, oldValue) => {
     const newValue = verifyValue(value, true)
-    if (data.userInput === null && userInput !== newValue) {
+    if (data.userInput === null && newValue !== oldValue) {
       data.currentValue = newValue
     }
   },
