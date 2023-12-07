@@ -125,10 +125,10 @@ switch/custom-action-icon
 
 ### Switch Slots
 
-| Name               | Description                              |
-| ------------------ | ---------------------------------------- |
-| activeActionIcon   | customize active action icon component   |
-| inactiveActionIcon | customize inactive action icon component |
+| Name                     | Description               |
+| ------------------------ | ------------------------- |
+| active-action ^(2.5.0)   | customize active action   |
+| inactive-action ^(2.5.0) | customize inactive action |
 
 ### Exposes
 

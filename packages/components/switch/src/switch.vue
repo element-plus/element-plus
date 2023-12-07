@@ -45,12 +45,12 @@
         <el-icon v-if="loading" :class="ns.is('loading')">
           <loading />
         </el-icon>
-        <slot v-else-if="checked" name="activeActionIcon">
+        <slot v-else-if="checked" name="active-action">
           <el-icon v-if="activeActionIcon">
             <component :is="activeActionIcon" />
           </el-icon>
         </slot>
-        <slot v-else-if="!checked" name="inactiveActionIcon">
+        <slot v-else-if="!checked" name="inactive-action">
           <el-icon v-if="inactiveActionIcon">
             <component :is="inactiveActionIcon" />
           </el-icon>
