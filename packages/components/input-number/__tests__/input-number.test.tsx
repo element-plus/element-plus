@@ -80,6 +80,23 @@ describe('InputNumber.vue', () => {
     expect(num.value).toEqual(null)
   })
 
+  // fix: #14438
+  test('Make sure display value will match actual value', async () => {
+    const num = ref<number>(111)
+    const wrapper = mount(() => <InputNumber v-model={num.value} />)
+    const inputWrapper = wrapper.find('input')
+    const nativeInput = inputWrapper.element
+    await inputWrapper.trigger('focus')
+    nativeInput.value = ''
+    await inputWrapper.trigger('input')
+    nativeInput.value = '111'
+    await inputWrapper.trigger('input')
+    await inputWrapper.trigger('blur')
+    num.value = 222
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('222')
+  })
+
   test('min', async () => {
     const num = ref(1)
     const wrapper = mount(() => <InputNumber min={3} v-model={num.value} />)
