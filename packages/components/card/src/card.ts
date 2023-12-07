@@ -9,6 +9,10 @@ export const cardProps = buildProps({
     type: String,
     default: '',
   },
+  footer: {
+    type: String,
+    default: '',
+  },
   /**
    * @description CSS style of card body
    */
@@ -16,6 +20,10 @@ export const cardProps = buildProps({
     type: definePropType<StyleValue>([String, Object, Array]),
     default: '',
   },
+  /**
+   * @description custom class name of card body
+   */
+  bodyClass: String,
   /**
    * @description when to show card shadows
    */

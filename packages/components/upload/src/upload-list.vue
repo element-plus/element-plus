@@ -1,13 +1,5 @@
 <template>
-  <transition-group
-    tag="ul"
-    :class="[
-      nsUpload.b('list'),
-      nsUpload.bm('list', listType),
-      nsUpload.is('disabled', disabled),
-    ]"
-    :name="nsList.b()"
-  >
+  <transition-group tag="ul" :class="containerKls" :name="nsList.b()">
     <li
       v-for="file in files"
       :key="file.uid || file.name"
@@ -40,8 +32,13 @@
             :class="nsUpload.be('list', 'item-name')"
             @click.prevent="handlePreview(file)"
           >
-            <el-icon :class="nsIcon.m('document')"><Document /></el-icon>
-            <span :class="nsUpload.be('list', 'item-file-name')">
+            <el-icon :class="nsIcon.m('document')">
+              <Document />
+            </el-icon>
+            <span
+              :class="nsUpload.be('list', 'item-file-name')"
+              :title="file.name"
+            >
               {{ file.name }}
             </span>
           </a>
@@ -96,7 +93,9 @@
             :class="nsUpload.be('list', 'item-delete')"
             @click="handleRemove(file)"
           >
-            <el-icon :class="nsIcon.m('delete')"><Delete /></el-icon>
+            <el-icon :class="nsIcon.m('delete')">
+              <Delete />
+            </el-icon>
           </span>
         </span>
       </slot>
@@ -105,7 +104,7 @@
   </transition-group>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   Check,
@@ -115,8 +114,9 @@ import {
   Document,
   ZoomIn,
 } from '@element-plus/icons-vue'
-import { useDisabled, useLocale, useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
+import { useFormDisabled } from '@element-plus/components/form'
 
 import { uploadListEmits, uploadListProps } from './upload-list'
 import type { UploadFile } from './upload'
@@ -125,16 +125,22 @@ defineOptions({
   name: 'ElUploadList',
 })
 
-defineProps(uploadListProps)
+const props = defineProps(uploadListProps)
 const emit = defineEmits(uploadListEmits)
 
 const { t } = useLocale()
 const nsUpload = useNamespace('upload')
 const nsIcon = useNamespace('icon')
 const nsList = useNamespace('list')
-const disabled = useDisabled()
+const disabled = useFormDisabled()
 
 const focusing = ref(false)
+
+const containerKls = computed(() => [
+  nsUpload.b('list'),
+  nsUpload.bm('list', props.listType),
+  nsUpload.is('disabled', props.disabled),
+])
 
 const handleRemove = (file: UploadFile) => {
   emit('remove', file)

@@ -3,8 +3,11 @@
     <div v-if="$slots.header || header" :class="ns.e('header')">
       <slot name="header">{{ header }}</slot>
     </div>
-    <div :class="ns.e('body')" :style="bodyStyle">
+    <div :class="[ns.e('body'), bodyClass]" :style="bodyStyle">
       <slot />
+    </div>
+    <div v-if="$slots.footer || footer" :class="ns.e('footer')">
+      <slot name="footer">{{ footer }}</slot>
     </div>
   </div>
 </template>

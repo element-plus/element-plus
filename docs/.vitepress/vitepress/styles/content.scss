@@ -2,8 +2,10 @@
 @use './vars' as *;
 @use './content/doc-content';
 @use './content/hero-content';
+@use './content/tag-content';
 
 .page-content {
+  outline: none;
   @include respond-to('lg') {
     padding-top: var(--nav-height);
 

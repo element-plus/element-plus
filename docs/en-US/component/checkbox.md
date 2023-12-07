@@ -94,7 +94,7 @@ checkbox/with-border
 | validate-event        | whether to trigger form validation                                                                                                                             | ^[boolean]                                     | true    |
 | tabindex              | input tabindex                                                                                                                                                 | ^[string] / ^[number]                          | —       |
 | id                    | input id                                                                                                                                                       | ^[string]                                      | —       |
-| controls <A11yTag />  | same as [aria-controls](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-controls), takes effect when `indeterminate` is `true` | ^[boolean]                                     | —       |
+| controls ^(a11y)      | same as [aria-controls](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-controls), takes effect when `indeterminate` is `true` | ^[boolean]                                     | —       |
 
 ### Checkbox Events
 

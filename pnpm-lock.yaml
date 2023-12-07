@@ -13,11 +13,10 @@ importers:
       '@element-plus/directives': workspace:*
       '@element-plus/eslint-config': workspace:*
       '@element-plus/hooks': workspace:*
-      '@element-plus/icons-vue': ^2.0.6
+      '@element-plus/icons-vue': ^2.3.1
       '@element-plus/locale': workspace:*
       '@element-plus/test-utils': workspace:*
       '@element-plus/theme-chalk': workspace:*
-      '@element-plus/tokens': workspace:*
       '@element-plus/utils': workspace:*
       '@esbuild-kit/cjs-loader': ^2.2.1
       '@floating-ui/dom': ^1.0.1
@@ -81,11 +80,10 @@ importers:
       '@element-plus/constants': link:packages/constants
       '@element-plus/directives': link:packages/directives
       '@element-plus/hooks': link:packages/hooks
-      '@element-plus/icons-vue': 2.0.6_vue@3.2.37
+      '@element-plus/icons-vue': 2.3.1_vue@3.2.37
       '@element-plus/locale': link:packages/locale
       '@element-plus/test-utils': link:packages/test-utils
       '@element-plus/theme-chalk': link:packages/theme-chalk
-      '@element-plus/tokens': link:packages/tokens
       '@element-plus/utils': link:packages/utils
       '@floating-ui/dom': 1.0.1
       '@popperjs/core': /@sxzz/popperjs-es/2.11.7
@@ -153,13 +151,13 @@ importers:
 
   docs:
     specifiers:
-      '@crowdin/cli': ^3.7.8
+      '@crowdin/cli': ^3.7.10
       '@docsearch/js': ^3.1.0
       '@docsearch/react': ^3.1.0
       '@element-plus/build': workspace:*
       '@element-plus/build-constants': workspace:*
       '@element-plus/build-utils': workspace:*
-      '@element-plus/icons-vue': ^2.0.9
+      '@element-plus/icons-vue': ^2.3.1
       '@element-plus/metadata': workspace:*
       '@iconify-json/ri': ^1.1.3
       '@types/markdown-it': ^12.2.3
@@ -192,20 +190,20 @@ importers:
       vue: ^3.2.37
     dependencies:
       '@docsearch/js': 3.1.0
-      '@element-plus/icons-vue': 2.0.9_vue@3.2.37
+      '@element-plus/icons-vue': 2.3.1_vue@3.2.37
       '@element-plus/metadata': link:../internal/metadata
       '@vue/shared': 3.2.37
       '@vueuse/core': 9.1.0_vue@3.2.37
       axios: 0.27.2
       clipboard-copy: 4.0.1
-      element-plus: 2.2.17_vue@3.2.37
+      element-plus: 2.4.2_vue@3.2.37
       markdown-it: 13.0.1
       normalize.css: 8.0.1
       nprogress: 0.2.0
       prism-theme-vars: 0.2.3
       vue: 3.2.37
     devDependencies:
-      '@crowdin/cli': 3.7.8
+      '@crowdin/cli': 3.14.0
       '@docsearch/react': 3.1.0
       '@element-plus/build': link:../internal/build
       '@element-plus/build-constants': link:../internal/build-constants
@@ -375,7 +373,7 @@ importers:
   packages/element-plus:
     specifiers:
       '@ctrl/tinycolor': ^3.4.1
-      '@element-plus/icons-vue': ^2.0.6
+      '@element-plus/icons-vue': ^2.3.1
       '@floating-ui/dom': ^1.0.1
       '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
       '@types/lodash': ^4.14.182
@@ -395,7 +393,7 @@ importers:
       vue-router: ^4.0.16
     dependencies:
       '@ctrl/tinycolor': 3.4.1
-      '@element-plus/icons-vue': 2.0.6_vue@3.2.37
+      '@element-plus/icons-vue': 2.3.1_vue@3.2.37
       '@floating-ui/dom': 1.0.1
       '@popperjs/core': /@sxzz/popperjs-es/2.11.7
       '@types/lodash': 4.14.182
@@ -448,15 +446,12 @@ importers:
       gulp-rename: 2.0.0
       gulp-sass: 5.1.0
 
-  packages/tokens:
-    specifiers: {}
-
   packages/utils:
     specifiers: {}
 
   play:
     specifiers:
-      '@element-plus/icons-vue': ^2.0.6
+      '@element-plus/icons-vue': ^2.3.1
       '@vitejs/plugin-vue': ^2.3.3
       unplugin-vue-components: 0.21.2
       vite: ^2.9.15
@@ -464,7 +459,7 @@ importers:
       vite-plugin-mkcert: ^1.7.2
       vue: ^3.2.37
     dependencies:
-      '@element-plus/icons-vue': 2.0.6_vue@3.2.37
+      '@element-plus/icons-vue': 2.3.1_vue@3.2.37
       vue: 3.2.37
     devDependencies:
       '@vitejs/plugin-vue': 2.3.3_vite@2.9.15+vue@3.2.37
@@ -1945,12 +1940,15 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@crowdin/cli/3.7.8:
-    resolution: {integrity: sha512-DDA2ggfnYsfoprWmxNpZ5QOxO58RSsbFHHSi+558bqBJMag1z0RjSGSCriqfCQtvBnn2SIVnBsBOaw+HDWXF4w==}
+  /@crowdin/cli/3.14.0:
+    resolution: {integrity: sha512-8MnJvGPkrLprrpLT+jPgBn7aKdv/8eyxLXMN929qYadDy7ZjZiB2CzlTvdGh4DUBoMOr/anoYWDhn9kxP0fn/Q==}
     hasBin: true
     dependencies:
-      njre: 0.2.0
+      command-exists-promise: 2.0.2
+      node-fetch: 2.6.7
       shelljs: 0.8.5
+      tar: 4.4.19
+      yauzl: 2.10.0
     transitivePeerDependencies:
       - encoding
     dev: true
@@ -1996,16 +1994,8 @@ packages:
       '@docsearch/css': 3.1.0
       algoliasearch: 4.13.1
 
-  /@element-plus/icons-vue/2.0.6_vue@3.2.37:
-    resolution: {integrity: sha512-lPpG8hYkjL/Z97DH5Ei6w6o22Z4YdNglWCNYOPcB33JCF2A4wye6HFgSI7hEt9zdLyxlSpiqtgf9XcYU+m5mew==}
-    peerDependencies:
-      vue: ^3.2.0
-    dependencies:
-      vue: 3.2.37
-    dev: false
-
-  /@element-plus/icons-vue/2.0.9_vue@3.2.37:
-    resolution: {integrity: sha512-okdrwiVeKBmW41Hkl0eMrXDjzJwhQMuKiBOu17rOszqM+LS/yBYpNQNV5Jvoh06Wc+89fMmb/uhzf8NZuDuUaQ==}
+  /@element-plus/icons-vue/2.3.1_vue@3.2.37:
+    resolution: {integrity: sha512-XxVUZv48RZAd87ucGS48jPf6pKu0yV5UCg9f4FFwtrYxXOwWuVJo6wOvSLKEoMQKjv8GsX/mhP6UsC1lRwbUWg==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -3104,14 +3094,14 @@ packages:
   /@types/lodash-es/4.17.6:
     resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
     dependencies:
-      '@types/lodash': 4.14.182
+      '@types/lodash': 4.14.184
 
   /@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
+    dev: false
 
   /@types/lodash/4.14.184:
     resolution: {integrity: sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==}
-    dev: false
 
   /@types/lru-cache/5.1.1:
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
@@ -4420,7 +4410,7 @@ packages:
   /axios/0.21.4_debug@4.3.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.1_debug@4.3.4
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
     dev: true
@@ -5117,8 +5107,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
-      JSONStream: 1.3.5
       is-text-path: 1.0.1
+      JSONStream: 1.3.5
       lodash: 4.17.21
       meow: 8.1.2
       split2: 3.2.2
@@ -5536,13 +5526,13 @@ packages:
   /electron-to-chromium/1.4.147:
     resolution: {integrity: sha512-czclPqxLMPqPMkahKcske4TaS5lcznsc26ByBlEFDU8grTBVK9C5W6K9I6oEEhm4Ai4jTihGnys90xY1yjXcRg==}
 
-  /element-plus/2.2.17_vue@3.2.37:
-    resolution: {integrity: sha512-MGwMIE/q+FFD3kgS23x8HIe5043tmD1cTRwjhIX9o6fim1avFnUkrsfYRvybbz4CkyqSb185EheZS5AUPpXh2g==}
+  /element-plus/2.4.2_vue@3.2.37:
+    resolution: {integrity: sha512-E/HwXX7JF1LPvQSjs0fZ8WblIoc0quoXsRXQZiL7QDq7xJdNGSUaXtdk7xiEv7axPmLfEFtxE5du9fFspDrmJw==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
       '@ctrl/tinycolor': 3.4.1
-      '@element-plus/icons-vue': 2.0.9_vue@3.2.37
+      '@element-plus/icons-vue': 2.3.1_vue@3.2.37
       '@floating-ui/dom': 1.0.1
       '@popperjs/core': /@sxzz/popperjs-es/2.11.7
       '@types/lodash': 4.14.184
@@ -6847,19 +6837,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: false
-
-  /follow-redirects/1.15.1_debug@4.3.4:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.4
-    dev: true
 
   /for-in/1.0.2:
     resolution: {integrity: sha512-7EwmXrOjyL+ChxMhmG5lnW9MPt1aIeZEwKhQzoBUdTV0N3zuwWDZYVJatDvZ2OyzPUvdIAZDsCetk3coyMfcnQ==}
@@ -6961,7 +6938,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -8794,18 +8771,6 @@ packages:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
     dev: true
 
-  /njre/0.2.0:
-    resolution: {integrity: sha512-+Wq8R6VmjK+jI8a9NdzfU6Vh50r3tjsdvl5KJE1OyHeH8I/nx5Ptm12qpO3qNUbstXuZfBDgDL0qQZw9JyjhMw==}
-    engines: {node: '>=8'}
-    dependencies:
-      command-exists-promise: 2.0.2
-      node-fetch: 2.6.7
-      tar: 4.4.19
-      yauzl: 2.10.0
-    transitivePeerDependencies:
-      - encoding
-    dev: true
-
   /node-fetch-native/0.1.3:
     resolution: {integrity: sha512-Jf1IQZdovUIv9E+5avmN6Sf+bND+rnMlODnBQhdE2VRyuWP9WgqZb/KEgPekh19DAN1X2C4vbS1VCOaz2OH19g==}
     dev: true
@@ -9684,7 +9649,7 @@ packages:
     resolution: {integrity: sha512-HFM8rkZ+i3zrV+4LQjwQ0W+ez98pApMGM3HUrN04j3CqzPOzl9nmP15Y8YXNm8QHGv/eacOVEjqhmWpkRV0NAw==}
     engines: {node: '>= 0.10'}
     dependencies:
-      resolve: 1.22.0
+      resolve: 1.22.1
 
   /redent/3.0.0:
     resolution: {integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==}
@@ -12444,7 +12409,7 @@ packages:
     dev: false
 
   /yauzl/2.10.0:
-    resolution: {integrity: sha1-x+sXyT4RLLEIb6bY5R+wZnt5pfk=}
+    resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}
     dependencies:
       buffer-crc32: 0.2.13
       fd-slicer: 1.1.0

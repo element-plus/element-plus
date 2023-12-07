@@ -13,6 +13,7 @@ describe('no injection value', () => {
         const idInjection = useIdInjection()
         return idInjection
       },
+      template: '<div></div>',
     })
 
     expect(wrapper.vm.prefix).toMatch(/^\d{0,4}$/)
@@ -25,6 +26,7 @@ describe('no injection value', () => {
         const id = useId()
         return { id }
       },
+      render: () => undefined,
     })
 
     expect(wrapper.vm.id).toMatch(/^el-id-\d{0,4}-\d+$/)
@@ -52,6 +54,7 @@ describe('with injection value', () => {
         const idInjection = useIdInjection()
         return idInjection
       },
+      render: () => undefined,
     })
 
     expect(wrapper.vm.prefix).toBe(1024)
@@ -64,6 +67,7 @@ describe('with injection value', () => {
         const id = useId()
         return { id }
       },
+      render: () => undefined,
     })
 
     expect(wrapper.vm.id).toBe('el-id-1024-0')

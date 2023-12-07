@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import { config, mount, shallowMount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import * as vueuse from '@vueuse/core'
@@ -17,12 +17,15 @@ vi.mock('@vueuse/core', () => {
 })
 
 const mountComponent = () =>
-  shallowMount({
-    setup() {
-      usePopperContainer()
-      return () => <div>{AXIOM}</div>
-    },
-  })
+  shallowMount(
+    defineComponent({
+      setup(_, { expose }) {
+        const exposes = usePopperContainer()
+        expose(exposes)
+        return () => <div>{AXIOM}</div>
+      },
+    })
+  )
 
 describe('usePopperContainer', () => {
   afterEach(() => {
@@ -30,17 +33,17 @@ describe('usePopperContainer', () => {
   })
 
   it('should append container to the DOM root', async () => {
-    mountComponent()
+    const { vm } = mountComponent()
     await nextTick()
-    const { selector } = usePopperContainerId()
+    const { selector } = vm
     expect(document.body.querySelector(selector.value)).toBeDefined()
   })
 
   it('should not append container to the DOM root', async () => {
     ;(vueuse as any).isClient = false
-    mountComponent()
+    const { vm } = mountComponent()
     await nextTick()
-    const { selector } = usePopperContainerId()
+    const { selector } = vm
     expect(document.body.querySelector(selector.value)).toBeNull()
   })
 })
@@ -56,6 +59,7 @@ describe('no injection value', () => {
         const data = usePopperContainerId()
         return data
       },
+      render: () => undefined,
     })
 
     expect(wrapper.vm.id).toMatch(/^el-popper-container-\d{0,4}$/)
@@ -85,6 +89,7 @@ describe('with injection value', () => {
         const data = usePopperContainerId()
         return data
       },
+      render: () => undefined,
     })
 
     expect(wrapper.vm.id).toBe('el-popper-container-1024')

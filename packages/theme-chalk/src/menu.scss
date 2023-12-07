@@ -73,11 +73,27 @@
     }
   }
 
+  &:not(.#{$namespace}-menu--collapse) .#{$namespace}-sub-menu__title {
+    padding-right: calc(
+      #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
+    );
+  }
+
   @include m(horizontal) {
+    // reset menu-item popup height
+    &.#{$namespace}-menu--popup-container {
+      height: unset;
+    }
+
     display: flex;
     flex-wrap: nowrap;
-    border-bottom: solid 1px getCssVar('menu-border-color');
     border-right: none;
+
+    height: getCssVar('menu-horizontal-height');
+
+    &.#{$namespace}-menu {
+      border-bottom: solid 1px getCssVar('menu-border-color');
+    }
 
     & > .#{$namespace}-menu-item {
       display: inline-flex;
@@ -92,11 +108,6 @@
       a,
       a:hover {
         color: inherit;
-      }
-
-      &:not(.is-disabled):hover,
-      &:not(.is-disabled):focus {
-        background-color: #fff;
       }
     }
     & > .#{$namespace}-sub-menu {
@@ -124,7 +135,7 @@
         color: getCssVar('menu-text-color');
 
         &:hover {
-          background-color: getCssVar('bg-color', 'overlay');
+          background-color: getCssVar('menu-bg-color');
         }
       }
     }
@@ -135,6 +146,7 @@
         display: flex;
         align-items: center;
         height: getCssVar('menu-horizontal-sub-item-height');
+        line-height: getCssVar('menu-horizontal-sub-item-height');
         padding: 0 10px;
         color: getCssVar('menu-text-color');
       }
@@ -249,9 +261,6 @@
 
   @include e(title) {
     @include menu-item;
-    padding-right: calc(
-      #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
-    );
 
     &:hover {
       background-color: getCssVar('menu-hover-bg-color');

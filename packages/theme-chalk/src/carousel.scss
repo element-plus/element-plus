@@ -1,5 +1,3 @@
-@use 'sass:math';
-
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'mixins/utils' as *;
@@ -11,11 +9,11 @@
   position: relative;
 
   @include m(horizontal) {
-    overflow-x: hidden;
+    overflow: hidden;
   }
 
   @include m(vertical) {
-    overflow-y: hidden;
+    overflow: hidden;
   }
 
   @include e(container) {
@@ -88,13 +86,19 @@
       text-align: center;
       position: static;
       transform: none;
+
       .#{$namespace}-carousel__indicator:hover button {
         opacity: 0.64;
       }
+
       button {
         background-color: getCssVar('carousel', 'indicator-out-color');
         opacity: 0.24;
       }
+    }
+
+    @include m(right) {
+      right: 0;
     }
 
     @include m(labels) {
@@ -134,6 +138,7 @@
     @include m(vertical) {
       padding: getCssVar('carousel-indicator-padding-horizontal')
         getCssVar('carousel-indicator-padding-vertical');
+
       .#{$namespace}-carousel__button {
         width: getCssVar('carousel-indicator-height');
         height: calc(#{getCssVar('carousel-indicator-width')} / 2);
