@@ -123,6 +123,13 @@ switch/custom-action-icon
 | ------ | --------------------------- | ------------------------------------------------------- |
 | change | triggers when value changes | ^[Function]`(val: boolean \| string \| number) => void` |
 
+### Switch Slots
+
+| Name               | Description                              |
+| ------------------ | ---------------------------------------- |
+| activeActionIcon   | customize active action icon component   |
+| inactiveActionIcon | customize inactive action icon component |
+
 ### Exposes
 
 | Method | Description                          | Type                    |
