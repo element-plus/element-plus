@@ -87,6 +87,14 @@ switch/custom-action-icon
 
 :::
 
+## custom action slot ^(2.5.0)
+
+:::demo You can use `active-action` and `inactive-action` slot to customize action.
+
+switch/custom-action-slot
+
+:::
+
 ## API
 
 ### Attributes
