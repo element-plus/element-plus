@@ -179,14 +179,14 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ### Events
 
-| Name            | Description                                                | Type                                                                                |
-| --------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| change          | triggers when user confirms the value                      | ^[Function]`(val: typeof v-model) => void`                                          |
-| blur            | triggers when Input blurs                                  | ^[Function]`(e: FocusEvent) => void`                                                |
-| focus           | triggers when Input focuses                                | ^[Function]`(e: FocusEvent) => void`                                                |
-| calendar-change | triggers when the calendar selected date is changed.       | ^[Function]`(val: [Date, null \| Date]) => void`                                    |
-| panel-change    | triggers when the navigation button click.                 | ^[Function]`(date: [Dayjs, Dayjs], mode: 'month' \| 'year', view: unknown) => void` |
-| visible-change  | triggers when the DatePicker's dropdown appears/disappears | ^[Function]`(visibility: boolean) => void`                                          |
+| Name            | Description                                                | Type                                                                                      |
+| --------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| change          | triggers when user confirms the value                      | ^[Function]`(val: typeof v-model) => void`                                                |
+| blur            | triggers when Input blurs                                  | ^[Function]`(e: FocusEvent) => void`                                                      |
+| focus           | triggers when Input focuses                                | ^[Function]`(e: FocusEvent) => void`                                                      |
+| calendar-change | triggers when the calendar selected date is changed.       | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
+| panel-change    | triggers when the navigation button click.                 | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
+| visible-change  | triggers when the DatePicker's dropdown appears/disappears | ^[Function]`(visibility: boolean) => void`                                                |
 
 ### Slots
 

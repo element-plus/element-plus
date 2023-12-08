@@ -150,14 +150,6 @@ useEventListener(window, 'scroll', handleScroll)
 <style lang="scss">
 @use '../../styles/mixins' as *;
 
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url('/fonts/Inter-ExtraBold.woff2') format('woff2');
-}
-
 .home-page {
   .mobile-banner {
     display: none;
@@ -182,7 +174,7 @@ useEventListener(window, 'scroll', handleScroll)
       font-weight: 800;
       margin: 0;
       color: var(--text-color);
-      font-family: 'Inter', sans-serif;
+      font-family: Inter, sans-serif;
     }
 
     p {

@@ -129,7 +129,7 @@ gtag('config', 'UA-175337989-1');`,
     `
   var resource = document.createElement('link');
   resource.setAttribute("rel", "stylesheet");
-  resource.setAttribute("href","//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap");
+  resource.setAttribute("href","//fonts.loli.net/css?family=Inter:300,400,500,600,700,800|Open+Sans:400,600;display=swap");
   resource.setAttribute("type","text/css");
   var head = document.querySelector('head');
   head.appendChild(resource);
