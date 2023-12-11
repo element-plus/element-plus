@@ -237,22 +237,6 @@ export default defineComponent({
       isAbsent(props.defaultCurrentPage) ? 1 : props.defaultCurrentPage
     )
 
-    const debounceMicroTask = (fn: () => void) => {
-      let scheduled = false
-      return () => {
-        if (scheduled) return
-        scheduled = true
-        Promise.resolve().then(() => {
-          scheduled = false
-          fn()
-        })
-      }
-    }
-
-    const handlePageChange = debounceMicroTask(() => {
-      emit('change', currentPageBridge.value, pageSizeBridge.value)
-    })
-
     const pageSizeBridge = computed({
       get() {
         return isAbsent(props.pageSize) ? innerPageSize.value : props.pageSize
@@ -264,7 +248,12 @@ export default defineComponent({
         if (hasPageSizeListener) {
           emit('update:page-size', v)
           emit('size-change', v)
-          handlePageChange()
+        }
+        if (
+          !isAbsent(props.total) &&
+          currentPageBridge.value <= Math.ceil(props.total / v)
+        ) {
+          emit('change', currentPageBridge.value, v)
         }
       },
     })
@@ -298,8 +287,8 @@ export default defineComponent({
         if (hasCurrentPageListener) {
           emit('update:current-page', newCurrentPage)
           emit('current-change', newCurrentPage)
-          handlePageChange()
         }
+        emit('change', newCurrentPage, pageSizeBridge.value)
       },
     })
 

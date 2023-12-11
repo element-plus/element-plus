@@ -278,17 +278,15 @@ describe('Pagination', () => {
       await wrapper.find('.el-pager li:last-child').trigger('click')
       assertCurrent(wrapper, 10 /* Math.ceil(100/10) */)
       expect(currentPageWatcher).toHaveBeenCalled()
-      await nextTick()
       expect(count).toBe(1)
       await wrapper.find('.el-select').trigger('click')
       await wrapper
         .getComponent(selectDropdownVue)
         .find('li:nth-child(2)')
         .trigger('click')
+      expect(count).toBe(2)
       expect(pageSizeWatcher).toHaveBeenCalled()
       assertCurrent(wrapper, 5 /* Math.ceil(100/20) */)
-      await nextTick()
-      expect(count).toBe(2)
     })
   })
 
