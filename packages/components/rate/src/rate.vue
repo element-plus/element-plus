@@ -104,7 +104,8 @@ const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext,
 })
 
-const currentValue = ref(props.modelValue)
+const currentValue = ref(props.modelValue ?? props.defaultValue)
+const modelValueBase = props.modelValue || 0
 const hoverIndex = ref(-1)
 const pointerAtLeftHalf = ref(true)
 
@@ -123,7 +124,7 @@ const text = computed(() => {
   if (props.showScore) {
     result = props.scoreTemplate.replace(
       /\{\s*value\s*\}/,
-      rateDisabled.value ? `${props.modelValue}` : `${currentValue.value}`
+      rateDisabled.value ? `${modelValueBase}` : `${currentValue.value}`
     )
   } else if (props.showText) {
     result = props.texts[Math.ceil(currentValue.value) - 1]
@@ -131,7 +132,7 @@ const text = computed(() => {
   return result
 })
 const valueDecimal = computed(
-  () => props.modelValue * 100 - Math.floor(props.modelValue) * 100
+  () => modelValueBase * 100 - Math.floor(modelValueBase) * 100
 )
 const colorMap = computed(() =>
   isArray(props.colors)
@@ -176,7 +177,7 @@ const componentMap = computed(() => {
     : icons
 })
 const decimalIconComponent = computed(() =>
-  getValueFromMap(props.modelValue, componentMap.value)
+  getValueFromMap(modelValueBase, componentMap.value)
 )
 const voidComponent = computed(() =>
   rateDisabled.value
@@ -195,8 +196,8 @@ function showDecimalIcon(item: number) {
   const showWhenDisabled =
     rateDisabled.value &&
     valueDecimal.value > 0 &&
-    item - 1 < props.modelValue &&
-    item > props.modelValue
+    item - 1 < modelValueBase &&
+    item > modelValueBase
   const showWhenAllowHalf =
     props.allowHalf &&
     pointerAtLeftHalf.value &&
@@ -218,11 +219,11 @@ function emitValue(value: number) {
 }
 
 function selectValue(value: number) {
-  if (rateDisabled.value) {
+  if (rateDisabled.value || props.modelValue == undefined) {
     return
   }
   if (props.allowHalf && pointerAtLeftHalf.value) {
-    emitValue(currentValue.value)
+    emitValue(currentValue.value || 0)
   } else {
     emitValue(value)
   }
@@ -284,17 +285,28 @@ function resetCurrentValue() {
     return
   }
   if (props.allowHalf) {
-    pointerAtLeftHalf.value = props.modelValue !== Math.floor(props.modelValue)
+    pointerAtLeftHalf.value =
+      props.modelValue !== Math.floor(props.modelValue || 0)
   }
-  currentValue.value = props.modelValue
+  currentValue.value = props.modelValue ?? props.defaultValue
   hoverIndex.value = -1
 }
 
 watch(
   () => props.modelValue,
   (val) => {
-    currentValue.value = val
-    pointerAtLeftHalf.value = props.modelValue !== Math.floor(props.modelValue)
+    currentValue.value = val ?? props.defaultValue
+    pointerAtLeftHalf.value =
+      props.modelValue !== Math.floor(props.modelValue || 0)
+  }
+)
+
+watch(
+  () => props.defaultValue,
+  (val) => {
+    if (!props.modelValue) {
+      currentValue.value = val || 0
+    }
   }
 )
 
