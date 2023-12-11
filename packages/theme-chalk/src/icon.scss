@@ -22,7 +22,6 @@
 }
 
 @include b(icon) {
-  --color: inherit;
   height: 1em;
   width: 1em;
   line-height: 1em;
@@ -31,7 +30,6 @@
   align-items: center;
   position: relative;
   fill: currentColor;
-  color: var(--color);
   font-size: inherit;
 
   @include when(loading) {

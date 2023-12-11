@@ -24,7 +24,7 @@ const style = computed<CSSProperties>(() => {
 
   return {
     fontSize: isUndefined(size) ? undefined : addUnit(size),
-    '--color': color,
+    color,
   }
 })
 </script>
