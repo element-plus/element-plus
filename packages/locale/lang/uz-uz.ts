@@ -63,7 +63,7 @@ export default {
       loading: 'Yuklanmoqda',
       noMatch: 'Mos maʼlumot yoʻq',
       noData: 'Maʼlumot yoʻq',
-      placeholder: 'Tanladizngiz',
+      placeholder: 'Tanladingiz',
     },
     cascader: {
       noMatch: 'Mos maʼlumot topilmadi',
@@ -120,8 +120,8 @@ export default {
       title: 'Orqaga',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Ha',
+      cancelButtonText: 'Yo`q',
     },
   },
 }
