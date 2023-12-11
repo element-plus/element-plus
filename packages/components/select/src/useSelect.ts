@@ -853,10 +853,12 @@ export const useSelect = (props, states: States, ctx) => {
   const handleBlur = (event: FocusEvent) => {
     // validate current focus event is inside el-tooltip-content or el-select
     // if so, ignore the blur event.
+    const isDocumentVisible = document.visibilityState === 'visible'
     if (
       tooltipRef.value?.isFocusInsideContent(event) ||
       tagTooltipRef.value?.isFocusInsideContent(event) ||
-      selectWrapper.value?.contains(event.relatedTarget)
+      selectWrapper.value?.contains(event.relatedTarget) ||
+      isDocumentVisible
     ) {
       return
     }
