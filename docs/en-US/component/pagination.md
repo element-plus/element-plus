@@ -103,7 +103,7 @@ We'll detect some deprecated usages, if your pagination don't appeared or worked
 | --------------- | ----------------------------------------------------------------- | ------------------------------------------------------------ |
 | size-change     | triggers when `page-size` changes                                 | ^[Function]`(value: number) => void`                         |
 | current-change  | triggers when `current-page` changes                              | ^[Function]`(value: number) => void`                         |
-| change ^(2.5.0) | triggers when `page-size` or `current-page` changes               | ^[Function]`(currentPage: number, pageSize: number) => void` |
+| change ^(2.5.0) | triggers when `page-size` or `current-page` changes               | ^[Function]`(pageSize: number, currentPage: number) => void` |
 | prev-click      | triggers when the prev button is clicked and current page changes | ^[Function]`(value: number) => void`                         |
 | next-click      | triggers when the next button is clicked and current page changes | ^[Function]`(value: number) => void`                         |
 
