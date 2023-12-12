@@ -323,6 +323,10 @@ const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
     }
     innerDate.value = newDate
     emit(newDate, showTime.value || keepOpen)
+    // fix: https://github.com/element-plus/element-plus/issues/14728
+    if (props.type === 'datetime') {
+      handleFocusPicker()
+    }
   } else if (selectionMode.value === 'week') {
     emit((value as WeekPickerEmits).date)
   } else if (selectionMode.value === 'dates') {

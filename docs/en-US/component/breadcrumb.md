@@ -30,7 +30,7 @@ breadcrumb/icon
 | Name           | Description                      | Type                     | Default |
 | -------------- | -------------------------------- | ------------------------ | ------- |
 | separator      | separator character              | ^[string]                | /       |
-| separator-icon | icon component of icon separator | ^[string] / ^[Component] | -       |
+| separator-icon | icon component of icon separator | ^[string] / ^[Component] | —       |
 
 ### Breadcrumb Slots
 
