@@ -69,7 +69,7 @@ export const menuProps = buildProps({
   backgroundColor: String,
   textColor: String,
   activeTextColor: String,
-  collapseOnClickOutside: Boolean,
+  closeOnClickOutside: Boolean,
   hideTimeout: {
     type: Number,
     default: 300,
@@ -443,7 +443,7 @@ export default defineComponent({
 
       const ulStyle = useMenuCssVar(props, 0)
 
-      const directives: DirectiveArguments = props.collapseOnClickOutside
+      const directives: DirectiveArguments = props.closeOnClickOutside
         ? [
             [
               vClickoutside,
