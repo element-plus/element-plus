@@ -10,7 +10,7 @@
   />
 
   <div class="buttons">
-    <el-button @click="getCheckedNodes">get by node</el-button>
+    <el-button @click="getCheckedNodes">1</el-button>
     <el-button @click="getCheckedKeys">get by key</el-button>
     <el-button @click="setCheckedNodes">set by node</el-button>
     <el-button @click="setCheckedKeys">set by key</el-button>
