@@ -34,7 +34,7 @@ const Comp = defineComponent({
   },
 })
 
-describe('useModal', () => {
+describe('useTeleport', () => {
   let wrapper: VueWrapper<InstanceType<typeof Comp>>
 
   beforeEach(() => {
