@@ -13,7 +13,7 @@ import {
   withDirectives,
 } from 'vue'
 
-import { useResizeObserver, useTimeoutFn } from '@vueuse/core'
+import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
@@ -70,10 +70,6 @@ export const menuProps = buildProps({
   textColor: String,
   activeTextColor: String,
   closeOnClickOutside: Boolean,
-  hideTimeout: {
-    type: Number,
-    default: 300,
-  },
   collapseTransition: {
     type: Boolean,
     default: true,
@@ -133,7 +129,6 @@ export default defineComponent({
     const menu = ref<HTMLUListElement>()
     const nsMenu = useNamespace('menu')
     const nsSubMenu = useNamespace('sub-menu')
-    let timeout: (() => void) | undefined
 
     // data
     const sliceIndex = ref(-1)
@@ -451,14 +446,11 @@ export default defineComponent({
                 if (!openedMenus.value.length) return
 
                 if (!mouseInChild.value) {
-                  timeout?.()
-                  ;({ stop: timeout } = useTimeoutFn(() => {
-                    openedMenus.value.forEach((openedMenu) =>
-                      emit('close', openedMenu, getIndexPath(openedMenu))
-                    )
+                  openedMenus.value.forEach((openedMenu) =>
+                    emit('close', openedMenu, getIndexPath(openedMenu))
+                  )
 
-                    openedMenus.value = []
-                  }, props.hideTimeout))
+                  openedMenus.value = []
                 }
               },
             ],
