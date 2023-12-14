@@ -8,7 +8,6 @@ import {
   provide,
   reactive,
   ref,
-  unref,
   watch,
   watchEffect,
   withDirectives,
@@ -451,9 +450,7 @@ export default defineComponent({
               () => {
                 if (!openedMenus.value.length) return
 
-                const hasMouseInMenu = unref(mouseInChild)
-
-                if (!hasMouseInMenu) {
+                if (!mouseInChild.value) {
                   timeout?.()
                   ;({ stop: timeout } = useTimeoutFn(() => {
                     openedMenus.value.forEach((openedMenu) =>
