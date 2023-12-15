@@ -87,7 +87,6 @@ slider/show-marks
 
 :::
 
-
 ## API
 
 ### Attributes
@@ -132,7 +131,7 @@ slider/show-marks
   <summary>Show declarations</summary>
 
 ```ts
-type SliderMarks = Record<number, string | { style: CSSProperties,  label: any }>
+type SliderMarks = Record<number, string | { style: CSSProperties; label: any }>
 type Arrayable<T> = T | T[]
 ```
 
