@@ -51,7 +51,7 @@ menu/collapse
 
 :::
 
-## Popper Offset ^(2.5.0)
+## Popper Offset ^(2.4.4)
 
 Menu with popperOffset will override Submenu's `popper-offset`.
 
@@ -68,8 +68,8 @@ menu/popper-offset
 | mode                            | menu display mode                                                                                                                                                     | string                | horizontal / vertical | vertical |
 | collapse                        | whether the menu is collapsed (available only in vertical mode)                                                                                                       | boolean               | —                     | false    |
 | ellipsis                        | whether the menu is ellipsis (available only in horizontal mode)                                                                                                      | boolean               | —                     | true     |
-| ellipsis-icon^(2.5.0)           | custom ellipsis icon (available only in horizontal mode and ellipsis is true)                                                                                         | `string \| Component` | —                     | —        |
-| popper-offset^(2.5.0)           | offset of the popper (effective for all submenus)                                                                                                                     | number                | —                     | 6        |
+| ellipsis-icon^(2.4.4)           | custom ellipsis icon (available only in horizontal mode and ellipsis is true)                                                                                         | `string \| Component` | —                     | —        |
+| popper-offset^(2.4.4)           | offset of the popper (effective for all submenus)                                                                                                                     | number                | —                     | 6        |
 | background-color                | background color of Menu (hex format) (deprecated, use `--bg-color` instead)                                                                                          | string                | —                     | #ffffff  |
 | text-color                      | text color of Menu (hex format) (deprecated, use `--text-color` instead)                                                                                              | string                | —                     | #303133  |
 | active-text-color               | text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)                                                                      | string                | —                     | #409EFF  |
@@ -80,7 +80,7 @@ menu/popper-offset
 | router                          | whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action. Use with `default-active` to set the active item on load. | boolean               | —                     | false    |
 | collapse-transition             | whether to enable the collapse transition                                                                                                                             | boolean               | —                     | true     |
 | popper-effect ^(2.2.26)         | Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed                                                                                                | string                | dark / light          | dark     |
-| close-on-click-outside ^(2.5.0) | optional, whether menu is collapsed when clicking outside                                                                                                             | `boolean`             | —                     | false    |
+| close-on-click-outside ^(2.4.4) | optional, whether menu is collapsed when clicking outside                                                                                                             | `boolean`             | —                     | false    |
 
 ## Menu Methods
 
