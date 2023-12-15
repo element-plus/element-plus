@@ -54,7 +54,10 @@ const addField: FormContext['addField'] = (field) => {
 
 const removeField: FormContext['removeField'] = (field) => {
   if (field.prop) {
-    fields.splice(fields.indexOf(field), 1)
+    const index = fields.indexOf(field)
+    if (index !== -1) {
+      fields.splice(index, 1)
+    }
   }
 }
 
