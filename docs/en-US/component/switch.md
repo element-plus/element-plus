@@ -87,7 +87,7 @@ switch/custom-action-icon
 
 :::
 
-## custom action slot ^(2.5.0)
+## custom action slot ^(2.4.4)
 
 :::demo You can use `active-action` and `inactive-action` slot to customize action.
 
@@ -135,8 +135,8 @@ switch/custom-action-slot
 
 | Name                     | Description               |
 | ------------------------ | ------------------------- |
-| active-action ^(2.5.0)   | customize active action   |
-| inactive-action ^(2.5.0) | customize inactive action |
+| active-action ^(2.4.4)   | customize active action   |
+| inactive-action ^(2.4.4) | customize inactive action |
 
 ### Exposes
 
