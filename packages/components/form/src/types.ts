@@ -113,7 +113,7 @@ export interface FormValidateFailure {
 export type FormContext = FormProps &
   UnwrapRef<FormLabelWidthContext> & {
     emit: SetupContext<FormEmits>['emit']
-    getField: (prop: string) => FormItemContext | void
+    getField: (prop: string) => FormItemContext | undefined
     addField: (field: FormItemContext) => void
     removeField: (field: FormItemContext) => void
     resetFields: (props?: Arrayable<FormItemProp>) => void
