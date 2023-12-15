@@ -137,7 +137,7 @@ function initialize(userOptions: any) {
             },
             children,
           },
-          __v: null,
+          __v: children.__v,
         }
       },
     })

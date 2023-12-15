@@ -87,6 +87,14 @@ switch/custom-action-icon
 
 :::
 
+## custom action slot ^(2.4.4)
+
+:::demo You can use `active-action` and `inactive-action` slot to customize action.
+
+switch/custom-action-slot
+
+:::
+
 ## API
 
 ### Attributes
@@ -122,6 +130,13 @@ switch/custom-action-icon
 | Name   | Description                 | Type                                                    |
 | ------ | --------------------------- | ------------------------------------------------------- |
 | change | triggers when value changes | ^[Function]`(val: boolean \| string \| number) => void` |
+
+### Switch Slots
+
+| Name                     | Description               |
+| ------------------------ | ------------------------- |
+| active-action ^(2.4.4)   | customize active action   |
+| inactive-action ^(2.4.4) | customize inactive action |
 
 ### Exposes
 
