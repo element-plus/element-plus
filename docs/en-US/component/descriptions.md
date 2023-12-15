@@ -64,8 +64,8 @@ descriptions/customized-style
 
 ### DescriptionsItem Attributes
 
-| Name             | Description                                                                                                                                                                                  | Type                                  | Default |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | ------- |
+| Name             | Description                                                                                                                                                                                  | Type                                   | Default |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ------- |
 | label            | label text                                                                                                                                                                                   | ^[string]                              | ''      |
 | span             | colspan of column                                                                                                                                                                            | ^[number]                              | 1       |
 | width            | column width, the width of the same column in different rows is set by the max value (If no `border`, width contains label and content)                                                      | ^[string] / ^[number]                  | ''      |
