@@ -276,7 +276,6 @@ const passwordIcon = computed(() =>
 )
 const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
-  props.inputStyle,
 ])
 const textareaStyle = computed<StyleValue>(() => [
   props.inputStyle,
