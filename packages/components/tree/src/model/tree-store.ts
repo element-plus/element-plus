@@ -90,8 +90,11 @@ export default class TreeStore {
       }
       if (!value) return
 
-      if ((node as Node).visible && !(node as Node).isLeaf && !lazy)
-        (node as Node).expand()
+      if ((node as Node).visible && !(node as Node).isLeaf) {
+        if (!lazy || node.loaded) {
+          ;(node as Node).expand()
+        }
+      }
     }
 
     traverse(this)
