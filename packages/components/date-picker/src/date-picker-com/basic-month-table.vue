@@ -189,7 +189,7 @@ const handleMouseMove = (event: MouseEvent) => {
   if (!props.rangeState.selecting) return
 
   let target = event.target as HTMLElement
-  if (target.tagName === 'A') {
+  if (target.tagName === 'SPAN') {
     target = target.parentNode?.parentNode as HTMLElement
   }
   if (target.tagName === 'DIV') {

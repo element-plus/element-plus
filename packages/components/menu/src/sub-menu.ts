@@ -239,6 +239,7 @@ export default defineComponent({
         (!rootMenu.props.collapse && rootMenu.props.mode === 'vertical') ||
         props.disabled
       ) {
+        subMenu.mouseInChild.value = true
         return
       }
       subMenu.mouseInChild.value = true
@@ -259,6 +260,7 @@ export default defineComponent({
           rootMenu.props.mode === 'horizontal') ||
         (!rootMenu.props.collapse && rootMenu.props.mode === 'vertical')
       ) {
+        subMenu.mouseInChild.value = false
         return
       }
       timeout?.()
