@@ -18,12 +18,11 @@ const vm = getCurrentInstance()
 const route = useRoute()
 const router = useRouter()
 
-watch(
-  () => props.options,
-  (value) => {
-    update(value)
-  }
-)
+const lang = useLang()
+
+watch([() => props.options, lang], ([newOptions]) => {
+  update(newOptions)
+})
 
 onMounted(() => {
   initialize(props.options)
@@ -52,8 +51,6 @@ function update(options: any) {
     initialize(options)
   }
 }
-
-const lang = useLang()
 
 function initialize(userOptions: any) {
   // if the user has multiple locales, the search results should be filtered
