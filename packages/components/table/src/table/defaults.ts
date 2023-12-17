@@ -12,7 +12,7 @@ import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
-import type { TableOverflowTooltipOptions } from '../util'
+import type { TableOverflowTooltipOptions } from '../table-body/create-popper-helper'
 
 export type DefaultRow = any
 

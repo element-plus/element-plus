@@ -7,7 +7,7 @@ import type {
   DefaultRow,
   Table,
 } from '../table/defaults'
-import type { TableOverflowTooltipOptions } from '../util'
+import type { TableOverflowTooltipOptions } from './create-popper-helper'
 
 interface TableBodyProps<T> {
   store: Store<T>

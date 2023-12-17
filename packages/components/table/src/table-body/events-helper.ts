@@ -7,7 +7,7 @@ import { TABLE_INJECTION_KEY } from '../tokens'
 import { createPopper } from './create-popper-helper'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
-import type { TableOverflowTooltipOptions } from '../util'
+import type { TableOverflowTooltipOptions } from './create-popper-helper'
 
 function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY)

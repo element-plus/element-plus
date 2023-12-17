@@ -8,23 +8,6 @@ import {
   throwError,
 } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'
-import type { ElTooltipProps } from '@element-plus/components/tooltip'
-
-export type TableOverflowTooltipOptions = Partial<
-  Pick<
-    ElTooltipProps,
-    | 'effect'
-    | 'enterable'
-    | 'hideAfter'
-    | 'offset'
-    | 'placement'
-    | 'popperClass'
-    | 'popperOptions'
-    | 'showAfter'
-    | 'showArrow'
-    | 'transition'
-  >
->
 
 export const getCell = function (event: Event) {
   return (event.target as HTMLElement)?.closest('td')

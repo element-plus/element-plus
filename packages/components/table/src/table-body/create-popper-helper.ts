@@ -1,7 +1,23 @@
 import { createVNode, render } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
-import type { TableOverflowTooltipOptions } from '../util'
+import type { ElTooltipProps } from '@element-plus/components/tooltip'
 import type { Table } from '../table/defaults'
+
+export type TableOverflowTooltipOptions = Partial<
+  Pick<
+    ElTooltipProps,
+    | 'effect'
+    | 'enterable'
+    | 'hideAfter'
+    | 'offset'
+    | 'placement'
+    | 'popperClass'
+    | 'popperOptions'
+    | 'showAfter'
+    | 'showArrow'
+    | 'transition'
+  >
+>
 
 export let removePopper: any
 

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import type { ComponentInternalInstance, PropType, Ref, VNode } from 'vue'
 import type { DefaultRow, Table } from '../table/defaults'
-import type { TableOverflowTooltipOptions } from '../util'
+import type { TableOverflowTooltipOptions } from '../table-body/create-popper-helper'
 
 type CI<T> = { column: TableColumnCtx<T>; $index: number }
 
