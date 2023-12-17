@@ -89,12 +89,12 @@ export default {
       pagesize: '/صفحة',
       total: 'الكل {total}',
       pageClassifier: '',
-      page: 'صفحة', // to be translated
-      prev: 'انتقل إلى الصفحة السابقة', // to be translated
-      next: 'انتقل إلى الصفحة التالية', // to be translated
-      currentPage: 'صفحة رقم {pager}', // to be translated
-      prevPages: 'صفحات {pager} السابقة', // to be translated
-      nextPages: 'صفحات {pager} التالية', // to be translated
+      page: 'صفحة',
+      prev: 'انتقل إلى الصفحة السابقة',
+      next: 'انتقل إلى الصفحة التالية',
+      currentPage: 'صفحة رقم {pager}',
+      prevPages: 'صفحات {pager} السابقة',
+      nextPages: 'صفحات {pager} التالية',
     },
     dialog: {
       close: 'أغلق هذا التبويب',
@@ -140,8 +140,8 @@ export default {
       title: 'عودة',
     },
     popconfirm: {
-      confirmButtonText: 'نعم', // to be translated
-      cancelButtonText: 'لا', // to be translated
+      confirmButtonText: 'نعم',
+      cancelButtonText: 'لا',
     },
   },
 }
