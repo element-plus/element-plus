@@ -273,6 +273,7 @@ const handleFocus = (event: MouseEvent | FocusEvent) => {
 }
 
 const handleBlur = (event: MouseEvent | FocusEvent) => {
+  data.userInput = null
   emit('blur', event)
   if (props.validateEvent) {
     formItem?.validate?.('blur').catch((err) => debugWarn(err))
@@ -281,12 +282,10 @@ const handleBlur = (event: MouseEvent | FocusEvent) => {
 
 watch(
   () => props.modelValue,
-  (value) => {
-    const userInput = verifyValue(data.userInput)
+  (value, oldValue) => {
     const newValue = verifyValue(value, true)
-    if (!isNumber(userInput) && (!userInput || userInput !== newValue)) {
+    if (data.userInput === null && newValue !== oldValue) {
       data.currentValue = newValue
-      data.userInput = null
     }
   },
   { immediate: true }

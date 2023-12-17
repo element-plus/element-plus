@@ -26,7 +26,7 @@ import SponsorList from './sponsor-list.vue'
 
   .sponsor-list {
     --min-width: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(var(--min-width), 320px));
+    grid-template-columns: repeat(auto-fit, minmax(var(--min-width), 420px));
     justify-content: center;
 
     &.platinum {

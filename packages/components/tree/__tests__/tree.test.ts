@@ -3,6 +3,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
+import sleep from '@element-plus/test-utils/sleep'
 import Tree from '../src/tree.vue'
 import Button from '../../button/src/button.vue'
 import type Node from '../src/model/node'
@@ -325,6 +326,82 @@ describe('Tree.vue', () => {
 
     await nextTick()
     expect(treeWrapper.findAll('.el-tree-node.is-hidden').length).toEqual(3)
+  })
+  test('lazy load with filter expand loaded node', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" lazy :load="loadNode" :filter-node-method="filterNode"`,
+      {
+        methods: {
+          loadNode(node, resolve) {
+            if (node.level === 0) {
+              return resolve([{ label: 'a', id: 'a', type: 'root' }])
+            }
+            if (node.data.type === 'root') {
+              return resolve([
+                {
+                  label: 'node1',
+                  id: 'node1',
+                  type: 'node',
+                },
+                {
+                  label: 'node2',
+                  id: 'node2',
+                  type: 'node',
+                },
+              ])
+            }
+            if (node.data.type === 'node') {
+              return resolve([
+                {
+                  label: `${node.data.label}-child1`,
+                  id: `${node.data.label}-child1`,
+                  type: 'item',
+                  leaf: true,
+                },
+                {
+                  label: `${node.data.label}-child2`,
+                  id: `${node.data.label}-child2`,
+                  type: 'item',
+                  leaf: true,
+                },
+              ])
+            }
+            resolve([])
+          },
+          filterNode(value, data) {
+            if (!value) return true
+            return data.label.includes(value)
+          },
+        },
+      }
+    )
+
+    let nodeWrappers = wrapper.findAll('.el-tree-node__content')
+
+    expect(nodeWrappers.length).toEqual(1)
+    nodeWrappers[0].trigger('click')
+    await sleep()
+    nodeWrappers = wrapper.findAll('.el-tree-node__content')
+    expect(nodeWrappers.length).toEqual(3)
+    nodeWrappers[1].trigger('click')
+    nodeWrappers[2].trigger('click')
+    await sleep()
+    nodeWrappers = wrapper.findAll('.el-tree-node__content')
+    expect(nodeWrappers.length).toEqual(7)
+    expect(wrapper.findAll('.is-expanded').length).toEqual(3)
+    // collapse node
+    const rootNode = nodeWrappers[0]
+    rootNode.trigger('click')
+    await sleep()
+    expect(rootNode.element.parentNode.getAttribute('aria-expanded')).toEqual(
+      'false'
+    )
+    // filter
+    wrapper.findComponent(Tree).vm.filter('1')
+    await sleep()
+    expect(rootNode.element.parentNode.getAttribute('aria-expanded')).toEqual(
+      'true'
+    )
   })
 
   test('autoExpandParent = true', async () => {
@@ -1520,5 +1597,67 @@ describe('Tree.vue', () => {
       })
     )
     expect(flag).toBe(false)
+  })
+
+  test('customize some node contents', async () => {
+    const wrapper = mount({
+      template: `
+        <el-tree :data="data">
+          <template #default="{ data }">
+            <div v-if="data.id === '1'">
+              customize: {{ data.label }}
+            </div>
+          </template>
+        </el-tree>
+      `,
+      components: {
+        'el-tree': Tree,
+      },
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'Level one 1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'Level two 1-1',
+                  children: [
+                    {
+                      label: 'Level three 1-1-1',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: '2',
+              label: 'Level one 2',
+              children: [
+                {
+                  id: '2-1',
+                  label: 'Level two 2-1',
+                  children: [
+                    {
+                      label: 'Level three 2-1-1',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+    const nodeContentWrapper1 = wrapper.findAll('.el-tree-node__content')[0]
+    const nodeContentWrapper2 = wrapper.findAll('.el-tree-node__content')[1]
+
+    const nodeLabelWrapper1 = nodeContentWrapper1.find('div')
+    const nodeLabelWrapper2 = nodeContentWrapper2.find(
+      'span.el-tree-node__label'
+    )
+    expect(nodeLabelWrapper1.text()).toEqual('customize: Level one 1')
+    expect(nodeLabelWrapper2.text()).toEqual('Level one 2')
   })
 })

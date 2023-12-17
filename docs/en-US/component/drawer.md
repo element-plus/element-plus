@@ -83,7 +83,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 ## API
 
-## Attributes
+### Attributes
 
 | Name                       | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                                           | Default |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
@@ -113,7 +113,16 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 :::
 
-## Slots
+### Events
+
+| Name   | Description                                      | Type                    |
+| ------ | ------------------------------------------------ | ----------------------- |
+| open   | Triggered before Drawer opening animation begins | ^[Function]`() => void` |
+| opened | Triggered after Drawer opening animation ended   | ^[Function]`() => void` |
+| close  | Triggered before Drawer closing animation begins | ^[Function]`() => void` |
+| closed | Triggered after Drawer closing animation ended   | ^[Function]`() => void` |
+
+### Slots
 
 | Name                | Description                                                                                    |
 | ------------------- | ---------------------------------------------------------------------------------------------- |
@@ -122,17 +131,8 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | title ^(deprecated) | Works the same as the header slot. Use that instead.                                           |
 | footer              | Drawer footer Section                                                                          |
 
-## Methods
+### Exposes
 
 | Name        | Description                                                     |
 | ----------- | --------------------------------------------------------------- |
 | handleClose | In order to close Drawer, this method will call `before-close`. |
-
-## Events
-
-| Name   | Description                                      | Parameter |
-| ------ | ------------------------------------------------ | --------- |
-| open   | Triggered before Drawer opening animation begins | —         |
-| opened | Triggered after Drawer opening animation ended   | —         |
-| close  | Triggered before Drawer closing animation begins | —         |
-| closed | Triggered after Drawer closing animation ended   | —         |
