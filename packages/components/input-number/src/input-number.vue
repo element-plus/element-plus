@@ -61,7 +61,15 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUpdated,
+  reactive,
+  ref,
+  watch,
+} from 'vue'
 import { isNil } from 'lodash-unified'
 import { ElInput } from '@element-plus/components/input'
 import { ElIcon } from '@element-plus/components/icon'
@@ -227,7 +235,7 @@ const verifyValue = (
   }
   return newVal
 }
-const setCurrentValue = (
+const setCurrentValue = async (
   value: number | string | null | undefined,
   emitChange = true
 ) => {
@@ -245,6 +253,8 @@ const setCurrentValue = (
     formItem?.validate?.('change').catch((err) => debugWarn(err))
   }
   data.currentValue = newVal
+  await nextTick()
+  data.currentValue = props.modelValue
 }
 const handleInput = (value: string) => {
   data.userInput = value
