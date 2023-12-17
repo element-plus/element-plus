@@ -1,7 +1,5 @@
 // @ts-nocheck
-import { createPopper } from '@popperjs/core'
-import { flatMap, get, merge } from 'lodash-unified'
-import escapeHtml from 'escape-html'
+import { flatMap, get } from 'lodash-unified'
 import {
   hasOwn,
   isArray,
@@ -9,9 +7,6 @@ import {
   isObject,
   throwError,
 } from '@element-plus/utils'
-import { useDelayedToggle } from '@element-plus/hooks'
-import type { PopperInstance } from '@element-plus/components/popper'
-import type { Nullable } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { ElTooltipProps } from '@element-plus/components/tooltip'
 
@@ -323,129 +318,6 @@ export function walkTreeNode(
       _walker(item, children, 0)
     }
   })
-}
-
-export let removePopper
-
-export function createTablePopper(
-  parentNode: HTMLElement | undefined,
-  trigger: HTMLElement,
-  popperContent: string,
-  nextZIndex: () => number,
-  tooltipOptions?: TableOverflowTooltipOptions
-) {
-  // TODO transition
-  tooltipOptions = merge(
-    {
-      enterable: true,
-      showArrow: true,
-    } as TableOverflowTooltipOptions,
-    tooltipOptions
-  )
-  const ns = parentNode?.dataset.prefix
-  const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
-  function renderContent(): HTMLDivElement {
-    const isLight = tooltipOptions.effect === 'light'
-    const content = document.createElement('div')
-    content.className = [
-      `${ns}-popper`,
-      isLight ? 'is-light' : 'is-dark',
-      tooltipOptions.popperClass || '',
-    ].join(' ')
-    popperContent = escapeHtml(popperContent)
-    content.innerHTML = popperContent
-    content.style.zIndex = String(nextZIndex())
-    // Avoid side effects caused by append to body
-    parentNode?.appendChild(content)
-    return content
-  }
-  function renderArrow(): HTMLDivElement {
-    const arrow = document.createElement('div')
-    arrow.className = `${ns}-popper__arrow`
-    return arrow
-  }
-  function togglePopperVisible(display: 'none' | 'block') {
-    return {
-      name: 'updateState',
-      enabled: true,
-      phase: 'beforeWrite',
-      fn: ({ state }) => {
-        state.styles.popper.display = display
-      },
-      requires: ['computeStyles'],
-    }
-  }
-  function showPopper() {
-    if (tooltipOptions.showAfter) {
-      popperInstance?.setOptions({
-        modifiers: [togglePopperVisible('block')],
-      })
-    }
-    popperInstance?.update()
-  }
-
-  const triggerChanged = removePopper?.trigger !== trigger
-  removePopper?.()
-  removePopper = () => {
-    try {
-      popperInstance && popperInstance.destroy()
-      content && parentNode?.removeChild(content)
-      trigger.removeEventListener('mouseenter', onOpen)
-      trigger.removeEventListener('mouseleave', onClose)
-      scrollContainer?.removeEventListener('scroll', removePopper)
-      removePopper = undefined
-    } catch {}
-  }
-  removePopper.trigger = trigger
-
-  let popperInstance: Nullable<PopperInstance> = null
-  const { onOpen, onClose } = useDelayedToggle({
-    showAfter: tooltipOptions.showAfter,
-    hideAfter: tooltipOptions.hideAfter,
-    open: showPopper,
-    close: removePopper,
-  })
-  const content = renderContent()
-  if (tooltipOptions.enterable) {
-    content.onmouseenter = onOpen
-    content.onmouseleave = onClose
-  }
-  const modifiers = []
-  if (tooltipOptions.offset) {
-    modifiers.push({
-      name: 'offset',
-      options: {
-        offset: [0, tooltipOptions.offset],
-      },
-    })
-  }
-  if (tooltipOptions.showArrow) {
-    const arrow = content.appendChild(renderArrow())
-    modifiers.push({
-      name: 'arrow',
-      options: {
-        element: arrow,
-        padding: 10,
-      },
-    })
-  }
-  if (tooltipOptions.showAfter && triggerChanged) {
-    modifiers.push(togglePopperVisible('none'))
-  }
-  const popperOptions = tooltipOptions.popperOptions || {}
-  popperInstance = createPopper(trigger, content, {
-    placement: tooltipOptions.placement || 'top',
-    strategy: 'fixed',
-    ...popperOptions,
-    modifiers: popperOptions.modifiers
-      ? modifiers.concat(popperOptions.modifiers)
-      : modifiers,
-  })
-  trigger.addEventListener('mouseenter', onOpen)
-  trigger.addEventListener('mouseleave', onClose)
-  scrollContainer?.addEventListener('scroll', removePopper)
-  onOpen()
-  return popperInstance
 }
 
 function getCurrentColumns<T>(column: TableColumnCtx<T>): TableColumnCtx<T>[] {

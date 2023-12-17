@@ -10,8 +10,8 @@ import {
 import { addClass, isClient, rAF, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import useLayoutObserver from '../layout-observer'
-import { removePopper } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
+import { removePopper } from './create-popper-helper'
 import useRender from './render-helper'
 import defaultProps from './defaults'
 
