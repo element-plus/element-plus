@@ -20,7 +20,7 @@ export function createPopper(
     virtualTriggering: true,
     virtualRef: trigger,
     placement: 'top',
-    transition: 'none',
+    transition: 'none', // Default does not require transition
     offset: 0,
     hideAfter: 0,
     ...props,
