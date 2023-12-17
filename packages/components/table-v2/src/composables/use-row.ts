@@ -60,7 +60,7 @@ export const useRow = (
   }
 
   function onRowHovered({ hovered, rowKey }: RowHoverParams) {
-    if ((isScrolling.value && hovered) || isScrolling.value) {
+    if (isScrolling.value) {
       return
     }
     const tableRoot = tableInstance!.vnode.el as HTMLElement
