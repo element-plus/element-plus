@@ -442,6 +442,8 @@ $select-dropdown: map.merge(
     'max-height': 274px,
     'padding': 6px 0,
     'empty-padding': 10px 0,
+    'header-padding': 10px,
+    'footer-padding': 10px,
     'border': 1px solid getCssVar('border-color-light'),
   ),
   $select-dropdown
@@ -552,6 +554,7 @@ $input: map.merge(
     'hover-border-color': getCssVar('border-color-hover'),
     'clear-hover-color': getCssVar('text-color-secondary'),
     'focus-border-color': getCssVar('color-primary'),
+    'width': 100%,
   ),
   $input
 );
@@ -771,10 +774,11 @@ $table: map.merge(
     'header-bg-color': getCssVar('bg-color'),
     'fixed-box-shadow': getCssVar('box-shadow', 'light'),
     'bg-color': getCssVar('fill-color', 'blank'),
-    'tr-bg-color': getCssVar('fill-color', 'blank'),
+    'tr-bg-color': getCssVar('bg-color'),
     'expanded-cell-bg-color': getCssVar('fill-color', 'blank'),
     'fixed-left-column': inset 10px 0 10px -10px rgb(0 0 0 / 15%),
     'fixed-right-column': inset -10px 0 10px -10px rgb(0 0 0 / 15%),
+    'index': getCssVar('index-normal'),
   ),
   $table
 );
@@ -949,6 +953,7 @@ $text-font-size: map.merge(
 $tree: () !default;
 $tree: map.merge(
   (
+    'node-content-height': 26px,
     'node-hover-bg-color': getCssVar('fill-color', 'light'),
     'text-color': getCssVar('text-color-regular'),
     'expand-icon-color': getCssVar('text-color-placeholder'),
@@ -1035,6 +1040,7 @@ $menu: map.merge(
     'hover-bg-color': getCssVar('color-primary-light-9'),
     'item-height': 56px,
     'sub-item-height': calc(#{getCssVar('menu-item-height')} - 6px),
+    'horizontal-height': 60px,
     'horizontal-sub-item-height': 36px,
     'item-font-size': getCssVar('font-size-base'),
     'item-hover-fill': getCssVar('color-primary-light-9'),
@@ -1253,6 +1259,7 @@ $form: () !default;
 $form: map.merge(
   (
     'label-font-size': getCssVar('font-size-base'),
+    'inline-content-width': 220px,
   ),
   $form
 );

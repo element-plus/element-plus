@@ -1,14 +1,11 @@
 <template>
   <li
     v-show="visible"
-    :class="[
-      ns.be('dropdown', 'item'),
-      ns.is('disabled', isDisabled),
-      {
-        selected: itemSelected,
-        hover,
-      },
-    ]"
+    :id="id"
+    :class="containerKls"
+    role="option"
+    :aria-disabled="isDisabled || undefined"
+    :aria-selected="itemSelected"
     @mouseenter="hoverItem"
     @click.stop="selectOptionClick"
   >
@@ -21,14 +18,16 @@
 <script lang="ts">
 // @ts-nocheck
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
   nextTick,
   onBeforeUnmount,
   reactive,
   toRefs,
+  unref,
 } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useId, useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import type { SelectOptionProxy } from './token'
 
@@ -37,20 +36,37 @@ export default defineComponent({
   componentName: 'ElOption',
 
   props: {
+    /**
+     * @description value of option
+     */
     value: {
       required: true,
       type: [String, Number, Boolean, Object],
     },
+    /**
+     * @description label of option, same as `value` if omitted
+     */
     label: [String, Number],
     created: Boolean,
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+    /**
+     * @description whether option is disabled
+     */
+    disabled: Boolean,
   },
 
   setup(props) {
     const ns = useNamespace('select')
+    const id = useId()
+
+    const containerKls = computed(() => [
+      ns.be('dropdown', 'item'),
+      ns.is('disabled', unref(isDisabled)),
+      {
+        selected: unref(itemSelected),
+        hover: unref(hover),
+      },
+    ])
+
     const states = reactive({
       index: -1,
       groupDisabled: false,
@@ -86,12 +102,14 @@ export default defineComponent({
 
     function selectOptionClick() {
       if (props.disabled !== true && states.groupDisabled !== true) {
-        select.handleOptionSelect(vm, true)
+        select.handleOptionSelect(vm)
       }
     }
 
     return {
       ns,
+      id,
+      containerKls,
       currentLabel,
       itemSelected,
       isDisabled,

@@ -37,7 +37,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import ElSelect from '@element-plus/components/select'
 import { useFormDisabled } from '@element-plus/components/form'
 import ElIcon from '@element-plus/components/icon'
-import { useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { timeSelectProps } from './time-select'
 import { compareTime, formatTime, nextTime, parseTime } from './utils'
 
@@ -57,6 +57,7 @@ const nsInput = useNamespace('input')
 const select = ref<typeof ElSelect>()
 
 const _disabled = useFormDisabled()
+const { lang } = useLocale()
 
 const value = computed(() => props.modelValue)
 const start = computed(() => {
@@ -90,7 +91,9 @@ const items = computed(() => {
     let current = start.value
     let currentTime: string
     while (current && end.value && compareTime(current, end.value) <= 0) {
-      currentTime = dayjs(current, 'HH:mm').format(props.format)
+      currentTime = dayjs(current, 'HH:mm')
+        .locale(lang.value)
+        .format(props.format)
       result.push({
         value: currentTime,
         disabled:
@@ -112,7 +115,13 @@ const focus = () => {
 }
 
 defineExpose({
+  /**
+   * @description focus the Input component
+   */
   blur,
+  /**
+   * @description blur the Input component
+   */
   focus,
 })
 </script>

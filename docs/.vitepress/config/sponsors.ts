@@ -1,4 +1,25 @@
-export const rightRichTextSponsors = []
+export const rightRichTextSponsors = [
+  {
+    name: 'MISBoot',
+    img: '/images/sponsors/MISBoot.png',
+    url: 'https://www.misboot.com/?from=element-plus',
+    slogan: 'Low-code platform for rapid development',
+    slogan_cn: '低代码开发平台，应用可视化快速开发',
+    slogan_index: '低代码开发平台，应用快速开发',
+  },
+]
+
+export const rightBigLogoSponsors = [
+  {
+    name: 'CRMEB',
+    img: '/images/sponsors/CRMEB.png',
+    imgL: '/images/sponsors/CRMEB-l.png',
+    url: 'http://github.crmeb.net/u/Element?from=element-plus',
+    slogan: 'High-quality open source mall system',
+    slogan_cn: '高品质开源商城系统 累计服务40W+开发者',
+    slogan_index: '高品质开源商城系统累计服务40W+开发者',
+  },
+]
 
 export const rightLogoSmallSponsors = [
   {
@@ -24,7 +45,7 @@ export const leftCustomImgSponsors = [
     name: 'JSDesign',
     name_cn: '即时设计',
     img: '/images/js-design.png',
-    url: 'https://js.design?source=element-plus',
+    url: 'https://js.design/?source=element-plus&plan=sy',
     slogan: 'Professional online UI design tool',
     slogan_cn: '专业在线UI设计工具',
     banner_img: '/images/js-design-banner.jpg',
@@ -32,7 +53,7 @@ export const leftCustomImgSponsors = [
   {
     name: 'VForm',
     img: '/images/vform.png',
-    url: 'https://www.vform666.com/',
+    url: 'https://vform666.com/',
     slogan: 'Vue 2/3 Visual/Low-Code Forms',
     slogan_cn: 'Vue 2/3 可视化低代码表单',
     banner_img: '/images/vform-banner.png',
@@ -50,6 +71,7 @@ export const leftCustomImgSponsors = [
 
 export const platinumSponsors = [
   ...leftCustomImgSponsors,
+  ...rightBigLogoSponsors,
   ...rightRichTextSponsors,
 ]
 

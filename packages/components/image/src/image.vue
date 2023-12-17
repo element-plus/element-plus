@@ -10,11 +10,7 @@
         :src="imageSrc"
         :loading="loading"
         :style="imageStyle"
-        :class="[
-          ns.e('inner'),
-          preview && ns.e('preview'),
-          isLoading && ns.is('loading'),
-        ]"
+        :class="imageKls"
         @click="clickHandler"
         @load="handleLoad"
         @error="handleError"
@@ -32,6 +28,8 @@
         :initial-index="imageIndex"
         :infinite="infinite"
         :zoom-rate="zoomRate"
+        :min-scale="minScale"
+        :max-scale="maxScale"
         :url-list="previewSrcList"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="previewTeleported"
@@ -56,11 +54,12 @@ import {
   useAttrs as useRawAttrs,
   watch,
 } from 'vue'
-import { isClient, useEventListener, useThrottleFn } from '@vueuse/core'
+import { useEventListener, useThrottleFn } from '@vueuse/core'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
+  isClient,
   isElement,
   isInContainer,
   isString,
@@ -94,6 +93,12 @@ const _scrollContainer = ref<HTMLElement | Window>()
 const supportLoading = isClient && 'loading' in HTMLImageElement.prototype
 let stopScrollListener: (() => void) | undefined
 let stopWheelListener: (() => void) | undefined
+
+const imageKls = computed(() => [
+  ns.e('inner'),
+  preview.value && ns.e('preview'),
+  isLoading.value && ns.is('loading'),
+])
 
 const containerStyle = computed(() => rawAttrs.style as StyleValue)
 
@@ -152,7 +157,7 @@ function handleLazyLoad() {
   }
 }
 
-const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
+const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200, true)
 
 async function addLazyLoadListener() {
   if (!isClient) return
