@@ -1,5 +1,33 @@
 ## Changelog
 
+### 2.4.4
+
+_2023-12-15_
+
+#### Features
+
+- Components [menu] add popperOffset and ellipsisIcon props(#14923 by @zhixiaotong) (#15051)
+- Components [switch] (in)active icon slot (#15078 by @xing403)
+- Components [pagination] add change event (#14828 by @xingyixiang)
+- Components [el-menu] allow user to hide menu when clicking outside (#14742 by @cuongle-hdwebsoft)
+
+#### Bug fixes
+
+- Components [select-v2] popup height is not accurate (#15012 by @Jevin0) (#15014)
+- Components [date-picker] the time panel is closed without losing focus (#14748 by @CherishTheYouth)
+- Components [watermark] mutationObserver should work (#14822 by @Fuphoenixes)
+- Components [watermark] Support for lower versions of Firefox (#14993 by @godxiaoji)
+- Docs Algolia highlight error (#14831 by @FrontEndDog)
+- Components [table-v2] cell, header-cell, empty slots not displayed (#15016 by @FrontEndDog)
+- Components [table] header slot not displayed (#15035 by @FrontEndDog)
+- Components [data-picker] use renderSlot simplified code (#15036 by @FrontEndDog)
+- Components [table] tooltipOptions.showAfter is not effective  (#14741 by @xingyixiang)
+- Ci git workflows not work (#15092 by @FrontEndDog)
+- Components [input-number] Fix not trigger change event and incorrect value display (#15066 by @kooriookami)
+- Components [collapse-transition] collapse get el exists height (#14801 by @Innei)
+- Components [date-picker] tagName judgement error (#15079 by @ivan0525)
+- Build fix built component source contains unsafe file path (#15152 by @plainheart)
+
 ### 2.4.3
 
 _2023-11-27_
