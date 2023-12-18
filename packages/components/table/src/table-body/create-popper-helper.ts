@@ -18,14 +18,19 @@ export type TableOverflowTooltipOptions = Partial<
     | 'transition'
   >
 >
+type RemovePopperFn = () => void
 
-export let removePopper: any
+interface RemovePopperType extends RemovePopperFn {
+  trigger?: HTMLElement
+}
+
+export let removePopper: RemovePopperType | null
 
 export function createPopper(
   props: TableOverflowTooltipOptions,
   popperContent: string,
   trigger: HTMLElement,
-  table: Table<any>
+  table: Table<[]>
 ) {
   if (removePopper?.trigger === trigger) {
     return
@@ -41,16 +46,21 @@ export function createPopper(
     hideAfter: 0,
     ...props,
     onHide: () => {
-      removePopper()
+      removePopper?.()
     },
   })
   vm.appContext = table.appContext
   const container = document.createElement('div')
   render(vm, container)
   vm.component!.exposed!.onOpen()
+  const parentNode = table?.refs.tableWrapper
+  const ns = parentNode?.dataset.prefix
+  const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
   removePopper = () => {
     render(null, container)
+    scrollContainer?.removeEventListener('scroll', removePopper!)
     removePopper = null
   }
   removePopper.trigger = trigger
+  scrollContainer?.addEventListener('scroll', removePopper)
 }
