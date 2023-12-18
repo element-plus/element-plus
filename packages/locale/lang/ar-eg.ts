@@ -115,6 +115,11 @@ export default {
       preview: 'عرض',
       continue: 'إستمرار',
     },
+    slider: {
+      defaultLabel: 'شريط التمرير بين {min} و {max}',
+      defaultRangeStartLabel: 'اختر قيمة البدء',
+      defaultRangeEndLabel: 'اختر قيمة النهاية',
+    },
     table: {
       emptyText: 'لايوجد بيانات',
       confirmFilter: 'تأكيد',
