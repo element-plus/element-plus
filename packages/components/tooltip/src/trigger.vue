@@ -87,7 +87,6 @@ const onKeydown = composeEventHandlers(
   (e: KeyboardEvent) => {
     const { code } = e
     if (props.triggerKeys.includes(code)) {
-      e.preventDefault()
       onToggle(e)
     }
   }
