@@ -49,51 +49,51 @@ export interface UploadRawFile extends File {
 }
 export type UploadRequestHandler = (
   options: UploadRequestOptions,
-  customData: UploadCustomData
+  customData?: UploadCustomData
 ) => XMLHttpRequest | Promise<unknown>
 export interface UploadHooks {
   beforeUpload: (
     rawFile: UploadRawFile,
-    customData: UploadCustomData
+    customData?: UploadCustomData
   ) => Awaitable<void | undefined | null | boolean | File | Blob>
   beforeRemove: (
     uploadFile: UploadFile,
     uploadFiles: UploadFiles,
-    customData: UploadCustomData
+    customData?: UploadCustomData
   ) => Awaitable<boolean>
   onRemove: (
     uploadFile: UploadFile,
     uploadFiles: UploadFiles,
-    customData: UploadCustomData
+    customData?: UploadCustomData
   ) => void
   onChange: (
     uploadFile: UploadFile,
     uploadFiles: UploadFiles,
-    customData: UploadCustomData
+    customData?: UploadCustomData
   ) => void
-  onPreview: (uploadFile: UploadFile, customData: UploadCustomData) => void
+  onPreview: (uploadFile: UploadFile, customData?: UploadCustomData) => void
   onSuccess: (
     response: any,
     uploadFile: UploadFile,
     uploadFiles: UploadFiles,
-    customData: UploadCustomData
+    customData?: UploadCustomData
   ) => void
   onProgress: (
     evt: UploadProgressEvent,
     uploadFile: UploadFile,
     uploadFiles: UploadFiles,
-    customData: UploadCustomData
+    customData?: UploadCustomData
   ) => void
   onError: (
     error: Error,
     uploadFile: UploadFile,
     uploadFiles: UploadFiles,
-    customData: UploadCustomData
+    customData?: UploadCustomData
   ) => void
   onExceed: (
     files: File[],
     uploadFiles: UploadUserFile[],
-    customData: UploadCustomData
+    customData?: UploadCustomData
   ) => void
 }
 
