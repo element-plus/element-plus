@@ -69,6 +69,26 @@ select/custom-template
 
 :::
 
+## Header of the dropdown ^(2.4.3)
+
+You can customize the header of the dropdown.
+
+::: demo Use slot to customize the content.
+
+select/custom-header
+
+:::
+
+## Footer of the dropdown ^(2.4.3)
+
+You can customize the footer of the dropdown.
+
+::: demo Use slot to customize the content.
+
+select/custom-footer
+
+:::
+
 ## Grouping
 
 Display options in groups.
@@ -184,11 +204,13 @@ select/value-key
 
 ### Select Slots
 
-| Name    | Description                      | Subtags               |
-| ------- | -------------------------------- | --------------------- |
-| default | option component list            | Option Group / Option |
-| prefix  | content as Select prefix         | —                     |
-| empty   | content when there is no options | —                     |
+| Name            | Description                           | Subtags               |
+| --------------- | ------------------------------------- | --------------------- |
+| default         | option component list                 | Option Group / Option |
+| header ^(2.4.3) | content at the top of the dropdown    | —                     |
+| footer ^(2.4.3) | content at the bottom of the dropdown | —                     |
+| prefix          | content as Select prefix              | —                     |
+| empty           | content when there is no options      | —                     |
 
 ### Select Exposes
 

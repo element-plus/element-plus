@@ -442,6 +442,8 @@ $select-dropdown: map.merge(
     'max-height': 274px,
     'padding': 6px 0,
     'empty-padding': 10px 0,
+    'header-padding': 10px,
+    'footer-padding': 10px,
     'border': 1px solid getCssVar('border-color-light'),
   ),
   $select-dropdown
@@ -776,7 +778,7 @@ $table: map.merge(
     'expanded-cell-bg-color': getCssVar('fill-color', 'blank'),
     'fixed-left-column': inset 10px 0 10px -10px rgb(0 0 0 / 15%),
     'fixed-right-column': inset -10px 0 10px -10px rgb(0 0 0 / 15%),
-    'index': getCssVar('index-normal')
+    'index': getCssVar('index-normal'),
   ),
   $table
 );

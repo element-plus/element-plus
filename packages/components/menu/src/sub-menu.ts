@@ -58,7 +58,7 @@ export const subMenuProps = buildProps({
   },
   popperOffset: {
     type: Number,
-    default: 6,
+    default: undefined,
   },
   expandCloseIcon: {
     type: iconPropType,
@@ -196,6 +196,10 @@ export default defineComponent({
 
     const ulStyle = useMenuCssVar(rootMenu.props, subMenu.level + 1)
 
+    const subMenuPopperOffset = computed(() => {
+      return props.popperOffset ?? rootMenu.props.popperOffset
+    })
+
     // methods
     const doDestroy = () =>
       vPopper.value?.popperRef?.popperInstanceRef?.destroy()
@@ -235,6 +239,7 @@ export default defineComponent({
         (!rootMenu.props.collapse && rootMenu.props.mode === 'vertical') ||
         props.disabled
       ) {
+        subMenu.mouseInChild.value = true
         return
       }
       subMenu.mouseInChild.value = true
@@ -255,6 +260,7 @@ export default defineComponent({
           rootMenu.props.mode === 'horizontal') ||
         (!rootMenu.props.collapse && rootMenu.props.mode === 'vertical')
       ) {
+        subMenu.mouseInChild.value = false
         return
       }
       timeout?.()
@@ -349,7 +355,7 @@ export default defineComponent({
               visible: opened.value,
               effect: 'light',
               pure: true,
-              offset: props.popperOffset,
+              offset: subMenuPopperOffset.value,
               showArrow: false,
               persistent: true,
               popperClass: props.popperClass,
