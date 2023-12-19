@@ -40,11 +40,11 @@ export const subMenuProps = buildProps({
   },
   showTimeout: {
     type: Number,
-    default: 300,
+    default: undefined,
   },
   hideTimeout: {
     type: Number,
-    default: 300,
+    default: undefined,
   },
   popperClass: String,
   disabled: Boolean,
@@ -200,6 +200,18 @@ export default defineComponent({
       return props.popperOffset ?? rootMenu.props.popperOffset
     })
 
+    const subMenuPopperClass = computed(() => {
+      return props.popperClass ?? rootMenu.props.popperClass
+    })
+
+    const subMenuShowTimeout = computed(() => {
+      return props.showTimeout ?? rootMenu.props.subMenuShowTimeout
+    })
+
+    const subMenuHideTimeout = computed(() => {
+      return props.hideTimeout ?? rootMenu.props.subMenuHideTimeout
+    })
+
     // methods
     const doDestroy = () =>
       vPopper.value?.popperRef?.popperInstanceRef?.destroy()
@@ -228,7 +240,7 @@ export default defineComponent({
 
     const handleMouseenter = (
       event: MouseEvent | FocusEvent,
-      showTimeout = props.showTimeout
+      showTimeout = subMenuShowTimeout.value
     ) => {
       if (event.type === 'focus') {
         return
@@ -269,7 +281,7 @@ export default defineComponent({
         () =>
           !mouseInChild.value &&
           rootMenu.closeMenu(props.index, indexPath.value),
-        props.hideTimeout
+        subMenuHideTimeout.value
       ))
 
       if (appendToBody.value && deepDispatch) {
@@ -358,7 +370,7 @@ export default defineComponent({
               offset: subMenuPopperOffset.value,
               showArrow: false,
               persistent: true,
-              popperClass: props.popperClass,
+              popperClass: subMenuPopperClass.value,
               placement: currentPlacement.value,
               teleported: appendToBody.value,
               fallbackPlacements: fallbackPlacements.value,
@@ -373,7 +385,7 @@ export default defineComponent({
                     class: [
                       nsMenu.m(mode.value),
                       nsMenu.m('popup-container'),
-                      props.popperClass,
+                      subMenuPopperClass.value,
                     ],
                     onMouseenter: (evt: MouseEvent) =>
                       handleMouseenter(evt, 100),
