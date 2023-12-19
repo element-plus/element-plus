@@ -21,7 +21,7 @@
     left getCssVar('transition-duration'),
     right getCssVar('transition-duration'), top 0.4s,
     bottom getCssVar('transition-duration');
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   overflow: hidden;
   z-index: 9999;
 
