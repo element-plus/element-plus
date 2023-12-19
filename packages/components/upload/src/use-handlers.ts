@@ -58,15 +58,15 @@ export const useHandlers = (
     console.error(err)
     file.status = 'fail'
     uploadFiles.value.splice(uploadFiles.value.indexOf(file), 1)
-    props.onError(err, file, uploadFiles.value)
-    props.onChange(file, uploadFiles.value)
+    props.onError(err, file, uploadFiles.value, props.customData)
+    props.onChange(file, uploadFiles.value, props.customData)
   }
 
   const handleProgress: UploadContentProps['onProgress'] = (evt, rawFile) => {
     const file = getFile(rawFile)
     if (!file) return
 
-    props.onProgress(evt, file, uploadFiles.value)
+    props.onProgress(evt, file, uploadFiles.value, props.customData)
     file.status = 'uploading'
     file.percentage = Math.round(evt.percent)
   }
@@ -80,8 +80,8 @@ export const useHandlers = (
 
     file.status = 'success'
     file.response = response
-    props.onSuccess(response, file, uploadFiles.value)
-    props.onChange(file, uploadFiles.value)
+    props.onSuccess(response, file, uploadFiles.value, props.customData)
+    props.onChange(file, uploadFiles.value, props.customData)
   }
 
   const handleStart: UploadContentProps['onStart'] = (file) => {
@@ -99,11 +99,16 @@ export const useHandlers = (
         uploadFile.url = URL.createObjectURL(file)
       } catch (err: unknown) {
         debugWarn(SCOPE, (err as Error).message)
-        props.onError(err as Error, uploadFile, uploadFiles.value)
+        props.onError(
+          err as Error,
+          uploadFile,
+          uploadFiles.value,
+          props.customData
+        )
       }
     }
     uploadFiles.value = [...uploadFiles.value, uploadFile]
-    props.onChange(uploadFile, uploadFiles.value)
+    props.onChange(uploadFile, uploadFiles.value, props.customData)
   }
 
   const handleRemove: UploadContentProps['onRemove'] = async (
@@ -116,12 +121,16 @@ export const useHandlers = (
       abort(file)
       const fileList = uploadFiles.value
       fileList.splice(fileList.indexOf(file), 1)
-      props.onRemove(file, fileList)
+      props.onRemove(file, fileList, props.customData)
       revokeFileObjectURL(file)
     }
 
     if (props.beforeRemove) {
-      const before = await props.beforeRemove(uploadFile, uploadFiles.value)
+      const before = await props.beforeRemove(
+        uploadFile,
+        uploadFiles.value,
+        props.customData
+      )
       if (before !== false) doRemove(uploadFile)
     } else {
       doRemove(uploadFile)

@@ -43,39 +43,58 @@ export type UploadUserFile = Omit<UploadFile, 'status' | 'uid'> &
   Partial<Pick<UploadFile, 'status' | 'uid'>>
 
 export type UploadFiles = UploadFile[]
+export type UploadCustomData = Record<string, unknown>
 export interface UploadRawFile extends File {
   uid: number
 }
 export type UploadRequestHandler = (
-  options: UploadRequestOptions
+  options: UploadRequestOptions,
+  customData: UploadCustomData
 ) => XMLHttpRequest | Promise<unknown>
 export interface UploadHooks {
   beforeUpload: (
-    rawFile: UploadRawFile
+    rawFile: UploadRawFile,
+    customData: UploadCustomData
   ) => Awaitable<void | undefined | null | boolean | File | Blob>
   beforeRemove: (
     uploadFile: UploadFile,
-    uploadFiles: UploadFiles
+    uploadFiles: UploadFiles,
+    customData: UploadCustomData
   ) => Awaitable<boolean>
-  onRemove: (uploadFile: UploadFile, uploadFiles: UploadFiles) => void
-  onChange: (uploadFile: UploadFile, uploadFiles: UploadFiles) => void
-  onPreview: (uploadFile: UploadFile) => void
+  onRemove: (
+    uploadFile: UploadFile,
+    uploadFiles: UploadFiles,
+    customData: UploadCustomData
+  ) => void
+  onChange: (
+    uploadFile: UploadFile,
+    uploadFiles: UploadFiles,
+    customData: UploadCustomData
+  ) => void
+  onPreview: (uploadFile: UploadFile, customData: UploadCustomData) => void
   onSuccess: (
     response: any,
     uploadFile: UploadFile,
-    uploadFiles: UploadFiles
+    uploadFiles: UploadFiles,
+    customData: UploadCustomData
   ) => void
   onProgress: (
     evt: UploadProgressEvent,
     uploadFile: UploadFile,
-    uploadFiles: UploadFiles
+    uploadFiles: UploadFiles,
+    customData: UploadCustomData
   ) => void
   onError: (
     error: Error,
     uploadFile: UploadFile,
-    uploadFiles: UploadFiles
+    uploadFiles: UploadFiles,
+    customData: UploadCustomData
   ) => void
-  onExceed: (files: File[], uploadFiles: UploadUserFile[]) => void
+  onExceed: (
+    files: File[],
+    uploadFiles: UploadUserFile[],
+    customData: UploadCustomData
+  ) => void
 }
 
 export type UploadData = Mutable<Record<string, any>>
@@ -187,6 +206,13 @@ export const uploadBaseProps = buildProps({
    * @description maximum number of uploads allowed
    */
   limit: Number,
+  /**
+   * @description custom data
+   */
+  customData: {
+    type: Object,
+    default: () => mutable({} as const),
+  },
 } as const)
 
 export const uploadProps = buildProps({

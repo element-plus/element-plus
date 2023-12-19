@@ -62,10 +62,18 @@ const inputRef = shallowRef<HTMLInputElement>()
 const uploadFiles = (files: File[]) => {
   if (files.length === 0) return
 
-  const { autoUpload, limit, fileList, multiple, onStart, onExceed } = props
+  const {
+    autoUpload,
+    limit,
+    fileList,
+    multiple,
+    onStart,
+    onExceed,
+    customData,
+  } = props
 
   if (limit && fileList.length + files.length > limit) {
-    onExceed(files, fileList)
+    onExceed(files, fileList, customData)
     return
   }
 
@@ -94,7 +102,7 @@ const upload = async (rawFile: UploadRawFile): Promise<void> => {
   try {
     // origin data: Handle data changes after synchronization tasks are executed
     const originData = props.data
-    const beforeUploadPromise = props.beforeUpload(rawFile)
+    const beforeUploadPromise = props.beforeUpload(rawFile, props.customData)
     beforeData = isPlainObject(props.data) ? cloneDeep(props.data) : props.data
     hookResult = await beforeUploadPromise
     if (isPlainObject(props.data) && isEqual(originData, beforeData)) {
@@ -154,6 +162,7 @@ const doUpload = async (
     onSuccess,
     onError,
     httpRequest,
+    customData,
   } = props
 
   try {
@@ -184,7 +193,7 @@ const doUpload = async (
       delete requests.value[uid]
     },
   }
-  const request = httpRequest(options)
+  const request = httpRequest(options, customData)
   requests.value[uid] = request
   if (request instanceof Promise) {
     request.then(options.onSuccess, options.onError)

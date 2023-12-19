@@ -4,6 +4,7 @@ import { uploadBaseProps } from './upload'
 
 import type { ExtractPropTypes } from 'vue'
 import type {
+  UploadCustomData,
   UploadFile,
   UploadHooks,
   UploadProgressEvent,
@@ -21,7 +22,11 @@ export const uploadContentProps = buildProps({
   },
   onRemove: {
     type: definePropType<
-      (file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void
+      (
+        file: UploadFile | UploadRawFile,
+        rawFile?: UploadRawFile,
+        customData?: UploadCustomData
+      ) => void
     >(Function),
     default: NOOP,
   },
