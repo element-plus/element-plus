@@ -149,7 +149,7 @@ const resourceCards = computed(() => [
     color: #99a9bf;
     padding: 0 30px;
     margin: 0;
-    word-break: break-word;
+    overflow-wrap: anywhere;
     line-height: 1.8;
     min-height: 75px;
     margin-bottom: 16px;

@@ -17,7 +17,7 @@
     text-align: justify;
     font-size: getCssVar('popover-font-size');
     box-shadow: getCssVar('box-shadow-light');
-    word-break: break-all;
+    overflow-wrap: anywhere;
     box-sizing: border-box;
 
     @include m(plain) {
