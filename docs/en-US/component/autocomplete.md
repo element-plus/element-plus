@@ -45,7 +45,7 @@ autocomplete/remote-search
 
 ## Custom Loading
 
-Search data from server-side.
+Override loading icon.
 
 :::demo
 
