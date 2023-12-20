@@ -43,6 +43,16 @@ autocomplete/remote-search
 
 :::
 
+## Custom Loading
+
+Search data from server-side.
+
+:::demo
+
+autocomplete/custom-loading
+
+:::
+
 ## API
 
 ### Attributes
@@ -77,13 +87,14 @@ autocomplete/remote-search
 
 ### Slots
 
-| Name    | Description                          | Type                                     |
-| ------- | ------------------------------------ | ---------------------------------------- |
-| default | custom content for input suggestions | ^[object]`{ item: Record<string, any> }` |
-| prefix  | content as Input prefix              | -                                        |
-| suffix  | content as Input suffix              | -                                        |
-| prepend | content to prepend before Input      | -                                        |
-| append  | content to append after Input        | -                                        |
+| Name             | Description                          | Type                                     |
+| ---------------- | ------------------------------------ | ---------------------------------------- |
+| default          | custom content for input suggestions | ^[object]`{ item: Record<string, any> }` |
+| prefix           | content as Input prefix              | -                                        |
+| suffix           | content as Input suffix              | -                                        |
+| prepend          | content to prepend before Input      | -                                        |
+| append           | content to append after Input        | -                                        |
+| loading ^(2.4.5) | override loading icon                | -                                        |
 
 ### Exposes
 
