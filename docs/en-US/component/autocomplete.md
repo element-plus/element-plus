@@ -45,7 +45,7 @@ autocomplete/remote-search
 
 ## Custom Loading
 
-Override loading icon.
+Override loading content.
 
 :::demo
 
@@ -94,7 +94,7 @@ autocomplete/custom-loading
 | suffix           | content as Input suffix              | -                                        |
 | prepend          | content to prepend before Input      | -                                        |
 | append           | content to append after Input        | -                                        |
-| loading ^(2.4.5) | override loading icon                | -                                        |
+| loading ^(2.4.5) | override loading content             | -                                        |
 
 ### Exposes
 
