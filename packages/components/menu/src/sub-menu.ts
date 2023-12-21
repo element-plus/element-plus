@@ -205,11 +205,11 @@ export default defineComponent({
     })
 
     const subMenuShowTimeout = computed(() => {
-      return props.showTimeout ?? rootMenu.props.subMenuShowTimeout
+      return props.showTimeout ?? rootMenu.props.showTimeout
     })
 
     const subMenuHideTimeout = computed(() => {
-      return props.hideTimeout ?? rootMenu.props.subMenuHideTimeout
+      return props.hideTimeout ?? rootMenu.props.hideTimeout
     })
 
     // methods

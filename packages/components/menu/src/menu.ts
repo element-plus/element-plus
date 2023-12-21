@@ -92,11 +92,11 @@ export const menuProps = buildProps({
     default: 'dark',
   },
   popperClass: String,
-  subMenuShowTimeout: {
+  showTimeout: {
     type: Number,
     default: 300,
   },
-  subMenuHideTimeout: {
+  hideTimeout: {
     type: Number,
     default: 300,
   },
