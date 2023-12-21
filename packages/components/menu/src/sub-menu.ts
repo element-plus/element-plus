@@ -38,28 +38,13 @@ export const subMenuProps = buildProps({
     type: String,
     required: true,
   },
-  showTimeout: {
-    type: Number,
-    default: undefined,
-  },
-  hideTimeout: {
-    type: Number,
-    default: undefined,
-  },
+  showTimeout: Number,
+  hideTimeout: Number,
   popperClass: String,
   disabled: Boolean,
-  popperAppendToBody: {
-    type: Boolean,
-    default: undefined,
-  },
-  teleported: {
-    type: Boolean,
-    default: undefined,
-  },
-  popperOffset: {
-    type: Number,
-    default: undefined,
-  },
+  popperAppendToBody: Boolean,
+  teleported: Boolean,
+  popperOffset: Number,
   expandCloseIcon: {
     type: iconPropType,
   },
