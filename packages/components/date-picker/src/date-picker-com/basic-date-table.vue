@@ -421,8 +421,14 @@ const handlePickDate = (
   } else if (props.selectionMode === 'week') {
     const weekNumber = newDate.week()
     const value = `${newDate.year()}w${weekNumber}`
+    const lastWeek = newDate.subtract(1, 'week').startOf('week').week()
+    let year = newDate.year()
+    if (lastWeek > weekNumber) {
+      year++
+    }
+
     emit('pick', {
-      year: newDate.year(),
+      year,
       week: weekNumber,
       value,
       date: newDate.startOf('week'),
