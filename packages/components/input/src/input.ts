@@ -40,6 +40,20 @@ export const inputProps = buildProps({
     default: '',
   },
   /**
+   * @description same as `maxlength` in native input
+   */
+  maxlength: {
+    type: [String, Number],
+    default: '',
+  },
+  /**
+   * @description same as `minlength` in native input
+   */
+  minlength: {
+    type: [String, Number],
+    default: '',
+  },
+  /**
    * @description type of input
    */
   type: {
