@@ -6,6 +6,7 @@ import docsearch from '@docsearch/js'
 import { isClient } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 // import type { DefaultTheme } from '../config'
+import searchLocale from '../../../i18n/component/search.json'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 
 const props = defineProps<{
@@ -17,12 +18,11 @@ const vm = getCurrentInstance()
 const route = useRoute()
 const router = useRouter()
 
-watch(
-  () => props.options,
-  (value) => {
-    update(value)
-  }
-)
+const lang = useLang()
+
+watch([() => props.options, lang], ([newOptions]) => {
+  update(newOptions)
+})
 
 onMounted(() => {
   initialize(props.options)
@@ -52,17 +52,18 @@ function update(options: any) {
   }
 }
 
-const lang = useLang()
-
 function initialize(userOptions: any) {
   // if the user has multiple locales, the search results should be filtered
   // based on the language
   const facetFilters = props.multilang ? [`language:${lang.value}`] : []
+  const algoliaLocale = searchLocale[lang.value].algolia
 
   docsearch(
     Object.assign({}, userOptions, {
       container: '#docsearch',
       indexName: 'element-plus',
+      placeholder: algoliaLocale.placeholder,
+      translations: algoliaLocale.translations,
       searchParameters: Object.assign({}, userOptions.searchParameters, {
         // pass a custom lang facetFilter to allow multiple language search
         // https://github.com/algolia/docsearch-configs/pull/3942
