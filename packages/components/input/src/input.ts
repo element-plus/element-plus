@@ -44,14 +44,12 @@ export const inputProps = buildProps({
    */
   maxlength: {
     type: [String, Number],
-    default: '',
   },
   /**
    * @description same as `minlength` in native input
    */
   minlength: {
     type: [String, Number],
-    default: '',
   },
   /**
    * @description type of input
