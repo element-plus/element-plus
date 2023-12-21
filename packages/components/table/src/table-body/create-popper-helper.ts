@@ -1,6 +1,7 @@
 import { createVNode, render } from 'vue'
-import ElTooltip from '@element-plus/components/tooltip'
-import type { ElTooltipProps } from '@element-plus/components/tooltip'
+import ElTooltip, {
+  type ElTooltipProps,
+} from '@element-plus/components/tooltip'
 import type { Table } from '../table/defaults'
 
 export type TableOverflowTooltipOptions = Partial<
@@ -36,6 +37,9 @@ export function createPopper(
     return
   }
   removePopper?.()
+  const parentNode = table?.refs.tableWrapper
+  const ns = parentNode?.dataset.prefix
+  const popperClass = [`${ns}-table__popper`, props.popperClass]
   const vm = createVNode(ElTooltip, {
     content: popperContent,
     virtualTriggering: true,
@@ -45,6 +49,7 @@ export function createPopper(
     offset: 0,
     hideAfter: 0,
     ...props,
+    popperClass,
     onHide: () => {
       removePopper?.()
     },
@@ -53,8 +58,6 @@ export function createPopper(
   const container = document.createElement('div')
   render(vm, container)
   vm.component!.exposed!.onOpen()
-  const parentNode = table?.refs.tableWrapper
-  const ns = parentNode?.dataset.prefix
   const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
   removePopper = () => {
     render(null, container)
