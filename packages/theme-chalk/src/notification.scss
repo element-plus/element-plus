@@ -21,7 +21,7 @@
     left getCssVar('transition-duration'),
     right getCssVar('transition-duration'), top 0.4s,
     bottom getCssVar('transition-duration');
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   overflow: hidden;
   z-index: 9999;
 
@@ -51,7 +51,6 @@
     line-height: 24px;
     margin: 6px 0 0;
     color: getCssVar('notification-content-color');
-    text-align: justify;
 
     p {
       margin: 0;
