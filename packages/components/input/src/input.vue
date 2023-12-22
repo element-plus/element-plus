@@ -31,10 +31,10 @@
           ref="input"
           :class="nsInput.e('inner')"
           v-bind="attrs"
+          :minlength="minlength"
+          :maxlength="maxlength"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
           :disabled="inputDisabled"
-          :formatter="formatter"
-          :parser="parser"
           :readonly="readonly"
           :autocomplete="autocomplete"
           :tabindex="tabindex"
@@ -81,7 +81,7 @@
             </el-icon>
             <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
               <span :class="nsInput.e('count-inner')">
-                {{ textLength }} / {{ attrs.maxlength }}
+                {{ textLength }} / {{ maxlength }}
               </span>
             </span>
             <el-icon
@@ -134,7 +134,7 @@
         :style="countStyle"
         :class="nsInput.e('count')"
       >
-        {{ textLength }} / {{ attrs.maxlength }}
+        {{ textLength }} / {{ maxlength }}
       </span>
     </template>
   </div>
@@ -304,7 +304,7 @@ const showPwdVisible = computed(
 const isWordLimitVisible = computed(
   () =>
     props.showWordLimit &&
-    !!attrs.value.maxlength &&
+    !!props.maxlength &&
     (props.type === 'text' || props.type === 'textarea') &&
     !inputDisabled.value &&
     !props.readonly &&
@@ -314,8 +314,7 @@ const textLength = computed(() => nativeInputValue.value.length)
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
-    !!isWordLimitVisible.value &&
-    textLength.value > Number(attrs.value.maxlength)
+    !!isWordLimitVisible.value && textLength.value > Number(props.maxlength)
 )
 const suffixVisible = computed(
   () =>
