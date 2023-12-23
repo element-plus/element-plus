@@ -81,9 +81,9 @@ menu/popper-offset
 | collapse-transition             | whether to enable the collapse transition                                                                                                                             | boolean               | —                     | true     |
 | popper-effect ^(2.2.26)         | Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed                                                                                                | string                | dark / light          | dark     |
 | close-on-click-outside ^(2.4.4) | optional, whether menu is collapsed when clicking outside                                                                                                             | `boolean`             | —                     | false    |
-| popper-class ^(2.4.5)           | custom class name for all popup menus                                                                                                                                 | string                | —                     | —        |
-| show-timeout ^(2.4.5)           | Control timeout for all menus before showing                                                                                                                          | `number`              | —                     | 300      |
-| hide-timeout ^(2.4.5)           | Control timeout for all menus before hiding                                                                                                                           | `number`              | —                     | 300      |
+| popper-class ^(2.5.0)           | custom class name for all popup menus                                                                                                                                 | string                | —                     | —        |
+| show-timeout ^(2.5.0)           | Control timeout for all menus before showing                                                                                                                          | `number`              | —                     | 300      |
+| hide-timeout ^(2.5.0)           | Control timeout for all menus before hiding                                                                                                                           | `number`              | —                     | 300      |
 
 ## Menu Methods
 
