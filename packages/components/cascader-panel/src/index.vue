@@ -1,6 +1,10 @@
 <template>
   <div
-    :class="[ns.b('panel'), ns.is('bordered', border)]"
+    :class="[
+      ns.b('panel'),
+      ns.is('bordered', border),
+      ns.is('oneLevel', isOneLevel),
+    ]"
     @keydown="handleKeyDown"
   >
     <el-cascader-menu
@@ -97,6 +101,11 @@ export default defineComponent({
 
     const isHoverMenu = computed(() => config.value.expandTrigger === 'hover')
     const renderLabelFn = computed(() => props.renderLabel || slots.default)
+    const isOneLevel = computed(() => {
+      return props.options.every(
+        (option) => !option.children || option.children.length === 0
+      )
+    })
 
     const initStore = () => {
       const { options } = props
@@ -379,6 +388,7 @@ export default defineComponent({
       menuList,
       menus,
       checkedNodes,
+      isOneLevel,
       handleKeyDown,
       handleCheckChange,
       getFlattedNodes,
