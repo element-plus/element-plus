@@ -42,8 +42,14 @@ export const subMenuProps = buildProps({
   hideTimeout: Number,
   popperClass: String,
   disabled: Boolean,
-  popperAppendToBody: Boolean,
-  teleported: Boolean,
+  popperAppendToBody: {
+    type: Boolean,
+    default: undefined,
+  },
+  teleported: {
+    type: Boolean,
+    default: undefined,
+  },
   popperOffset: Number,
   expandCloseIcon: {
     type: iconPropType,
