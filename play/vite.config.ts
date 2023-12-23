@@ -1,5 +1,5 @@
 import path from 'path'
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
@@ -16,10 +16,9 @@ import {
   pkgRoot,
   projRoot,
 } from '@element-plus/build-utils'
-import type { Plugin } from 'vite'
 import './vite.init'
 
-const esbuildPlugin = (): Plugin => ({
+const esbuildPlugin = (): any => ({
   ...esbuild({
     target: 'chrome64',
     loaders: {
@@ -29,8 +28,7 @@ const esbuildPlugin = (): Plugin => ({
   enforce: 'post',
 })
 
-export default defineConfig(async ({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
+export default defineConfig(async () => {
   let { dependencies } = getPackageDependencies(epPackage)
   dependencies = dependencies.filter((dep) => !dep.startsWith('@types/')) // exclude dts deps
   const optimizeDeps = (
@@ -54,7 +52,6 @@ export default defineConfig(async ({ mode }) => {
     },
     server: {
       host: true,
-      https: !!env.HTTPS,
     },
     plugins: [
       VueMacros({
