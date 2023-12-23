@@ -18,6 +18,10 @@ import {
 } from '@element-plus/build-utils'
 import './vite.init'
 
+// The current version of rollup-plugin-esbuild(4.9.1) supports rollup version 2.59.0, 
+// and the rollup version supported by vite(4.5.1) is 3.27.1. 
+// The corresponding Plugin type version is incompatible, so it is temporarily set to any.
+// (https://github.com/rollup/rollup/blob/master/CHANGELOG.md#300 rollup 3.0.0 pluginContext type removes some methods)
 const esbuildPlugin = (): any => ({
   ...esbuild({
     target: 'chrome64',
