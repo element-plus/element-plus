@@ -94,7 +94,7 @@ autocomplete/custom-loading
 | suffix           | content as Input suffix              | -                                        |
 | prepend          | content to prepend before Input      | -                                        |
 | append           | content to append after Input        | -                                        |
-| loading ^(2.4.5) | override loading content             | -                                        |
+| loading ^(2.5.0) | override loading content             | -                                        |
 
 ### Exposes
 
