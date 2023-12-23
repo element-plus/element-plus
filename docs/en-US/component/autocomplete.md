@@ -43,7 +43,7 @@ autocomplete/remote-search
 
 :::
 
-## Custom Loading
+## Custom Loading ^(2.5.0)
 
 Override loading content.
 
