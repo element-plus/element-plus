@@ -259,6 +259,7 @@ const handleInputChange = (value: string) => {
   if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
     setCurrentValue(newVal)
   }
+  setCurrentValueToModelValue()
   data.userInput = null
 }
 
@@ -277,7 +278,6 @@ const handleFocus = (event: MouseEvent | FocusEvent) => {
 const handleBlur = (event: MouseEvent | FocusEvent) => {
   data.userInput = null
   emit('blur', event)
-  setCurrentValueToModelValue()
   if (props.validateEvent) {
     formItem?.validate?.('blur').catch((err) => debugWarn(err))
   }
