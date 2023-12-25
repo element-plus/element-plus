@@ -229,7 +229,7 @@ const verifyValue = (
   }
   return newVal
 }
-const setCurrentValue = async (
+const setCurrentValue = (
   value: number | string | null | undefined,
   emitChange = true
 ) => {
