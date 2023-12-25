@@ -364,8 +364,9 @@ export default defineComponent({
       () => checkedValue.value,
       (val) => {
         if (!isEqual(val, props.modelValue)) {
-          emit(UPDATE_MODEL_EVENT, val)
-          emit(CHANGE_EVENT, val)
+          const newVal = cloneDeep(val)
+          emit(UPDATE_MODEL_EVENT, newVal)
+          emit(CHANGE_EVENT, newVal)
         }
       }
     )
