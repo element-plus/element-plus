@@ -61,15 +61,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {
-  computed,
-  nextTick,
-  onMounted,
-  onUpdated,
-  reactive,
-  ref,
-  watch,
-} from 'vue'
+import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { ElInput } from '@element-plus/components/input'
 import { ElIcon } from '@element-plus/components/icon'
@@ -197,6 +189,7 @@ const increase = () => {
   const newVal = ensurePrecision(value)
   setCurrentValue(newVal)
   emit(INPUT_EVENT, data.currentValue)
+  setCurrentValueToModelValue()
 }
 const decrease = () => {
   if (props.readonly || inputNumberDisabled.value || minDisabled.value) return
@@ -204,6 +197,7 @@ const decrease = () => {
   const newVal = ensurePrecision(value, -1)
   setCurrentValue(newVal)
   emit(INPUT_EVENT, data.currentValue)
+  setCurrentValueToModelValue()
 }
 const verifyValue = (
   value: number | string | null | undefined,
@@ -253,8 +247,6 @@ const setCurrentValue = async (
     formItem?.validate?.('change').catch((err) => debugWarn(err))
   }
   data.currentValue = newVal
-  await nextTick()
-  data.currentValue = props.modelValue
 }
 const handleInput = (value: string) => {
   data.userInput = value
@@ -285,11 +277,17 @@ const handleFocus = (event: MouseEvent | FocusEvent) => {
 const handleBlur = (event: MouseEvent | FocusEvent) => {
   data.userInput = null
   emit('blur', event)
+  setCurrentValueToModelValue()
   if (props.validateEvent) {
     formItem?.validate?.('blur').catch((err) => debugWarn(err))
   }
 }
 
+const setCurrentValueToModelValue = () => {
+  if (data.currentValue !== props.modelValue) {
+    data.currentValue = props.modelValue
+  }
+}
 watch(
   () => props.modelValue,
   (value, oldValue) => {
