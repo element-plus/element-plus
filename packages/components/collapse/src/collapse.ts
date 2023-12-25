@@ -1,6 +1,7 @@
 import {
   buildProps,
   definePropType,
+  isArray,
   isNumber,
   isString,
   mutable,
@@ -13,7 +14,7 @@ export type CollapseActiveName = string | number
 export type CollapseModelValue = Arrayable<CollapseActiveName>
 
 export const emitChangeFn = (value: CollapseModelValue) =>
-  typeof isNumber(value) || isString(value) || Array.isArray(value)
+  isNumber(value) || isString(value) || isArray(value)
 
 export const collapseProps = buildProps({
   accordion: Boolean,
