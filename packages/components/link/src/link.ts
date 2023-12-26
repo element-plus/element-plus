@@ -27,6 +27,14 @@ export const linkProps = buildProps({
    */
   href: { type: String, default: '' },
   /**
+   * @description same as native hyperlink's `target`
+   */
+  target: {
+    type: String,
+    values: ['_blank', '_parent', '_self', '_top'],
+    default: '_self',
+  },
+  /**
    * @description icon component
    */
   icon: {
