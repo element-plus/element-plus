@@ -306,7 +306,7 @@ const blur = () => {
   inputRef.value?.blur()
 }
 
-const handleSelect = async (item: any) => {
+const handleSelect = (item: any) => {
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)
@@ -342,8 +342,7 @@ const highlight = (index: number) => {
     suggestion.scrollTop -= scrollHeight
   }
   highlightedIndex.value = index
-  // TODO: use Volar generate dts to fix it.
-  ;(inputRef.value as any).ref!.setAttribute(
+  inputRef.value!.ref!.setAttribute(
     'aria-activedescendant',
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
@@ -354,16 +353,20 @@ onClickOutside(listboxRef, () => {
 })
 
 onMounted(() => {
-  // TODO: use Volar generate dts to fix it.
-  ;(inputRef.value as any).ref!.setAttribute('role', 'textbox')
-  ;(inputRef.value as any).ref!.setAttribute('aria-autocomplete', 'list')
-  ;(inputRef.value as any).ref!.setAttribute('aria-controls', 'id')
-  ;(inputRef.value as any).ref!.setAttribute(
-    'aria-activedescendant',
-    `${listboxId.value}-item-${highlightedIndex.value}`
-  )
-  // get readonly attr
-  readonly = (inputRef.value as any).ref!.hasAttribute('readonly')
+  const inputEl = inputRef.value!.ref
+  if (inputEl) {
+    const attrs = {
+      role: 'textbox',
+      'aria-autocomplete': 'list',
+      'aria-controls': 'id',
+      'aria-activedescendant': `${listboxId.value}-item-${highlightedIndex.value}`,
+    }
+    Object.keys(attrs).forEach((key) =>
+      inputEl.setAttribute(key, attrs[key as keyof typeof attrs])
+    )
+    // get readonly attr
+    readonly = inputEl.hasAttribute('readonly')
+  }
 })
 
 defineExpose({
