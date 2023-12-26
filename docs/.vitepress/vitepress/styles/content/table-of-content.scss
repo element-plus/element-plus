@@ -44,18 +44,21 @@
         margin-top: 10px;
         font-size: 11px;
         color: var(--text-color-lighter);
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
         color: inherit;
 
         .toc-link {
+          width: 100%;
           display: inline-block;
           position: relative;
           color: var(--text-color-lighter);
           transition: color var(--el-transition-duration);
           &.active {
             color: var(--brand-color);
+          }
+          p{
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
           }
         }
 
