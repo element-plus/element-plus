@@ -72,6 +72,12 @@ function initialize(userOptions: any) {
         ),
       }),
 
+      getMissingResultsUrl({ query }: { query: string }) {
+        return `https://github.com/element-plus/element-plus/issues/new?title=${encodeURIComponent(
+          `[Docs] Missing search result for \`${query}\``
+        )}`
+      },
+
       navigator: {
         navigate: ({ itemUrl }: { itemUrl: string }) => {
           if (!isClient) return
