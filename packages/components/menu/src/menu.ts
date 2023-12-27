@@ -10,7 +10,9 @@ import {
   ref,
   watch,
   watchEffect,
+  withDirectives,
 } from 'vue'
+
 import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
@@ -19,11 +21,13 @@ import {
   buildProps,
   definePropType,
   flattedChildren,
+  iconPropType,
   isObject,
   isString,
   mutable,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
+import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
@@ -31,7 +35,13 @@ import { useMenuCssVar } from './use-menu-css-var'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
-import type { ExtractPropTypes, VNode, VNodeArrayChildren } from 'vue'
+import type {
+  Component,
+  DirectiveArguments,
+  ExtractPropTypes,
+  VNode,
+  VNodeArrayChildren,
+} from 'vue'
 import type { UseResizeObserverReturn } from '@vueuse/core'
 
 export const menuProps = buildProps({
@@ -59,6 +69,7 @@ export const menuProps = buildProps({
   backgroundColor: String,
   textColor: String,
   activeTextColor: String,
+  closeOnClickOutside: Boolean,
   collapseTransition: {
     type: Boolean,
     default: true,
@@ -67,10 +78,27 @@ export const menuProps = buildProps({
     type: Boolean,
     default: true,
   },
+  popperOffset: {
+    type: Number,
+    default: 6,
+  },
+  ellipsisIcon: {
+    type: iconPropType,
+    default: () => More,
+  },
   popperEffect: {
     type: String,
     values: ['dark', 'light'],
     default: 'dark',
+  },
+  popperClass: String,
+  showTimeout: {
+    type: Number,
+    default: 300,
+  },
+  hideTimeout: {
+    type: Number,
+    default: 300,
   },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
@@ -256,6 +284,8 @@ export default defineComponent({
       return sliceIndex === items.length ? -1 : sliceIndex
     }
 
+    const getIndexPath = (index: string) => subMenus.value[index].indexPath
+
     // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms, In order to avoid a certain chance of repeated triggering when `resize`, set wait to 16.67 * 2 = 33.34
     const debounce = (fn: () => void, wait = 33.34) => {
       let timmer: ReturnType<typeof setTimeout> | null
@@ -306,6 +336,8 @@ export default defineComponent({
       else resizeStopper?.()
     })
 
+    const mouseInChild = ref(false)
+
     // provide
     {
       const addSubMenu: MenuProvider['addSubMenu'] = (item) => {
@@ -346,7 +378,7 @@ export default defineComponent({
       provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
-        mouseInChild: ref(false),
+        mouseInChild,
         level: 0,
       })
     }
@@ -393,6 +425,7 @@ export default defineComponent({
               {
                 index: 'sub-menu-more',
                 class: nsSubMenu.e('hide-arrow'),
+                popperOffset: props.popperOffset,
               },
               {
                 title: () =>
@@ -401,7 +434,9 @@ export default defineComponent({
                     {
                       class: nsSubMenu.e('icon-more'),
                     },
-                    { default: () => h(More) }
+                    {
+                      default: () => h(props.ellipsisIcon as Component),
+                    }
                   ),
                 default: () => slotMore,
               }
@@ -412,20 +447,42 @@ export default defineComponent({
 
       const ulStyle = useMenuCssVar(props, 0)
 
-      const vMenu = h(
-        'ul',
-        {
-          key: String(props.collapse),
-          role: 'menubar',
-          ref: menu,
-          style: ulStyle.value,
-          class: {
-            [nsMenu.b()]: true,
-            [nsMenu.m(props.mode)]: true,
-            [nsMenu.m('collapse')]: props.collapse,
+      const directives: DirectiveArguments = props.closeOnClickOutside
+        ? [
+            [
+              vClickoutside,
+              () => {
+                if (!openedMenus.value.length) return
+
+                if (!mouseInChild.value) {
+                  openedMenus.value.forEach((openedMenu) =>
+                    emit('close', openedMenu, getIndexPath(openedMenu))
+                  )
+
+                  openedMenus.value = []
+                }
+              },
+            ],
+          ]
+        : []
+
+      const vMenu = withDirectives(
+        h(
+          'ul',
+          {
+            key: String(props.collapse),
+            role: 'menubar',
+            ref: menu,
+            style: ulStyle.value,
+            class: {
+              [nsMenu.b()]: true,
+              [nsMenu.m(props.mode)]: true,
+              [nsMenu.m('collapse')]: props.collapse,
+            },
           },
-        },
-        [...slot, ...vShowMore]
+          [...slot, ...vShowMore]
+        ),
+        directives
       )
 
       if (props.collapseTransition && props.mode === 'vertical') {

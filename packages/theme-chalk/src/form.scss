@@ -240,13 +240,13 @@ $form-item-label-top-margin-bottom: map.merge(
     }
 
     .#{$namespace}-select {
-       &:hover{
-         box-shadow: 0 0 0 1px transparent;
-       }
+      &:hover {
+        box-shadow: 0 0 0 1px transparent;
+      }
 
-      .#{$namespace}-input{
+      .#{$namespace}-input {
         .#{$namespace}-input__wrapper {
-          &:hover{
+          &:hover {
             box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
           }
         }
@@ -258,7 +258,6 @@ $form-item-label-top-margin-bottom: map.merge(
         }
       }
     }
-
 
     .#{$namespace}-input-group__append,
     .#{$namespace}-input-group__prepend {
