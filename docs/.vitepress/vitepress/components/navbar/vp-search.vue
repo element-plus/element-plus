@@ -197,6 +197,10 @@ function initialize(userOptions: any) {
     margin-right: 8px;
   }
 
+  .DocSearch-Title {
+    word-break: break-word;
+  }
+
   @media (max-width: 749px) {
     &.DocSearch-Button {
       margin: 0 12px;
