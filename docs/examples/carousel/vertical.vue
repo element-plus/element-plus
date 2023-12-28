@@ -12,7 +12,7 @@
     type="card"
     :autoplay="false"
   >
-    <el-carousel-item v-for="item in 4" :key="item">
+    <el-carousel-item v-for="item in 4" :key="item" :label="item">
       <h3 text="2xl" justify="center">{{ item }}</h3>
     </el-carousel-item>
   </el-carousel>
