@@ -140,7 +140,7 @@
     + .#{$namespace}-message-box__message {
       padding-left: 36px;
       padding-right: 12px;
-      word-break: break-word;
+      overflow-wrap: break-word;
     }
 
     @each $type in (success, info, warning, error) {

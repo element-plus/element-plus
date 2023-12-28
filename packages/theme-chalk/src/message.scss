@@ -52,7 +52,7 @@
 
       .#{$namespace}-message__content {
         color: getCssVar('message', 'text-color');
-        overflow-wrap: anywhere;
+        overflow-wrap: break-word;
       }
     }
 
