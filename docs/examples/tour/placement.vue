@@ -25,9 +25,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { type ElButton } from 'element-plus'
+import type { ButtonInstance } from 'element-plus'
 
-const btnRef = ref<InstanceType<typeof ElButton> | null>(null)
+const btnRef = ref<ButtonInstance>()
 
 const open = ref(false)
 </script>

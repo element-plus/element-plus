@@ -11,7 +11,7 @@
     transition: all getCssVar('transition-duration') ease;
   }
 
-  @include e(content) { 
+  @include e(content) {
     padding: 0;
     border-radius: getCssVar('tour-border-radius');
     border: 1px solid getCssVar('tour-border-color');
@@ -40,8 +40,13 @@
       box-sizing: border-box;
 
       @each $side,
-      $adjacency
-        in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top')
+        $adjacency
+          in (
+            'top': 'left',
+            'bottom': 'right',
+            'left': 'bottom',
+            'right': 'top'
+          )
       {
         #{$content-selector}[data-side^='#{$side}'] & {
           border-#{$side}-color: transparent;
@@ -55,7 +60,6 @@
         }
       }
     }
-
 
     @include e(closebtn) {
       position: absolute;
@@ -103,7 +107,8 @@
       padding: 0 getCssVar('tour-padding-primary');
       color: getCssVar('tour-text-color');
       font-size: getCssVar('tour-font-size');
-      img, video {
+      img,
+      video {
         max-width: 100%;
       }
     }
@@ -136,19 +141,19 @@
   }
 
   &.#{$namespace}-tour--primary {
-    @include set-css-var-value('tour-title-text-color',#fff);
-    @include set-css-var-value('tour-text-color',#fff);
+    @include set-css-var-value('tour-title-text-color', #fff);
+    @include set-css-var-value('tour-text-color', #fff);
     @include set-css-var-value('tour-bg-color', getCssVar('color', 'primary'));
-    
+
     .#{$namespace}-button--default {
       color: getCssVar('color', 'primary');
       border-color: getCssVar('color', 'primary');
       background: #fff;
-    } 
+    }
 
     .#{$namespace}-button--primary {
       border-color: #fff;
-    } 
+    }
 
     @include b(tour-indicator) {
       background: rgba(255, 255, 255, 0.15);
