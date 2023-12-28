@@ -47,12 +47,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { type ElButton } from 'element-plus'
 import { MoreFilled } from '@element-plus/icons-vue'
+import type { ButtonInstance } from 'element-plus'
 
-const ref1 = ref<InstanceType<typeof ElButton> | null>(null)
-const ref2 = ref<InstanceType<typeof ElButton> | null>(null)
-const ref3 = ref<InstanceType<typeof ElButton> | null>(null)
+const ref1 = ref<ButtonInstance>()
+const ref2 = ref<ButtonInstance>()
+const ref3 = ref<ButtonInstance>()
 
 const open = ref(false)
 </script>
