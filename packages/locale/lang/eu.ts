@@ -102,6 +102,11 @@ export default {
       clearFilter: 'Guztia',
       sumText: 'Batura',
     },
+    tour: {
+      next: 'Hurrengoa',
+      previous: 'Aurrekoa',
+      finish: 'Bukatu',
+    },
     tree: {
       emptyText: 'Daturik ez',
     },

@@ -384,6 +384,25 @@ describe('Datetime Picker', () => {
     await nextTick()
     expect(timeInput.value).toBe('13:00:00')
   })
+
+  // fix #15196
+  it('first click accuracy', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const dayItems = document.querySelectorAll('.el-date-table-cell__text')
+    const targetDay = dayItems[15] as HTMLElement // Try to make sure the date is this month
+    const dayText = targetDay.textContent
+    targetDay.click()
+    await nextTick()
+    expect(dayjs(value.value).format('D')).toBe(dayText)
+  })
 })
 
 describe('Datetimerange', () => {
