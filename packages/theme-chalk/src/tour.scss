@@ -145,6 +145,16 @@
     @include set-css-var-value('tour-text-color', #fff);
     @include set-css-var-value('tour-bg-color', getCssVar('color', 'primary'));
 
+    .#{$namespace}-tour__closebtn {
+      &:focus,
+      &:hover {
+        .#{$namespace}-tour__close {
+          color: getCssVar('tour-title-text-color');
+          background: rgba(0, 0, 0, 0.06);
+        }
+      }
+    }
+
     .#{$namespace}-button--default {
       color: getCssVar('color', 'primary');
       border-color: getCssVar('color', 'primary');
