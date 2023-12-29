@@ -138,6 +138,11 @@ export default {
       clearFilter: '全部',
       sumText: '合計',
     },
+    tour: {
+      next: '下一步',
+      previous: '上一步',
+      finish: '結束導覽',
+    },
     tree: {
       emptyText: '暫無資料',
     },

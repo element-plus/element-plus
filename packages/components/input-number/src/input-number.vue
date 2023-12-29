@@ -189,6 +189,7 @@ const increase = () => {
   const newVal = ensurePrecision(value)
   setCurrentValue(newVal)
   emit(INPUT_EVENT, data.currentValue)
+  setCurrentValueToModelValue()
 }
 const decrease = () => {
   if (props.readonly || inputNumberDisabled.value || minDisabled.value) return
@@ -196,6 +197,7 @@ const decrease = () => {
   const newVal = ensurePrecision(value, -1)
   setCurrentValue(newVal)
   emit(INPUT_EVENT, data.currentValue)
+  setCurrentValueToModelValue()
 }
 const verifyValue = (
   value: number | string | null | undefined,
@@ -258,6 +260,7 @@ const handleInputChange = (value: string) => {
   if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
     setCurrentValue(newVal)
   }
+  setCurrentValueToModelValue()
   data.userInput = null
 }
 
@@ -274,20 +277,24 @@ const handleFocus = (event: MouseEvent | FocusEvent) => {
 }
 
 const handleBlur = (event: MouseEvent | FocusEvent) => {
+  data.userInput = null
   emit('blur', event)
   if (props.validateEvent) {
     formItem?.validate?.('blur').catch((err) => debugWarn(err))
   }
 }
 
+const setCurrentValueToModelValue = () => {
+  if (data.currentValue !== props.modelValue) {
+    data.currentValue = props.modelValue
+  }
+}
 watch(
   () => props.modelValue,
-  (value) => {
-    const userInput = verifyValue(data.userInput)
+  (value, oldValue) => {
     const newValue = verifyValue(value, true)
-    if (!isNumber(userInput) && (!userInput || userInput !== newValue)) {
+    if (data.userInput === null && newValue !== oldValue) {
       data.currentValue = newValue
-      data.userInput = null
     }
   },
   { immediate: true }

@@ -90,6 +90,9 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
 
     if (dropPrev || dropInner || dropNext) {
       dragState.value.dropNode = dropNode
+    } else {
+      // Reset dragState.value.dropNode to null when allowDrop is transfer from true to false.(For issue #14704)
+      dragState.value.dropNode = null
     }
 
     if (dropNode.node.nextSibling === draggingNode.node) {

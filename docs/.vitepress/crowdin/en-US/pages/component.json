@@ -216,6 +216,11 @@
         "text": "Timeline"
       },
       {
+        "link": "/tour",
+        "text": "Tour",
+        "promotion": "2.5.0"
+      },
+      {
         "link": "/tree",
         "text": "Tree"
       },
