@@ -54,7 +54,6 @@
   @include e(header) {
     padding: getCssVar('dialog', 'padding-primary');
     padding-bottom: 10px;
-    margin-right: 16px;
   }
 
   @include e(headerbtn) {
