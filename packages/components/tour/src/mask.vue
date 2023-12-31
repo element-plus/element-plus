@@ -3,14 +3,14 @@
     v-if="visible"
     :class="ns.e('mask')"
     :style="({
-      position: 'fixed',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      zIndex,
-      pointerEvents: pos && targetAreaClickable ? 'none' : 'auto',
-    } as any)"
+    position: 'fixed',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    zIndex,
+    pointerEvents: pos && targetAreaClickable ? 'none' : 'auto',
+  } as any)"
     v-bind="$attrs"
   >
     <svg
@@ -19,62 +19,17 @@
         height: '100%',
       }"
     >
-      <defs>
-        <mask :id="maskId">
-          <rect x="0" y="0" width="100vw" height="100vh" fill="white" />
-          <rect
-            v-if="pos"
-            :class="ns.e('hollow')"
-            :x="pos.left"
-            :y="pos.top"
-            :rx="pos.radius"
-            :width="pos.width"
-            :height="pos.height"
-            fill="black"
-          />
-        </mask>
-      </defs>
-      <rect
-        x="0"
-        y="0"
-        width="100%"
-        height="100%"
-        :fill="fill"
-        :mask="`url(#${maskId})`"
-      />
-      <template v-if="pos">
-        <rect v-bind="COVER_PROPS" x="0" y="0" width="100%" :height="pos.top" />
-        <rect
-          v-bind="COVER_PROPS"
-          x="0"
-          y="0"
-          :width="pos.left"
-          height="100%"
-        />
-        <rect
-          v-bind="COVER_PROPS"
-          x="0"
-          :y="pos.top + pos.height"
-          width="100%"
-          :height="`calc(100vh - ${pos.top + pos.height}px)`"
-        />
-        <rect
-          v-bind="COVER_PROPS"
-          :x="pos.left + pos.width"
-          y="0"
-          :width="`calc(100vw - ${pos.left + pos.width}px)`"
-          height="100%"
-        />
-      </template>
+      <path :class="ns.e('hollow')" :style="pathStyle" :d="path" />
     </svg>
   </div>
 </template>
 
 <script setup lang="ts">
-import { inject, toRef } from 'vue'
-import { useId, useLockscreen } from '@element-plus/hooks'
+import { computed, inject, toRef } from 'vue'
+import { useLockscreen } from '@element-plus/hooks'
 import { maskProps } from './mask'
 import { tourKey } from './helper'
+import type { CSSProperties } from 'vue'
 
 defineOptions({
   name: 'ElTourMask',
@@ -84,16 +39,44 @@ defineOptions({
 const props = defineProps(maskProps)
 
 const { ns } = inject(tourKey)!
+const radius = computed(() => props.pos?.radius ?? 2)
+const roundInfo = computed(() => {
+  const v = radius.value
+  const baseInfo = `a${v},${v} 0 0 1`
+  return {
+    topRight: `${baseInfo} ${v},${v}`,
+    bottomRight: `${baseInfo} ${-v},${v}`,
+    bottomLeft: `${baseInfo} ${-v},${-v}`,
+    topLeft: `${baseInfo} ${v},${-v}`,
+  }
+})
 
-const id = useId()
-const maskId = `el-tour-mask-${id.value}`
+const path = computed(() => {
+  const width = window.innerWidth
+  const height = window.innerHeight
+  const info = roundInfo.value
+  const _path = `M${width},0 L0,0 L0,${height} L${width},${height} L${width},0 Z`
+  const _radius = radius.value
+  return props.pos
+    ? `${_path} M${props.pos.left + _radius},${props.pos.top} h${
+        props.pos.width - _radius * 2
+      } ${info.topRight} v${props.pos.height - _radius * 2} ${
+        info.bottomRight
+      } h${-props.pos.width + _radius * 2} ${info.bottomLeft} v${
+        -props.pos.height + _radius * 2
+      } ${info.topLeft} z`
+    : _path
+})
+
+const pathStyle = computed<CSSProperties>(() => {
+  return {
+    fill: props.fill,
+    pointerEvents: 'auto',
+    cursor: 'auto',
+  }
+})
 
 useLockscreen(toRef(props, 'visible'), {
   ns,
 })
-
-const COVER_PROPS = {
-  fill: 'transparent',
-  'pointer-events': 'auto',
-}
 </script>
