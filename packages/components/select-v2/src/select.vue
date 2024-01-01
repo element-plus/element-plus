@@ -2,16 +2,16 @@
   <div
     ref="selectRef"
     v-click-outside:[popperRef]="handleClickOutside"
-    :class="[nsSelectV2.b(), nsSelectV2.m(selectSize)]"
+    :class="[nsSelect.b(), nsSelect.m(selectSize)]"
     @click.stop="toggleMenu"
     @mouseenter="states.comboBoxHovering = true"
     @mouseleave="states.comboBoxHovering = false"
   >
     <el-tooltip
-      ref="popper"
+      ref="tooltipRef"
       :visible="dropdownMenuVisible"
       :teleported="teleported"
-      :popper-class="[nsSelectV2.e('popper'), popperClass]"
+      :popper-class="[nsSelect.e('popper'), popperClass]"
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
@@ -19,7 +19,7 @@
       :effect="effect"
       :placement="placement"
       pure
-      :transition="`${nsSelectV2.namespace.value}-zoom-in-top`"
+      :transition="`${nsSelect.namespace.value}-zoom-in-top`"
       trigger="click"
       :persistent="persistent"
       @before-show="handleMenuEnter"
@@ -27,157 +27,121 @@
     >
       <template #default>
         <div
-          ref="selectionRef"
+          ref="wrapperRef"
           :class="[
-            nsSelectV2.e('wrapper'),
-            nsSelectV2.is('focused', states.isComposing || expanded),
-            nsSelectV2.is('hovering', states.comboBoxHovering),
-            nsSelectV2.is('filterable', filterable),
-            nsSelectV2.is('disabled', selectDisabled),
+            nsSelect.e('wrapper'),
+            nsSelect.is('focused', states.isComposing || expanded),
+            nsSelect.is('hovering', states.comboBoxHovering),
+            nsSelect.is('filterable', filterable),
+            nsSelect.is('disabled', selectDisabled),
           ]"
         >
-          <div v-if="$slots.prefix">
+          <div
+            v-if="$slots.prefix"
+            ref="prefixRef"
+            :class="nsSelect.e('prefix')"
+          >
             <slot name="prefix" />
           </div>
-          <div v-if="multiple" :class="nsSelectV2.e('selection')">
-            <template v-if="collapseTags && modelValue.length > 0">
+          <div
+            ref="selectionRef"
+            tabindex="-1"
+            :class="[
+              nsSelect.e('selection'),
+              nsSelect.is(
+                'near',
+                multiple && !$slots.prefix && !!modelValue.length
+              ),
+            ]"
+          >
+            <template v-if="multiple">
               <div
                 v-for="item in showTagList"
                 :key="getValueKey(getValue(item))"
-                :class="nsSelectV2.e('selected-item')"
+                :class="nsSelect.e('selected-item')"
               >
                 <el-tag
                   :closable="!selectDisabled && !getDisabled(item)"
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
+                  :style="tagStyle"
                   @close="deleteTag($event, item)"
                 >
-                  <span
-                    :class="nsSelectV2.e('tags-text')"
-                    :style="{
-                      maxWidth: `${tagMaxWidth}px`,
-                    }"
-                  >
+                  <span :class="nsSelect.e('tags-text')">
                     {{ getLabel(item) }}
                   </span>
                 </el-tag>
               </div>
-              <div :class="nsSelectV2.e('selected-item')">
-                <el-tag
-                  v-if="modelValue.length > maxCollapseTags"
-                  :closable="false"
-                  :size="collapseTagSize"
-                  type="info"
-                  disable-transitions
-                >
-                  <el-tooltip
-                    v-if="collapseTagsTooltip"
-                    :disabled="dropdownMenuVisible"
-                    :fallback-placements="['bottom', 'top', 'right', 'left']"
-                    :effect="effect"
-                    placement="bottom"
-                    :teleported="false"
-                  >
-                    <template #default>
-                      <span
-                        :class="nsSelectV2.e('tags-text')"
-                        :style="{
-                          maxWidth: `${tagMaxWidth}px`,
-                        }"
-                      >
+
+              <el-tooltip
+                v-if="collapseTags && modelValue.length > maxCollapseTags"
+                ref="tagTooltipRef"
+                :disabled="dropdownMenuVisible || !collapseTagsTooltip"
+                :fallback-placements="['bottom', 'top', 'right', 'left']"
+                :effect="effect"
+                placement="bottom"
+                :teleported="teleported"
+              >
+                <template #default>
+                  <div :class="nsSelect.e('selected-item')">
+                    <el-tag
+                      :closable="false"
+                      :size="collapseTagSize"
+                      type="info"
+                      :style="tagStyle"
+                      disable-transitions
+                    >
+                      <span :class="nsSelect.e('tags-text')">
                         + {{ modelValue.length - maxCollapseTags }}
                       </span>
-                    </template>
-                    <template #content>
-                      <div :class="nsSelectV2.e('selection')">
-                        <div
-                          v-for="selected in collapseTagList"
-                          :key="getValueKey(getValue(selected))"
-                          :class="nsSelectV2.e('selected-item')"
-                        >
-                          <el-tag
-                            :closable="
-                              !selectDisabled && !getDisabled(selected)
-                            "
-                            :size="collapseTagSize"
-                            class="in-tooltip"
-                            type="info"
-                            disable-transitions
-                            @close="deleteTag($event, selected)"
-                          >
-                            <span
-                              :class="nsSelectV2.e('tags-text')"
-                              :style="{
-                                maxWidth: `${tagMaxWidth}px`,
-                              }"
-                            >
-                              {{ getLabel(selected) }}
-                            </span>
-                          </el-tag>
-                        </div>
-                      </div>
-                    </template>
-                  </el-tooltip>
-                  <span
-                    v-else
-                    :class="nsSelectV2.e('tags-text')"
-                    :style="{
-                      maxWidth: `${tagMaxWidth}px`,
-                    }"
-                  >
-                    + {{ modelValue.length - maxCollapseTags }}
-                  </span>
-                </el-tag>
-              </div>
-            </template>
-
-            <template v-else>
-              <div
-                v-for="selected in states.cachedOptions"
-                :key="getValueKey(getValue(selected))"
-                :class="nsSelectV2.e('selected-item')"
-              >
-                <el-tag
-                  :closable="!selectDisabled && !getDisabled(selected)"
-                  :size="collapseTagSize"
-                  type="info"
-                  disable-transitions
-                  @close="deleteTag($event, selected)"
-                >
-                  <span
-                    :class="nsSelectV2.e('tags-text')"
-                    :style="{
-                      maxWidth: `${tagMaxWidth}px`,
-                    }"
-                  >
-                    {{ getLabel(selected) }}
-                  </span>
-                </el-tag>
-              </div>
+                    </el-tag>
+                  </div>
+                </template>
+                <template #content>
+                  <div :class="nsSelect.e('selection')">
+                    <div
+                      v-for="selected in collapseTagList"
+                      :key="getValueKey(getValue(selected))"
+                      :class="nsSelect.e('selected-item')"
+                    >
+                      <el-tag
+                        :closable="!selectDisabled && !getDisabled(selected)"
+                        :size="collapseTagSize"
+                        class="in-tooltip"
+                        type="info"
+                        disable-transitions
+                        @close="deleteTag($event, selected)"
+                      >
+                        <span :class="nsSelect.e('tags-text')">
+                          {{ getLabel(selected) }}
+                        </span>
+                      </el-tag>
+                    </div>
+                  </div>
+                </template>
+              </el-tooltip>
             </template>
             <div
+              v-if="!selectDisabled"
               :class="[
-                nsSelectV2.e('selected-item'),
-                nsSelectV2.e('input-wrapper'),
+                nsSelect.e('selected-item'),
+                nsSelect.e('input-wrapper'),
               ]"
-              :style="inputWrapperStyle"
             >
               <input
                 :id="id"
                 ref="inputRef"
                 v-model-text="states.displayInputValue"
+                :style="inputStyle"
                 :autocomplete="autocomplete"
                 aria-autocomplete="list"
                 aria-haspopup="listbox"
                 autocapitalize="off"
                 :aria-expanded="expanded"
                 :aria-labelledby="label"
-                :class="[
-                  nsSelectV2.is(selectSize),
-                  nsSelectV2.e('combobox-input'),
-                ]"
-                :disabled="disabled"
+                :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
+                :disabled="selectDisabled"
                 role="combobox"
                 :readonly="!filterable"
                 spellcheck="false"
@@ -201,83 +165,32 @@
                 v-if="filterable"
                 ref="calculatorRef"
                 aria-hidden="true"
-                :class="nsSelectV2.e('input-calculator')"
+                :class="nsSelect.e('input-calculator')"
                 v-text="states.displayInputValue"
               />
             </div>
           </div>
-          <template v-else>
-            <div
-              :class="[
-                nsSelectV2.e('selected-item'),
-                nsSelectV2.e('input-wrapper'),
-              ]"
-            >
-              <input
-                :id="id"
-                ref="inputRef"
-                v-model-text="states.displayInputValue"
-                aria-autocomplete="list"
-                aria-haspopup="listbox"
-                :aria-labelledby="label"
-                :aria-expanded="expanded"
-                autocapitalize="off"
-                :autocomplete="autocomplete"
-                :class="nsSelectV2.e('combobox-input')"
-                :disabled="disabled"
-                :name="name"
-                role="combobox"
-                :readonly="!filterable"
-                spellcheck="false"
-                type="text"
-                :unselectable="expanded ? 'on' : undefined"
-                @compositionstart="handleCompositionStart"
-                @compositionupdate="handleCompositionUpdate"
-                @compositionend="handleCompositionEnd"
-                @focus="handleFocus"
-                @blur="handleBlur"
-                @input="onInput"
-                @keydown.up.stop.prevent="onKeyboardNavigate('backward')"
-                @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
-                @keydown.enter.stop.prevent="onKeyboardSelect"
-                @keydown.esc.stop.prevent="handleEsc"
-                @update:modelValue="onUpdateInputValue"
-              />
-            </div>
-            <span
-              v-if="filterable"
-              ref="calculatorRef"
-              aria-hidden="true"
-              :class="[
-                nsSelectV2.e('selected-item'),
-                nsSelectV2.e('input-calculator'),
-              ]"
-              v-text="states.displayInputValue"
-            />
-          </template>
-          <span
+          <div
             v-if="shouldShowPlaceholder"
+            :style="placeholderStyle"
             :class="[
-              nsSelectV2.e('placeholder'),
-              nsSelectV2.is(
-                'transparent',
-                multiple ? modelValue.length === 0 : !hasModelValue
-              ),
+              nsSelect.e('placeholder'),
+              nsSelect.is('transparent', !hasModelValue),
             ]"
           >
-            {{ currentPlaceholder }}
-          </span>
-          <span :class="nsSelectV2.e('suffix')">
+            <span>{{ currentPlaceholder }}</span>
+          </div>
+          <div ref="suffixRef" :class="nsSelect.e('suffix')">
             <el-icon
               v-if="iconComponent"
               v-show="!showClearBtn"
-              :class="[nsSelectV2.e('caret'), nsInput.e('icon'), iconReverse]"
+              :class="[nsSelect.e('caret'), nsInput.e('icon'), iconReverse]"
             >
               <component :is="iconComponent" />
             </el-icon>
             <el-icon
               v-if="showClearBtn && clearIcon"
-              :class="[nsSelectV2.e('caret'), nsInput.e('icon')]"
+              :class="[nsSelect.e('caret'), nsInput.e('icon')]"
               @click.prevent.stop="handleClear"
             >
               <component :is="clearIcon" />
@@ -288,7 +201,7 @@
             >
               <component :is="validateIcon" />
             </el-icon>
-          </span>
+          </div>
         </div>
       </template>
       <template #content>
@@ -304,7 +217,7 @@
           </template>
           <template #empty>
             <slot name="empty">
-              <p :class="nsSelectV2.e('empty')">
+              <p :class="nsSelect.be('dropdown', 'empty')">
                 {{ emptyText ? emptyText : '' }}
               </p>
             </slot>
@@ -380,7 +293,7 @@ export default defineComponent({
         height: API.popupHeight,
         modelValue,
       }),
-      popper: API.popper,
+      tooltipRef: API.tooltipRef,
       onSelect: API.onSelect,
       onHover: API.onHover,
       onKeyboardNavigate: API.onKeyboardNavigate,

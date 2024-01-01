@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
-import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-unified'
+import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -12,28 +12,22 @@ import {
 } from '@element-plus/utils'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 
-import { ArrowUp } from '@element-plus/icons-vue'
+import { ArrowDown } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
 import { useInput } from './useInput'
 import { useProps } from './useProps'
 
-import type { CSSProperties } from 'vue'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { Option, OptionType } from './select.types'
 import type { ISelectProps } from './token'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
-const TAG_BASE_WIDTH = {
-  larget: 51,
-  default: 42,
-  small: 33,
-}
 
 const useSelect = (props: ISelectProps, emit) => {
   // inject
   const { t } = useLocale()
-  const nsSelectV2 = useNamespace('select-v2')
+  const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
   const { form: elForm, formItem: elFormItem } = useFormItem()
   const { getLabel, getValue, getDisabled, getOptions } = useProps(props)
@@ -41,20 +35,20 @@ const useSelect = (props: ISelectProps, emit) => {
   const states = reactive({
     inputValue: DEFAULT_INPUT_PLACEHOLDER,
     displayInputValue: DEFAULT_INPUT_PLACEHOLDER,
-    calculatedWidth: 0,
     cachedPlaceholder: '',
     cachedOptions: [] as Option[],
     createdOptions: [] as Option[],
     createdLabel: '',
     createdSelected: false,
-    currentPlaceholder: '',
     hoveringIndex: -1,
     comboBoxHovering: false,
     isOnComposition: false,
     isSilentBlur: false,
     isComposing: false,
-    inputLength: 20,
-    selectWidth: 200,
+    selectionWidth: 0,
+    prefixWidth: 0,
+    suffixWidth: 0,
+    calculatorWidth: 200,
     initialInputHeight: 0,
     previousQuery: null,
     previousValue: undefined,
@@ -70,12 +64,15 @@ const useSelect = (props: ISelectProps, emit) => {
 
   // DOM & Component refs
   const controlRef = ref(null)
-  const inputRef = ref(null) // el-input ref
+  const inputRef = ref(null)
   const menuRef = ref(null)
-  const popper = ref<InstanceType<typeof ElTooltip> | null>(null)
+  const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const selectRef = ref(null)
-  const selectionRef = ref(null) // tags ref
+  const wrapperRef = ref(null)
+  const selectionRef = ref(null)
   const calculatorRef = ref<HTMLElement>(null)
+  const prefixRef = ref<HTMLElement>(null)
+  const suffixRef = ref<HTMLElement>(null)
 
   // the controller of the expanded popup
   const expanded = ref(false)
@@ -88,7 +85,11 @@ const useSelect = (props: ISelectProps, emit) => {
   })
 
   const hasModelValue = computed(() => {
-    return !isNil(props.modelValue)
+    return props.multiple
+      ? Array.isArray(props.modelValue) && props.modelValue.length > 0
+      : props.modelValue !== undefined &&
+          props.modelValue !== null &&
+          props.modelValue !== ''
   })
 
   const showClearBtn = computed(() => {
@@ -105,11 +106,11 @@ const useSelect = (props: ISelectProps, emit) => {
   })
 
   const iconComponent = computed(() =>
-    props.remote && props.filterable ? '' : ArrowUp
+    props.remote && props.filterable ? '' : ArrowDown
   )
 
   const iconReverse = computed(
-    () => iconComponent.value && nsSelectV2.is('reverse', expanded.value)
+    () => iconComponent.value && nsSelect.is('reverse', expanded.value)
   )
 
   const validateState = computed(() => elFormItem?.validateState || '')
@@ -194,32 +195,29 @@ const useSelect = (props: ISelectProps, emit) => {
     'small' === selectSize.value ? 'small' : 'default'
   )
 
-  const tagMaxWidth = computed(() => {
-    const select = selectionRef.value
-    const size = collapseTagSize.value || 'default'
-    const paddingLeft = select
-      ? Number.parseInt(getComputedStyle(select).paddingLeft)
-      : 0
-    const paddingRight = select
-      ? Number.parseInt(getComputedStyle(select).paddingRight)
-      : 0
-    return (
-      states.selectWidth - paddingRight - paddingLeft - TAG_BASE_WIDTH[size]
-    )
-  })
-
   const calculatePopperSize = () => {
     popperSize.value = selectRef.value?.offsetWidth || 200
   }
 
-  const inputWrapperStyle = computed(() => {
+  const tagStyle = computed(() => {
+    return { maxWidth: `${states.selectionWidth}px` }
+  })
+
+  const inputStyle = computed(() => ({
+    width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
+  }))
+
+  const placeholderStyle = computed(() => {
+    const gap = selectSize.value === 'small' ? 4 : 6
     return {
-      width: `${
-        states.calculatedWidth === 0
-          ? MINIMUM_INPUT_WIDTH
-          : Math.ceil(states.calculatedWidth) + MINIMUM_INPUT_WIDTH
-      }px`,
-    } as CSSProperties
+      maxWidth: `${states.selectionWidth}px`,
+      paddingInlineStart: states.prefixWidth
+        ? `${states.prefixWidth + gap}px`
+        : '',
+      paddingInlineEnd: states.suffixWidth
+        ? `${states.suffixWidth + gap}px`
+        : '',
+    }
   })
 
   const shouldShowPlaceholder = computed(() => {
@@ -234,13 +232,13 @@ const useSelect = (props: ISelectProps, emit) => {
 
   const currentPlaceholder = computed(() => {
     const _placeholder = props.placeholder || t('el.select.placeholder')
-    return props.multiple || isNil(props.modelValue)
+    return props.multiple || !hasModelValue.value
       ? _placeholder
       : states.selectedLabel
   })
 
   // this obtains the actual popper DOM element.
-  const popperRef = computed(() => popper.value?.popperRef?.contentRef)
+  const popperRef = computed(() => tooltipRef.value?.popperRef?.contentRef)
 
   // the index with current value in options
   const indexRef = computed<number>(() => {
@@ -276,13 +274,23 @@ const useSelect = (props: ISelectProps, emit) => {
     },
   })
 
-  const showTagList = computed(() =>
-    states.cachedOptions.slice(0, props.maxCollapseTags)
-  )
+  const showTagList = computed(() => {
+    if (!props.multiple) {
+      return []
+    }
+    return props.collapseTags
+      ? states.cachedOptions.slice(0, props.maxCollapseTags)
+      : states.cachedOptions
+  })
 
-  const collapseTagList = computed(() =>
-    states.cachedOptions.slice(props.maxCollapseTags)
-  )
+  const collapseTagList = computed(() => {
+    if (!props.multiple) {
+      return []
+    }
+    return props.collapseTags
+      ? states.cachedOptions.slice(props.maxCollapseTags)
+      : []
+  })
 
   // hooks
   const {
@@ -300,7 +308,7 @@ const useSelect = (props: ISelectProps, emit) => {
   // methods
   const focusAndUpdatePopup = () => {
     inputRef.value?.focus?.()
-    popper.value?.updatePopper()
+    tooltipRef.value?.updatePopper()
   }
 
   const toggleMenu = () => {
@@ -381,25 +389,33 @@ const useSelect = (props: ISelectProps, emit) => {
 
       selectRef.value.height = selection.offsetHeight
       if (expanded.value && emptyText.value !== false) {
-        popper.value?.updatePopper?.()
+        tooltipRef.value?.updatePopper?.()
       }
     })
   }
 
   const handleResize = () => {
-    resetInputWidth()
     calculatePopperSize()
-    popper.value?.updatePopper?.()
+    tooltipRef.value?.updatePopper?.()
     if (props.multiple) {
       return resetInputHeight()
     }
   }
 
-  const resetInputWidth = () => {
-    const select = selectionRef.value
-    if (select) {
-      states.selectWidth = select.getBoundingClientRect().width
-    }
+  const resetSelectionWidth = () => {
+    states.selectionWidth = selectionRef.value.getBoundingClientRect().width
+  }
+
+  const resetCalculatorWidth = () => {
+    states.calculatorWidth = calculatorRef.value.getBoundingClientRect().width
+  }
+
+  const resetPrefixWidth = () => {
+    states.prefixWidth = prefixRef.value.getBoundingClientRect().width
+  }
+
+  const resetSuffixWidth = () => {
+    states.suffixWidth = suffixRef.value.getBoundingClientRect().width
   }
 
   const onSelect = (option: Option, idx: number, byClick = true) => {
@@ -427,15 +443,10 @@ const useSelect = (props: ISelectProps, emit) => {
       if (option.created) {
         states.query = ''
         handleQueryChange('')
-        states.inputLength = 20
       }
       if (props.filterable && !props.reserveKeyword) {
         inputRef.value.focus?.()
         onUpdateInputValue('')
-      }
-      if (props.filterable) {
-        states.calculatedWidth =
-          calculatorRef.value.getBoundingClientRect().width
       }
       resetInputHeight()
       setSoftFocus()
@@ -492,10 +503,6 @@ const useSelect = (props: ISelectProps, emit) => {
     // https://github.com/ElemeFE/element/pull/10822
     return nextTick(() => {
       inputRef.value?.blur?.()
-      if (calculatorRef.value) {
-        states.calculatedWidth =
-          calculatorRef.value.getBoundingClientRect().width
-      }
       if (states.isSilentBlur) {
         states.isSilentBlur = false
       } else {
@@ -517,6 +524,7 @@ const useSelect = (props: ISelectProps, emit) => {
   }
 
   const handleDel = (e: KeyboardEvent) => {
+    if (!props.multiple) return
     if (states.displayInputValue.length === 0) {
       e.preventDefault()
       const selected = (props.modelValue as Array<any>).slice()
@@ -632,7 +640,6 @@ const useSelect = (props: ISelectProps, emit) => {
       expanded.value = true
     }
 
-    states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
     if (props.multiple) {
       resetInputHeight()
     }
@@ -718,7 +725,7 @@ const useSelect = (props: ISelectProps, emit) => {
   watch(expanded, (val) => {
     emit('visible-change', val)
     if (val) {
-      popper.value.update?.()
+      tooltipRef.value.update?.()
       // the purpose of this function is to differ the blur event trigger mechanism
     } else {
       states.displayInputValue = ''
@@ -774,6 +781,10 @@ const useSelect = (props: ISelectProps, emit) => {
     initStates()
   })
   useResizeObserver(selectRef, handleResize)
+  useResizeObserver(selectionRef, resetSelectionWidth)
+  useResizeObserver(calculatorRef, resetCalculatorWidth)
+  useResizeObserver(prefixRef, resetPrefixWidth)
+  useResizeObserver(suffixRef, resetSuffixWidth)
 
   return {
     // data exports
@@ -786,7 +797,9 @@ const useSelect = (props: ISelectProps, emit) => {
     filteredOptions,
     iconComponent,
     iconReverse,
-    inputWrapperStyle,
+    tagStyle,
+    inputStyle,
+    placeholderStyle,
     popperSize,
     dropdownMenuVisible,
     hasModelValue,
@@ -796,8 +809,7 @@ const useSelect = (props: ISelectProps, emit) => {
     selectSize,
     showClearBtn,
     states,
-    tagMaxWidth,
-    nsSelectV2,
+    nsSelect,
     nsInput,
 
     // refs items exports
@@ -805,9 +817,12 @@ const useSelect = (props: ISelectProps, emit) => {
     controlRef,
     inputRef,
     menuRef,
-    popper,
+    tooltipRef,
     selectRef,
+    wrapperRef,
     selectionRef,
+    prefixRef,
+    suffixRef,
 
     popperRef,
 
@@ -831,6 +846,10 @@ const useSelect = (props: ISelectProps, emit) => {
     handleFocus,
     handleMenuEnter,
     handleResize,
+    resetSelectionWidth,
+    resetCalculatorWidth,
+    resetPrefixWidth,
+    resetSuffixWidth,
     toggleMenu,
     scrollTo: scrollToItem,
     onInput,

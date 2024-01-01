@@ -2,21 +2,22 @@
 import {
   computed,
   nextTick,
+  onMounted,
   reactive,
   ref,
   shallowRef,
   toRaw,
   triggerRef,
-  unref,
   watch,
 } from 'vue'
-import { isObject, toRawType } from '@vue/shared'
+import { isArray, isObject, toRawType } from '@vue/shared'
 import {
   findLastIndex,
   get,
   isEqual,
   debounce as lodashDebounce,
 } from 'lodash-unified'
+import { useResizeObserver } from '@vueuse/core'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -25,7 +26,6 @@ import {
 import {
   ValidateComponentsMap,
   debugWarn,
-  getComponentSize,
   isClient,
   isFunction,
   isKorean,
@@ -34,24 +34,35 @@ import {
   isUndefined,
   scrollIntoView,
 } from '@element-plus/utils'
-import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useDeprecated,
+  useId,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 
 import type { ComponentPublicInstance } from 'vue'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { QueryChangeCtx, SelectOptionProxy } from './token'
 
-export function useSelectStates(props) {
+const MINIMUM_INPUT_WIDTH = 11
+
+export const useSelect = (props, ctx) => {
   const { t } = useLocale()
-  return reactive({
+  const contentId = useId()
+  const nsSelect = useNamespace('select')
+  const nsInput = useNamespace('input')
+
+  const states = reactive({
     options: new Map(),
     cachedOptions: new Map(),
     disabledOptions: new Map(),
     createdLabel: null,
     createdSelected: false,
     selected: props.multiple ? [] : ({} as any),
-    inputLength: 20,
-    inputWidth: 0,
+    selectionWidth: 0,
+    calculatorWidth: 0,
     optionsCount: 0,
     filteredOptionsCount: 0,
     visible: false,
@@ -61,20 +72,13 @@ export function useSelectStates(props) {
     previousQuery: null,
     inputHovering: false,
     cachedPlaceHolder: '',
-    currentPlaceholder: t('el.select.placeholder') as string | (() => string),
     menuVisibleOnFocus: false,
     isOnComposition: false,
-    prefixWidth: 11,
+    prefixWidth: 0,
+    suffixWidth: 0,
     mouseEnter: false,
     focused: false,
   })
-}
-
-type States = ReturnType<typeof useSelectStates>
-
-export const useSelect = (props, states: States, ctx) => {
-  const { t } = useLocale()
-  const ns = useNamespace('select')
 
   useDeprecated(
     {
@@ -93,12 +97,16 @@ export const useSelect = (props, states: States, ctx) => {
     blur: () => void
     input: HTMLInputElement
   }> | null>(null)
-  const input = ref<HTMLInputElement | null>(null)
-  const iOSInput = ref<HTMLInputElement | null>(null)
+  const inputRef = ref<HTMLInputElement | null>(null)
   const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const tags = ref<HTMLElement | null>(null)
-  const selectWrapper = ref<HTMLElement | null>(null)
+  const selectRef = ref<HTMLElement | null>(null)
+  const wrapperRef = ref<HTMLElement | null>(null)
+  const selectionRef = ref<HTMLElement | null>(null)
+  const calculatorRef = ref<HTMLElement>(null)
+  const prefixRef = ref<HTMLElement>(null)
+  const suffixRef = ref<HTMLElement>(null)
   const scrollbar = ref<{
     handleScroll: () => void
   } | null>(null)
@@ -106,7 +114,6 @@ export const useSelect = (props, states: States, ctx) => {
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
   const optionList = ref<string[]>([])
-  let originClientHeight = 0
 
   const { form, formItem } = useFormItem()
 
@@ -116,18 +123,20 @@ export const useSelect = (props, states: States, ctx) => {
 
   const selectDisabled = computed(() => props.disabled || form?.disabled)
 
-  const showClose = computed(() => {
-    const hasValue = props.multiple
+  const hasModelValue = computed(() => {
+    return props.multiple
       ? Array.isArray(props.modelValue) && props.modelValue.length > 0
       : props.modelValue !== undefined &&
-        props.modelValue !== null &&
-        props.modelValue !== ''
+          props.modelValue !== null &&
+          props.modelValue !== ''
+  })
 
+  const showClose = computed(() => {
     const criteria =
       props.clearable &&
       !selectDisabled.value &&
       states.inputHovering &&
-      hasValue
+      hasModelValue.value
     return criteria
   })
   const iconComponent = computed(() =>
@@ -136,18 +145,15 @@ export const useSelect = (props, states: States, ctx) => {
       : props.suffixIcon
   )
   const iconReverse = computed(() =>
-    ns.is(
+    nsSelect.is(
       'reverse',
       iconComponent.value && states.visible && props.suffixTransition
     )
   )
 
-  // Consistent with the processing of Form in the input component
-  const showStatusIconAndState = computed(
-    () =>
-      form?.statusIcon &&
-      formItem?.validateState &&
-      ValidateComponentsMap[formItem?.validateState]
+  const validateState = computed(() => formItem?.validateState || '')
+  const validateIcon = computed(
+    () => ValidateComponentsMap[validateState.value]
   )
 
   const debounce = computed(() => (props.remote ? 300 : 0))
@@ -220,51 +226,30 @@ export const useSelect = (props, states: States, ctx) => {
     },
   })
 
-  // watch
-  watch(
-    [() => selectDisabled.value, () => selectSize.value, () => form?.size],
-    () => {
-      nextTick(() => {
-        resetInputHeight()
-      })
+  const shouldShowPlaceholder = computed(() => {
+    if (isArray(props.modelValue)) {
+      return props.modelValue.length === 0 && !states.query
     }
-  )
+    return !states.query
+  })
 
-  watch(
-    () => props.placeholder,
-    (val) => {
-      states.cachedPlaceHolder = states.currentPlaceholder = val
-
-      const hasValue =
-        props.multiple &&
-        Array.isArray(props.modelValue) &&
-        props.modelValue.length > 0
-
-      if (hasValue) {
-        states.currentPlaceholder = ''
-      }
-    }
-  )
+  const currentPlaceholder = computed(() => {
+    const _placeholder = props.placeholder || t('el.select.placeholder')
+    return props.multiple || !hasModelValue.value
+      ? _placeholder
+      : states.selectedLabel
+  })
 
   watch(
     () => props.modelValue,
     (val, oldVal) => {
       if (props.multiple) {
-        resetInputHeight()
-        if ((val && val.length > 0) || (input.value && states.query !== '')) {
-          states.currentPlaceholder = ''
-        } else {
-          states.currentPlaceholder = states.cachedPlaceHolder
-        }
         if (props.filterable && !props.reserveKeyword) {
           states.query = ''
           handleQueryChange(states.query)
         }
       }
       setSelected()
-      if (props.filterable && !props.multiple) {
-        states.inputLength = 20
-      }
       if (!isEqual(val, oldVal) && props.validateEvent) {
         formItem?.validate('change').catch((err) => debugWarn(err))
       }
@@ -290,18 +275,8 @@ export const useSelect = (props, states: States, ctx) => {
         states.query = ''
         states.previousQuery = null
         states.selectedLabel = ''
-        states.inputLength = 20
         states.menuVisibleOnFocus = false
         resetHoverIndex()
-        nextTick(() => {
-          if (
-            input.value &&
-            input.value.value === '' &&
-            states.selected.length === 0
-          ) {
-            states.currentPlaceholder = states.cachedPlaceHolder
-          }
-        })
 
         if (!props.multiple) {
           if (states.selected) {
@@ -315,11 +290,6 @@ export const useSelect = (props, states: States, ctx) => {
             } else {
               states.selectedLabel = states.selected.currentLabel
             }
-            if (props.filterable) states.query = states.selectedLabel
-          }
-
-          if (props.filterable) {
-            states.currentPlaceholder = states.cachedPlaceHolder
           }
         }
       } else {
@@ -327,20 +297,11 @@ export const useSelect = (props, states: States, ctx) => {
 
         if (props.filterable) {
           states.filteredOptionsCount = states.optionsCount
-          states.query = props.remote ? '' : states.selectedLabel
-          iOSInput.value?.focus?.()
-          if (props.multiple) {
-            input.value?.focus()
-          } else {
-            if (states.selectedLabel) {
-              states.currentPlaceholder = `${states.selectedLabel}`
-              states.selectedLabel = ''
-            }
-          }
+          states.query = ''
+          states.previousQuery = null
           handleQueryChange(states.query)
           if (!props.multiple && !props.remote) {
             queryChange.value.query = ''
-
             triggerRef(queryChange)
             triggerRef(groupQueryChange)
           }
@@ -357,10 +318,7 @@ export const useSelect = (props, states: States, ctx) => {
     () => {
       if (!isClient) return
       tooltipRef.value?.updatePopper?.()
-      if (props.multiple) {
-        resetInputHeight()
-      }
-      const inputs = selectWrapper.value?.querySelectorAll('input') || []
+      const inputs = selectRef.value?.querySelectorAll('input') || []
       if (
         (!props.filterable &&
           !props.defaultFirstOption &&
@@ -396,53 +354,6 @@ export const useSelect = (props, states: States, ctx) => {
     }
   )
 
-  // methods
-  const resetInputHeight = () => {
-    nextTick(() => {
-      if (!reference.value) return
-      const input = reference.value.$el.querySelector(
-        'input'
-      ) as HTMLInputElement
-      originClientHeight =
-        originClientHeight ||
-        (input.clientHeight > 0 ? input.clientHeight + 2 : 0)
-      const _tags = tags.value
-      const cssVarOfSelectSize = getComputedStyle(input).getPropertyValue(
-        ns.cssVarName('input-height')
-      )
-      const gotSize =
-        Number.parseFloat(cssVarOfSelectSize) ||
-        getComponentSize(selectSize.value || form?.size)
-
-      const sizeInMap =
-        selectSize.value ||
-        gotSize === originClientHeight ||
-        originClientHeight <= 0
-          ? gotSize
-          : originClientHeight
-
-      const isElHidden = input.offsetParent === null
-
-      // it's an inner input so reduce it by 2px.
-      !isElHidden &&
-        (input.style.height = `${
-          (states.selected.length === 0
-            ? sizeInMap
-            : Math.max(
-                _tags
-                  ? _tags.clientHeight +
-                      (_tags.clientHeight > sizeInMap ? 6 : 0)
-                  : 0,
-                sizeInMap
-              )) - 2
-        }px`)
-
-      if (states.visible && emptyText.value !== false) {
-        tooltipRef.value?.updatePopper?.()
-      }
-    })
-  }
-
   const handleQueryChange = async (val) => {
     if (states.previousQuery === val || states.isOnComposition) return
     if (
@@ -457,19 +368,6 @@ export const useSelect = (props, states: States, ctx) => {
       if (states.visible) tooltipRef.value?.updatePopper?.()
     })
     states.hoverIndex = -1
-    if (props.multiple && props.filterable) {
-      nextTick(() => {
-        // fix: https://github.com/element-plus/element-plus/issues/13872
-        if (!selectDisabled.value) {
-          const length = input.value!.value.length * 15 + 20
-          states.inputLength = props.collapseTags
-            ? Math.min(50, length)
-            : length
-          managePlaceholder()
-        }
-        resetInputHeight()
-      })
-    }
     if (props.remote && isFunction(props.remoteMethod)) {
       states.hoverIndex = -1
       props.remoteMethod(val)
@@ -490,14 +388,6 @@ export const useSelect = (props, states: States, ctx) => {
     ) {
       await nextTick()
       checkDefaultFirstOption()
-    }
-  }
-
-  const managePlaceholder = () => {
-    if (states.currentPlaceholder !== '') {
-      states.currentPlaceholder = input.value!.value
-        ? ''
-        : states.cachedPlaceHolder
     }
   }
 
@@ -534,7 +424,6 @@ export const useSelect = (props, states: States, ctx) => {
       }
       states.selectedLabel = option.currentLabel
       states.selected = option
-      if (props.filterable) states.query = states.selectedLabel
       return
     } else {
       states.selectedLabel = ''
@@ -546,9 +435,6 @@ export const useSelect = (props, states: States, ctx) => {
       })
     }
     states.selected = result
-    nextTick(() => {
-      resetInputHeight()
-    })
   }
 
   const getOption = (value) => {
@@ -612,13 +498,23 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const handleResize = () => {
-    resetInputWidth()
     tooltipRef.value?.updatePopper?.()
-    props.multiple && resetInputHeight()
   }
 
-  const resetInputWidth = () => {
-    states.inputWidth = reference.value?.$el.offsetWidth
+  const resetSelectionWidth = () => {
+    states.selectionWidth = selectionRef.value.getBoundingClientRect().width
+  }
+
+  const resetCalculatorWidth = () => {
+    states.calculatorWidth = calculatorRef.value.getBoundingClientRect().width
+  }
+
+  const resetPrefixWidth = () => {
+    states.prefixWidth = prefixRef.value.getBoundingClientRect().width
+  }
+
+  const resetSuffixWidth = () => {
+    states.suffixWidth = suffixRef.value.getBoundingClientRect().width
   }
 
   const onInputChange = () => {
@@ -646,6 +542,7 @@ export const useSelect = (props, states: States, ctx) => {
     findLastIndex(value, (it) => !states.disabledOptions.has(it))
 
   const deletePrevTag = (e) => {
+    if (!props.multiple) return
     if (e.code === EVENT_CODE.delete) return
     if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
       const value = props.modelValue.slice()
@@ -654,10 +551,6 @@ export const useSelect = (props, states: States, ctx) => {
       value.splice(lastNotDisabledIndex, 1)
       ctx.emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
-    }
-
-    if (e.target.value.length === 1 && props.modelValue.length === 0) {
-      states.currentPlaceholder = states.cachedPlaceHolder
     }
   }
 
@@ -707,9 +600,8 @@ export const useSelect = (props, states: States, ctx) => {
       if (option.created) {
         states.query = ''
         handleQueryChange('')
-        states.inputLength = 20
       }
-      if (props.filterable) input.value?.focus()
+      if (props.filterable) inputRef.value?.focus()
     } else {
       ctx.emit(UPDATE_MODEL_EVENT, option.value)
       emitChange(option.value)
@@ -739,7 +631,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const setSoftFocus = () => {
-    const _input = input.value || reference.value
+    const _input = inputRef.value || reference.value
     if (_input) {
       _input?.focus()
     }
@@ -760,7 +652,7 @@ export const useSelect = (props, states: States, ctx) => {
 
     if (tooltipRef.value && target) {
       const menu = tooltipRef.value?.popperRef?.contentRef?.querySelector?.(
-        `.${ns.be('dropdown', 'wrap')}`
+        `.${nsSelect.be('dropdown', 'wrap')}`
       )
       if (menu) {
         scrollIntoView(menu as HTMLElement, target)
@@ -787,8 +679,6 @@ export const useSelect = (props, states: States, ctx) => {
 
   const resetInputState = (e: KeyboardEvent) => {
     if (e.code !== EVENT_CODE.backspace) toggleLastOptionHitState(false)
-    states.inputLength = input.value!.value.length * 15 + 20
-    resetInputHeight()
   }
 
   const toggleLastOptionHitState = (hit?: boolean) => {
@@ -819,6 +709,14 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
+  const popperRef = computed(() => {
+    return tooltipRef.value?.popperRef?.contentRef
+  })
+
+  const onOptionsRendered = (v) => {
+    optionList.value = v
+  }
+
   const handleMenuEnter = () => {
     nextTick(() => scrollToOption(states.selected))
   }
@@ -837,17 +735,12 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const focus = () => {
-    if (states.visible) {
-      ;(input.value || reference.value)?.focus()
-    } else {
-      reference.value?.focus()
-    }
+    inputRef.value?.focus()
   }
 
   const blur = () => {
     states.visible = false
-    reference.value?.blur()
-    iOSInput.value?.blur?.()
+    inputRef.value?.blur()
   }
 
   const handleBlur = (event: FocusEvent) => {
@@ -856,7 +749,7 @@ export const useSelect = (props, states: States, ctx) => {
     if (
       tooltipRef.value?.isFocusInsideContent(event) ||
       tagTooltipRef.value?.isFocusInsideContent(event) ||
-      selectWrapper.value?.contains(event.relatedTarget)
+      selectRef.value?.contains(event.relatedTarget)
     ) {
       return
     }
@@ -918,13 +811,23 @@ export const useSelect = (props, states: States, ctx) => {
       .every((option) => option.disabled)
   )
 
-  const showTagList = computed(() =>
-    props.multiple ? states.selected.slice(0, props.maxCollapseTags) : []
-  )
+  const showTagList = computed(() => {
+    if (!props.multiple) {
+      return []
+    }
+    return props.collapseTags
+      ? states.selected.slice(0, props.maxCollapseTags)
+      : states.selected
+  })
 
-  const collapseTagList = computed(() =>
-    props.multiple ? states.selected.slice(props.maxCollapseTags) : []
-  )
+  const collapseTagList = computed(() => {
+    if (!props.multiple) {
+      return []
+    }
+    return props.collapseTags
+      ? states.selected.slice(props.maxCollapseTags)
+      : []
+  })
 
   const navigateOptions = (direction) => {
     if (!states.visible) {
@@ -971,19 +874,57 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   // computed style
-  // if in form and use statusIcon, the width of the icon needs to be subtracted, fix #13526
-  const selectTagsStyle = computed(() => ({
-    maxWidth: `${
-      unref(states.inputWidth) - 32 - (showStatusIconAndState.value ? 22 : 0)
-    }px`,
-    width: '100%',
+  const tagStyle = computed(() => {
+    return { maxWidth: `${states.selectionWidth}px` }
+  })
+
+  const placeholderStyle = computed(() => {
+    const gap = selectSize.value === 'small' ? 4 : 6
+    return {
+      maxWidth: `${states.selectionWidth}px`,
+      paddingInlineStart: states.prefixWidth
+        ? `${states.prefixWidth + gap}px`
+        : '',
+      paddingInlineEnd: states.suffixWidth
+        ? `${states.suffixWidth + gap}px`
+        : '',
+    }
+  })
+
+  const inputStyle = computed(() => ({
+    width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
   }))
+
+  if (props.multiple && !Array.isArray(props.modelValue)) {
+    ctx.emit(UPDATE_MODEL_EVENT, [])
+  }
+  if (!props.multiple && Array.isArray(props.modelValue)) {
+    ctx.emit(UPDATE_MODEL_EVENT, '')
+  }
+
+  useResizeObserver(selectRef, handleResize)
+  useResizeObserver(selectionRef, resetSelectionWidth)
+  useResizeObserver(calculatorRef, resetCalculatorWidth)
+  useResizeObserver(prefixRef, resetPrefixWidth)
+  useResizeObserver(suffixRef, resetSuffixWidth)
+
+  onMounted(() => {
+    setSelected()
+  })
+
   return {
+    contentId,
+    nsSelect,
+    nsInput,
+    states,
     optionList,
     optionsArray,
     hoverOption,
     selectSize,
     handleResize,
+    resetCalculatorWidth,
+    resetPrefixWidth,
+    resetSuffixWidth,
     debouncedOnInputChange,
     debouncedQueryChange,
     deletePrevTag,
@@ -992,19 +933,23 @@ export const useSelect = (props, states: States, ctx) => {
     handleOptionSelect,
     scrollToOption,
     readonly,
-    resetInputHeight,
+    hasModelValue,
+    shouldShowPlaceholder,
+    currentPlaceholder,
     showClose,
     iconComponent,
     iconReverse,
+    validateState,
+    validateIcon,
     showNewOption,
     collapseTagSize,
     setSelected,
-    managePlaceholder,
     selectDisabled,
     emptyText,
     toggleLastOptionHitState,
     resetInputState,
     handleComposition,
+    onOptionsRendered,
     onOptionCreate,
     onOptionDestroy,
     handleMenuEnter,
@@ -1027,16 +972,23 @@ export const useSelect = (props, states: States, ctx) => {
     collapseTagList,
 
     // computed style
-    selectTagsStyle,
+    tagStyle,
+    placeholderStyle,
+    inputStyle,
 
     // DOM ref
+    popperRef,
     reference,
-    input,
-    iOSInput,
+    inputRef,
     tooltipRef,
     tagTooltipRef,
+    calculatorRef,
+    prefixRef,
+    suffixRef,
     tags,
-    selectWrapper,
+    selectRef,
+    wrapperRef,
+    selectionRef,
     scrollbar,
 
     // Mouser Event

@@ -305,7 +305,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
 describe('Select', () => {
   let wrapper: ReturnType<typeof _mount>
   const findInnerInput = () =>
-    wrapper.find('.el-input__inner').element as HTMLInputElement
+    wrapper.find('.el-select__input').element as HTMLInputElement
 
   afterEach(() => {
     document.body.innerHTML = ''
@@ -561,7 +561,7 @@ describe('Select', () => {
       }
     )
 
-    await wrapper.find('.select-trigger').trigger('click')
+    await wrapper.find('.el-select__wrapper').trigger('click')
     const options = getOptions()
     const vm = wrapper.vm as any
     expect(vm.value).toBe('')
@@ -581,7 +581,7 @@ describe('Select', () => {
   test('disabled option', async () => {
     wrapper = getSelectVm()
     const vm = wrapper.vm as any
-    wrapper.find('.select-trigger').trigger('click')
+    wrapper.find('.el-select__wrapper').trigger('click')
     vm.options[1].disabled = true
     await nextTick()
     const options = getOptions()
@@ -770,8 +770,8 @@ describe('Select', () => {
 
   test('fitInputWidth', async () => {
     wrapper = getSelectVm({ fitInputWidth: true })
-    const selectWrapper = wrapper.findComponent({ name: 'ElSelect' })
-    const selectDom = selectWrapper.element
+    const selectRef = wrapper.findComponent({ name: 'ElSelect' })
+    const selectDom = selectRef.element
     const selectRect = {
       height: 40,
       width: 221,
@@ -784,7 +784,7 @@ describe('Select', () => {
       .mockReturnValue(selectRect as DOMRect)
     const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
     dropdown.vm.minWidth = `${
-      selectWrapper.element.getBoundingClientRect().width
+      selectRef.element.getBoundingClientRect().width
     }px`
     await nextTick()
     expect(dropdown.element.style.width).toBe('221px')
@@ -935,7 +935,7 @@ describe('Select', () => {
 
   test('multiple select', async () => {
     wrapper = getSelectVm({ multiple: true })
-    await wrapper.find('.select-trigger').trigger('click')
+    await wrapper.find('.el-select__wrapper').trigger('click')
     const options = getOptions()
     const vm = wrapper.vm as any
     vm.value = ['选项1']
@@ -986,15 +986,15 @@ describe('Select', () => {
         selectedList: [],
       })
     )
-    await wrapper.find('.select-trigger').trigger('click')
+    await wrapper.find('.el-select__wrapper').trigger('click')
     const options = getOptions()
-    const selectWrapper = wrapper.findComponent(Select)
-    const inputWrapper = selectWrapper.findComponent({ ref: 'reference' })
+    const selectRef = wrapper.findComponent(Select)
+    const inputWrapper = selectRef.findComponent({ ref: 'reference' })
     const inputDom = inputWrapper.element
     const mockInputWidth = vi
       .spyOn(inputDom as HTMLElement, 'offsetWidth', 'get')
       .mockReturnValue(200)
-    selectWrapper.vm.handleResize()
+    selectRef.vm.handleResize()
     options[0].click()
     await nextTick()
     options[1].click()
@@ -1047,15 +1047,15 @@ describe('Select', () => {
         selectedList: [],
       })
     )
-    await wrapper.find('.select-trigger').trigger('click')
+    await wrapper.find('.el-select__wrapper').trigger('click')
     const options = getOptions()
-    const selectWrapper = wrapper.findComponent(Select)
-    const inputWrapper = selectWrapper.findComponent({ ref: 'reference' })
+    const selectRef = wrapper.findComponent(Select)
+    const inputWrapper = selectRef.findComponent({ ref: 'reference' })
     const inputDom = inputWrapper.element
     const mockInputWidth = vi
       .spyOn(inputDom as HTMLElement, 'offsetWidth', 'get')
       .mockReturnValue(200)
-    selectWrapper.vm.handleResize()
+    selectRef.vm.handleResize()
     options[0].click()
     await nextTick()
     const tagWrappers = wrapper.findAll('.el-select__tags-text')
@@ -1107,7 +1107,7 @@ describe('Select', () => {
         selectedList: [],
       })
     )
-    await wrapper.find('.select-trigger').trigger('click')
+    await wrapper.find('.el-select__wrapper').trigger('click')
     const options = getOptions()
 
     options[0].click()
@@ -1157,7 +1157,7 @@ describe('Select', () => {
         selectedList: [],
       })
     )
-    await wrapper.find('.select-trigger').trigger('click')
+    await wrapper.find('.el-select__wrapper').trigger('click')
     const options = getOptions()
 
     options[0].click()
@@ -1232,7 +1232,7 @@ describe('Select', () => {
   test('multiple limit', async () => {
     wrapper = getSelectVm({ multiple: true, multipleLimit: 1 })
     const vm = wrapper.vm as any
-    await wrapper.find('.select-trigger').trigger('click')
+    await wrapper.find('.el-select__wrapper').trigger('click')
     const options = getOptions()
     options[1].click()
     await nextTick()
@@ -1455,7 +1455,7 @@ describe('Select', () => {
     )
 
     expect(callCount).toBe(0)
-    await wrapper.find('.select-trigger').trigger('click')
+    await wrapper.find('.el-select__wrapper').trigger('click')
     const options = getOptions()
     options[2].click()
     expect(callCount).toBe(1)
@@ -1473,7 +1473,7 @@ describe('Select', () => {
         value: '1',
       })
     )
-    await wrapper.find('.select-trigger').trigger('click')
+    await wrapper.find('.el-select__wrapper').trigger('click')
     expect(
       document.querySelector<HTMLElement>('.empty-slot')?.textContent
     ).toBe('EmptySlot')
@@ -1756,7 +1756,7 @@ describe('Select', () => {
     )
 
     const vm = wrapper.vm as any
-    wrapper.find('.select-trigger').trigger('click')
+    wrapper.find('.el-select__wrapper').trigger('click')
     await nextTick()
     vm.options[1].disabled = true
     await nextTick()
@@ -1882,7 +1882,7 @@ describe('Select', () => {
       })
     )
 
-    await wrapper.find('.select-trigger').trigger('click')
+    await wrapper.find('.el-select__wrapper').trigger('click')
     const options = getOptions()
     options[1].click()
     await nextTick()
@@ -1995,11 +1995,11 @@ describe('Select', () => {
       wrapper = getSelectVm({ filterable, multiple })
       const options = wrapper.findAllComponents({ name: 'ElOption' })
 
-      await wrapper.find('.select-trigger').trigger('click')
+      await wrapper.find('.el-select__wrapper').trigger('click')
       expect(options.every((option) => option.vm.visible)).toBe(true)
 
       await options[1].trigger('click')
-      await wrapper.find('.select-trigger').trigger('click')
+      await wrapper.find('.el-select__wrapper').trigger('click')
       expect(options.every((option) => option.vm.visible)).toBe(true)
     }
 
@@ -2021,7 +2021,7 @@ describe('Select', () => {
 
     test('filterable is true with grouping', async () => {
       wrapper = getGroupSelectVm({ filterable: true })
-      await wrapper.find('.select-trigger').trigger('click')
+      await wrapper.find('.el-select__wrapper').trigger('click')
       const vm = wrapper.findComponent(Select).vm
       const event = { target: { value: 'sh' } }
       vm.debouncedQueryChange(event)
@@ -2303,7 +2303,7 @@ describe('Select', () => {
           ],
         },
       ])
-      await wrapper.find('.select-trigger').trigger('click')
+      await wrapper.find('.el-select__wrapper').trigger('click')
       let options = getOptions()
       const vm = wrapper.vm as any
       expect(vm.value).toBe('')

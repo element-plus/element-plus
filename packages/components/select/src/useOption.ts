@@ -122,6 +122,7 @@ export function useOption(props, states) {
   watch(
     queryChange,
     (changes: Ref<QueryChangeCtx>) => {
+      console.log(222)
       const { query } = unref(changes)
 
       const regexp = new RegExp(escapeStringRegexp(query), 'i')

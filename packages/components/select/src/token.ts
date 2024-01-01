@@ -20,7 +20,7 @@ export interface SelectContext {
   }
   queryChange: Ref<QueryChangeCtx>
   groupQueryChange: Ref<string>
-  selectWrapper: HTMLElement
+  selectRef: HTMLElement
   cachedOptions: Map<any, any>
   hoverIndex: number
   optionsCount: number

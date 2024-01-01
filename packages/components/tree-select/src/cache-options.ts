@@ -31,7 +31,7 @@ export default defineComponent({
         })
 
         // fork from packages/select/src/useSelect.ts#330
-        const inputs = select.selectWrapper?.querySelectorAll('input') || []
+        const inputs = select.selectRef?.querySelectorAll('input') || []
         if (
           !Array.from(inputs).includes(
             document.activeElement as HTMLInputElement
