@@ -141,13 +141,6 @@
     }
   }
 
-  tfoot {
-    td.#{$namespace}-table__cell {
-      background-color: getCssVar('table-row-hover-bg-color');
-      color: getCssVar('table-text-color');
-    }
-  }
-
   .#{$namespace}-table__cell {
     padding: map.get($table-padding, 'default');
     min-width: 0;
@@ -388,6 +381,15 @@
     overflow: hidden;
 
     & tbody td.#{$namespace}-table__cell {
+      background-color: getCssVar('table-row-hover-bg-color');
+      color: getCssVar('table-text-color');
+    }
+  }
+
+  @include e((footer-wrapper)) {
+    overflow: hidden;
+
+    & tfoot td.#{$namespace}-table__cell {
       background-color: getCssVar('table-row-hover-bg-color');
       color: getCssVar('table-text-color');
     }
