@@ -150,7 +150,6 @@
       &:hover {
         .#{$namespace}-tour__close {
           color: getCssVar('tour-title-text-color');
-          background: rgba(0, 0, 0, 0.06);
         }
       }
     }
