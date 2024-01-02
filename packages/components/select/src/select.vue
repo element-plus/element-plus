@@ -132,7 +132,7 @@
               <input
                 :id="id"
                 ref="inputRef"
-                v-model="states.displayInputValue"
+                v-model="states.inputValue"
                 type="text"
                 :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
                 :disabled="selectDisabled"
@@ -165,7 +165,7 @@
                 ref="calculatorRef"
                 aria-hidden="true"
                 :class="nsSelect.e('input-calculator')"
-                v-text="states.displayInputValue"
+                v-text="states.inputValue"
               />
             </div>
           </div>
@@ -219,7 +219,7 @@
                 'empty',
                 !allowCreate &&
                   Boolean(states.inputValue) &&
-                  states.filteredOptionsCount === 0
+                  filteredOptionsCount === 0
               ),
             ]"
             role="listbox"
@@ -312,8 +312,6 @@ export default defineComponent({
         options: API.states.options,
         optionsArray: API.optionsArray,
         cachedOptions: API.states.cachedOptions,
-        optionsCount: API.states.optionsCount,
-        filteredOptionsCount: API.states.filteredOptionsCount,
         hoverIndex: API.states.hoverIndex,
         handleOptionSelect: API.handleOptionSelect,
         onOptionCreate: API.onOptionCreate,

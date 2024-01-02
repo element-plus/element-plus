@@ -41,14 +41,12 @@ const useSelect = (props: ISelectProps, emit) => {
 
   const states = reactive({
     inputValue: '',
-    displayInputValue: '',
     cachedOptions: [] as Option[],
     createdOptions: [] as Option[],
     createdLabel: '',
     createdSelected: false,
     hoveringIndex: -1,
     comboBoxHovering: false,
-    isSilentBlur: false,
     selectionWidth: 0,
     prefixWidth: 0,
     suffixWidth: 0,
@@ -151,7 +149,7 @@ const useSelect = (props: ISelectProps, emit) => {
     if (props.loading) {
       return props.loadingText || t('el.select.loading')
     } else {
-      if (props.remote && states.inputValue === '' && options.length === 0)
+      if (props.remote && !states.inputValue && options.length === 0)
         return false
       if (props.filterable && states.inputValue && options.length > 0) {
         return props.noMatchText || t('el.select.noMatch')
@@ -247,12 +245,12 @@ const useSelect = (props: ISelectProps, emit) => {
 
   const shouldShowPlaceholder = computed(() => {
     if (isArray(props.modelValue)) {
-      return props.modelValue.length === 0 && !states.displayInputValue
+      return props.modelValue.length === 0 && !states.inputValue
     }
 
     // when it's not multiple mode, we only determine this flag based on filterable and expanded
     // when filterable flag is true, which means we have input box on the screen
-    return props.filterable ? !states.displayInputValue : true
+    return props.filterable ? !states.inputValue : true
   })
 
   const currentPlaceholder = computed(() => {
@@ -452,7 +450,6 @@ const useSelect = (props: ISelectProps, emit) => {
       states.selectedLabel = getLabel(option)
       update(getValue(option))
       expanded.value = false
-      states.isSilentBlur = byClick
       selectNewOption(option)
       if (!option.created) {
         clearAllNewOption()
@@ -501,7 +498,7 @@ const useSelect = (props: ISelectProps, emit) => {
   const handleDel = (e: KeyboardEvent) => {
     if (!props.multiple) return
     if (e.code === EVENT_CODE.delete) return
-    if (states.displayInputValue.length === 0) {
+    if (states.inputValue.length === 0) {
       e.preventDefault()
       const selected = (props.modelValue as Array<any>).slice()
       selected.pop()
@@ -531,7 +528,6 @@ const useSelect = (props: ISelectProps, emit) => {
   }
 
   const onUpdateInputValue = (val: string) => {
-    states.displayInputValue = val
     states.inputValue = val
   }
 
@@ -619,7 +615,6 @@ const useSelect = (props: ISelectProps, emit) => {
   }
 
   const handleMenuEnter = () => {
-    states.inputValue = states.displayInputValue
     return nextTick(() => {
       if (~indexRef.value) {
         updateHoveringIndex(indexRef.value)
@@ -690,7 +685,7 @@ const useSelect = (props: ISelectProps, emit) => {
     if (val) {
       // the purpose of this function is to differ the blur event trigger mechanism
     } else {
-      states.displayInputValue = ''
+      states.inputValue = ''
       states.previousQuery = null
       createNewOption('')
     }

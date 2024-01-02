@@ -17,8 +17,6 @@ export interface SelectContext {
   selectRef: HTMLElement
   cachedOptions: Map<any, any>
   hoverIndex: number
-  optionsCount: number
-  filteredOptionsCount: number
   options: Map<any, any>
   optionsArray: any[]
   selected: any | any[]

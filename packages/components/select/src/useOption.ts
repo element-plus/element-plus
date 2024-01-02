@@ -125,9 +125,6 @@ export function useOption(props, states) {
       const { query } = unref(changes)
       const regexp = new RegExp(escapeStringRegexp(query), 'i')
       states.visible = regexp.test(currentLabel.value) || props.created
-      if (!states.visible) {
-        select.filteredOptionsCount--
-      }
     },
     { immediate: true }
   )

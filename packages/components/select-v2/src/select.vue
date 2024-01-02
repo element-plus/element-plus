@@ -23,7 +23,6 @@
       trigger="click"
       :persistent="persistent"
       @before-show="handleMenuEnter"
-      @hide="states.inputValue = states.displayInputValue"
     >
       <template #default>
         <div
@@ -131,7 +130,7 @@
               <input
                 :id="id"
                 ref="inputRef"
-                v-model-text="states.displayInputValue"
+                v-model-text="states.inputValue"
                 :style="inputStyle"
                 :autocomplete="autocomplete"
                 aria-autocomplete="list"
@@ -165,7 +164,7 @@
                 ref="calculatorRef"
                 aria-hidden="true"
                 :class="nsSelect.e('input-calculator')"
-                v-text="states.displayInputValue"
+                v-text="states.inputValue"
               />
             </div>
           </div>

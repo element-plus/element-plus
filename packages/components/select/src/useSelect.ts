@@ -56,7 +56,6 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const states = reactive({
     inputValue: '',
-    displayInputValue: '',
     options: new Map(),
     cachedOptions: new Map(),
     disabledOptions: new Map(),
@@ -65,8 +64,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     selected: props.multiple ? [] : ({} as any),
     selectionWidth: 0,
     calculatorWidth: 0,
-    optionsCount: 0,
-    filteredOptionsCount: 0,
     selectedLabel: '',
     hoverIndex: -1,
     previousQuery: null,
@@ -173,13 +170,13 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (props.loading) {
       return props.loadingText || t('el.select.loading')
     } else {
-      if (props.remote && states.inputValue === '' && states.options.size === 0)
+      if (props.remote && !states.inputValue && states.options.size === 0)
         return false
       if (
         props.filterable &&
         states.inputValue &&
         states.options.size > 0 &&
-        states.filteredOptionsCount === 0
+        filteredOptionsCount.value === 0
       ) {
         return props.noMatchText || t('el.select.noMatch')
       }
@@ -189,6 +186,10 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
     return null
   })
+
+  const filteredOptionsCount = computed(
+    () => optionsArray.value.filter((option) => option.visible).length
+  )
 
   const optionsArray = computed(() => {
     const list = Array.from(states.options.values())
@@ -239,9 +240,9 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const shouldShowPlaceholder = computed(() => {
     if (isArray(props.modelValue)) {
-      return props.modelValue.length === 0 && !states.displayInputValue
+      return props.modelValue.length === 0 && !states.inputValue
     }
-    return props.filterable ? !states.displayInputValue : true
+    return props.filterable ? !states.inputValue : true
   })
 
   const currentPlaceholder = computed(() => {
@@ -257,7 +258,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       if (props.multiple) {
         if (props.filterable && !props.reserveKeyword) {
           states.inputValue = ''
-          handleQueryChange(states.inputValue)
+          handleQueryChange('')
         }
       }
       setSelected()
@@ -283,7 +284,7 @@ export const useSelect = (props: ISelectProps, emit) => {
             props.remoteMethod('')
           }
         }
-        states.displayInputValue = ''
+        states.inputValue = ''
         states.previousQuery = null
         states.selectedLabel = ''
         resetHoverIndex()
@@ -304,10 +305,9 @@ export const useSelect = (props: ISelectProps, emit) => {
         }
       } else {
         if (props.filterable) {
-          states.filteredOptionsCount = states.optionsCount
           states.inputValue = ''
           states.previousQuery = null
-          handleQueryChange(states.inputValue)
+          handleQueryChange('')
           if (!props.multiple && !props.remote) {
             queryChange.value.query = ''
             triggerRef(queryChange)
@@ -338,7 +338,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       if (
         props.defaultFirstOption &&
         (props.filterable || props.remote) &&
-        states.filteredOptionsCount
+        filteredOptionsCount.value
       ) {
         checkDefaultFirstOption()
       }
@@ -376,7 +376,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     ) {
       props.remoteMethod(val)
     } else {
-      states.filteredOptionsCount = states.optionsCount
       queryChange.value.query = val
       triggerRef(queryChange)
       triggerRef(groupQueryChange)
@@ -384,7 +383,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (
       props.defaultFirstOption &&
       (props.filterable || props.remote) &&
-      states.filteredOptionsCount
+      filteredOptionsCount.value
     ) {
       nextTick(() => {
         checkDefaultFirstOption()
@@ -516,7 +515,6 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const onUpdateInputValue = (val: string) => {
-    states.displayInputValue = val
     states.inputValue = val
   }
 
@@ -666,8 +664,6 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const onOptionCreate = (vm: SelectOptionProxy) => {
-    states.optionsCount++
-    states.filteredOptionsCount++
     states.options.set(vm.value, vm)
     states.cachedOptions.set(vm.value, vm)
     vm.disabled && states.disabledOptions.set(vm.value, vm)
@@ -675,8 +671,6 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const onOptionDestroy = (key, vm: SelectOptionProxy) => {
     if (states.options.get(key) === vm) {
-      states.optionsCount--
-      states.filteredOptionsCount--
       states.options.delete(key)
     }
   }
@@ -776,7 +770,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       expanded.value = true
       return
     }
-    if (states.options.size === 0 || states.filteredOptionsCount === 0) return
+    if (states.options.size === 0 || filteredOptionsCount.value === 0) return
 
     if (!optionsAllDisabled.value) {
       if (direction === 'next') {
@@ -860,6 +854,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     optionsArray,
     hoverOption,
     selectSize,
+    filteredOptionsCount,
     handleResize,
     resetCalculatorWidth,
     resetPrefixWidth,
