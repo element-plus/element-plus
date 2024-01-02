@@ -4,7 +4,11 @@ import { isArray, isFunction, isObject } from '@vue/shared'
 import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import {
   ValidateComponentsMap,
   debugWarn,
@@ -21,7 +25,6 @@ import type ElTooltip from '@element-plus/components/tooltip'
 import type { Option, OptionType } from './select.types'
 import type { ISelectProps } from './token'
 
-const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
 
 const useSelect = (props: ISelectProps, emit) => {
@@ -33,16 +36,14 @@ const useSelect = (props: ISelectProps, emit) => {
   const { getLabel, getValue, getDisabled, getOptions } = useProps(props)
 
   const states = reactive({
-    inputValue: DEFAULT_INPUT_PLACEHOLDER,
-    displayInputValue: DEFAULT_INPUT_PLACEHOLDER,
-    cachedPlaceholder: '',
+    inputValue: '',
+    displayInputValue: '',
     cachedOptions: [] as Option[],
     createdOptions: [] as Option[],
     createdLabel: '',
     createdSelected: false,
     hoveringIndex: -1,
     comboBoxHovering: false,
-    isOnComposition: false,
     isSilentBlur: false,
     isComposing: false,
     selectionWidth: 0,
@@ -52,9 +53,8 @@ const useSelect = (props: ISelectProps, emit) => {
     initialInputHeight: 0,
     previousQuery: null,
     previousValue: undefined,
-    query: '',
     selectedLabel: '',
-    softFocus: false,
+    inputFocused: false,
     tagInMultiLine: false,
   })
 
@@ -67,6 +67,7 @@ const useSelect = (props: ISelectProps, emit) => {
   const inputRef = ref(null)
   const menuRef = ref(null)
   const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
+  const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const selectRef = ref(null)
   const wrapperRef = ref(null)
   const selectionRef = ref(null)
@@ -78,6 +79,8 @@ const useSelect = (props: ISelectProps, emit) => {
   const expanded = ref(false)
 
   const selectDisabled = computed(() => props.disabled || elForm?.disabled)
+
+  const isFocused = computed(() => states.isComposing || states.visible)
 
   const popupHeight = computed(() => {
     const totalHeight = filteredOptions.value.length * props.itemHeight
@@ -227,7 +230,7 @@ const useSelect = (props: ISelectProps, emit) => {
 
     // when it's not multiple mode, we only determine this flag based on filterable and expanded
     // when filterable flag is true, which means we have input box on the screen
-    return props.filterable ? states.displayInputValue.length === 0 : true
+    return props.filterable ? !states.displayInputValue : true
   })
 
   const currentPlaceholder = computed(() => {
@@ -308,13 +311,13 @@ const useSelect = (props: ISelectProps, emit) => {
   // methods
   const focusAndUpdatePopup = () => {
     inputRef.value?.focus?.()
-    tooltipRef.value?.updatePopper()
+    // tooltipRef.value?.updatePopper()
   }
 
   const toggleMenu = () => {
-    if (props.automaticDropdown) return
+    // if (props.automaticDropdown) return
     if (!selectDisabled.value) {
-      if (states.isComposing) states.softFocus = true
+      if (states.isComposing) states.inputFocused = true
       return nextTick(() => {
         expanded.value = !expanded.value
         inputRef.value?.focus?.()
@@ -323,9 +326,6 @@ const useSelect = (props: ISelectProps, emit) => {
   }
 
   const onInputChange = () => {
-    if (props.filterable && states.inputValue !== states.selectedLabel) {
-      states.query = states.selectedLabel
-    }
     handleQueryChange(states.inputValue)
     return nextTick(() => {
       createNewOption(states.inputValue)
@@ -382,24 +382,9 @@ const useSelect = (props: ISelectProps, emit) => {
     return isObject(item) ? get(item, props.valueKey) : item
   }
 
-  const resetInputHeight = () => {
-    return nextTick(() => {
-      if (!inputRef.value) return
-      const selection = selectionRef.value
-
-      selectRef.value.height = selection.offsetHeight
-      if (expanded.value && emptyText.value !== false) {
-        tooltipRef.value?.updatePopper?.()
-      }
-    })
-  }
-
   const handleResize = () => {
     calculatePopperSize()
-    tooltipRef.value?.updatePopper?.()
-    if (props.multiple) {
-      return resetInputHeight()
-    }
+    // tooltipRef.value?.updatePopper?.()
   }
 
   const resetSelectionWidth = () => {
@@ -441,14 +426,12 @@ const useSelect = (props: ISelectProps, emit) => {
       }
       update(selectedOptions)
       if (option.created) {
-        states.query = ''
         handleQueryChange('')
       }
       if (props.filterable && !props.reserveKeyword) {
         inputRef.value.focus?.()
         onUpdateInputValue('')
       }
-      resetInputHeight()
       setSoftFocus()
     } else {
       selectedIndex.value = idx
@@ -478,7 +461,7 @@ const useSelect = (props: ISelectProps, emit) => {
       states.cachedOptions.splice(index, 1)
       update(selectedOptions)
       emit('remove-tag', getValue(option))
-      states.softFocus = true
+      states.inputFocused = true
       removeNewOption(option)
       return nextTick(focusAndUpdatePopup)
     }
@@ -488,16 +471,16 @@ const useSelect = (props: ISelectProps, emit) => {
   const handleFocus = (event: FocusEvent) => {
     const focused = states.isComposing
     states.isComposing = true
-    if (!states.softFocus) {
+    if (!states.inputFocused) {
       // If already in the focus state, shouldn't trigger event
       if (!focused) emit('focus', event)
     } else {
-      states.softFocus = false
+      states.inputFocused = false
     }
   }
 
   const handleBlur = (event: FocusEvent) => {
-    states.softFocus = false
+    states.inputFocused = false
 
     // reset input value when blurred
     // https://github.com/ElemeFE/element/pull/10822
@@ -514,9 +497,17 @@ const useSelect = (props: ISelectProps, emit) => {
     })
   }
 
+  const focus = () => {
+    inputRef.value?.focus()
+  }
+
+  const blur = () => {
+    inputRef.value?.blur()
+  }
+
   // keyboard handlers
   const handleEsc = () => {
-    if (states.displayInputValue.length > 0) {
+    if (states.inputValue.length > 0) {
       onUpdateInputValue('')
     } else {
       expanded.value = false
@@ -525,6 +516,7 @@ const useSelect = (props: ISelectProps, emit) => {
 
   const handleDel = (e: KeyboardEvent) => {
     if (!props.multiple) return
+    if (e.code === EVENT_CODE.delete) return
     if (states.displayInputValue.length === 0) {
       e.preventDefault()
       const selected = (props.modelValue as Array<any>).slice()
@@ -542,7 +534,6 @@ const useSelect = (props: ISelectProps, emit) => {
       emptyValue = undefined
     }
 
-    states.softFocus = true
     if (props.multiple) {
       states.cachedOptions = []
     } else {
@@ -627,21 +618,14 @@ const useSelect = (props: ISelectProps, emit) => {
   }
 
   const setSoftFocus = () => {
-    const _input = inputRef.value
-    if (_input) {
-      _input.focus?.()
-    }
+    inputRef.value.focus?.()
   }
 
   const onInput = (event) => {
     const value = event.target.value
     onUpdateInputValue(value)
-    if (states.displayInputValue.length > 0 && !expanded.value) {
+    if (states.inputValue.length > 0 && !expanded.value) {
       expanded.value = true
-    }
-
-    if (props.multiple) {
-      resetInputHeight()
     }
     if (props.remote) {
       debouncedOnInputChange()
@@ -725,7 +709,7 @@ const useSelect = (props: ISelectProps, emit) => {
   watch(expanded, (val) => {
     emit('visible-change', val)
     if (val) {
-      tooltipRef.value.update?.()
+      // tooltipRef.value.update?.()
       // the purpose of this function is to differ the blur event trigger mechanism
     } else {
       states.displayInputValue = ''
@@ -803,9 +787,9 @@ const useSelect = (props: ISelectProps, emit) => {
     popperSize,
     dropdownMenuVisible,
     hasModelValue,
-    // readonly,
     shouldShowPlaceholder,
     selectDisabled,
+    isFocused,
     selectSize,
     showClearBtn,
     states,
@@ -818,6 +802,7 @@ const useSelect = (props: ISelectProps, emit) => {
     inputRef,
     menuRef,
     tooltipRef,
+    tagTooltipRef,
     selectRef,
     wrapperRef,
     selectionRef,
@@ -844,6 +829,8 @@ const useSelect = (props: ISelectProps, emit) => {
     handleDel,
     handleEsc,
     handleFocus,
+    focus,
+    blur,
     handleMenuEnter,
     handleResize,
     resetSelectionWidth,

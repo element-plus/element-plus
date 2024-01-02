@@ -71,7 +71,6 @@ export default defineComponent({
       index: -1,
       groupDisabled: false,
       visible: true,
-      hitState: false,
       hover: false,
     })
 

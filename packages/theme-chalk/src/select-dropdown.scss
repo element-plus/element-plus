@@ -88,6 +88,11 @@ $checked-icon: "data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='
   padding: map.get($select-dropdown, 'padding');
   margin: 0;
   box-sizing: border-box;
+
+  &.#{$namespace}-vl__window {
+    margin: map.get($select-dropdown, 'padding');
+    padding: 0;
+  }
 }
 
 @include b(select-dropdown__header) {

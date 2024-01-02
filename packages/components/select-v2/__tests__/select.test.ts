@@ -178,10 +178,10 @@ function getOptions(): HTMLElement[] {
   )
 }
 
-const CLASS_NAME = 'el-select-v2'
-const WRAPPER_CLASS_NAME = 'el-select-v2__wrapper'
+const CLASS_NAME = 'el-select'
+const WRAPPER_CLASS_NAME = 'el-select__wrapper'
 const OPTION_ITEM_CLASS_NAME = 'el-select-dropdown__option-item'
-const PLACEHOLDER_CLASS_NAME = 'el-select-v2__placeholder'
+const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
 const DEFAULT_PLACEHOLDER = 'Select'
 
 describe('Select', () => {
@@ -789,13 +789,13 @@ describe('Select', () => {
 
       vm.value = ['option_1']
       await nextTick()
-      expect(wrapper.find('.el-select-v2__tags-text').text()).toBe('a0')
+      expect(wrapper.find('.el-select__tags-text').text()).toBe('a0')
       placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
       expect(placeholder.exists()).toBeFalsy()
 
       vm.value = []
       await nextTick()
-      expect(wrapper.find('.el-select-v2__tags-text').exists()).toBeFalsy()
+      expect(wrapper.find('.el-select__tags-text').exists()).toBeFalsy()
       placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
       expect(placeholder.exists()).toBeTruthy()
     })
@@ -1491,7 +1491,7 @@ describe('Select', () => {
     })
     const select = wrapper.findComponent(Select)
     const selectVm = select.vm as any
-    const selectDom = wrapper.find('.el-select-v2__wrapper').element
+    const selectDom = wrapper.find('.el-select__wrapper').element
     const selectRect = {
       height: 40,
       width: 221,
@@ -1510,7 +1510,7 @@ describe('Select', () => {
     await nextTick()
     options[2].click()
     await nextTick()
-    const tagWrappers = wrapper.findAll('.el-select-v2__tags-text')
+    const tagWrappers = wrapper.findAll('.el-select__tags-text')
     for (const tagWrapper of tagWrappers) {
       const tagWrapperDom = tagWrapper.element
       expect(

@@ -1,7 +1,7 @@
 <template>
   <div
     ref="selectRef"
-    v-click-outside:[popperRef]="handleClose"
+    v-click-outside:[popperRef]="handleClickOutside"
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
@@ -64,7 +64,6 @@
                 <el-tag
                   :closable="!selectDisabled && !item.isDisabled"
                   :size="collapseTagSize"
-                  :hit="item.hitState"
                   :type="tagType"
                   disable-transitions
                   :style="tagStyle"
@@ -111,10 +110,9 @@
                         class="in-tooltip"
                         :closable="!selectDisabled && !item.isDisabled"
                         :size="collapseTagSize"
-                        :hit="item.hitState"
                         :type="tagType"
                         disable-transitions
-                        @close="handleDeleteTooltipTag($event, item)"
+                        @close="deleteTag($event, item)"
                       >
                         <span :class="nsSelect.e('tags-text')">
                           {{ item.currentLabel }}
@@ -135,13 +133,15 @@
               <input
                 :id="id"
                 ref="inputRef"
-                v-model="states.query"
+                v-model="states.displayInputValue"
                 type="text"
                 :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
                 :disabled="selectDisabled"
                 :autocomplete="autocomplete"
                 :style="inputStyle"
                 role="combobox"
+                :readonly="!filterable"
+                spellcheck="false"
                 :aria-activedescendant="hoverOption?.id || ''"
                 :aria-controls="contentId"
                 :aria-expanded="dropMenuVisible"
@@ -150,24 +150,23 @@
                 aria-haspopup="listbox"
                 @focus="handleFocus"
                 @blur="handleBlur"
-                @keydown="resetInputState"
                 @keydown.down.prevent="navigateOptions('next')"
                 @keydown.up.prevent="navigateOptions('prev')"
-                @keydown.esc="handleKeydownEscape"
+                @keydown.esc="handleEsc"
                 @keydown.enter.stop.prevent="selectOption"
-                @keydown.delete="deletePrevTag"
-                @keydown.tab="states.visible = false"
-                @compositionstart="handleComposition"
-                @compositionupdate="handleComposition"
-                @compositionend="handleComposition"
-                @input="debouncedQueryChange"
+                @keydown.delete.stop="deletePrevTag"
+                @keydown.tab="expanded = false"
+                @compositionstart="handleCompositionStart"
+                @compositionupdate="handleCompositionUpdate"
+                @compositionend="handleCompositionEnd"
+                @input="onInput"
               />
               <span
                 v-if="filterable"
                 ref="calculatorRef"
                 aria-hidden="true"
                 :class="nsSelect.e('input-calculator')"
-                v-text="states.query"
+                v-text="states.displayInputValue"
               />
             </div>
           </div>
@@ -212,7 +211,7 @@
           <el-scrollbar
             v-show="states.options.size > 0 && !loading"
             :id="contentId"
-            ref="scrollbar"
+            ref="scrollbarRef"
             tag="ul"
             :wrap-class="nsSelect.be('dropdown', 'wrap')"
             :view-class="nsSelect.be('dropdown', 'list')"
@@ -220,7 +219,7 @@
               nsSelect.is(
                 'empty',
                 !allowCreate &&
-                  Boolean(states.query) &&
+                  Boolean(states.inputValue) &&
                   states.filteredOptionsCount === 0
               ),
             ]"
@@ -230,7 +229,7 @@
           >
             <el-option
               v-if="showNewOption"
-              :value="states.query"
+              :value="states.inputValue"
               :created="true"
             />
             <el-options @update-options="onOptionsRendered">
@@ -304,8 +303,8 @@ export default defineComponent({
     'blur',
   ],
 
-  setup(props, ctx) {
-    const API = useSelect(props, ctx)
+  setup(props, { emit }) {
+    const API = useSelect(props, emit)
 
     provide(
       selectKey,

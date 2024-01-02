@@ -1,4 +1,5 @@
-import type { InjectionKey, Ref } from 'vue'
+import type { ExtractPropTypes, InjectionKey, Ref } from 'vue'
+import type { SelectProps } from './select'
 
 interface SelectGroupContext {
   disabled: boolean
@@ -9,15 +10,8 @@ export interface QueryChangeCtx {
 }
 
 export interface SelectContext {
-  props: {
-    multiple?: boolean
-    multipleLimit?: number
-    valueKey?: string
-    modelValue?: string | number | unknown | unknown[]
-    popperClass?: string
-    remote?: boolean
-    fitInputWidth?: boolean
-  }
+  props: ExtractPropTypes<typeof SelectProps>
+  expanded: boolean
   queryChange: Ref<QueryChangeCtx>
   groupQueryChange: Ref<string>
   selectRef: HTMLElement
@@ -54,3 +48,5 @@ export interface SelectOptionProxy {
   hover: boolean
   selectOptionClick: () => void
 }
+
+export type ISelectProps = ExtractPropTypes<typeof SelectProps>
