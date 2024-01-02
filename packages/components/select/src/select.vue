@@ -29,7 +29,7 @@
           ref="wrapperRef"
           :class="[
             nsSelect.e('wrapper'),
-            nsSelect.is('focused', states.isComposing || states.visible),
+            nsSelect.is('focused', isFocused),
             nsSelect.is('hovering', states.inputHovering),
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
@@ -46,7 +46,6 @@
           </div>
           <div
             ref="selectionRef"
-            tabindex="-1"
             :class="[
               nsSelect.e('selection'),
               nsSelect.is(

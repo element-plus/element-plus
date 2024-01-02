@@ -3,7 +3,11 @@ import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
 import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useFocusController,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -45,7 +49,6 @@ const useSelect = (props: ISelectProps, emit) => {
     hoveringIndex: -1,
     comboBoxHovering: false,
     isSilentBlur: false,
-    isComposing: false,
     selectionWidth: 0,
     prefixWidth: 0,
     suffixWidth: 0,
@@ -54,8 +57,8 @@ const useSelect = (props: ISelectProps, emit) => {
     previousQuery: null,
     previousValue: undefined,
     selectedLabel: '',
-    inputFocused: false,
     tagInMultiLine: false,
+    menuVisibleOnFocus: false,
   })
 
   // data refs
@@ -69,18 +72,37 @@ const useSelect = (props: ISelectProps, emit) => {
   const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const selectRef = ref(null)
-  const wrapperRef = ref(null)
   const selectionRef = ref(null)
   const calculatorRef = ref<HTMLElement>(null)
   const prefixRef = ref<HTMLElement>(null)
   const suffixRef = ref<HTMLElement>(null)
 
+  const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
+    inputRef,
+    {
+      afterFocus() {
+        if (props.automaticDropdown && !expanded.value) {
+          expanded.value = true
+          states.menuVisibleOnFocus = true
+        }
+      },
+      beforeBlur(event) {
+        return (
+          tooltipRef.value?.isFocusInsideContent(event) ||
+          tagTooltipRef.value?.isFocusInsideContent(event)
+        )
+      },
+      afterBlur() {
+        expanded.value = false
+        states.menuVisibleOnFocus = false
+      },
+    }
+  )
+
   // the controller of the expanded popup
   const expanded = ref(false)
 
   const selectDisabled = computed(() => props.disabled || elForm?.disabled)
-
-  const isFocused = computed(() => states.isComposing || states.visible)
 
   const popupHeight = computed(() => {
     const totalHeight = filteredOptions.value.length * props.itemHeight
@@ -309,19 +331,13 @@ const useSelect = (props: ISelectProps, emit) => {
   } = useInput((e) => onInput(e))
 
   // methods
-  const focusAndUpdatePopup = () => {
-    inputRef.value?.focus?.()
-    // tooltipRef.value?.updatePopper()
-  }
-
   const toggleMenu = () => {
-    // if (props.automaticDropdown) return
-    if (!selectDisabled.value) {
-      if (states.isComposing) states.inputFocused = true
-      return nextTick(() => {
-        expanded.value = !expanded.value
-        inputRef.value?.focus?.()
-      })
+    if (selectDisabled.value) return
+    if (states.menuVisibleOnFocus) {
+      // controlled by automaticDropdown
+      states.menuVisibleOnFocus = false
+    } else {
+      expanded.value = !expanded.value
     }
   }
 
@@ -429,16 +445,13 @@ const useSelect = (props: ISelectProps, emit) => {
         handleQueryChange('')
       }
       if (props.filterable && !props.reserveKeyword) {
-        inputRef.value.focus?.()
         onUpdateInputValue('')
       }
-      setSoftFocus()
     } else {
       selectedIndex.value = idx
       states.selectedLabel = getLabel(option)
       update(getValue(option))
       expanded.value = false
-      states.isComposing = false
       states.isSilentBlur = byClick
       selectNewOption(option)
       if (!option.created) {
@@ -446,6 +459,7 @@ const useSelect = (props: ISelectProps, emit) => {
       }
       updateHoveringIndex(idx)
     }
+    focus()
   }
 
   const deleteTag = (event: MouseEvent, option: Option) => {
@@ -461,40 +475,10 @@ const useSelect = (props: ISelectProps, emit) => {
       states.cachedOptions.splice(index, 1)
       update(selectedOptions)
       emit('remove-tag', getValue(option))
-      states.inputFocused = true
       removeNewOption(option)
-      return nextTick(focusAndUpdatePopup)
     }
     event.stopPropagation()
-  }
-
-  const handleFocus = (event: FocusEvent) => {
-    const focused = states.isComposing
-    states.isComposing = true
-    if (!states.inputFocused) {
-      // If already in the focus state, shouldn't trigger event
-      if (!focused) emit('focus', event)
-    } else {
-      states.inputFocused = false
-    }
-  }
-
-  const handleBlur = (event: FocusEvent) => {
-    states.inputFocused = false
-
-    // reset input value when blurred
-    // https://github.com/ElemeFE/element/pull/10822
-    return nextTick(() => {
-      inputRef.value?.blur?.()
-      if (states.isSilentBlur) {
-        states.isSilentBlur = false
-      } else {
-        if (states.isComposing) {
-          emit('blur', event)
-        }
-      }
-      states.isComposing = false
-    })
+    focus()
   }
 
   const focus = () => {
@@ -543,7 +527,7 @@ const useSelect = (props: ISelectProps, emit) => {
     update(emptyValue)
     emit('clear')
     clearAllNewOption()
-    return nextTick(focusAndUpdatePopup)
+    focus()
   }
 
   const onUpdateInputValue = (val: string) => {
@@ -617,10 +601,6 @@ const useSelect = (props: ISelectProps, emit) => {
     states.hoveringIndex = -1
   }
 
-  const setSoftFocus = () => {
-    inputRef.value.focus?.()
-  }
-
   const onInput = (event) => {
     const value = event.target.value
     onUpdateInputValue(value)
@@ -636,7 +616,6 @@ const useSelect = (props: ISelectProps, emit) => {
 
   const handleClickOutside = () => {
     expanded.value = false
-    return handleBlur()
   }
 
   const handleMenuEnter = () => {
@@ -709,7 +688,6 @@ const useSelect = (props: ISelectProps, emit) => {
   watch(expanded, (val) => {
     emit('visible-change', val)
     if (val) {
-      // tooltipRef.value.update?.()
       // the purpose of this function is to differ the blur event trigger mechanism
     } else {
       states.displayInputValue = ''
@@ -789,10 +767,10 @@ const useSelect = (props: ISelectProps, emit) => {
     hasModelValue,
     shouldShowPlaceholder,
     selectDisabled,
-    isFocused,
     selectSize,
     showClearBtn,
     states,
+    isFocused,
     nsSelect,
     nsInput,
 

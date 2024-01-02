@@ -26,7 +26,6 @@ import {
 import {
   ValidateComponentsMap,
   debugWarn,
-  escapeStringRegexp,
   isClient,
   isFunction,
   isNumber,
@@ -36,6 +35,7 @@ import {
 } from '@element-plus/utils'
 import {
   useDeprecated,
+  useFocusController,
   useId,
   useLocale,
   useNamespace,
@@ -72,12 +72,9 @@ export const useSelect = (props: ISelectProps, emit) => {
     previousQuery: null,
     inputHovering: false,
     menuVisibleOnFocus: false,
-    isComposing: false,
     prefixWidth: 0,
     suffixWidth: 0,
     mouseEnter: false,
-    focused: false,
-    inputFocused: false,
   })
 
   useDeprecated(
@@ -93,7 +90,6 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   // template refs
   const selectRef = ref<HTMLElement | null>(null)
-  const wrapperRef = ref<HTMLElement | null>(null)
   const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const selectionRef = ref<HTMLElement | null>(null)
@@ -104,6 +100,28 @@ export const useSelect = (props: ISelectProps, emit) => {
   const scrollbarRef = ref<{
     handleScroll: () => void
   } | null>(null)
+
+  const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
+    inputRef,
+    {
+      afterFocus() {
+        if (props.automaticDropdown && !expanded.value) {
+          expanded.value = true
+          states.menuVisibleOnFocus = true
+        }
+      },
+      beforeBlur(event) {
+        return (
+          tooltipRef.value?.isFocusInsideContent(event) ||
+          tagTooltipRef.value?.isFocusInsideContent(event)
+        )
+      },
+      afterBlur() {
+        expanded.value = false
+        states.menuVisibleOnFocus = false
+      },
+    }
+  )
 
   // the controller of the expanded popup
   const expanded = ref(false)
@@ -188,16 +206,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     Array.from(states.cachedOptions.values())
   )
 
-  const updateOptions = () => {
-    optionsArray.value.forEach((option) => {
-      const regexp = new RegExp(escapeStringRegexp(states.inputValue), 'i')
-      option.visible = regexp.test(option.currentLabel) || option.created
-      if (!option.visible) {
-        states.filteredOptionsCount--
-      }
-    })
-  }
-
   const showNewOption = computed(() => {
     const hasExistingOption = optionsArray.value
       .filter((option) => {
@@ -278,7 +286,6 @@ export const useSelect = (props: ISelectProps, emit) => {
         states.displayInputValue = ''
         states.previousQuery = null
         states.selectedLabel = ''
-        states.menuVisibleOnFocus = false
         resetHoverIndex()
 
         if (!props.multiple) {
@@ -296,18 +303,15 @@ export const useSelect = (props: ISelectProps, emit) => {
           }
         }
       } else {
-        // tooltipRef.value?.updatePopper?.()
-
         if (props.filterable) {
           states.filteredOptionsCount = states.optionsCount
           states.inputValue = ''
           states.previousQuery = null
           handleQueryChange(states.inputValue)
           if (!props.multiple && !props.remote) {
-            updateOptions()
-            // queryChange.value.query = ''
-            // triggerRef(queryChange)
-            // triggerRef(groupQueryChange)
+            queryChange.value.query = ''
+            triggerRef(queryChange)
+            triggerRef(groupQueryChange)
           }
         }
       }
@@ -358,43 +362,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   )
 
-  // const handleQueryChange = async (val) => {
-  //   if (states.previousQuery === val || states.isComposing) return
-  //   if (
-  //     states.previousQuery === null &&
-  //     (isFunction(props.filterMethod) || isFunction(props.remoteMethod))
-  //   ) {
-  //     states.previousQuery = val
-  //     return
-  //   }
-  //   states.previousQuery = val
-  //   nextTick(() => {
-  //     if (expanded.value) tooltipRef.value?.updatePopper?.()
-  //   })
-  //   states.hoverIndex = -1
-  //   if (props.remote && isFunction(props.remoteMethod)) {
-  //     states.hoverIndex = -1
-  //     props.remoteMethod(val)
-  //   } else if (isFunction(props.filterMethod)) {
-  //     props.filterMethod(val)
-  //     triggerRef(groupQueryChange)
-  //   } else {
-  //     states.filteredOptionsCount = states.optionsCount
-  //     queryChange.value.query = val
-  //
-  //     triggerRef(queryChange)
-  //     triggerRef(groupQueryChange)
-  //   }
-  //   if (
-  //     props.defaultFirstOption &&
-  //     (props.filterable || props.remote) &&
-  //     states.filteredOptionsCount
-  //   ) {
-  //     await nextTick()
-  //     checkDefaultFirstOption()
-  //   }
-  // }
-
   const handleQueryChange = (val: string) => {
     if (states.previousQuery === val) {
       return
@@ -410,9 +377,9 @@ export const useSelect = (props: ISelectProps, emit) => {
       props.remoteMethod(val)
     } else {
       states.filteredOptionsCount = states.optionsCount
-      updateOptions()
-      // queryChange.value.query = val
-      // triggerRef(groupQueryChange)
+      queryChange.value.query = val
+      triggerRef(queryChange)
+      triggerRef(groupQueryChange)
     }
     if (
       props.defaultFirstOption &&
@@ -645,7 +612,6 @@ export const useSelect = (props: ISelectProps, emit) => {
         handleQueryChange('')
       }
       if (props.filterable && !props.reserveKeyword) {
-        inputRef.value?.focus()
         onUpdateInputValue('')
       }
     } else {
@@ -653,8 +619,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       emitChange(option.value)
       expanded.value = false
     }
-
-    setSoftFocus()
+    focus()
     if (expanded.value) return
     nextTick(() => {
       scrollToOption(option)
@@ -674,10 +639,6 @@ export const useSelect = (props: ISelectProps, emit) => {
       return false
     })
     return index
-  }
-
-  const setSoftFocus = () => {
-    inputRef.value?.focus()
   }
 
   const scrollToOption = (option) => {
@@ -726,17 +687,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     handleCompositionEnd,
   } = useInput((e) => onInput(e))
 
-  // const handleComposition = (event) => {
-  //   const text = event.target.value
-  //   if (event.type === 'compositionend') {
-  //     states.isComposing = false
-  //     nextTick(() => handleQueryChange(text))
-  //   } else {
-  //     const lastCharacter = text[text.length - 1] || ''
-  //     states.isComposing = !isKorean(lastCharacter)
-  //   }
-  // }
-
   const popperRef = computed(() => {
     return tooltipRef.value?.popperRef?.contentRef
   })
@@ -747,35 +697,6 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const handleMenuEnter = () => {
     nextTick(() => scrollToOption(states.selected))
-  }
-
-  const handleFocus = (event: FocusEvent) => {
-    const focused = states.isComposing
-    states.isComposing = true
-    if (!states.inputFocused) {
-      // If already in the focus state, shouldn't trigger event
-      if (!focused) emit('focus', event)
-    } else {
-      states.inputFocused = false
-    }
-  }
-
-  const handleBlur = (event: FocusEvent) => {
-    states.inputFocused = false
-
-    // reset input value when blurred
-    // https://github.com/ElemeFE/element/pull/10822
-    return nextTick(() => {
-      inputRef.value?.blur?.()
-      if (states.isSilentBlur) {
-        states.isSilentBlur = false
-      } else {
-        if (states.isComposing) {
-          emit('blur', event)
-        }
-      }
-      states.isComposing = false
-    })
   }
 
   const focus = () => {
@@ -792,7 +713,6 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const handleClickOutside = () => {
     expanded.value = false
-    handleBlur()
   }
 
   const handleEsc = () => {
@@ -804,13 +724,12 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const toggleMenu = () => {
-    if (props.automaticDropdown) return
-    if (!selectDisabled.value) {
-      if (states.isComposing) states.inputFocused = true
-      return nextTick(() => {
-        expanded.value = !expanded.value
-        inputRef.value?.focus?.()
-      })
+    if (selectDisabled.value) return
+    if (states.menuVisibleOnFocus) {
+      // controlled by automaticDropdown
+      states.menuVisibleOnFocus = false
+    } else {
+      expanded.value = !expanded.value
     }
   }
 
@@ -858,7 +777,6 @@ export const useSelect = (props: ISelectProps, emit) => {
       return
     }
     if (states.options.size === 0 || states.filteredOptionsCount === 0) return
-    if (states.isComposing) return
 
     if (!optionsAllDisabled.value) {
       if (direction === 'next') {
@@ -936,6 +854,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     nsSelect,
     nsInput,
     states,
+    isFocused,
     expanded,
     optionList,
     optionsArray,

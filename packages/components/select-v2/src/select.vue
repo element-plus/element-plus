@@ -30,7 +30,7 @@
           ref="wrapperRef"
           :class="[
             nsSelect.e('wrapper'),
-            nsSelect.is('focused', states.isComposing || expanded),
+            nsSelect.is('focused', isFocused),
             nsSelect.is('hovering', states.comboBoxHovering),
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
@@ -45,7 +45,6 @@
           </div>
           <div
             ref="selectionRef"
-            tabindex="-1"
             :class="[
               nsSelect.e('selection'),
               nsSelect.is(
@@ -245,8 +244,8 @@ import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
-import { selectV2InjectionKey } from './token'
 import { SelectProps } from './defaults'
+import { selectV2InjectionKey } from './token'
 export default defineComponent({
   name: 'ElSelectV2',
   components: {

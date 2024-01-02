@@ -1,13 +1,5 @@
 // @ts-nocheck
-import {
-  computed,
-  getCurrentInstance,
-  inject,
-  toRaw,
-  unref,
-  watch,
-  watchEffect,
-} from 'vue'
+import { computed, getCurrentInstance, inject, toRaw, unref, watch } from 'vue'
 import { get } from 'lodash-unified'
 import { isObject as _isObject, escapeStringRegexp } from '@element-plus/utils'
 import { selectGroupKey, selectKey } from './token'
@@ -126,20 +118,19 @@ export function useOption(props, states) {
     { immediate: true }
   )
 
-  // const { queryChange } = toRaw(select)
-  // watch(
-  //   queryChange,
-  //   (changes: Ref<QueryChangeCtx>) => {
-  //     const { query } = unref(changes)
-  //     console.log(222)
-  //     const regexp = new RegExp(escapeStringRegexp(query), 'i')
-  //     states.visible = regexp.test(currentLabel.value) || props.created
-  //     if (!states.visible) {
-  //       select.filteredOptionsCount--
-  //     }
-  //   },
-  //   { immediate: true }
-  // )
+  const { queryChange } = toRaw(select)
+  watch(
+    queryChange,
+    (changes: Ref<QueryChangeCtx>) => {
+      const { query } = unref(changes)
+      const regexp = new RegExp(escapeStringRegexp(query), 'i')
+      states.visible = regexp.test(currentLabel.value) || props.created
+      if (!states.visible) {
+        select.filteredOptionsCount--
+      }
+    },
+    { immediate: true }
+  )
 
   return {
     select,
