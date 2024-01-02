@@ -21,6 +21,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
   vertical-align: middle;
   font-size: map.get($input-font-size, 'default');
   $selector: &;
+
   @include e(wrapper) {
     display: flex;
     align-items: center;
@@ -148,12 +149,15 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
           height: map.get($input-height, $size) - 8px;
         }
       }
+
       @include e(caret) {
         height: map.get($input-height, $size);
       }
+
       @include e(suffix) {
         height: map.get($input-height, $size);
       }
+
       @include e(placeholder) {
         font-size: map.get($input-font-size, $size);
         line-height: map.get($input-line-height, $size);
@@ -229,6 +233,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
       #{getCssVarName('input-icon-color')},
       map.get($input, 'icon-color')
     );
+    z-index: 5;
 
     .#{$namespace}-input__icon {
       height: inherit;
@@ -310,6 +315,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
       #{getCssVarName('input-text-color')},
       map.get($input, 'text-color')
     );
+
     @include when(transparent) {
       color: getCssVar('text-color', 'placeholder');
     }
