@@ -85,6 +85,7 @@
             :key="key"
             :mark="item.mark"
             :style="getStopStyle(item.position)"
+            @mousedown.stop="setFirstValue(item.point)"
           />
         </div>
       </template>
