@@ -276,7 +276,11 @@ export default defineComponent({
       ))
 
       if (appendToBody.value && deepDispatch) {
-        if (instance.parent?.type.name === 'ElSubMenu') {
+        if (
+          instance.parent?.type.name === COMPONENT_NAME ||
+          // fix: https://github.com/element-plus/element-plus/issues/14883
+          instance.parent?.type.name === 'ElFocusTrap'
+        ) {
           subMenu.handleMouseleave?.(true)
         }
       }
