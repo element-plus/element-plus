@@ -19,13 +19,11 @@ export type TableOverflowTooltipOptions = Partial<
     | 'transition'
   >
 >
-type RemovePopperFn = () => void
-
-interface RemovePopperType extends RemovePopperFn {
+type RemovePopperFn = (() => void) & {
   trigger?: HTMLElement
 }
 
-export let removePopper: RemovePopperType | null
+export let removePopper: RemovePopperFn | null
 
 export function createPopper(
   props: TableOverflowTooltipOptions,
