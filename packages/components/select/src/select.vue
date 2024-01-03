@@ -22,7 +22,7 @@
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
       :persistent="persistent"
-      @show="handleMenuEnter"
+      @before-show="handleMenuEnter"
     >
       <template #default>
         <div
@@ -77,7 +77,7 @@
               <el-tooltip
                 v-if="collapseTags && states.selected.length > maxCollapseTags"
                 ref="tagTooltipRef"
-                :disabled="dropMenuVisible || !collapseTagsTooltip"
+                :disabled="!collapseTagsTooltip"
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
@@ -99,7 +99,7 @@
                   </div>
                 </template>
                 <template #content>
-                  <div :class="nsSelect.e('selection')">
+                  <div ref="tagMenuRef" :class="nsSelect.e('selection')">
                     <div
                       v-for="item in collapseTagList"
                       :key="getValueKey(item)"
@@ -174,7 +174,10 @@
             :style="placeholderStyle"
             :class="[
               nsSelect.e('placeholder'),
-              nsSelect.is('transparent', !hasModelValue),
+              nsSelect.is(
+                'transparent',
+                !hasModelValue || (expanded && !states.inputValue)
+              ),
             ]"
           >
             <span>{{ currentPlaceholder }}</span>
@@ -203,7 +206,7 @@
         </div>
       </template>
       <template #content>
-        <el-select-menu>
+        <el-select-menu ref="menuRef">
           <template v-if="$slots.header" #header>
             <slot name="header" />
           </template>
@@ -214,14 +217,7 @@
             tag="ul"
             :wrap-class="nsSelect.be('dropdown', 'wrap')"
             :view-class="nsSelect.be('dropdown', 'list')"
-            :class="[
-              nsSelect.is(
-                'empty',
-                !allowCreate &&
-                  Boolean(states.inputValue) &&
-                  filteredOptionsCount === 0
-              ),
-            ]"
+            :class="[nsSelect.is('empty', filteredOptionsCount === 0)]"
             role="listbox"
             :aria-label="ariaLabel"
             aria-orientation="vertical"
@@ -235,18 +231,12 @@
               <slot />
             </el-options>
           </el-scrollbar>
-          <template
-            v-if="
-              emptyText &&
-              (!allowCreate ||
-                loading ||
-                (allowCreate && states.options.size === 0))
-            "
-          >
-            <slot v-if="$slots.empty" name="empty" />
-            <p v-else :class="nsSelect.be('dropdown', 'empty')">
-              {{ emptyText }}
-            </p>
+          <template v-if="loading || filteredOptionsCount === 0">
+            <slot name="empty">
+              <p :class="nsSelect.be('dropdown', 'empty')">
+                {{ emptyText }}
+              </p>
+            </slot>
           </template>
           <template v-if="$slots.footer" #footer>
             <slot name="footer" />

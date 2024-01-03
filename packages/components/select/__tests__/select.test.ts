@@ -302,11 +302,14 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
   )
 }
 
+const CLASS_NAME = 'el-select'
+const WRAPPER_CLASS_NAME = 'el-select__wrapper'
+const OPTION_ITEM_CLASS_NAME = 'el-select-dropdown__option-item'
+const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
+const DEFAULT_PLACEHOLDER = 'Select'
+
 describe('Select', () => {
   let wrapper: ReturnType<typeof _mount>
-  const findInnerInput = () =>
-    wrapper.find('.el-select__input').element as HTMLInputElement
-
   afterEach(() => {
     document.body.innerHTML = ''
   })
@@ -316,12 +319,14 @@ describe('Select', () => {
       value: '',
     }))
     expect(wrapper.classes()).toContain('el-select')
-    expect(findInnerInput().placeholder).toBe('Select')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+      DEFAULT_PLACEHOLDER
+    )
     const select = wrapper.findComponent({ name: 'ElSelect' })
     await select.trigger('mouseenter')
     await select.trigger('click')
     await nextTick()
-    expect((select.vm as any).visible).toBe(true)
+    expect((select.vm as any).expanded).toBe(true)
   })
 
   test('options rendered correctly', () => {
@@ -371,7 +376,7 @@ describe('Select', () => {
     )
     await nextTick()
 
-    expect(findInnerInput().value).toBe('双皮奶')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
   })
 
   test('set default value to object', async () => {
@@ -408,7 +413,7 @@ describe('Select', () => {
     )
     await nextTick()
 
-    expect(findInnerInput().value).toBe('双皮奶')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
   })
 
   test('custom label', async () => {
@@ -439,7 +444,7 @@ describe('Select', () => {
     )
     await nextTick()
 
-    expect(findInnerInput().value).toBe('双皮奶')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
   })
 
   test('custom label with object', async () => {
@@ -472,7 +477,7 @@ describe('Select', () => {
     )
     await nextTick()
 
-    expect(findInnerInput().value).toBe('双皮奶')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
   })
 
   test('sync set value and options', async () => {
@@ -510,7 +515,7 @@ describe('Select', () => {
     ]
     vm.value = '选项1'
     await nextTick()
-    expect(findInnerInput().value).toBe('黄金糕')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('黄金糕')
   })
 
   test('single select', async () => {
@@ -565,16 +570,18 @@ describe('Select', () => {
     const options = getOptions()
     const vm = wrapper.vm as any
     expect(vm.value).toBe('')
-    expect(findInnerInput().value).toBe('')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+      DEFAULT_PLACEHOLDER
+    )
     options[2].click()
     await nextTick()
     expect(vm.value).toBe('选项3')
-    expect(findInnerInput().value).toBe('蚵仔煎')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('蚵仔煎')
     expect(vm.count).toBe(1)
     options[4].click()
     await nextTick()
     expect(vm.value).toBe('选项5')
-    expect(findInnerInput().value).toBe('北京烤鸭')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('北京烤鸭')
     expect(vm.count).toBe(2)
   })
 
@@ -593,7 +600,9 @@ describe('Select', () => {
 
   test('disabled select', () => {
     wrapper = _mount(`<el-select disabled></el-select>`)
-    expect(wrapper.find('.el-input').classes()).toContain('is-disabled')
+    expect(wrapper.find('.el-select__wrapper').classes()).toContain(
+      'is-disabled'
+    )
   })
 
   test('group disabled option', () => {
@@ -699,9 +708,9 @@ describe('Select', () => {
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const vm = wrapper.vm as any
     const selectVm = select.vm as any
-    selectVm.visible = true
+    selectVm.expanded = true
     await selectVm.$nextTick()
-    expect(vm.visible).toBe(true)
+    expect(vm.expanded).toBe(true)
   })
 
   test('keyboard operations', async () => {
@@ -1426,7 +1435,7 @@ describe('Select', () => {
       .findComponent({ ref: 'reference' })
       .find('input')
       .element.focus()
-    expect((select.vm as any).visible).toBe(false)
+    expect((select.vm as any).expanded).toBe(false)
   })
 
   test('should open popper when automatic-dropdown is set', async () => {
@@ -1436,7 +1445,7 @@ describe('Select', () => {
       .findComponent({ ref: 'reference' })
       .find('input')
       .trigger('focus')
-    expect((select.vm as any).visible).toBe(true)
+    expect((select.vm as any).expanded).toBe(true)
   })
 
   test('only emit change on user input', async () => {
@@ -1491,7 +1500,7 @@ describe('Select', () => {
     await wrapper.trigger('mouseenter')
     await wrapper.trigger('click')
     const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
-    expect(selectVm.visible).toBe(true)
+    expect(selectVm.expanded).toBe(true)
     expect(findInnerInput().placeholder).toBe('test')
     expect(vm.value).toBe('test')
   })
@@ -1524,10 +1533,10 @@ describe('Select', () => {
     const vm = wrapper.vm as any
     vm.value = null
     await nextTick()
-    expect(findInnerInput().value).toBe('')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('')
     vm.value = '选项1'
     await nextTick()
-    expect(findInnerInput().value).toBe('黄金糕')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('黄金糕')
   })
 
   test('emptyText error show', async () => {
@@ -1970,9 +1979,9 @@ describe('Select', () => {
     await select.trigger('mouseenter')
     const suffixIcon = select.find('.el-input__suffix')
     await suffixIcon.trigger('click')
-    expect((select.vm as any).visible).toBe(true)
+    expect((select.vm as any).expanded).toBe(true)
     await suffixIcon.trigger('click')
-    expect((select.vm as any).visible).toBe(false)
+    expect((select.vm as any).expanded).toBe(false)
   })
 
   test('mouseenter click', async () => {
@@ -1983,11 +1992,11 @@ describe('Select', () => {
     const select = wrapper.findComponent({ name: 'ElSelect' })
 
     await select.trigger('click')
-    expect((select.vm as any).visible).toBe(false)
+    expect((select.vm as any).expanded).toBe(false)
 
     await select.trigger('mouseenter')
     await select.trigger('click')
-    expect((select.vm as any).visible).toBe(true)
+    expect((select.vm as any).expanded).toBe(true)
   })
 
   describe('should show all options when open select dropdown', () => {
@@ -2307,12 +2316,12 @@ describe('Select', () => {
       let options = getOptions()
       const vm = wrapper.vm as any
       expect(vm.value).toBe('')
-      expect(findInnerInput().value).toBe('')
+      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('')
       await nextTick()
       options[1].click()
       await nextTick()
       expect(vm.value).toBe(1)
-      expect(findInnerInput().value).toBe('y')
+      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('y')
       wrapper.vm.options = [
         {
           label: 'group2',
@@ -2329,11 +2338,11 @@ describe('Select', () => {
       options[1].click()
       await nextTick()
       expect(vm.value).toBe(1)
-      expect(findInnerInput().value).toBe('y')
+      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('y')
       options[2].click()
       await nextTick()
       expect(vm.value).toBe(2)
-      expect(findInnerInput().value).toBe('z')
+      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('z')
     })
 
     it('should update selected data when the options prop is changed and the select is focused', async () => {

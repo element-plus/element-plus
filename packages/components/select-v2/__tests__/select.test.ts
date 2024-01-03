@@ -193,7 +193,9 @@ describe('Select', () => {
     const wrapper = createSelect()
     await nextTick()
     expect(wrapper.classes()).toContain(CLASS_NAME)
-    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+      DEFAULT_PLACEHOLDER
+    )
     const select = wrapper.findComponent(Select)
     await wrapper.trigger('click')
     expect((select.vm as any).expanded).toBeTruthy()
@@ -329,7 +331,7 @@ describe('Select', () => {
     const vm = wrapper.vm as any
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     expect(vm.value).toBe('')
-    expect(placeholder.text()).toBe('')
+    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
     options[2].click()
     await nextTick()
     expect(vm.value).toBe(vm.options[2].value)
@@ -411,7 +413,7 @@ describe('Select', () => {
     option.click()
     await nextTick()
     expect(vm.value).toBe('')
-    expect(placeholder.text()).toBe('')
+    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
     vm.options[2].disabled = true
     await nextTick()
     const options = document.querySelectorAll<HTMLElement>(
@@ -422,7 +424,7 @@ describe('Select', () => {
     options.item(1).click()
     await nextTick()
     expect(vm.value).toBe('')
-    expect(placeholder.text()).toBe('')
+    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
   })
 
   it('disabled select', async () => {
@@ -476,7 +478,7 @@ describe('Select', () => {
     it.each([
       [null, DEFAULT_PLACEHOLDER],
       [undefined, DEFAULT_PLACEHOLDER],
-      ['', ''],
+      ['', DEFAULT_PLACEHOLDER],
       [[], DEFAULT_PLACEHOLDER],
       [{}, ''],
     ])(
@@ -705,7 +707,9 @@ describe('Select', () => {
       options[2].click()
       await nextTick()
       expect(vm.value.length).toBe(3)
-      expect(wrapper.findAll('.el-tag')[3].element.textContent).toBe('c2')
+      expect(wrapper.findAll('.el-tag')[1].element.textContent.trim()).toBe(
+        '+ 2'
+      )
     })
 
     it('use maxCollapseTags', async () => {
@@ -754,7 +758,7 @@ describe('Select', () => {
       const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
 
       expect(vm.value).toBe('')
-      expect(placeholder.text()).toBe('')
+      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
 
       options[0].click()
       await nextTick()
@@ -765,7 +769,7 @@ describe('Select', () => {
       vm.value = ''
       await nextTick()
       expect(vm.value).toBe('')
-      expect(placeholder.text()).toBe('')
+      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
 
       vm.value = option
       await nextTick()

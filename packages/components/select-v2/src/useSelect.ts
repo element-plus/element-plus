@@ -64,16 +64,16 @@ const useSelect = (props: ISelectProps, emit) => {
   const popperSize = ref(-1)
 
   // DOM & Component refs
-  const controlRef = ref(null)
-  const inputRef = ref(null)
-  const menuRef = ref(null)
+  const selectRef = ref<HTMLElement>(null)
+  const selectionRef = ref<HTMLElement>(null)
   const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
-  const selectRef = ref(null)
-  const selectionRef = ref(null)
+  const inputRef = ref<HTMLElement>(null)
   const calculatorRef = ref<HTMLElement>(null)
   const prefixRef = ref<HTMLElement>(null)
   const suffixRef = ref<HTMLElement>(null)
+  const menuRef = ref<HTMLElement>(null)
+  const tagMenuRef = ref<HTMLElement>(null)
 
   const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
     inputRef,
@@ -145,36 +145,37 @@ const useSelect = (props: ISelectProps, emit) => {
 
   // filteredOptions includes flatten the data into one dimensional array.
   const emptyText = computed(() => {
-    const options = filteredOptions.value
     if (props.loading) {
       return props.loadingText || t('el.select.loading')
     } else {
-      if (props.remote && !states.inputValue && options.length === 0)
+      if (props.remote && !states.inputValue && allOptions.value.length === 0)
         return false
-      if (props.filterable && states.inputValue && options.length > 0) {
+      if (
+        props.filterable &&
+        states.inputValue &&
+        allOptions.value.length > 0 &&
+        filteredOptions.value.length === 0
+      ) {
         return props.noMatchText || t('el.select.noMatch')
       }
-      if (options.length === 0) {
+      if (allOptions.value.length === 0) {
         return props.noDataText || t('el.select.noData')
       }
     }
     return null
   })
 
-  const filteredOptions = computed(() => {
+  const filterOptions = (query) => {
     const isValidOption = (o: Option): boolean => {
-      // fill the conditions here.
-      const query = states.inputValue
       // when query was given, we should test on the label see whether the label contains the given query
       const regexp = new RegExp(escapeStringRegexp(query), 'i')
-      const containsQueryString = query ? regexp.test(getLabel(o) || '') : true
-      return containsQueryString
+      return query ? regexp.test(getLabel(o) || '') : true
     }
     if (props.loading) {
       return []
     }
 
-    return [...props.options, ...states.createdOptions].reduce((all, item) => {
+    return [...states.createdOptions, ...props.options].reduce((all, item) => {
       const options = getOptions(item)
 
       if (isArray(options)) {
@@ -197,6 +198,14 @@ const useSelect = (props: ISelectProps, emit) => {
 
       return all
     }, []) as OptionType[]
+  }
+
+  const allOptions = computed(() => {
+    return filterOptions('') as OptionType[]
+  })
+
+  const filteredOptions = computed(() => {
+    return filterOptions(states.inputValue) as OptionType[]
   })
 
   const filteredOptionsValueMap = computed(() => {
@@ -254,7 +263,7 @@ const useSelect = (props: ISelectProps, emit) => {
   })
 
   const currentPlaceholder = computed(() => {
-    const _placeholder = props.placeholder || t('el.select.placeholder')
+    const _placeholder = props.placeholder ?? t('el.select.placeholder')
     return props.multiple || !hasModelValue.value
       ? _placeholder
       : states.selectedLabel
@@ -340,10 +349,8 @@ const useSelect = (props: ISelectProps, emit) => {
   }
 
   const onInputChange = () => {
+    createNewOption(states.inputValue)
     handleQueryChange(states.inputValue)
-    return nextTick(() => {
-      createNewOption(states.inputValue)
-    })
   }
 
   const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)
@@ -362,6 +369,37 @@ const useSelect = (props: ISelectProps, emit) => {
     ) {
       props.remoteMethod(val)
     }
+    if (
+      props.defaultFirstOption &&
+      (props.filterable || props.remote) &&
+      filteredOptions.value.length
+    ) {
+      nextTick(() => {
+        checkDefaultFirstOption()
+      })
+    }
+  }
+
+  /**
+   * find and highlight first option as default selected
+   * @remark
+   * - if the first option in dropdown list is user-created,
+   *   it would be at the end of the optionsArray
+   *   so find it and set hover.
+   *   (NOTE: there must be only one user-created option in dropdown list with query)
+   * - if there's no user-created option in list, just find the first one as usual
+   *   (NOTE: exclude options that are disabled or in disabled-group)
+   */
+  const checkDefaultFirstOption = () => {
+    const optionsInDropdown = filteredOptions.value.filter(
+      (n) => !n.disabled && n.type !== 'Group'
+    )
+    const userCreatedOption = optionsInDropdown.find((n) => n.created)
+    const firstOriginOption = optionsInDropdown[0]
+    states.hoveringIndex = getValueIndex(
+      filteredOptions.value,
+      userCreatedOption || firstOriginOption
+    )
   }
 
   const emitChange = (val: any | any[]) => {
@@ -417,7 +455,15 @@ const useSelect = (props: ISelectProps, emit) => {
     states.suffixWidth = suffixRef.value.getBoundingClientRect().width
   }
 
-  const onSelect = (option: Option, idx: number, byClick = true) => {
+  const updateTooltip = () => {
+    tooltipRef.value?.updatePopper?.()
+  }
+
+  const updateTagTooltip = () => {
+    tagTooltipRef.value?.updatePopper?.()
+  }
+
+  const onSelect = (option: Option, idx: number) => {
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
@@ -443,7 +489,7 @@ const useSelect = (props: ISelectProps, emit) => {
         handleQueryChange('')
       }
       if (props.filterable && !props.reserveKeyword) {
-        onUpdateInputValue('')
+        states.inputValue = ''
       }
     } else {
       selectedIndex.value = idx
@@ -489,7 +535,7 @@ const useSelect = (props: ISelectProps, emit) => {
   // keyboard handlers
   const handleEsc = () => {
     if (states.inputValue.length > 0) {
-      onUpdateInputValue('')
+      states.inputValue = ''
     } else {
       expanded.value = false
     }
@@ -525,10 +571,6 @@ const useSelect = (props: ISelectProps, emit) => {
     emit('clear')
     clearAllNewOption()
     focus()
-  }
-
-  const onUpdateInputValue = (val: string) => {
-    states.inputValue = val
   }
 
   const onKeyboardNavigate = (
@@ -583,8 +625,7 @@ const useSelect = (props: ISelectProps, emit) => {
     ) {
       onSelect(
         filteredOptions.value[states.hoveringIndex],
-        states.hoveringIndex,
-        false
+        states.hoveringIndex
       )
     }
   }
@@ -598,8 +639,7 @@ const useSelect = (props: ISelectProps, emit) => {
   }
 
   const onInput = (event) => {
-    const value = event.target.value
-    onUpdateInputValue(value)
+    states.inputValue = event.target.value
     if (states.inputValue.length > 0 && !expanded.value) {
       expanded.value = true
     }
@@ -681,14 +721,16 @@ const useSelect = (props: ISelectProps, emit) => {
   // be invoked.
 
   watch(expanded, (val) => {
-    emit('visible-change', val)
     if (val) {
-      // the purpose of this function is to differ the blur event trigger mechanism
+      handleQueryChange('')
     } else {
-      states.inputValue = ''
-      states.previousQuery = null
-      createNewOption('')
+      if (props.filterable) {
+        states.inputValue = ''
+        states.previousQuery = null
+        createNewOption('')
+      }
     }
+    emit('visible-change', val)
   })
 
   watch(
@@ -721,9 +763,12 @@ const useSelect = (props: ISelectProps, emit) => {
   )
 
   // fix the problem that scrollTop is not reset in filterable mode
-  watch(filteredOptions, () => {
-    return menuRef.value && nextTick(menuRef.value.resetScrollTop)
-  })
+  watch(
+    () => filteredOptions.value,
+    () => {
+      return menuRef.value && nextTick(menuRef.value.resetScrollTop)
+    }
+  )
 
   watch(
     () => dropdownMenuVisible.value,
@@ -742,6 +787,8 @@ const useSelect = (props: ISelectProps, emit) => {
   useResizeObserver(calculatorRef, resetCalculatorWidth)
   useResizeObserver(prefixRef, resetPrefixWidth)
   useResizeObserver(suffixRef, resetSuffixWidth)
+  useResizeObserver(menuRef, updateTooltip)
+  useResizeObserver(tagMenuRef, updateTagTooltip)
 
   return {
     // data exports
@@ -751,6 +798,7 @@ const useSelect = (props: ISelectProps, emit) => {
     emptyText,
     popupHeight,
     debounce,
+    allOptions,
     filteredOptions,
     iconComponent,
     iconReverse,
@@ -771,9 +819,9 @@ const useSelect = (props: ISelectProps, emit) => {
 
     // refs items exports
     calculatorRef,
-    controlRef,
     inputRef,
     menuRef,
+    tagMenuRef,
     tooltipRef,
     tagTooltipRef,
     selectRef,
@@ -810,6 +858,8 @@ const useSelect = (props: ISelectProps, emit) => {
     resetCalculatorWidth,
     resetPrefixWidth,
     resetSuffixWidth,
+    updateTooltip,
+    updateTagTooltip,
     toggleMenu,
     scrollTo: scrollToItem,
     onInput,
@@ -817,7 +867,6 @@ const useSelect = (props: ISelectProps, emit) => {
     onKeyboardSelect,
     onSelect,
     onHover: updateHoveringIndex,
-    onUpdateInputValue,
     handleCompositionStart,
     handleCompositionEnd,
     handleCompositionUpdate,

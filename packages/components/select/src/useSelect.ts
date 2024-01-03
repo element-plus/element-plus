@@ -86,14 +86,16 @@ export const useSelect = (props: ISelectProps, emit) => {
   )
 
   // template refs
-  const selectRef = ref<HTMLElement | null>(null)
+  const selectRef = ref<HTMLElement>(null)
+  const selectionRef = ref<HTMLElement>(null)
   const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
-  const selectionRef = ref<HTMLElement | null>(null)
   const inputRef = ref<HTMLInputElement | null>(null)
   const calculatorRef = ref<HTMLElement>(null)
   const prefixRef = ref<HTMLElement>(null)
   const suffixRef = ref<HTMLElement>(null)
+  const menuRef = ref<HTMLElement>(null)
+  const tagMenuRef = ref<HTMLElement>(null)
   const scrollbarRef = ref<{
     handleScroll: () => void
   } | null>(null)
@@ -246,7 +248,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const currentPlaceholder = computed(() => {
-    const _placeholder = props.placeholder || t('el.select.placeholder')
+    const _placeholder = props.placeholder ?? t('el.select.placeholder')
     return props.multiple || !hasModelValue.value
       ? _placeholder
       : states.selectedLabel
@@ -275,45 +277,11 @@ export const useSelect = (props: ISelectProps, emit) => {
   watch(
     () => expanded.value,
     (val) => {
-      if (!val) {
-        if (props.filterable) {
-          if (isFunction(props.filterMethod)) {
-            props.filterMethod('')
-          }
-          if (isFunction(props.remoteMethod)) {
-            props.remoteMethod('')
-          }
-        }
+      if (val) {
+        handleQueryChange(states.inputValue)
+      } else {
         states.inputValue = ''
         states.previousQuery = null
-        states.selectedLabel = ''
-        resetHoverIndex()
-
-        if (!props.multiple) {
-          if (states.selected) {
-            if (
-              props.filterable &&
-              props.allowCreate &&
-              states.createdSelected &&
-              states.createdLabel
-            ) {
-              states.selectedLabel = states.createdLabel
-            } else {
-              states.selectedLabel = states.selected.currentLabel
-            }
-          }
-        }
-      } else {
-        if (props.filterable) {
-          states.inputValue = ''
-          states.previousQuery = null
-          handleQueryChange('')
-          if (!props.multiple && !props.remote) {
-            queryChange.value.query = ''
-            triggerRef(queryChange)
-            triggerRef(groupQueryChange)
-          }
-        }
       }
       emit('visible-change', val)
     }
@@ -514,8 +482,12 @@ export const useSelect = (props: ISelectProps, emit) => {
     states.suffixWidth = suffixRef.value.getBoundingClientRect().width
   }
 
-  const onUpdateInputValue = (val: string) => {
-    states.inputValue = val
+  const updateTooltip = () => {
+    tooltipRef.value?.updatePopper?.()
+  }
+
+  const updateTagTooltip = () => {
+    tagTooltipRef.value?.updatePopper?.()
   }
 
   const onInputChange = () => {
@@ -523,8 +495,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const onInput = (event) => {
-    const value = event.target.value
-    onUpdateInputValue(value)
+    states.inputValue = event.target.value
     if (states.inputValue.length > 0 && !expanded.value) {
       expanded.value = true
     }
@@ -610,7 +581,7 @@ export const useSelect = (props: ISelectProps, emit) => {
         handleQueryChange('')
       }
       if (props.filterable && !props.reserveKeyword) {
-        onUpdateInputValue('')
+        states.inputValue = ''
       }
     } else {
       emit(UPDATE_MODEL_EVENT, option.value)
@@ -711,7 +682,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const handleEsc = () => {
     if (states.inputValue.length > 0) {
-      onUpdateInputValue('')
+      states.inputValue = ''
     } else {
       expanded.value = false
     }
@@ -838,6 +809,8 @@ export const useSelect = (props: ISelectProps, emit) => {
   useResizeObserver(calculatorRef, resetCalculatorWidth)
   useResizeObserver(prefixRef, resetPrefixWidth)
   useResizeObserver(suffixRef, resetSuffixWidth)
+  useResizeObserver(menuRef, updateTooltip)
+  useResizeObserver(tagMenuRef, updateTagTooltip)
 
   onMounted(() => {
     setSelected()
@@ -859,6 +832,8 @@ export const useSelect = (props: ISelectProps, emit) => {
     resetCalculatorWidth,
     resetPrefixWidth,
     resetSuffixWidth,
+    updateTooltip,
+    updateTagTooltip,
     debouncedOnInputChange,
     debouncedQueryChange,
     onInput,
@@ -921,6 +896,8 @@ export const useSelect = (props: ISelectProps, emit) => {
     wrapperRef,
     selectionRef,
     scrollbarRef,
+    menuRef,
+    tagMenuRef,
 
     // Mouser Event
     handleMouseEnter,

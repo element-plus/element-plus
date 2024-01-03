@@ -75,7 +75,7 @@
               <el-tooltip
                 v-if="collapseTags && modelValue.length > maxCollapseTags"
                 ref="tagTooltipRef"
-                :disabled="dropdownMenuVisible || !collapseTagsTooltip"
+                :disabled="!collapseTagsTooltip"
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
@@ -97,7 +97,7 @@
                   </div>
                 </template>
                 <template #content>
-                  <div :class="nsSelect.e('selection')">
+                  <div ref="tagMenuRef" :class="nsSelect.e('selection')">
                     <div
                       v-for="selected in collapseTagList"
                       :key="getValueKey(getValue(selected))"
@@ -130,7 +130,7 @@
               <input
                 :id="id"
                 ref="inputRef"
-                v-model-text="states.inputValue"
+                v-model="states.inputValue"
                 :style="inputStyle"
                 :autocomplete="autocomplete"
                 aria-autocomplete="list"
@@ -146,7 +146,6 @@
                 type="text"
                 :name="name"
                 :unselectable="expanded ? 'on' : undefined"
-                @update:modelValue="onUpdateInputValue"
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @input="onInput"
@@ -173,7 +172,10 @@
             :style="placeholderStyle"
             :class="[
               nsSelect.e('placeholder'),
-              nsSelect.is('transparent', !hasModelValue),
+              nsSelect.is(
+                'transparent',
+                !hasModelValue || (expanded && !states.inputValue)
+              ),
             ]"
           >
             <span>{{ currentPlaceholder }}</span>
@@ -227,14 +229,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  provide,
-  reactive,
-  toRefs,
-  vModelText,
-} from 'vue'
+import { computed, defineComponent, provide, reactive, toRefs } from 'vue'
 import { isArray } from '@element-plus/utils'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -253,7 +248,7 @@ export default defineComponent({
     ElTooltip,
     ElIcon,
   },
-  directives: { ClickOutside, ModelText: vModelText },
+  directives: { ClickOutside },
   props: SelectProps,
   emits: [
     UPDATE_MODEL_EVENT,
