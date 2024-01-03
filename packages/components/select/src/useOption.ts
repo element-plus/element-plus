@@ -118,17 +118,21 @@ export function useOption(props, states) {
     { immediate: true }
   )
 
+  let timer
   const { queryChange } = toRaw(select)
   watch(
     queryChange,
     (changes: Ref<QueryChangeCtx>) => {
-      const { query } = unref(changes)
-
-      const regexp = new RegExp(escapeStringRegexp(query), 'i')
-      states.visible = regexp.test(currentLabel.value) || props.created
-      if (!states.visible) {
-        select.filteredOptionsCount--
-      }
+      // fix: https://github.com/element-plus/element-plus/issues/15323
+      timer && clearTimeout(timer)
+      timer = setTimeout(() => {
+        const { query } = unref(changes)
+        const regexp = new RegExp(escapeStringRegexp(query), 'i')
+        states.visible = regexp.test(currentLabel.value) || props.created
+        if (!states.visible) {
+          select.filteredOptionsCount--
+        }
+      }, 0)
     },
     { immediate: true }
   )
