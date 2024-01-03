@@ -102,6 +102,11 @@ export default {
       clearFilter: 'Alla',
       sumText: 'Summa',
     },
+    tour: {
+      next: 'Nästa',
+      previous: 'Föregående',
+      finish: 'Avsluta',
+    },
     tree: {
       emptyText: 'Ingen data',
     },

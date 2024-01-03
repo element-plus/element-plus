@@ -530,4 +530,40 @@ describe('InputNumber.vue', () => {
       expect(formItem.attributes().role).toBe('group')
     })
   })
+
+  test('use model-value', () => {
+    const num = ref(2)
+    const wrapper = mount(() => (
+      <InputNumber modelValue={num.value} min={1} max={10} />
+    ))
+    const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
+    elInput.handleInputChange('')
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(1)
+    expect(elInput.modelValue).toBe(2)
+    expect(wrapper.getComponent(InputNumber).emitted().change[0]).toEqual([
+      null,
+      2,
+    ])
+
+    elInput.increase()
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(2)
+    expect(elInput.modelValue).toBe(2)
+    expect(wrapper.getComponent(InputNumber).emitted().change[1]).toEqual([
+      3, 2,
+    ])
+
+    elInput.handleInputChange('12')
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(3)
+    expect(elInput.modelValue).toBe(2)
+    expect(wrapper.getComponent(InputNumber).emitted().change[2]).toEqual([
+      10, 2,
+    ])
+
+    elInput.decrease()
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(4)
+    expect(elInput.modelValue).toBe(2)
+    expect(wrapper.getComponent(InputNumber).emitted().change[3]).toEqual([
+      1, 2,
+    ])
+  })
 })

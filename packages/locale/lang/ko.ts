@@ -130,6 +130,11 @@ export default {
       clearFilter: '전체',
       sumText: '합계',
     },
+    tour: {
+      next: '다음',
+      previous: '이전',
+      finish: '종료',
+    },
     tree: {
       emptyText: '데이터 없음',
     },
