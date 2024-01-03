@@ -276,12 +276,10 @@ export default defineComponent({
       ))
 
       if (appendToBody.value && deepDispatch) {
-        if (
-          instance.parent?.type.name === COMPONENT_NAME ||
-          // fix: https://github.com/element-plus/element-plus/issues/14883
-          instance.parent?.type.name === 'ElFocusTrap'
-        ) {
+        if (instance.parent?.type.name === COMPONENT_NAME) {
           subMenu.handleMouseleave?.(true)
+        } else {
+          subMenu.handleMouseleave?.(false)
         }
       }
     }
@@ -457,7 +455,7 @@ export default defineComponent({
           ariaHaspopup: true,
           ariaExpanded: opened.value,
           onMouseenter: handleMouseenter,
-          onMouseleave: () => handleMouseleave(true),
+          onMouseleave: () => handleMouseleave(),
           onFocus: handleMouseenter,
         },
         [child]
