@@ -1,7 +1,12 @@
 // @ts-nocheck
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
-import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
+import {
+  findLastIndex,
+  get,
+  isEqual,
+  debounce as lodashDebounce,
+} from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import {
   useFocusController,
@@ -43,19 +48,15 @@ const useSelect = (props: ISelectProps, emit) => {
     inputValue: '',
     cachedOptions: [] as Option[],
     createdOptions: [] as Option[],
-    createdLabel: '',
-    createdSelected: false,
     hoveringIndex: -1,
-    comboBoxHovering: false,
+    inputHovering: false,
     selectionWidth: 0,
     prefixWidth: 0,
     suffixWidth: 0,
-    calculatorWidth: 200,
-    initialInputHeight: 0,
+    calculatorWidth: 0,
     previousQuery: null,
     previousValue: undefined,
     selectedLabel: '',
-    tagInMultiLine: false,
     menuVisibleOnFocus: false,
   })
 
@@ -116,15 +117,11 @@ const useSelect = (props: ISelectProps, emit) => {
   })
 
   const showClearBtn = computed(() => {
-    const hasValue = props.multiple
-      ? Array.isArray(props.modelValue) && props.modelValue.length > 0
-      : hasModelValue.value
-
     const criteria =
       props.clearable &&
       !selectDisabled.value &&
-      states.comboBoxHovering &&
-      hasValue
+      states.inputHovering &&
+      hasModelValue.value
     return criteria
   })
 
@@ -436,7 +433,6 @@ const useSelect = (props: ISelectProps, emit) => {
 
   const handleResize = () => {
     calculatePopperSize()
-    // tooltipRef.value?.updatePopper?.()
   }
 
   const resetSelectionWidth = () => {
@@ -541,14 +537,27 @@ const useSelect = (props: ISelectProps, emit) => {
     }
   }
 
+  const getLastNotDisabledIndex = (value) =>
+    findLastIndex(
+      value,
+      (it) =>
+        !states.cachedOptions.some(
+          (option) => getValue(option) === it && getDisabled(option)
+        )
+    )
+
   const handleDel = (e: KeyboardEvent) => {
     if (!props.multiple) return
     if (e.code === EVENT_CODE.delete) return
     if (states.inputValue.length === 0) {
       e.preventDefault()
       const selected = (props.modelValue as Array<any>).slice()
-      selected.pop()
-      removeNewOption(states.cachedOptions.pop())
+      const lastNotDisabledIndex = getLastNotDisabledIndex(selected)
+      if (lastNotDisabledIndex < 0) return
+      selected.splice(lastNotDisabledIndex, 1)
+      const option = states.cachedOptions[lastNotDisabledIndex]
+      states.cachedOptions.splice(lastNotDisabledIndex, 1)
+      removeNewOption(option)
       update(selected)
     }
   }

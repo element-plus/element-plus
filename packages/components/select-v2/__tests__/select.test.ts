@@ -38,7 +38,7 @@ const createData = (count = 1000) => {
 const clickClearButton = async (wrapper) => {
   const select = wrapper.findComponent(Select)
   const selectVm = select.vm as any
-  selectVm.states.comboBoxHovering = true
+  selectVm.states.inputHovering = true
   await nextTick()
   const clearBtn = wrapper.findComponent(CircleClose)
   expect(clearBtn.exists()).toBeTruthy()

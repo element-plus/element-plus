@@ -3,9 +3,9 @@
     ref="selectRef"
     v-click-outside:[popperRef]="handleClickOutside"
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
+    @mouseenter="states.inputHovering = true"
+    @mouseleave="states.inputHovering = false"
     @click.stop="toggleMenu"
-    @mouseenter="states.comboBoxHovering = true"
-    @mouseleave="states.comboBoxHovering = false"
   >
     <el-tooltip
       ref="tooltipRef"
@@ -30,7 +30,7 @@
           :class="[
             nsSelect.e('wrapper'),
             nsSelect.is('focused', isFocused),
-            nsSelect.is('hovering', states.comboBoxHovering),
+            nsSelect.is('hovering', states.inputHovering),
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
           ]"
@@ -137,7 +137,7 @@
                 aria-haspopup="listbox"
                 autocapitalize="off"
                 :aria-expanded="expanded"
-                :aria-labelledby="label"
+                :aria-label="label"
                 :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
                 :disabled="selectDisabled"
                 role="combobox"

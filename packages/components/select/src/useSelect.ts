@@ -59,19 +59,16 @@ export const useSelect = (props: ISelectProps, emit) => {
     options: new Map(),
     cachedOptions: new Map(),
     disabledOptions: new Map(),
-    createdLabel: null,
-    createdSelected: false,
     selected: props.multiple ? [] : ({} as any),
     selectionWidth: 0,
     calculatorWidth: 0,
     selectedLabel: '',
-    hoverIndex: -1,
+    hoveringIndex: -1,
     previousQuery: null,
     inputHovering: false,
     menuVisibleOnFocus: false,
     prefixWidth: 0,
     suffixWidth: 0,
-    mouseEnter: false,
   })
 
   useDeprecated(
@@ -317,7 +314,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   )
 
   watch(
-    () => states.hoverIndex,
+    () => states.hoveringIndex,
     (val) => {
       if (isNumber(val) && val > -1) {
         hoverOption.value = optionsArray.value[val] || {}
@@ -375,7 +372,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     )
     const userCreatedOption = optionsInDropdown.find((n) => n.created)
     const firstOriginOption = optionsInDropdown[0]
-    states.hoverIndex = getValueIndex(
+    states.hoveringIndex = getValueIndex(
       optionsArray.value,
       userCreatedOption || firstOriginOption
     )
@@ -384,12 +381,6 @@ export const useSelect = (props: ISelectProps, emit) => {
   const setSelected = () => {
     if (!props.multiple) {
       const option = getOption(props.modelValue)
-      if (option.props?.created) {
-        states.createdLabel = option.props.value
-        states.createdSelected = true
-      } else {
-        states.createdSelected = false
-      }
       states.selectedLabel = option.currentLabel
       states.selected = option
       return
@@ -438,16 +429,16 @@ export const useSelect = (props: ISelectProps, emit) => {
     return newOption
   }
 
-  const resetHoverIndex = () => {
+  const resetHoveringIndex = () => {
     setTimeout(() => {
       const valueKey = props.valueKey
       if (!props.multiple) {
-        states.hoverIndex = optionsArray.value.findIndex((item) => {
+        states.hoveringIndex = optionsArray.value.findIndex((item) => {
           return getValueKey(item) === getValueKey(states.selected)
         })
       } else {
         if (states.selected.length > 0) {
-          states.hoverIndex = Math.min.apply(
+          states.hoveringIndex = Math.min.apply(
             null,
             states.selected.map((selected) => {
               return optionsArray.value.findIndex((item) => {
@@ -456,14 +447,14 @@ export const useSelect = (props: ISelectProps, emit) => {
             })
           )
         } else {
-          states.hoverIndex = -1
+          states.hoveringIndex = -1
         }
       }
     }, 300)
   }
 
   const handleResize = () => {
-    // tooltipRef.value?.updatePopper?.()
+    //
   }
 
   const resetSelectionWidth = () => {
@@ -528,7 +519,9 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (e.code === EVENT_CODE.delete) return
     if (e.target.value.length <= 0) {
       const value = props.modelValue.slice()
-      value.pop()
+      const lastNotDisabledIndex = getLastNotDisabledIndex(value)
+      if (lastNotDisabledIndex < 0) return
+      value.splice(lastNotDisabledIndex, 1)
       emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
     }
@@ -557,7 +550,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
     emit(UPDATE_MODEL_EVENT, value)
     emitChange(value)
-    states.hoverIndex = -1
+    states.hoveringIndex = -1
     expanded.value = false
     emit('clear')
     focus()
@@ -702,8 +695,8 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (!expanded.value) {
       toggleMenu()
     } else {
-      if (optionsArray.value[states.hoverIndex]) {
-        handleOptionSelect(optionsArray.value[states.hoverIndex])
+      if (optionsArray.value[states.hoveringIndex]) {
+        handleOptionSelect(optionsArray.value[states.hoveringIndex])
       }
     }
   }
@@ -745,17 +738,17 @@ export const useSelect = (props: ISelectProps, emit) => {
 
     if (!optionsAllDisabled.value) {
       if (direction === 'next') {
-        states.hoverIndex++
-        if (states.hoverIndex === states.options.size) {
-          states.hoverIndex = 0
+        states.hoveringIndex++
+        if (states.hoveringIndex === states.options.size) {
+          states.hoveringIndex = 0
         }
       } else if (direction === 'prev') {
-        states.hoverIndex--
-        if (states.hoverIndex < 0) {
-          states.hoverIndex = states.options.size - 1
+        states.hoveringIndex--
+        if (states.hoveringIndex < 0) {
+          states.hoveringIndex = states.options.size - 1
         }
       }
-      const option = optionsArray.value[states.hoverIndex]
+      const option = optionsArray.value[states.hoveringIndex]
       if (
         option.disabled === true ||
         option.states.groupDisabled === true ||
@@ -765,14 +758,6 @@ export const useSelect = (props: ISelectProps, emit) => {
       }
       nextTick(() => scrollToOption(hoverOption.value))
     }
-  }
-
-  const handleMouseEnter = () => {
-    states.mouseEnter = true
-  }
-
-  const handleMouseLeave = () => {
-    states.mouseEnter = false
   }
 
   // computed style
@@ -898,9 +883,5 @@ export const useSelect = (props: ISelectProps, emit) => {
     scrollbarRef,
     menuRef,
     tagMenuRef,
-
-    // Mouser Event
-    handleMouseEnter,
-    handleMouseLeave,
   }
 }

@@ -3,8 +3,8 @@
     ref="selectRef"
     v-click-outside:[popperRef]="handleClickOutside"
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
+    @mouseenter="states.inputHovering = true"
+    @mouseleave="states.inputHovering = false"
     @click.stop="toggleMenu"
   >
     <el-tooltip
@@ -34,8 +34,6 @@
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
           ]"
-          @mouseenter="states.inputHovering = true"
-          @mouseleave="states.inputHovering = false"
         >
           <div
             v-if="$slots.prefix"
@@ -302,7 +300,7 @@ export default defineComponent({
         options: API.states.options,
         optionsArray: API.optionsArray,
         cachedOptions: API.states.cachedOptions,
-        hoverIndex: API.states.hoverIndex,
+        hoveringIndex: API.states.hoveringIndex,
         handleOptionSelect: API.handleOptionSelect,
         onOptionCreate: API.onOptionCreate,
         onOptionDestroy: API.onOptionDestroy,

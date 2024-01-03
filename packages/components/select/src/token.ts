@@ -16,7 +16,7 @@ export interface SelectContext {
   groupQueryChange: Ref<string>
   selectRef: HTMLElement
   cachedOptions: Map<any, any>
-  hoverIndex: number
+  hoveringIndex: number
   options: Map<any, any>
   optionsArray: any[]
   selected: any | any[]
