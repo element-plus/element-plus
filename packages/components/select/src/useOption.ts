@@ -118,11 +118,13 @@ export function useOption(props, states) {
     { immediate: true }
   )
   const { queryChange } = toRaw(select)
+  let timer
   watch(
     queryChange,
     (changes: Ref<QueryChangeCtx>) => {
       // fix: https://github.com/element-plus/element-plus/issues/15323
-      setTimeout(() => {
+      timer && clearTimeout(timer)
+      timer = setTimeout(() => {
         const { query } = unref(changes)
         const regexp = new RegExp(escapeStringRegexp(query), 'i')
         states.visible = regexp.test(currentLabel.value) || props.created
