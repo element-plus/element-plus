@@ -319,6 +319,56 @@ describe('Datetime Picker', () => {
     expect(disabledMinutes.length).toBe(19)
   })
 
+  it('defaultValue takes effect when the type is datetime', async () => {
+    const value = ref('')
+    const defaultValue = ref(new Date(2030, 10, 10, 12, 0, 0))
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetime"
+        default-value={defaultValue.value}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(
+      document.querySelectorAll(
+        '.el-picker-panel__footer .el-button'
+      )[1] as HTMLElement
+    ).click()
+
+    expect(dayjs(value.value).format(formatStr)).toBe('2030-11-10 12:00:00')
+  })
+
+  it('defaultValue and defaultTime takes effect when the type is datetime', async () => {
+    const value = ref('')
+    const defaultValue = ref(new Date(2030, 10, 10, 12, 0, 0))
+    const defaultTime = ref(new Date(2030, 10, 12, 12, 12, 12))
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetime"
+        default-value={defaultValue.value}
+        default-time={defaultTime.value}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(
+      document.querySelectorAll(
+        '.el-picker-panel__footer .el-button'
+      )[1] as HTMLElement
+    ).click()
+
+    expect(dayjs(value.value).format(formatStr)).toBe('2030-11-10 12:12:12')
+  })
+
   it('defaultTime takes effect when the type is datetime', async () => {
     const value = ref('')
     const defaultTime = ref(new Date(2000, 1, 1, 12, 24, 48))
