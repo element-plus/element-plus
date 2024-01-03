@@ -91,6 +91,15 @@ export const menuProps = buildProps({
     values: ['dark', 'light'],
     default: 'dark',
   },
+  popperClass: String,
+  showTimeout: {
+    type: Number,
+    default: 300,
+  },
+  hideTimeout: {
+    type: Number,
+    default: 300,
+  },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 

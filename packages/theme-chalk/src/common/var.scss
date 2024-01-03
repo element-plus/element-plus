@@ -760,6 +760,26 @@ $dialog: map.merge(
   $dialog
 );
 
+// Tour
+// css3 var in packages/theme-chalk/src/tour.scss
+$tour: () !default;
+$tour: map.merge(
+  (
+    'width': 520px,
+    'padding-primary': 16px,
+    'font-line-height': getCssVar('font-line-height-primary'),
+    'title-font-size': 16px,
+    'title-text-color': getCssVar('text-color-primary'),
+    'title-font-weight': 400,
+    'font-size': 14px,
+    'color': getCssVar('text-color-primary'),
+    'bg-color': getCssVar('bg-color'),
+    'border-radius': 4px,
+    'border-color': getCssVar('border-color-lighter'),
+  ),
+  $tour
+);
+
 // Table
 // css3 var in packages/theme-chalk/src/table.scss
 $table: () !default;
@@ -1425,7 +1445,7 @@ $lg: 1200px !default;
 $xl: 1920px !default;
 
 $breakpoints: (
-  'xs': '(max-width: #{$sm})',
+  'xs': '(max-width: #{$sm - 1})',
   'sm': '(min-width: #{$sm})',
   'md': '(min-width: #{$md})',
   'lg': '(min-width: #{$lg})',

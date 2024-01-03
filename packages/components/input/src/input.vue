@@ -35,8 +35,6 @@
           :maxlength="maxlength"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
           :disabled="inputDisabled"
-          :formatter="formatter"
-          :parser="parser"
           :readonly="readonly"
           :autocomplete="autocomplete"
           :tabindex="tabindex"
