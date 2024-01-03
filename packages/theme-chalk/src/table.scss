@@ -389,7 +389,7 @@
   @include e((footer-wrapper)) {
     overflow: hidden;
 
-    & tfoot td.#{$namespace}-table__cell {
+    tfoot td.#{$namespace}-table__cell {
       background-color: getCssVar('table-row-hover-bg-color');
       color: getCssVar('table-text-color');
     }
