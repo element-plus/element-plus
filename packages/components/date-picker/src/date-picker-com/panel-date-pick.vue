@@ -464,15 +464,7 @@ const onConfirm = () => {
     emit(props.parsedValue as Dayjs[])
   } else {
     // deal with the scenario where: user opens the date time picker, then confirm without doing anything
-    let result = props.parsedValue as Dayjs
-    if (!result) {
-      const defaultTimeD = dayjs(defaultTime).locale(lang.value)
-      const defaultValueD = getDefaultValue()
-      result = defaultTimeD
-        .year(defaultValueD.year())
-        .month(defaultValueD.month())
-        .date(defaultValueD.date())
-    }
+    const result = (props.parsedValue ?? getDefaultValue()) as Dayjs
     innerDate.value = result
     emit(result)
   }
@@ -597,14 +589,16 @@ const parseUserInput = (value: Dayjs) => {
 
 const getDefaultValue = () => {
   const parseDate = dayjs(defaultValue.value).locale(lang.value)
-  if (!defaultValue.value) {
+
+  if (defaultTime) {
     const defaultTimeDValue = defaultTimeD.value
-    return dayjs()
+    return parseDate
       .hour(defaultTimeDValue.hour())
       .minute(defaultTimeDValue.minute())
       .second(defaultTimeDValue.second())
       .locale(lang.value)
   }
+
   return parseDate
 }
 
