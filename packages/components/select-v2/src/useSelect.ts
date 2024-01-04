@@ -23,7 +23,11 @@ import {
   debugWarn,
   escapeStringRegexp,
 } from '@element-plus/utils'
-import { useFormItem, useFormSize } from '@element-plus/components/form'
+import {
+  useFormItem,
+  useFormItemInputId,
+  useFormSize,
+} from '@element-plus/components/form'
 
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
@@ -42,6 +46,9 @@ const useSelect = (props: ISelectProps, emit) => {
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
   const { form: elForm, formItem: elFormItem } = useFormItem()
+  const { inputId } = useFormItemInputId(props, {
+    formItemContext: elFormItem,
+  })
   const { getLabel, getValue, getDisabled, getOptions } = useProps(props)
 
   const states = reactive({
@@ -801,6 +808,7 @@ const useSelect = (props: ISelectProps, emit) => {
 
   return {
     // data exports
+    inputId,
     collapseTagSize,
     currentPlaceholder,
     expanded,

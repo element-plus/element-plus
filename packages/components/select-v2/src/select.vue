@@ -128,7 +128,7 @@
               ]"
             >
               <input
-                :id="id"
+                :id="inputId"
                 ref="inputRef"
                 v-model="states.inputValue"
                 :style="inputStyle"

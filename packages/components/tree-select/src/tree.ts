@@ -167,7 +167,7 @@ export const useTree = (
       // now `checkOnClickNode` is false, only no checkbox and `checkStrictly` or `isLeaf`
       if (!props.showCheckbox && (props.checkStrictly || node.isLeaf)) {
         if (!getNodeValByProp('disabled', data)) {
-          const option = select.value?.options.get(
+          const option = select.value?.states.options.get(
             getNodeValByProp('value', data)
           )
           select.value?.handleOptionSelect(option)

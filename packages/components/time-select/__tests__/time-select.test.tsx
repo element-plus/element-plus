@@ -14,6 +14,8 @@ afterEach(() => {
   document.documentElement.innerHTML = ''
 })
 
+const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
+
 describe('TimeSelect', () => {
   it('create', async () => {
     const wrapper = mount(() => (
@@ -68,7 +70,7 @@ describe('TimeSelect', () => {
     const input = wrapper.find('input')
 
     expect(input.exists()).toBe(true)
-    expect(input.element.value).toBe('10:00')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('10:00')
 
     value.value = '10:30'
     await nextTick()
@@ -76,7 +78,7 @@ describe('TimeSelect', () => {
     expect(wrapper.findComponent({ name: 'ElTimeSelect' }).vm.value).toBe(
       '10:30'
     )
-    expect(input.element.value).toBe('10:30')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('10:30')
   })
 
   it('update value', async () => {
@@ -85,9 +87,8 @@ describe('TimeSelect', () => {
 
     await nextTick()
     const vm = wrapper.findComponent({ name: 'ElTimeSelect' }).vm
-    const input = wrapper.find('input')
     expect(vm.value).toBe('10:00')
-    expect(input.element.value).toBe('10:00')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('10:00')
 
     const option = wrapper
       .findAllComponents(Option)
@@ -97,7 +98,7 @@ describe('TimeSelect', () => {
     option?.trigger('click')
     await nextTick()
     expect(vm.value).toBe('11:00')
-    expect(input.element.value).toBe('11:00')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('11:00')
   })
 
   it('set disabled', async () => {
@@ -136,6 +137,7 @@ describe('TimeSelect', () => {
     })
 
     wrapper.findComponent(TimeSelect).vm.$.exposed!.focus()
+    await wrapper.findComponent(TimeSelect).trigger('click')
 
     await nextTick()
     await nextTick()
@@ -151,6 +153,7 @@ describe('TimeSelect', () => {
     })
 
     wrapper.findComponent(TimeSelect).vm.$.exposed!.focus()
+    await wrapper.findComponent(TimeSelect).trigger('click')
     await nextTick()
     wrapper.findComponent(TimeSelect).vm.$.exposed!.blur()
 
@@ -174,7 +177,7 @@ describe('TimeSelect', () => {
       />
     ))
 
-    const input = wrapper.find('.el-input__inner')
+    const input = wrapper.find('input')
     await input.trigger('click')
     await nextTick()
     const option = document.querySelector('.el-select-dropdown__item')
@@ -192,7 +195,7 @@ describe('TimeSelect', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
-      const timeSelectInput = wrapper.find('.el-input__inner')
+      const timeSelectInput = wrapper.find('input')
       expect(formItem.attributes().role).toBeFalsy()
       expect(formItemLabel.attributes().for).toBe(
         timeSelectInput.attributes().id
@@ -209,7 +212,7 @@ describe('TimeSelect', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
-      const timeSelectInput = wrapper.find('.el-input__inner')
+      const timeSelectInput = wrapper.find('input')
       expect(formItem.attributes().role).toBeFalsy()
       expect(timeSelectInput.attributes().id).toBe('foobar')
       expect(formItemLabel.attributes().for).toBe(

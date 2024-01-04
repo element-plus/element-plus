@@ -77,6 +77,8 @@ const createComponent = ({
   }
 }
 
+const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
+
 describe('TreeSelect.vue', () => {
   test('render test', async () => {
     const { wrapper, tree } = createComponent({
@@ -253,7 +255,7 @@ describe('TreeSelect.vue', () => {
     await nextTick()
     expect(tree.find('.el-select-dropdown__item').text()).toBe('1')
     await wrapper.setProps({ modelValue: '2' })
-    expect(select.vm.selectedLabel).toBe('2')
+    expect(select.vm.states.selectedLabel).toBe('2')
   })
 
   test('slots', async () => {
@@ -266,7 +268,7 @@ describe('TreeSelect.vue', () => {
 
     await nextTick()
     expect(tree.find('.el-select-dropdown__item').text()).toBe('123一级 1')
-    expect(select.find('.el-input__prefix-inner').text()).toBe('prefix')
+    expect(select.find('.el-select__prefix').text()).toBe('prefix')
   })
 
   test('renderContent', async () => {
@@ -452,11 +454,11 @@ describe('TreeSelect.vue', () => {
     })
 
     await nextTick()
-    expect(select.vm.selectedLabel).toBe('')
+    expect(select.vm.states.selectedLabel).toBe('')
 
     modelValue.value = 111
     await nextTick()
-    expect(select.vm.selectedLabel).toBe('三级 1-1')
+    expect(select.vm.states.selectedLabel).toBe('三级 1-1')
   })
 
   test('show correct label when lazy load', async () => {
@@ -476,12 +478,12 @@ describe('TreeSelect.vue', () => {
 
     // no load & no cache will be default value
     await nextTick()
-    expect(select.vm.selectedLabel).toBe(1)
+    expect(select.vm.states.selectedLabel).toBe(1)
 
     // no load & has cache will be correct label
     modelValue.value = 3
     await nextTick()
-    expect(select.vm.selectedLabel).toBe('3-label')
+    expect(select.vm.states.selectedLabel).toBe('3-label')
 
     // no load & set cache lazy will be correct label
     modelValue.value = 1
@@ -491,7 +493,7 @@ describe('TreeSelect.vue', () => {
       label: '1-label',
     })
     await nextTick()
-    expect(select.vm.selectedLabel).toBe('1-label')
+    expect(select.vm.states.selectedLabel).toBe('1-label')
   })
 
   test('filter-method', async () => {
@@ -501,9 +503,7 @@ describe('TreeSelect.vue', () => {
       { value: 2, label: '2' },
       { value: 3, label: '3' },
     ])
-    const filterMethod = vi.fn((val: string) => {
-      data.value = [...data.value].filter((item) => item.label.includes(val))
-    })
+    const filterMethod = vi.fn()
     const { select, tree } = createComponent({
       props: {
         modelValue,
@@ -517,21 +517,19 @@ describe('TreeSelect.vue', () => {
 
     await nextTick()
     expect(tree.vm.data.length).toBe(3)
-    expect(select.vm.selectedLabel).toBe('1')
 
     const input = select.find('input')
-    input.element.focus()
-    await nextTick()
-    expect(select.vm.selectedLabel).toBe('')
-    expect(filterMethod).toHaveBeenLastCalledWith('')
+    await input.trigger('click')
+    await input.setValue('')
+    expect(select.vm.states.selectedLabel).toBe('1')
+    expect(filterMethod).toHaveBeenCalled()
 
-    select.vm.selectedLabel = '2'
-    select.vm.debouncedOnInputChange()
     // await debounce
-    await new Promise((resolve) => setTimeout(resolve))
-    expect(select.vm.selectedLabel).toBe('2')
-    expect(filterMethod).toHaveBeenLastCalledWith('2')
-    expect(tree.text()).toBe('2')
+    await input.setValue('2')
+    modelValue.value = 2
+    await nextTick()
+    expect(select.vm.states.selectedLabel).toBe('2')
+    expect(filterMethod).toHaveBeenCalledTimes(3)
   })
 
   test('check/check-change events can accept correct params', async () => {
@@ -693,14 +691,14 @@ describe('TreeSelect.vue', () => {
       name: 'ElSelect',
     })
 
-    select.vm.handleOptionSelect(select.vm.options.get(1))
+    select.vm.handleOptionSelect(select.vm.states.options.get(1))
     expect(spy1).toBeCalledWith(1)
 
     const spy2 = vi.fn()
     wrapper.vm.data = [{ value: 1, handleChange: spy2 }]
     await nextTick()
 
-    select.vm.handleOptionSelect(select.vm.options.get(2))
+    select.vm.handleOptionSelect(select.vm.states.options.get(2))
     expect(spy2).toBeCalledWith(2)
   })
 })

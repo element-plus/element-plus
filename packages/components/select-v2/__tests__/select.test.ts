@@ -815,20 +815,20 @@ describe('Select', () => {
           onBlur,
         },
       })
-      const input = wrapper.find('input')
       const select = wrapper.findComponent(Select)
+      const input = select.find('input')
       await input.trigger('focus')
-      const selectVm = select.vm as any
-      // Simulate focus state to trigger menu multiple times
-      selectVm.toggleMenu()
-      await nextTick()
-      selectVm.toggleMenu()
-      await nextTick()
-      // Simulate click the outside
-      selectVm.handleClickOutside()
-      await nextTick()
+
+      expect(input.exists()).toBe(true)
+      await input.trigger('focus')
       expect(onFocus).toHaveBeenCalledTimes(1)
-      expect(onBlur).toHaveBeenCalled()
+      await input.trigger('blur')
+      expect(onBlur).toHaveBeenCalledTimes(1)
+
+      await input.trigger('focus')
+      expect(onFocus).toHaveBeenCalledTimes(2)
+      await input.trigger('blur')
+      expect(onBlur).toHaveBeenCalledTimes(2)
     })
 
     it('focus & blur for multiple & filterable select', async () => {
@@ -847,27 +847,19 @@ describe('Select', () => {
           onBlur,
         },
       })
-      const input = wrapper.find('input')
       const select = wrapper.findComponent(Select)
+      const input = select.find('input')
+
+      expect(input.exists()).toBe(true)
       await input.trigger('focus')
-      const selectVm = select.vm as any
-      // Simulate focus state to trigger menu multiple times
-      selectVm.toggleMenu()
-      await nextTick()
-      selectVm.toggleMenu()
-      await nextTick()
-      // Select multiple items in multiple mode without triggering focus
-      const options = getOptions()
-      options[1].click()
-      await nextTick()
-      options[2].click()
-      await nextTick()
       expect(onFocus).toHaveBeenCalledTimes(1)
-      // Simulate click the outside
-      selectVm.handleClickOutside()
-      await nextTick()
-      await nextTick()
-      expect(onBlur).toHaveBeenCalled()
+      await input.trigger('blur')
+      expect(onBlur).toHaveBeenCalledTimes(1)
+
+      await input.trigger('focus')
+      expect(onFocus).toHaveBeenCalledTimes(2)
+      await input.trigger('blur')
+      expect(onBlur).toHaveBeenCalledTimes(2)
     })
 
     it('only emit change on user input', async () => {

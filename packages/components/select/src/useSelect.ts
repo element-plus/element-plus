@@ -40,7 +40,11 @@ import {
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
-import { useFormItem, useFormSize } from '@element-plus/components/form'
+import {
+  useFormItem,
+  useFormItemInputId,
+  useFormSize,
+} from '@element-plus/components/form'
 
 import { useInput } from '../../select-v2/src/useInput'
 import type ElTooltip from '@element-plus/components/tooltip'
@@ -127,6 +131,9 @@ export const useSelect = (props: ISelectProps, emit) => {
   const optionList = ref<string[]>([])
 
   const { form, formItem } = useFormItem()
+  const { inputId } = useFormItemInputId(props, {
+    formItemContext: formItem,
+  })
 
   const selectDisabled = computed(() => props.disabled || form?.disabled)
 
@@ -451,10 +458,6 @@ export const useSelect = (props: ISelectProps, emit) => {
         }
       }
     }, 300)
-  }
-
-  const handleResize = () => {
-    //
   }
 
   const resetSelectionWidth = () => {
@@ -789,7 +792,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     emit(UPDATE_MODEL_EVENT, '')
   }
 
-  useResizeObserver(selectRef, handleResize)
   useResizeObserver(selectionRef, resetSelectionWidth)
   useResizeObserver(calculatorRef, resetCalculatorWidth)
   useResizeObserver(prefixRef, resetPrefixWidth)
@@ -802,6 +804,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   return {
+    inputId,
     contentId,
     nsSelect,
     nsInput,
@@ -813,7 +816,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     hoverOption,
     selectSize,
     filteredOptionsCount,
-    handleResize,
     resetCalculatorWidth,
     resetPrefixWidth,
     resetSuffixWidth,

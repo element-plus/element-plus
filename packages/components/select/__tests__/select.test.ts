@@ -862,7 +862,6 @@ describe('Select', () => {
     await nextTick()
     const options = [...getOptions()]
     const target = options.find((option) => option.textContent === 'new')
-    console.log(options.map((item) => item.textContent))
     target.click()
     expect((wrapper.vm as any).value).toBe('new')
   })
@@ -935,7 +934,7 @@ describe('Select', () => {
     )
 
     await nextTick()
-    expect(getOptions()).toHaveLength(1)
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('选项2')
     await wrapper.setData({
       options,
     })
@@ -1052,7 +1051,6 @@ describe('Select', () => {
     const options = getOptions()
     const selectRef = wrapper.findComponent(Select)
     selectRef.vm.states.selectionWidth = 200
-    selectRef.vm.handleResize()
     options[0].click()
     await nextTick()
     const tagWrappers = wrapper.findAll('.el-tag')
