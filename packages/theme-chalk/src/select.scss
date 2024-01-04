@@ -152,7 +152,6 @@
     top: 50%;
     transform: translateY(-50%);
     width: 100%;
-    height: map.get($select-item-height, 'default');
     font-size: map.get($input-font-size, 'default');
     @include utils-ellipsis;
     color: var(
@@ -230,7 +229,6 @@
       }
 
       @include e(placeholder) {
-        //height: map.get($select-item-height, $size);
         font-size: map.get($input-font-size, $size);
       }
 

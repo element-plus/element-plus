@@ -35,8 +35,8 @@ describe('TimeSelect', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    expect(document.querySelector('.selected')).toBeDefined()
-    expect(document.querySelector('.selected')?.textContent).toBe('14:30')
+    expect(document.querySelector('.is-selected')).toBeDefined()
+    expect(document.querySelector('.is-selected')?.textContent).toBe('14:30')
   })
 
   it('set minTime', async () => {
