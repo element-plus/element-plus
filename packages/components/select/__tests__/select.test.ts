@@ -896,7 +896,7 @@ describe('Select', () => {
     selectVm.debouncedOnInputChange()
     await nextTick()
     const options = [...getOptions()]
-    expect(Array.from(options[0].classList)).toContain('hover')
+    expect(Array.from(options[0].classList)).toContain('is-hovering')
     options[0].click()
     expect((wrapper.vm as any).value).toBe('Java')
   })

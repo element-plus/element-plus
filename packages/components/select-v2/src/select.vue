@@ -166,19 +166,19 @@
                 v-text="states.inputValue"
               />
             </div>
-          </div>
-          <div
-            v-if="shouldShowPlaceholder"
-            :style="placeholderStyle"
-            :class="[
-              nsSelect.e('placeholder'),
-              nsSelect.is(
-                'transparent',
-                !hasModelValue || (expanded && !states.inputValue)
-              ),
-            ]"
-          >
-            <span>{{ currentPlaceholder }}</span>
+            <div
+              v-if="shouldShowPlaceholder"
+              :class="[
+                nsSelect.e('selected-item'),
+                nsSelect.e('placeholder'),
+                nsSelect.is(
+                  'transparent',
+                  !hasModelValue || (expanded && !states.inputValue)
+                ),
+              ]"
+            >
+              <span>{{ currentPlaceholder }}</span>
+            </div>
           </div>
           <div ref="suffixRef" :class="nsSelect.e('suffix')">
             <el-icon

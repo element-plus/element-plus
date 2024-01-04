@@ -58,8 +58,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
     hoveringIndex: -1,
     inputHovering: false,
     selectionWidth: 0,
-    prefixWidth: 0,
-    suffixWidth: 0,
     calculatorWidth: 0,
     previousQuery: null,
     previousValue: undefined,
@@ -242,19 +240,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const inputStyle = computed(() => ({
     width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
   }))
-
-  const placeholderStyle = computed(() => {
-    const gap = selectSize.value === 'small' ? 4 : 6
-    return {
-      maxWidth: `${states.selectionWidth}px`,
-      paddingInlineStart: states.prefixWidth
-        ? `${states.prefixWidth + gap}px`
-        : '',
-      paddingInlineEnd: states.suffixWidth
-        ? `${states.suffixWidth + gap}px`
-        : '',
-    }
-  })
 
   const shouldShowPlaceholder = computed(() => {
     if (isArray(props.modelValue)) {
@@ -452,14 +437,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
 
   const resetCalculatorWidth = () => {
     states.calculatorWidth = calculatorRef.value.getBoundingClientRect().width
-  }
-
-  const resetPrefixWidth = () => {
-    states.prefixWidth = prefixRef.value.getBoundingClientRect().width
-  }
-
-  const resetSuffixWidth = () => {
-    states.suffixWidth = suffixRef.value.getBoundingClientRect().width
   }
 
   const updateTooltip = () => {
@@ -800,8 +777,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
   useResizeObserver(selectRef, handleResize)
   useResizeObserver(selectionRef, resetSelectionWidth)
   useResizeObserver(calculatorRef, resetCalculatorWidth)
-  useResizeObserver(prefixRef, resetPrefixWidth)
-  useResizeObserver(suffixRef, resetSuffixWidth)
   useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
 
@@ -820,7 +795,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
     iconReverse,
     tagStyle,
     inputStyle,
-    placeholderStyle,
     popperSize,
     dropdownMenuVisible,
     hasModelValue,
@@ -872,8 +846,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
     handleResize,
     resetSelectionWidth,
     resetCalculatorWidth,
-    resetPrefixWidth,
-    resetSuffixWidth,
     updateTooltip,
     updateTagTooltip,
     toggleMenu,

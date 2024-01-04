@@ -71,8 +71,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     previousQuery: null,
     inputHovering: false,
     menuVisibleOnFocus: false,
-    prefixWidth: 0,
-    suffixWidth: 0,
   })
 
   useDeprecated(
@@ -470,14 +468,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     states.calculatorWidth = calculatorRef.value.getBoundingClientRect().width
   }
 
-  const resetPrefixWidth = () => {
-    states.prefixWidth = prefixRef.value.getBoundingClientRect().width
-  }
-
-  const resetSuffixWidth = () => {
-    states.suffixWidth = suffixRef.value.getBoundingClientRect().width
-  }
-
   const updateTooltip = () => {
     tooltipRef.value?.updatePopper?.()
   }
@@ -770,19 +760,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
 
-  const placeholderStyle = computed(() => {
-    const gap = selectSize.value === 'small' ? 4 : 6
-    return {
-      maxWidth: `${states.selectionWidth}px`,
-      paddingInlineStart: states.prefixWidth
-        ? `${states.prefixWidth + gap}px`
-        : '',
-      paddingInlineEnd: states.suffixWidth
-        ? `${states.suffixWidth + gap}px`
-        : '',
-    }
-  })
-
   const inputStyle = computed(() => ({
     width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
   }))
@@ -796,8 +773,6 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   useResizeObserver(selectionRef, resetSelectionWidth)
   useResizeObserver(calculatorRef, resetCalculatorWidth)
-  useResizeObserver(prefixRef, resetPrefixWidth)
-  useResizeObserver(suffixRef, resetSuffixWidth)
   useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
 
@@ -819,8 +794,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     selectSize,
     filteredOptionsCount,
     resetCalculatorWidth,
-    resetPrefixWidth,
-    resetSuffixWidth,
     updateTooltip,
     updateTagTooltip,
     debouncedOnInputChange,
@@ -870,7 +843,6 @@ export const useSelect = (props: ISelectProps, emit) => {
 
     // computed style
     tagStyle,
-    placeholderStyle,
     inputStyle,
 
     // DOM ref

@@ -61,10 +61,8 @@ export default defineComponent({
     const containerKls = computed(() => [
       ns.be('dropdown', 'item'),
       ns.is('disabled', unref(isDisabled)),
-      {
-        selected: unref(itemSelected),
-        hover: unref(hover),
-      },
+      ns.is('selected', unref(itemSelected)),
+      ns.is('hovering', unref(hover)),
     ])
 
     const states = reactive({

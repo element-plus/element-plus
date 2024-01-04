@@ -44,7 +44,7 @@ export const SelectProps = buildProps({
   filterMethod: Function,
   height: {
     type: Number,
-    default: 170, // 5 items by default
+    default: 274, // same as select dropdown menu
   },
   itemHeight: {
     type: Number,

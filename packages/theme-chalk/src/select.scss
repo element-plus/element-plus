@@ -5,7 +5,8 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 @use './select-dropdown.scss';
-@use './select/common.scss' as *;
+@use './option.scss';
+@use './option-group.scss';
 
 @include b(select) {
   @include set-component-css-var('select', $select);
@@ -110,6 +111,7 @@
   }
 
   @include e(selection) {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -146,9 +148,10 @@
 
   @include e(placeholder) {
     position: absolute;
+    display: block;
     top: 50%;
     transform: translateY(-50%);
-    display: block;
+    width: 100%;
     height: map.get($select-item-height, 'default');
     font-size: map.get($input-font-size, 'default');
     @include utils-ellipsis;
@@ -227,7 +230,7 @@
       }
 
       @include e(placeholder) {
-        height: map.get($select-item-height, $size);
+        //height: map.get($select-item-height, $size);
         font-size: map.get($input-font-size, $size);
       }
 
