@@ -283,7 +283,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     (val) => {
       if (val) {
         handleQueryChange(states.inputValue)
-        resetHoveringIndex()
       } else {
         states.inputValue = ''
         states.previousQuery = null
@@ -361,6 +360,10 @@ export const useSelect = (props: ISelectProps, emit) => {
       nextTick(() => {
         checkDefaultFirstOption()
       })
+    } else {
+      nextTick(() => {
+        updateHoveringIndex()
+      })
     }
   }
 
@@ -437,7 +440,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     return newOption
   }
 
-  const resetHoveringIndex = () => {
+  const updateHoveringIndex = () => {
     const valueKey = props.valueKey
     if (!props.multiple) {
       states.hoveringIndex = optionsArray.value.findIndex((item) => {

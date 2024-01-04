@@ -48,11 +48,11 @@ $checked-icon: "data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='
         }
       }
     }
-  }
 
-  & .#{$namespace}-select-dropdown__option-item.is-selected {
-    &::after {
-      @include checked-icon;
+    & .#{$namespace}-select-dropdown__option-item.is-selected {
+      &::after {
+        @include checked-icon;
+      }
     }
   }
 

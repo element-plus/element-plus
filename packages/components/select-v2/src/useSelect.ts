@@ -381,6 +381,10 @@ const useSelect = (props: ISelectV2Props, emit) => {
       nextTick(() => {
         checkDefaultFirstOption()
       })
+    } else {
+      nextTick(() => {
+        updateHoveringIndex()
+      })
     }
   }
 
@@ -485,7 +489,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
         selectedOptions = [...selectedOptions, getValue(option)]
         states.cachedOptions.push(option)
         selectNewOption(option)
-        updateHoveringIndex(idx)
       }
       update(selectedOptions)
       if (option.created) {
@@ -503,7 +506,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
       if (!option.created) {
         clearAllNewOption()
       }
-      updateHoveringIndex(idx)
     }
     focus()
   }
@@ -627,7 +629,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
       // prevent dispatching multiple nextTick callbacks.
       return onKeyboardNavigate(direction, newIndex)
     } else {
-      updateHoveringIndex(newIndex)
+      states.hoveringIndex = newIndex
       scrollToItem(newIndex)
     }
   }
@@ -646,12 +648,29 @@ const useSelect = (props: ISelectV2Props, emit) => {
     }
   }
 
-  const updateHoveringIndex = (idx: number) => {
+  const onHoverOption = (idx: number) => {
     states.hoveringIndex = idx
   }
 
-  const resetHoveringIndex = () => {
-    states.hoveringIndex = -1
+  const updateHoveringIndex = () => {
+    if (!props.multiple) {
+      states.hoveringIndex = filteredOptions.value.findIndex((item) => {
+        return getValueKey(item) === getValueKey(props.modelValue)
+      })
+    } else {
+      if (props.modelValue.length > 0) {
+        states.hoveringIndex = Math.min.apply(
+          null,
+          props.modelValue.map((selected) => {
+            return filteredOptions.value.findIndex((item) => {
+              return getValue(item) === selected
+            })
+          })
+        )
+      } else {
+        states.hoveringIndex = -1
+      }
+    }
   }
 
   const onInput = (event) => {
@@ -673,7 +692,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const handleMenuEnter = () => {
     return nextTick(() => {
       if (~indexRef.value) {
-        updateHoveringIndex(indexRef.value)
         scrollToItem(states.hoveringIndex)
       }
     })
@@ -684,10 +702,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
   }
 
   const initStates = () => {
-    resetHoveringIndex()
     if (props.multiple) {
       if ((props.modelValue as Array<any>).length > 0) {
-        let initHovering = false
         states.cachedOptions.length = 0
         states.previousValue = props.modelValue.toString()
 
@@ -695,14 +711,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
           const selectValue = getValueKey(value)
 
           if (filteredOptionsValueMap.value.has(selectValue)) {
-            const { index, option } =
-              filteredOptionsValueMap.value.get(selectValue)
+            const { option } = filteredOptionsValueMap.value.get(selectValue)
 
             states.cachedOptions.push(option)
-            if (!initHovering) {
-              updateHoveringIndex(index)
-            }
-            initHovering = true
           }
         }
       } else {
@@ -719,7 +730,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
         )
         if (~selectedItemIndex) {
           states.selectedLabel = getLabel(options[selectedItemIndex])
-          updateHoveringIndex(selectedItemIndex)
         } else {
           states.selectedLabel = getValueKey(props.modelValue)
         }
@@ -740,11 +750,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
     if (val) {
       handleQueryChange('')
     } else {
-      if (props.filterable) {
-        states.inputValue = ''
-        states.previousQuery = null
-        createNewOption('')
-      }
+      states.inputValue = ''
+      states.previousQuery = null
+      createNewOption('')
     }
     emit('visible-change', val)
   })
@@ -783,15 +791,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
     () => filteredOptions.value,
     () => {
       return menuRef.value && nextTick(menuRef.value.resetScrollTop)
-    }
-  )
-
-  watch(
-    () => dropdownMenuVisible.value,
-    (val) => {
-      if (!val) {
-        resetHoveringIndex()
-      }
     }
   )
 
@@ -883,7 +882,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     onKeyboardNavigate,
     onKeyboardSelect,
     onSelect,
-    onHover: updateHoveringIndex,
+    onHover: onHoverOption,
     handleCompositionStart,
     handleCompositionEnd,
     handleCompositionUpdate,

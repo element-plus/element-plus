@@ -25,8 +25,8 @@ export default defineComponent({
       () => props.data,
       () => {
         props.data.forEach((item) => {
-          if (!select.cachedOptions.has(item.value)) {
-            select.cachedOptions.set(item.value, item)
+          if (!select.states.cachedOptions.has(item.value)) {
+            select.states.cachedOptions.set(item.value, item)
           }
         })
 

@@ -85,15 +85,15 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       const key = (vm as unknown as SelectOptionProxy).value
-      const { selected } = select
+      const { selected } = select.states
       const selectedOptions = select.props.multiple ? selected : [selected]
       const doesSelected = selectedOptions.some((item) => {
         return item.value === (vm as unknown as SelectOptionProxy).value
       })
       // if option is not selected, remove it from cache
       nextTick(() => {
-        if (select.cachedOptions.get(key) === vm && !doesSelected) {
-          select.cachedOptions.delete(key)
+        if (select.states.cachedOptions.get(key) === vm && !doesSelected) {
+          select.states.cachedOptions.delete(key)
         }
       })
       select.onOptionDestroy(key, vm)

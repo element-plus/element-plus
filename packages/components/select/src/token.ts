@@ -11,15 +11,12 @@ export interface QueryChangeCtx {
 
 export interface SelectContext {
   props: ExtractPropTypes<typeof SelectProps>
+  states: any
   expanded: boolean
   queryChange: Ref<QueryChangeCtx>
   groupQueryChange: Ref<string>
   selectRef: HTMLElement
-  cachedOptions: Map<any, any>
-  hoveringIndex: number
-  options: Map<any, any>
   optionsArray: any[]
-  selected: any | any[]
   setSelected(): void
   onOptionCreate(vm: SelectOptionProxy): void
   onOptionDestroy(key: number | string | Record<string, any>): void

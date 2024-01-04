@@ -29,7 +29,6 @@
     }
 
     @include when(selected) {
-      background-color: map.get($select-option, 'hover-background');
       font-weight: 700;
 
       &:not(.is-multiple) {
@@ -50,7 +49,6 @@
     .#{$namespace}-select-dropdown__option-item {
       &.is-selected {
         color: map.get($select-option, 'selected-text-color');
-        background-color: map.get($select-dropdown, 'bg-color');
 
         & .#{$namespace}-icon {
           position: absolute;
