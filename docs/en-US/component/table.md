@@ -1,3 +1,4 @@
+````
 ---
 title: Table
 lang: en-US
@@ -300,7 +301,8 @@ table/table-layout
 | Method             | Description                                                                                                                                                       | Parameters                                            |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
 | clearSelection     | used in multiple selection Table, clear user selection                                                                                                            | —                                                     |
-| getSelectionRows   | returns the currently selected rows                                                                                                                               |                                                       |
+| getSelectionRows   | returns the currently selected rows
+| getColumnCounts    | returns the Table column counts                                                                                                                  |                                                       |
 | toggleRowSelection | used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected                    | row, selected                                         |
 | toggleAllSelection | used in multiple selection Table, toggle select all and deselect all                                                                                              | —                                                     |
 | toggleRowExpansion | used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed | row, expanded                                         |
@@ -372,7 +374,7 @@ table/table-layout
         </div>
     </template>
 </el-table-column>
-```
+````
 
 PS: since the fixed column is implement by sticky, when you have fixed columns in table, please add the `preview-teleported` attribute in image
 
@@ -383,3 +385,7 @@ Typical issue: [#5046](https://github.com/element-plus/element-plus/issues/5046)
 This is because the HTML spec only allows a few specific elements to omit closing tags, the most common being `<input>` and `<img>`. For all other elements, if you omit the closing tag, the native HTML parser will think you never terminated the opening tag
 
 For more details please refer to [vue docs](https://vuejs.org/guide/essentials/component-basics.html#self-closing-tags)
+
+```
+
+```

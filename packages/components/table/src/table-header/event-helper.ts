@@ -34,9 +34,26 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
   const draggingColumn = ref(null)
   const dragging = ref(false)
   const dragState = ref({})
+  // Function to check if the given column is the last one
+  const isLastColumn = (
+    column: TableColumnCtx<T>,
+    columns: TableColumnCtx<T>[]
+  ): boolean => {
+    const columnIndex = columns.indexOf(column)
+    return columnIndex === columns.length - 1
+  }
   const handleMouseDown = (event: MouseEvent, column: TableColumnCtx<T>) => {
     if (!isClient) return
     if (column.children && column.children.length > 0) return
+    const columnCount = props.store.getColumnCounts()
+    // Use isLastColumn function to determine if it's the last column
+    // https://github.com/element-plus/element-plus/issues/15359
+    if (
+      columnCount <= 1 ||
+      isLastColumn(column, props.store.states.columns.value)
+    )
+      return
+
     /* istanbul ignore if */
     if (draggingColumn.value && props.border) {
       dragging.value = true
@@ -112,7 +129,6 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
       document.addEventListener('mouseup', handleMouseUp)
     }
   }
-
   const handleMouseMove = (event: MouseEvent, column: TableColumnCtx<T>) => {
     if (column.children && column.children.length > 0) return
     const el = event.target as HTMLElement
@@ -122,7 +138,9 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
     const target = el?.closest('th')
 
     if (!column || !column.resizable) return
-
+    // Use isLastColumn function to check if the current column is the last one
+    // https://github.com/element-plus/element-plus/issues/15359
+    if (isLastColumn(column, props.store.states.columns.value)) return
     if (!dragging.value && props.border) {
       const rect = target.getBoundingClientRect()
 
@@ -142,7 +160,6 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
       }
     }
   }
-
   const handleMouseOut = () => {
     if (!isClient) return
     document.body.style.cursor = ''

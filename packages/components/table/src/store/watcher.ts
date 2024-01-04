@@ -188,6 +188,12 @@ function useWatcher<T>() {
     return (selection.value || []).slice()
   }
 
+  const getColumnCounts = (): number => {
+    // 使用 unref 确保即使 _columns 是 Ref 类型，也能正确访问其值
+    const columns = unref(_columns)
+    return columns.length
+  }
+
   const toggleRowSelection = (
     row: T,
     selected = undefined,
@@ -482,6 +488,7 @@ function useWatcher<T>() {
     clearSelection,
     cleanSelection,
     getSelectionRows,
+    getColumnCounts,
     toggleRowSelection,
     _toggleAllSelection,
     toggleAllSelection: null,
