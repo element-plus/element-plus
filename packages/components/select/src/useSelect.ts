@@ -283,6 +283,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     (val) => {
       if (val) {
         handleQueryChange(states.inputValue)
+        resetHoveringIndex()
       } else {
         states.inputValue = ''
         states.previousQuery = null
@@ -437,27 +438,25 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const resetHoveringIndex = () => {
-    setTimeout(() => {
-      const valueKey = props.valueKey
-      if (!props.multiple) {
-        states.hoveringIndex = optionsArray.value.findIndex((item) => {
-          return getValueKey(item) === getValueKey(states.selected)
-        })
-      } else {
-        if (states.selected.length > 0) {
-          states.hoveringIndex = Math.min.apply(
-            null,
-            states.selected.map((selected) => {
-              return optionsArray.value.findIndex((item) => {
-                return get(item, valueKey) === get(selected, valueKey)
-              })
+    const valueKey = props.valueKey
+    if (!props.multiple) {
+      states.hoveringIndex = optionsArray.value.findIndex((item) => {
+        return getValueKey(item) === getValueKey(states.selected)
+      })
+    } else {
+      if (states.selected.length > 0) {
+        states.hoveringIndex = Math.min.apply(
+          null,
+          states.selected.map((selected) => {
+            return optionsArray.value.findIndex((item) => {
+              return get(item, valueKey) === get(selected, valueKey)
             })
-          )
-        } else {
-          states.hoveringIndex = -1
-        }
+          })
+        )
+      } else {
+        states.hoveringIndex = -1
       }
-    }, 300)
+    }
   }
 
   const resetSelectionWidth = () => {

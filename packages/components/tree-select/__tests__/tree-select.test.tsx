@@ -77,8 +77,6 @@ const createComponent = ({
   }
 }
 
-const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
-
 describe('TreeSelect.vue', () => {
   test('render test', async () => {
     const { wrapper, tree } = createComponent({
