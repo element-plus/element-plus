@@ -388,16 +388,12 @@
 
   @include e((footer-wrapper)) {
     overflow: hidden;
+    flex-shrink: 0;
 
     tfoot td.#{$namespace}-table__cell {
       background-color: getCssVar('table-row-hover-bg-color');
       color: getCssVar('table-text-color');
     }
-  }
-
-  @include e((footer-wrapper)) {
-    overflow: hidden;
-    flex-shrink: 0;
   }
 
   @include e((header-wrapper, body-wrapper)) {
