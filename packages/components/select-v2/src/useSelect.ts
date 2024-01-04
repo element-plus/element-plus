@@ -36,11 +36,11 @@ import { useProps } from './useProps'
 
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { Option, OptionType } from './select.types'
-import type { ISelectProps } from './token'
+import type { ISelectV2Props } from './token'
 
 const MINIMUM_INPUT_WIDTH = 11
 
-const useSelect = (props: ISelectProps, emit) => {
+const useSelect = (props: ISelectV2Props, emit) => {
   // inject
   const { t } = useLocale()
   const nsSelect = useNamespace('select')
