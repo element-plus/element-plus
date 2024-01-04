@@ -102,6 +102,11 @@ export default {
       clearFilter: 'すべて',
       sumText: '合計',
     },
+    tour: {
+      next: '次へ',
+      previous: '前へ',
+      finish: 'ツアー終了',
+    },
     tree: {
       emptyText: 'データなし',
     },

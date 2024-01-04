@@ -102,6 +102,11 @@ export default {
       clearFilter: 'Все',
       sumText: 'Сумма',
     },
+    tour: {
+      next: 'Далее',
+      previous: 'Назад',
+      finish: 'Завершить',
+    },
     tree: {
       emptyText: 'Нет данных',
     },

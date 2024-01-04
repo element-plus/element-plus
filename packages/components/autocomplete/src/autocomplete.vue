@@ -77,9 +77,11 @@
           role="listbox"
         >
           <li v-if="suggestionLoading">
-            <el-icon :class="ns.is('loading')">
-              <Loading />
-            </el-icon>
+            <slot name="loading">
+              <el-icon :class="ns.is('loading')">
+                <Loading />
+              </el-icon>
+            </slot>
           </li>
           <template v-else>
             <li
