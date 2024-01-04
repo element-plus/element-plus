@@ -556,6 +556,13 @@ export default defineComponent({
       type: String,
       default: undefined,
     },
+    /**
+     * @description Whether to embed label in value, turn the format of value from string to { value: string, label: string | number }
+     */
+    labelInValue: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     UPDATE_MODEL_EVENT,

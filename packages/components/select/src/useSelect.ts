@@ -638,7 +638,20 @@ export const useSelect = (props, states: States, ctx) => {
 
   const emitChange = (val) => {
     if (!isEqual(props.modelValue, val)) {
-      ctx.emit(CHANGE_EVENT, val)
+      let returnValue = val
+
+      if (props.labelInValue) {
+        if (props.multiple) {
+          returnValue = val.map((item) => {
+            const { disabled, id, label, value } = states.options.get(item)
+            return { disabled, id, label, value }
+          })
+        } else {
+          const { disabled, id, label, value } = states.options.get(val)
+          returnValue = { disabled, id, label, value }
+        }
+      }
+      ctx.emit(CHANGE_EVENT, returnValue)
     }
   }
 

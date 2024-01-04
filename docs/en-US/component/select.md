@@ -184,6 +184,7 @@ select/value-key
 | max-collapse-tags ^(2.3.0)      | the max tags number to be shown. To use this, `collapse-tags` must be true                                            | ^[number]                                                                                                                                                                   | 1            |
 | popper-options                  | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}           |
 | aria-label ^(a11y)              | same as `aria-label` in native input                                                                                  | ^[string]                                                                                                                                                                   | —            |
+| label-in-value            | Whether to embed label in value, turn the format of value from string to { value: string, label: string \| number }                                                                                   | ^[boolean]                                                                                                                                                                   | false            |
 
 :::warning
 
