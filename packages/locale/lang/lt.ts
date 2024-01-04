@@ -102,6 +102,11 @@ export default {
       clearFilter: 'Išvalyti',
       sumText: 'Suma',
     },
+    tour: {
+      next: 'Kitas',
+      previous: 'Ankstesnis',
+      finish: 'Baigti',
+    },
     tree: {
       emptyText: 'Nėra duomenų',
     },

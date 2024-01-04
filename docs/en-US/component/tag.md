@@ -99,9 +99,9 @@ tag/checkable
 
 ### Tag Slots
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |
 
 ## CheckTag API
 
@@ -119,6 +119,6 @@ tag/checkable
 
 ### CheckTag Slots
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |

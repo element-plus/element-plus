@@ -98,6 +98,8 @@ declare module '@vue/runtime-core' {
     ElResult: typeof import('../packages/element-plus')['ElResult']
     ElSelectV2: typeof import('../packages/element-plus')['ElSelectV2']
     ElWatermark: typeof import('../packages/element-plus')['ElWatermark']
+    ElTour: typeof import('../packages/element-plus')['ElTour']
+    ElTourStep: typeof import('../packages/element-plus')['ElTourStep']
   }
 
   interface ComponentCustomProperties {

@@ -305,7 +305,7 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   isChangeToNow.value = false
   isShortcut = false
 }
-const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
+const handleDatePick = async (value: DateTableEmits, keepOpen?: boolean) => {
   if (selectionMode.value === 'date') {
     value = value as Dayjs
     let newDate = props.parsedValue
@@ -323,6 +323,11 @@ const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
     }
     innerDate.value = newDate
     emit(newDate, showTime.value || keepOpen)
+    // fix: https://github.com/element-plus/element-plus/issues/14728
+    if (props.type === 'datetime') {
+      await nextTick()
+      handleFocusPicker()
+    }
   } else if (selectionMode.value === 'week') {
     emit((value as WeekPickerEmits).date)
   } else if (selectionMode.value === 'dates') {

@@ -380,5 +380,30 @@ describe('Switch.vue', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+
+    test('custom switch action slots', async () => {
+      const value = ref(true)
+      const wrapper = mount({
+        setup: () => () =>
+          (
+            <Switch
+              v-model={value.value}
+              v-slots={{
+                'active-action': () => (
+                  <span class="custom-active-action">T</span>
+                ),
+                'inactive-action': () => (
+                  <span class="custom-inactive-action">F</span>
+                ),
+              }}
+            />
+          ),
+      })
+      await nextTick()
+
+      const coreWrapper = wrapper.find('.el-switch__core')
+      const actionWrapper = coreWrapper.find('.el-switch__action')
+      expect(actionWrapper.find('.custom-active-action').exists()).toBeTruthy()
+    })
   })
 })
