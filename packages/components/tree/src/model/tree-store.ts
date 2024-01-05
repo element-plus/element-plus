@@ -289,7 +289,12 @@ export default class TreeStore {
     leafOnly = false,
     checkedKeys: { [key: string]: boolean }
   ): void {
-    const allNodes = this._getAllNodes().sort((a, b) => b.level - a.level)
+    const allNodes = this._getAllNodes().sort((a, b) => {
+      if (a.level > b.level) {
+        return 1
+      }
+      return -1
+    })
     const cache = Object.create(null)
     const keys = Object.keys(checkedKeys)
     allNodes.forEach((node) => node.setChecked(false, false))
