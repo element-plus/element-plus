@@ -1,11 +1,8 @@
 // @ts-nocheck
-import { computed, getCurrentInstance, inject, toRaw, unref, watch } from 'vue'
+import { computed, getCurrentInstance, inject, toRaw, watch } from 'vue'
 import { get } from 'lodash-unified'
 import { isObject as _isObject, escapeStringRegexp } from '@element-plus/utils'
 import { selectGroupKey, selectKey } from './token'
-
-import type { Ref } from 'vue'
-import type { QueryChangeCtx } from './token'
 
 export function useOption(props, states) {
   // inject
@@ -79,6 +76,11 @@ export function useOption(props, states) {
     }
   }
 
+  const updateOption = (query: string) => {
+    const regexp = new RegExp(escapeStringRegexp(query), 'i')
+    states.visible = regexp.test(currentLabel.value) || props.created
+  }
+
   watch(
     () => currentLabel.value,
     () => {
@@ -118,17 +120,6 @@ export function useOption(props, states) {
     { immediate: true }
   )
 
-  const { queryChange } = toRaw(select)
-  watch(
-    queryChange,
-    (changes: Ref<QueryChangeCtx>) => {
-      const { query } = unref(changes)
-      const regexp = new RegExp(escapeStringRegexp(query), 'i')
-      states.visible = regexp.test(currentLabel.value) || props.created
-    },
-    { immediate: true }
-  )
-
   return {
     select,
     currentLabel,
@@ -136,5 +127,6 @@ export function useOption(props, states) {
     itemSelected,
     isDisabled,
     hoverItem,
+    updateOption,
   }
 }

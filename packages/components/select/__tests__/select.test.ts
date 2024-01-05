@@ -1671,13 +1671,13 @@ describe('Select', () => {
     })
 
     const select = wrapper.findComponent({ name: 'ElSelect' }).vm
-    select.debouncedQueryChange({
+    select.onInput({
       target: {
         value: '',
       },
     })
 
-    select.debouncedQueryChange({
+    select.onInput({
       target: {
         value: 'a',
       },
@@ -1687,7 +1687,7 @@ describe('Select', () => {
     let options = getOptions()
     options[0].click()
     await nextTick()
-    select.debouncedQueryChange({
+    select.onInput({
       target: {
         value: 'n',
       },
@@ -1997,7 +1997,7 @@ describe('Select', () => {
       await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
       const vm = wrapper.findComponent(Select).vm
       const event = { target: { value: 'sh' } }
-      vm.debouncedQueryChange(event)
+      vm.onInput(event)
       await nextTick()
       const groups = wrapper.findAllComponents(Group)
       expect(

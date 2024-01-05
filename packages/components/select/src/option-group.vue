@@ -12,19 +12,17 @@
 <script lang="ts">
 // @ts-nocheck
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
-  inject,
   onMounted,
   provide,
   reactive,
   ref,
-  toRaw,
   toRefs,
-  watch,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { selectGroupKey, selectKey } from './token'
+import { selectGroupKey } from './token'
 
 export default defineComponent({
   name: 'ElOptionGroup',
@@ -42,7 +40,6 @@ export default defineComponent({
   },
   setup(props) {
     const ns = useNamespace('select')
-    const visible = ref(true)
     const instance = getCurrentInstance()
     const children = ref([])
 
@@ -53,7 +50,9 @@ export default defineComponent({
       })
     )
 
-    const select = inject(selectKey)
+    const visible = computed(() =>
+      children.value.some((option) => option.visible === true)
+    )
 
     onMounted(() => {
       children.value = flattedChildren(instance.subTree)
@@ -78,15 +77,6 @@ export default defineComponent({
       }
       return children
     }
-
-    const { groupQueryChange } = toRaw(select)
-    watch(
-      groupQueryChange,
-      () => {
-        visible.value = children.value.some((option) => option.visible === true)
-      },
-      { flush: 'post' }
-    )
 
     return {
       visible,

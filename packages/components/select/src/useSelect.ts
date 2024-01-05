@@ -1,15 +1,5 @@
 // @ts-nocheck
-import {
-  computed,
-  nextTick,
-  onMounted,
-  reactive,
-  ref,
-  shallowRef,
-  toRaw,
-  triggerRef,
-  watch,
-} from 'vue'
+import { computed, nextTick, onMounted, reactive, ref, toRaw, watch } from 'vue'
 import { isArray, isObject, toRawType } from '@vue/shared'
 import {
   findLastIndex,
@@ -48,7 +38,7 @@ import {
 
 import { useInput } from '../../select-v2/src/useInput'
 import type ElTooltip from '@element-plus/components/tooltip'
-import type { ISelectProps, QueryChangeCtx, SelectOptionProxy } from './token'
+import type { ISelectProps, SelectOptionProxy } from './token'
 
 const MINIMUM_INPUT_WIDTH = 11
 
@@ -124,8 +114,6 @@ export const useSelect = (props: ISelectProps, emit) => {
   // the controller of the expanded popup
   const expanded = ref(false)
   const hoverOption = ref()
-  const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
-  const groupQueryChange = shallowRef('')
   const optionList = ref<string[]>([])
 
   const { form, formItem } = useFormItem()
@@ -226,6 +214,12 @@ export const useSelect = (props: ISelectProps, emit) => {
       !hasExistingOption
     )
   })
+
+  const updateOptions = () => {
+    optionsArray.value.forEach((option) => {
+      option.updateOption(states.inputValue)
+    })
+  }
 
   const selectSize = useFormSize()
 
@@ -346,9 +340,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     ) {
       props.remoteMethod(val)
     } else {
-      queryChange.value.query = val
-      triggerRef(queryChange)
-      triggerRef(groupQueryChange)
+      updateOptions()
     }
     if (
       props.defaultFirstOption &&
@@ -494,10 +486,6 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const debouncedOnInputChange = lodashDebounce(() => {
     onInputChange()
-  }, debounce.value)
-
-  const debouncedQueryChange = lodashDebounce((e) => {
-    handleQueryChange(e.target.value)
   }, debounce.value)
 
   const emitChange = (val) => {
@@ -802,7 +790,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     updateTooltip,
     updateTagTooltip,
     debouncedOnInputChange,
-    debouncedQueryChange,
     onInput,
     deletePrevTag,
     deleteTag,
@@ -818,6 +805,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     validateState,
     validateIcon,
     showNewOption,
+    updateOptions,
     collapseTagSize,
     setSelected,
     selectDisabled,
@@ -841,8 +829,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     getValueKey,
     navigateOptions,
     dropMenuVisible,
-    queryChange,
-    groupQueryChange,
     showTagList,
     collapseTagList,
 

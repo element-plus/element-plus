@@ -1,26 +1,23 @@
-import type { ExtractPropTypes, InjectionKey, Ref } from 'vue'
+import type { ExtractPropTypes, InjectionKey } from 'vue'
 import type { SelectProps } from './select'
 
 interface SelectGroupContext {
   disabled: boolean
 }
 
-export interface QueryChangeCtx {
-  query: string
-}
-
 export interface SelectContext {
   props: ExtractPropTypes<typeof SelectProps>
   states: any
   expanded: boolean
-  queryChange: Ref<QueryChangeCtx>
-  groupQueryChange: Ref<string>
   selectRef: HTMLElement
   optionsArray: any[]
   setSelected(): void
   onOptionCreate(vm: SelectOptionProxy): void
-  onOptionDestroy(key: number | string | Record<string, any>): void
-  handleOptionSelect(vm: unknown): void
+  onOptionDestroy(
+    key: number | string | Record<string, string>,
+    vm: SelectOptionProxy
+  ): void
+  handleOptionSelect(vm: SelectOptionProxy): void
 }
 
 // For individual build sharing injection key, we had to make `Symbol` to string
@@ -39,6 +36,7 @@ export interface SelectOptionProxy {
   isDisabled: boolean
   select: SelectContext
   hoverItem: () => void
+  updateOption: (query: string) => void
   visible: boolean
   hover: boolean
   selectOptionClick: () => void

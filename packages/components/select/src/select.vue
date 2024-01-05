@@ -304,8 +304,6 @@ export default defineComponent({
         onOptionDestroy: API.onOptionDestroy,
         selectRef: API.selectRef,
         setSelected: API.setSelected,
-        queryChange: API.queryChange,
-        groupQueryChange: API.groupQueryChange,
       }) as unknown as SelectContext
     )
 

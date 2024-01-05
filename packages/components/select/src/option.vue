@@ -72,21 +72,27 @@ export default defineComponent({
       hover: false,
     })
 
-    const { currentLabel, itemSelected, isDisabled, select, hoverItem } =
-      useOption(props, states)
+    const {
+      currentLabel,
+      itemSelected,
+      isDisabled,
+      select,
+      hoverItem,
+      updateOption,
+    } = useOption(props, states)
 
     const { visible, hover } = toRefs(states)
 
-    const vm = getCurrentInstance().proxy
+    const vm = getCurrentInstance().proxy as unknown as SelectOptionProxy
 
-    select.onOptionCreate(vm as unknown as SelectOptionProxy)
+    select.onOptionCreate(vm)
 
     onBeforeUnmount(() => {
-      const key = (vm as unknown as SelectOptionProxy).value
+      const key = vm.value
       const { selected } = select.states
       const selectedOptions = select.props.multiple ? selected : [selected]
       const doesSelected = selectedOptions.some((item) => {
-        return item.value === (vm as unknown as SelectOptionProxy).value
+        return item.value === vm.value
       })
       // if option is not selected, remove it from cache
       nextTick(() => {
@@ -112,6 +118,7 @@ export default defineComponent({
       isDisabled,
       select,
       hoverItem,
+      updateOption,
       visible,
       hover,
       selectOptionClick,
