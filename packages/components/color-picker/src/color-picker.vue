@@ -6,6 +6,7 @@
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :offset="0"
     :gpu-acceleration="false"
+    :teleported="false"
     :popper-class="[ns.be('picker', 'panel'), ns.b('dropdown'), popperClass]"
     :stop-popper-mouse-event="false"
     effect="light"
