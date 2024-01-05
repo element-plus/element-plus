@@ -210,6 +210,12 @@
     .#{$namespace}-menu .#{$namespace}-sub-menu {
       min-width: 200px;
     }
+
+    .#{$namespace}-sub-menu {
+      &.is-active .#{$namespace}-sub-menu__title {
+        color: getCssVar('menu-active-color');
+      }
+    }
   }
   @include m(popup) {
     z-index: 100;

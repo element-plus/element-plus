@@ -276,8 +276,10 @@ export default defineComponent({
       ))
 
       if (appendToBody.value && deepDispatch) {
-        if (instance.parent?.type.name === 'ElSubMenu') {
+        if (instance.parent?.type.name === COMPONENT_NAME) {
           subMenu.handleMouseleave?.(true)
+        } else {
+          subMenu.handleMouseleave?.(false)
         }
       }
     }
@@ -453,7 +455,7 @@ export default defineComponent({
           ariaHaspopup: true,
           ariaExpanded: opened.value,
           onMouseenter: handleMouseenter,
-          onMouseleave: () => handleMouseleave(true),
+          onMouseleave: () => handleMouseleave(),
           onFocus: handleMouseenter,
         },
         [child]
