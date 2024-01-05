@@ -175,6 +175,12 @@
 
   @include e(input-wrapper) {
     max-width: 100%;
+
+    @include when(hidden) {
+      // Out of the document flow
+      position: absolute;
+      opacity: 0;
+    }
   }
 
   @include e(input) {
