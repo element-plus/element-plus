@@ -662,8 +662,13 @@ const useSelect = (props: ISelectV2Props, emit) => {
     }
   }
 
-  const handleClickOutside = () => {
+  const handleClickOutside = (event: Event) => {
     expanded.value = false
+
+    if (isFocused.value) {
+      const _event = new FocusEvent('focus', event)
+      handleBlur(_event)
+    }
   }
 
   const handleMenuEnter = () => {

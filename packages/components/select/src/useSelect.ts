@@ -664,8 +664,13 @@ export const useSelect = (props: ISelectProps, emit) => {
     deleteSelected(event)
   }
 
-  const handleClickOutside = () => {
+  const handleClickOutside = (event: Event) => {
     expanded.value = false
+
+    if (isFocused.value) {
+      const _event = new FocusEvent('focus', event)
+      handleBlur(_event)
+    }
   }
 
   const handleEsc = () => {
