@@ -305,10 +305,11 @@ const isWordLimitVisible = computed(
   () =>
     props.showWordLimit &&
     !!props.maxlength &&
-    (props.type === 'text' || props.type === 'textarea') &&
+    (props.type === 'text' ||
+      props.type === 'textarea' ||
+      props.type === 'password') &&
     !inputDisabled.value &&
-    !props.readonly &&
-    !props.showPassword
+    !props.readonly
 )
 const textLength = computed(() => nativeInputValue.value.length)
 const inputExceed = computed(
