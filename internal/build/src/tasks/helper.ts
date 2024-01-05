@@ -80,7 +80,6 @@ const reAttribute: ReAttribute = (value, key) => {
   } else if (key === 'Type') {
     return rewriteType(str)
       .replaceAll(/\bfunction(\(.*\))?(:\s*\w+)?\b/gi, 'Function')
-      .replaceAll(/\bdate\b/g, 'Date')
       .replaceAll(/\([^)]*\)(?!\s*=>)/g, '')
       .replaceAll(/(<[^>]*>|\{[^}]*}|\([^)]*\))/g, (item) => {
         return item.replaceAll(/(\/|\|)/g, '=_0!')
