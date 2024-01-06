@@ -126,7 +126,6 @@
     .#{$namespace}-tag {
       cursor: pointer;
       border-color: transparent;
-      background-color: getCssVar('fill-color');
 
       .#{$namespace}-tag__content {
         min-width: 0;

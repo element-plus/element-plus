@@ -3,6 +3,7 @@ import { useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
+import { tagProps } from '../../tag'
 import { defaultProps } from './useProps'
 
 import type { Option, OptionType } from './select.types'
@@ -53,7 +54,6 @@ export const SelectProps = buildProps({
   id: String,
   loading: Boolean,
   loadingText: String,
-  label: String,
   modelValue: {
     type: definePropType<
       any[] | string | number | boolean | Record<string, any> | any
@@ -114,6 +114,11 @@ export const SelectProps = buildProps({
     type: definePropType<Placement>(String),
     values: placements,
     default: 'bottom-start',
+  },
+  tagType: { ...tagProps.type, default: 'info' },
+  ariaLabel: {
+    type: String,
+    default: undefined,
   },
 } as const)
 

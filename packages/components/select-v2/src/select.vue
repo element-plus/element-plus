@@ -61,7 +61,7 @@
                 <el-tag
                   :closable="!selectDisabled && !getDisabled(item)"
                   :size="collapseTagSize"
-                  type="info"
+                  :type="tagType"
                   disable-transitions
                   :style="tagStyle"
                   @close="deleteTag($event, item)"
@@ -86,7 +86,7 @@
                     <el-tag
                       :closable="false"
                       :size="collapseTagSize"
-                      type="info"
+                      :type="tagType"
                       :style="tagStyle"
                       disable-transitions
                     >
@@ -104,10 +104,10 @@
                       :class="nsSelect.e('selected-item')"
                     >
                       <el-tag
+                        class="in-tooltip"
                         :closable="!selectDisabled && !getDisabled(selected)"
                         :size="collapseTagSize"
-                        class="in-tooltip"
-                        type="info"
+                        :type="tagType"
                         disable-transitions
                         @close="deleteTag($event, selected)"
                       >
@@ -138,7 +138,7 @@
                 aria-haspopup="listbox"
                 autocapitalize="off"
                 :aria-expanded="expanded"
-                :aria-label="label"
+                :aria-label="ariaLabel"
                 :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
                 :disabled="selectDisabled"
                 role="combobox"
