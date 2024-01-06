@@ -21,6 +21,7 @@ import {
   ref,
   toRefs,
 } from 'vue'
+import { isArray } from '@vue/shared'
 import { useNamespace } from '@element-plus/hooks'
 import { selectGroupKey } from './token'
 
@@ -61,7 +62,7 @@ export default defineComponent({
     // get all instances of options
     const flattedChildren = (node) => {
       const children = []
-      if (Array.isArray(node.children)) {
+      if (isArray(node.children)) {
         node.children.forEach((child) => {
           if (
             child.type &&

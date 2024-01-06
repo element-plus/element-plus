@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue'
+import { isArray } from '@vue/shared'
 import { isFunction, isString } from '@element-plus/utils'
 import type { Component, VNode, VNodeNormalizedChildren } from 'vue'
 
@@ -23,21 +24,21 @@ export default defineComponent({
       const filteredOptions: any[] = []
 
       function filterOptions(children?: VNodeNormalizedChildren) {
-        if (!Array.isArray(children)) return
+        if (!isArray(children)) return
         ;(children as VNode[]).forEach((item) => {
           const name = ((item?.type || {}) as Component)?.name
 
           if (name === 'ElOptionGroup') {
             filterOptions(
               !isString(item.children) &&
-                !Array.isArray(item.children) &&
+                !isArray(item.children) &&
                 isFunction(item.children?.default)
                 ? item.children?.default()
                 : item.children
             )
           } else if (name === 'ElOption') {
             filteredOptions.push(item.props?.label)
-          } else if (Array.isArray(item.children)) {
+          } else if (isArray(item.children)) {
             filterOptions(item.children)
           }
         })

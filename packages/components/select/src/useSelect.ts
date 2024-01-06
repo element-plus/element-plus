@@ -125,7 +125,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const hasModelValue = computed(() => {
     return props.multiple
-      ? Array.isArray(props.modelValue) && props.modelValue.length > 0
+      ? isArray(props.modelValue) && props.modelValue.length > 0
       : props.modelValue !== undefined &&
           props.modelValue !== null &&
           props.modelValue !== ''
@@ -347,13 +347,9 @@ export const useSelect = (props: ISelectProps, emit) => {
       (props.filterable || props.remote) &&
       filteredOptionsCount.value
     ) {
-      nextTick(() => {
-        checkDefaultFirstOption()
-      })
+      nextTick(checkDefaultFirstOption)
     } else {
-      nextTick(() => {
-        updateHoveringIndex()
-      })
+      nextTick(updateHoveringIndex)
     }
   }
 
@@ -389,7 +385,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       states.selectedLabel = ''
     }
     const result: any[] = []
-    if (Array.isArray(props.modelValue)) {
+    if (isArray(props.modelValue)) {
       props.modelValue.forEach((value) => {
         result.push(getOption(value))
       })
@@ -438,9 +434,8 @@ export const useSelect = (props: ISelectProps, emit) => {
       })
     } else {
       if (states.selected.length > 0) {
-        states.hoveringIndex = Math.min.apply(
-          null,
-          states.selected.map((selected) => {
+        states.hoveringIndex = Math.min(
+          ...states.selected.map((selected) => {
             return optionsArray.value.findIndex((item) => {
               return get(item, valueKey) === get(selected, valueKey)
             })
@@ -587,7 +582,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const scrollToOption = (option) => {
-    const targetOption = Array.isArray(option) ? option[0] : option
+    const targetOption = isArray(option) ? option[0] : option
     let target = null
 
     if (targetOption?.value) {
@@ -757,10 +752,10 @@ export const useSelect = (props: ISelectProps, emit) => {
     width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
   }))
 
-  if (props.multiple && !Array.isArray(props.modelValue)) {
+  if (props.multiple && !isArray(props.modelValue)) {
     emit(UPDATE_MODEL_EVENT, [])
   }
-  if (!props.multiple && Array.isArray(props.modelValue)) {
+  if (!props.multiple && isArray(props.modelValue)) {
     emit(UPDATE_MODEL_EVENT, '')
   }
 

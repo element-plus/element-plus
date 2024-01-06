@@ -115,7 +115,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
 
   const hasModelValue = computed(() => {
     return props.multiple
-      ? Array.isArray(props.modelValue) && props.modelValue.length > 0
+      ? isArray(props.modelValue) && props.modelValue.length > 0
       : props.modelValue !== undefined &&
           props.modelValue !== null &&
           props.modelValue !== ''
@@ -363,13 +363,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
       (props.filterable || props.remote) &&
       filteredOptions.value.length
     ) {
-      nextTick(() => {
-        checkDefaultFirstOption()
-      })
+      nextTick(checkDefaultFirstOption)
     } else {
-      nextTick(() => {
-        updateHoveringIndex()
-      })
+      nextTick(updateHoveringIndex)
     }
   }
 
@@ -636,9 +632,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
       })
     } else {
       if (props.modelValue.length > 0) {
-        states.hoveringIndex = Math.min.apply(
-          null,
-          props.modelValue.map((selected) => {
+        states.hoveringIndex = Math.min(
+          ...props.modelValue.map((selected) => {
             return filteredOptions.value.findIndex((item) => {
               return getValue(item) === selected
             })

@@ -3,7 +3,7 @@ title: Virtualized Select
 lang: en-US
 ---
 
-# Select V2 virtualized selector ^(beta)
+# Virtualized Select
 
 :::tip
 
