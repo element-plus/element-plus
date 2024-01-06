@@ -276,11 +276,7 @@ export default defineComponent({
       ))
 
       if (appendToBody.value && deepDispatch) {
-        if (instance.parent?.type.name === COMPONENT_NAME) {
-          subMenu.handleMouseleave?.(true)
-        } else {
-          subMenu.handleMouseleave?.(false)
-        }
+        subMenu.handleMouseleave?.(true)
       }
     }
 
