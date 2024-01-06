@@ -741,6 +741,61 @@ describe('Select', () => {
     vi.useRealTimers()
   })
 
+  test('keyboard operations when options have the same label', async () => {
+    wrapper = _mount(
+      `<el-select
+        v-model="value"
+        clearable
+        filterable
+      >
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value"
+        />
+      </el-select>`,
+      () => ({
+        options: [
+          {
+            value: 'Option1',
+            label: 'Option1',
+          },
+          {
+            value: 'Option2',
+            label: 'Option1',
+          },
+          {
+            value: 'Option3',
+            label: 'Option1',
+          },
+          {
+            value: 'Option4',
+            label: 'Option4',
+          },
+          {
+            value: 'Option5',
+            label: 'Option5',
+          },
+        ],
+        value: 'Option1',
+      })
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(1)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(2)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(3)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(4)
+  })
+
   test('clearable', async () => {
     wrapper = getSelectVm({ clearable: true })
     const select = wrapper.findComponent({ name: 'ElSelect' })

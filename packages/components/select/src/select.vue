@@ -226,7 +226,7 @@
               :value="states.inputValue"
               :created="true"
             />
-            <el-options @update-options="onOptionsRendered">
+            <el-options>
               <slot />
             </el-options>
           </el-scrollbar>

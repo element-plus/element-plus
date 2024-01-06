@@ -114,7 +114,6 @@ export const useSelect = (props: ISelectProps, emit) => {
   // the controller of the expanded popup
   const expanded = ref(false)
   const hoverOption = ref()
-  const optionList = ref<string[]>([])
 
   const { form, formItem } = useFormItem()
   const { inputId } = useFormItemInputId(props, {
@@ -183,17 +182,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     () => optionsArray.value.filter((option) => option.visible).length
   )
 
-  const optionsArray = computed(() => {
-    const list = Array.from(states.options.values())
-    const newList = []
-    optionList.value.forEach((item) => {
-      const index = list.findIndex((i) => i.currentLabel === item)
-      if (index > -1) {
-        newList.push(list[index])
-      }
-    })
-    return newList.length >= list.length ? newList : list
-  })
+  const optionsArray = computed(() => Array.from(states.options.values()))
 
   const cachedOptionsArray = computed(() =>
     Array.from(states.cachedOptions.values())
@@ -627,10 +616,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     return tooltipRef.value?.popperRef?.contentRef
   })
 
-  const onOptionsRendered = (v) => {
-    optionList.value = v
-  }
-
   const handleMenuEnter = () => {
     nextTick(() => scrollToOption(states.selected))
   }
@@ -776,7 +761,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     states,
     isFocused,
     expanded,
-    optionList,
     optionsArray,
     hoverOption,
     selectSize,
@@ -808,7 +792,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     handleCompositionStart,
     handleCompositionUpdate,
     handleCompositionEnd,
-    onOptionsRendered,
     onOptionCreate,
     onOptionDestroy,
     handleMenuEnter,
