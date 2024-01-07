@@ -1,5 +1,5 @@
 <template>
-  <ul v-show="visible" :class="ns.be('group', 'wrap')">
+  <ul v-show="visible" ref="groupRef" :class="ns.be('group', 'wrap')">
     <li :class="ns.be('group', 'title')">{{ label }}</li>
     <li>
       <ul :class="ns.b('group')">
@@ -15,13 +15,13 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
-  onMounted,
   provide,
   reactive,
   ref,
   toRefs,
 } from 'vue'
 import { isArray } from '@vue/shared'
+import { useMutationObserver } from '@vueuse/core'
 import { useNamespace } from '@element-plus/hooks'
 import { selectGroupKey } from './token'
 
@@ -41,6 +41,7 @@ export default defineComponent({
   },
   setup(props) {
     const ns = useNamespace('select')
+    const groupRef = ref(null)
     const instance = getCurrentInstance()
     const children = ref([])
 
@@ -54,10 +55,6 @@ export default defineComponent({
     const visible = computed(() =>
       children.value.some((option) => option.visible === true)
     )
-
-    onMounted(() => {
-      children.value = flattedChildren(instance.subTree)
-    })
 
     // get all instances of options
     const flattedChildren = (node) => {
@@ -79,7 +76,18 @@ export default defineComponent({
       return children
     }
 
+    const updateChildren = () => {
+      children.value = flattedChildren(instance.subTree)
+    }
+
+    useMutationObserver(groupRef, updateChildren, {
+      attributes: true,
+      subtree: true,
+      childList: true,
+    })
+
     return {
+      groupRef,
       visible,
       ns,
     }

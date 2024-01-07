@@ -407,7 +407,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
       const isEqualValue = isObjectValue
-        ? get(cachedOption.value, props.valueKey) === get(value, props.valueKey)
+        ? getValueKey(cachedOption.value) === getValueKey(value)
         : cachedOption.value === value
       if (isEqualValue) {
         option = {
@@ -432,7 +432,6 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const updateHoveringIndex = () => {
-    const valueKey = props.valueKey
     if (!props.multiple) {
       states.hoveringIndex = optionsArray.value.findIndex((item) => {
         return getValueKey(item) === getValueKey(states.selected)
@@ -442,7 +441,7 @@ export const useSelect = (props: ISelectProps, emit) => {
         states.hoveringIndex = Math.min(
           ...states.selected.map((selected) => {
             return optionsArray.value.findIndex((item) => {
-              return get(item, valueKey) === get(selected, valueKey)
+              return getValueKey(item) === getValueKey(selected)
             })
           })
         )
@@ -542,7 +541,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const handleOptionSelect = (option) => {
     if (props.multiple) {
       const value = (props.modelValue || []).slice()
-      const optionIndex = getValueIndex(value, option.value)
+      const optionIndex = getValueIndex(value, getValueKey(option))
       if (optionIndex > -1) {
         value.splice(optionIndex, 1)
       } else if (
@@ -574,16 +573,9 @@ export const useSelect = (props: ISelectProps, emit) => {
   const getValueIndex = (arr: any[] = [], value) => {
     if (!isObject(value)) return arr.indexOf(value)
 
-    const valueKey = props.valueKey
-    let index = -1
-    arr.some((item, i) => {
-      if (toRaw(get(item, valueKey)) === get(value, valueKey)) {
-        index = i
-        return true
-      }
-      return false
+    return arr.findIndex((item) => {
+      return isEqual(getValueKey(item), getValueKey(value))
     })
-    return index
   }
 
   const scrollToOption = (option) => {
