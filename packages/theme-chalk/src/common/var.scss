@@ -407,6 +407,7 @@ $select: map.merge(
     'multiple-input-color': getCssVar('text-color-regular'),
     'input-focus-border-color': getCssVar('color-primary'),
     'input-font-size': 14px,
+    'width': 100%,
   ),
   $select
 );

@@ -180,6 +180,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
 
   const filterOptions = (query) => {
     const isValidOption = (o: Option): boolean => {
+      if (props.filterable && isFunction(props.filterMethod)) return true
+      if (props.filterable && props.remote && isFunction(props.remoteMethod))
+        return true
       // when query was given, we should test on the label see whether the label contains the given query
       const regexp = new RegExp(escapeStringRegexp(query), 'i')
       return query ? regexp.test(getLabel(o) || '') : true

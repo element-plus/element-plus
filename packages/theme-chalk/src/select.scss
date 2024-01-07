@@ -16,7 +16,7 @@
   display: inline-block;
   position: relative;
   vertical-align: middle;
-  width: 100%;
+  width: getCssVar('select-input-width');
 
   @include e(wrapper) {
     display: flex;

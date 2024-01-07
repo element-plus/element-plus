@@ -225,6 +225,9 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const updateOptions = () => {
+    if (props.filterable && isFunction(props.filterMethod)) return
+    if (props.filterable && props.remote && isFunction(props.remoteMethod))
+      return
     optionsArray.value.forEach((option) => {
       option.updateOption(states.inputValue)
     })

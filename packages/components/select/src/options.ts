@@ -42,7 +42,9 @@ export default defineComponent({
 
       if (!isEqual(valueList, cachedValueList)) {
         cachedValueList = valueList
-        select!.states.optionValues = valueList
+        if (select) {
+          select.states.optionValues = valueList
+        }
       }
 
       return children
