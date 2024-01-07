@@ -1,5 +1,14 @@
 // @ts-nocheck
-import { computed, nextTick, onMounted, reactive, ref, toRaw, watch } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  reactive,
+  ref,
+  toRaw,
+  watch,
+  watchEffect,
+} from 'vue'
 import { isArray, isObject, toRawType } from '@vue/shared'
 import {
   findLastIndex,
@@ -61,6 +70,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     previousQuery: null,
     inputHovering: false,
     menuVisibleOnFocus: false,
+    isBeforeHide: false,
   })
 
   useDeprecated(
@@ -267,6 +277,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       } else {
         states.inputValue = ''
         states.previousQuery = null
+        states.isBeforeHide = true
       }
       emit('visible-change', val)
     }
@@ -315,6 +326,13 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   )
 
+  watchEffect(() => {
+    // Anything could cause options changed, then update options
+    // If you want to control it by condition, write here
+    if (states.isBeforeHide) return
+    updateOptions()
+  })
+
   const handleQueryChange = (val: string) => {
     if (states.previousQuery === val) {
       return
@@ -328,8 +346,6 @@ export const useSelect = (props: ISelectProps, emit) => {
       isFunction(props.remoteMethod)
     ) {
       props.remoteMethod(val)
-    } else {
-      updateOptions()
     }
     if (
       props.defaultFirstOption &&

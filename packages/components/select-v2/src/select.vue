@@ -23,6 +23,7 @@
       trigger="click"
       :persistent="persistent"
       @before-show="handleMenuEnter"
+      @hide="states.isBeforeHide = false"
     >
       <template #default>
         <div

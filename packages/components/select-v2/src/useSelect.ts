@@ -1,5 +1,13 @@
 // @ts-nocheck
-import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  reactive,
+  ref,
+  watch,
+  watchEffect,
+} from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
 import {
   findLastIndex,
@@ -63,6 +71,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     previousValue: undefined,
     selectedLabel: '',
     menuVisibleOnFocus: false,
+    isBeforeHide: false,
   })
 
   // data refs
@@ -103,6 +112,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
     }
   )
 
+  const allOptions = ref([])
+  const filteredOptions = ref([])
   // the controller of the expanded popup
   const expanded = ref(false)
 
@@ -202,13 +213,10 @@ const useSelect = (props: ISelectV2Props, emit) => {
     }, []) as OptionType[]
   }
 
-  const allOptions = computed(() => {
-    return filterOptions('') as OptionType[]
-  })
-
-  const filteredOptions = computed(() => {
-    return filterOptions(states.inputValue) as OptionType[]
-  })
+  const updateOptions = () => {
+    allOptions.value = filterOptions('') as OptionType[]
+    filteredOptions.value = filterOptions(states.inputValue) as OptionType[]
+  }
 
   const filteredOptionsValueMap = computed(() => {
     const valueMap = new Map()
@@ -729,6 +737,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     } else {
       states.inputValue = ''
       states.previousQuery = null
+      states.isBeforeHide = true
       createNewOption('')
     }
     emit('visible-change', val)
@@ -770,6 +779,13 @@ const useSelect = (props: ISelectV2Props, emit) => {
       return menuRef.value && nextTick(menuRef.value.resetScrollTop)
     }
   )
+
+  watchEffect(() => {
+    // Anything could cause options changed, then update options
+    // If you want to control it by condition, write here
+    if (states.isBeforeHide) return
+    updateOptions()
+  })
 
   onMounted(() => {
     initStates()
@@ -848,6 +864,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     resetCalculatorWidth,
     updateTooltip,
     updateTagTooltip,
+    updateOptions,
     toggleMenu,
     scrollTo: scrollToItem,
     onInput,

@@ -909,11 +909,10 @@ describe('Select', () => {
       await nextTick()
       const select = wrapper.findComponent(Select)
       const selectVm = select.vm as any
-      selectVm.expanded = true
-      await nextTick()
+      const input = wrapper.find('input')
+      await input.trigger('click')
       await rAF()
       const vm = wrapper.vm as any
-      const input = wrapper.find('input')
       // create a new option
       input.element.value = '1111'
       await input.trigger('input')
@@ -922,14 +921,15 @@ describe('Select', () => {
       // selected the new option
       selectVm.onSelect(selectVm.filteredOptions[0])
       expect(vm.value).toBe('1111')
-      selectVm.expanded = false
+      await input.trigger('click')
       await nextTick()
       await rAF()
-      selectVm.expanded = true
+      await input.trigger('click')
       await nextTick()
       await rAF()
       expect(selectVm.filteredOptions.length).toBe(4)
       selectVm.handleClear()
+      await nextTick()
       expect(selectVm.filteredOptions.length).toBe(3)
     })
 
@@ -960,8 +960,8 @@ describe('Select', () => {
       })
       await nextTick()
       const vm = wrapper.vm as any
-      await wrapper.trigger('click')
       const input = wrapper.find('input')
+      await input.trigger('click')
       input.element.value = '1111'
       await input.trigger('input')
       await nextTick()
@@ -971,17 +971,19 @@ describe('Select', () => {
       // selected the new option
       selectVm.onSelect(selectVm.filteredOptions[0])
       // closed the menu
-      await wrapper.trigger('click')
+      await input.trigger('click')
+      await rAF()
       input.element.value = '2222'
       await input.trigger('input')
       await nextTick()
       selectVm.onSelect(selectVm.filteredOptions[0])
       expect(JSON.stringify(vm.value)).toBe(JSON.stringify(['1111', '2222']))
-      await wrapper.trigger('click')
+      await input.trigger('click')
       expect(selectVm.filteredOptions.length).toBe(5)
       // remove tag
       const tagCloseIcons = wrapper.findAll('.el-tag__close')
       await tagCloseIcons[1].trigger('click')
+      await rAF()
       expect(selectVm.filteredOptions.length).toBe(4)
       // simulate backspace
       await wrapper.find('input').trigger('keydown', {
