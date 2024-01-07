@@ -139,6 +139,16 @@ select/value-key
 
 :::
 
+## Custom Tag ^(2.5.0)
+
+You can customize tags.
+
+:::demo Insert customized tags into the slot of `el-select`. `collapse-tags`, `collapse-tags-tooltip`, `max-collapse-tags` will not work.
+
+select/custom-tag
+
+:::
+
 ## Select API
 
 ### Select Attributes
@@ -205,12 +215,13 @@ select/value-key
 ### Select Slots
 
 | Name            | Description                           | Subtags               |
-| --------------- | ------------------------------------- | --------------------- |
+|-----------------|---------------------------------------| --------------------- |
 | default         | option component list                 | Option Group / Option |
 | header ^(2.4.3) | content at the top of the dropdown    | —                     |
 | footer ^(2.4.3) | content at the bottom of the dropdown | —                     |
 | prefix          | content as Select prefix              | —                     |
 | empty           | content when there is no options      | —                     |
+| tag ^(2.5.0)    | content as Select tag                 | —                     |
 
 ### Select Exposes
 

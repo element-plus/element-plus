@@ -53,7 +53,7 @@
               ),
             ]"
           >
-            <template v-if="multiple">
+            <slot v-if="multiple" name="tag">
               <div
                 v-for="item in showTagList"
                 :key="getValueKey(item)"
@@ -120,7 +120,7 @@
                   </div>
                 </template>
               </el-tooltip>
-            </template>
+            </slot>
             <div
               v-if="!selectDisabled"
               :class="[

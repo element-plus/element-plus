@@ -157,6 +157,16 @@ select-v2/props
 
 :::
 
+## Custom Tag ^(2.5.0)
+
+You can customize tags.
+
+:::demo Insert customized tags into the slot of `el-select`. `collapse-tags`, `collapse-tags-tooltip`, `max-collapse-tags` will not work.
+
+select-v2/custom-tag
+
+:::
+
 ## SelectV2 Attributes
 
 | Name                                | Description                                                                                                                              | Type                                                                                                                                                                        | Default       |
@@ -224,11 +234,12 @@ select-v2/props
 
 ## SelectV2 Slots
 
-| Name    | Description                   |
-|---------|-------------------------------|
-| default | Option renderer               |
-| empty   | content when options is empty |
-| prefix  | prefix content of input       |
+| Name         | Description                   |
+|--------------|-------------------------------|
+| default      | Option renderer               |
+| empty        | content when options is empty |
+| prefix       | prefix content of input       |
+| tag ^(2.5.0) | content as Select tag         |
 
 ### SelectV2 Exposes
 
