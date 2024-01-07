@@ -5,7 +5,6 @@ import {
   onMounted,
   reactive,
   ref,
-  toRaw,
   watch,
   watchEffect,
 } from 'vue'
@@ -62,6 +61,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     options: new Map(),
     cachedOptions: new Map(),
     disabledOptions: new Map(),
+    optionValues: [] as any[], // sorted value of options
     selected: props.multiple ? [] : ({} as any),
     selectionWidth: 0,
     calculatorWidth: 0,
@@ -192,7 +192,17 @@ export const useSelect = (props: ISelectProps, emit) => {
     () => optionsArray.value.filter((option) => option.visible).length
   )
 
-  const optionsArray = computed(() => Array.from(states.options.values()))
+  const optionsArray = computed(() => {
+    const list = Array.from(states.options.values())
+    const newList = []
+    states.optionValues.forEach((item) => {
+      const index = list.findIndex((i) => i.value === item)
+      if (index > -1) {
+        newList.push(list[index])
+      }
+    })
+    return newList.length >= list.length ? newList : list
+  })
 
   const cachedOptionsArray = computed(() =>
     Array.from(states.cachedOptions.values())
@@ -226,7 +236,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     ['small'].includes(selectSize.value) ? 'small' : 'default'
   )
 
-  const dropMenuVisible = computed({
+  const dropdownMenuVisible = computed({
     get() {
       return expanded.value && emptyText.value !== false
     },
@@ -814,7 +824,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     selectOption,
     getValueKey,
     navigateOptions,
-    dropMenuVisible,
+    dropdownMenuVisible,
     showTagList,
     collapseTagList,
 

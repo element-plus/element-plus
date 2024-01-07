@@ -9,7 +9,7 @@
   >
     <el-tooltip
       ref="tooltipRef"
-      :visible="dropMenuVisible"
+      :visible="dropdownMenuVisible"
       :placement="placement"
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
@@ -143,7 +143,7 @@
                 spellcheck="false"
                 :aria-activedescendant="hoverOption?.id || ''"
                 :aria-controls="contentId"
-                :aria-expanded="dropMenuVisible"
+                :aria-expanded="dropdownMenuVisible"
                 :aria-label="ariaLabel"
                 aria-autocomplete="none"
                 aria-haspopup="listbox"
