@@ -15,6 +15,7 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
+  onMounted,
   provide,
   reactive,
   ref,
@@ -79,6 +80,10 @@ export default defineComponent({
     const updateChildren = () => {
       children.value = flattedChildren(instance.subTree)
     }
+
+    onMounted(() => {
+      updateChildren()
+    })
 
     useMutationObserver(groupRef, updateChildren, {
       attributes: true,
