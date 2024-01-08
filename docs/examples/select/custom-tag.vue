@@ -5,15 +5,14 @@
       :key="item.value"
       :label="item.label"
       :value="item.value"
-      :style="{ color: item.value }"
-    />
+    >
+      <div class="flex items-center">
+        <el-tag :color="item.value" style="margin-right: 8px" size="small" />
+        <span>{{ item.label }}</span>
+      </div>
+    </el-option>
     <template #tag>
-      <el-tag
-        v-for="color in value"
-        :key="color.value"
-        :color="color"
-        :style="{ color: color, width: '24px' }"
-      />
+      <el-tag v-for="color in value" :key="color.value" :color="color" />
     </template>
   </el-select>
 </template>
@@ -56,3 +55,10 @@ colors.forEach((color) => {
   value.value.push(color.value)
 })
 </script>
+
+<style scoped>
+.el-tag {
+  border: none;
+  aspect-ratio: 1;
+}
+</style>
