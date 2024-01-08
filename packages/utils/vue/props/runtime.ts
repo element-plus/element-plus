@@ -98,7 +98,7 @@ export const buildProp = <
   return epProp
 }
 
-export const buildProps = <
+export function buildProps<
   Props extends Record<
     string,
     | { [epPropKey]: true }
@@ -113,10 +113,11 @@ export const buildProps = <
     Props[K],
     IfNativePropType<Props[K], Props[K], EpPropConvert<Props[K]>>
   >
-} =>
-  fromPairs(
+} {
+  return fromPairs(
     Object.entries(props).map(([key, option]) => [
       key,
       buildProp(option as any, key),
     ])
   ) as any
+}
