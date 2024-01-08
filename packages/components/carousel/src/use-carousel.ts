@@ -209,10 +209,12 @@ export const useCarousel = (
   }
 
   function handleIndicatorClick(index: number) {
-    activeIndex.value = index
-    if (!isFirstCall.value) {
-      isTransitioning.value = true
+    if (index !== activeIndex.value) {
+      if (!isFirstCall.value) {
+        isTransitioning.value = true
+      }
     }
+    activeIndex.value = index
   }
 
   function handleIndicatorHover(index: number) {
