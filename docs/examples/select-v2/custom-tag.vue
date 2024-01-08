@@ -6,6 +6,9 @@
     :options="colors"
     style="width: 240px"
   >
+    <template #default="{ item }">
+      <span :style="{ color: item.value }">{{ item.label }}</span>
+    </template>
     <template #tag>
       <el-tag
         v-for="color in value"

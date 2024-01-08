@@ -5,6 +5,7 @@
       :key="item.value"
       :label="item.label"
       :value="item.value"
+      :style="{ color: item.value }"
     />
     <template #tag>
       <el-tag
