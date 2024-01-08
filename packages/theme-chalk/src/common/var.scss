@@ -453,9 +453,9 @@ $select-dropdown: map.merge(
 $select-wrapper-padding: () !default;
 $select-wrapper-padding: map.merge(
     (
-      'large': 7px 15px,
-      'default': 3px 11px,
-      'small': 1px 7px,
+      'large': 8px 16px,
+      'default': 4px 12px,
+      'small': 2px 8px,
     ),
     $select-wrapper-padding
 );
