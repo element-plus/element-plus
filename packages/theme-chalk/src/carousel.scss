@@ -178,3 +178,11 @@
   transform: translateY(-50%) translateX(10px);
   opacity: 0;
 }
+
+.el-transitioning {
+  filter: url('#horizontal');
+}
+
+.el-transitioning-vertical {
+  filter: url('#vertical');
+}

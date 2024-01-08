@@ -15,6 +15,16 @@ carousel/basic
 
 :::
 
+## Motion blur
+
+Add motion blur to infuse dynamism and smoothness into the carousel.
+
+:::demo Enabling motion blur enhances the dynamism and smoothness of the carousel. By default, the `motion-blur` parameter is set to `false`, activating this feature and providing a visually engaging experience.
+
+carousel/motion-blur
+
+:::
+
 ## Indicators
 
 Indicators can be displayed outside the carousel
@@ -80,6 +90,7 @@ carousel/vertical
 | loop               | display the items in loop                             | boolean | -                   | true       |
 | direction          | display direction                                     | string  | horizontal/vertical | horizontal |
 | pause-on-hover     | pause autoplay when hover                             | boolean | -                   | true       |
+| motion-blur        | infuse dynamism and smoothness into the carousel      | boolean | -                   | false      |
 
 ## Carousel Events
 

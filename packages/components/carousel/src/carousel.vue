@@ -5,7 +5,11 @@
     @mouseenter.stop="handleMouseEnter"
     @mouseleave.stop="handleMouseLeave"
   >
-    <div :class="ns.e('container')" :style="containerStyle">
+    <div
+      :class="carouselContainer"
+      :style="containerStyle"
+      @transitionend="handleTransitionEnd"
+    >
       <transition v-if="arrowDisplay" name="carousel-arrow-left">
         <button
           v-show="
@@ -60,6 +64,21 @@
         </button>
       </li>
     </ul>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+      class="filters"
+      style="display: none"
+    >
+      <defs>
+        <filter id="horizontal">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="12,0" />
+        </filter>
+        <filter id="vertical">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="0,10" />
+        </filter>
+      </defs>
+    </svg>
   </div>
 </template>
 
@@ -90,9 +109,11 @@ const {
   containerStyle,
   handleButtonEnter,
   handleButtonLeave,
+  isTransitioning,
   handleIndicatorClick,
   handleMouseEnter,
   handleMouseLeave,
+  handleTransitionEnd,
   setActiveItem,
   prev,
   next,
@@ -107,6 +128,16 @@ const carouselClasses = computed(() => {
   const classes = [ns.b(), ns.m(props.direction)]
   if (unref(isCardType)) {
     classes.push(ns.m('card'))
+  }
+  return classes
+})
+
+const carouselContainer = computed(() => {
+  const classes = [ns.e('container')]
+  if (props.motionBlur && unref(isTransitioning)) {
+    classes.push(
+      unref(isVertical) ? 'el-transitioning-vertical' : 'el-transitioning'
+    )
   }
   return classes
 })
