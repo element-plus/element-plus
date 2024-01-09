@@ -57,6 +57,7 @@ function useWatcher<T>(
       'formatter',
       'className',
       'labelClassName',
+      'filterClassName',
       'showOverflowTooltip',
     ]
     const aliases = {

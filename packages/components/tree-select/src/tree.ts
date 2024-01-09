@@ -2,7 +2,7 @@
 import { computed, nextTick, toRefs, watch } from 'vue'
 import { isEqual, pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isFunction } from '@element-plus/utils'
+import { escapeStringRegexp, isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
 import {
@@ -156,7 +156,8 @@ export const useTree = (
       if (props.filterNodeMethod)
         return props.filterNodeMethod(value, data, node)
       if (!value) return true
-      return getNodeValByProp('label', data)?.includes(value)
+      const regexp = new RegExp(escapeStringRegexp(value), 'i')
+      return regexp.test(getNodeValByProp('label', data) || '')
     },
     onNodeClick: (data, node, e) => {
       attrs.onNodeClick?.(data, node, e)
