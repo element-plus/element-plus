@@ -49,6 +49,7 @@ interface TableColumnCtx<T> {
   filters: Filters
   filterPlacement: string
   filterMultiple: boolean
+  filterClassName: string
   index: number | ((index: number) => number)
   sortOrders: ('ascending' | 'descending' | null)[]
   renderCell: (data: any) => void
@@ -133,6 +134,7 @@ export default {
     type: Boolean,
     default: true,
   },
+  filterClassName: String,
   index: [Number, Function] as PropType<TableColumnCtx<DefaultRow>['index']>,
   sortOrders: {
     type: Array as PropType<TableColumnCtx<DefaultRow>['sortOrders']>,
