@@ -233,6 +233,7 @@ select/value-key
 | Name    | Description               | Subtags |
 | ------- | ------------------------- | ------- |
 | default | customize default content | Option  |
+| title   | customize title           | label  |
 
 ## Option API
 
