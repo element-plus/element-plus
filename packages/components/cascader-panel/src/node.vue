@@ -9,7 +9,7 @@
     :class="[
       ns.b(),
       ns.is('selectable', checkStrictly),
-      ns.is('active', node.checked),
+      ns.is('active', checked),
       ns.is('disabled', !expandable),
       inExpandingPath && 'in-active-path',
       inCheckedPath && 'in-checked-path',
@@ -92,6 +92,7 @@ export default defineComponent({
       type: Object as PropType<CascaderNode>,
       required: true,
     },
+    checked: Boolean,
     menuId: String,
   },
 

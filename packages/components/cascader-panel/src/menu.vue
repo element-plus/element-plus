@@ -13,6 +13,7 @@
       v-for="node in nodes"
       :key="node.uid"
       :node="node"
+      :checked="node.checked"
       :menu-id="menuId"
       @expand="handleExpand"
     />
