@@ -9,7 +9,7 @@
     <template #default="{ item }">
       <div class="flex items-center">
         <el-tag :color="item.value" style="margin-right: 8px" size="small" />
-        <span>{{ item.label }}</span>
+        <span :style="{ color: item.value }">{{ item.label }}</span>
       </div>
     </template>
     <template #tag>
