@@ -55,6 +55,7 @@
             :src="url"
             :style="imgStyle"
             :class="ns.e('img')"
+            :crossorigin="crossorigin"
             @load="handleImgLoad"
             @error="handleImgError"
             @mousedown="handleMouseDown"
@@ -126,6 +127,7 @@ const imgRefs = ref<HTMLImageElement[]>([])
 const scopeEventListener = effectScope()
 
 const loading = ref(true)
+const crossorigin = ref<string>(props.crossorigin)
 const activeIndex = ref(props.initialIndex)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
