@@ -195,6 +195,36 @@ describe('Carousel', () => {
     await wait(60)
     expect(items[1].classList.contains('is-active')).toBeTruthy()
   })
+
+  it('motion blur', async () => {
+    const props = reactive({
+      ref: 'carousel',
+      motionBlur: true,
+    })
+
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <div>
+            <Carousel {...props}>{generateCarouselItems(4)}</Carousel>
+          </div>
+        )
+      },
+    })
+
+    await nextTick()
+
+    const carousel = wrapper.findComponent({ ref: 'carousel' })
+    carousel.trigger('click')
+
+    await nextTick()
+
+    const hasMotionBlurClass =
+      carousel.classes().includes('el-transitioning') ||
+      carousel.classes().includes('el-transitioning-vertical')
+    expect(hasMotionBlurClass).toBe(true)
+  })
+
   it('should guarantee order of indicators', async () => {
     const data = reactive([1, 2, 3, 4])
     wrapper = mount({
