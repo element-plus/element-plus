@@ -556,6 +556,10 @@ export default defineComponent({
       type: String,
       default: undefined,
     },
+    /**
+     * @description when select one item, click option will let input blur
+     */
+    autoBlur: Boolean,
   },
   emits: [
     UPDATE_MODEL_EVENT,

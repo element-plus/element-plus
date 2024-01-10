@@ -714,6 +714,11 @@ export const useSelect = (props, states: States, ctx) => {
       ctx.emit(UPDATE_MODEL_EVENT, option.value)
       emitChange(option.value)
       states.visible = false
+      if(props.autoBlur){
+        setTimeout(() => {
+          setSoftBlur()
+        })
+      }
     }
 
     setSoftFocus()
@@ -742,6 +747,12 @@ export const useSelect = (props, states: States, ctx) => {
     const _input = input.value || reference.value
     if (_input) {
       _input?.focus()
+    }
+  }
+  const setSoftBlur = () => {
+    const _input = input.value || reference.value
+    if (_input) {
+      _input?.blur()
     }
   }
 
