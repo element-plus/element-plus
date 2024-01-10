@@ -35,7 +35,10 @@ export function useAllowCreate(props: ISelectV2Props, states) {
 
   function createNewOption(query: string) {
     if (enableAllowCreateMode.value) {
-      if (query && query.length > 0 && !hasExistingOption(query)) {
+      if (query && query.length > 0) {
+        if (hasExistingOption(query)) {
+          return
+        }
         const newOption = {
           [aliasProps.value.value]: query,
           [aliasProps.value.label]: query,
