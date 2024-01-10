@@ -7,52 +7,52 @@
 
 $form-item-margin-bottom: () !default;
 $form-item-margin-bottom: map.merge(
-  (
-    'large': 22px,
-    'default': 18px,
-    'small': 18px,
-  ),
-  $form-item-margin-bottom
+    (
+      'large': 22px,
+      'default': 18px,
+      'small': 18px,
+    ),
+    $form-item-margin-bottom
 );
 
 $form-item-line-height: () !default;
 $form-item-line-height: map.merge(
-  (
-    'large': 40px,
-    'default': 32px,
-    'small': 24px,
-  ),
-  $form-item-line-height
+    (
+      'large': 40px,
+      'default': 32px,
+      'small': 24px,
+    ),
+    $form-item-line-height
 );
 
 $form-item-error-padding-top: () !default;
 $form-item-error-padding-top: map.merge(
-  (
-    'large': 4px,
-    'default': 2px,
-    'small': 2px,
-  ),
-  $form-item-error-padding-top
+    (
+      'large': 4px,
+      'default': 2px,
+      'small': 2px,
+    ),
+    $form-item-error-padding-top
 );
 
 $form-item-label-top-line-height: () !default;
 $form-item-label-top-line-height: map.merge(
-  (
-    'large': 22px,
-    'default': 22px,
-    'small': 20px,
-  ),
-  $form-item-label-top-line-height
+    (
+      'large': 22px,
+      'default': 22px,
+      'small': 20px,
+    ),
+    $form-item-label-top-line-height
 );
 
 $form-item-label-top-margin-bottom: () !default;
 $form-item-label-top-margin-bottom: map.merge(
-  (
-    'large': 12px,
-    'default': 8px,
-    'small': 4px,
-  ),
-  $form-item-label-top-margin-bottom
+    (
+      'large': 12px,
+      'default': 8px,
+      'small': 4px,
+    ),
+    $form-item-label-top-margin-bottom
 );
 
 @include b(form) {
@@ -196,7 +196,7 @@ $form-item-label-top-margin-bottom: map.merge(
       &.asterisk-left {
         > .#{$namespace}-form-item__label:before,
         > .#{$namespace}-form-item__label-wrap
-          > .#{$namespace}-form-item__label:before {
+        > .#{$namespace}-form-item__label:before {
           content: '*';
           color: getCssVar('color-danger');
           margin-right: 4px;
@@ -205,7 +205,7 @@ $form-item-label-top-margin-bottom: map.merge(
       &.asterisk-right {
         > .#{$namespace}-form-item__label:after,
         > .#{$namespace}-form-item__label-wrap
-          > .#{$namespace}-form-item__label:after {
+        > .#{$namespace}-form-item__label:after {
           content: '*';
           color: getCssVar('color-danger');
           margin-left: 4px;
@@ -215,47 +215,11 @@ $form-item-label-top-margin-bottom: map.merge(
   }
 
   @include when(error) {
-    .#{$namespace}-select-v2__wrapper {
-      &.is-focused {
-        border-color: transparent;
-      }
-    }
-
-    .#{$namespace}-select-v2__wrapper,
-    .#{$namespace}-textarea__inner {
-      &,
-      &:focus {
+    .#{$namespace}-input__wrapper,
+    .#{$namespace}-textarea__inner,
+    .#{$namespace}-select__wrapper {
+      &, &:hover, &:focus, &.is-focus {
         box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
-      }
-    }
-
-    .#{$namespace}-input__wrapper {
-      box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
-      &:hover {
-        box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
-      }
-      &.is-focus {
-        box-shadow: 0 0 0 1px getCssVar('color-danger') inset !important;
-      }
-    }
-
-    .#{$namespace}-select {
-      &:hover {
-        box-shadow: 0 0 0 1px transparent;
-      }
-
-      .#{$namespace}-input {
-        .#{$namespace}-input__wrapper {
-          &:hover {
-            box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
-          }
-        }
-
-        &.is-focus {
-          .#{$namespace}-input__wrapper {
-            box-shadow: 0 0 0 1px getCssVar('color-danger') inset !important;
-          }
-        }
       }
     }
 

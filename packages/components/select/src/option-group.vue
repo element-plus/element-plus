@@ -1,5 +1,5 @@
 <template>
-  <ul v-show="visible" :class="ns.be('group', 'wrap')">
+  <ul v-show="visible" ref="groupRef" :class="ns.be('group', 'wrap')">
     <li :class="ns.be('group', 'title')">{{ label }}</li>
     <li>
       <ul :class="ns.b('group')">
@@ -12,19 +12,19 @@
 <script lang="ts">
 // @ts-nocheck
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
-  inject,
   onMounted,
   provide,
   reactive,
   ref,
-  toRaw,
   toRefs,
-  watch,
 } from 'vue'
+import { isArray } from '@vue/shared'
+import { useMutationObserver } from '@vueuse/core'
 import { useNamespace } from '@element-plus/hooks'
-import { selectGroupKey, selectKey } from './token'
+import { selectGroupKey } from './token'
 
 export default defineComponent({
   name: 'ElOptionGroup',
@@ -42,7 +42,7 @@ export default defineComponent({
   },
   setup(props) {
     const ns = useNamespace('select')
-    const visible = ref(true)
+    const groupRef = ref(null)
     const instance = getCurrentInstance()
     const children = ref([])
 
@@ -53,16 +53,14 @@ export default defineComponent({
       })
     )
 
-    const select = inject(selectKey)
-
-    onMounted(() => {
-      children.value = flattedChildren(instance.subTree)
-    })
+    const visible = computed(() =>
+      children.value.some((option) => option.visible === true)
+    )
 
     // get all instances of options
     const flattedChildren = (node) => {
       const children = []
-      if (Array.isArray(node.children)) {
+      if (isArray(node.children)) {
         node.children.forEach((child) => {
           if (
             child.type &&
@@ -79,16 +77,22 @@ export default defineComponent({
       return children
     }
 
-    const { groupQueryChange } = toRaw(select)
-    watch(
-      groupQueryChange,
-      () => {
-        visible.value = children.value.some((option) => option.visible === true)
-      },
-      { flush: 'post' }
-    )
+    const updateChildren = () => {
+      children.value = flattedChildren(instance.subTree)
+    }
+
+    onMounted(() => {
+      updateChildren()
+    })
+
+    useMutationObserver(groupRef, updateChildren, {
+      attributes: true,
+      subtree: true,
+      childList: true,
+    })
 
     return {
+      groupRef,
       visible,
       ns,
     }

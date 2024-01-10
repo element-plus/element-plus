@@ -71,7 +71,7 @@
     -moz-appearance: textfield;
   }
 
-  .#{$namespace}-select .#{$namespace}-input {
+  .#{$namespace}-select {
     width: 128px;
   }
 
@@ -204,7 +204,7 @@
       font-size: getCssVar('pagination-font-size-small');
     }
 
-    .#{$namespace}-select .#{$namespace}-input {
+    .#{$namespace}-select {
       width: 100px;
     }
   }
