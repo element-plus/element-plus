@@ -44,7 +44,7 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
-      - uses: ArtiomTr/jest-coverage-report-action@v2.0-rc.6
+      - uses: ArtiomTr/jest-coverage-report-action@2.2.6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-step: install
