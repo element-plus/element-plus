@@ -139,12 +139,22 @@ select/value-key
 
 :::
 
+## Custom Tag ^(2.5.0)
+
+You can customize tags.
+
+:::demo Insert customized tags into the slot of `el-select`. `collapse-tags`, `collapse-tags-tooltip`, `max-collapse-tags` will not work.
+
+select/custom-tag
+
+:::
+
 ## Select API
 
 ### Select Attributes
 
 | Name                            | Description                                                                                                           | Type                                                                                                                                                                        | Default      |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| ------------------------------- |-----------------------------------------------------------------------------------------------------------------------| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | model-value / v-model           | binding value                                                                                                         | ^[string] / ^[number] / ^[boolean] / ^[object] / ^[array]                                                                                                                   | —            |
 | multiple                        | whether multiple-select is activated                                                                                  | ^[boolean]                                                                                                                                                                  | false        |
 | disabled                        | whether Select is disabled                                                                                            | ^[boolean]                                                                                                                                                                  | false        |
@@ -169,7 +179,7 @@ select/value-key
 | no-match-text                   | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data' | ^[string]                                                                                                                                                                   | —            |
 | no-data-text                    | displayed text when there is no options, you can also use slot `empty`, default is 'No data'                          | ^[string]                                                                                                                                                                   | —            |
 | popper-class                    | custom class name for Select's dropdown                                                                               | ^[string]                                                                                                                                                                   | ''           |
-| reserve-keyword                 | when `multiple` and `filter` is true, whether to reserve current keyword after selecting an option                    | ^[boolean]                                                                                                                                                                  | true         |
+| reserve-keyword                 | when `multiple` and `filterable` is true, whether to reserve current keyword after selecting an option                | ^[boolean]                                                                                                                                                                  | true         |
 | default-first-option            | select first matching option on enter key. Use with `filterable` or `remote`                                          | ^[boolean]                                                                                                                                                                  | false        |
 | teleported                      | whether select dropdown is teleported to the body                                                                     | ^[boolean]                                                                                                                                                                  | true         |
 | persistent                      | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                       | ^[boolean]                                                                                                                                                                  | true         |
@@ -205,12 +215,13 @@ select/value-key
 ### Select Slots
 
 | Name            | Description                           | Subtags               |
-| --------------- | ------------------------------------- | --------------------- |
+|-----------------|---------------------------------------| --------------------- |
 | default         | option component list                 | Option Group / Option |
 | header ^(2.4.3) | content at the top of the dropdown    | —                     |
 | footer ^(2.4.3) | content at the bottom of the dropdown | —                     |
 | prefix          | content as Select prefix              | —                     |
 | empty           | content when there is no options      | —                     |
+| tag ^(2.5.0)    | content as Select tag                 | —                     |
 
 ### Select Exposes
 

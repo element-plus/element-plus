@@ -7,6 +7,7 @@
     placeholder="Select"
     popper-class="custom-header"
     :max-collapse-tags="1"
+    style="width: 240px"
   >
     <template #header>
       <el-checkbox
