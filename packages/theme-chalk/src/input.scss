@@ -242,6 +242,10 @@
     &[type='password']::-ms-reveal {
       display: none;
     }
+
+    &[type='number'] {
+      line-height: 1;
+    }
   }
 
   @each $slot in (prefix, suffix) {
