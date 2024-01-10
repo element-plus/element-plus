@@ -1,5 +1,11 @@
 <template>
-  <el-tree-select v-model="value" lazy :load="load" :props="props" />
+  <el-tree-select
+    v-model="value"
+    lazy
+    :load="load"
+    :props="props"
+    style="width: 240px"
+  />
   <el-divider />
   <VersionTag version="2.2.26" /> show lazy load label:
   <el-tree-select
@@ -8,6 +14,7 @@
     :load="load"
     :props="props"
     :cache-data="cacheData"
+    style="width: 240px"
   />
 </template>
 

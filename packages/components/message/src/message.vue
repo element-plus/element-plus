@@ -10,7 +10,7 @@
       ref="messageRef"
       :class="[
         ns.b(),
-        { [ns.m(type)]: type && !icon },
+        { [ns.m(type)]: type },
         ns.is('center', center),
         ns.is('closable', showClose),
         customClass,

@@ -82,6 +82,7 @@ export default defineComponent({
         filterable: props.filters || props.filterMethod,
         filteredValue: [],
         filterPlacement: '',
+        filterClassName: '',
         isColumnGroup: false,
         isSubColumn: false,
         filterOpened: false,
@@ -113,6 +114,7 @@ export default defineComponent({
         'filterOpened',
         'filteredValue',
         'filterPlacement',
+        'filterClassName',
       ]
 
       let column = getPropsData(basicProps, sortProps, selectProps, filterProps)

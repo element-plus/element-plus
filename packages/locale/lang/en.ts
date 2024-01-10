@@ -140,6 +140,11 @@ export default {
       clearFilter: 'All',
       sumText: 'Sum',
     },
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+    },
     tree: {
       emptyText: 'No Data',
     },
