@@ -1,5 +1,15 @@
 ## Changelog
 
+### 2.5.1
+
+_2024-01-11_
+
+#### Bug fixes
+
+- Components [select] remove redundant named slots (#15441 by @xiaoxian521)
+- Components [select] Fix value bind object and trigger twice in form label (#15449 by @kooriookami)
+- Components [select] exposes blur invalid (#15450 by @xiaoxian521)
+
 ### 2.5.0
 
 _2024-01-10_
