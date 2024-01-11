@@ -207,7 +207,7 @@
       </template>
       <template #content>
         <el-select-menu ref="menuRef">
-          <template v-if="$slots.header" #header>
+          <template v-if="$slots.header">
             <slot name="header" />
           </template>
           <el-scrollbar
@@ -238,7 +238,7 @@
               </p>
             </slot>
           </template>
-          <template v-if="$slots.footer" #footer>
+          <template v-if="$slots.footer">
             <slot name="footer" />
           </template>
         </el-select-menu>
