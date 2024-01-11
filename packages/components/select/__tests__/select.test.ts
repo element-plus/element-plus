@@ -480,6 +480,41 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
   })
 
+  test('value bind object with value-key', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" value-key="id">
+        <el-option
+          v-for="item in options"
+          :key="item.id"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>
+    `,
+      () => ({
+        options: [
+          { id: 1, label: 'Option A', desc: 'Option A - 230506' },
+          { id: 2, label: 'Option B', desc: 'Option B - 230506' },
+          { id: 3, label: 'Option C', desc: 'Option C - 230506' },
+          { id: 4, label: 'Option D', desc: 'Option D - 230507' },
+        ],
+        value: {
+          value: '',
+        },
+      })
+    )
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const options = getOptions()
+    options[2].click()
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('Option C')
+    options[3].click()
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('Option D')
+  })
+
   test('sync set value and options', async () => {
     wrapper = _mount(
       `
