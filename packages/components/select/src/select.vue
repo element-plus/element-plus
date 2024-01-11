@@ -159,6 +159,7 @@
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
                 @input="onInput"
+                @click.stop
               />
               <span
                 v-if="filterable"
