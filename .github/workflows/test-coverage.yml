@@ -50,3 +50,5 @@ jobs:
           skip-step: install
           test-script: pnpm run test:coverage
           package-manager: pnpm
+          coverage-file: report.json
+          base-coverage-file: report.json
