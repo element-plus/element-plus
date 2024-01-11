@@ -50,5 +50,4 @@ jobs:
       - uses: davelosert/vitest-coverage-report-action@v2.2.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          file-coverage-mode: all
-          package-manager: pnpm
+          file-coverage-mode: changes
