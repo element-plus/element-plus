@@ -197,32 +197,24 @@ describe('Carousel', () => {
   })
 
   it('motion blur', async () => {
-    const props = reactive({
-      ref: 'carousel',
-      motionBlur: true,
+    const state = reactive({
+      val: -1,
+      oldVal: -1,
     })
 
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <div>
-            <Carousel {...props}>{generateCarouselItems(4)}</Carousel>
-          </div>
-        )
+    wrapper = createComponent({
+      onChange(val: number, prevVal: number) {
+        state.val = val
+        state.oldVal = prevVal
       },
+      interval: 100,
+      'motion-blur': true,
     })
 
     await nextTick()
-
-    const carousel = wrapper.findComponent({ ref: 'carousel' })
-    carousel.trigger('click')
-
-    await nextTick()
-
-    const hasMotionBlurClass =
-      carousel.classes().includes('el-transitioning') ||
-      carousel.classes().includes('el-transitioning-vertical')
-    expect(hasMotionBlurClass).toBe(true)
+    await wait(100)
+    const items = wrapper.vm.$el.querySelectorAll('.el-transitioning')
+    expect(items.length).toBe(1)
   })
 
   it('should guarantee order of indicators', async () => {
