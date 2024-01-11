@@ -654,7 +654,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const blur = () => {
-    inputRef.value?.blur()
+    handleClickOutside()
   }
 
   const handleClearClick = (event: Event) => {
@@ -666,7 +666,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
     if (isFocused.value) {
       const _event = new FocusEvent('focus', event)
-      handleBlur(_event)
+      nextTick(() => handleBlur(_event))
     }
   }
 
