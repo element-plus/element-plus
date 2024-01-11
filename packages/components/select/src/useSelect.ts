@@ -66,6 +66,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     selected: props.multiple ? [] : ({} as any),
     selectionWidth: 0,
     calculatorWidth: 0,
+    collapseItemWidth: 0,
     selectedLabel: '',
     hoveringIndex: -1,
     previousQuery: null,
@@ -96,6 +97,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const suffixRef = ref<HTMLElement>(null)
   const menuRef = ref<HTMLElement>(null)
   const tagMenuRef = ref<HTMLElement>(null)
+  const collapseItemRef = ref<HTMLElement>(null)
   const scrollbarRef = ref<{
     handleScroll: () => void
   } | null>(null)
@@ -473,6 +475,11 @@ export const useSelect = (props: ISelectProps, emit) => {
     states.calculatorWidth = calculatorRef.value.getBoundingClientRect().width
   }
 
+  const resetCollapseItemWidth = () => {
+    states.collapseItemWidth =
+      collapseItemRef.value.getBoundingClientRect().width
+  }
+
   const updateTooltip = () => {
     tooltipRef.value?.updatePopper?.()
   }
@@ -757,8 +764,23 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   }
 
+  const getGapWidth = () => {
+    if (!selectionRef.value) return 0
+    const style = window.getComputedStyle(selectionRef.value)
+    return Number.parseFloat(style.gap || '6px')
+  }
+
   // computed style
   const tagStyle = computed(() => {
+    const gapWidth = getGapWidth()
+    const maxWidth =
+      collapseItemRef.value && props.maxCollapseTags === 1
+        ? states.selectionWidth - states.collapseItemWidth - gapWidth
+        : states.selectionWidth
+    return { maxWidth: `${maxWidth}px` }
+  })
+
+  const collapseTagStyle = computed(() => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
 
@@ -777,6 +799,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   useResizeObserver(calculatorRef, resetCalculatorWidth)
   useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
+  useResizeObserver(collapseItemRef, resetCollapseItemWidth)
 
   onMounted(() => {
     setSelected()
@@ -841,6 +864,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
     // computed style
     tagStyle,
+    collapseTagStyle,
     inputStyle,
 
     // DOM ref
@@ -857,5 +881,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     scrollbarRef,
     menuRef,
     tagMenuRef,
+    collapseItemRef,
   }
 }
