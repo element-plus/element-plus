@@ -44,6 +44,9 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
+      - name: 'Run Test Coverage'
+        run: pnpm vitest:coverage
+
       - uses: davelosert/vitest-coverage-report-action@v2.2.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
