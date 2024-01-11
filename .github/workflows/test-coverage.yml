@@ -45,7 +45,7 @@ jobs:
         run: pnpm i --frozen-lockfile
 
       - name: 'Run Test Coverage'
-        run: pnpm test:coverage
+        run: pnpm run test:coverage
 
       - uses: davelosert/vitest-coverage-report-action@v2.2.0
         with:
