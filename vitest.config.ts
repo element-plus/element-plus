@@ -26,5 +26,8 @@ export default defineConfig({
     transformMode: {
       web: [/\.[jt]sx$/],
     },
+    coverage: {
+      reporter: ['text', 'json-summary', 'json'],
+    },
   },
 })
