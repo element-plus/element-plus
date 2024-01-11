@@ -100,8 +100,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       '@pnpm/types':
-        specifier: ^8.4.0
-        version: 8.4.0
+        specifier: ^9.4.2
+        version: 9.4.2
       '@types/fs-extra':
         specifier: ^9.0.13
         version: 9.0.13
@@ -402,8 +402,8 @@ importers:
         specifier: ^2.2.1
         version: 2.2.1
       '@pnpm/types':
-        specifier: ^8.4.0
-        version: 8.4.0
+        specifier: ^9.4.2
+        version: 9.4.2
       unbuild:
         specifier: ^0.7.4
         version: 0.7.4
@@ -2974,6 +2974,11 @@ packages:
     resolution: {integrity: sha512-sq/UdSq/jWCpYglw9SFmvR8qzUEi0p2oZIO0AHjkWWQg4Qrolf6DgD0WWmLiEP2WxHjbYeyD3ZzWzQor1+6cvw==}
     engines: {node: '>=14.6'}
 
+  /@pnpm/types@9.4.2:
+    resolution: {integrity: sha512-g1hcF8Nv4gd76POilz9gD4LITAPXOe5nX4ijgr8ixCbLQZfcpYiMfJ+C1RlMNRUDo8vhlNB4O3bUlxmT6EAQXA==}
+    engines: {node: '>=16.14'}
+    dev: true
+
   /@pnpm/write-project-manifest@3.0.5:
     resolution: {integrity: sha512-d56Lz1bIGSvaGRFG9rNliOayq8dLyLiexRaFX3KVO9zCziLJ7i2SNkYlw3bUhDCRYKEDcWvr34zS7NwKRlkBgQ==}
     engines: {node: '>=14.6'}
@@ -3777,7 +3782,7 @@ packages:
       '@rollup/pluginutils': 4.2.1
       '@vue-macros/common': 0.11.2
       ast-walker-scope: 0.2.3
-      unplugin: 0.9.5(esbuild@0.14.47)(rollup@2.75.7)
+      unplugin: 0.9.5(rollup@2.75.7)(vite@2.9.15)
     transitivePeerDependencies:
       - esbuild
       - rollup
@@ -3821,7 +3826,7 @@ packages:
     dependencies:
       '@rollup/pluginutils': 4.2.1
       '@vue-macros/common': 0.11.2
-      unplugin: 0.9.5(esbuild@0.14.47)(rollup@2.75.7)
+      unplugin: 0.9.5(rollup@2.75.7)(vite@2.9.15)
     transitivePeerDependencies:
       - esbuild
       - rollup
@@ -3863,7 +3868,7 @@ packages:
     dependencies:
       '@rollup/pluginutils': 4.2.1
       '@vue-macros/common': 0.11.2
-      unplugin: 0.9.5(esbuild@0.14.47)(rollup@2.75.7)
+      unplugin: 0.9.5(rollup@2.75.7)(vite@2.9.15)
     transitivePeerDependencies:
       - esbuild
       - rollup
@@ -3905,7 +3910,7 @@ packages:
     dependencies:
       '@rollup/pluginutils': 4.2.1
       '@vue-macros/common': 0.11.2
-      unplugin: 0.9.5(esbuild@0.14.47)(rollup@2.75.7)
+      unplugin: 0.9.5(rollup@2.75.7)(vite@2.9.15)
     transitivePeerDependencies:
       - esbuild
       - rollup
@@ -3947,7 +3952,7 @@ packages:
     dependencies:
       '@rollup/pluginutils': 4.2.1
       '@vue-macros/common': 0.11.2
-      unplugin: 0.9.5(esbuild@0.14.47)(rollup@2.75.7)
+      unplugin: 0.9.5(rollup@2.75.7)(vite@2.9.15)
     transitivePeerDependencies:
       - esbuild
       - rollup
@@ -11388,7 +11393,7 @@ packages:
       webpack:
         optional: true
     dependencies:
-      unplugin: 0.9.5(esbuild@0.14.47)(rollup@2.75.7)
+      unplugin: 0.9.5(rollup@2.75.7)(vite@2.9.15)
     dev: true
 
   /unplugin-combine@0.2.2(esbuild@0.14.47)(rollup@2.75.7):
@@ -11549,7 +11554,7 @@ packages:
       '@rollup/pluginutils': 4.2.1
       '@vue-macros/common': 0.11.2
       ast-walker-scope: 0.2.3
-      unplugin: 0.9.5(esbuild@0.14.47)(rollup@2.75.7)
+      unplugin: 0.9.5(rollup@2.75.7)(vite@2.9.15)
     transitivePeerDependencies:
       - esbuild
       - rollup
@@ -11753,6 +11758,7 @@ packages:
       rollup: 2.75.7
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.4.4
+    dev: false
 
   /unplugin@0.9.5(rollup@2.75.7)(vite@2.9.15):
     resolution: {integrity: sha512-luraheyfxwtvkvHpsOvMNv7IjLdORTWKZp0gWYNHGLi2ImON3iIZOj464qEyyEwLA/EMt12fC415HW9zRpOfTg==}
