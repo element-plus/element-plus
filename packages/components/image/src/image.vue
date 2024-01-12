@@ -85,7 +85,7 @@ const rawAttrs = useRawAttrs()
 const attrs = useAttrs()
 
 const imageSrc = ref<string | undefined>()
-const crossorigin = ref<string>(props.crossorigin)
+const crossorigin = ref(props.crossorigin)
 const hasLoadError = ref(false)
 const isLoading = ref(true)
 const showViewer = ref(false)
