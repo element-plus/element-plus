@@ -159,7 +159,7 @@
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
                 @input="onInput"
-                @click.stop
+                @click.stop="toggleMenu"
               />
               <span
                 v-if="filterable"
