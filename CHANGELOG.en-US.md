@@ -1,5 +1,74 @@
 ## Changelog
 
+### 2.5.1
+
+_2024-01-11_
+
+#### Bug fixes
+
+- Components [select] remove redundant named slots (#15441 by @xiaoxian521)
+- Components [select] Fix value bind object and trigger twice in form label (#15449 by @kooriookami)
+- Components [select] exposes blur invalid (#15450 by @xiaoxian521)
+
+### 2.5.0
+
+_2024-01-10_
+
+#### Features
+
+- Docs add translations for doc search (#15180 by @plainheart)
+- I18n add Arabic(ar-eg) translation for Egypt and middle east (#15125 by @HaniOurEdu)
+- Components [menu] add `popper-class`、`subMenuTimeout` props (#15193 by @zhixiaotong)
+- Components [autocomplete] add `loading` slot (#15206 by @zhixiaotong)
+- Components tour component (#14952 by @Fuphoenixes)
+- Components [tree] export TreeInstance (#15293 by @btea)
+- Components [form] FormContext adds the getField method (#14930 by @cloudcome)
+- Element-plus Support last 2 versions of browsers (#15313 by @kooriookami)
+- Components [table] add `filterClassName` props in TableColumn (#15389 by @xiaoxian521)
+
+#### Bug fixes
+
+- Components [tree] filter expand loaded node (#15150 by @btea)
+- Docs algolia search (#15173 by @chenxch)
+- Components [tree] node drag error when using custom `allowDrop` method (#15005 by @CherishTheYouth)
+- Components [input] input-style rendering error (#15174 by @btea)
+- Docs fix doc search option doesn't update after switching language (#15181 by @plainheart)
+- Docs replace `fonts.loli.net` with original `fonts.googleapis.com` (#15182 by @plainheart)
+- Components [input] remove unnecessary properties (#15220 by @ryuhangyeong)
+- Components [date-picker] handleFocusPicker delay (#15197 by @chenxch)
+- Components [collapse] emit value type check error (#15242 by @btea)
+- Style [col] media sm max-wdith 768 to 767 (#15085 by @chenxch)
+- Components [date-picker] add first click demo (#15252 by @chenxch)
+- Docs fix tip text overflows when no result (#15295 by @plainheart)
+- Components [input-number] Displayed values is different from modelValue when use model-value (#15184 by @FrontEndDog)
+- Components [select-v2] clear icon invalid when status-icon is set (#15306 by @btea)
+- Components [link] add target attribute and relevant docs (#15266 by @yj-liuzepeng)
+- Components [message] type is not working after customizing icon (#15233 by @betavs)
+- Style [tour] fixed the closebtn's hover style when type is primary (#15309 by @Fuphoenixes)
+- Components [input] remove useless contants (#15351 by @pzzyf)
+- Build [date-picker] `type` prop error in web-types.json (#15376 by @btea)
+- Components [menu] set `teleported`, parent menu popper not closed (#15342 by @xiaoxian521)
+- Ci GITHUB_TOKEN is empty in `publish-npm-nightly.yml` (#15382 by @xiaoxian521)
+- Components [tree-select] case-insensitive when filterable (#14617 by @hellomrbigshot)
+- Build build web-types.json compatible with windows (#15379 by @btea)
+- Components [loading] complete destroy vLoading directive unmounted (#15393 by @xiaoxian521)
+- Components fixed total column without background color (#15336 by @SeaAster)
+- Components [image, image-viewer] Add crossorigin property (#15406 by @wkasunsampath)
+- Components [input] the cursor is misplaced when type setting number (#15341 by @yuchiXiong)
+- Style(theme-chalk): replace word-break with overflow-wrap (#15190 by @kooriookami)
+- Style(components): [menu] Collapse mode active color (#15343 by @chenxch)
+- Chore(build): [ElTour & ElTourStep & ElPopover] update global types (#15401 by @xiaoxian521)
+
+#### Refactors
+
+- Components [input] get maxlength and minlength from props instead of attrs (#15212 by @FrontEndDog)
+- Components [carousel] class optimization in code (#14954 by @wzc520pyfm)
+- Docs [tour] use `ButtonInstance` and format code (#15304 by @btea)
+- Components [tour] replace rect with path (#15315 by @btea)
+- Components [select & select-v2] Refactor components (#15352 by @kooriookami)
+- Perf(components): [menu] popper close any levels in `menu-trigger:hover` (#15383 by @xiaoxian521)
+
+
 ### 2.4.4
 
 _2023-12-15_

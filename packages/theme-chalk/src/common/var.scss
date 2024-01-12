@@ -407,6 +407,7 @@ $select: map.merge(
     'multiple-input-color': getCssVar('text-color-regular'),
     'input-focus-border-color': getCssVar('color-primary'),
     'input-font-size': 14px,
+    'width': 100%,
   ),
   $select
 );
@@ -449,14 +450,45 @@ $select-dropdown: map.merge(
   $select-dropdown
 );
 
-$select-tags-prefix-padding: () !default;
-$select-tags-prefix-padding: map.merge(
-  (
-    'large': 8px,
-    'default': 6px,
-    'small': 4px,
-  ),
-  $select-tags-prefix-padding
+$select-wrapper-padding: () !default;
+$select-wrapper-padding: map.merge(
+    (
+      'large': 8px 16px,
+      'default': 4px 12px,
+      'small': 2px 8px,
+    ),
+    $select-wrapper-padding
+);
+
+$select-near-margin-left: () !default;
+$select-near-margin-left: map.merge(
+    (
+      'large': -8px,
+      'default': -8px,
+      'small': -6px,
+    ),
+    $select-near-margin-left
+);
+
+$select-item-gap: () !default;
+$select-item-gap: map.merge(
+    (
+      'large': 6px,
+      'default': 6px,
+      'small': 4px,
+    ),
+    $select-item-gap
+);
+
+// the same height of el-tag
+$select-item-height: () !default;
+$select-item-height: map.merge(
+    (
+      'large': 24px,
+      'default': 24px,
+      'small': 20px,
+    ),
+    $select-item-height
 );
 
 // Alert

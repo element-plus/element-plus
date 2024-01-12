@@ -38,7 +38,7 @@ const createData = (count = 1000) => {
 const clickClearButton = async (wrapper) => {
   const select = wrapper.findComponent(Select)
   const selectVm = select.vm as any
-  selectVm.states.comboBoxHovering = true
+  selectVm.states.inputHovering = true
   await nextTick()
   const clearBtn = wrapper.findComponent(CircleClose)
   expect(clearBtn.exists()).toBeTruthy()
@@ -178,10 +178,10 @@ function getOptions(): HTMLElement[] {
   )
 }
 
-const CLASS_NAME = 'el-select-v2'
-const WRAPPER_CLASS_NAME = 'el-select-v2__wrapper'
-const OPTION_ITEM_CLASS_NAME = 'el-select-dropdown__option-item'
-const PLACEHOLDER_CLASS_NAME = 'el-select-v2__placeholder'
+const CLASS_NAME = 'el-select'
+const WRAPPER_CLASS_NAME = 'el-select__wrapper'
+const OPTION_ITEM_CLASS_NAME = 'el-select-dropdown__item'
+const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
 const DEFAULT_PLACEHOLDER = 'Select'
 
 describe('Select', () => {
@@ -193,7 +193,9 @@ describe('Select', () => {
     const wrapper = createSelect()
     await nextTick()
     expect(wrapper.classes()).toContain(CLASS_NAME)
-    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+      DEFAULT_PLACEHOLDER
+    )
     const select = wrapper.findComponent(Select)
     await wrapper.trigger('click')
     expect((select.vm as any).expanded).toBeTruthy()
@@ -329,7 +331,7 @@ describe('Select', () => {
     const vm = wrapper.vm as any
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     expect(vm.value).toBe('')
-    expect(placeholder.text()).toBe('')
+    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
     options[2].click()
     await nextTick()
     expect(vm.value).toBe(vm.options[2].value)
@@ -405,24 +407,24 @@ describe('Select', () => {
     const vm = wrapper.vm as any
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     const option = document.querySelector<HTMLElement>(
-      `.el-select-dropdown__option-item.is-disabled`
+      `.el-select-dropdown__item.is-disabled`
     )
     expect(option.textContent).toBe(vm.options[1].label)
     option.click()
     await nextTick()
     expect(vm.value).toBe('')
-    expect(placeholder.text()).toBe('')
+    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
     vm.options[2].disabled = true
     await nextTick()
     const options = document.querySelectorAll<HTMLElement>(
-      `.el-select-dropdown__option-item.is-disabled`
+      `.el-select-dropdown__item.is-disabled`
     )
     expect(options.length).toBe(2)
     expect(options.item(1).textContent).toBe(vm.options[2].label)
     options.item(1).click()
     await nextTick()
     expect(vm.value).toBe('')
-    expect(placeholder.text()).toBe('')
+    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
   })
 
   it('disabled select', async () => {
@@ -476,7 +478,7 @@ describe('Select', () => {
     it.each([
       [null, DEFAULT_PLACEHOLDER],
       [undefined, DEFAULT_PLACEHOLDER],
-      ['', ''],
+      ['', DEFAULT_PLACEHOLDER],
       [[], DEFAULT_PLACEHOLDER],
       [{}, ''],
     ])(
@@ -705,7 +707,9 @@ describe('Select', () => {
       options[2].click()
       await nextTick()
       expect(vm.value.length).toBe(3)
-      expect(wrapper.findAll('.el-tag')[3].element.textContent).toBe('c2')
+      expect(wrapper.findAll('.el-tag')[1].element.textContent.trim()).toBe(
+        '+ 2'
+      )
     })
 
     it('use maxCollapseTags', async () => {
@@ -754,7 +758,7 @@ describe('Select', () => {
       const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
 
       expect(vm.value).toBe('')
-      expect(placeholder.text()).toBe('')
+      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
 
       options[0].click()
       await nextTick()
@@ -765,7 +769,7 @@ describe('Select', () => {
       vm.value = ''
       await nextTick()
       expect(vm.value).toBe('')
-      expect(placeholder.text()).toBe('')
+      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
 
       vm.value = option
       await nextTick()
@@ -789,13 +793,13 @@ describe('Select', () => {
 
       vm.value = ['option_1']
       await nextTick()
-      expect(wrapper.find('.el-select-v2__tags-text').text()).toBe('a0')
+      expect(wrapper.find('.el-select__tags-text').text()).toBe('a0')
       placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
       expect(placeholder.exists()).toBeFalsy()
 
       vm.value = []
       await nextTick()
-      expect(wrapper.find('.el-select-v2__tags-text').exists()).toBeFalsy()
+      expect(wrapper.find('.el-select__tags-text').exists()).toBeFalsy()
       placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
       expect(placeholder.exists()).toBeTruthy()
     })
@@ -811,20 +815,20 @@ describe('Select', () => {
           onBlur,
         },
       })
-      const input = wrapper.find('input')
       const select = wrapper.findComponent(Select)
+      const input = select.find('input')
       await input.trigger('focus')
-      const selectVm = select.vm as any
-      // Simulate focus state to trigger menu multiple times
-      selectVm.toggleMenu()
-      await nextTick()
-      selectVm.toggleMenu()
-      await nextTick()
-      // Simulate click the outside
-      selectVm.handleClickOutside()
-      await nextTick()
+
+      expect(input.exists()).toBe(true)
+      await input.trigger('focus')
       expect(onFocus).toHaveBeenCalledTimes(1)
-      expect(onBlur).toHaveBeenCalled()
+      await input.trigger('blur')
+      expect(onBlur).toHaveBeenCalledTimes(1)
+
+      await input.trigger('focus')
+      expect(onFocus).toHaveBeenCalledTimes(2)
+      await input.trigger('blur')
+      expect(onBlur).toHaveBeenCalledTimes(2)
     })
 
     it('focus & blur for multiple & filterable select', async () => {
@@ -843,27 +847,19 @@ describe('Select', () => {
           onBlur,
         },
       })
-      const input = wrapper.find('input')
       const select = wrapper.findComponent(Select)
+      const input = select.find('input')
+
+      expect(input.exists()).toBe(true)
       await input.trigger('focus')
-      const selectVm = select.vm as any
-      // Simulate focus state to trigger menu multiple times
-      selectVm.toggleMenu()
-      await nextTick()
-      selectVm.toggleMenu()
-      await nextTick()
-      // Select multiple items in multiple mode without triggering focus
-      const options = getOptions()
-      options[1].click()
-      await nextTick()
-      options[2].click()
-      await nextTick()
       expect(onFocus).toHaveBeenCalledTimes(1)
-      // Simulate click the outside
-      selectVm.handleClickOutside()
-      await nextTick()
-      await nextTick()
-      expect(onBlur).toHaveBeenCalled()
+      await input.trigger('blur')
+      expect(onBlur).toHaveBeenCalledTimes(1)
+
+      await input.trigger('focus')
+      expect(onFocus).toHaveBeenCalledTimes(2)
+      await input.trigger('blur')
+      expect(onBlur).toHaveBeenCalledTimes(2)
     })
 
     it('only emit change on user input', async () => {
@@ -913,11 +909,10 @@ describe('Select', () => {
       await nextTick()
       const select = wrapper.findComponent(Select)
       const selectVm = select.vm as any
-      selectVm.expanded = true
-      await nextTick()
+      const input = wrapper.find('input')
+      await input.trigger('click')
       await rAF()
       const vm = wrapper.vm as any
-      const input = wrapper.find('input')
       // create a new option
       input.element.value = '1111'
       await input.trigger('input')
@@ -926,14 +921,15 @@ describe('Select', () => {
       // selected the new option
       selectVm.onSelect(selectVm.filteredOptions[0])
       expect(vm.value).toBe('1111')
-      selectVm.expanded = false
+      await input.trigger('click')
       await nextTick()
       await rAF()
-      selectVm.expanded = true
+      await input.trigger('click')
       await nextTick()
       await rAF()
       expect(selectVm.filteredOptions.length).toBe(4)
       selectVm.handleClear()
+      await nextTick()
       expect(selectVm.filteredOptions.length).toBe(3)
     })
 
@@ -964,8 +960,8 @@ describe('Select', () => {
       })
       await nextTick()
       const vm = wrapper.vm as any
-      await wrapper.trigger('click')
       const input = wrapper.find('input')
+      await input.trigger('click')
       input.element.value = '1111'
       await input.trigger('input')
       await nextTick()
@@ -975,17 +971,19 @@ describe('Select', () => {
       // selected the new option
       selectVm.onSelect(selectVm.filteredOptions[0])
       // closed the menu
-      await wrapper.trigger('click')
+      await input.trigger('click')
+      await rAF()
       input.element.value = '2222'
       await input.trigger('input')
       await nextTick()
       selectVm.onSelect(selectVm.filteredOptions[0])
       expect(JSON.stringify(vm.value)).toBe(JSON.stringify(['1111', '2222']))
-      await wrapper.trigger('click')
+      await input.trigger('click')
       expect(selectVm.filteredOptions.length).toBe(5)
       // remove tag
       const tagCloseIcons = wrapper.findAll('.el-tag__close')
       await tagCloseIcons[1].trigger('click')
+      await rAF()
       expect(selectVm.filteredOptions.length).toBe(4)
       // simulate backspace
       await wrapper.find('input').trigger('keydown', {
@@ -1491,7 +1489,7 @@ describe('Select', () => {
     })
     const select = wrapper.findComponent(Select)
     const selectVm = select.vm as any
-    const selectDom = wrapper.find('.el-select-v2__wrapper').element
+    const selectDom = wrapper.find('.el-select__wrapper').element
     const selectRect = {
       height: 40,
       width: 221,
@@ -1510,7 +1508,7 @@ describe('Select', () => {
     await nextTick()
     options[2].click()
     await nextTick()
-    const tagWrappers = wrapper.findAll('.el-select-v2__tags-text')
+    const tagWrappers = wrapper.findAll('.el-select__tags-text')
     for (const tagWrapper of tagWrappers) {
       const tagWrapperDom = tagWrapper.element
       expect(

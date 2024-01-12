@@ -3,11 +3,11 @@
     :aria-selected="selected"
     :style="style"
     :class="[
-      ns.be('dropdown', 'option-item'),
+      ns.be('dropdown', 'item'),
       ns.is('selected', selected),
       ns.is('disabled', disabled),
       ns.is('created', created),
-      { hover: hovering },
+      ns.is('hovering', hovering),
     ]"
     @mouseenter="hoverItem"
     @click.stop="selectOptionClick"

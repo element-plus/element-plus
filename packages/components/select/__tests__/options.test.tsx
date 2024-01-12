@@ -1,14 +1,12 @@
 import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { flatten } from 'lodash-unified'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, it } from 'vitest'
 import Options from '../src/options'
 
 import type { VueWrapper } from '@vue/test-utils'
 
 describe('options', () => {
   let wrapper: ReturnType<typeof mount>
-  const onOptionsChange = vi.fn()
 
   const ElOptionStub = defineComponent({
     name: 'ElOption',
@@ -28,27 +26,19 @@ describe('options', () => {
   const samples = Array.from({ length: 3 })
 
   const createWrapper = (slots = {}) => {
-    wrapper = mount(
-      (_, { slots }) => (
-        <Options onUpdate-options={onOptionsChange}>
-          {slots?.default?.()}
-        </Options>
-      ),
-      {
-        global: {
-          components: {
-            ElOption: ElOptionStub,
-            ElOptionGroup: ElOptionGroupStub,
-          },
+    wrapper = mount((_, { slots }) => <Options>{slots?.default?.()}</Options>, {
+      global: {
+        components: {
+          ElOption: ElOptionStub,
+          ElOptionGroup: ElOptionGroupStub,
         },
-        slots,
-      }
-    ) as VueWrapper<any>
+      },
+      slots,
+    }) as VueWrapper<any>
   }
 
   afterEach(() => {
     wrapper.unmount()
-    onOptionsChange.mockClear()
   })
 
   it('renders emit correct options', async () => {
@@ -58,10 +48,6 @@ describe('options', () => {
     })
 
     await nextTick()
-
-    expect(onOptionsChange).toHaveBeenCalledWith(
-      ...[...[samples.map((_, i) => getLabel(i))]]
-    )
   })
 
   it('renders emit correct options with option group', async () => {
@@ -81,11 +67,5 @@ describe('options', () => {
           </ElOptionGroupStub>
         )),
     })
-
-    expect(onOptionsChange).toHaveBeenCalledWith(
-      flatten(
-        samples.map((_, i) => samples.map((_, j) => getLabel(`${i}-${j}`)))
-      )
-    )
   })
 })
