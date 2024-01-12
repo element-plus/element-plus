@@ -5,7 +5,7 @@
         ref="wrapper"
         :tabindex="-1"
         :class="ns.e('wrapper')"
-        :style="{ zIndex: computedZIndex }"
+        :style="{ zIndex }"
       >
         <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
@@ -82,7 +82,7 @@ import { useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
-import { isNumber, keysOf } from '@element-plus/utils'
+import { keysOf } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import {
   ArrowLeft,
@@ -137,6 +137,7 @@ const transform = ref({
   offsetY: 0,
   enableTransition: false,
 })
+const zIndex = ref(props.zIndex ?? nextZIndex())
 
 const isSingle = computed(() => {
   const { urlList } = props
@@ -195,10 +196,6 @@ const imgStyle = computed(() => {
     style.maxWidth = style.maxHeight = '100%'
   }
   return style
-})
-
-const computedZIndex = computed(() => {
-  return isNumber(props.zIndex) ? props.zIndex : nextZIndex()
 })
 
 function hide() {
