@@ -818,7 +818,8 @@ describe('Select', () => {
     )
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const selectVm = select.vm as any
-    await select.trigger('click')
+    const input = wrapper.find('input')
+    await input.trigger('click')
     expect(selectVm.states.hoveringIndex).toBe(0)
     selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(1)
@@ -896,7 +897,8 @@ describe('Select', () => {
     })
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const selectVm = select.vm as any
-    await select.trigger('click')
+    const input = wrapper.find('input')
+    await input.trigger('click')
     expect(selectVm.states.hoveringIndex).toBe(0)
     selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(1)
@@ -929,7 +931,8 @@ describe('Select', () => {
     )
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const selectVm = select.vm as any
-    await select.trigger('click')
+    const input = wrapper.find('input')
+    await input.trigger('click')
 
     expect(selectVm.states.hoveringIndex).toBe(1) // index 0 was skipped
     selectVm.navigateOptions('next')

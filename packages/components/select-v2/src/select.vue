@@ -76,7 +76,7 @@
               <el-tooltip
                 v-if="collapseTags && modelValue.length > maxCollapseTags"
                 ref="tagTooltipRef"
-                :disabled="!collapseTagsTooltip"
+                :disabled="dropdownMenuVisible || !collapseTagsTooltip"
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
@@ -159,7 +159,7 @@
                 @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
                 @keydown.delete.stop="handleDel"
-                @click.stop
+                @click.stop="toggleMenu"
               />
               <span
                 v-if="filterable"
