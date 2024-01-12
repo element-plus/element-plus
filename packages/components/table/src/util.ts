@@ -17,6 +17,7 @@ import type { TableColumnCtx } from './table-column/defaults'
 export type TableOverflowTooltipOptions = Partial<
   Pick<
     ElTooltipProps,
+    | 'appendTo'
     | 'effect'
     | 'enterable'
     | 'hideAfter'
@@ -345,15 +346,6 @@ export function createTablePopper(
   const popperOptions = {
     strategy: 'fixed',
     ...props.popperOptions,
-    modifiers: [
-      {
-        name: 'preventOverflow',
-        options: {
-          boundary: document.body,
-        },
-      },
-      ...(props?.popperOptions?.modifiers ?? []),
-    ],
   }
   const vm = createVNode(ElTooltip, {
     content: popperContent,
