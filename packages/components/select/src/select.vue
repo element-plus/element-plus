@@ -76,7 +76,7 @@
               <el-tooltip
                 v-if="collapseTags && states.selected.length > maxCollapseTags"
                 ref="tagTooltipRef"
-                :disabled="!collapseTagsTooltip"
+                :disabled="dropdownMenuVisible || !collapseTagsTooltip"
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
