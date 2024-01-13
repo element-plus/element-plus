@@ -1,19 +1,25 @@
 import { computed, inject, ref, unref } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
-import { generateId } from '@element-plus/utils'
+import { useIdInjection, useNamespace } from '@element-plus/hooks'
 import { collapseContextKey } from './constants'
 
 import type { CollapseItemProps } from './collapse-item'
 
 export const useCollapseItem = (props: CollapseItemProps) => {
   const collapse = inject(collapseContextKey)
+  const { namespace } = useNamespace('collapse')
 
   const focusing = ref(false)
   const isClick = ref(false)
-  const id = ref(generateId())
+  const idInjection = useIdInjection()
+  const id = computed(() => idInjection.current++)
+  const name = computed(() => {
+    return (
+      props.name ?? `${namespace.value}-id-${idInjection.prefix}-${unref(id)}`
+    )
+  })
 
   const isActive = computed(() =>
-    collapse?.activeNames.value.includes(props.name)
+    collapse?.activeNames.value.includes(unref(name))
   )
 
   const handleFocus = () => {
@@ -28,13 +34,13 @@ export const useCollapseItem = (props: CollapseItemProps) => {
 
   const handleHeaderClick = () => {
     if (props.disabled) return
-    collapse?.handleItemClick(props.name)
+    collapse?.handleItemClick(unref(name))
     focusing.value = false
     isClick.value = true
   }
 
   const handleEnterClick = () => {
-    collapse?.handleItemClick(props.name)
+    collapse?.handleItemClick(unref(name))
   }
 
   return {

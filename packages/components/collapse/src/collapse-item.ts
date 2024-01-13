@@ -1,4 +1,4 @@
-import { buildProps, definePropType, generateId } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { CollapseActiveName } from './collapse'
 
@@ -15,7 +15,7 @@ export const collapseItemProps = buildProps({
    */
   name: {
     type: definePropType<CollapseActiveName>([String, Number]),
-    default: () => generateId(),
+    default: undefined,
   },
   /**
    * @description disable the collapse item
