@@ -57,8 +57,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const { inputId } = useFormItemInputId(props, {
     formItemContext: elFormItem,
   })
-  const { getLabel, getValue, getDisabled, getOptions, aliasProps } =
-    useProps(props)
+  const { getLabel, getValue, getDisabled, getOptions } = useProps(props)
 
   const states = reactive({
     inputValue: '',
