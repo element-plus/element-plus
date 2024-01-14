@@ -57,7 +57,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const { inputId } = useFormItemInputId(props, {
     formItemContext: elFormItem,
   })
-  const { getLabel, getValue, getDisabled, getOptions } = useProps(props)
+  const { getLabel, getValue, getDisabled, getOptions, aliasProps } =
+    useProps(props)
 
   const states = reactive({
     inputValue: '',
@@ -798,6 +799,27 @@ const useSelect = (props: ISelectV2Props, emit) => {
     // If you want to control it by condition, write here
     if (states.isBeforeHide) return
     updateOptions()
+  })
+
+  watchEffect(() => {
+    const { valueKey, options } = props
+    const duplicateValue = new Map()
+    for (const item of options) {
+      const optionValue = getValue(item)
+      let v = optionValue
+      if (isObject(v)) {
+        v = get(optionValue, valueKey)
+      }
+      if (duplicateValue.get(v)) {
+        debugWarn(
+          'ElSelectV2',
+          `The option values you provided seem to be duplicated, which may cause some problems, please check.`
+        )
+        break
+      } else {
+        duplicateValue.set(v, true)
+      }
+    }
   })
 
   onMounted(() => {

@@ -89,11 +89,7 @@ export default defineComponent({
         return selected === target
       } else {
         const { valueKey } = select.props
-        const value = get(target, valueKey)
-        if (isUndefined(value)) {
-          return false
-        }
-        return get(selected, valueKey) === value
+        return get(selected, valueKey) === get(target, valueKey)
       }
     }
 
