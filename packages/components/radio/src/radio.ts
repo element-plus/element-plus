@@ -14,11 +14,18 @@ export const radioPropsBase = buildProps({
    */
   disabled: Boolean,
   /**
-   * @description the value of Radio
+   * @description the label of Radio
    */
   label: {
     type: [String, Number, Boolean],
-    default: '',
+    default: undefined,
+  },
+  /**
+   * @description the value of Radio
+   */
+  value: {
+    type: [String, Number, Boolean],
+    default: undefined,
   },
 })
 
@@ -29,7 +36,7 @@ export const radioProps = buildProps({
    */
   modelValue: {
     type: [String, Number, Boolean],
-    default: '',
+    default: undefined,
   },
   /**
    * @description native `name` attribute

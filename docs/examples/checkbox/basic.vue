@@ -12,8 +12,8 @@
     <el-checkbox v-model="checked6" label="Option 2" size="small" />
   </div>
   <div>
-    <el-checkbox v-model="checked5" label="Option 1" size="small" disabled />
-    <el-checkbox v-model="checked6" label="Option 2" size="small" disabled />
+    <el-checkbox v-model="checked7" label="Option 1" size="small" disabled />
+    <el-checkbox v-model="checked8" label="Option 2" size="small" disabled />
   </div>
 </template>
 
@@ -26,4 +26,6 @@ const checked3 = ref(false)
 const checked4 = ref(false)
 const checked5 = ref(false)
 const checked6 = ref(false)
+const checked7 = ref(false)
+const checked8 = ref(false)
 </script>

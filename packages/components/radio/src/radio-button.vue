@@ -2,7 +2,7 @@
   <label
     :class="[
       ns.b('button'),
-      ns.is('active', modelValue === label),
+      ns.is('active', modelValue === getValueOrLabel(props)),
       ns.is('disabled', disabled),
       ns.is('focus', focus),
       ns.bm('button', size),
@@ -12,7 +12,7 @@
       ref="radioRef"
       v-model="modelValue"
       :class="ns.be('button', 'original-radio')"
-      :value="label"
+      :value="getValueOrLabel(props)"
       type="radio"
       :name="name || radioGroup?.name"
       :disabled="disabled"
@@ -22,7 +22,7 @@
     />
     <span
       :class="ns.be('button', 'inner')"
-      :style="modelValue === label ? activeStyle : {}"
+      :style="modelValue === getValueOrLabel(props) ? activeStyle : {}"
       @keydown.stop
     >
       <slot>
@@ -37,6 +37,7 @@ import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useRadio } from './use-radio'
 import { radioButtonProps } from './radio-button'
+import { getValueOrLabel } from './utils'
 import type { CSSProperties } from 'vue'
 
 defineOptions({

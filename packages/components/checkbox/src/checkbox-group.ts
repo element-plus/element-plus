@@ -35,6 +35,10 @@ export const checkboxGroupProps = buildProps({
   /**
    * @description label for screen reader
    */
+  ariaLabel: String,
+  /**
+   * @description label for screen reader
+   */
   label: String,
   /**
    * @description border and background color when button is active

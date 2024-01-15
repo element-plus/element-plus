@@ -4,7 +4,9 @@
     ref="radioGroupRef"
     :class="ns.b('group')"
     role="radiogroup"
-    :aria-label="!isLabeledByFormItem ? label || 'radio-group' : undefined"
+    :aria-label="
+      !isLabeledByFormItem ? ariaLabel || label || 'radio-group' : undefined
+    "
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
     <slot />

@@ -7,7 +7,7 @@
   >
     <span :class="spanKls">
       <input
-        v-if="trueLabel || falseLabel"
+        v-if="trueValue || falseValue || trueLabel || falseLabel"
         :id="inputId"
         v-model="model"
         :class="ns.e('original')"
@@ -16,8 +16,8 @@
         :name="name"
         :tabindex="tabindex"
         :disabled="isDisabled"
-        :true-value="trueLabel"
-        :false-value="falseLabel"
+        :true-value="trueValue || trueLabel"
+        :false-value="falseValue || falseLabel"
         @change="handleChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
@@ -31,7 +31,7 @@
         type="checkbox"
         :indeterminate="indeterminate"
         :disabled="isDisabled"
-        :value="label"
+        :value="getValueOrLabel(props)"
         :name="name"
         :tabindex="tabindex"
         @change="handleChange"
@@ -53,6 +53,7 @@ import { computed, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { checkboxEmits, checkboxProps } from './checkbox'
 import { useCheckbox } from './composables'
+import { getValueOrLabel } from './utils'
 
 defineOptions({
   name: 'ElCheckbox',

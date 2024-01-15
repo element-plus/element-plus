@@ -1,15 +1,15 @@
 <template>
   <label :class="labelKls">
     <input
-      v-if="trueLabel || falseLabel"
+      v-if="trueValue || falseValue || trueLabel || falseLabel"
       v-model="model"
       :class="ns.be('button', 'original')"
       type="checkbox"
       :name="name"
       :tabindex="tabindex"
       :disabled="isDisabled"
-      :true-value="trueLabel"
-      :false-value="falseLabel"
+      :true-value="trueValue || trueLabel"
+      :false-value="falseValue || falseLabel"
       @change="handleChange"
       @focus="isFocused = true"
       @blur="isFocused = false"
@@ -23,7 +23,7 @@
       :name="name"
       :tabindex="tabindex"
       :disabled="isDisabled"
-      :value="label"
+      :value="getValueOrLabel(props)"
       @change="handleChange"
       @focus="isFocused = true"
       @blur="isFocused = false"
@@ -47,6 +47,7 @@ import { checkboxGroupContextKey } from './constants'
 import { useCheckbox } from './composables'
 import { checkboxEmits, checkboxProps } from './checkbox'
 
+import { getValueOrLabel } from './utils'
 import type { CSSProperties } from 'vue'
 
 defineOptions({

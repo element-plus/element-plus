@@ -3,6 +3,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useFormDisabled, useFormSize } from '@element-plus/components/form'
 import { radioGroupKey } from './constants'
 
+import { getValueOrLabel } from './utils'
 import type { SetupContext } from 'vue'
 import type { RadioEmits, RadioProps } from './radio'
 
@@ -23,7 +24,7 @@ export const useRadio = (
       } else {
         emit && emit(UPDATE_MODEL_EVENT, val)
       }
-      radioRef.value!.checked = props.modelValue === props.label
+      radioRef.value!.checked = props.modelValue === getValueOrLabel(props)
     },
   })
 
@@ -31,7 +32,8 @@ export const useRadio = (
   const disabled = useFormDisabled(computed(() => radioGroup?.disabled))
   const focus = ref(false)
   const tabIndex = computed(() => {
-    return disabled.value || (isGroup.value && modelValue.value !== props.label)
+    return disabled.value ||
+      (isGroup.value && modelValue.value !== getValueOrLabel(props))
       ? -1
       : 0
   })

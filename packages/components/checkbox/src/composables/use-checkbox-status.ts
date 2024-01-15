@@ -4,6 +4,7 @@ import { useFormSize } from '@element-plus/components/form'
 import { isArray, isBoolean, isObject } from '@element-plus/utils'
 import { checkboxGroupContextKey } from '../constants'
 
+import { getValueOrLabel } from '../utils'
 import type { ComponentInternalInstance } from 'vue'
 import type { CheckboxProps } from '../checkbox'
 import type { CheckboxModel } from '../composables'
@@ -20,13 +21,13 @@ export const useCheckboxStatus = (
     if (isBoolean(value)) {
       return value
     } else if (isArray(value)) {
-      if (isObject(props.label)) {
-        return value.map(toRaw).some((o) => isEqual(o, props.label))
+      if (isObject(getValueOrLabel(props))) {
+        return value.map(toRaw).some((o) => isEqual(o, getValueOrLabel(props)))
       } else {
-        return value.map(toRaw).includes(props.label)
+        return value.map(toRaw).includes(getValueOrLabel(props))
       }
     } else if (value !== null && value !== undefined) {
-      return value === props.trueLabel
+      return value === props.trueValue || value === props.trueLabel
     } else {
       return !!value
     }
@@ -41,7 +42,7 @@ export const useCheckboxStatus = (
   const checkboxSize = useFormSize(computed(() => checkboxGroup?.size?.value))
 
   const hasOwnLabel = computed<boolean>(() => {
-    return !!slots.default || !isNil(props.label)
+    return !!slots.default || !isNil(getValueOrLabel(props))
   })
 
   return {
