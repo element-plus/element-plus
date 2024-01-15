@@ -19,7 +19,7 @@ export const useRadio = (
     get() {
       return isGroup.value ? radioGroup!.modelValue : props.modelValue!
     },
-    set(val) {
+    set(val: any) {
       if (isGroup.value) {
         radioGroup!.changeEvent(val)
       } else {
