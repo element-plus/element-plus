@@ -271,12 +271,26 @@ class Node {
       }
     }
 
+    // Restore the selected state of the node
+    if (
+      this.store.checkedStatus.has(this.store.key || child.data.$treeNodeId)
+    ) {
+      child.checked = this.store.checkedStatus.get(
+        this.store.key || child.data.$treeNodeId
+      )
+      this.store.checkedStatus.delete(this.store.key || child.data.$treeNodeId)
+    }
+
     ;(child as Node).level = this.level + 1
 
     if (typeof index === 'undefined' || index < 0) {
       this.childNodes.push(child as Node)
     } else {
       this.childNodes.splice(index, 0, child as Node)
+    }
+
+    if (!this.store.checkStrictly) {
+      reInitChecked(this)
     }
 
     this.updateLeafState()
@@ -305,13 +319,33 @@ class Node {
     if (dataIndex > -1) {
       children.splice(dataIndex, 1)
     }
-
     const index = this.childNodes.indexOf(child)
 
     if (index > -1) {
       this.store && this.store.deregisterNode(child)
+      // Save the selected state of the node
+      this.store.checkedStatus.set(
+        this.store.key || child.data.$treeNodeId,
+        child.checked
+      )
+      if (
+        this.childNodes[index].childNodes &&
+        this.childNodes[index].childNodes.length
+      ) {
+        for (const key in this.childNodes[index].childNodes) {
+          this.store.checkedStatus.set(
+            this.store.key ||
+              this.childNodes[index].childNodes[key].data.$treeNodeId,
+            this.childNodes[index].childNodes[key].checked
+          )
+        }
+      }
       child.parent = null
       this.childNodes.splice(index, 1)
+    }
+
+    if (!this.store.checkStrictly) {
+      reInitChecked(this)
     }
 
     this.updateLeafState()
