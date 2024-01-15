@@ -1149,8 +1149,9 @@ describe('Select', () => {
     options[1].click()
     await nextTick()
     options[2].click()
+    selectRef.vm.states.collapseItemWidth = 38
     await nextTick()
-    expect(tagWrapperDom.style.maxWidth).toBe('200px')
+    expect(tagWrapperDom.style.maxWidth).toBe('156px')
   })
 
   test('multiple select with collapseTagsTooltip', async () => {
