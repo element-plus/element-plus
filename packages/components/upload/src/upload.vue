@@ -5,6 +5,7 @@
       :disabled="disabled"
       :list-type="listType"
       :files="uploadFiles"
+      :crossorigin="props.crossorigin"
       :handle-preview="onPreview"
       @remove="handleRemove"
     >
@@ -35,6 +36,7 @@
       :disabled="disabled"
       :list-type="listType"
       :files="uploadFiles"
+      :crossorigin="props.crossorigin"
       :handle-preview="onPreview"
       @remove="handleRemove"
     >

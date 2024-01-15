@@ -22,6 +22,7 @@
           "
           :class="nsUpload.be('list', 'item-thumbnail')"
           :src="file.url"
+          :crossorigin="props.crossorigin"
           alt=""
         />
         <div

@@ -253,6 +253,12 @@ export const uploadProps = buildProps({
     type: definePropType<UploadHooks['onExceed']>(Function),
     default: NOOP,
   },
+  /**
+   * @description set HTML attribute: crossorigin.
+   */
+  crossorigin: {
+    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
+  },
 } as const)
 
 export type UploadProps = ExtractPropTypes<typeof uploadProps>

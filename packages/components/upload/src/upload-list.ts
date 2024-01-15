@@ -23,6 +23,12 @@ export const uploadListProps = buildProps({
     values: uploadListTypes,
     default: 'text',
   },
+  /**
+   * @description set HTML attribute: crossorigin.
+   */
+  crossorigin: {
+    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
+  },
 } as const)
 
 export type UploadListProps = ExtractPropTypes<typeof uploadListProps>
