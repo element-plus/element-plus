@@ -25,7 +25,7 @@ export const radioGroupProps = buildProps({
    */
   modelValue: {
     type: [String, Number, Boolean],
-    default: '',
+    default: undefined,
   },
   /**
    * @description border and background color when button is active

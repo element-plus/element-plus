@@ -52,9 +52,9 @@ export const radioProps = buildProps({
 } as const)
 
 export const radioEmits = {
-  [UPDATE_MODEL_EVENT]: (val: string | number | boolean) =>
+  [UPDATE_MODEL_EVENT]: (val: string | number | boolean | undefined) =>
     isString(val) || isNumber(val) || isBoolean(val),
-  [CHANGE_EVENT]: (val: string | number | boolean) =>
+  [CHANGE_EVENT]: (val: string | number | boolean | undefined) =>
     isString(val) || isNumber(val) || isBoolean(val),
 }
 
