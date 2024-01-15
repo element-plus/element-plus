@@ -272,13 +272,11 @@ class Node {
     }
 
     // Restore the selected state of the node
-    if (
-      this.store.checkedStatus.has(this.store.key || child.data.$treeNodeId)
-    ) {
+    if (this.store.checkedStatus.has(this.store.key || child.data[NODE_KEY])) {
       child.checked = this.store.checkedStatus.get(
         this.store.key || child.data.$treeNodeId
       )
-      this.store.checkedStatus.delete(this.store.key || child.data.$treeNodeId)
+      this.store.checkedStatus.delete(this.store.key || child.data[NODE_KEY])
     }
 
     ;(child as Node).level = this.level + 1
@@ -325,7 +323,7 @@ class Node {
       this.store && this.store.deregisterNode(child)
       // Save the selected state of the node
       this.store.checkedStatus.set(
-        this.store.key || child.data.$treeNodeId,
+        this.store.key || child.data[NODE_KEY],
         child.checked
       )
       if (
@@ -335,7 +333,7 @@ class Node {
         for (const key in this.childNodes[index].childNodes) {
           this.store.checkedStatus.set(
             this.store.key ||
-              this.childNodes[index].childNodes[key].data.$treeNodeId,
+              this.childNodes[index].childNodes[key].data[NODE_KEY],
             this.childNodes[index].childNodes[key].checked
           )
         }
