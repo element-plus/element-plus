@@ -83,12 +83,15 @@
                 :teleported="teleported"
               >
                 <template #default>
-                  <div :class="nsSelect.e('selected-item')">
+                  <div
+                    ref="collapseItemRef"
+                    :class="nsSelect.e('selected-item')"
+                  >
                     <el-tag
                       :closable="false"
                       :size="collapseTagSize"
                       :type="tagType"
-                      :style="tagStyle"
+                      :style="collapseTagStyle"
                       disable-transitions
                     >
                       <span :class="nsSelect.e('tags-text')">
