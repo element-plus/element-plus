@@ -61,7 +61,7 @@ tree-v2/custom-node
 
 Tree nodes can be filtered
 
-:::demo Invoke the `filter` method of the Tree instance to filter tree nodes. Its parameter is the filtering keyword. Note that for it to work, `filter-node-method` is required, and its value is the filtering method.
+:::demo Invoke the `filter` method of the Tree instance to filter tree nodes. Its parameter is the filtering keyword. Note that for it to work, `filter-method` is required, and its value is the filtering method.
 
 tree-v2/filter
 
