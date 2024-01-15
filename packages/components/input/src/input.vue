@@ -111,6 +111,8 @@
         ref="textarea"
         :class="nsTextarea.e('inner')"
         v-bind="attrs"
+        :minlength="minlength"
+        :maxlength="maxlength"
         :tabindex="tabindex"
         :disabled="inputDisabled"
         :readonly="readonly"
