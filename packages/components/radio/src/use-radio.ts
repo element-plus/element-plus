@@ -4,11 +4,12 @@ import { useFormDisabled, useFormSize } from '@element-plus/components/form'
 import { radioGroupKey } from './constants'
 
 import { getValueOrLabel } from './utils'
+import type { RadioButtonProps } from './radio-button'
 import type { SetupContext } from 'vue'
 import type { RadioEmits, RadioProps } from './radio'
 
 export const useRadio = (
-  props: { label: RadioProps['label']; modelValue?: RadioProps['modelValue'] },
+  props: RadioProps | RadioButtonProps,
   emit?: SetupContext<RadioEmits>['emit']
 ) => {
   const radioRef = ref<HTMLInputElement>()

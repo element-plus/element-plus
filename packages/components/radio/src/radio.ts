@@ -6,6 +6,13 @@ import type Radio from './radio.vue'
 
 export const radioPropsBase = buildProps({
   /**
+   * @description binding value
+   */
+  modelValue: {
+    type: [String, Number, Boolean],
+    default: undefined,
+  },
+  /**
    * @description size of the Radio
    */
   size: useSizeProp,
@@ -27,24 +34,17 @@ export const radioPropsBase = buildProps({
     type: [String, Number, Boolean],
     default: undefined,
   },
-})
-
-export const radioProps = buildProps({
-  ...radioPropsBase,
-  /**
-   * @description binding value
-   */
-  modelValue: {
-    type: [String, Number, Boolean],
-    default: undefined,
-  },
   /**
    * @description native `name` attribute
    */
   name: {
     type: String,
-    default: '',
+    default: undefined,
   },
+})
+
+export const radioProps = buildProps({
+  ...radioPropsBase,
   /**
    * @description whether to add a border around Radio
    */
