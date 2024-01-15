@@ -67,6 +67,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     inputHovering: false,
     selectionWidth: 0,
     calculatorWidth: 0,
+    collapseItemWidth: 0,
     previousQuery: null,
     previousValue: undefined,
     selectedLabel: '',
@@ -89,6 +90,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const suffixRef = ref<HTMLElement>(null)
   const menuRef = ref<HTMLElement>(null)
   const tagMenuRef = ref<HTMLElement>(null)
+  const collapseItemRef = ref<HTMLElement>(null)
 
   const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
     inputRef,
@@ -244,7 +246,23 @@ const useSelect = (props: ISelectV2Props, emit) => {
     popperSize.value = selectRef.value?.offsetWidth || 200
   }
 
+  const getGapWidth = () => {
+    if (!selectionRef.value) return 0
+    const style = window.getComputedStyle(selectionRef.value)
+    return Number.parseFloat(style.gap || '6px')
+  }
+
+  // computed style
   const tagStyle = computed(() => {
+    const gapWidth = getGapWidth()
+    const maxWidth =
+      collapseItemRef.value && props.maxCollapseTags === 1
+        ? states.selectionWidth - states.collapseItemWidth - gapWidth
+        : states.selectionWidth
+    return { maxWidth: `${maxWidth}px` }
+  })
+
+  const collapseTagStyle = computed(() => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
 
@@ -444,6 +462,11 @@ const useSelect = (props: ISelectV2Props, emit) => {
 
   const resetCalculatorWidth = () => {
     states.calculatorWidth = calculatorRef.value.getBoundingClientRect().width
+  }
+
+  const resetCollapseItemWidth = () => {
+    states.collapseItemWidth =
+      collapseItemRef.value.getBoundingClientRect().width
   }
 
   const updateTooltip = () => {
@@ -808,6 +831,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   useResizeObserver(calculatorRef, resetCalculatorWidth)
   useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
+  useResizeObserver(collapseItemRef, resetCollapseItemWidth)
 
   return {
     // data exports
@@ -823,6 +847,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     iconComponent,
     iconReverse,
     tagStyle,
+    collapseTagStyle,
     inputStyle,
     popperSize,
     dropdownMenuVisible,
@@ -848,6 +873,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     selectionRef,
     prefixRef,
     suffixRef,
+    collapseItemRef,
 
     popperRef,
 
