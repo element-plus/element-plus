@@ -83,6 +83,16 @@ select-v2/grouping
 
 :::
 
+## Clearable selector
+
+We can clear all the selected options at once, also applicable for single select.
+
+:::demo
+
+select-v2/clearable
+
+:::
+
 ## Customized option renderer
 
 We can define our own template for rendering the option in the popup.
@@ -93,13 +103,23 @@ select-v2/customized-option
 
 :::
 
-## Clearable selector
+## Header of the dropdown ^(2.5.2)
 
-We can clear all the selected options at once, also applicable for single select.
+You can customize the header of the dropdown.
 
-:::demo
+:::demo Use slot to customize the content.
 
-select-v2/clearable
+select-v2/custom-header
+
+:::
+
+## Footer of the dropdown ^(2.5.2)
+
+You can customize the footer of the dropdown.
+
+:::demo Use slot to customize the content.
+
+select-v2/custom-footer
 
 :::
 
@@ -236,12 +256,14 @@ select-v2/custom-tag
 
 ### Slots
 
-| Name         | Description                   |
-|--------------|-------------------------------|
-| default      | Option renderer               |
-| empty        | content when options is empty |
-| prefix       | prefix content of input       |
-| tag ^(2.5.0) | content as Select tag         |
+| Name            | Description                           |
+|-----------------|---------------------------------------|
+| default         | Option renderer                       |
+| header ^(2.5.2) | content at the top of the dropdown    |
+| footer ^(2.5.2) | content at the bottom of the dropdown |
+| empty           | content when options is empty         |
+| prefix          | prefix content of input               |
+| tag ^(2.5.0)    | content as Select tag                 |
 
 ### Exposes
 
