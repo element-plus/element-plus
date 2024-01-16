@@ -87,25 +87,23 @@ checkbox/with-border
 
 ### Checkbox Attributes
 
-| Name                  | Description                                                                                                                                                    | Type                                           | Default |
-|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------| ---------------------------------------------- | ------- |
-| model-value / v-model | binding value                                                                                                                                                  | ^[string] / ^[number] / ^[boolean]             | —       |
-| value ^(2.5.2)                | value of the Checkbox when used inside a `checkbox-group`                                                                                                      | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
-| true-value ^(2.5.2)           | value of the Checkbox if it's checked                                                                                                                          | ^[string] / ^[number]                          | —       |
-| false-value ^(2.5.2)          | value of the Checkbox if it's not checked                                                                                                                      | ^[string] / ^[number]                          | —       |
-| label                 | label of the Checkbox when used inside a `checkbox-group`. If there's no value, `label` will act as `value`                                                    | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
-| true-label ^(deprecated)           | value of the Checkbox if it's checked                                                                                                                          | ^[string] / ^[number]                          | —       |
-| false-label ^(deprecated)          | value of the Checkbox if it's not checked                                                                                                                      | ^[string] / ^[number]                          | —       |
-| disabled              | whether the Checkbox is disabled                                                                                                                               | ^[boolean]                                     | false   |
-| border                | whether to add a border around Checkbox                                                                                                                        | ^[boolean]                                     | false   |
-| size                  | size of the Checkbox                                                                                                                                           | ^[enum]`'large' \| 'default' \| 'small'`       | —       |
-| name                  | native 'name' attribute                                                                                                                                        | ^[string]                                      | —       |
-| checked               | if the Checkbox is checked                                                                                                                                     | ^[boolean]                                     | false   |
-| indeterminate         | Set indeterminate state, only responsible for style control                                                                                                    | ^[boolean]                                     | false   |
-| validate-event        | whether to trigger form validation                                                                                                                             | ^[boolean]                                     | true    |
-| tabindex              | input tabindex                                                                                                                                                 | ^[string] / ^[number]                          | —       |
-| id                    | input id                                                                                                                                                       | ^[string]                                      | —       |
-| controls ^(a11y)      | same as [aria-controls](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-controls), takes effect when `indeterminate` is `true` | ^[boolean]                                     | —       |
+| Name                      | Description                                                                                                                                                    | Type                                           | Default |
+|---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|---------|
+| model-value / v-model     | binding value                                                                                                                                                  | ^[string] / ^[number] / ^[boolean]             | —       |
+| value ^(2.5.2)            | value of the Checkbox when used inside a `checkbox-group`                                                                                                      | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
+| label                     | label of the Checkbox when used inside a `checkbox-group`. If there's no value, `label` will act as `value`                                                    | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
+| true-label ^(deprecated)  | value of the Checkbox if it's checked                                                                                                                          | ^[string] / ^[number]                          | —       |
+| false-label ^(deprecated) | value of the Checkbox if it's not checked                                                                                                                      | ^[string] / ^[number]                          | —       |
+| disabled                  | whether the Checkbox is disabled                                                                                                                               | ^[boolean]                                     | false   |
+| border                    | whether to add a border around Checkbox                                                                                                                        | ^[boolean]                                     | false   |
+| size                      | size of the Checkbox                                                                                                                                           | ^[enum]`'large' \| 'default' \| 'small'`       | —       |
+| name                      | native 'name' attribute                                                                                                                                        | ^[string]                                      | —       |
+| checked                   | if the Checkbox is checked                                                                                                                                     | ^[boolean]                                     | false   |
+| indeterminate             | Set indeterminate state, only responsible for style control                                                                                                    | ^[boolean]                                     | false   |
+| validate-event            | whether to trigger form validation                                                                                                                             | ^[boolean]                                     | true    |
+| tabindex                  | input tabindex                                                                                                                                                 | ^[string] / ^[number]                          | —       |
+| id                        | input id                                                                                                                                                       | ^[string]                                      | —       |
+| controls ^(a11y)          | same as [aria-controls](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-controls), takes effect when `indeterminate` is `true` | ^[boolean]                                     | —       |
 
 ### Checkbox Events
 
@@ -153,17 +151,15 @@ checkbox/with-border
 
 ### CheckboxButton Attributes
 
-| Name        | Description                                                 | Type                                           | Default |
-|-------------|-------------------------------------------------------------| ---------------------------------------------- | ------- |
-| value ^(2.5.2)      | value of the checkbox when used inside a `checkbox-group`   | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
-| true-value ^(2.5.2) | value of the checkbox if it's checked                       | ^[string] / ^[number]                          | —       |
-| false-value ^(2.5.2)| value of the checkbox if it's not checked                   | ^[string] / ^[number]                          | —       |
-| label       | label of the checkbox when used inside a `checkbox-group`. If there's no value, `label` will act as `value` | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
-| true-label ^(deprecated) | value of the checkbox if it's checked                       | ^[string] / ^[number]                          | —       |
-| false-label ^(deprecated)| value of the checkbox if it's not checked                   | ^[string] / ^[number]                          | —       |
-| disabled    | whether the checkbox is disabled                            | ^[boolean]                                     | false   |
-| name        | native 'name' attribute                                     | ^[string]                                      | —       |
-| checked     | if the checkbox is checked                                  | ^[boolean]                                     | false   |
+| Name                      | Description                                                                                                 | Type                                           | Default |
+|---------------------------|-------------------------------------------------------------------------------------------------------------|------------------------------------------------|---------|
+| value ^(2.5.2)            | value of the checkbox when used inside a `checkbox-group`                                                   | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
+| label                     | label of the checkbox when used inside a `checkbox-group`. If there's no value, `label` will act as `value` | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
+| true-label ^(deprecated)  | value of the checkbox if it's checked                                                                       | ^[string] / ^[number]                          | —       |
+| false-label ^(deprecated) | value of the checkbox if it's not checked                                                                   | ^[string] / ^[number]                          | —       |
+| disabled                  | whether the checkbox is disabled                                                                            | ^[boolean]                                     | false   |
+| name                      | native 'name' attribute                                                                                     | ^[string]                                      | —       |
+| checked                   | if the checkbox is checked                                                                                  | ^[boolean]                                     | false   |
 
 ### CheckboxButton Slots
 

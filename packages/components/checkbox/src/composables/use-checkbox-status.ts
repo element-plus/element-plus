@@ -27,7 +27,7 @@ export const useCheckboxStatus = (
         return value.map(toRaw).includes(getValueOrLabel(props))
       }
     } else if (value !== null && value !== undefined) {
-      return value === props.trueValue || value === props.trueLabel
+      return value === props.trueLabel
     } else {
       return !!value
     }

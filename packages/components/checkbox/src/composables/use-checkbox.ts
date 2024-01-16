@@ -18,7 +18,7 @@ const setStoreValue = (
     if (isArray(model.value) && !model.value.includes(getValueOrLabel(props))) {
       model.value.push(getValueOrLabel(props))
     } else {
-      model.value = props.trueValue || props.trueLabel || true
+      model.value = props.trueLabel || true
     }
   }
   props.checked && addToStore()

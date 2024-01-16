@@ -7,7 +7,7 @@
   >
     <span :class="spanKls">
       <input
-        v-if="trueValue || falseValue || trueLabel || falseLabel"
+        v-if="trueLabel || falseLabel"
         :id="inputId"
         v-model="model"
         :class="ns.e('original')"
@@ -16,8 +16,8 @@
         :name="name"
         :tabindex="tabindex"
         :disabled="isDisabled"
-        :true-value="trueValue || trueLabel"
-        :false-value="falseValue || falseLabel"
+        :true-value="trueLabel"
+        :false-value="falseLabel"
         @change="handleChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
