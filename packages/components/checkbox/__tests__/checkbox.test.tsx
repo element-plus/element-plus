@@ -495,6 +495,34 @@ describe('check-button', () => {
     expect(wrapper.findComponent({ ref: 'a' }).vm.isDisabled).toBe(true)
   })
 
+  test('button group exceed max', async () => {
+    const checkList = ref(['a', 'b', 'c', 'd'])
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <CheckboxGroup v-model={checkList.value} max={3}>
+            <CheckboxButton label="a" ref="a" />
+            <CheckboxButton label="b" ref="b" />
+            <CheckboxButton label="c" ref="c" />
+            <CheckboxButton label="d" ref="d" />
+            <CheckboxButton label="e" ref="e" />
+          </CheckboxGroup>
+        )
+      },
+    })
+
+    expect(checkList.value.length).toBe(4)
+
+    await wrapper.findComponent({ ref: 'a' }).trigger('click')
+    expect(checkList.value.length).toBe(3)
+
+    await wrapper.findComponent({ ref: 'a' }).trigger('click')
+    expect(checkList.value.length).toBe(3)
+    expect(checkList.value).toEqual(['b', 'c', 'd'])
+
+    expect(wrapper.findComponent({ ref: 'a' }).vm.isDisabled).toBe(true)
+  })
+
   test('nested group', async () => {
     const checkList = ref([])
     const wrapper = mount({
