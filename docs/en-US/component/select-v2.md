@@ -187,6 +187,16 @@ select-v2/custom-tag
 
 :::
 
+## Custom Loading ^(2.5.2)
+
+Override loading content.
+
+:::demo
+
+select-v2/custom-loading
+
+:::
+
 ## API
 
 ### Attributes
@@ -256,14 +266,15 @@ select-v2/custom-tag
 
 ### Slots
 
-| Name            | Description                           |
-|-----------------|---------------------------------------|
-| default         | Option renderer                       |
-| header ^(2.5.2) | content at the top of the dropdown    |
-| footer ^(2.5.2) | content at the bottom of the dropdown |
-| empty           | content when options is empty         |
-| prefix          | prefix content of input               |
-| tag ^(2.5.0)    | content as Select tag                 |
+| Name             | Description                           |
+|------------------|---------------------------------------|
+| default          | Option renderer                       |
+| header ^(2.5.2)  | content at the top of the dropdown    |
+| footer ^(2.5.2)  | content at the bottom of the dropdown |
+| empty            | content when options is empty         |
+| prefix           | prefix content of input               |
+| tag ^(2.5.0)     | content as Select tag                 |
+| loading ^(2.5.2) | content as Select loading             |
 
 ### Exposes
 

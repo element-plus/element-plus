@@ -235,13 +235,20 @@
               <slot />
             </el-options>
           </el-scrollbar>
-          <template v-if="loading || filteredOptionsCount === 0">
+          <div
+            v-if="$slots.loading && loading"
+            :class="nsSelect.be('dropdown', 'loading')"
+          >
+            <slot name="loading" />
+          </div>
+          <div
+            v-else-if="loading || filteredOptionsCount === 0"
+            :class="nsSelect.be('dropdown', 'empty')"
+          >
             <slot name="empty">
-              <p :class="nsSelect.be('dropdown', 'empty')">
-                {{ emptyText }}
-              </p>
+              <span>{{ emptyText }}</span>
             </slot>
-          </template>
+          </div>
           <div v-if="$slots.footer" :class="nsSelect.be('dropdown', 'footer')">
             <slot name="footer" />
           </div>

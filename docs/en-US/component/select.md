@@ -149,6 +149,16 @@ select/custom-tag
 
 :::
 
+## Custom Loading ^(2.5.2)
+
+Override loading content.
+
+:::demo
+
+select/custom-loading
+
+:::
+
 ## Select API
 
 ### Select Attributes
@@ -214,14 +224,15 @@ select/custom-tag
 
 ### Select Slots
 
-| Name            | Description                           | Subtags               |
-|-----------------|---------------------------------------| --------------------- |
-| default         | option component list                 | Option Group / Option |
-| header ^(2.4.3) | content at the top of the dropdown    | —                     |
-| footer ^(2.4.3) | content at the bottom of the dropdown | —                     |
-| prefix          | content as Select prefix              | —                     |
-| empty           | content when there is no options      | —                     |
-| tag ^(2.5.0)    | content as Select tag                 | —                     |
+| Name             | Description                           | Subtags               |
+|------------------|---------------------------------------|-----------------------|
+| default          | option component list                 | Option Group / Option |
+| header ^(2.4.3)  | content at the top of the dropdown    | —                     |
+| footer ^(2.4.3)  | content at the bottom of the dropdown | —                     |
+| prefix           | content as Select prefix              | —                     |
+| empty            | content when there is no options      | —                     |
+| tag ^(2.5.0)     | content as Select tag                 | —                     |
+| loading ^(2.5.2) | content as Select loading             | —                     |
 
 ### Select Exposes
 
