@@ -17,6 +17,7 @@ import type {
 
 export default class TreeStore {
   currentNode: Node
+  checkedStatus: Map
   currentNodeKey: TreeKey
   nodesMap: TreeStoreNodesMap
   root: Node
@@ -36,7 +37,7 @@ export default class TreeStore {
   constructor(options: TreeStoreOptions) {
     this.currentNode = null
     this.currentNodeKey = null
-
+    this.checkedStatus = new Map()
     for (const option in options) {
       if (hasOwn(options, option)) {
         this[option] = options[option]
