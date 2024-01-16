@@ -81,8 +81,8 @@
   </teleport>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { computed, ref, useSlots } from 'vue'
 import { Close } from '@element-plus/icons-vue'
 
 import { ElOverlay } from '@element-plus/components/overlay'
@@ -93,60 +93,62 @@ import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
 
-export default defineComponent({
+defineOptions({
   name: 'ElDrawer',
-  components: {
-    ElOverlay,
-    ElFocusTrap,
-    ElIcon,
-    Close,
-  },
   inheritAttrs: false,
-  props: drawerProps,
-  emits: drawerEmits,
+})
 
-  setup(props, { slots }) {
-    useDeprecated(
-      {
-        scope: 'el-drawer',
-        from: 'the title slot',
-        replacement: 'the header slot',
-        version: '3.0.0',
-        ref: 'https://element-plus.org/en-US/component/drawer.html#slots',
-      },
-      computed(() => !!slots.title)
-    )
-    useDeprecated(
-      {
-        scope: 'el-drawer',
-        from: 'custom-class',
-        replacement: 'class',
-        version: '2.3.0',
-        ref: 'https://element-plus.org/en-US/component/drawer.html#attributes',
-        type: 'Attribute',
-      },
-      computed(() => !!props.customClass)
-    )
+const props = defineProps(drawerProps)
+defineEmits(drawerEmits)
+const slots = useSlots()
 
-    const drawerRef = ref<HTMLElement>()
-    const focusStartRef = ref<HTMLElement>()
-    const ns = useNamespace('drawer')
-    const { t } = useLocale()
-
-    const isHorizontal = computed(
-      () => props.direction === 'rtl' || props.direction === 'ltr'
-    )
-    const drawerSize = computed(() => addUnit(props.size))
-
-    return {
-      ...useDialog(props, drawerRef),
-      drawerRef,
-      focusStartRef,
-      isHorizontal,
-      drawerSize,
-      ns,
-      t,
-    }
+useDeprecated(
+  {
+    scope: 'el-drawer',
+    from: 'the title slot',
+    replacement: 'the header slot',
+    version: '3.0.0',
+    ref: 'https://element-plus.org/en-US/component/drawer.html#slots',
   },
+  computed(() => !!slots.title)
+)
+useDeprecated(
+  {
+    scope: 'el-drawer',
+    from: 'custom-class',
+    replacement: 'class',
+    version: '2.3.0',
+    ref: 'https://element-plus.org/en-US/component/drawer.html#attributes',
+    type: 'Attribute',
+  },
+  computed(() => !!props.customClass)
+)
+
+const drawerRef = ref<HTMLElement>()
+const focusStartRef = ref<HTMLElement>()
+const ns = useNamespace('drawer')
+const { t } = useLocale()
+const {
+  afterEnter,
+  afterLeave,
+  beforeLeave,
+  visible,
+  rendered,
+  titleId,
+  bodyId,
+  onModalClick,
+  onCloseRequested,
+  handleClose,
+} = useDialog(props, drawerRef)
+
+const isHorizontal = computed(
+  () => props.direction === 'rtl' || props.direction === 'ltr'
+)
+const drawerSize = computed(() => addUnit(props.size))
+
+defineExpose({
+  handleClose,
+  afterEnter,
+  afterLeave,
 })
 </script>
