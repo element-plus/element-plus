@@ -23,7 +23,7 @@
       :name="name"
       :tabindex="tabindex"
       :disabled="isDisabled"
-      :value="getValueOrLabel(props)"
+      :value="actualValue"
       @change="handleChange"
       @focus="isFocused = true"
       @blur="isFocused = false"
@@ -47,7 +47,6 @@ import { checkboxGroupContextKey } from './constants'
 import { useCheckbox } from './composables'
 import { checkboxEmits, checkboxProps } from './checkbox'
 
-import { getValueOrLabel } from './utils'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -64,6 +63,7 @@ const {
   isDisabled,
   checkboxButtonSize,
   model,
+  actualValue,
   handleChange,
 } = useCheckbox(props, slots)
 const checkboxGroup = inject(checkboxGroupContextKey, undefined)

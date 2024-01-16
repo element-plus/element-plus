@@ -9,7 +9,7 @@ lang: en-US
 
 `label` act as `value` has been **deprecated**, `label` is used only as display text, this action **will be** removed in ^(3.0.0), consider switching to new API.
 
-New API `value` has been added in ^(2.5.2), you can use `value` API to set the value of Checkbox.
+New API `value` has been added in ^(2.6.0), you can use `value` API to set the value of Checkbox.
 
 :::
 
@@ -90,7 +90,7 @@ checkbox/with-border
 | Name                      | Description                                                                                                                                                    | Type                                           | Default |
 |---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|---------|
 | model-value / v-model     | binding value                                                                                                                                                  | ^[string] / ^[number] / ^[boolean]             | —       |
-| value ^(2.5.2)            | value of the Checkbox when used inside a `checkbox-group`                                                                                                      | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
+| value ^(2.6.0)            | value of the Checkbox when used inside a `checkbox-group`                                                                                                      | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | label                     | label of the Checkbox when used inside a `checkbox-group`. If there's no value, `label` will act as `value`                                                    | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | true-label ^(deprecated)  | value of the Checkbox if it's checked                                                                                                                          | ^[string] / ^[number]                          | —       |
 | false-label ^(deprecated) | value of the Checkbox if it's not checked                                                                                                                      | ^[string] / ^[number]                          | —       |
@@ -128,7 +128,7 @@ checkbox/with-border
 | disabled                    | whether the nesting checkboxes are disabled       | ^[boolean]                               | false   |
 | min                         | minimum number of checkbox checked                | ^[number]                                | —       |
 | max                         | maximum number of checkbox checked                | ^[number]                                | —       |
-| aria-label ^(2.5.2) ^(a11y) | label for screen reader                           | ^[string]                                | —       |
+| aria-label ^(2.6.0) ^(a11y) | label for screen reader                           | ^[string]                                | —       |
 | label ^(deprecated)         | label for screen reader                           | ^[string]                                | —       |
 | text-color                  | font color when button is active                  | ^[string]                                | #ffffff |
 | fill                        | border and background color when button is active | ^[string]                                | #409EFF |
@@ -153,7 +153,7 @@ checkbox/with-border
 
 | Name                      | Description                                                                                                 | Type                                           | Default |
 |---------------------------|-------------------------------------------------------------------------------------------------------------|------------------------------------------------|---------|
-| value ^(2.5.2)            | value of the checkbox when used inside a `checkbox-group`                                                   | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
+| value ^(2.6.0)            | value of the checkbox when used inside a `checkbox-group`                                                   | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | label                     | label of the checkbox when used inside a `checkbox-group`. If there's no value, `label` will act as `value` | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | true-label ^(deprecated)  | value of the checkbox if it's checked                                                                       | ^[string] / ^[number]                          | —       |
 | false-label ^(deprecated) | value of the checkbox if it's not checked                                                                   | ^[string] / ^[number]                          | —       |

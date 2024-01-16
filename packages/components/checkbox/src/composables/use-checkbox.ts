@@ -1,6 +1,8 @@
+import { computed } from 'vue'
+import { isNil } from 'lodash-unified'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import { isArray } from '@element-plus/utils'
-import { getValueOrLabel } from '../utils'
+import { useDeprecated } from '@element-plus/hooks'
 import { useCheckboxDisabled } from './use-checkbox-disabled'
 import { useCheckboxEvent } from './use-checkbox-event'
 import { useCheckboxModel } from './use-checkbox-model'
@@ -8,21 +10,6 @@ import { useCheckboxStatus } from './use-checkbox-status'
 import type { ComponentInternalInstance } from 'vue'
 
 import type { CheckboxProps } from '../checkbox'
-import type { CheckboxModel } from './use-checkbox-model'
-
-const setStoreValue = (
-  props: CheckboxProps,
-  { model }: Pick<CheckboxModel, 'model'>
-) => {
-  function addToStore() {
-    if (isArray(model.value) && !model.value.includes(getValueOrLabel(props))) {
-      model.value.push(getValueOrLabel(props))
-    } else {
-      model.value = props.trueLabel || true
-    }
-  }
-  props.checked && addToStore()
-}
 
 export const useCheckbox = (
   props: CheckboxProps,
@@ -36,6 +23,7 @@ export const useCheckbox = (
     checkboxButtonSize,
     checkboxSize,
     hasOwnLabel,
+    actualValue,
   } = useCheckboxStatus(props, slots, { model })
   const { isDisabled } = useCheckboxDisabled({ model, isChecked })
   const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
@@ -51,7 +39,29 @@ export const useCheckbox = (
     isLabeledByFormItem,
   })
 
-  setStoreValue(props, { model })
+  const setStoreValue = () => {
+    function addToStore() {
+      if (isArray(model.value) && !model.value.includes(actualValue.value)) {
+        model.value.push(actualValue.value)
+      } else {
+        model.value = props.trueLabel || true
+      }
+    }
+    props.checked && addToStore()
+  }
+
+  setStoreValue()
+
+  useDeprecated(
+    {
+      from: 'label act as value',
+      replacement: 'value',
+      version: '3.0.0',
+      scope: 'el-checkbox',
+      ref: 'https://element-plus.org/en-US/component/checkbox.html',
+    },
+    computed(() => isGroup.value && isNil(props.value))
+  )
 
   return {
     inputId,
@@ -63,6 +73,7 @@ export const useCheckbox = (
     checkboxSize,
     hasOwnLabel,
     model,
+    actualValue,
     handleChange,
     onClickRoot,
   }

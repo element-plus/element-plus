@@ -9,7 +9,7 @@ lang: en-US
 
 `label` act as `value` has been **deprecated**, `label` is used only as display text, this action **will be** removed in ^(3.0.0), consider switching to new API.
 
-New API `value` has been added in ^(2.5.2), you can use `value` API to set the value of Radio.
+New API `value` has been added in ^(2.6.0), you can use `value` API to set the value of Radio.
 
 :::
 
@@ -70,7 +70,7 @@ radio/with-borders
 | Name                  | Description                                                            | Type                                     | Default |
 |-----------------------|------------------------------------------------------------------------|------------------------------------------|---------|
 | model-value / v-model | binding value                                                          | ^[string] / ^[number] / ^[boolean]       | —       |
-| value ^(2.5.2)        | the value of Radio                                                     | ^[string] / ^[number] / ^[boolean]       | —       |
+| value ^(2.6.0)        | the value of Radio                                                     | ^[string] / ^[number] / ^[boolean]       | —       |
 | label                 | the label of Radio. If there's no `value`, `label` will act as `value` | ^[string] / ^[number] / ^[boolean]       | —       |
 | disabled              | whether Radio is disabled                                              | ^[boolean]                               | false   |
 | border                | whether to add a border around Radio                                   | ^[boolean]                               | false   |
@@ -101,7 +101,7 @@ radio/with-borders
 | text-color                  | font color when button is active                  | ^[string]                          | #ffffff |
 | fill                        | border and background color when button is active | ^[string]                          | #409EFF |
 | validate-event              | whether to trigger form validation                | ^[boolean]                         | true    |
-| aria-label ^(2.5.2) ^(a11y) | `aria-label` in RadioGroup                        | ^[string]                          | —       |
+| aria-label ^(2.6.0) ^(a11y) | `aria-label` in RadioGroup                        | ^[string]                          | —       |
 | label ^(deprecated) ^(a11y) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
 | name                        | native `name` attribute                           | ^[string]                          | —       |
 | id                          | native `id` attribute                             | ^[string]                          | —       |
@@ -124,7 +124,7 @@ radio/with-borders
 
 | Name           | Description                                                            | Type                               | Default |
 |----------------|------------------------------------------------------------------------|------------------------------------|---------|
-| value ^(2.5.2) | the value of Radio                                                     | ^[string] / ^[number] / ^[boolean] | —       |
+| value ^(2.6.0) | the value of Radio                                                     | ^[string] / ^[number] / ^[boolean] | —       |
 | label          | the label of Radio. If there's no `value`, `label` will act as `value` | ^[string] / ^[number] / ^[boolean] | —       |
 | disabled       | whether Radio is disabled                                              | ^[boolean]                         | false   |
 | name           | native 'name' attribute                                                | ^[string]                          | —       |

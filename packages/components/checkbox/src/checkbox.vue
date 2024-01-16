@@ -31,7 +31,7 @@
         type="checkbox"
         :indeterminate="indeterminate"
         :disabled="isDisabled"
-        :value="getValueOrLabel(props)"
+        :value="actualValue"
         :name="name"
         :tabindex="tabindex"
         @change="handleChange"
@@ -53,7 +53,6 @@ import { computed, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { checkboxEmits, checkboxProps } from './checkbox'
 import { useCheckbox } from './composables'
-import { getValueOrLabel } from './utils'
 
 defineOptions({
   name: 'ElCheckbox',
@@ -72,6 +71,7 @@ const {
   checkboxSize,
   hasOwnLabel,
   model,
+  actualValue,
   handleChange,
   onClickRoot,
 } = useCheckbox(props, slots)

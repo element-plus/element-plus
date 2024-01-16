@@ -5,7 +5,7 @@
       ns.is('disabled', disabled),
       ns.is('focus', focus),
       ns.is('bordered', border),
-      ns.is('checked', modelValue === getValueOrLabel(props)),
+      ns.is('checked', modelValue === actualValue),
       ns.m(size),
     ]"
   >
@@ -13,14 +13,14 @@
       :class="[
         ns.e('input'),
         ns.is('disabled', disabled),
-        ns.is('checked', modelValue === getValueOrLabel(props)),
+        ns.is('checked', modelValue === actualValue),
       ]"
     >
       <input
         ref="radioRef"
         v-model="modelValue"
         :class="ns.e('original')"
-        :value="getValueOrLabel(props)"
+        :value="actualValue"
         :name="name || radioGroup?.name"
         :disabled="disabled"
         type="radio"
@@ -44,7 +44,6 @@ import { nextTick } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { radioEmits, radioProps } from './radio'
 import { useRadio } from './use-radio'
-import { getValueOrLabel } from './utils'
 
 defineOptions({
   name: 'ElRadio',
@@ -54,10 +53,8 @@ const props = defineProps(radioProps)
 const emit = defineEmits(radioEmits)
 
 const ns = useNamespace('radio')
-const { radioRef, radioGroup, focus, size, disabled, modelValue } = useRadio(
-  props,
-  emit
-)
+const { radioRef, radioGroup, focus, size, disabled, modelValue, actualValue } =
+  useRadio(props, emit)
 
 function handleChange() {
   nextTick(() => emit('change', modelValue.value))
