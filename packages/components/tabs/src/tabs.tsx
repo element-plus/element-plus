@@ -153,12 +153,12 @@ const Tabs = defineComponent({
 
     watch(
       () => props.activeName,
-      (modelValue) => setCurrentName(modelValue)
+      (modelValue) => setCurrentName(modelValue, true)
     )
 
     watch(
       () => props.modelValue,
-      (modelValue) => setCurrentName(modelValue)
+      (modelValue) => setCurrentName(modelValue, true)
     )
 
     watch(currentName, async () => {
