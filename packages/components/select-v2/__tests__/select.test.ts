@@ -1661,4 +1661,45 @@ describe('Select', () => {
     await nextTick()
     expect(selectVm.filteredOptions.length).toBe(3)
   })
+
+  it('backspace key should delete selected tag but should not delete disabled options', async () => {
+    const wrapper = createSelect({
+      data() {
+        return {
+          multiple: true,
+          filterable: true,
+          options: [
+            {
+              value: 'Option1',
+              label: 'option 1',
+              disabled: true,
+            },
+            {
+              value: 'Option2',
+              label: 'option 2',
+              disabled: false,
+            },
+          ],
+          value: ['Option2', 'Option1'],
+        }
+      },
+    })
+    await nextTick()
+    const selectInput = wrapper.find('.el-select__input')
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    // after deletion, an el-tag will be deleted
+    await selectInput.trigger('keydown', {
+      code: EVENT_CODE.backspace,
+      key: EVENT_CODE.backspace,
+    })
+    await nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    await selectInput.trigger('keydown', {
+      code: EVENT_CODE.backspace,
+      key: EVENT_CODE.backspace,
+    })
+    await nextTick()
+    // after deletion, an el-tag still exist
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+  })
 })
