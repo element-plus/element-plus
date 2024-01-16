@@ -107,7 +107,7 @@ select-v2/customized-option
 
 You can customize the header of the dropdown.
 
-::: demo Use slot to customize the content.
+:::demo Use slot to customize the content.
 
 select-v2/custom-header
 
@@ -117,7 +117,7 @@ select-v2/custom-header
 
 You can customize the footer of the dropdown.
 
-::: demo Use slot to customize the content.
+:::demo Use slot to customize the content.
 
 select-v2/custom-footer
 
