@@ -186,7 +186,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     if (tree?.value && props.showCheckbox) {
       const node = tree.value.treeNodeMap.get(key)
       if (node) {
-        toggleCheckbox(node, isChecked, false)
+        toggleCheckbox(node, isChecked, true)
       }
     }
   }
