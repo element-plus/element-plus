@@ -193,6 +193,7 @@
     padding: 0;
     color: getCssVar('select-multiple-input-color');
     font-size: inherit;
+    font-family: inherit;
     appearance: none;
     height: map.get($select-item-height, 'default');
     max-width: 100%;
