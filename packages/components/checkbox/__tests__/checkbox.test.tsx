@@ -141,10 +141,10 @@ describe('Checkbox', () => {
       setup() {
         return () => (
           <CheckboxGroup v-model={checkList.value}>
-            <Checkbox label="a" ref="a" />
-            <Checkbox label="b" ref="b" />
-            <Checkbox label="c" ref="c" />
-            <Checkbox label="d" ref="d" />
+            <Checkbox label="a" value="a" ref="a" />
+            <Checkbox label="b" value="b" ref="b" />
+            <Checkbox label="c" value="c" ref="c" />
+            <Checkbox label="d" value="d" ref="d" />
           </CheckboxGroup>
         )
       },
@@ -168,10 +168,10 @@ describe('Checkbox', () => {
       setup() {
         return () => (
           <CheckboxGroup v-model={checkList.value}>
-            <Checkbox label="a" ref="a" />
-            <Checkbox label="b" ref="b" />
-            <Checkbox label="c" ref="c" />
-            <Checkbox label="d" ref="d" />
+            <Checkbox label="a" value="a" ref="a" />
+            <Checkbox label="b" value="b" ref="b" />
+            <Checkbox label="c" value="c" ref="c" />
+            <Checkbox label="d" value="d" ref="d" />
           </CheckboxGroup>
         )
       },
@@ -190,8 +190,8 @@ describe('Checkbox', () => {
       setup() {
         return () => (
           <CheckboxGroup v-model={checkList.value} onChange={onChange}>
-            <Checkbox label="a" ref="a" />
-            <Checkbox label="b" ref="b" />
+            <Checkbox label="a" value="a" ref="a" />
+            <Checkbox label="b" value="b" ref="b" />
           </CheckboxGroup>
         )
       },
@@ -209,10 +209,10 @@ describe('Checkbox', () => {
       setup() {
         return () => (
           <CheckboxGroup v-model={checkList.value}>
-            <Checkbox label="a" ref="a" />
-            <Checkbox label="b" ref="b" />
-            <Checkbox label="c" ref="c" />
-            <Checkbox label="d" ref="d" />
+            <Checkbox label="a" value="a" ref="a" />
+            <Checkbox label="b" value="b" ref="b" />
+            <Checkbox label="c" value="c" ref="c" />
+            <Checkbox label="d" value="d" ref="d" />
           </CheckboxGroup>
         )
       },
@@ -284,7 +284,7 @@ describe('Checkbox', () => {
       <div>
         <Checkbox v-model={checked.value} checked />
         <CheckboxGroup v-model={checklist.value}>
-          <Checkbox checked label="a" />
+          <Checkbox checked label="a" value="a" />
         </CheckboxGroup>
       </div>
     ))
@@ -297,9 +297,15 @@ describe('Checkbox', () => {
     const checklist = ref([])
     const wrapper = mount(() => (
       <CheckboxGroup v-model={checklist.value}>
-        <Checkbox label="">all</Checkbox>
-        <Checkbox label="a">a</Checkbox>
-        <Checkbox label="b">b</Checkbox>
+        <Checkbox label="" value="">
+          all
+        </Checkbox>
+        <Checkbox label="a" value="a">
+          a
+        </Checkbox>
+        <Checkbox label="b" value="b">
+          b
+        </Checkbox>
       </CheckboxGroup>
     ))
 
@@ -308,13 +314,13 @@ describe('Checkbox', () => {
     expect(checklist.value[0]).toEqual('')
   })
 
-  test('label is object', async () => {
+  test('value is object', async () => {
     const checklist = ref([])
     const wrapper = mount(() => (
       <CheckboxGroup v-model={checklist.value}>
-        <Checkbox label={{ a: 1 }}>all</Checkbox>
-        <Checkbox label={{ a: 2 }}>a</Checkbox>
-        <Checkbox label={{ b: 1 }}>b</Checkbox>
+        <Checkbox value={{ a: 1 }}>all</Checkbox>
+        <Checkbox value={{ a: 2 }}>a</Checkbox>
+        <Checkbox value={{ b: 1 }}>b</Checkbox>
       </CheckboxGroup>
     ))
 
@@ -323,19 +329,19 @@ describe('Checkbox', () => {
     expect(checklist.value[0]).toEqual({ a: 1 })
     expect(checkbox.classes()).contains('is-checked')
   })
-  test('label is object with initial values', async () => {
+  test('value is object with initial values', async () => {
     const checklist = ref([{ a: 1 }])
     const wrapper = mount({
       setup() {
         return () => (
           <CheckboxGroup v-model={checklist.value}>
-            <Checkbox label={{ a: 1 }} ref="a1">
+            <Checkbox value={{ a: 1 }} ref="a1">
               a1
             </Checkbox>
-            <Checkbox label={{ a: 2 }} ref="a2">
+            <Checkbox value={{ a: 2 }} ref="a2">
               a2
             </Checkbox>
-            <Checkbox label={{ b: 1 }} ref="b1">
+            <Checkbox value={{ b: 1 }} ref="b1">
               b1
             </Checkbox>
           </CheckboxGroup>
@@ -400,10 +406,10 @@ describe('check-button', () => {
       setup() {
         return () => (
           <CheckboxGroup v-model={checkList.value} onChange={onChange}>
-            <CheckboxButton label="a" ref="a" />
-            <CheckboxButton label="b" ref="b" />
-            <CheckboxButton label="c" ref="c" />
-            <CheckboxButton label="d" ref="d" />
+            <CheckboxButton label="a" value="a" ref="a" />
+            <CheckboxButton label="b" value="b" ref="b" />
+            <CheckboxButton label="c" value="c" ref="c" />
+            <CheckboxButton label="d" value="d" ref="d" />
           </CheckboxGroup>
         )
       },
@@ -426,10 +432,10 @@ describe('check-button', () => {
             fill="#ff0000"
             text-color="#000"
           >
-            <CheckboxButton label="a" ref="a" />
-            <CheckboxButton label="b" ref="b" />
-            <CheckboxButton label="c" ref="c" />
-            <CheckboxButton label="d" ref="d" />
+            <CheckboxButton label="a" value="a" ref="a" />
+            <CheckboxButton label="b" value="b" ref="b" />
+            <CheckboxButton label="c" value="c" ref="c" />
+            <CheckboxButton label="d" value="d" ref="d" />
           </CheckboxGroup>
         )
       },
@@ -447,10 +453,10 @@ describe('check-button', () => {
     const checkList = ref(['a', 'b'])
     const wrapper = mount(() => (
       <CheckboxGroup v-model={checkList.value} tag="tr">
-        <CheckboxButton label="a" ref="a" />
-        <CheckboxButton label="b" ref="b" />
-        <CheckboxButton label="c" ref="c" />
-        <CheckboxButton label="d" ref="d" />
+        <CheckboxButton label="a" value="a" ref="a" />
+        <CheckboxButton label="b" value="b" ref="b" />
+        <CheckboxButton label="c" value="c" ref="c" />
+        <CheckboxButton label="d" value="d" ref="d" />
       </CheckboxGroup>
     ))
 
@@ -463,11 +469,11 @@ describe('check-button', () => {
       setup() {
         return () => (
           <CheckboxGroup v-model={checkList.value} min={2} max={3}>
-            <CheckboxButton label="a" ref="a" />
-            <CheckboxButton label="b" ref="b" />
-            <CheckboxButton label="c" ref="c" />
-            <CheckboxButton label="d" ref="d" />
-            <CheckboxButton label="e" ref="e" />
+            <CheckboxButton label="a" value="a" ref="a" />
+            <CheckboxButton label="b" value="b" ref="b" />
+            <CheckboxButton label="c" value="c" ref="c" />
+            <CheckboxButton label="d" value="d" ref="d" />
+            <CheckboxButton label="e" value="e" ref="e" />
           </CheckboxGroup>
         )
       },
@@ -501,10 +507,10 @@ describe('check-button', () => {
       setup() {
         return () => (
           <CheckboxGroup v-model={checkList.value}>
-            <CheckboxButton label="a" ref="a" />
-            <CheckboxButton label="b" ref="b" />
-            <CheckboxButton label="c" ref="c" />
-            <CheckboxButton label="d" ref="d" />
+            <CheckboxButton label="a" value="a" ref="a" />
+            <CheckboxButton label="b" value="b" ref="b" />
+            <CheckboxButton label="c" value="c" ref="c" />
+            <CheckboxButton label="d" value="d" ref="d" />
           </CheckboxGroup>
         )
       },
@@ -523,7 +529,7 @@ describe('check-button', () => {
         <div>
           <Checkbox v-model={checked.value} checked />
           <CheckboxGroup v-model={checklist.value}>
-            <CheckboxButton checked label="a" />
+            <CheckboxButton checked label="a" value="a" />
           </CheckboxGroup>
         </div>
       ))
@@ -559,7 +565,7 @@ describe('check-button', () => {
     test('checkbox with label, form item is group', async () => {
       const wrapper = mount(() => (
         <ElFormItem label="test">
-          <Checkbox label="Foo" />
+          <Checkbox label="Foo" value="Foo" />
         </ElFormItem>
       ))
 
@@ -576,8 +582,8 @@ describe('check-button', () => {
       const wrapper = mount(() => (
         <ElFormItem label="test">
           <CheckboxGroup>
-            <Checkbox label="Foo" />
-            <Checkbox label="Bar" />
+            <Checkbox label="Foo" value="Foo" />
+            <Checkbox label="Bar" value="Bar" />
           </CheckboxGroup>
         </ElFormItem>
       ))
@@ -599,8 +605,8 @@ describe('check-button', () => {
       const wrapper = mount(() => (
         <ElFormItem label="test">
           <CheckboxGroup label="Foo">
-            <Checkbox label="Foo" />
-            <Checkbox label="Bar" />
+            <Checkbox label="Foo" value="Foo" />
+            <Checkbox label="Bar" value="Bar" />
           </CheckboxGroup>
         </ElFormItem>
       ))
@@ -622,12 +628,12 @@ describe('check-button', () => {
           return () => (
             <ElFormItem label="test">
               <CheckboxGroup label="Foo" ref="checkboxGroup1">
-                <Checkbox label="Foo" />
-                <Checkbox label="Bar" />
+                <Checkbox label="Foo" value="Foo" />
+                <Checkbox label="Bar" value="Bar" />
               </CheckboxGroup>
               <CheckboxGroup label="Bar" ref="checkboxGroup2">
-                <Checkbox label="Foo" />
-                <Checkbox label="Bar" />
+                <Checkbox label="Foo" value="Foo" />
+                <Checkbox label="Bar" value="Bar" />
               </CheckboxGroup>
             </ElFormItem>
           )

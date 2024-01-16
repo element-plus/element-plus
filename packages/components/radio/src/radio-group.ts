@@ -35,13 +35,6 @@ export const radioGroupProps = buildProps({
     default: '',
   },
   /**
-   * @description aria-label in RadioGroup
-   */
-  ariaLabel: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description same as `aria-label` in RadioGroup
    */
   label: {
