@@ -218,6 +218,11 @@
           :hovering-index="states.hoveringIndex"
           :scrollbar-always-on="scrollbarAlwaysOn"
         >
+          <template v-if="$slots.header" #header>
+            <div :class="nsSelect.be('dropdown', 'header')">
+              <slot name="header" />
+            </div>
+          </template>
           <template #default="scope">
             <slot v-bind="scope" />
           </template>
@@ -227,6 +232,11 @@
                 {{ emptyText ? emptyText : '' }}
               </p>
             </slot>
+          </template>
+          <template v-if="$slots.footer" #footer>
+            <div :class="nsSelect.be('dropdown', 'footer')">
+              <slot name="footer" />
+            </div>
           </template>
         </el-select-menu>
       </template>

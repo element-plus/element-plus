@@ -242,6 +242,7 @@ export default defineComponent({
 
       return (
         <div class={[ns.b('dropdown'), ns.is('multiple', multiple)]}>
+          {slots.header?.()}
           <List
             ref={listRef}
             {...unref(listProps)}
@@ -258,6 +259,7 @@ export default defineComponent({
               default: (props: ItemProps<any>) => <Item {...props} />,
             }}
           </List>
+          {slots.footer?.()}
         </div>
       )
     }
