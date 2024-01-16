@@ -28,15 +28,52 @@ export default defineComponent({
       useRender(props)
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
 
+    const hoveredCellList = []
     watch(props.store.states.hoverRow, (newVal: any, oldVal: any) => {
+      const el = instance?.vnode.el as HTMLElement
+      const rows = Array.from(el?.children || []).filter((e) =>
+        e?.classList.contains(`${ns.e('row')}`)
+      )
+
+      // hover rowSpan > 1 choose the whole row
+      const childNodes = rows[newVal]?.childNodes
+      if (childNodes?.length) {
+        const indexes = Array.from(childNodes).reduce((acc, item, index) => {
+          // drop colsSpan
+          const pre = childNodes[index - 1]?.colSpan > 1
+          const next = childNodes[index + 1]?.colSpan > 1
+          if (item.nodeName !== 'TD' && !pre && !next) {
+            acc.push(index)
+          }
+          return acc
+        }, [])
+
+        indexes.forEach((rowIndex) => {
+          while (newVal > 0) {
+            // find from previous
+            const preChildNodes = rows[newVal - 1]?.childNodes
+            if (
+              preChildNodes[rowIndex] &&
+              preChildNodes[rowIndex].nodeName === 'TD'
+            ) {
+              addClass(preChildNodes[rowIndex], 'hover-cell')
+              hoveredCellList.push(preChildNodes[rowIndex])
+              break
+            }
+            newVal--
+          }
+        })
+      } else {
+        hoveredCellList.forEach((item) => removeClass(item, 'hover-cell'))
+      }
       if (!props.store.states.isComplex.value || !isClient) return
 
       rAF(() => {
         // just get first level children; fix #9723
-        const el = instance?.vnode.el as HTMLElement
-        const rows = Array.from(el?.children || []).filter((e) =>
-          e?.classList.contains(`${ns.e('row')}`)
-        )
+        // const el = instance?.vnode.el as HTMLElement
+        // const rows = Array.from(el?.children || []).filter((e) =>
+        //   e?.classList.contains(`${ns.e('row')}`)
+        // )
         const oldRow = rows[oldVal]
         const newRow = rows[newVal]
         if (oldRow) {

@@ -556,6 +556,10 @@
       }
     }
 
+    tr > td.hover-cell {
+      background-color: getCssVar('table-row-hover-bg-color');
+    }
+
     tr.current-row > td.#{$namespace}-table__cell {
       background-color: getCssVar('table-current-row-bg-color');
     }
