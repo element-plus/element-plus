@@ -20,6 +20,7 @@
       :show-checkbox="showCheckbox"
       :render-content="renderContent"
       @node-expand="handleNodeExpand"
+      @node-check="handleNodeCheck(child, $event)"
     />
     <div v-if="isEmpty" :class="ns.e('empty-block')">
       <slot name="empty">
@@ -372,6 +373,10 @@ export default defineComponent({
       ctx.emit('node-expand', nodeData, node, instance)
     }
 
+    const handleNodeCheck = (node, checked: boolean) => {
+      node.checked = checked
+    }
+
     const updateKeyChildren = (key: TreeKey, data: TreeData) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in updateKeyChild')
@@ -424,6 +429,7 @@ export default defineComponent({
       insertBefore,
       insertAfter,
       handleNodeExpand,
+      handleNodeCheck,
       updateKeyChildren,
     }
   },

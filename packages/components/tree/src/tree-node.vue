@@ -47,6 +47,7 @@
         :model-value="node.checked"
         :indeterminate="node.indeterminate"
         :disabled="!!node.disabled"
+        @update:model-value="handleNodeCheck"
         @click.stop
         @change="handleCheckChange"
       />
@@ -135,7 +136,7 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ['node-expand'],
+  emits: ['node-expand', 'node-check'],
   setup(props, ctx) {
     const ns = useNamespace('tree')
     const { broadcastExpanded } = useNodeExpandEventBroadcast(props)
@@ -316,6 +317,10 @@ export default defineComponent({
       dragEvents.treeNodeDragEnd(event)
     }
 
+    const handleNodeCheck = (checked: boolean) => {
+      ctx.emit('node-check', checked)
+    }
+
     return {
       ns,
       node$,
@@ -336,6 +341,7 @@ export default defineComponent({
       handleDragOver,
       handleDrop,
       handleDragEnd,
+      handleNodeCheck,
       CaretRight,
     }
   },
