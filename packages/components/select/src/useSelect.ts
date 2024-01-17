@@ -138,9 +138,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const hasModelValue = computed(() => {
     return props.multiple
       ? isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined &&
-          props.modelValue !== null &&
-          props.modelValue !== ''
+      : props.modelValue !== undefined && props.modelValue !== null
   })
 
   const showClose = computed(() => {
