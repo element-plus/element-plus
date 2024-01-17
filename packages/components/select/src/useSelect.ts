@@ -138,9 +138,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const hasModelValue = computed(() => {
     return props.multiple
       ? isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined &&
-          props.modelValue !== null &&
-          props.modelValue !== ''
+      : props.modelValue !== undefined && props.modelValue !== null
   })
 
   const showClose = computed(() => {
@@ -260,6 +258,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const currentPlaceholder = computed(() => {
     const _placeholder = props.placeholder ?? t('el.select.placeholder')
+    console.log(hasModelValue.value)
     return props.multiple || !hasModelValue.value
       ? _placeholder
       : states.selectedLabel
@@ -401,6 +400,8 @@ export const useSelect = (props: ISelectProps, emit) => {
       const option = getOption(props.modelValue)
       states.selectedLabel = option.currentLabel
       states.selected = option
+      console.log(states.selectedLabel)
+      console.log(states.selected)
       return
     } else {
       states.selectedLabel = ''
