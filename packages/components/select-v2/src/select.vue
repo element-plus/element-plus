@@ -150,7 +150,6 @@
                 spellcheck="false"
                 type="text"
                 :name="name"
-                :unselectable="expanded ? 'on' : undefined"
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @input="onInput"
@@ -161,7 +160,7 @@
                 @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
                 @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
-                @keydown.delete.stop="handleDel"
+                @keydown.delete.stop.prevent="handleDel"
                 @click.stop="toggleMenu"
               />
               <span
