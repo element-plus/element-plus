@@ -73,7 +73,7 @@ select/custom-template
 
 You can customize the header of the dropdown.
 
-::: demo Use slot to customize the content.
+:::demo Use slot to customize the content.
 
 select/custom-header
 
@@ -83,7 +83,7 @@ select/custom-header
 
 You can customize the footer of the dropdown.
 
-::: demo Use slot to customize the content.
+:::demo Use slot to customize the content.
 
 select/custom-footer
 
