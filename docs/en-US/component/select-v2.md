@@ -83,6 +83,16 @@ select-v2/grouping
 
 :::
 
+## Clearable selector
+
+We can clear all the selected options at once, also applicable for single select.
+
+:::demo
+
+select-v2/clearable
+
+:::
+
 ## Customized option renderer
 
 We can define our own template for rendering the option in the popup.
@@ -93,13 +103,23 @@ select-v2/customized-option
 
 :::
 
-## Clearable selector
+## Header of the dropdown ^(2.5.2)
 
-We can clear all the selected options at once, also applicable for single select.
+You can customize the header of the dropdown.
 
-:::demo
+:::demo Use slot to customize the content.
 
-select-v2/clearable
+select-v2/custom-header
+
+:::
+
+## Footer of the dropdown ^(2.5.2)
+
+You can customize the footer of the dropdown.
+
+:::demo Use slot to customize the content.
+
+select-v2/custom-footer
 
 :::
 
@@ -167,7 +187,9 @@ select-v2/custom-tag
 
 :::
 
-## SelectV2 Attributes
+## API
+
+### Attributes
 
 | Name                                | Description                                                                                                                              | Type                                                                                                                                                                        | Default       |
 |-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
@@ -177,7 +199,7 @@ select-v2/custom-tag
 | multiple                            | is multiple                                                                                                                              | ^[boolean]                                                                                                                                                                  | false         |
 | disabled                            | is disabled                                                                                                                              | ^[boolean]                                                                                                                                                                  | false         |
 | value-key                           | unique identity key name for value, required when value is an object                                                                     | ^[string]                                                                                                                                                                   | value         |
-| size                                | size of component                                                                                                                        | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | —             |
+| size                                | size of component                                                                                                                        | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | ''            |
 | clearable                           | whether select can be cleared                                                                                                            | ^[boolean]                                                                                                                                                                  | false         |
 | clear-icon                          | custom clear icon                                                                                                                        | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose   |
 | collapse-tags                       | whether to collapse tags to a text when multiple selecting                                                                               | ^[boolean]                                                                                                                                                                  | false         |
@@ -194,7 +216,7 @@ select-v2/custom-tag
 | reserve-keyword                     | whether reserve the keyword after select filtered option.                                                                                | ^[boolean]                                                                                                                                                                  | true          |
 | no-match-text                       | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'                    | ^[string]                                                                                                                                                                   | —             |
 | no-data-text                        | displayed text when there is no options, you can also use slot empty                                                                     | ^[string]                                                                                                                                                                   | No Data       |
-| popper-class                        | custom class name for Select's dropdown                                                                                                  | ^[string]                                                                                                                                                                   | —             |
+| popper-class                        | custom class name for Select's dropdown                                                                                                  | ^[string]                                                                                                                                                                   | ''            |
 | popper-append-to-body ^(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false              | ^[boolean]                                                                                                                                                                  | false         |
 | teleported                          | whether select dropdown is teleported to the body                                                                                        | ^[boolean]                                                                                                                                                                  | true          |
 | persistent                          | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | ^[boolean]                                                                                                                                                                  | true          |
@@ -204,7 +226,7 @@ select-v2/custom-tag
 | item-height                         | The height of the dropdown item                                                                                                          | ^[number]                                                                                                                                                                   | 34            |
 | scrollbar-always-on                 | Controls whether the scrollbar is always displayed                                                                                       | ^[boolean]                                                                                                                                                                  | false         |
 | remote                              | whether search data from server                                                                                                          | ^[boolean]                                                                                                                                                                  | false         |
-| remote-method                       | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | ^[Function]`() => void`                                                                                                                                                     | —             |
+| remote-method                       | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | ^[Function]`(keyword: string) => void`                                                                                                                                      | —             |
 | validate-event                      | whether to trigger form validation                                                                                                       | ^[boolean]                                                                                                                                                                  | true          |
 | placement                           | position of dropdown                                                                                                                     | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start  |
 | collapse-tags-tooltip ^(2.3.0)      | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                         | ^[boolean]                                                                                                                                                                  | false         |
@@ -212,7 +234,7 @@ select-v2/custom-tag
 | tag-type ^(2.5.0)                   | tag type                                                                                                                                 | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info          |
 | aria-label ^(a11y) ^(2.5.0)         | same as `aria-label` in native input                                                                                                     | ^[string]                                                                                                                                                                   | —             |
 
-## props
+### props
 
 | Attribute | Description                                                     | Type      | Default  |
 |-----------|-----------------------------------------------------------------|-----------|----------|
@@ -221,27 +243,29 @@ select-v2/custom-tag
 | options   | specify which key of node object is used as the node's children | ^[string] | options  |
 | disabled  | specify which key of node object is used as the node's disabled | ^[string] | disabled |
 
-## SelectV2 Events
+### Events
 
-| Name           | Description                                                   | Params                                   |
-|----------------|---------------------------------------------------------------|------------------------------------------|
-| change         | triggers when the selected value changes                      | ^[Function]`(value: any) => void`        |
-| visible-change | triggers when the dropdown appears/disappears                 | ^[Function]`(visible: boolean) => void`  |
-| remove-tag     | triggers when a tag is removed in multiple mode               | ^[Function]`(tagValue: any) => void`     |
-| clear          | triggers when the clear icon is clicked in a clearable Select | ^[Function]`() => void`                  |
-| blur           | triggers when Input blurs                                     | ^[Function]`(event: FocusEvent) => void` |
-| focus          | triggers when Input focuses                                   | ^[Function]`(event: FocusEvent) => void` |
+| Name           | Description                                                                                                | Type                                     |
+| -------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| change         | triggers when the selected value changes, the param is current selected value                              | ^[Function]`(val: any) => void`          |
+| visible-change | triggers when the dropdown appears/disappears, the param will be true when it appears, and false otherwise | ^[Function]`(visible: boolean) => void`  |
+| remove-tag     | triggers when a tag is removed in multiple mode, the param is removed tag value                            | ^[Function]`(tagValue: any) => void`     |
+| clear          | triggers when the clear icon is clicked in a clearable Select                                              | ^[Function]`() => void`                  |
+| blur           | triggers when Input blurs                                                                                  | ^[Function]`(event: FocusEvent) => void` |
+| focus          | triggers when Input focuses                                                                                | ^[Function]`(event: FocusEvent) => void` |
 
-## SelectV2 Slots
+### Slots
 
-| Name         | Description                   |
-|--------------|-------------------------------|
-| default      | Option renderer               |
-| empty        | content when options is empty |
-| prefix       | prefix content of input       |
-| tag ^(2.5.0) | content as Select tag         |
+| Name            | Description                           |
+|-----------------|---------------------------------------|
+| default         | Option renderer                       |
+| header ^(2.5.2) | content at the top of the dropdown    |
+| footer ^(2.5.2) | content at the bottom of the dropdown |
+| empty           | content when options is empty         |
+| prefix          | prefix content of input               |
+| tag ^(2.5.0)    | content as Select tag                 |
 
-### SelectV2 Exposes
+### Exposes
 
 | Method | Description                                     | Type                    |
 |--------|-------------------------------------------------|-------------------------|

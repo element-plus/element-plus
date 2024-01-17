@@ -76,20 +76,23 @@
               <el-tooltip
                 v-if="collapseTags && states.selected.length > maxCollapseTags"
                 ref="tagTooltipRef"
-                :disabled="!collapseTagsTooltip"
+                :disabled="dropdownMenuVisible || !collapseTagsTooltip"
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
                 :teleported="teleported"
               >
                 <template #default>
-                  <div :class="nsSelect.e('selected-item')">
+                  <div
+                    ref="collapseItemRef"
+                    :class="nsSelect.e('selected-item')"
+                  >
                     <el-tag
                       :closable="false"
                       :size="collapseTagSize"
                       :type="tagType"
                       disable-transitions
-                      :style="tagStyle"
+                      :style="collapseTagStyle"
                     >
                       <span :class="nsSelect.e('tags-text')">
                         + {{ states.selected.length - maxCollapseTags }}
@@ -159,7 +162,7 @@
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
                 @input="onInput"
-                @click.stop
+                @click.stop="toggleMenu"
               />
               <span
                 v-if="filterable"
