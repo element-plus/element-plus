@@ -2406,7 +2406,7 @@ describe('Select', () => {
     })
 
     // fix: https://github.com/element-plus/element-plus/issues/11991
-    it('backspace key should not delete disabled options', async () => {
+    it('backspace key should delete selected tag but should not delete disabled options', async () => {
       const options = [
         {
           value: 'Option1',
@@ -2444,11 +2444,7 @@ describe('Select', () => {
       await nextTick()
       const selectInput = wrapper.find('.el-select__input')
       expect(wrapper.findAll('.el-tag').length).toBe(2)
-      // need trigger keydown twice because first keydown just select option, and second keydown is to delete
-      await selectInput.trigger('keydown', {
-        code: EVENT_CODE.backspace,
-        key: EVENT_CODE.backspace,
-      })
+      // after deletion, an el-tag will be deleted
       await selectInput.trigger('keydown', {
         code: EVENT_CODE.backspace,
         key: EVENT_CODE.backspace,
@@ -2459,12 +2455,8 @@ describe('Select', () => {
         code: EVENT_CODE.backspace,
         key: EVENT_CODE.backspace,
       })
-      await selectInput.trigger('keydown', {
-        code: EVENT_CODE.backspace,
-        key: EVENT_CODE.backspace,
-      })
       await nextTick()
-      // after the second deletion, an el-tag still exist
+      // after deletion, an el-tag still exist
       expect(wrapper.findAll('.el-tag').length).toBe(1)
     })
   })
