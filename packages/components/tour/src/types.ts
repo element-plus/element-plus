@@ -29,7 +29,7 @@ export interface PosInfo {
 }
 
 export interface UsedTourStepProps {
-  target?: HTMLElement | null
+  target?: string | HTMLElement | (() => HTMLElement | null) | null
   showArrow?: boolean
   placement?: Placement
   contentStyle?: CSSProperties
