@@ -16,6 +16,7 @@
           @mouseenter="handleButtonEnter('left')"
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(activeIndex - 1)"
+          aria-label="Carousel Arrow Left"
         >
           <ElIcon>
             <ArrowLeft />
@@ -33,6 +34,7 @@
           @mouseenter="handleButtonEnter('right')"
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(activeIndex + 1)"
+          aria-label="Carousel Arrow Right"
         >
           <ElIcon>
             <ArrowRight />
@@ -55,7 +57,7 @@
         @mouseenter="throttledIndicatorHover(index)"
         @click.stop="handleIndicatorClick(index)"
       >
-        <button :class="ns.e('button')">
+        <button :class="ns.e('button')" aria-label="Carousel Button">
           <span v-if="hasLabel">{{ item.props.label }}</span>
         </button>
       </li>
