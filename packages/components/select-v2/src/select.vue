@@ -76,19 +76,22 @@
               <el-tooltip
                 v-if="collapseTags && modelValue.length > maxCollapseTags"
                 ref="tagTooltipRef"
-                :disabled="!collapseTagsTooltip"
+                :disabled="dropdownMenuVisible || !collapseTagsTooltip"
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
                 :teleported="teleported"
               >
                 <template #default>
-                  <div :class="nsSelect.e('selected-item')">
+                  <div
+                    ref="collapseItemRef"
+                    :class="nsSelect.e('selected-item')"
+                  >
                     <el-tag
                       :closable="false"
                       :size="collapseTagSize"
                       :type="tagType"
-                      :style="tagStyle"
+                      :style="collapseTagStyle"
                       disable-transitions
                     >
                       <span :class="nsSelect.e('tags-text')">
@@ -147,7 +150,6 @@
                 spellcheck="false"
                 type="text"
                 :name="name"
-                :unselectable="expanded ? 'on' : undefined"
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @input="onInput"
@@ -158,8 +160,8 @@
                 @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
                 @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
-                @keydown.delete.stop="handleDel"
-                @click.stop
+                @keydown.delete.stop.prevent="handleDel"
+                @click.stop="toggleMenu"
               />
               <span
                 v-if="filterable"
@@ -215,6 +217,11 @@
           :hovering-index="states.hoveringIndex"
           :scrollbar-always-on="scrollbarAlwaysOn"
         >
+          <template v-if="$slots.header" #header>
+            <div :class="nsSelect.be('dropdown', 'header')">
+              <slot name="header" />
+            </div>
+          </template>
           <template #default="scope">
             <slot v-bind="scope" />
           </template>
@@ -224,6 +231,11 @@
                 {{ emptyText ? emptyText : '' }}
               </p>
             </slot>
+          </template>
+          <template v-if="$slots.footer" #footer>
+            <div :class="nsSelect.be('dropdown', 'footer')">
+              <slot name="footer" />
+            </div>
           </template>
         </el-select-menu>
       </template>

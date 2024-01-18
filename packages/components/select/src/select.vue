@@ -76,20 +76,23 @@
               <el-tooltip
                 v-if="collapseTags && states.selected.length > maxCollapseTags"
                 ref="tagTooltipRef"
-                :disabled="!collapseTagsTooltip"
+                :disabled="dropdownMenuVisible || !collapseTagsTooltip"
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
                 :teleported="teleported"
               >
                 <template #default>
-                  <div :class="nsSelect.e('selected-item')">
+                  <div
+                    ref="collapseItemRef"
+                    :class="nsSelect.e('selected-item')"
+                  >
                     <el-tag
                       :closable="false"
                       :size="collapseTagSize"
                       :type="tagType"
                       disable-transitions
-                      :style="tagStyle"
+                      :style="collapseTagStyle"
                     >
                       <span :class="nsSelect.e('tags-text')">
                         + {{ states.selected.length - maxCollapseTags }}
@@ -149,17 +152,16 @@
                 aria-haspopup="listbox"
                 @focus="handleFocus"
                 @blur="handleBlur"
-                @keydown.down.prevent="navigateOptions('next')"
-                @keydown.up.prevent="navigateOptions('prev')"
-                @keydown.esc="handleEsc"
+                @keydown.down.stop.prevent="navigateOptions('next')"
+                @keydown.up.stop.prevent="navigateOptions('prev')"
+                @keydown.esc.stop.prevent="handleEsc"
                 @keydown.enter.stop.prevent="selectOption"
-                @keydown.delete.stop="deletePrevTag"
-                @keydown.tab="expanded = false"
+                @keydown.delete.stop.prevent="deletePrevTag"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
                 @input="onInput"
-                @click.stop
+                @click.stop="toggleMenu"
               />
               <span
                 v-if="filterable"
