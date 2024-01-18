@@ -183,6 +183,6 @@
   filter: url('#horizontal');
 }
 
-.el-transitioning-vertical {
+.#{$namespace}-transitioning-vertical {
   filter: url('#vertical');
 }
