@@ -179,7 +179,7 @@
   opacity: 0;
 }
 
-.el-transitioning {
+.#{$namespace}-transitioning {
   filter: url('#horizontal');
 }
 
