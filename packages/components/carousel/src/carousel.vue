@@ -13,10 +13,10 @@
           "
           type="button"
           :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
+          aria-label="Carousel Arrow Left"
           @mouseenter="handleButtonEnter('left')"
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(activeIndex - 1)"
-          aria-label="Carousel Arrow Left"
         >
           <ElIcon>
             <ArrowLeft />
@@ -31,10 +31,10 @@
           "
           type="button"
           :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
+          aria-label="Carousel Arrow Right"
           @mouseenter="handleButtonEnter('right')"
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(activeIndex + 1)"
-          aria-label="Carousel Arrow Right"
         >
           <ElIcon>
             <ArrowRight />
