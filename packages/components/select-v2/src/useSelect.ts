@@ -358,6 +358,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
   // methods
   const toggleMenu = () => {
     if (selectDisabled.value) return
+    if (props.filterable && props.remote && isFunction(props.remoteMethod))
+      return
     if (states.menuVisibleOnFocus) {
       // controlled by automaticDropdown
       states.menuVisibleOnFocus = false
@@ -367,6 +369,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
   }
 
   const onInputChange = () => {
+    if (states.inputValue.length > 0 && !expanded.value) {
+      expanded.value = true
+    }
     createNewOption(states.inputValue)
     handleQueryChange(states.inputValue)
   }
@@ -681,9 +686,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
 
   const onInput = (event) => {
     states.inputValue = event.target.value
-    if (states.inputValue.length > 0 && !expanded.value) {
-      expanded.value = true
-    }
     if (props.remote) {
       debouncedOnInputChange()
     } else {

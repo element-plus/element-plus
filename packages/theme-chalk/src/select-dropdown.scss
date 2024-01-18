@@ -13,6 +13,14 @@
   }
 }
 
+@include b(select-dropdown__loading) {
+  padding: map.get($select-dropdown, 'empty-padding');
+  margin: 0;
+  text-align: center;
+  color: map.get($select-dropdown, 'empty-color');
+  font-size: getCssVar('select-font-size');
+}
+
 @include b(select-dropdown__empty) {
   padding: map.get($select-dropdown, 'empty-padding');
   margin: 0;
