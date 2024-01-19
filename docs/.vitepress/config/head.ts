@@ -52,6 +52,13 @@ export const head: HeadConfig[] = [
     },
   ],
   [
+    'meta',
+    {
+      name: 'op:image',
+      content: '/images/element-plus-og-image.png',
+    },
+  ],
+  [
     'script',
     {},
     `;(() => {
