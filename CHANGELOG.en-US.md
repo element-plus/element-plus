@@ -1,5 +1,50 @@
 ## Changelog
 
+### 2.5.2
+
+_2024-01-19_
+
+#### Features
+
+- Components [select-v2] Add header and footer slots (#15519 by @kooriookami)
+- Components [checkbox] Checkbox can uncheck exceed max value (#15513 by @kooriookami)
+- Components [select & select-v2] Add loading slot (#15540 by @kooriookami)
+- Components [tour] target prop add more type (#15578 by @Fuphoenixes)
+
+#### Bug fixes
+
+- Ci Replace jest-coverage-report-action with  vitest-coverage-report-action (#15435 by @FrontEndDog)
+- Components [select select-v2] fix input click event (#15462 by @kooriookami)
+- Components [image-viewer] Maximum recursive updates exceeded error (#15483 by @Fuphoenixes)
+- Docs popover offset default value error (#15502 by @FrontEndDog)
+- Components [collapse] SSR hydration error caused by random ID (#15500 by @tolking)
+- Fix doc sidebar error z-index (#15498 by @0song)
+- Components [image-viewer] Fix crossorigin (#15511 by @kooriookami)
+- Components [select] style break change in multiple collapseTags (#15460 by @Fuphoenixes)
+- Components [input] resolve input attributes issue for textarea (#15514 by @YoungDan-hero)
+- Components [select-v2] the select option style is incorrect (#15501 by @btea)
+- Components [tree] setCheckedNodes incorrectly checked node (#15377 by @btea)
+- Components [autocomplete] SSR hydration error caused by random ID (#15523 by @tolking)
+- Components [dropdown] SSR hydration error caused by random ID (#15532 by @tolking)
+- Components [cascader-panel] SSR hydration error caused by ID (#15533 by @tolking)
+- Components [select] Fix input key event (#15544 by @kooriookami)
+- Components [space] Fix gap style (#15560 by @kooriookami)
+
+#### Refactors
+
+- Components [table] The overflowTooltip of the table is implemented by the Eltooltip component. (#15470 by @xingyixiang)
+- Components [drawer] use setup (#15556 by @wzc520pyfm)
+
+### 2.5.1
+
+_2024-01-11_
+
+#### Bug fixes
+
+- Components [select] remove redundant named slots (#15441 by @xiaoxian521)
+- Components [select] Fix value bind object and trigger twice in form label (#15449 by @kooriookami)
+- Components [select] exposes blur invalid (#15450 by @xiaoxian521)
+
 ### 2.5.0
 
 _2024-01-10_

@@ -480,6 +480,41 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
   })
 
+  test('value bind object with value-key', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" value-key="id">
+        <el-option
+          v-for="item in options"
+          :key="item.id"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>
+    `,
+      () => ({
+        options: [
+          { id: 1, label: 'Option A', desc: 'Option A - 230506' },
+          { id: 2, label: 'Option B', desc: 'Option B - 230506' },
+          { id: 3, label: 'Option C', desc: 'Option C - 230506' },
+          { id: 4, label: 'Option D', desc: 'Option D - 230507' },
+        ],
+        value: {
+          value: '',
+        },
+      })
+    )
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const options = getOptions()
+    options[2].click()
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('Option C')
+    options[3].click()
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('Option D')
+  })
+
   test('sync set value and options', async () => {
     wrapper = _mount(
       `
@@ -1114,8 +1149,9 @@ describe('Select', () => {
     options[1].click()
     await nextTick()
     options[2].click()
+    selectRef.vm.states.collapseItemWidth = 38
     await nextTick()
-    expect(tagWrapperDom.style.maxWidth).toBe('200px')
+    expect(tagWrapperDom.style.maxWidth).toBe('156px')
   })
 
   test('multiple select with collapseTagsTooltip', async () => {
@@ -2370,7 +2406,7 @@ describe('Select', () => {
     })
 
     // fix: https://github.com/element-plus/element-plus/issues/11991
-    it('backspace key should not delete disabled options', async () => {
+    it('backspace key should delete selected tag but should not delete disabled options', async () => {
       const options = [
         {
           value: 'Option1',
@@ -2408,11 +2444,7 @@ describe('Select', () => {
       await nextTick()
       const selectInput = wrapper.find('.el-select__input')
       expect(wrapper.findAll('.el-tag').length).toBe(2)
-      // need trigger keydown twice because first keydown just select option, and second keydown is to delete
-      await selectInput.trigger('keydown', {
-        code: EVENT_CODE.backspace,
-        key: EVENT_CODE.backspace,
-      })
+      // after deletion, an el-tag will be deleted
       await selectInput.trigger('keydown', {
         code: EVENT_CODE.backspace,
         key: EVENT_CODE.backspace,
@@ -2423,12 +2455,8 @@ describe('Select', () => {
         code: EVENT_CODE.backspace,
         key: EVENT_CODE.backspace,
       })
-      await selectInput.trigger('keydown', {
-        code: EVENT_CODE.backspace,
-        key: EVENT_CODE.backspace,
-      })
       await nextTick()
-      // after the second deletion, an el-tag still exist
+      // after deletion, an el-tag still exist
       expect(wrapper.findAll('.el-tag').length).toBe(1)
     })
   })

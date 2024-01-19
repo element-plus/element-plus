@@ -5,6 +5,7 @@ import {
   onMounted,
   reactive,
   ref,
+  toRaw,
   watch,
   watchEffect,
 } from 'vue'
@@ -65,6 +66,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     selected: props.multiple ? [] : ({} as any),
     selectionWidth: 0,
     calculatorWidth: 0,
+    collapseItemWidth: 0,
     selectedLabel: '',
     hoveringIndex: -1,
     previousQuery: null,
@@ -95,6 +97,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const suffixRef = ref<HTMLElement>(null)
   const menuRef = ref<HTMLElement>(null)
   const tagMenuRef = ref<HTMLElement>(null)
+  const collapseItemRef = ref<HTMLElement>(null)
   const scrollbarRef = ref<{
     handleScroll: () => void
   } | null>(null)
@@ -420,7 +423,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
       const isEqualValue = isObjectValue
-        ? getValueKey(cachedOption.value) === getValueKey(value)
+        ? get(cachedOption.value, props.valueKey) === get(value, props.valueKey)
         : cachedOption.value === value
       if (isEqualValue) {
         option = {
@@ -472,6 +475,11 @@ export const useSelect = (props: ISelectProps, emit) => {
     states.calculatorWidth = calculatorRef.value.getBoundingClientRect().width
   }
 
+  const resetCollapseItemWidth = () => {
+    states.collapseItemWidth =
+      collapseItemRef.value.getBoundingClientRect().width
+  }
+
   const updateTooltip = () => {
     tooltipRef.value?.updatePopper?.()
   }
@@ -481,14 +489,14 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const onInputChange = () => {
+    if (states.inputValue.length > 0 && !expanded.value) {
+      expanded.value = true
+    }
     handleQueryChange(states.inputValue)
   }
 
   const onInput = (event) => {
     states.inputValue = event.target.value
-    if (states.inputValue.length > 0 && !expanded.value) {
-      expanded.value = true
-    }
     if (props.remote) {
       debouncedOnInputChange()
     } else {
@@ -554,7 +562,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const handleOptionSelect = (option) => {
     if (props.multiple) {
       const value = (props.modelValue || []).slice()
-      const optionIndex = getValueIndex(value, getValueKey(option))
+      const optionIndex = getValueIndex(value, option.value)
       if (optionIndex > -1) {
         value.splice(optionIndex, 1)
       } else if (
@@ -586,9 +594,16 @@ export const useSelect = (props: ISelectProps, emit) => {
   const getValueIndex = (arr: any[] = [], value) => {
     if (!isObject(value)) return arr.indexOf(value)
 
-    return arr.findIndex((item) => {
-      return isEqual(getValueKey(item), getValueKey(value))
+    const valueKey = props.valueKey
+    let index = -1
+    arr.some((item, i) => {
+      if (toRaw(get(item, valueKey)) === get(value, valueKey)) {
+        index = i
+        return true
+      }
+      return false
     })
+    return index
   }
 
   const scrollToOption = (option) => {
@@ -646,7 +661,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const blur = () => {
-    inputRef.value?.blur()
+    handleClickOutside()
   }
 
   const handleClearClick = (event: Event) => {
@@ -658,7 +673,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
     if (isFocused.value) {
       const _event = new FocusEvent('focus', event)
-      handleBlur(_event)
+      nextTick(() => handleBlur(_event))
     }
   }
 
@@ -672,6 +687,8 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const toggleMenu = () => {
     if (selectDisabled.value) return
+    if (props.filterable && props.remote && isFunction(props.remoteMethod))
+      return
     if (states.menuVisibleOnFocus) {
       // controlled by automaticDropdown
       states.menuVisibleOnFocus = false
@@ -749,8 +766,23 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   }
 
+  const getGapWidth = () => {
+    if (!selectionRef.value) return 0
+    const style = window.getComputedStyle(selectionRef.value)
+    return Number.parseFloat(style.gap || '6px')
+  }
+
   // computed style
   const tagStyle = computed(() => {
+    const gapWidth = getGapWidth()
+    const maxWidth =
+      collapseItemRef.value && props.maxCollapseTags === 1
+        ? states.selectionWidth - states.collapseItemWidth - gapWidth
+        : states.selectionWidth
+    return { maxWidth: `${maxWidth}px` }
+  })
+
+  const collapseTagStyle = computed(() => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
 
@@ -768,7 +800,9 @@ export const useSelect = (props: ISelectProps, emit) => {
   useResizeObserver(selectionRef, resetSelectionWidth)
   useResizeObserver(calculatorRef, resetCalculatorWidth)
   useResizeObserver(menuRef, updateTooltip)
+  useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
+  useResizeObserver(collapseItemRef, resetCollapseItemWidth)
 
   onMounted(() => {
     setSelected()
@@ -833,6 +867,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
     // computed style
     tagStyle,
+    collapseTagStyle,
     inputStyle,
 
     // DOM ref
@@ -849,5 +884,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     scrollbarRef,
     menuRef,
     tagMenuRef,
+    collapseItemRef,
   }
 }

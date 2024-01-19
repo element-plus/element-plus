@@ -18,7 +18,14 @@ import {
   offset as offsetMiddelware,
   shift,
 } from '@floating-ui/dom'
-import { hasOwn, isArray, isClient, keysOf } from '@element-plus/utils'
+import {
+  hasOwn,
+  isArray,
+  isClient,
+  isFunction,
+  isString,
+  keysOf,
+} from '@element-plus/utils'
 
 import type {
   CSSProperties,
@@ -40,7 +47,9 @@ import type {
 } from '@floating-ui/dom'
 
 export const useTarget = (
-  target: Ref<HTMLElement | null | undefined>,
+  target: Ref<
+    string | HTMLElement | (() => HTMLElement | null) | null | undefined
+  >,
   open: Ref<boolean>,
   gap: Ref<TourGap>,
   mergedMask: Ref<TourMask>,
@@ -48,15 +57,28 @@ export const useTarget = (
 ) => {
   const posInfo: Ref<PosInfo | null> = ref(null)
 
+  const getTargetEl = () => {
+    let targetEl: HTMLElement | null | undefined
+    if (isString(target.value)) {
+      targetEl = document.querySelector<HTMLElement>(target.value)
+    } else if (isFunction(target.value)) {
+      targetEl = target.value()
+    } else {
+      targetEl = target.value
+    }
+    return targetEl
+  }
+
   const updatePosInfo = () => {
-    if (!target.value || !open.value) {
+    const targetEl = getTargetEl()
+    if (!targetEl || !open.value) {
       posInfo.value = null
       return
     }
-    if (!isInViewPort(target.value) && open.value) {
-      target.value.scrollIntoView(scrollIntoViewOptions.value)
+    if (!isInViewPort(targetEl) && open.value) {
+      targetEl.scrollIntoView(scrollIntoViewOptions.value)
     }
-    const { left, top, width, height } = target.value.getBoundingClientRect()
+    const { left, top, width, height } = targetEl.getBoundingClientRect()
     posInfo.value = {
       left,
       top,
@@ -104,8 +126,9 @@ export const useTarget = (
   })
 
   const triggerTarget = computed(() => {
-    if (!mergedMask.value || !target.value || !window.DOMRect) {
-      return target.value || undefined
+    const targetEl = getTargetEl()
+    if (!mergedMask.value || !targetEl || !window.DOMRect) {
+      return targetEl || undefined
     }
 
     return {
