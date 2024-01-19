@@ -22,7 +22,7 @@ export const getChildState = (node: Node[]): TreeNodeChildState => {
     if ((n.checked !== true || n.indeterminate) && !n.disabled) {
       all = false
     }
-    if (n.checked !== false || n.indeterminate) {
+    if ((n.checked !== false || n.indeterminate) && !n.disabled) {
       none = false
     }
   }
