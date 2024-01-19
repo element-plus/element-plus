@@ -63,7 +63,7 @@ jobs:
           path: ./tmp/diff.md
 
       - name: Set comment
-        uses: actions-cool/maintain-one-comment@v3.0.0
+        uses: actions-cool/maintain-one-comment@v3.1.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.diff.outputs.content }}

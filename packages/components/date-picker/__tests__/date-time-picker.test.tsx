@@ -28,8 +28,16 @@ describe('Datetime Picker', () => {
   it('both picker show correct formated value (extract date-format and time-format from format property', async () => {
     const value = ref(new Date(2018, 2, 5, 10, 15, 24))
     const format = ref('YYYY/MM/DD HH:mm A')
+    const dateFormat = ref('')
+    const timeFormat = ref('')
     const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetime" format={format.value} />
+      <DatePicker
+        v-model={value.value}
+        type="datetime"
+        format={format.value}
+        dateFormat={dateFormat.value}
+        timeFormat={timeFormat.value}
+      />
     ))
 
     const input = wrapper.find('input')
@@ -52,6 +60,12 @@ describe('Datetime Picker', () => {
     await nextTick()
     expect(dateInput.value).toBe('03-05-2018')
     expect(timeInput.value).toBe('10 am')
+
+    dateFormat.value = 'YYYY/MM/DD ddd'
+    timeFormat.value = 'A hh:mm:ss'
+    await nextTick()
+    expect(dateInput.value).toBe('2018/03/05 Mon')
+    expect(timeInput.value).toBe('AM 10:15:24')
   })
 
   it('both picker show correct value', async () => {
@@ -370,6 +384,25 @@ describe('Datetime Picker', () => {
     await nextTick()
     expect(timeInput.value).toBe('13:00:00')
   })
+
+  // fix #15196
+  it('first click accuracy', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const dayItems = document.querySelectorAll('.el-date-table-cell__text')
+    const targetDay = dayItems[15] as HTMLElement // Try to make sure the date is this month
+    const dayText = targetDay.textContent
+    targetDay.click()
+    await nextTick()
+    expect(dayjs(value.value).format('D')).toBe(dayText)
+  })
 })
 
 describe('Datetimerange', () => {
@@ -378,12 +411,16 @@ describe('Datetimerange', () => {
       new Date(2000, 10, 8, 10, 10),
       new Date(2000, 10, 11, 10, 10),
     ])
+    const dateFormat = ref('')
+    const timeFormat = ref('')
     const wrapper = _mount(() => (
       <DatePicker
         v-model={value.value}
         type="datetimerange"
         default-time={new Date(2020, 1, 1, 1, 1, 1)}
         format="YYYY/MM/DD HH:mm A"
+        dateFormat={dateFormat.value}
+        timeFormat={timeFormat.value}
       />
     ))
 
@@ -436,6 +473,14 @@ describe('Datetimerange', () => {
     expect((left.timeInput as HTMLInputElement).value).toBe('01:01 AM')
     expect((right.dateInput as HTMLInputElement).value).toBe('2000/12/01')
     expect((right.timeInput as HTMLInputElement).value).toBe('01:01 AM')
+
+    dateFormat.value = 'YYYY/MM/DD ddd'
+    timeFormat.value = 'A hh:mm:ss'
+    await nextTick()
+    expect((left.dateInput as HTMLInputElement).value).toBe('2000/11/01 Wed')
+    expect((left.timeInput as HTMLInputElement).value).toBe('AM 01:01:01')
+    expect((right.dateInput as HTMLInputElement).value).toBe('2000/12/01 Fri')
+    expect((right.timeInput as HTMLInputElement).value).toBe('AM 01:01:01')
   })
 
   it('input date', async () => {

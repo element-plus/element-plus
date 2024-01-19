@@ -453,4 +453,20 @@ describe('Color-picker', () => {
       expect(formItem.attributes().role).toBe('group')
     })
   })
+
+  it('it will target the focus & blur', async () => {
+    const focusHandler = vi.fn()
+    const blurHandler = vi.fn()
+    const wrapper = mount(() => (
+      <ColorPicker onFocus={focusHandler} onBlur={blurHandler} />
+    ))
+
+    await nextTick()
+    await wrapper.find('.el-color-picker').trigger('focus')
+    expect(focusHandler).toHaveBeenCalledTimes(1)
+
+    await wrapper.find('.el-color-picker').trigger('blur')
+    expect(blurHandler).toHaveBeenCalledTimes(1)
+    wrapper.unmount()
+  })
 })

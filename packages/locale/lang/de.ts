@@ -103,6 +103,11 @@ export default {
       clearFilter: 'Alles ',
       sumText: 'Summe',
     },
+    tour: {
+      next: 'Weiter',
+      previous: 'Zurück',
+      finish: 'Fertig',
+    },
     tree: {
       emptyText: 'Keine Einträge',
     },

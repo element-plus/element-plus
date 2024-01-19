@@ -9,7 +9,7 @@
     teleported
     effect="light"
     pure
-    :popper-class="ns.b()"
+    :popper-class="filterClassName"
     persistent
     :append-to="appendTo"
   >
@@ -150,6 +150,12 @@ export default defineComponent({
     const filters = computed(() => {
       return props.column && props.column.filters
     })
+    const filterClassName = computed(() => {
+      if (props.column.filterClassName) {
+        return `${ns.b()} ${props.column.filterClassName}`
+      }
+      return ns.b()
+    })
     const filterValue = computed({
       get: () => (props.column?.filteredValue || [])[0],
       set: (value: string) => {
@@ -239,6 +245,7 @@ export default defineComponent({
     return {
       tooltipVisible,
       multiple,
+      filterClassName,
       filteredValue,
       filterValue,
       filters,

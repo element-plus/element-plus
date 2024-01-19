@@ -140,7 +140,7 @@
     + .#{$namespace}-message-box__message {
       padding-left: 36px;
       padding-right: 12px;
-      word-break: break-word;
+      overflow-wrap: break-word;
     }
 
     @each $type in (success, info, warning, error) {
@@ -242,17 +242,5 @@
   100% {
     transform: translate3d(0, 0, 0);
     opacity: 1;
-  }
-}
-
-@keyframes msgbox-fade-out {
-  0% {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translate3d(0, -20px, 0);
-    opacity: 0;
   }
 }

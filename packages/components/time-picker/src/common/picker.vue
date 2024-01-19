@@ -138,6 +138,8 @@
         :actual-visible="pickerActualVisible"
         :parsed-value="parsedValue"
         :format="format"
+        :date-format="dateFormat"
+        :time-format="timeFormat"
         :unlink-panels="unlinkPanels"
         :type="type"
         :default-value="defaultValue"

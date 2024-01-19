@@ -171,6 +171,8 @@ export const paginationEmits = {
   'update:current-page': (val: number) => isNumber(val),
   'update:page-size': (val: number) => isNumber(val),
   'size-change': (val: number) => isNumber(val),
+  change: (currentPage: number, pageSize: number) =>
+    isNumber(currentPage) && isNumber(pageSize),
   'current-change': (val: number) => isNumber(val),
   'prev-click': (val: number) => isNumber(val),
   'next-click': (val: number) => isNumber(val),
@@ -290,6 +292,14 @@ export default defineComponent({
     watch(pageCountBridge, (val) => {
       if (currentPageBridge.value > val) currentPageBridge.value = val
     })
+
+    watch(
+      [currentPageBridge, pageSizeBridge],
+      (value) => {
+        emit('change', ...value)
+      },
+      { flush: 'post' }
+    )
 
     function handleCurrentChange(val: number) {
       currentPageBridge.value = val
