@@ -1,20 +1,26 @@
 <template>
   <el-select-v2
     v-model="value"
+    class="m-2"
     :options="options"
     placeholder="Please select"
     size="large"
+    style="width: 240px"
   />
   <el-select-v2
     v-model="value"
+    class="m-2"
     :options="options"
     placeholder="Please select"
+    style="width: 240px"
   />
   <el-select-v2
     v-model="value"
+    class="m-2"
     :options="options"
     placeholder="Please select"
     size="small"
+    style="width: 240px"
   />
 </template>
 

@@ -1,6 +1,7 @@
 <template>
-  <el-select
+  <el-select-v2
     v-model="value"
+    :options="options"
     multiple
     clearable
     collapse-tags
@@ -18,13 +19,7 @@
         All
       </el-checkbox>
     </template>
-    <el-option
-      v-for="item in cities"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-    />
-  </el-select>
+  </el-select-v2>
 </template>
 
 <script lang="ts" setup>
@@ -32,41 +27,22 @@ import { ref, watch } from 'vue'
 
 import type { CheckboxValueType } from 'element-plus'
 
+const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 const checkAll = ref(false)
 const indeterminate = ref(false)
 const value = ref<CheckboxValueType[]>([])
-const cities = ref([
-  {
-    value: 'Beijing',
-    label: 'Beijing',
-  },
-  {
-    value: 'Shanghai',
-    label: 'Shanghai',
-  },
-  {
-    value: 'Nanjing',
-    label: 'Nanjing',
-  },
-  {
-    value: 'Chengdu',
-    label: 'Chengdu',
-  },
-  {
-    value: 'Shenzhen',
-    label: 'Shenzhen',
-  },
-  {
-    value: 'Guangzhou',
-    label: 'Guangzhou',
-  },
-])
+const options = ref(
+  Array.from({ length: 1000 }).map((_, idx) => ({
+    value: `Option ${idx + 1}`,
+    label: `${initials[idx % 10]}${idx}`,
+  }))
+)
 
 watch(value, (val) => {
   if (val.length === 0) {
     checkAll.value = false
     indeterminate.value = false
-  } else if (val.length === cities.value.length) {
+  } else if (val.length === options.value.length) {
     checkAll.value = true
     indeterminate.value = false
   } else {
@@ -77,7 +53,7 @@ watch(value, (val) => {
 const handleCheckAll = (val: CheckboxValueType) => {
   indeterminate.value = false
   if (val) {
-    value.value = cities.value.map((_) => _.value)
+    value.value = options.value.map((_) => _.value)
   } else {
     value.value = []
   }
