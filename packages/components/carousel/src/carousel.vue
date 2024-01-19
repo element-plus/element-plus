@@ -136,7 +136,9 @@ const carouselContainer = computed(() => {
   const classes = [ns.e('container')]
   if (props.motionBlur && unref(isTransitioning)) {
     classes.push(
-      unref(isVertical) ? `${ns.namespace}-transitioning-vertical`: `${ns.namespace}-transitioning`
+      unref(isVertical)
+        ? `${ns.namespace.value}-transitioning-vertical`
+        : `${ns.namespace.value}-transitioning`
     )
   }
   return classes
