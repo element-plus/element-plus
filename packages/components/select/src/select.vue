@@ -159,7 +159,6 @@
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
                 @input="onInput"
-                @click.stop
               />
               <span
                 v-if="filterable"
@@ -208,9 +207,9 @@
       </template>
       <template #content>
         <el-select-menu ref="menuRef">
-          <div v-if="$slots.header" :class="nsSelect.be('dropdown', 'header')">
+          <template v-if="$slots.header" #header>
             <slot name="header" />
-          </div>
+          </template>
           <el-scrollbar
             v-show="states.options.size > 0 && !loading"
             :id="contentId"
@@ -239,9 +238,9 @@
               </p>
             </slot>
           </template>
-          <div v-if="$slots.footer" :class="nsSelect.be('dropdown', 'footer')">
+          <template v-if="$slots.footer" #footer>
             <slot name="footer" />
-          </div>
+          </template>
         </el-select-menu>
       </template>
     </el-tooltip>

@@ -44,10 +44,8 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
-      - name: 'Run Test Coverage'
-        run: pnpm run test:coverage
-
-      - uses: davelosert/vitest-coverage-report-action@v2.2.0
+      - uses: ArtiomTr/jest-coverage-report-action@v2.0-rc.6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          file-coverage-mode: changes
+          skip-step: install
+          test-script: pnpm run test:coverage
