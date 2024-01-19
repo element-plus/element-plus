@@ -159,7 +159,6 @@
                 @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
                 @keydown.delete.stop="handleDel"
-                @click.stop
               />
               <span
                 v-if="filterable"
