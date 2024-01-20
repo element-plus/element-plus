@@ -160,7 +160,7 @@
                 @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
                 @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
-                @keydown.delete.stop.prevent="handleDel"
+                @keydown.delete.stop="handleDel"
                 @click.stop="toggleMenu"
               />
               <span
