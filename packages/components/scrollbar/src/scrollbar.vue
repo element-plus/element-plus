@@ -35,6 +35,7 @@
 import {
   computed,
   nextTick,
+  onActivated,
   onMounted,
   onUpdated,
   provide,
@@ -192,6 +193,11 @@ provide(
   })
 )
 
+onActivated(() => {
+  if (wrapRef.value) {
+    barRef.value?.restore(wrapRef.value)
+  }
+})
 onMounted(() => {
   if (!props.native)
     nextTick(() => {
