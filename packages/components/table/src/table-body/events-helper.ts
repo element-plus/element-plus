@@ -69,6 +69,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     let node = event.target.parentNode
     while (rowSpan > 1) {
       node = node?.nextSibling
+      if (!node || node.nodeName !== 'TR') break
       toggle(node, 'hover-row')
       rowSpan--
     }
