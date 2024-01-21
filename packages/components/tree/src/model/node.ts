@@ -17,36 +17,62 @@ import type {
 export const getChildState = (node: Node[]): TreeNodeChildState => {
   let all = true
   let none = true
-  let allWithoutDisable = true
+  let allAbledChecked = true
+  let disabledCount = 0
   for (let i = 0, j = node.length; i < j; i++) {
     const n = node[i]
-    if (n.checked !== true || n.indeterminate) {
+    if (!n.checked || n.indeterminate) {
       all = false
-      if (!n.disabled) {
-        allWithoutDisable = false
+      if (!n.disabled && n.isLeaf) {
+        allAbledChecked = false
       }
     }
-    if (n.checked !== false || n.indeterminate) {
+    if (!n.allAbledChecked) {
+      allAbledChecked = false
+    }
+    if (n.checked || n.indeterminate) {
       none = false
     }
+    if (n.disabled) {
+      disabledCount++
+    }
   }
+  const hasDisabled = disabledCount > 0
+  const allDisabled = disabledCount === node.length
 
-  return { all, none, allWithoutDisable, half: !all && !none }
+  return { all, none, allAbledChecked, hasDisabled, allDisabled }
+}
+
+const setAllChecked = function (node: Node): void {
+  node.checked = true
+  node.indeterminate = false
+  node.allAbledChecked = true
+}
+
+const setNone = function (node: Node, allAbledChecked? = false): void {
+  node.checked = false
+  node.indeterminate = false
+  node.allAbledChecked = allAbledChecked || (node.isLeaf && node.disabled)
+}
+
+const setIndeterminate = function (node: Node, allAbledChecked? = true): void {
+  node.checked = false
+  node.indeterminate = true
+  node.allAbledChecked = allAbledChecked
 }
 
 const reInitChecked = function (node: Node): void {
   if (node.childNodes.length === 0 || node.loading) return
 
-  const { all, none, half } = getChildState(node.childNodes)
+  const { all, none, allAbledChecked } = getChildState(node.childNodes)
   if (all) {
-    node.checked = true
-    node.indeterminate = false
-  } else if (half) {
-    node.checked = false
-    node.indeterminate = true
+    setAllChecked(node)
+  } else if (!all && allAbledChecked) {
+    setIndeterminate(node)
+  } else if (!all && !allAbledChecked && !none) {
+    setIndeterminate(node, false)
   } else if (none) {
-    node.checked = false
-    node.indeterminate = false
+    setNone(node)
   }
 
   const parent = node.parent
@@ -79,6 +105,7 @@ class Node {
   text: string
   checked: boolean
   indeterminate: boolean
+  allAbledChecked: boolean
   data: TreeNodeData
   expanded: boolean
   parent: Node
@@ -99,6 +126,7 @@ class Node {
     this.text = null
     this.checked = false
     this.indeterminate = false
+    this.allAbledChecked = false
     this.data = null
     this.expanded = false
     this.parent = null
@@ -173,9 +201,10 @@ class Node {
       store._initDefaultCheckedNode(this)
     }
 
-    this.updateLeafState()
-    if (this.parent && (this.level === 1 || this.parent.expanded === true))
+    this.updateNodeState()
+    if (this.parent && (this.level === 1 || this.parent.expanded === true)) {
       this.canFocus = true
+    }
   }
 
   setData(data: TreeNodeData): void {
@@ -279,7 +308,7 @@ class Node {
       this.childNodes.splice(index, 0, child as Node)
     }
 
-    this.updateLeafState()
+    this.updateNodeState()
   }
 
   insertBefore(child: FakeNode | Node, ref: Node): void {
@@ -314,7 +343,7 @@ class Node {
       this.childNodes.splice(index, 1)
     }
 
-    this.updateLeafState()
+    this.updateNodeState()
   }
 
   removeChildByData(data: TreeNodeData): void {
@@ -408,38 +437,69 @@ class Node {
     this.isLeaf = false
   }
 
-  setChecked(
-    value?: boolean | string,
-    deep?: boolean,
-    recursion?: boolean,
-    passValue?: boolean
-  ) {
-    this.indeterminate = value === 'half'
-    this.checked = value === true
+  updateNodeState(): void {
+    this.updateLeafState()
+    this.updateAllAbledState()
+  }
+
+  updateAllAbledState(): void {
+    if (this.isLeaf && this.disabled) {
+      this.allAbledChecked = true
+      return
+    }
+    const childNodes = this.childNodes
+    if (childNodes && childNodes.length > 0) {
+      const { allAbledChecked } = getChildState(childNodes)
+      if (allAbledChecked) {
+        this.allAbledChecked = true
+        return
+      }
+    }
+    this.allAbledChecked = false
+  }
+
+  setChecked(value?: boolean, deep?: boolean, recursion?: boolean) {
+    const { all, allAbledChecked, hasDisabled, allDisabled } = getChildState(
+      this.childNodes
+    )
 
     if (this.store.checkStrictly) return
 
-    if (!(this.shouldLoadData() && !this.store.checkDescendants)) {
-      const { all, allWithoutDisable } = getChildState(this.childNodes)
+    if (!this.checked && !this.indeterminate && allAbledChecked && !this.isLeaf)
+      return
 
-      if (!this.isLeaf && !all && allWithoutDisable) {
-        this.checked = false
-        value = false
+    if (!(this.shouldLoadData() && !this.store.checkDescendants)) {
+      if (hasDisabled && !this.isLeaf) {
+        if (recursion) {
+          if (value && !allDisabled) {
+            setIndeterminate(this)
+          } else {
+            setNone(this, value && allDisabled)
+          }
+        } else {
+          // means the node which is changed by clicked
+          if (allAbledChecked && !this.disabled) {
+            // all abled -> none
+            setNone(this)
+            value = false
+          } else if (!this.checked) {
+            // none || not all abled-> all abled
+            setIndeterminate(this)
+            value = true
+          }
+        }
+      } else {
+        this.indeterminate = false
+        this.checked = this.disabled && this.isLeaf ? this.checked : value
+        this.allAbledChecked = (this.disabled && this.isLeaf) || value
       }
 
       const handleDescendants = (): void => {
-        if (deep) {
+        if (deep && !allDisabled) {
           const childNodes = this.childNodes
           for (let i = 0, j = childNodes.length; i < j; i++) {
             const child = childNodes[i]
-            passValue = passValue || value !== false
-            const isCheck = child.disabled ? child.checked : passValue
-            child.setChecked(isCheck, deep, true, passValue)
-          }
-          const { half, all } = getChildState(childNodes)
-          if (!all) {
-            this.checked = all
-            this.indeterminate = half
+            child.setChecked(value, deep, true)
           }
         }
       }
@@ -520,7 +580,7 @@ class Node {
       this.insertChild({ data }, index)
     })
 
-    this.updateLeafState()
+    this.updateNodeState()
   }
 
   loadData(
@@ -542,7 +602,7 @@ class Node {
         this.loaded = true
         this.loading = false
 
-        this.updateLeafState()
+        this.updateNodeState()
         if (callback) {
           callback.call(this, children)
         }
