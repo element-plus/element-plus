@@ -492,6 +492,104 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
 
+    it('cell mouse enter on cell of which rowSpan > 2', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+         <el-table
+          :data="testData"
+          :span-method="objectSpanMethod"
+          border
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column prop="id" label="ID" width="180" />
+          <el-table-column prop="name" label="Name" />
+          <el-table-column prop="amount1" label="Amount 1" />
+          <el-table-column prop="amount2" label="Amount 2" />
+          <el-table-column prop="amount3" label="Amount 3" />
+        </el-table>
+      `,
+        data() {
+          return {
+            testData: [
+              {
+                id: '12987122',
+                name: 'Tom',
+                amount1: '234',
+                amount2: '3.2',
+                amount3: 10,
+              },
+              {
+                id: '12987123',
+                name: 'Tom',
+                amount1: '165',
+                amount2: '4.43',
+                amount3: 12,
+              },
+              {
+                id: '12987124',
+                name: 'Tom',
+                amount1: '324',
+                amount2: '1.9',
+                amount3: 9,
+              },
+              {
+                id: '12987125',
+                name: 'Tom',
+                amount1: '621',
+                amount2: '2.2',
+                amount3: 17,
+              },
+              {
+                id: '12987126',
+                name: 'Tom',
+                amount1: '539',
+                amount2: '4.1',
+                amount3: 15,
+              },
+            ],
+          }
+        },
+        methods: {
+          objectSpanMethod({ rowIndex, columnIndex }) {
+            if (columnIndex === 0) {
+              if (rowIndex % 2 === 0) {
+                return {
+                  rowspan: 2,
+                  colspan: 1,
+                }
+              } else {
+                return {
+                  rowspan: 0,
+                  colspan: 0,
+                }
+              }
+            }
+          },
+        },
+      })
+      const vm = wrapper.vm
+      await doubleWait()
+      const cell = vm.$el
+        .querySelectorAll('.el-table__body-wrapper tbody tr')[0]
+        .querySelector('.el-table__cell')
+      triggerEvent(cell, 'mouseenter', true, false)
+      await doubleWait()
+      await rAF()
+      await doubleWait()
+      const row = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')[1]
+      expect([...row.classList]).toContain('hover-row')
+      await doubleWait()
+      triggerEvent(cell, 'mouseleave', true, false)
+      await rAF()
+      await doubleWait()
+      expect([...row.classList]).not.toContain('hover-row')
+      wrapper.unmount()
+    })
+
     it('cell-mouse-leave', async () => {
       const wrapper = createTable('cell-mouse-leave')
       await doubleWait()
@@ -947,6 +1045,105 @@ describe('Table.vue', () => {
     await rAF()
     await doubleWait()
     expect(tr.classes()).not.toContain('hover-row')
+    wrapper.unmount()
+  })
+
+  it('hover on which rowSpan > 1', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+         <el-table
+          :data="testData"
+          :span-method="objectSpanMethod"
+          border
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column prop="id" label="ID" width="180" />
+          <el-table-column prop="name" label="Name" />
+          <el-table-column prop="amount1" label="Amount 1" />
+          <el-table-column prop="amount2" label="Amount 2" />
+          <el-table-column prop="amount3" label="Amount 3" />
+        </el-table>
+      `,
+      data() {
+        return {
+          testData: [
+            {
+              id: '12987122',
+              name: 'Tom',
+              amount1: '234',
+              amount2: '3.2',
+              amount3: 10,
+            },
+            {
+              id: '12987123',
+              name: 'Tom',
+              amount1: '165',
+              amount2: '4.43',
+              amount3: 12,
+            },
+            {
+              id: '12987124',
+              name: 'Tom',
+              amount1: '324',
+              amount2: '1.9',
+              amount3: 9,
+            },
+            {
+              id: '12987125',
+              name: 'Tom',
+              amount1: '621',
+              amount2: '2.2',
+              amount3: 17,
+            },
+            {
+              id: '12987126',
+              name: 'Tom',
+              amount1: '539',
+              amount2: '4.1',
+              amount3: 15,
+            },
+          ],
+        }
+      },
+      methods: {
+        objectSpanMethod({ rowIndex, columnIndex }) {
+          if (columnIndex === 0) {
+            if (rowIndex % 2 === 0) {
+              return {
+                rowspan: 2,
+                colspan: 1,
+              }
+            } else {
+              return {
+                rowspan: 0,
+                colspan: 0,
+              }
+            }
+          }
+        },
+      },
+    })
+    const vm = wrapper.vm
+    await doubleWait()
+    const rows = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')
+    triggerEvent(rows[1], 'mouseenter', true, false)
+    await doubleWait()
+    await rAF()
+    await doubleWait()
+    const cell = vm.$el
+      .querySelectorAll('.el-table__body-wrapper tbody tr')[0]
+      .querySelector('.el-table__cell')
+
+    expect([...cell.classList]).toContain('hover-cell')
+    await doubleWait()
+    triggerEvent(rows[1], 'mouseleave', true, false)
+    await rAF()
+    await doubleWait()
+    expect([...cell.classList]).not.toContain('hover-cell')
     wrapper.unmount()
   })
 
