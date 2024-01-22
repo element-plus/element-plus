@@ -28,6 +28,7 @@ export default defineComponent({
   name: 'ElSelectDropdown',
 
   props: {
+    loading: Boolean,
     data: {
       type: Array,
       required: true,
@@ -225,7 +226,7 @@ export default defineComponent({
       const { data, width } = props
       const { height, multiple, scrollbarAlwaysOn } = select.props
 
-      if (data.length === 0) {
+      if (slots.loading || slots.empty) {
         return (
           <div
             class={ns.b('dropdown')}
@@ -233,7 +234,7 @@ export default defineComponent({
               width: `${width}px`,
             }}
           >
-            {slots.empty?.()}
+            {slots.loading?.() || slots.empty?.()}
           </div>
         )
       }

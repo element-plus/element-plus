@@ -74,3 +74,9 @@ watermark/custom
 | fontStyle    | font style    | ^[enum]`'none' \| 'normal' \| 'italic' \| 'oblique'`                                 | normal          |
 | textAlign    | text align    | ^[enum]`'left' \| 'right' \| 'center'\| 'start' \| 'end' `                           | center          |
 | textBaseline | text baseline | ^[enum]`'top' \| 'hanging' \| 'middle' \| 'alphabetic' \| 'ideographic' \| 'bottom'` | top             |
+
+### Slots
+
+| Name    | Description                    |
+| ------- | ------------------------------ |
+| default | container for adding watermark |
