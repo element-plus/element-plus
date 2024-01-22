@@ -5,3 +5,8 @@
   <el-tag class="ml-2" type="warning">Tag 4</el-tag>
   <el-tag class="ml-2" type="danger">Tag 5</el-tag>
 </template>
+<style scoped>
+.mr-4 {
+  margin-right: 1rem;
+}
+</style>

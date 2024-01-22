@@ -70,3 +70,8 @@ const options = [
   },
 ]
 </script>
+<style scoped>
+.m-2 {
+  margin: 0.5rem;
+}
+</style>

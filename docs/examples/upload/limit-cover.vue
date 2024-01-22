@@ -39,3 +39,13 @@ const submitUpload = () => {
   upload.value!.submit()
 }
 </script>
+<style scoped>
+.ml-3 {
+  margin-left: 0.75rem;
+}
+
+.text-red {
+  --un-text-opacity: 1;
+  color: rgba(248, 113, 113, var(--un-text-opacity));
+}
+</style>

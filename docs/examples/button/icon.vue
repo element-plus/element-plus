@@ -12,3 +12,8 @@
 <script setup lang="ts">
 import { Delete, Edit, Search, Share, Upload } from '@element-plus/icons-vue'
 </script>
+<style scoped>
+.flex {
+  display: flex;
+}
+</style>

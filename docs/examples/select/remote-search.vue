@@ -132,3 +132,16 @@ const states = [
   'Wyoming',
 ]
 </script>
+<style scoped>
+.flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.m-4 {
+  margin: 1rem;
+}
+</style>

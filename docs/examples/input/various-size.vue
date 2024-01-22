@@ -67,3 +67,11 @@ const input1 = ref('')
 const input2 = ref('')
 const input3 = ref('')
 </script>
+<style scoped>
+.m-2 {
+  margin: 0.5rem;
+}
+.w-50 {
+  width: 12.5rem;
+}
+</style>

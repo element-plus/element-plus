@@ -82,3 +82,31 @@ const items = ref<Array<Item>>([
   { type: 'warning', label: 'Tag 5' },
 ])
 </script>
+<style scoped>
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.m-1 {
+  margin: 0.25rem;
+}
+.mx-1 {
+  margin-left: 0.25rem; /* 4px */
+  margin-right: 0.25rem; /* 4px */
+}
+.flex {
+  display: flex;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gap-1 {
+  grid-gap: 0.25rem;
+  gap: 0.25rem;
+}
+
+.items-center {
+  align-items: center;
+}
+</style>

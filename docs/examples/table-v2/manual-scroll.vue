@@ -73,3 +73,20 @@ function scrollByRows() {
   tableRef.value?.scrollToRow(scrollRows.value)
 }
 </script>
+<style scoped>
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.mr-4 {
+  margin-right: 1rem;
+}
+</style>

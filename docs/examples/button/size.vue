@@ -25,3 +25,9 @@
 <script setup lang="ts">
 import { Search } from '@element-plus/icons-vue'
 </script>
+<style>
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+</style>

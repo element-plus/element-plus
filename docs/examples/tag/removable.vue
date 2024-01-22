@@ -21,3 +21,9 @@ const tags = ref([
   { name: 'Tag 5', type: 'danger' },
 ])
 </script>
+<style scoped>
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+</style>

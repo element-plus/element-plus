@@ -1,22 +1,13 @@
 <template>
-  <div class="flex justify-between items-center flex-wrap">
-    <div
-      v-for="(shadow, i) in shadowGroup"
-      :key="i"
-      class="flex flex-col justify-center items-center"
-      m="auto"
-      w="46"
-    >
+  <div class="container">
+    <div v-for="(shadow, i) in shadowGroup" :key="i" class="item">
       <div
-        class="inline-flex"
-        h="30"
-        w="30"
-        m="2"
+        class="block"
         :style="{
           boxShadow: `var(${getCssVarName(shadow.type)})`,
         }"
       />
-      <span p="y-4" class="demo-shadow-text" text="sm">
+      <span class="demo-shadow-text" text="sm">
         {{ shadow.name }}
       </span>
       <code text="xs">
@@ -52,3 +43,39 @@ const getCssVarName = (type: string) => {
   return `--el-box-shadow${type ? '-' : ''}${type}`
 }
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 11.5rem;
+  margin: auto;
+}
+
+.block {
+  display: inline-flex;
+  height: 7.5rem;
+  width: 7.5rem;
+  margin: 0.5rem;
+}
+
+.demo-shadow-text {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.[text='xs'] {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+</style>

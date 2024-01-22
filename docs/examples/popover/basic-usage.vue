@@ -73,4 +73,8 @@ const visible = ref(false)
 .el-button + .el-button {
   margin-left: 8px;
 }
+
+.m-2 {
+  margin: 0.5rem;
+}
 </style>

@@ -30,3 +30,12 @@ const checked3 = ref(false)
 const checked4 = ref(true)
 const checkboxGroup1 = ref(['Option1'])
 </script>
+<style scoped>
+.mt-4 {
+  margin-top: 1rem;
+}
+.border {
+  border-width: 1px;
+  border-style: solid;
+}
+</style>

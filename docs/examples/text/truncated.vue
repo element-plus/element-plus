@@ -11,3 +11,8 @@
     a block to the specified number of lines.
   </el-text>
 </template>
+<style scoped>
+.w-100px {
+  width: 100px;
+}
+</style>

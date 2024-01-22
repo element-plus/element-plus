@@ -22,3 +22,11 @@ const toggle = () => {
   language.value = language.value === 'zh-cn' ? 'en' : 'zh-cn'
 }
 </script>
+<style scoped>
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+</style>

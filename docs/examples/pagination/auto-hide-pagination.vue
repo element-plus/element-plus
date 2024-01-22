@@ -14,3 +14,9 @@
 import { ref } from 'vue'
 const value = ref(false)
 </script>
+<style scoped>
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+</style>

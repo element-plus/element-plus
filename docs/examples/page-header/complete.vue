@@ -19,7 +19,7 @@
             :size="32"
             src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
           />
-          <span class="text-large font-600 mr-3"> Title </span>
+          <span class="text-lg font-600 mr-3"> Title </span>
           <span
             class="text-sm mr-2"
             style="color: var(--el-text-color-regular)"
@@ -67,3 +67,38 @@ const onBack = () => {
   notify('Back')
 }
 </script>
+<style scoped>
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+}
+.mr-2 {
+  margin-right: 0.5rem;
+}
+.mr-3 {
+  margin-right: 0.75rem;
+}
+.mt-4 {
+  margin-top: 1rem; /* 16px */
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.font-600 {
+  font-weight: 600;
+}
+</style>

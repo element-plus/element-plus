@@ -32,3 +32,35 @@ const radio1 = ref('1')
 const radio2 = ref('1')
 const radio3 = ref('1')
 </script>
+<style scoped>
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.ml-4 {
+  margin-left: 1rem;
+}
+
+.my-2 {
+  margin-top: 0.5rem; /* 8px */
+  margin-bottom: 0.5rem; /* 8px */
+}
+
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+</style>

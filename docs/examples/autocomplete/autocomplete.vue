@@ -1,9 +1,7 @@
 <template>
   <el-row class="demo-autocomplete">
     <el-col :span="12">
-      <div class="sub-title my-2 text-sm text-gray-600">
-        list suggestions when activated
-      </div>
+      <div class="sub-title">list suggestions when activated</div>
       <el-autocomplete
         v-model="state1"
         :fetch-suggestions="querySearch"
@@ -14,9 +12,7 @@
       />
     </el-col>
     <el-col :span="12">
-      <div class="sub-title my-2 text-sm text-gray-600">
-        list suggestions on input
-      </div>
+      <div class="sub-title">list suggestions on input</div>
       <el-autocomplete
         v-model="state2"
         :fetch-suggestions="querySearch"
@@ -76,3 +72,16 @@ onMounted(() => {
   restaurants.value = loadAll()
 })
 </script>
+<style scoped>
+.sub-title {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: rgba(75, 85, 99, 1);
+}
+
+.w-50 {
+  width: 12.5rem;
+}
+</style>

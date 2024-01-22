@@ -39,4 +39,25 @@
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
 }
+
+.block {
+  display: block;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+[text='\32 xl'] {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+[m='t-4'] {
+  margin-top: 1rem;
+}
 </style>

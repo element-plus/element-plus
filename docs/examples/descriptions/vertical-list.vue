@@ -62,4 +62,9 @@ const blockMargin = computed(() => {
 .el-descriptions {
   margin-top: 20px;
 }
+
+.border {
+  border-width: 1px;
+  border-style: solid;
+}
 </style>

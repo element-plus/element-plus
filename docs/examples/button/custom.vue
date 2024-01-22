@@ -13,3 +13,9 @@ import { isDark } from '~/composables/dark'
     >
   </div>
 </template>
+
+<style scoped>
+.flex {
+  display: flex;
+}
+</style>

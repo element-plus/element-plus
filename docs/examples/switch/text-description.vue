@@ -56,3 +56,12 @@ const value4 = ref(true)
 const value5 = ref(true)
 const value6 = ref(true)
 </script>
+<style scoped>
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+</style>

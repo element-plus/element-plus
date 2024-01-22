@@ -22,3 +22,8 @@ import {
   Share,
 } from '@element-plus/icons-vue'
 </script>
+<style scoped>
+.ml-4 {
+  margin-left: 1rem;
+}
+</style>
