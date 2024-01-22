@@ -1,5 +1,13 @@
 ## Changelog
 
+### 2.5.3
+
+_2024-01-22_
+
+#### Bug fixes
+
+- Components [select & select-v2] select can't delete input val (#15607 by @wzc520pyfm)
+
 ### 2.5.2
 
 _2024-01-19_
