@@ -1,17 +1,17 @@
 <template>
-  <el-button text @click="dialogVisible = true">
+  <el-button plain @click="dialogVisible = true">
     Click to open Dialog
   </el-button>
 
-  <el-dialog v-model="dialogVisible" title="Tips" width="30%" draggable>
+  <el-dialog v-model="dialogVisible" title="Tips" width="500" draggable>
     <span>It's a draggable Dialog</span>
     <template #footer>
-      <span class="dialog-footer">
+      <div class="dialog-footer">
         <el-button @click="dialogVisible = false">Cancel</el-button>
         <el-button type="primary" @click="dialogVisible = false">
           Confirm
         </el-button>
-      </span>
+      </div>
     </template>
   </el-dialog>
 </template>
