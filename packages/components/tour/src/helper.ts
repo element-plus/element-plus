@@ -187,7 +187,7 @@ export function isSameSteps(a: any[], b: any[]) {
   if (a.length !== b.length) return false
   for (const [index] of a.entries()) {
     if (isSameProps(a[index], b[index])) {
-      return false
+      return true
     }
   }
   return true
