@@ -90,7 +90,12 @@ import ElFocusTrap from '@element-plus/components/focus-trap'
 import { useDialog } from '@element-plus/components/dialog'
 import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
-import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useDeprecated,
+  useLocale,
+  useNamespace,
+  useZIndex,
+} from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
 
 defineOptions({
@@ -101,6 +106,7 @@ defineOptions({
 const props = defineProps(drawerProps)
 defineEmits(drawerEmits)
 const slots = useSlots()
+const { nextZIndex } = useZIndex()
 
 useDeprecated(
   {
@@ -140,6 +146,7 @@ const {
   onCloseRequested,
   handleClose,
 } = useDialog(props, drawerRef)
+const zIndex = computed(() => props.zIndex ?? nextZIndex())
 
 const isHorizontal = computed(
   () => props.direction === 'rtl' || props.direction === 'ltr'
