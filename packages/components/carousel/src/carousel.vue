@@ -57,7 +57,7 @@
         @mouseenter="throttledIndicatorHover(index)"
         @click.stop="handleIndicatorClick(index)"
       >
-        <button :class="ns.e('button')" aria-label="Carousel Button">
+        <button :class="ns.e('button')" aria-label="Carousel Indicator">
           <span v-if="hasLabel">{{ item.props.label }}</span>
         </button>
       </li>
