@@ -506,10 +506,10 @@ describe('Table.vue', () => {
           style="width: 100%; margin-top: 20px"
         >
           <el-table-column prop="id" label="ID" width="180" />
-          <el-table-column prop="name" label="Name" />
-          <el-table-column prop="amount1" label="Amount 1" />
-          <el-table-column prop="amount2" label="Amount 2" />
-          <el-table-column prop="amount3" label="Amount 3" />
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
         </el-table>
       `,
         data() {
@@ -1026,10 +1026,10 @@ describe('Table.vue', () => {
           style="width: 100%; margin-top: 20px"
         >
           <el-table-column prop="id" label="ID" width="180" />
-          <el-table-column prop="name" label="Name" />
-          <el-table-column prop="amount1" label="Amount 1" />
-          <el-table-column prop="amount2" label="Amount 2" />
-          <el-table-column prop="amount3" label="Amount 3" />
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
         </el-table>
       `,
       data() {
