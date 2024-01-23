@@ -80,6 +80,11 @@
   }
 
   @include m(horizontal) {
+    // reset menu-item popup height
+    &.#{$namespace}-menu--popup-container {
+      height: unset;
+    }
+
     display: flex;
     flex-wrap: nowrap;
     border-right: none;
@@ -204,6 +209,12 @@
 
     .#{$namespace}-menu .#{$namespace}-sub-menu {
       min-width: 200px;
+    }
+
+    .#{$namespace}-sub-menu {
+      &.is-active .#{$namespace}-sub-menu__title {
+        color: getCssVar('menu-active-color');
+      }
     }
   }
   @include m(popup) {

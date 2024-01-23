@@ -11,6 +11,7 @@
         :loading="loading"
         :style="imageStyle"
         :class="imageKls"
+        :crossorigin="crossorigin"
         @click="clickHandler"
         @load="handleLoad"
         @error="handleError"

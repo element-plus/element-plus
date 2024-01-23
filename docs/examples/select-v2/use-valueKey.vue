@@ -4,6 +4,7 @@
     :options="options"
     placeholder="Please select"
     value-key="name"
+    style="width: 240px"
   />
 </template>
 

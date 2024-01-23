@@ -102,6 +102,11 @@ export default {
       clearFilter: 'Xóa hết',
       sumText: 'Tổng',
     },
+    tour: {
+      next: 'Tiếp',
+      previous: 'Trước',
+      finish: 'Hoàn thành',
+    },
     tree: {
       emptyText: 'Không có dữ liệu',
     },

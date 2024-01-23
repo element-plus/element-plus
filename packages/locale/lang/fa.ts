@@ -102,6 +102,11 @@ export default {
       clearFilter: 'همه',
       sumText: 'جمع',
     },
+    tour: {
+      next: 'بعدی',
+      previous: 'قبلی',
+      finish: 'پایان',
+    },
     tree: {
       emptyText: 'اطلاعاتی وجود ندارد',
     },
