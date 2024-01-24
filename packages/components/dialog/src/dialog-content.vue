@@ -55,11 +55,11 @@ const dialogKls = computed(() => [
   ns.is('draggable', props.draggable),
   ns.is('align-center', props.alignCenter),
   { [ns.m('center')]: props.center },
-  props.customClass,
 ])
 
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 
 const draggable = computed(() => props.draggable)
-useDraggable(dialogRef, headerRef, draggable)
+const overflow = computed(() => props.overflow)
+useDraggable(dialogRef, headerRef, draggable, overflow)
 </script>
