@@ -248,6 +248,10 @@
         "text": "Affix"
       },
       {
+        "link": "/anchor",
+        "text": "Anchor"
+      },
+      {
         "link": "/backtop",
         "text": "Backtop"
       },

@@ -815,6 +815,22 @@ $tour: map.merge(
   $tour
 );
 
+// Anchor
+// css3 var in packages/theme-chalk/src/anchor.scss
+$anchor: () !default;
+$anchor: map.merge(
+  (
+    'bg-color': getCssVar('bg-color'),
+    'padding-indent': 14px,
+    'line-height': 22px,
+    'font-size': 12px,
+    'color': getCssVar('text-color-secondary'),
+    'active-color': getCssVar('color-primary'),
+    'marker-bg-color': getCssVar('color-primary'),
+  ),
+  $anchor
+);
+
 // Table
 // css3 var in packages/theme-chalk/src/table.scss
 $table: () !default;
