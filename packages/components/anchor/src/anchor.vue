@@ -4,10 +4,7 @@
       v-if="marker"
       ref="markerRef"
       :class="ns.e('marker')"
-      :style="{
-        opacity: current ? 1 : 0,
-        ...markerStyle,
-      }"
+      :style="markerStyle"
     />
     <div :class="ns.e('list')">
       <slot />
@@ -199,6 +196,7 @@ const updateMarkerStyle = () => {
 
       markerStyle.value = {
         top: `${top}px`,
+        opacity: 1,
       }
     } else if (props.direction === 'horizontal') {
       const left = linkRect.left - anchorRect.left
@@ -206,6 +204,7 @@ const updateMarkerStyle = () => {
       markerStyle.value = {
         left: `${left}px`,
         width: `${linkRect.width}px`,
+        opacity: 1,
       }
     }
   }

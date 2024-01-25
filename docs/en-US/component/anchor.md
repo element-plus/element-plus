@@ -21,6 +21,12 @@ anchor/basic
 
 Horizontally aligned anchors
 
+:::tip
+
+Horizontal Mode does not support sublist slots
+
+:::
+
 :::demo
 
 anchor/horizontal
@@ -125,4 +131,4 @@ anchor/underline
 | Name    | Description |
 | ------- | ----------- |
 | default | the content of the anchor link.   |
-| sublist | slots for child links.            |
+| sublist | slots for child links. |
