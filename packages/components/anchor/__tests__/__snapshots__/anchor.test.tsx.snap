@@ -2,7 +2,7 @@
 
 exports[`Anchor.vue > snapshot 1`] = `
 "<div class=\\"el-anchor el-anchor--vertical\\">
-  <div class=\\"el-anchor__marker\\" style=\\"opacity: 0;\\"></div>
+  <div class=\\"el-anchor__marker\\"></div>
   <div class=\\"el-anchor__list\\">
     <div class=\\"el-anchor__item\\"><a class=\\"el-anchor__link\\" href=\\"#anchor-link-0\\">#anchor-link-0</a>
       <!--v-if-->
@@ -13,7 +13,7 @@ exports[`Anchor.vue > snapshot 1`] = `
 
 exports[`Anchor.vue > snapshot 2`] = `
 "<div class=\\"el-anchor el-anchor--horizontal\\">
-  <div class=\\"el-anchor__marker\\" style=\\"opacity: 0;\\"></div>
+  <div class=\\"el-anchor__marker\\"></div>
   <div class=\\"el-anchor__list\\">
     <div class=\\"el-anchor__item\\"><a class=\\"el-anchor__link\\" href=\\"#anchor-link-0\\">#anchor-link-0</a>
       <!--v-if-->
@@ -24,7 +24,7 @@ exports[`Anchor.vue > snapshot 2`] = `
 
 exports[`Anchor.vue > snapshot 3`] = `
 "<div class=\\"el-anchor el-anchor--underline el-anchor--vertical\\">
-  <div class=\\"el-anchor__marker\\" style=\\"opacity: 0;\\"></div>
+  <div class=\\"el-anchor__marker\\"></div>
   <div class=\\"el-anchor__list\\">
     <div class=\\"el-anchor__item\\"><a class=\\"el-anchor__link\\" href=\\"#anchor-link-0\\">#anchor-link-0</a>
       <!--v-if-->
@@ -35,7 +35,7 @@ exports[`Anchor.vue > snapshot 3`] = `
 
 exports[`Anchor.vue > snapshot 4`] = `
 "<div class=\\"el-anchor el-anchor--underline el-anchor--horizontal\\">
-  <div class=\\"el-anchor__marker\\" style=\\"opacity: 0;\\"></div>
+  <div class=\\"el-anchor__marker\\"></div>
   <div class=\\"el-anchor__list\\">
     <div class=\\"el-anchor__item\\"><a class=\\"el-anchor__link\\" href=\\"#anchor-link-0\\">#anchor-link-0</a>
       <!--v-if-->
