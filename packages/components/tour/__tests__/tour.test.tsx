@@ -163,4 +163,33 @@ describe('Tour.vue', () => {
     expect(style.transform).toBe('translate3d(-50%, -50%, 0)')
     expect(style.maxWidth).toBe('100vw')
   })
+
+  test('button props', () => {
+    mount({
+      setup() {
+        const prevButtonProps = {
+          children: '上一步',
+          class: 'prev-btn',
+        }
+        const nextButtonProps = {
+          children: '下一步',
+          class: 'next-btn',
+        }
+        return () => (
+          <Tour modelValue={true} current={1}>
+            <TourStep title="first" description="cover description." />
+            <TourStep
+              title="second"
+              description="cover description."
+              prevButtonProps={prevButtonProps}
+              nextButtonProps={nextButtonProps}
+            />
+          </Tour>
+        )
+      },
+    })
+
+    expect(document.querySelector('.prev-btn span')?.innerHTML).toBe('上一步')
+    expect(document.querySelector('.next-btn span')?.innerHTML).toBe('下一步')
+  })
 })
