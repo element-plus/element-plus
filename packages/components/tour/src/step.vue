@@ -43,7 +43,7 @@
         v-if="current > 0"
         size="small"
         :type="mergedType"
-        v-bind="prevButtonProps"
+        v-bind="filterButtonProps(prevButtonProps)"
         @click="onPrev"
       >
         {{ prevButtonProps?.children ?? t('el.tour.previous') }}
@@ -52,13 +52,12 @@
         v-if="current <= total - 1"
         size="small"
         :type="mergedType === 'primary' ? 'default' : 'primary'"
-        v-bind="nextButtonProps"
+        v-bind="filterButtonProps(nextButtonProps)"
         @click="onNext"
       >
         {{
-          nextButtonProps?.children ?? current === total - 1
-            ? t('el.tour.finish')
-            : t('el.tour.next')
+          nextButtonProps?.children ??
+          (current === total - 1 ? t('el.tour.finish') : t('el.tour.next'))
         }}
       </el-button>
     </div>
@@ -73,6 +72,8 @@ import { CloseComponents } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import { tourStepEmits, tourStepProps } from './step'
 import { tourKey } from './helper'
+
+import type { TourBtnProps } from './types'
 
 defineOptions({
   name: 'ElTourStep',
@@ -103,6 +104,13 @@ const mergedShowClose = computed(() => props.showClose ?? showClose.value)
 const mergedCloseIcon = computed(
   () => props.closeIcon ?? closeIcon.value ?? Close
 )
+
+const filterButtonProps = (btnProps?: TourBtnProps) => {
+  if (!btnProps) return
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { children, onClick, ...others } = btnProps
+  return others
+}
 
 const onPrev = () => {
   current.value -= 1

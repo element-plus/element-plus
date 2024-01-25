@@ -1,5 +1,6 @@
 import type { CSSProperties, VNode } from 'vue'
 import type { Placement } from '@floating-ui/dom'
+import type { ButtonProps } from '@element-plus/components/button'
 
 export type TourMask =
   | boolean
@@ -13,12 +14,11 @@ export interface TourGap {
   radius?: number
 }
 
-export interface TourBtnProps {
-  children: VNode | string
-  onClick: () => void
-  className?: string
-  style?: CSSProperties
-}
+export type TourBtnProps = {
+  children?: VNode | string
+  onClick?: () => void
+} & Partial<ButtonProps> &
+  Record<string, any>
 
 export interface PosInfo {
   left: number
