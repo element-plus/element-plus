@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject } from 'vue'
+import { computed, inject, watch } from 'vue'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { CloseComponents } from '@element-plus/utils'
@@ -87,6 +87,7 @@ const { Close } = CloseComponents
 const { t } = useLocale()
 
 const {
+  currentStep,
   current,
   total,
   showClose,
@@ -99,6 +100,16 @@ const {
   onFinish: tourOnFinish,
   onChange,
 } = inject(tourKey)!
+props.showArrow
+watch(
+  props,
+  (val) => {
+    currentStep.value = val
+  },
+  {
+    immediate: true,
+  }
+)
 
 const mergedShowClose = computed(() => props.showClose ?? showClose.value)
 const mergedCloseIcon = computed(

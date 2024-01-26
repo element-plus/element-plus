@@ -1,7 +1,5 @@
 import {
-  camelize,
   computed,
-  isVNode,
   onBeforeUnmount,
   onMounted,
   ref,
@@ -19,7 +17,6 @@ import {
   shift,
 } from '@floating-ui/dom'
 import {
-  hasOwn,
   isArray,
   isClient,
   isFunction,
@@ -30,11 +27,9 @@ import {
 import type {
   CSSProperties,
   Component,
-  ComputedRef,
   InjectionKey,
   Ref,
   SetupContext,
-  VNode,
 } from 'vue'
 import type { UseNamespaceReturn } from '@element-plus/hooks'
 import type { PosInfo, TourGap, TourMask } from './types'
@@ -45,6 +40,7 @@ import type {
   Strategy,
   VirtualElement,
 } from '@floating-ui/dom'
+import type { TourStepProps } from './step'
 
 export const useTarget = (
   target: Ref<
@@ -150,8 +146,9 @@ export const useTarget = (
 }
 
 export interface TourContext {
+  currentStep: Ref<TourStepProps | undefined>
   current: Ref<number>
-  total: ComputedRef<number>
+  total: Ref<number>
   showClose: Ref<boolean>
   closeIcon: Ref<string | Component>
   mergedType: Ref<'default' | 'primary' | undefined>
@@ -171,51 +168,6 @@ function isInViewPort(element: HTMLElement) {
   const { top, right, bottom, left } = element.getBoundingClientRect()
 
   return top >= 0 && left >= 0 && right <= viewWidth && bottom <= viewHeight
-}
-
-const isSameProps = (a: Record<string, any>, b: Record<string, any>) => {
-  if (Object.keys(a).length !== Object.keys(b).length) return false
-  for (const key in a) {
-    if (a[key] !== b[key]) {
-      return false
-    }
-  }
-  return true
-}
-
-export function isSameSteps(a: any[], b: any[]) {
-  if (a.length !== b.length) return false
-  for (const [index] of a.entries()) {
-    if (!isSameProps(a[index], b[index])) {
-      return false
-    }
-  }
-  return true
-}
-
-export const getNormalizedProps = (node: VNode, booleanKeys: string[]) => {
-  if (!isVNode(node)) {
-    return {}
-  }
-
-  const raw = node.props || {}
-  const type = (node.type as any)?.props || {}
-  const props: Record<string, any> = {}
-  Object.keys(type).forEach((key) => {
-    if (hasOwn(type[key], 'default')) {
-      props[key] = type[key].default
-    }
-  })
-
-  Object.keys(raw).forEach((key) => {
-    const cameKey = camelize(key)
-    props[cameKey] = raw[key]
-    if (booleanKeys.includes(cameKey) && props[cameKey] === '') {
-      props[cameKey] = true
-    }
-  })
-
-  return props
 }
 
 export const useFloating = (

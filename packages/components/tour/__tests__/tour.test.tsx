@@ -167,22 +167,20 @@ describe('Tour.vue', () => {
   test('button props', () => {
     mount({
       setup() {
-        const prevButtonProps = {
-          children: '上一步',
-          class: 'prev-btn',
-        }
-        const nextButtonProps = {
-          children: '下一步',
-          class: 'next-btn',
-        }
         return () => (
           <Tour modelValue={true} current={1}>
             <TourStep title="first" description="cover description." />
             <TourStep
               title="second"
               description="cover description."
-              prevButtonProps={prevButtonProps}
-              nextButtonProps={nextButtonProps}
+              prevButtonProps={{
+                children: '上一步',
+                class: 'prev-btn',
+              }}
+              nextButtonProps={{
+                children: '下一步',
+                class: 'next-btn',
+              }}
             />
           </Tour>
         )
