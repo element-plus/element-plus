@@ -249,7 +249,8 @@
       },
       {
         "link": "/anchor",
-        "text": "Anchor"
+        "text": "Anchor",
+        "promotion": "2.6.0"
       },
       {
         "link": "/backtop",

@@ -37,6 +37,10 @@
         text-overflow: ellipsis;
         cursor: pointer;
 
+        &:hover, &:focus {
+          color: getCssVar('anchor-color');
+        }
+
         @include when(active) {
           color: getCssVar('anchor-active-color');
         }
