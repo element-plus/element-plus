@@ -358,8 +358,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   // methods
   const toggleMenu = () => {
     if (selectDisabled.value) return
-    if (props.filterable && props.remote && isFunction(props.remoteMethod))
-      return
+
     if (states.menuVisibleOnFocus) {
       // controlled by automaticDropdown
       states.menuVisibleOnFocus = false
