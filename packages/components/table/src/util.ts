@@ -83,11 +83,20 @@ export const orderBy = function <T>(
       return sortMethod(a.value, b.value)
     }
     for (let i = 0, len = a.key.length; i < len; i++) {
-      if (a.key[i] < b.key[i]) {
-        return -1
-      }
-      if (a.key[i] > b.key[i]) {
-        return 1
+      if(typeof a.key[i] === typeof b.key[i]) {
+        if (a.key[i] < b.key[i]) {
+          return -1
+        }
+        if (a.key[i] > b.key[i]) {
+          return 1
+        }
+      } else {
+        if (`${a.key[i]}` < `${b.key[i]}`) {
+          return -1;
+        }
+        if (`${a.key[i]}` > `${b.key[i]}`) {
+          return 1;
+        }
       }
     }
     return 0
