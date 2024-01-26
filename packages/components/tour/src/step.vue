@@ -66,6 +66,7 @@
 
 <script lang="ts" setup>
 import { computed, inject, watch } from 'vue'
+import { omit } from 'lodash-es'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { CloseComponents } from '@element-plus/utils'
@@ -100,7 +101,7 @@ const {
   onFinish: tourOnFinish,
   onChange,
 } = inject(tourKey)!
-props.showArrow
+
 watch(
   props,
   (val) => {
@@ -118,9 +119,7 @@ const mergedCloseIcon = computed(
 
 const filterButtonProps = (btnProps?: TourBtnProps) => {
   if (!btnProps) return
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { children, onClick, ...others } = btnProps
-  return others
+  return omit(btnProps, ['children', 'onClick'])
 }
 
 const onPrev = () => {
