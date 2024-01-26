@@ -17,6 +17,7 @@
   box-sizing: border-box;
   padding: getCssVar('dialog', 'padding-primary');
   width: var(#{getCssVarName('dialog-width')}, 50%);
+  overflow-wrap: break-word;
 
   &:focus {
     outline: none !important;

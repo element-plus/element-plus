@@ -516,11 +516,13 @@ $messagebox: map.merge(
     'title-color': getCssVar('text-color-primary'),
     'width': 420px,
     'border-radius': 4px,
+    'box-shadow': getCssVar('box-shadow'),
     'font-size': getCssVar('font-size-large'),
     'content-font-size': getCssVar('font-size-base'),
     'content-color': getCssVar('text-color-regular'),
     'error-font-size': 12px,
-    'padding-primary': 15px,
+    'padding-primary': 12px,
+    'font-line-height': getCssVar('font-line-height-primary'),
   ),
   $messagebox
 );
