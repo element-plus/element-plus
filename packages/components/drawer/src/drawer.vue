@@ -27,7 +27,7 @@
             :aria-labelledby="!title ? titleId : undefined"
             :aria-describedby="bodyId"
             v-bind="$attrs"
-            :class="[ns.b(), direction, visible && 'open', customClass]"
+            :class="[ns.b(), direction, visible && 'open']"
             :style="
               isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
             "
@@ -111,17 +111,6 @@ useDeprecated(
     ref: 'https://element-plus.org/en-US/component/drawer.html#slots',
   },
   computed(() => !!slots.title)
-)
-useDeprecated(
-  {
-    scope: 'el-drawer',
-    from: 'custom-class',
-    replacement: 'class',
-    version: '2.3.0',
-    ref: 'https://element-plus.org/en-US/component/drawer.html#attributes',
-    type: 'Attribute',
-  },
-  computed(() => !!props.customClass)
 )
 
 const drawerRef = ref<HTMLElement>()
