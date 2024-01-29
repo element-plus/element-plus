@@ -93,7 +93,7 @@ select/custom-footer
 
 Display options in groups.
 
-:::demo Use `el-option-group` to group the options, and its `label` attribute stands for the name of the group.
+:::demo Use `el-option-group` to group the options, and its `label` attribute stands for the name of the group. `label` can be both a string and a `vnode`.
 
 select/grouping
 
@@ -247,7 +247,7 @@ select/custom-loading
 
 | Name     | Description                                  | Type       | Default |
 | -------- | -------------------------------------------- | ---------- | ------- |
-| label    | name of the group                            | ^[string]  | —       |
+| label    | name of the group                            | ^[string] / ^[VNode] | —       |
 | disabled | whether to disable all options in this group | ^[boolean] | false   |
 
 ### Option Group Slots
