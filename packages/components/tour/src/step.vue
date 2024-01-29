@@ -10,7 +10,7 @@
       <component :is="mergedCloseIcon" />
     </el-icon>
   </button>
-  <header :class="ns.e('header')">
+  <header :class="[ns.e('header'), { 'show-close': showClose }]">
     <slot name="header">
       <span role="heading" :class="ns.e('title')">
         {{ title }}
