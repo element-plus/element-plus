@@ -1,5 +1,5 @@
 <template>
-  <el-affix>
+  <el-affix :offset="60">
     <el-anchor :offset="70" style="width: 300px">
       <el-anchor-link href="#basic-usage">Basic Usage</el-anchor-link>
       <el-anchor-link href="#horizontal-mode">Horizontal Mode</el-anchor-link>
