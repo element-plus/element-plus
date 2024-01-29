@@ -255,6 +255,18 @@ export default defineComponent({
       }
     }
 
+    const calcMenuItemWidth = (menuItem: HTMLElement) => {
+      const marginLeft = Number.parseInt(
+        getComputedStyle(menuItem).marginLeft,
+        0
+      )
+      const marginRight = Number.parseInt(
+        getComputedStyle(menuItem).marginRight,
+        0
+      )
+      return menuItem.offsetWidth + marginLeft + marginRight || 0
+    }
+
     const calcSliceIndex = () => {
       if (!menu.value) return -1
       const items = Array.from(menu.value?.childNodes ?? []).filter(
@@ -276,7 +288,7 @@ export default defineComponent({
       let calcWidth = 0
       let sliceIndex = 0
       items.forEach((item, index) => {
-        calcWidth += item.offsetWidth || 0
+        calcWidth += calcMenuItemWidth(item)
         if (calcWidth <= menuWidth - moreItemWidth) {
           sliceIndex = index + 1
         }
