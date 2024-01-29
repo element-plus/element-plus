@@ -78,6 +78,12 @@ export const imageViewerProps = buildProps({
     type: Number,
     default: 7,
   },
+  /**
+   * @description set HTML attribute: crossorigin.
+   */
+  crossorigin: {
+    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
+  },
 } as const)
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 

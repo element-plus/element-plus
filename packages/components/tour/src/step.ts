@@ -8,7 +8,9 @@ export const tourStepProps = buildProps({
    * @description get the element the guide card points to. empty makes it show in center of screen
    */
   target: {
-    type: definePropType<HTMLElement | null>(Object),
+    type: definePropType<
+      string | HTMLElement | (() => HTMLElement | null) | null
+    >([String, Object, Function]),
   },
   /**
    * @description the title of the tour content

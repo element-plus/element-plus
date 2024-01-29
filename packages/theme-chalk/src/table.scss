@@ -141,13 +141,6 @@
     }
   }
 
-  tfoot {
-    td.#{$namespace}-table__cell {
-      background-color: getCssVar('table-row-hover-bg-color');
-      color: getCssVar('table-text-color');
-    }
-  }
-
   .#{$namespace}-table__cell {
     padding: map.get($table-padding, 'default');
     min-width: 0;
@@ -396,6 +389,11 @@
   @include e((footer-wrapper)) {
     overflow: hidden;
     flex-shrink: 0;
+
+    tfoot td.#{$namespace}-table__cell {
+      background-color: getCssVar('table-row-hover-bg-color');
+      color: getCssVar('table-text-color');
+    }
   }
 
   @include e((header-wrapper, body-wrapper)) {

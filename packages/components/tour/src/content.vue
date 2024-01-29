@@ -24,7 +24,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, inject, ref, toRef } from 'vue'
+import { computed, inject, ref, toRef, watch } from 'vue'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import { tourContentEmits, tourContentProps } from './content'
 import { tourKey, useFloating } from './helper'
@@ -40,6 +40,13 @@ const placement = ref(props.placement)
 const strategy = ref(props.strategy)
 const contentRef = ref<HTMLElement | null>(null)
 const arrowRef = ref<HTMLElement | null>(null)
+
+watch(
+  () => props.placement,
+  () => {
+    placement.value = props.placement
+  }
+)
 
 const { contentStyle, arrowStyle } = useFloating(
   toRef(props, 'reference'),

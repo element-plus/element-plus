@@ -103,6 +103,12 @@ export const imageProps = buildProps({
     type: Number,
     default: 7,
   },
+  /**
+   * @description set HTML attribute: crossorigin.
+   */
+  crossorigin: {
+    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
+  },
 } as const)
 export type ImageProps = ExtractPropTypes<typeof imageProps>
 
