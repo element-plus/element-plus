@@ -13,8 +13,11 @@
       @focus="handleFocus"
       @blur="focusing = false"
     >
+      <el-icon v-if="iconPosition !== 'right'" :class="arrowKls">
+        <arrow-right />
+      </el-icon>
       <slot name="title">{{ title }}</slot>
-      <el-icon :class="arrowKls">
+      <el-icon v-if="iconPosition === 'right'" :class="arrowKls">
         <arrow-right />
       </el-icon>
     </button>
@@ -52,6 +55,7 @@ const {
   focusing,
   id,
   isActive,
+  iconPosition,
   handleFocus,
   handleHeaderClick,
   handleEnterClick,
