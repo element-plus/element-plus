@@ -1,6 +1,7 @@
 <template>
   <ul v-show="visible" ref="groupRef" :class="ns.be('group', 'wrap')">
-    <li :class="ns.be('group', 'title')">{{ label }}</li>
+    <component :is="label" v-if="isVNode(label)" />
+    <li v-else :class="ns.be('group', 'title')">{{ label }}</li>
     <li>
       <ul :class="ns.b('group')">
         <slot />
@@ -15,6 +16,7 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
+  isVNode,
   onMounted,
   provide,
   reactive,
@@ -25,6 +27,7 @@ import { isArray } from '@vue/shared'
 import { useMutationObserver } from '@vueuse/core'
 import { useNamespace } from '@element-plus/hooks'
 import { selectGroupKey } from './token'
+import type { PropType, VNode } from 'vue'
 
 export default defineComponent({
   name: 'ElOptionGroup',
@@ -34,7 +37,7 @@ export default defineComponent({
     /**
      * @description name of the group
      */
-    label: String,
+    label: [String, Object] as PropType<VNode | string>,
     /**
      * @description whether to disable all options in this group
      */
@@ -92,6 +95,7 @@ export default defineComponent({
     })
 
     return {
+      isVNode,
       groupRef,
       visible,
       ns,
