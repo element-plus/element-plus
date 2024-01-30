@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { markRaw, nextTick } from 'vue'
+import { defineComponent, markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -1848,6 +1848,69 @@ describe('Select', () => {
     options[2].click()
     await nextTick()
     expect(vm.value).toBe('Shanghai')
+  })
+
+  test('el-option-group should visible when el-option in a component', async () => {
+    const Options = defineComponent({
+      components: {
+        'el-option': Option,
+      },
+      props: {
+        options: {
+          type: Array,
+          default: () => [],
+        },
+      },
+      template: `
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+      `,
+    })
+
+    wrapper = mount({
+      template: `
+        <el-select v-model="value">
+          <el-option-group
+            v-for="group in options"
+            :key="group.label"
+            :label="group.label"
+          >
+            <Options :options="group.options" />
+          </el-option-group>
+        </el-select>
+      `,
+      components: {
+        'el-select': Select,
+        'el-option-group': Group,
+        Options,
+      },
+      data() {
+        return {
+          value: '',
+          options: [
+            {
+              label: 'Popular cities',
+              options: [
+                {
+                  value: 'Shanghai',
+                  label: 'Shanghai',
+                },
+                {
+                  value: 'Beijing',
+                  label: 'Beijing',
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+
+    expect(wrapper.findComponent(Group).vm.visible).toBe(true)
   })
 
   test('tag of disabled option is not closable', async () => {
