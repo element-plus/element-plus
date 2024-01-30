@@ -200,7 +200,7 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
   </div>
 </ElRow>
 
-## Icon Collection
+## Icon Collection{#icon-collection}
 
 :::tip
 

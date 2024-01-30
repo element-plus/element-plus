@@ -35,6 +35,7 @@ export const useCarouselItem = (
 
   const CARD_SCALE = 0.83
 
+  const carouselItemRef = ref<HTMLElement>()
   const hover = ref(false)
   const translate = ref(0)
   const scale = ref(1)
@@ -67,7 +68,10 @@ export const useCarouselItem = (
   }
 
   function calcCardTranslate(index: number, activeIndex: number) {
-    const parentWidth = carouselContext.root.value?.offsetWidth || 0
+    const parentWidth = unref(isVertical)
+      ? carouselContext.root.value?.offsetHeight || 0
+      : carouselContext.root.value?.offsetWidth || 0
+
     if (inStage.value) {
       return (parentWidth * ((2 - CARD_SCALE) * (index - activeIndex) + 1)) / 4
     } else if (index < activeIndex) {
@@ -111,12 +115,6 @@ export const useCarouselItem = (
     active.value = isActive
 
     if (_isCardType) {
-      if (_isVertical) {
-        debugWarn(
-          'Carousel',
-          'vertical direction is not supported for card mode'
-        )
-      }
       inStage.value = Math.round(Math.abs(index - activeIndex)) <= 1
       translate.value = calcCardTranslate(index, activeIndex)
       scale.value = unref(active) ? 1 : CARD_SCALE
@@ -125,6 +123,10 @@ export const useCarouselItem = (
     }
 
     ready.value = true
+
+    if (isActive && carouselItemRef.value) {
+      carouselContext.setContainerHeight(carouselItemRef.value.offsetHeight)
+    }
   }
 
   function handleItemClick() {
@@ -159,6 +161,7 @@ export const useCarouselItem = (
   })
 
   return {
+    carouselItemRef,
     active,
     animating,
     hover,

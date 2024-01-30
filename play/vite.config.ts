@@ -22,7 +22,6 @@ import './vite.init'
 const esbuildPlugin = (): Plugin => ({
   ...esbuild({
     target: 'chrome64',
-    include: /\.vue$/,
     loaders: {
       '.vue': 'js',
     },

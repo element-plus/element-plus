@@ -1,5 +1,17 @@
 export const rightRichTextSponsors = []
 
+export const rightBigLogoSponsors = [
+  {
+    name: 'CRMEB',
+    img: '/images/sponsors/CRMEB.png',
+    imgL: '/images/sponsors/CRMEB-l.png',
+    url: 'http://github.crmeb.net/u/Element?from=element-plus',
+    slogan: 'High-quality open source mall system',
+    slogan_cn: '高品质开源商城系统 累计服务40W+开发者',
+    slogan_index: '高品质开源商城系统累计服务40W+开发者',
+  },
+]
+
 export const rightLogoSmallSponsors = [
   {
     name: 'BuildAdmin',
@@ -24,7 +36,7 @@ export const leftCustomImgSponsors = [
     name: 'JSDesign',
     name_cn: '即时设计',
     img: '/images/js-design.png',
-    url: 'https://js.design?source=element-plus',
+    url: 'https://js.design/?source=element-plus&plan=sy',
     slogan: 'Professional online UI design tool',
     slogan_cn: '专业在线UI设计工具',
     banner_img: '/images/js-design-banner.jpg',
@@ -32,7 +44,7 @@ export const leftCustomImgSponsors = [
   {
     name: 'VForm',
     img: '/images/vform.png',
-    url: 'https://vform666.com/vform3.html?from=element_plus',
+    url: 'https://vform666.com/',
     slogan: 'Vue 2/3 Visual/Low-Code Forms',
     slogan_cn: 'Vue 2/3 可视化低代码表单',
     banner_img: '/images/vform-banner.png',
@@ -44,20 +56,13 @@ export const leftCustomImgSponsors = [
     slogan: 'JNPF low code development platform to develop simple!',
     slogan_cn: 'JNPF 低代码开发平台，让开发变得简单！',
     className: 'jnpf',
-    banner_img: '/images/jnpfsoft.jpg',
-  },
-  {
-    name: 'JeePlus',
-    img: '/images/sponsors/jeeplus.png',
-    url: 'http://www.jeeplus.org/#/demo?from=ele',
-    slogan: 'JeePlus development platform',
-    slogan_cn: 'JeePlus 快速开发平台',
-    banner_img: '/images/sponsors/jeeplus_banner.jpg',
+    banner_img: '/images/sponsors/jnpfsoft.jpg',
   },
 ]
 
 export const platinumSponsors = [
   ...leftCustomImgSponsors,
+  ...rightBigLogoSponsors,
   ...rightRichTextSponsors,
 ]
 

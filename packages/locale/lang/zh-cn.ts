@@ -104,6 +104,11 @@ export default {
       clearFilter: '全部',
       sumText: '合计',
     },
+    tour: {
+      next: '下一步',
+      previous: '上一步',
+      finish: '结束导览',
+    },
     tree: {
       emptyText: '暂无数据',
     },

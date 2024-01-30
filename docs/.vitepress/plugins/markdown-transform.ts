@@ -10,10 +10,24 @@ import type { Plugin } from 'vite'
 
 type Append = Record<'headers' | 'footers' | 'scriptSetups', string[]>
 
+let compPaths: string[]
+
 export function MarkdownTransform(): Plugin {
   return {
     name: 'element-plus-md-transform',
+
     enforce: 'pre',
+
+    async buildStart() {
+      const pattern = `{${[...languages, languages[0]].join(',')}}/component`
+
+      compPaths = await glob(pattern, {
+        cwd: docRoot,
+        absolute: true,
+        onlyDirectories: true,
+      })
+    },
+
     async transform(code, id) {
       if (!id.endsWith('.md')) return
 
@@ -28,12 +42,6 @@ export function MarkdownTransform(): Plugin {
 
       code = transformVpScriptSetup(code, append)
 
-      const pattern = `{${[...languages, languages[0]].join(',')}}/component`
-      const compPaths = await glob(pattern, {
-        cwd: docRoot,
-        absolute: true,
-        onlyDirectories: true,
-      })
       if (compPaths.some((compPath) => id.startsWith(compPath))) {
         code = transformComponentMarkdown(id, componentId, code, append)
       }
@@ -112,14 +120,12 @@ const transformComponentMarkdown = (
   const sourceSection = `
 ## ${footerLocale[lang].source}
 
-${linksText}
-`
+${linksText}`
 
   const contributorsSection = `
 ## ${footerLocale[lang].contributors}
 
-<Contributors id="${componentId}" />
-`
+<Contributors id="${componentId}" />`
 
   append.footers.push(sourceSection, isComponent ? contributorsSection : '')
 

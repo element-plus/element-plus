@@ -1,11 +1,20 @@
 <template>
   <div ref="scrollbarRef" :class="ns.b()">
-    <div ref="wrapRef" :class="wrapKls" :style="style" @scroll="handleScroll">
+    <div
+      ref="wrapRef"
+      :class="wrapKls"
+      :style="wrapStyle"
+      @scroll="handleScroll"
+    >
       <component
         :is="tag"
+        :id="id"
         ref="resizeRef"
         :class="resizeKls"
         :style="viewStyle"
+        :role="role"
+        :aria-label="ariaLabel"
+        :aria-orientation="ariaOrientation"
       >
         <slot />
       </component>
@@ -67,7 +76,7 @@ const barRef = ref<BarInstance>()
 const ratioY = ref(1)
 const ratioX = ref(1)
 
-const style = computed<StyleValue>(() => {
+const wrapStyle = computed<StyleValue>(() => {
   const style: CSSProperties = {}
   if (props.height) style.height = addUnit(props.height)
   if (props.maxHeight) style.maxHeight = addUnit(props.maxHeight)

@@ -23,4 +23,8 @@
     --vp-tag-color: var(--purple-color);
     --vp-tag-border-color: var(--purple-color-light);
   }
+  &.required {
+    --vp-tag-color: var(--el-color-success);
+    --vp-tag-border-color: var(--el-color-success);
+  }
 }

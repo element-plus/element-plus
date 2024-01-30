@@ -96,14 +96,17 @@ export const formProps = buildProps({
   /**
    * @description Whether to hide required fields should have a red asterisk (star) beside their labels.
    */
-  hideRequiredAsterisk: {
-    type: Boolean,
-    default: false,
-  },
+  hideRequiredAsterisk: Boolean,
   /**
    * @description When validation fails, scroll to the first error form entry.
    */
   scrollToError: Boolean,
+  /**
+   * @description When validation fails, it scrolls to the first error item based on the scrollIntoView option.
+   */
+  scrollIntoViewOptions: {
+    type: [Object, Boolean],
+  },
 } as const)
 export type FormProps = ExtractPropTypes<typeof formProps>
 export type FormMetaProps = ExtractPropTypes<typeof formMetaProps>

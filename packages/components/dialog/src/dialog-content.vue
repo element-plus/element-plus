@@ -1,20 +1,11 @@
 <template>
-  <div
-    :ref="composedDialogRef"
-    :class="[
-      ns.b(),
-      ns.is('fullscreen', fullscreen),
-      ns.is('draggable', draggable),
-      ns.is('align-center', alignCenter),
-      { [ns.m('center')]: center },
-      customClass,
-    ]"
-    :style="style"
-    tabindex="-1"
-  >
-    <header ref="headerRef" :class="ns.e('header')">
+  <div :ref="composedDialogRef" :class="dialogKls" :style="style" tabindex="-1">
+    <header
+      ref="headerRef"
+      :class="[ns.e('header'), { 'show-close': showClose }]"
+    >
       <slot name="header">
-        <span role="heading" :class="ns.e('title')">
+        <span role="heading" :aria-level="ariaLevel" :class="ns.e('title')">
           {{ title }}
         </span>
       </slot>
@@ -58,8 +49,17 @@ defineEmits(dialogContentEmits)
 const { dialogRef, headerRef, bodyId, ns, style } = inject(dialogInjectionKey)!
 const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
 
+const dialogKls = computed(() => [
+  ns.b(),
+  ns.is('fullscreen', props.fullscreen),
+  ns.is('draggable', props.draggable),
+  ns.is('align-center', props.alignCenter),
+  { [ns.m('center')]: props.center },
+])
+
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 
 const draggable = computed(() => props.draggable)
-useDraggable(dialogRef, headerRef, draggable)
+const overflow = computed(() => props.overflow)
+useDraggable(dialogRef, headerRef, draggable, overflow)
 </script>

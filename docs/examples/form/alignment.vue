@@ -25,8 +25,9 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+import type { FormProps } from 'element-plus'
 
-const labelPosition = ref('right')
+const labelPosition = ref<FormProps['labelPosition']>('right')
 
 const formLabelAlign = reactive({
   name: '',

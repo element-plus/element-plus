@@ -2,7 +2,7 @@
 import { computed, nextTick, toRefs, watch } from 'vue'
 import { isEqual, pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isFunction } from '@element-plus/utils'
+import { escapeStringRegexp, isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
 import {
@@ -112,6 +112,13 @@ export const useTree = (
     return options
   })
 
+  const cacheOptionsMap = computed(() => {
+    return cacheOptions.value.reduce(
+      (prev, next) => ({ ...prev, [next.value]: next }),
+      {}
+    )
+  })
+
   return {
     ...pick(toRefs(props), Object.keys(ElTree.props)),
     ...attrs,
@@ -149,7 +156,8 @@ export const useTree = (
       if (props.filterNodeMethod)
         return props.filterNodeMethod(value, data, node)
       if (!value) return true
-      return getNodeValByProp('label', data)?.includes(value)
+      const regexp = new RegExp(escapeStringRegexp(value), 'i')
+      return regexp.test(getNodeValByProp('label', data) || '')
     },
     onNodeClick: (data, node, e) => {
       attrs.onNodeClick?.(data, node, e)
@@ -160,26 +168,40 @@ export const useTree = (
       // now `checkOnClickNode` is false, only no checkbox and `checkStrictly` or `isLeaf`
       if (!props.showCheckbox && (props.checkStrictly || node.isLeaf)) {
         if (!getNodeValByProp('disabled', data)) {
-          const option = select.value?.options.get(
+          const option = select.value?.states.options.get(
             getNodeValByProp('value', data)
           )
-          select.value?.handleOptionSelect(option, true)
+          select.value?.handleOptionSelect(option)
         }
       } else if (props.expandOnClickNode) {
         e.proxy.handleExpandIconClick()
       }
     },
     onCheck: (data, params) => {
-      attrs.onCheck?.(data, params)
+      // ignore when no checkbox, like only `checkOnClickNode` is true
+      if (!props.showCheckbox) return
 
       const dataValue = getNodeValByProp('value', data)
+
+      // fix: checkedKeys has not cached keys
+      const uncachedCheckedKeys = params.checkedKeys
+      const cachedKeys = props.multiple
+        ? toValidArray(props.modelValue).filter(
+            (item) =>
+              item in cacheOptionsMap.value &&
+              !tree.value.getNode(item) &&
+              !uncachedCheckedKeys.includes(item)
+          )
+        : []
+      const checkedKeys = uncachedCheckedKeys.concat(cachedKeys)
+
       if (props.checkStrictly) {
         emit(
           UPDATE_MODEL_EVENT,
           // Checking for changes may come from `check-on-node-click`
           props.multiple
-            ? params.checkedKeys
-            : params.checkedKeys.includes(dataValue)
+            ? checkedKeys
+            : checkedKeys.includes(dataValue)
             ? dataValue
             : undefined
         )
@@ -221,6 +243,18 @@ export const useTree = (
           )
         }
       }
+
+      nextTick(() => {
+        const checkedKeys = toValidArray(props.modelValue)
+        tree.value.setCheckedKeys(checkedKeys)
+
+        attrs.onCheck?.(data, {
+          checkedKeys: tree.value.getCheckedKeys(),
+          checkedNodes: tree.value.getCheckedNodes(),
+          halfCheckedKeys: tree.value.getHalfCheckedKeys(),
+          halfCheckedNodes: tree.value.getHalfCheckedNodes(),
+        })
+      })
     },
 
     // else

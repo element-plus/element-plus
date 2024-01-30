@@ -16,9 +16,7 @@ import { ref, watch } from 'vue'
 import { ElTree } from 'element-plus'
 
 interface Tree {
-  id: number
-  label: string
-  children?: Tree[]
+  [key: string]: any
 }
 
 const filterText = ref('')

@@ -1,5 +1,3 @@
-@use 'sass:map';
-
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
@@ -54,7 +52,7 @@
 
       .#{$namespace}-message__content {
         color: getCssVar('message', 'text-color');
-        overflow-wrap: anywhere;
+        overflow-wrap: break-word;
       }
     }
 

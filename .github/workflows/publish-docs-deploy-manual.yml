@@ -57,6 +57,7 @@ jobs:
         run: pnpm docs:build
         env:
           DOC_ENV: production
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.3.4

@@ -2,7 +2,7 @@ import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { debugWarn } from '@element-plus/utils'
-import { Checked, CircleClose } from '@element-plus/icons-vue'
+import { Checked, CircleClose, Hide, View } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import Switch from '../src/switch.vue'
 import type { VueWrapper } from '@vue/test-utils'
@@ -310,6 +310,32 @@ describe('Switch.vue', () => {
     expect(value.value).toEqual(true)
   })
 
+  test('custom action icon', async () => {
+    const value = ref(true)
+    const wrapper = mount(() => (
+      <div>
+        <Switch
+          v-model={value.value}
+          activeActionIcon={View}
+          inactiveActionIcon={Hide}
+        />
+      </div>
+    ))
+
+    const coreWrapper = wrapper.find('.el-switch__core')
+    const switchWrapper = wrapper.findComponent(Switch)
+    const switchVm = switchWrapper.vm
+    const inputEl = switchVm.$el.querySelector('input')
+
+    expect(switchWrapper.classes('is-checked')).toEqual(true)
+    expect(inputEl.checked).toEqual(true)
+    expect(wrapper.findComponent(View).exists()).toBe(true)
+
+    await coreWrapper.trigger('click')
+    expect(switchWrapper.classes('is-checked')).toEqual(false)
+    expect(inputEl.checked).toEqual(false)
+    expect(wrapper.findComponent(Hide).exists()).toBe(true)
+  })
   describe('form item accessibility integration', () => {
     test('automatic id attachment', async () => {
       const wrapper = mount(() => (
@@ -353,6 +379,31 @@ describe('Switch.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    test('custom switch action slots', async () => {
+      const value = ref(true)
+      const wrapper = mount({
+        setup: () => () =>
+          (
+            <Switch
+              v-model={value.value}
+              v-slots={{
+                'active-action': () => (
+                  <span class="custom-active-action">T</span>
+                ),
+                'inactive-action': () => (
+                  <span class="custom-inactive-action">F</span>
+                ),
+              }}
+            />
+          ),
+      })
+      await nextTick()
+
+      const coreWrapper = wrapper.find('.el-switch__core')
+      const actionWrapper = coreWrapper.find('.el-switch__action')
+      expect(actionWrapper.find('.custom-active-action').exists()).toBeTruthy()
     })
   })
 })

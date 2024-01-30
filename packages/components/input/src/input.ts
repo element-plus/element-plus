@@ -40,6 +40,18 @@ export const inputProps = buildProps({
     default: '',
   },
   /**
+   * @description same as `maxlength` in native input
+   */
+  maxlength: {
+    type: [String, Number],
+  },
+  /**
+   * @description same as `minlength` in native input
+   */
+  minlength: {
+    type: [String, Number],
+  },
+  /**
    * @description type of input
    */
   type: {
@@ -160,11 +172,18 @@ export const inputProps = buildProps({
     default: true,
   },
   /**
-   * @description input or texearea element style
+   * @description input or textarea element style
    */
   inputStyle: {
     type: definePropType<StyleValue>([Object, Array, String]),
     default: () => mutable({} as const),
+  },
+  /**
+   * @description native input autofocus
+   */
+  autofocus: {
+    type: Boolean,
+    default: false,
   },
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>

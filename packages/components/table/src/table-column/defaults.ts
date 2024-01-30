@@ -49,6 +49,7 @@ interface TableColumnCtx<T> {
   filters: Filters
   filterPlacement: string
   filterMultiple: boolean
+  filterClassName: string
   index: number | ((index: number) => number)
   sortOrders: ('ascending' | 'descending' | null)[]
   renderCell: (data: any) => void
@@ -113,9 +114,12 @@ export default {
   columnKey: String,
   align: String,
   headerAlign: String,
-  showOverflowTooltip: [Boolean, Object] as PropType<
-    TableColumnCtx<DefaultRow>['showOverflowTooltip']
-  >,
+  showOverflowTooltip: {
+    type: [Boolean, Object] as PropType<
+      TableColumnCtx<DefaultRow>['showOverflowTooltip']
+    >,
+    default: undefined,
+  },
   fixed: [Boolean, String],
   formatter: Function as PropType<TableColumnCtx<DefaultRow>['formatter']>,
   selectable: Function as PropType<TableColumnCtx<DefaultRow>['selectable']>,
@@ -130,6 +134,7 @@ export default {
     type: Boolean,
     default: true,
   },
+  filterClassName: String,
   index: [Number, Function] as PropType<TableColumnCtx<DefaultRow>['index']>,
   sortOrders: {
     type: Array as PropType<TableColumnCtx<DefaultRow>['sortOrders']>,

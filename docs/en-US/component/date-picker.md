@@ -143,60 +143,75 @@ The default locale of is English, if you need to use other languages, please che
 
 Note, date time locale (month name, first day of the week ...) are also configured in localization.
 
-## Attributes
+## API
 
-| Name                  | Description                                                                                           | Type                                               | Accepted Values                                                          | Default     |
-| --------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------ | ----------- |
-| model-value / v-model | binding value, if it is an array, the length should be 2                                              | Date / number / string / Array                     | —                                                                        | —           |
-| readonly              | whether DatePicker is read only                                                                       | boolean                                            | —                                                                        | false       |
-| disabled              | whether DatePicker is disabled                                                                        | boolean                                            | —                                                                        | false       |
-| size                  | size of Input                                                                                         | string                                             | large/default/small                                                      | default     |
-| editable              | whether the input is editable                                                                         | boolean                                            | —                                                                        | true        |
-| clearable             | whether to show clear button                                                                          | boolean                                            | —                                                                        | true        |
-| placeholder           | placeholder in non-range mode                                                                         | string                                             | —                                                                        | —           |
-| start-placeholder     | placeholder for the start date in range mode                                                          | string                                             | —                                                                        | —           |
-| end-placeholder       | placeholder for the end date in range mode                                                            | string                                             | —                                                                        | —           |
-| type                  | type of the picker                                                                                    | string                                             | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date        |
-| format                | format of the displayed value in the input box                                                        | string                                             | see [date formats](/en-US/component/date-picker#date-formats)            | YYYY-MM-DD  |
-| popper-class          | custom class name for DatePicker's dropdown                                                           | string                                             | —                                                                        | —           |
-| popper-options        | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                      | object                                             | —                                                                        | —           |
-| range-separator       | range separator                                                                                       | string                                             | —                                                                        | '-'         |
-| default-value         | optional, default date of the calendar                                                                | Date / [Date, Date]                                | —                                                                        | —           |
-| default-time          | optional, the time value to use when selecting date range                                             | Date / [Date, Date]                                | —                                                                        | —           |
-| value-format          | optional, format of binding value. If not specified, the binding value will be a Date object          | string                                             | see [date formats](/en-US/component/date-picker#date-formats)            | —           |
-| id                    | same as `id` in native input                                                                          | string / [string, string]                          | —                                                                        | —           |
-| name                  | same as `name` in native input                                                                        | string                                             | —                                                                        | —           |
-| unlink-panels         | unlink two date-panels in range-picker                                                                | boolean                                            | —                                                                        | false       |
-| prefix-icon           | custom prefix icon component                                                                          | `string \| Component`                              | —                                                                        | Date        |
-| clear-icon            | custom clear icon component                                                                           | `string \| Component`                              | —                                                                        | CircleClose |
-| validate-event        | whether to trigger form validation                                                                    | boolean                                            | —                                                                        | true        |
-| disabled-date         | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function                                           | —                                                                        | —           |
-| shortcuts             | an object array to set shortcut options                                                               | `Array<{ text: string, value: Date \| Function }>` | —                                                                        | —           |
-| cell-class-name       | set custom className                                                                                  | Function(Date)                                     | —                                                                        | —           |
-| teleported            | whether date-picker dropdown is teleported to the body                                                | boolean                                            | true / false                                                             | true        |
+### Attributes
 
-## Events
+| Name                  | Description                                                                                                                  | Type                                                                                                                      | Default       |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| model-value / v-model | binding value, if it is an array, the length should be 2                                                                     | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [string, string]`                                               | ''            |
+| readonly              | whether DatePicker is read only                                                                                              | ^[boolean]                                                                                                                | false         |
+| disabled              | whether DatePicker is disabled                                                                                               | ^[boolean]                                                                                                                | false         |
+| size                  | size of Input                                                                                                                | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                            | —             |
+| editable              | whether the input is editable                                                                                                | ^[boolean]                                                                                                                | true          |
+| clearable             | whether to show clear button                                                                                                 | ^[boolean]                                                                                                                | true          |
+| placeholder           | placeholder in non-range mode                                                                                                | ^[string]                                                                                                                 | ''            |
+| start-placeholder     | placeholder for the start date in range mode                                                                                 | ^[string]                                                                                                                 | —             |
+| end-placeholder       | placeholder for the end date in range mode                                                                                   | ^[string]                                                                                                                 | —             |
+| type                  | type of the picker                                                                                                           | ^[enum]`'year' \| 'month' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange' \| 'monthrange'` | date          |
+| format                | format of the displayed value in the input box                                                                               | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                                                   | YYYY-MM-DD    |
+| popper-class          | custom class name for DatePicker's dropdown                                                                                  | ^[string]                                                                                                                 | —             |
+| popper-options        | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                                             | ^[object]`Partial<PopperOptions>`                                                                                         | {}            |
+| range-separator       | range separator                                                                                                              | ^[string]                                                                                                                 | '-'           |
+| default-value         | optional, default date of the calendar                                                                                       | ^[object]`Date \| [Date, Date]`                                                                                           | —             |
+| default-time          | optional, the time value to use when selecting date range                                                                    | ^[object]`Date \| [Date, Date]`                                                                                           | —             |
+| value-format          | optional, format of binding value. If not specified, the binding value will be a Date object                                 | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                                                   | —             |
+| id                    | same as `id` in native input                                                                                                 | ^[string] / ^[object]`[string, string]`                                                                                   | —             |
+| name                  | same as `name` in native input                                                                                               | ^[string] / ^[object]`[string, string]`                                                                                   | ''            |
+| unlink-panels         | unlink two date-panels in range-picker                                                                                       | ^[boolean]                                                                                                                | false         |
+| prefix-icon           | custom prefix icon component. By default, if the value of `type` is `TimeLikeType`, the value is `Clock`, else is `Calendar` | ^[string] / ^[object]`Component`                                                                                          | ''            |
+| clear-icon            | custom clear icon component                                                                                                  | ^[string] / ^[object]`Component`                                                                                          | `CircleClose` |
+| validate-event        | whether to trigger form validation                                                                                           | ^[boolean]                                                                                                                | true          |
+| disabled-date         | a function determining if a date is disabled with that date as its parameter. Should return a Boolean                        | ^[Function]`(data: Date) => boolean`                                                                                      | —             |
+| shortcuts             | an object array to set shortcut options                                                                                      | ^[object]`Array<{ text: string, value: Date \| Function }>`                                                               | []            |
+| cell-class-name       | set custom className                                                                                                         | ^[Function]`(data: Date) => string`                                                                                       | —             |
+| teleported            | whether date-picker dropdown is teleported to the body                                                                       | ^[boolean]                                                                                                                | true          |
 
-| Name            | Description                                                               | Parameters              |
-| --------------- | ------------------------------------------------------------------------- | ----------------------- |
-| change          | triggers when user confirms the value                                     | `(val: typeof v-model)` |
-| blur            | triggers when Input blurs                                                 | `(e: FocusEvent)`       |
-| focus           | triggers when Input focuses                                               | `(e: FocusEvent)`       |
-| calendar-change | triggers when the calendar selected date is changed. Only for `daterange` | `(val: [Date, Date])`   |
-| panel-change    | triggers when the navigation button click.                                | `(date, mode, view)`    |
-| visible-change  | triggers when the DatePicker's dropdown appears/disappears                | `(visibility: boolean)` |
+### Events
 
-## Methods
+| Name            | Description                                                | Type                                                                                      |
+| --------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| change          | triggers when user confirms the value                      | ^[Function]`(val: typeof v-model) => void`                                                |
+| blur            | triggers when Input blurs                                  | ^[Function]`(e: FocusEvent) => void`                                                      |
+| focus           | triggers when Input focuses                                | ^[Function]`(e: FocusEvent) => void`                                                      |
+| calendar-change | triggers when the calendar selected date is changed.       | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
+| panel-change    | triggers when the navigation button click.                 | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
+| visible-change  | triggers when the DatePicker's dropdown appears/disappears | ^[Function]`(visibility: boolean) => void`                                                |
 
-| Method      | Description                 | Parameters |
-| ----------- | --------------------------- | ---------- |
-| focus       | focus the Input component   | —          |
-| handleOpen  | open the DatePicker popper  | —          |
-| handleClose | close the DatePicker popper | —          |
-
-## Slots
+### Slots
 
 | Name            | Description                    |
 | --------------- | ------------------------------ |
 | default         | custom cell content            |
 | range-separator | custom range separator content |
+
+### Exposes
+
+| Name                  | Description                 | Type                                                                           |
+| --------------------- | --------------------------- | ------------------------------------------------------------------------------ |
+| focus                 | focus the Input component   | ^[Function]`(focusStartInput?: boolean, isIgnoreFocusEvent?: boolean) => void` |
+| handleOpen ^(2.2.16)  | open the DatePicker popper  | ^[Function]`() => void`                                                        |
+| handleClose ^(2.2.16) | close the DatePicker popper | ^[Function]`() => void`                                                        |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+import type { Options as PopperOptions } from '@popperjs/core'
+
+type TimeLikeType = 'datetime' | 'datetimerange'
+```
+
+</details>

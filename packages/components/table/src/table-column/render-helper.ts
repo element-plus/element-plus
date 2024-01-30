@@ -5,6 +5,7 @@ import {
   getCurrentInstance,
   h,
   ref,
+  renderSlot,
   unref,
   watchEffect,
 } from 'vue'
@@ -119,8 +120,7 @@ function useRender<T>(
       column.renderHeader = (scope) => {
         // help render
         instance.columnConfig.value['label']
-        const renderHeader = slots.header
-        return renderHeader ? renderHeader(scope) : column.label
+        return renderSlot(slots, 'header', scope, () => [column.label])
       }
     }
 
@@ -152,10 +152,13 @@ function useRender<T>(
         } else {
           children = originRenderCell(data)
         }
+
+        const { columns } = owner.value.store.states
+        const firstUserColumnIndex = columns.value.findIndex(
+          (item) => item.type === 'default'
+        )
         const shouldCreatePlaceholder =
-          hasTreeColumn.value &&
-          data.cellIndex === 0 &&
-          data.column.type !== 'selection'
+          hasTreeColumn.value && data.cellIndex === firstUserColumnIndex
         const prefix = treeCellPrefix(data, shouldCreatePlaceholder)
         const props = {
           class: 'cell',

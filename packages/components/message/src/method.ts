@@ -1,7 +1,7 @@
 import { createVNode, render } from 'vue'
-import { isClient } from '@vueuse/core'
 import {
   debugWarn,
+  isClient,
   isElement,
   isFunction,
   isNumber,

@@ -62,7 +62,7 @@
 
     @include utils-inline-flex-center;
 
-    i {
+    > i {
       font-size: 28px;
       color: getCssVar('text-color', 'secondary');
     }

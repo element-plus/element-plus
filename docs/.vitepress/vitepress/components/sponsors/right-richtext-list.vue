@@ -46,7 +46,7 @@ const onItemClick = (item: any) => {
           </div>
           <div
             :class="[
-              'm-t-2px font-400 text-12px color-#909399',
+              'm-t-2px font-400 text-12px color-#909399 break-all',
               isDark && '!color-#A3A6AD',
             ]"
           >

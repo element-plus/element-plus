@@ -22,9 +22,11 @@
       @node-expand="handleNodeExpand"
     />
     <div v-if="isEmpty" :class="ns.e('empty-block')">
-      <span :class="ns.e('empty-text')">{{
-        emptyText ?? t('el.tree.emptyText')
-      }}</span>
+      <slot name="empty">
+        <span :class="ns.e('empty-text')">
+          {{ emptyText ?? t('el.tree.emptyText') }}
+        </span>
+      </slot>
     </div>
     <div
       v-show="dragState.showDropIndicator"

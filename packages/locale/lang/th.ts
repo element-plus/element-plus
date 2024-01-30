@@ -102,6 +102,11 @@ export default {
       clearFilter: 'ทั้งหมด',
       sumText: 'รวม',
     },
+    tour: {
+      next: 'ถัดไป',
+      previous: 'ย้อนกลับ',
+      finish: 'เสร็จสิ้น',
+    },
     tree: {
       emptyText: 'ไม่พบข้อมูล',
     },

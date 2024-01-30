@@ -1,4 +1,4 @@
-import { isClient } from '@vueuse/core'
+import { isClient } from '@element-plus/utils'
 
 let isDragging = false
 

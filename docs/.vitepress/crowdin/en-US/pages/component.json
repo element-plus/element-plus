@@ -32,7 +32,8 @@
       },
       {
         "link": "/text",
-        "text": "Text"
+        "text": "Text",
+        "promotion": "2.3.0"
       },
       {
         "link": "/scrollbar",
@@ -215,6 +216,11 @@
         "text": "Timeline"
       },
       {
+        "link": "/tour",
+        "text": "Tour",
+        "promotion": "2.5.0"
+      },
+      {
         "link": "/tree",
         "text": "Tree"
       },
@@ -322,6 +328,11 @@
       {
         "link": "/divider",
         "text": "Divider"
+      },
+      {
+        "link": "/watermark",
+        "text": "Watermark",
+        "promotion": "2.4.0"
       }
     ]
   }

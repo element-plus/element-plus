@@ -1,5 +1,11 @@
 <template>
-  <el-select v-model="value" class="m-2" placeholder="Select" size="large">
+  <el-select
+    v-model="value"
+    class="m-2"
+    placeholder="Select"
+    size="large"
+    style="width: 240px"
+  >
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -7,7 +13,12 @@
       :value="item.value"
     />
   </el-select>
-  <el-select v-model="value" class="m-2" placeholder="Select">
+  <el-select
+    v-model="value"
+    class="m-2"
+    placeholder="Select"
+    style="width: 240px"
+  >
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -15,7 +26,13 @@
       :value="item.value"
     />
   </el-select>
-  <el-select v-model="value" class="m-2" placeholder="Select" size="small">
+  <el-select
+    v-model="value"
+    class="m-2"
+    placeholder="Select"
+    size="small"
+    style="width: 240px"
+  >
     <el-option
       v-for="item in options"
       :key="item.value"

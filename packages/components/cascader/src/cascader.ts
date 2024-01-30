@@ -60,6 +60,13 @@ export const cascaderProps = buildProps({
    */
   collapseTags: Boolean,
   /**
+   * @description The max tags number to be shown. To use this, collapse-tags must be true
+   */
+  maxCollapseTags: {
+    type: Number,
+    default: 1,
+  },
+  /**
    * @description native input id
    */
   collapseTagsTooltip: {

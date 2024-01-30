@@ -48,6 +48,10 @@ const formClasses = computed(() => {
   ]
 })
 
+const getField: FormContext['getField'] = (prop) => {
+  return fields.find((field) => field.prop === prop)
+}
+
 const addField: FormContext['addField'] = (field) => {
   fields.push(field)
 }
@@ -145,7 +149,7 @@ const validateField: FormContext['validateField'] = async (
 const scrollToField = (prop: FormItemProp) => {
   const field = filterFields(fields, prop)[0]
   if (field) {
-    field.$el?.scrollIntoView()
+    field.$el?.scrollIntoView(props.scrollIntoViewOptions)
   }
 }
 
@@ -168,6 +172,7 @@ provide(
     resetFields,
     clearValidate,
     validateField,
+    getField,
     addField,
     removeField,
 

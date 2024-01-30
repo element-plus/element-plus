@@ -92,7 +92,7 @@ radio/with-borders
 | text-color            | font color when button is active                  | ^[string]                          | #ffffff |
 | fill                  | border and background color when button is active | ^[string]                          | #409EFF |
 | validate-event        | whether to trigger form validation                | ^[boolean]                         | true    |
-| label<A11yTag />      | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
+| label ^(a11y)         | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
 | name                  | native `name` attribute                           | ^[string]                          | —       |
 | id                    | native `id` attribute                             | ^[string]                          | —       |
 

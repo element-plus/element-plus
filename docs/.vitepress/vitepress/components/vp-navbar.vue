@@ -71,4 +71,9 @@ const currentLink = computed(() => {
     height: 100%;
   }
 }
+.dark {
+  .logo {
+    filter: drop-shadow(2px 2px 6px #409eff);
+  }
+}
 </style>

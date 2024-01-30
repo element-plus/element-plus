@@ -110,7 +110,7 @@ import ElIcon from '@element-plus/components/icon'
 import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useFormSize } from '@element-plus/components/form'
-import { addUnit, isArray } from '@element-plus/utils'
+import { addUnit, ensureArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
@@ -154,6 +154,7 @@ export default defineComponent({
       maxHeight: addUnit(props.maxHeight),
     }))
     const dropdownTriggerKls = computed(() => [ns.m(dropdownSize.value)])
+    const trigger = computed(() => ensureArray(props.trigger))
 
     const defaultTriggerId = useId().value
     const triggerId = computed<string>(() => {
@@ -165,9 +166,8 @@ export default defineComponent({
     // completely different element. For a permanent solution, remove all calls to any "element.focus()"
     // that are triggered through pointer enter/leave events.
     watch(
-      [triggeringElementRef, toRef(props, 'trigger')],
+      [triggeringElementRef, trigger],
       ([triggeringElement, trigger], [prevTriggeringElement]) => {
-        const triggerArray = isArray(trigger) ? trigger : [trigger]
         if (prevTriggeringElement?.$el?.removeEventListener) {
           prevTriggeringElement.$el.removeEventListener(
             'pointerenter',
@@ -182,7 +182,7 @@ export default defineComponent({
         }
         if (
           triggeringElement?.$el?.addEventListener &&
-          triggerArray.includes('hover')
+          trigger.includes('hover')
         ) {
           triggeringElement.$el.addEventListener(
             'pointerenter',
@@ -231,7 +231,7 @@ export default defineComponent({
     function onItemLeave() {
       const contentEl = unref(contentRef)
 
-      contentEl?.focus()
+      trigger.value.includes('hover') && contentEl?.focus()
       currentTabId.value = null
     }
 

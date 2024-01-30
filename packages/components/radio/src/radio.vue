@@ -27,6 +27,7 @@
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
+        @click.stop
       />
       <span :class="ns.e('inner')" />
     </span>

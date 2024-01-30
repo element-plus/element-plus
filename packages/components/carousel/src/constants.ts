@@ -28,6 +28,7 @@ export type CarouselContext = {
   addItem: (item: CarouselItemContext) => void
   removeItem: (uid: number) => void
   setActiveItem: (index: number) => void
+  setContainerHeight: (height: number) => void
 }
 
 export const carouselContextKey: InjectionKey<CarouselContext> =
