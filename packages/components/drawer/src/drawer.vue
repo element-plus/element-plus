@@ -129,6 +129,9 @@ const {
   titleId,
   bodyId,
   onModalClick,
+  onOpenAutoFocus,
+  onCloseAutoFocus,
+  onFocusoutPrevented,
   onCloseRequested,
   handleClose,
 } = useDialog(props, drawerRef)
