@@ -534,7 +534,7 @@ describe('Select', () => {
           { id: 3, label: 'Option C', desc: 'Option C - 230506' },
           { id: 4, label: 'Option A', desc: 'Option A - 230507' },
         ],
-        value: { id: 3, label: 'Option A', desc: 'Option A - 230506' },
+        value: { id: 3 },
       })
     )
     await nextTick()
