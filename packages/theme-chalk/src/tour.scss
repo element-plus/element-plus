@@ -159,7 +159,12 @@
 
     .#{$namespace}-button--default {
       color: getCssVar('color', 'primary');
+      border-color: getCssVar('color', 'primary');
       background: #fff;
+    }
+
+    .#{$namespace}-button--primary {
+      border-color: #fff;
     }
 
     @include b(tour-indicator) {
