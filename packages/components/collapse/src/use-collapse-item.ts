@@ -22,10 +22,6 @@ export const useCollapseItem = (props: CollapseItemProps) => {
     collapse?.activeNames.value.includes(unref(name))
   )
 
-  const iconPosition = computed(() => {
-    return unref(collapse?.iconPosition) ?? 'right'
-  })
-
   const handleFocus = () => {
     setTimeout(() => {
       if (!isClick.value) {
@@ -51,7 +47,6 @@ export const useCollapseItem = (props: CollapseItemProps) => {
     focusing,
     id,
     isActive,
-    iconPosition,
     handleFocus,
     handleHeaderClick,
     handleEnterClick,

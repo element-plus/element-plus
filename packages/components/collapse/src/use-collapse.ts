@@ -17,10 +17,6 @@ export const useCollapse = (
 ) => {
   const activeNames = ref(ensureArray(props.modelValue))
 
-  const iconPosition = computed(() => {
-    return props.iconPosition ?? 'right'
-  })
-
   const setActiveNames = (_activeNames: CollapseActiveName[]) => {
     activeNames.value = _activeNames
     const value = props.accordion ? activeNames.value[0] : activeNames.value
@@ -53,19 +49,17 @@ export const useCollapse = (
   provide(collapseContextKey, {
     activeNames,
     handleItemClick,
-    iconPosition,
   })
   return {
     activeNames,
     setActiveNames,
-    iconPosition,
   }
 }
 
-export const useCollapseDOM = (props: CollapseProps) => {
+export const useCollapseDOM = () => {
   const ns = useNamespace('collapse')
 
-  const rootKls = computed(() => [ns.b(), [ns.m(`icon-${props.iconPosition}`)]])
+  const rootKls = computed(() => ns.b())
   return {
     rootKls,
   }

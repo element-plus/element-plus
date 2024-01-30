@@ -8,22 +8,6 @@
 
   border-top: 1px solid getCssVar('collapse-border-color');
   border-bottom: 1px solid getCssVar('collapse-border-color');
-
-  @include m(icon-left) {
-    @include b(collapse-item) {
-      @include e(header) {
-        justify-content: flex-start;
-      }
-    }
-  }
-
-  @include m(icon-right) {
-    @include b(collapse-item) {
-      @include e(header) {
-        justify-content: space-between;
-      }
-    }
-  }
 }
 
 @include b(collapse-item) {
@@ -50,7 +34,7 @@
     transition: border-bottom-color getCssVar('transition-duration');
     outline: none;
     @include e(arrow) {
-      margin: 0 8px;
+      margin: 0 8px 0 auto;
       transition: transform getCssVar('transition-duration');
       font-weight: 300;
       @include when(active) {

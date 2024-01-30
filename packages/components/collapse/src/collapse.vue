@@ -14,16 +14,14 @@ defineOptions({
 const props = defineProps(collapseProps)
 const emit = defineEmits(collapseEmits)
 
-const { activeNames, setActiveNames, iconPosition } = useCollapse(props, emit)
+const { activeNames, setActiveNames } = useCollapse(props, emit)
 
-const { rootKls } = useCollapseDOM(props)
+const { rootKls } = useCollapseDOM()
 
 defineExpose({
   /** @description active names */
   activeNames,
   /** @description set active names */
   setActiveNames,
-  /** @description set active icon position */
-  iconPosition,
 })
 </script>
