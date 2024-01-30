@@ -156,7 +156,7 @@
                 @keydown.up.stop.prevent="navigateOptions('prev')"
                 @keydown.esc.stop.prevent="handleEsc"
                 @keydown.enter.stop.prevent="selectOption"
-                @keydown.delete.stop="deletePrevTag"
+                @keydown.delete.stop.prevent="deletePrevTag"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
