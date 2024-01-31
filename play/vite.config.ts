@@ -40,6 +40,13 @@ export default defineConfig(async ({ mode }) => {
   ).map((dep) => dep.replace(/\.js$/, ''))
 
   return {
+    // css: {
+    //   preprocessorOptions: {
+    //     scss: {
+    //       additionalData: `@use "/styles/custom.scss" as *;`,
+    //     },
+    //   },
+    // },
     resolve: {
       alias: [
         {

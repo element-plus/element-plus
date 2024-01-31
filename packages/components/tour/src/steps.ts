@@ -1,6 +1,5 @@
 import { defineComponent } from 'vue'
 import { flattedChildren, isArray } from '@element-plus/utils'
-import { getNormalizedProps, isSameSteps } from './helper'
 import type { FlattenVNodes } from '@element-plus/utils'
 import type { Component, VNode } from 'vue'
 
@@ -12,14 +11,14 @@ export default defineComponent({
       default: 0,
     },
   },
-  emits: ['update-steps'],
+  emits: ['update-total'],
   setup(props, { slots, emit }) {
-    let cachedSteps: any[] = []
+    let cacheTotal = 0
 
     return () => {
       const children = slots.default?.()!
-      const filteredSteps: any[] = []
       const result: VNode[] = []
+      let total = 0
 
       function filterSteps(children?: FlattenVNodes) {
         if (!isArray(children)) return
@@ -27,9 +26,8 @@ export default defineComponent({
           const name = ((item?.type || {}) as Component)?.name
 
           if (name === 'ElTourStep') {
-            const booleanKeys = ['showArrow', 'mask', 'scrollIntoViewOptions']
-            filteredSteps.push(getNormalizedProps(item, booleanKeys))
             result.push(item)
+            total += 1
           }
         })
       }
@@ -38,9 +36,9 @@ export default defineComponent({
         filterSteps(flattedChildren(children![0]?.children))
       }
 
-      if (!isSameSteps(filteredSteps, cachedSteps)) {
-        cachedSteps = filteredSteps
-        emit('update-steps', filteredSteps)
+      if (cacheTotal !== total) {
+        cacheTotal = total
+        emit('update-total', total)
       }
 
       if (result.length) {

@@ -18,6 +18,9 @@
           :trapped="visible"
           :focus-trap-el="drawerRef"
           :focus-start-el="focusStartRef"
+          @focus-after-trapped="onOpenAutoFocus"
+          @focus-after-released="onCloseAutoFocus"
+          @focusout-prevented="onFocusoutPrevented"
           @release-requested="onCloseRequested"
         >
           <div
@@ -126,6 +129,9 @@ const {
   titleId,
   bodyId,
   onModalClick,
+  onOpenAutoFocus,
+  onCloseAutoFocus,
+  onFocusoutPrevented,
   onCloseRequested,
   handleClose,
 } = useDialog(props, drawerRef)
