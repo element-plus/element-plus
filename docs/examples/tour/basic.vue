@@ -4,14 +4,15 @@
   <el-divider />
 
   <el-space>
-    <el-button ref="ref1">upload</el-button>
-    <el-button ref="ref2" type="primary">save</el-button>
+    <el-button ref="ref1">Upload</el-button>
+    <el-button ref="ref2" type="primary">Save</el-button>
     <el-button ref="ref3" :icon="MoreFilled" />
   </el-space>
 
   <el-tour v-model="open">
     <el-tour-step :target="ref1?.$el" title="Upload File">
       <img
+        style="width: 240px"
         src="https://element-plus.org/images/element-plus-logo.svg"
         alt="tour.png"
       />
