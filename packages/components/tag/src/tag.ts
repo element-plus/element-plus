@@ -10,8 +10,8 @@ export const tagProps = buildProps({
    */
   type: {
     type: String,
-    values: ['success', 'info', 'warning', 'danger', ''],
-    default: '',
+    values: ['primary', 'success', 'info', 'warning', 'danger'],
+    default: 'primary',
   },
   /**
    * @description whether Tag can be removed

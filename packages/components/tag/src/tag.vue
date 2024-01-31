@@ -50,7 +50,7 @@ const containerKls = computed(() => {
   return [
     ns.b(),
     ns.is('closable', closable),
-    ns.m(type),
+    ns.m(type || 'primary'),
     ns.m(tagSize.value),
     ns.m(effect),
     ns.is('hit', hit),
