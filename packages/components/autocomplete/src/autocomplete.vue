@@ -246,7 +246,11 @@ const handleFocus = (evt: FocusEvent) => {
     emit('focus', evt)
 
     if (props.triggerOnFocus && !readonly) {
-      debouncedGetData(String(props.modelValue))
+      const stringfiedValue =
+        props.modelValue === null || props.modelValue === undefined
+          ? props.modelValue
+          : String(props.modelValue)
+      debouncedGetData(stringfiedValue)
     }
   } else {
     ignoreFocusEvent = false
