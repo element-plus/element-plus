@@ -36,7 +36,7 @@
       :disabled="disabled"
       :list-type="listType"
       :files="uploadFiles"
-      :crossorigin="props.crossorigin"
+      :crossorigin="crossorigin"
       :handle-preview="onPreview"
       @remove="handleRemove"
     >
