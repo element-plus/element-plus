@@ -63,7 +63,7 @@ export default {
       loading: 'Yuklanmoqda',
       noMatch: 'Mos maʼlumot yoʻq',
       noData: 'Maʼlumot yoʻq',
-      placeholder: 'Tanladizngiz',
+      placeholder: 'Tanlang',
     },
     cascader: {
       noMatch: 'Mos maʼlumot topilmadi',
@@ -76,9 +76,9 @@ export default {
       pagesize: '/sahifa',
       total: 'Barchasi {total} ta',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
+      page: 'Sahifa', // to be translated
+      prev: 'Oldingi sahifaga qaytish', // to be translated
+      next: 'Keyingi sahifaga o`tish', // to be translated
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
@@ -120,8 +120,8 @@ export default {
       title: 'Orqaga',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Ha', // to be translated
+      cancelButtonText: 'Yo`q', // to be translated
     },
   },
 }
