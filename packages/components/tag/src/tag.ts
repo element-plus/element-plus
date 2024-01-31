@@ -28,17 +28,13 @@ export const tagProps = buildProps({
   /**
    * @description background color of the Tag
    */
-  color: {
-    type: String,
-    default: '',
-  },
+  color: String,
   /**
    * @description size of Tag
    */
   size: {
     type: String,
     values: componentSizes,
-    default: '',
   },
   /**
    * @description theme of Tag
