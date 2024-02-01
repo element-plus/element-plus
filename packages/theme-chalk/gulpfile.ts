@@ -1,16 +1,43 @@
 import path from 'path'
 import chalk from 'chalk'
-import { dest, parallel, series, src } from 'gulp'
+import { type TaskFunction, dest, parallel, series, src } from 'gulp'
 import gulpSass from 'gulp-sass'
 import dartSass from 'sass'
 import autoprefixer from 'gulp-autoprefixer'
-import cleanCSS from 'gulp-clean-css'
+import cleanCSS from 'clean-css'
 import rename from 'gulp-rename'
 import consola from 'consola'
 import { epOutput } from '@element-plus/build-utils'
+import type Vinly from 'vinyl'
 
 const distFolder = path.resolve(__dirname, 'dist')
 const distBundle = path.resolve(epOutput, 'theme-chalk')
+
+/**
+ * minify css
+ * @param file `css`文件
+ */
+function doMinifyCss(file: Vinly) {
+  try {
+    const details = new cleanCSS({
+      compatibility: '*',
+      rebaseTo: path.dirname(file.path),
+    }).minify({
+      [file.path]: {
+        styles: file.contents ? file.contents.toString() : '',
+      },
+    })
+    const name = file.path.split(file.base)[1]
+    file.contents = Buffer.from(details.styles)
+    consola.success(
+      `${chalk.cyan(name)}: ${chalk.yellow(
+        details.stats.originalSize / 1000
+      )} KB -> ${chalk.green(details.stats.minifiedSize / 1000)} KB`
+    )
+  } catch (e) {
+    consola.error(e)
+  }
+}
 
 /**
  * compile theme-chalk scss & minify
@@ -23,15 +50,7 @@ function buildThemeChalk() {
   return src(path.resolve(__dirname, 'src/*.scss'))
     .pipe(sass.sync())
     .pipe(autoprefixer({ cascade: false }))
-    .pipe(
-      cleanCSS({}, (details) => {
-        consola.success(
-          `${chalk.cyan(details.name)}: ${chalk.yellow(
-            details.stats.originalSize / 1000
-          )} KB -> ${chalk.green(details.stats.minifiedSize / 1000)} KB`
-        )
-      })
-    )
+    .on('data', doMinifyCss)
     .pipe(
       rename((path) => {
         if (!noElPrefixFile.test(path.basename)) {
@@ -51,15 +70,7 @@ function buildDarkCssVars() {
   return src(path.resolve(__dirname, 'src/dark/css-vars.scss'))
     .pipe(sass.sync())
     .pipe(autoprefixer({ cascade: false }))
-    .pipe(
-      cleanCSS({}, (details) => {
-        consola.success(
-          `${chalk.cyan(details.name)}: ${chalk.yellow(
-            details.stats.originalSize / 1000
-          )} KB -> ${chalk.green(details.stats.minifiedSize / 1000)} KB`
-        )
-      })
-    )
+    .on('data', doMinifyCss)
     .pipe(dest(`${distFolder}/dark`))
 }
 
@@ -80,7 +91,7 @@ export function copyThemeChalkSource() {
   )
 }
 
-export const build = parallel(
+export const build: TaskFunction = parallel(
   copyThemeChalkSource,
   series(buildThemeChalk, buildDarkCssVars, copyThemeChalkBundle)
 )
