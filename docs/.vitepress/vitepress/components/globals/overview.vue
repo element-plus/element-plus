@@ -113,7 +113,7 @@ const toPage = (link: string) => {
 
       .card-content {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(8, 1fr);
         gap: 20px;
 
         ::v-deep(.el-card) {
@@ -141,6 +141,14 @@ const toPage = (link: string) => {
               height: auto;
             }
           }
+        }
+
+        @media (max-width: 3240px) {
+          grid-template-columns: repeat(6, 1fr);
+        }
+
+        @media (max-width: 2160px) {
+          grid-template-columns: repeat(4, 1fr);
         }
 
         @media (max-width: 1440px) {
