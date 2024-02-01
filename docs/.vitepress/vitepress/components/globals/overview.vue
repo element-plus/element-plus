@@ -30,6 +30,15 @@
           >
             <template #header>
               <el-text truncated>{{ item.text }}</el-text>
+              <el-tag
+                v-if="item.promotion"
+                class="promotion"
+                size="small"
+                round
+                effect="plain"
+              >
+                {{ item.promotion }}
+              </el-tag>
             </template>
             <ov-button />
           </el-card>
@@ -103,6 +112,8 @@ const toPage = (link: string) => {
 
           .el-card__header {
             display: flex;
+            justify-content: space-between;
+            gap: 8px;
             padding: 8px 12px;
 
             .el-text {
