@@ -65,15 +65,12 @@ export default defineComponent({
         })
       } else {
         hoveredCellList.forEach((item) => removeClass(item, 'hover-cell'))
+        hoveredCellList.length = 0
       }
       if (!props.store.states.isComplex.value || !isClient) return
 
       rAF(() => {
         // just get first level children; fix #9723
-        // const el = instance?.vnode.el as HTMLElement
-        // const rows = Array.from(el?.children || []).filter((e) =>
-        //   e?.classList.contains(`${ns.e('row')}`)
-        // )
         const oldRow = rows[oldVal]
         const newRow = rows[newVal]
         if (oldRow) {
