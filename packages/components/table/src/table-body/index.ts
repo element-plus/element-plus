@@ -36,7 +36,8 @@ export default defineComponent({
       )
 
       // hover rowSpan > 1 choose the whole row
-      const childNodes = rows[newVal]?.childNodes
+      let rowNum = newVal
+      const childNodes = rows[rowNum]?.childNodes
       if (childNodes?.length) {
         const indexes = Array.from(childNodes).reduce((acc, item, index) => {
           // drop colsSpan
@@ -49,9 +50,9 @@ export default defineComponent({
         }, [])
 
         indexes.forEach((rowIndex) => {
-          while (newVal > 0) {
+          while (rowNum > 0) {
             // find from previous
-            const preChildNodes = rows[newVal - 1]?.childNodes
+            const preChildNodes = rows[rowNum - 1]?.childNodes
             if (
               preChildNodes[rowIndex] &&
               preChildNodes[rowIndex].nodeName === 'TD'
@@ -60,7 +61,7 @@ export default defineComponent({
               hoveredCellList.push(preChildNodes[rowIndex])
               break
             }
-            newVal--
+            rowNum--
           }
         })
       } else {
@@ -73,7 +74,8 @@ export default defineComponent({
         // just get first level children; fix #9723
         const oldRow = rows[oldVal]
         const newRow = rows[newVal]
-        if (oldRow) {
+        // when there is fixed row, hover on rowSpan > 1 should not clear the class
+        if (oldRow && !oldRow.classList.contains('hover-fixed-row')) {
           removeClass(oldRow, 'hover-row')
         }
         if (newRow) {

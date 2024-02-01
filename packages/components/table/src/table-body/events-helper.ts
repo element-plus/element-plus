@@ -70,7 +70,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     while (rowSpan > 1) {
       node = node?.nextSibling
       if (!node || node.nodeName !== 'TR') break
-      toggle(node, 'hover-row')
+      toggle(node, 'hover-row hover-fixed-row')
       rowSpan--
     }
   }
