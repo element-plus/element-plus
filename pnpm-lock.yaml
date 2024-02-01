@@ -614,24 +614,27 @@ importers:
       '@esbuild-kit/cjs-loader':
         specifier: ^2.2.1
         version: 2.2.1
+      '@types/clean-css':
+        specifier: ^4.2.11
+        version: 4.2.11
       '@types/gulp-autoprefixer':
         specifier: ^0.0.33
         version: 0.0.33
-      '@types/gulp-clean-css':
-        specifier: ^4.3.0
-        version: 4.3.0
       '@types/gulp-rename':
         specifier: ^2.0.1
         version: 2.0.1
       '@types/gulp-sass':
         specifier: ^5.0.0
         version: 5.0.0
+      '@types/vinyl':
+        specifier: ^2.0.11
+        version: 2.0.11
+      clean-css:
+        specifier: ^5.3.3
+        version: 5.3.3
       gulp-autoprefixer:
         specifier: ^8.0.0
         version: 8.0.0
-      gulp-clean-css:
-        specifier: ^4.3.0
-        version: 4.3.0
       gulp-rename:
         specifier: ^2.0.0
         version: 2.0.0
@@ -1105,7 +1108,6 @@ packages:
   /@babel/plugin-proposal-async-generator-functions@7.17.12(@babel/core@7.18.2):
     resolution: {integrity: sha512-RWVvqD1ooLKP6IqWTA5GyFVX2isGEgC5iFxKzfYOIy/QEFdxYyCybBDtIGjipHpb9bDWHzcqGqFakf+mVmBTdQ==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1120,7 +1122,6 @@ packages:
   /@babel/plugin-proposal-class-properties@7.17.12(@babel/core@7.18.2):
     resolution: {integrity: sha512-U0mI9q8pW5Q9EaTHFPwSVusPMV/DV9Mm8p7csqROFLtIE9rBF5piLqyrBGigftALrBcsBGu4m38JneAe7ZDLXw==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1134,7 +1135,6 @@ packages:
   /@babel/plugin-proposal-class-static-block@7.18.0(@babel/core@7.18.2):
     resolution: {integrity: sha512-t+8LsRMMDE74c6sV7KShIw13sqbqd58tlqNrsWoWBTIMw7SVQ0cZ905wLNS/FBCy/3PyooRHLFFlfrUNyyz5lA==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-static-block instead.
     peerDependencies:
       '@babel/core': ^7.12.0
     dependencies:
@@ -1149,7 +1149,6 @@ packages:
   /@babel/plugin-proposal-dynamic-import@7.16.7(@babel/core@7.18.2):
     resolution: {integrity: sha512-I8SW9Ho3/8DRSdmDdH3gORdyUuYnk1m4cMxUAdu5oy4n3OfN8flDEH+d60iG7dUfi0KkYwSvoalHzzdRzpWHTg==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-dynamic-import instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1161,7 +1160,6 @@ packages:
   /@babel/plugin-proposal-export-namespace-from@7.17.12(@babel/core@7.18.2):
     resolution: {integrity: sha512-j7Ye5EWdwoXOpRmo5QmRyHPsDIe6+u70ZYZrd7uz+ebPYFKfRcLcNu3Ro0vOlJ5zuv8rU7xa+GttNiRzX56snQ==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-export-namespace-from instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1173,7 +1171,6 @@ packages:
   /@babel/plugin-proposal-json-strings@7.17.12(@babel/core@7.18.2):
     resolution: {integrity: sha512-rKJ+rKBoXwLnIn7n6o6fulViHMrOThz99ybH+hKHcOZbnN14VuMnH9fo2eHE69C8pO4uX1Q7t2HYYIDmv8VYkg==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-json-strings instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1185,7 +1182,6 @@ packages:
   /@babel/plugin-proposal-logical-assignment-operators@7.17.12(@babel/core@7.18.2):
     resolution: {integrity: sha512-EqFo2s1Z5yy+JeJu7SFfbIUtToJTVlC61/C7WLKDntSw4Sz6JNAIfL7zQ74VvirxpjB5kz/kIx0gCcb+5OEo2Q==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-logical-assignment-operators instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1197,7 +1193,6 @@ packages:
   /@babel/plugin-proposal-nullish-coalescing-operator@7.17.12(@babel/core@7.18.2):
     resolution: {integrity: sha512-ws/g3FSGVzv+VH86+QvgtuJL/kR67xaEIF2x0iPqdDfYW6ra6JF3lKVBkWynRLcNtIC1oCTfDRVxmm2mKzy+ag==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1209,7 +1204,6 @@ packages:
   /@babel/plugin-proposal-numeric-separator@7.16.7(@babel/core@7.18.2):
     resolution: {integrity: sha512-vQgPMknOIgiuVqbokToyXbkY/OmmjAzr/0lhSIbG/KmnzXPGwW/AdhdKpi+O4X/VkWiWjnkKOBiqJrTaC98VKw==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1221,7 +1215,6 @@ packages:
   /@babel/plugin-proposal-object-rest-spread@7.18.0(@babel/core@7.18.2):
     resolution: {integrity: sha512-nbTv371eTrFabDfHLElkn9oyf9VG+VKK6WMzhY2o4eHKaG19BToD9947zzGMO6I/Irstx9d8CwX6njPNIAR/yw==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1236,7 +1229,6 @@ packages:
   /@babel/plugin-proposal-optional-catch-binding@7.16.7(@babel/core@7.18.2):
     resolution: {integrity: sha512-eMOH/L4OvWSZAE1VkHbr1vckLG1WUcHGJSLqqQwl2GaUqG6QjddvrOaTUMNYiv77H5IKPMZ9U9P7EaHwvAShfA==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-catch-binding instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1248,7 +1240,6 @@ packages:
   /@babel/plugin-proposal-optional-chaining@7.17.12(@babel/core@7.18.2):
     resolution: {integrity: sha512-7wigcOs/Z4YWlK7xxjkvaIw84vGhDv/P1dFGQap0nHkc8gFKY/r+hXc8Qzf5k1gY7CvGIcHqAnOagVKJJ1wVOQ==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1261,7 +1252,6 @@ packages:
   /@babel/plugin-proposal-private-methods@7.17.12(@babel/core@7.18.2):
     resolution: {integrity: sha512-SllXoxo19HmxhDWm3luPz+cPhtoTSKLJE9PXshsfrOzBqs60QP0r8OaJItrPhAj0d7mZMnNF0Y1UUggCDgMz1A==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-methods instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1275,7 +1265,6 @@ packages:
   /@babel/plugin-proposal-private-property-in-object@7.17.12(@babel/core@7.18.2):
     resolution: {integrity: sha512-/6BtVi57CJfrtDNKfK5b66ydK2J5pXUKBKSPD2G1whamMuEnZWgoOIfO8Vf9F/DoD4izBLD/Au4NMQfruzzykg==}
     engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-property-in-object instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1291,7 +1280,6 @@ packages:
   /@babel/plugin-proposal-unicode-property-regex@7.17.12(@babel/core@7.18.2):
     resolution: {integrity: sha512-Wb9qLjXf3ZazqXA7IvI7ozqRIXIGPtSo+L5coFmEkhTQK18ao4UDDD0zdTGAarmbLj2urpRwrc6893cu5Bfh0A==}
     engines: {node: '>=4'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-unicode-property-regex instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -3205,8 +3193,8 @@ packages:
     resolution: {integrity: sha512-/zPMqDkzSZ8t3VtxOa4KPq7uzzW978M9Tvh+j7GHKuo6k6GTLxPJ4J5gE5cjfJ26pnXst0N5Hax8Sr0T2Mi9zQ==}
     dev: true
 
-  /@types/clean-css@4.2.5:
-    resolution: {integrity: sha512-NEzjkGGpbs9S9fgC4abuBvTpVwE3i+Acu9BBod3PUyjDVZcNsGx61b8r2PphR61QGPnn0JHVs5ey6/I4eTrkxw==}
+  /@types/clean-css@4.2.11:
+    resolution: {integrity: sha512-Y8n81lQVTAfP2TOdtJJEsCoYl1AnOkqDqMvXb9/7pfgZZ7r8YrEyurrAvAoAjHOGXKRybay+5CsExqIH6liccw==}
     dependencies:
       '@types/node': 17.0.40
       source-map: 0.6.1
@@ -3248,18 +3236,11 @@ packages:
       '@types/node': 17.0.40
     dev: true
 
-  /@types/gulp-clean-css@4.3.0:
-    resolution: {integrity: sha512-aRV2BvZA+X/SdgONQW4OkIzInYhvSqeUCiLfwc3VCD0/pxQT9xAadwHmtYGF2kc66cD4uSPmE+s4JYFvhHLaUA==}
-    dependencies:
-      '@types/clean-css': 4.2.5
-      '@types/node': 17.0.40
-    dev: true
-
   /@types/gulp-rename@2.0.1:
     resolution: {integrity: sha512-9ZjeS2RHEnmBmTcyi2+oeye3BgCsWhvi4uv3qCnAg8i6plOuRdaeNxjOves0ELysEXYLBl7bCl5fbVs7AZtgTA==}
     dependencies:
       '@types/node': 17.0.40
-      '@types/vinyl': 2.0.6
+      '@types/vinyl': 2.0.11
     dev: true
 
   /@types/gulp-sass@5.0.0:
@@ -3421,11 +3402,11 @@ packages:
     dependencies:
       '@types/glob-stream': 6.1.1
       '@types/node': 17.0.40
-      '@types/vinyl': 2.0.6
+      '@types/vinyl': 2.0.11
     dev: true
 
-  /@types/vinyl@2.0.6:
-    resolution: {integrity: sha512-ayJ0iOCDNHnKpKTgBG6Q6JOnHTj9zFta+3j2b8Ejza0e4cvRyMn0ZoLEmbPrTHe5YYRlDYPvPWVdV4cTaRyH7g==}
+  /@types/vinyl@2.0.11:
+    resolution: {integrity: sha512-vPXzCLmRp74e9LsP8oltnWKTH+jBwt86WgRUb4Pc9Lf3pkMVGyvIo2gm9bODeGfCay2DBB/hAWDuvf07JcK4rw==}
     dependencies:
       '@types/expect': 1.20.4
       '@types/node': 17.0.40
@@ -5068,9 +5049,9 @@ packages:
       static-extend: 0.1.2
     dev: false
 
-  /clean-css@4.2.3:
-    resolution: {integrity: sha512-VcMWDN54ZN/DS+g58HYL5/n4Zrqe8vHJpGA8KdgUXFU4fuP/aHNw8eld9SyEIyabIMJX/0RaY/fplOo5hYLSFA==}
-    engines: {node: '>= 4.0'}
+  /clean-css@5.3.3:
+    resolution: {integrity: sha512-D5J+kHaVb/wKSFcyyV75uCn8fiY4sV38XJoe4CUyGQ+mOU/fMVYUdH1hJC+CJQ5uY3EnW27SbJYS4X8BiLrAFg==}
+    engines: {node: '>= 10.0'}
     dependencies:
       source-map: 0.6.1
     dev: true
@@ -7415,15 +7396,6 @@ packages:
       plugin-error: 1.0.1
       postcss: 8.4.14
       through2: 4.0.2
-      vinyl-sourcemaps-apply: 0.2.1
-    dev: true
-
-  /gulp-clean-css@4.3.0:
-    resolution: {integrity: sha512-mGyeT3qqFXTy61j0zOIciS4MkYziF2U594t2Vs9rUnpkEHqfu6aDITMp8xOvZcvdX61Uz3y1mVERRYmjzQF5fg==}
-    dependencies:
-      clean-css: 4.2.3
-      plugin-error: 1.0.1
-      through2: 3.0.1
       vinyl-sourcemaps-apply: 0.2.1
     dev: true
 
@@ -10889,12 +10861,6 @@ packages:
       readable-stream: 2.3.7
       xtend: 4.0.2
     dev: false
-
-  /through2@3.0.1:
-    resolution: {integrity: sha512-M96dvTalPT3YbYLaKaCuwu+j06D/8Jfib0o/PxbVt6Amhv3dUAtW6rTV1jPgJSBG83I/e04Y6xkVdVhSRhi0ww==}
-    dependencies:
-      readable-stream: 3.6.0
-    dev: true
 
   /through2@4.0.2:
     resolution: {integrity: sha512-iOqSav00cVxEEICeD7TjLB1sueEL+81Wpzp2bY17uZjZN0pWZPuo4suZ/61VujxmqSGFfgOcNuTZ85QJwNZQpw==}
