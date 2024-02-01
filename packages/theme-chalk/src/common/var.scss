@@ -800,16 +800,16 @@ $tour: () !default;
 $tour: map.merge(
   (
     'width': 520px,
-    'padding-primary': 16px,
+    'padding-primary': 12px,
     'font-line-height': getCssVar('font-line-height-primary'),
     'title-font-size': 16px,
     'title-text-color': getCssVar('text-color-primary'),
     'title-font-weight': 400,
+    'close-color': getCssVar('color-info'),
     'font-size': 14px,
     'color': getCssVar('text-color-primary'),
     'bg-color': getCssVar('bg-color'),
     'border-radius': 4px,
-    'border-color': getCssVar('border-color-lighter'),
   ),
   $tour
 );

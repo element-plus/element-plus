@@ -19,7 +19,7 @@
         :style="mergedContentStyle"
         @close="onEscClose"
       >
-        <el-tour-steps :current="current" @update-steps="onUpdateSteps">
+        <el-tour-steps :current="current" @update-total="onUpdateTotal">
           <slot />
         </el-tour-steps>
       </el-tour-content>
@@ -39,7 +39,7 @@ import ElTourContent from './content.vue'
 import ElTourSteps from './steps'
 import { tourEmits, tourProps } from './tour'
 import { tourKey, useTarget } from './helper'
-import type { UsedTourStepProps } from './types'
+import type { TourStepProps } from './step'
 
 defineOptions({
   name: 'ElTour',
@@ -49,15 +49,14 @@ const props = defineProps(tourProps)
 const emit = defineEmits(tourEmits)
 
 const ns = useNamespace('tour')
-const steps = ref<UsedTourStepProps[]>([])
+const total = ref(0)
+const currentStep = ref<TourStepProps>()
 
 const current = useVModel(props, 'current', emit, {
   passive: true,
 })
-const total = computed(() => steps.value.length)
 
-const currentStep = computed(() => steps.value[current.value] || {})
-const currentTarget = computed(() => currentStep.value.target)
+const currentTarget = computed(() => currentStep.value?.target)
 
 const kls = computed(() => [
   ns.b(),
@@ -65,14 +64,14 @@ const kls = computed(() => [
 ])
 
 const mergedPlacement = computed(
-  () => currentStep.value.placement || props.placement
+  () => currentStep.value?.placement || props.placement
 )
 
 const mergedContentStyle = computed(
-  () => currentStep.value.contentStyle ?? props.contentStyle
+  () => currentStep.value?.contentStyle ?? props.contentStyle
 )
 
-const mergedMask = computed(() => currentStep.value.mask ?? props.mask)
+const mergedMask = computed(() => currentStep.value?.mask ?? props.mask)
 const mergedShowMask = computed(() => !!mergedMask.value && props.modelValue)
 const mergedMaskStyle = computed(() =>
   isBoolean(mergedMask.value) ? undefined : mergedMask.value
@@ -80,13 +79,13 @@ const mergedMaskStyle = computed(() =>
 
 const mergedShowArrow = computed(
   () =>
-    !!currentTarget.value && (currentStep.value.showArrow ?? props.showArrow)
+    !!currentTarget.value && (currentStep.value?.showArrow ?? props.showArrow)
 )
 
 const mergedScrollIntoViewOptions = computed(
-  () => currentStep.value.scrollIntoViewOptions ?? props.scrollIntoViewOptions
+  () => currentStep.value?.scrollIntoViewOptions ?? props.scrollIntoViewOptions
 )
-const mergedType = computed(() => currentStep.value.type ?? props.type)
+const mergedType = computed(() => currentStep.value?.type ?? props.type)
 
 const { nextZIndex } = useZIndex()
 const nowZIndex = nextZIndex()
@@ -109,10 +108,6 @@ watch(
   }
 )
 
-const onUpdateSteps = (v: any) => {
-  steps.value = v
-}
-
 const onEscClose = () => {
   if (props.closeOnPressEscape) {
     emit('update:modelValue', false)
@@ -120,9 +115,14 @@ const onEscClose = () => {
   }
 }
 
+const onUpdateTotal = (val: number) => {
+  total.value = val
+}
+
 const slots = useSlots()
 
 provide(tourKey, {
+  currentStep,
   current,
   total,
   showClose: toRef(props, 'showClose'),
