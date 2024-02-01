@@ -122,6 +122,7 @@ const toPage = (link: string) => {
           .el-card__header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             gap: 8px;
             padding: 8px 12px;
 
@@ -129,6 +130,7 @@ const toPage = (link: string) => {
               font-size: 14px;
               font-weight: 500;
               color: var(--el-text-color-regular);
+              line-height: 24px;
             }
           }
 
