@@ -162,5 +162,10 @@ export default {
       confirmButtonText: 'ndio',
       cancelButtonText: 'hapana',
     },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
+    },
   },
 }

@@ -130,5 +130,10 @@ export default {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
     },
+    carousel: {
+      leftArrow: '上一张幻灯片',
+      rightArrow: '下一张幻灯片',
+      indicator: '幻灯片切换至索引 {index}',
+    },
   },
 }
