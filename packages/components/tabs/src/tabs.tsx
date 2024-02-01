@@ -178,7 +178,7 @@ const Tabs = defineComponent({
     })
 
     return () => {
-      const addSlot = slots.addIcon
+      const addSlot = slots['add-icon']
       const newButton =
         props.editable || props.addable ? (
           <span
@@ -190,7 +190,7 @@ const Tabs = defineComponent({
             }}
           >
             {addSlot ? (
-              renderSlot(slots, 'addIcon')
+              renderSlot(slots, 'add-icon')
             ) : (
               <ElIcon class={ns.is('icon-plus')}>
                 <Plus />
