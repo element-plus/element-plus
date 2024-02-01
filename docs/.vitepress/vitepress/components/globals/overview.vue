@@ -44,6 +44,11 @@
           </el-card>
         </div>
       </div>
+
+      <el-empty
+        v-if="!filteredSidebars.length"
+        :description="locale['empty-description']"
+      />
     </div>
   </div>
 </template>
@@ -52,13 +57,17 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vitepress'
 import { Search } from '@element-plus/icons-vue'
+import overviewLocale from '../../../i18n/component/overview.json'
 import { useSidebar } from '~/composables/sidebar'
+import { useLang } from '~/composables/lang'
 
+const lang = useLang()
 const router = useRouter()
 const { sidebars } = useSidebar()
 
 const query = ref('')
 
+const locale = computed(() => overviewLocale[lang.value])
 const filteredSidebars = computed(() =>
   sidebars.value
     .slice(1)
