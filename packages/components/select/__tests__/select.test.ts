@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { markRaw, nextTick } from 'vue'
+import { defineComponent, markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -513,6 +513,34 @@ describe('Select', () => {
     options[3].click()
     await nextTick()
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('Option D')
+  })
+
+  test('set default value to object with value-key', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" value-key="id">
+        <el-option
+          v-for="item in options"
+          :key="item.id"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>
+    `,
+      () => ({
+        options: [
+          { id: 1, label: 'Option A', desc: 'Option A - 230506' },
+          { id: 2, label: 'Option B', desc: 'Option B - 230506' },
+          { id: 3, label: 'Option C', desc: 'Option C - 230506' },
+          { id: 4, label: 'Option A', desc: 'Option A - 230507' },
+        ],
+        value: { id: 3 },
+      })
+    )
+    await nextTick()
+    const options = getOptions()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('Option C')
+    expect(Array.from(options[2].classList)).toContain('is-selected')
   })
 
   test('sync set value and options', async () => {
@@ -1848,6 +1876,69 @@ describe('Select', () => {
     options[2].click()
     await nextTick()
     expect(vm.value).toBe('Shanghai')
+  })
+
+  test('el-option-group should visible when el-option in a component', async () => {
+    const Options = defineComponent({
+      components: {
+        'el-option': Option,
+      },
+      props: {
+        options: {
+          type: Array,
+          default: () => [],
+        },
+      },
+      template: `
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+      `,
+    })
+
+    wrapper = mount({
+      template: `
+        <el-select v-model="value">
+          <el-option-group
+            v-for="group in options"
+            :key="group.label"
+            :label="group.label"
+          >
+            <Options :options="group.options" />
+          </el-option-group>
+        </el-select>
+      `,
+      components: {
+        'el-select': Select,
+        'el-option-group': Group,
+        Options,
+      },
+      data() {
+        return {
+          value: '',
+          options: [
+            {
+              label: 'Popular cities',
+              options: [
+                {
+                  value: 'Shanghai',
+                  label: 'Shanghai',
+                },
+                {
+                  value: 'Beijing',
+                  label: 'Beijing',
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+
+    expect(wrapper.findComponent(Group).vm.visible).toBe(true)
   })
 
   test('tag of disabled option is not closable', async () => {
