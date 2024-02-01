@@ -44,6 +44,7 @@ declare module '@vue/runtime-core' {
     Light: typeof import('./.vitepress/vitepress/components/icons/light.vue')['default']
     MainColor: typeof import('./.vitepress/vitepress/components/globals/main-color.vue')['default']
     NeutralColor: typeof import('./.vitepress/vitepress/components/globals/neutral-color.vue')['default']
+    OvBorder: typeof import('./.vitepress/vitepress/components/globals/overflow-icons/ov-border.vue')['default']
     OvButton: typeof import('./.vitepress/vitepress/components/globals/overflow-icons/ov-button.vue')['default']
     Overview: typeof import('./.vitepress/vitepress/components/globals/overview.vue')['default']
     ParallaxHome: typeof import('./.vitepress/vitepress/components/globals/parallax-home.vue')['default']
