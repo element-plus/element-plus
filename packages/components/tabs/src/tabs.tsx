@@ -192,24 +192,25 @@ const Tabs = defineComponent({
     return () => {
       const addSlot = slots['add-icon'] || slots['addIcon']
       const isCamelCase = addSlot && slots['addIcon']
-      props.editable || props.addable ? (
-        <span
-          class={ns.e('new-tab')}
-          tabindex="0"
-          onClick={handleTabAdd}
-          onKeydown={(ev: KeyboardEvent) => {
-            if (ev.code === EVENT_CODE.enter) handleTabAdd()
-          }}
-        >
-          {addSlot ? (
-            renderSlot(slots, isCamelCase ? 'addIcon' : 'add-icon')
-          ) : (
-            <ElIcon class={ns.is('icon-plus')}>
-              <Plus />
-            </ElIcon>
-          )}
-        </span>
-      ) : null
+      const newButton =
+        props.editable || props.addable ? (
+          <span
+            class={ns.e('new-tab')}
+            tabindex="0"
+            onClick={handleTabAdd}
+            onKeydown={(ev: KeyboardEvent) => {
+              if (ev.code === EVENT_CODE.enter) handleTabAdd()
+            }}
+          >
+            {addSlot ? (
+              renderSlot(slots, isCamelCase ? 'addIcon' : 'add-icon')
+            ) : (
+              <ElIcon class={ns.is('icon-plus')}>
+                <Plus />
+              </ElIcon>
+            )}
+          </span>
+        ) : null
 
       const header = (
         <div class={[ns.e('header'), ns.is(props.tabPosition)]}>
