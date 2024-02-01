@@ -10,6 +10,7 @@
         @pointermove="handlePointerMove"
         @clickimpl="handleClick"
       >
+        <slot name="icon" />
         <slot />
       </el-dropdown-item-impl>
     </el-roving-focus-item>
