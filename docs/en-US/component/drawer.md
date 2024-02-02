@@ -115,12 +115,14 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 ### Events
 
-| Name   | Description                                      | Type                    |
-| ------ | ------------------------------------------------ | ----------------------- |
-| open   | Triggered before Drawer opening animation begins | ^[Function]`() => void` |
-| opened | Triggered after Drawer opening animation ended   | ^[Function]`() => void` |
-| close  | Triggered before Drawer closing animation begins | ^[Function]`() => void` |
-| closed | Triggered after Drawer closing animation ended   | ^[Function]`() => void` |
+| Name             | Description                                      | Type                    |
+| ---------------- | ------------------------------------------------ | ----------------------- |
+| open             | Triggered before Drawer opening animation begins | ^[Function]`() => void` |
+| opened           | Triggered after Drawer opening animation ended   | ^[Function]`() => void` |
+| close            | Triggered before Drawer closing animation begins | ^[Function]`() => void` |
+| closed           | Triggered after Drawer closing animation ended   | ^[Function]`() => void` |
+| open-auto-focus  | triggers after Drawer opens and content focused  | ^[Function]`() => void` |
+| close-auto-focus | triggers after Drawer closed and content focused | ^[Function]`() => void` |
 
 ### Slots
 

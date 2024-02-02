@@ -18,6 +18,9 @@
           :trapped="visible"
           :focus-trap-el="drawerRef"
           :focus-start-el="focusStartRef"
+          @focus-after-trapped="onOpenAutoFocus"
+          @focus-after-released="onCloseAutoFocus"
+          @focusout-prevented="onFocusoutPrevented"
           @release-requested="onCloseRequested"
         >
           <div
@@ -27,7 +30,7 @@
             :aria-labelledby="!title ? titleId : undefined"
             :aria-describedby="bodyId"
             v-bind="$attrs"
-            :class="[ns.b(), direction, visible && 'open', customClass]"
+            :class="[ns.b(), direction, visible && 'open']"
             :style="
               isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
             "
@@ -112,17 +115,6 @@ useDeprecated(
   },
   computed(() => !!slots.title)
 )
-useDeprecated(
-  {
-    scope: 'el-drawer',
-    from: 'custom-class',
-    replacement: 'class',
-    version: '2.3.0',
-    ref: 'https://element-plus.org/en-US/component/drawer.html#attributes',
-    type: 'Attribute',
-  },
-  computed(() => !!props.customClass)
-)
 
 const drawerRef = ref<HTMLElement>()
 const focusStartRef = ref<HTMLElement>()
@@ -137,6 +129,9 @@ const {
   titleId,
   bodyId,
   onModalClick,
+  onOpenAutoFocus,
+  onCloseAutoFocus,
+  onFocusoutPrevented,
   onCloseRequested,
   handleClose,
 } = useDialog(props, drawerRef)
