@@ -12,7 +12,7 @@
     &.has-sidebar {
       padding-left: calc(var(--sidebar-width-sm) + 10px);
       @include respond-to('xlg') {
-        padding-left: calc(var(--vp-sidebar-width-small) - $scrollbar-size);
+        padding-left: calc(var(--vp-sidebar-width-small));
       }
       @include respond-to('xxl') {
         padding-left: calc(var(--vp-sidebar-width-small) + 32px);

@@ -3,7 +3,9 @@
 .toc-wrapper {
   display: none;
   padding-left: 64px;
+
   @include respond-to('xxl') {
+    display: block;
     padding-right: 32px;
   }
 
@@ -50,7 +52,9 @@
       .toc-item {
         margin-top: 10px;
         font-size: 11px;
-        color: var(--text-color-lighter);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
         color: inherit;
         list-style: none;
 
@@ -75,14 +79,5 @@
         }
       }
     }
-  }
-
-  @include respond-to('xxl') {
-    display: block;
-  }
-
-  @include respond-to('max') {
-    padding-left: 96px;
-    display: block;
   }
 }

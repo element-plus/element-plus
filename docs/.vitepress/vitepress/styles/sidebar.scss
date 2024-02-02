@@ -10,18 +10,22 @@
   z-index: var(--sidebar-z-index);
   width: var(--sidebar-width-xs);
   background-color: var(--bg-color);
-  padding: 48px 32px 0;
+  padding: 48px 32px;
   overflow-y: auto;
   transform: translate(-100%);
   transition: background-color var(--el-transition-duration-fast), opacity 0.25s,
-    transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 
   &.open {
     transform: translate(0);
   }
 
   .sidebar-groups {
-    padding: 0 0 5rem;
+    padding: 0;
+
+    @include respond-to('lg') {
+      padding-bottom: 48px;
+    }
 
     .sidebar-group__title {
       font-size: 1rem;
@@ -51,13 +55,12 @@
   }
 
   @include respond-to('xxl') {
-    // 6px stands for 3px sidebar scrollbar width + 3 content scrollbar width
-    padding: 48px 32px 96px;
+    padding: 48px 32px;
     width: calc(var(--vp-sidebar-width-small) + 32px);
   }
 
   @include respond-to('max') {
-    padding: 48px 48px 96px;
+    padding: 48px;
     width: calc(var(--vp-sidebar-width-small) + 48px);
   }
 }
