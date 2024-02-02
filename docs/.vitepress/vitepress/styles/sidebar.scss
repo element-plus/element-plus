@@ -42,6 +42,7 @@
 
   @include respond-to('md') {
     width: calc(var(--vp-sidebar-width-small));
+    z-index: var(--sidebar-z-index-mobile);
   }
 
   @include respond-to('lg') {

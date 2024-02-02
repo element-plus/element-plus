@@ -362,7 +362,7 @@ export function createTablePopper(
       removePopper?.()
     },
   })
-  vm.appContext = table.appContext
+  vm.appContext = { ...table.appContext, ...table }
   const container = document.createElement('div')
   render(vm, container)
   vm.component!.exposed!.onOpen()

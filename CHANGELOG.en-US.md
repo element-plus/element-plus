@@ -1,5 +1,29 @@
 ## Changelog
 
+### 2.5.4
+
+_2024-02-02_
+
+#### Features
+
+- Components [dialog] Dialog can drag overflow the viewport (#15643 by @kooriookami)
+- Components [message-box] MessageBox can drag overflow the viewport (#15674 by @kooriookami)
+- Play custom namespace (#15677 by @btea)
+- Components [check-tag] add type prop (#15727 by @kooriookami)
+
+#### Bug fixes
+
+- Components [table] The namespace of the showOverflowTooltip is invalid. (#15627 by @xingyixiang)
+- Components [select] Remote search does not show menu when it has options and no query (#15683 by @wen403)
+- Docs overlay error caused by sidebar (#15694 by @heygsc)
+- Components [select] Fix value with value-key not selected (#15681 by @kooriookami)
+- Components [tour] buttonProps & isSameProps errors (#15680 by @Fuphoenixes)
+- Components [select] el-option-group error when el-option in a component (#15703 by @Fuphoenixes)
+- Components [drawer] click allow focus out (#11965 by @tolking)
+- Components [menu] Add menu-item margin when calculating `calcSliceIndex` (#15699 by @zhixiaotong)
+- Components [upload] Add crossorigin property (#15524 by @wkasunsampath)
+- Components [tabs] slot name use kebab-case style (#15733 by @chenxch)
+
 ### 2.5.3
 
 _2024-01-22_
