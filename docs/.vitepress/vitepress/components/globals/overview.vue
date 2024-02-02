@@ -40,8 +40,11 @@
                 {{ item.promotion }}
               </el-tag>
             </template>
-            <ov-button />
-            <!--            <ov-border />-->
+
+            <template #default>
+              <component :is="getIcon(item.link)" v-if="getIcon(item.link)" />
+              <span v-else>Todo</span>
+            </template>
           </el-card>
         </div>
       </div>
@@ -61,6 +64,7 @@ import { Search } from '@element-plus/icons-vue'
 import overviewLocale from '../../../i18n/component/overview.json'
 import { useSidebar } from '~/composables/sidebar'
 import { useLang } from '~/composables/lang'
+import overflowIcons from '~/components/globals/overflow-icons'
 
 const lang = useLang()
 const router = useRouter()
@@ -83,6 +87,11 @@ const filteredSidebars = computed(() =>
 
 const toPage = (link: string) => {
   router.go(link)
+}
+
+const getIcon = (link: string) => {
+  const name = link.split('/').pop()
+  return name ? overflowIcons[name] : null
 }
 </script>
 
@@ -138,6 +147,9 @@ const toPage = (link: string) => {
           .el-card__body {
             padding: 0;
             display: flex;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 280 / 180;
 
             svg {
               width: 100%;
