@@ -3,7 +3,9 @@
 .toc-wrapper {
   display: none;
   padding-left: 64px;
+
   @include respond-to('xxl') {
+    display: block;
     padding-right: 32px;
   }
 
