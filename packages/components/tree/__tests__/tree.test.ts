@@ -536,6 +536,100 @@ describe('Tree.vue', () => {
     expect(treeVm.getCheckedNodes().length).toEqual(0)
   })
 
+  test('setCheckedNodes with disabled node', async () => {
+    const nodes = [
+      {
+        id: 1,
+        label: 'Level one 1',
+        children: [
+          {
+            id: 4,
+            label: 'Level two 1-1',
+            children: [
+              {
+                id: 9,
+                label: 'Level three 1-1-1',
+              },
+              {
+                id: 10,
+                label: 'Level three 1-1-2',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        label: 'Level one 2',
+        children: [
+          {
+            id: 5,
+            disabled: true,
+            label: 'Level two 2-1',
+          },
+          {
+            id: 6,
+            label: 'Level two 2-2',
+          },
+        ],
+      },
+      {
+        id: 3,
+        label: 'Level one 3',
+        children: [
+          {
+            id: 7,
+            label: 'Level two 3-1',
+          },
+          {
+            id: 8,
+            label: 'Level two 3-2',
+          },
+        ],
+      },
+    ]
+    const wrapper = mount(
+      Object.assign({
+        components: {
+          'el-tree': Tree,
+        },
+        template: `
+        <el-tree ref="tree" :data="data" :props="defaultProps" default-expand-all show-checkbox node-key="id"></el-tree>
+      `,
+        data() {
+          return {
+            data: nodes,
+            defaultProps: {
+              children: 'children',
+              label: 'label',
+            },
+          }
+        },
+      })
+    )
+    const treeWrapper = wrapper.findComponent(Tree)
+    const treeVm = treeWrapper.vm as InstanceType<typeof Tree>
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    function flattenTree(data) {
+      const result = []
+
+      function flatten(node) {
+        result.push(node)
+        if (node?.children?.length) {
+          node.children.forEach(flatten)
+        }
+      }
+
+      data.forEach(flatten)
+      return result
+    }
+    const list = flattenTree(nodes).filter((item) => !item.disabled)
+
+    treeVm.setCheckedNodes(list)
+    expect(treeVm.getCheckedNodes().length).toEqual(8)
+  })
+
   test('setCheckedKeys', async () => {
     const { wrapper } = getTreeVm(
       `:props="defaultProps" show-checkbox node-key="id"`
