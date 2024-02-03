@@ -1,5 +1,14 @@
 ## Changelog
 
+### 2.5.5
+
+_2024-02-03_
+
+#### Bug fixes
+
+- Fix lodash import error (#15773 by @tolking)
+
+
 ### 2.5.4
 
 _2024-02-02_
