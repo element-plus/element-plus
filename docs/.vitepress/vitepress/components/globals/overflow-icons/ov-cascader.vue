@@ -65,7 +65,7 @@
       />
       <path
         d="M131.2 79.3994C131.733 79.9327 132.8 80.9994 132.8 80.9994L131.2 82.5996"
-        stroke="var(--el-border-color-light)"
+        stroke="var(--el-border-color-dark)"
         stroke-width="0.5"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -87,7 +87,7 @@
       />
       <path
         d="M131.2 99.3994C131.733 99.9327 132.8 100.999 132.8 100.999L131.2 102.6"
-        stroke="var(--el-border-color-light)"
+        stroke="var(--el-border-color-dark)"
         stroke-width="0.5"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -98,7 +98,7 @@
         width="25"
         height="4"
         rx="2"
-        fill="var(--el-border-color-light)"
+        fill="var(--el-border-color-dark)"
       />
       <rect
         x="140"
@@ -113,7 +113,7 @@
         width="25"
         height="4"
         rx="2"
-        fill="var(--el-border-color-light)"
+        fill="var(--el-border-color-dark)"
       />
       <rect
         x="57"
@@ -124,7 +124,7 @@
       />
       <path
         d="M131.2 119.399C131.733 119.933 132.8 120.999 132.8 120.999L131.2 122.6"
-        stroke="var(--el-border-color-light)"
+        stroke="var(--el-border-color-dark)"
         stroke-width="0.5"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -135,7 +135,7 @@
         width="25"
         height="4"
         rx="2"
-        fill="var(--el-border-color-light)"
+        fill="var(--el-border-color-dark)"
       />
       <rect
         x="140"
@@ -150,13 +150,13 @@
         width="25"
         height="4"
         rx="2"
-        fill="var(--el-border-color-light)"
+        fill="var(--el-border-color-dark)"
       />
       <path
         fill-rule="evenodd"
         clip-rule="evenodd"
         d="M140 129V73V73V129V129Z"
-        stroke="var(--el-border-color-light)"
+        stroke="var(--el-border-color-dark)"
         stroke-width="0.4"
       />
     </g>

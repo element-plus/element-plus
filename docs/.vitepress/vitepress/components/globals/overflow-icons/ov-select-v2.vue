@@ -68,7 +68,7 @@
         width="25"
         height="4"
         rx="2"
-        fill="var(--el-border-color-light)"
+        fill="var(--el-border-color-dark)"
       />
       <rect
         x="91"
@@ -83,7 +83,7 @@
         width="25"
         height="4"
         rx="2"
-        fill="var(--el-border-color-light)"
+        fill="var(--el-border-color-dark)"
       />
       <rect
         x="91"
@@ -98,7 +98,7 @@
         width="25"
         height="4"
         rx="2"
-        fill="var(--el-border-color-light)"
+        fill="var(--el-border-color-dark)"
       />
       <rect
         x="91"
@@ -113,7 +113,7 @@
         width="25"
         height="4"
         rx="2"
-        fill="var(--el-border-color-light)"
+        fill="var(--el-border-color-dark)"
       />
       <rect
         x="91"
@@ -128,7 +128,7 @@
         width="25"
         height="4"
         rx="2"
-        fill="var(--el-border-color-light)"
+        fill="var(--el-border-color-dark)"
       />
     </g>
     <defs>

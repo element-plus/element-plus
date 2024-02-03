@@ -21,18 +21,18 @@
       fill="var(--el-color-primary)"
     />
     <path
-      d="M180.4 55.7998C180.933 55.2665 182 54.1998 182 54.1998L183.6 55.7998"
+      d="M180.4 55.8008C180.933 55.2674 182 54.2008 182 54.2008L183.6 55.8008"
       stroke="var(--el-color-primary)"
       stroke-width="0.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
-    <g filter="url(#filter0_d_13099_176679)">
+    <g filter="url(#filter0_d_13550_224530)">
       <rect
         x="90"
         y="67"
         width="100"
-        height="68"
+        height="67"
         rx="2"
         fill="var(--el-bg-color-overlay)"
       />
@@ -40,64 +40,67 @@
         x="89.7"
         y="66.7"
         width="100.6"
-        height="68.6"
+        height="67.6"
         rx="2.3"
         stroke="var(--el-border-color-dark)"
         stroke-width="0.6"
       />
     </g>
     <rect
-      x="91"
-      y="71"
-      width="83"
-      height="20"
-      fill="var(--el-bg-color-overlay)"
-    />
-    <rect
-      x="99"
-      y="79"
-      width="25"
+      x="108"
+      y="76"
+      width="24"
       height="4"
       rx="2"
       fill="var(--el-color-primary)"
     />
-    <rect
-      x="91"
-      y="91"
-      width="83"
-      height="20"
-      fill="var(--el-bg-color-overlay)"
+    <path
+      d="M102.5 77L97.5 77L100 80L102.5 77Z"
+      fill="var(--el-color-primary)"
     />
     <rect
-      x="99"
-      y="99"
-      width="25"
+      x="109"
+      y="118"
+      width="26"
       height="4"
       rx="2"
       fill="var(--el-border-color-dark)"
     />
-    <rect
-      x="91"
-      y="111"
-      width="83"
-      height="20"
-      fill="var(--el-bg-color-overlay)"
+    <path
+      d="M99 117.5V122.5L102 120L99 117.5Z"
+      fill="var(--el-border-color-dark)"
     />
     <rect
-      x="99"
-      y="119"
-      width="25"
+      x="121"
+      y="90"
+      width="26"
       height="4"
       rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+    <path
+      d="M111 89.5V94.5L114 92L111 89.5Z"
+      fill="var(--el-border-color-dark)"
+    />
+    <rect
+      x="121"
+      y="104"
+      width="26"
+      height="4"
+      rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+    <path
+      d="M111 103.5V108.5L114 106L111 103.5Z"
       fill="var(--el-border-color-dark)"
     />
     <defs>
       <filter
-        id="filter0_d_13099_176679"
-        x="76.0667"
+        id="filter0_d_13550_224530"
+        x="76.0666"
         y="53.0671"
         width="127.867"
-        height="95.8659"
+        height="94.8659"
         filterUnits="userSpaceOnUse"
         color-interpolation-filters="sRGB"
       >
@@ -118,12 +121,12 @@
         <feBlend
           mode="normal"
           in2="BackgroundImageFix"
-          result="effect1_dropShadow_13099_176679"
+          result="effect1_dropShadow_13550_224530"
         />
         <feBlend
           mode="normal"
           in="SourceGraphic"
-          in2="effect1_dropShadow_13099_176679"
+          in2="effect1_dropShadow_13550_224530"
           result="shape"
         />
       </filter>
