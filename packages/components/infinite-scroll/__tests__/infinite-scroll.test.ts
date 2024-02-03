@@ -17,6 +17,7 @@ import InfiniteScroll, { DEFAULT_DELAY, SCOPE } from '../src'
 
 vi.mock('lodash-unified', () => {
   return {
+    ...((await vi.importActual('lodash-unified')) as Record<string, any>),
     throttle: vi.fn((fn) => {
       fn.cancel = vi.fn()
       fn.flush = vi.fn()
