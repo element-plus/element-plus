@@ -1,8 +1,9 @@
 <template>
   <el-form
     ref="formRef"
+    style="max-width: 600px"
     :model="dynamicValidateForm"
-    label-width="120px"
+    label-width="auto"
     class="demo-dynamic"
   >
     <el-form-item
