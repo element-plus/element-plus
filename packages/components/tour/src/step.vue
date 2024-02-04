@@ -66,7 +66,7 @@
 
 <script lang="ts" setup>
 import { computed, inject, watch } from 'vue'
-import { omit } from 'lodash-es'
+import { omit } from 'lodash-unified'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { CloseComponents } from '@element-plus/utils'
