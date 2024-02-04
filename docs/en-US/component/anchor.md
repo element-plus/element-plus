@@ -23,7 +23,7 @@ Horizontally aligned anchors
 
 :::tip
 
-Horizontal Mode does not support sublist slots
+Horizontal Mode does not support `sub-link` slots
 
 :::
 
@@ -128,7 +128,7 @@ anchor/affix
 
 ### AnchorLink slots
 
-| Name    | Description |
-| ------- | ----------- |
-| default | the content of the anchor link.   |
-| subLink | slots for child links. |
+| Name     | Description |
+| -------- | ----------- |
+| default  | the content of the anchor link.   |
+| sub-link | slots for child links. |

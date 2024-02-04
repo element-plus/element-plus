@@ -5,7 +5,7 @@
     <el-anchor-link href="#scroll-container">Scroll Container</el-anchor-link>
     <el-anchor-link href="#anchor-api">
       Anchor API
-      <template #subLink>
+      <template #sub-link>
         <el-anchor-link href="#anchor-attributes">
           Anchor Attributes
         </el-anchor-link>
