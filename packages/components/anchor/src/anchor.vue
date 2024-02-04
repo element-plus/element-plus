@@ -84,7 +84,7 @@ const setCurrent = (href: string) => {
 }
 
 const handleClick = (e: MouseEvent, href?: string) => {
-  emit('linkClick', e, href)
+  emit('click', e, href)
   if (href) {
     setCurrent(href)
     scrollTo(href)

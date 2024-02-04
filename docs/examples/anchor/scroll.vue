@@ -54,7 +54,7 @@
           direction="vertical"
           type="defalut"
           :offset="30"
-          @link-click="handleClick"
+          @click="handleClick"
         >
           <el-anchor-link href="#part1" title="part1" />
           <el-anchor-link href="#part2" title="part2" />

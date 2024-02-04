@@ -33,16 +33,6 @@ anchor/horizontal
 
 :::
 
-## Affix Mode
-
-Use the affix component to fix the anchor point within the page.
-
-:::demo
-
-anchor/affix
-
-:::
-
 ## Scroll Container
 
 Custom scroll area, use `offset` props can set anchor scroll offset, listen the `link-click` event and prevents browser default behavior then it will not change history.
@@ -83,6 +73,16 @@ anchor/underline
 
 :::
 
+## Affix Mode
+
+Use the affix component to fix the anchor point within the page.
+
+:::demo
+
+anchor/affix
+
+:::
+
 ## Anchor API
 
 ### Anchor Attributes
@@ -103,7 +103,7 @@ anchor/underline
 | Name   | Description                    | Type                                   |
 | ------ | ------------------------------ | -------------------------------------- |
 | change | callback when the step changes | ^[Function]`(href: string) => void` |
-| link-click | Triggered when the user clicks on the link  | ^[Function]`(e: MouseEvent, href?: string) => void` |
+| click  | Triggered when the user clicks on the link  | ^[Function]`(e: MouseEvent, href?: string) => void` |
 
 ### Anchor methods
 
@@ -131,4 +131,4 @@ anchor/underline
 | Name    | Description |
 | ------- | ----------- |
 | default | the content of the anchor link.   |
-| sublist | slots for child links. |
+| subLink | slots for child links. |

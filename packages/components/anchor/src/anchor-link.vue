@@ -4,10 +4,10 @@
       <slot>{{ title }}</slot>
     </a>
     <div
-      v-if="$slots.sublist && direction === 'vertical'"
+      v-if="$slots.subLink && direction === 'vertical'"
       :class="ns.e('list')"
     >
-      <slot name="sublist" />
+      <slot name="subLink" />
     </div>
   </div>
 </template>

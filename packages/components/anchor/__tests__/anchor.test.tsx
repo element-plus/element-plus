@@ -113,7 +113,7 @@ describe('Anchor.vue', () => {
     ])
   })
 
-  test('linkClick event', async () => {
+  test('click event', async () => {
     const hash = getHash()
     const wrapper = mount(() => (
       <Anchor>
@@ -123,11 +123,11 @@ describe('Anchor.vue', () => {
     wrapper.find(`a[href="${hash}"]`).trigger('click')
 
     expect(
-      (wrapper.findComponent(Anchor).emitted('linkClick') as any)[0][0]
+      (wrapper.findComponent(Anchor).emitted('click') as any)[0][0]
     ).toBeInstanceOf(MouseEvent)
-    expect(
-      (wrapper.findComponent(Anchor).emitted('linkClick') as any)[0][1]
-    ).toBe(hash)
+    expect((wrapper.findComponent(Anchor).emitted('click') as any)[0][1]).toBe(
+      hash
+    )
   })
 
   test('active link & getCurrentAnchor', async () => {

@@ -73,7 +73,7 @@ export type AnchorInstance = InstanceType<typeof Anchor>
 
 export const anchorEmits = {
   change: (href: string) => isString(href),
-  linkClick: (e: MouseEvent, href?: string) =>
+  click: (e: MouseEvent, href?: string) =>
     e instanceof MouseEvent && (isString(href) || isUndefined(href)),
 }
 export type AnchorEmits = typeof anchorEmits
