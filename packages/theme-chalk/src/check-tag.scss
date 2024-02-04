@@ -18,10 +18,15 @@
   }
 
   @include when(checked) {
-    background-color: getCssVar('color', 'primary', 'light-8');
-    color: getCssVar('color', 'primary');
-    &:hover {
-      background-color: getCssVar('color', 'primary', 'light-7');
+    @each $type in $types {
+      &.#{bem('check-tag', '', $type)} {
+        background-color: getCssVar('color', $type, 'light-8');
+        color: getCssVar('color', $type);
+
+        &:hover {
+          background-color: getCssVar('color', $type, 'light-7');
+        }
+      }
     }
   }
 }
