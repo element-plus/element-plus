@@ -180,9 +180,9 @@
 }
 
 .#{$namespace}-transitioning {
-  filter: url('#horizontal');
+  filter: url('#elCarouselHorizontal');
 }
 
 .#{$namespace}-transitioning-vertical {
-  filter: url('#vertical');
+  filter: url('#elCarouselVertical');
 }

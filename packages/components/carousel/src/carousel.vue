@@ -5,46 +5,46 @@
     @mouseenter.stop="handleMouseEnter"
     @mouseleave.stop="handleMouseLeave"
   >
+    <transition v-if="arrowDisplay" name="carousel-arrow-left">
+      <button
+        v-show="
+          (arrow === 'always' || hover) && (props.loop || activeIndex > 0)
+        "
+        type="button"
+        :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
+        :aria-label="t('el.carousel.leftArrow')"
+        @mouseenter="handleButtonEnter('left')"
+        @mouseleave="handleButtonLeave"
+        @click.stop="throttledArrowClick(activeIndex - 1)"
+      >
+        <ElIcon>
+          <ArrowLeft />
+        </ElIcon>
+      </button>
+    </transition>
+    <transition v-if="arrowDisplay" name="carousel-arrow-right">
+      <button
+        v-show="
+          (arrow === 'always' || hover) &&
+          (props.loop || activeIndex < items.length - 1)
+        "
+        type="button"
+        :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
+        :aria-label="t('el.carousel.rightArrow')"
+        @mouseenter="handleButtonEnter('right')"
+        @mouseleave="handleButtonLeave"
+        @click.stop="throttledArrowClick(activeIndex + 1)"
+      >
+        <ElIcon>
+          <ArrowRight />
+        </ElIcon>
+      </button>
+    </transition>
     <div
       :class="carouselContainer"
       :style="containerStyle"
       @transitionend="handleTransitionEnd"
     >
-      <transition v-if="arrowDisplay" name="carousel-arrow-left">
-        <button
-          v-show="
-            (arrow === 'always' || hover) && (props.loop || activeIndex > 0)
-          "
-          type="button"
-          :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
-          :aria-label="t('el.carousel.leftArrow')"
-          @mouseenter="handleButtonEnter('left')"
-          @mouseleave="handleButtonLeave"
-          @click.stop="throttledArrowClick(activeIndex - 1)"
-        >
-          <ElIcon>
-            <ArrowLeft />
-          </ElIcon>
-        </button>
-      </transition>
-      <transition v-if="arrowDisplay" name="carousel-arrow-right">
-        <button
-          v-show="
-            (arrow === 'always' || hover) &&
-            (props.loop || activeIndex < items.length - 1)
-          "
-          type="button"
-          :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
-          :aria-label="t('el.carousel.rightArrow')"
-          @mouseenter="handleButtonEnter('right')"
-          @mouseleave="handleButtonLeave"
-          @click.stop="throttledArrowClick(activeIndex + 1)"
-        >
-          <ElIcon>
-            <ArrowRight />
-          </ElIcon>
-        </button>
-      </transition>
       <PlaceholderItem />
       <slot />
     </div>
@@ -70,16 +70,16 @@
       </li>
     </ul>
     <svg
+      v-if="props.motionBlur"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
-      class="filters"
       style="display: none"
     >
       <defs>
-        <filter id="horizontal">
+        <filter id="elCarouselHorizontal">
           <feGaussianBlur in="SourceGraphic" stdDeviation="12,0" />
         </filter>
-        <filter id="vertical">
+        <filter id="elCarouselVertical">
           <feGaussianBlur in="SourceGraphic" stdDeviation="0,10" />
         </filter>
       </defs>
