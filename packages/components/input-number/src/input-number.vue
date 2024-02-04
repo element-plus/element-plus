@@ -50,7 +50,7 @@
       :name="name"
       :label="label"
       :validate-event="false"
-      @wheel.prevent
+      @wheel="handleWheel"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
       @blur="handleBlur"
@@ -189,6 +189,7 @@ const increase = () => {
   const newVal = ensurePrecision(value)
   setCurrentValue(newVal)
   emit(INPUT_EVENT, data.currentValue)
+  setCurrentValueToModelValue()
 }
 const decrease = () => {
   if (props.readonly || inputNumberDisabled.value || minDisabled.value) return
@@ -196,6 +197,7 @@ const decrease = () => {
   const newVal = ensurePrecision(value, -1)
   setCurrentValue(newVal)
   emit(INPUT_EVENT, data.currentValue)
+  setCurrentValueToModelValue()
 }
 const verifyValue = (
   value: number | string | null | undefined,
@@ -257,6 +259,7 @@ const handleInputChange = (value: string) => {
   if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
     setCurrentValue(newVal)
   }
+  setCurrentValueToModelValue()
   data.userInput = null
 }
 
@@ -278,6 +281,15 @@ const handleBlur = (event: MouseEvent | FocusEvent) => {
   if (props.validateEvent) {
     formItem?.validate?.('blur').catch((err) => debugWarn(err))
   }
+}
+
+const setCurrentValueToModelValue = () => {
+  if (data.currentValue !== props.modelValue) {
+    data.currentValue = props.modelValue
+  }
+}
+const handleWheel = (e: MouseEvent) => {
+  if (document.activeElement === e.target) e.preventDefault()
 }
 
 watch(

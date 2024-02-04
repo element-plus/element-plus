@@ -63,17 +63,8 @@ Do:
 <template>
   <el-cascader :props="props" />
 </template>
-<script lang="ts">
-  export default {
-    setup() {
-      return {
-        props: {
-          // props.
-          multiple: true,
-        },
-      }
-    },
-  }
+<script lang="ts" setup>
+  const props = { multiple: true }
 </script>
 ```
 

@@ -37,10 +37,12 @@
 
   @media (max-width: 767px) {
     width: calc(var(--vp-sidebar-width-mobile) - 14px);
+    z-index: var(--sidebar-z-index-mobile);
   }
 
   @include respond-to('md') {
     width: calc(var(--vp-sidebar-width-small));
+    z-index: var(--sidebar-z-index-mobile);
   }
 
   @include respond-to('lg') {

@@ -91,6 +91,15 @@ export const menuProps = buildProps({
     values: ['dark', 'light'],
     default: 'dark',
   },
+  popperClass: String,
+  showTimeout: {
+    type: Number,
+    default: 300,
+  },
+  hideTimeout: {
+    type: Number,
+    default: 300,
+  },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
@@ -246,6 +255,13 @@ export default defineComponent({
       }
     }
 
+    const calcMenuItemWidth = (menuItem: HTMLElement) => {
+      const computedStyle = getComputedStyle(menuItem)
+      const marginLeft = Number.parseInt(computedStyle.marginLeft, 10)
+      const marginRight = Number.parseInt(computedStyle.marginRight, 10)
+      return menuItem.offsetWidth + marginLeft + marginRight || 0
+    }
+
     const calcSliceIndex = () => {
       if (!menu.value) return -1
       const items = Array.from(menu.value?.childNodes ?? []).filter(
@@ -255,19 +271,14 @@ export default defineComponent({
           (item.nodeName !== '#text' || item.nodeValue)
       ) as HTMLElement[]
       const moreItemWidth = 64
-      const paddingLeft = Number.parseInt(
-        getComputedStyle(menu.value!).paddingLeft,
-        10
-      )
-      const paddingRight = Number.parseInt(
-        getComputedStyle(menu.value!).paddingRight,
-        10
-      )
+      const computedMenuStyle = getComputedStyle(menu.value!)
+      const paddingLeft = Number.parseInt(computedMenuStyle.paddingLeft, 10)
+      const paddingRight = Number.parseInt(computedMenuStyle.paddingRight, 10)
       const menuWidth = menu.value!.clientWidth - paddingLeft - paddingRight
       let calcWidth = 0
       let sliceIndex = 0
       items.forEach((item, index) => {
-        calcWidth += item.offsetWidth || 0
+        calcWidth += calcMenuItemWidth(item)
         if (calcWidth <= menuWidth - moreItemWidth) {
           sliceIndex = index + 1
         }

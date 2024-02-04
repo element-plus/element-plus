@@ -122,7 +122,7 @@
     padding: 0 5px;
     margin: 0;
     font-size: 14px;
-    word-break: keep-all;
+    overflow-wrap: break-word;
     color: getCssVar('text-color', 'primary');
   }
 
