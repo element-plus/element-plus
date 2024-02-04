@@ -54,7 +54,7 @@ export const head: HeadConfig[] = [
   [
     'meta',
     {
-      name: 'op:image',
+      property: 'og:image',
       content: '/images/element-plus-og-image.png',
     },
   ],
