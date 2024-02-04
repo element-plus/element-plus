@@ -160,5 +160,10 @@ export default {
       confirmButtonText: 'Oui',
       cancelButtonText: 'Non',
     },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
+    },
   },
 }

@@ -57,6 +57,16 @@ tour/indicator
 
 :::
 
+## Target
+
+Various parameter passing types of target. The string and Function types are supported since ^(2.5.2).
+
+:::demo
+
+tour/target
+
+:::
+
 ## Tour API
 
 :::tip
@@ -98,28 +108,28 @@ tour-step component configuration with the same name has higher priority
 
 ### TourStep Attributes
 
-| Property                 | Description                                                                                                  | Type                                                                                                                                                                        | Default   |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| target                   | get the element the guide card points to. Empty makes it show in center of screen                            | `HTMLElement`                                                                                                                                                               | -         |
-| show-arrow               | whether to show the arrow                                                                                    | `boolean`                                                                                                                                                                   | `true`    |
-| title                    | title                                                                                                        | `string`                                                                                                                                                                    | -         |
-| description              | description                                                                                                  | `string`                                                                                                                                                                    | -         |
-| placement                | position of the guide card relative to the target element                                                    | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | `bottom`  |
-| content-style            | custom style for content                                                                                     | `CSSProperties`                                                                                                                                                             | -         |
-| mask                     | whether to enable masking, change mask style and fill color by pass custom props                             | `boolean` \| ^[Object]`{ style?: CSSProperties; color?: string; }`                                                                                                          | `true`    |
-| type                     | type, affects the background color and text color                                                            | `default` \| `primary`                                                                                                                                                      | `default` |
-| next-button-props        | properties of the Next button                                                                                | ^[Object]`{ children: VueNode \| string; onClick: Function }`                                                                                                               | -         |
-| prev-button-props        | properties of the previous button                                                                            | ^[Object]`{ children: VueNode \| string; onClick: Function }`                                                                                                               | -         |
-| scroll-into-view-options | support pass custom scrollIntoView options, the default follows the `scrollIntoViewOptions` property of Tour | `boolean` \| `ScrollIntoViewOptions`                                                                                                                                        | -         |
-| show-close               | whether to show a close button                                                                               | `boolean`                                                                                                                                                                   | `true`    |
-| close-icon               | custom close icon, default is Close                                                                          | `string` \| `Component`                                                                                                                                                     | -         |
+| Property                 | Description                                                                                                                                                                                            | Type                                                                                                                                                                        | Default   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| target                   | get the element the guide card points to. Empty makes it show in center of screen. the string and Function types are supported since ^(2.5.2). the string type is selectors of document.querySelector. | `HTMLElement` \| `string` \| ^[Function]`() => HTMLElement`                                                                                                                 | -         |
+| show-arrow               | whether to show the arrow                                                                                                                                                                              | `boolean`                                                                                                                                                                   | `true`    |
+| title                    | title                                                                                                                                                                                                  | `string`                                                                                                                                                                    | -         |
+| description              | description                                                                                                                                                                                            | `string`                                                                                                                                                                    | -         |
+| placement                | position of the guide card relative to the target element                                                                                                                                              | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | `bottom`  |
+| content-style            | custom style for content                                                                                                                                                                               | `CSSProperties`                                                                                                                                                             | -         |
+| mask                     | whether to enable masking, change mask style and fill color by pass custom props                                                                                                                       | `boolean` \| ^[Object]`{ style?: CSSProperties; color?: string; }`                                                                                                          | `true`    |
+| type                     | type, affects the background color and text color                                                                                                                                                      | `default` \| `primary`                                                                                                                                                      | `default` |
+| next-button-props        | properties of the Next button                                                                                                                                                                          | ^[Object]`{ children: VueNode \| string; onClick: Function }`                                                                                                               | -         |
+| prev-button-props        | properties of the previous button                                                                                                                                                                      | ^[Object]`{ children: VueNode \| string; onClick: Function }`                                                                                                               | -         |
+| scroll-into-view-options | support pass custom scrollIntoView options, the default follows the `scrollIntoViewOptions` property of Tour                                                                                           | `boolean` \| `ScrollIntoViewOptions`                                                                                                                                        | -         |
+| show-close               | whether to show a close button                                                                                                                                                                         | `boolean`                                                                                                                                                                   | `true`    |
+| close-icon               | custom close icon, default is Close                                                                                                                                                                    | `string` \| `Component`                                                                                                                                                     | -         |
 
 ### TourStep slots
 
-| Name    | Description |
-| ------- | ----------- |
-| default | description |
-| title   | title       |
+| Name     | Description |
+| -------- | ----------- |
+| default  | description |
+| header   | header      |
 
 ### TourStep events
 

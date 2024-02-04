@@ -516,11 +516,13 @@ $messagebox: map.merge(
     'title-color': getCssVar('text-color-primary'),
     'width': 420px,
     'border-radius': 4px,
+    'box-shadow': getCssVar('box-shadow'),
     'font-size': getCssVar('font-size-large'),
     'content-font-size': getCssVar('font-size-base'),
     'content-color': getCssVar('text-color-regular'),
     'error-font-size': 12px,
-    'padding-primary': 15px,
+    'padding-primary': 12px,
+    'font-line-height': getCssVar('font-line-height-primary'),
   ),
   $messagebox
 );
@@ -786,7 +788,7 @@ $dialog: map.merge(
     'title-font-size': getCssVar('font-size-large'),
     'content-font-size': 14px,
     'font-line-height': getCssVar('font-line-height-primary'),
-    'padding-primary': 20px,
+    'padding-primary': 16px,
     'border-radius': getCssVar('border-radius-small'),
   ),
   $dialog
@@ -798,16 +800,16 @@ $tour: () !default;
 $tour: map.merge(
   (
     'width': 520px,
-    'padding-primary': 16px,
+    'padding-primary': 12px,
     'font-line-height': getCssVar('font-line-height-primary'),
     'title-font-size': 16px,
     'title-text-color': getCssVar('text-color-primary'),
     'title-font-weight': 400,
+    'close-color': getCssVar('color-info'),
     'font-size': 14px,
     'color': getCssVar('text-color-primary'),
     'bg-color': getCssVar('bg-color'),
     'border-radius': 4px,
-    'border-color': getCssVar('border-color-lighter'),
   ),
   $tour
 );

@@ -4,24 +4,20 @@
   <el-divider />
 
   <el-space>
-    <el-button ref="ref1">Upload</el-button>
-    <el-button ref="ref2" type="primary">Save</el-button>
-    <el-button ref="ref3" :icon="MoreFilled" />
+    <el-button id="btn1">Upload</el-button>
+    <el-button id="btn2" type="primary">Save</el-button>
+    <el-button ref="btnRef" :icon="MoreFilled" />
   </el-space>
 
-  <el-tour v-model="open" type="primary" :mask="false">
+  <el-tour v-model="open">
     <el-tour-step
-      :target="ref1?.$el"
+      target="#btn1"
       title="Upload File"
       description="Put you files here."
     />
+    <el-tour-step :target="el" title="Save" description="Save your changes" />
     <el-tour-step
-      :target="ref2?.$el"
-      title="Save"
-      description="Save your changes"
-    />
-    <el-tour-step
-      :target="ref3?.$el"
+      :target="btnRef?.$el"
       title="Other Actions"
       description="Click to see other"
     />
@@ -33,9 +29,8 @@ import { ref } from 'vue'
 import { MoreFilled } from '@element-plus/icons-vue'
 import type { ButtonInstance } from 'element-plus'
 
-const ref1 = ref<ButtonInstance>()
-const ref2 = ref<ButtonInstance>()
-const ref3 = ref<ButtonInstance>()
+const el = () => document.querySelector<HTMLElement>('#btn2')
+const btnRef = ref<ButtonInstance>()
 
 const open = ref(false)
 </script>
