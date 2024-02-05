@@ -96,6 +96,7 @@ const getIcon = (link: string) => {
   .search-content {
     position: sticky;
     top: 60px;
+    z-index: 10;
 
     .el-input {
       background: var(--bg-color);
