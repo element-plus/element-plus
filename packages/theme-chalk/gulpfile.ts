@@ -1,4 +1,5 @@
 import path from 'path'
+import { Transform } from 'stream'
 import chalk from 'chalk'
 import { type TaskFunction, dest, parallel, series, src } from 'gulp'
 import gulpSass from 'gulp-sass'
@@ -15,29 +16,42 @@ const distBundle = path.resolve(epOutput, 'theme-chalk')
 
 /**
  * minify css
- * @param file `css`文件
  */
-function doMinifyCss(file: Vinly) {
-  try {
-    const details = new cleanCSS({
+const minifyCssInstance = new Transform({
+  objectMode: true,
+  transform(chunk, _encoding, callback) {
+    const file = chunk as Vinly
+    if (file.isNull()) {
+      callback(null, file)
+      return
+    }
+    if (file.isStream()) {
+      callback(new Error('Streaming not supported'))
+      return
+    }
+    const cssString = file.contents!.toString()
+    const minified = new cleanCSS({
       compatibility: '*',
       rebaseTo: path.dirname(file.path),
     }).minify({
       [file.path]: {
-        styles: file.contents ? file.contents.toString() : '',
+        styles: cssString,
       },
     })
+    if (minified.errors.length) {
+      callback(new Error(minified.errors.join(' ')))
+      return
+    }
     const name = file.path.split(file.base)[1]
-    file.contents = Buffer.from(details.styles)
+    file.contents = Buffer.from(minified.styles)
     consola.success(
       `${chalk.cyan(name)}: ${chalk.yellow(
-        details.stats.originalSize / 1000
-      )} KB -> ${chalk.green(details.stats.minifiedSize / 1000)} KB`
+        minified.stats.originalSize / 1000
+      )} KB -> ${chalk.green(minified.stats.minifiedSize / 1000)} KB`
     )
-  } catch (e) {
-    consola.error(e)
-  }
-}
+    callback(null, file)
+  },
+})
 
 /**
  * compile theme-chalk scss & minify
@@ -47,18 +61,21 @@ function doMinifyCss(file: Vinly) {
 function buildThemeChalk() {
   const sass = gulpSass(dartSass)
   const noElPrefixFile = /(index|base|display)/
-  return src(path.resolve(__dirname, 'src/*.scss'))
-    .pipe(sass.sync())
-    .pipe(autoprefixer({ cascade: false }))
-    .on('data', doMinifyCss)
-    .pipe(
-      rename((path) => {
-        if (!noElPrefixFile.test(path.basename)) {
-          path.basename = `el-${path.basename}`
-        }
-      })
-    )
-    .pipe(dest(distFolder))
+  return (
+    src(path.resolve(__dirname, 'src/*.scss'))
+      .pipe(sass.sync())
+      .pipe(autoprefixer({ cascade: false }))
+      // Avoid creating `Transform` multiple times when calling the method
+      .pipe(minifyCssInstance)
+      .pipe(
+        rename((path) => {
+          if (!noElPrefixFile.test(path.basename)) {
+            path.basename = `el-${path.basename}`
+          }
+        })
+      )
+      .pipe(dest(distFolder))
+  )
 }
 
 /**
@@ -67,11 +84,14 @@ function buildThemeChalk() {
  */
 function buildDarkCssVars() {
   const sass = gulpSass(dartSass)
-  return src(path.resolve(__dirname, 'src/dark/css-vars.scss'))
-    .pipe(sass.sync())
-    .pipe(autoprefixer({ cascade: false }))
-    .on('data', doMinifyCss)
-    .pipe(dest(`${distFolder}/dark`))
+  return (
+    src(path.resolve(__dirname, 'src/dark/css-vars.scss'))
+      .pipe(sass.sync())
+      .pipe(autoprefixer({ cascade: false }))
+      // Avoid creating `Transform` multiple times when calling the method
+      .pipe(minifyCssInstance)
+      .pipe(dest(`${distFolder}/dark`))
+  )
 }
 
 /**
