@@ -20,7 +20,7 @@
       </component>
     </div>
     <template v-if="!native">
-      <bar ref="barRef" :always="always" />
+      <bar ref="barRef" :always="always" :min-size="minSize" />
     </template>
   </div>
 </template>

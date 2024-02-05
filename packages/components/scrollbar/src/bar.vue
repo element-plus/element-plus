@@ -15,7 +15,7 @@ import Thumb from './thumb.vue'
 import { barProps } from './bar'
 import { scrollbarContextKey } from './constants'
 
-defineProps(barProps)
+const props = defineProps(barProps)
 
 const scrollbar = inject(scrollbarContextKey)
 
@@ -44,8 +44,8 @@ const update = () => {
 
   const originalHeight = offsetHeight ** 2 / wrap.scrollHeight
   const originalWidth = offsetWidth ** 2 / wrap.scrollWidth
-  const height = Math.max(originalHeight, scrollbar.minSize)
-  const width = Math.max(originalWidth, scrollbar.minSize)
+  const height = Math.max(originalHeight, props.minSize)
+  const width = Math.max(originalWidth, props.minSize)
 
   ratioY.value =
     originalHeight /
