@@ -30,15 +30,9 @@
           >
             <template #header>
               <el-text truncated>{{ item.text }}</el-text>
-              <el-tag
-                v-if="item.promotion"
-                class="promotion"
-                size="small"
-                round
-                effect="plain"
-              >
+              <span v-if="item.promotion" class="vp-tag">
                 {{ item.promotion }}
-              </el-tag>
+              </span>
             </template>
 
             <template #default>
