@@ -123,7 +123,7 @@ const getIcon = (link: string) => {
 
       .card-content {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 20px;
 
         ::v-deep(.el-card) {
@@ -156,26 +156,6 @@ const getIcon = (link: string) => {
               height: auto;
             }
           }
-        }
-
-        //@media (max-width: 3240px) {
-        //  grid-template-columns: repeat(6, 1fr);
-        //}
-        //
-        //@media (max-width: 2160px) {
-        //  grid-template-columns: repeat(4, 1fr);
-        //}
-        //
-        //@media (max-width: 1440px) {
-        //  grid-template-columns: repeat(3, 1fr);
-        //}
-
-        @media (max-width: 1200px) {
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        @media (max-width: 768px) {
-          grid-template-columns: repeat(1, 1fr);
         }
       }
     }
