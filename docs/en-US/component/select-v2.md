@@ -202,7 +202,7 @@ select-v2/custom-loading
 ### Attributes
 
 | Name                                | Description                                                                                                                              | Type                                                                                                                                                                        | Default       |
-|-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | model-value / v-model               | biding value                                                                                                                             | ^[string] / ^[number] / ^[boolean] / ^[object] / ^[array]                                                                                                                   | —             |
 | options                             | data of the options, the key of `value` and `label` can be customize by `props`                                                          | ^[array]                                                                                                                                                                    | —             |
 | props ^(2.4.2)                      | configuration options, see the following table                                                                                           | ^[object]                                                                                                                                                                   | —             |
@@ -247,7 +247,7 @@ select-v2/custom-loading
 ### props
 
 | Attribute | Description                                                     | Type      | Default  |
-|-----------|-----------------------------------------------------------------|-----------|----------|
+| --------- | --------------------------------------------------------------- | --------- | -------- |
 | value     | specify which key of node object is used as the node's value    | ^[string] | value    |
 | label     | specify which key of node object is used as the node's label    | ^[string] | label    |
 | options   | specify which key of node object is used as the node's children | ^[string] | options  |
@@ -267,7 +267,7 @@ select-v2/custom-loading
 ### Slots
 
 | Name             | Description                           |
-|------------------|---------------------------------------|
+| ---------------- | ------------------------------------- |
 | default          | Option renderer                       |
 | header ^(2.5.2)  | content at the top of the dropdown    |
 | footer ^(2.5.2)  | content at the bottom of the dropdown |
@@ -279,6 +279,6 @@ select-v2/custom-loading
 ### Exposes
 
 | Method | Description                                     | Type                    |
-|--------|-------------------------------------------------|-------------------------|
+| ------ | ----------------------------------------------- | ----------------------- |
 | focus  | focus the Input component                       | ^[Function]`() => void` |
 | blur   | blur the Input component, and hide the dropdown | ^[Function]`() => void` |

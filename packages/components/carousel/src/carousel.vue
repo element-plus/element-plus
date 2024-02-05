@@ -13,6 +13,7 @@
           "
           type="button"
           :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
+          :aria-label="t('el.carousel.leftArrow')"
           @mouseenter="handleButtonEnter('left')"
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(activeIndex - 1)"
@@ -30,6 +31,7 @@
           "
           type="button"
           :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
+          :aria-label="t('el.carousel.rightArrow')"
           @mouseenter="handleButtonEnter('right')"
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(activeIndex + 1)"
@@ -55,7 +57,10 @@
         @mouseenter="throttledIndicatorHover(index)"
         @click.stop="handleIndicatorClick(index)"
       >
-        <button :class="ns.e('button')">
+        <button
+          :class="ns.e('button')"
+          :aria-label="t('el.carousel.indicator', { index: index + 1 })"
+        >
           <span v-if="hasLabel">{{ item.props.label }}</span>
         </button>
       </li>
@@ -67,7 +72,7 @@
 import { computed, unref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { carouselEmits, carouselProps } from './carousel'
 import { useCarousel } from './use-carousel'
 
@@ -102,6 +107,8 @@ const {
   throttledIndicatorHover,
 } = useCarousel(props, emit, COMPONENT_NAME)
 const ns = useNamespace('carousel')
+
+const { t } = useLocale()
 
 const carouselClasses = computed(() => {
   const classes = [ns.b(), ns.m(props.direction)]
