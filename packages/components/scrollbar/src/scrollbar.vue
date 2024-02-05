@@ -157,7 +157,6 @@ provide(
   reactive({
     scrollbarElement: scrollbarRef,
     wrapElement: wrapRef,
-    minSize: props.minSize,
   })
 )
 
