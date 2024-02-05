@@ -14,7 +14,7 @@
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
       :popper-options="popperOptions"
-      :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
+      :fallback-placements="fallbackPlacements"
       :effect="effect"
       pure
       trigger="click"
