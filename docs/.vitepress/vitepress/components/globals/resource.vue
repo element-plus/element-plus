@@ -39,12 +39,26 @@ const onClick = (item: string) => {
 
 const resourceCards = computed(() => [
   {
-    key: 'axure',
-    title: resourceLang.value.axure,
-    description: 'Axure RP 9.0',
-    icon: AxureComponentsSvg,
-    intro: resourceLang.value.axureIntro,
-    url: resourceUrl.axure,
+    key: '2023-figma-ui-kit',
+    title: resourceLang.value.figma2023,
+    description: '2023 Figma UI Kit',
+    icon: FigmaUiKitSvg,
+    intro: resourceLang.value.figma2023Intro,
+    url: 'https://www.figma.com/community/file/1305760370797950824/element-plus-design-system-ui-kit',
+  },
+  {
+    key: 'figma-variables',
+    title: resourceLang.value.figmaVariables,
+    icon: FigmaVariablesSvg,
+    intro: resourceLang.value.figmaVariablesIntro,
+    url: 'https://www.figma.com/community/file/1256091634199852065',
+  },
+  {
+    key: 'figma',
+    title: resourceLang.value.figma,
+    icon: FigmaTemplateSvg,
+    intro: resourceLang.value.figmaIntro,
+    url: 'https://www.figma.com/community/file/1021254029764378306',
   },
   {
     key: 'sketch',
@@ -55,26 +69,12 @@ const resourceCards = computed(() => [
     url: resourceUrl.sketch,
   },
   {
-    key: 'figma',
-    title: resourceLang.value.figma,
-    icon: FigmaTemplateSvg,
-    intro: resourceLang.value.figmaIntro,
-    url: 'https://www.figma.com/community/file/1021254029764378306',
-  },
-  {
-    key: 'figma-variables',
-    title: resourceLang.value.figmaVariables,
-    icon: FigmaVariablesSvg,
-    intro: resourceLang.value.figmaVariablesIntro,
-    url: 'https://www.figma.com/community/file/1256091634199852065',
-  },
-  {
-    key: '2023-figma-ui-kit',
-    title: resourceLang.value.figma2023,
-    description: '2023 Figma UI Kit',
-    icon: FigmaUiKitSvg,
-    intro: resourceLang.value.figma2023Intro,
-    url: 'https://www.figma.com/community/file/1305760370797950824/element-plus-design-system-ui-kit',
+    key: 'axure',
+    title: resourceLang.value.axure,
+    description: 'Axure RP 9.0',
+    icon: AxureComponentsSvg,
+    intro: resourceLang.value.axureIntro,
+    url: resourceUrl.axure,
   },
 ])
 </script>

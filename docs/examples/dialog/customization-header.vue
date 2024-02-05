@@ -1,8 +1,9 @@
 <template>
-  <el-button @click="visible = true">
+  <el-button plain @click="visible = true">
     Open Dialog with customized header
   </el-button>
-  <el-dialog v-model="visible" :show-close="false">
+
+  <el-dialog v-model="visible" :show-close="false" width="500">
     <template #header="{ close, titleId, titleClass }">
       <div class="my-header">
         <h4 :id="titleId" :class="titleClass">This is a custom header!</h4>
@@ -29,5 +30,6 @@ const visible = ref(false)
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  gap: 16px;
 }
 </style>

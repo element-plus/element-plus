@@ -10,7 +10,7 @@
       <component :is="mergedCloseIcon" />
     </el-icon>
   </button>
-  <header :class="ns.e('header')">
+  <header :class="[ns.e('header'), { 'show-close': showClose }]">
     <slot name="header">
       <span role="heading" :class="ns.e('title')">
         {{ title }}
@@ -43,7 +43,7 @@
         v-if="current > 0"
         size="small"
         :type="mergedType"
-        v-bind="prevButtonProps"
+        v-bind="filterButtonProps(prevButtonProps)"
         @click="onPrev"
       >
         {{ prevButtonProps?.children ?? t('el.tour.previous') }}
@@ -52,13 +52,12 @@
         v-if="current <= total - 1"
         size="small"
         :type="mergedType === 'primary' ? 'default' : 'primary'"
-        v-bind="nextButtonProps"
+        v-bind="filterButtonProps(nextButtonProps)"
         @click="onNext"
       >
         {{
-          nextButtonProps?.children ?? current === total - 1
-            ? t('el.tour.finish')
-            : t('el.tour.next')
+          nextButtonProps?.children ??
+          (current === total - 1 ? t('el.tour.finish') : t('el.tour.next'))
         }}
       </el-button>
     </div>
@@ -66,13 +65,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject } from 'vue'
+import { computed, inject, watch } from 'vue'
+import { omit } from 'lodash-unified'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { CloseComponents } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import { tourStepEmits, tourStepProps } from './step'
 import { tourKey } from './helper'
+
+import type { TourBtnProps } from './types'
 
 defineOptions({
   name: 'ElTourStep',
@@ -86,6 +88,7 @@ const { Close } = CloseComponents
 const { t } = useLocale()
 
 const {
+  currentStep,
   current,
   total,
   showClose,
@@ -99,10 +102,25 @@ const {
   onChange,
 } = inject(tourKey)!
 
+watch(
+  props,
+  (val) => {
+    currentStep.value = val
+  },
+  {
+    immediate: true,
+  }
+)
+
 const mergedShowClose = computed(() => props.showClose ?? showClose.value)
 const mergedCloseIcon = computed(
   () => props.closeIcon ?? closeIcon.value ?? Close
 )
+
+const filterButtonProps = (btnProps?: TourBtnProps) => {
+  if (!btnProps) return
+  return omit(btnProps, ['children', 'onClick'])
+}
 
 const onPrev = () => {
   current.value -= 1
