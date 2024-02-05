@@ -16,42 +16,45 @@ const distBundle = path.resolve(epOutput, 'theme-chalk')
 
 /**
  * minify css
+ * @returns
  */
-const minifyCssInstance = new Transform({
-  objectMode: true,
-  transform(chunk, _encoding, callback) {
-    const file = chunk as Vinly
-    if (file.isNull()) {
+function doMinifyCss() {
+  return new Transform({
+    objectMode: true,
+    transform(chunk, _encoding, callback) {
+      const file = chunk as Vinly
+      if (file.isNull()) {
+        callback(null, file)
+        return
+      }
+      if (file.isStream()) {
+        callback(new Error('Streaming not supported'))
+        return
+      }
+      const cssString = file.contents!.toString()
+      const minified = new cleanCSS({
+        compatibility: '*',
+        rebaseTo: path.dirname(file.path),
+      }).minify({
+        [file.path]: {
+          styles: cssString,
+        },
+      })
+      if (minified.errors.length) {
+        callback(new Error(minified.errors.join(' ')))
+        return
+      }
+      const name = file.path.split(file.base)[1]
+      file.contents = Buffer.from(minified.styles)
+      consola.success(
+        `${chalk.cyan(name)}: ${chalk.yellow(
+          minified.stats.originalSize / 1000
+        )} KB -> ${chalk.green(minified.stats.minifiedSize / 1000)} KB`
+      )
       callback(null, file)
-      return
-    }
-    if (file.isStream()) {
-      callback(new Error('Streaming not supported'))
-      return
-    }
-    const cssString = file.contents!.toString()
-    const minified = new cleanCSS({
-      compatibility: '*',
-      rebaseTo: path.dirname(file.path),
-    }).minify({
-      [file.path]: {
-        styles: cssString,
-      },
-    })
-    if (minified.errors.length) {
-      callback(new Error(minified.errors.join(' ')))
-      return
-    }
-    const name = file.path.split(file.base)[1]
-    file.contents = Buffer.from(minified.styles)
-    consola.success(
-      `${chalk.cyan(name)}: ${chalk.yellow(
-        minified.stats.originalSize / 1000
-      )} KB -> ${chalk.green(minified.stats.minifiedSize / 1000)} KB`
-    )
-    callback(null, file)
-  },
-})
+    },
+  })
+}
 
 /**
  * compile theme-chalk scss & minify
@@ -61,21 +64,18 @@ const minifyCssInstance = new Transform({
 function buildThemeChalk() {
   const sass = gulpSass(dartSass)
   const noElPrefixFile = /(index|base|display)/
-  return (
-    src(path.resolve(__dirname, 'src/*.scss'))
-      .pipe(sass.sync())
-      .pipe(autoprefixer({ cascade: false }))
-      // Avoid creating `Transform` multiple times when calling the method
-      .pipe(minifyCssInstance)
-      .pipe(
-        rename((path) => {
-          if (!noElPrefixFile.test(path.basename)) {
-            path.basename = `el-${path.basename}`
-          }
-        })
-      )
-      .pipe(dest(distFolder))
-  )
+  return src(path.resolve(__dirname, 'src/*.scss'))
+    .pipe(sass.sync())
+    .pipe(autoprefixer({ cascade: false }))
+    .pipe(doMinifyCss())
+    .pipe(
+      rename((path) => {
+        if (!noElPrefixFile.test(path.basename)) {
+          path.basename = `el-${path.basename}`
+        }
+      })
+    )
+    .pipe(dest(distFolder))
 }
 
 /**
@@ -84,14 +84,11 @@ function buildThemeChalk() {
  */
 function buildDarkCssVars() {
   const sass = gulpSass(dartSass)
-  return (
-    src(path.resolve(__dirname, 'src/dark/css-vars.scss'))
-      .pipe(sass.sync())
-      .pipe(autoprefixer({ cascade: false }))
-      // Avoid creating `Transform` multiple times when calling the method
-      .pipe(minifyCssInstance)
-      .pipe(dest(`${distFolder}/dark`))
-  )
+  return src(path.resolve(__dirname, 'src/dark/css-vars.scss'))
+    .pipe(sass.sync())
+    .pipe(autoprefixer({ cascade: false }))
+    .pipe(doMinifyCss())
+    .pipe(dest(`${distFolder}/dark`))
 }
 
 /**
