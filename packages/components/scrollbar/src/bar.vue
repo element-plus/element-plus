@@ -21,8 +21,8 @@ const scrollbar = inject(scrollbarContextKey)
 
 const moveX = ref(0)
 const moveY = ref(0)
-const sizeWidth = ref('0')
-const sizeHeight = ref('0')
+const sizeWidth = ref('')
+const sizeHeight = ref('')
 const ratioY = ref(1)
 const ratioX = ref(1)
 
