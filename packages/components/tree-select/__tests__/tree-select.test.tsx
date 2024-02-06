@@ -699,4 +699,40 @@ describe('TreeSelect.vue', () => {
     select.vm.handleOptionSelect(select.vm.states.options.get(2))
     expect(spy2).toBeCalledWith(2)
   })
+
+  test('always focus when using filters', async () => {
+    const { tree, select } = createComponent({
+      props: {
+        filterable: true,
+        showCheckbox: true,
+        checkOnClickNode: true,
+        data: [
+          { value: 1, label: 1 },
+          { value: 2, label: 2 },
+        ],
+      },
+    })
+
+    await nextTick()
+
+    const input = select.find('input')
+
+    // mock browser blur events
+    tree.element.addEventListener('click', () => input.element.blur(), true)
+
+    input.element.focus()
+    expect(document.activeElement).toBe(input.element)
+
+    // normal click
+    await tree.find('.el-tree-node__content').trigger('click')
+    expect(select.vm.modelValue).toBe(1)
+    expect(document.activeElement).toBe(input.element)
+
+    // checkbox click
+    await tree
+      .findAll('.el-tree-node__content .el-checkbox')[1]
+      .trigger('click')
+    expect(select.vm.modelValue).toBe(2)
+    expect(document.activeElement).toBe(input.element)
+  })
 })

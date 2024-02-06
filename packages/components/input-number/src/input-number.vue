@@ -50,7 +50,7 @@
       :name="name"
       :label="label"
       :validate-event="false"
-      @wheel.prevent
+      @wheel="handleWheel"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
       @blur="handleBlur"
@@ -289,6 +289,10 @@ const setCurrentValueToModelValue = () => {
     data.currentValue = props.modelValue
   }
 }
+const handleWheel = (e: MouseEvent) => {
+  if (document.activeElement === e.target) e.preventDefault()
+}
+
 watch(
   () => props.modelValue,
   (value, oldValue) => {
