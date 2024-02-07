@@ -244,9 +244,9 @@ const handleFocus = (evt: FocusEvent) => {
   if (!ignoreFocusEvent) {
     activated.value = true
     emit('focus', evt)
-
     if (props.triggerOnFocus && !readonly) {
-      debouncedGetData(String(props.modelValue))
+      const queryString = props.modelValue ?? ''
+      debouncedGetData(String(queryString))
     }
   } else {
     ignoreFocusEvent = false
