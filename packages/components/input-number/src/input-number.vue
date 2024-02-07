@@ -251,18 +251,22 @@ const setCurrentValue = (
 const handleInput = (value: string) => {
   data.userInput = value
   const newVal = value === '' ? null : Number(value)
-  emit(INPUT_EVENT, newVal)
-  setCurrentValue(newVal, false)
+  if (newVal !== null && newVal > Number.MAX_SAFE_INTEGER) {
+    emit(INPUT_EVENT, Number.MAX_SAFE_INTEGER)
+    setCurrentValue(Number.MAX_SAFE_INTEGER, false)
+  } else {
+    emit(INPUT_EVENT, newVal)
+    setCurrentValue(newVal, false)
+  }
 }
 const handleInputChange = (value: string) => {
   const newVal = value !== '' ? Number(value) : ''
-  if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
+  if ((isNumber(newVal) && newVal < Number.MAX_SAFE_INTEGER) || value === '') {
     setCurrentValue(newVal)
   }
   setCurrentValueToModelValue()
   data.userInput = null
 }
-
 const focus = () => {
   input.value?.focus?.()
 }
