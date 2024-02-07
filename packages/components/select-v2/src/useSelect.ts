@@ -806,6 +806,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     },
     {
       deep: true,
+      flush: 'post',
     }
   )
 
