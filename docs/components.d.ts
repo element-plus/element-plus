@@ -8,8 +8,6 @@ declare module '@vue/runtime-core' {
     A11yTag: typeof import('./.vitepress/vitepress/components/dev/a11y-tag.vue')['default']
     AxureComponentsSvg: typeof import('./.vitepress/vitepress/components/globals/resources/axure-components-svg.vue')['default']
     BackToTop: typeof import('./.vitepress/vitepress/components/icons/back-to-top.vue')['default']
-    Border: typeof import('~/components/globals/overflow-icons/ov-button.vue')['default']
-    Button: typeof import('~/components/globals/overflow-icons/ov-button.vue')['default']
     Codepen: typeof import('./.vitepress/vitepress/components/icons/codepen.vue')['default']
     ComponentSvg: typeof import('./.vitepress/vitepress/components/home/svg/component-svg.vue')['default']
     ConsistencySvg: typeof import('./.vitepress/vitepress/components/globals/design/consistency-svg.vue')['default']
