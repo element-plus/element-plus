@@ -44,7 +44,7 @@ export const useCheckbox = (
       if (isArray(model.value) && !model.value.includes(actualValue.value)) {
         model.value.push(actualValue.value)
       } else {
-        model.value = props.trueLabel || true
+        model.value = props.trueValue || props.trueLabel || true
       }
     }
     props.checked && addToStore()
@@ -61,6 +61,28 @@ export const useCheckbox = (
       ref: 'https://element-plus.org/en-US/component/checkbox.html',
     },
     computed(() => isGroup.value && isNil(props.value))
+  )
+
+  useDeprecated(
+    {
+      from: 'true-label',
+      replacement: 'true-value',
+      version: '3.0.0',
+      scope: 'el-checkbox',
+      ref: 'https://element-plus.org/en-US/component/checkbox.html',
+    },
+    computed(() => !!props.trueLabel)
+  )
+
+  useDeprecated(
+    {
+      from: 'false-label',
+      replacement: 'false-value',
+      version: '3.0.0',
+      scope: 'el-checkbox',
+      ref: 'https://element-plus.org/en-US/component/checkbox.html',
+    },
+    computed(() => !!props.falseLabel)
   )
 
   return {

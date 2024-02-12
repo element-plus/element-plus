@@ -228,7 +228,7 @@ describe('Checkbox', () => {
       const checked = ref('a')
       const wrapper = mount(() => (
         <ElFormItem label="test">
-          <Checkbox true-label="a" false-label={3} v-model={checked.value} />
+          <Checkbox true-value="a" false-value={3} v-model={checked.value} />
         </ElFormItem>
       ))
 
@@ -246,8 +246,8 @@ describe('Checkbox', () => {
       const wrapper = mount(() => (
         <Checkbox
           label="Foobar"
-          true-label="a"
-          false-label={3}
+          true-value="a"
+          false-value={3}
           v-model={checked.value}
         />
       ))
@@ -263,7 +263,7 @@ describe('Checkbox', () => {
     test('with label as slot content', async () => {
       const checked = ref('a')
       const wrapper = mount(() => (
-        <Checkbox true-label="a" false-label={3} v-model={checked.value}>
+        <Checkbox true-value="a" false-value={3} v-model={checked.value}>
           Foobar
         </Checkbox>
       ))
