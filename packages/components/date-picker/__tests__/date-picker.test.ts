@@ -374,7 +374,7 @@ describe('DatePicker', () => {
       () => ({
         value: '2024-01-01',
         disabledDate(time) {
-          const dayTime = new Date('2023-02-03').getTime()
+          const dayTime = new Date(2023, 1, 4).getTime()
           return time.getTime() < dayTime
         },
       })
@@ -404,7 +404,7 @@ describe('DatePicker', () => {
       () => ({
         value: '2023-05-01',
         disabledDate(time) {
-          const dayTime = new Date('2023-02-03').getTime()
+          const dayTime = new Date(2023, 1, 4).getTime()
           return time.getTime() < dayTime
         },
       })
