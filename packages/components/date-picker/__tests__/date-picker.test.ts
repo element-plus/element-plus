@@ -365,6 +365,66 @@ describe('DatePicker', () => {
     expect(document.querySelector('.disabled')).not.toBeNull()
   })
 
+  it('select year picker when using disabledDate prop', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        :disabledDate="disabledDate"
+    />`,
+      () => ({
+        value: '2024-01-01',
+        disabledDate(time) {
+          const dayTime = new Date('2023-02-03').getTime()
+          return time.getTime() < dayTime
+        },
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const yearLabel: HTMLElement = document.querySelectorAll(
+      '.el-date-picker__header-label'
+    )[0]
+    yearLabel.click()
+    await nextTick()
+    const yearCells = document.querySelectorAll('.cell')
+    const year2023 = [...yearCells].find((item) => item.innerHTML === '2023')
+    year2023.click()
+    await nextTick()
+    expect(input.element.value).toBe('2023-02-04')
+  })
+
+  it('select month picker when using disabledDate prop', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        :disabledDate="disabledDate"
+    />`,
+      () => ({
+        value: '2023-05-01',
+        disabledDate(time) {
+          const dayTime = new Date('2023-02-03').getTime()
+          return time.getTime() < dayTime
+        },
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const monthLabel: HTMLElement = document.querySelectorAll(
+      '.el-date-picker__header-label'
+    )[1]
+    monthLabel.click()
+    await nextTick()
+    const monthCells = document.querySelectorAll('.cell')
+    const februaryCell = monthCells[1]
+    februaryCell.click()
+    await nextTick()
+    expect(input.element.value).toBe('2023-02-04')
+  })
+
   it('should work when using disabledDate prop and daterange type', async () => {
     const wrapper = _mount(
       `<el-date-picker

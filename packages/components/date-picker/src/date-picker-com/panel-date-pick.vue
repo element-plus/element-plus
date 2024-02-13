@@ -217,6 +217,7 @@ import {
 } from '@element-plus/icons-vue'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
+import { datesInMonth } from '../utils'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -406,8 +407,37 @@ const keyboardMode = computed<string>(() => {
 
 const hasShortcuts = computed(() => !!shortcuts.length)
 
+const getValidDateOfMonth = (month: number) => {
+  const _value = innerDate.value.startOf('month').month(month)
+  const dateCountOfMonth = _value.daysInMonth()
+  for (let i = 0; i < dateCountOfMonth; i++) {
+    const _countDate = _value.add(i, 'day')
+    if (!disabledDate?.(_countDate.toDate())) {
+      return _countDate
+    }
+  }
+  return _value
+}
+
+const getValidDateOfYear = (year: number) => {
+  innerDate.value = innerDate.value.year(year)
+  if (!disabledDate?.(innerDate.value.toDate())) {
+    return innerDate.value
+  }
+  const month = innerDate.value.month()
+  if (!datesInMonth(year, month, lang.value).every(disabledDate)) {
+    return getValidDateOfMonth(month)
+  }
+  for (let i = 0; i < 12; i++) {
+    if (!datesInMonth(year, i, lang.value).every(disabledDate)) {
+      return getValidDateOfMonth(i)
+    }
+  }
+  return innerDate.value
+}
+
 const handleMonthPick = async (month: number) => {
-  innerDate.value = innerDate.value.startOf('month').month(month)
+  innerDate.value = getValidDateOfMonth(month)
   if (selectionMode.value === 'month') {
     emit(innerDate.value, false)
   } else {
@@ -426,7 +456,7 @@ const handleYearPick = async (year: number) => {
     innerDate.value = innerDate.value.startOf('year').year(year)
     emit(innerDate.value, false)
   } else {
-    innerDate.value = innerDate.value.year(year)
+    innerDate.value = getValidDateOfYear(year)
     currentView.value = 'month'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
       emit(innerDate.value, true)
