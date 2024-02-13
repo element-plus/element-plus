@@ -30,9 +30,7 @@ export const useSelect = (
     'onUpdate:modelValue': (value) => emit(UPDATE_MODEL_EVENT, value),
     valueKey: key,
     popperClass: computed(() => {
-      const classes = [ns.e('popper')]
-      if (props.popperClass) classes.push(props.popperClass)
-      return classes.join(' ')
+      return ns.e('popper') + props.popperClass && props.popperClass
     }),
     filterMethod: (keyword = '') => {
       if (props.filterMethod) props.filterMethod(keyword)
