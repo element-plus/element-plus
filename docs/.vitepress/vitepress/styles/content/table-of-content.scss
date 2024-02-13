@@ -41,7 +41,7 @@
       left: 0;
       z-index: 0;
       transition: top 0.25s cubic-bezier(0, 1, 0.5, 1), opacity 0.25s,
-        background-color 0.5s;
+      background-color 0.5s;
     }
 
     &__heading {
@@ -61,9 +61,6 @@
       .toc-item {
         margin-top: 10px;
         font-size: 11px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
         color: inherit;
         list-style: none;
 
@@ -73,10 +70,12 @@
           position: relative;
           color: var(--text-color-lighter);
           transition: color var(--el-transition-duration);
+
           &.active {
             color: var(--brand-color);
           }
-          p{
+
+          p {
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
