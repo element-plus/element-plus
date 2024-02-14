@@ -25,13 +25,13 @@ export default defineComponent({
       () => props.data,
       () => {
         props.data.forEach((item) => {
-          if (!select.cachedOptions.has(item.value)) {
-            select.cachedOptions.set(item.value, item)
+          if (!select.states.cachedOptions.has(item.value)) {
+            select.states.cachedOptions.set(item.value, item)
           }
         })
 
         // fork from packages/select/src/useSelect.ts#330
-        const inputs = select.selectWrapper?.querySelectorAll('input') || []
+        const inputs = select.selectRef?.querySelectorAll('input') || []
         if (
           !Array.from(inputs).includes(
             document.activeElement as HTMLInputElement

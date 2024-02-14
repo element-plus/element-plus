@@ -14,7 +14,7 @@
   padding: 0;
   font-size: getCssVar('text', 'font-size');
   color: getCssVar('text', 'color');
-  word-break: break-all;
+  overflow-wrap: break-word;
 
   @include when(truncated) {
     display: inline-block;

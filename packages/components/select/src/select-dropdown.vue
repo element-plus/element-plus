@@ -3,7 +3,13 @@
     :class="[ns.b('dropdown'), ns.is('multiple', isMultiple), popperClass]"
     :style="{ [isFitInputWidth ? 'width' : 'minWidth']: minWidth }"
   >
+    <div v-if="$slots.header" :class="ns.be('dropdown', 'header')">
+      <slot name="header" />
+    </div>
     <slot />
+    <div v-if="$slots.footer" :class="ns.be('dropdown', 'footer')">
+      <slot name="footer" />
+    </div>
   </div>
 </template>
 
@@ -29,14 +35,14 @@ export default defineComponent({
     const minWidth = ref('')
 
     function updateMinWidth() {
-      minWidth.value = `${select.selectWrapper?.offsetWidth}px`
+      minWidth.value = `${select.selectRef?.offsetWidth}px`
     }
 
     onMounted(() => {
       // TODO: updatePopper
       // popper.value.update()
       updateMinWidth()
-      useResizeObserver(select.selectWrapper, updateMinWidth)
+      useResizeObserver(select.selectRef, updateMinWidth)
     })
 
     return {

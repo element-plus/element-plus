@@ -1,4 +1,3 @@
-addIcon
 <template>
   <el-tabs
     v-model="editableTabsValue"
@@ -7,7 +6,7 @@ addIcon
     editable
     @edit="handleTabsEdit"
   >
-    <template #addIcon>
+    <template #add-icon>
       <el-icon><Select /></el-icon>
     </template>
     <el-tab-pane

@@ -138,6 +138,11 @@ export default {
       clearFilter: '全部',
       sumText: '合計',
     },
+    tour: {
+      next: '下一步',
+      previous: '上一步',
+      finish: '結束導覽',
+    },
     tree: {
       emptyText: '暫無資料',
     },
@@ -158,6 +163,11 @@ export default {
     popconfirm: {
       confirmButtonText: '確認',
       cancelButtonText: '取消',
+    },
+    carousel: {
+      leftArrow: '上一張投影片',
+      rightArrow: '下一張投影片',
+      indicator: '投影片切換至索引 {index}',
     },
   },
 }

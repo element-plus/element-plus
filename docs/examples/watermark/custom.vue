@@ -27,7 +27,7 @@ const config = reactive({
     >
       <div class="demo">
         <h1>Element Plus</h1>
-        <h2>a Vue 3 based component library for designers and developers</h2>
+        <h2>A Vue 3 based component library for designers and developers</h2>
         <img src="/images/hamburger.png" alt="示例图片" />
       </div>
     </el-watermark>
@@ -80,13 +80,16 @@ const config = reactive({
 .wrapper {
   display: flex;
 }
+
 .watermark {
   display: flex;
   flex: auto;
 }
+
 .demo {
   flex: auto;
 }
+
 .form {
   width: 330px;
   margin-left: 20px;

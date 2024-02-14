@@ -9,6 +9,18 @@ export const rightRichTextSponsors = [
   },
 ]
 
+export const rightBigLogoSponsors = [
+  {
+    name: 'CRMEB',
+    img: '/images/sponsors/CRMEB.png',
+    imgL: '/images/sponsors/CRMEB-l.png',
+    url: 'http://github.crmeb.net/u/Element?from=element-plus',
+    slogan: 'High-quality open source mall system',
+    slogan_cn: '高品质开源商城系统 累计服务40W+开发者',
+    slogan_index: '高品质开源商城系统累计服务40W+开发者',
+  },
+]
+
 export const rightLogoSmallSponsors = [
   {
     name: 'BuildAdmin',
@@ -59,6 +71,7 @@ export const leftCustomImgSponsors = [
 
 export const platinumSponsors = [
   ...leftCustomImgSponsors,
+  ...rightBigLogoSponsors,
   ...rightRichTextSponsors,
 ]
 

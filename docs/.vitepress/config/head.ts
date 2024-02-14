@@ -52,6 +52,13 @@ export const head: HeadConfig[] = [
     },
   ],
   [
+    'meta',
+    {
+      property: 'og:image',
+      content: '/images/element-plus-og-image.png',
+    },
+  ],
+  [
     'script',
     {},
     `;(() => {
@@ -129,7 +136,7 @@ gtag('config', 'UA-175337989-1');`,
     `
   var resource = document.createElement('link');
   resource.setAttribute("rel", "stylesheet");
-  resource.setAttribute("href","//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap");
+  resource.setAttribute("href","https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800|Open+Sans:400,600;display=swap");
   resource.setAttribute("type","text/css");
   var head = document.querySelector('head');
   head.appendChild(resource);

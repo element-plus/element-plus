@@ -104,6 +104,11 @@ export default {
       clearFilter: '全部',
       sumText: '合计',
     },
+    tour: {
+      next: '下一步',
+      previous: '上一步',
+      finish: '结束导览',
+    },
     tree: {
       emptyText: '暂无数据',
     },
@@ -124,6 +129,11 @@ export default {
     popconfirm: {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
+    },
+    carousel: {
+      leftArrow: '上一张幻灯片',
+      rightArrow: '下一张幻灯片',
+      indicator: '幻灯片切换至索引 {index}',
     },
   },
 }

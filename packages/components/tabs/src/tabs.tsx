@@ -151,6 +151,18 @@ const Tabs = defineComponent({
       computed(() => !!props.activeName)
     )
 
+    useDeprecated(
+      {
+        from: '"addIcon"',
+        replacement: '"add-icon"',
+        scope: 'ElTabs',
+        version: '2.6.0',
+        ref: 'https://element-plus.org/en-US/component/tabs.html#slots',
+        type: 'Slot',
+      },
+      computed(() => !!slots.addIcon)
+    )
+
     watch(
       () => props.activeName,
       (modelValue) => setCurrentName(modelValue)
@@ -178,7 +190,8 @@ const Tabs = defineComponent({
     })
 
     return () => {
-      const addSlot = slots.addIcon
+      const addSlot = slots['add-icon'] || slots['addIcon']
+      const isCamelCase = addSlot && slots['addIcon']
       const newButton =
         props.editable || props.addable ? (
           <span
@@ -190,7 +203,7 @@ const Tabs = defineComponent({
             }}
           >
             {addSlot ? (
-              renderSlot(slots, 'addIcon')
+              renderSlot(slots, isCamelCase ? 'addIcon' : 'add-icon')
             ) : (
               <ElIcon class={ns.is('icon-plus')}>
                 <Plus />

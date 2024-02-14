@@ -81,7 +81,7 @@
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.1",
-    "@element-plus/icons-vue": "^2.0.6",
+    "@element-plus/icons-vue": "^2.3.1",
     "@floating-ui/dom": "^1.0.1",
     "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
     "@types/lodash": "^4.14.182",
