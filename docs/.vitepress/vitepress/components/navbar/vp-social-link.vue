@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { Component } from 'vue'
 
 const props = defineProps<{
@@ -8,15 +8,15 @@ const props = defineProps<{
   text: string
 }>()
 
-const targetLink = computed(() => {
+const targetLink = ref(props.link)
+onMounted(() => {
   if (props.text === 'GitHub') {
     const isPreview = globalThis.location?.host.startsWith('preview')
     if (isPreview) {
       const pr = globalThis.location.host.split('-', 2)[1]
-      return `${targetLink.value}/pull/${pr}`
+      targetLink.value = `${targetLink.value}/pull/${pr}`
     }
   }
-  return props.link
 })
 </script>
 
