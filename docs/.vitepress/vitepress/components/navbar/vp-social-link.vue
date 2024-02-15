@@ -15,7 +15,6 @@ const targetLink = computed(() => {
       const pr = location.host.split('-', 2)[1]
       return `${targetLink.value}/pull/${pr}`
     }
-    return props.link
   }
   return props.link
 })
