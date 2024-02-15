@@ -1,16 +1,29 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { Component } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   icon: Component
   link: string
   text: string
 }>()
+
+const targetLink = computed(() => {
+  if (props.text === 'GitHub') {
+    const isPreview = location.host.startsWith('preview')
+    if (isPreview) {
+      const pr = location.host.split('-', 2)[1]
+      return `${targetLink.value}/pull/${pr}`
+    }
+    return props.link
+  }
+  return props.link
+})
 </script>
 
 <template>
   <a
-    :href="link"
+    :href="targetLink"
     :title="text"
     target="_blank"
     rel="noreferrer noopener"
