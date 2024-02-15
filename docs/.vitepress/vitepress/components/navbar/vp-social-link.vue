@@ -10,9 +10,9 @@ const props = defineProps<{
 
 const targetLink = computed(() => {
   if (props.text === 'GitHub') {
-    const isPreview = window?.location?.host.startsWith('preview')
+    const isPreview = globalThis.location?.host.startsWith('preview')
     if (isPreview) {
-      const pr = window.location.host.split('-', 2)[1]
+      const pr = globalThis.location.host.split('-', 2)[1]
       return `${targetLink.value}/pull/${pr}`
     }
   }
