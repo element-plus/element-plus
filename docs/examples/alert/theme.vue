@@ -6,7 +6,7 @@
     <el-alert title="error alert" type="error" effect="dark" />
   </div>
 </template>
-<script setup lang="ts"></script>
+
 <style scoped>
 .el-alert {
   margin: 20px 0 0;

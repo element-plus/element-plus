@@ -7,7 +7,6 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
 <style scoped>
 .el-alert {
   margin: 20px 0 0;
