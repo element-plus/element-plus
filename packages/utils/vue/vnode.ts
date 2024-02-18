@@ -76,6 +76,21 @@ export function isValidElementNode(node: unknown): node is VNode {
   return isVNode(node) && !isFragment(node) && !isComment(node)
 }
 
+export function getValidVNodes(vnodes: VNodeArrayChildren) {
+  return vnodes.some((child) => {
+    if (!isVNode(child)) return true
+    if (isComment(child)) return false
+    if (
+      isFragment(child) &&
+      !getValidVNodes(child.children as VNodeArrayChildren)
+    )
+      return false
+    return true
+  })
+    ? vnodes
+    : null
+}
+
 /**
  * get a valid child node (not fragment nor comment)
  * @param node {VNode} node to be searched
