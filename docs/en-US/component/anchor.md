@@ -43,16 +43,6 @@ anchor/scroll
 
 :::
 
-## Custom the anchor highlight
-
-Use `get-current-anchor` props to custom the anchor highlight.
-
-:::demo
-
-anchor/getCurrentAnchor
-
-:::
-
 ## Anchor link change
 
 Listening for anchor link change
@@ -95,7 +85,6 @@ anchor/affix
 | duration   | set the scroll duration of the container, in milliseconds.          | `number`                   | 300    |
 | marker     | Whether to show the marker.              | ^[boolean]                                            | true   |
 | type       | set Anchor type.                         | ^[enum]`'defalut' \| 'underline'`                     | `default` |
-| get-current-anchor  | customize the anchor highlight.   | ^[Function]`(currentHref: string) => string`          | -   |
 | direction     | Set Anchor direction.                 | ^[enum]`'vertical' \| 'horizontal'`                   | `vertical`   |
 
 ### Anchor events
@@ -116,7 +105,7 @@ anchor/affix
 
 | Name       | Description                                                   |
 | ---------- | ------------------------------------------------------------- |
-| default    | AnchorLink component list                                       |
+| default    | AnchorLink component list                                     |
 
 
 ### AnchorLink Attributes
@@ -124,7 +113,7 @@ anchor/affix
 | Property   | Description                              | Type                                                  | Default |
 | ---------- | ---------------------------------------- | ----------------------------------------------------- | ------- |
 | title      | the text content of the anchor link.     | `string`                                              | —       |
-| href       | The address of the anchor link.          | `string`                                              | -    |
+| href       | The address of the anchor link.          | `string`                                              | -       |
 
 ### AnchorLink slots
 

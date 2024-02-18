@@ -129,33 +129,4 @@ describe('Anchor.vue', () => {
       hash
     )
   })
-
-  test('active link & getCurrentAnchor', async () => {
-    const hash1 = getHash()
-    const hash2 = getHash()
-    const wrapper = mount({
-      props: ['getCurrentAnchor'],
-      render() {
-        return (
-          <Anchor getCurrentAnchor={this.getCurrentAnchor}>
-            <AnchorLink href={hash1}>{hash1}</AnchorLink>
-            <AnchorLink href={hash2}>{hash2}</AnchorLink>
-          </Anchor>
-        )
-      },
-    })
-    wrapper.find(`a[href="${hash1}"]`).trigger('click')
-    await nextTick()
-    expect(wrapper.find(`a[href="${hash1}"]`).classes()).toContain('is-active')
-
-    wrapper.find(`a[href="${hash2}"]`).trigger('click')
-    await nextTick()
-    expect(wrapper.find(`a[href="${hash2}"]`).classes()).toContain('is-active')
-
-    wrapper.setProps({
-      getCurrentAnchor: () => hash1,
-    })
-    await nextTick()
-    expect(wrapper.find(`a[href="${hash1}"]`).classes()).toContain('is-active')
-  })
 })

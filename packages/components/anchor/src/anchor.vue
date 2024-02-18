@@ -23,11 +23,7 @@ import {
   watchEffect,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import {
-  getOffsetTopDistance,
-  isFunction,
-  isUndefined,
-} from '@element-plus/utils'
+import { getOffsetTopDistance, isUndefined } from '@element-plus/utils'
 import { anchorEmits, anchorProps } from './anchor'
 import {
   anchorKey,
@@ -173,20 +169,14 @@ const unbindScrollEvent = () => {
   }
 }
 
-const currentAnchor = computed(() => {
-  return isFunction(props.getCurrentAnchor)
-    ? props.getCurrentAnchor(current.value)
-    : current.value
-})
-
 const updateMarkerStyle = () => {
   if (!anchorRef.value || !markerRef.value) return
 
-  if (!currentAnchor.value) {
+  if (!current.value) {
     markerStyle.value = {}
     return
   }
-  const currentLinkEl = links[currentAnchor.value]
+  const currentLinkEl = links[current.value]
   if (currentLinkEl) {
     const anchorRect = anchorRef.value.getBoundingClientRect()
     const markerRect = markerRef.value.getBoundingClientRect()
@@ -245,7 +235,7 @@ watchEffect(updateMarkerStyle)
 provide(anchorKey, {
   ns,
   direction: props.direction,
-  currentAnchor,
+  current,
   addLink,
   removeLink,
   handleClick,

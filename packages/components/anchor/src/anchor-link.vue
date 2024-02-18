@@ -36,7 +36,7 @@ const linkRef = ref<HTMLElement | null>(null)
 const {
   ns,
   direction,
-  currentAnchor,
+  current,
   addLink,
   removeLink,
   handleClick: contextHandleClick,
@@ -44,7 +44,7 @@ const {
 
 const cls = computed(() => [
   ns.e('link'),
-  ns.is('active', currentAnchor.value === props.href),
+  ns.is('active', current.value === props.href),
 ])
 
 const handleClick = (e: MouseEvent) => {

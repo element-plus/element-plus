@@ -54,12 +54,6 @@ export const anchorProps = buildProps({
     default: 'defalut',
   },
   /**
-   * @description Customize the anchor highlight
-   */
-  getCurrentAnchor: {
-    type: definePropType<(currentHref: string) => string>(Function),
-  },
-  /**
    * @description Set Anchor direction
    */
   direction: {

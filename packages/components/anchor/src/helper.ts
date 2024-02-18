@@ -11,7 +11,7 @@ export interface AnchorLinkState {
 export interface AnchorContext {
   ns: UseNamespaceReturn
   direction: string
-  currentAnchor: Ref<string>
+  current: Ref<string>
   addLink(state: AnchorLinkState): void
   removeLink(href: string): void
   handleClick(e: MouseEvent, href?: string): void
