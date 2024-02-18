@@ -1,5 +1,25 @@
 ## Changelog
 
+### 2.5.6
+
+_2024-02-18_
+
+#### Features
+
+- Style add og-image & apply lint (#15588 by @yeonjulee1005)
+- Components [select] & [select-v2] add fallbackPlacements prop (#15765 by @Fuphoenixes)
+- Docs preview page jumps to github with pr number (#15854 by @btea)
+
+#### Bug fixes
+
+- Components [carousel] improve a11y (#15579 by @cloydlau)
+- Components [number-input] cannot scroll the container when the mouse pointer over an input (#15211 by @makedopamine)
+- Components [tree-select] always focus when using filters (#15768 by @yujinpan)
+- Components  [table] row has rowspan when hover it only has background on the first row of this rowspan (#15529 by @dowinweb)
+- : toc link overflow (#15276 by @heygsc)
+- Components [scrollbar] multiple rendering (#15822 by @xingyixiang)
+- Components [select-v2] Tags not update when options sync added (#15838 by @kooriookami)
+
 ### 2.5.5
 
 _2024-02-03_
