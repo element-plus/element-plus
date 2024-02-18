@@ -18,35 +18,37 @@
     z-index: 0;
   }
 
-  @include e(list) {
+  @include e(item) {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
 
-    @include e(item) {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
+  @include e(link) {
+    font-size: getCssVar('anchor-font-size');
+    line-height: getCssVar('anchor-line-height');
+    padding: 4px 0;
+    color: getCssVar('anchor-color');
+    transition: color getCssVar('transition-duration');
+    white-space: nowrap;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+    outline: none;
+    cursor: pointer;
 
-      @include e(link) {
-        display: inline-block;
-        font-size: getCssVar('anchor-font-size');
-        line-height: getCssVar('anchor-line-height');
-        padding: 4px 0;
-        color: getCssVar('anchor-color');
-        transition: color getCssVar('transition-duration');
-        white-space: nowrap;
-        text-decoration: none;
-        text-overflow: ellipsis;
-        cursor: pointer;
-
-        &:hover, &:focus {
-          color: getCssVar('anchor-color');
-        }
-
-        @include when(active) {
-          color: getCssVar('anchor-active-color');
-        }
-      }
-
+    &:hover, &:focus {
+      color: getCssVar('anchor-color');
     }
+
+    @include when(active) {
+      color: getCssVar('anchor-active-color');
+    }
+  }
+
+  & .#{$namespace}-anchor__list .#{$namespace}-anchor__item a {
+    display: inline-block;
   }
 
   &.#{$namespace}-anchor--vertical {
