@@ -83,15 +83,7 @@ const setCurrent = (href: string) => {
   }
 }
 
-const handleClick = (e: MouseEvent, href?: string) => {
-  emit('click', e, href)
-  if (href) {
-    setCurrent(href)
-    scrollTo(href)
-  }
-}
-
-const scrollTo = (href: string) => {
+const scrollToHref = (href: string) => {
   if (!containerEle.value) return
   isScrolling = true
   const target = getElement(href) as HTMLElement
@@ -105,6 +97,18 @@ const scrollTo = (href: string) => {
       isScrolling = false
     }, 20)
   })
+}
+
+const scrollTo = (href?: string) => {
+  if (href) {
+    setCurrent(href)
+    scrollToHref(href)
+  }
+}
+
+const handleClick = (e: MouseEvent, href?: string) => {
+  emit('click', e, href)
+  scrollTo(href)
 }
 
 const handleScroll = throttleByRaf(() => {
@@ -216,7 +220,6 @@ onMounted(() => {
   const hash = decodeURIComponent(window.location.hash)
   const target = getElement(hash)
   if (target) {
-    setCurrent(hash)
     scrollTo(hash)
   } else {
     handleScroll()
