@@ -16,7 +16,7 @@ _2024-02-18_
 - Components [number-input] cannot scroll the container when the mouse pointer over an input (#15211 by @makedopamine)
 - Components [tree-select] always focus when using filters (#15768 by @yujinpan)
 - Components  [table] row has rowspan when hover it only has background on the first row of this rowspan (#15529 by @dowinweb)
-- : toc link overflow (#15276 by @heygsc)
+- Docs toc link overflow (#15276 by @heygsc)
 - Components [scrollbar] multiple rendering (#15822 by @xingyixiang)
 - Components [select-v2] Tags not update when options sync added (#15838 by @kooriookami)
 
