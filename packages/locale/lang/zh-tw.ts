@@ -164,5 +164,10 @@ export default {
       confirmButtonText: '確認',
       cancelButtonText: '取消',
     },
+    carousel: {
+      leftArrow: '上一張投影片',
+      rightArrow: '下一張投影片',
+      indicator: '投影片切換至索引 {index}',
+    },
   },
 }
