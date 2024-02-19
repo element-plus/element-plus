@@ -1,7 +1,6 @@
 import { computed } from 'vue'
-import { isNil } from 'lodash-unified'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
-import { isArray } from '@element-plus/utils'
+import { isArray, isPropAbsent } from '@element-plus/utils'
 import { useDeprecated } from '@element-plus/hooks'
 import { useCheckboxDisabled } from './use-checkbox-disabled'
 import { useCheckboxEvent } from './use-checkbox-event'
@@ -60,7 +59,7 @@ export const useCheckbox = (
       scope: 'el-checkbox',
       ref: 'https://element-plus.org/en-US/component/checkbox.html',
     },
-    computed(() => isGroup.value && isNil(props.value))
+    computed(() => isGroup.value && isPropAbsent(props.value))
   )
 
   useDeprecated(

@@ -1,7 +1,7 @@
 import { computed, inject, ref, toRaw } from 'vue'
-import { isEqual, isNil } from 'lodash-unified'
+import { isEqual } from 'lodash-unified'
 import { useFormSize } from '@element-plus/components/form'
-import { isArray, isBoolean, isObject } from '@element-plus/utils'
+import { isArray, isBoolean, isObject, isPropAbsent } from '@element-plus/utils'
 import { checkboxGroupContextKey } from '../constants'
 
 import type { ComponentInternalInstance } from 'vue'
@@ -18,7 +18,7 @@ export const useCheckboxStatus = (
   const actualValue = computed(() => {
     // In version 2.x, if there's no props.value, props.label will act as props.value
     // In version 3.x, remove this computed value, use props.value instead.
-    if (!isNil(props.value)) {
+    if (!isPropAbsent(props.value)) {
       return props.value
     }
     return props.label
@@ -49,7 +49,7 @@ export const useCheckboxStatus = (
   const checkboxSize = useFormSize(computed(() => checkboxGroup?.size?.value))
 
   const hasOwnLabel = computed<boolean>(() => {
-    return !!slots.default || !isNil(actualValue.value)
+    return !!slots.default || !isPropAbsent(actualValue.value)
   })
 
   return {
