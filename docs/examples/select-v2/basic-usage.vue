@@ -1,31 +1,31 @@
 <template>
-  <el-select-v2
-    v-model="value"
-    class="m-2"
-    :options="options"
-    placeholder="Please select"
-    size="large"
-    style="width: 240px"
-  />
-  <el-select-v2
-    v-model="value"
-    class="m-2"
-    :options="options"
-    placeholder="Please select"
-    style="width: 240px"
-  />
-  <el-select-v2
-    v-model="value"
-    class="m-2"
-    :options="options"
-    placeholder="Please select"
-    size="small"
-    style="width: 240px"
-  />
+  <div class="flex flex-wrap gap-4 items-center">
+    <el-select-v2
+      v-model="value"
+      :options="options"
+      placeholder="Please select"
+      size="large"
+      style="width: 240px"
+    />
+    <el-select-v2
+      v-model="value"
+      :options="options"
+      placeholder="Please select"
+      style="width: 240px"
+    />
+    <el-select-v2
+      v-model="value"
+      :options="options"
+      placeholder="Please select"
+      size="small"
+      style="width: 240px"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 const value = ref()
