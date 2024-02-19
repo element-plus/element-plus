@@ -11,6 +11,7 @@ const value = ref([4, 8])
 </script>
 <style scoped>
 .slider-demo-block {
+  max-width: 600px;
   display: flex;
   align-items: center;
 }
