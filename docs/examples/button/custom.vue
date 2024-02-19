@@ -3,7 +3,7 @@ import { isDark } from '~/composables/dark'
 </script>
 
 <template>
-  <div class="flex">
+  <div>
     <el-button color="#626aef" :dark="isDark">Default</el-button>
     <el-button color="#626aef" :dark="isDark" plain>Plain</el-button>
 

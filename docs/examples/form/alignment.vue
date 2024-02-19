@@ -7,9 +7,9 @@
   <div style="margin: 20px" />
   <el-form
     :label-position="labelPosition"
-    label-width="100px"
+    label-width="auto"
     :model="formLabelAlign"
-    style="max-width: 460px"
+    style="max-width: 600px"
   >
     <el-form-item label="Name">
       <el-input v-model="formLabelAlign.name" />

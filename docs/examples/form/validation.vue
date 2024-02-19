@@ -1,9 +1,10 @@
 <template>
   <el-form
     ref="ruleFormRef"
+    style="max-width: 600px"
     :model="ruleForm"
     :rules="rules"
-    label-width="120px"
+    label-width="auto"
     class="demo-ruleForm"
     :size="formSize"
     status-icon
