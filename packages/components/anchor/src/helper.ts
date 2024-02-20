@@ -103,7 +103,7 @@ export function animateScrollTo(
   scroll()
 }
 
-export function easeInOutCubic(t: number, b: number, c: number, d: number) {
+function easeInOutCubic(t: number, b: number, c: number, d: number) {
   const cc = c - b
   t /= d / 2
   if (t < 1) {

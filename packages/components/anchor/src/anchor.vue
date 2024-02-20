@@ -13,15 +13,8 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  onBeforeUnmount,
-  onMounted,
-  provide,
-  ref,
-  watch,
-  watchEffect,
-} from 'vue'
+import { computed, onMounted, provide, ref, watch, watchEffect } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import { useNamespace } from '@element-plus/hooks'
 import { getOffsetTopDistance, isUndefined } from '@element-plus/utils'
 import { anchorEmits, anchorProps } from './anchor'
@@ -157,17 +150,7 @@ const getContainer = () => {
   }
 }
 
-const bindScrollEvent = () => {
-  if (containerEle.value) {
-    containerEle.value.addEventListener('scroll', handleScroll)
-  }
-}
-
-const unbindScrollEvent = () => {
-  if (containerEle.value) {
-    containerEle.value.removeEventListener('scroll', handleScroll)
-  }
-}
+useEventListener(containerEle, 'scroll', handleScroll)
 
 const updateMarkerStyle = () => {
   if (!anchorRef.value || !markerRef.value) return
@@ -206,7 +189,6 @@ const updateMarkerStyle = () => {
 
 onMounted(() => {
   getContainer()
-  bindScrollEvent()
   const hash = decodeURIComponent(window.location.hash)
   const target = getElement(hash)
   if (target) {
@@ -216,17 +198,10 @@ onMounted(() => {
   }
 })
 
-onBeforeUnmount(() => {
-  unbindScrollEvent()
-})
-
 watch(
   () => props.container,
-  (val, oldVal) => {
-    if (val === oldVal) return
-    unbindScrollEvent()
+  () => {
     getContainer()
-    bindScrollEvent()
   }
 )
 
