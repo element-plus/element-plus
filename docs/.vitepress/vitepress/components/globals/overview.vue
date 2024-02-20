@@ -119,7 +119,7 @@ const getIcon = (link: string) => {
       .card-content {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 20px;
+        gap: 16px;
 
         ::v-deep(.el-card) {
           cursor: pointer;
