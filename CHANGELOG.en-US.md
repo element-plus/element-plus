@@ -1,5 +1,58 @@
 ## Changelog
 
+### 2.5.6
+
+_2024-02-18_
+
+#### Features
+
+- Style add og-image & apply lint (#15588 by @yeonjulee1005)
+- Components [select] & [select-v2] add fallbackPlacements prop (#15765 by @Fuphoenixes)
+- Docs preview page jumps to github with pr number (#15854 by @btea)
+
+#### Bug fixes
+
+- Components [carousel] improve a11y (#15579 by @cloydlau)
+- Components [number-input] cannot scroll the container when the mouse pointer over an input (#15211 by @makedopamine)
+- Components [tree-select] always focus when using filters (#15768 by @yujinpan)
+- Components  [table] row has rowspan when hover it only has background on the first row of this rowspan (#15529 by @dowinweb)
+- Docs toc link overflow (#15276 by @heygsc)
+- Components [scrollbar] multiple rendering (#15822 by @xingyixiang)
+- Components [select-v2] Tags not update when options sync added (#15838 by @kooriookami)
+
+### 2.5.5
+
+_2024-02-03_
+
+#### Bug fixes
+
+- Fix lodash import error (#15773 by @tolking)
+
+
+### 2.5.4
+
+_2024-02-02_
+
+#### Features
+
+- Components [dialog] Dialog can drag overflow the viewport (#15643 by @kooriookami)
+- Components [message-box] MessageBox can drag overflow the viewport (#15674 by @kooriookami)
+- Play custom namespace (#15677 by @btea)
+- Components [check-tag] add type prop (#15727 by @kooriookami)
+
+#### Bug fixes
+
+- Components [table] The namespace of the showOverflowTooltip is invalid. (#15627 by @xingyixiang)
+- Components [select] Remote search does not show menu when it has options and no query (#15683 by @wen403)
+- Docs overlay error caused by sidebar (#15694 by @heygsc)
+- Components [select] Fix value with value-key not selected (#15681 by @kooriookami)
+- Components [tour] buttonProps & isSameProps errors (#15680 by @Fuphoenixes)
+- Components [select] el-option-group error when el-option in a component (#15703 by @Fuphoenixes)
+- Components [drawer] click allow focus out (#11965 by @tolking)
+- Components [menu] Add menu-item margin when calculating `calcSliceIndex` (#15699 by @zhixiaotong)
+- Components [upload] Add crossorigin property (#15524 by @wkasunsampath)
+- Components [tabs] slot name use kebab-case style (#15733 by @chenxch)
+
 ### 2.5.3
 
 _2024-01-22_

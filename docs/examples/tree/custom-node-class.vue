@@ -1,6 +1,7 @@
 <template>
   <div class="custom-tree-node-container">
     <el-tree
+      style="max-width: 600px"
       :data="data"
       show-checkbox
       node-key="id"

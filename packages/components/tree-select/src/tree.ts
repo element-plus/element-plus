@@ -176,6 +176,7 @@ export const useTree = (
       } else if (props.expandOnClickNode) {
         e.proxy.handleExpandIconClick()
       }
+      select.value?.focus()
     },
     onCheck: (data, params) => {
       // ignore when no checkbox, like only `checkOnClickNode` is true
@@ -255,6 +256,8 @@ export const useTree = (
           halfCheckedNodes: tree.value.getHalfCheckedNodes(),
         })
       })
+
+      select.value?.focus()
     },
 
     // else
