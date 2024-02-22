@@ -4,8 +4,8 @@
   <el-divider />
 
   <el-space>
-    <el-button ref="ref1">upload</el-button>
-    <el-button ref="ref2" type="primary">save</el-button>
+    <el-button ref="ref1">Upload</el-button>
+    <el-button ref="ref2" type="primary">Save</el-button>
     <el-button ref="ref3" :icon="MoreFilled" />
   </el-space>
 

@@ -452,43 +452,43 @@ $select-dropdown: map.merge(
 
 $select-wrapper-padding: () !default;
 $select-wrapper-padding: map.merge(
-    (
-      'large': 8px 16px,
-      'default': 4px 12px,
-      'small': 2px 8px,
-    ),
-    $select-wrapper-padding
+  (
+    'large': 8px 16px,
+    'default': 4px 12px,
+    'small': 2px 8px,
+  ),
+  $select-wrapper-padding
 );
 
 $select-near-margin-left: () !default;
 $select-near-margin-left: map.merge(
-    (
-      'large': -8px,
-      'default': -8px,
-      'small': -6px,
-    ),
-    $select-near-margin-left
+  (
+    'large': -8px,
+    'default': -8px,
+    'small': -6px,
+  ),
+  $select-near-margin-left
 );
 
 $select-item-gap: () !default;
 $select-item-gap: map.merge(
-    (
-      'large': 6px,
-      'default': 6px,
-      'small': 4px,
-    ),
-    $select-item-gap
+  (
+    'large': 6px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $select-item-gap
 );
 
 // the same height of el-tag
 $select-item-height: () !default;
 $select-item-height: map.merge(
-    (
-      'large': 24px,
-      'default': 24px,
-      'small': 20px,
-    ),
-    $select-item-height
+  (
+    'large': 24px,
+    'default': 24px,
+    'small': 20px,
+  ),
+  $select-item-height
 );
 
 // Alert
@@ -516,11 +516,13 @@ $messagebox: map.merge(
     'title-color': getCssVar('text-color-primary'),
     'width': 420px,
     'border-radius': 4px,
+    'box-shadow': getCssVar('box-shadow'),
     'font-size': getCssVar('font-size-large'),
     'content-font-size': getCssVar('font-size-base'),
     'content-color': getCssVar('text-color-regular'),
     'error-font-size': 12px,
-    'padding-primary': 15px,
+    'padding-primary': 12px,
+    'font-line-height': getCssVar('font-line-height-primary'),
   ),
   $messagebox
 );
@@ -798,16 +800,16 @@ $tour: () !default;
 $tour: map.merge(
   (
     'width': 520px,
-    'padding-primary': 16px,
+    'padding-primary': 12px,
     'font-line-height': getCssVar('font-line-height-primary'),
     'title-font-size': 16px,
     'title-text-color': getCssVar('text-color-primary'),
     'title-font-weight': 400,
+    'close-color': getCssVar('color-info'),
     'font-size': 14px,
     'color': getCssVar('text-color-primary'),
     'bg-color': getCssVar('bg-color'),
     'border-radius': 4px,
-    'border-color': getCssVar('border-color-lighter'),
   ),
   $tour
 );
