@@ -78,10 +78,10 @@ export const buildPickerTable = (
     setRowMetadata,
   }: BuildPickerTableMetadata
 ) => {
-  const modifiedRows = []
+  const modifiedRows: DateCell[][] = []
 
   for (let rowIndex = 0; rowIndex < dimension.row; rowIndex++) {
-    const row = []
+    const row: DateCell[] = []
     for (let columnIndex = 0; columnIndex < dimension.column; columnIndex++) {
       let cell = rows[rowIndex][columnIndex + columnIndexOffset]
       if (!cell) {
