@@ -13,23 +13,23 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, provide, ref, watch, watchEffect } from 'vue'
+import { computed, onMounted, provide, ref, watch } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { useNamespace } from '@element-plus/hooks'
-import { getOffsetTopDistance, isUndefined } from '@element-plus/utils'
-import { anchorEmits, anchorProps } from './anchor'
 import {
-  anchorKey,
   animateScrollTo,
   getElement,
+  getOffsetTopDistance,
   getScrollElement,
   getScrollTop,
+  isUndefined,
   isWindow,
   throttleByRaf,
-} from './helper'
+} from '@element-plus/utils'
+import { anchorEmits, anchorProps } from './anchor'
+import { anchorKey } from './constants'
 
-import type { AnchorLinkState } from './helper'
-import type { CSSProperties } from 'vue'
+import type { AnchorLinkState } from './constants'
 
 defineOptions({
   name: 'ElAnchor',
@@ -38,15 +38,14 @@ defineOptions({
 const props = defineProps(anchorProps)
 const emit = defineEmits(anchorEmits)
 
-const current = ref('')
+const currentAnchor = ref('')
 const anchorRef = ref<HTMLElement | null>(null)
 const markerRef = ref<HTMLElement | null>(null)
-const containerEle = ref<HTMLElement | Window>()
-const markerStyle = ref<CSSProperties>({})
+const containerEl = ref<HTMLElement | Window>()
 
 const links: Record<string, HTMLElement> = {}
 let isScrolling = false
-let preScrollTop = 0
+let currentScrollTop = 0
 
 const ns = useNamespace('anchor')
 
@@ -64,34 +63,41 @@ const removeLink = (href: string) => {
   delete links[href]
 }
 
-const setCurrent = (href: string) => {
-  const oldHref = current.value
-  if (oldHref !== href) {
-    current.value = href
+const setCurrentAnchor = (href: string) => {
+  const activeHref = currentAnchor.value
+  if (activeHref !== href) {
+    currentAnchor.value = href
     emit('change', href)
   }
 }
 
-const scrollToHref = (href: string) => {
-  if (!containerEle.value) return
-  isScrolling = true
-  const target = getElement(href) as HTMLElement
+const scrollToAnchor = (href: string) => {
+  if (!containerEl.value) return
+  const target = getElement(href)
   if (!target) return
-  const scrollEle = getScrollElement(target, containerEle.value)
+  isScrolling = true
+  const scrollEle = getScrollElement(target, containerEl.value)
   const distance = getOffsetTopDistance(target, scrollEle)
   const max = scrollEle.scrollHeight - scrollEle.clientHeight
   const to = Math.min(distance - props.offset, max)
-  animateScrollTo(containerEle.value, preScrollTop, to, props.duration, () => {
-    setTimeout(() => {
-      isScrolling = false
-    }, 20)
-  })
+  animateScrollTo(
+    containerEl.value,
+    currentScrollTop,
+    to,
+    props.duration,
+    () => {
+      // make sure it is executed after throttleByRaf's handleScroll
+      setTimeout(() => {
+        isScrolling = false
+      }, 20)
+    }
+  )
 }
 
 const scrollTo = (href?: string) => {
   if (href) {
-    setCurrent(href)
-    scrollToHref(href)
+    setCurrentAnchor(href)
+    scrollToAnchor(href)
   }
 }
 
@@ -101,25 +107,23 @@ const handleClick = (e: MouseEvent, href?: string) => {
 }
 
 const handleScroll = throttleByRaf(() => {
-  if (containerEle.value) {
-    preScrollTop = getScrollTop(containerEle.value)
+  if (containerEl.value) {
+    currentScrollTop = getScrollTop(containerEl.value)
   }
-  if (isScrolling) return
   const currentHref = getCurrentHref()
-  if (!isUndefined(currentHref)) {
-    setCurrent(currentHref)
-  }
+  if (isScrolling || isUndefined(currentHref)) return
+  setCurrentAnchor(currentHref)
 })
 
 const getCurrentHref = () => {
-  if (!containerEle.value) return
-  const scrollTop = getScrollTop(containerEle.value)
+  if (!containerEl.value) return
+  const scrollTop = getScrollTop(containerEl.value)
   const anchorTopList: { top: number; href: string }[] = []
 
   for (const href of Object.keys(links)) {
-    const target = getElement(href) as HTMLElement
+    const target = getElement(href)
     if (!target) continue
-    const scrollEle = getScrollElement(target, containerEle.value)
+    const scrollEle = getScrollElement(target, containerEl.value)
     const distance = getOffsetTopDistance(target, scrollEle)
     anchorTopList.push({
       top: distance - props.offset - props.bound,
@@ -144,48 +148,38 @@ const getCurrentHref = () => {
 const getContainer = () => {
   const el = getElement(props.container)
   if (!el || isWindow(el)) {
-    containerEle.value = window
+    containerEl.value = window
   } else {
-    containerEle.value = el
+    containerEl.value = el
   }
 }
 
-useEventListener(containerEle, 'scroll', handleScroll)
+useEventListener(containerEl, 'scroll', handleScroll)
 
-const updateMarkerStyle = () => {
-  if (!anchorRef.value || !markerRef.value) return
+const markerStyle = computed(() => {
+  if (!anchorRef.value || !markerRef.value || !currentAnchor.value) return {}
+  const currentLinkEl = links[currentAnchor.value]
+  if (!currentLinkEl) return {}
+  const anchorRect = anchorRef.value.getBoundingClientRect()
+  const markerRect = markerRef.value.getBoundingClientRect()
+  const linkRect = currentLinkEl.getBoundingClientRect()
 
-  if (!current.value) {
-    markerStyle.value = {}
-    return
-  }
-  const currentLinkEl = links[current.value]
-  if (currentLinkEl) {
-    const anchorRect = anchorRef.value.getBoundingClientRect()
-    const markerRect = markerRef.value.getBoundingClientRect()
-    const linkRect = currentLinkEl.getBoundingClientRect()
-
-    if (props.direction === 'vertical') {
-      const top =
-        linkRect.top -
-        anchorRect.top +
-        (linkRect.height - markerRect.height) / 2
-
-      markerStyle.value = {
-        top: `${top}px`,
-        opacity: 1,
-      }
-    } else if (props.direction === 'horizontal') {
-      const left = linkRect.left - anchorRect.left
-
-      markerStyle.value = {
-        left: `${left}px`,
-        width: `${linkRect.width}px`,
-        opacity: 1,
-      }
+  if (props.direction === 'horizontal') {
+    const left = linkRect.left - anchorRect.left
+    return {
+      left: `${left}px`,
+      width: `${linkRect.width}px`,
+      opacity: 1,
+    }
+  } else {
+    const top =
+      linkRect.top - anchorRect.top + (linkRect.height - markerRect.height) / 2
+    return {
+      top: `${top}px`,
+      opacity: 1,
     }
   }
-}
+})
 
 onMounted(() => {
   getContainer()
@@ -205,12 +199,10 @@ watch(
   }
 )
 
-watchEffect(updateMarkerStyle)
-
 provide(anchorKey, {
   ns,
   direction: props.direction,
-  current,
+  currentAnchor,
   addLink,
   removeLink,
   handleClick,

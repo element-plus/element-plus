@@ -23,7 +23,7 @@ import {
   watch,
 } from 'vue'
 import { anchorLinkProps } from './anchor-link'
-import { anchorKey } from './helper'
+import { anchorKey } from './constants'
 
 defineOptions({
   name: 'ElAnchorLink',
@@ -36,7 +36,7 @@ const linkRef = ref<HTMLElement | null>(null)
 const {
   ns,
   direction,
-  current,
+  currentAnchor,
   addLink,
   removeLink,
   handleClick: contextHandleClick,
@@ -44,7 +44,7 @@ const {
 
 const cls = computed(() => [
   ns.e('link'),
-  ns.is('active', current.value === props.href),
+  ns.is('active', currentAnchor.value === props.href),
 ])
 
 const handleClick = (e: MouseEvent) => {
@@ -67,17 +67,19 @@ watch(
 )
 
 onMounted(() => {
-  if (props.href) {
+  const { href } = props
+  if (href) {
     addLink({
-      href: props.href,
+      href,
       el: linkRef.value!,
     })
   }
 })
 
 onBeforeUnmount(() => {
-  if (props.href) {
-    removeLink(props.href)
+  const { href } = props
+  if (href) {
+    removeLink(href)
   }
 })
 </script>
