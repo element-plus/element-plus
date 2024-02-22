@@ -73,7 +73,7 @@
       }
 
       @include e(selected-item) {
-        color: map.get($input-disabled, 'text-color');
+        color: getCssVar('select-disabled-color');
       }
 
       @include e(caret) {
