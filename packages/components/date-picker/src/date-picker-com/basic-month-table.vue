@@ -77,13 +77,17 @@ const tableRows = ref<MonthCell[][]>([
 ])
 const lastRow = ref<number>()
 const lastColumn = ref<number>()
-const rows = computed<MonthCell[][]>(() => {
-  const rows = tableRows.value
 
+const rows = computed(() => calculateRows())
+const calculateRows = (): MonthCell[][] => {
+  const rows = tableRows.value
   const now = dayjs().locale(lang.value).startOf('month')
+  const calculatedRows: MonthCell[][] = []
 
   for (let i = 0; i < 3; i++) {
     const row = rows[i]
+    const calculatedRow: MonthCell[] = []
+
     for (let j = 0; j < 4; j++) {
       const cell = (row[j] ||= {
         row: i,
@@ -136,10 +140,15 @@ const rows = computed<MonthCell[][]>(() => {
 
       cell.text = index
       cell.disabled = props.disabledDate?.(calTime.toDate()) || false
+
+      calculatedRow.push(cell)
     }
+
+    calculatedRows.push(calculatedRow)
   }
-  return rows
-})
+
+  return calculatedRows
+}
 
 const focus = () => {
   currentCellRef.value?.focus()

@@ -78,10 +78,12 @@ export const buildPickerTable = (
     setRowMetadata,
   }: BuildPickerTableMetadata
 ) => {
+  const modifiedRows = []
+
   for (let rowIndex = 0; rowIndex < dimension.row; rowIndex++) {
-    const row = rows[rowIndex]
+    const row = []
     for (let columnIndex = 0; columnIndex < dimension.column; columnIndex++) {
-      let cell = row[columnIndex + columnIndexOffset]
+      let cell = rows[rowIndex][columnIndex + columnIndexOffset]
       if (!cell) {
         cell = {
           row: rowIndex,
@@ -127,8 +129,11 @@ export const buildPickerTable = (
         cell.type = 'today'
       }
       setCellMetadata?.(cell, { rowIndex, columnIndex })
-      row[columnIndex + columnIndexOffset] = cell
+      row.push(cell)
     }
     setRowMetadata?.(row)
+    modifiedRows.push(row)
   }
+
+  return modifiedRows
 }

@@ -162,10 +162,12 @@ export const useBasicDateTable = (
     const dateUnit = 'day'
     let count = 1
 
+    let modifiedRows = rows_.map((row) => [...row]) // Clone rows to avoid mutation
+
     if (showWeekNumber) {
       for (let rowIndex = 0; rowIndex < 6; rowIndex++) {
-        if (!rows_[rowIndex][0]) {
-          rows_[rowIndex][0] = {
+        if (!modifiedRows[rowIndex][0]) {
+          modifiedRows[rowIndex][0] = {
             type: 'week',
             text: unref(startDate)
               .add(rowIndex * 7 + 1, dateUnit)
@@ -175,7 +177,7 @@ export const useBasicDateTable = (
       }
     }
 
-    buildPickerTable({ row: 6, column: 7 }, rows_, {
+    modifiedRows = buildPickerTable({ row: 6, column: 7 }, modifiedRows, {
       startDate: minDate,
       columnIndexOffset: showWeekNumber ? 1 : 0,
       nextEndDate:
@@ -192,11 +194,10 @@ export const useBasicDateTable = (
           count += 1
         }
       },
-
       setRowMetadata,
     })
 
-    return rows_
+    return modifiedRows
   })
 
   watch(
