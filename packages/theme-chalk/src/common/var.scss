@@ -400,6 +400,7 @@ $select: () !default;
 $select: map.merge(
   (
     'border-color-hover': getCssVar('border-color-hover'),
+    'disabled-color': getCssVar('disabled-text-color'),
     'disabled-border': getCssVar('disabled-border-color'),
     'font-size': getCssVar('font-size-base'),
     'close-hover-color': getCssVar('text-color-secondary'),
