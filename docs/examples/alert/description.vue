@@ -1,7 +1,7 @@
 <template>
   <div style="max-width: 600px">
     <el-alert
-      title="with description"
+      title="With description"
       type="success"
       description="This is a description."
     />
