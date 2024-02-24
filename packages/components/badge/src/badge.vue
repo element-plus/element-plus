@@ -3,7 +3,7 @@
     <slot />
     <transition :name="`${ns.namespace.value}-zoom-in-center`">
       <sup
-        v-show="isShowBadge"
+        v-show="!hidden && (content || isDot)"
         :class="[
           ns.e('content'),
           ns.em('content', type),
