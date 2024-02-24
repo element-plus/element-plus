@@ -39,10 +39,6 @@ const content = computed<string>(() => {
   return `${props.value}`
 })
 
-const isShowBadge = computed(() => {
-  const isShowVal = +content.value === 0 ? props.showZero : content.value
-  return !props.hidden && (isShowVal || props.isDot)
-})
 
 defineExpose({
   /** @description badge content */
