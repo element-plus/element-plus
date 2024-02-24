@@ -3,7 +3,7 @@
     <slot />
     <transition :name="`${ns.namespace.value}-zoom-in-center`">
       <sup
-        v-show="!hidden && (content || isDot)"
+        v-show="isShowBadge"
         :class="[
           ns.e('content'),
           ns.em('content', type),
@@ -37,6 +37,14 @@ const content = computed<string>(() => {
     return props.max < props.value ? `${props.max}+` : `${props.value}`
   }
   return `${props.value}`
+})
+
+const isShowBadge = computed(() => {
+  if (+content.value === 0) {
+    return props.showZero
+  } else {
+    return !props.hidden && (content.value || props.isDot)
+  }
 })
 
 defineExpose({

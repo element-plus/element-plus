@@ -58,6 +58,7 @@ badge/dot
 | is-dot | if a little dot is displayed.                                                 | ^[boolean]                                                         | false   |
 | hidden | hidden badge.                                                                 | ^[boolean]                                                         | false   |
 | type   | badge type.                                                                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | danger  |
+| show-zero | Whether to show badge when value is zero.                                  | ^[boolean]                                                         | true    |
 
 ### Slots
 
