@@ -1,6 +1,6 @@
 import { computed, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { flatten } from 'lodash-unified'
+import { cloneDeep, flatten } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray } from '@element-plus/utils'
 import { buildPickerTable } from '../utils'
@@ -158,7 +158,7 @@ export const useBasicDateTable = (
     const { minDate, maxDate, rangeState, showWeekNumber } = props
 
     const offset = unref(offsetDay)
-    const rows_ = unref(tableRows)
+    const rows_ = cloneDeep(unref(tableRows))
     const dateUnit = 'day'
     let count = 1
 
