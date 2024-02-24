@@ -5,7 +5,11 @@
       :class="[ns.b(), ns.m(type), ns.is('center', center), ns.is(effect)]"
       role="alert"
     >
-      <el-icon v-if="showIcon && iconComponent" :class="iconClass">
+      <el-icon
+        v-if="showIcon && iconComponent"
+        :class="iconClass"
+        aria-hidden="true"
+      >
         <component :is="iconComponent" />
       </el-icon>
 
@@ -25,11 +29,17 @@
           <div
             v-if="closeText"
             :class="[ns.e('close-btn'), ns.is('customed')]"
+            aria-label="Close"
             @click="close"
           >
             {{ closeText }}
           </div>
-          <el-icon v-else :class="ns.e('close-btn')" @click="close">
+          <el-icon
+            v-else
+            :class="ns.e('close-btn')"
+            aria-label="Close"
+            @click="close"
+          >
             <Close />
           </el-icon>
         </template>

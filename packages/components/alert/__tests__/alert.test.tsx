@@ -50,4 +50,17 @@ describe('Alert.vue', () => {
     await closeBtn.trigger('click')
     expect(wrapper.emitted()).toBeDefined()
   })
+
+  test('aria', async () => {
+    const wrapper = mount(() => (
+      <Alert title={'test'} showIcon={true} type={'success'} />
+    ))
+
+    const closeBtn = wrapper.find('.el-alert__close-btn')
+    expect(closeBtn.attributes('aria-label')).toBe('Close')
+    expect(wrapper.find('.el-alert__icon').attributes('aria-hidden')).toBe(
+      'true'
+    )
+    expect(wrapper.find('.el-alert').attributes('role')).toBe('alert')
+  })
 })
