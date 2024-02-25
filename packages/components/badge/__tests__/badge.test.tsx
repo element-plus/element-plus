@@ -62,4 +62,15 @@ describe('Badge', () => {
     await nextTick()
     expect(wrapper.find('.el-badge__content').text()).toEqual('80')
   })
+
+  test('showZero', async () => {
+    const badgeValue = ref(0)
+    const wrapper = mount(() => (
+      <Badge showZero={true} value={badgeValue.value} />
+    ))
+    expect(wrapper.find('.el-badge__content').text()).toEqual('0')
+    badgeValue.value = 80
+    await nextTick()
+    expect(wrapper.find('.el-badge__content').text()).toEqual('80')
+  })
 })
