@@ -64,21 +64,21 @@ describe('Badge', () => {
   })
 
   test('showZero', async () => {
+    const showZero = ref(true)
     const badgeValue = ref(0)
     const wrapper = mount(() => (
-      <Badge showZero={true} value={badgeValue.value} />
+      <Badge showZero={showZero.value} value={badgeValue.value} />
     ))
     expect(wrapper.find('.el-badge__content').text()).toEqual('0')
     badgeValue.value = 80
     await nextTick()
     expect(wrapper.find('.el-badge__content').text()).toEqual('80')
-    const badgeValue2 = ref(0)
-    const wrapper2 = mount(() => (
-      <Badge showZero={false} value={badgeValue2.value} />
-    ))
-    expect(wrapper2.find('.el-badge__content').text()).toEqual('')
-    badgeValue2.value = 80
+    showZero.value = false
+    badgeValue.value = 0
     await nextTick()
-    expect(wrapper2.find('.el-badge__content').text()).toEqual('80')
+    expect(wrapper.find('.el-badge__content').text()).toEqual('')
+    badgeValue.value = 80
+    await nextTick()
+    expect(wrapper.find('.el-badge__content').text()).toEqual('80')
   })
 })
