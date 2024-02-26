@@ -669,17 +669,11 @@ const useSelect = (props: ISelectV2Props, emit) => {
         return getValueKey(item) === getValueKey(props.modelValue)
       })
     } else {
-      if (props.modelValue.length > 0) {
-        states.hoveringIndex = Math.min(
-          ...props.modelValue.map((selected) => {
-            return filteredOptions.value.findIndex((item) => {
-              return getValue(item) === selected
-            })
-          })
+      states.hoveringIndex = filteredOptions.value.findIndex((item) =>
+        props.modelValue.some(
+          (modelValue) => getValueKey(modelValue) === getValueKey(item)
         )
-      } else {
-        states.hoveringIndex = -1
-      }
+      )
     }
   }
 
