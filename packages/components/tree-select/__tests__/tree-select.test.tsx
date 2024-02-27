@@ -681,7 +681,7 @@ describe('TreeSelect.vue', () => {
     expect(node1.text()).toBe('1-label')
     await node1Checkbox.trigger('click')
 
-    expect(modelValue.value).toEqual([1, 2])
+    expect(modelValue.value).toEqual([2, 1])
   })
 
   test('cached checked node can be canceled', async () => {

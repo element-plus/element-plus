@@ -178,9 +178,9 @@ export const useTree = (
       const dataValue = getNodeValByProp('value', data)
       const dataMap = {}
       treeEach(
-        props.data,
-        (node) => (dataMap[getNodeValByProp('value', node)] = node),
-        (node) => getNodeValByProp('children', node)
+        [tree.value.store.root],
+        (node) => (dataMap[node.key] = node),
+        (node) => node.childNodes
       )
 
       // fix: checkedKeys has not cached keys
