@@ -142,6 +142,7 @@
           <year-table
             v-if="currentView === 'year'"
             ref="currentViewRef"
+            :selection-mode="selectionMode"
             :date="innerDate"
             :disabled-date="disabledDate"
             :parsed-value="parsedValue"
@@ -159,11 +160,13 @@
       </div>
     </div>
     <div
-      v-show="footerVisible && currentView === 'date'"
+      v-show="
+        footerVisible && (currentView === 'date' || currentView === 'year')
+      "
       :class="ppNs.e('footer')"
     >
       <el-button
-        v-show="selectionMode !== 'dates'"
+        v-show="selectionMode !== 'dates' && selectionMode !== 'years'"
         text
         size="small"
         :class="ppNs.e('link-btn')"
@@ -228,6 +231,7 @@ import type {
   DateTableEmits,
   DatesPickerEmits,
   WeekPickerEmits,
+  YearsPickerEmits,
 } from '../props/basic-date-table'
 
 type DatePickType = PanelDatePickProps['type']
@@ -394,7 +398,7 @@ const handleShortcutClick = (shortcut: Shortcut) => {
 
 const selectionMode = computed<DatePickType>(() => {
   const { type } = props
-  if (['week', 'month', 'year', 'dates'].includes(type)) return type
+  if (['week', 'month', 'year', 'years', 'dates'].includes(type)) return type
   return 'date' as DatePickType
 })
 
@@ -421,12 +425,17 @@ const handleMonthPick = async (month: number) => {
   handlePanelChange('month')
 }
 
-const handleYearPick = async (year: number) => {
+const handleYearPick = async (
+  year: number | YearsPickerEmits,
+  keepOpen?: boolean
+) => {
   if (selectionMode.value === 'year') {
-    innerDate.value = innerDate.value.startOf('year').year(year)
+    innerDate.value = innerDate.value.startOf('year').year(year as number)
     emit(innerDate.value, false)
+  } else if (selectionMode.value === 'years') {
+    emit(year as YearsPickerEmits, keepOpen ?? true)
   } else {
-    innerDate.value = innerDate.value.year(year)
+    innerDate.value = innerDate.value.year(year as number)
     currentView.value = 'month'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
       emit(innerDate.value, true)
@@ -448,7 +457,11 @@ const showTime = computed(
 )
 
 const footerVisible = computed(() => {
-  return showTime.value || selectionMode.value === 'dates'
+  return (
+    showTime.value ||
+    selectionMode.value === 'dates' ||
+    selectionMode.value === 'years'
+  )
 })
 
 const disabledConfirm = computed(() => {
@@ -460,7 +473,7 @@ const disabledConfirm = computed(() => {
   return disabledDate(props.parsedValue.toDate())
 })
 const onConfirm = () => {
-  if (selectionMode.value === 'dates') {
+  if (selectionMode.value === 'dates' || selectionMode.value === 'years') {
     emit(props.parsedValue as Dayjs[])
   } else {
     // deal with the scenario where: user opens the date time picker, then confirm without doing anything
@@ -585,10 +598,9 @@ const isValidValue = (date: unknown) => {
 }
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
-  if (selectionMode.value === 'dates') {
-    return (value as Dayjs[]).map((_) => _.format(props.format))
-  }
-  return (value as Dayjs).format(props.format)
+  return Array.isArray(value)
+    ? (value as Dayjs[]).map((_) => _.format(props.format))
+    : (value as Dayjs).format(props.format)
 }
 
 const parseUserInput = (value: Dayjs) => {
@@ -730,6 +742,9 @@ watch(
     if (['month', 'year'].includes(val)) {
       currentView.value = val
       return
+    } else if (val === 'years') {
+      currentView.value = 'year'
+      return
     }
     currentView.value = 'date'
   },
@@ -757,7 +772,8 @@ watch(
   () => props.parsedValue,
   (val) => {
     if (val) {
-      if (selectionMode.value === 'dates') return
+      if (selectionMode.value === 'dates' || selectionMode.value === 'years')
+        return
       if (Array.isArray(val)) return
       innerDate.value = val
     } else {
