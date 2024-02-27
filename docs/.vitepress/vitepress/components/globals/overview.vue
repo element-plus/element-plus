@@ -58,7 +58,7 @@ import { Search } from '@element-plus/icons-vue'
 import overviewLocale from '../../../i18n/component/overview.json'
 import { useSidebar } from '~/composables/sidebar'
 import { useLang } from '~/composables/lang'
-import overflowIcons from '~/components/globals/overflow-icons'
+import overviewIcons from '~/components/overview-icons'
 
 const lang = useLang()
 const router = useRouter()
@@ -85,7 +85,7 @@ const toPage = (link: string) => {
 
 const getIcon = (link: string) => {
   const name = link.split('/').pop()
-  return name ? overflowIcons[name] : null
+  return name ? overviewIcons[name] : null
 }
 </script>
 
