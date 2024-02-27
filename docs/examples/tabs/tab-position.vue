@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const tabPosition = ref('left')
+const tabPosition = ref('right')
 </script>
 <style>
 .demo-tabs > .el-tabs__content {
