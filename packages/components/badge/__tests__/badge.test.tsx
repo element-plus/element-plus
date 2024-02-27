@@ -62,4 +62,36 @@ describe('Badge', () => {
     await nextTick()
     expect(wrapper.find('.el-badge__content').text()).toEqual('80')
   })
+
+  test('showZero', async () => {
+    const showZero = ref(true)
+    const badgeValue = ref(0)
+    const wrapper = mount(() => (
+      <Badge showZero={showZero.value} value={badgeValue.value} />
+    ))
+    expect(wrapper.find('.el-badge__content').text()).toEqual('0')
+    badgeValue.value = 80
+    await nextTick()
+    expect(wrapper.find('.el-badge__content').text()).toEqual('80')
+    showZero.value = false
+    badgeValue.value = 0
+    await nextTick()
+    expect(wrapper.find('.el-badge__content').text()).toEqual('')
+    badgeValue.value = 80
+    await nextTick()
+    expect(wrapper.find('.el-badge__content').text()).toEqual('80')
+  })
+
+  test('showZero with max', async () => {
+    const showZero = ref(true)
+    const badgeValue = ref(0)
+    const wrapper = mount(() => (
+      <Badge showZero={showZero.value} max={-1} value={badgeValue.value} />
+    ))
+    expect(wrapper.find('.el-badge__content').text()).toEqual('-1+')
+    showZero.value = false
+    badgeValue.value = 0
+    await nextTick()
+    expect(wrapper.find('.el-badge__content').text()).toEqual('-1+')
+  })
 })
