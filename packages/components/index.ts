@@ -71,6 +71,7 @@ export * from './upload'
 export * from './virtual-list'
 export * from './watermark'
 export * from './tour'
+export * from './anchor'
 
 // plugins
 export * from './infinite-scroll'
