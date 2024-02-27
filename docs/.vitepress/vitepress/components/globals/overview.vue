@@ -47,6 +47,18 @@
         v-if="!filteredSidebars.length"
         :description="locale['empty-description']"
       />
+
+      <p class="designed-by">
+        Icons designed by
+        <el-link
+          type="primary"
+          :underline="false"
+          href="https://github.com/daodaozz08"
+          target="_blank"
+        >
+          @叨叨
+        </el-link>
+      </p>
     </div>
   </div>
 </template>
@@ -153,6 +165,11 @@ const getIcon = (link: string) => {
           }
         }
       }
+    }
+
+    .designed-by {
+      text-align: right;
+      font-size: 14px;
     }
   }
 }
