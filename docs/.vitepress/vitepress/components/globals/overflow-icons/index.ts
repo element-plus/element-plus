@@ -50,6 +50,7 @@ import OvTree from '~/components/globals/overflow-icons/ov-tree.vue'
 import OvTreeSelect from '~/components/globals/overflow-icons/ov-tree-select.vue'
 import OvStatistic from '~/components/globals/overflow-icons/ov-statistic.vue'
 import OvAffix from '~/components/globals/overflow-icons/ov-affix.vue'
+import OvAnchor from '~/components/globals/overflow-icons/ov-anchor.vue'
 import OvBacktop from '~/components/globals/overflow-icons/ov-backtop.vue'
 import OvBreadcrumb from '~/components/globals/overflow-icons/ov-breadcrumb.vue'
 import OvDropdown from '~/components/globals/overflow-icons/ov-dropdown.vue'
@@ -126,6 +127,7 @@ export default {
   'tree-v2': OvTree,
   statistic: OvStatistic,
   affix: OvAffix,
+  anchor: OvAnchor,
   backtop: OvBacktop,
   breadcrumb: OvBreadcrumb,
   dropdown: OvDropdown,

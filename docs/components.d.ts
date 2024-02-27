@@ -44,6 +44,7 @@ declare module '@vue/runtime-core' {
     NeutralColor: typeof import('./.vitepress/vitepress/components/globals/neutral-color.vue')['default']
     OvAffix: typeof import('./.vitepress/vitepress/components/globals/overflow-icons/ov-affix.vue')['default']
     OvAlert: typeof import('./.vitepress/vitepress/components/globals/overflow-icons/ov-alert.vue')['default']
+    OvAnchor: typeof import('./.vitepress/vitepress/components/globals/overflow-icons/ov-anchor.vue')['default']
     OvAvatar: typeof import('./.vitepress/vitepress/components/globals/overflow-icons/ov-avatar.vue')['default']
     OvBacktop: typeof import('./.vitepress/vitepress/components/globals/overflow-icons/ov-backtop.vue')['default']
     OvBadge: typeof import('./.vitepress/vitepress/components/globals/overflow-icons/ov-badge.vue')['default']
