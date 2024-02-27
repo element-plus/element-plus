@@ -193,6 +193,7 @@ const copyCode = async () => {
 .example {
   border: 1px solid var(--border-color);
   border-radius: var(--el-border-radius-base);
+  overflow: hidden;
 
   .op-btns {
     padding: 0.5rem;

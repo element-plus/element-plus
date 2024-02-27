@@ -1,6 +1,6 @@
 <template>
-  <el-row class="demo-autocomplete">
-    <el-col :span="12">
+  <div class="flex gap-4">
+    <div>
       <div class="sub-title my-2 text-sm text-gray-600">loading icon1</div>
       <el-autocomplete
         v-model="state"
@@ -14,8 +14,8 @@
           </svg>
         </template>
       </el-autocomplete>
-    </el-col>
-    <el-col :span="12">
+    </div>
+    <div>
       <div class="sub-title my-2 text-sm text-gray-600">loading icon2</div>
       <el-autocomplete
         v-model="state"
@@ -40,8 +40,8 @@
           </el-icon>
         </template>
       </el-autocomplete>
-    </el-col>
-  </el-row>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
