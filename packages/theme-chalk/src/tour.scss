@@ -1,0 +1,186 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(tour) {
+  @include set-component-css-var('tour', $tour);
+
+  @include e(hollow) {
+    transition: all getCssVar('transition-duration') ease;
+  }
+
+  @include e(content) {
+    border-radius: getCssVar('tour-border-radius');
+    width: var(#{getCssVarName('tour-width')});
+    padding: getCssVar('tour-padding-primary');
+    background: getCssVar('tour-bg-color');
+    box-shadow: getCssVar('box-shadow-light');
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+
+    $content-selector: &;
+
+    $sides: (
+      'top': 'bottom',
+      'bottom': 'top',
+      'left': 'right',
+      'right': 'left',
+    );
+
+    @include e(arrow) {
+      position: absolute;
+      background: getCssVar('tour-bg-color');
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      transform: rotate(45deg);
+      box-sizing: border-box;
+
+      @each $side,
+        $adjacency
+          in (
+            'top': 'left',
+            'bottom': 'right',
+            'left': 'bottom',
+            'right': 'top'
+          )
+      {
+        #{$content-selector}[data-side^='#{$side}'] & {
+          border-#{$side}-color: transparent;
+          border-#{$adjacency}-color: transparent;
+        }
+      }
+
+      @each $side, $opposite in $sides {
+        #{$content-selector}[data-side^='#{$side}'] & {
+          #{$opposite}: -5px;
+        }
+      }
+    }
+
+    @include e(closebtn) {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0;
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-size: var(
+        #{getCssVarName('message-close-size')},
+        map.get($message, 'close-size')
+      );
+
+      .#{$namespace}-tour__close {
+        color: getCssVar('tour-close-color');
+        font-size: inherit;
+      }
+
+      &:focus,
+      &:hover {
+        .#{$namespace}-tour__close {
+          color: getCssVar('color', 'primary');
+        }
+      }
+    }
+
+    @include e(header) {
+      padding-bottom: getCssVar('tour-padding-primary');
+
+      &.show-close {
+        padding-right: calc(
+          getCssVar('tour-padding-primary') +
+            var(
+              #{getCssVarName('message-close-size')},
+              map.get($message, 'close-size')
+            )
+        );
+      }
+    }
+
+    @include e(title) {
+      line-height: getCssVar('tour-font-line-height');
+      font-size: getCssVar('tour-title-font-size');
+      color: getCssVar('tour-title-text-color');
+      font-weight: getCssVar('tour-title-font-weight');
+    }
+
+    @include e(body) {
+      color: getCssVar('tour-text-color');
+      font-size: getCssVar('tour-font-size');
+      img,
+      video {
+        max-width: 100%;
+      }
+    }
+
+    @include e(footer) {
+      padding-top: getCssVar('tour-padding-primary');
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    @include b(tour-indicators) {
+      display: inline-block;
+      flex: 1;
+    }
+
+    @include b(tour-indicator) {
+      width: 6px;
+      height: 6px;
+      display: inline-block;
+      border-radius: 50%;
+      background: getCssVar('color', 'info-light-9');
+      margin-right: 6px;
+
+      @include when(active) {
+        background: getCssVar('color', 'primary');
+      }
+    }
+  }
+
+  &.#{$namespace}-tour--primary {
+    @include set-css-var-value('tour-title-text-color', #fff);
+    @include set-css-var-value('tour-text-color', #fff);
+    @include set-css-var-value('tour-bg-color', getCssVar('color', 'primary'));
+    @include set-css-var-value('tour-close-color', #fff);
+
+    .#{$namespace}-tour__closebtn {
+      &:focus,
+      &:hover {
+        .#{$namespace}-tour__close {
+          color: getCssVar('tour-title-text-color');
+        }
+      }
+    }
+
+    .#{$namespace}-button--default {
+      color: getCssVar('color', 'primary');
+      border-color: getCssVar('color', 'primary');
+      background: #fff;
+    }
+
+    .#{$namespace}-button--primary {
+      border-color: #fff;
+    }
+
+    @include b(tour-indicator) {
+      background: rgba(255, 255, 255, 0.15);
+      @include when(active) {
+        background: #fff;
+      }
+    }
+  }
+}
+
+@include b(tour-parent) {
+  @include m(hidden) {
+    overflow: hidden;
+  }
+}

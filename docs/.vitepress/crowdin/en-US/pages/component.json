@@ -220,6 +220,11 @@
         "text": "Timeline"
       },
       {
+        "link": "/tour",
+        "text": "Tour",
+        "promotion": "2.5.0"
+      },
+      {
         "link": "/tree",
         "text": "Tree"
       },
@@ -245,6 +250,11 @@
       {
         "link": "/affix",
         "text": "Affix"
+      },
+      {
+        "link": "/anchor",
+        "text": "Anchor",
+        "promotion": "2.6.0"
       },
       {
         "link": "/backtop",

@@ -102,6 +102,11 @@ export default {
       clearFilter: 'ทั้งหมด',
       sumText: 'รวม',
     },
+    tour: {
+      next: 'ถัดไป',
+      previous: 'ย้อนกลับ',
+      finish: 'เสร็จสิ้น',
+    },
     tree: {
       emptyText: 'ไม่พบข้อมูล',
     },
@@ -122,6 +127,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

@@ -63,7 +63,6 @@ $tag-icon-span-gap: map.merge(
 @include b(tag) {
   @include genTheme('light-9', 'light-8', '');
 
-  @include css-var-from-global(('tag', 'text-color'), ('color', 'primary'));
   @each $type in $types {
     &.#{bem('tag', '', $type)} {
       @include css-var-from-global(('tag', 'text-color'), ('color', $type));
@@ -78,6 +77,7 @@ $tag-icon-span-gap: map.merge(
   }
 
   .#{$namespace}-tag__close {
+    flex-shrink: 0;
     color: getCssVar('tag', 'text-color');
     &:hover {
       color: getCssVar('color-white');
