@@ -453,17 +453,11 @@ export const useSelect = (props: ISelectProps, emit) => {
         return getValueKey(item) === getValueKey(states.selected)
       })
     } else {
-      if (states.selected.length > 0) {
-        states.hoveringIndex = Math.min(
-          ...states.selected.map((selected) => {
-            return optionsArray.value.findIndex((item) => {
-              return getValueKey(item) === getValueKey(selected)
-            })
-          })
+      states.hoveringIndex = optionsArray.value.findIndex((item) =>
+        states.selected.some(
+          (selected) => getValueKey(selected) === getValueKey(item)
         )
-      } else {
-        states.hoveringIndex = -1
-      }
+      )
     }
   }
 
