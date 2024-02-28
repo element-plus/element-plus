@@ -1,7 +1,7 @@
 <template>
   <div class="block text-center">
     <span class="demonstration">Motion blur the switch (default)</span>
-    <el-carousel height="200px" :motion-blur="true">
+    <el-carousel height="200px" motion-blur>
       <el-carousel-item v-for="item in 4" :key="item">
         <h3 class="small justify-center" text="2xl">{{ item }}</h3>
       </el-carousel-item>
