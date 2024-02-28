@@ -15,7 +15,7 @@ carousel/basic
 
 :::
 
-## Motion blur
+## Motion blur ^(2.6.0)
 
 Add motion blur to infuse dynamism and smoothness into the carousel.
 
