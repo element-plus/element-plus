@@ -16,9 +16,16 @@ export const checkboxProps = {
     default: undefined,
   },
   /**
-   * @description value of the Checkbox when used inside a `checkbox-group`
+   * @description label of the Checkbox when used inside a `checkbox-group`
    */
   label: {
+    type: [String, Boolean, Number, Object],
+    default: undefined,
+  },
+  /**
+   * @description value of the Checkbox when used inside a `checkbox-group`
+   */
+  value: {
     type: [String, Boolean, Number, Object],
     default: undefined,
   },
@@ -44,11 +51,27 @@ export const checkboxProps = {
   /**
    * @description value of the Checkbox if it's checked
    */
+  trueValue: {
+    type: [String, Number],
+    default: undefined,
+  },
+  /**
+   * @description value of the Checkbox if it's not checked
+   */
+  falseValue: {
+    type: [String, Number],
+    default: undefined,
+  },
+  /**
+   * @deprecated use `trueValue` instead
+   * @description value of the Checkbox if it's checked
+   */
   trueLabel: {
     type: [String, Number],
     default: undefined,
   },
   /**
+   * @deprecated use `falseValue` instead
    * @description value of the Checkbox if it's not checked
    */
   falseLabel: {
