@@ -10,6 +10,6 @@ export const basicYearTableProps = buildProps({
   disabledDate,
   parsedValue,
   selectionMode: selectionModeWithDefault('year'),
-})
+} as const)
 
 export type BasicYearTableProps = ExtractPropTypes<typeof basicYearTableProps>
