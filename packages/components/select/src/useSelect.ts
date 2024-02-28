@@ -33,7 +33,6 @@ import {
   scrollIntoView,
 } from '@element-plus/utils'
 import {
-  useDeprecated,
   useFocusController,
   useId,
   useLocale,
@@ -74,17 +73,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     menuVisibleOnFocus: false,
     isBeforeHide: false,
   })
-
-  useDeprecated(
-    {
-      from: 'suffixTransition',
-      replacement: 'override style scheme',
-      version: '2.3.0',
-      scope: 'props',
-      ref: 'https://element-plus.org/en-US/component/select.html#select-attributes',
-    },
-    computed(() => props.suffixTransition === false)
-  )
 
   // template refs
   const selectRef = ref<HTMLElement>(null)
@@ -157,10 +145,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       : props.suffixIcon
   )
   const iconReverse = computed(() =>
-    nsSelect.is(
-      'reverse',
-      iconComponent.value && expanded.value && props.suffixTransition
-    )
+    nsSelect.is('reverse', iconComponent.value && expanded.value)
   )
 
   const validateState = computed(() => formItem?.validateState || '')

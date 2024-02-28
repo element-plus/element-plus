@@ -23,7 +23,7 @@ import {
   isString,
   throwError,
 } from '@element-plus/utils'
-import { useDeprecated, useNamespace } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
 import { ArrowDown, ArrowRight } from '@element-plus/icons-vue'
 import { ElIcon } from '@element-plus/components/icon'
 import useMenu from './use-menu'
@@ -42,10 +42,6 @@ export const subMenuProps = buildProps({
   hideTimeout: Number,
   popperClass: String,
   disabled: Boolean,
-  popperAppendToBody: {
-    type: Boolean,
-    default: undefined,
-  },
   teleported: {
     type: Boolean,
     default: undefined,
@@ -72,17 +68,6 @@ export default defineComponent({
   props: subMenuProps,
 
   setup(props, { slots, expose }) {
-    useDeprecated(
-      {
-        from: 'popper-append-to-body',
-        replacement: 'teleported',
-        scope: COMPONENT_NAME,
-        version: '2.3.0',
-        ref: 'https://element-plus.org/en-US/component/menu.html#submenu-attributes',
-      },
-      computed(() => props.popperAppendToBody !== undefined)
-    )
-
     const instance = getCurrentInstance()!
     const { indexPath, parentMenu } = useMenu(
       instance,
@@ -130,7 +115,7 @@ export default defineComponent({
       return subMenu.level === 0
     })
     const appendToBody = computed(() => {
-      const value = props.teleported ?? props.popperAppendToBody
+      const value = props.teleported
       return value === undefined ? isFirstLevel.value : value
     })
     const menuTransitionName = computed(() =>
