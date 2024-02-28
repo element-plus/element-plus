@@ -11,7 +11,7 @@
   <el-carousel
     height="200px"
     direction="vertical"
-    :motion-blur="true"
+    motion-blur
     :autoplay="false"
   >
     <el-carousel-item v-for="item in 4" :key="item">
