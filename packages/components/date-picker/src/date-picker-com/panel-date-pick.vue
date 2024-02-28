@@ -159,12 +159,7 @@
         </div>
       </div>
     </div>
-    <div
-      v-show="
-        footerVisible && (currentView === 'date' || currentView === 'year')
-      "
-      :class="ppNs.e('footer')"
-    >
+    <div v-show="footerVisible" :class="ppNs.e('footer')">
       <el-button
         v-show="selectionMode !== 'dates' && selectionMode !== 'years'"
         text
@@ -457,11 +452,11 @@ const showTime = computed(
 )
 
 const footerVisible = computed(() => {
-  return (
-    showTime.value ||
-    selectionMode.value === 'dates' ||
-    selectionMode.value === 'years'
-  )
+  const showDateFooter = showTime.value || selectionMode.value === 'dates'
+  const showYearFooter = selectionMode.value === 'years'
+  const isDateView = currentView.value === 'date'
+  const isYearView = currentView.value === 'year'
+  return (showDateFooter && isDateView) || (showYearFooter && isYearView)
 })
 
 const disabledConfirm = computed(() => {
