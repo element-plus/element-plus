@@ -29,7 +29,6 @@ import {
   isClient,
   isFunction,
   isNumber,
-  isString,
   isUndefined,
   scrollIntoView,
 } from '@element-plus/utils'
