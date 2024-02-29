@@ -14,6 +14,7 @@ import {
   findLastIndex,
   get,
   isEqual,
+  isNil,
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
@@ -124,11 +125,13 @@ export const useSelect = (props: ISelectProps, emit) => {
   const selectDisabled = computed(() => props.disabled || form?.disabled)
 
   const hasModelValue = computed(() => {
+    const hasEmptyStringOption = optionsArray.value.some(
+      (option) => option.value === ''
+    )
     return props.multiple
       ? isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined &&
-          props.modelValue !== null &&
-          props.modelValue !== ''
+      : !isNil(props.modelValue) &&
+          (props.modelValue !== '' || hasEmptyStringOption)
   })
 
   const showClose = computed(() => {

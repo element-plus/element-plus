@@ -13,6 +13,7 @@ import {
   findLastIndex,
   get,
   isEqual,
+  isNil,
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
@@ -127,11 +128,13 @@ const useSelect = (props: ISelectV2Props, emit) => {
   })
 
   const hasModelValue = computed(() => {
+    const hasEmptyStringOption = allOptions.value.some(
+      (option) => getValue(option) === ''
+    )
     return props.multiple
       ? isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined &&
-          props.modelValue !== null &&
-          props.modelValue !== ''
+      : !isNil(props.modelValue) &&
+          (props.modelValue !== '' || hasEmptyStringOption)
   })
 
   const showClearBtn = computed(() => {
