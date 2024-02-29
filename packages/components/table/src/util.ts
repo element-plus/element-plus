@@ -13,6 +13,7 @@ import ElTooltip, {
 } from '@element-plus/components/tooltip'
 import type { Table } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
+import type { TreeProps } from './table/defaults/TableProps'
 
 export type TableOverflowTooltipOptions = Partial<
   Pick<
@@ -263,7 +264,8 @@ export function compose(...funcs) {
 export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
-  newVal: boolean
+  newVal: boolean,
+  tableTreeProps: TreeProps
 ): boolean {
   let changed = false
   const index = statusArr.indexOf(row)
@@ -276,11 +278,6 @@ export function toggleRowStatus<T>(
       statusArr.splice(index, 1)
     }
     changed = true
-    if (isArray(row.children)) {
-      row.children.forEach((item) => {
-        toggleRowStatus(statusArr, item, newVal ?? !included)
-      })
-    }
   }
 
   if (isBoolean(newVal)) {
@@ -291,6 +288,15 @@ export function toggleRowStatus<T>(
     }
   } else {
     included ? toggleStatus('remove') : toggleStatus('add')
+  }
+
+  if (
+    !tableTreeProps?.checkStrictly &&
+    isArray(row[tableTreeProps?.children])
+  ) {
+    row[tableTreeProps.children].forEach((item) => {
+      toggleRowStatus(statusArr, item, newVal ?? !included, tableTreeProps)
+    })
   }
   return changed
 }
