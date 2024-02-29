@@ -527,8 +527,8 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const deleteSelected = (event) => {
     event.stopPropagation()
-    const value: string | any[] = props.multiple ? [] : ''
-    if (!isString(value)) {
+    const value: string | any[] = props.multiple ? [] : undefined
+    if (props.multiple) {
       for (const item of states.selected) {
         if (item.isDisabled) value.push(item.value)
       }
