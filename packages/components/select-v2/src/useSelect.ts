@@ -223,6 +223,15 @@ const useSelect = (props: ISelectV2Props, emit) => {
     filteredOptions.value = filterOptions(states.inputValue) as OptionType[]
   }
 
+  const allOptionsValueMap = computed(() => {
+    const valueMap = new Map()
+
+    allOptions.value.forEach((option, index) => {
+      valueMap.set(getValueKey(getValue(option)), { option, index })
+    })
+    return valueMap
+  })
+
   const filteredOptionsValueMap = computed(() => {
     const valueMap = new Map()
 
@@ -711,8 +720,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
     // match the option with the given value, if not found, create a new option
     const selectValue = getValueKey(value)
 
-    if (filteredOptionsValueMap.value.has(selectValue)) {
-      const { option } = filteredOptionsValueMap.value.get(selectValue)
+    if (allOptionsValueMap.value.has(selectValue)) {
+      const { option } = allOptionsValueMap.value.get(selectValue)
 
       return option
     }
