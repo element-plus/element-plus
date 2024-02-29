@@ -179,7 +179,9 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
   function setCheckedKeys(keys: TreeKey[]) {
     checkedKeys.value.clear()
     indeterminateKeys.value.clear()
-    _setCheckedKeys(keys)
+    nextTick(() => {
+      _setCheckedKeys(keys)
+    })
   }
 
   function setChecked(key: TreeKey, isChecked: boolean) {
@@ -192,6 +194,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
   }
 
   function _setCheckedKeys(keys: TreeKey[]) {
+    debugger
     if (tree?.value) {
       const { treeNodeMap } = tree.value
       if (props.showCheckbox && treeNodeMap && keys) {
