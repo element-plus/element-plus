@@ -87,10 +87,6 @@
       border-radius: 24px;
       margin-left: 3px;
       margin-right: 3px;
-      background-color: getCssVar('datepicker-inrange-bg-color');
-      &:hover {
-        background-color: getCssVar('datepicker-inrange-hover-bg-color');
-      }
     }
 
     &.current:not(.disabled) .cell {
