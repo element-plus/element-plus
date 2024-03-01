@@ -77,47 +77,45 @@ anchor/affix
 
 ### Anchor Attributes
 
-| Property   | Description                              | Type                                                  | Default |
-| ---------- | ---------------------------------------- | ----------------------------------------------------- | ------- |
-| container  | scroll container.                        | `string` \| `HTMLElement` \| `Window `                | —       |
-| offset     | set the offset of the anchor scroll.     | `number`                                              | 0    |
-| bound      | the offset of the element starting to trigger the anchor. | `number`                             | 15      |
-| duration   | set the scroll duration of the container, in milliseconds.          | `number`                   | 300    |
-| marker     | whether to show the marker.              | ^[boolean]                                            | true   |
-| type       | set Anchor type.                         | ^[enum]`'defalut' \| 'underline'`                     | `default` |
-| direction     | Set Anchor direction.                 | ^[enum]`'vertical' \| 'horizontal'`                   | `vertical`   |
+| Property  | Description                                                | Type                                   | Default    |
+| --------- | ---------------------------------------------------------- | -------------------------------------- | ---------- |
+| container | scroll container.                                          | `string` \| `HTMLElement` \| `Window ` | —          |
+| offset    | set the offset of the anchor scroll.                       | `number`                               | 0          |
+| bound     | the offset of the element starting to trigger the anchor.  | `number`                               | 15         |
+| duration  | set the scroll duration of the container, in milliseconds. | `number`                               | 300        |
+| marker    | whether to show the marker.                                | ^[boolean]                             | true       |
+| type      | set Anchor type.                                           | ^[enum]`'defalut' \| 'underline'`      | `default`  |
+| direction | Set Anchor direction.                                      | ^[enum]`'vertical' \| 'horizontal'`    | `vertical` |
 
 ### Anchor events
 
-| Name   | Description                    | Type                                   |
-| ------ | ------------------------------ | -------------------------------------- |
-| change | callback when the step changes | ^[Function]`(href: string) => void` |
-| click  | Triggered when the user clicks on the link  | ^[Function]`(e: MouseEvent, href?: string) => void` |
+| Name   | Description                                | Type                                                |
+| ------ | ------------------------------------------ | --------------------------------------------------- |
+| change | callback when the step changes             | ^[Function]`(href: string) => void`                 |
+| click  | Triggered when the user clicks on the link | ^[Function]`(e: MouseEvent, href?: string) => void` |
 
 ### Anchor methods
 
-| Name       | Description                                                   |  Type   |
-| ---------- | ------------------------------------------------------------- | ------- |
-| scrollTo   | Manually scroll to the specific position.                     | ^[Function]`(href: string) => void`|
-
+| Name     | Description                               | Type                                |
+| -------- | ----------------------------------------- | ----------------------------------- |
+| scrollTo | Manually scroll to the specific position. | ^[Function]`(href: string) => void` |
 
 ### Anchor slots
 
-| Name       | Description                                                   |
-| ---------- | ------------------------------------------------------------- |
-| default    | AnchorLink component list                                     |
-
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | AnchorLink component list |
 
 ### AnchorLink Attributes
 
-| Property   | Description                              | Type                                                  | Default |
-| ---------- | ---------------------------------------- | ----------------------------------------------------- | ------- |
-| title      | the text content of the anchor link.     | `string`                                              | —       |
-| href       | The address of the anchor link.          | `string`                                              | -       |
+| Property | Description                          | Type     | Default |
+| -------- | ------------------------------------ | -------- | ------- |
+| title    | the text content of the anchor link. | `string` | —       |
+| href     | The address of the anchor link.      | `string` | -       |
 
 ### AnchorLink slots
 
-| Name     | Description |
-| -------- | ----------- |
-| default  | the content of the anchor link.   |
-| sub-link | slots for child links. |
+| Name     | Description                     |
+| -------- | ------------------------------- |
+| default  | the content of the anchor link. |
+| sub-link | slots for child links.          |
