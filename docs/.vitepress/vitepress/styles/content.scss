@@ -12,13 +12,13 @@
     &.has-sidebar {
       padding-left: calc(var(--sidebar-width-sm) + 10px);
       @include respond-to('xlg') {
-        padding-left: calc(var(--vp-sidebar-width-small) - $scrollbar-size);
+        padding-left: calc(var(--vp-sidebar-width-small));
       }
       @include respond-to('xxl') {
-        padding-left: calc(
-          (100% - var(--vp-screen-max-width)) / 2 +
-            var(--vp-sidebar-width-small)
-        );
+        padding-left: calc(var(--vp-sidebar-width-small) + 32px);
+      }
+      @include respond-to('max') {
+        padding-left: calc(var(--vp-sidebar-width-small) + 48px);
       }
     }
   }

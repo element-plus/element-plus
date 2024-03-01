@@ -72,6 +72,10 @@
         @include mixed-input-border(#{getCssVar('input-focus-border-color')});
       }
 
+      @include e(selected-item) {
+        color: getCssVar('select-disabled-color');
+      }
+
       @include e(caret) {
         cursor: not-allowed;
       }

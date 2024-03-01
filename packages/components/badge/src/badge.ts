@@ -32,5 +32,12 @@ export const badgeProps = buildProps({
     values: ['primary', 'success', 'warning', 'info', 'danger'],
     default: 'danger',
   },
+  /**
+   * @description whether to show badge when value is zero.
+   */
+  showZero: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type BadgeProps = ExtractPropTypes<typeof badgeProps>

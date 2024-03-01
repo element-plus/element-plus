@@ -128,6 +128,7 @@ const {
   rendered,
   titleId,
   bodyId,
+  zIndex,
   onModalClick,
   onOpenAutoFocus,
   onCloseAutoFocus,

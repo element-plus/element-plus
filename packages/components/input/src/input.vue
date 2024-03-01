@@ -1,6 +1,5 @@
 <template>
   <div
-    v-show="type !== 'hidden'"
     v-bind="containerAttrs"
     :class="containerKls"
     :style="containerStyle"
@@ -223,6 +222,7 @@ const containerKls = computed(() => [
       slots.suffix || props.suffixIcon || props.clearable || props.showPassword,
     [nsInput.bm('suffix', 'password-clear')]:
       showClear.value && showPwdVisible.value,
+    [nsInput.b('hidden')]: props.type === 'hidden',
   },
   rawAttrs.class,
 ])
