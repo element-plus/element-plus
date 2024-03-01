@@ -127,14 +127,15 @@ const useSelect = (props: ISelectV2Props, emit) => {
     return totalHeight > props.height ? props.height : totalHeight
   })
 
+  const hasEmptyStringOption = computed(() =>
+    allOptions.value.some((option) => getValue(option) === '')
+  )
+
   const hasModelValue = computed(() => {
-    const hasEmptyStringOption = allOptions.value.some(
-      (option) => getValue(option) === ''
-    )
     return props.multiple
       ? isArray(props.modelValue) && props.modelValue.length > 0
       : !isNil(props.modelValue) &&
-          (props.modelValue !== '' || hasEmptyStringOption)
+          (props.modelValue !== '' || hasEmptyStringOption.value)
   })
 
   const showClearBtn = computed(() => {

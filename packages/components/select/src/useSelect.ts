@@ -123,14 +123,15 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const selectDisabled = computed(() => props.disabled || form?.disabled)
 
+  const hasEmptyStringOption = computed(() =>
+    optionsArray.value.some((option) => option.value === '')
+  )
+
   const hasModelValue = computed(() => {
-    const hasEmptyStringOption = optionsArray.value.some(
-      (option) => option.value === ''
-    )
     return props.multiple
       ? isArray(props.modelValue) && props.modelValue.length > 0
       : !isNil(props.modelValue) &&
-          (props.modelValue !== '' || hasEmptyStringOption)
+          (props.modelValue !== '' || hasEmptyStringOption.value)
   })
 
   const showClose = computed(() => {
