@@ -7,7 +7,6 @@
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: var(--sidebar-z-index);
   width: var(--sidebar-width-xs);
   background-color: var(--bg-color);
   padding: 48px 32px;
@@ -50,6 +49,7 @@
   }
 
   @include respond-to('lg') {
+    z-index: var(--sidebar-z-index);
     top: var(--header-height);
     transform: translate(0);
   }
