@@ -214,6 +214,11 @@ const disabledHours_ = (role: string, compare?: Dayjs) => {
   const isStart = role === 'start'
   const compareDate = compare || (isStart ? endTime.value : startTime.value)
   const compareHour = compareDate.hour()
+  // fix the time-picker show error time between 11:00 to 12:00 pm.
+  if ((isStart && compareHour === 0) || (!isStart && compareHour === 23)) {
+    return union(defaultDisable)
+  }
+
   const nextDisable = isStart
     ? makeSelectRange(compareHour + 1, 23)
     : makeSelectRange(0, compareHour - 1)
