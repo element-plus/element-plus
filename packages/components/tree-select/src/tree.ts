@@ -17,6 +17,7 @@ import type { Ref } from 'vue'
 import type ElSelect from '@element-plus/components/select'
 import type Node from '@element-plus/components/tree/src/model/node'
 import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
+import type { TreeInstance } from '@element-plus/components/tree'
 
 export const useTree = (
   props,
@@ -27,7 +28,7 @@ export const useTree = (
     key,
   }: {
     select: Ref<InstanceType<typeof ElSelect> | undefined>
-    tree: Ref<InstanceType<typeof ElTree> | undefined>
+    tree: Ref<TreeInstance | undefined>
     key: Ref<string>
   }
 ) => {
@@ -208,9 +209,7 @@ export const useTree = (
         if (props.multiple) {
           emit(
             UPDATE_MODEL_EVENT,
-            cachedKeys.concat(
-              (tree.value as InstanceType<typeof ElTree>).getCheckedKeys(true)
-            )
+            cachedKeys.concat((tree.value as TreeInstance).getCheckedKeys(true))
           )
         } else {
           // select first leaf node when check parent
