@@ -315,15 +315,45 @@ export default defineComponent({
       emptyBlockStyle,
       debouncedUpdateLayout,
       handleFixedMousewheel,
+      /**
+       * @description used in single selection Table, set a certain row selected. If called without any parameter, it will clear selection
+       */
       setCurrentRow,
+      /**
+       * @description returns the currently selected rows
+       */
       getSelectionRows,
+      /**
+       * @description used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected
+       */
       toggleRowSelection,
+      /**
+       * @description used in multiple selection Table, clear user selection
+       */
       clearSelection,
+      /**
+       * @description clear filters of the columns whose `columnKey` are passed in. If no params, clear all filters
+       */
       clearFilter,
+      /**
+       * @description used in multiple selection Table, toggle select all and deselect all
+       */
       toggleAllSelection,
+      /**
+       * @description used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed
+       */
       toggleRowExpansion,
+      /**
+       * @description clear sorting, restore data to the original order
+       */
       clearSort,
+      /**
+       * @description refresh the layout of Table. When the visibility of Table changes, you may need to call this method to get a correct layout
+       */
       doLayout,
+      /**
+       * @description sort Table manually. Property `prop` is used to set sort column, property `order` is used to set sort order
+       */
       sort,
       t,
       setDragVisible,
@@ -335,8 +365,17 @@ export default defineComponent({
       tableInnerStyle,
       scrollbarStyle,
       scrollBarRef,
+      /**
+       * @description scrolls to a particular set of coordinates
+       */
       scrollTo,
+      /**
+       * @description set horizontal scroll position
+       */
       setScrollLeft,
+      /**
+       * @description set vertical scroll position
+       */
       setScrollTop,
     }
   },

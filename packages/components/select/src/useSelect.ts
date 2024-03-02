@@ -14,6 +14,7 @@ import {
   findLastIndex,
   get,
   isEqual,
+  isNil,
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
@@ -28,7 +29,6 @@ import {
   isClient,
   isFunction,
   isNumber,
-  isString,
   isUndefined,
   scrollIntoView,
 } from '@element-plus/utils'
@@ -123,12 +123,15 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const selectDisabled = computed(() => props.disabled || form?.disabled)
 
+  const hasEmptyStringOption = computed(() =>
+    optionsArray.value.some((option) => option.value === '')
+  )
+
   const hasModelValue = computed(() => {
     return props.multiple
       ? isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined &&
-          props.modelValue !== null &&
-          props.modelValue !== ''
+      : !isNil(props.modelValue) &&
+          (props.modelValue !== '' || hasEmptyStringOption.value)
   })
 
   const showClose = computed(() => {
@@ -524,8 +527,8 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const deleteSelected = (event) => {
     event.stopPropagation()
-    const value: string | any[] = props.multiple ? [] : ''
-    if (!isString(value)) {
+    const value: string | any[] = props.multiple ? [] : undefined
+    if (props.multiple) {
       for (const item of states.selected) {
         if (item.isDisabled) value.push(item.value)
       }
