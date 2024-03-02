@@ -361,11 +361,19 @@ export default class TreeStore {
 
   setDefaultExpandedKeys(keys: TreeKey[]) {
     keys = keys || []
+    const preExpandedKeys = this.defaultExpandedKeys
     this.defaultExpandedKeys = keys
-    keys.forEach((key) => {
-      const node = this.getNode(key)
-      if (node) node.expand(null, this.autoExpandParent)
-    })
+    if (keys.length === 0) {
+      preExpandedKeys.forEach((key) => {
+        const node = this.getNode(key)
+        if (node) node.collapse()
+      })
+    } else {
+      keys.forEach((key) => {
+        const node = this.getNode(key)
+        if (node) node.expand(null, this.autoExpandParent)
+      })
+    }
   }
 
   setChecked(
