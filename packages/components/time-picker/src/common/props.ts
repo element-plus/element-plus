@@ -56,6 +56,14 @@ export const timePickerDefaultProps = buildProps({
    */
   valueFormat: String,
   /**
+   * @description optional, format of the date displayed value in TimePicker's dropdown
+   */
+  dateFormat: String,
+  /**
+   * @description optional, format of the time displayed value in TimePicker's dropdown
+   */
+  timeFormat: String,
+  /**
    * @description type of the picker
    */
   type: {
@@ -97,17 +105,11 @@ export const timePickerDefaultProps = buildProps({
   /**
    * @description whether TimePicker is read only
    */
-  readonly: {
-    type: Boolean,
-    default: false,
-  },
+  readonly: Boolean,
   /**
    * @description whether TimePicker is disabled
    */
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+  disabled: Boolean,
   /**
    * @description placeholder in non-range mode
    */
@@ -159,10 +161,7 @@ export const timePickerDefaultProps = buildProps({
   /**
    * @description whether to pick a time range
    */
-  isRange: {
-    type: Boolean,
-    default: false,
-  },
+  isRange: Boolean,
   ...disabledTimeListsProps,
   /**
    * @description a function determining if a date is disabled with that date as its parameter. Should return a Boolean
@@ -186,10 +185,7 @@ export const timePickerDefaultProps = buildProps({
   /**
    * @description whether to pick time using arrow buttons
    */
-  arrowControl: {
-    type: Boolean,
-    default: false,
-  },
+  arrowControl: Boolean,
   /**
    * @description same as `aria-label` in native input
    */

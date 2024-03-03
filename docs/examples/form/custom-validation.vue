@@ -1,10 +1,11 @@
 <template>
   <el-form
     ref="ruleFormRef"
+    style="max-width: 600px"
     :model="ruleForm"
     status-icon
     :rules="rules"
-    label-width="120px"
+    label-width="auto"
     class="demo-ruleForm"
   >
     <el-form-item label="Password" prop="pass">
@@ -79,7 +80,7 @@ const ruleForm = reactive({
   age: '',
 })
 
-const rules = reactive<FormRules>({
+const rules = reactive<FormRules<typeof ruleForm>>({
   pass: [{ validator: validatePass, trigger: 'blur' }],
   checkPass: [{ validator: validatePass2, trigger: 'blur' }],
   age: [{ validator: checkAge, trigger: 'blur' }],

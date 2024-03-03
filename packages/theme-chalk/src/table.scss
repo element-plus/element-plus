@@ -34,6 +34,12 @@
     }
   }
 
+  tbody {
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
   &.has-footer {
     &.#{$namespace}-table--scrollable-y,
     &.#{$namespace}-table--fluid-height {
@@ -123,7 +129,10 @@
 
   thead {
     color: getCssVar('table-header-text-color');
-    font-weight: 500;
+
+    th {
+      font-weight: 600;
+    }
 
     &.is-group {
       th.#{$namespace}-table__cell {
@@ -140,7 +149,7 @@
     vertical-align: middle;
     position: relative;
     text-align: left;
-    z-index: 1;
+    z-index: getCssVar('table-index');
     @include when(center) {
       text-align: center;
     }
@@ -168,7 +177,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
-    word-break: break-all;
+    overflow-wrap: break-word;
     line-height: 23px;
     padding: 0 12px;
 
@@ -237,17 +246,13 @@
     }
   }
 
-  @include e((footer-wrapper)) {
-    border-top: getCssVar('table-border');
-  }
-
   // 拥有多级表头
   @include m((group, border)) {
     @include share-rule(border-pseudo) {
       content: '';
       position: absolute;
       background-color: getCssVar('table-border-color');
-      z-index: 3;
+      z-index: calc(getCssVar('table-index') + 2);
     }
   }
 
@@ -260,6 +265,7 @@
         top: 0;
         width: 100%;
         height: 1px;
+        z-index: calc(getCssVar('table-index') + 2);
       }
     }
 
@@ -315,8 +321,8 @@
         &.#{$namespace}-table-fixed-column--left,
         &.#{$namespace}-table-fixed-column--right {
           position: sticky !important;
-          z-index: 2;
-          background: getCssVar('bg-color');
+          background: inherit;
+          z-index: calc(getCssVar('table-index') + 1);
           &.is-last-column,
           &.is-first-column {
             &::before {
@@ -346,7 +352,7 @@
         }
         &.#{$namespace}-table__fixed-right-patch {
           position: sticky !important;
-          z-index: 2;
+          z-index: calc(getCssVar('table-index') + 1);
           background: #fff;
           right: 0;
         }
@@ -371,10 +377,20 @@
     border-collapse: separate;
   }
 
-  @include e((header-wrapper, footer-wrapper)) {
+  @include e((header-wrapper)) {
     overflow: hidden;
 
     & tbody td.#{$namespace}-table__cell {
+      background-color: getCssVar('table-row-hover-bg-color');
+      color: getCssVar('table-text-color');
+    }
+  }
+
+  @include e((footer-wrapper)) {
+    overflow: hidden;
+    flex-shrink: 0;
+
+    tfoot td.#{$namespace}-table__cell {
       background-color: getCssVar('table-row-hover-bg-color');
       color: getCssVar('table-text-color');
     }
@@ -465,7 +481,7 @@
     position: relative;
     flex: 1;
     .#{$namespace}-scrollbar__bar {
-      z-index: 2;
+      z-index: calc(getCssVar('table-index') + 2);
     }
   }
 
@@ -540,8 +556,26 @@
       }
     }
 
+    tr > td.hover-cell {
+      background-color: getCssVar('table-row-hover-bg-color');
+    }
+
     tr.current-row > td.#{$namespace}-table__cell {
       background-color: getCssVar('table-current-row-bg-color');
+    }
+  }
+
+  &.#{$namespace}-table--scrollable-y {
+    @include e(body-header) {
+      position: sticky;
+      top: 0;
+      z-index: calc(getCssVar('table-index') + 2);
+    }
+
+    @include e(body-footer) {
+      position: sticky;
+      bottom: 0;
+      z-index: calc(getCssVar('table-index') + 2);
     }
   }
 
@@ -552,7 +586,7 @@
     bottom: 0;
     width: 0;
     border-left: getCssVar('table-border');
-    z-index: 10;
+    z-index: calc(getCssVar('table-index') + 9);
   }
 
   @include e(column-filter-trigger) {
@@ -571,7 +605,7 @@
     left: 0;
     width: 1px;
     height: 100%;
-    z-index: 3;
+    z-index: calc(getCssVar('table-index') + 2);
     position: absolute;
     background-color: getCssVar('table-border-color');
   }
@@ -579,7 +613,7 @@
   @include e(border-bottom-patch) {
     left: 0;
     height: 1px;
-    z-index: 3;
+    z-index: calc(getCssVar('table-index') + 2);
     position: absolute;
     background-color: getCssVar('table-border-color');
   }
@@ -588,7 +622,7 @@
     top: 0;
     height: 100%;
     width: 1px;
-    z-index: 3;
+    z-index: calc(getCssVar('table-index') + 2);
     position: absolute;
     background-color: getCssVar('table-border-color');
   }

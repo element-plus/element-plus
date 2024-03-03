@@ -10,11 +10,8 @@
         :src="imageSrc"
         :loading="loading"
         :style="imageStyle"
-        :class="[
-          ns.e('inner'),
-          preview && ns.e('preview'),
-          isLoading && ns.is('loading'),
-        ]"
+        :class="imageKls"
+        :crossorigin="crossorigin"
         @click="clickHandler"
         @load="handleLoad"
         @error="handleError"
@@ -32,6 +29,8 @@
         :initial-index="imageIndex"
         :infinite="infinite"
         :zoom-rate="zoomRate"
+        :min-scale="minScale"
+        :max-scale="maxScale"
         :url-list="previewSrcList"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="previewTeleported"
@@ -95,6 +94,12 @@ const _scrollContainer = ref<HTMLElement | Window>()
 const supportLoading = isClient && 'loading' in HTMLImageElement.prototype
 let stopScrollListener: (() => void) | undefined
 let stopWheelListener: (() => void) | undefined
+
+const imageKls = computed(() => [
+  ns.e('inner'),
+  preview.value && ns.e('preview'),
+  isLoading.value && ns.is('loading'),
+])
 
 const containerStyle = computed(() => rawAttrs.style as StyleValue)
 

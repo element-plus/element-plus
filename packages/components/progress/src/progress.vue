@@ -49,6 +49,7 @@
           :class="ns.be('circle', 'track')"
           :d="trackPath"
           :stroke="`var(${ns.cssVarName('fill-color-light')}, #e5e9f2)`"
+          :stroke-linecap="strokeLinecap"
           :stroke-width="relativeStrokeWidth"
           fill="none"
           :style="trailPathStyle"

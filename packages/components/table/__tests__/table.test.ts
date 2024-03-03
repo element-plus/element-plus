@@ -492,6 +492,68 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
 
+    it('cell mouse enter on cell of which rowSpan > 2', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+         <el-table
+          :data="testData"
+          :span-method="objectSpanMethod"
+          border
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column prop="id" label="ID" width="180" />
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
+        </el-table>
+      `,
+        data() {
+          return {
+            testData: getTestData(),
+          }
+        },
+        methods: {
+          objectSpanMethod({ rowIndex, columnIndex }) {
+            if (columnIndex === 0) {
+              if (rowIndex % 2 === 0) {
+                return {
+                  rowspan: 2,
+                  colspan: 1,
+                }
+              } else {
+                return {
+                  rowspan: 0,
+                  colspan: 0,
+                }
+              }
+            }
+          },
+        },
+      })
+      const vm = wrapper.vm
+      await doubleWait()
+      const cell = vm.$el
+        .querySelectorAll('.el-table__body-wrapper tbody tr')[0]
+        .querySelector('.el-table__cell')
+      triggerEvent(cell, 'mouseenter', true, false)
+      await doubleWait()
+      await rAF()
+      await doubleWait()
+      const row = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')[1]
+      expect([...row.classList]).toContain('hover-row')
+      await doubleWait()
+      triggerEvent(cell, 'mouseleave', true, false)
+      await rAF()
+      await doubleWait()
+      expect([...row.classList]).not.toContain('hover-row')
+      wrapper.unmount()
+    })
+
     it('cell-mouse-leave', async () => {
       const wrapper = createTable('cell-mouse-leave')
       await doubleWait()
@@ -947,6 +1009,69 @@ describe('Table.vue', () => {
     await rAF()
     await doubleWait()
     expect(tr.classes()).not.toContain('hover-row')
+    wrapper.unmount()
+  })
+
+  it('hover on which rowSpan > 1', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+         <el-table
+          :data="testData"
+          :span-method="objectSpanMethod"
+          border
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column prop="id" label="ID" width="180" />
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
+        </el-table>
+      `,
+      data() {
+        return {
+          testData: getTestData(),
+        }
+      },
+      methods: {
+        objectSpanMethod({ rowIndex, columnIndex }) {
+          if (columnIndex === 0) {
+            if (rowIndex % 2 === 0) {
+              return {
+                rowspan: 2,
+                colspan: 1,
+              }
+            } else {
+              return {
+                rowspan: 0,
+                colspan: 0,
+              }
+            }
+          }
+        },
+      },
+    })
+    const vm = wrapper.vm
+    await doubleWait()
+    const rows = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')
+    triggerEvent(rows[1], 'mouseenter', true, false)
+    await doubleWait()
+    await rAF()
+    await doubleWait()
+    const cell = vm.$el
+      .querySelectorAll('.el-table__body-wrapper tbody tr')[0]
+      .querySelector('.el-table__cell')
+
+    expect([...cell.classList]).toContain('hover-cell')
+    await doubleWait()
+    triggerEvent(rows[1], 'mouseleave', true, false)
+    await rAF()
+    await doubleWait()
+    expect([...cell.classList]).not.toContain('hover-cell')
     wrapper.unmount()
   })
 
@@ -1602,5 +1727,61 @@ describe('Table.vue', () => {
     expect(wrapper.find('.el-table__header').findAll('.cell')[1].text()).toBe(
       'name'
     )
+  })
+
+  it('show-overflow-tooltip', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+
+      template: `
+      <el-table :data="testData" show-overflow-tooltip>
+        <el-table-column prop="name" label="name" />
+        <el-table-column prop="release" label="release" />
+      </el-table>
+    `,
+
+      data() {
+        const testData = getTestData() as any
+        return {
+          testData,
+        }
+      },
+    })
+
+    await doubleWait()
+    const findTooltipEl = wrapper.findAll('.el-tooltip').length
+    await doubleWait()
+    // 5 rows and 2 columns should be 10
+    expect(findTooltipEl).toEqual(10)
+  })
+
+  it('add show-overflow-tooltip to table and table-column', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+
+      template: `
+      <el-table :data="testData" show-overflow-tooltip>
+        <el-table-column prop="name" label="name" :show-overflow-tooltip="false" />
+        <el-table-column prop="release" label="release" />
+      </el-table>
+    `,
+
+      data() {
+        const testData = getTestData() as any
+        return {
+          testData,
+        }
+      },
+    })
+
+    await doubleWait()
+    const findTooltipEl = wrapper.findAll('.el-tooltip').length
+    expect(findTooltipEl).toEqual(5)
   })
 })

@@ -1,5 +1,17 @@
 export const rightRichTextSponsors = []
 
+export const rightBigLogoSponsors = [
+  {
+    name: 'CRMEB',
+    img: '/images/sponsors/CRMEB.png',
+    imgL: '/images/sponsors/CRMEB-l.png',
+    url: 'http://github.crmeb.net/u/Element?from=element-plus',
+    slogan: 'High-quality open source mall system',
+    slogan_cn: '高品质开源商城系统 累计服务40W+开发者',
+    slogan_index: '高品质开源商城系统累计服务40W+开发者',
+  },
+]
+
 export const rightLogoSmallSponsors = [
   {
     name: 'BuildAdmin',
@@ -32,10 +44,10 @@ export const leftCustomImgSponsors = [
   {
     name: 'VForm',
     img: '/images/vform.png',
-    url: 'https://www.vform666.com/',
+    url: 'https://vform666.com/',
     slogan: 'Vue 2/3 Visual/Low-Code Forms',
     slogan_cn: 'Vue 2/3 可视化低代码表单',
-    banner_img: '/images/vform-banner.png',
+    banner_img: '/images/sponsors/vform-banner.png',
   },
   {
     name: 'JNPF',
@@ -50,6 +62,7 @@ export const leftCustomImgSponsors = [
 
 export const platinumSponsors = [
   ...leftCustomImgSponsors,
+  ...rightBigLogoSponsors,
   ...rightRichTextSponsors,
 ]
 

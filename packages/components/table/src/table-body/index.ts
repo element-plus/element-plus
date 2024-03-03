@@ -7,7 +7,7 @@ import {
   onUnmounted,
   watch,
 } from 'vue'
-import { addClass, isClient, removeClass } from '@element-plus/utils'
+import { addClass, isClient, rAF, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import useLayoutObserver from '../layout-observer'
 import { removePopper } from '../util'
@@ -28,21 +28,54 @@ export default defineComponent({
       useRender(props)
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
 
+    const hoveredCellList = []
     watch(props.store.states.hoverRow, (newVal: any, oldVal: any) => {
-      if (!props.store.states.isComplex.value || !isClient) return
-      let raf = window.requestAnimationFrame
-      if (!raf) {
-        raf = (fn) => window.setTimeout(fn, 16)
+      const el = instance?.vnode.el as HTMLElement
+      const rows = Array.from(el?.children || []).filter((e) =>
+        e?.classList.contains(`${ns.e('row')}`)
+      )
+
+      // hover rowSpan > 1 choose the whole row
+      let rowNum = newVal
+      const childNodes = rows[rowNum]?.childNodes
+      if (childNodes?.length) {
+        const indexes = Array.from(childNodes).reduce((acc, item, index) => {
+          // drop colsSpan
+          const pre = childNodes[index - 1]?.colSpan > 1
+          const next = childNodes[index + 1]?.colSpan > 1
+          if (item.nodeName !== 'TD' && !pre && !next) {
+            acc.push(index)
+          }
+          return acc
+        }, [])
+
+        indexes.forEach((rowIndex) => {
+          while (rowNum > 0) {
+            // find from previous
+            const preChildNodes = rows[rowNum - 1]?.childNodes
+            if (
+              preChildNodes[rowIndex] &&
+              preChildNodes[rowIndex].nodeName === 'TD'
+            ) {
+              addClass(preChildNodes[rowIndex], 'hover-cell')
+              hoveredCellList.push(preChildNodes[rowIndex])
+              break
+            }
+            rowNum--
+          }
+        })
+      } else {
+        hoveredCellList.forEach((item) => removeClass(item, 'hover-cell'))
+        hoveredCellList.length = 0
       }
-      raf(() => {
+      if (!props.store.states.isComplex.value || !isClient) return
+
+      rAF(() => {
         // just get first level children; fix #9723
-        const el = instance?.vnode.el as HTMLElement
-        const rows = Array.from(el?.children || []).filter((e) =>
-          e?.classList.contains(`${ns.e('row')}`)
-        )
         const oldRow = rows[oldVal]
         const newRow = rows[newVal]
-        if (oldRow) {
+        // when there is fixed row, hover on rowSpan > 1 should not clear the class
+        if (oldRow && !oldRow.classList.contains('hover-fixed-row')) {
           removeClass(oldRow, 'hover-row')
         }
         if (newRow) {
@@ -67,7 +100,12 @@ export default defineComponent({
   render() {
     const { wrappedRowRender, store } = this
     const data = store.states.data.value || []
-    return h('tbody', {}, [
+    // Why do we need tabIndex: -1 ?
+    // If you set the tabindex attribute on an element ,
+    // then its child content cannot be scrolled with the arrow keys,
+    // unless you set tabindex on the content too
+    // See https://github.com/facebook/react/issues/25462#issuecomment-1274775248 or https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/tabindex
+    return h('tbody', { tabIndex: -1 }, [
       data.reduce((acc: VNode[], row) => {
         return acc.concat(wrappedRowRender(row, acc.length))
       }, []),

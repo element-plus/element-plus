@@ -1,6 +1,7 @@
 import { computed, ref, unref } from 'vue'
 import { useNamespace, useZIndex } from '@element-plus/hooks'
 
+import { isNumber } from '@element-plus/utils'
 import type { CSSProperties, StyleValue } from 'vue'
 import type { UsePopperReturn } from '@element-plus/hooks'
 import type { UsePopperContentReturn } from './use-content'
@@ -19,7 +20,9 @@ export const usePopperContentDOM = (
   const ns = useNamespace('popper')
 
   const contentAttrs = computed(() => unref(attributes).popper)
-  const contentZIndex = ref<number>(props.zIndex || nextZIndex())
+  const contentZIndex = ref<number>(
+    isNumber(props.zIndex) ? props.zIndex : nextZIndex()
+  )
   const contentClass = computed(() => [
     ns.b(),
     ns.is('pure', props.pure),
@@ -41,7 +44,7 @@ export const usePopperContentDOM = (
   )
 
   const updateZIndex = () => {
-    contentZIndex.value = props.zIndex || nextZIndex()
+    contentZIndex.value = isNumber(props.zIndex) ? props.zIndex : nextZIndex()
   }
 
   return {

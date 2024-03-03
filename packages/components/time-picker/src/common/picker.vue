@@ -33,7 +33,13 @@
         :placeholder="placeholder"
         :class="[nsDate.b('editor'), nsDate.bm('editor', type), $attrs.class]"
         :style="$attrs.style"
-        :readonly="!editable || readonly || isDatesPicker || type === 'week'"
+        :readonly="
+          !editable ||
+          readonly ||
+          isDatesPicker ||
+          isYearsPicker ||
+          type === 'week'
+        "
         :label="label"
         :tabindex="tabindex"
         :validate-event="false"
@@ -74,16 +80,7 @@
       <div
         v-else
         ref="inputRef"
-        :class="[
-          nsDate.b('editor'),
-          nsDate.bm('editor', type),
-          nsInput.e('wrapper'),
-          nsDate.is('disabled', pickerDisabled),
-          nsDate.is('active', pickerVisible),
-          nsRange.b('editor'),
-          pickerSize ? nsRange.bm('editor', pickerSize) : '',
-          $attrs.class,
-        ]"
+        :class="rangeInputKls"
         :style="($attrs.style as any)"
         @click="handleFocusInput"
         @mouseenter="onMouseEnter"
@@ -134,13 +131,7 @@
         />
         <el-icon
           v-if="clearIcon"
-          :class="[
-            nsInput.e('icon'),
-            nsRange.e('close-icon'),
-            {
-              [nsRange.e('close-icon--hidden')]: !showClose,
-            },
-          ]"
+          :class="clearIconKls"
           @click="onClearIconClick"
         >
           <component :is="clearIcon" />
@@ -153,6 +144,8 @@
         :actual-visible="pickerActualVisible"
         :parsed-value="parsedValue"
         :format="format"
+        :date-format="dateFormat"
+        :time-format="timeFormat"
         :unlink-panels="unlinkPanels"
         :type="type"
         :default-value="defaultValue"
@@ -168,7 +161,16 @@
   </el-tooltip>
 </template>
 <script lang="ts" setup>
-import { computed, inject, nextTick, provide, ref, unref, watch } from 'vue'
+import {
+  computed,
+  inject,
+  nextTick,
+  provide,
+  ref,
+  unref,
+  useAttrs,
+  watch,
+} from 'vue'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -213,6 +215,7 @@ const emit = defineEmits([
   'visible-change',
   'keydown',
 ])
+const attrs = useAttrs()
 
 const { lang } = useLocale()
 
@@ -231,6 +234,23 @@ const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
 
 let hasJustTabExitedInput = false
 let ignoreFocusEvent = false
+
+const rangeInputKls = computed(() => [
+  nsDate.b('editor'),
+  nsDate.bm('editor', props.type),
+  nsInput.e('wrapper'),
+  nsDate.is('disabled', pickerDisabled.value),
+  nsDate.is('active', pickerVisible.value),
+  nsRange.b('editor'),
+  pickerSize ? nsRange.bm('editor', pickerSize.value) : '',
+  attrs.class,
+])
+
+const clearIconKls = computed(() => [
+  nsInput.e('icon'),
+  nsRange.e('close-icon'),
+  !showClose.value ? nsRange.e('close-icon--hidden') : '',
+])
 
 watch(pickerVisible, (val) => {
   if (!val) {
@@ -456,7 +476,7 @@ const displayValue = computed<UserInput>(() => {
   if (!isTimePicker.value && valueIsEmpty.value) return ''
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
-    return isDatesPicker.value
+    return isDatesPicker.value || isYearsPicker.value
       ? (formattedValue as Array<string>).join(', ')
       : formattedValue
   }
@@ -468,6 +488,8 @@ const isTimeLikePicker = computed(() => props.type.includes('time'))
 const isTimePicker = computed(() => props.type.startsWith('time'))
 
 const isDatesPicker = computed(() => props.type === 'dates')
+
+const isYearsPicker = computed(() => props.type === 'years')
 
 const triggerIcon = computed(
   () => props.prefixIcon || (isTimeLikePicker.value ? Clock : Calendar)
@@ -713,7 +735,7 @@ const onSetPickerOption = <T extends keyof PickerOptions>(
   pickerOptions.value.panelReady = true
 }
 
-const onCalendarChange = (e: [Date, false | Date]) => {
+const onCalendarChange = (e: [Date, null | Date]) => {
   emit('calendar-change', e)
 }
 

@@ -90,6 +90,9 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
 
     if (dropPrev || dropInner || dropNext) {
       dragState.value.dropNode = dropNode
+    } else {
+      // Reset dragState.value.dropNode to null when allowDrop is transfer from true to false.(For issue #14704)
+      dragState.value.dropNode = null
     }
 
     if (dropNode.node.nextSibling === draggingNode.node) {
@@ -110,7 +113,10 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
       dropNext = false
     }
 
-    const targetPosition = dropNode.$el.getBoundingClientRect()
+    // find target node without children, just calc content node height
+    const targetPosition = dropNode.$el
+      .querySelector(`.${ns.be('node', 'content')}`)
+      .getBoundingClientRect()
     const treePosition = el$.value.getBoundingClientRect()
 
     let dropType: NodeDropType

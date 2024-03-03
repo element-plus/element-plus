@@ -79,37 +79,67 @@ switch/prevent-switching
 
 :::
 
-## Attributes
+## custom action icon ^(2.3.9)
 
-| Name                  | Description                                                                                                                                     | Type                                | Accepted Values         | Default |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ----------------------- | ------- |
-| model-value / v-model | binding value, it should be equivalent to either `active-value` or `inactive-value`, by default it's `boolean` type                             | boolean / string / number           | —                       | —       |
-| disabled              | whether Switch is disabled                                                                                                                      | boolean                             | —                       | false   |
-| loading               | whether Switch is in loading state                                                                                                              | boolean                             | —                       | false   |
-| size                  | size of Switch                                                                                                                                  | string                              | large / default / small | default |
-| width                 | width of Switch                                                                                                                                 | number / string                     | —                       | —       |
-| inline-prompt         | whether icon or text is displayed inside dot, only the first character will be rendered for text                                                | boolean                             | —                       | false   |
-| active-icon           | component of the icon displayed when in `on` state, overrides `active-text`                                                                     | `string \| Component`               | —                       | —       |
-| inactive-icon         | component of the icon displayed when in `off` state, overrides `inactive-text`                                                                  | `string \| Component`               | —                       | —       |
-| active-text           | text displayed when in `on` state                                                                                                               | string                              | —                       | —       |
-| inactive-text         | text displayed when in `off` state                                                                                                              | string                              | —                       | —       |
-| active-value          | switch value when in `on` state                                                                                                                 | boolean / string / number           | —                       | true    |
-| inactive-value        | switch value when in `off` state                                                                                                                | boolean / string / number           | —                       | false   |
-| active-color          | background color when in `on` state ( deprecated, use CSS var `--el-switch-on-color` instead )                                                  | string                              | —                       | —       |
-| inactive-color        | background color when in `off` state ( deprecated, use CSS var `--el-switch-off-color` instead )                                                | string                              | —                       | —       |
-| border-color          | border color of the switch ( deprecated, use CSS var `--el-switch-border-color` instead )                                                       | string                              | —                       | —       |
-| name                  | input name of Switch                                                                                                                            | string                              | —                       | —       |
-| validate-event        | whether to trigger form validation                                                                                                              | boolean                             | —                       | true    |
-| before-change         | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | `() => Promise<boolean> \| boolean` | —                       | —       |
+:::demo You can add `active-action-icon` and `inactive-active-icon` attribute to show icons.
 
-## Events
+switch/custom-action-icon
 
-| Name   | Description                 | Parameters           |
-| ------ | --------------------------- | -------------------- |
-| change | triggers when value changes | value after changing |
+:::
 
-## Methods
+## custom action slot ^(2.4.4)
 
-| Method | Description                | Parameters |
-| ------ | -------------------------- | ---------- |
-| focus  | focus the Switch component | —          |
+:::demo You can use `active-action` and `inactive-action` slot to customize action.
+
+switch/custom-action-slot
+
+:::
+
+## API
+
+### Attributes
+
+| Name                          | Description                                                                                                                                     | Type                                             | Default |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ------- |
+| model-value / v-model         | binding value, it should be equivalent to either `active-value` or `inactive-value`, by default it's `boolean` type                             | ^[boolean] / ^[string] / ^[number]               | false   |
+| disabled                      | whether Switch is disabled                                                                                                                      | ^[boolean]                                       | false   |
+| loading                       | whether Switch is in loading state                                                                                                              | ^[boolean]                                       | false   |
+| size                          | size of Switch                                                                                                                                  | ^[enum]`'' \| 'large' \| 'default' \| 'small'`   | ''      |
+| width                         | width of Switch                                                                                                                                 | ^[number] / ^[string]                            | ''      |
+| inline-prompt                 | whether icon or text is displayed inside dot, only the first character will be rendered for text                                                | ^[boolean]                                       | false   |
+| active-icon                   | component of the icon displayed when in `on` state, overrides `active-text`                                                                     | ^[string] / ^[Component]                         | —       |
+| inactive-icon                 | component of the icon displayed when in `off` state, overrides `inactive-text`                                                                  | ^[string] / ^[Component]                         | —       |
+| active-action-icon ^(2.3.9)   | component of the icon displayed in action when in `on` state                                                                                    | ^[string] / ^[Component]                         | —       |
+| inactive-action-icon ^(2.3.9) | component of the icon displayed in action when in `off` state                                                                                   | ^[string] / ^[Component]                         | —       |
+| active-text                   | text displayed when in `on` state                                                                                                               | ^[string]                                        | ''      |
+| inactive-text                 | text displayed when in `off` state                                                                                                              | ^[string]                                        | ''      |
+| active-value                  | switch value when in `on` state                                                                                                                 | ^[boolean] / ^[string] / ^[number]               | true    |
+| inactive-value                | switch value when in `off` state                                                                                                                | ^[boolean] / ^[string] / ^[number]               | false   |
+| active-color ^(deprecated)    | background color when in `on` state ( deprecated, use CSS var `--el-switch-on-color` instead )                                                  | ^[string]                                        | ''      |
+| inactive-color ^(deprecated)  | background color when in `off` state ( deprecated, use CSS var `--el-switch-off-color` instead )                                                | ^[string]                                        | ''      |
+| border-color ^(deprecated)    | border color of the switch ( deprecated, use CSS var `--el-switch-border-color` instead )                                                       | ^[string]                                        | ''      |
+| name                          | input name of Switch                                                                                                                            | ^[string]                                        | ''      |
+| validate-event                | whether to trigger form validation                                                                                                              | ^[boolean]                                       | true    |
+| before-change                 | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | ^[boolean] / ^[Function]`() => Promise<boolean>` | —       |
+| id                            | id for input                                                                                                                                    | ^[string]                                        | —       |
+| tabindex                      | tabindex for input                                                                                                                              | ^[string] / ^[number]                            | —       |
+| label ^(2.4.1) ^(a11y)        | same as `aria-label` in native input                                                                                                            | ^[string]                                        | —       |
+
+### Events
+
+| Name   | Description                 | Type                                                    |
+| ------ | --------------------------- | ------------------------------------------------------- |
+| change | triggers when value changes | ^[Function]`(val: boolean \| string \| number) => void` |
+
+### Switch Slots
+
+| Name                     | Description               |
+| ------------------------ | ------------------------- |
+| active-action ^(2.4.4)   | customize active action   |
+| inactive-action ^(2.4.4) | customize inactive action |
+
+### Exposes
+
+| Method | Description                          | Type                    |
+| ------ | ------------------------------------ | ----------------------- |
+| focus  | manual focus to the switch component | ^[Function]`() => void` |

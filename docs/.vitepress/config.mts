@@ -43,7 +43,7 @@ languages.forEach((lang) => {
 
 export const config: UserConfig = {
   title: 'Element Plus',
-  description: 'a Vue 3 based component library for designers and developers',
+  description: 'A Vue 3 based component library for designers and developers',
   lastUpdated: true,
   head,
   themeConfig: {
@@ -60,8 +60,8 @@ export const config: UserConfig = {
     sidebars,
     nav,
     agolia: {
-      apiKey: '377f2b647a96d9b1d62e4780f2344da2',
-      appId: 'BH4D9OD16A',
+      apiKey: '99caf32e743ba77d78b095b763b8e380',
+      appId: 'ZM3TI8AKL4',
     },
     features,
     langs: languages,

@@ -13,3 +13,4 @@ export default _DatePicker
 export const ElDatePicker = _DatePicker
 export * from './src/constants'
 export * from './src/props/date-picker'
+export type { DatePickerInstance } from './src/instance'

@@ -102,6 +102,11 @@ export default {
       clearFilter: 'Guztia',
       sumText: 'Batura',
     },
+    tour: {
+      next: 'Hurrengoa',
+      previous: 'Aurrekoa',
+      finish: 'Bukatu',
+    },
     tree: {
       emptyText: 'Daturik ez',
     },
@@ -122,6 +127,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

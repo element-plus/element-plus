@@ -23,6 +23,9 @@
   @include when(justify-space-evenly) {
     justify-content: space-evenly;
   }
+  @include when(align-top) {
+    align-items: flex-start;
+  }
   @include when(align-middle) {
     align-items: center;
   }
