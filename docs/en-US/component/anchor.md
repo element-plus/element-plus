@@ -87,21 +87,21 @@ anchor/affix
 | type       | set Anchor type.                         | ^[enum]`'defalut' \| 'underline'`                     | `default` |
 | direction     | Set Anchor direction.                 | ^[enum]`'vertical' \| 'horizontal'`                   | `vertical`   |
 
-### Anchor events
+### Anchor Events
 
 | Name   | Description                    | Type                                   |
 | ------ | ------------------------------ | -------------------------------------- |
 | change | callback when the step changes | ^[Function]`(href: string) => void` |
 | click  | Triggered when the user clicks on the link  | ^[Function]`(e: MouseEvent, href?: string) => void` |
 
-### Anchor methods
+### Anchor Methods
 
 | Name       | Description                                                   |  Type   |
 | ---------- | ------------------------------------------------------------- | ------- |
 | scrollTo   | Manually scroll to the specific position.                     | ^[Function]`(href: string) => void`|
 
 
-### Anchor slots
+### Anchor Slots
 
 | Name       | Description                                                   |
 | ---------- | ------------------------------------------------------------- |
@@ -115,7 +115,7 @@ anchor/affix
 | title      | the text content of the anchor link.     | `string`                                              | —       |
 | href       | The address of the anchor link.          | `string`                                              | -       |
 
-### AnchorLink slots
+### AnchorLink Slots
 
 | Name     | Description |
 | -------- | ----------- |

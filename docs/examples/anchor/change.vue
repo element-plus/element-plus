@@ -13,10 +13,10 @@
       {{ locale['Anchor API'] }}
       <template #sub-link>
         <el-anchor-link :href="`#${locale['anchor-attributes']}`">
-          {{ locale['Anchor attributes'] }}
+          {{ locale['Anchor Attributes'] }}
         </el-anchor-link>
         <el-anchor-link :href="`#${locale['anchor-events']}`">
-          {{ locale['Anchor events'] }}
+          {{ locale['Anchor Events'] }}
         </el-anchor-link>
       </template>
     </el-anchor-link>
