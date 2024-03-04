@@ -226,40 +226,34 @@ export default defineComponent({
       const { data, width } = props
       const { height, multiple, scrollbarAlwaysOn } = select.props
 
-      if (slots.loading || slots.empty) {
-        return (
-          <div
-            class={ns.b('dropdown')}
-            style={{
-              width: `${width}px`,
-            }}
-          >
-            {slots.loading?.() || slots.empty?.()}
-          </div>
-        )
-      }
-
       const List = unref(isSized) ? FixedSizeList : DynamicSizeList
 
       return (
-        <div class={[ns.b('dropdown'), ns.is('multiple', multiple)]}>
+        <div
+          class={[ns.b('dropdown'), ns.is('multiple', multiple)]}
+          style={{
+            width: `${width}px`,
+          }}
+        >
           {slots.header?.()}
-          <List
-            ref={listRef}
-            {...unref(listProps)}
-            className={ns.be('dropdown', 'list')}
-            scrollbarAlwaysOn={scrollbarAlwaysOn}
-            data={data}
-            height={height}
-            width={width}
-            total={data.length}
-            // @ts-ignore - dts problem
-            onKeydown={onKeydown}
-          >
-            {{
-              default: (props: ItemProps<any>) => <Item {...props} />,
-            }}
-          </List>
+          {slots.loading?.() || slots.empty?.() || (
+            <List
+              ref={listRef}
+              {...unref(listProps)}
+              className={ns.be('dropdown', 'list')}
+              scrollbarAlwaysOn={scrollbarAlwaysOn}
+              data={data}
+              height={height}
+              width={width}
+              total={data.length}
+              // @ts-ignore - dts problem
+              onKeydown={onKeydown}
+            >
+              {{
+                default: (props: ItemProps<any>) => <Item {...props} />,
+              }}
+            </List>
+          )}
           {slots.footer?.()}
         </div>
       )

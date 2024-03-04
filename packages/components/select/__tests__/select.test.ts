@@ -871,7 +871,7 @@ describe('Select', () => {
     const iconClear = wrapper.findComponent(CircleClose)
     expect(iconClear.exists()).toBe(true)
     await iconClear.trigger('click')
-    expect(vm.value).toBe('')
+    expect(vm.value).toBe(undefined)
   })
 
   test('suffix icon', async () => {
@@ -1418,7 +1418,7 @@ describe('Select', () => {
     const iconClear = wrapper.findComponent(CircleClose)
     expect(iconClear.exists()).toBe(true)
     await iconClear.trigger('click')
-    expect(vm.value).toBe('')
+    expect(vm.value).toBe(undefined)
     expect(handleFocus).toHaveBeenCalledTimes(1)
     expect(handleBlur).not.toHaveBeenCalled()
 

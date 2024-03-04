@@ -195,6 +195,28 @@ describe('Carousel', () => {
     await wait(60)
     expect(items[1].classList.contains('is-active')).toBeTruthy()
   })
+
+  it('motion blur', async () => {
+    const state = reactive({
+      val: -1,
+      oldVal: -1,
+    })
+
+    wrapper = createComponent({
+      onChange(val: number, prevVal: number) {
+        state.val = val
+        state.oldVal = prevVal
+      },
+      interval: 100,
+      'motion-blur': true,
+    })
+
+    await nextTick()
+    await wait(100)
+    const items = wrapper.vm.$el.querySelectorAll('.el-transitioning')
+    expect(items.length).toBe(1)
+  })
+
   it('should guarantee order of indicators', async () => {
     const data = reactive([1, 2, 3, 4])
     wrapper = mount({

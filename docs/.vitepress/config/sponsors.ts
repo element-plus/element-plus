@@ -47,7 +47,7 @@ export const leftCustomImgSponsors = [
     url: 'https://vform666.com/',
     slogan: 'Vue 2/3 Visual/Low-Code Forms',
     slogan_cn: 'Vue 2/3 可视化低代码表单',
-    banner_img: '/images/vform-banner.png',
+    banner_img: '/images/sponsors/vform-banner.png',
   },
   {
     name: 'JNPF',
