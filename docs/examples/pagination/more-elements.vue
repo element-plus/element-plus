@@ -1,8 +1,8 @@
 <template>
   <div class="flex items-center mb-4">
     <el-radio-group v-model="small" class="mr-4">
-      <el-radio-button :label="false">default</el-radio-button>
-      <el-radio-button :label="true">small</el-radio-button>
+      <el-radio-button :value="false">default</el-radio-button>
+      <el-radio-button :value="true">small</el-radio-button>
     </el-radio-group>
     <div>
       background:

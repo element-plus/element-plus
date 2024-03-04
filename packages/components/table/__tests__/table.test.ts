@@ -82,8 +82,8 @@ describe('Table.vue', () => {
         <el-table-column label="someLabel">
           <template #default="{ row }">
             <el-checkbox-group v-model="row.checkList">
-              <el-checkbox label="复选框 A"></el-checkbox>
-              <el-checkbox label="复选框 B"></el-checkbox>
+              <el-checkbox label="复选框 A" value="复选框 A"></el-checkbox>
+              <el-checkbox label="复选框 B" value="复选框 B"></el-checkbox>
             </el-checkbox-group>
           </template>
         </el-table-column>
