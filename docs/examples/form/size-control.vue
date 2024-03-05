@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-radio-group v-model="size" label="size control">
-      <el-radio-button label="large">large</el-radio-button>
-      <el-radio-button label="default">default</el-radio-button>
-      <el-radio-button label="small">small</el-radio-button>
+      <el-radio-button value="large">large</el-radio-button>
+      <el-radio-button value="default">default</el-radio-button>
+      <el-radio-button value="small">small</el-radio-button>
     </el-radio-group>
     <el-radio-group v-model="labelPosition" label="position control">
-      <el-radio-button label="left">Left</el-radio-button>
-      <el-radio-button label="right">Right</el-radio-button>
-      <el-radio-button label="top">Top</el-radio-button>
+      <el-radio-button value="left">Left</el-radio-button>
+      <el-radio-button value="right">Right</el-radio-button>
+      <el-radio-button value="top">Top</el-radio-button>
     </el-radio-group>
   </div>
   <br />
@@ -54,14 +54,18 @@
     </el-form-item>
     <el-form-item label="Activity type">
       <el-checkbox-group v-model="sizeForm.type">
-        <el-checkbox-button label="Online activities" name="type" />
-        <el-checkbox-button label="Promotion activities" name="type" />
+        <el-checkbox-button value="Online activities" name="type">
+          Online activities
+        </el-checkbox-button>
+        <el-checkbox-button value="Promotion activities" name="type">
+          Promotion activities
+        </el-checkbox-button>
       </el-checkbox-group>
     </el-form-item>
     <el-form-item label="Resources">
       <el-radio-group v-model="sizeForm.resource">
-        <el-radio border label="Sponsor" />
-        <el-radio border label="Venue" />
+        <el-radio border value="Sponsor">Sponsor</el-radio>
+        <el-radio border value="Venue">Venue</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item>

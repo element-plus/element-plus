@@ -5,7 +5,6 @@
 @use 'common/var' as *;
 
 @include b(anchor) {
-
   @include e(item) {
     overflow: hidden;
     display: flex;
@@ -26,7 +25,8 @@
     outline: none;
     cursor: pointer;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       color: getCssVar('anchor-color');
     }
 
@@ -38,5 +38,4 @@
   & .#{$namespace}-anchor__list .#{$namespace}-anchor__item a {
     display: inline-block;
   }
-
 }

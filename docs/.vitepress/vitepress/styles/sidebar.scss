@@ -13,7 +13,7 @@
   overflow-y: auto;
   transform: translate(-100%);
   transition: background-color var(--el-transition-duration-fast), opacity 0.25s,
-  transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 
   &.open {
     transform: translate(0);
