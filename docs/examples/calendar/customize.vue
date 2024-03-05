@@ -1,6 +1,6 @@
 <template>
   <el-calendar>
-    <template #date-cell="{ data }">
+    <template #dateCell="{ data }">
       <p :class="data.isSelected ? 'is-selected' : ''">
         {{ data.day.split('-').slice(1).join('-') }}
         {{ data.isSelected ? '✔️' : '' }}
