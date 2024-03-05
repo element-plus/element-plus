@@ -88,7 +88,7 @@ checkbox/with-border
 ### Checkbox Attributes
 
 | Name                      | Description                                                                                                                                                    | Type                                           | Default |
-|---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|---------|
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------- |
 | model-value / v-model     | binding value                                                                                                                                                  | ^[string] / ^[number] / ^[boolean]             | —       |
 | value ^(2.6.0)            | value of the Checkbox when used inside a `checkbox-group`                                                                                                      | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | label                     | label of the Checkbox when used inside a `checkbox-group`. If there's no value, `label` will act as `value`                                                    | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
@@ -124,7 +124,7 @@ checkbox/with-border
 ### CheckboxGroup Attributes
 
 | Name                  | Description                                       | Type                                     | Default |
-|-----------------------|---------------------------------------------------|------------------------------------------|---------|
+| --------------------- | ------------------------------------------------- | ---------------------------------------- | ------- |
 | model-value / v-model | binding value                                     | ^[object]`string[] \| number[]`          | []      |
 | size                  | size of checkbox                                  | ^[enum]`'large' \| 'default' \| 'small'` | —       |
 | disabled              | whether the nesting checkboxes are disabled       | ^[boolean]                               | false   |
@@ -153,7 +153,7 @@ checkbox/with-border
 ### CheckboxButton Attributes
 
 | Name                      | Description                                                                                                 | Type                                           | Default |
-|---------------------------|-------------------------------------------------------------------------------------------------------------|------------------------------------------------|---------|
+| ------------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------- |
 | value ^(2.6.0)            | value of the checkbox when used inside a `checkbox-group`                                                   | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | label                     | label of the checkbox when used inside a `checkbox-group`. If there's no value, `label` will act as `value` | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | true-value ^(2.6.0)       | value of the checkbox if it's checked                                                                       | ^[string] / ^[number]                          | —       |
