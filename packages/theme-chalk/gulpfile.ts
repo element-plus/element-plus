@@ -22,7 +22,12 @@ const distBundle = path.resolve(epOutput, 'theme-chalk')
 function compressWithCssnano() {
   const processor = postcss([
     cssnano({
-      preset: ['default'],
+      preset: [
+        'default',
+        {
+          colormin: false,
+        },
+      ],
     }),
   ])
   return new Transform({
