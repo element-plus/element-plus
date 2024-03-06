@@ -247,14 +247,14 @@ describe('Checkbox', () => {
         <Checkbox
           label="Foobar"
           true-value="a"
-          false-value={3}
+          false-value={0}
           v-model={checked.value}
         />
       ))
 
       await wrapper.trigger('click')
       await nextTick()
-      expect(checked.value).toBe(3)
+      expect(checked.value).toBe(0)
       await wrapper.trigger('click')
       await nextTick()
       expect(checked.value).toBe('a')
@@ -263,14 +263,14 @@ describe('Checkbox', () => {
     test('with label as slot content', async () => {
       const checked = ref('a')
       const wrapper = mount(() => (
-        <Checkbox true-value="a" false-value={3} v-model={checked.value}>
+        <Checkbox true-value="a" false-value={0} v-model={checked.value}>
           Foobar
         </Checkbox>
       ))
 
       await wrapper.trigger('click')
       await nextTick()
-      expect(checked.value).toBe(3)
+      expect(checked.value).toBe(0)
       await wrapper.trigger('click')
       await nextTick()
       expect(checked.value).toBe('a')
