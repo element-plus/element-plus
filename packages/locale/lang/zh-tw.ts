@@ -103,7 +103,7 @@ export default {
       next: '下一頁',
       currentPage: '第 {pager} 頁',
       prevPages: '向前 {pager} 頁',
-      nextPages: '向后 {pager} 頁',
+      nextPages: '向後 {pager} 頁',
       deprecationWarning:
         '偵測到已過時的使用方式，請參閱 el-pagination 說明文件以了解更多資訊',
     },
