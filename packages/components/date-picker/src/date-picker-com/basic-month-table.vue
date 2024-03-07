@@ -38,6 +38,8 @@ import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
 
+import type { Dayjs } from 'dayjs'
+
 type MonthCell = {
   column: number
   row: number
@@ -223,21 +225,50 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
   const row = (target.parentNode as HTMLTableRowElement).rowIndex
   const month = row * 4 + column
   const newDate = props.date.startOf('year').month(month)
-  if (props.selectionMode === 'range') {
-    if (!props.rangeState.selecting) {
-      emit('pick', { minDate: newDate, maxDate: null })
-      emit('select', true)
-    } else {
-      if (props.minDate && newDate >= props.minDate) {
-        emit('pick', { minDate: props.minDate, maxDate: newDate })
-      } else {
-        emit('pick', { minDate: newDate, maxDate: props.minDate })
-      }
-      emit('select', false)
+
+  switch (props.selectionMode) {
+    case 'range': {
+      handleRangePick(newDate)
+      break
     }
-  } else {
-    emit('pick', month)
+    case 'months': {
+      handleMonthsPick(newDate, hasClass(target, 'current'), event.type)
+      break
+    }
+    default: {
+      emit('pick', month)
+      break
+    }
   }
+}
+
+const handleRangePick = (newDate: Dayjs) => {
+  if (!props.rangeState.selecting) {
+    emit('pick', { minDate: newDate, maxDate: null })
+    emit('select', true)
+  } else {
+    if (props.minDate && newDate >= props.minDate) {
+      emit('pick', { minDate: props.minDate, maxDate: newDate })
+    } else {
+      emit('pick', { minDate: newDate, maxDate: props.minDate })
+    }
+    emit('select', false)
+  }
+}
+
+const handleMonthsPick = (
+  newDate: Dayjs,
+  isSelected: boolean,
+  eventType: string
+) => {
+  if (eventType === 'keydown') {
+    emit('pick', castArray(props.parsedValue), false)
+    return
+  }
+  const newValue = isSelected
+    ? castArray(props.parsedValue).filter((d) => !d?.isSame(newDate, 'month'))
+    : castArray(props.parsedValue).concat([newDate])
+  emit('pick', newValue)
 }
 
 watch(
