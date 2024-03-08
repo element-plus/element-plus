@@ -10,7 +10,11 @@ export const getElement = ((
 ) => {
   if (!isClient || target === '') return null
   if (isString(target)) {
-    return document.querySelector<HTMLElement>(target)
+    try {
+      return document.querySelector<HTMLElement>(target)
+    } catch {
+      return null
+    }
   }
   return target
 }) as GetElement
