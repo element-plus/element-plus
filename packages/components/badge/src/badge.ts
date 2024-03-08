@@ -1,5 +1,5 @@
-import { buildProps } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+import { buildProps, definePropType } from '@element-plus/utils'
+import type { ExtractPropTypes, StyleValue } from 'vue'
 
 export const badgeProps = buildProps({
   /**
@@ -40,8 +40,27 @@ export const badgeProps = buildProps({
     default: true,
   },
   /**
-   * @description background color of the Badge
+   * @description Customize dot color
    */
   color: String,
+  /**
+   * @description CSS style of dot
+   */
+  dotStyle: {
+    type: definePropType<StyleValue>([String, Object, Array]),
+  },
+  /**
+   * @description Set offset of the badge dot
+   */
+  offset: {
+    type: definePropType<[number, number]>(Array),
+    default: [0, 0],
+  },
+  /**
+   * @description custom class name of badge dot
+   */
+  dotClass: {
+    type: String,
+  },
 } as const)
 export type BadgeProps = ExtractPropTypes<typeof badgeProps>

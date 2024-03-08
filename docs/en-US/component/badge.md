@@ -47,6 +47,14 @@ badge/dot
 
 :::
 
+## Offset
+
+:::demo Set offset of the badge dot, the format is [left, top], which represents the offset of the status dot from the left and top of the default position.
+
+badge/offset
+
+:::
+
 ## API
 
 ### Attributes
@@ -59,7 +67,10 @@ badge/dot
 | hidden             | hidden badge.                                                                 | ^[boolean]                                                         | false   |
 | type               | badge type.                                                                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | danger  |
 | show-zero ^(2.6.0) | Whether to show badge when value is zero.                                     | ^[boolean]                                                         | true    |
-| badge              | background color of the Tag                                                   | ^[string]                                                          |         |
+| color              | background color of the Tag                                                   | ^[string]                                                          | —       |
+| offset             | Set offset of the badge dot                                                   | [ `number` , `number` ]                                            | —       |
+| dot-style          | CSS style of dot                                                              | ^[object]`CSSProperties`                                           | —       |
+| dot-class          | custom class name of dot                                                      | ^[string]                                                          | —       |
 
 ### Slots
 
