@@ -77,6 +77,8 @@ onMounted(() => {
       virtualTriggerAriaStopWatch?.()
       virtualTriggerAriaStopWatch = undefined
       if (isElement(el)) {
+        let element = el as HTMLElement
+        let prevElement = prevEl as HTMLElement
         ;(
           [
             'onMouseenter',
@@ -90,11 +92,19 @@ onMounted(() => {
         ).forEach((eventName) => {
           const handler = props[eventName]
           if (handler) {
-            ;(el as HTMLElement).addEventListener(
-              eventName.slice(2).toLowerCase(),
-              handler
-            )
-            ;(prevEl as HTMLElement)?.removeEventListener?.(
+            if (
+              eventName === 'onFocus' &&
+              element.tagName === 'DIV' &&
+              element.className.includes('-input') &&
+              element.querySelectorAll('input')[0]
+            ) {
+              element = element.querySelectorAll('input')[0]
+              prevElement = element.querySelectorAll('input')[0]
+            }
+
+            element.addEventListener(eventName.slice(2).toLowerCase(), handler)
+
+            prevElement?.removeEventListener?.(
               eventName.slice(2).toLowerCase(),
               handler
             )
