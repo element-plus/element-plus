@@ -1,5 +1,21 @@
 ## Changelog
 
+### 2.6.1
+
+_2024-03-08_
+
+#### Bug fixes
+
+- Components fix deprecated warning (#16034 by @kooriookami)
+- Components [checkbox] fix true-value and false-value (#16051 by @kooriookami)
+- Locale typo (#16060 by @Shyam-Chen)
+- Components [anchor] querySelector error (#16078 by @Fuphoenixes)
+
+#### Refactors
+
+- Style(components): [anchor] marker transition change (#16023 by @Fuphoenixes)
+- Components [tree & date-picker] use public function and type (#16017 by @btea)
+
 ### 2.6.0
 
 _2024-03-01_
