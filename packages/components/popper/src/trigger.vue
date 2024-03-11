@@ -16,7 +16,7 @@ import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { unrefElement } from '@vueuse/core'
 import { ElOnlyChild } from '@element-plus/components/slot'
-import { useForwardRef } from '@element-plus/hooks'
+import { useForwardRef, useNamespace } from '@element-plus/hooks'
 import { isElement } from '@element-plus/utils'
 import { POPPER_INJECTION_KEY } from './constants'
 import { popperTriggerProps } from './trigger'
@@ -29,6 +29,7 @@ defineOptions({
 })
 
 const props = defineProps(popperTriggerProps)
+const ns = useNamespace('autocomplete')
 
 const { role, triggerRef } = inject(POPPER_INJECTION_KEY, undefined)!
 
@@ -78,7 +79,7 @@ onMounted(() => {
       virtualTriggerAriaStopWatch = undefined
       if (isElement(el)) {
         let element = el as HTMLElement
-        let prevElement = prevEl as HTMLElement
+        let prevElement = prevEl as HTMLElement | undefined
         ;(
           [
             'onMouseenter',
@@ -95,8 +96,11 @@ onMounted(() => {
             if (
               eventName === 'onFocus' &&
               element.tagName === 'DIV' &&
-              element.className.includes('-input') &&
-              element.querySelectorAll('input')[0]
+              element.className.includes(`${ns.namespace.value}-input`) &&
+              element.querySelectorAll('input').length === 1 &&
+              element
+                .querySelectorAll('input')[0]
+                .className.includes(`${ns.namespace.value}-input__inner`)
             ) {
               element = element.querySelectorAll('input')[0]
               prevElement = element.querySelectorAll('input')[0]
