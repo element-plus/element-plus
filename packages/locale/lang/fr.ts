@@ -1,6 +1,9 @@
 export default {
   name: 'fr',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Effacer',
