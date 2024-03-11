@@ -45,7 +45,14 @@ export const dialogProps = buildProps({
     default: true,
   },
   /**
-   * @description whether scroll of body is disabled while Dialog is displayed
+   * @description whether to disable bubbling when esc closes the dialog
+   */
+  escapeClosePrevent: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * @description whether Dialog is displayed
    */
   lockScroll: {
     type: Boolean,

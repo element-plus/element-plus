@@ -49,6 +49,7 @@ export default defineComponent({
       type: [Object, String] as PropType<'container' | 'first' | HTMLElement>,
       default: 'first',
     },
+    escapeClosePrevent: Boolean,
   },
   emits: [
     ON_TRAP_FOCUS_EVT,
@@ -67,6 +68,7 @@ export default defineComponent({
 
     useEscapeKeydown((event) => {
       if (props.trapped && !focusLayer.paused) {
+        props.escapeClosePrevent && event.stopImmediatePropagation()
         emit('release-requested', event)
       }
     })

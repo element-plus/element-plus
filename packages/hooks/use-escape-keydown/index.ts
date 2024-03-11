@@ -6,8 +6,6 @@ let registeredEscapeHandlers: ((e: KeyboardEvent) => void)[] = []
 
 const cachedHandler = (e: Event) => {
   const event = e as KeyboardEvent
-  e.stopImmediatePropagation()
-  
   if (event.key === EVENT_CODE.esc) {
     registeredEscapeHandlers.forEach((registeredHandler) =>
       registeredHandler(event)

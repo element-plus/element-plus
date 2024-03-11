@@ -132,6 +132,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | close-delay                | the Time(milliseconds) before close                                                                  | ^[number]                           | 0       |
 | close-on-click-modal       | whether the Dialog can be closed by clicking the mask                                                | ^[boolean]                          | true    |
 | close-on-press-escape      | whether the Dialog can be closed by pressing ESC                                                     | ^[boolean]                          | true    |
+| escape-close-prevent       | whether to disable bubbling when esc closes the dialog                                               | ^[boolean]                          | false   |
 | show-close                 | whether to show a close button                                                                       | ^[boolean]                          | true    |
 | before-close               | callback before Dialog closes, and it will prevent Dialog from closing, use done to close the dialog | ^[Function]`(done: DoneFn) => void` | —       |
 | draggable                  | enable dragging feature for Dialog                                                                   | ^[boolean]                          | false   |

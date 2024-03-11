@@ -18,6 +18,7 @@
           :trapped="visible"
           :focus-trap-el="drawerRef"
           :focus-start-el="focusStartRef"
+          :escape-close-prevent="escapeClosePrevent"
           @focus-after-trapped="onOpenAutoFocus"
           @focus-after-released="onCloseAutoFocus"
           @focusout-prevented="onFocusoutPrevented"
