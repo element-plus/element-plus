@@ -44,7 +44,7 @@ function compressWithCssnano() {
       }
       const cssString = file.contents!.toString()
       processor.process(cssString, { from: file.path }).then((result) => {
-        const name = file.path.split(file.base)[1]
+        const name = path.basename(file.path)
         file.contents = Buffer.from(result.css)
         consola.success(
           `${chalk.cyan(name)}: ${chalk.yellow(
