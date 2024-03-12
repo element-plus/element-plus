@@ -263,7 +263,11 @@ export const useFloating = (
 
   let cleanup: any
   onMounted(() => {
-    cleanup = autoUpdate(unref(referenceRef)!, unref(contentRef)!, update)
+    const referenceEl = unref(referenceRef)
+    const contentEl = unref(contentRef)
+    if (referenceEl && contentEl) {
+      cleanup = autoUpdate(referenceEl, contentEl, update)
+    }
 
     watchEffect(() => {
       update()

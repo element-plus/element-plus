@@ -1,5 +1,55 @@
 ## Changelog
 
+### 2.6.1
+
+_2024-03-08_
+
+#### Bug fixes
+
+- Components fix deprecated warning (#16034 by @kooriookami)
+- Components [checkbox] fix true-value and false-value (#16051 by @kooriookami)
+- Locale typo (#16060 by @Shyam-Chen)
+- Components [anchor] querySelector error (#16078 by @Fuphoenixes)
+
+#### Refactors
+
+- Style(components): [anchor] marker transition change (#16023 by @Fuphoenixes)
+- Components [tree & date-picker] use public function and type (#16017 by @btea)
+
+### 2.6.0
+
+_2024-03-01_
+
+#### Features
+
+- Components anchor component (#15670 by @Fuphoenixes)
+- Components [badge] add show-zero prop (#15944 by @IceyWu)
+- Components [checkbox & radio] Use value instead of label act as value (#15525 by @kooriookami)
+- Components [Carousel] Add motion blur functionality (#15603 by @JedediahXu)
+- Components [date-picker] add type years for year multiple select (#15980 by @yuchenii)
+- Components [select & select-v2] support empty string dynamically (#15995 by @kooriookami)
+
+#### Bug fixes
+
+- Components [upload] drag use before-upload to intercepting files (#15861 by @klren0312)
+- Components [input] type hidden use class (#15865 by @chenxch)
+- Components [drawer] use dynamic zIndex from useDialog hook(#15641 by @drylint) (#15900)
+- Components [select] the font color does not change when disabled (#15920 by @betavs)
+- Components [table-v2] header style error (#15950 by @btea)
+- Components [tour] focusout error (#15970 by @Fuphoenixes)
+- Components [input-number] fix default value reset error  (#15725 by @nova1751) (#15725)
+- Components [tour] floating-ui autoUpdate error (#15972 by @Fuphoenixes)
+- Components [date-picker] selected value comparison logic error (#15918 by @betavs)
+- Components [select-v2] show header and footer slots when empty (#15964 by @kooriookami)
+- Components [select-v2] set modalValue when filtering display error (#15981 by @kooriookami)
+- Components [menu] Fixing Menu component's flickering issue with surplus sub-items on insufficient page height. (#15953 by @ikkkp)
+- Components [tree-select] remote method and selected override (#15974 by @yujinpan)
+- Components [tree-v2] fix issue in tree-v2 for setCheckedKeys invalid (#15997 by @huangjw1997)
+- Style(components): [message] Update message style (#15912 by @kooriookami)
+- Style(components): [alert] Update alert style (#15911 by @kooriookami)
+- Style(components): [button] remove focus styles,  Fix outline flickering when foucs-visible (#16002 by @FrontEndDog)
+- Perf(components): [select & select-v2] optimize performance (#15962 by @kooriookami)
+
 ### 2.5.6
 
 _2024-02-18_
