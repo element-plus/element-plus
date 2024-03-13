@@ -1,4 +1,10 @@
-import { buildProps, isBoolean, isNumber, isString } from '@element-plus/utils'
+import {
+  buildProps,
+  isBoolean,
+  isNumber,
+  isString,
+  isUndefined,
+} from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useSizeProp } from '@element-plus/hooks'
 import type { ExtractPropTypes } from 'vue'
@@ -53,9 +59,9 @@ export const radioProps = buildProps({
 
 export const radioEmits = {
   [UPDATE_MODEL_EVENT]: (val: string | number | boolean | undefined) =>
-    isString(val) || isNumber(val) || isBoolean(val),
+    isString(val) || isNumber(val) || isBoolean(val) || isUndefined(val),
   [CHANGE_EVENT]: (val: string | number | boolean | undefined) =>
-    isString(val) || isNumber(val) || isBoolean(val),
+    isString(val) || isNumber(val) || isBoolean(val) || isUndefined(val),
 }
 
 export type RadioProps = ExtractPropTypes<typeof radioProps>

@@ -18,7 +18,7 @@
       :disabled="disabled"
       @focus="focus = true"
       @blur="focus = false"
-      @click.stop
+      @click.stop="handleClick"
     />
     <span
       :class="ns.be('button', 'inner')"
@@ -57,4 +57,10 @@ const activeStyle = computed<CSSProperties>(() => {
     color: radioGroup?.textColor || '',
   }
 })
+
+function handleClick() {
+  if (radioGroup?.clearable && modelValue.value === actualValue.value) {
+    modelValue.value = undefined
+  }
+}
 </script>

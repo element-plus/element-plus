@@ -45,6 +45,16 @@ radio/radio-button-group
 
 :::
 
+## Clearable
+
+`clearable` attribute is used to clear the selected value.
+
+:::demo You just need to add the `clearable` attribute.
+
+radio/clearable
+
+:::
+
 ## Button style
 
 Radio with button styles.
@@ -98,6 +108,7 @@ radio/with-borders
 | model-value / v-model | binding value                                     | ^[string] / ^[number] / ^[boolean] | —       |
 | size                  | the size of radio buttons or bordered radios      | ^[string]                          | default |
 | disabled              | whether the nesting radios are disabled           | ^[boolean]                         | false   |
+| clearable             | whether RadioGroup can be cleared                 | ^[boolean]                         | false   |
 | text-color            | font color when button is active                  | ^[string]                          | #ffffff |
 | fill                  | border and background color when button is active | ^[string]                          | #409EFF |
 | validate-event        | whether to trigger form validation                | ^[boolean]                         | true    |

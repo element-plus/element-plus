@@ -21,6 +21,10 @@ export const radioGroupProps = buildProps({
    */
   disabled: Boolean,
   /**
+   * @description click on the activated radio button to de-activate it
+   */
+  clearable: Boolean,
+  /**
    * @description binding value
    */
   modelValue: {

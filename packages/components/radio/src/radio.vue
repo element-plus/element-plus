@@ -27,7 +27,7 @@
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
-        @click.stop
+        @click.stop="handleClick"
       />
       <span :class="ns.e('inner')" />
     </span>
@@ -58,5 +58,11 @@ const { radioRef, radioGroup, focus, size, disabled, modelValue, actualValue } =
 
 function handleChange() {
   nextTick(() => emit('change', modelValue.value))
+}
+
+function handleClick() {
+  if (radioGroup?.clearable && modelValue.value === actualValue.value) {
+    modelValue.value = undefined
+  }
 }
 </script>
