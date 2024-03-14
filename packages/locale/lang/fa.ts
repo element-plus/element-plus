@@ -1,6 +1,9 @@
 export default {
   name: 'fa',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'تایید',
       clear: 'حذف',

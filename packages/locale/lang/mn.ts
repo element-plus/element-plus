@@ -1,6 +1,9 @@
 export default {
   name: 'mn',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Тийм',
       clear: 'Цэвэрлэх',
