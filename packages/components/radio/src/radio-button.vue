@@ -18,7 +18,7 @@
       :disabled="disabled"
       @focus="focus = true"
       @blur="focus = false"
-      @click.stop="cleared"
+      @click.stop="handleClear"
     />
     <span
       :class="ns.be('button', 'inner')"
@@ -54,7 +54,7 @@ const {
   modelValue,
   radioGroup,
   actualValue,
-  cleared,
+  handleClear,
 } = useRadio(props)
 
 const activeStyle = computed<CSSProperties>(() => {

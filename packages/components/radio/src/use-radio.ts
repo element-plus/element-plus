@@ -74,6 +74,6 @@ export const useRadio = (
     tabIndex,
     modelValue,
     actualValue,
-    cleared,
+    handleClear,
   }
 }

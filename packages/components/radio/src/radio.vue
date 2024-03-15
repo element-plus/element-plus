@@ -27,7 +27,7 @@
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
-        @click.stop="cleared"
+        @click.stop="handleClear"
       />
       <span :class="ns.e('inner')" />
     </span>
@@ -61,7 +61,7 @@ const {
   disabled,
   modelValue,
   actualValue,
-  cleared,
+  handleClear,
 } = useRadio(props, emit)
 
 function handleChange() {
