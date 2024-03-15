@@ -94,11 +94,12 @@ the method to lock the version.
 ## Hello World
 
 With CDN, we can easily use Element Plus to
-write a Hello World page. [Online Demo](https://codepen.io/iamkun/pen/YzWMaVr)
+write a Hello World page. [Online Demo](https://codepen.io/cisiqo/pen/PogGrWY)
 
-<iframe height="469" style="width: 100%;" scrolling="no" title="YzWMaVr" src="https://codepen.io/iamkun/embed/YzWMaVr?height=469&theme-id=light&default -tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/iamkun/pen/YzWMaVr'>YzWMaVr</a> by iamkun
-  (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
+<iframe height="300" style="width: 100%;" scrolling="no" title="Element Plus Demo" src="https://codepen.io/cisiqo/embed/PogGrWY?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/cisiqo/pen/PogGrWY">
+  Element Plus Demo</a> by chengshq (<a href="https://codepen.io/cisiqo">@cisiqo</a>)
+  on <a href="https://codepen.io">CodePen</a>.
 </iframe>
 
 If you are installing via package manager and want to use it with
