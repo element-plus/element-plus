@@ -59,18 +59,18 @@ badge/offset
 
 ### Attributes
 
-| Name               | Description                                                                   | Type                                                               | Default |
-| ------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------- |
-| value              | display value.                                                                | ^[string] / ^[number]                                              | ''      |
-| max                | maximum value, shows `{max}+` when exceeded. Only works if value is a number. | ^[number]                                                          | 99      |
-| is-dot             | if a little dot is displayed.                                                 | ^[boolean]                                                         | false   |
-| hidden             | hidden badge.                                                                 | ^[boolean]                                                         | false   |
-| type               | badge type.                                                                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | danger  |
-| show-zero ^(2.6.0) | Whether to show badge when value is zero.                                     | ^[boolean]                                                         | true    |
-| color              | background color of the Tag                                                   | ^[string]                                                          | —       |
-| offset             | Set offset of the badge dot                                                   | [ `number` , `number` ]                                            | —       |
-| dot-style          | CSS style of dot                                                              | ^[object]`CSSProperties`                                           | —       |
-| dot-class          | custom class name of dot                                                      | ^[string]                                                          | —       |
+| Name               | Description                                                  | Type                                                         | Default |
+| ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------- |
+| value              | display value.                                               | ^[string] / ^[number]                                        | ''      |
+| max                | maximum value, shows `{max}+` when exceeded. Only works if value is a number. | ^[number]                                                    | 99      |
+| is-dot             | if a little dot is displayed.                                | ^[boolean]                                                   | false   |
+| hidden             | hidden badge.                                                | ^[boolean]                                                   | false   |
+| type               | badge type.                                                  | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | danger  |
+| show-zero ^(2.6.0) | Whether to show badge when value is zero.                    | ^[boolean]                                                   | true    |
+| color              | background color of dot                                      | ^[string]                                                    | —       |
+| offset             | Set offset of  dot                                           | [ `number` , `number` ]                                      | —       |
+| dot-style          | CSS style of dot                                             | ^[object]`CSSProperties`                                     | —       |
+| dot-class          | custom class name of dot                                     | ^[string]                                                    | —       |
 
 ### Slots
 
