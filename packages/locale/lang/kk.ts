@@ -1,6 +1,9 @@
 export default {
   name: 'kk',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Қабылдау',
       clear: 'Тазалау',

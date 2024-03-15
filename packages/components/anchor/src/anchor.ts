@@ -50,8 +50,8 @@ export const anchorProps = buildProps({
    * @description Set Anchor type
    */
   type: {
-    type: definePropType<'defalut' | 'underline'>(String),
-    default: 'defalut',
+    type: definePropType<'default' | 'underline'>(String),
+    default: 'default',
   },
   /**
    * @description Set Anchor direction
