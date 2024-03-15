@@ -132,7 +132,7 @@ checkbox/with-border
 | max                   | maximum number of checkbox checked                | ^[number]                                | —       |
 | label                 | label for screen reader                           | ^[string]                                | —       |
 | text-color            | font color when button is active                  | ^[string]                                | #ffffff |
-| fill                  | border and background color when button is active | ^[string]                                | #409EFF |
+| fill                  | border and background color when button is active | ^[string]                                | #409eff |
 | tag                   | element tag of the checkbox group                 | ^[string]                                | div     |
 | validate-event        | whether to trigger form validation                | ^[boolean]                               | true    |
 
