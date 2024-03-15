@@ -18,7 +18,7 @@
       :disabled="disabled"
       @focus="focus = true"
       @blur="focus = false"
-      @click.stop="handleClick"
+      @click.stop="cleared"
     />
     <span
       :class="ns.be('button', 'inner')"
@@ -46,8 +46,16 @@ defineOptions({
 const props = defineProps(radioButtonProps)
 
 const ns = useNamespace('radio')
-const { radioRef, focus, size, disabled, modelValue, radioGroup, actualValue } =
-  useRadio(props)
+const {
+  radioRef,
+  focus,
+  size,
+  disabled,
+  modelValue,
+  radioGroup,
+  actualValue,
+  cleared,
+} = useRadio(props)
 
 const activeStyle = computed<CSSProperties>(() => {
   return {
@@ -57,10 +65,4 @@ const activeStyle = computed<CSSProperties>(() => {
     color: radioGroup?.textColor || '',
   }
 })
-
-function handleClick() {
-  if (radioGroup?.clearable && modelValue.value === actualValue.value) {
-    modelValue.value = undefined
-  }
-}
 </script>

@@ -27,7 +27,7 @@
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
-        @click.stop="handleClick"
+        @click.stop="cleared"
       />
       <span :class="ns.e('inner')" />
     </span>
@@ -53,16 +53,18 @@ const props = defineProps(radioProps)
 const emit = defineEmits(radioEmits)
 
 const ns = useNamespace('radio')
-const { radioRef, radioGroup, focus, size, disabled, modelValue, actualValue } =
-  useRadio(props, emit)
+const {
+  radioRef,
+  radioGroup,
+  focus,
+  size,
+  disabled,
+  modelValue,
+  actualValue,
+  cleared,
+} = useRadio(props, emit)
 
 function handleChange() {
   nextTick(() => emit('change', modelValue.value))
-}
-
-function handleClick() {
-  if (radioGroup?.clearable && modelValue.value === actualValue.value) {
-    modelValue.value = undefined
-  }
 }
 </script>

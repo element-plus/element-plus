@@ -58,6 +58,12 @@ export const useRadio = (
     computed(() => isGroup.value && isPropAbsent(props.value))
   )
 
+  function cleared() {
+    if (radioGroup?.clearable && modelValue.value === actualValue.value) {
+      modelValue.value = undefined
+    }
+  }
+
   return {
     radioRef,
     isGroup,
@@ -68,5 +74,6 @@ export const useRadio = (
     tabIndex,
     modelValue,
     actualValue,
+    cleared,
   }
 }
