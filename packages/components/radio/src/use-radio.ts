@@ -58,7 +58,7 @@ export const useRadio = (
     computed(() => isGroup.value && isPropAbsent(props.value))
   )
 
-  function cleared() {
+  function handleClear() {
     if (radioGroup?.clearable && modelValue.value === actualValue.value) {
       modelValue.value = undefined
     }
