@@ -108,7 +108,7 @@ radio/with-borders
 | model-value / v-model | binding value                                     | ^[string] / ^[number] / ^[boolean] | —       |
 | size                  | the size of radio buttons or bordered radios      | ^[string]                          | default |
 | disabled              | whether the nesting radios are disabled           | ^[boolean]                         | false   |
-| clearable             | whether RadioGroup can be cleared                 | ^[boolean]                         | false   |
+| clearable ^(2.6.2)            | whether RadioGroup can be cleared                 | ^[boolean]                         | false   |
 | text-color            | font color when button is active                  | ^[string]                          | #ffffff |
 | fill                  | border and background color when button is active | ^[string]                          | #409EFF |
 | validate-event        | whether to trigger form validation                | ^[boolean]                         | true    |
