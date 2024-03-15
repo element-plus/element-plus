@@ -84,9 +84,14 @@ const filteredSidebars = computed(() =>
     .slice(1)
     .map((group) => ({
       ...group,
-      children: group.children.filter((item) =>
-        item.text.toLowerCase().includes(query.value.trim().toLowerCase())
-      ),
+      children: group.children.filter((item) => {
+        const value = query.value.trim().toLowerCase()
+        return (
+          group.text.toLowerCase().includes(value) ||
+          item.text.toLowerCase().includes(value) ||
+          item.promotion?.includes(value)
+        )
+      }),
     }))
     .filter((group) => group.children.length)
 )

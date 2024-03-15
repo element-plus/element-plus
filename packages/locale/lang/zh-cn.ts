@@ -1,6 +1,9 @@
 export default {
   name: 'zh-cn',
   el: {
+    breadcrumb: {
+      label: '面包屑',
+    },
     colorpicker: {
       confirm: '确定',
       clear: '清空',

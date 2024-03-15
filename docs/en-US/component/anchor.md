@@ -84,7 +84,7 @@ anchor/affix
 | bound     | the offset of the element starting to trigger the anchor.  | `number`                               | 15         |
 | duration  | set the scroll duration of the container, in milliseconds. | `number`                               | 300        |
 | marker    | whether to show the marker.                                | ^[boolean]                             | true       |
-| type      | set Anchor type.                                           | ^[enum]`'defalut' \| 'underline'`      | `default`  |
+| type      | set Anchor type.                                           | ^[enum]`'default' \| 'underline'`      | `default`  |
 | direction | Set Anchor direction.                                      | ^[enum]`'vertical' \| 'horizontal'`    | `vertical` |
 
 ### Anchor Events
