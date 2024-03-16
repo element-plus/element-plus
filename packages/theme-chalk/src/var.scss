@@ -46,9 +46,6 @@
 :root {
   color-scheme: light;
 
-  @include set-css-var-value('color-white', $color-white);
-  @include set-css-var-value('color-black', $color-black);
-
   // --el-color-#{$type}
   // --el-color-#{$type}-light-{$i}
   @each $type in (primary, success, warning, danger, error, info) {
@@ -79,11 +76,8 @@
   @include set-css-var-value('border-width', $border-width);
   @include set-css-var-value('border-style', $border-style);
   @include set-css-var-value('border-color-hover', $border-color-hover);
-  @include set-css-var-value(
-    'border',
-    getCssVar('border-width') getCssVar('border-style')
-      getCssVar('border-color')
-  );
+  @include set-css-var-value('border',
+    getCssVar('border-width') getCssVar('border-style') getCssVar('border-color'));
 
   // Svg
   @include css-var-from-global('svg-monochrome-grey', 'border-color');
