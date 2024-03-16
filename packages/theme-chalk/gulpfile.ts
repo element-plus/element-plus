@@ -25,7 +25,10 @@ function compressWithCssnano() {
       preset: [
         'default',
         {
+          // avoid color transform
           colormin: false,
+          // avoid font transform
+          minifyFontValues: false,
         },
       ],
     }),
