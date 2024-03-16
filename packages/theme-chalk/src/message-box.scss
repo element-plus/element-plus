@@ -63,10 +63,13 @@
     padding-bottom: getCssVar('messagebox-padding-primary');
 
     &.show-close {
-      padding-right: calc(getCssVar('messagebox-padding-primary') + var(
-              #{getCssVarName('message-close-size')},
-              map.get($message, 'close-size')
-      ));
+      padding-right: calc(
+        getCssVar('messagebox-padding-primary') +
+          var(
+            #{getCssVarName('message-close-size')},
+            map.get($message, 'close-size')
+          )
+      );
     }
   }
 

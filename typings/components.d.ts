@@ -101,6 +101,8 @@ declare module '@vue/runtime-core' {
     ElWatermark: typeof import('../packages/element-plus')['ElWatermark']
     ElTour: typeof import('../packages/element-plus')['ElTour']
     ElTourStep: typeof import('../packages/element-plus')['ElTourStep']
+    ElAnchor: typeof import('../packages/element-plus')['ElAnchor']
+    ElAnchorLink: typeof import('../packages/element-plus')['ElAnchorLink']
   }
 
   interface ComponentCustomProperties {

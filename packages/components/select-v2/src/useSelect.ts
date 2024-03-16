@@ -13,6 +13,7 @@ import {
   findLastIndex,
   get,
   isEqual,
+  isNil,
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
@@ -126,12 +127,15 @@ const useSelect = (props: ISelectV2Props, emit) => {
     return totalHeight > props.height ? props.height : totalHeight
   })
 
+  const hasEmptyStringOption = computed(() =>
+    allOptions.value.some((option) => getValue(option) === '')
+  )
+
   const hasModelValue = computed(() => {
     return props.multiple
       ? isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined &&
-          props.modelValue !== null &&
-          props.modelValue !== ''
+      : !isNil(props.modelValue) &&
+          (props.modelValue !== '' || hasEmptyStringOption.value)
   })
 
   const showClearBtn = computed(() => {
@@ -222,6 +226,15 @@ const useSelect = (props: ISelectV2Props, emit) => {
     allOptions.value = filterOptions('') as OptionType[]
     filteredOptions.value = filterOptions(states.inputValue) as OptionType[]
   }
+
+  const allOptionsValueMap = computed(() => {
+    const valueMap = new Map()
+
+    allOptions.value.forEach((option, index) => {
+      valueMap.set(getValueKey(getValue(option)), { option, index })
+    })
+    return valueMap
+  })
 
   const filteredOptionsValueMap = computed(() => {
     const valueMap = new Map()
@@ -669,17 +682,11 @@ const useSelect = (props: ISelectV2Props, emit) => {
         return getValueKey(item) === getValueKey(props.modelValue)
       })
     } else {
-      if (props.modelValue.length > 0) {
-        states.hoveringIndex = Math.min(
-          ...props.modelValue.map((selected) => {
-            return filteredOptions.value.findIndex((item) => {
-              return getValue(item) === selected
-            })
-          })
+      states.hoveringIndex = filteredOptions.value.findIndex((item) =>
+        props.modelValue.some(
+          (modelValue) => getValueKey(modelValue) === getValueKey(item)
         )
-      } else {
-        states.hoveringIndex = -1
-      }
+      )
     }
   }
 
@@ -717,8 +724,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
     // match the option with the given value, if not found, create a new option
     const selectValue = getValueKey(value)
 
-    if (filteredOptionsValueMap.value.has(selectValue)) {
-      const { option } = filteredOptionsValueMap.value.get(selectValue)
+    if (allOptionsValueMap.value.has(selectValue)) {
+      const { option } = allOptionsValueMap.value.get(selectValue)
 
       return option
     }

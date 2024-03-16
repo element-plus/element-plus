@@ -494,40 +494,121 @@ describe('TreeSelect.vue', () => {
     expect(select.vm.states.selectedLabel).toBe('1-label')
   })
 
-  test('filter-method', async () => {
-    const modelValue = ref(1)
-    const data = ref([
-      { value: 1, label: '1' },
-      { value: 2, label: '2' },
-      { value: 3, label: '3' },
-    ])
-    const filterMethod = vi.fn()
-    const { select, tree } = createComponent({
-      props: {
-        modelValue,
-        data,
-        filterable: true,
-        filterMethod,
-        // trigger cache data
-        renderAfterExpand: true,
-      },
+  describe('filter method and remote method', () => {
+    const data = ref<any[]>([])
+    const setData = (keywords: string) => {
+      data.value = [
+        {
+          value: keywords,
+          label: keywords,
+          children: [
+            { value: `${keywords}-child`, label: `${keywords}-child` },
+          ],
+        },
+      ]
+    }
+    const testMethod = async (props: any) => {
+      if (props.filterMethod) {
+        props.filterMethod = vi.fn(props.filterMethod)
+      } else if (props.remoteMethod) {
+        props.remoteMethod = vi.fn(props.remoteMethod)
+      }
+
+      const { select, tree } = createComponent({
+        props: {
+          data,
+          multiple: true,
+          filterable: true,
+          ...props,
+        },
+      })
+
+      await nextTick()
+
+      const method = props.filterMethod || props.remoteMethod
+      const input = select.find('input')
+
+      // show drop menu
+      await input.trigger('click')
+      expect(method).toBeCalledWith('')
+
+      const testKeywords = async (keywords: string) => {
+        await input.setValue(keywords)
+
+        // await debounce
+        await new Promise((resolve) => setTimeout(resolve, 300))
+        expect(method).toBeCalledWith(keywords)
+
+        // await remote
+        await new Promise((resolve) => setTimeout(resolve, 200))
+        expect(tree.vm.data).toEqual(data.value)
+        expect(
+          tree.findAll('.el-select-dropdown__item').map((item) => item.text())
+        ).toEqual([keywords, `${keywords}-child`])
+
+        const treeNode = tree.find('.el-tree-node')
+        expect(treeNode.classes('is-expanded')).toBe(true)
+      }
+
+      await testKeywords('a')
+
+      // check first child
+      await tree
+        .findAll(
+          props.showCheckbox
+            ? '.el-checkbox__original'
+            : '.el-select-dropdown__item'
+        )[1]
+        .trigger('click')
+      expect(select.vm.modelValue).toEqual([`a-child`])
+
+      await testKeywords('aa')
+
+      // check first child again
+      await tree
+        .findAll(
+          props.showCheckbox
+            ? '.el-checkbox__original'
+            : '.el-select-dropdown__item'
+        )[1]
+        .trigger('click')
+      expect(select.vm.modelValue).toEqual(['a-child', 'aa-child'])
+
+      // hide drop menu
+      await input.trigger('blur')
+      expect(method).toBeCalledWith('')
+    }
+
+    test('filter-method', async () => {
+      await testMethod({
+        filterMethod: setData,
+      })
     })
 
-    await nextTick()
-    expect(tree.vm.data.length).toBe(3)
+    test('filter-method and checkbox', async () => {
+      await testMethod({
+        filterMethod: setData,
+        showCheckbox: true,
+      })
+    })
 
-    const input = select.find('input')
-    await input.trigger('click')
-    await input.setValue('')
-    expect(select.vm.states.selectedLabel).toBe('1')
-    expect(filterMethod).toHaveBeenCalled()
+    test('filter-method and checkbox & check-strictly', async () => {
+      await testMethod({
+        filterMethod: setData,
+        showCheckbox: true,
+        checkStrictly: true,
+      })
+    })
 
-    // await debounce
-    await input.setValue('2')
-    modelValue.value = 2
-    await nextTick()
-    expect(select.vm.states.selectedLabel).toBe('2')
-    expect(filterMethod).toHaveBeenCalledTimes(3)
+    test('remote-method', async () => {
+      await testMethod({
+        remote: true,
+        remoteMethod: async (keywords: string) => {
+          await new Promise((resolve) => setTimeout(resolve, 200))
+          setData(keywords)
+        },
+      })
+    })
   })
 
   test('check/check-change events can accept correct params', async () => {
@@ -600,7 +681,7 @@ describe('TreeSelect.vue', () => {
     expect(node1.text()).toBe('1-label')
     await node1Checkbox.trigger('click')
 
-    expect(modelValue.value).toEqual([1, 2])
+    expect(modelValue.value).toEqual([2, 1])
   })
 
   test('cached checked node can be canceled', async () => {

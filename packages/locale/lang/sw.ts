@@ -1,6 +1,9 @@
 export default {
   name: 'sw',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'sawa',
       clear: 'futa',
