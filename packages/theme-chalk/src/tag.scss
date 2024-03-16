@@ -63,7 +63,6 @@ $tag-icon-span-gap: map.merge(
 @include b(tag) {
   @include genTheme('light-9', 'light-8', '');
 
-  @include css-var-from-global(('tag', 'text-color'), ('color', 'primary'));
   @each $type in $types {
     &.#{bem('tag', '', $type)} {
       @include css-var-from-global(('tag', 'text-color'), ('color', $type));

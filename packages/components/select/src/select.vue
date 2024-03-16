@@ -14,7 +14,7 @@
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
       :popper-options="popperOptions"
-      :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
+      :fallback-placements="fallbackPlacements"
       :effect="effect"
       pure
       trigger="click"
@@ -156,7 +156,7 @@
                 @keydown.up.stop.prevent="navigateOptions('prev')"
                 @keydown.esc.stop.prevent="handleEsc"
                 @keydown.enter.stop.prevent="selectOption"
-                @keydown.delete.stop.prevent="deletePrevTag"
+                @keydown.delete.stop="deletePrevTag"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"

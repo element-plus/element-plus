@@ -1,6 +1,9 @@
 export default {
   name: 'ar-eg',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'موافق',
       clear: 'إزالة',
@@ -147,6 +150,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'نعم',
       cancelButtonText: 'لا',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

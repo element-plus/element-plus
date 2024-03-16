@@ -230,6 +230,13 @@ export const SelectProps = buildProps({
     default: 'bottom-start',
   },
   /**
+   * @description list of possible positions for dropdown
+   */
+  fallbackPlacements: {
+    type: definePropType<Placement[]>(Array),
+    default: ['bottom-start', 'top-start', 'right', 'left'],
+  },
+  /**
    * @description tag type
    */
   tagType: { ...tagProps.type, default: 'info' },

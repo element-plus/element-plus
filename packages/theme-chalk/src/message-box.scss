@@ -11,20 +11,21 @@
 
 @include b(message-box) {
   display: inline-block;
+  position: relative;
   max-width: getCssVar('messagebox-width');
   width: 100%;
-  padding-bottom: 10px;
+  padding: getCssVar('messagebox-padding-primary');
   vertical-align: middle;
   background-color: getCssVar('bg-color');
   border-radius: getCssVar('messagebox-border-radius');
-  border: 1px solid getCssVar('border-color-lighter');
   font-size: getCssVar('messagebox-font-size');
-  box-shadow: getCssVar('box-shadow-light');
+  box-shadow: getCssVar('messagebox-box-shadow');
   text-align: left;
   overflow: hidden;
   backface-visibility: hidden;
   // To avoid small screen overflowing, see #11919
   box-sizing: border-box;
+  overflow-wrap: break-word;
 
   &:focus {
     outline: none !important;
@@ -59,24 +60,32 @@
   }
 
   @include e(header) {
-    position: relative;
-    padding: getCssVar('messagebox-padding-primary');
-    padding-bottom: 10px;
+    padding-bottom: getCssVar('messagebox-padding-primary');
+
+    &.show-close {
+      padding-right: calc(
+        getCssVar('messagebox-padding-primary') +
+          var(
+            #{getCssVarName('message-close-size')},
+            map.get($message, 'close-size')
+          )
+      );
+    }
   }
 
   @include e(title) {
-    padding-left: 0;
-    margin-bottom: 0;
     font-size: getCssVar('messagebox-font-size');
-    line-height: 1;
+    line-height: getCssVar('messagebox-font-line-height');
     color: getCssVar('messagebox-title-color');
   }
 
   @include e(headerbtn) {
     position: absolute;
-    top: getCssVar('messagebox-padding-primary');
-    right: getCssVar('messagebox-padding-primary');
+    top: 0;
+    right: 0;
     padding: 0;
+    width: 40px;
+    height: 40px;
     border: none;
     outline: none;
     background: transparent;
@@ -100,17 +109,18 @@
   }
 
   @include e(content) {
-    padding: 10px getCssVar('messagebox-padding-primary');
     color: getCssVar('messagebox-content-color');
     font-size: getCssVar('messagebox-content-font-size');
   }
 
   @include e(container) {
-    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
   @include e(input) {
-    padding-top: 15px;
+    padding-top: 12px;
 
     & div.invalid > input {
       border-color: getCssVar('color-error');
@@ -122,26 +132,7 @@
   }
 
   @include e(status) {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px !important;
-
-    &::before {
-      // 防止图标切割
-      padding-left: 1px;
-    }
-
-    &.#{$namespace}-icon {
-      // 防止 el-icon 的position样式覆盖
-      position: absolute;
-    }
-
-    + .#{$namespace}-message-box__message {
-      padding-left: 36px;
-      padding-right: 12px;
-      overflow-wrap: break-word;
-    }
+    font-size: 24px;
 
     @each $type in (success, info, warning, error) {
       &.#{$namespace}-message-box-icon--#{$type} {
@@ -156,67 +147,43 @@
 
     & p {
       margin: 0;
-      line-height: 24px;
+      line-height: getCssVar('messagebox-font-line-height');
     }
   }
 
   @include e(errormsg) {
     color: getCssVar('color-error');
     font-size: getCssVar('messagebox-error-font-size');
-    min-height: 18px;
-    margin-top: 2px;
+    line-height: getCssVar('messagebox-font-line-height');
   }
 
   @include e(btns) {
-    padding: 5px 15px 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
-
-    & button:nth-child(2) {
-      margin-left: 10px;
-    }
-  }
-
-  @include e(btns-reverse) {
-    flex-direction: row-reverse;
+    padding-top: getCssVar('messagebox-padding-primary');
   }
 
   // centerAlign 布局
   @include m(center) {
     @include e(title) {
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 6px;
     }
 
     @include e(status) {
-      position: relative;
-      top: auto;
-      padding-right: 5px;
-      text-align: center;
-      transform: translateY(-1px);
-    }
-
-    @include e(message) {
-      margin-left: 0;
+      font-size: inherit;
     }
 
     @include e(btns) {
       justify-content: center;
     }
 
-    @include e(content) {
-      $padding-horizontal: calc(
-        #{getCssVar('messagebox', 'padding-primary')} + 12px
-      );
-
-      padding-left: $padding-horizontal;
-      padding-right: $padding-horizontal;
-
-      text-align: center;
+    @include e(container) {
+      justify-content: center;
     }
   }
 }

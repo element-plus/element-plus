@@ -50,7 +50,7 @@
       :name="name"
       :label="label"
       :validate-event="false"
-      @wheel.prevent
+      @wheel="handleWheel"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
       @blur="handleBlur"
@@ -239,10 +239,12 @@ const setCurrentValue = (
     emit(UPDATE_MODEL_EVENT, newVal!)
     return
   }
-  if (oldVal === newVal) return
+  if (oldVal === newVal && value) return
   data.userInput = null
   emit(UPDATE_MODEL_EVENT, newVal!)
-  emit(CHANGE_EVENT, newVal!, oldVal!)
+  if (oldVal !== newVal) {
+    emit(CHANGE_EVENT, newVal!, oldVal!)
+  }
   if (props.validateEvent) {
     formItem?.validate?.('change').catch((err) => debugWarn(err))
   }
@@ -288,6 +290,10 @@ const setCurrentValueToModelValue = () => {
     data.currentValue = props.modelValue
   }
 }
+const handleWheel = (e: MouseEvent) => {
+  if (document.activeElement === e.target) e.preventDefault()
+}
+
 watch(
   () => props.modelValue,
   (value, oldValue) => {

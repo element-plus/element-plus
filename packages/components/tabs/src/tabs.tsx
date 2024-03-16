@@ -1,5 +1,4 @@
 import {
-  computed,
   defineComponent,
   getCurrentInstance,
   nextTick,
@@ -18,11 +17,7 @@ import {
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons-vue'
-import {
-  useDeprecated,
-  useNamespace,
-  useOrderedChildren,
-} from '@element-plus/hooks'
+import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { tabsRootContextKey } from './constants'
 import TabNav from './tab-nav'
 
@@ -38,9 +33,6 @@ export const tabsProps = buildProps({
     type: String,
     values: ['card', 'border-card', ''],
     default: '',
-  },
-  activeName: {
-    type: [String, Number],
   },
   closable: Boolean,
   addable: Boolean,
@@ -95,9 +87,7 @@ const Tabs = defineComponent({
     } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
 
     const nav$ = ref<TabNavInstance>()
-    const currentName = ref<TabPaneName>(
-      props.modelValue ?? props.activeName ?? '0'
-    )
+    const currentName = ref<TabPaneName>(props.modelValue ?? '0')
 
     const setCurrentName = async (value?: TabPaneName, trigger = false) => {
       // should do nothing.
@@ -139,23 +129,6 @@ const Tabs = defineComponent({
       emit('tabAdd')
     }
 
-    useDeprecated(
-      {
-        from: '"activeName"',
-        replacement: '"model-value" or "v-model"',
-        scope: 'ElTabs',
-        version: '2.3.0',
-        ref: 'https://element-plus.org/en-US/component/tabs.html#attributes',
-        type: 'Attribute',
-      },
-      computed(() => !!props.activeName)
-    )
-
-    watch(
-      () => props.activeName,
-      (modelValue) => setCurrentName(modelValue)
-    )
-
     watch(
       () => props.modelValue,
       (modelValue) => setCurrentName(modelValue)
@@ -178,7 +151,7 @@ const Tabs = defineComponent({
     })
 
     return () => {
-      const addSlot = slots.addIcon
+      const addSlot = slots['add-icon']
       const newButton =
         props.editable || props.addable ? (
           <span
@@ -190,7 +163,7 @@ const Tabs = defineComponent({
             }}
           >
             {addSlot ? (
-              renderSlot(slots, 'addIcon')
+              renderSlot(slots, 'add-icon')
             ) : (
               <ElIcon class={ns.is('icon-plus')}>
                 <Plus />

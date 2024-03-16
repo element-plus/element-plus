@@ -1,6 +1,9 @@
 export default {
   name: 'sw',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'sawa',
       clear: 'futa',
@@ -161,6 +164,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'ndio',
       cancelButtonText: 'hapana',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

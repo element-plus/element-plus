@@ -11,10 +11,10 @@ export function useOption(props, states) {
 
   // computed
   const itemSelected = computed(() => {
-    if (!select.props.multiple) {
-      return isEqual(props.value, select.props.modelValue)
-    } else {
+    if (select.props.multiple) {
       return contains(select.props.modelValue as unknown[], props.value)
+    } else {
+      return contains([select.props.modelValue] as unknown[], props.value)
     }
   })
 

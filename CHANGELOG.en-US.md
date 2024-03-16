@@ -1,5 +1,151 @@
 ## Changelog
 
+### 2.6.1
+
+_2024-03-08_
+
+#### Bug fixes
+
+- Components fix deprecated warning (#16034 by @kooriookami)
+- Components [checkbox] fix true-value and false-value (#16051 by @kooriookami)
+- Locale typo (#16060 by @Shyam-Chen)
+- Components [anchor] querySelector error (#16078 by @Fuphoenixes)
+
+#### Refactors
+
+- Style(components): [anchor] marker transition change (#16023 by @Fuphoenixes)
+- Components [tree & date-picker] use public function and type (#16017 by @btea)
+
+### 2.6.0
+
+_2024-03-01_
+
+#### Features
+
+- Components anchor component (#15670 by @Fuphoenixes)
+- Components [badge] add show-zero prop (#15944 by @IceyWu)
+- Components [checkbox & radio] Use value instead of label act as value (#15525 by @kooriookami)
+- Components [Carousel] Add motion blur functionality (#15603 by @JedediahXu)
+- Components [date-picker] add type years for year multiple select (#15980 by @yuchenii)
+- Components [select & select-v2] support empty string dynamically (#15995 by @kooriookami)
+
+#### Bug fixes
+
+- Components [upload] drag use before-upload to intercepting files (#15861 by @klren0312)
+- Components [input] type hidden use class (#15865 by @chenxch)
+- Components [drawer] use dynamic zIndex from useDialog hook(#15641 by @drylint) (#15900)
+- Components [select] the font color does not change when disabled (#15920 by @betavs)
+- Components [table-v2] header style error (#15950 by @btea)
+- Components [tour] focusout error (#15970 by @Fuphoenixes)
+- Components [input-number] fix default value reset error  (#15725 by @nova1751) (#15725)
+- Components [tour] floating-ui autoUpdate error (#15972 by @Fuphoenixes)
+- Components [date-picker] selected value comparison logic error (#15918 by @betavs)
+- Components [select-v2] show header and footer slots when empty (#15964 by @kooriookami)
+- Components [select-v2] set modalValue when filtering display error (#15981 by @kooriookami)
+- Components [menu] Fixing Menu component's flickering issue with surplus sub-items on insufficient page height. (#15953 by @ikkkp)
+- Components [tree-select] remote method and selected override (#15974 by @yujinpan)
+- Components [tree-v2] fix issue in tree-v2 for setCheckedKeys invalid (#15997 by @huangjw1997)
+- Style(components): [message] Update message style (#15912 by @kooriookami)
+- Style(components): [alert] Update alert style (#15911 by @kooriookami)
+- Style(components): [button] remove focus styles,  Fix outline flickering when foucs-visible (#16002 by @FrontEndDog)
+- Perf(components): [select & select-v2] optimize performance (#15962 by @kooriookami)
+
+### 2.5.6
+
+_2024-02-18_
+
+#### Features
+
+- Style add og-image & apply lint (#15588 by @yeonjulee1005)
+- Components [select] & [select-v2] add fallbackPlacements prop (#15765 by @Fuphoenixes)
+- Docs preview page jumps to github with pr number (#15854 by @btea)
+
+#### Bug fixes
+
+- Components [carousel] improve a11y (#15579 by @cloydlau)
+- Components [number-input] cannot scroll the container when the mouse pointer over an input (#15211 by @makedopamine)
+- Components [tree-select] always focus when using filters (#15768 by @yujinpan)
+- Components  [table] row has rowspan when hover it only has background on the first row of this rowspan (#15529 by @dowinweb)
+- Docs toc link overflow (#15276 by @heygsc)
+- Components [scrollbar] multiple rendering (#15822 by @xingyixiang)
+- Components [select-v2] Tags not update when options sync added (#15838 by @kooriookami)
+
+### 2.5.5
+
+_2024-02-03_
+
+#### Bug fixes
+
+- Fix lodash import error (#15773 by @tolking)
+
+
+### 2.5.4
+
+_2024-02-02_
+
+#### Features
+
+- Components [dialog] Dialog can drag overflow the viewport (#15643 by @kooriookami)
+- Components [message-box] MessageBox can drag overflow the viewport (#15674 by @kooriookami)
+- Play custom namespace (#15677 by @btea)
+- Components [check-tag] add type prop (#15727 by @kooriookami)
+
+#### Bug fixes
+
+- Components [table] The namespace of the showOverflowTooltip is invalid. (#15627 by @xingyixiang)
+- Components [select] Remote search does not show menu when it has options and no query (#15683 by @wen403)
+- Docs overlay error caused by sidebar (#15694 by @heygsc)
+- Components [select] Fix value with value-key not selected (#15681 by @kooriookami)
+- Components [tour] buttonProps & isSameProps errors (#15680 by @Fuphoenixes)
+- Components [select] el-option-group error when el-option in a component (#15703 by @Fuphoenixes)
+- Components [drawer] click allow focus out (#11965 by @tolking)
+- Components [menu] Add menu-item margin when calculating `calcSliceIndex` (#15699 by @zhixiaotong)
+- Components [upload] Add crossorigin property (#15524 by @wkasunsampath)
+- Components [tabs] slot name use kebab-case style (#15733 by @chenxch)
+
+### 2.5.3
+
+_2024-01-22_
+
+#### Bug fixes
+
+- Components [select & select-v2] select can't delete input val (#15607 by @wzc520pyfm)
+
+### 2.5.2
+
+_2024-01-19_
+
+#### Features
+
+- Components [select-v2] Add header and footer slots (#15519 by @kooriookami)
+- Components [checkbox] Checkbox can uncheck exceed max value (#15513 by @kooriookami)
+- Components [select & select-v2] Add loading slot (#15540 by @kooriookami)
+- Components [tour] target prop add more type (#15578 by @Fuphoenixes)
+
+#### Bug fixes
+
+- Ci Replace jest-coverage-report-action with  vitest-coverage-report-action (#15435 by @FrontEndDog)
+- Components [select select-v2] fix input click event (#15462 by @kooriookami)
+- Components [image-viewer] Maximum recursive updates exceeded error (#15483 by @Fuphoenixes)
+- Docs popover offset default value error (#15502 by @FrontEndDog)
+- Components [collapse] SSR hydration error caused by random ID (#15500 by @tolking)
+- Fix doc sidebar error z-index (#15498 by @0song)
+- Components [image-viewer] Fix crossorigin (#15511 by @kooriookami)
+- Components [select] style break change in multiple collapseTags (#15460 by @Fuphoenixes)
+- Components [input] resolve input attributes issue for textarea (#15514 by @YoungDan-hero)
+- Components [select-v2] the select option style is incorrect (#15501 by @btea)
+- Components [tree] setCheckedNodes incorrectly checked node (#15377 by @btea)
+- Components [autocomplete] SSR hydration error caused by random ID (#15523 by @tolking)
+- Components [dropdown] SSR hydration error caused by random ID (#15532 by @tolking)
+- Components [cascader-panel] SSR hydration error caused by ID (#15533 by @tolking)
+- Components [select] Fix input key event (#15544 by @kooriookami)
+- Components [space] Fix gap style (#15560 by @kooriookami)
+
+#### Refactors
+
+- Components [table] The overflowTooltip of the table is implemented by the Eltooltip component. (#15470 by @xingyixiang)
+- Components [drawer] use setup (#15556 by @wzc520pyfm)
+
 ### 2.5.1
 
 _2024-01-11_
