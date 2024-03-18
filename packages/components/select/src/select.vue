@@ -5,7 +5,7 @@
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
     @mouseenter="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
-    @click.stop="toggleMenu"
+    @click.prevent.stop="toggleMenu"
   >
     <el-tooltip
       ref="tooltipRef"
