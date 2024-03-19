@@ -317,9 +317,6 @@ const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
 }
 const focusOnInputBox = () => {
   focus(true, true)
-  nextTick(() => {
-    ignoreFocusEvent = false
-  })
 }
 
 const onPick = (date: any = '', visible = false) => {
