@@ -249,6 +249,11 @@ function setShowPicker(value: boolean) {
 
 const debounceSetShowPicker = debounce(setShowPicker, 100, { leading: true })
 
+function setColorFromString(value: string) {
+  color.fromString(value)
+}
+const debounceSetColorFromString = debounce(setColorFromString, 300)
+
 function show() {
   if (colorDisabled.value) return
   setShowPicker(true)
@@ -262,7 +267,7 @@ function hide() {
 function resetColor() {
   nextTick(() => {
     if (props.modelValue) {
-      color.fromString(props.modelValue)
+      debounceSetColorFromString(props.modelValue)
     } else {
       color.value = ''
       nextTick(() => {
@@ -278,7 +283,7 @@ function handleTrigger() {
 }
 
 function handleConfirm() {
-  color.fromString(customInput.value)
+  debounceSetColorFromString(customInput.value)
 }
 
 function confirmValue() {
@@ -365,7 +370,7 @@ watch(
       showPanelColor.value = false
     } else if (newVal && newVal !== color.value) {
       shouldActiveChange = false
-      color.fromString(newVal)
+      debounceSetColorFromString(newVal)
     }
   }
 )
