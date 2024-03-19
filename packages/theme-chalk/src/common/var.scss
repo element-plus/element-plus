@@ -1,6 +1,7 @@
 /* Element Chalk Variables */
 @use 'sass:math';
 @use 'sass:map';
+@use 'sass:color';
 
 @use '../mixins/function.scss' as *;
 
@@ -1382,6 +1383,32 @@ $empty: map.merge(
   ),
   $empty
 );
+// Empty fill base color
+$empty-fill-base-color: #f6f7f9;
+// Automatically calculate colors from 0 to 9. Don't change the numbers unless you are sure.
+$empty-blackness: color.blackness($empty-fill-base-color) * 0.18;
+// https://sass-lang.com/documentation/values/maps#immutability
+@mixin set-empty-color-gradient($number) {
+  $empty: map.merge(
+    (
+      'fill-color-#{$number}':
+        color.scale(
+          color.scale(
+            $empty-fill-base-color,
+            $lightness: math.percentage($number * -0.015) - $empty-blackness *
+              $number * 0.15,
+            $saturation: math.percentage($number * 0.025)
+          ),
+          $blue: math.percentage($number * -0.005),
+          $green: math.percentage($number * 0.005)
+        ),
+    ),
+    $empty
+  ) !global;
+}
+@for $i from 0 through 9 {
+  @include set-empty-color-gradient($i);
+}
 
 // Descriptions
 // css3 var in packages/theme-chalk/src/descriptions.scss
