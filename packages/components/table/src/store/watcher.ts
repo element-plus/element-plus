@@ -193,7 +193,18 @@ function useWatcher<T>() {
     selected = undefined,
     emitChange = true
   ) => {
-    const changed = toggleRowStatus(selection.value, row, selected)
+    // 存在selectable属性则触发过滤
+    const selectableFilter = selectable.value
+      ? (row: T) => {
+          return !!row.selectable
+        }
+      : () => true
+    const changed = toggleRowStatus(
+      selection.value,
+      row,
+      selected,
+      selectableFilter
+    )
     if (changed) {
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
@@ -218,9 +229,12 @@ function useWatcher<T>() {
     data.value.forEach((row, index) => {
       const rowIndex = index + childrenCount
       if (selectable.value) {
+        const selectableFilter = (row: T) => {
+          return !!row.selectable
+        }
         if (
           selectable.value.call(null, row, rowIndex) &&
-          toggleRowStatus(selection.value, row, value)
+          toggleRowStatus(selection.value, row, value, selectableFilter)
         ) {
           selectionChanged = true
         }
