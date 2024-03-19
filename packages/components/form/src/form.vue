@@ -19,6 +19,7 @@ import type {
   FormContext,
   FormItemContext,
   FormValidateCallback,
+  FormValidateResult,
   FormValidationResult,
 } from './types'
 import type { FormItemProp } from './form-item'
@@ -72,6 +73,16 @@ const resetFields: FormContext['resetFields'] = (properties = []) => {
 
 const clearValidate: FormContext['clearValidate'] = (props = []) => {
   filterFields(fields, props).forEach((field) => field.clearValidate())
+}
+
+const setValidateResults = (results: {
+  [field: string]: FormValidateResult
+}) => {
+  Object.keys(results).forEach((prop: any) => {
+    const field = fields.find((f) => f.prop && f.prop === prop)
+    if (!field) return
+    field.setValidateResult(results[prop])
+  })
 }
 
 const isValidatable = computed(() => {
@@ -175,6 +186,7 @@ provide(
     getField,
     addField,
     removeField,
+    setValidateResults,
 
     ...useFormLabelWidth(),
   })
@@ -201,5 +213,9 @@ defineExpose({
    * @description Scroll to the specified fields.
    */
   scrollToField,
+  /**
+   * @description Set new validation result manually.
+   */
+  setValidateResults,
 })
 </script>
