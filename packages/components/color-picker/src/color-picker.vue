@@ -76,7 +76,13 @@
       >
         <div v-if="colorDisabled" :class="ns.be('picker', 'mask')" />
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
-          <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
+          <div v-if="$slots.trigger" :class="ns.e('trigger')">
+            <slot name="trigger" />
+          </div>
+          <span
+            v-else
+            :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]"
+          >
             <span
               :class="ns.be('picker', 'color-inner')"
               :style="{
@@ -132,7 +138,6 @@ import {
 } from '@element-plus/hooks'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
-import { ArrowDown, Close } from '@element-plus/icons-vue'
 import AlphaSlider from './components/alpha-slider.vue'
 import HueSlider from './components/hue-slider.vue'
 import Predefine from './components/predefine.vue'
