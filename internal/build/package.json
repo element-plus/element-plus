@@ -17,7 +17,7 @@
   "dependencies": {
     "@element-plus/build-constants": "^0.0.1",
     "@pnpm/find-workspace-packages": "^4.0.16",
-    "@pnpm/logger": "^4.0.0",
+    "@pnpm/logger": "^5.0.0",
     "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@vitejs/plugin-vue": "^2.3.3",

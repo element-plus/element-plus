@@ -75,7 +75,7 @@
     "@element-plus/eslint-config": "workspace:*",
     "@esbuild-kit/cjs-loader": "^2.2.1",
     "@pnpm/find-workspace-packages": "^4.0.16",
-    "@pnpm/logger": "^4.0.0",
+    "@pnpm/logger": "^5.0.0",
     "@pnpm/types": "^8.4.0",
     "@types/fs-extra": "^9.0.13",
     "@types/gulp": "^4.0.9",
