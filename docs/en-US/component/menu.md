@@ -140,9 +140,9 @@ menu/popper-offset
 
 ## Menu-Item Events
 
-| Name  | Description                                 | Parameters             |
-| ----- | ------------------------------------------- | ---------------------- |
-| click | callback function when menu-item is clicked | el: menu-item instance |
+| Name  | Description                                 | Parameters                                 |
+| ----- | ------------------------------------------- |--------------------------------------------|
+| click | callback function when menu-item is clicked | el: menu-item instance, event:  MouseEvent |
 
 ## Menu-Item Slots
 
