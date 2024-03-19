@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@esbuild-kit/cjs-loader": "^2.2.1",
-    "@pnpm/types": "^8.4.0",
+    "@pnpm/types": "^9.4.2",
     "unbuild": "^0.7.4",
     "vue": "^3.2.37"
   }
