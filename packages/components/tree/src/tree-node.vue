@@ -65,6 +65,7 @@
         :class="ns.be('node', 'children')"
         role="group"
         :aria-expanded="expanded"
+        @click.stop
       >
         <el-tree-node
           v-for="child in node.childNodes"
