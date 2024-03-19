@@ -332,16 +332,23 @@ class Node {
     }
   }
 
+  getKeyId(node: Node = this) {
+    return node.data[this.store.key]
+  }
+
   expand(callback?: () => void, expandParent?: boolean): void {
     const done = (): void => {
+      const { expandedKeys } = this.store
       if (expandParent) {
         let parent = this.parent
         while (parent.level > 0) {
           parent.expanded = true
+          expandedKeys.add(this.getKeyId(parent))
           parent = parent.parent
         }
       }
       this.expanded = true
+      expandedKeys.add(this.getKeyId())
       if (callback) callback()
       this.childNodes.forEach((item) => {
         item.canFocus = true
@@ -379,8 +386,11 @@ class Node {
 
   collapse(): void {
     this.expanded = false
+    const { expandedKeys } = this.store
+    expandedKeys.delete(this.getKeyId())
     this.childNodes.forEach((item) => {
       item.canFocus = false
+      expandedKeys.delete(this.getKeyId(item))
     })
   }
 

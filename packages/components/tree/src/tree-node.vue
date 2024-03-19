@@ -275,11 +275,15 @@ export default defineComponent({
       props.node.setChecked(ev.target.checked, !tree.props.checkStrictly)
       nextTick(() => {
         const store = tree.store.value
+        const checkedKeys = store.getCheckedKeys()
+        const halfCheckedKeys = store.getHalfCheckedKeys()
+        store.checkedKeys = new Set(checkedKeys)
+        store.halfCheckedKeys = new Set(halfCheckedKeys)
         tree.ctx.emit('check', props.node.data, {
           checkedNodes: store.getCheckedNodes(),
-          checkedKeys: store.getCheckedKeys(),
+          checkedKeys,
           halfCheckedNodes: store.getHalfCheckedNodes(),
-          halfCheckedKeys: store.getHalfCheckedKeys(),
+          halfCheckedKeys,
         })
       })
     }
