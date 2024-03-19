@@ -5,6 +5,7 @@
     :style="{ '-webkit-line-clamp': lineClamp }"
   >
     <slot />
+    <slot name="suffix" />
   </component>
 </template>
 
