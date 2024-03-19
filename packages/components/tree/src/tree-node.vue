@@ -267,7 +267,7 @@ export default defineComponent({
         props.node.collapse()
       } else {
         props.node.expand()
-        ctx.emit('node-expand', props.node.data, props.node, instance)
+        tree.ctx.emit('node-expand', props.node.data, props.node, instance)
       }
     }
 
