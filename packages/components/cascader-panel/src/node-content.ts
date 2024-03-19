@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { defineComponent, h } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { getValidVNodes } from '@element-plus/utils'
 export default defineComponent({
   name: 'NodeContent',
   setup() {
@@ -17,7 +18,7 @@ export default defineComponent({
     return h(
       'span',
       { class: ns.e('label') },
-      renderLabelFn ? renderLabelFn({ node, data }) : label
+      (renderLabelFn && getValidVNodes(renderLabelFn({ node, data }))) || label
     )
   },
 })
