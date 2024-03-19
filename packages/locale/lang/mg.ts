@@ -1,6 +1,9 @@
 export default {
   name: 'mg',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'ENY',
       clear: 'Fafana',

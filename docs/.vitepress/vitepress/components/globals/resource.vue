@@ -84,26 +84,24 @@ const resourceCards = computed(() => [
     <h1>{{ resourceLang.title }}</h1>
     <p>{{ resourceLang.lineOne }}</p>
     <p v-html="resourceLang.lineTwo" />
-    <div class="flex flex-wrap justify-center mt-32px" m="-2">
-      <div
+    <div class="resource-content">
+      <el-card
         v-for="card in resourceCards"
         :key="card.title"
-        class="inline-flex w-full md:w-1/2 lg:w-1/3 3xl:w-1/4"
-        p="2"
+        class="card"
+        shadow="hover"
       >
-        <el-card class="card" shadow="hover">
-          <div class="w-30 m-auto">
-            <component :is="card.icon" alt="icon" />
-          </div>
-          <h3>{{ card.title }}</h3>
-          <p>
-            {{ card.intro }}
-          </p>
-          <a target="_blank" :href="card.url" @click="onClick(card.title)">
-            <el-button type="primary">{{ resourceLang.download }}</el-button>
-          </a>
-        </el-card>
-      </div>
+        <div class="w-30 m-auto">
+          <component :is="card.icon" alt="icon" />
+        </div>
+        <h3>{{ card.title }}</h3>
+        <p>
+          {{ card.intro }}
+        </p>
+        <a target="_blank" :href="card.url" @click="onClick(card.title)">
+          <el-button type="primary">{{ resourceLang.download }}</el-button>
+        </a>
+      </el-card>
     </div>
   </div>
 </template>
@@ -125,6 +123,13 @@ const resourceCards = computed(() => [
       margin-top: 8px;
     }
   }
+}
+
+.resource-content {
+  margin-top: 32px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
 }
 
 .card {

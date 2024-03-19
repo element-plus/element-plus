@@ -1,6 +1,9 @@
 export default {
   name: 'th',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'ตกลง',
       clear: 'ล้างข้อมูล',
