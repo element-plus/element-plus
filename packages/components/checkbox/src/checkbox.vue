@@ -18,7 +18,7 @@
         :disabled="isDisabled"
         :true-value="trueValue ?? trueLabel"
         :false-value="falseValue ?? falseLabel"
-        @change="handleChange"
+        @change.stop="handleChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
         @click.stop
@@ -34,7 +34,7 @@
         :value="actualValue"
         :name="name"
         :tabindex="tabindex"
-        @change="handleChange"
+        @change.stop="handleChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
         @click.stop
