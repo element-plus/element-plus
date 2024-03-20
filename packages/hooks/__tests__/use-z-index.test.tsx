@@ -52,7 +52,7 @@ describe('with injection value', () => {
     })
 
     expect(wrapper.vm.initialZIndex).toBe(2000)
-    expect(wrapper.vm.currentZIndex).toBe(2011)
-    expect(wrapper.vm.nextZIndex).toBe(2011)
+    expect(wrapper.vm.currentZIndex).toBe(2012)
+    expect(wrapper.vm.nextZIndex).toBe(2012)
   })
 })

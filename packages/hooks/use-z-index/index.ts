@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, inject, unref } from 'vue'
+import { computed, getCurrentInstance, inject, ref, unref } from 'vue'
 import { debugWarn, isClient, isNumber } from '@element-plus/utils'
 
 import type { InjectionKey, Ref } from 'vue'
@@ -10,6 +10,8 @@ export interface ZIndexInjection {
 const initial: ZIndexInjection = {
   current: 0,
 }
+
+const zIndex = ref(0)
 
 export const defaultInitialZIndex = 2000
 
@@ -36,12 +38,11 @@ export const useZIndex = (zIndexOverrides?: Ref<number>) => {
       : defaultInitialZIndex
   })
 
-  const currentZIndex = computed(() => {
-    return initialZIndex.value + increasingInjection.current
-  })
+  const currentZIndex = computed(() => initialZIndex.value + zIndex.value)
 
   const nextZIndex = () => {
     increasingInjection.current++
+    zIndex.value = increasingInjection.current
     return currentZIndex.value
   }
 
