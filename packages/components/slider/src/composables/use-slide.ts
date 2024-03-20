@@ -131,11 +131,33 @@ export const useSlide = (
   }
 
   const emitChange = async () => {
-    await nextTick()
     emit(
       CHANGE_EVENT,
-      props.range ? [minValue.value, maxValue.value] : props.modelValue
+      props.range ? [minValue.value, maxValue.value] : initData.firstValue
     )
+    // 在没有使用双向绑定的情况下，在触发change事件之后，将组件内部的initData改为父组件的值
+    if (initData.dragging) return
+    if (props.range) {
+      if (Array.isArray(props.modelValue)) {
+        initData.firstValue = Math.max(props.min, props.modelValue[0])
+        initData.secondValue = Math.min(props.max, props.modelValue[1])
+      } else {
+        initData.firstValue = props.min
+        initData.secondValue = props.max
+      }
+    } else {
+      if (
+        typeof props.modelValue !== 'number' ||
+        Number.isNaN(props.modelValue)
+      ) {
+        initData.firstValue = props.min
+      } else {
+        initData.firstValue = Math.min(
+          props.max,
+          Math.max(props.min, props.modelValue)
+        )
+      }
+    }
   }
 
   const handleSliderPointerEvent = (

@@ -1,4 +1,4 @@
-import { computed, inject, nextTick, ref, watch } from 'vue'
+import { computed, inject, ref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { sliderContextKey } from '../constants'
@@ -76,15 +76,13 @@ export const useSliderButton = (
   const button = ref<HTMLDivElement>()
 
   const currentPosition = computed(() => {
-    return `${
-      ((props.modelValue - min.value) / (max.value - min.value)) * 100
-    }%`
+    return ((props.modelValue - min.value) / (max.value - min.value)) * 100
   })
 
   const wrapperStyle: ComputedRef<CSSProperties> = computed(() => {
     return props.vertical
-      ? { bottom: currentPosition.value }
-      : { left: currentPosition.value }
+      ? { bottom: `${currentPosition.value}%` }
+      : { left: `${currentPosition.value}%` }
   })
 
   const handleMouseEnter = () => {
@@ -114,8 +112,7 @@ export const useSliderButton = (
   const incrementPosition = (amount: number) => {
     if (disabled.value) return
     initData.newPosition =
-      Number.parseFloat(currentPosition.value) +
-      (amount / (max.value - min.value)) * 100
+      currentPosition.value + (amount / (max.value - min.value)) * 100
     setPosition(initData.newPosition)
     emitChange()
   }
@@ -193,7 +190,7 @@ export const useSliderButton = (
     } else {
       initData.startX = clientX
     }
-    initData.startPosition = Number.parseFloat(currentPosition.value)
+    initData.startPosition = currentPosition.value
     initData.newPosition = initData.startPosition
   }
 
@@ -222,16 +219,15 @@ export const useSliderButton = (
        * 防止在 mouseup 后立即触发 click，导致滑块有几率产生一小段位移
        * 不使用 preventDefault 是因为 mouseup 和 click 没有注册在同一个 DOM 上
        */
-      setTimeout(() => {
-        initData.dragging = false
-        if (!initData.hovering) {
-          hideTooltip()
-        }
-        if (!initData.isClick) {
-          setPosition(initData.newPosition)
-        }
-        emitChange()
-      }, 0)
+      initData.dragging = false
+      if (!initData.hovering) {
+        hideTooltip()
+      }
+      if (!initData.isClick) {
+        setPosition(initData.newPosition)
+      }
+      emitChange()
+
       window.removeEventListener('mousemove', onDragging)
       window.removeEventListener('touchmove', onDragging)
       window.removeEventListener('mouseup', onDragEnd)
@@ -240,7 +236,7 @@ export const useSliderButton = (
     }
   }
 
-  const setPosition = async (newPosition: number) => {
+  const setPosition = (newPosition: number) => {
     if (newPosition === null || Number.isNaN(+newPosition)) return
     if (newPosition < 0) {
       newPosition = 0
@@ -256,12 +252,6 @@ export const useSliderButton = (
     if (value !== props.modelValue) {
       emit(UPDATE_MODEL_EVENT, value)
     }
-
-    if (!initData.dragging && props.modelValue !== initData.oldValue) {
-      initData.oldValue = props.modelValue
-    }
-
-    await nextTick()
     initData.dragging && displayTooltip()
     tooltip.value!.updatePopper()
   }
