@@ -89,8 +89,8 @@ menu/popper-offset
 
 | Methods Name | Description               | Parameters                            |
 | ------------ | ------------------------- | ------------------------------------- |
-| open         | open a specific sub-menu  | index: index of the sub-menu to open  |
-| close        | close a specific sub-menu | index: index of the sub-menu to close |
+| open         | Open a specific sub-menu  | index: index of the sub-menu to open  |
+| close        | Close a specific sub-menu | index: index of the sub-menu to close |
 
 ## Menu Events
 
