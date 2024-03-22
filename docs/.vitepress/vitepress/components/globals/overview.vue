@@ -138,7 +138,7 @@ const getIcon = (link: string) => {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 16px;
 
-        ::v-deep(.el-card) {
+        :deep(.el-card) {
           cursor: pointer;
 
           .el-card__header {
