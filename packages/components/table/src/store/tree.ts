@@ -62,7 +62,8 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         }
       },
       childrenColumnName.value,
-      lazyColumnIdentifier.value
+      lazyColumnIdentifier.value,
+      lazy.value
     )
     return res
   }
