@@ -33,7 +33,7 @@ app.provide(ID_INJECTION_KEY, {
 
 ## Provide ZIndex
 
-When you using SSR for development, you may encounter hydration errors caused by `z-ndex`. In this case, we recommend injecting an initial value to avoid such errors.
+When you using SSR for development, you may encounter hydration errors caused by `z-index`. In this case, we recommend injecting an initial value to avoid such errors.
 
 ```ts
 // src/main.js (irrelevant code omitted)
