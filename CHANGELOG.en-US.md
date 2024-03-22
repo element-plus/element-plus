@@ -1,5 +1,28 @@
 ## Changelog
 
+### 2.6.2
+
+_2024-03-22_
+
+#### Features
+
+- Components [breadcrumb] aria-label uses locale (#16089 by @btea)
+
+#### Bug fixes
+
+- Components [anchor] `type` default value typo (#16102 by @cullyfung)
+- Components [tree] remove duplicate type declaration (#16106 by @inside5545)
+- Components [cascader] form nested causing clear icon invalid (#16068 by @btea)
+- Components [anchor,tour] the `type`  type typo (#16119 by @warmthsea)
+- Components [select] stop the click event propagation of `header/footer` slot (#16151 by @warmthsea)
+- Components [tree] the value of append can be zero (#16130 by @btea)
+- Components [select & select-v2] click toggleMenu add prevent (#16149 by @kooriookami)
+- Theme-chalk replace `gulp-clean-css` with `cssnano` (#16056 by @zhixiaotong)
+- Components [tag] remove duplicate style (#16174 by @btea)
+- Hooks SSR hydration error caused by z-index (#16175 by @tolking)
+- Components [cascader-panel] get the reactive proxy of `node` to trigger side effects (#16198 by @makedopamine)
+- Style(components): [anchor] marker transition expression incorrect (#16100 by @zeyongTsai)
+
 ### 2.6.1
 
 _2024-03-08_
