@@ -52,7 +52,7 @@
         <el-anchor
           :container="containerRef"
           direction="vertical"
-          type="defalut"
+          type="default"
           :offset="30"
           @click="handleClick"
         >

@@ -1,6 +1,9 @@
 export default {
   name: 'eo',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Bone',
       clear: 'Malplenigi',

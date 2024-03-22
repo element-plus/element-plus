@@ -69,7 +69,14 @@
           </template>
         </el-input>
 
-        <div v-if="multiple" ref="tagWrapper" :class="nsCascader.e('tags')">
+        <div
+          v-if="multiple"
+          ref="tagWrapper"
+          :class="[
+            nsCascader.e('tags'),
+            nsCascader.is('validate', Boolean(validateState)),
+          ]"
+        >
           <el-tag
             v-for="tag in presentTags"
             :key="tag.key"
@@ -325,6 +332,8 @@ const presentText = computed(() => {
       : nodes[0].calcText(showAllLevels, separator)
     : ''
 })
+
+const validateState = computed(() => formItem?.validateState || '')
 
 const checkedValue = computed<CascaderValue>({
   get() {
