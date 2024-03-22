@@ -49,12 +49,6 @@ function useStyle<T>(
   const footerScrollHeight = ref(0)
   const appendScrollHeight = ref(0)
 
-  watchEffect(() => {
-    layout.setHeight(props.height)
-  })
-  watchEffect(() => {
-    layout.setMaxHeight(props.maxHeight)
-  })
   watch(
     () => [props.currentRowKey, store.states.rowKey],
     ([currentRowKey, rowKey]) => {

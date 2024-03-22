@@ -149,21 +149,27 @@ describe('Table.vue', () => {
     it('height', async () => {
       const wrapper = createTable('height="134"')
       await doubleWait()
-      expect(wrapper.attributes('style')).toContain('height: 134px')
+      expect(
+        wrapper.find('.el-table__inner-wrapper').attributes('style')
+      ).toContain('height: 134px')
       wrapper.unmount()
     })
 
     it('height as string', async () => {
       const wrapper = createTable('height="100px"')
       await doubleWait()
-      expect(wrapper.attributes('style')).toContain('height: 100px')
+      expect(
+        wrapper.find('.el-table__inner-wrapper').attributes('style')
+      ).toContain('height: 100px')
       wrapper.unmount()
     })
 
     it('maxHeight', async () => {
       const wrapper = createTable('max-height="134"')
       await doubleWait()
-      expect(wrapper.attributes('style')).toContain('max-height: 134px')
+      expect(
+        wrapper.find('.el-table__inner-wrapper').attributes('style')
+      ).toContain('max-height: 134px')
       wrapper.unmount()
     })
 
