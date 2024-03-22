@@ -44,7 +44,6 @@ export const getScrollBarWidth = (namespace: string): number => {
 
   const outer = document.createElement('div')
   outer.className = `${namespace}-scrollbar__wrap`
-  outer.style.visibility = 'hidden'
   outer.style.width = '100px'
   outer.style.position = 'absolute'
   outer.style.top = '-9999px'
