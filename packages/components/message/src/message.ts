@@ -28,6 +28,7 @@ export const messageDefaults = mutable({
   onClose: undefined,
   showClose: false,
   type: 'info',
+  plain: false,
   offset: 16,
   zIndex: 0,
   grouping: false,
@@ -110,6 +111,13 @@ export const messageProps = buildProps({
     type: String,
     values: messageTypes,
     default: messageDefaults.type,
+  },
+  /**
+   * @description message plain
+   */
+  plain: {
+    type: Boolean,
+    default: false,
   },
   /**
    * @description set the distance to the top of viewport
