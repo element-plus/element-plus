@@ -36,7 +36,7 @@ async function main() {
     output = `**Total changed files:** ${fileDiffs.length}
 
 ${
-  fileDiffs.length >= threshold
+  fileDiffs.length >= +threshold
     ? `#### 🚔 Attention: the changed file has exceeded the threshold`
     : ''
 }

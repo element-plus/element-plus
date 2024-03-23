@@ -121,6 +121,6 @@ export const getSibling = (
 
 export const focusNode = (el: HTMLElement) => {
   if (!el) return
-  el.focus()
+  el.focus?.()
   !isLeaf(el) && el.click()
 }
