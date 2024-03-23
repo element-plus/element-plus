@@ -10,7 +10,7 @@ import { ElMessage } from 'element-plus'
 
 const open1 = () => {
   ElMessage({
-    message: 'This is a message.',
+    message: 'Congrats, this is a success message.',
     type: 'success',
     plain: true,
   })
@@ -24,7 +24,7 @@ const open2 = () => {
 }
 const open3 = () => {
   ElMessage({
-    message: 'Congrats, this is a success message.',
+    message: 'This is a message.',
     type: 'info',
     plain: true,
   })

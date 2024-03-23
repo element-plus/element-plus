@@ -95,7 +95,7 @@ export const messageProps = buildProps({
    */
   onClose: {
     type: definePropType<() => void>(Function),
-    required: false,
+    default: messageDefaults.onClose,
   },
   /**
    * @description whether to show a close button
@@ -113,11 +113,11 @@ export const messageProps = buildProps({
     default: messageDefaults.type,
   },
   /**
-   * @description message plain
+   * @description whether message is plain
    */
   plain: {
     type: Boolean,
-    default: false,
+    default: messageDefaults.plain,
   },
   /**
    * @description set the distance to the top of viewport
