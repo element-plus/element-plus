@@ -547,8 +547,11 @@ class Node {
           callback.call(this, children)
         }
       }
+      const reject = () => {
+        this.loading = false
+      }
 
-      this.store.load(this, resolve)
+      this.store.load(this, resolve, reject)
     } else {
       if (callback) {
         callback.call(this)
