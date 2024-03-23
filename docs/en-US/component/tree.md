@@ -35,7 +35,7 @@ tree/custom-leaf
 
 :::
 
-## Lazy loading multiple times ^(2.6.2)
+## Lazy loading multiple times ^(2.6.3)
 
 :::demo When lazily loading node data remotely, lazy loading may sometimes fail. In this case, you can call reject to keep the node status as is and allow remote loading to continue.
 
