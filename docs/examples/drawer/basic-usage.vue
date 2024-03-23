@@ -1,9 +1,9 @@
 <template>
   <el-radio-group v-model="direction">
-    <el-radio label="ltr">left to right</el-radio>
-    <el-radio label="rtl">right to left</el-radio>
-    <el-radio label="ttb">top to bottom</el-radio>
-    <el-radio label="btt">bottom to top</el-radio>
+    <el-radio value="ltr">left to right</el-radio>
+    <el-radio value="rtl">right to left</el-radio>
+    <el-radio value="ttb">top to bottom</el-radio>
+    <el-radio value="btt">bottom to top</el-radio>
   </el-radio-group>
 
   <el-button type="primary" style="margin-left: 16px" @click="drawer = true">
@@ -27,10 +27,10 @@
     </template>
     <template #default>
       <div>
-        <el-radio v-model="radio1" label="Option 1" size="large"
+        <el-radio v-model="radio1" value="Option 1" size="large"
           >Option 1</el-radio
         >
-        <el-radio v-model="radio1" label="Option 2" size="large"
+        <el-radio v-model="radio1" value="Option 2" size="large"
           >Option 2</el-radio
         >
       </div>

@@ -1,6 +1,9 @@
 export default {
   name: 'mn',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Тийм',
       clear: 'Цэвэрлэх',
@@ -122,6 +125,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

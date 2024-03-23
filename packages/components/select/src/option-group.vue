@@ -71,6 +71,8 @@ export default defineComponent({
             children.push(child.component.proxy)
           } else if (child.children?.length) {
             children.push(...flattedChildren(child))
+          } else if (child.component?.subTree) {
+            children.push(...flattedChildren(child.component.subTree))
           }
         })
       }

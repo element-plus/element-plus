@@ -429,6 +429,8 @@ describe('InputNumber.vue', () => {
     elInput.handleInputChange('')
     await nextTick()
     expect(num.value).toBe(5)
+    await wrapper.find('input').setValue('')
+    expect(num.value).toBe(5)
     elInput.decrease()
     await nextTick()
     expect(num.value).toBe(4)

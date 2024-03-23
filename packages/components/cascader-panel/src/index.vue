@@ -265,11 +265,7 @@ export default defineComponent({
       }
 
       oldNodes.forEach((node) => node.doCheck(false))
-      if (props.props.multiple) {
-        reactive(newNodes).forEach((node) => node.doCheck(true))
-      } else {
-        newNodes.forEach((node) => node.doCheck(true))
-      }
+      reactive(newNodes).forEach((node) => node.doCheck(true))
       checkedNodes.value = newNodes
       nextTick(scrollToExpandingNode)
     }

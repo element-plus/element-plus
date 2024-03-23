@@ -133,9 +133,7 @@ export const useBasicDateTable = (
     const shouldIncrement = setDateText(cell, { count, rowIndex, columnIndex })
 
     const cellDate = cell.dayjs!.toDate()
-    cell.selected = _selectedDate.find(
-      (d) => d.valueOf() === cell.dayjs!.valueOf()
-    )
+    cell.selected = _selectedDate.find((d) => d.isSame(cell.dayjs, 'day'))
     cell.isSelected = !!cell.selected
     cell.isCurrent = isCurrent(cell)
     cell.disabled = disabledDate?.(cellDate)
