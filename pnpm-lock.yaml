@@ -165,6 +165,9 @@ importers:
       fast-glob:
         specifier: ^3.2.11
         version: 3.2.11
+      happy-dom:
+        specifier: ^14.3.3
+        version: 14.3.3
       husky:
         specifier: ^9.0.11
         version: 9.0.11
@@ -212,7 +215,7 @@ importers:
         version: 2.7.11(@vueuse/core@9.1.0)(typescript@4.7.4)(vue@3.2.37)
       vitest:
         specifier: 1.4.0
-        version: 1.4.0(@types/node@18.19.25)(@vitest/ui@1.4.0)(jsdom@16.4.0)(sass@1.53.0)
+        version: 1.4.0(@types/node@18.19.25)(@vitest/ui@1.4.0)(happy-dom@14.3.3)(jsdom@16.4.0)(sass@1.53.0)
       vue:
         specifier: ^3.2.37
         version: 3.2.37
@@ -3500,7 +3503,7 @@ packages:
     resolution: {integrity: sha512-ogUZCGf0/UILZt6d8PsO4gA4pXh7f0BumXeFkcCe4AQ65PXPKfAkHC0C30Lheh2EgFOpLZm3twDP1Eiww18gew==}
     engines: {node: '>=14.19'}
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
 
   /@pnpm/lockfile-types@4.2.0:
     resolution: {integrity: sha512-8/t9YrC8VSJgEJv/m1UQMNPHs3Tu4Ow7shpuIDPD5sqjNw3lICB9ybbPlO+6/bkb9/D8QizbBigbVsDybWR9Hw==}
@@ -4122,12 +4125,6 @@ packages:
       undici-types: 5.26.5
     dev: true
 
-  /@types/node@20.11.30:
-    resolution: {integrity: sha512-dHM6ZxwlmuZaRmUPfv1p+KrdD1Dci04FbdEm/9wEMouFqxYoFl5aMkt0VMAUtYRQDyYvD41WJLukhq/ha3YuTw==}
-    dependencies:
-      undici-types: 5.26.5
-    dev: true
-
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
 
@@ -4538,7 +4535,7 @@ packages:
       pathe: 1.1.2
       picocolors: 1.0.0
       sirv: 2.0.4
-      vitest: 1.4.0(@types/node@18.19.25)(@vitest/ui@1.4.0)(jsdom@16.4.0)(sass@1.53.0)
+      vitest: 1.4.0(@types/node@18.19.25)(@vitest/ui@1.4.0)(happy-dom@14.3.3)(jsdom@16.4.0)(sass@1.53.0)
     dev: true
 
   /@vitest/utils@1.4.0:
@@ -8816,7 +8813,7 @@ packages:
     resolution: {integrity: sha512-+vSd9frUnapVC2RZYfL3FCB2p3g4TBhaUmrsWlSudsGdnxIuUvBB2QM1VZeBtc49QFwrp+wQLrDs3+xxDgI5gQ==}
     engines: {node: '>= 0.10'}
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       through2: 2.0.5
     dev: false
 
@@ -9123,7 +9120,6 @@ packages:
 
   /graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
-    dev: true
 
   /gulp-autoprefixer@8.0.0:
     resolution: {integrity: sha512-sVR++PIaXpa81p52dmmA/jt50bw0egmylK5mjagfgOJ8uLDGaF9tHyzvetkY9Uo0gBZUS5sVqN3kX/GlUKOyog==}
@@ -9211,6 +9207,15 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       duplexer: 0.1.2
+    dev: true
+
+  /happy-dom@14.3.3:
+    resolution: {integrity: sha512-hsecx5SDUUwVW0MK5sxFWA7WHLabvzIEKjf9gah+siJp/LD+bMyFfAO18b9mlc5meMADVUm6O/YF4+CliaMD6g==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      entities: 4.5.0
+      webidl-conversions: 7.0.0
+      whatwg-mimetype: 3.0.0
     dev: true
 
   /har-schema@2.0.0:
@@ -9922,7 +9927,7 @@ packages:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 20.11.30
+      '@types/node': 18.19.25
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: true
@@ -10084,7 +10089,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
 
   /jsonparse@1.3.1:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
@@ -10314,7 +10319,7 @@ packages:
     resolution: {integrity: sha512-cy7ZdNRXdablkXYNI049pthVeXFurRyb9+hA/dZzerZ0pGTx42z+y+ssxBaVV2l70t1muq5IdKhn4UtcoGUY9A==}
     engines: {node: '>=0.10.0'}
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       parse-json: 2.2.0
       pify: 2.3.0
       pinkie-promise: 2.0.1
@@ -10325,7 +10330,7 @@ packages:
     resolution: {integrity: sha512-Kx8hMakjX03tiGTLAIdJ+lL0htKnXjEZN6hk/tozf/WOuYGdZBJrZ+rCJRbVCugsjB3jMLn9746NsQIf5VjBMw==}
     engines: {node: '>=4'}
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       parse-json: 4.0.0
       pify: 3.0.0
       strip-bom: 3.0.0
@@ -10952,7 +10957,7 @@ packages:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.9.0
-      semver: 7.3.7
+      semver: 7.6.0
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -11447,7 +11452,7 @@ packages:
     resolution: {integrity: sha512-S4eENJz1pkiQn9Znv33Q+deTOKmbl+jj1Fl+qiP/vYezj+S8x+J3Uo0ISrx/QoEvIlOaDWJhPaRd1flJ9HXZqg==}
     engines: {node: '>=0.10.0'}
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       pify: 2.3.0
       pinkie-promise: 2.0.1
     dev: false
@@ -12158,7 +12163,7 @@ packages:
     resolution: {integrity: sha512-1JU/8q+VgFZyxwrJ+SVIOsh+KywWGpds3NTqikiKpDMZWScmAYyKIgqkO+ARvNWJfXeXR1zxz7aHF4u4CyH6vQ==}
     engines: {node: '>=0.10'}
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       micromatch: 3.1.10
       readable-stream: 2.3.7
     transitivePeerDependencies:
@@ -14521,7 +14526,7 @@ packages:
     dependencies:
       append-buffer: 1.0.2
       convert-source-map: 1.8.0
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       normalize-path: 2.1.1
       now-and-later: 2.0.1
       remove-bom-buffer: 3.0.0
@@ -14705,7 +14710,7 @@ packages:
       - stylus
     dev: true
 
-  /vitest@1.4.0(@types/node@18.19.25)(@vitest/ui@1.4.0)(jsdom@16.4.0)(sass@1.53.0):
+  /vitest@1.4.0(@types/node@18.19.25)(@vitest/ui@1.4.0)(happy-dom@14.3.3)(jsdom@16.4.0)(sass@1.53.0):
     resolution: {integrity: sha512-gujzn0g7fmwf83/WzrDTnncZt2UiXP41mHuFYFrdwaLRVQ6JYQEiME2IfEjU3vcFL3VKa75XhI3lFgn+hfVsQw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -14741,6 +14746,7 @@ packages:
       chai: 4.4.1
       debug: 4.3.4
       execa: 8.0.1
+      happy-dom: 14.3.3
       jsdom: 16.4.0
       local-pkg: 0.5.0
       magic-string: 0.30.8
@@ -14858,7 +14864,7 @@ packages:
     requiresBuild: true
     dependencies:
       glob-to-regexp: 0.4.1
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
     dev: true
     optional: true
 
@@ -14878,6 +14884,11 @@ packages:
   /webidl-conversions@6.1.0:
     resolution: {integrity: sha512-qBIvFLGiBpLjfwmYAaHPXsn+ho5xZnGvyGvsarywGNc8VyQJUMHJ8OBKGGrPER0okBeMDaan4mNBlgBROxuI8w==}
     engines: {node: '>=10.4'}
+    dev: true
+
+  /webidl-conversions@7.0.0:
+    resolution: {integrity: sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==}
+    engines: {node: '>=12'}
     dev: true
 
   /webpack-sources@3.2.3:
@@ -14903,6 +14914,11 @@ packages:
 
   /whatwg-mimetype@2.3.0:
     resolution: {integrity: sha512-M4yMwr6mAnQz76TbJm914+gPpB/nCwvZbJU28cUD6dR004SAxDLOOSUaB1JDRqLtaOV/vi0IC5lEAGFgrjGv/g==}
+    dev: true
+
+  /whatwg-mimetype@3.0.0:
+    resolution: {integrity: sha512-nt+N2dzIutVRxARx1nghPKGv1xHikU7HKdfafKkLNLindmPU/ch3U31NOCGGA/dmPcmb1VlofO0vnKAcsm0o/Q==}
+    engines: {node: '>=12'}
     dev: true
 
   /whatwg-url@5.0.0:
