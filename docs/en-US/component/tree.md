@@ -35,6 +35,14 @@ tree/custom-leaf
 
 :::
 
+## Lazy loading multiple times ^(2.6.3)
+
+:::demo When lazily loading node data remotely, lazy loading may sometimes fail. In this case, you can call reject to keep the node status as is and allow remote loading to continue.
+
+tree/multiple-times-load
+
+:::
+
 ## Disabled checkbox
 
 The checkbox of a node can be set as disabled.
@@ -122,7 +130,7 @@ tree/draggable
 | node-key              | unique identity key name for nodes, its value should be unique across the whole tree                                                                                                                                                                                                                                                                                        | string                                 | —               | —       |
 | props                 | configuration options, see the following table                                                                                                                                                                                                                                                                                                                              | object                                 | —               | —       |
 | render-after-expand   | whether to render child nodes only after a parent node is expanded for the first time                                                                                                                                                                                                                                                                                       | boolean                                | —               | true    |
-| load                  | method for loading subtree data, only works when `lazy` is true                                                                                                                                                                                                                                                                                                             | function(node, resolve)                | —               | —       |
+| load                  | method for loading subtree data, only works when `lazy` is true                                                                                                                                                                                                                                                                                                             | function(node, resolve, reject)        | —               | —       |
 | render-content        | render function for tree node                                                                                                                                                                                                                                                                                                                                               | Function(h, `{ node, data, store }`)   | —               | —       |
 | highlight-current     | whether current node is highlighted                                                                                                                                                                                                                                                                                                                                         | boolean                                | —               | false   |
 | default-expand-all    | whether to expand all nodes by default                                                                                                                                                                                                                                                                                                                                      | boolean                                | —               | false   |
