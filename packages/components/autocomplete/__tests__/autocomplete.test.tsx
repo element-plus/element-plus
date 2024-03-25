@@ -372,6 +372,7 @@ describe('Autocomplete.vue', () => {
     test('specified id attachment', async () => {
       const wrapper = mount(() => (
         <FormItem label="Foobar" data-test-ref="item">
+          {/* @ts-ignore */}
           <Autocomplete id="foobar" data-test-ref="input" />
         </FormItem>
       ))
