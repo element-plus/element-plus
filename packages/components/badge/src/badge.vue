@@ -9,6 +9,15 @@
           ns.em('content', type),
           ns.is('fixed', !!$slots.default),
           ns.is('dot', isDot),
+          props.dotClass ?? {},
+        ]"
+        :style="[
+          props.dotStyle ?? {},
+          {
+            backgroundColor: props.color,
+            marginRight: addUnit(-(props.offset?.[0] ?? 0)),
+            marginTop: addUnit(props.offset?.[1] ?? 0),
+          },
         ]"
         v-text="content"
       />
@@ -21,6 +30,7 @@ import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { isNumber } from '@element-plus/utils'
 import { badgeProps } from './badge'
+import { addUnit } from '@element-plus/utils'
 
 defineOptions({
   name: 'ElBadge',

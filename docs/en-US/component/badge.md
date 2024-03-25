@@ -47,18 +47,30 @@ badge/dot
 
 :::
 
+## Offset
+
+:::demo Set offset of the badge dot, the format is [left, top], which represents the offset of the status dot from the left and top of the default position.
+
+badge/offset
+
+:::
+
 ## API
 
 ### Attributes
 
-| Name               | Description                                                                   | Type                                                               | Default |
-| ------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------- |
-| value              | display value.                                                                | ^[string] / ^[number]                                              | ''      |
-| max                | maximum value, shows `{max}+` when exceeded. Only works if value is a number. | ^[number]                                                          | 99      |
-| is-dot             | if a little dot is displayed.                                                 | ^[boolean]                                                         | false   |
-| hidden             | hidden badge.                                                                 | ^[boolean]                                                         | false   |
-| type               | badge type.                                                                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | danger  |
-| show-zero ^(2.6.0) | Whether to show badge when value is zero.                                     | ^[boolean]                                                         | true    |
+| Name               | Description                                                  | Type                                                         | Default |
+| ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------- |
+| value              | display value.                                               | ^[string] / ^[number]                                        | ''      |
+| max                | maximum value, shows `{max}+` when exceeded. Only works if value is a number. | ^[number]                                                    | 99      |
+| is-dot             | if a little dot is displayed.                                | ^[boolean]                                                   | false   |
+| hidden             | hidden badge.                                                | ^[boolean]                                                   | false   |
+| type               | badge type.                                                  | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | danger  |
+| show-zero ^(2.6.0) | Whether to show badge when value is zero.                    | ^[boolean]                                                   | true    |
+| color              | background color of dot                                      | ^[string]                                                    | —       |
+| offset             | Set offset of  dot                                           | [ `number` , `number` ]                                      | —       |
+| dot-style          | CSS style of dot                                             | ^[object]`CSSProperties`                                     | —       |
+| dot-class          | custom class name of dot                                     | ^[string]                                                    | —       |
 
 ### Slots
 
