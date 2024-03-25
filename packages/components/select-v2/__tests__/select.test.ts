@@ -803,6 +803,26 @@ describe('Select', () => {
       placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
       expect(placeholder.exists()).toBeTruthy()
     })
+
+    it('set modelValue when filtering in multiple select', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            filterable: true,
+            value: [],
+          }
+        },
+      })
+      const vm = wrapper.vm as any
+      const input = wrapper.find('input')
+      await input.trigger('click')
+      input.element.value = '1111'
+      await input.trigger('input')
+      vm.value = ['option_1']
+      await nextTick()
+      expect(wrapper.find('.el-select__tags-text').text()).toBe('a0')
+    })
   })
 
   describe('event', () => {

@@ -1,6 +1,9 @@
 export default {
   name: 'hy-am',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Լաւ',
       clear: 'Մաքրել',

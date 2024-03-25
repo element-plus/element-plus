@@ -4,7 +4,7 @@
     class="el-menu-popper-demo"
     mode="horizontal"
     :popper-offset="16"
-    style="width: 600px"
+    style="max-width: 600px"
   >
     <el-menu-item index="1">Processing Center</el-menu-item>
     <el-sub-menu index="2">

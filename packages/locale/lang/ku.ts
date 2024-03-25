@@ -1,6 +1,9 @@
 export default {
   name: 'ku',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Temam',
       clear: 'Paqij bike',

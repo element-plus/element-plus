@@ -51,6 +51,10 @@ export const carouselProps = buildProps({
     type: Boolean,
     default: true,
   },
+  motionBlur: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 
 export const carouselEmits = {

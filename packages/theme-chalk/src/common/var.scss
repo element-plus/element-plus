@@ -400,6 +400,7 @@ $select: () !default;
 $select: map.merge(
   (
     'border-color-hover': getCssVar('border-color-hover'),
+    'disabled-color': getCssVar('disabled-text-color'),
     'disabled-border': getCssVar('disabled-border-color'),
     'font-size': getCssVar('font-size-base'),
     'close-hover-color': getCssVar('text-color-secondary'),
@@ -498,10 +499,11 @@ $alert: map.merge(
   (
     'padding': 8px 16px,
     'border-radius-base': getCssVar('border-radius-base'),
-    'title-font-size': 13px,
-    'description-font-size': 12px,
-    'close-font-size': 12px,
-    'close-customed-font-size': 13px,
+    'title-font-size': 14px,
+    'title-with-description-font-size': 16px,
+    'description-font-size': 14px,
+    'close-font-size': 16px,
+    'close-customed-font-size': 14px,
     'icon-size': 16px,
     'icon-large-size': 28px,
   ),
@@ -534,7 +536,7 @@ $message: map.merge(
   (
     'bg-color': getCssVar('color', 'info', 'light-9'),
     'border-color': getCssVar('border-color-lighter'),
-    'padding': 15px 19px,
+    'padding': 11px 15px,
     'close-size': 16px,
     'close-icon-color': getCssVar('text-color-placeholder'),
     'close-hover-color': getCssVar('text-color-secondary'),
@@ -812,6 +814,22 @@ $tour: map.merge(
     'border-radius': 4px,
   ),
   $tour
+);
+
+// Anchor
+// css3 var in packages/theme-chalk/src/anchor.scss
+$anchor: () !default;
+$anchor: map.merge(
+  (
+    'bg-color': getCssVar('bg-color'),
+    'padding-indent': 14px,
+    'line-height': 22px,
+    'font-size': 12px,
+    'color': getCssVar('text-color-secondary'),
+    'active-color': getCssVar('color-primary'),
+    'marker-bg-color': getCssVar('color-primary'),
+  ),
+  $anchor
 );
 
 // Table

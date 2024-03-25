@@ -9,9 +9,13 @@
     v-model="checkedCities"
     @change="handleCheckedCitiesChange"
   >
-    <el-checkbox v-for="city in cities" :key="city" :label="city">{{
-      city
-    }}</el-checkbox>
+    <el-checkbox
+      v-for="city in cities"
+      :key="city"
+      :label="city"
+      :value="city"
+      >{{ city }}</el-checkbox
+    >
   </el-checkbox-group>
 </template>
 
