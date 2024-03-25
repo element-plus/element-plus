@@ -59,7 +59,7 @@ badge/dot
 | hidden             | hidden badge.                                                | ^[boolean]                                                   | false   |
 | type               | badge type.                                                  | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | danger  |
 | show-zero ^(2.6.0) | Whether to show badge when value is zero.                    | ^[boolean]                                                   | true    |
-| color ^(2.6.1)     | background color of the dot                                  | ^[string]                                                    |         |
+| color ^(2.6.3)     | background color of the dot                                  | ^[string]                                                    |         |
 
 ### Slots
 
