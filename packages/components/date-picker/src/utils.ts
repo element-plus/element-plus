@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import { isArray } from '@element-plus/utils'
+import { rangeArr } from '@element-plus/components/time-picker'
 
 import type { Dayjs } from 'dayjs'
 import type { DateCell } from './date-picker.type'
@@ -131,4 +132,10 @@ export const buildPickerTable = (
     }
     setRowMetadata?.(row)
   }
+}
+
+export const datesInMonth = (year: number, month: number, lang: string) => {
+  const firstDay = dayjs().locale(lang).startOf('month').month(month).year(year)
+  const numOfDays = firstDay.daysInMonth()
+  return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())
 }
