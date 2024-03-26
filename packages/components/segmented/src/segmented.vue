@@ -53,18 +53,18 @@ const handleChange = (item: Option) => {
 }
 
 const getValue = (item: Option) => {
-  return isObject(item) ? item.value : item
+  return isObject(item) ? item.value : item || ''
 }
 
 const getLabel = (item: Option) => {
-  return isObject(item) ? item.label : item
+  return isObject(item) ? item.label : item || ''
 }
 
 const getDisabled = (item: Option) => {
-  return props.disabled || (isObject(item) ? item.disabled : false)
+  return !!(props.disabled || (isObject(item) ? item.disabled : false))
 }
 
-const getOption = (value: string | number) => {
+const getOption = (value: any) => {
   return props.options.find((item) => getValue(item) === value)
 }
 
@@ -78,7 +78,9 @@ const getItemCls = (item: Option) => {
 
 const updateSelect = () => {
   if (!segmentedRef.value) return
-  const selectedItem = segmentedRef.value.querySelector('.is-selected')
+  const selectedItem = segmentedRef.value.querySelector(
+    '.is-selected'
+  ) as HTMLElement
   if (!selectedItem) {
     state.width = 0
     state.translateX = 0

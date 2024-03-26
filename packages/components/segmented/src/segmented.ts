@@ -43,9 +43,8 @@ export const segmentedProps = buildProps({
 export type SegmentedProps = ExtractPropTypes<typeof segmentedProps>
 
 export const segmentedEmits = {
-  [UPDATE_MODEL_EVENT]: (val: string | number) =>
-    isString(val) || isNumber(val),
-  [CHANGE_EVENT]: (val: string | number) => isString(val) || isNumber(val),
+  [UPDATE_MODEL_EVENT]: (val: any) => isString(val) || isNumber(val),
+  [CHANGE_EVENT]: (val: any) => isString(val) || isNumber(val),
 }
 export type SegmentedEmits = typeof segmentedEmits
 

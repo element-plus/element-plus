@@ -7,3 +7,4 @@ export type Option =
     }
   | string
   | number
+  | undefined
