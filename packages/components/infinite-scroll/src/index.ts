@@ -162,7 +162,12 @@ const InfiniteScroll: ObjectDirective<
     container.addEventListener('scroll', onScroll)
   },
   unmounted(el) {
-    const { container, onScroll } = el[SCOPE]
+    if (SCOPE && el[SCOPE]) {
+      const container = el[SCOPE]
+      const onScroll = el[SCOPE]
+
+      container?.removeEventListener('scroll', onScroll)
+    }
 
     container?.removeEventListener('scroll', onScroll)
     destroyObserver(el)
