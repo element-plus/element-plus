@@ -540,6 +540,34 @@ describe('DatePicker', () => {
     expect(text.includes('csw')).toBeTruthy()
   })
 
+  it('custom content for footer-btns slot', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        type="datetime"
+        ref="input">
+        <template #['footer-btns']>
+          <div class="cell">
+            <div>csw</div>
+          </div>
+        </template>
+      </el-date-picker>`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
+    )
+    await nextTick()
+    const el = document.querySelector('.cell')
+    const text = el.textContent
+    expect(text.includes('csw')).toBeTruthy()
+    const footerEl = document.querySelector('.el-picker-panel__footer')
+    const display = footerEl.style.display
+    expect(display).toBe('none')
+  })
+
   it('custom content bail out slot compoent', async () => {
     _mount(
       `<el-date-picker
