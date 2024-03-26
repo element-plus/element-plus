@@ -95,6 +95,7 @@ export default {
       loading: '載入中',
       placeholder: '請選擇',
       noData: '無資料',
+      selectAll: '全選',
     },
     pagination: {
       goto: '前往',
