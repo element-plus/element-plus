@@ -28,15 +28,15 @@
   },
   "devDependencies": {
     "@element-plus/build": "workspace:*",
-    "@esbuild-kit/cjs-loader": "^2.2.1",
-    "@types/gulp-autoprefixer": "^0.0.33",
-    "@types/gulp-rename": "^2.0.1",
-    "@types/gulp-sass": "^5.0.0",
-    "cssnano": "^6.0.5",
+    "@esbuild-kit/cjs-loader": "^2.4.4",
+    "@types/gulp-autoprefixer": "^0.0.37",
+    "@types/gulp-rename": "^2.0.6",
+    "@types/gulp-sass": "^5.0.4",
+    "cssnano": "^6.1.2",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
-    "postcss": "^8.4.35"
+    "postcss": "^8.4.38"
   },
   "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }
