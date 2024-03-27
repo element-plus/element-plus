@@ -161,7 +161,7 @@ export default class TreeStore {
       const node = nodesMap[checkedKey]
 
       if (node) {
-        node.setChecked(true, !this.checkStrictly)
+        node.setChecked(true, !this.checkStrictly && !node.disabled)
       }
     })
   }
