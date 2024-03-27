@@ -43,7 +43,7 @@ export const useCheckbox = (
       if (isArray(model.value) && !model.value.includes(actualValue.value)) {
         model.value.push(actualValue.value)
       } else {
-        model.value = props.trueValue || props.trueLabel || true
+        model.value = props.trueValue ?? props.trueLabel ?? true
       }
     }
     props.checked && addToStore()

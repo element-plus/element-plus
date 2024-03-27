@@ -80,7 +80,7 @@ export const tourStepProps = buildProps({
    * @description type, affects the background color and text color
    */
   type: {
-    type: definePropType<'defalut' | 'primary'>(String),
+    type: definePropType<'default' | 'primary'>(String),
   },
 })
 

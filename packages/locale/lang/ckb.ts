@@ -1,6 +1,9 @@
 export default {
   name: 'ckb',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'باشە',
       clear: 'پاککردنەوە',
