@@ -3,19 +3,7 @@
     :is="tag"
     ref="_ref"
     v-bind="_props"
-    :class="[
-      ns.b(),
-      ns.m(_type),
-      ns.m(_size),
-      ns.is('disabled', _disabled),
-      ns.is('loading', loading),
-      ns.is('plain', plain),
-      ns.is('round', round),
-      ns.is('circle', circle),
-      ns.is('text', text),
-      ns.is('link', link),
-      ns.is('has-bg', bg),
-    ]"
+    :class="buttonKls"
     :style="buttonStyle"
     @click="handleClick"
   >
@@ -39,6 +27,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { useButton } from './use-button'
@@ -56,6 +45,19 @@ const buttonStyle = useButtonCustomStyle(props)
 const ns = useNamespace('button')
 const { _ref, _size, _type, _disabled, _props, shouldAddSpace, handleClick } =
   useButton(props, emit)
+const buttonKls = computed(() => [
+  ns.b(),
+  ns.m(_type.value),
+  ns.m(_size.value),
+  ns.is('disabled', _disabled.value),
+  ns.is('loading', props.loading),
+  ns.is('plain', props.plain),
+  ns.is('round', props.round),
+  ns.is('circle', props.circle),
+  ns.is('text', props.text),
+  ns.is('link', props.link),
+  ns.is('has-bg', props.bg),
+])
 
 defineExpose({
   /** @description button html element */
