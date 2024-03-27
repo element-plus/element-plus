@@ -208,7 +208,7 @@
           </div>
         </div>
       </template>
-      <template #content>
+      <template v-if="!destroyOnBlur || dropdownMenuVisible" #content>
         <el-select-menu ref="menuRef">
           <div
             v-if="$slots.header"
