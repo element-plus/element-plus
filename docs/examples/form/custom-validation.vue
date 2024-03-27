@@ -19,7 +19,7 @@
       />
     </el-form-item>
     <el-form-item label="Age" prop="age">
-      <el-input v-model.number="ruleForm.age" />
+      <el-input v-model.number="ruleForm.age.age1" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(ruleFormRef)"
@@ -37,6 +37,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 const ruleFormRef = ref<FormInstance>()
 
 const checkAge = (rule: any, value: any, callback: any) => {
+  console.log(value)
   if (!value) {
     return callback(new Error('Please input the age'))
   }
@@ -77,7 +78,9 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
 const ruleForm = reactive({
   pass: '',
   checkPass: '',
-  age: '',
+  age: {
+    age1:'',
+  },
 })
 
 const rules = reactive<FormRules<typeof ruleForm>>({
