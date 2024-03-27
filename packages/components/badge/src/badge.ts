@@ -39,5 +39,9 @@ export const badgeProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description background color of the Badge
+   */
+  color: String,
 } as const)
 export type BadgeProps = ExtractPropTypes<typeof badgeProps>
