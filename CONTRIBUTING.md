@@ -21,7 +21,7 @@ NodeJS >= 18
 
 Git > v2.20
 
-Some of our compiling code used syntax that introduced in NodeJS>16.0 so you will be need to install that in advance.
+Some of our compiling code used syntax that introduced in NodeJS>18 so you will be need to install that in advance.
 
 ## Clone the repository
 
