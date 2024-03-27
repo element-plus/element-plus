@@ -6,32 +6,32 @@
 
 $segmented-border-radius: () !default;
 $segmented-border-radius: map.merge(
-    (
-      'large': map.get($button-border-radius, 'large'),
-      'default': map.get($button-border-radius, 'default'),
-      'small': map.get($button-border-radius, 'small'),
-    ),
-    $segmented-border-radius
+  (
+    'large': map.get($button-border-radius, 'large'),
+    'default': map.get($button-border-radius, 'default'),
+    'small': map.get($button-border-radius, 'small'),
+  ),
+  $segmented-border-radius
 );
 
 $segmented-font-size: () !default;
 $segmented-font-size: map.merge(
-    (
-      'large': 16px,
-      'default': 14px,
-      'small': 14px,
-    ),
-    $segmented-font-size
+  (
+    'large': 16px,
+    'default': 14px,
+    'small': 14px,
+  ),
+  $segmented-font-size
 );
 
 $segmented-item-padding: () !default;
 $segmented-item-padding: map.merge(
-    (
-      'large': 0 11px,
-      'default':0 11px,
-      'small': 0 7px,
-    ),
-    $segmented-item-padding
+  (
+    'large': 0 11px,
+    'default':0 11px,
+    'small': 0 7px,
+  ),
+  $segmented-item-padding
 );
 
 @include b(segmented) {
@@ -103,12 +103,22 @@ $segmented-item-padding: map.merge(
     }
   }
 
+  @include e(item-input) {
+    position: absolute;
+    margin: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
   @include e(item-label) {
     flex: 1;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: color 0.3s;
     z-index: 1;
   }
 

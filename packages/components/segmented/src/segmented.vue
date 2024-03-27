@@ -2,16 +2,22 @@
   <div ref="segmentedRef" :class="segmentedCls">
     <div :class="ns.e('group')">
       <div :style="selectedStyle" :class="selectedCls" />
-      <div
+      <label
         v-for="(item, index) in options"
         :key="index"
         :class="getItemCls(item)"
-        @click="handleChange(item)"
       >
+        <input
+          :class="ns.e('item-input')"
+          type="radio"
+          :disabled="getDisabled(item)"
+          :checked="getSelected(item)"
+          @change="handleChange(item)"
+        />
         <div :class="ns.e('item-label')">
           <slot :item="item">{{ getLabel(item) }}</slot>
         </div>
-      </div>
+      </label>
     </div>
   </div>
 </template>
@@ -45,9 +51,7 @@ const state = reactive({
 })
 
 const handleChange = (item: Option) => {
-  if (getDisabled(item)) return
   const value = getValue(item)
-  if (props.modelValue === value) return
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
 }
@@ -64,6 +68,10 @@ const getDisabled = (item: Option) => {
   return !!(props.disabled || (isObject(item) ? item.disabled : false))
 }
 
+const getSelected = (item: Option) => {
+  return props.modelValue === getValue(item)
+}
+
 const getOption = (value: any) => {
   return props.options.find((item) => getValue(item) === value)
 }
@@ -71,7 +79,7 @@ const getOption = (value: any) => {
 const getItemCls = (item: Option) => {
   return [
     ns.e('item'),
-    ns.is('selected', props.modelValue === getValue(item)),
+    ns.is('selected', getSelected(item)),
     ns.is('disabled', getDisabled(item)),
   ]
 }
