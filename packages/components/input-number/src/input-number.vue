@@ -17,10 +17,12 @@
       :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
       @keydown.enter="decrease"
     >
-      <el-icon>
-        <arrow-down v-if="controlsAtRight" />
-        <minus v-else />
-      </el-icon>
+      <slot name="prepend">
+        <el-icon>
+          <arrow-down v-if="controlsAtRight" />
+          <minus v-else />
+        </el-icon>
+      </slot>
     </span>
     <span
       v-if="controls"
@@ -30,10 +32,12 @@
       :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
       @keydown.enter="increase"
     >
-      <el-icon>
-        <arrow-up v-if="controlsAtRight" />
-        <plus v-else />
-      </el-icon>
+      <slot name="append">
+        <el-icon>
+          <arrow-up v-if="controlsAtRight" />
+          <plus v-else />
+        </el-icon>
+      </slot>
     </span>
     <el-input
       :id="id"

@@ -79,6 +79,14 @@ input-number/controlled
 
 :::
 
+## Custom Icon
+
+:::demo Use `prepend` and `append` to set custom icons.
+
+input-number/custom
+
+:::
+
 ## API
 
 ### Attributes
@@ -102,6 +110,13 @@ input-number/controlled
 | id                      | same as `id` in native input                     | ^[string]                                     | —         |
 | value-on-clear ^(2.2.0) | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —         |
 | validate-event          | whether to trigger form validation               | ^[boolean]                                    | true      |
+
+### Slots
+
+| Name    | Description                  |
+| ------- | ---------------------------- |
+| prepend | custom input box front icon  |
+| append  | custom input box post icon   |
 
 ### Events
 
