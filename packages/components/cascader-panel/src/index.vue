@@ -9,7 +9,11 @@
       :ref="(item) => (menuList[index] = item)"
       :index="index"
       :nodes="[...menu]"
-    />
+    >
+      <template #empty-panel>
+        <slot name="empty-panel" />
+      </template>
+    </el-cascader-menu>
   </div>
 </template>
 

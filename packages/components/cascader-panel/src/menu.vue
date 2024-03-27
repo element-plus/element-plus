@@ -23,7 +23,7 @@
       {{ t('el.cascader.loading') }}
     </div>
     <div v-else-if="isEmpty" :class="ns.e('empty-text')">
-      {{ t('el.cascader.noData') }}
+      <slot name="empty-panel">{{ t('el.cascader.noData') }}</slot>
     </div>
     <svg
       v-else-if="panel?.isHoverMenu"
