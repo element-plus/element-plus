@@ -79,7 +79,7 @@ input-number/controlled
 
 :::
 
-## Custom Icon
+## Custom Icon ^(2.6.3)
 
 :::demo Use `prepend` and `append` to set custom icons.
 
