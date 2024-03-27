@@ -184,6 +184,11 @@ export default defineComponent({
     )
 
     watch(
+      () => props.node.childNodes.length,
+      () => props.node.reInitChecked()
+    )
+
+    watch(
       () => props.node.expanded,
       (val) => {
         nextTick(() => (expanded.value = val))
