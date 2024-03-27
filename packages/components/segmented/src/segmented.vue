@@ -57,11 +57,11 @@ const handleChange = (item: Option) => {
 }
 
 const getValue = (item: Option) => {
-  return isObject(item) ? item.value : item || ''
+  return isObject(item) ? item.value : item
 }
 
 const getLabel = (item: Option) => {
-  return isObject(item) ? item.label : item || ''
+  return isObject(item) ? item.label : item
 }
 
 const getDisabled = (item: Option) => {
