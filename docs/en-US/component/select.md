@@ -9,6 +9,12 @@ When there are plenty of options, use a drop-down menu to display and select des
 
 :::tip
 
+After version 2.5.0, due to the refactoring of `el-select`, the default width becomes `100%`. When used in a form, due to layout problems, the width of `el-select` will become `11px`. In order to keep the layout consistent with the previous version, perhaps You need to give `el-select` a width value.
+
+:::
+
+:::tip
+
 This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
 
 :::
