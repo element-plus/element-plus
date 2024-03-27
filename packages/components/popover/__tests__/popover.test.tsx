@@ -76,6 +76,8 @@ describe('Popover.vue', () => {
       <Popover
         content={content}
         teleported={false}
+        // type check failed as `virtualRef` is a fallthrough attribute
+        // @ts-ignore
         virtualRef={virtualRef}
         virtualTriggering
       />

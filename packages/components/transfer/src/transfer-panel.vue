@@ -71,7 +71,7 @@ const props = defineProps(transferPanelProps)
 const emit = defineEmits(transferPanelEmits)
 const slots = useSlots()
 
-const OptionContent = ({ option }: { option: VNode | VNode[] }) => option
+const OptionContent = ({ option }: { option?: VNode | VNode[] }) => option
 
 const { t } = useLocale()
 const ns = useNamespace('transfer')

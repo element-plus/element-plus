@@ -368,7 +368,12 @@ describe('Autocomplete.vue', () => {
     test('specified id attachment', async () => {
       const wrapper = mount(() => (
         <FormItem label="Foobar" data-test-ref="item">
-          <Autocomplete id="foobar" data-test-ref="input" />
+          <Autocomplete
+            // type check failed as `id` is a fallthrough attribute
+            // @ts-ignore
+            id="foobar"
+            data-test-ref="input"
+          />
         </FormItem>
       ))
 

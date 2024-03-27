@@ -1,10 +1,15 @@
 import { computed, getCurrentInstance } from 'vue'
 import { memoize } from 'lodash-unified'
 import memoOne from 'memoize-one'
+import type { ComputedRef } from 'vue'
 
 import type { VirtualizedProps } from '../props'
 
-export const useCache = () => {
+type UseCacheReturnType = ComputedRef<
+  | ReturnType<typeof memoize<(_: any, __: any, ___: any) => void>>
+  | ReturnType<typeof memoOne<(_: any, __: any, ___: any) => void>>
+>
+export const useCache = (): UseCacheReturnType => {
   const vm = getCurrentInstance()!
 
   const props = vm.proxy!.$props as VirtualizedProps

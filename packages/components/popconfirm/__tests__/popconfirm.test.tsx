@@ -17,7 +17,6 @@ describe('Popconfirm.vue', () => {
     const wrapper = mount(() => (
       <>
         <Popconfirm
-          attachTo="body"
           v-slots={{
             reference: () => <div class="reference">{AXIOM}</div>,
           }}
@@ -46,7 +45,6 @@ describe('Popconfirm.vue', () => {
       mount(() => (
         <>
           <Popconfirm
-            attachTo="body"
             v-slots={{
               reference: () => <div class="reference">{AXIOM}</div>,
             }}
@@ -66,7 +64,6 @@ describe('Popconfirm.vue', () => {
       mount(() => (
         <>
           <Popconfirm
-            attachTo="body"
             teleported={false}
             v-slots={{
               reference: () => <div class="reference">{AXIOM}</div>,

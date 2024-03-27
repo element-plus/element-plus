@@ -45,8 +45,9 @@ describe('Tag.vue', () => {
     expect(comp.emitted().close).toBeTruthy()
   })
 
-  test('closeTransition', () => {
-    const wrapper = mount(() => <Tag closeTransition={true} />)
+  // TODO: this test actually does not work
+  test('disabledTransition', () => {
+    const wrapper = mount(() => <Tag disableTransitions={true} />)
     const vm = wrapper.vm
     expect(vm.$el.classList.contains('md-fade-center')).toEqual(false)
   })

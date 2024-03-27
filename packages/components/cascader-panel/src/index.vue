@@ -78,7 +78,7 @@ export default defineComponent({
     renderLabel: Function as PropType<RenderLabel>,
   },
 
-  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'close', 'expand-change'],
+  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'close', 'expandChange'],
 
   setup(props, { emit, slots }) {
     // for interrupt sync check status in lazy mode
@@ -154,7 +154,7 @@ export default defineComponent({
       if (expandingNode.value?.uid !== newExpandingNode?.uid) {
         expandingNode.value = node
         menus.value = newMenus
-        !silent && emit('expand-change', node?.pathValues || [])
+        !silent && emit('expandChange', node?.pathValues || [])
       }
     }
 
@@ -194,7 +194,7 @@ export default defineComponent({
       calculateCheckedValue()
       menus.value = menus.value.slice(0, 1)
       expandingNode.value = null
-      emit('expand-change', [])
+      emit('expandChange', [])
     }
 
     const calculateCheckedValue = () => {
