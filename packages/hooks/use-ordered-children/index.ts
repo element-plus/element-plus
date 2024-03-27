@@ -25,6 +25,7 @@ export const useOrderedChildren = <T extends { uid: number }>(
   const children: Record<number, T> = {}
   const orderedChildren = shallowRef<T[]>([])
 
+  // TODO: split into two functions: addChild and sortChildren
   const addChild = (child: T) => {
     children[child.uid] = child
     orderedChildren.value = getOrderedChildren(vm, childComponentName, children)
