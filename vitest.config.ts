@@ -22,8 +22,8 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     reporters: ['json', 'default'],
-    transformMode: {
-      web: [/\.[jt]sx$/],
+    testTransformMode: {
+      web: ['*.{ts,tsx}'],
     },
     coverage: {
       reporter: ['text', 'json-summary', 'json'],
