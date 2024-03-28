@@ -111,7 +111,7 @@ const handleKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Enter') {
     const firstCard = document.activeElement?.closest('.el-card')
     if (firstCard) {
-      toPage(firstCard.dataset.link!)
+      toPage((firstCard as HTMLElement).dataset.link!)
     }
   }
 }
