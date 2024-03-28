@@ -4,6 +4,7 @@ export declare type IDatePickerType =
   | 'year'
   | 'years'
   | 'month'
+  | 'months'
   | 'date'
   | 'dates'
   | 'week'
