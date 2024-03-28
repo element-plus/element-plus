@@ -3,12 +3,12 @@
     <el-space>
       <el-input-number v-model="num" />
       <el-input-number v-model="num">
-        <template #prepend>
+        <template #decrement-icon>
           <el-icon>
             <ArrowDown />
           </el-icon>
         </template>
-        <template #append>
+        <template #increase-icon>
           <el-icon>
             <ArrowUp />
           </el-icon>
@@ -18,12 +18,12 @@
     <el-space>
       <el-input-number v-model="num" controls-position="right" />
       <el-input-number v-model="num" controls-position="right">
-        <template #prepend>
+        <template #decrement-icon>
           <el-icon>
             <Minus />
           </el-icon>
         </template>
-        <template #append>
+        <template #increase-icon>
           <el-icon>
             <Plus />
           </el-icon>
