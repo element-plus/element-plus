@@ -25,6 +25,8 @@
           <el-card
             v-for="(item, index) in group.children"
             :key="index"
+            tabindex="0"
+            :data-link="item.link"
             shadow="hover"
             @click="toPage(item.link)"
           >
@@ -64,7 +66,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vitepress'
 import { Search } from '@element-plus/icons-vue'
 import overviewLocale from '../../../i18n/component/overview.json'
@@ -104,6 +106,21 @@ const getIcon = (link: string) => {
   const name = link.split('/').pop()
   return name ? overviewIcons[name] : null
 }
+
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    const firstCard = document.activeElement?.closest('.el-card')
+    if (firstCard) {
+      toPage(firstCard.dataset.link!)
+    }
+  }
+}
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown)
+})
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <style scoped lang="scss">
@@ -140,6 +157,11 @@ const getIcon = (link: string) => {
 
         :deep(.el-card) {
           cursor: pointer;
+
+          &:focus-visible {
+            outline: none;
+            box-shadow: var(--el-box-shadow-light);
+          }
 
           .el-card__header {
             display: flex;
