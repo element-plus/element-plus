@@ -113,10 +113,10 @@ input-number/custom
 
 ### Slots
 
-| Name    | Description                  |
-| ------- | ---------------------------- |
-| prepend | custom input box front icon  |
-| append  | custom input box post icon   |
+| Name             | Description                  |
+| ---------------- | ---------------------------- |
+| prepend ^(2.6.3) | custom input box front icon  |
+| append ^(2.6.3)  | custom input box post icon   |
 
 ### Events
 
