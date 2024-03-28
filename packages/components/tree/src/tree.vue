@@ -378,6 +378,10 @@ export default defineComponent({
       store.value.updateChildren(key, data)
     }
 
+    const reloadLazyChildren = (refNode: TreeKey | TreeNodeData | Node) => {
+      store.value.reloadLazyChildren(refNode)
+    }
+
     provide('RootTree', {
       ctx,
       props,
@@ -425,6 +429,7 @@ export default defineComponent({
       insertAfter,
       handleNodeExpand,
       updateKeyChildren,
+      reloadLazyChildren,
     }
   },
 })
