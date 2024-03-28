@@ -46,7 +46,7 @@ const shortcuts = [
     value: () => {
       const end = new Date()
       const start = new Date()
-      start.setDate(start.getMonth() - 1)
+      start.setMonth(start.getMonth() - 1)
       return [start, end]
     },
   },
