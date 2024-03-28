@@ -81,7 +81,9 @@ export default defineComponent({
         >
           {{
             default: (scopedProps: /**FIXME: remove any type */ any) => (
-              <Component {...scopedProps} />
+              <Component {...scopedProps}>
+                {{ 'footer-btns': slots['footer-btns'] }}
+              </Component>
             ),
             'range-separator': slots['range-separator'],
           }}
