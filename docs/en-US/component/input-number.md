@@ -81,7 +81,7 @@ input-number/controlled
 
 ## Custom Icon ^(2.6.3)
 
-:::demo Use `prepend` and `append` to set custom icons.
+:::demo Use `decrease-icon` and `increase-icon` to set custom icons.
 
 input-number/custom
 
