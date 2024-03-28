@@ -574,12 +574,12 @@ describe('InputNumber.vue', () => {
     const wrapper = mount(() => (
       <InputNumber
         v-slots={{
-          prepend: () => (
+          decreaseIcon: () => (
             <ElIcon>
               <ArrowDown />
             </ElIcon>
           ),
-          append: () => (
+          increaseIcon: () => (
             <ElIcon>
               <ArrowUp />
             </ElIcon>
@@ -589,6 +589,8 @@ describe('InputNumber.vue', () => {
     ))
     const increase = wrapper.find('.el-input-number__increase i')
     const decrease = wrapper.find('.el-input-number__decrease i')
+    expect(increase.exists()).toBe(true)
+    expect(decrease.exists()).toBe(true)
     expect(increase.classes()).toContain('el-icon')
     expect(decrease.classes()).toContain('el-icon')
   })
