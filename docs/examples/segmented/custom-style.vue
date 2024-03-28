@@ -6,13 +6,15 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const value = ref('Mon')
+const value = ref('Delicacy')
 
-const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+const options = ['Delicacy', 'Desserts&Drinks', 'Fresh foods', 'Supermarket']
 </script>
 
 <style lang="scss" scoped>
 .custom-style .el-segmented {
-  --el-segmented-item-selected-bg-color: var(--el-color-danger);
+  --el-segmented-item-selected-color: var(--el-text-color-primary);
+  --el-segmented-item-selected-bg-color: #ffd100;
+  --el-border-radius-base: 16px;
 }
 </style>
