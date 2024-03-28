@@ -73,6 +73,7 @@ export default {
       loading: '加载中',
       placeholder: '请选择',
       noData: '暂无数据',
+      selectAll: '全选',
     },
     pagination: {
       goto: '前往',
