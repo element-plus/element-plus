@@ -38,6 +38,25 @@ export const segmentedProps = buildProps({
    * @description whether segmented is disabled
    */
   disabled: Boolean,
+  /**
+   * @description whether to trigger form validation
+   */
+  validateEvent: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description native input id
+   */
+  id: String,
+  /**
+   * @description native `name` attribute
+   */
+  name: String,
+  /**
+   * @description native `aria-label` attribute
+   */
+  ariaLabel: String,
 })
 
 export type SegmentedProps = ExtractPropTypes<typeof segmentedProps>

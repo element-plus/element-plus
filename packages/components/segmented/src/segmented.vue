@@ -1,5 +1,11 @@
 <template>
-  <div ref="segmentedRef" :class="segmentedCls">
+  <div
+    :id="inputId"
+    ref="segmentedRef"
+    :class="segmentedCls"
+    :aria-label="!isLabeledByFormItem ? ariaLabel || 'segmented' : undefined"
+    :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
+  >
     <div :class="ns.e('group')">
       <div :style="selectedStyle" :class="selectedCls" />
       <label
@@ -10,6 +16,7 @@
         <input
           :class="ns.e('item-input')"
           type="radio"
+          :name="name"
           :disabled="getDisabled(item)"
           :checked="getSelected(item)"
           @change="handleChange(item)"
@@ -25,9 +32,14 @@
 <script lang="ts" setup>
 import { computed, reactive, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
-import { useNamespace } from '@element-plus/hooks'
-import { useFormSize } from '@element-plus/components/form'
-import { isObject } from '@element-plus/utils'
+import { useId, useNamespace } from '@element-plus/hooks'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormItemInputId,
+  useFormSize,
+} from '@element-plus/components/form'
+import { debugWarn, isObject } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { segmentedEmits, segmentedProps } from './segmented'
 import type { Option } from './types'
@@ -40,7 +52,14 @@ const props = defineProps(segmentedProps)
 const emit = defineEmits(segmentedEmits)
 
 const ns = useNamespace('segmented')
+const segmentedId = useId()
 const segmentedSize = useFormSize()
+const _disabled = useFormDisabled()
+const { formItem } = useFormItem()
+const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
+  formItemContext: formItem,
+})
+
 const segmentedRef = ref<HTMLElement | null>(null)
 
 const state = reactive({
@@ -65,7 +84,7 @@ const getLabel = (item: Option) => {
 }
 
 const getDisabled = (item: Option) => {
-  return !!(props.disabled || (isObject(item) ? item.disabled : false))
+  return !!(_disabled.value || (isObject(item) ? item.disabled : false))
 }
 
 const getSelected = (item: Option) => {
@@ -119,12 +138,19 @@ const selectedCls = computed(() => [
   ns.is('disabled', state.disabled),
 ])
 
+const name = computed(() => {
+  return props.name || segmentedId.value
+})
+
 useResizeObserver(segmentedRef, updateSelect)
 
 watch(
   () => props.modelValue,
   () => {
     updateSelect()
+    if (props.validateEvent) {
+      formItem?.validate?.('change').catch((err) => debugWarn(err))
+    }
   },
   {
     flush: 'post',

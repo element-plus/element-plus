@@ -114,4 +114,23 @@ describe('Segmented.vue', () => {
     await nextTick()
     expect(wrapper.findAll('.is-disabled').length).toBe(3)
   })
+
+  test('render accessible attributes', async () => {
+    const value = ref('Mon')
+    const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const wrapper = mount(() => (
+      <Segmented
+        v-model={value.value}
+        options={options}
+        id={'id'}
+        name={'name'}
+        aria-label={'label'}
+      ></Segmented>
+    ))
+    const input = wrapper.find('input')
+    await nextTick()
+    expect(wrapper.attributes('id')).toEqual('id')
+    expect(wrapper.attributes('aria-label')).toEqual('label')
+    expect(input.attributes('name')).toEqual('name')
+  })
 })
