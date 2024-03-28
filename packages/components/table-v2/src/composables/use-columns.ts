@@ -74,7 +74,7 @@ function useColumns(
 
   const columnsTotalWidth = computed(() => {
     return unref(visibleColumns).reduce(
-      (width, column) => width + column.width,
+      (width, column) => width + Number(column.width),
       0
     )
   })
@@ -87,7 +87,7 @@ function useColumns(
     return unref(columnsStyles)[key]
   }
 
-  const updateColumnWidth = (column: Column<any>, width: number) => {
+  const updateColumnWidth = (column: Column<any>, width: number | string) => {
     column.width = width
   }
 
