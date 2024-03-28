@@ -157,7 +157,11 @@
         :render-label="$slots.default"
         @expand-change="handleExpandChange"
         @close="$nextTick(() => togglePopperVisible(false))"
-      />
+      >
+        <template #empty-panel>
+          <slot name="empty-panel" />
+        </template>
+      </el-cascader-panel>
       <el-scrollbar
         v-if="filterable"
         v-show="filtering"
