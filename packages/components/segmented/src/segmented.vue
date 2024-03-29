@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { computed, reactive, ref, watch } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
+import { useActiveElement, useResizeObserver } from '@vueuse/core'
 import { useId, useNamespace } from '@element-plus/hooks'
 import {
   useFormDisabled,
@@ -61,12 +61,14 @@ const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
 })
 
 const segmentedRef = ref<HTMLElement | null>(null)
+const activeElement = useActiveElement()
 
 const state = reactive({
   isInit: false,
   width: 0,
   translateX: 0,
   disabled: false,
+  focusVisible: false,
 })
 
 const handleChange = (item: Option) => {
@@ -108,10 +110,14 @@ const updateSelect = () => {
   const selectedItem = segmentedRef.value.querySelector(
     '.is-selected'
   ) as HTMLElement
-  if (!selectedItem) {
+  const selectedItemInput = segmentedRef.value.querySelector(
+    '.is-selected input'
+  ) as HTMLElement
+  if (!selectedItem || !selectedItemInput) {
     state.width = 0
     state.translateX = 0
     state.disabled = false
+    state.focusVisible = false
     return
   }
   const rect = selectedItem.getBoundingClientRect()
@@ -119,6 +125,7 @@ const updateSelect = () => {
   state.width = rect.width
   state.translateX = selectedItem.offsetLeft
   state.disabled = getDisabled(getOption(props.modelValue))
+  state.focusVisible = selectedItemInput.matches(':focus-visible')
 }
 
 const segmentedCls = computed(() => [
@@ -136,6 +143,7 @@ const selectedStyle = computed(() => ({
 const selectedCls = computed(() => [
   ns.e('item-selected'),
   ns.is('disabled', state.disabled),
+  ns.is('focus-visible', state.focusVisible),
 ])
 
 const name = computed(() => {
@@ -143,6 +151,8 @@ const name = computed(() => {
 })
 
 useResizeObserver(segmentedRef, updateSelect)
+
+watch(activeElement, updateSelect)
 
 watch(
   () => props.modelValue,
