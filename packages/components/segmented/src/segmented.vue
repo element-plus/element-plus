@@ -125,7 +125,10 @@ const updateSelect = () => {
   state.width = rect.width
   state.translateX = selectedItem.offsetLeft
   state.disabled = getDisabled(getOption(props.modelValue))
-  state.focusVisible = selectedItemInput.matches(':focus-visible')
+  try {
+    // This will failed in test
+    state.focusVisible = selectedItemInput.matches(':focus-visible')
+  } catch {}
 }
 
 const segmentedCls = computed(() => [
