@@ -64,9 +64,9 @@ segmented/custom-style
 | Name                  | Description                        | Type                                           | Default |
 |-----------------------|------------------------------------|------------------------------------------------|---------|
 | model-value / v-model | binding value                      | ^[string] / ^[number]                          | —       |
-| options               | data of the options                | ^[array]                                       | —       |
+| options               | data of the options                | ^[array]`Option[]`                             | []      |
 | size                  | size of component                  | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''      |
-| block                 | fit width of parent content        | ^[boolean]                                     | ''      |
+| block                 | fit width of parent content        | ^[boolean]                                     | —       |
 | disabled              | whether segmented is disabled      | ^[boolean]                                     | false   |
 | validate-event        | whether to trigger form validation | ^[boolean]                                     | true    |
 | name                  | native `name` attribute            | ^[string]                                      | —       |
@@ -84,3 +84,19 @@ segmented/custom-style
 | Name    | Description     |
 |---------|-----------------|
 | default | option renderer |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type Option = {
+  label: string
+  value: string | number
+  disabled?: boolean
+  [key: string]: any
+} | string | number | undefined
+```
+
+</details>
