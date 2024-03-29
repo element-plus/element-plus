@@ -679,6 +679,8 @@ const handleClear = () => {
     unlinkPanels: props.unlinkPanels,
   })[0]
   rightDate.value = leftDate.value.add(1, 'month')
+  maxDate.value = undefined
+  minDate.value = undefined
   emit('pick', null)
 }
 

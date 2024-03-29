@@ -220,7 +220,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (props.filterable && props.remote && isFunction(props.remoteMethod))
       return
     optionsArray.value.forEach((option) => {
-      option.updateOption(states.inputValue)
+      option.updateOption?.(states.inputValue)
     })
   }
 
