@@ -2,23 +2,25 @@
   <div :class="ns.b()">
     <slot />
     <transition :name="`${ns.namespace.value}-zoom-in-center`">
-      <sup v-show="!hidden && (content || isDot)"
-           :class="[
+      <sup
+        v-show="!hidden && (content || isDot)"
+        :class="[
           ns.e('content'),
           ns.em('content', type),
           ns.is('fixed', !!$slots.default),
           ns.is('dot', isDot),
           props.dotClass ?? {},
         ]"
-           :style="[
+        :style="[
           props.dotStyle ?? {},
           {
             backgroundColor: props.color,
             marginRight: addUnit(-(props.offset?.[0] ?? 0)),
             marginTop: addUnit(props.offset?.[1] ?? 0),
           },
-]"
-           v-text="content" />
+        ]"
+        v-text="content"
+      />
     </transition>
   </div>
 </template>
@@ -26,9 +28,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { isNumber } from '@element-plus/utils'
+import { addUnit, isNumber } from '@element-plus/utils'
 import { badgeProps } from './badge'
-import { addUnit } from '@element-plus/utils'
 
 defineOptions({
   name: 'ElBadge',
