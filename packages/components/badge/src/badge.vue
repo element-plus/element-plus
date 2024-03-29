@@ -2,26 +2,23 @@
   <div :class="ns.b()">
     <slot />
     <transition :name="`${ns.namespace.value}-zoom-in-center`">
-      <sup
-        v-show="!hidden && (content || isDot)"
-        :class="[
+      <sup v-show="!hidden && (content || isDot)"
+           :class="[
           ns.e('content'),
           ns.em('content', type),
           ns.is('fixed', !!$slots.default),
           ns.is('dot', isDot),
           props.dotClass ?? {},
         ]"
-        :style="[
+           :style="[
           props.dotStyle ?? {},
           {
             backgroundColor: props.color,
             marginRight: addUnit(-(props.offset?.[0] ?? 0)),
             marginTop: addUnit(props.offset?.[1] ?? 0),
           },
-        ]"
-        :style="{ backgroundColor: color }"
-        v-text="content"
-      />
+]"
+           v-text="content" />
     </transition>
   </div>
 </template>
