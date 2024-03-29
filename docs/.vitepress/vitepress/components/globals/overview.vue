@@ -106,21 +106,6 @@ const getIcon = (link: string) => {
   const name = link.split('/').pop()
   return name ? overviewIcons[name] : null
 }
-
-const handleKeydown = (event: KeyboardEvent) => {
-  if (event.key === 'Enter') {
-    const firstCard = document.activeElement?.closest('.el-card')
-    if (firstCard) {
-      toPage((firstCard as HTMLElement).dataset.link!)
-    }
-  }
-}
-onMounted(() => {
-  document.addEventListener('keydown', handleKeydown)
-})
-onBeforeUnmount(() => {
-  document.removeEventListener('keydown', handleKeydown)
-})
 </script>
 
 <style scoped lang="scss">
