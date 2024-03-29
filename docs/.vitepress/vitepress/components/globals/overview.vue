@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vitepress'
 import { Search } from '@element-plus/icons-vue'
 import overviewLocale from '../../../i18n/component/overview.json'
@@ -145,7 +145,7 @@ const getIcon = (link: string) => {
 
           &:focus-visible {
             outline: none;
-            box-shadow: var(--el-box-shadow-light);
+            box-shadow: 0 0 10px var(--el-color-primary);
           }
 
           .el-card__header {
