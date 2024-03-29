@@ -19,6 +19,7 @@
             marginTop: addUnit(props.offset?.[1] ?? 0),
           },
         ]"
+        :style="{ backgroundColor: color }"
         v-text="content"
       />
     </transition>

@@ -40,7 +40,7 @@ export const badgeProps = buildProps({
     default: true,
   },
   /**
-   * @description Customize dot color
+   * @description Customize dot background color
    */
   color: String,
   /**
