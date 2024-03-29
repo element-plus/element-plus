@@ -25,8 +25,10 @@
           <el-card
             v-for="(item, index) in group.children"
             :key="index"
+            tabindex="0"
             shadow="hover"
             @click="toPage(item.link)"
+            @keydown.enter="toPage(item.link)"
           >
             <template #header>
               <el-text truncated>{{ item.text }}</el-text>
@@ -140,6 +142,12 @@ const getIcon = (link: string) => {
 
         :deep(.el-card) {
           cursor: pointer;
+          transition: none;
+
+          &:focus-visible {
+            outline: 2px solid var(--el-color-primary);
+            outline-offset: 1px;
+          }
 
           .el-card__header {
             display: flex;
