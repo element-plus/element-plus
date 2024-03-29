@@ -102,9 +102,11 @@
         font-size: map.get($input-font-size, $size);
       }
 
-      .#{$namespace}-input__wrapper {
-        padding-left: #{map.get($input-height, $size) + 7};
-        padding-right: #{map.get($input-height, $size) + 7};
+      .#{$namespace}-input--#{$size} {
+        .#{$namespace}-input__wrapper {
+          padding-left: #{map.get($input-height, $size) + 7};
+          padding-right: #{map.get($input-height, $size) + 7};
+        }
       }
     }
   }
