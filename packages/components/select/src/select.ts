@@ -198,13 +198,6 @@ export const SelectProps = buildProps({
    */
   remoteShowSuffix: Boolean,
   /**
-   * @deprecated will be removed in version 2.4.0, please use override style scheme
-   */
-  suffixTransition: {
-    type: Boolean,
-    default: true,
-  },
-  /**
    * @description position of dropdown
    */
   placement: {

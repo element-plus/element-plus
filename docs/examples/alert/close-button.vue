@@ -1,8 +1,8 @@
 <template>
   <div style="max-width: 600px">
-    <el-alert title="unclosable alert" type="success" :closable="false" />
-    <el-alert title="customized close-text" type="info" close-text="Gotcha" />
-    <el-alert title="alert with callback" type="warning" @close="hello" />
+    <el-alert title="Unclosable alert" type="success" :closable="false" />
+    <el-alert title="Customized close text" type="info" close-text="Gotcha" />
+    <el-alert title="Alert with callback" type="warning" @close="hello" />
   </div>
 </template>
 

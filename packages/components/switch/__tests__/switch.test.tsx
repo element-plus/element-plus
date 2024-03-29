@@ -21,18 +21,10 @@ describe('Switch.vue', () => {
     const props = {
       activeText: 'on',
       inactiveText: 'off',
-      activeColor: '#0f0',
-      inactiveColor: '#f00',
       width: 100,
     }
     const wrapper = mount(() => <Switch {...props} />)
     const vm = wrapper.vm
-    expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
-      '#0f0'
-    )
-    expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
-      '#f00'
-    )
     expect(vm.$el.classList.contains('is-checked')).false
     const coreEl = vm.$el.querySelector('.el-switch__core')
     expect(coreEl.style.width).toEqual('100px')
@@ -55,18 +47,10 @@ describe('Switch.vue', () => {
       inlinePrompt: true,
       activeText: 'on',
       inactiveText: 'off',
-      activeColor: '#0f0',
-      inactiveColor: '#f00',
       width: 100,
     }
     const wrapper = mount(() => <Switch {...props} />)
     const vm = wrapper.vm
-    expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
-      '#0f0'
-    )
-    expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
-      '#f00'
-    )
     expect(vm.$el.classList.contains('is-checked')).false
     const coreEl = vm.$el.querySelector('.el-switch__core')
     expect(coreEl.style.width).toEqual('100px')
@@ -87,16 +71,8 @@ describe('Switch.vue', () => {
 
   test('value correctly update', async () => {
     const value = ref(true)
-    const wrapper = mount(() => (
-      <Switch v-model={value.value} activeColor="#0f0" inactiveColor="#f00" />
-    ))
+    const wrapper = mount(() => <Switch v-model={value.value} />)
     const vm = wrapper.vm
-    expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
-      '#0f0'
-    )
-    expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
-      '#f00'
-    )
     expect(vm.$el.classList.contains('is-checked')).true
     const coreWrapper = wrapper.find('.el-switch__core')
     await coreWrapper.trigger('click')
@@ -178,7 +154,7 @@ describe('Switch.vue', () => {
   })
 
   test('value is the single source of truth', async () => {
-    const wrapper = mount(() => <Switch value={true} />)
+    const wrapper = mount(() => <Switch modelValue={true} />)
 
     const vm = wrapper.vm
     const coreWrapper = wrapper.find('.el-switch__core')

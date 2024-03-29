@@ -1006,6 +1006,23 @@ describe('DatePicker dates', () => {
     await nextTick()
     expect(vm.value.length).toBe(0)
   })
+
+  it('selected', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type="dates"
+        v-model="value"
+      />`,
+      () => ({ value: [new Date()] })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    expect(
+      document.querySelectorAll('.el-date-table__row .selected').length
+    ).toBe(1)
+  })
 })
 
 describe('DatePicker keyboard events', () => {

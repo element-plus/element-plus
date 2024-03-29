@@ -9,6 +9,12 @@ When there are plenty of options, use a drop-down menu to display and select des
 
 :::tip
 
+After version `2.5.0`, the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width.
+
+:::
+
+:::tip
+
 This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
 
 :::
@@ -201,7 +207,7 @@ select/custom-loading
 | tag-type                        | tag type                                                                                                              | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
 | validate-event                  | whether to trigger form validation                                                                                    | ^[boolean]                                                                                                                                                                  | true                                           |
 | placement ^(2.2.17)             | position of dropdown                                                                                                  | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start                                   |
-| fallback-placements ^(2.5.6)    | list of possible positions for dropdown [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements) | ^[arrary]`Placement[]`                                                                                                                                                      | ['bottom-start', 'top-start', 'right', 'left'] |
+| fallback-placements ^(2.5.6)    | list of possible positions for dropdown [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements) | ^[array]`Placement[]`                                                                                                                                                       | ['bottom-start', 'top-start', 'right', 'left'] |
 | max-collapse-tags ^(2.3.0)      | the max tags number to be shown. To use this, `collapse-tags` must be true                                            | ^[number]                                                                                                                                                                   | 1                                              |
 | popper-options                  | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                             |
 | aria-label ^(a11y)              | same as `aria-label` in native input                                                                                  | ^[string]                                                                                                                                                                   | —                                              |

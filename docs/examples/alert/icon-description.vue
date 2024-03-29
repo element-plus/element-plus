@@ -1,27 +1,27 @@
 <template>
   <div style="max-width: 600px">
     <el-alert
-      title="success alert"
+      title="Success alert"
       type="success"
-      description="more text description"
+      description="More text description"
       show-icon
     />
     <el-alert
-      title="info alert"
+      title="Info alert"
       type="info"
-      description="more text description"
+      description="More text description"
       show-icon
     />
     <el-alert
-      title="warning alert"
+      title="Warning alert"
       type="warning"
-      description="more text description"
+      description="More text description"
       show-icon
     />
     <el-alert
-      title="error alert"
+      title="Error alert"
       type="error"
-      description="more text description"
+      description="More text description"
       show-icon
     />
   </div>
