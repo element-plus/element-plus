@@ -222,5 +222,5 @@ export const SelectProps = buildProps({
   /**
    * @description destroy drop-down menu when select component blur
    */
-  destroyOnBlur: Boolean,
+  destroyOnClose: Boolean,
 })
