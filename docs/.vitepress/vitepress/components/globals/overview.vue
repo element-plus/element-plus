@@ -142,6 +142,7 @@ const getIcon = (link: string) => {
 
         :deep(.el-card) {
           cursor: pointer;
+          transition: none;
 
           &:focus-visible {
             outline: 2px solid var(--el-color-primary);
