@@ -26,9 +26,9 @@
             v-for="(item, index) in group.children"
             :key="index"
             tabindex="0"
-            :data-link="item.link"
             shadow="hover"
             @click="toPage(item.link)"
+            @keydown.enter="toPage(item.link)"
           >
             <template #header>
               <el-text truncated>{{ item.text }}</el-text>
