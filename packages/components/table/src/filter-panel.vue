@@ -23,7 +23,7 @@
               <el-checkbox
                 v-for="filter in filters"
                 :key="filter.value"
-                :label="filter.value"
+                :value="filter.value"
               >
                 {{ filter.text }}
               </el-checkbox>

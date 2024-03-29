@@ -1,6 +1,9 @@
 export default {
   name: 'ug-cn',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'جەزملەش',
       clear: 'قۇرۇقداش',

@@ -31,6 +31,20 @@ app.provide(ID_INJECTION_KEY, {
 })
 ```
 
+## Provide ZIndex
+
+When you using SSR for development, you may encounter hydration errors caused by `z-index`. In this case, we recommend injecting an initial value to avoid such errors.
+
+```ts
+// src/main.js (irrelevant code omitted)
+import { createApp } from 'vue'
+import { ZINDEX_INJECTION_KEY } from 'element-plus'
+import App from './App.vue'
+
+const app = createApp(App)
+app.provide(ZINDEX_INJECTION_KEY, { current: 0 })
+```
+
 ## Teleports
 
 [Teleport](https://vuejs.org/guide/scaling-up/ssr.html#teleports) is used internally by multiple components in Element Plus (eg. ElDialog, ElDrawer, ElTooltip, ElDropdown, ElSelect, ElDatePicker ...), so special handling is required during SSR.
@@ -79,7 +93,7 @@ There may be some [SSR problems with teleport](https://github.com/vuejs/core/iss
 
 1. The `teleported` attribute in all components based on ElTooltip should be consistent, it is recommended to use the default value.
 2. The `append-to-body` attribute value of ElDialog and ElDrawer should be consistent, it is recommended to enable the `append-to-body`.
-3. When the ElSubMenu component has a multi-layer popup, It is recommended to enable the `popper-append-to-body`
+3. When the ElSubMenu component has a multi-layer popup, It is recommended to enable the `teleported`
 
 :::
 

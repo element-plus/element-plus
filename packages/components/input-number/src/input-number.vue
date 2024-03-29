@@ -17,10 +17,12 @@
       :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
       @keydown.enter="decrease"
     >
-      <el-icon>
-        <arrow-down v-if="controlsAtRight" />
-        <minus v-else />
-      </el-icon>
+      <slot name="decrease-icon">
+        <el-icon>
+          <arrow-down v-if="controlsAtRight" />
+          <minus v-else />
+        </el-icon>
+      </slot>
     </span>
     <span
       v-if="controls"
@@ -30,10 +32,12 @@
       :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
       @keydown.enter="increase"
     >
-      <el-icon>
-        <arrow-up v-if="controlsAtRight" />
-        <plus v-else />
-      </el-icon>
+      <slot name="increase-icon">
+        <el-icon>
+          <arrow-up v-if="controlsAtRight" />
+          <plus v-else />
+        </el-icon>
+      </slot>
     </span>
     <el-input
       :id="id"
@@ -239,10 +243,12 @@ const setCurrentValue = (
     emit(UPDATE_MODEL_EVENT, newVal!)
     return
   }
-  if (oldVal === newVal) return
+  if (oldVal === newVal && value) return
   data.userInput = null
   emit(UPDATE_MODEL_EVENT, newVal!)
-  emit(CHANGE_EVENT, newVal!, oldVal!)
+  if (oldVal !== newVal) {
+    emit(CHANGE_EVENT, newVal!, oldVal!)
+  }
   if (props.validateEvent) {
     formItem?.validate?.('change').catch((err) => debugWarn(err))
   }

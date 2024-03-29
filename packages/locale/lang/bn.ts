@@ -1,6 +1,9 @@
 export default {
   name: 'bn',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'ঠিক আছে',
       clear: 'ক্লিয়ার',

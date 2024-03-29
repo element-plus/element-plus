@@ -93,10 +93,13 @@
       padding-bottom: getCssVar('tour-padding-primary');
 
       &.show-close {
-        padding-right: calc(getCssVar('tour-padding-primary') + var(
-                #{getCssVarName('message-close-size')},
-                map.get($message, 'close-size')
-        ));
+        padding-right: calc(
+          getCssVar('tour-padding-primary') +
+            var(
+              #{getCssVarName('message-close-size')},
+              map.get($message, 'close-size')
+            )
+        );
       }
     }
 
