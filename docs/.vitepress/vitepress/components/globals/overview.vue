@@ -144,8 +144,8 @@ const getIcon = (link: string) => {
           cursor: pointer;
 
           &:focus-visible {
-            outline: none;
-            box-shadow: 0 0 10px var(--el-color-primary);
+            outline: 2px solid var(--el-color-primary);
+            outline-offset: 1px;
           }
 
           .el-card__header {
