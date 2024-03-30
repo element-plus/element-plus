@@ -10,6 +10,7 @@
           ns.is('fixed', !!$slots.default),
           ns.is('dot', isDot),
         ]"
+        :style="{ backgroundColor: color }"
         v-text="content"
       />
     </transition>
