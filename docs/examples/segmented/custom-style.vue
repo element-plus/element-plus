@@ -11,7 +11,7 @@ const value = ref('Delicacy')
 const options = ['Delicacy', 'Desserts&Drinks', 'Fresh foods', 'Supermarket']
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .custom-style .el-segmented {
   --el-segmented-item-selected-color: var(--el-text-color-primary);
   --el-segmented-item-selected-bg-color: #ffd100;
