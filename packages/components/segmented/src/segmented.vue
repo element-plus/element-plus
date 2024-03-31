@@ -3,6 +3,7 @@
     :id="inputId"
     ref="segmentedRef"
     :class="segmentedCls"
+    role="radiogroup"
     :aria-label="!isLabeledByFormItem ? ariaLabel || 'segmented' : undefined"
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >

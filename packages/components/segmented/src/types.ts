@@ -1,10 +1,11 @@
 export type Option =
   | {
       label: string
-      value: string | number
+      value: string | number | boolean
       disabled?: boolean
       [key: string]: any
     }
   | string
   | number
+  | boolean
   | undefined

@@ -93,10 +93,10 @@ segmented/custom-style
 ```ts
 type Option = {
   label: string
-  value: string | number
+  value: string | number | boolean
   disabled?: boolean
   [key: string]: any
-} | string | number | undefined
+} | string | number | boolean | undefined
 ```
 
 </details>
