@@ -17,25 +17,21 @@ import type {
 export const getChildState = (node: Node[]): TreeNodeChildState => {
   let all = true
   let none = true
-  let allWithoutDisable = true
   for (let i = 0, j = node.length; i < j; i++) {
     const n = node[i]
-    if (n.checked !== true || n.indeterminate) {
+    if ((n.checked !== true || n.indeterminate) && !n.disabled) {
       all = false
-      if (!n.disabled) {
-        allWithoutDisable = false
-      }
     }
-    if (n.checked !== false || n.indeterminate) {
+    if ((n.checked !== false || n.indeterminate) && !n.disabled) {
       none = false
     }
   }
 
-  return { all, none, allWithoutDisable, half: !all && !none }
+  return { all, none, half: !all && !none }
 }
 
 const reInitChecked = function (node: Node): void {
-  if (node.childNodes.length === 0 || node.loading) return
+  if (node.childNodes.length === 0 || node.loading || node.disabled) return
 
   const { all, none, half } = getChildState(node.childNodes)
   if (all) {
@@ -420,18 +416,12 @@ class Node {
     if (this.store.checkStrictly) return
 
     if (!(this.shouldLoadData() && !this.store.checkDescendants)) {
-      const { all, allWithoutDisable } = getChildState(this.childNodes)
-
-      if (!this.isLeaf && !all && allWithoutDisable) {
-        this.checked = false
-        value = false
-      }
-
       const handleDescendants = (): void => {
         if (deep) {
           const childNodes = this.childNodes
           for (let i = 0, j = childNodes.length; i < j; i++) {
             const child = childNodes[i]
+            if (child.disabled) continue
             passValue = passValue || value !== false
             const isCheck = child.disabled ? child.checked : passValue
             child.setChecked(isCheck, deep, true, passValue)
