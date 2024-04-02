@@ -7,6 +7,7 @@ import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
 import sleep from '@element-plus/test-utils/sleep'
+import { DEFAULT_VALUE_ON_CLEAR } from '@element-plus/hooks/use-empty-values'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 
@@ -602,7 +603,7 @@ describe('TimePicker(range)', () => {
     const clearIcon = findClear()
     await clearIcon.trigger('click')
     await nextTick()
-    expect(value.value).toEqual(null)
+    expect(value.value).toEqual(DEFAULT_VALUE_ON_CLEAR)
   })
 
   it('selectableRange ', async () => {

@@ -19,6 +19,7 @@ export const useEmptyValuesProps = buildProps({
   valueOnClear: {
     type: [String, Number, Boolean, Function],
     default: undefined,
+    validator: (val: any) => (isFunction(val) ? !val() : !val),
   },
 } as const)
 
