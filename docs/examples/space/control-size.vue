@@ -24,5 +24,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-const size = ref('default')
+import type { RadioGroupProps } from 'element-plus'
+
+const size = ref<RadioGroupProps['size']>('default')
 </script>

@@ -32,7 +32,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import type { SpaceInstance } from 'element-plus'
 
-const direction = ref('horizontal')
+const direction = ref<SpaceInstance['direction']>('horizontal')
 const fillRatio = ref(30)
 </script>

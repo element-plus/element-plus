@@ -88,14 +88,15 @@
     <el-descriptions-item label="Remarks">
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
-    <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+    <el-descriptions-item label="Address">
+      No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
     </el-descriptions-item>
   </el-descriptions>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { ElDescriptions } from 'element-plus'
 import {
   Iphone,
   Location,
@@ -103,8 +104,10 @@ import {
   Tickets,
   User,
 } from '@element-plus/icons-vue'
+import type { DescriptionInstance } from 'element-plus'
 
-const size = ref('default')
+const size = ref<Required<DescriptionInstance>['size']>('default')
+
 const iconStyle = computed(() => {
   const marginMap = {
     large: '8px',
