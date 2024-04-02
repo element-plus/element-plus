@@ -1,10 +1,12 @@
-import { type ExtractPropTypes, computed } from 'vue'
+import { computed } from 'vue'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { buildProps, debugWarn, isFunction } from '@element-plus/utils'
 
-const SCOPE = 'use-empty-values'
-const DEFAULT_EMPTY_VALUES = ['', undefined, null]
-const DEFAULT_VALUE_ON_CLEAR = undefined
+import type { ExtractPropTypes } from 'vue'
+
+export const SCOPE = 'use-empty-values'
+export const DEFAULT_EMPTY_VALUES = ['', undefined, null]
+export const DEFAULT_VALUE_ON_CLEAR = undefined
 
 export const useEmptyValuesProps = buildProps({
   /**
