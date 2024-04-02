@@ -1,5 +1,24 @@
 ## Changelog
 
+### 2.6.3
+
+_2024-03-29_
+
+#### Features
+
+- Components [tree] lazy load provide reject (#16099 by @btea)
+- Locale update ru locale (#16192 by @VisualYuki)
+- Components [message] add plain prop (#16214 by @kooriookami)
+- Components [input-number] support slot custom icons (#16275 by @selicens)
+- Components [badge] add color prop  (#16069 by @lxw15337674)
+
+#### Bug fixes
+
+- Components [icon] remove repeat style (#16242 by @Fuphoenixes)
+- Components [select] fix error in low versions of vue (#16234 by @kooriookami)
+- Components [date-picker] click the clear to reset the date panel (#15835 by @Ganlvin)
+- Components [tree] dragging a node will deselect the node (#14830 by @Alixhan)
+
 ### 2.6.2
 
 _2024-03-22_

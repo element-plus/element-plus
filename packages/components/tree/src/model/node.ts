@@ -558,6 +558,20 @@ class Node {
       }
     }
   }
+
+  eachNode(callback: (node: Node) => void) {
+    const arr: Node[] = [this]
+    while (arr.length) {
+      const node = arr.shift()!
+      arr.unshift(...node.childNodes)
+      callback(node)
+    }
+  }
+
+  reInitChecked() {
+    if (this.store.checkStrictly) return
+    reInitChecked(this)
+  }
 }
 
 export default Node
