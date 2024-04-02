@@ -100,10 +100,11 @@ export default defineComponent({
         const startX = e.clientX - left
         const top = activeNode.offsetTop
         const bottom = top + activeNode.offsetHeight
+        const scrollTop = el.querySelector(`.${ns.e('wrap')}`)?.scrollTop || 0
 
         hoverZone.value.innerHTML = `
-          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${top} L${offsetWidth} 0 V${top} Z" />
-          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${bottom} L${offsetWidth} ${offsetHeight} V${bottom} Z" />
+          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${top} L${offsetWidth} ${scrollTop} V${top} Z" />
+          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${bottom} L${offsetWidth} ${offsetHeight + scrollTop} V${bottom} Z" />
         `
       } else if (!hoverTimer) {
         hoverTimer = window.setTimeout(
