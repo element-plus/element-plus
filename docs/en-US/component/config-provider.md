@@ -38,21 +38,19 @@ config-provider/message
 <details>
   <summary>Supported components list</summary>
 
-```
-Cascader
-DatePicker
-Select
-SelectV2
-TimePicker
-TimeSelect
-TreeSelect
-```
+- Cascader
+- DatePicker
+- Select
+- SelectV2
+- TimePicker
+- TimeSelect
+- TreeSelect
 
 </details>
 
 Set `empty-values` to support empty values of components. The fallback value is `['', null, undefined]`. If you think the empty string is meaningful, write `[undefined, null]`.
 
-Set `value-on-clear` to set the return value when cleared. The fallback value is `undefined`. If you want to set `undefined` or `null`, use `() => undefined` or `() => null`.
+Set `value-on-clear` to set the return value when cleared. The fallback value is `undefined`. If you want to set `undefined`, use `() => undefined`.
 
 :::demo
 
