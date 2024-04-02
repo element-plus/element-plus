@@ -1,5 +1,5 @@
 import { placements } from '@popperjs/core'
-import { useSizeProp } from '@element-plus/hooks'
+import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
@@ -247,6 +247,7 @@ export const SelectProps = buildProps({
     type: String,
     default: undefined,
   },
+  ...useEmptyValuesProps,
 } as const)
 
 export const OptionProps = buildProps({
