@@ -58,13 +58,13 @@ export const inputProps = buildProps({
     type: String,
     default: 'text',
   },
-  // /**
-  //  * @description rows of input
-  //  */
-  // rows: {
-  //   type: Number,
-  //   default: 1,
-  // },
+  /**
+   * @description rows of input
+   */
+  rows: {
+    type: Number,
+    default: 1,
+  },
   /**
    * @description control the resizability
    */
