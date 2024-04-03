@@ -560,6 +560,52 @@ describe('DatePicker', () => {
     expect(!!text).toBeTruthy()
   })
 
+  it('footer slot', async () => {
+    const ParentComponent = {
+      components: {
+        'el-date-picker': DatePicker,
+      },
+      template: `
+        <el-date-picker
+          v-model="value"
+        >
+          <template #footer>
+            <div class="test-component">Test Component Content</div>
+          </template>
+        </el-date-picker>
+      `,
+      data() {
+        return { value: '' }
+      },
+    }
+
+    mount(ParentComponent)
+
+    expect(
+      document.querySelector('.el-picker-panel__footer__slot>.test-component')
+    ).toBeTruthy()
+  })
+
+  it('no footer slot', () => {
+    const ParentComponent = {
+      components: {
+        'el-date-picker': DatePicker,
+      },
+      template: `
+      <el-date-picker
+        v-model="value"
+      />
+    `,
+      data() {
+        return { value: '' }
+      },
+    }
+
+    mount(ParentComponent)
+
+    expect(document.querySelector('.el-picker-panel__footer__slot')).toBeNull()
+  })
+
   describe('value-format', () => {
     it('with literal string', async () => {
       const day = dayjs()
