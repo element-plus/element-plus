@@ -44,9 +44,9 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { DescriptionInstance } from 'element-plus'
+import type { ComponentSize } from 'element-plus'
 
-const size = ref<Required<DescriptionInstance>['size']>('default')
+const size = ref<ComponentSize>('default')
 
 const blockMargin = computed(() => {
   const marginMap = {

@@ -104,9 +104,9 @@ import {
   Tickets,
   User,
 } from '@element-plus/icons-vue'
-import type { DescriptionInstance } from 'element-plus'
+import type { ComponentSize } from 'element-plus'
 
-const size = ref<Required<DescriptionInstance>['size']>('default')
+const size = ref<ComponentSize>('default')
 
 const iconStyle = computed(() => {
   const marginMap = {

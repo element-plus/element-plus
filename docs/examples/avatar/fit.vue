@@ -8,7 +8,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive, toRefs } from 'vue'
-import type { AvatarInstance } from 'element-plus'
+import type { ObjectFitProperty } from 'csstype'
 
 const state = reactive({
   fits: [
@@ -17,7 +17,7 @@ const state = reactive({
     'cover',
     'none',
     'scale-down',
-  ] as AvatarInstance['fit'][],
+  ] as ObjectFitProperty[],
   url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
 })
 
