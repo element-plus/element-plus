@@ -54,7 +54,6 @@
       :name="name"
       :label="label"
       :validate-event="false"
-      @wheel="handleWheel"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
       @blur="handleBlur"
@@ -65,7 +64,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
+import { computed, onMounted, onUpdated, onUnmounted, reactive, ref, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { ElInput } from '@element-plus/components/input'
 import { ElIcon } from '@element-plus/components/icon'
@@ -294,8 +293,8 @@ const setCurrentValueToModelValue = () => {
     data.currentValue = props.modelValue
   }
 }
-const handleWheel = (e: MouseEvent) => {
-  if (document.activeElement === e.target) e.preventDefault()
+const handleWheel = (e: WheelEvent) => {
+  e.preventDefault()
 }
 
 watch(
@@ -336,10 +335,15 @@ onMounted(() => {
     }
     emit(UPDATE_MODEL_EVENT, val!)
   }
+  innerInput.addEventListener('wheel', handleWheel, { passive: false })
 })
 onUpdated(() => {
   const innerInput = input.value?.input
   innerInput?.setAttribute('aria-valuenow', `${data.currentValue ?? ''}`)
+})
+onUnmounted(() => {
+  const innerInput = input.value?.input
+  innerInput?.removeEventListener('wheel', handleWheel)
 })
 defineExpose({
   /** @description get focus the input component */
