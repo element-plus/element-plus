@@ -16,6 +16,14 @@ describe('useEmptyValues', () => {
     expect(valueOnClear.value).toEqual(DEFAULT_VALUE_ON_CLEAR)
   })
 
+  it('should return default value prop', async () => {
+    const props = reactive({}) as any
+
+    const { valueOnClear } = useEmptyValues(props, null)
+
+    expect(valueOnClear.value).toEqual(null)
+  })
+
   it('should return props value', async () => {
     const props = reactive({
       emptyValues: [null, undefined],

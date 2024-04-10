@@ -24,7 +24,8 @@ export const useEmptyValuesProps = buildProps({
 } as const)
 
 export const useEmptyValues = (
-  props: ExtractPropTypes<typeof useEmptyValuesProps>
+  props: ExtractPropTypes<typeof useEmptyValuesProps>,
+  defaultValue?: null | undefined
 ) => {
   const config = useGlobalConfig()
   config.value = config.value || {}
@@ -44,7 +45,7 @@ export const useEmptyValues = (
     } else if (config.value.valueOnClear !== undefined) {
       return config.value.valueOnClear
     }
-    return DEFAULT_VALUE_ON_CLEAR
+    return defaultValue !== undefined ? defaultValue : DEFAULT_VALUE_ON_CLEAR
   })
 
   const isEmptyValue = (value: any) => {

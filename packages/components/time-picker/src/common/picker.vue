@@ -225,7 +225,7 @@ const nsRange = useNamespace('range')
 
 const { form, formItem } = useFormItem()
 const elPopperOptions = inject('ElPopperOptions', {} as Options)
-const { valueOnClear } = useEmptyValues(props)
+const { valueOnClear } = useEmptyValues(props, null)
 
 const refPopper = ref<TooltipInstance>()
 const inputRef = ref<HTMLElement | ComponentPublicInstance>()
