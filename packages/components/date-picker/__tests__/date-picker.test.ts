@@ -12,7 +12,6 @@ import enUs from '@element-plus/locale/lang/en'
 import 'dayjs/locale/zh-cn'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
-import { DEFAULT_VALUE_ON_CLEAR } from '@element-plus/hooks/use-empty-values'
 import DatePicker from '../src/date-picker'
 
 const _mount = (template: string, data = () => ({}), otherObj?) =>
@@ -179,7 +178,7 @@ describe('DatePicker', () => {
     ;(picker.vm as any).showClose = true
     await nextTick()
     ;(document.querySelector('.clear-icon') as HTMLElement).click()
-    expect(vm.value).toBe(DEFAULT_VALUE_ON_CLEAR)
+    expect(vm.value).toBe(null)
   })
 
   it('defaultValue', async () => {
@@ -208,7 +207,7 @@ describe('DatePicker', () => {
     ;(picker.vm as any).showClose = true
     await nextTick()
     document.querySelector<HTMLElement>('.clear-icon').click()
-    expect(vm.value).toBe(DEFAULT_VALUE_ON_CLEAR)
+    expect(vm.value).toBe(null)
 
     vm.defaultValue = new Date(2031, 5, 1)
     input.trigger('blur')
