@@ -55,7 +55,8 @@ export default defineComponent({
             const preChildNodes = rows[rowNum - 1]?.childNodes
             if (
               preChildNodes[rowIndex] &&
-              preChildNodes[rowIndex].nodeName === 'TD'
+              preChildNodes[rowIndex].nodeName === 'TD' &&
+              preChildNodes[rowIndex].rowSpan > 1
             ) {
               addClass(preChildNodes[rowIndex], 'hover-cell')
               hoveredCellList.push(preChildNodes[rowIndex])
