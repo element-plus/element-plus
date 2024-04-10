@@ -1,8 +1,9 @@
 <template>
   <el-form
     ref="formRef"
+    style="max-width: 600px"
     :model="numberValidateForm"
-    label-width="100px"
+    label-width="auto"
     class="demo-ruleForm"
   >
     <el-form-item

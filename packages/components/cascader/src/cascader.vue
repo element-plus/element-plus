@@ -69,7 +69,14 @@
           </template>
         </el-input>
 
-        <div v-if="multiple" ref="tagWrapper" :class="nsCascader.e('tags')">
+        <div
+          v-if="multiple"
+          ref="tagWrapper"
+          :class="[
+            nsCascader.e('tags'),
+            nsCascader.is('validate', Boolean(validateState)),
+          ]"
+        >
           <el-tag
             v-for="tag in presentTags"
             :key="tag.key"
@@ -96,7 +103,9 @@
                 <template #content>
                   <div :class="nsCascader.e('collapse-tags')">
                     <div
-                      v-for="(tag2, idx) in allPresentTags.slice(1)"
+                      v-for="(tag2, idx) in allPresentTags.slice(
+                        maxCollapseTags
+                      )"
                       :key="idx"
                       :class="nsCascader.e('collapse-tag')"
                     >
@@ -324,6 +333,8 @@ const presentText = computed(() => {
     : ''
 })
 
+const validateState = computed(() => formItem?.validateState || '')
+
 const checkedValue = computed<CascaderValue>({
   get() {
     return cloneDeep(props.modelValue) as CascaderValue
@@ -422,10 +433,11 @@ const calculatePresentTags = () => {
   allPresentTags.value = allTags
 
   if (nodes.length) {
-    const [first, ...rest] = nodes
+    nodes
+      .slice(0, props.maxCollapseTags)
+      .forEach((node) => tags.push(genTag(node)))
+    const rest = nodes.slice(props.maxCollapseTags)
     const restCount = rest.length
-
-    tags.push(genTag(first))
 
     if (restCount) {
       if (props.collapseTags) {

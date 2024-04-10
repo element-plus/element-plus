@@ -1,6 +1,9 @@
 export default {
   name: 'id',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Pilih',
       clear: 'Kosongkan',
@@ -124,6 +127,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Ya',
       cancelButtonText: 'Tidak',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

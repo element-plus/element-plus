@@ -1,5 +1,4 @@
 import {
-  computed,
   defineComponent,
   getCurrentInstance,
   nextTick,
@@ -18,11 +17,7 @@ import {
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons-vue'
-import {
-  useDeprecated,
-  useNamespace,
-  useOrderedChildren,
-} from '@element-plus/hooks'
+import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { tabsRootContextKey } from './constants'
 import TabNav from './tab-nav'
 
@@ -38,9 +33,6 @@ export const tabsProps = buildProps({
     type: String,
     values: ['card', 'border-card', ''],
     default: '',
-  },
-  activeName: {
-    type: [String, Number],
   },
   closable: Boolean,
   addable: Boolean,
@@ -79,7 +71,7 @@ export type TabsEmits = typeof tabsEmits
 
 export type TabsPanes = Record<number, TabsPaneContext>
 
-export default defineComponent({
+const Tabs = defineComponent({
   name: 'ElTabs',
 
   props: tabsProps,
@@ -95,28 +87,21 @@ export default defineComponent({
     } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
 
     const nav$ = ref<TabNavInstance>()
-    const currentName = ref<TabPaneName>(
-      props.modelValue ?? props.activeName ?? '0'
-    )
+    const currentName = ref<TabPaneName>(props.modelValue ?? '0')
 
-    const changeCurrentName = (value: TabPaneName) => {
-      currentName.value = value
-      emit(UPDATE_MODEL_EVENT, value)
-      emit('tabChange', value)
-    }
-
-    const setCurrentName = async (value?: TabPaneName) => {
+    const setCurrentName = async (value?: TabPaneName, trigger = false) => {
       // should do nothing.
       if (currentName.value === value || isUndefined(value)) return
 
       try {
         const canLeave = await props.beforeLeave?.(value, currentName.value)
         if (canLeave !== false) {
-          changeCurrentName(value)
+          currentName.value = value
+          if (trigger) {
+            emit(UPDATE_MODEL_EVENT, value)
+            emit('tabChange', value)
+          }
 
-          // call exposed function, Vue doesn't support expose in typescript yet.
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
           nav$.value?.removeFocus?.()
         }
       } catch {}
@@ -128,7 +113,7 @@ export default defineComponent({
       event: Event
     ) => {
       if (tab.props.disabled) return
-      setCurrentName(tabName)
+      setCurrentName(tabName, true)
       emit('tabClick', tab, event)
     }
 
@@ -144,23 +129,6 @@ export default defineComponent({
       emit('tabAdd')
     }
 
-    useDeprecated(
-      {
-        from: '"activeName"',
-        replacement: '"model-value" or "v-model"',
-        scope: 'ElTabs',
-        version: '2.3.0',
-        ref: 'https://element-plus.org/en-US/component/tabs.html#attributes',
-        type: 'Attribute',
-      },
-      computed(() => !!props.activeName)
-    )
-
-    watch(
-      () => props.activeName,
-      (modelValue) => setCurrentName(modelValue)
-    )
-
     watch(
       () => props.modelValue,
       (modelValue) => setCurrentName(modelValue)
@@ -168,9 +136,6 @@ export default defineComponent({
 
     watch(currentName, async () => {
       await nextTick()
-      // call exposed function, Vue doesn't support expose in typescript yet.
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
       nav$.value?.scrollToActiveTab()
     })
 
@@ -186,6 +151,7 @@ export default defineComponent({
     })
 
     return () => {
+      const addSlot = slots['add-icon']
       const newButton =
         props.editable || props.addable ? (
           <span
@@ -196,9 +162,13 @@ export default defineComponent({
               if (ev.code === EVENT_CODE.enter) handleTabAdd()
             }}
           >
-            <ElIcon class={ns.is('icon-plus')}>
-              <Plus />
-            </ElIcon>
+            {addSlot ? (
+              renderSlot(slots, 'add-icon')
+            ) : (
+              <ElIcon class={ns.is('icon-plus')}>
+                <Plus />
+              </ElIcon>
+            )}
           </span>
         ) : null
 
@@ -241,3 +211,9 @@ export default defineComponent({
     }
   },
 })
+
+export type TabsInstance = InstanceType<typeof Tabs> & {
+  currentName: TabPaneName
+}
+
+export default Tabs

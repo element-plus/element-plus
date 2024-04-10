@@ -5,6 +5,7 @@
       :disabled="disabled"
       :list-type="listType"
       :files="uploadFiles"
+      :crossorigin="crossorigin"
       :handle-preview="onPreview"
       @remove="handleRemove"
     >
@@ -13,8 +14,8 @@
       </template>
       <template #append>
         <upload-content ref="uploadRef" v-bind="uploadContentProps">
-          <slot v-if="slots.trigger" name="trigger" />
-          <slot v-if="!slots.trigger && slots.default" />
+          <slot v-if="$slots.trigger" name="trigger" />
+          <slot v-if="!$slots.trigger && $slots.default" />
         </upload-content>
       </template>
     </upload-list>
@@ -24,8 +25,8 @@
       ref="uploadRef"
       v-bind="uploadContentProps"
     >
-      <slot v-if="slots.trigger" name="trigger" />
-      <slot v-if="!slots.trigger && slots.default" />
+      <slot v-if="$slots.trigger" name="trigger" />
+      <slot v-if="!$slots.trigger && $slots.default" />
     </upload-content>
 
     <slot v-if="$slots.trigger" />
@@ -35,6 +36,7 @@
       :disabled="disabled"
       :list-type="listType"
       :files="uploadFiles"
+      :crossorigin="crossorigin"
       :handle-preview="onPreview"
       @remove="handleRemove"
     >
@@ -46,14 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  onBeforeUnmount,
-  provide,
-  shallowRef,
-  toRef,
-  useSlots,
-} from 'vue'
+import { computed, onBeforeUnmount, provide, shallowRef, toRef } from 'vue'
 import { useFormDisabled } from '@element-plus/components/form'
 import { uploadContextKey } from './constants'
 import UploadList from './upload-list.vue'
@@ -72,7 +67,6 @@ defineOptions({
 
 const props = defineProps(uploadProps)
 
-const slots = useSlots()
 const disabled = useFormDisabled()
 
 const uploadRef = shallowRef<UploadContentInstance>()
@@ -86,6 +80,7 @@ const {
   handleRemove,
   handleSuccess,
   handleProgress,
+  revokeFileObjectURL,
 } = useHandlers(props, uploadRef)
 
 const isPictureCard = computed(() => props.listType === 'picture-card')
@@ -101,9 +96,7 @@ const uploadContentProps = computed<UploadContentProps>(() => ({
 }))
 
 onBeforeUnmount(() => {
-  uploadFiles.value.forEach(({ url }) => {
-    if (url?.startsWith('blob:')) URL.revokeObjectURL(url)
-  })
+  uploadFiles.value.forEach(revokeFileObjectURL)
 })
 
 provide(uploadContextKey, {

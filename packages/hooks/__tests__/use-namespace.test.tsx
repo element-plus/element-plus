@@ -44,7 +44,7 @@ const TestComp = defineComponent({
   },
 })
 
-describe('use-locale', () => {
+describe('use-namespace', () => {
   const Comp = defineComponent({
     setup(_props, { slots }) {
       provideGlobalConfig({ namespace: 'ep' })

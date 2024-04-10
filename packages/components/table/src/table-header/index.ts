@@ -65,7 +65,7 @@ export default defineComponent({
     const filterPanels = ref({})
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
     onMounted(async () => {
-      // Need double await, because udpateColumns is executed after nextTick for now
+      // Need double await, because updateColumns is executed after nextTick for now
       await nextTick()
       await nextTick()
       const { prop, order } = props.defaultSort

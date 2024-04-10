@@ -60,6 +60,18 @@ export const switchProps = buildProps({
     default: false,
   },
   /**
+   * @description component of the icon displayed in action when in `off` state
+   */
+  inactiveActionIcon: {
+    type: iconPropType,
+  },
+  /**
+   * @description component of the icon displayed in action when in `on` state
+   */
+  activeActionIcon: {
+    type: iconPropType,
+  },
+  /**
    * @description component of the icon displayed when in `on` state, overrides `active-text`
    */
   activeIcon: {
@@ -100,27 +112,6 @@ export const switchProps = buildProps({
     default: false,
   },
   /**
-   * @deprecated background color when in `on` state ( deprecated, use CSS var `--el-switch-on-color` instead )
-   */
-  activeColor: {
-    type: String,
-    default: '',
-  },
-  /**
-   * @deprecated background color when in `off` state ( deprecated, use CSS var `--el-switch-off-color` instead )
-   */
-  inactiveColor: {
-    type: String,
-    default: '',
-  },
-  /**
-   * @deprecated border color of the switch ( deprecated, use CSS var `--el-switch-border-color` instead )
-   */
-  borderColor: {
-    type: String,
-    default: '',
-  },
-  /**
    * @description input name of Switch
    */
   name: {
@@ -151,11 +142,11 @@ export const switchProps = buildProps({
     type: [String, Number],
   },
   /**
-   * @deprecated binding value ( deprecated, use `model-value / v-model` instead )
+   * @description native input aria-label
    */
-  value: {
-    type: [Boolean, String, Number],
-    default: false,
+  label: {
+    type: String,
+    default: undefined,
   },
 } as const)
 

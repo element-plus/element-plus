@@ -82,8 +82,8 @@ describe('Table.vue', () => {
         <el-table-column label="someLabel">
           <template #default="{ row }">
             <el-checkbox-group v-model="row.checkList">
-              <el-checkbox label="复选框 A"></el-checkbox>
-              <el-checkbox label="复选框 B"></el-checkbox>
+              <el-checkbox label="复选框 A" value="复选框 A"></el-checkbox>
+              <el-checkbox label="复选框 B" value="复选框 B"></el-checkbox>
             </el-checkbox-group>
           </template>
         </el-table-column>
@@ -489,6 +489,68 @@ describe('Table.vue', () => {
       expect(wrapper.vm.result.length).toEqual(4) // row, column, cell, event
       expect(wrapper.vm.result[0]).toHaveProperty('name')
       expect(wrapper.vm.result[0]['name']).toEqual(getTestData()[0].name)
+      wrapper.unmount()
+    })
+
+    it('cell mouse enter on cell of which rowSpan > 2', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+         <el-table
+          :data="testData"
+          :span-method="objectSpanMethod"
+          border
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column prop="id" label="ID" width="180" />
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
+        </el-table>
+      `,
+        data() {
+          return {
+            testData: getTestData(),
+          }
+        },
+        methods: {
+          objectSpanMethod({ rowIndex, columnIndex }) {
+            if (columnIndex === 0) {
+              if (rowIndex % 2 === 0) {
+                return {
+                  rowspan: 2,
+                  colspan: 1,
+                }
+              } else {
+                return {
+                  rowspan: 0,
+                  colspan: 0,
+                }
+              }
+            }
+          },
+        },
+      })
+      const vm = wrapper.vm
+      await doubleWait()
+      const cell = vm.$el
+        .querySelectorAll('.el-table__body-wrapper tbody tr')[0]
+        .querySelector('.el-table__cell')
+      triggerEvent(cell, 'mouseenter', true, false)
+      await doubleWait()
+      await rAF()
+      await doubleWait()
+      const row = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')[1]
+      expect([...row.classList]).toContain('hover-row')
+      await doubleWait()
+      triggerEvent(cell, 'mouseleave', true, false)
+      await rAF()
+      await doubleWait()
+      expect([...row.classList]).not.toContain('hover-row')
       wrapper.unmount()
     })
 
@@ -947,6 +1009,69 @@ describe('Table.vue', () => {
     await rAF()
     await doubleWait()
     expect(tr.classes()).not.toContain('hover-row')
+    wrapper.unmount()
+  })
+
+  it('hover on which rowSpan > 1', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+         <el-table
+          :data="testData"
+          :span-method="objectSpanMethod"
+          border
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column prop="id" label="ID" width="180" />
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
+        </el-table>
+      `,
+      data() {
+        return {
+          testData: getTestData(),
+        }
+      },
+      methods: {
+        objectSpanMethod({ rowIndex, columnIndex }) {
+          if (columnIndex === 0) {
+            if (rowIndex % 2 === 0) {
+              return {
+                rowspan: 2,
+                colspan: 1,
+              }
+            } else {
+              return {
+                rowspan: 0,
+                colspan: 0,
+              }
+            }
+          }
+        },
+      },
+    })
+    const vm = wrapper.vm
+    await doubleWait()
+    const rows = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')
+    triggerEvent(rows[1], 'mouseenter', true, false)
+    await doubleWait()
+    await rAF()
+    await doubleWait()
+    const cell = vm.$el
+      .querySelectorAll('.el-table__body-wrapper tbody tr')[0]
+      .querySelector('.el-table__cell')
+
+    expect([...cell.classList]).toContain('hover-cell')
+    await doubleWait()
+    triggerEvent(rows[1], 'mouseleave', true, false)
+    await rAF()
+    await doubleWait()
+    expect([...cell.classList]).not.toContain('hover-cell')
     wrapper.unmount()
   })
 

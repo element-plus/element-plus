@@ -144,6 +144,10 @@
     text-align: left;
     box-sizing: border-box;
     @include cascader-tag-normal(getCssVar('cascader-tag-background'));
+
+    &.is-validate {
+      right: 55px;
+    }
   }
 
   @include e(collapse-tags) {

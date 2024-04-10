@@ -79,6 +79,14 @@ input-number/controlled
 
 :::
 
+## Custom Icon ^(2.6.3)
+
+:::demo Use `decrease-icon` and `increase-icon` to set custom icons.
+
+input-number/custom
+
+:::
+
 ## API
 
 ### Attributes
@@ -92,7 +100,7 @@ input-number/controlled
 | step-strictly           | whether input value can only be multiple of step | ^[boolean]                                    | false     |
 | precision               | precision of input value                         | ^[number]                                     | —         |
 | size                    | size of the component                            | ^[enum]`'large' \| 'default' \| 'small'`      | default   |
-| readonly                | same as `readonly` in native input               | ^[boolean]                                    | false     |
+| readonly ^(2.2.16)      | same as `readonly` in native input               | ^[boolean]                                    | false     |
 | disabled                | whether the component is disabled                | ^[boolean]                                    | false     |
 | controls                | whether to enable the control buttons            | ^[boolean]                                    | true      |
 | controls-position       | position of the control buttons                  | ^[enum]`'' \| 'right'`                        | —         |
@@ -102,6 +110,13 @@ input-number/controlled
 | id                      | same as `id` in native input                     | ^[string]                                     | —         |
 | value-on-clear ^(2.2.0) | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —         |
 | validate-event          | whether to trigger form validation               | ^[boolean]                                    | true      |
+
+### Slots
+
+| Name                   | Description                           |
+| ---------------------- | ------------------------------------- |
+| decrease-icon ^(2.6.3) | custom input box button decrease icon |
+| increase-icon ^(2.6.3) | custom input box button increase icon |
 
 ### Events
 

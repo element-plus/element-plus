@@ -33,7 +33,13 @@
         :placeholder="placeholder"
         :class="[nsDate.b('editor'), nsDate.bm('editor', type), $attrs.class]"
         :style="$attrs.style"
-        :readonly="!editable || readonly || isDatesPicker || type === 'week'"
+        :readonly="
+          !editable ||
+          readonly ||
+          isDatesPicker ||
+          isYearsPicker ||
+          type === 'week'
+        "
         :label="label"
         :tabindex="tabindex"
         :validate-event="false"
@@ -138,6 +144,8 @@
         :actual-visible="pickerActualVisible"
         :parsed-value="parsedValue"
         :format="format"
+        :date-format="dateFormat"
+        :time-format="timeFormat"
         :unlink-panels="unlinkPanels"
         :type="type"
         :default-value="defaultValue"
@@ -468,7 +476,7 @@ const displayValue = computed<UserInput>(() => {
   if (!isTimePicker.value && valueIsEmpty.value) return ''
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
-    return isDatesPicker.value
+    return isDatesPicker.value || isYearsPicker.value
       ? (formattedValue as Array<string>).join(', ')
       : formattedValue
   }
@@ -480,6 +488,8 @@ const isTimeLikePicker = computed(() => props.type.includes('time'))
 const isTimePicker = computed(() => props.type.startsWith('time'))
 
 const isDatesPicker = computed(() => props.type === 'dates')
+
+const isYearsPicker = computed(() => props.type === 'years')
 
 const triggerIcon = computed(
   () => props.prefixIcon || (isTimeLikePicker.value ? Clock : Calendar)
@@ -725,7 +735,7 @@ const onSetPickerOption = <T extends keyof PickerOptions>(
   pickerOptions.value.panelReady = true
 }
 
-const onCalendarChange = (e: [Date, false | Date]) => {
+const onCalendarChange = (e: [Date, null | Date]) => {
   emit('calendar-change', e)
 }
 

@@ -1,10 +1,11 @@
 <template>
   <el-form
     ref="ruleFormRef"
+    style="max-width: 600px"
     :model="ruleForm"
     status-icon
     :rules="rules"
-    label-width="120px"
+    label-width="auto"
     class="demo-ruleForm"
   >
     <el-form-item label="Password" prop="pass">
