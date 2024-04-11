@@ -39,11 +39,13 @@ export default defineComponent({
       let rowNum = newVal
       const childNodes = rows[rowNum]?.childNodes
       if (childNodes?.length) {
+        let control = 0
         const indexes = Array.from(childNodes).reduce((acc, item, index) => {
           // drop colsSpan
-          const pre = childNodes[index - 1]?.colSpan > 1
-          const next = childNodes[index + 1]?.colSpan > 1
-          if (item.nodeName !== 'TD' && !pre && !next) {
+          if (childNodes[index]?.colSpan > 1) {
+            control = childNodes[index]?.colSpan - 1
+          }
+          if (item.nodeName !== 'TD' && control == 0) {
             acc.push(index)
           }
           return acc
