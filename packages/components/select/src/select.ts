@@ -198,19 +198,19 @@ export const SelectProps = buildProps({
    */
   remoteShowSuffix: Boolean,
   /**
-   * @deprecated will be removed in version 2.4.0, please use override style scheme
-   */
-  suffixTransition: {
-    type: Boolean,
-    default: true,
-  },
-  /**
    * @description position of dropdown
    */
   placement: {
     type: definePropType<Placement>(String),
     values: placements,
     default: 'bottom-start',
+  },
+  /**
+   * @description list of possible positions for dropdown
+   */
+  fallbackPlacements: {
+    type: definePropType<Placement[]>(Array),
+    default: ['bottom-start', 'top-start', 'right', 'left'],
   },
   /**
    * @description native input aria-label

@@ -1,5 +1,5 @@
 <template>
-  <el-form label-position="left" label-width="150px" style="max-width: 460px">
+  <el-form label-position="left" label-width="auto" style="max-width: 600px">
     <el-space fill>
       <el-alert type="info" show-icon :closable="false">
         <p>"Full Name" label is automatically attached to the input:</p>
