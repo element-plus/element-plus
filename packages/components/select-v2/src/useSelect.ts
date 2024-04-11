@@ -709,6 +709,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   }
 
   const handleMenuEnter = () => {
+    states.isBeforeHide = false
     return nextTick(() => {
       if (~indexRef.value) {
         scrollToItem(states.hoveringIndex)
