@@ -40,7 +40,7 @@ export const badgeProps = buildProps({
     default: true,
   },
   /**
-   * @description Customize dot background color
+   * @description customize dot background color
    */
   color: String,
   /**
@@ -50,7 +50,7 @@ export const badgeProps = buildProps({
     type: definePropType<StyleValue>([String, Object, Array]),
   },
   /**
-   * @description Set offset of the badge dot
+   * @description set offset of the badge dot
    */
   offset: {
     type: definePropType<[number, number]>(Array),
