@@ -126,10 +126,10 @@ tour-step component configuration with the same name has higher priority
 
 ### TourStep slots
 
-| Name     | Description |
-| -------- | ----------- |
-| default  | description |
-| header   | header      |
+| Name    | Description |
+| ------- | ----------- |
+| default | description |
+| header  | header      |
 
 ### TourStep events
 

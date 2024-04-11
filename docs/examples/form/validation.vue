@@ -1,9 +1,10 @@
 <template>
   <el-form
     ref="ruleFormRef"
+    style="max-width: 600px"
     :model="ruleForm"
     :rules="rules"
-    label-width="120px"
+    label-width="auto"
     class="demo-ruleForm"
     :size="formSize"
     status-icon
@@ -55,16 +56,24 @@
     </el-form-item>
     <el-form-item label="Activity type" prop="type">
       <el-checkbox-group v-model="ruleForm.type">
-        <el-checkbox label="Online activities" name="type" />
-        <el-checkbox label="Promotion activities" name="type" />
-        <el-checkbox label="Offline activities" name="type" />
-        <el-checkbox label="Simple brand exposure" name="type" />
+        <el-checkbox value="Online activities" name="type">
+          Online activities
+        </el-checkbox>
+        <el-checkbox value="Promotion activities" name="type">
+          Promotion activities
+        </el-checkbox>
+        <el-checkbox value="Offline activities" name="type">
+          Offline activities
+        </el-checkbox>
+        <el-checkbox value="Simple brand exposure" name="type">
+          Simple brand exposure
+        </el-checkbox>
       </el-checkbox-group>
     </el-form-item>
     <el-form-item label="Resources" prop="resource">
       <el-radio-group v-model="ruleForm.resource">
-        <el-radio label="Sponsorship" />
-        <el-radio label="Venue" />
+        <el-radio value="Sponsorship">Sponsorship</el-radio>
+        <el-radio value="Venue">Venue</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item label="Activity form" prop="desc">

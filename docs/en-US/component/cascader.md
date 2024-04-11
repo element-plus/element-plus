@@ -64,7 +64,7 @@ Do:
   <el-cascader :props="props" />
 </template>
 <script lang="ts" setup>
-const props = { multiple: true }
+  const props = { multiple: true }
 </script>
 ```
 

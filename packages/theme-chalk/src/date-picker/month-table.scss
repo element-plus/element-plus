@@ -7,9 +7,11 @@
   border-collapse: collapse;
 
   td {
+    width: 68px;
     text-align: center;
     padding: 8px 0;
     cursor: pointer;
+    position: relative;
     & div {
       height: 48px;
       padding: 6px 0;
@@ -37,13 +39,16 @@
     }
 
     .cell {
-      width: 60px;
+      width: 54px;
       height: 36px;
       display: block;
       line-height: 36px;
       color: getCssVar('datepicker-text-color');
       margin: 0 auto;
       border-radius: 18px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       &:hover {
         color: getCssVar('datepicker-hover-text-color');
       }
@@ -67,23 +72,33 @@
     }
 
     &.start-date div {
+      margin-left: 3px;
       border-top-left-radius: 24px;
       border-bottom-left-radius: 24px;
     }
 
     &.end-date div {
+      margin-right: 3px;
       border-top-right-radius: 24px;
       border-bottom-right-radius: 24px;
     }
 
+    &.current:not(.disabled) div {
+      border-radius: 24px;
+      margin-left: 3px;
+      margin-right: 3px;
+    }
+
     &.current:not(.disabled) .cell {
-      color: getCssVar('datepicker-active-color');
+      color: $color-white;
+      background-color: getCssVar('datepicker-active-color');
     }
 
     &:focus-visible {
       outline: none;
       .cell {
         outline: 2px solid getCssVar('datepicker-active-color');
+        outline-offset: 1px;
       }
     }
   }

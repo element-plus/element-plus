@@ -7,4 +7,3 @@
     <el-tag type="danger">Tag 5</el-tag>
   </div>
 </template>
-<script setup lang="ts"></script>

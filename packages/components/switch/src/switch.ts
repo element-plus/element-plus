@@ -112,27 +112,6 @@ export const switchProps = buildProps({
     default: false,
   },
   /**
-   * @deprecated background color when in `on` state ( deprecated, use CSS var `--el-switch-on-color` instead )
-   */
-  activeColor: {
-    type: String,
-    default: '',
-  },
-  /**
-   * @deprecated background color when in `off` state ( deprecated, use CSS var `--el-switch-off-color` instead )
-   */
-  inactiveColor: {
-    type: String,
-    default: '',
-  },
-  /**
-   * @deprecated border color of the switch ( deprecated, use CSS var `--el-switch-border-color` instead )
-   */
-  borderColor: {
-    type: String,
-    default: '',
-  },
-  /**
    * @description input name of Switch
    */
   name: {
@@ -161,13 +140,6 @@ export const switchProps = buildProps({
    */
   tabindex: {
     type: [String, Number],
-  },
-  /**
-   * @deprecated binding value ( deprecated, use `model-value / v-model` instead )
-   */
-  value: {
-    type: [Boolean, String, Number],
-    default: false,
   },
   /**
    * @description native input aria-label

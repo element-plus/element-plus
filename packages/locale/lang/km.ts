@@ -1,6 +1,9 @@
 export default {
   name: 'km',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'យល់ព្រម',
       clear: 'លុប',

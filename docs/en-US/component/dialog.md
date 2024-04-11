@@ -116,7 +116,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 ### Attributes
 
 | Name                       | Description                                                                                          | Type                                | Default |
-|----------------------------|------------------------------------------------------------------------------------------------------| ----------------------------------- | ------- |
+| -------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------- | ------- |
 | model-value / v-model      | visibility of Dialog                                                                                 | ^[boolean]                          | —       |
 | title                      | title of Dialog. Can also be passed with a named slot (see the following table)                      | ^[string]                           | ''      |
 | width                      | width of Dialog, default is 50%                                                                      | ^[string] / ^[number]               | ''      |

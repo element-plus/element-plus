@@ -79,6 +79,14 @@ input-number/controlled
 
 :::
 
+## Custom Icon ^(2.6.3)
+
+:::demo Use `decrease-icon` and `increase-icon` to set custom icons.
+
+input-number/custom
+
+:::
+
 ## API
 
 ### Attributes
@@ -102,6 +110,13 @@ input-number/controlled
 | id                      | same as `id` in native input                     | ^[string]                                     | —         |
 | value-on-clear ^(2.2.0) | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —         |
 | validate-event          | whether to trigger form validation               | ^[boolean]                                    | true      |
+
+### Slots
+
+| Name                   | Description                           |
+| ---------------------- | ------------------------------------- |
+| decrease-icon ^(2.6.3) | custom input box button decrease icon |
+| increase-icon ^(2.6.3) | custom input box button increase icon |
 
 ### Events
 

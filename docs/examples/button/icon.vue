@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div>
     <el-button type="primary" :icon="Edit" />
     <el-button type="primary" :icon="Share" />
     <el-button type="primary" :icon="Delete" />
