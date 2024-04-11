@@ -50,7 +50,7 @@ config-provider/message
 
 Set `empty-values` to support empty values of components. The fallback value is `['', null, undefined]`. If you think the empty string is meaningful, write `[undefined, null]`.
 
-Set `value-on-clear` to set the return value when cleared. The fallback value is `undefined`. If you want to set `undefined`, use `() => undefined`.
+Set `value-on-clear` to set the return value when cleared. The fallback value is `undefined`. In the date component is `null`. If you want to set `undefined`, use `() => undefined`.
 
 :::demo
 
