@@ -446,9 +446,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const update = (val: any) => {
     emit(UPDATE_MODEL_EVENT, val)
     emitChange(val)
-    states.previousValue = props.multiple
-      ? val?.map((item) => getValueKey(item)).toString()
-      : val
+    states.previousValue = props.multiple ? String(val) : val
   }
 
   const getValueIndex = (arr = [], value: unknown) => {
@@ -741,9 +739,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     if (props.multiple) {
       if ((props.modelValue as Array<any>).length > 0) {
         states.cachedOptions.length = 0
-        states.previousValue = props.modelValue
-          .map((item) => getValueKey(item))
-          .toString()
+        states.previousValue = props.modelValue.toString()
 
         for (const value of props.modelValue) {
           const option = getOption(value)
@@ -796,9 +792,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     (val, oldVal) => {
       if (
         !val ||
-        (props.multiple &&
-          val.map((item) => getValueKey(item)).toString() !==
-            states.previousValue) ||
+        (props.multiple && val.toString() !== states.previousValue) ||
         (!props.multiple &&
           getValueKey(val) !== getValueKey(states.previousValue))
       ) {

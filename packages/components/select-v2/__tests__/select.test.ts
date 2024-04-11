@@ -864,53 +864,6 @@ describe('Select', () => {
       expect(vm.value).toEqual(vm.options[1].value)
       expect(placeholder.text()).toBe(vm.options[1].label)
     })
-
-    it('set object modelValue in multiple select', async () => {
-      const wrapper = createSelect({
-        data: () => {
-          return {
-            multiple: true,
-            valueKey: 'id',
-            value: [],
-            options: [
-              {
-                label: 'aa',
-                value: { id: 1, name: 'a1' },
-              },
-              {
-                label: 'bb',
-                value: { id: 2, name: 'b2' },
-              },
-              {
-                label: 'cc',
-                value: { id: 3, name: 'c3' },
-              },
-            ],
-          }
-        },
-      })
-      await nextTick()
-      const options = getOptions()
-      const vm = wrapper.vm as any
-      options[0].click()
-      await nextTick()
-      options[1].click()
-      await nextTick()
-      expect(vm.value).toEqual([vm.options[0].value, vm.options[1].value])
-      expect(
-        wrapper.findAll('.el-select__tags-text').map((ele) => ele.text())
-      ).toEqual(['aa', 'bb'])
-
-      vm.value = [
-        { id: 2, name: 'b2' },
-        { id: 3, name: 'c3' },
-      ]
-      await nextTick()
-      expect(vm.value).toEqual([vm.options[1].value, vm.options[2].value])
-      expect(
-        wrapper.findAll('.el-select__tags-text').map((ele) => ele.text())
-      ).toEqual(['bb', 'cc'])
-    })
   })
 
   describe('event', () => {
