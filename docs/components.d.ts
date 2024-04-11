@@ -92,6 +92,7 @@ declare module '@vue/runtime-core' {
     OvRate: typeof import('./.vitepress/vitepress/components/overview-icons/ov-rate.vue')['default']
     OvResult: typeof import('./.vitepress/vitepress/components/overview-icons/ov-result.vue')['default']
     OvScrollbar: typeof import('./.vitepress/vitepress/components/overview-icons/ov-scrollbar.vue')['default']
+    OvSegmented: typeof import('./.vitepress/vitepress/components/overview-icons/ov-segmented.vue')['default']
     OvSelect: typeof import('./.vitepress/vitepress/components/overview-icons/ov-select.vue')['default']
     OvSelectV2: typeof import('./.vitepress/vitepress/components/overview-icons/ov-select-v2.vue')['default']
     OvSkeleton: typeof import('./.vitepress/vitepress/components/overview-icons/ov-skeleton.vue')['default']
