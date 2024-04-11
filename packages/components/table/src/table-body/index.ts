@@ -45,7 +45,7 @@ export default defineComponent({
           if (childNodes[index]?.colSpan > 1) {
             control = childNodes[index]?.colSpan
           }
-          if (item.nodeName !== 'TD' && control == 0) {
+          if (item.nodeName !== 'TD' && control === 0) {
             acc.push(index)
           }
           control > 0 && control--
