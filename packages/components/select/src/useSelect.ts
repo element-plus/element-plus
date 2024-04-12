@@ -631,6 +631,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const handleMenuEnter = () => {
+    states.isBeforeHide = false
     nextTick(() => scrollToOption(states.selected))
   }
 
