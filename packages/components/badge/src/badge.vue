@@ -45,12 +45,12 @@ const content = computed<string>(() => {
 })
 const style = computed<StyleValue>(() => {
   return [
-    props.dotStyle ?? {},
     {
       backgroundColor: props.color,
       marginRight: addUnit(-(props.offset?.[0] ?? 0)),
       marginTop: addUnit(props.offset?.[1] ?? 0),
     },
+    props.dotStyle ?? {},
   ]
 })
 
