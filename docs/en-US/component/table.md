@@ -296,6 +296,7 @@ table/table-layout
 | current-change     | triggers when current row changes                                                                                                            | ^[Function]`(currentRow: any, oldCurrentRow: any) => void`                                   |
 | header-dragend     | triggers after changing a column's width by dragging the column header's border                                                              | ^[Function]`(newWidth: number, oldWidth: number, column: any, event: MouseEvent) => void`    |
 | expand-change      | triggers when user expands or collapses a row (for expandable table, second param is expandedRows; for tree Table, second param is expanded) | ^[Function]`(row: any, expandedRows: any[]) => void & (row: any, expanded: boolean) => void` |
+| wrapper-scroll     | triggers when scrolling, return distance of scrolling                                                                                        | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void`                             |
 
 ### Table Slots
 

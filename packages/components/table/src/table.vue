@@ -63,6 +63,7 @@
           :view-style="scrollbarViewStyle"
           :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
+          @scroll="handleScroll"
         >
           <table
             ref="tableBody"
@@ -219,8 +220,9 @@ export default defineComponent({
     'current-change',
     'header-dragend',
     'expand-change',
+    'wrapper-scroll',
   ],
-  setup(props) {
+  setup(props, { emit }) {
     type Row = typeof props.data[number]
     const { t } = useLocale()
     const ns = useNamespace('table')
@@ -295,6 +297,10 @@ export default defineComponent({
     })
 
     useKeyRender(table)
+
+    const handleScroll = (event: { scrollLeft: number; scrollTop: number }) => {
+      emit('wrapper-scroll', event)
+    }
 
     return {
       ns,
@@ -377,6 +383,7 @@ export default defineComponent({
        * @description set vertical scroll position
        */
       setScrollTop,
+      handleScroll,
     }
   },
 })
