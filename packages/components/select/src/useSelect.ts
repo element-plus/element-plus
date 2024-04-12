@@ -14,7 +14,6 @@ import {
   findLastIndex,
   get,
   isEqual,
-  isNil,
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
@@ -33,6 +32,7 @@ import {
   scrollIntoView,
 } from '@element-plus/utils'
 import {
+  useEmptyValues,
   useFocusController,
   useId,
   useLocale,
@@ -120,27 +120,23 @@ export const useSelect = (props: ISelectProps, emit) => {
   const { inputId } = useFormItemInputId(props, {
     formItemContext: formItem,
   })
+  const { valueOnClear, isEmptyValue } = useEmptyValues(props)
 
   const selectDisabled = computed(() => props.disabled || form?.disabled)
-
-  const hasEmptyStringOption = computed(() =>
-    optionsArray.value.some((option) => option.value === '')
-  )
 
   const hasModelValue = computed(() => {
     return props.multiple
       ? isArray(props.modelValue) && props.modelValue.length > 0
-      : !isNil(props.modelValue) &&
-          (props.modelValue !== '' || hasEmptyStringOption.value)
+      : !isEmptyValue(props.modelValue)
   })
 
   const showClose = computed(() => {
-    const criteria =
+    return (
       props.clearable &&
       !selectDisabled.value &&
       states.inputHovering &&
       hasModelValue.value
-    return criteria
+    )
   })
   const iconComponent = computed(() =>
     props.remote && props.filterable && !props.remoteShowSuffix
@@ -527,7 +523,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const deleteSelected = (event) => {
     event.stopPropagation()
-    const value: string | any[] = props.multiple ? [] : undefined
+    const value: string | any[] = props.multiple ? [] : valueOnClear.value
     if (props.multiple) {
       for (const item of states.selected) {
         if (item.isDisabled) value.push(item.value)
@@ -635,6 +631,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const handleMenuEnter = () => {
+    states.isBeforeHide = false
     nextTick(() => scrollToOption(states.selected))
   }
 
