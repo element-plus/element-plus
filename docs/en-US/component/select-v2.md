@@ -197,6 +197,18 @@ select-v2/custom-loading
 
 :::
 
+## Empty Values ^(2.7.0)
+
+If you want to support empty string, please set `empty-values` to `[null, undefined]`.
+
+If you want to change the clear value to `null`, please set `value-on-clear` to `null`.
+
+:::demo
+
+select-v2/empty-values
+
+:::
+
 ## API
 
 ### Attributes
