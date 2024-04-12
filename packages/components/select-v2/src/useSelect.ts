@@ -13,11 +13,11 @@ import {
   findLastIndex,
   get,
   isEqual,
-  isNil,
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import {
+  useEmptyValues,
   useFocusController,
   useLocale,
   useNamespace,
@@ -59,6 +59,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     formItemContext: elFormItem,
   })
   const { getLabel, getValue, getDisabled, getOptions } = useProps(props)
+  const { valueOnClear, isEmptyValue } = useEmptyValues(props)
 
   const states = reactive({
     inputValue: '',
@@ -127,24 +128,19 @@ const useSelect = (props: ISelectV2Props, emit) => {
     return totalHeight > props.height ? props.height : totalHeight
   })
 
-  const hasEmptyStringOption = computed(() =>
-    allOptions.value.some((option) => getValue(option) === '')
-  )
-
   const hasModelValue = computed(() => {
     return props.multiple
       ? isArray(props.modelValue) && props.modelValue.length > 0
-      : !isNil(props.modelValue) &&
-          (props.modelValue !== '' || hasEmptyStringOption.value)
+      : !isEmptyValue(props.modelValue)
   })
 
   const showClearBtn = computed(() => {
-    const criteria =
+    return (
       props.clearable &&
       !selectDisabled.value &&
       states.inputHovering &&
       hasModelValue.value
-    return criteria
+    )
   })
 
   const iconComponent = computed(() =>
@@ -600,7 +596,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     if (isArray(props.modelValue)) {
       emptyValue = []
     } else {
-      emptyValue = undefined
+      emptyValue = valueOnClear.value
     }
 
     if (props.multiple) {

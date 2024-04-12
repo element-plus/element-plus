@@ -1,6 +1,6 @@
 import { CommonProps } from '@element-plus/components/cascader-panel'
 import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -110,11 +110,14 @@ export const cascaderProps = buildProps({
     type: Boolean,
     default: true,
   },
+  ...useEmptyValuesProps,
 })
 
 export const cascaderEmits = {
-  [UPDATE_MODEL_EVENT]: (val: CascaderValue) => !!val || val === null,
-  [CHANGE_EVENT]: (val: CascaderValue) => !!val || val === null,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  [UPDATE_MODEL_EVENT]: (_: CascaderValue) => true,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  [CHANGE_EVENT]: (_: CascaderValue) => true,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   visibleChange: (val: boolean) => isBoolean(val),
