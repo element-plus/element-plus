@@ -9,16 +9,9 @@
           ns.em('content', type),
           ns.is('fixed', !!$slots.default),
           ns.is('dot', isDot),
-          props.dotClass ?? {},
+          dotClass,
         ]"
-        :style="[
-          props.dotStyle ?? {},
-          {
-            backgroundColor: props.color,
-            marginRight: addUnit(-(props.offset?.[0] ?? 0)),
-            marginTop: addUnit(props.offset?.[1] ?? 0),
-          },
-        ]"
+        :style="style"
         v-text="content"
       />
     </transition>
@@ -30,6 +23,7 @@ import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { addUnit, isNumber } from '@element-plus/utils'
 import { badgeProps } from './badge'
+import type { StyleValue } from 'vue'
 
 defineOptions({
   name: 'ElBadge',
@@ -48,6 +42,16 @@ const content = computed<string>(() => {
     return props.value === 0 && !props.showZero ? '' : `${props.value}`
   }
   return `${props.value}`
+})
+const style = computed<StyleValue>(() => {
+  return [
+    props.dotStyle ?? {},
+    {
+      backgroundColor: props.color,
+      marginRight: addUnit(-(props.offset?.[0] ?? 0)),
+      marginTop: addUnit(props.offset?.[1] ?? 0),
+    },
+  ]
 })
 
 defineExpose({
