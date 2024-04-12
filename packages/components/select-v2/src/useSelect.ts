@@ -446,7 +446,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const update = (val: any) => {
     emit(UPDATE_MODEL_EVENT, val)
     emitChange(val)
-    states.previousValue = String(val)
+    states.previousValue = props.multiple ? String(val) : val
   }
 
   const getValueIndex = (arr = [], value: unknown) => {
@@ -790,7 +790,12 @@ const useSelect = (props: ISelectV2Props, emit) => {
   watch(
     () => props.modelValue,
     (val, oldVal) => {
-      if (!val || val.toString() !== states.previousValue) {
+      if (
+        !val ||
+        (props.multiple && val.toString() !== states.previousValue) ||
+        (!props.multiple &&
+          getValueKey(val) !== getValueKey(states.previousValue))
+      ) {
         initStates()
       }
       if (!isEqual(val, oldVal) && props.validateEvent) {
