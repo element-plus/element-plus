@@ -1,10 +1,12 @@
 import { nextTick } from 'vue'
 
-export const tick = async (times: number) => {
+const tick = async (times: number) => {
   while (times--) {
     await nextTick()
   }
 }
+
+export default tick
 
 // in order to test transitions, we need to use
 // await rAF() after firing transition events.

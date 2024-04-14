@@ -1,6 +1,7 @@
 import { h, nextTick } from 'vue'
 import { describe, expect, test, vi } from 'vitest'
-import { makeMount, rAF } from '@element-plus/test-utils'
+import makeMount from '@element-plus/test-utils/make-mount'
+import { rAF } from '@element-plus/test-utils/tick'
 import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import Message from '../src/message.vue'

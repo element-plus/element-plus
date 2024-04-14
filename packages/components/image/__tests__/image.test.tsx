@@ -5,7 +5,7 @@ import {
   IMAGE_FAIL,
   IMAGE_SUCCESS,
   mockImageEvent,
-} from '@element-plus/test-utils'
+} from '@element-plus/test-utils/mock'
 import Image from '../src/image.vue'
 import type { AnchorHTMLAttributes, ImgHTMLAttributes } from 'vue'
 import type { ImageProps } from '../src/image'

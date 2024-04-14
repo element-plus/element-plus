@@ -1,4 +1,5 @@
-import { defineGetter } from '@element-plus/test-utils'
+// @ts-nocheck
+import defineGetter from '@element-plus/test-utils/define-getter'
 
 export default () => {
   const clientWidth = defineGetter(

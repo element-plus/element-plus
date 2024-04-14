@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { nextTick } from 'vue'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
-import { makeMount, makeScroll } from '@element-plus/test-utils'
+import makeMount from '@element-plus/test-utils/make-mount'
+import makeScroll from '@element-plus/test-utils/make-scroll'
 import setupMock from '../setup-mock'
 import {
   CENTERED_ALIGNMENT,

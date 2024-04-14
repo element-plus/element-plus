@@ -1,7 +1,8 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
-import { defineGetter, makeScroll } from '@element-plus/test-utils'
+import defineGetter from '@element-plus/test-utils/define-getter'
+import makeScroll from '@element-plus/test-utils/make-scroll'
 import Affix from '../src/affix.vue'
 import type { VNode } from 'vue'
 
