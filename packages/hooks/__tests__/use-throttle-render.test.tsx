@@ -1,7 +1,7 @@
 import { defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { sleep } from '@element-plus/test-utils'
+import sleep from '@element-plus/test-utils/sleep'
 import { useThrottleRender } from '../use-throttle-render'
 import type { VueWrapper } from '@vue/test-utils'
 
