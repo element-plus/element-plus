@@ -1,6 +1,7 @@
 import { defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { sleep } from '@element-plus/test-utils'
 import { useThrottleRender } from '../use-throttle-render'
 import type { VueWrapper } from '@vue/test-utils'
 
@@ -15,7 +16,7 @@ const Comp = defineComponent({
   },
 })
 
-describe('useThrottleRender', () => {
+describe.concurrent('useThrottleRender', () => {
   let wrapper: VueWrapper<InstanceType<typeof Comp>>
 
   beforeEach(() => {
@@ -29,7 +30,7 @@ describe('useThrottleRender', () => {
   it('should throttle rendering when loading is true', async () => {
     await nextTick()
     expect(wrapper.find('.test-dom').text()).toBe('false') // initially false
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await sleep(1000)
     expect(wrapper.find('.test-dom').text()).toBe('true') // after throttle time, should be true
   })
 
@@ -51,7 +52,7 @@ describe('useThrottleRender', () => {
     expect(throttled.value).toBe(false) // initially false
     loading.value = false
     expect(throttled.value).toBe(false) // should remain false immediately
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await sleep(1000)
     loading.value = true
     expect(throttled.value).toBe(false) // should still be false after throttle time
   })
