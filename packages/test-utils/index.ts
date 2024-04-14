@@ -10,4 +10,4 @@ export {
   default as triggerCompositeClick,
   triggerNativeCompositeClick,
 } from './composite-click'
-export { default as makeMount } from './make-mount'
+export { default as makeMount, makeMountFunc } from './make-mount'
