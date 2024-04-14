@@ -27,8 +27,10 @@ export const useEmptyValues = (
   props: ExtractPropTypes<typeof useEmptyValuesProps>,
   defaultValue?: null | undefined
 ) => {
-  const config = useGlobalConfig()
-  config.value = config.value || {}
+  let config = useGlobalConfig()
+  if (!config.value) {
+    config = computed(() => config.value || {})
+  }
 
   const emptyValues = computed(
     () => props.emptyValues || config.value.emptyValues || DEFAULT_EMPTY_VALUES
