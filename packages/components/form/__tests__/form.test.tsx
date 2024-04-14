@@ -10,7 +10,7 @@ import {
   it,
   vi,
 } from 'vitest'
-import { installStyle, rAF } from '@element-plus/test-utils'
+import { stylePlugin as installStyle, rAF } from '@element-plus/test-utils'
 import {
   ElCheckbox as Checkbox,
   ElCheckboxGroup as CheckboxGroup,
