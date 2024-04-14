@@ -1,7 +1,7 @@
 import { h, nextTick, ref } from 'vue'
 import { describe, expect, it, test, vi } from 'vitest'
 import { getStyle } from '@element-plus/utils'
-import { rAF } from '@element-plus/test-utils/tick'
+import { rAF } from '@element-plus/test-utils'
 import { ElMessage } from '..'
 import Message from '../src/method'
 

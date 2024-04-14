@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
-import triggerEvent from '@element-plus/test-utils/trigger-event'
+import { triggerEvent } from '@element-plus/test-utils'
 import { usePreventGlobal } from '../use-prevent-global'
 
 describe('usePreventGlobal', () => {

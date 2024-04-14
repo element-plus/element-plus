@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import { IMAGE_SUCCESS } from '@element-plus/test-utils/mock'
+import { IMAGE_SUCCESS } from '@element-plus/test-utils'
 import ImageViewer from '../src/image-viewer.vue'
 
 async function doubleWait() {

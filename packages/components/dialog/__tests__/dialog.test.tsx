@@ -1,8 +1,7 @@
 import { markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import { rAF } from '@element-plus/test-utils/tick'
-import triggerCompositeClick from '@element-plus/test-utils/composite-click'
+import { rAF, triggerCompositeClick } from '@element-plus/test-utils'
 import { Delete } from '@element-plus/icons-vue'
 import Dialog from '../src/dialog.vue'
 

@@ -10,7 +10,7 @@ import {
   it,
   vi,
 } from 'vitest'
-import { rAF } from '@element-plus/test-utils/tick'
+import { rAF } from '@element-plus/test-utils'
 import Input from '@element-plus/components/input'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'

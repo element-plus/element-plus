@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { rAF } from '@element-plus/test-utils/tick'
+import { rAF } from '@element-plus/test-utils'
 import { ElPopperTrigger } from '@element-plus/components/popper'
 import Tooltip from '../src/tooltip.vue'
 

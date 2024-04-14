@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import defineGetter from '@element-plus/test-utils/define-getter'
+import { defineGetter } from '@element-plus/test-utils'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Input from '../src/input.vue'
 import type { CSSProperties } from 'vue'
