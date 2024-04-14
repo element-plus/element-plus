@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { buildProps, debugWarn, isFunction } from '@element-plus/utils'
 
@@ -27,7 +27,10 @@ export const useEmptyValues = (
   props: ExtractPropTypes<typeof useEmptyValuesProps>,
   defaultValue?: null | undefined
 ) => {
-  const config = useGlobalConfig()
+  let config = useGlobalConfig()
+  if (!config.value) {
+    config = ref({})
+  }
 
   const emptyValues = computed(
     () => props.emptyValues || config.value.emptyValues || DEFAULT_EMPTY_VALUES
