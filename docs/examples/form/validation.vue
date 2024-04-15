@@ -93,7 +93,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 
 interface RuleForm {
   name: string
@@ -108,7 +108,7 @@ interface RuleForm {
   desc: string
 }
 
-const formSize = ref('default')
+const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
   name: 'Hello',
