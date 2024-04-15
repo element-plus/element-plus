@@ -96,7 +96,6 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { ElDescriptions } from 'element-plus'
 import {
   Iphone,
   Location,
