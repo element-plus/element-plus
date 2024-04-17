@@ -80,6 +80,10 @@ export const DefaultProps: CascaderConfig = {
    * @description hover threshold of expanding options
    */
   hoverThreshold: 500,
+  /**
+   * @description whether to check node when clicking on the node
+   */
+  checkOnClickNode: false,
 }
 
 export const useCascaderConfig = (props: { props: CascaderProps }) => {
