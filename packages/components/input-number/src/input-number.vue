@@ -54,7 +54,6 @@
       :name="name"
       :label="label"
       :validate-event="false"
-      @wheel="handleWheel"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
       @blur="handleBlur"
@@ -294,7 +293,7 @@ const setCurrentValueToModelValue = () => {
     data.currentValue = props.modelValue
   }
 }
-const handleWheel = (e: MouseEvent) => {
+const handleWheel = (e: WheelEvent) => {
   if (document.activeElement === e.target) e.preventDefault()
 }
 
@@ -336,6 +335,7 @@ onMounted(() => {
     }
     emit(UPDATE_MODEL_EVENT, val!)
   }
+  innerInput.addEventListener('wheel', handleWheel, { passive: false })
 })
 onUpdated(() => {
   const innerInput = input.value?.input
