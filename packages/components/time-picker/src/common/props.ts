@@ -1,5 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
@@ -211,6 +211,7 @@ export const timePickerDefaultProps = buildProps({
    * @description unlink two date-panels in range-picker
    */
   unlinkPanels: Boolean,
+  ...useEmptyValuesProps,
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<

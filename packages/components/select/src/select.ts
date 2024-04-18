@@ -1,5 +1,5 @@
 import { placements } from '@popperjs/core'
-import { useSizeProp } from '@element-plus/hooks'
+import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
@@ -223,4 +223,5 @@ export const SelectProps = buildProps({
    * @description destroy drop-down menu when select component blur
    */
   destroyOnClose: Boolean,
+  ...useEmptyValuesProps,
 })
