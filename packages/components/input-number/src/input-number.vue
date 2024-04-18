@@ -64,15 +64,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {
-  computed,
-  onMounted,
-  onUnmounted,
-  onUpdated,
-  reactive,
-  ref,
-  watch,
-} from 'vue'
+import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { ElInput } from '@element-plus/components/input'
 import { ElIcon } from '@element-plus/components/icon'
@@ -302,7 +294,7 @@ const setCurrentValueToModelValue = () => {
   }
 }
 const handleWheel = (e: WheelEvent) => {
-  e.preventDefault()
+  if (document.activeElement === e.target) e.preventDefault()
 }
 
 watch(
@@ -348,10 +340,6 @@ onMounted(() => {
 onUpdated(() => {
   const innerInput = input.value?.input
   innerInput?.setAttribute('aria-valuenow', `${data.currentValue ?? ''}`)
-})
-onUnmounted(() => {
-  const innerInput = input.value?.input
-  innerInput?.removeEventListener('wheel', handleWheel)
 })
 defineExpose({
   /** @description get focus the input component */
