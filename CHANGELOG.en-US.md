@@ -1,5 +1,52 @@
 ## Changelog
 
+### 2.7.0
+
+_2024-04-12_
+
+#### Breaking changes
+
+- See #15834
+
+#### Features
+
+- Components [segmented] new component (#16258 by @kooriookami)
+- Components add empty-values and value-on-clear props (#16361 by @kooriookami)
+- Components [badge] add dotClass、dotStyle、offset props (#16434 by @lxw15337674)
+- Support node 18+ & update tsx and vitest (#16190 by @btea)
+
+#### Bug fixes
+
+- Components [input-number] wrapper padding style is overridden (#16310 by @betavs)
+- Components [input-number] fix cascading style order (#16308 by @makedopamine)
+- Components [table-v2] fixed mode hovering rerender cell (#12378 by @chenxch)
+- Components [select-v2] manually set object type modelValue error (#16473 by @Fuphoenixes)
+- Components [select & select-v2] fix filterable double click error (#16456 by @Fuphoenixes)
+- Components [table] fixed hover on colSpan > 2 background is error (#16443 by @Liao-js)
+
+#### Refactors
+
+- Components [button] use buttonkls (#16090 by @wzc520pyfm)
+
+### 2.6.3
+
+_2024-03-29_
+
+#### Features
+
+- Components [tree] lazy load provide reject (#16099 by @btea)
+- Locale update ru locale (#16192 by @VisualYuki)
+- Components [message] add plain prop (#16214 by @kooriookami)
+- Components [input-number] support slot custom icons (#16275 by @selicens)
+- Components [badge] add color prop  (#16069 by @lxw15337674)
+
+#### Bug fixes
+
+- Components [icon] remove repeat style (#16242 by @Fuphoenixes)
+- Components [select] fix error in low versions of vue (#16234 by @kooriookami)
+- Components [date-picker] click the clear to reset the date panel (#15835 by @Ganlvin)
+- Components [tree] dragging a node will deselect the node (#14830 by @Alixhan)
+
 ### 2.6.2
 
 _2024-03-22_

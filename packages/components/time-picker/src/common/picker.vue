@@ -174,7 +174,7 @@ import {
 } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useEmptyValues, useLocale, useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
@@ -226,6 +226,7 @@ const nsRange = useNamespace('range')
 
 const { form, formItem } = useFormItem()
 const elPopperOptions = inject('ElPopperOptions', {} as Options)
+const { valueOnClear } = useEmptyValues(props, null)
 
 const refPopper = ref<TooltipInstance>()
 const inputRef = ref<HTMLElement | ComponentPublicInstance>()
@@ -505,8 +506,8 @@ const onClearIconClick = (event: MouseEvent) => {
   if (showClose.value) {
     event.stopPropagation()
     focusOnInputBox()
-    emitInput(null)
-    emitChange(null, true)
+    emitInput(valueOnClear.value)
+    emitChange(valueOnClear.value, true)
     showClose.value = false
     pickerVisible.value = false
     pickerOptions.value.handleClear && pickerOptions.value.handleClear()
@@ -593,8 +594,8 @@ const handleChange = () => {
     }
   }
   if (userInput.value === '') {
-    emitInput(null)
-    emitChange(null)
+    emitInput(valueOnClear.value)
+    emitChange(valueOnClear.value)
     userInput.value = null
   }
 }
