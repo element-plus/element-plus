@@ -40,14 +40,6 @@ const onClick = (item: string) => {
 
 const resourceCards = computed(() => [
   {
-    key: '2024-master-go-ui-kit',
-    title: resourceLang.value.masterGo2024,
-    description: '2024 MasterGo UI Kit',
-    icon: MasterGoUiKitSvg,
-    intro: resourceLang.value.masterGo2024Intro,
-    url: 'https://mastergo.com/community/resource/124855257836266',
-  },
-  {
     key: '2023-figma-ui-kit',
     title: resourceLang.value.figma2023,
     description: '2023 Figma UI Kit',
@@ -68,6 +60,14 @@ const resourceCards = computed(() => [
     icon: FigmaTemplateSvg,
     intro: resourceLang.value.figmaIntro,
     url: 'https://www.figma.com/community/file/1021254029764378306',
+  },
+  {
+    key: '2024-master-go-ui-kit',
+    title: resourceLang.value.masterGo2024,
+    description: '2024 MasterGo UI Kit',
+    icon: MasterGoUiKitSvg,
+    intro: resourceLang.value.masterGo2024Intro,
+    url: 'https://mastergo.com/community/resource/124855257836266',
   },
   {
     key: 'sketch',
