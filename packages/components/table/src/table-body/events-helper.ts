@@ -134,6 +134,8 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     let rangeWidth = range.getBoundingClientRect().width
     let rangeHeight = range.getBoundingClientRect().height
     const offsetWidth = rangeWidth - Math.floor(rangeWidth)
+    const { width: cellChildWidth, height: cellChildHeight } =
+      cellChild.getBoundingClientRect()
     if (offsetWidth < 0.001) {
       rangeWidth = Math.floor(rangeWidth)
     }
@@ -146,9 +148,9 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     const horizontalPadding = left + right
     const verticalPadding = top + bottom
     if (
-      rangeWidth + horizontalPadding > cellChild.offsetWidth ||
-      rangeHeight + verticalPadding > cellChild.offsetHeight ||
-      cellChild.scrollWidth > cellChild.offsetWidth
+      rangeWidth + horizontalPadding > cellChildWidth ||
+      rangeHeight + verticalPadding > cellChildHeight ||
+      cellChild.scrollWidth > cellChildWidth
     ) {
       createTablePopper(
         tooltipOptions,
