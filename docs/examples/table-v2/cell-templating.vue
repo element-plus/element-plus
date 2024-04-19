@@ -10,13 +10,13 @@
 
 <script lang="tsx" setup>
 import { ref } from 'vue'
-import dayjs from 'dayjs'
 import {
   ElButton,
   ElIcon,
   ElTag,
   ElTooltip,
   TableV2FixedDir,
+  dayjs,
 } from 'element-plus'
 import { Timer } from '@element-plus/icons-vue'
 

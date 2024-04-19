@@ -26,7 +26,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import dayjs from 'dayjs'
+import { dayjs } from 'element-plus'
 
 const now = new Date()
 
