@@ -10,6 +10,7 @@ import SketchTemplateSvg from './resources/sketch-template-svg.vue'
 import FigmaTemplateSvg from './resources/figma-template-svg.vue'
 import FigmaVariablesSvg from './resources/figma-variables-svg.vue'
 import FigmaUiKitSvg from './resources/figma-ui-kit-svg.vue'
+import MasterGoUiKitSvg from './resources/master-go-ui-kit-svg.vue'
 
 const mirrorUrl = 'element-plus.gitee.io'
 const isMirrorUrl = () => {
@@ -38,6 +39,14 @@ const onClick = (item: string) => {
 }
 
 const resourceCards = computed(() => [
+  {
+    key: '2024-master-go-ui-kit',
+    title: resourceLang.value.masterGo2024,
+    description: '2024 MasterGo UI Kit',
+    icon: MasterGoUiKitSvg,
+    intro: resourceLang.value.masterGo2024Intro,
+    url: 'https://mastergo.com/community/resource/124855257836266',
+  },
   {
     key: '2023-figma-ui-kit',
     title: resourceLang.value.figma2023,
