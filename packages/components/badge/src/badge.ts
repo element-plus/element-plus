@@ -44,22 +44,34 @@ export const badgeProps = buildProps({
    */
   color: String,
   /**
-   * @description CSS style of dot
+   * @deprecated
    */
   dotStyle: {
     type: definePropType<StyleValue>([String, Object, Array]),
   },
   /**
-   * @description set offset of the badge dot
+   * @description CSS style of badge
+   */
+  badgeStyle: {
+    type: definePropType<StyleValue>([String, Object, Array]),
+  },
+  /**
+   * @description set offset of the badge
    */
   offset: {
     type: definePropType<[number, number]>(Array),
     default: [0, 0],
   },
   /**
-   * @description custom class name of badge dot
+   * @deprecated
    */
   dotClass: {
+    type: String,
+  },
+  /**
+   * @description custom class name of badge
+   */
+  badgeClass: {
     type: String,
   },
 } as const)
