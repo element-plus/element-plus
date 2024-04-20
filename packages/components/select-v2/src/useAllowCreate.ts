@@ -15,10 +15,10 @@ export function useAllowCreate(props: ISelectV2Props, states) {
   })
 
   function hasExistingOption(query: string) {
-    const hasValue = (option) => getValue(option) === query
+    const hasOption = (option) => getLabel(option) === query
     return (
-      (props.options && props.options.some(hasValue)) ||
-      states.createdOptions.some(hasValue)
+      (props.options && props.options.some(hasOption)) ||
+      states.createdOptions.some(hasOption)
     )
   }
 

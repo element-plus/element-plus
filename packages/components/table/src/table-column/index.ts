@@ -151,12 +151,14 @@ export default defineComponent({
         )
     })
     onBeforeUnmount(() => {
-      owner.value.store.commit(
-        'removeColumn',
-        columnConfig.value,
-        isSubColumn.value ? parent.columnConfig.value : null,
-        updateColumnOrder
-      )
+      const columnIndex = columnConfig.value.getColumnIndex()
+      columnIndex > -1 &&
+        owner.value.store.commit(
+          'removeColumn',
+          columnConfig.value,
+          isSubColumn.value ? parent.columnConfig.value : null,
+          updateColumnOrder
+        )
     })
     instance.columnId = columnId.value
 
