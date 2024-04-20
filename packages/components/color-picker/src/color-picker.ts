@@ -1,6 +1,6 @@
 import { isNil } from 'lodash-unified'
 import { buildProps, definePropType, isString } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { ComputedRef, ExtractPropTypes, InjectionKey } from 'vue'
@@ -39,7 +39,7 @@ export const colorPickerProps = buildProps({
     default: '',
   },
   /**
-   * @description ColorPicker aria-label
+   * @deprecated ColorPicker aria-label
    */
   label: {
     type: String,
@@ -65,6 +65,7 @@ export const colorPickerProps = buildProps({
     type: Boolean,
     default: true,
   },
+  ...useAriaProps,
 } as const)
 export const colorPickerEmits = {
   [UPDATE_MODEL_EVENT]: (val: string | null) => isString(val) || isNil(val),
