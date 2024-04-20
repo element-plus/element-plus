@@ -78,7 +78,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
   })
 
   // data refs
-  const selectedIndex = ref(-1)
   const popperSize = ref(-1)
 
   // DOM & Component refs
@@ -518,7 +517,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
         states.inputValue = ''
       }
     } else {
-      selectedIndex.value = idx
       states.selectedLabel = getLabel(option)
       update(getValue(option))
       expanded.value = false
