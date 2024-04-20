@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { defineComponent, markRaw, nextTick } from 'vue'
+import { defineComponent, markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -2551,7 +2551,32 @@ describe('Select', () => {
       expect(wrapper.findAll('.el-tag').length).toBe(1)
     })
   })
-
+  it('should ensure that isDisabled is fresh to prevent selected tag from being cleared', async () => {
+    const disabled = ref(false)
+    const wrapper = _mount(
+      `
+            <el-select v-model="value" multiple clearable>
+              <el-option
+                label="foo"
+                value="foo"
+                :disabled="disabled"
+              >
+              </el-option>
+            </el-select>
+          `,
+      () => ({
+        value: ['foo'],
+        disabled,
+      })
+    )
+    disabled.value = true
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm
+    selectVm.states.inputHovering = true
+    await nextTick()
+    const iconClear = wrapper.findComponent(CircleClose)
+    await iconClear.trigger('click')
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+  })
   it('It should generate accessible attributes', async () => {
     wrapper = _mount(
       `<el-select v-model="value">
