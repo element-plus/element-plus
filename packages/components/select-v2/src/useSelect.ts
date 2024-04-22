@@ -489,7 +489,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     tagTooltipRef.value?.updatePopper?.()
   }
 
-  const onSelect = (option: Option, idx: number) => {
+  const onSelect = (option: Option) => {
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
@@ -659,10 +659,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
       ~states.hoveringIndex &&
       filteredOptions.value[states.hoveringIndex]
     ) {
-      onSelect(
-        filteredOptions.value[states.hoveringIndex],
-        states.hoveringIndex
-      )
+      onSelect(filteredOptions.value[states.hoveringIndex])
     }
   }
 
