@@ -216,7 +216,7 @@ export const timePickerDefaultProps = buildProps({
    */
   unlinkPanels: Boolean,
   ...useEmptyValuesProps,
-  ...useAriaProps,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<

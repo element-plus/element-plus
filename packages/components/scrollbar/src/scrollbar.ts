@@ -83,7 +83,7 @@ export const scrollbarProps = buildProps({
    * @description role of view
    */
   role: String,
-  ...useAriaProps,
+  ...useAriaProps(['ariaLabel', 'ariaOrientation']),
 } as const)
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
 

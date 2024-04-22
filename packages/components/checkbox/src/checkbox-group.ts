@@ -58,7 +58,7 @@ export const checkboxGroupProps = buildProps({
     type: Boolean,
     default: true,
   },
-  ...useAriaProps,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export const checkboxGroupEmits = {

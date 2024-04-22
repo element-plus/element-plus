@@ -58,7 +58,7 @@ export const useTooltipContentProps = buildProps({
    * @description whether Tooltip is disabled
    */
   disabled: Boolean,
-  ...useAriaProps,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export type ElTooltipContentProps = ExtractPropTypes<

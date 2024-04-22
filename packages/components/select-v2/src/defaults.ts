@@ -245,7 +245,7 @@ export const SelectProps = buildProps({
    */
   tagType: { ...tagProps.type, default: 'info' },
   ...useEmptyValuesProps,
-  ...useAriaProps,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export const OptionProps = buildProps({

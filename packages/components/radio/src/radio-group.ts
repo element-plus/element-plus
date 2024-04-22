@@ -62,7 +62,7 @@ export const radioGroupProps = buildProps({
     type: Boolean,
     default: true,
   },
-  ...useAriaProps,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>
 

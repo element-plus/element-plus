@@ -111,7 +111,7 @@ export const checkboxProps = {
     type: Boolean,
     default: true,
   },
-  ...useAriaProps,
+  ...useAriaProps(['ariaControls']),
 }
 
 export const checkboxEmits = {

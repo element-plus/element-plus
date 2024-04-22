@@ -217,5 +217,5 @@ export const SelectProps = buildProps({
     default: ['bottom-start', 'top-start', 'right', 'left'],
   },
   ...useEmptyValuesProps,
-  ...useAriaProps,
+  ...useAriaProps(['ariaLabel']),
 })

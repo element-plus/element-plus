@@ -108,7 +108,7 @@ export const popperContentProps = buildProps({
   },
   virtualTriggering: Boolean,
   zIndex: Number,
-  ...useAriaProps,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 export type PopperContentProps = ExtractPropTypes<typeof popperContentProps>
 

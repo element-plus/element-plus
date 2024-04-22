@@ -59,7 +59,7 @@ export const tooltipV2ContentProps = buildProps({
     type: Boolean,
     default: false,
   },
-  ...useAriaProps,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export type TooltipV2ContentProps = ExtractPropTypes<

@@ -53,7 +53,7 @@ export const segmentedProps = buildProps({
    * @description native `name` attribute
    */
   name: String,
-  ...useAriaProps,
+  ...useAriaProps(['ariaLabel']),
 })
 
 export type SegmentedProps = ExtractPropTypes<typeof segmentedProps>

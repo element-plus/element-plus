@@ -1,6 +1,6 @@
 import { buildProps } from '@element-plus/utils'
 
-export const useAriaProps = buildProps({
+export const ariaProps = buildProps({
   /**
    * @description native `aria-label` attribute
    */
@@ -17,3 +17,13 @@ export const useAriaProps = buildProps({
    */
   ariaControls: String,
 })
+
+export const useAriaProps = (arias: Array<keyof typeof ariaProps>) => {
+  const props: Pick<typeof ariaProps, any> = {}
+  arias.forEach((aria) => {
+    if (ariaProps[aria]) {
+      props[aria] = ariaProps[aria]
+    }
+  })
+  return props
+}

@@ -175,7 +175,7 @@ export const sliderProps = buildProps({
     type: Boolean,
     default: true,
   },
-  ...useAriaProps,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 export type SliderProps = ExtractPropTypes<typeof sliderProps>
 
