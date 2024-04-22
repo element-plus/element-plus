@@ -2,7 +2,8 @@
   "extends": "./tsconfig.web.json",
   "compilerOptions": {
     "allowJs": true,
-    "lib": ["ESNext", "DOM", "DOM.Iterable"]
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "types": ["unplugin-icons/types/vue3"]
   },
   "include": [
     "packages",

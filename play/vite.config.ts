@@ -8,6 +8,7 @@ import Inspect from 'vite-plugin-inspect'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
 import VueMacros from 'unplugin-vue-macros/vite'
+import Icons from 'unplugin-icons/vite'
 import esbuild from 'rollup-plugin-esbuild'
 import {
   epPackage,
@@ -16,20 +17,21 @@ import {
   pkgRoot,
   projRoot,
 } from '@element-plus/build-utils'
-import type { Plugin } from 'vite'
+import type { Plugin, UserConfigFnObject } from 'vite'
 import './vite.init'
 
-const esbuildPlugin = (): Plugin => ({
-  ...esbuild({
-    target: 'chrome64',
-    loaders: {
-      '.vue': 'js',
-    },
-  }),
-  enforce: 'post',
-})
+const esbuildPlugin = (): Plugin =>
+  ({
+    ...esbuild({
+      target: 'chrome64',
+      loaders: {
+        '.vue': 'js',
+      },
+    }),
+    enforce: 'post',
+  } as Plugin)
 
-export default defineConfig(async ({ mode }) => {
+export default defineConfig((async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   let { dependencies } = getPackageDependencies(epPackage)
   dependencies = dependencies.filter((dep) => !dep.startsWith('@types/')) // exclude dts deps
@@ -80,6 +82,7 @@ export default defineConfig(async ({ mode }) => {
       }),
       mkcert(),
       Inspect(),
+      Icons({ autoInstall: true }),
     ],
 
     optimizeDeps: {
@@ -89,4 +92,4 @@ export default defineConfig(async ({ mode }) => {
       target: 'chrome64',
     },
   }
-})
+}) as UserConfigFnObject)
