@@ -241,6 +241,7 @@ provide(sliderContextKey, {
   disabled: sliderDisabled,
   precision,
   emitChange,
+  markList,
   resetSize,
   updateDragging,
 })
