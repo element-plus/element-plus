@@ -115,8 +115,8 @@ export default defineComponent({
                   'div',
                   {
                     class: ['cell', column.labelClassName],
+                    innerHTML: sums[cellIndex],
                   },
-                  [sums[cellIndex]]
                 ),
               ]
             )
