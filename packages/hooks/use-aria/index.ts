@@ -19,6 +19,8 @@ export const ariaProps = buildProps({
   ariaControls: String,
 })
 
-export const useAriaProps = (arias: Array<keyof typeof ariaProps>) => {
-  return pick(ariaProps, arias)
+export const useAriaProps = <T extends keyof typeof ariaProps>(
+  arias: Array<T>
+) => {
+  return pick<typeof ariaProps, T>(ariaProps, arias)
 }
