@@ -33,15 +33,6 @@ export const rightLogoSmallSponsors = [
 
 export const leftCustomImgSponsors = [
   {
-    name: 'JSDesign',
-    name_cn: '即时设计',
-    img: '/images/js-design.png',
-    url: 'https://js.design/?source=element-plus&plan=sy',
-    slogan: 'Professional online UI design tool',
-    slogan_cn: '专业在线UI设计工具',
-    banner_img: '/images/js-design-banner.jpg',
-  },
-  {
     name: 'VForm',
     img: '/images/vform.png',
     url: 'https://vform666.com/',

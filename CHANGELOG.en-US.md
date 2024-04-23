@@ -1,5 +1,51 @@
 ## Changelog
 
+### 2.7.1
+
+_2024-04-20_
+
+#### Features
+
+- Components [badge] Add badge-style and badge-class (#16585 by @kooriookami)
+
+#### Bug fixes
+
+- Hooks [empty-values] warning on modifying computead value (#16508 by @btea)
+- Components [input-number] fix binding wheel event warning (#16495 by @Canroc)
+- Components [table] fix cell tooltip display error (#16449 by @electroluxcode)
+- Components [table] hover style error (#16517 by @dowinweb)
+- Components [table] fix grouping head when dynamic column (#16433 by @Liao-js)
+- Components [select-v2] fix has existing option  when allow create (#16590 by @Liao-js)
+- Components [table] table body rerendered when use row-key (#16544 by @Liao-js)
+
+### 2.7.0
+
+_2024-04-12_
+
+#### Breaking changes
+
+- See #15834
+
+#### Features
+
+- Components [segmented] new component (#16258 by @kooriookami)
+- Components add empty-values and value-on-clear props (#16361 by @kooriookami)
+- Components [badge] add dotClass、dotStyle、offset props (#16434 by @lxw15337674)
+- Support node 18+ & update tsx and vitest (#16190 by @btea)
+
+#### Bug fixes
+
+- Components [input-number] wrapper padding style is overridden (#16310 by @betavs)
+- Components [input-number] fix cascading style order (#16308 by @makedopamine)
+- Components [table-v2] fixed mode hovering rerender cell (#12378 by @chenxch)
+- Components [select-v2] manually set object type modelValue error (#16473 by @Fuphoenixes)
+- Components [select & select-v2] fix filterable double click error (#16456 by @Fuphoenixes)
+- Components [table] fixed hover on colSpan > 2 background is error (#16443 by @Liao-js)
+
+#### Refactors
+
+- Components [button] use buttonkls (#16090 by @wzc520pyfm)
+
 ### 2.6.3
 
 _2024-03-29_

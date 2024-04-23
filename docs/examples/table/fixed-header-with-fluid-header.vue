@@ -19,9 +19,9 @@
       </template>
     </el-table-column>
   </el-table>
-  <el-button class="mt-4" style="width: 100%" @click="onAddItem"
-    >Add Item</el-button
-  >
+  <el-button class="mt-4" style="width: 100%" @click="onAddItem">
+    Add Item
+  </el-button>
 </template>
 
 <script lang="ts" setup>

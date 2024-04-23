@@ -28,6 +28,7 @@ const marks = reactive<Marks>({
   },
 })
 </script>
+
 <style scoped>
 .slider-demo-block {
   max-width: 600px;

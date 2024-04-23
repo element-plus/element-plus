@@ -6,8 +6,9 @@
       :key="button.text"
       :type="button.type"
       text
-      >{{ button.text }}</el-button
     >
+      {{ button.text }}
+    </el-button>
   </div>
 
   <p>Background color always on</p>
@@ -18,8 +19,9 @@
       :type="button.type"
       text
       bg
-      >{{ button.text }}</el-button
     >
+      {{ button.text }}
+    </el-button>
   </div>
 
   <p>Disabled text button</p>
@@ -30,8 +32,9 @@
       :type="button.type"
       text
       disabled
-      >{{ button.text }}</el-button
     >
+      {{ button.text }}
+    </el-button>
   </div>
 </template>
 

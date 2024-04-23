@@ -10,6 +10,8 @@
     :placeholder="placeholder"
     default-first-option
     :filterable="editable"
+    :empty-values="emptyValues"
+    :value-on-clear="valueOnClear"
     @update:model-value="(event) => $emit('update:modelValue', event)"
     @change="(event) => $emit('change', event)"
     @blur="(event) => $emit('blur', event)"
