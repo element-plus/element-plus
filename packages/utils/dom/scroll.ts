@@ -1,7 +1,7 @@
 import { isClient } from '../browser'
 import { easeInOutCubic } from '../easings'
 import { isWindow } from '../types'
-import { rAF } from '../raf'
+import { cAF, rAF } from '../raf'
 import { getStyle } from './style'
 
 export const isScroll = (el: HTMLElement, isVertical?: boolean): boolean => {
@@ -112,6 +112,7 @@ export function animateScrollTo(
 ) {
   const startTime = Date.now()
 
+  let handle: number | undefined
   const scroll = () => {
     const timestamp = Date.now()
     const time = timestamp - startTime
@@ -128,13 +129,17 @@ export function animateScrollTo(
       container.scrollTop = nextScrollTop
     }
     if (time < duration) {
-      rAF(scroll)
+      handle = rAF(scroll)
     } else if (typeof callback === 'function') {
       callback()
     }
   }
 
   scroll()
+
+  return () => {
+    handle && cAF(handle)
+  }
 }
 
 export const getScrollElement = (

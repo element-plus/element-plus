@@ -593,7 +593,7 @@ const isValidValue = (date: unknown) => {
 }
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
-  return Array.isArray(value)
+  return isArray(value)
     ? (value as Dayjs[]).map((_) => _.format(props.format))
     : (value as Dayjs).format(props.format)
 }

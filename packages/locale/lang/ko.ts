@@ -1,6 +1,9 @@
 export default {
   name: 'ko',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: '확인',
       clear: '초기화',

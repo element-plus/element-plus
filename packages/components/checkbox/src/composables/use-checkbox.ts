@@ -43,13 +43,24 @@ export const useCheckbox = (
       if (isArray(model.value) && !model.value.includes(actualValue.value)) {
         model.value.push(actualValue.value)
       } else {
-        model.value = props.trueValue || props.trueLabel || true
+        model.value = props.trueValue ?? props.trueLabel ?? true
       }
     }
     props.checked && addToStore()
   }
 
   setStoreValue()
+
+  useDeprecated(
+    {
+      from: 'controls',
+      replacement: 'aria-controls',
+      version: '2.8.0',
+      scope: 'el-checkbox',
+      ref: 'https://element-plus.org/en-US/component/checkbox.html',
+    },
+    computed(() => !!props.controls)
+  )
 
   useDeprecated(
     {

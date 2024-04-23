@@ -6,7 +6,12 @@ import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
-import { doubleWait, getTestData, mount } from './table-test-common'
+import {
+  doubleWait,
+  getMutliRowTestData,
+  getTestData,
+  mount,
+} from './table-test-common'
 import type { VueWrapper } from '@vue/test-utils'
 import type { ComponentPublicInstance } from 'vue'
 
@@ -82,8 +87,8 @@ describe('Table.vue', () => {
         <el-table-column label="someLabel">
           <template #default="{ row }">
             <el-checkbox-group v-model="row.checkList">
-              <el-checkbox label="复选框 A"></el-checkbox>
-              <el-checkbox label="复选框 B"></el-checkbox>
+              <el-checkbox label="复选框 A" value="复选框 A"></el-checkbox>
+              <el-checkbox label="复选框 B" value="复选框 B"></el-checkbox>
             </el-checkbox-group>
           </template>
         </el-table-column>
@@ -1072,6 +1077,64 @@ describe('Table.vue', () => {
     await rAF()
     await doubleWait()
     expect([...cell.classList]).not.toContain('hover-cell')
+    wrapper.unmount()
+  })
+
+  it('hover on which contains nested rowSpan > 1', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+        <el-table
+          :data="testData"
+          :span-method="objectSpanMethod"
+          border
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column prop="id" label="ID" width="180" />
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="amount1" label="发行日期" />
+          <el-table-column prop="amount2" label="导演" />
+          <el-table-column prop="amount3" label="时长（分）" />
+        </el-table>
+      `,
+      data() {
+        return {
+          testData: getMutliRowTestData(),
+        }
+      },
+      methods: {
+        objectSpanMethod: ({ row, columnIndex }) => {
+          if (row.span[columnIndex]) {
+            return row.span[columnIndex]
+          }
+          return [1, 1]
+        },
+      },
+    })
+    const vm = wrapper.vm
+    await doubleWait()
+    const rows = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')
+    triggerEvent(rows[3], 'mouseenter', true, false)
+    await doubleWait()
+    await rAF()
+    await doubleWait()
+    const nodeLists = vm.$el.querySelectorAll(
+      '.el-table__body-wrapper tbody tr'
+    )
+    const cellNotContain = nodeLists[0].querySelectorAll('.el-table__cell')[1]
+    expect([...cellNotContain.classList]).not.toContain('hover-cell')
+    const cellShouldContain =
+      nodeLists[2].querySelectorAll('.el-table__cell')[0]
+    expect([...cellShouldContain.classList]).toContain('hover-cell')
+
+    await doubleWait()
+    triggerEvent(rows[3], 'mouseleave', true, false)
+    await rAF()
+    await doubleWait()
+    expect([...cellShouldContain.classList]).not.toContain('hover-cell')
     wrapper.unmount()
   })
 

@@ -71,16 +71,19 @@ const setCurrentAnchor = (href: string) => {
   }
 }
 
+let clearAnimate: (() => void) | null = null
+
 const scrollToAnchor = (href: string) => {
   if (!containerEl.value) return
   const target = getElement(href)
   if (!target) return
+  if (clearAnimate) clearAnimate()
   isScrolling = true
   const scrollEle = getScrollElement(target, containerEl.value)
   const distance = getOffsetTopDistance(target, scrollEle)
   const max = scrollEle.scrollHeight - scrollEle.clientHeight
   const to = Math.min(distance - props.offset, max)
-  animateScrollTo(
+  clearAnimate = animateScrollTo(
     containerEl.value,
     currentScrollTop,
     to,

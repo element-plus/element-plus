@@ -1,6 +1,9 @@
 export default {
   name: 'ar',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'موافق',
       clear: 'إزالة',

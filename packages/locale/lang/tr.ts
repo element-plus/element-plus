@@ -1,6 +1,9 @@
 export default {
   name: 'tr',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Onayla',
       clear: 'Temizle',

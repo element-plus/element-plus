@@ -8,7 +8,7 @@
   @include set-component-css-var('anchor', $anchor);
 
   position: relative;
-  background-color: getCssVar('anchor-bg-color') ;
+  background-color: getCssVar('anchor-bg-color');
 
   @include e(marker) {
     position: absolute;
@@ -19,13 +19,12 @@
   }
 
   &.#{$namespace}-anchor--vertical {
-
     @include e(marker) {
       width: 4px;
       height: 14px;
       top: 8px;
       left: 0;
-      transition: top .25s cubic-bezier(0,1,.5,1),opacity .25s;
+      transition: top 0.25s ease-in-out, opacity 0.25s;
     }
 
     @include e(list) {
@@ -39,24 +38,22 @@
         width: 2px;
         height: 100%;
         background-color: rgba(5, 5, 5, 0.06);
-        content: "";
+        content: '';
       }
-  
+
       @include e(marker) {
         width: 2px;
         border-radius: unset;
       }
     }
-
   }
 
   &.#{$namespace}-anchor--horizontal {
-
     @include e(marker) {
       height: 2px;
       width: 20px;
       bottom: 0;
-      transition: left .25s cubic-bezier(0,1,.5,1),opacity .25s, width .25s;
+      transition: left 0.25s ease-in-out, opacity 0.25s, width 0.25s;
     }
 
     @include e(list) {
@@ -79,15 +76,13 @@
         width: 100%;
         height: 2px;
         background-color: rgba(5, 5, 5, 0.06);
-        content: "";
+        content: '';
       }
-  
+
       @include e(marker) {
         height: 2px;
         border-radius: unset;
       }
     }
-
   }
-
 }

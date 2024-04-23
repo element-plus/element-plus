@@ -1,6 +1,9 @@
 export default {
   name: 'uz-uz',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Qabul qilish',
       clear: 'Tozalash',

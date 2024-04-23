@@ -77,20 +77,20 @@ carousel/vertical
 
 ## Carousel Attributes
 
-| Name                   | Description                                           | Type    | Accepted Values     | Default    |
-| ---------------------- | ----------------------------------------------------- | ------- | ------------------- | ---------- |
-| height                 | height of the carousel                                | string  | —                   | —          |
-| initial-index          | index of the initially active slide (starting from 0) | number  | —                   | 0          |
-| trigger                | how indicators are triggered                          | string  | hover/click         | hover      |
-| autoplay               | whether automatically loop the slides                 | boolean | —                   | true       |
-| interval               | interval of the auto loop, in milliseconds            | number  | —                   | 3000       |
-| indicator-position     | position of the indicators                            | string  | outside/none        | —          |
-| arrow                  | when arrows are shown                                 | string  | always/hover/never  | hover      |
-| type                   | type of the Carousel                                  | string  | card                | —          |
-| loop                   | display the items in loop                             | boolean | -                   | true       |
-| direction              | display direction                                     | string  | horizontal/vertical | horizontal |
-| pause-on-hover         | pause autoplay when hover                             | boolean | -                   | true       |
-| motion-blur ^(2.6.0)   | infuse dynamism and smoothness into the carousel      | boolean | -                   | false      |
+| Name                 | Description                                           | Type    | Accepted Values     | Default    |
+| -------------------- | ----------------------------------------------------- | ------- | ------------------- | ---------- |
+| height               | height of the carousel                                | string  | —                   | —          |
+| initial-index        | index of the initially active slide (starting from 0) | number  | —                   | 0          |
+| trigger              | how indicators are triggered                          | string  | hover/click         | hover      |
+| autoplay             | whether automatically loop the slides                 | boolean | —                   | true       |
+| interval             | interval of the auto loop, in milliseconds            | number  | —                   | 3000       |
+| indicator-position   | position of the indicators                            | string  | outside/none        | —          |
+| arrow                | when arrows are shown                                 | string  | always/hover/never  | hover      |
+| type                 | type of the Carousel                                  | string  | card                | —          |
+| loop                 | display the items in loop                             | boolean | -                   | true       |
+| direction            | display direction                                     | string  | horizontal/vertical | horizontal |
+| pause-on-hover       | pause autoplay when hover                             | boolean | -                   | true       |
+| motion-blur ^(2.6.0) | infuse dynamism and smoothness into the carousel      | boolean | -                   | false      |
 
 ## Carousel Events
 

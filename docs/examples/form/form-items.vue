@@ -36,9 +36,9 @@
       }"
     >
       <el-input v-model="domain.value" />
-      <el-button class="mt-2" @click.prevent="removeDomain(domain)"
-        >Delete</el-button
-      >
+      <el-button class="mt-2" @click.prevent="removeDomain(domain)">
+        Delete
+      </el-button>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(formRef)">Submit</el-button>
