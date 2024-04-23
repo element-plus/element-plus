@@ -12,3 +12,4 @@ export const ElDescriptionsItem = withNoopInstall(DescriptionsItem)
 export default ElDescriptions
 
 export * from './src/description'
+export * from './src/description-item'
