@@ -111,13 +111,10 @@ export default defineComponent({
                 style: getCellStyles(column, cellIndex),
               },
               [
-                h(
-                  'div',
-                  {
-                    class: ['cell', column.labelClassName],
-                    innerHTML: sums[cellIndex],
-                  },
-                ),
+                h('div', {
+                  class: ['cell', column.labelClassName],
+                  innerHTML: sums[cellIndex],
+                }),
               ]
             )
           ),
