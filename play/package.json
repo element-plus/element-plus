@@ -13,6 +13,7 @@
   "devDependencies": {
     "@iconify/json": "^2.2.202",
     "@vitejs/plugin-vue": "^4.6.2",
+    "unplugin-auto-import": "^0.17.5",
     "unplugin-icons": "^0.14.6",
     "unplugin-vue-components": "^0.20.1",
     "vite": "^5.1.7",

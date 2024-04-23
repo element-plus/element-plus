@@ -8,7 +8,9 @@ import Inspect from 'vite-plugin-inspect'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
 import VueMacros from 'unplugin-vue-macros/vite'
+import AutoImport from 'unplugin-auto-import/vite'
 import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
 import esbuild from 'rollup-plugin-esbuild'
 import {
   epPackage,
@@ -19,6 +21,8 @@ import {
 } from '@element-plus/build-utils'
 import type { Plugin, UserConfigFnObject } from 'vite'
 import './vite.init'
+
+const pathSrc = path.resolve(__dirname, 'src')
 
 const esbuildPlugin = (): Plugin =>
   ({
@@ -77,11 +81,35 @@ export default defineConfig((async ({ mode }) => {
       esbuildPlugin(),
       Components({
         include: `${__dirname}/**`,
-        resolvers: ElementPlusResolver({ importStyle: 'sass' }),
+        resolvers: [
+          // Auto register icon components
+          // 自动注册图标组件
+          IconsResolver({
+            /* options */
+          }),
+          ElementPlusResolver({ importStyle: 'sass' }),
+        ],
         dts: false,
       }),
       mkcert(),
       Inspect(),
+      AutoImport({
+        // Auto import functions from Vue, e.g. ref, reactive, toRef...
+        // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
+        imports: ['vue'],
+
+        // Auto import functions from Element Plus, e.g. ElMessage, ElMessageBox... (with style)
+        // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
+        resolvers: [
+          // Auto import icon components
+          // 自动导入图标组件
+          IconsResolver({
+            // prefix: 'Icon',
+          }),
+        ],
+
+        dts: path.resolve(pathSrc, 'auto-imports.d.ts'),
+      }),
       Icons({ autoInstall: true }),
     ],
 
