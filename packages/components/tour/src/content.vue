@@ -12,6 +12,7 @@
       focus-start-el="container"
       :focus-trap-el="contentRef || undefined"
       @release-requested="onCloseRequested"
+      @focusout-prevented="onFocusoutPrevented"
     >
       <slot />
     </el-focus-trap>
@@ -67,5 +68,11 @@ const { ns } = inject(tourKey)!
 
 const onCloseRequested = () => {
   emit('close')
+}
+
+const onFocusoutPrevented = (event: CustomEvent) => {
+  if (event.detail.focusReason === 'pointer') {
+    event.preventDefault()
+  }
 }
 </script>

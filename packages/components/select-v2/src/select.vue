@@ -5,7 +5,7 @@
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
     @mouseenter="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
-    @click.stop="toggleMenu"
+    @click.prevent.stop="toggleMenu"
   >
     <el-tooltip
       ref="tooltipRef"
@@ -15,7 +15,7 @@
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
-      :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
+      :fallback-placements="fallbackPlacements"
       :effect="effect"
       :placement="placement"
       pure
@@ -160,7 +160,7 @@
                 @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
                 @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
-                @keydown.delete.stop.prevent="handleDel"
+                @keydown.delete.stop="handleDel"
                 @click.stop="toggleMenu"
               />
               <span

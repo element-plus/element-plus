@@ -1,6 +1,9 @@
 export default {
   name: 'az',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Təsdiqlə',
       clear: 'Təmizlə',
@@ -125,6 +128,11 @@ export default {
     },
     empty: {
       description: 'Məlumat yoxdur',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

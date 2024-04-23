@@ -803,6 +803,67 @@ describe('Select', () => {
       placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
       expect(placeholder.exists()).toBeTruthy()
     })
+
+    it('set modelValue when filtering in multiple select', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            filterable: true,
+            value: [],
+          }
+        },
+      })
+      const vm = wrapper.vm as any
+      const input = wrapper.find('input')
+      await input.trigger('click')
+      input.element.value = '1111'
+      await input.trigger('input')
+      vm.value = ['option_1']
+      await nextTick()
+      expect(wrapper.find('.el-select__tags-text').text()).toBe('a0')
+    })
+
+    it('set object modelValue in single select', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            value: null,
+            valueKey: 'id',
+            options: [
+              {
+                label: 'aa',
+                value: { id: 1, name: 'a1' },
+              },
+              {
+                label: 'bb',
+                value: { id: 2, name: 'b2' },
+              },
+              {
+                label: 'cc',
+                value: { id: 3, name: 'c3' },
+              },
+            ],
+          }
+        },
+      })
+      await nextTick()
+      const options = getOptions()
+      const vm = wrapper.vm as any
+      const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+
+      expect(vm.value).toBe(null)
+      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+      options[0].click()
+      await nextTick()
+      expect(vm.value).toBe(vm.options[0].value)
+      expect(placeholder.text()).toBe(vm.options[0].label)
+
+      vm.value = { id: 2, name: 'b2' }
+      await nextTick()
+      expect(vm.value).toEqual(vm.options[1].value)
+      expect(placeholder.text()).toBe(vm.options[1].label)
+    })
   })
 
   describe('event', () => {

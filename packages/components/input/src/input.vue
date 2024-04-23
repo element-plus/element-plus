@@ -1,6 +1,5 @@
 <template>
   <div
-    v-show="type !== 'hidden'"
     v-bind="containerAttrs"
     :class="containerKls"
     :style="containerStyle"
@@ -38,7 +37,7 @@
           :readonly="readonly"
           :autocomplete="autocomplete"
           :tabindex="tabindex"
-          :aria-label="label"
+          :aria-label="label || ariaLabel"
           :placeholder="placeholder"
           :style="inputStyle"
           :form="form"
@@ -118,7 +117,7 @@
         :readonly="readonly"
         :autocomplete="autocomplete"
         :style="textareaStyle"
-        :aria-label="label"
+        :aria-label="label || ariaLabel"
         :placeholder="placeholder"
         :form="form"
         :autofocus="autofocus"
@@ -179,6 +178,7 @@ import {
 import {
   useAttrs,
   useCursor,
+  useDeprecated,
   useFocusController,
   useNamespace,
 } from '@element-plus/hooks'
@@ -223,6 +223,7 @@ const containerKls = computed(() => [
       slots.suffix || props.suffixIcon || props.clearable || props.showPassword,
     [nsInput.bm('suffix', 'password-clear')]:
       showClear.value && showPwdVisible.value,
+    [nsInput.b('hidden')]: props.type === 'hidden',
   },
   rawAttrs.class,
 ])
@@ -524,6 +525,17 @@ onMounted(() => {
   setNativeInputValue()
   nextTick(resizeTextarea)
 })
+
+useDeprecated(
+  {
+    from: 'label',
+    replacement: 'aria-label',
+    version: '2.8.0',
+    scope: 'el-input',
+    ref: 'https://element-plus.org/en-US/component/input.html',
+  },
+  computed(() => !!props.label)
+)
 
 defineExpose({
   /** @description HTML input element */

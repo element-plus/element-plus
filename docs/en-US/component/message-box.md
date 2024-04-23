@@ -113,7 +113,7 @@ message-box/customized-icon
 
 MessageBox can be draggable.
 
-:::demo Setting `draggable` to `true` allows user to drag MessageBox.
+:::demo Setting `draggable` to `true` allows user to drag MessageBox. Set `overflow` ^(2.5.4) to `true` can drag overflow the viewport.
 
 message-box/draggable
 
@@ -187,10 +187,11 @@ The corresponding methods are: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 | input-type                   | type of input                                                                                                                            | ^[string]                                                                          | text                                             |
 | input-value                  | initial value of input                                                                                                                   | ^[string]                                                                          | null                                             |
 | input-pattern                | regexp for the input                                                                                                                     | ^[regexp]                                                                          | null                                             |
-| input-validator              | validation function for the input. Should returns a boolean or string. If a string is returned, it will be assigned to inputErrorMessage | ^[Function]`(value: string) => boolea \| string`                                   | null                                             |
+| input-validator              | validation function for the input. Should returns a boolean or string. If a string is returned, it will be assigned to inputErrorMessage | ^[Function]`(value: string) => boolean \| string`                                  | null                                             |
 | input-error-message          | error message when validation fails                                                                                                      | ^[string]                                                                          | Illegal input                                    |
 | center                       | whether to align the content in center                                                                                                   | ^[boolean]                                                                         | false                                            |
 | draggable                    | whether MessageBox is draggable                                                                                                          | ^[boolean]                                                                         | false                                            |
+| overflow ^(2.5.4)            | draggable MessageBox can overflow the viewport                                                                                           | ^[boolean]                                                                         | false                                            |
 | round-button                 | whether to use round button                                                                                                              | ^[boolean]                                                                         | false                                            |
 | button-size                  | custom size of confirm and cancel buttons                                                                                                | ^[string]`'small' \| 'default' \| 'large'`                                         | default                                          |
 | append-to ^(2.2.19)          | set the root element for the message box                                                                                                 | ^[string] / ^[HTMLElement]                                                         | —                                                |

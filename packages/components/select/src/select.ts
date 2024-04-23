@@ -1,5 +1,9 @@
 import { placements } from '@popperjs/core'
-import { useSizeProp } from '@element-plus/hooks'
+import {
+  useAriaProps,
+  useEmptyValuesProps,
+  useSizeProp,
+} from '@element-plus/hooks'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
@@ -198,13 +202,6 @@ export const SelectProps = buildProps({
    */
   remoteShowSuffix: Boolean,
   /**
-   * @deprecated will be removed in version 2.4.0, please use override style scheme
-   */
-  suffixTransition: {
-    type: Boolean,
-    default: true,
-  },
-  /**
    * @description position of dropdown
    */
   placement: {
@@ -213,10 +210,12 @@ export const SelectProps = buildProps({
     default: 'bottom-start',
   },
   /**
-   * @description native input aria-label
+   * @description list of possible positions for dropdown
    */
-  ariaLabel: {
-    type: String,
-    default: undefined,
+  fallbackPlacements: {
+    type: definePropType<Placement[]>(Array),
+    default: ['bottom-start', 'top-start', 'right', 'left'],
   },
+  ...useEmptyValuesProps,
+  ...useAriaProps(['ariaLabel']),
 })

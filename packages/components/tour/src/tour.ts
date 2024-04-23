@@ -89,7 +89,7 @@ export const tourProps = buildProps({
    * @description type, affects the background color and text color
    */
   type: {
-    type: definePropType<'defalut' | 'primary'>(String),
+    type: definePropType<'default' | 'primary'>(String),
   },
   /**
    * @description which element the TourContent appends to

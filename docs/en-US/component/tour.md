@@ -129,7 +129,7 @@ tour-step component configuration with the same name has higher priority
 | Name    | Description |
 | ------- | ----------- |
 | default | description |
-| title   | title       |
+| header  | header      |
 
 ### TourStep events
 

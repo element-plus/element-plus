@@ -69,7 +69,14 @@
           </template>
         </el-input>
 
-        <div v-if="multiple" ref="tagWrapper" :class="nsCascader.e('tags')">
+        <div
+          v-if="multiple"
+          ref="tagWrapper"
+          :class="[
+            nsCascader.e('tags'),
+            nsCascader.is('validate', Boolean(validateState)),
+          ]"
+        >
           <el-tag
             v-for="tag in presentTags"
             :key="tag.key"
@@ -200,7 +207,7 @@ import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useEmptyValues, useLocale, useNamespace } from '@element-plus/hooks'
 import {
   debugWarn,
   focusNode,
@@ -261,6 +268,7 @@ const nsInput = useNamespace('input')
 
 const { t } = useLocale()
 const { form, formItem } = useFormItem()
+const { valueOnClear } = useEmptyValues(props)
 
 const tooltipRef: Ref<TooltipInstance | null> = ref(null)
 const input: Ref<InputInstance | null> = ref(null)
@@ -326,13 +334,16 @@ const presentText = computed(() => {
     : ''
 })
 
+const validateState = computed(() => formItem?.validateState || '')
+
 const checkedValue = computed<CascaderValue>({
   get() {
     return cloneDeep(props.modelValue) as CascaderValue
   },
   set(val) {
-    emit(UPDATE_MODEL_EVENT, val)
-    emit(CHANGE_EVENT, val)
+    const value = val || valueOnClear.value
+    emit(UPDATE_MODEL_EVENT, value)
+    emit(CHANGE_EVENT, value)
     if (props.validateEvent) {
       formItem?.validate('change').catch((err) => debugWarn(err))
     }

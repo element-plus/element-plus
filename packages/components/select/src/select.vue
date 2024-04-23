@@ -5,7 +5,7 @@
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
     @mouseenter="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
-    @click.stop="toggleMenu"
+    @click.prevent.stop="toggleMenu"
   >
     <el-tooltip
       ref="tooltipRef"
@@ -14,7 +14,7 @@
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
       :popper-options="popperOptions"
-      :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
+      :fallback-placements="fallbackPlacements"
       :effect="effect"
       pure
       trigger="click"
@@ -156,7 +156,7 @@
                 @keydown.up.stop.prevent="navigateOptions('prev')"
                 @keydown.esc.stop.prevent="handleEsc"
                 @keydown.enter.stop.prevent="selectOption"
-                @keydown.delete.stop.prevent="deletePrevTag"
+                @keydown.delete.stop="deletePrevTag"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
@@ -210,7 +210,11 @@
       </template>
       <template #content>
         <el-select-menu ref="menuRef">
-          <div v-if="$slots.header" :class="nsSelect.be('dropdown', 'header')">
+          <div
+            v-if="$slots.header"
+            :class="nsSelect.be('dropdown', 'header')"
+            @click.stop
+          >
             <slot name="header" />
           </div>
           <el-scrollbar
@@ -248,7 +252,11 @@
               <span>{{ emptyText }}</span>
             </slot>
           </div>
-          <div v-if="$slots.footer" :class="nsSelect.be('dropdown', 'footer')">
+          <div
+            v-if="$slots.footer"
+            :class="nsSelect.be('dropdown', 'footer')"
+            @click.stop
+          >
             <slot name="footer" />
           </div>
         </el-select-menu>

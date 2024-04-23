@@ -102,6 +102,9 @@ export interface ElMessageBoxOptions {
   /** Whether MessageBox can be drag */
   draggable?: boolean
 
+  /** Draggable MessageBox can overflow the viewport */
+  overflow?: boolean
+
   /** Content of the MessageBox */
   message?: string | VNode | (() => VNode)
 

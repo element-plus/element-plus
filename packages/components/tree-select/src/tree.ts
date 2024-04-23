@@ -17,6 +17,7 @@ import type { Ref } from 'vue'
 import type ElSelect from '@element-plus/components/select'
 import type Node from '@element-plus/components/tree/src/model/node'
 import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
+import type { TreeInstance } from '@element-plus/components/tree'
 
 export const useTree = (
   props,
@@ -27,7 +28,7 @@ export const useTree = (
     key,
   }: {
     select: Ref<InstanceType<typeof ElSelect> | undefined>
-    tree: Ref<InstanceType<typeof ElTree> | undefined>
+    tree: Ref<TreeInstance | undefined>
     key: Ref<string>
   }
 ) => {
@@ -112,13 +113,6 @@ export const useTree = (
     return options
   })
 
-  const cacheOptionsMap = computed(() => {
-    return cacheOptions.value.reduce(
-      (prev, next) => ({ ...prev, [next.value]: next }),
-      {}
-    )
-  })
-
   return {
     ...pick(toRefs(props), Object.keys(ElTree.props)),
     ...attrs,
@@ -176,24 +170,28 @@ export const useTree = (
       } else if (props.expandOnClickNode) {
         e.proxy.handleExpandIconClick()
       }
+      select.value?.focus()
     },
     onCheck: (data, params) => {
       // ignore when no checkbox, like only `checkOnClickNode` is true
       if (!props.showCheckbox) return
 
       const dataValue = getNodeValByProp('value', data)
+      const dataMap = {}
+      treeEach(
+        [tree.value.store.root],
+        (node) => (dataMap[node.key] = node),
+        (node) => node.childNodes
+      )
 
       // fix: checkedKeys has not cached keys
       const uncachedCheckedKeys = params.checkedKeys
       const cachedKeys = props.multiple
         ? toValidArray(props.modelValue).filter(
-            (item) =>
-              item in cacheOptionsMap.value &&
-              !tree.value.getNode(item) &&
-              !uncachedCheckedKeys.includes(item)
+            (item) => !(item in dataMap) && !uncachedCheckedKeys.includes(item)
           )
         : []
-      const checkedKeys = uncachedCheckedKeys.concat(cachedKeys)
+      const checkedKeys = cachedKeys.concat(uncachedCheckedKeys)
 
       if (props.checkStrictly) {
         emit(
@@ -211,7 +209,7 @@ export const useTree = (
         if (props.multiple) {
           emit(
             UPDATE_MODEL_EVENT,
-            (tree.value as InstanceType<typeof ElTree>).getCheckedKeys(true)
+            cachedKeys.concat((tree.value as TreeInstance).getCheckedKeys(true))
           )
         } else {
           // select first leaf node when check parent
@@ -255,6 +253,8 @@ export const useTree = (
           halfCheckedNodes: tree.value.getHalfCheckedNodes(),
         })
       })
+
+      select.value?.focus()
     },
 
     // else
