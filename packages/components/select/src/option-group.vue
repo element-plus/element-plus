@@ -57,22 +57,30 @@ export default defineComponent({
       children.value.some((option) => option.visible === true)
     )
 
+    const checkIsOption = (node) => {
+      return (
+        node.type &&
+        node.type.name === 'ElOption' &&
+        node.component &&
+        node.component.proxy
+      )
+    }
+
     // get all instances of options
     const flattedChildren = (node) => {
       const children = []
       if (isArray(node.children)) {
         node.children.forEach((child) => {
-          if (
-            child.type &&
-            child.type.name === 'ElOption' &&
-            child.component &&
-            child.component.proxy
-          ) {
+          if (checkIsOption(child)) {
             children.push(child.component.proxy)
           } else if (child.children?.length) {
             children.push(...flattedChildren(child))
           } else if (child.component?.subTree) {
-            children.push(...flattedChildren(child.component.subTree))
+            if (checkIsOption(child.component.subTree)) {
+              children.push(child.component.subTree.component.proxy)
+            } else {
+              children.push(...flattedChildren(child.component.subTree))
+            }
           }
         })
       }
