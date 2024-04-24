@@ -57,14 +57,7 @@ export default defineComponent({
       children.value.some((option) => option.visible === true)
     )
 
-    const checkIsOption = (node) => {
-      return (
-        node.type &&
-        node.type.name === 'ElOption' &&
-        node.component &&
-        node.component.proxy
-      )
-    }
+    const isOption = (node) => node.type?.name === 'ElOption' && node.component?.proxy
 
     // get all instances of options
     const flattedChildren = (node) => {
