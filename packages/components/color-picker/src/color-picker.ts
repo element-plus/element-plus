@@ -53,6 +53,13 @@ export const colorPickerProps = buildProps({
     default: 0,
   },
   /**
+   * @description whether color-picker popper is teleported to the body
+   */
+  teleported: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description predefined color options
    */
   predefine: {
