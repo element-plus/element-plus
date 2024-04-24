@@ -63,6 +63,8 @@ color-picker/sizes
 | label ^(a11y) ^(deprecated) | ColorPicker aria-label                       | ^[string]                                                                                                        | —       |
 | aria-label ^(a11y) ^(2.7.2) | ColorPicker aria-label                       | ^[string]                                                                                                        | —       |
 | id                          | ColorPicker id                               | ^[string]                                                                                                        | —       |
+| teleported ^(2.7.2) | whether color-picker popper is teleported to the body                       | ^[boolean]                                                                                                        | true       |
+
 
 ### Events
 
