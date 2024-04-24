@@ -1941,6 +1941,78 @@ describe('Select', () => {
     expect(wrapper.findComponent(Group).vm.visible).toBe(true)
   })
 
+  test('el-option-group should visible when custom option component', async () => {
+    const CustomOptions = defineComponent({
+      components: {
+        'el-option': Option,
+      },
+      props: {
+        label: {
+          type: String,
+          default: '',
+        },
+        value: {
+          type: [String, Number],
+          default: null,
+        },
+      },
+      template: `
+        <el-option
+          :label="label"
+          :value="value"
+        >
+          {{label}} - some extra text
+        </el-option>
+      `,
+    })
+
+    wrapper = mount({
+      template: `
+        <el-select v-model="value">
+          <el-option-group
+            v-for="group in options"
+            :key="group.label"
+            :label="group.label"
+          >
+            <custom-options
+              v-for="item in group.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-option-group>
+        </el-select>
+      `,
+      components: {
+        'el-select': Select,
+        'el-option-group': Group,
+        CustomOptions,
+      },
+      data() {
+        return {
+          value: '',
+          options: [
+            {
+              label: 'Popular cities',
+              options: [
+                {
+                  value: 'Shanghai',
+                  label: 'Shanghai',
+                },
+                {
+                  value: 'Beijing',
+                  label: 'Beijing',
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+
+    expect(wrapper.findComponent(Group).vm.visible).toBe(true)
+  })
+
   test('tag of disabled option is not closable', async () => {
     wrapper = _mount(
       `
