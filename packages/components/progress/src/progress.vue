@@ -73,7 +73,9 @@
     >
       <slot :percentage="percentage">
         <span v-if="!status">{{ content }}</span>
-        <el-icon v-else><component :is="statusIcon" /></el-icon>
+        <el-icon v-else>
+          <component :is="statusIcon" />
+        </el-icon>
       </slot>
     </div>
   </div>
@@ -113,7 +115,7 @@ const ns = useNamespace('progress')
 const barStyle = computed<CSSProperties>(() => ({
   width: `${props.percentage}%`,
   animationDuration: `${props.duration}s`,
-  backgroundColor: getCurrentColor(props.percentage),
+  background: getCurrentColor(props.percentage),
 }))
 
 const relativeStrokeWidth = computed(() =>
