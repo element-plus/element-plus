@@ -24,6 +24,7 @@
 </template>
 
 <script lang="ts" setup>
+import { type VNode, h } from 'vue'
 import type { TableColumnCtx } from 'element-plus'
 
 interface Product {
@@ -41,10 +42,12 @@ interface SummaryMethodProps<T = Product> {
 
 const getSummaries = (param: SummaryMethodProps) => {
   const { columns, data } = param
-  const sums: string[] = []
+  const sums: (string | VNode)[] = []
   columns.forEach((column, index) => {
     if (index === 0) {
-      sums[index] = 'Total Cost'
+      sums[index] = h('div', { style: { textDecoration: 'underline' } }, [
+        'Total Cost',
+      ])
       return
     }
     const values = data.map((item) => Number(item[column.property]))
