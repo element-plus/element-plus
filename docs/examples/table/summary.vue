@@ -24,7 +24,8 @@
 </template>
 
 <script lang="ts" setup>
-import { type VNode, h } from 'vue'
+import { h } from 'vue'
+import type { VNode } from 'vue'
 import type { TableColumnCtx } from 'element-plus'
 
 interface Product {
