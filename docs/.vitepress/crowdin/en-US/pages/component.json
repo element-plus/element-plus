@@ -246,6 +246,11 @@
         "link": "/statistic",
         "text": "Statistic",
         "promotion": "2.2.30"
+      },
+      {
+        "link": "/segmented",
+        "text": "Segmented",
+        "promotion": "2.7.0"
       }
     ]
   },
