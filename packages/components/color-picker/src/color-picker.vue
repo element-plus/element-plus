@@ -10,6 +10,7 @@
     :stop-popper-mouse-event="false"
     effect="light"
     trigger="click"
+    :teleported="teleported"
     :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
     @hide="setShowPicker(false)"

@@ -1,6 +1,7 @@
 import { isNil } from 'lodash-unified'
 import { buildProps, definePropType, isString } from '@element-plus/utils'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
+import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { ComputedRef, ExtractPropTypes, InjectionKey } from 'vue'
@@ -52,6 +53,10 @@ export const colorPickerProps = buildProps({
     type: [String, Number],
     default: 0,
   },
+  /**
+   * @description whether color-picker popper is teleported to the body
+   */
+  teleported: useTooltipContentProps.teleported,
   /**
    * @description predefined color options
    */
