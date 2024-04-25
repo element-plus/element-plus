@@ -7,11 +7,12 @@
         nsPager.is('disabled', disabled),
       ]"
       class="number"
+      :aria-page="1"
       :aria-current="currentPage === 1"
       :aria-label="t('el.pagination.currentPage', { pager: 1 })"
       :tabindex="tabindex"
     >
-      1
+      <slot name="number" :page="1"> 1 </slot>
     </li>
     <li
       v-if="showPrevMore"
@@ -29,6 +30,7 @@
     <li
       v-for="pager in pagers"
       :key="pager"
+      :aria-page="pager"
       :class="[
         nsPager.is('active', currentPage === pager),
         nsPager.is('disabled', disabled),
@@ -38,7 +40,7 @@
       :aria-label="t('el.pagination.currentPage', { pager })"
       :tabindex="tabindex"
     >
-      {{ pager }}
+      <slot name="number" :page="pager"> {{ pager }} </slot>
     </li>
     <li
       v-if="showNextMore"
@@ -55,6 +57,7 @@
     </li>
     <li
       v-if="pageCount > 1"
+      :aria-page="pageCount"
       :class="[
         nsPager.is('active', currentPage === pageCount),
         nsPager.is('disabled', disabled),
@@ -64,7 +67,7 @@
       :aria-label="t('el.pagination.currentPage', { pager: pageCount })"
       :tabindex="tabindex"
     >
-      {{ pageCount }}
+      <slot name="number" :page="pageCount"> {{ pageCount }} </slot>
     </li>
   </ul>
 </template>
@@ -190,7 +193,7 @@ function onPagerClick(event: UIEvent) {
   if (target.tagName.toLowerCase() === 'ul' || props.disabled) {
     return
   }
-  let newPage = Number(target.textContent)
+  let newPage = Number(target.getAttribute('aria-page'))
   const pageCount = props.pageCount!
   const currentPage = props.currentPage
   const pagerCountOffset = props.pagerCount - 2
