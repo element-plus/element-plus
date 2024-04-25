@@ -33,6 +33,14 @@ export const rightLogoSmallSponsors = [
 
 export const leftCustomImgSponsors = [
   {
+    name: '美乐',
+    img: '/images/sponsors/mele.png',
+    url: 'https://melecode.com/',
+    slogan: 'Enterprise-level low-code development platform',
+    slogan_cn: '企业级全栈低代码开发平台',
+    banner_img: '/images/sponsors/mele-banner.png',
+  },
+  {
     name: 'VForm',
     img: '/images/vform.png',
     url: 'https://vform666.com/',

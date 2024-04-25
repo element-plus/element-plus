@@ -67,6 +67,11 @@ You can also try Element Plus out with the components built-in playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
+        <a href="https://melecode.com/" target="_blank">
+          <img width="150px" src="https://github.com/element-plus/element-plus/assets/82012629/9ca4269c-7545-4463-9bdc-8e5a1fbd0b08">
+        </a>
+      </td>
+      <td align="center" valign="middle">
         <a href="https://www.vform666.com/" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/17680888/156870588-b25a42d5-888b-4943-8b1b-5239dfd8f4d2.png">
         </a>
