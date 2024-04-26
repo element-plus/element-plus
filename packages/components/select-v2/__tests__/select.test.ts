@@ -9,6 +9,7 @@ import { rAF } from '@element-plus/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import Select from '../src/select.vue'
+import type { Props } from '../useProps'
 
 vi.mock('lodash-unified', async () => {
   return {
@@ -49,6 +50,7 @@ interface SelectProps {
   popperClass?: string
   value?: string | string[] | number | number[]
   options?: any[]
+  props?: Props
   disabled?: boolean
   clearable?: boolean
   multiple?: boolean
@@ -99,6 +101,7 @@ const createSelect = (
     `
       <el-select
         :options="options"
+        :props="props"
         :popper-class="popperClass"
         :value-key="valueKey"
         :disabled="disabled"
@@ -139,6 +142,12 @@ const createSelect = (
       data() {
         return {
           options: createData(),
+          props: {
+            label: 'label',
+            value: 'value',
+            disabled: 'disabled',
+            options: 'options',
+          },
           value: '',
           popperClass: '',
           allowCreate: false,
@@ -652,6 +661,43 @@ describe('Select', () => {
       await nextTick()
       expect(vm.value.length).toBe(2)
       expect(vm.value).toContainEqual(vm.options[0].value)
+    })
+
+    it('use aliases for custom options when default value is not in the options', async () => {
+      const wrapper = createSelect({
+        data() {
+          return {
+            multiple: true,
+            value: ['option'],
+            options: [
+              {
+                id: '1',
+                name: 'option 1',
+              },
+              {
+                id: '2',
+                name: 'option 2',
+              },
+              {
+                id: '3',
+                name: 'option 3',
+              },
+            ],
+            props: {
+              label: 'name',
+              value: 'id',
+            },
+          }
+        },
+      })
+
+      await nextTick()
+      const vm = wrapper.vm as any
+      expect(wrapper.findAll('.el-tag').length).toBe(1)
+      expect(wrapper.find('.el-select__tags-text').text()).toBe('option')
+      const tagCloseIcons = wrapper.findAll('.el-tag__close')
+      await tagCloseIcons[0].trigger('click')
+      expect(vm.value.length).toBe(0)
     })
   })
 

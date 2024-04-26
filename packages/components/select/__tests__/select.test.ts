@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { defineComponent, markRaw, nextTick } from 'vue'
+import { defineComponent, markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -1941,6 +1941,78 @@ describe('Select', () => {
     expect(wrapper.findComponent(Group).vm.visible).toBe(true)
   })
 
+  test('el-option-group should visible when custom option component', async () => {
+    const CustomOptions = defineComponent({
+      components: {
+        'el-option': Option,
+      },
+      props: {
+        label: {
+          type: String,
+          default: '',
+        },
+        value: {
+          type: [String, Number],
+          default: null,
+        },
+      },
+      template: `
+        <el-option
+          :label="label"
+          :value="value"
+        >
+          {{label}} - some extra text
+        </el-option>
+      `,
+    })
+
+    wrapper = mount({
+      template: `
+        <el-select v-model="value">
+          <el-option-group
+            v-for="group in options"
+            :key="group.label"
+            :label="group.label"
+          >
+            <custom-options
+              v-for="item in group.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-option-group>
+        </el-select>
+      `,
+      components: {
+        'el-select': Select,
+        'el-option-group': Group,
+        CustomOptions,
+      },
+      data() {
+        return {
+          value: '',
+          options: [
+            {
+              label: 'Popular cities',
+              options: [
+                {
+                  value: 'Shanghai',
+                  label: 'Shanghai',
+                },
+                {
+                  value: 'Beijing',
+                  label: 'Beijing',
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+
+    expect(wrapper.findComponent(Group).vm.visible).toBe(true)
+  })
+
   test('tag of disabled option is not closable', async () => {
     wrapper = _mount(
       `
@@ -2551,7 +2623,32 @@ describe('Select', () => {
       expect(wrapper.findAll('.el-tag').length).toBe(1)
     })
   })
-
+  it('should ensure that isDisabled is fresh to prevent selected tag from being cleared', async () => {
+    const disabled = ref(false)
+    const wrapper = _mount(
+      `
+            <el-select v-model="value" multiple clearable>
+              <el-option
+                label="foo"
+                value="foo"
+                :disabled="disabled"
+              >
+              </el-option>
+            </el-select>
+          `,
+      () => ({
+        value: ['foo'],
+        disabled,
+      })
+    )
+    disabled.value = true
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm
+    selectVm.states.inputHovering = true
+    await nextTick()
+    const iconClear = wrapper.findComponent(CircleClose)
+    await iconClear.trigger('click')
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+  })
   it('It should generate accessible attributes', async () => {
     wrapper = _mount(
       `<el-select v-model="value">
