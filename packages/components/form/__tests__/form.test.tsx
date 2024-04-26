@@ -562,6 +562,49 @@ describe('Form', () => {
     expect(ageField.classes()).toContain('is-success')
   })
 
+  it('validate promise callback', async () => {
+    const form = reactive({
+      age: '20',
+    })
+
+    const wrapper = mount({
+      setup() {
+        const rules = ref({
+          age: [
+            { required: true, message: 'Please input age', trigger: 'change' },
+          ],
+        })
+        return () => (
+          <Form ref="formRef" model={form} rules={rules.value}>
+            <FormItem ref="age" prop="age" label="age">
+              <Input v-model={form.age} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    const fn = vi.fn()
+
+    await (wrapper.vm.$refs.formRef as FormInstance)
+      .validate(() => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            fn('beforeResolve')
+            resolve()
+          }, 100)
+        })
+      })
+      .finally(() => {
+        fn('finally')
+      })
+      .catch(() => undefined)
+
+    expect(fn.mock.calls.length).toBe(2)
+    expect(fn.mock.calls[0][0]).toBe('beforeResolve')
+    expect(fn.mock.calls[1][0]).toBe('finally')
+  })
+
   describe('FormItem', () => {
     const onSuccess = vi.fn()
     const onError = vi.fn()
