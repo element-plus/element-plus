@@ -25,8 +25,10 @@
           <el-card
             v-for="(item, index) in group.children"
             :key="index"
+            tabindex="0"
             shadow="hover"
             @click="toPage(item.link)"
+            @keydown.enter="toPage(item.link)"
           >
             <template #header>
               <el-text truncated>{{ item.text }}</el-text>
@@ -84,9 +86,14 @@ const filteredSidebars = computed(() =>
     .slice(1)
     .map((group) => ({
       ...group,
-      children: group.children.filter((item) =>
-        item.text.toLowerCase().includes(query.value.trim().toLowerCase())
-      ),
+      children: group.children.filter((item) => {
+        const value = query.value.trim().toLowerCase()
+        return (
+          group.text.toLowerCase().includes(value) ||
+          item.text.toLowerCase().includes(value) ||
+          item.promotion?.includes(value)
+        )
+      }),
     }))
     .filter((group) => group.children.length)
 )
@@ -133,8 +140,14 @@ const getIcon = (link: string) => {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 16px;
 
-        ::v-deep(.el-card) {
+        :deep(.el-card) {
           cursor: pointer;
+          transition: none;
+
+          &:focus-visible {
+            outline: 2px solid var(--el-color-primary);
+            outline-offset: 1px;
+          }
 
           .el-card__header {
             display: flex;

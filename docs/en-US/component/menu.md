@@ -72,7 +72,7 @@ menu/popper-offset
 | popper-offset ^(2.4.4)          | offset of the popper (effective for all submenus)                                                                                                                     | number                | —                     | 6        |
 | background-color                | background color of Menu (hex format) (deprecated, use `--bg-color` instead)                                                                                          | string                | —                     | #ffffff  |
 | text-color                      | text color of Menu (hex format) (deprecated, use `--text-color` instead)                                                                                              | string                | —                     | #303133  |
-| active-text-color               | text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)                                                                      | string                | —                     | #409EFF  |
+| active-text-color               | text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)                                                                      | string                | —                     | #409eff  |
 | default-active                  | index of active menu on page load                                                                                                                                     | string                | —                     | —        |
 | default-openeds                 | array that contains indexes of currently active sub-menus                                                                                                             | Array                 | —                     | —        |
 | unique-opened                   | whether only one sub-menu can be active                                                                                                                               | boolean               | —                     | false    |
@@ -89,13 +89,13 @@ menu/popper-offset
 
 | Methods Name | Description               | Parameters                            |
 | ------------ | ------------------------- | ------------------------------------- |
-| open         | open a specific sub-menu  | index: index of the sub-menu to open  |
-| close        | close a specific sub-menu | index: index of the sub-menu to close |
+| open         | Open a specific sub-menu  | index: index of the sub-menu to open  |
+| close        | Close a specific sub-menu | index: index of the sub-menu to close |
 
 ## Menu Events
 
 | Name   | Description                               | Parameters                                                                                                                                                                 |
-|--------|-------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------ | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | select | callback function when menu is activated  | index: index of activated menu, indexPath: index path of activated menu, item: the selected menu item, routeResult: result returned by `vue-router` if `router` is enabled |
 | open   | callback function when sub-menu expands   | index: index of expanded sub-menu, indexPath: index path of expanded sub-menu                                                                                              |
 | close  | callback function when sub-menu collapses | index: index of collapsed sub-menu, indexPath: index path of collapsed sub-menu                                                                                            |
@@ -103,13 +103,13 @@ menu/popper-offset
 ## Menu Slots
 
 | Name | Description               | Subtags                               |
-|------|---------------------------|---------------------------------------|
+| ---- | ------------------------- | ------------------------------------- |
 | —    | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
 
 ## SubMenu Attributes
 
 | Name                                | Description                                                                                                                                   | Type                  | Accepted Values | Default                                         |
-|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|-----------------|-------------------------------------------------|
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | --------------- | ----------------------------------------------- |
 | index                               | unique identification                                                                                                                         | string                | —               | —                                               |
 | popper-class                        | custom class name for the popup menu                                                                                                          | string                | —               | —                                               |
 | show-timeout                        | timeout before showing a sub-menu(inherit `show-timeout` of the menu by default.)                                                             | number                | —               | —                                               |
@@ -126,14 +126,14 @@ menu/popper-offset
 ## SubMenu Slots
 
 | Name  | Description               | Subtags                               |
-|-------|---------------------------|---------------------------------------|
+| ----- | ------------------------- | ------------------------------------- |
 | —     | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
 | title | customize title content   | —                                     |
 
 ## Menu-Item Attributes
 
 | Name     | Description           | Type        | Accepted Values | Default |
-|----------|-----------------------|-------------|-----------------|---------|
+| -------- | --------------------- | ----------- | --------------- | ------- |
 | index    | unique identification | string/null | —               | null    |
 | route    | Vue Router object     | object      | —               | —       |
 | disabled | whether disabled      | boolean     | —               | false   |
@@ -141,25 +141,25 @@ menu/popper-offset
 ## Menu-Item Events
 
 | Name  | Description                                 | Parameters             |
-|-------|---------------------------------------------|------------------------|
+| ----- | ------------------------------------------- | ---------------------- |
 | click | callback function when menu-item is clicked | el: menu-item instance |
 
 ## Menu-Item Slots
 
 | Name  | Description               |
-|-------|---------------------------|
+| ----- | ------------------------- |
 | —     | customize default content |
 | title | customize title content   |
 
 ## Menu-Item-Group Attributes
 
 | Name  | Description | Type   | Accepted Values | Default |
-|-------|-------------|--------|-----------------|---------|
+| ----- | ----------- | ------ | --------------- | ------- |
 | title | group title | string | —               | —       |
 
 ## Menu-Item-Group Slots
 
 | Name  | Description               | Subtags   |
-|-------|---------------------------|-----------|
+| ----- | ------------------------- | --------- |
 | —     | customize default content | Menu-Item |
 | title | customize group title     | —         |

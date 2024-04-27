@@ -1,6 +1,9 @@
 export default {
   name: 'en',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Clear',

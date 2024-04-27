@@ -2,7 +2,7 @@
   <component
     :is="!hasOwnLabel && isLabeledByFormItem ? 'span' : 'label'"
     :class="compKls"
-    :aria-controls="indeterminate ? controls : null"
+    :aria-controls="indeterminate ? controls || ariaControls : null"
     @click="onClickRoot"
   >
     <span :class="spanKls">
@@ -16,8 +16,8 @@
         :name="name"
         :tabindex="tabindex"
         :disabled="isDisabled"
-        :true-value="trueValue || trueLabel"
-        :false-value="falseValue || falseLabel"
+        :true-value="trueValue ?? trueLabel"
+        :false-value="falseValue ?? falseLabel"
         @change="handleChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
