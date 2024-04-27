@@ -13,7 +13,7 @@
       </div>
     </template>
     <template #tag>
-      <el-tag v-for="color in value" :key="color.value" :color="color" />
+      <el-tag v-for="color in value" :key="color" :color="color" />
     </template>
   </el-select-v2>
 </template>
@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const value = ref([])
+const value = ref<string[]>([])
 const colors = [
   {
     value: '#E63415',

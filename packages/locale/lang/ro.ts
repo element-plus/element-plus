@@ -1,6 +1,9 @@
 export default {
   name: 'ro',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Șterge',

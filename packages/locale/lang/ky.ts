@@ -1,6 +1,9 @@
 export default {
   name: 'ky',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Мурунку',
       clear: 'ачык',

@@ -130,7 +130,7 @@ const validateField: FormContext['validateField'] = async (
     const result = await doValidateField(modelProps)
     // When result is false meaning that the fields are not validatable
     if (result === true) {
-      callback?.(result)
+      await callback?.(result)
     }
     return result
   } catch (e) {
@@ -141,7 +141,7 @@ const validateField: FormContext['validateField'] = async (
     if (props.scrollToError) {
       scrollToField(Object.keys(invalidFields)[0])
     }
-    callback?.(false, invalidFields)
+    await callback?.(false, invalidFields)
     return shouldThrow && Promise.reject(invalidFields)
   }
 }

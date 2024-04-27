@@ -1,5 +1,9 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import {
+  useAriaProps,
+  useEmptyValuesProps,
+  useSizeProp,
+} from '@element-plus/hooks'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
@@ -187,7 +191,7 @@ export const timePickerDefaultProps = buildProps({
    */
   arrowControl: Boolean,
   /**
-   * @description same as `aria-label` in native input
+   * @deprecated same as `aria-label` in native input
    */
   label: {
     type: String,
@@ -211,6 +215,8 @@ export const timePickerDefaultProps = buildProps({
    * @description unlink two date-panels in range-picker
    */
   unlinkPanels: Boolean,
+  ...useEmptyValuesProps,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<

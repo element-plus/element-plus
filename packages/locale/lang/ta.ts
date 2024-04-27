@@ -1,6 +1,9 @@
 export default {
   name: 'ta',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'உறுதி செய்',
       clear: 'தெளிவாக்கு',

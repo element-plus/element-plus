@@ -1,5 +1,5 @@
 <template>
-  <div :class="switchKls" :style="styles" @click.prevent="switchValue">
+  <div :class="switchKls" @click.prevent="switchValue">
     <input
       :id="inputId"
       ref="input"
@@ -8,7 +8,7 @@
       role="switch"
       :aria-checked="checked"
       :aria-disabled="switchDisabled"
-      :aria-label="label"
+      :aria-label="label || ariaLabel"
       :name="name"
       :true-value="activeValue"
       :false-value="inactiveValue"
@@ -72,14 +72,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  getCurrentInstance,
-  nextTick,
-  onMounted,
-  ref,
-  watch,
-} from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { isPromise } from '@vue/shared'
 import { addUnit, debugWarn, isBoolean, throwError } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
@@ -107,32 +100,9 @@ defineOptions({
 const props = defineProps(switchProps)
 const emit = defineEmits(switchEmits)
 
-const vm = getCurrentInstance()!
 const { formItem } = useFormItem()
 const switchSize = useFormSize()
 const ns = useNamespace('switch')
-
-const useBatchDeprecated = (list: string[][]) => {
-  list.forEach((param) => {
-    useDeprecated(
-      {
-        from: param[0],
-        replacement: param[1],
-        scope: COMPONENT_NAME,
-        version: '2.3.0',
-        ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
-        type: 'Attribute',
-      },
-      computed(() => !!vm.vnode.props?.[param[2]])
-    )
-  })
-}
-useBatchDeprecated([
-  ['"value"', '"model-value" or "v-model"', 'value'],
-  ['"active-color"', 'CSS var `--el-switch-on-color`', 'activeColor'],
-  ['"inactive-color"', 'CSS var `--el-switch-off-color`', 'inactiveColor'],
-  ['"border-color"', 'CSS var `--el-switch-border-color`', 'borderColor'],
-])
 
 const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
@@ -173,15 +143,8 @@ watch(
   }
 )
 
-watch(
-  () => props.value,
-  () => {
-    isControlled.value = false
-  }
-)
-
 const actualValue = computed(() => {
-  return isControlled.value ? props.modelValue : props.value
+  return isControlled.value ? props.modelValue : false
 })
 
 const checked = computed(() => actualValue.value === props.activeValue)
@@ -247,14 +210,6 @@ const switchValue = () => {
   }
 }
 
-const styles = computed(() => {
-  return ns.cssVarBlock({
-    ...(props.activeColor ? { 'on-color': props.activeColor } : null),
-    ...(props.inactiveColor ? { 'off-color': props.inactiveColor } : null),
-    ...(props.borderColor ? { 'border-color': props.borderColor } : null),
-  })
-})
-
 const focus = (): void => {
   input.value?.focus?.()
 }
@@ -262,6 +217,17 @@ const focus = (): void => {
 onMounted(() => {
   input.value!.checked = checked.value
 })
+
+useDeprecated(
+  {
+    from: 'label',
+    replacement: 'aria-label',
+    version: '2.8.0',
+    scope: 'el-switch',
+    ref: 'https://element-plus.org/en-US/component/switch.html',
+  },
+  computed(() => !!props.label)
+)
 
 defineExpose({
   /**

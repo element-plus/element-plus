@@ -87,13 +87,12 @@ const homeLang = computed(() => homeLocale[lang.value])
   background-color: #f5f7fa;
   box-sizing: border-box;
   padding: 42px 64px 64px;
-  // height: 340px;
 
   &.is-home {
     background-color: var(--bg-color);
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 19px;
+    padding: 40px 0;
   }
 
   .container {
