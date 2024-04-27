@@ -2,6 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { ElFormItem } from '@element-plus/components/form'
+import Button from '@element-plus/components/button'
 import ColorPicker from '../src/color-picker.vue'
 import type { ComponentPublicInstance } from 'vue'
 
@@ -467,6 +468,21 @@ describe('Color-picker', () => {
 
     await wrapper.find('.el-color-picker').trigger('blur')
     expect(blurHandler).toHaveBeenCalledTimes(1)
+    wrapper.unmount()
+  })
+
+  it('custom trigger', async () => {
+    const wrapper = mount(() => (
+      <ColorPicker>
+        <Button>trigger</Button>
+      </ColorPicker>
+    ))
+
+    await nextTick()
+    const trigger = wrapper.find('.el-button')
+    await trigger.trigger('click')
+    const dropdown = document.querySelector('.el-color-dropdown')
+    expect(dropdown).toBeTruthy()
     wrapper.unmount()
   })
 })
