@@ -339,10 +339,10 @@ describe('Form', () => {
             </FormItem>
             <FormItem label="type" prop="type">
               <CheckboxGroup v-model={form.type}>
-                <Checkbox label="type1" name="type" />
-                <Checkbox label="type2" name="type" />
-                <Checkbox label="type3" name="type" />
-                <Checkbox label="type4" name="type" />
+                <Checkbox label="type1" value="type1" name="type" />
+                <Checkbox label="type2" value="type2" name="type" />
+                <Checkbox label="type3" value="type3" name="type" />
+                <Checkbox label="type4" value="type4" name="type" />
               </CheckboxGroup>
             </FormItem>
           </Form>
@@ -410,10 +410,10 @@ describe('Form', () => {
             </FormItem>
             <FormItem label="type" prop="type">
               <CheckboxGroup v-model={form.type}>
-                <Checkbox label="type1" name="type" />
-                <Checkbox label="type2" name="type" />
-                <Checkbox label="type3" name="type" />
-                <Checkbox label="type4" name="type" />
+                <Checkbox label="type1" value="type1" name="type" />
+                <Checkbox label="type2" value="type2" name="type" />
+                <Checkbox label="type3" value="type3" name="type" />
+                <Checkbox label="type4" value="type4" name="type" />
               </CheckboxGroup>
             </FormItem>
           </Form>
