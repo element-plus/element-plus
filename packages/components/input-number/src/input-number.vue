@@ -47,6 +47,7 @@
       :model-value="displayValue"
       :placeholder="placeholder"
       :readonly="readonly"
+      :clearable="false"
       :disabled="inputNumberDisabled"
       :size="inputNumberSize"
       :max="max"

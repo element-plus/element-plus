@@ -41,6 +41,7 @@
           :validate-event="false"
           :size="realSize"
           :class="inputClass"
+          :clearable="false"
           :tabindex="multiple && filterable && !isDisabled ? -1 : undefined"
           @compositionstart="handleComposition"
           @compositionupdate="handleComposition"
@@ -53,6 +54,7 @@
             <el-icon
               v-if="clearBtnVisible"
               key="clear"
+              a="1"
               :class="[nsInput.e('icon'), 'icon-circle-close']"
               @click.stop="handleClear"
             >
