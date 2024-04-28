@@ -38,7 +38,6 @@ describe('global-nodes', () => {
     expect(el.parentElement).toBe(document.body)
 
     changeGlobalNodesTarget(target)
-    changeGlobalNodesTarget(target)
 
     expect(el.parentElement).toBe(target)
   })
