@@ -79,7 +79,7 @@
     position: absolute;
     z-index: -1;
 
-    &:checked {
+    &.is-checked {
       & + .#{$namespace}-radio-button__inner {
         color: getCssVarWithDefault(
           ('radio-button', 'checked-text-color'),

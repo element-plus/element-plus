@@ -11,7 +11,10 @@
     <input
       ref="radioRef"
       v-model="modelValue"
-      :class="ns.be('button', 'original-radio')"
+      :class="[
+        ns.be('button', 'original-radio'),
+        ns.is('checked', modelValue === actualValue),
+      ]"
       :value="actualValue"
       type="radio"
       :name="name || radioGroup?.name"

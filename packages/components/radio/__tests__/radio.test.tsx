@@ -224,6 +224,27 @@ describe('Radio Button', () => {
     expect(radio2.classes()).toContain('is-active')
     expect(radio.value).toEqual(6)
   })
+
+  it('bind model-value click', async () => {
+    const radio = ref(3)
+    const wrapper = mount(() => (
+      <RadioGroup modelValue={radio.value}>
+        <RadioButton value={3} ref="radio1">
+          3
+        </RadioButton>
+        <RadioButton value={6} ref="radio2">
+          6
+        </RadioButton>
+      </RadioGroup>
+    ))
+    const [radio1, radio2] = wrapper.findAll('.el-radio-button')
+    const input1 = radio1.find('input')
+    expect(input1.classes()).toContain('is-checked')
+    await radio2.trigger('click')
+    expect(radio.value).toEqual(3)
+    expect(input1.classes()).toContain('is-checked')
+  })
+
   it('custom color', () => {
     const radio = ref(3)
     const wrapper = mount(() => (
