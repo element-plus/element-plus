@@ -54,7 +54,6 @@
             <el-icon
               v-if="clearBtnVisible"
               key="clear"
-              a="1"
               :class="[nsInput.e('icon'), 'icon-circle-close']"
               @click.stop="handleClear"
             >
