@@ -225,4 +225,26 @@
       }
     }
   }
+
+  @include e('border') {
+    box-sizing: content-box;
+    border: getCssVar('table', 'border');
+    @include e('header-row') {
+      @include e('header-cell') {
+        border-right: getCssVar('table', 'border');
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
+
+    @include e('row') {
+      @include e('row-cell') {
+        border-right: getCssVar('table', 'border');
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
+  }
 }

@@ -181,6 +181,10 @@ export const tableV2Props = buildProps({
     type: definePropType<SortState>(Object),
     default: undefined,
   },
+  /**
+   * @description whether Table has vertical border
+   */
+  border: Boolean,
 
   /**
    * Handlers

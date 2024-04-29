@@ -115,6 +115,12 @@ function useTable(props: TableV2Props) {
       : noData
   })
 
+  const isBorder = computed(() => {
+    const { border } = props
+
+    return border
+  })
+
   function getRowHeight(rowIndex: number) {
     const { estimatedRowHeight, rowHeight, rowKey } = props
 
@@ -188,6 +194,7 @@ function useTable(props: TableV2Props) {
     rightTableWidth,
     // flags
     showEmpty,
+    isBorder,
 
     // methods
     getRowHeight,

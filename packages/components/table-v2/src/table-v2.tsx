@@ -59,6 +59,7 @@ const TableV2 = defineComponent({
       footerHeight,
 
       showEmpty,
+      isBorder,
 
       // exposes
       scrollTo,
@@ -309,6 +310,7 @@ const TableV2 = defineComponent({
         ns.b(),
         ns.e('root'),
         {
+          [ns.is('border')]: unref(isBorder),
           [ns.is('dynamic')]: unref(isDynamic),
         },
       ]
