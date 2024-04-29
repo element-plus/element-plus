@@ -25,6 +25,7 @@ export const useFormItem = () => {
 export type IUseFormItemInputCommonProps = {
   id?: string
   label?: string | number | boolean | Record<string, any>
+  ariaLabel?: string | number | boolean | Record<string, any>
 }
 
 export const useFormItemInputId = (
@@ -51,7 +52,7 @@ export const useFormItemInputId = (
 
   const isLabeledByFormItem = computed<boolean>(() => {
     return !!(
-      !props.label &&
+      !(props.label || props.ariaLabel) &&
       formItemContext &&
       formItemContext.inputIds &&
       formItemContext.inputIds?.length <= 1

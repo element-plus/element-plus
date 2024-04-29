@@ -9,6 +9,12 @@ When there are plenty of options, use a drop-down menu to display and select des
 
 :::tip
 
+After version ^(2.5.0), the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width.
+
+:::
+
+:::tip
+
 This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
 
 :::
@@ -159,12 +165,24 @@ select/custom-loading
 
 :::
 
+## Empty Values ^(2.7.0)
+
+If you want to support empty string, please set `empty-values` to `[null, undefined]`.
+
+If you want to change the clear value to `null`, please set `value-on-clear` to `null`.
+
+:::demo
+
+select/empty-values
+
+:::
+
 ## Select API
 
 ### Select Attributes
 
 | Name                            | Description                                                                                                           | Type                                                                                                                                                                        | Default                                        |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+|---------------------------------|-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|
 | model-value / v-model           | binding value                                                                                                         | ^[string] / ^[number] / ^[boolean] / ^[object] / ^[array]                                                                                                                   | —                                              |
 | multiple                        | whether multiple-select is activated                                                                                  | ^[boolean]                                                                                                                                                                  | false                                          |
 | disabled                        | whether Select is disabled                                                                                            | ^[boolean]                                                                                                                                                                  | false                                          |
@@ -201,10 +219,12 @@ select/custom-loading
 | tag-type                        | tag type                                                                                                              | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
 | validate-event                  | whether to trigger form validation                                                                                    | ^[boolean]                                                                                                                                                                  | true                                           |
 | placement ^(2.2.17)             | position of dropdown                                                                                                  | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start                                   |
-| fallback-placements ^(2.5.6)    | list of possible positions for dropdown [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements) | ^[arrary]`Placement[]`                                                                                                                                                      | ['bottom-start', 'top-start', 'right', 'left'] |
+| fallback-placements ^(2.5.6)    | list of possible positions for dropdown [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements) | ^[array]`Placement[]`                                                                                                                                                       | ['bottom-start', 'top-start', 'right', 'left'] |
 | max-collapse-tags ^(2.3.0)      | the max tags number to be shown. To use this, `collapse-tags` must be true                                            | ^[number]                                                                                                                                                                   | 1                                              |
 | popper-options                  | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                             |
 | aria-label ^(a11y)              | same as `aria-label` in native input                                                                                  | ^[string]                                                                                                                                                                   | —                                              |
+| empty-values ^(2.7.0)           | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[array]                                                                                                                                                                    | —                                              |
+| value-on-clear ^(2.7.0)         | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)               | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
 
 :::warning
 
@@ -215,7 +235,7 @@ select/custom-loading
 ### Select Events
 
 | Name           | Description                                                   | Type                                     |
-| -------------- | ------------------------------------------------------------- | ---------------------------------------- |
+|----------------|---------------------------------------------------------------|------------------------------------------|
 | change         | triggers when the selected value changes                      | ^[Function]`(value: any) => void`        |
 | visible-change | triggers when the dropdown appears/disappears                 | ^[Function]`(visible: boolean) => void`  |
 | remove-tag     | triggers when a tag is removed in multiple mode               | ^[Function]`(tagValue: any) => void`     |
@@ -226,7 +246,7 @@ select/custom-loading
 ### Select Slots
 
 | Name             | Description                           | Subtags               |
-| ---------------- | ------------------------------------- | --------------------- |
+|------------------|---------------------------------------|-----------------------|
 | default          | option component list                 | Option Group / Option |
 | header ^(2.4.3)  | content at the top of the dropdown    | —                     |
 | footer ^(2.4.3)  | content at the bottom of the dropdown | —                     |
@@ -238,7 +258,7 @@ select/custom-loading
 ### Select Exposes
 
 | Method | Description                                     | Type                    |
-| ------ | ----------------------------------------------- | ----------------------- |
+|--------|-------------------------------------------------|-------------------------|
 | focus  | focus the Input component                       | ^[Function]`() => void` |
 | blur   | blur the Input component, and hide the dropdown | ^[Function]`() => void` |
 
@@ -247,14 +267,14 @@ select/custom-loading
 ### Option Group Attributes
 
 | Name     | Description                                  | Type       | Default |
-| -------- | -------------------------------------------- | ---------- | ------- |
+|----------|----------------------------------------------|------------|---------|
 | label    | name of the group                            | ^[string]  | —       |
 | disabled | whether to disable all options in this group | ^[boolean] | false   |
 
 ### Option Group Slots
 
 | Name    | Description               | Subtags |
-| ------- | ------------------------- | ------- |
+|---------|---------------------------|---------|
 | default | customize default content | Option  |
 
 ## Option API
@@ -262,7 +282,7 @@ select/custom-loading
 ### Option Attributes
 
 | Name     | Description                                 | Type                                           | Default |
-| -------- | ------------------------------------------- | ---------------------------------------------- | ------- |
+|----------|---------------------------------------------|------------------------------------------------|---------|
 | value    | value of option                             | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | label    | label of option, same as `value` if omitted | ^[string] / ^[number]                          | —       |
 | disabled | whether option is disabled                  | ^[boolean]                                     | false   |
@@ -270,5 +290,5 @@ select/custom-loading
 ### Option Slots
 
 | Name    | Description               |
-| ------- | ------------------------- |
+|---------|---------------------------|
 | default | customize default content |

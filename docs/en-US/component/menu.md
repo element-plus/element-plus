@@ -72,7 +72,7 @@ menu/popper-offset
 | popper-offset ^(2.4.4)          | offset of the popper (effective for all submenus)                                                                                                                     | number                | —                     | 6        |
 | background-color                | background color of Menu (hex format) (deprecated, use `--bg-color` instead)                                                                                          | string                | —                     | #ffffff  |
 | text-color                      | text color of Menu (hex format) (deprecated, use `--text-color` instead)                                                                                              | string                | —                     | #303133  |
-| active-text-color               | text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)                                                                      | string                | —                     | #409EFF  |
+| active-text-color               | text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)                                                                      | string                | —                     | #409eff  |
 | default-active                  | index of active menu on page load                                                                                                                                     | string                | —                     | —        |
 | default-openeds                 | array that contains indexes of currently active sub-menus                                                                                                             | Array                 | —                     | —        |
 | unique-opened                   | whether only one sub-menu can be active                                                                                                                               | boolean               | —                     | false    |
@@ -89,8 +89,8 @@ menu/popper-offset
 
 | Methods Name | Description               | Parameters                            |
 | ------------ | ------------------------- | ------------------------------------- |
-| open         | open a specific sub-menu  | index: index of the sub-menu to open  |
-| close        | close a specific sub-menu | index: index of the sub-menu to close |
+| open         | Open a specific sub-menu  | index: index of the sub-menu to open  |
+| close        | Close a specific sub-menu | index: index of the sub-menu to close |
 
 ## Menu Events
 
@@ -108,20 +108,20 @@ menu/popper-offset
 
 ## SubMenu Attributes
 
-| Name                              | Description                                                                                                                                   | Type                  | Accepted Values | Default                                         |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | --------------- | ----------------------------------------------- |
-| index                             | unique identification                                                                                                                         | string                | —               | —                                               |
-| popper-class                      | custom class name for the popup menu                                                                                                          | string                | —               | —                                               |
-| show-timeout                      | timeout before showing a sub-menu(inherit `show-timeout` of the menu by default.)                                                             | number                | —               | —                                               |
-| hide-timeout                      | timeout before hiding a sub-menu(inherit `hide-timeout` of the menu by default.)                                                              | number                | —               | —                                               |
-| disabled                          | whether the sub-menu is disabled                                                                                                              | boolean               | —               | false                                           |
-| popper-append-to-body(deprecated) | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop                              | boolean               | —               | level one SubMenu: true / other SubMenus: false |
-| teleported                        | whether popup menu is teleported to the body                                                                                                  | boolean               | —               | level one SubMenu: true / other SubMenus: false |
-| popper-offset                     | offset of the popper (overrides the `popper` of menu)                                                                                         | number                | —               | —                                               |
-| expand-close-icon                 | Icon when menu are expanded and submenu are closed, `expand-close-icon` and `expand-open-icon` need to be passed together to take effect      | `string \| Component` | —               | —                                               |
-| expand-open-icon                  | Icon when menu are expanded and submenu are opened, `expand-open-icon` and `expand-close-icon` need to be passed together to take effect      | `string \| Component` | —               | —                                               |
-| collapse-close-icon               | Icon when menu are collapsed and submenu are closed, `collapse-close-icon` and `collapse-open-icon` need to be passed together to take effect | `string \| Component` | —               | —                                               |
-| collapse-open-icon                | Icon when menu are collapsed and submenu are opened, `collapse-open-icon` and `collapse-close-icon` need to be passed together to take effect | `string \| Component` | —               | —                                               |
+| Name                                | Description                                                                                                                                   | Type                  | Accepted Values | Default                                         |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | --------------- | ----------------------------------------------- |
+| index                               | unique identification                                                                                                                         | string                | —               | —                                               |
+| popper-class                        | custom class name for the popup menu                                                                                                          | string                | —               | —                                               |
+| show-timeout                        | timeout before showing a sub-menu(inherit `show-timeout` of the menu by default.)                                                             | number                | —               | —                                               |
+| hide-timeout                        | timeout before hiding a sub-menu(inherit `hide-timeout` of the menu by default.)                                                              | number                | —               | —                                               |
+| disabled                            | whether the sub-menu is disabled                                                                                                              | boolean               | —               | false                                           |
+| popper-append-to-body ^(deprecated) | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop                              | boolean               | —               | level one SubMenu: true / other SubMenus: false |
+| teleported                          | whether popup menu is teleported to the body                                                                                                  | boolean               | —               | level one SubMenu: true / other SubMenus: false |
+| popper-offset                       | offset of the popper (overrides the `popper` of menu)                                                                                         | number                | —               | —                                               |
+| expand-close-icon                   | Icon when menu are expanded and submenu are closed, `expand-close-icon` and `expand-open-icon` need to be passed together to take effect      | `string \| Component` | —               | —                                               |
+| expand-open-icon                    | Icon when menu are expanded and submenu are opened, `expand-open-icon` and `expand-close-icon` need to be passed together to take effect      | `string \| Component` | —               | —                                               |
+| collapse-close-icon                 | Icon when menu are collapsed and submenu are closed, `collapse-close-icon` and `collapse-open-icon` need to be passed together to take effect | `string \| Component` | —               | —                                               |
+| collapse-open-icon                  | Icon when menu are collapsed and submenu are opened, `collapse-open-icon` and `collapse-close-icon` need to be passed together to take effect | `string \| Component` | —               | —                                               |
 
 ## SubMenu Slots
 
