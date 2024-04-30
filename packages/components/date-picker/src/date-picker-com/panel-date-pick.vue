@@ -408,12 +408,12 @@ const hasShortcuts = computed(() => !!shortcuts.length)
 
 const getValidDateOfMonth = (month: number) => {
   const _value = innerDate.value.startOf('month').month(month)
-  const dateCountOfMonth = _value.daysInMonth()
-  for (let i = 0; i < dateCountOfMonth; i++) {
-    const _countDate = _value.add(i, 'day')
-    if (!disabledDate?.(_countDate.toDate())) {
-      return _countDate
-    }
+  const _year = innerDate.value.year()
+  const _date = datesInMonth(_year, month, lang.value).find((date) => {
+    return !disabledDate?.(date)
+  })
+  if (_date) {
+    return dayjs(_date).locale(lang.value)
   }
   return _value
 }
