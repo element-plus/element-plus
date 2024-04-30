@@ -54,7 +54,7 @@
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
-        @touchstart="onTouchStartInput"
+        @touchstart.passive="onTouchStartInput"
         @click.stop
       >
         <template #prefix>
@@ -62,7 +62,7 @@
             v-if="triggerIcon"
             :class="nsInput.e('icon')"
             @mousedown.prevent="onMouseDownInput"
-            @touchstart="onTouchStartInput"
+            @touchstart.passive="onTouchStartInput"
           >
             <component :is="triggerIcon" />
           </el-icon>
@@ -85,14 +85,14 @@
         @click="handleFocusInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
-        @touchstart="onTouchStartInput"
+        @touchstart.passive="onTouchStartInput"
         @keydown="handleKeydownInput"
       >
         <el-icon
           v-if="triggerIcon"
           :class="[nsInput.e('icon'), nsRange.e('icon')]"
           @mousedown.prevent="onMouseDownInput"
-          @touchstart="onTouchStartInput"
+          @touchstart.passive="onTouchStartInput"
         >
           <component :is="triggerIcon" />
         </el-icon>
