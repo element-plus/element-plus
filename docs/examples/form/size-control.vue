@@ -77,9 +77,10 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+import type { ComponentSize, FormProps } from 'element-plus'
 
-const size = ref('default')
-const labelPosition = ref('right')
+const size = ref<ComponentSize>('default')
+const labelPosition = ref<FormProps['labelPosition']>('right')
 
 const sizeForm = reactive({
   name: '',
