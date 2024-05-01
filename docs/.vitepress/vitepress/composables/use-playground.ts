@@ -1,4 +1,5 @@
 import { utoa } from '../utils'
+import { isDark } from './dark'
 
 const MAIN_FILE_NAME = 'App.vue'
 
@@ -14,6 +15,13 @@ export const usePlayground = (source: string) => {
   if (isPreview) {
     const pr = location.host.split('-', 2)[1]
     link = `https://element-plus.run/?pr=${pr}#${encoded}`
+  }
+  if (isDark.value) {
+    if (isPreview) {
+      link += '&theme=dark'
+    } else {
+      link = `https://element-plus.run/?theme=dark#${encoded}`
+    }
   }
   return {
     encoded,
