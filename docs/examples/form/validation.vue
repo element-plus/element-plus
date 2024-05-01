@@ -44,7 +44,7 @@
         <el-form-item prop="date2">
           <el-time-picker
             v-model="ruleForm.date2"
-            label="Pick a time"
+            aria-label="Pick a time"
             placeholder="Pick a time"
             style="width: 100%"
           />
