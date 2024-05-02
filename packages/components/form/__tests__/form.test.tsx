@@ -483,13 +483,13 @@ describe('Form', () => {
       setup() {
         return () => (
           <Form ref="form" model={form}>
-            <FormItem label="name" prop="name" ref="name">
+            <FormItem label="name" prop="name">
               <Input v-model={form.name} />
             </FormItem>
-            <FormItem label="address" prop="address" ref="address">
+            <FormItem label="address" prop="address">
               <Input v-model={form.address} />
             </FormItem>
-            <FormItem label="address" prop="other.age" ref="address">
+            <FormItem label="age" prop="other.age">
               <Input v-model={form.other.age} />
             </FormItem>
           </Form>
