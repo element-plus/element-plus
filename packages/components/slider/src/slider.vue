@@ -8,8 +8,8 @@
     :aria-labelledby="
       range && isLabeledByFormItem ? elFormItem?.labelId : undefined
     "
-    @touchstart="onSliderWrapperPrevent"
-    @touchmove="onSliderWrapperPrevent"
+    @touchstart.passive="onSliderWrapperPrevent"
+    @touchmove.passive="onSliderWrapperPrevent"
   >
     <div
       ref="slider"
@@ -20,7 +20,7 @@
       ]"
       :style="runwayStyle"
       @mousedown="onSliderDown"
-      @touchstart="onSliderDown"
+      @touchstart.passive="onSliderDown"
     >
       <div :class="ns.e('bar')" :style="barStyle" />
       <slider-button
