@@ -4,7 +4,13 @@ import {
   useEmptyValuesProps,
   useSizeProp,
 } from '@element-plus/hooks'
-import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
+import {
+  buildEmits,
+  buildProps,
+  definePropType,
+  iconPropType,
+} from '@element-plus/utils'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '../../tag'
@@ -13,8 +19,9 @@ import { defaultProps } from './useProps'
 import type { Option, OptionType } from './select.types'
 import type { Props } from './useProps'
 import type { Options, Placement } from '@element-plus/components/popper'
+import type { EmitFn } from '@element-plus/utils/vue/typescript'
 
-export const SelectProps = buildProps({
+export const selectProps = buildProps({
   /**
    * @description whether creating new items is allowed. To use this, `filterable` must be true
    */
@@ -248,7 +255,7 @@ export const SelectProps = buildProps({
   ...useAriaProps(['ariaLabel']),
 } as const)
 
-export const OptionProps = buildProps({
+export const optionProps = buildProps({
   data: Array,
   disabled: Boolean,
   hovering: Boolean,
@@ -261,3 +268,17 @@ export const OptionProps = buildProps({
   selected: Boolean,
   created: Boolean,
 } as const)
+
+export const selectEmits = buildEmits([
+  UPDATE_MODEL_EVENT,
+  CHANGE_EVENT,
+  'remove-tag',
+  'clear',
+  'visible-change',
+  'focus',
+  'blur',
+])
+export const optionEmits = buildEmits(['select', 'hover'])
+
+export type SelectEmitFn = EmitFn<typeof selectEmits>
+export type OptionEmitFn = EmitFn<typeof optionEmits>
