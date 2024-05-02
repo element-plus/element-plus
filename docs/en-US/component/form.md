@@ -165,6 +165,7 @@ form/accessibility
 | resetFields   | Reset specified fields and remove validation result.               | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
 | scrollToField | Scroll to the specified fields.                                    | ^[Function]`(prop: FormItemProp) => void`                                                                                         |
 | clearValidate | Clear validation message for specified fields.                     | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
+| getFieldsValue | According to the specified field, return field value of corresponding structure.                     | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => Record<string, any>`                                                               |
 
 ## FormItem API
 

@@ -470,6 +470,44 @@ describe('Form', () => {
     window.HTMLElement.prototype.scrollIntoView = oldScrollIntoView
   })
 
+  it('get fields value', () => {
+    const form = reactive({
+      name: '',
+      address: '',
+      other: {
+        age: '',
+      },
+    })
+
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Form ref="form" model={form}>
+            <FormItem label="name" prop="name" ref="name">
+              <Input v-model={form.name} />
+            </FormItem>
+            <FormItem label="address" prop="address" ref="address">
+              <Input v-model={form.address} />
+            </FormItem>
+            <FormItem label="address" prop="other.age" ref="address">
+              <Input v-model={form.other.age} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    form.name = 'test'
+    form.address = 'address'
+    form.other.age = '18'
+
+    const formRef = wrapper.findComponent({ ref: 'form' }).vm as FormInstance
+    const fieldsValue = formRef.getFieldsValue()
+    expect(fieldsValue.name).toBe(form.name)
+    expect(fieldsValue.address).toBe(form.address)
+    expect(fieldsValue.other.age).toBe(form.other.age)
+  })
+
   it('validate return parameters', async () => {
     const form = reactive({
       name: 'test',

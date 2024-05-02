@@ -6,6 +6,7 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, toRefs, watch } from 'vue'
+import { set } from 'lodash-unified'
 import { debugWarn, isFunction } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
@@ -153,6 +154,19 @@ const scrollToField = (prop: FormItemProp) => {
   }
 }
 
+const getFieldsValue = (props: Arrayable<FormItemProp> = []) => {
+  const fields = obtainValidateFields(props)
+  const fieldsValue: Record<string, any> = {}
+  fields.forEach((field) => {
+    const { propString, fieldValue } = field
+    if (propString) {
+      const propList = propString.split('.')
+      set(fieldsValue, propList, fieldValue)
+    }
+  })
+  return fieldsValue
+}
+
 watch(
   () => props.rules,
   () => {
@@ -201,5 +215,9 @@ defineExpose({
    * @description Scroll to the specified fields.
    */
   scrollToField,
+  /**
+   * @description According to the specified field, return field value of corresponding structure.
+   */
+  getFieldsValue,
 })
 </script>

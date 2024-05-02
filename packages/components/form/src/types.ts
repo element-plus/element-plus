@@ -131,6 +131,7 @@ export interface FormItemContext extends FormItemProps {
   isGroup: boolean
   labelId: string
   inputIds: string[]
+  propString: string
   hasLabel: boolean
   fieldValue: any
   addInputId: (id: string) => void
