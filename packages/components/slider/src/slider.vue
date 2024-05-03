@@ -8,8 +8,8 @@
     :aria-labelledby="
       range && isLabeledByFormItem ? elFormItem?.labelId : undefined
     "
-    @touchstart.passive="onSliderWrapperPrevent"
-    @touchmove.passive="onSliderWrapperPrevent"
+    @touchstart="onSliderWrapperPrevent"
+    @touchmove="onSliderWrapperPrevent"
   >
     <div
       ref="slider"
