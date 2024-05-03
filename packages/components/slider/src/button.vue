@@ -7,7 +7,7 @@
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
     @mousedown="onButtonDown"
-    @touchstart.passive="onButtonDown"
+    @touchstart="onButtonDown"
     @focus="handleMouseEnter"
     @blur="handleMouseLeave"
     @keydown="onKeyDown"

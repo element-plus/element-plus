@@ -104,7 +104,7 @@ export const useSliderButton = (
     event.preventDefault()
     onDragStart(event)
     window.addEventListener('mousemove', onDragging)
-    window.addEventListener('touchmove', onDragging)
+    window.addEventListener('touchmove', onDragging, { passive: false })
     window.addEventListener('mouseup', onDragEnd)
     window.addEventListener('touchend', onDragEnd)
     window.addEventListener('contextmenu', onDragEnd)
