@@ -11,6 +11,7 @@ import {
   resolveDynamicComponent,
   unref,
 } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import { hasOwn, isClient, isNumber, isString } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useCache } from '../hooks/use-cache'
@@ -170,6 +171,10 @@ const createList = ({
           )
         }
       )
+
+      useEventListener(windowRef, 'wheel', onWheel, {
+        passive: false,
+      })
 
       const emitEvents = () => {
         const { total } = props
@@ -518,7 +523,6 @@ const createList = ({
           class: [ns.e('window'), className],
           style: windowStyle,
           onScroll,
-          onWheel,
           ref: 'windowRef',
           key: 0,
         },
