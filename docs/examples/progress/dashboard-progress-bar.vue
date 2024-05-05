@@ -44,6 +44,7 @@ onMounted(() => {
   }, 500)
 })
 </script>
+
 <style scoped>
 .demo-progress .el-progress--line {
   margin-bottom: 15px;

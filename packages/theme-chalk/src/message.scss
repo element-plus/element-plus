@@ -29,6 +29,12 @@
     justify-content: center;
   }
 
+  @include when(plain) {
+    background-color: getCssVar('bg-color', 'overlay');
+    border-color: getCssVar('bg-color', 'overlay');
+    box-shadow: getCssVar('box-shadow-light');
+  }
+
   p {
     margin: 0;
   }

@@ -22,11 +22,14 @@ $tag-icon-span-gap: map.merge(
 
 @function returnVarList($var, $type: 'primary') {
   $list: ('fill-color', 'blank');
-  @if $var != false {
+
+  @if $var !=false {
     $list: ('color', $type, $var);
   }
+
   @return $list;
 }
+
 // false mean --el-color-white
 @mixin genTheme($backgroundColorWeight, $borderColorWeight, $hoverColorWeight) {
   @include css-var-from-global(
@@ -72,6 +75,7 @@ $tag-icon-span-gap: map.merge(
   @include when(hit) {
     border-color: getCssVar('color', 'primary');
   }
+
   @include when(round) {
     border-radius: getCssVar('tag', 'border-radius-rounded');
   }
@@ -79,6 +83,7 @@ $tag-icon-span-gap: map.merge(
   .#{$namespace}-tag__close {
     flex-shrink: 0;
     color: getCssVar('tag', 'text-color');
+
     &:hover {
       color: getCssVar('color-white');
       background-color: getCssVar('tag-hover-color');
@@ -107,6 +112,7 @@ $tag-icon-span-gap: map.merge(
   @include set-css-var-value('icon-size', 14px);
 
   $svg-margin-size: 1px;
+
   .#{$namespace}-icon {
     border-radius: 50%;
     cursor: pointer;
@@ -124,7 +130,6 @@ $tag-icon-span-gap: map.merge(
     @include genTheme('', '', 'light-3');
     @include css-var-from-global(('tag', 'text-color'), ('color', 'white'));
 
-    @include css-var-from-global(('tag', 'text-color'), ('color', 'white'));
     @each $type in $types {
       &.#{bem('tag', '', $type)} {
         @include css-var-from-global(('tag', 'text-color'), ('color', 'white'));
