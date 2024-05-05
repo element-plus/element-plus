@@ -110,7 +110,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             }
           }
         }
-        const baseKey = `${$index},${cellIndex}`
+        const baseKey = `${getKeyOfRow(row, $index)},${cellIndex}`
         const patchKey = columnData.columnKey || columnData.rawColumnKey || ''
         const tdChildren = cellChildren(cellIndex, column, data)
         const mergedTooltipOptions =

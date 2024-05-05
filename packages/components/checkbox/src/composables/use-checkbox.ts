@@ -53,6 +53,17 @@ export const useCheckbox = (
 
   useDeprecated(
     {
+      from: 'controls',
+      replacement: 'aria-controls',
+      version: '2.8.0',
+      scope: 'el-checkbox',
+      ref: 'https://element-plus.org/en-US/component/checkbox.html',
+    },
+    computed(() => !!props.controls)
+  )
+
+  useDeprecated(
+    {
       from: 'label act as value',
       replacement: 'value',
       version: '3.0.0',

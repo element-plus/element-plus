@@ -7,7 +7,7 @@ import {
   isNumber,
   mutable,
 } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import type { Component, ExtractPropTypes } from 'vue'
 import type Rate from './rate.vue'
 
@@ -141,7 +141,7 @@ export const rateProps = buildProps({
    */
   size: useSizeProp,
   /**
-   * @description same as `aria-label` in Rate
+   * @deprecated same as `aria-label` in Rate
    */
   label: {
     type: String,
@@ -154,6 +154,7 @@ export const rateProps = buildProps({
     type: Boolean,
     default: false,
   },
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export type RateProps = ExtractPropTypes<typeof rateProps>

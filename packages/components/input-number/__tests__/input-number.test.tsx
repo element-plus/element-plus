@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
+import { ElIcon } from '@element-plus/components/icon'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
@@ -11,7 +12,7 @@ describe('InputNumber.vue', () => {
   test('create', async () => {
     const num = ref(1)
     const wrapper = mount(() => (
-      <InputNumber label="描述文字" v-model={num.value} />
+      <InputNumber aria-label="描述文字" v-model={num.value} />
     ))
     expect(wrapper.find('input').exists()).toBe(true)
   })
@@ -567,5 +568,30 @@ describe('InputNumber.vue', () => {
     expect(wrapper.getComponent(InputNumber).emitted().change[3]).toEqual([
       1, 2,
     ])
+  })
+
+  test('use slot custom icon', async () => {
+    const wrapper = mount(() => (
+      <InputNumber
+        v-slots={{
+          decreaseIcon: () => (
+            <ElIcon>
+              <ArrowDown />
+            </ElIcon>
+          ),
+          increaseIcon: () => (
+            <ElIcon>
+              <ArrowUp />
+            </ElIcon>
+          ),
+        }}
+      />
+    ))
+    const increase = wrapper.find('.el-input-number__increase i')
+    const decrease = wrapper.find('.el-input-number__decrease i')
+    expect(increase.exists()).toBe(true)
+    expect(decrease.exists()).toBe(true)
+    expect(increase.classes()).toContain('el-icon')
+    expect(decrease.classes()).toContain('el-icon')
   })
 })

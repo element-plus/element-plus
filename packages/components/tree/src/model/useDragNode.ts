@@ -180,6 +180,15 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
       }
       if (dropType !== 'none') {
         store.value.registerNode(draggingNodeCopy)
+        if (store.value.key) {
+          //restore checkbox state after dragging
+          draggingNode.node.eachNode((node) => {
+            store.value.nodesMap[node.data[store.value.key]]?.setChecked(
+              node.checked,
+              !store.value.checkStrictly
+            )
+          })
+        }
       }
 
       removeClass(dropNode.$el, ns.is('drop-inner'))
