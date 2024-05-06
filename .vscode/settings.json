@@ -2,6 +2,9 @@
   "cSpell.words": ["Element Plus", "element-plus"],
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
   "npm.packageManager": "pnpm",
   "eslint.probe": [
     "javascript",
