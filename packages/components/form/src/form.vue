@@ -202,7 +202,7 @@ defineExpose({
    */
   scrollToField,
   /**
-   * @description All fields status.
+   * @description All fields context.
    */
   fields,
 })
