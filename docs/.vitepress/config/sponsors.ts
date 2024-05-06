@@ -17,9 +17,17 @@ export const rightLogoSmallSponsors = [
     name: 'BuildAdmin',
     img: '/images/sponsors/buildadmin.png',
     imgL: '/images/sponsors/buildadmin-l.png',
-    url: 'https://wonderful-code.gitee.io/?from=element-plus',
+    url: 'https://doc.buildadmin.com/?from=element-plus',
     slogan: 'Vue3 opensource admin system',
     slogan_cn: 'Vue3企业级开源后台管理系统',
+  },
+  {
+    name: 'Fantastic-admin',
+    img: '/images/sponsors/fantastic-admin.png',
+    imgL: '/images/sponsors/fantastic-admin-l.png',
+    url: 'https://fantastic-admin.github.io/',
+    slogan: 'Out-of-the-box Vue3 management system framework',
+    slogan_cn: '一款开箱即用的 Vue3 中后台管理系统框架',
   },
   {
     name: 'bit',
