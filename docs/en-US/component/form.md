@@ -269,6 +269,7 @@ type FormRules<T extends MaybeRef<Record<string, any> | string> = string> =
       Arrayable<FormItemRule>
     >
   >
+
 type FormItemValidateState = typeof formItemValidateStates[number]
 type FormItemProps = ExtractPropTypes<typeof formItemProps>
 
