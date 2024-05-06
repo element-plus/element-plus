@@ -201,5 +201,9 @@ defineExpose({
    * @description Scroll to the specified fields.
    */
   scrollToField,
+  /**
+   * @description All fields status.
+   */
+  fields,
 })
 </script>
