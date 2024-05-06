@@ -28,7 +28,7 @@
 Alright, for you to get started if you are looking for making Element Plus better you should keep reading.
 For developers that uses Element Plus to develop your website you should go ahead visit [Getting Started](https://element-plus.org/).
 
-- 中国大陆[加速镜像站点](https://element-plus.gitee.io/)
+- 中国大陆[加速镜像站点](https://cn.element-plus.org/zh-CN/)
 
 ## Breaking change list
 
@@ -96,8 +96,13 @@ You can also try Element Plus out with the components built-in playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://wonderful-code.gitee.io/?from=element-plus" target="_blank">
+        <a href="https://doc.buildadmin.com/?from=element-plus" target="_blank">
           <img width="130px" src="https://user-images.githubusercontent.com/17680888/173179536-30e35fd1-cd5a-482a-bc41-9d5f0aa66fd4.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://fantastic-admin.github.io/" target="_blank">
+          <img width="130px" src="https://github.com/element-plus/element-plus/assets/82012629/fdff8d8f-83e8-4986-9949-c5b4e0d30217">
         </a>
       </td>
       <td align="center" valign="middle">
