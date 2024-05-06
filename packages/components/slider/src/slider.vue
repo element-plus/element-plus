@@ -106,7 +106,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, reactive, toRefs } from 'vue'
+import { computed, onMounted, provide, reactive, toRefs } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import ElInputNumber from '@element-plus/components/input-number'
 import { useFormItemInputId, useFormSize } from '@element-plus/components/form'
@@ -228,18 +228,20 @@ const precision = computed(() => {
 
 const { sliderWrapper } = useLifecycle(props, initData, resetSize)
 
-useEventListener(sliderWrapper, 'touchstart', onSliderWrapperPrevent, {
-  passive: false,
-})
-useEventListener(sliderWrapper, 'touchmove', onSliderWrapperPrevent, {
-  passive: false,
-})
-
 const { firstValue, secondValue, sliderSize } = toRefs(initData)
 
 const updateDragging = (val: boolean) => {
   initData.dragging = val
 }
+
+onMounted(() => {
+  useEventListener(sliderWrapper, 'touchstart', onSliderWrapperPrevent, {
+    passive: false,
+  })
+  useEventListener(sliderWrapper, 'touchmove', onSliderWrapperPrevent, {
+    passive: false,
+  })
+})
 
 provide(sliderContextKey, {
   ...toRefs(props),
