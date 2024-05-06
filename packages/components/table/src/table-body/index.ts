@@ -39,23 +39,28 @@ export default defineComponent({
       let rowNum = newVal
       const childNodes = rows[rowNum]?.childNodes
       if (childNodes?.length) {
+        let control = 0
         const indexes = Array.from(childNodes).reduce((acc, item, index) => {
           // drop colsSpan
-          const pre = childNodes[index - 1]?.colSpan > 1
-          const next = childNodes[index + 1]?.colSpan > 1
-          if (item.nodeName !== 'TD' && !pre && !next) {
+          if (childNodes[index]?.colSpan > 1) {
+            control = childNodes[index]?.colSpan
+          }
+          if (item.nodeName !== 'TD' && control === 0) {
             acc.push(index)
           }
+          control > 0 && control--
           return acc
         }, [])
 
         indexes.forEach((rowIndex) => {
+          rowNum = newVal
           while (rowNum > 0) {
             // find from previous
             const preChildNodes = rows[rowNum - 1]?.childNodes
             if (
               preChildNodes[rowIndex] &&
-              preChildNodes[rowIndex].nodeName === 'TD'
+              preChildNodes[rowIndex].nodeName === 'TD' &&
+              preChildNodes[rowIndex].rowSpan > 1
             ) {
               addClass(preChildNodes[rowIndex], 'hover-cell')
               hoveredCellList.push(preChildNodes[rowIndex])

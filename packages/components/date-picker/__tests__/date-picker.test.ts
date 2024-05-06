@@ -178,7 +178,7 @@ describe('DatePicker', () => {
     ;(picker.vm as any).showClose = true
     await nextTick()
     ;(document.querySelector('.clear-icon') as HTMLElement).click()
-    expect(vm.value).toBeNull()
+    expect(vm.value).toBe(null)
   })
 
   it('defaultValue', async () => {
@@ -207,7 +207,7 @@ describe('DatePicker', () => {
     ;(picker.vm as any).showClose = true
     await nextTick()
     document.querySelector<HTMLElement>('.clear-icon').click()
-    expect(vm.value).toBeNull()
+    expect(vm.value).toBe(null)
 
     vm.defaultValue = new Date(2031, 5, 1)
     input.trigger('blur')

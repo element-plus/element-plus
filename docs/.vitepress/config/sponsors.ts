@@ -33,13 +33,12 @@ export const rightLogoSmallSponsors = [
 
 export const leftCustomImgSponsors = [
   {
-    name: 'JSDesign',
-    name_cn: '即时设计',
-    img: '/images/js-design.png',
-    url: 'https://js.design/?source=element-plus&plan=sy',
-    slogan: 'Professional online UI design tool',
-    slogan_cn: '专业在线UI设计工具',
-    banner_img: '/images/js-design-banner.jpg',
+    name: '美乐',
+    img: '/images/sponsors/mele.png',
+    url: 'https://melecode.com/',
+    slogan: 'Enterprise-level low-code development platform',
+    slogan_cn: '企业级全栈低代码开发平台',
+    banner_img: '/images/sponsors/mele-banner.png',
   },
   {
     name: 'VForm',

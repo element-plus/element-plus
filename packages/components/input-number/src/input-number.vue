@@ -52,9 +52,8 @@
       :max="max"
       :min="min"
       :name="name"
-      :label="label"
+      :aria-label="label || ariaLabel"
       :validate-event="false"
-      @wheel="handleWheel"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
       @blur="handleBlur"
@@ -75,7 +74,7 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 import { vRepeatClick } from '@element-plus/directives'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import {
   debugWarn,
   isNumber,
@@ -294,7 +293,7 @@ const setCurrentValueToModelValue = () => {
     data.currentValue = props.modelValue
   }
 }
-const handleWheel = (e: MouseEvent) => {
+const handleWheel = (e: WheelEvent) => {
   if (document.activeElement === e.target) e.preventDefault()
 }
 
@@ -336,11 +335,22 @@ onMounted(() => {
     }
     emit(UPDATE_MODEL_EVENT, val!)
   }
+  innerInput.addEventListener('wheel', handleWheel, { passive: false })
 })
 onUpdated(() => {
   const innerInput = input.value?.input
   innerInput?.setAttribute('aria-valuenow', `${data.currentValue ?? ''}`)
 })
+useDeprecated(
+  {
+    from: 'label',
+    replacement: 'aria-label',
+    version: '2.8.0',
+    scope: 'el-input-number',
+    ref: 'https://element-plus.org/en-US/component/input-number.html',
+  },
+  computed(() => !!props.label)
+)
 defineExpose({
   /** @description get focus the input component */
   focus,

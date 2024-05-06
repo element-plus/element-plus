@@ -19,7 +19,6 @@
   </el-drawer>
 
   <el-drawer
-    ref="drawerRef"
     v-model="dialog"
     title="I have a nested form inside!"
     :before-close="handleClose"
@@ -43,9 +42,9 @@
       </el-form>
       <div class="demo-drawer__footer">
         <el-button @click="cancelForm">Cancel</el-button>
-        <el-button type="primary" :loading="loading" @click="onClick">{{
-          loading ? 'Submitting ...' : 'Submit'
-        }}</el-button>
+        <el-button type="primary" :loading="loading" @click="onClick">
+          {{ loading ? 'Submitting ...' : 'Submit' }}
+        </el-button>
       </div>
     </div>
   </el-drawer>
@@ -96,9 +95,12 @@ const gridData = [
   },
 ]
 
-const drawerRef = ref<InstanceType<typeof ElDrawer>>()
 const onClick = () => {
-  drawerRef.value!.close()
+  loading.value = true
+  setTimeout(() => {
+    loading.value = false
+    dialog.value = false
+  }, 400)
 }
 
 const handleClose = (done) => {
