@@ -11,18 +11,19 @@ export const usePlayground = (source: string) => {
 
   const encoded = utoa(JSON.stringify(originCode))
   const isPreview = location.host.startsWith('preview')
-  let link = `https://element-plus.run/#${encoded}`
+  let link = `https://element-plus.run/`
   if (isPreview) {
     const pr = location.host.split('-', 2)[1]
-    link = `https://element-plus.run/?pr=${pr}#${encoded}`
+    link = `${link}?pr=${pr}`
   }
   if (isDark.value) {
     if (isPreview) {
       link += '&theme=dark'
     } else {
-      link = `https://element-plus.run/?theme=dark#${encoded}`
+      link = `${link}?theme=dark`
     }
   }
+  link += `#${encoded}`
   return {
     encoded,
     link,
