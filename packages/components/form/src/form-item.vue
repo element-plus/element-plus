@@ -9,8 +9,7 @@
       :is-auto-width="labelStyle.width === 'auto'"
       :update-all="formContext?.labelWidth === 'auto'"
     >
-      <component
-        :is="labelFor ? 'label' : 'div'"
+      <label
         v-if="hasLabel"
         :id="labelId"
         :for="labelFor"
@@ -20,7 +19,7 @@
         <slot name="label" :label="currentLabel">
           {{ currentLabel }}
         </slot>
-      </component>
+      </label>
     </form-label-wrap>
 
     <div :class="ns.e('content')" :style="contentStyle">
