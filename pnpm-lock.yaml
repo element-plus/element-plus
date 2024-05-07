@@ -48,8 +48,8 @@ importers:
         specifier: ^4.17.6
         version: 4.17.6
       '@vueuse/core':
-        specifier: ^9.1.0
-        version: 9.1.0(vue@3.4.27)
+        specifier: ^10.9.0
+        version: 10.9.0(vue@3.4.27)
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5
@@ -215,7 +215,7 @@ importers:
         version: 0.4.0
       unplugin-vue-macros:
         specifier: ^2.7.11
-        version: 2.7.11(@vueuse/core@9.1.0)(typescript@4.7.4)(vue@3.4.27)
+        version: 2.7.11(@vueuse/core@10.9.0)(typescript@4.7.4)(vue@3.4.27)
       vitest:
         specifier: 1.4.0
         version: 1.4.0(@types/node@18.19.25)(@vitest/ui@1.4.0)(happy-dom@14.3.3)(jsdom@16.4.0)(sass@1.53.0)
@@ -851,8 +851,8 @@ packages:
       '@babel/code-frame': 7.24.2
       '@babel/generator': 7.24.4
       '@babel/helper-compilation-targets': 7.23.6
-      '@babel/helper-module-transforms': 7.23.3(@babel/core@7.24.3)
-      '@babel/helpers': 7.24.1
+      '@babel/helper-module-transforms': 7.23.3(@babel/core@7.24.4)
+      '@babel/helpers': 7.24.4
       '@babel/parser': 7.24.4
       '@babel/template': 7.24.0
       '@babel/traverse': 7.24.1
@@ -4204,6 +4204,10 @@ packages:
 
   /@types/web-bluetooth@0.0.15:
     resolution: {integrity: sha512-w7hEHXnPMEZ+4nGKl/KDRVpxkwYxYExuHOYXyzIzCDzEZ9ZCGMAewulr9IqJu2LR4N37fcnb1XVeuZ09qgOxhA==}
+    dev: false
+
+  /@types/web-bluetooth@0.0.20:
+    resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==}
 
   /@types/yauzl@2.10.3:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
@@ -4734,7 +4738,7 @@ packages:
       - webpack
     dev: true
 
-  /@vue-macros/define-models@1.2.2(@vueuse/core@9.1.0)(vue@3.4.27):
+  /@vue-macros/define-models@1.2.2(@vueuse/core@10.9.0)(vue@3.4.27):
     resolution: {integrity: sha512-dLR9pTUR/OOMwIFT5rn116meXv7fqVL5ImD0OA89JdYGxdtaxGDP8UJZV6qtIaBiAF+2KNEf6ZAF72ST250xOA==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
@@ -4744,7 +4748,7 @@ packages:
         optional: true
     dependencies:
       '@vue-macros/common': 1.10.1(vue@3.4.27)
-      '@vueuse/core': 9.1.0(vue@3.4.27)
+      '@vueuse/core': 10.9.0(vue@3.4.27)
       ast-walker-scope: 0.5.0
       unplugin: 1.10.0
     transitivePeerDependencies:
@@ -5322,6 +5326,17 @@ packages:
       '@types/node': 18.19.25
     dev: true
 
+  /@vueuse/core@10.9.0(vue@3.4.27):
+    resolution: {integrity: sha512-/1vjTol8SXnx6xewDEKfS0Ra//ncg4Hb0DaZiwKf7drgfMsKFExQ+FnnENcN6efPen+1kIzhLQoGSy0eDUVOMg==}
+    dependencies:
+      '@types/web-bluetooth': 0.0.20
+      '@vueuse/metadata': 10.9.0
+      '@vueuse/shared': 10.9.0(vue@3.4.27)
+      vue-demi: 0.14.7(vue@3.4.27)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+
   /@vueuse/core@9.1.0(vue@3.2.37):
     resolution: {integrity: sha512-BIroqvXEqt826aE9r3K5cox1zobuPuAzdYJ36kouC2TVhlXvFKIILgFVWrpp9HZPwB3aLzasmG3K87q7TSyXZg==}
     dependencies:
@@ -5334,19 +5349,20 @@ packages:
       - vue
     dev: false
 
-  /@vueuse/core@9.1.0(vue@3.4.27):
-    resolution: {integrity: sha512-BIroqvXEqt826aE9r3K5cox1zobuPuAzdYJ36kouC2TVhlXvFKIILgFVWrpp9HZPwB3aLzasmG3K87q7TSyXZg==}
-    dependencies:
-      '@types/web-bluetooth': 0.0.15
-      '@vueuse/metadata': 9.1.0
-      '@vueuse/shared': 9.1.0(vue@3.4.27)
-      vue-demi: 0.13.1(vue@3.4.27)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
+  /@vueuse/metadata@10.9.0:
+    resolution: {integrity: sha512-iddNbg3yZM0X7qFY2sAotomgdHK7YJ6sKUvQqbvwnf7TmaVPxS4EJydcNsVejNdS8iWCtDk+fYXr7E32nyTnGA==}
 
   /@vueuse/metadata@9.1.0:
     resolution: {integrity: sha512-8OEhlog1iaAGTD3LICZ8oBGQdYeMwByvXetOtAOZCJOzyCRSwqwdggTsmVZZ1rkgYIEqgUBk942AsAPwM21s6A==}
+    dev: false
+
+  /@vueuse/shared@10.9.0(vue@3.4.27):
+    resolution: {integrity: sha512-Uud2IWncmAfJvRaFYzv5OHDli+FbOzxiVEQdLCKQKLyhz94PIyFC3CHcH7EDMwIn8NPtD06+PNbC/PiO0LGLtw==}
+    dependencies:
+      vue-demi: 0.14.7(vue@3.4.27)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
 
   /@vueuse/shared@9.1.0(vue@3.2.37):
     resolution: {integrity: sha512-pB/3njQu4tfJJ78ajELNda0yMG6lKfpToQW7Soe09CprF1k3QuyoNi1tBNvo75wBDJWD+LOnr+c4B5HZ39jY/Q==}
@@ -5356,14 +5372,6 @@ packages:
       - '@vue/composition-api'
       - vue
     dev: false
-
-  /@vueuse/shared@9.1.0(vue@3.4.27):
-    resolution: {integrity: sha512-pB/3njQu4tfJJ78ajELNda0yMG6lKfpToQW7Soe09CprF1k3QuyoNi1tBNvo75wBDJWD+LOnr+c4B5HZ39jY/Q==}
-    dependencies:
-      vue-demi: 0.13.1(vue@3.4.27)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
 
   /@zkochan/which@2.0.3:
     resolution: {integrity: sha512-C1ReN7vt2/2O0fyTsx5xnbQuxBrmG5NMSbcIkPKCCfCTJgpZBsuRYzFXHj3nVq8vTfK7vxHUmzfCpSHgO7j4rg==}
@@ -14221,7 +14229,7 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-vue-macros@2.7.11(@vueuse/core@9.1.0)(typescript@4.7.4)(vue@3.4.27):
+  /unplugin-vue-macros@2.7.11(@vueuse/core@10.9.0)(typescript@4.7.4)(vue@3.4.27):
     resolution: {integrity: sha512-Trfc2nH9LUMdxsAo09dTXI2kCudJS7pIowJQ9mQuJBfIonNfoG0dGJ5x2OLmpm1AwmRuJVrJqkjDcKtrA2/ACw==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
@@ -14232,7 +14240,7 @@ packages:
       '@vue-macros/chain-call': 0.2.2(vue@3.4.27)
       '@vue-macros/common': 1.10.1(vue@3.4.27)
       '@vue-macros/define-emit': 0.2.3(vue@3.4.27)
-      '@vue-macros/define-models': 1.2.2(@vueuse/core@9.1.0)(vue@3.4.27)
+      '@vue-macros/define-models': 1.2.2(@vueuse/core@10.9.0)(vue@3.4.27)
       '@vue-macros/define-prop': 0.3.3(vue@3.4.27)
       '@vue-macros/define-props': 2.0.3(@vue-macros/reactivity-transform@0.4.3)(vue@3.4.27)
       '@vue-macros/define-props-refs': 1.2.2(vue@3.4.27)
@@ -14800,8 +14808,8 @@ packages:
       vue: 3.2.37
     dev: false
 
-  /vue-demi@0.13.1(vue@3.4.27):
-    resolution: {integrity: sha512-xmkJ56koG3ptpLnpgmIzk9/4nFf4CqduSJbUM0OdPoU87NwRuZ6x49OLhjSa/fC15fV+5CbEnrxU4oyE022svg==}
+  /vue-demi@0.14.7(vue@3.4.27):
+    resolution: {integrity: sha512-EOG8KXDQNwkJILkx/gPcoL/7vH+hORoBaKgGe+6W7VFMvCYJfmF2dGbvgDroVnI8LU7/kTu8mbjRZGBU1z9NTA==}
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
