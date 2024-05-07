@@ -279,8 +279,9 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
   const validator = new AsyncValidator({
     [modelName]: rules,
   })
+  const fieldValueImmediate = getProp(formContext!.model!, props.prop!).value
   return validator
-    .validate({ [modelName]: fieldValue.value }, { firstFields: true })
+    .validate({ [modelName]: fieldValueImmediate }, { firstFields: true })
     .then(() => {
       onValidationSucceeded()
       return true as const
