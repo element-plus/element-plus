@@ -12,7 +12,7 @@
     "@docsearch/js": "^3.1.0",
     "@element-plus/icons-vue": "^2.3.1",
     "@element-plus/metadata": "workspace:*",
-    "@vue/shared": "^3.2.37",
+    "@vue/shared": "^3.4.27",
     "@vueuse/core": "^9.1.0",
     "axios": "^0.27.2",
     "clipboard-copy": "^4.0.1",
@@ -21,7 +21,7 @@
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "prism-theme-vars": "^0.2.3",
-    "vue": "^3.2.37"
+    "vue": "^3.4.27"
   },
   "devDependencies": {
     "@crowdin/cli": "^3.7.10",

@@ -41,7 +41,7 @@
     "postinstall": "pnpm stub && concurrently \"pnpm gen:version\" \"pnpm run -C internal/metadata dev\""
   },
   "peerDependencies": {
-    "vue": "^3.2.0"
+    "vue": ">=3.2.0"
   },
   "dependencies": {
     "@element-plus/components": "workspace:*",
@@ -118,7 +118,7 @@
     "vitest": "1.4.0",
     "vue": "^3.4.27",
     "vue-router": "^4.0.16",
-    "vue-tsc": "^0.38.2"
+    "vue-tsc": "^2.0.16"
   },
   "engines": {
     "node": ">= 18"
