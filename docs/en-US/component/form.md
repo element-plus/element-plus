@@ -229,7 +229,7 @@ type FormValidationResult = Promise<boolean>
 type FormValidateCallback = (
   isValid: boolean,
   invalidFields?: ValidateFieldsError
-) => void
+) => Promise<void> | void
 
 // RuleItem: see [async-validator](https://github.com/yiminghe/async-validator/blob/master/src/interface.ts)
 interface FormItemRule extends RuleItem {
