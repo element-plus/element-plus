@@ -15,6 +15,6 @@ Element Plus team uses **weekly** release strategy under normal circumstance, bu
 
 On this page you can only see the latest 30 records of our [Changelog](https://github.com/element-plus/element-plus/blob/dev/CHANGELOG.en-US.md).
 
-You can see the [Upgrade Changes](https://github.com/element-plus/element-plus/issues/15834) after version `2.5.0`.
+You can see the [Upgrade Changes](https://github.com/element-plus/element-plus/issues/15834) after version ^(2.5.0).
 
 <VpChangelog />

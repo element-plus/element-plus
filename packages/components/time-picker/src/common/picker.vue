@@ -40,7 +40,7 @@
           isYearsPicker ||
           type === 'week'
         "
-        :label="label"
+        :aria-label="label || ariaLabel"
         :tabindex="tabindex"
         :validate-event="false"
         @input="onUserInput"
@@ -54,7 +54,7 @@
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
-        @touchstart="onTouchStartInput"
+        @touchstart.passive="onTouchStartInput"
         @click.stop
       >
         <template #prefix>
@@ -62,7 +62,7 @@
             v-if="triggerIcon"
             :class="nsInput.e('icon')"
             @mousedown.prevent="onMouseDownInput"
-            @touchstart="onTouchStartInput"
+            @touchstart.passive="onTouchStartInput"
           >
             <component :is="triggerIcon" />
           </el-icon>
@@ -85,14 +85,14 @@
         @click="handleFocusInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
-        @touchstart="onTouchStartInput"
+        @touchstart.passive="onTouchStartInput"
         @keydown="handleKeydownInput"
       >
         <el-icon
           v-if="triggerIcon"
           :class="[nsInput.e('icon'), nsRange.e('icon')]"
           @mousedown.prevent="onMouseDownInput"
-          @touchstart="onTouchStartInput"
+          @touchstart.passive="onTouchStartInput"
         >
           <component :is="triggerIcon" />
         </el-icon>
@@ -173,7 +173,12 @@ import {
 } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import { useEmptyValues, useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useDeprecated,
+  useEmptyValues,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
@@ -751,6 +756,17 @@ const onPanelChange = (
 provide('EP_PICKER_BASE', {
   props,
 })
+
+useDeprecated(
+  {
+    from: 'label',
+    replacement: 'aria-label',
+    version: '2.8.0',
+    scope: 'el-time-picker',
+    ref: 'https://element-plus.org/en-US/component/time-picker.html',
+  },
+  computed(() => !!props.label)
+)
 
 defineExpose({
   /**

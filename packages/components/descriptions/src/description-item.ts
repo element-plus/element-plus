@@ -3,7 +3,7 @@ import { buildProps } from '@element-plus/utils'
 
 import type { ExtractPropTypes, Slot, VNode } from 'vue'
 
-const descriptionItemProps = buildProps({
+export const descriptionItemProps = buildProps({
   /**
    * @description label text
    */
