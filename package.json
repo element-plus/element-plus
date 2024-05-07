@@ -116,7 +116,7 @@
     "unplugin-element-plus": "^0.4.0",
     "unplugin-vue-macros": "^2.7.11",
     "vitest": "1.4.0",
-    "vue": "^3.4.23",
+    "vue": "^3.4.27",
     "vue-router": "^4.0.16",
     "vue-tsc": "^0.38.2"
   },
