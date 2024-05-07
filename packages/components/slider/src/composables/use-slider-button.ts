@@ -10,7 +10,6 @@ import type {
   SliderButtonInitData,
   SliderButtonProps,
 } from '../button'
-import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 const { left, down, right, up, home, end, pageUp, pageDown } = EVENT_CODE
 
@@ -19,7 +18,8 @@ const useTooltip = (
   formatTooltip: Ref<SliderProps['formatTooltip']>,
   showTooltip: Ref<SliderProps['showTooltip']>
 ) => {
-  const tooltip = ref<TooltipInstance>()
+  // TODO any is temporary, replace with `TooltipInstance` later
+  const tooltip = ref<any>()
 
   const tooltipVisible = ref(false)
 

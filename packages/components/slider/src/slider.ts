@@ -31,12 +31,7 @@ export const sliderProps = buildProps({
    * @description binding value
    */
   modelValue: {
-    type: definePropType<Arrayable<number> | undefined>([
-      Number,
-      Array,
-      undefined,
-    ]),
-    default: undefined,
+    type: definePropType<Arrayable<number>>([Number, Array]),
   },
   id: {
     type: String,
