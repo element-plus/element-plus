@@ -8,7 +8,7 @@ const onItemClick = (item: any) => {
 </script>
 
 <template>
-  <div class="m-t-16px flex flex-wrap justify-between">
+  <div class="flex flex-wrap justify-between" style="margin-top: 16px">
     <template
       v-for="item in rightLogoSmallSponsors.concat([{} as any])"
       :key="item.name"
