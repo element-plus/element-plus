@@ -413,7 +413,9 @@ export const useSelect = (props: ISelectProps, emit) => {
         option = {
           value,
           currentLabel: cachedOption.currentLabel,
-          isDisabled: cachedOption.isDisabled,
+          get isDisabled() {
+            return cachedOption.isDisabled
+          },
         }
         break
       }

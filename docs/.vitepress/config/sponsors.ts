@@ -17,9 +17,17 @@ export const rightLogoSmallSponsors = [
     name: 'BuildAdmin',
     img: '/images/sponsors/buildadmin.png',
     imgL: '/images/sponsors/buildadmin-l.png',
-    url: 'https://wonderful-code.gitee.io/?from=element-plus',
+    url: 'https://doc.buildadmin.com/?from=element-plus',
     slogan: 'Vue3 opensource admin system',
     slogan_cn: 'Vue3企业级开源后台管理系统',
+  },
+  {
+    name: 'Fantastic-admin',
+    img: '/images/sponsors/fantastic-admin.png',
+    imgL: '/images/sponsors/fantastic-admin-l.png',
+    url: 'https://fantastic-admin.github.io/',
+    slogan: 'Out-of-the-box Vue3 management system framework',
+    slogan_cn: '一款开箱即用的 Vue3 中后台管理系统框架',
   },
   {
     name: 'bit',
@@ -32,6 +40,14 @@ export const rightLogoSmallSponsors = [
 ]
 
 export const leftCustomImgSponsors = [
+  {
+    name: '美乐',
+    img: '/images/sponsors/mele.png',
+    url: 'https://melecode.com/',
+    slogan: 'Enterprise-level low-code development platform',
+    slogan_cn: '企业级全栈低代码开发平台',
+    banner_img: '/images/sponsors/mele-banner.png',
+  },
   {
     name: 'VForm',
     img: '/images/vform.png',

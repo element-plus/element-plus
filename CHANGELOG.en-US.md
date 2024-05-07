@@ -1,5 +1,27 @@
 ## Changelog
 
+### 2.7.2
+
+_2024-04-26_
+
+#### Features
+
+- Hooks add use-aria hooks (#16598 by @kooriookami)
+- Components [color-picker] add `teleported` prop (#16634 by @zhixiaotong)
+- Components [form] add validate callback promise type (#16652 by @warmthsea)
+
+#### Bug fixes
+
+- 🐛 update autocomplete default width (#16633 by @xxholly32)
+- Components [select] group error when custom option component (#16621 by @Liao-js)
+- Components [table] return type of function summary-method  supports VNode (#16648 by @FrontEndDog)
+- Test-utils fix main export error (#16504 by @wzc520pyfm)
+- Components Add missing export (#16323 by @zzh948498)
+- Components [table-v2] fix scrolling fail (#16470 by @Tsong-LC)
+- Components [select] `isDisabled` is not fresh (#16419 by @makedopamine)
+- Components [progress] bar background support gradient (#16666 by @btea)
+- Components [select-v2] custom options init error in multiple (#16664 by @Liao-js)
+
 ### 2.7.1
 
 _2024-04-20_
