@@ -10,6 +10,7 @@ import type {
   SliderButtonInitData,
   SliderButtonProps,
 } from '../button'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 const { left, down, right, up, home, end, pageUp, pageDown } = EVENT_CODE
 
@@ -18,8 +19,7 @@ const useTooltip = (
   formatTooltip: Ref<SliderProps['formatTooltip']>,
   showTooltip: Ref<SliderProps['showTooltip']>
 ) => {
-  // TODO any is temporary, replace with `TooltipInstance` later
-  const tooltip = ref<any>()
+  const tooltip = ref<TooltipInstance>()
 
   const tooltipVisible = ref(false)
 
@@ -252,10 +252,6 @@ export const useSliderButton = (
 
     if (value !== props.modelValue) {
       emit(UPDATE_MODEL_EVENT, value)
-    }
-
-    if (!initData.dragging && props.modelValue !== initData.oldValue) {
-      initData.oldValue = props.modelValue
     }
 
     await nextTick()

@@ -131,11 +131,40 @@ export const useSlide = (
   }
 
   const emitChange = async () => {
-    await nextTick()
     emit(
       CHANGE_EVENT,
-      props.range ? [minValue.value, maxValue.value] : props.modelValue
+      props.range ? [minValue.value, maxValue.value] : initData.firstValue
     )
+
+    if (props.modelValue === undefined) return
+
+    if (props.range) {
+      if (Array.isArray(props.modelValue)) {
+        initData.firstValue = Math.max(
+          props.min,
+          props.modelValue[0] || props.min
+        )
+        initData.secondValue = Math.min(
+          props.max,
+          props.modelValue[1] || props.max
+        )
+      } else {
+        initData.firstValue = props.min
+        initData.secondValue = props.max
+      }
+    } else {
+      if (
+        typeof props.modelValue !== 'number' ||
+        Number.isNaN(props.modelValue)
+      ) {
+        initData.firstValue = props.min
+      } else {
+        initData.firstValue = Math.min(
+          props.max,
+          Math.max(props.min, props.modelValue)
+        )
+      }
+    }
   }
 
   const handleSliderPointerEvent = (
