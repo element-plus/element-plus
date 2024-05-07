@@ -59,7 +59,7 @@ const validatePass = (rule: any, value: any, callback: any) => {
   } else {
     if (ruleForm.checkPass !== '') {
       if (!ruleFormRef.value) return
-      ruleFormRef.value.validateField('checkPass', () => null)
+      ruleFormRef.value.validateField('checkPass')
     }
     callback()
   }
