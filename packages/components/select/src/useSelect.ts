@@ -134,7 +134,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     return (
       props.clearable &&
       !selectDisabled.value &&
-      states.inputHovering &&
+      // states.inputHovering &&
       hasModelValue.value
     )
   })
