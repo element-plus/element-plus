@@ -165,6 +165,7 @@ form/accessibility
 | resetFields   | Reset specified fields and remove validation result.               | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
 | scrollToField | Scroll to the specified fields.                                    | ^[Function]`(prop: FormItemProp) => void`                                                                                         |
 | clearValidate | Clear validation message for specified fields.                     | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
+| fields ^(2.7.3)        | Get all fields context.                                    | ^[array]`FormItemContext[]`                                                                  |
 
 ## FormItem API
 
@@ -268,6 +269,29 @@ type FormRules<T extends MaybeRef<Record<string, any> | string> = string> =
       Arrayable<FormItemRule>
     >
   >
+
+type FormItemValidateState = typeof formItemValidateStates[number]
+type FormItemProps = ExtractPropTypes<typeof formItemProps>
+
+type FormItemContext = FormItemProps & {
+  $el: HTMLDivElement | undefined
+  size: ComponentSize
+  validateState: FormItemValidateState
+  isGroup: boolean
+  labelId: string
+  inputIds: string[]
+  hasLabel: boolean
+  fieldValue: any
+  addInputId: (id: string) => void
+  removeInputId: (id: string) => void
+  validate: (
+    trigger: string,
+    callback?: FormValidateCallback
+  ) => FormValidationResult
+  resetField(): void
+  clearValidate(): void
+}
+
 ```
 
 </details>
