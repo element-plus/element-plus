@@ -1,5 +1,6 @@
 <template>
   <el-tree
+    style="max-width: 600px"
     :props="props"
     :load="loadNode"
     lazy

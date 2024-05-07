@@ -400,6 +400,7 @@ $select: () !default;
 $select: map.merge(
   (
     'border-color-hover': getCssVar('border-color-hover'),
+    'disabled-color': getCssVar('disabled-text-color'),
     'disabled-border': getCssVar('disabled-border-color'),
     'font-size': getCssVar('font-size-base'),
     'close-hover-color': getCssVar('text-color-secondary'),
@@ -407,6 +408,7 @@ $select: map.merge(
     'multiple-input-color': getCssVar('text-color-regular'),
     'input-focus-border-color': getCssVar('color-primary'),
     'input-font-size': 14px,
+    'width': 100%,
   ),
   $select
 );
@@ -449,14 +451,45 @@ $select-dropdown: map.merge(
   $select-dropdown
 );
 
-$select-tags-prefix-padding: () !default;
-$select-tags-prefix-padding: map.merge(
+$select-wrapper-padding: () !default;
+$select-wrapper-padding: map.merge(
   (
-    'large': 8px,
+    'large': 8px 16px,
+    'default': 4px 12px,
+    'small': 2px 8px,
+  ),
+  $select-wrapper-padding
+);
+
+$select-near-margin-left: () !default;
+$select-near-margin-left: map.merge(
+  (
+    'large': -8px,
+    'default': -8px,
+    'small': -6px,
+  ),
+  $select-near-margin-left
+);
+
+$select-item-gap: () !default;
+$select-item-gap: map.merge(
+  (
+    'large': 6px,
     'default': 6px,
     'small': 4px,
   ),
-  $select-tags-prefix-padding
+  $select-item-gap
+);
+
+// the same height of el-tag
+$select-item-height: () !default;
+$select-item-height: map.merge(
+  (
+    'large': 24px,
+    'default': 24px,
+    'small': 20px,
+  ),
+  $select-item-height
 );
 
 // Alert
@@ -466,10 +499,11 @@ $alert: map.merge(
   (
     'padding': 8px 16px,
     'border-radius-base': getCssVar('border-radius-base'),
-    'title-font-size': 13px,
-    'description-font-size': 12px,
-    'close-font-size': 12px,
-    'close-customed-font-size': 13px,
+    'title-font-size': 14px,
+    'title-with-description-font-size': 16px,
+    'description-font-size': 14px,
+    'close-font-size': 16px,
+    'close-customed-font-size': 14px,
     'icon-size': 16px,
     'icon-large-size': 28px,
   ),
@@ -484,11 +518,13 @@ $messagebox: map.merge(
     'title-color': getCssVar('text-color-primary'),
     'width': 420px,
     'border-radius': 4px,
+    'box-shadow': getCssVar('box-shadow'),
     'font-size': getCssVar('font-size-large'),
     'content-font-size': getCssVar('font-size-base'),
     'content-color': getCssVar('text-color-regular'),
     'error-font-size': 12px,
-    'padding-primary': 15px,
+    'padding-primary': 12px,
+    'font-line-height': getCssVar('font-line-height-primary'),
   ),
   $messagebox
 );
@@ -500,7 +536,7 @@ $message: map.merge(
   (
     'bg-color': getCssVar('color', 'info', 'light-9'),
     'border-color': getCssVar('border-color-lighter'),
-    'padding': 15px 19px,
+    'padding': 11px 15px,
     'close-size': 16px,
     'close-icon-color': getCssVar('text-color-placeholder'),
     'close-hover-color': getCssVar('text-color-secondary'),
@@ -754,10 +790,65 @@ $dialog: map.merge(
     'title-font-size': getCssVar('font-size-large'),
     'content-font-size': 14px,
     'font-line-height': getCssVar('font-line-height-primary'),
-    'padding-primary': 20px,
+    'padding-primary': 16px,
     'border-radius': getCssVar('border-radius-small'),
   ),
   $dialog
+);
+
+// Tour
+// css3 var in packages/theme-chalk/src/tour.scss
+$tour: () !default;
+$tour: map.merge(
+  (
+    'width': 520px,
+    'padding-primary': 12px,
+    'font-line-height': getCssVar('font-line-height-primary'),
+    'title-font-size': 16px,
+    'title-text-color': getCssVar('text-color-primary'),
+    'title-font-weight': 400,
+    'close-color': getCssVar('color-info'),
+    'font-size': 14px,
+    'color': getCssVar('text-color-primary'),
+    'bg-color': getCssVar('bg-color'),
+    'border-radius': 4px,
+  ),
+  $tour
+);
+
+// Anchor
+// css3 var in packages/theme-chalk/src/anchor.scss
+$anchor: () !default;
+$anchor: map.merge(
+  (
+    'bg-color': getCssVar('bg-color'),
+    'padding-indent': 14px,
+    'line-height': 22px,
+    'font-size': 12px,
+    'color': getCssVar('text-color-secondary'),
+    'active-color': getCssVar('color-primary'),
+    'marker-bg-color': getCssVar('color-primary'),
+  ),
+  $anchor
+);
+
+// Segmented
+// css3 var in packages/theme-chalk/src/segmented.scss
+$segmented: () !default;
+$segmented: map.merge(
+  (
+    'color': getCssVar('text-color', 'regular'),
+    'bg-color': getCssVar('fill-color', 'light'),
+    'padding': 2px,
+    'item-selected-color': getCssVar('color-white'),
+    'item-selected-bg-color': getCssVar('color-primary'),
+    'item-selected-disabled-bg-color': getCssVar('color-primary', 'light-5'),
+    'item-hover-color': getCssVar('text-color', 'primary'),
+    'item-hover-bg-color': getCssVar('fill-color', 'dark'),
+    'item-active-bg-color': getCssVar('fill-color', 'darker'),
+    'item-disabled-color': getCssVar('text-color', 'placeholder'),
+  ),
+  $segmented
 );
 
 // Table
@@ -1425,7 +1516,7 @@ $lg: 1200px !default;
 $xl: 1920px !default;
 
 $breakpoints: (
-  'xs': '(max-width: #{$sm})',
+  'xs': '(max-width: #{$sm - 1})',
   'sm': '(min-width: #{$sm})',
   'md': '(min-width: #{$md})',
   'lg': '(min-width: #{$lg})',

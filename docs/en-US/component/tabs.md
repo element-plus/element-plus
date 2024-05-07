@@ -108,10 +108,11 @@ tabs/customized-trigger
 
 ## Tabs Slots
 
-| Name             | Description               | Subtags  |
-| ---------------- | ------------------------- | -------- |
-| -                | customize default content | Tab-pane |
-| addIcon ^(2.4.0) | customize add button icon | -        |
+| Name                           | Description               | Subtags  |
+| ------------------------------ | ------------------------- | -------- |
+| -                              | customize default content | Tab-pane |
+| addIcon ^(2.4.0) ^(deprecated) | customize add button icon | -        |
+| add-icon ^(2.5.4)              | customize add button icon | -        |
 
 ## Tab-pane Attributes
 

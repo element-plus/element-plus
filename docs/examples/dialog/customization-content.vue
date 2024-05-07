@@ -1,9 +1,13 @@
 <template>
-  <el-button text @click="dialogTableVisible = true">
-    open a Table nested Dialog
+  <el-button plain @click="dialogTableVisible = true">
+    Open a Table nested Dialog
   </el-button>
 
-  <el-dialog v-model="dialogTableVisible" title="Shipping address">
+  <el-button plain @click="dialogFormVisible = true">
+    Open a Form nested Dialog
+  </el-button>
+
+  <el-dialog v-model="dialogTableVisible" title="Shipping address" width="800">
     <el-table :data="gridData">
       <el-table-column property="date" label="Date" width="150" />
       <el-table-column property="name" label="Name" width="200" />
@@ -11,12 +15,7 @@
     </el-table>
   </el-dialog>
 
-  <!-- Form -->
-  <el-button text @click="dialogFormVisible = true">
-    open a Form nested Dialog
-  </el-button>
-
-  <el-dialog v-model="dialogFormVisible" title="Shipping address">
+  <el-dialog v-model="dialogFormVisible" title="Shipping address" width="500">
     <el-form :model="form">
       <el-form-item label="Promotion name" :label-width="formLabelWidth">
         <el-input v-model="form.name" autocomplete="off" />
@@ -29,12 +28,12 @@
       </el-form-item>
     </el-form>
     <template #footer>
-      <span class="dialog-footer">
+      <div class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
         <el-button type="primary" @click="dialogFormVisible = false">
           Confirm
         </el-button>
-      </span>
+      </div>
     </template>
   </el-dialog>
 </template>
@@ -80,17 +79,3 @@ const gridData = [
   },
 ]
 </script>
-<style scoped>
-.el-button--text {
-  margin-right: 15px;
-}
-.el-select {
-  width: 300px;
-}
-.el-input {
-  width: 300px;
-}
-.dialog-footer button:first-child {
-  margin-right: 10px;
-}
-</style>

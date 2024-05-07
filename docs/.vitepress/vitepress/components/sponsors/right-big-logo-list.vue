@@ -9,7 +9,7 @@ const onItemClick = (item: any) => {
 </script>
 
 <template>
-  <div class="m-t-16px">
+  <div style="margin-top: 16px">
     <a
       v-for="item in rightBigLogoSponsors"
       :key="item.name"

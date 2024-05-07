@@ -61,32 +61,35 @@
   }
 
   @include e(content) {
-    display: table-cell;
-    padding: 0 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
   & .#{$namespace}-alert__icon {
     font-size: getCssVar('alert', 'icon-size');
     width: getCssVar('alert', 'icon-size');
+    margin-right: 8px;
 
     @include when(big) {
       font-size: getCssVar('alert', 'icon-large-size');
       width: getCssVar('alert', 'icon-large-size');
+      margin-right: 12px;
     }
   }
 
   @include e(title) {
     font-size: getCssVar('alert', 'title-font-size');
-    line-height: 18px;
-    vertical-align: text-top;
-    @include when(bold) {
-      font-weight: bold;
+    line-height: 24px;
+
+    &.with-description {
+      font-size: getCssVar('alert', 'title-with-description-font-size');
     }
   }
 
   & .#{$namespace}-alert__description {
     font-size: getCssVar('alert', 'description-font-size');
-    margin: 5px 0 0 0;
+    margin: 0;
   }
 
   & .#{$namespace}-alert__close-btn {
@@ -94,13 +97,14 @@
     opacity: 1;
     position: absolute;
     top: 12px;
-    right: 15px;
+    right: 16px;
     cursor: pointer;
 
     @include when(customed) {
       font-style: normal;
       font-size: getCssVar('alert', 'close-customed-font-size');
-      top: 9px;
+      line-height: 24px;
+      top: 8px;
     }
   }
 }

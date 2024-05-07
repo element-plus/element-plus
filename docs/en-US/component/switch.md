@@ -87,7 +87,7 @@ switch/custom-action-icon
 
 :::
 
-## custom action slot ^(2.5.0)
+## custom action slot ^(2.4.4)
 
 :::demo You can use `active-action` and `inactive-action` slot to customize action.
 
@@ -100,7 +100,7 @@ switch/custom-action-slot
 ### Attributes
 
 | Name                          | Description                                                                                                                                     | Type                                             | Default |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ------- |
+|-------------------------------| ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ------- |
 | model-value / v-model         | binding value, it should be equivalent to either `active-value` or `inactive-value`, by default it's `boolean` type                             | ^[boolean] / ^[string] / ^[number]               | false   |
 | disabled                      | whether Switch is disabled                                                                                                                      | ^[boolean]                                       | false   |
 | loading                       | whether Switch is in loading state                                                                                                              | ^[boolean]                                       | false   |
@@ -123,7 +123,8 @@ switch/custom-action-slot
 | before-change                 | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | ^[boolean] / ^[Function]`() => Promise<boolean>` | —       |
 | id                            | id for input                                                                                                                                    | ^[string]                                        | —       |
 | tabindex                      | tabindex for input                                                                                                                              | ^[string] / ^[number]                            | —       |
-| label ^(2.4.1) ^(a11y)        | same as `aria-label` in native input                                                                                                            | ^[string]                                        | —       |
+| label ^(a11y) ^(deprecated)   | same as `aria-label` in native input                                                                                                            | ^[string]                                        | —       |
+| aria-label ^(a11y) ^(2.7.2)   | same as `aria-label` in native input                                                                                                            | ^[string]                                        | —       |
 
 ### Events
 
@@ -135,8 +136,8 @@ switch/custom-action-slot
 
 | Name                     | Description               |
 | ------------------------ | ------------------------- |
-| active-action ^(2.5.0)   | customize active action   |
-| inactive-action ^(2.5.0) | customize inactive action |
+| active-action ^(2.4.4)   | customize active action   |
+| inactive-action ^(2.4.4) | customize inactive action |
 
 ### Exposes
 

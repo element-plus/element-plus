@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
+import { ElIcon } from '@element-plus/components/icon'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
@@ -11,7 +12,7 @@ describe('InputNumber.vue', () => {
   test('create', async () => {
     const num = ref(1)
     const wrapper = mount(() => (
-      <InputNumber label="描述文字" v-model={num.value} />
+      <InputNumber aria-label="描述文字" v-model={num.value} />
     ))
     expect(wrapper.find('input').exists()).toBe(true)
   })
@@ -429,6 +430,8 @@ describe('InputNumber.vue', () => {
     elInput.handleInputChange('')
     await nextTick()
     expect(num.value).toBe(5)
+    await wrapper.find('input').setValue('')
+    expect(num.value).toBe(5)
     elInput.decrease()
     await nextTick()
     expect(num.value).toBe(4)
@@ -529,5 +532,66 @@ describe('InputNumber.vue', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+  })
+
+  test('use model-value', () => {
+    const num = ref(2)
+    const wrapper = mount(() => (
+      <InputNumber modelValue={num.value} min={1} max={10} />
+    ))
+    const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
+    elInput.handleInputChange('')
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(1)
+    expect(elInput.modelValue).toBe(2)
+    expect(wrapper.getComponent(InputNumber).emitted().change[0]).toEqual([
+      null,
+      2,
+    ])
+
+    elInput.increase()
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(2)
+    expect(elInput.modelValue).toBe(2)
+    expect(wrapper.getComponent(InputNumber).emitted().change[1]).toEqual([
+      3, 2,
+    ])
+
+    elInput.handleInputChange('12')
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(3)
+    expect(elInput.modelValue).toBe(2)
+    expect(wrapper.getComponent(InputNumber).emitted().change[2]).toEqual([
+      10, 2,
+    ])
+
+    elInput.decrease()
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(4)
+    expect(elInput.modelValue).toBe(2)
+    expect(wrapper.getComponent(InputNumber).emitted().change[3]).toEqual([
+      1, 2,
+    ])
+  })
+
+  test('use slot custom icon', async () => {
+    const wrapper = mount(() => (
+      <InputNumber
+        v-slots={{
+          decreaseIcon: () => (
+            <ElIcon>
+              <ArrowDown />
+            </ElIcon>
+          ),
+          increaseIcon: () => (
+            <ElIcon>
+              <ArrowUp />
+            </ElIcon>
+          ),
+        }}
+      />
+    ))
+    const increase = wrapper.find('.el-input-number__increase i')
+    const decrease = wrapper.find('.el-input-number__decrease i')
+    expect(increase.exists()).toBe(true)
+    expect(decrease.exists()).toBe(true)
+    expect(increase.classes()).toContain('el-icon')
+    expect(decrease.classes()).toContain('el-icon')
   })
 })

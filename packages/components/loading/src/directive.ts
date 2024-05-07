@@ -91,5 +91,6 @@ export const vLoading: Directive<ElementLoading, LoadingBinding> = {
   },
   unmounted(el) {
     el[INSTANCE_KEY]?.instance.close()
+    el[INSTANCE_KEY] = null
   },
 }
