@@ -55,7 +55,7 @@ type RenderExpanded<T> = ({
 type SummaryMethod<T> = (data: {
   columns: TableColumnCtx<T>[]
   data: T[]
-}) => string[]
+}) => (string | VNode)[]
 
 interface Table<T> extends ComponentInternalInstance {
   $ready: boolean

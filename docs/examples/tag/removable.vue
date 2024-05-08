@@ -8,8 +8,14 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import type { TagProps } from 'element-plus'
 
-const tags = ref([
+interface TagsItem {
+  name: string
+  type: TagProps['type']
+}
+
+const tags = ref<TagsItem[]>([
   { name: 'Tag 1', type: 'primary' },
   { name: 'Tag 2', type: 'success' },
   { name: 'Tag 3', type: 'info' },

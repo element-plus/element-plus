@@ -1,5 +1,9 @@
 import { placements } from '@popperjs/core'
-import { useSizeProp } from '@element-plus/hooks'
+import {
+  useAriaProps,
+  useEmptyValuesProps,
+  useSizeProp,
+} from '@element-plus/hooks'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
@@ -240,13 +244,8 @@ export const SelectProps = buildProps({
    * @description tag type
    */
   tagType: { ...tagProps.type, default: 'info' },
-  /**
-   * @description same as `aria-label` in native input
-   */
-  ariaLabel: {
-    type: String,
-    default: undefined,
-  },
+  ...useEmptyValuesProps,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export const OptionProps = buildProps({
