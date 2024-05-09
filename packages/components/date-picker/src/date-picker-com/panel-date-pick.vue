@@ -442,7 +442,6 @@ const handleYearPick = async (
 }
 
 const showPicker = async (view: 'month' | 'year') => {
-  console.log(view)
   currentView.value = view
   await nextTick()
   handleFocusPicker()
