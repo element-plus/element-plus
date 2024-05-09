@@ -442,6 +442,7 @@ const handleYearPick = async (
 }
 
 const showPicker = async (view: 'month' | 'year') => {
+  console.log(view)
   currentView.value = view
   await nextTick()
   handleFocusPicker()
@@ -618,9 +619,6 @@ const getDefaultValue = () => {
 const handleFocusPicker = async () => {
   if (['week', 'month', 'year', 'date'].includes(selectionMode.value)) {
     currentViewRef.value?.focus()
-    if (selectionMode.value === 'week') {
-      handleKeyControl(EVENT_CODE.down)
-    }
   }
 }
 
