@@ -155,8 +155,8 @@ function useWatcher<T>() {
   const clearSelection = () => {
     isAllSelected.value = false
     const oldSelection = selection.value
+    selection.value = []
     if (oldSelection.length) {
-      selection.value = []
       instance.emit('selection-change', [])
     }
   }
