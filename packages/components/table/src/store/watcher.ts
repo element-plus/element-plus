@@ -35,7 +35,7 @@ const sortData = (data, states) => {
 const doFlattenColumns = (columns) => {
   const result = []
   columns.forEach((column) => {
-    if (column.children) {
+    if (column.children && column.children.length > 0) {
       // eslint-disable-next-line prefer-spread
       result.push.apply(result, doFlattenColumns(column.children))
     } else {
@@ -60,6 +60,7 @@ function useWatcher<T>() {
   const leafColumns: Ref<TableColumnCtx<T>[]> = ref([])
   const fixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
   const rightFixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
+  const updateOrderFns: (() => void)[] = []
   const leafColumnsLength = ref(0)
   const fixedLeafColumnsLength = ref(0)
   const rightFixedLeafColumnsLength = ref(0)
@@ -517,6 +518,7 @@ function useWatcher<T>() {
       leafColumns,
       fixedLeafColumns,
       rightFixedLeafColumns,
+      updateOrderFns,
       leafColumnsLength,
       fixedLeafColumnsLength,
       rightFixedLeafColumnsLength,

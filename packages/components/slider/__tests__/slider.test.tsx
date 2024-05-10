@@ -90,11 +90,12 @@ describe('Slider', () => {
 
   it('placement', async () => {
     const TOOLTIP_CLASS = 'custom_tooltip'
-    const PLACEMENT = 'right'
+    const PLACEMENT = 'left'
 
     mount(() => <Slider tooltip-class={TOOLTIP_CLASS} placement={PLACEMENT} />)
 
     await nextTick()
+    await nextTick() // here
 
     expect(
       (document.querySelector(`.${TOOLTIP_CLASS}`) as HTMLElement).dataset

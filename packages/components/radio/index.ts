@@ -15,3 +15,4 @@ export const ElRadioButton = withNoopInstall(RadioButton)
 export * from './src/radio'
 export * from './src/radio-group'
 export * from './src/radio-button'
+export * from './src/constants'

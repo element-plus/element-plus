@@ -62,12 +62,12 @@ export declare interface TreeStoreOptions {
 export declare interface TreeOptionProps {
   children?: string
   label?: string | ((data: TreeNodeData, node: Node) => string)
-  disabled?: string | ((data: TreeNodeData, node: Node) => string)
+  disabled?: string | ((data: TreeNodeData, node: Node) => boolean)
   isLeaf?: string | ((data: TreeNodeData, node: Node) => boolean)
   class?: (
     data: TreeNodeData,
     node: Node
-  ) => string | { [key: string]: boolean } | string
+  ) => string | { [key: string]: boolean }
 }
 export declare type RenderContentFunction = (
   h: hType,

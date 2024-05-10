@@ -1,3 +1,4 @@
+import { renderSlot } from 'vue'
 import type { FunctionalComponent } from 'vue'
 import type { TableV2CellProps } from '../cell'
 
@@ -7,9 +8,10 @@ const TableV2Cell: FunctionalComponent<TableV2CellProps> = (
 ) => {
   const { cellData, style } = props
   const displayText = cellData?.toString?.() || ''
+  const defaultSlot = renderSlot(slots, 'default', props, () => [displayText])
   return (
     <div class={props.class} title={displayText} style={style}>
-      {slots.default ? slots.default(props) : displayText}
+      {defaultSlot}
     </div>
   )
 }

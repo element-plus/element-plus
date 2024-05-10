@@ -6,48 +6,55 @@ import type Radio from './radio.vue'
 
 export const radioPropsBase = buildProps({
   /**
-   * @description size of the Raido
-   */
-  size: useSizeProp,
-  /**
-   * @description whether Raido is disabled
-   */
-  disabled: Boolean,
-  /**
-   * @description the value of Raido
-   */
-  label: {
-    type: [String, Number, Boolean],
-    default: '',
-  },
-})
-
-export const radioProps = buildProps({
-  ...radioPropsBase,
-  /**
    * @description binding value
    */
   modelValue: {
     type: [String, Number, Boolean],
-    default: '',
+    default: undefined,
+  },
+  /**
+   * @description size of the Radio
+   */
+  size: useSizeProp,
+  /**
+   * @description whether Radio is disabled
+   */
+  disabled: Boolean,
+  /**
+   * @description the label of Radio
+   */
+  label: {
+    type: [String, Number, Boolean],
+    default: undefined,
+  },
+  /**
+   * @description the value of Radio
+   */
+  value: {
+    type: [String, Number, Boolean],
+    default: undefined,
   },
   /**
    * @description native `name` attribute
    */
   name: {
     type: String,
-    default: '',
+    default: undefined,
   },
+})
+
+export const radioProps = buildProps({
+  ...radioPropsBase,
   /**
-   * @description whether to add a border around Raido
+   * @description whether to add a border around Radio
    */
   border: Boolean,
 } as const)
 
 export const radioEmits = {
-  [UPDATE_MODEL_EVENT]: (val: string | number | boolean) =>
+  [UPDATE_MODEL_EVENT]: (val: string | number | boolean | undefined) =>
     isString(val) || isNumber(val) || isBoolean(val),
-  [CHANGE_EVENT]: (val: string | number | boolean) =>
+  [CHANGE_EVENT]: (val: string | number | boolean | undefined) =>
     isString(val) || isNumber(val) || isBoolean(val),
 }
 

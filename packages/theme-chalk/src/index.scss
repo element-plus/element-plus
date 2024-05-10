@@ -44,8 +44,8 @@
 @use './image-viewer.scss';
 @use './image.scss';
 @use './infinite-scroll.scss';
-@use './input-number.scss';
 @use './input.scss';
+@use './input-number.scss';
 @use './link.scss';
 @use './loading.scss';
 @use './main.scss';
@@ -85,6 +85,7 @@
 @use './table-v2.scss';
 @use './tabs.scss';
 @use './tag.scss';
+@use './text.scss';
 @use './time-picker.scss';
 @use './time-select.scss';
 @use './timeline-item.scss';
@@ -101,5 +102,8 @@
 @use './select-dropdown.scss';
 @use './option.scss';
 @use './option-group.scss';
-@use './option-item.scss';
 @use './statistic.scss';
+@use './tour.scss';
+@use './anchor.scss';
+@use './anchor-link.scss';
+@use './segmented.scss';

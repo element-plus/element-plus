@@ -2,6 +2,10 @@
 import { useSidebar } from '../composables/sidebar'
 import { useBackTop } from '../composables/back-top'
 import ToggleSidebarBtn from './subnav/toggle-sidebar-btn.vue'
+
+defineProps<{
+  isSidebarOpen: boolean
+}>()
 defineEmits(['open-menu'])
 
 const { hasSidebar } = useSidebar()
@@ -10,16 +14,20 @@ const { shouldShow, scrollToTop } = useBackTop()
 
 <template>
   <div class="sub-nav py-3 flex items-center">
-    <ToggleSidebarBtn v-if="hasSidebar" @click="$emit('open-menu')" />
+    <ToggleSidebarBtn
+      v-if="hasSidebar"
+      :aria-expanded="isSidebarOpen"
+      @click="$emit('open-menu')"
+    />
     <Transition name="shifting">
-      <ElLink
+      <ElButton
         :class="{ 'go-back-top': true, show: shouldShow }"
-        :underline="false"
+        link
         class="height-5"
-        size="small"
         @click.prevent.stop="scrollToTop"
-        >{{ 'Back to top' }}</ElLink
       >
+        Back to top
+      </ElButton>
     </Transition>
   </div>
 </template>

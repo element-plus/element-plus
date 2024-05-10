@@ -1,12 +1,15 @@
 export default {
   name: 'sr',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Поништи',
     },
     datepicker: {
-      now: 'Сад',
+      now: 'Сада',
       today: 'Данас',
       cancel: 'Откажи',
       clear: 'Бриши',
@@ -76,6 +79,12 @@ export default {
       pagesize: '/страни',
       total: 'Укупно {total}',
       pageClassifier: '',
+      page: 'Страна',
+      prev: 'Иди на претходну страну',
+      next: 'Иди на следећу страну',
+      currentPage: 'страна {pager}',
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
     },
     messagebox: {
       title: 'Порука',
@@ -103,19 +112,24 @@ export default {
       noMatch: 'Нема резултата',
       noData: 'Нема података',
       titles: ['Листа 1', 'Листа 2'], // to be translated
-      filterPlaceholder: 'Унеси кључну реч', // to be translated
-      noCheckedFormat: '{total} ставки', // to be translated
-      hasCheckedFormat: '{checked}/{total} обележених', // to be translated
+      filterPlaceholder: 'Унеси кључну реч',
+      noCheckedFormat: '{total} ставки',
+      hasCheckedFormat: '{checked}/{total} обележених',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'НЕУСПЕШНО',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Назад',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Да',
+      cancelButtonText: 'Не',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

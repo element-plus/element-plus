@@ -10,10 +10,10 @@
 </template>
 <script lang="ts" setup>
 import { inject, ref } from 'vue'
-import { useDisabled, useNamespace } from '@element-plus/hooks'
-
-import { uploadContextKey } from '@element-plus/tokens'
+import { useNamespace } from '@element-plus/hooks'
+import { useFormDisabled } from '@element-plus/components/form'
 import { throwError } from '@element-plus/utils/error'
+import { uploadContextKey } from './constants'
 import { uploadDraggerEmits, uploadDraggerProps } from './upload-dragger'
 
 const COMPONENT_NAME = 'ElUploadDrag'
@@ -35,42 +35,16 @@ if (!uploaderContext) {
 
 const ns = useNamespace('upload')
 const dragover = ref(false)
-const disabled = useDisabled()
+const disabled = useFormDisabled()
 
 const onDrop = (e: DragEvent) => {
   if (disabled.value) return
   dragover.value = false
 
+  e.stopPropagation()
+
   const files = Array.from(e.dataTransfer!.files)
-  const accept = uploaderContext.accept.value
-  if (!accept) {
-    emit('file', files)
-    return
-  }
-
-  const filesFiltered = files.filter((file) => {
-    const { type, name } = file
-    const extension = name.includes('.') ? `.${name.split('.').pop()}` : ''
-    const baseType = type.replace(/\/.*$/, '')
-    return accept
-      .split(',')
-      .map((type) => type.trim())
-      .filter((type) => type)
-      .some((acceptedType) => {
-        if (acceptedType.startsWith('.')) {
-          return extension === acceptedType
-        }
-        if (/\/\*$/.test(acceptedType)) {
-          return baseType === acceptedType.replace(/\/\*$/, '')
-        }
-        if (/^[^/]+\/[^/]+$/.test(acceptedType)) {
-          return type === acceptedType
-        }
-        return false
-      })
-  })
-
-  emit('file', filesFiltered)
+  emit('file', files)
 }
 
 const onDragover = () => {

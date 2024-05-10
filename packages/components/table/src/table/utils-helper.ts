@@ -15,7 +15,7 @@ function useUtils<T>(store: Store<T>) {
   const clearSelection = () => {
     store.clearSelection()
   }
-  const clearFilter = (columnKeys: string[]) => {
+  const clearFilter = (columnKeys?: string[]) => {
     store.clearFilter(columnKeys)
   }
   const toggleAllSelection = () => {

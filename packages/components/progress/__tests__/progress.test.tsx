@@ -67,7 +67,22 @@ describe('Progress.vue', () => {
 
     expect(
       wrapper.find('.el-progress-bar__inner').attributes('style')
-    ).toContain('background-color: rgb(255, 255, 255);')
+    ).toContain('background: rgb(255, 255, 255);')
+  })
+
+  test('striped', () => {
+    const wrapper = mount(() => <Progress striped />)
+
+    expect(wrapper.find('.el-progress-bar__inner--striped').exists()).toBe(true)
+  })
+
+  test('striped flow', () => {
+    const wrapper = mount(() => <Progress striped striped-flow />)
+
+    expect(wrapper.find('.el-progress-bar__inner--striped').exists()).toBe(true)
+    expect(wrapper.find('.el-progress-bar__inner--striped-flow').exists()).toBe(
+      true
+    )
   })
 
   test('color is function', async () => {
@@ -88,7 +103,7 @@ describe('Progress.vue', () => {
 
     expect(
       wrapper.find('.el-progress-bar__inner').attributes('style')
-    ).toContain('background-color: rgb(1, 2, 3);')
+    ).toContain('background: rgb(1, 2, 3);')
 
     percentage.value = 60
 
@@ -96,7 +111,7 @@ describe('Progress.vue', () => {
 
     expect(
       wrapper.find('.el-progress-bar__inner').attributes('style')
-    ).toContain('background-color: rgb(4, 5, 6);')
+    ).toContain('background: rgb(4, 5, 6);')
   })
 
   test('color is array', async () => {
@@ -116,14 +131,14 @@ describe('Progress.vue', () => {
 
     expect(
       wrapper.find('.el-progress-bar__inner').attributes('style')
-    ).toContain('background-color: rgb(1, 1, 1);')
+    ).toContain('background: rgb(1, 1, 1);')
 
     percentage.value = 89
     await nextTick()
 
     expect(
       wrapper.find('.el-progress-bar__inner').attributes('style')
-    ).toContain('background-color: rgb(9, 9, 9);')
+    ).toContain('background: rgb(9, 9, 9);')
   })
 
   test('format', () => {

@@ -1,13 +1,33 @@
 export const rightRichTextSponsors = []
 
+export const rightBigLogoSponsors = [
+  {
+    name: 'CRMEB',
+    img: '/images/sponsors/CRMEB.png',
+    imgL: '/images/sponsors/CRMEB-l.png',
+    url: 'http://github.crmeb.net/u/Element?from=element-plus',
+    slogan: 'High-quality open source mall system',
+    slogan_cn: '高品质开源商城系统 累计服务40W+开发者',
+    slogan_index: '高品质开源商城系统累计服务40W+开发者',
+  },
+]
+
 export const rightLogoSmallSponsors = [
   {
     name: 'BuildAdmin',
     img: '/images/sponsors/buildadmin.png',
     imgL: '/images/sponsors/buildadmin-l.png',
-    url: 'https://wonderful-code.gitee.io/?from=element-plus',
+    url: 'https://doc.buildadmin.com/?from=element-plus',
     slogan: 'Vue3 opensource admin system',
     slogan_cn: 'Vue3企业级开源后台管理系统',
+  },
+  {
+    name: 'Fantastic-admin',
+    img: '/images/sponsors/fantastic-admin.png',
+    imgL: '/images/sponsors/fantastic-admin-l.png',
+    url: 'https://fantastic-admin.github.io/',
+    slogan: 'Out-of-the-box Vue3 management system framework',
+    slogan_cn: '一款开箱即用的 Vue3 中后台管理系统框架',
   },
   {
     name: 'bit',
@@ -21,26 +41,35 @@ export const rightLogoSmallSponsors = [
 
 export const leftCustomImgSponsors = [
   {
-    name: 'VForm',
-    img: '/images/vform.png',
-    url: 'https://vform666.com/vform3.html?from=element_plus',
-    slogan: 'Vue 2/3 Visual/Low-Code Forms',
-    slogan_cn: 'Vue 2/3 可视化低代码表单',
-    banner_img: '/images/vform-banner.png',
+    name: '美乐',
+    img: '/images/sponsors/mele.png',
+    url: 'https://melecode.com/',
+    slogan: 'Enterprise-level low-code development platform',
+    slogan_cn: '企业级全栈低代码开发平台',
+    banner_img: '/images/sponsors/mele-banner.png',
   },
   {
-    name: 'JSDesign',
-    name_cn: '即时设计',
-    img: '/images/js-design.png',
-    url: 'https://js.design?source=element-plus',
-    slogan: 'Professional online UI design tool',
-    slogan_cn: '专业在线UI设计工具',
-    banner_img: '/images/js-design-banner.jpg',
+    name: 'VForm',
+    img: '/images/vform.png',
+    url: 'https://vform666.com/',
+    slogan: 'Vue 2/3 Visual/Low-Code Forms',
+    slogan_cn: 'Vue 2/3 可视化低代码表单',
+    banner_img: '/images/sponsors/vform-banner.png',
+  },
+  {
+    name: 'JNPF',
+    img: '/images/jnpf_index.png',
+    url: 'https://www.jnpfsoft.com/index.html?from=elementUI',
+    slogan: 'JNPF low code development platform to develop simple!',
+    slogan_cn: 'JNPF 低代码开发平台，让开发变得简单！',
+    className: 'jnpf',
+    banner_img: '/images/sponsors/jnpfsoft.jpg',
   },
 ]
 
 export const platinumSponsors = [
   ...leftCustomImgSponsors,
+  ...rightBigLogoSponsors,
   ...rightRichTextSponsors,
 ]
 

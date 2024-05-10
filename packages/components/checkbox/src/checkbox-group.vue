@@ -4,7 +4,9 @@
     :id="groupId"
     :class="ns.b('group')"
     role="group"
-    :aria-label="!isLabeledByFormItem ? label || 'checkbox-group' : undefined"
+    :aria-label="
+      !isLabeledByFormItem ? label || ariaLabel || 'checkbox-group' : undefined
+    "
     :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
   >
     <slot />
@@ -16,13 +18,11 @@ import { computed, nextTick, provide, toRefs, watch } from 'vue'
 import { pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
-import {
-  useFormItem,
-  useFormItemInputId,
-  useNamespace,
-} from '@element-plus/hooks'
-import { checkboxGroupContextKey } from '@element-plus/tokens'
+import { useDeprecated, useNamespace } from '@element-plus/hooks'
+import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
+import { checkboxGroupContextKey } from './constants'
+
 import type { CheckboxGroupValueType } from './checkbox-group'
 
 defineOptions({
@@ -66,6 +66,17 @@ provide(checkboxGroupContextKey, {
   modelValue,
   changeEvent,
 })
+
+useDeprecated(
+  {
+    from: 'label',
+    replacement: 'aria-label',
+    version: '2.8.0',
+    scope: 'el-checkbox-group',
+    ref: 'https://element-plus.org/en-US/component/checkbox.html',
+  },
+  computed(() => !!props.label)
+)
 
 watch(
   () => props.modelValue,

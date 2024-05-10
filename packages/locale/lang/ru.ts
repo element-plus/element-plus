@@ -1,6 +1,9 @@
 export default {
   name: 'ru',
   el: {
+    breadcrumb: {
+      label: 'Хлебные крошки',
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Очистить',
@@ -76,6 +79,12 @@ export default {
       pagesize: ' на странице',
       total: 'Всего {total}',
       pageClassifier: '',
+      page: 'Страница',
+      prev: 'Перейти на предыдущую страницу',
+      next: 'Перейти на следующую страницу',
+      currentPage: 'страница {pager}',
+      prevPages: 'Предыдущие {pager} страниц',
+      nextPages: 'Следующие {pager} страниц',
     },
     messagebox: {
       title: 'Сообщение',
@@ -96,6 +105,11 @@ export default {
       clearFilter: 'Все',
       sumText: 'Сумма',
     },
+    tour: {
+      next: 'Далее',
+      previous: 'Назад',
+      finish: 'Завершить',
+    },
     tree: {
       emptyText: 'Нет данных',
     },
@@ -108,14 +122,19 @@ export default {
       hasCheckedFormat: '{checked}/{total} выбрано',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'ОШИБКА',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Назад',
     },
     popconfirm: {
       confirmButtonText: 'OK',
       cancelButtonText: 'Отмена',
+    },
+    carousel: {
+      leftArrow: 'Слайдер стрелка влево',
+      rightArrow: 'Слайдер стрелка вправо',
+      indicator: 'Слайдер перейти на страницу под номером {index}',
     },
   },
 }

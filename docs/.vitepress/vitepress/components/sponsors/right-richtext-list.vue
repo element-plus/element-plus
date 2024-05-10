@@ -13,7 +13,7 @@ const onItemClick = (item: any) => {
 </script>
 
 <template>
-  <div class="m-t-16px">
+  <div style="margin-top: 16px">
     <a
       v-for="item in rightRichTextSponsors"
       :key="item.name"
@@ -46,7 +46,7 @@ const onItemClick = (item: any) => {
           </div>
           <div
             :class="[
-              'm-t-2px font-400 text-12px color-#909399',
+              'm-t-2px font-400 text-12px color-#909399 break-all',
               isDark && '!color-#A3A6AD',
             ]"
           >

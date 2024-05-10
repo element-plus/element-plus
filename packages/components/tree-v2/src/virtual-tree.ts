@@ -38,6 +38,11 @@ export const enum SetOperationEnum {
   DELETE = 'delete',
 }
 
+const itemSize = {
+  type: Number,
+  default: 26,
+}
+
 // props
 export const treeProps = buildProps({
   data: {
@@ -87,6 +92,7 @@ export const treeProps = buildProps({
     type: Number,
     default: 16,
   },
+  itemSize,
   icon: {
     type: iconPropType,
   },
@@ -149,6 +155,7 @@ export const treeNodeProps = buildProps({
     type: Boolean,
     default: false,
   },
+  itemSize,
 } as const)
 
 export const treeNodeContentProps = buildProps({

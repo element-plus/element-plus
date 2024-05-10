@@ -6,12 +6,13 @@ import { docRoot } from '@element-plus/build-utils'
 import externalLinkIcon from '../plugins/external-link-icon'
 import tableWrapper from '../plugins/table-wrapper'
 import tooltip from '../plugins/tooltip'
+import tag from '../plugins/tag'
 import { ApiTableContainer } from '../plugins/api-table'
 import { highlight } from '../utils/highlight'
 import type Token from 'markdown-it/lib/token'
 import type Renderer from 'markdown-it/lib/renderer'
 
-const localMd = MarkdownIt()
+const localMd = MarkdownIt().use(tag)
 
 interface ContainerOpts {
   marker?: string | undefined
@@ -29,6 +30,7 @@ export const mdPlugin = (md: MarkdownIt) => {
   md.use(externalLinkIcon)
   md.use(tableWrapper)
   md.use(tooltip)
+  md.use(tag)
   md.use(mdContainer, 'demo', {
     validate(params) {
       return !!params.trim().match(/^demo\s*(.*)$/)

@@ -5,7 +5,7 @@
         ref="wrapper"
         :tabindex="-1"
         :class="ns.e('wrapper')"
-        :style="{ zIndex: computedZIndex }"
+        :style="{ zIndex }"
       >
         <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
@@ -16,24 +16,10 @@
 
         <!-- ARROW -->
         <template v-if="!isSingle">
-          <span
-            :class="[
-              ns.e('btn'),
-              ns.e('prev'),
-              ns.is('disabled', !infinite && isFirst),
-            ]"
-            @click="prev"
-          >
+          <span :class="arrowPrevKls" @click="prev">
             <el-icon><ArrowLeft /></el-icon>
           </span>
-          <span
-            :class="[
-              ns.e('btn'),
-              ns.e('next'),
-              ns.is('disabled', !infinite && isLast),
-            ]"
-            @click="next"
-          >
+          <span :class="arrowNextKls" @click="next">
             <el-icon><ArrowRight /></el-icon>
           </span>
         </template>
@@ -69,6 +55,7 @@
             :src="url"
             :style="imgStyle"
             :class="ns.e('img')"
+            :crossorigin="crossorigin"
             @load="handleImgLoad"
             @error="handleImgError"
             @mousedown="handleMouseDown"
@@ -91,7 +78,7 @@ import {
   shallowRef,
   watch,
 } from 'vue'
-import { isNumber, useEventListener } from '@vueuse/core'
+import { useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -149,6 +136,7 @@ const transform = ref({
   offsetY: 0,
   enableTransition: false,
 })
+const zIndex = ref(props.zIndex ?? nextZIndex())
 
 const isSingle = computed(() => {
   const { urlList } = props
@@ -166,6 +154,18 @@ const isLast = computed(() => {
 const currentImg = computed(() => {
   return props.urlList[activeIndex.value]
 })
+
+const arrowPrevKls = computed(() => [
+  ns.e('btn'),
+  ns.e('prev'),
+  ns.is('disabled', !props.infinite && isFirst.value),
+])
+
+const arrowNextKls = computed(() => [
+  ns.e('btn'),
+  ns.e('next'),
+  ns.is('disabled', !props.infinite && isLast.value),
+])
 
 const imgStyle = computed(() => {
   const { scale, deg, offsetX, offsetY, enableTransition } = transform.value
@@ -195,10 +195,6 @@ const imgStyle = computed(() => {
     style.maxWidth = style.maxHeight = '100%'
   }
   return style
-})
-
-const computedZIndex = computed(() => {
-  return isNumber(props.zIndex) ? props.zIndex : nextZIndex()
 })
 
 function hide() {
@@ -324,6 +320,7 @@ function next() {
 
 function handleActions(action: ImageViewerAction, options = {}) {
   if (loading.value) return
+  const { minScale, maxScale } = props
   const { zoomRate, rotateDeg, enableTransition } = {
     zoomRate: props.zoomRate,
     rotateDeg: 90,
@@ -332,14 +329,14 @@ function handleActions(action: ImageViewerAction, options = {}) {
   }
   switch (action) {
     case 'zoomOut':
-      if (transform.value.scale > 0.2) {
+      if (transform.value.scale > minScale) {
         transform.value.scale = Number.parseFloat(
           (transform.value.scale / zoomRate).toFixed(3)
         )
       }
       break
     case 'zoomIn':
-      if (transform.value.scale < 7) {
+      if (transform.value.scale < maxScale) {
         transform.value.scale = Number.parseFloat(
           (transform.value.scale * zoomRate).toFixed(3)
         )
@@ -347,9 +344,11 @@ function handleActions(action: ImageViewerAction, options = {}) {
       break
     case 'clockwise':
       transform.value.deg += rotateDeg
+      emit('rotate', transform.value.deg)
       break
     case 'anticlockwise':
       transform.value.deg -= rotateDeg
+      emit('rotate', transform.value.deg)
       break
   }
   transform.value.enableTransition = enableTransition
@@ -377,7 +376,9 @@ onMounted(() => {
 })
 
 defineExpose({
-  /** @description manually switch image */
+  /**
+   * @description manually switch image
+   */
   setActiveItem,
 })
 </script>

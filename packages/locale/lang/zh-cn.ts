@@ -1,6 +1,9 @@
 export default {
   name: 'zh-cn',
   el: {
+    breadcrumb: {
+      label: '面包屑',
+    },
     colorpicker: {
       confirm: '确定',
       clear: '清空',
@@ -76,6 +79,12 @@ export default {
       pagesize: '条/页',
       total: '共 {total} 条',
       pageClassifier: '页',
+      page: '页',
+      prev: '上一页',
+      next: '下一页',
+      currentPage: '第 {pager} 页',
+      prevPages: '向前 {pager} 页',
+      nextPages: '向后 {pager} 页',
       deprecationWarning:
         '你使用了一些已被废弃的用法，请参考 el-pagination 的官方文档',
     },
@@ -98,6 +107,11 @@ export default {
       clearFilter: '全部',
       sumText: '合计',
     },
+    tour: {
+      next: '下一步',
+      previous: '上一步',
+      finish: '结束导览',
+    },
     tree: {
       emptyText: '暂无数据',
     },
@@ -118,6 +132,11 @@ export default {
     popconfirm: {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
+    },
+    carousel: {
+      leftArrow: '上一张幻灯片',
+      rightArrow: '下一张幻灯片',
+      indicator: '幻灯片切换至索引 {index}',
     },
   },
 }

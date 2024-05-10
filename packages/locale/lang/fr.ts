@@ -1,6 +1,9 @@
 export default {
   name: 'fr',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Effacer',
@@ -99,6 +102,12 @@ export default {
       pagesize: '/page',
       total: 'Total {total}',
       pageClassifier: '',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
       deprecationWarning:
         'Utilisations obsolètes détectées, veuillez vous référer à la documentation el-pagination pour plus de détails',
     },
@@ -153,6 +162,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Oui',
       cancelButtonText: 'Non',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

@@ -8,11 +8,11 @@ Estamos orgullosos de que usted esta interesado en contribuir al proyecto `Eleme
 
 ## Guía Para Reportar Problemas (“Issues”)
 
-- Preguntas de otro tipo corren el riesgo de ser cerradas inmediatamente. Sí tiene preguntas sobre el uso de `Element`, vea [Discord](https://discord.link/ElementPlus) para más ayuda.
+- Preguntas de otro tipo corren el riesgo de ser cerradas inmediatamente. Sí tiene preguntas sobre el uso de `Element`, vea [Discord](https://discord.com/invite/gXK9XNzW3X) para más ayuda.
 
 - Antes de someter un informe sobre algún problema, sírvase de revisar sí ya hubo un informe.
 
-- Por favor especifique que versión de `Element Plus` y `Vue` que esta utilizando, y que versión de sistema operativo y que versión de navegador web que está utilizando. [JSFiddle](https://jsfiddle.net/) esta recomendado para crear un entorno para reproducir el problema claramente.
+- Por favor especifique que versión de `Element Plus` y `Vue` que esta utilizando, y que versión de sistema operativo y que versión de navegador web que está utilizando. [Playground](https://element-plus.run/) esta recomendado para crear un entorno para reproducir el problema claramente.
 
 ## Guías para un “Pull Request (PR)”
 

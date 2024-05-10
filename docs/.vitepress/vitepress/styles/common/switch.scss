@@ -51,4 +51,9 @@
     width: 16px;
     height: 16px;
   }
+
+  &:focus-visible {
+    outline: -webkit-focus-ring-color auto 1px;
+    outline-offset: 1px;
+  }
 }

@@ -261,23 +261,30 @@ describe('Pagination', () => {
     test('test listener work', async () => {
       const pageSizeWatcher = vi.fn()
       const currentPageWatcher = vi.fn()
+      let count = 0
+      const pageWatcher = () => {
+        count += 1
+      }
       const wrapper = mount(() => (
         <Pagination
           total={100}
           layout="prev, pager, next, sizes"
           onUpdate:current-page={currentPageWatcher}
           onUpdate:page-size={pageSizeWatcher}
+          onChange={pageWatcher}
         />
       ))
 
       await wrapper.find('.el-pager li:last-child').trigger('click')
       assertCurrent(wrapper, 10 /* Math.ceil(100/10) */)
       expect(currentPageWatcher).toHaveBeenCalled()
+      expect(count).toBe(1)
       await wrapper.find('.el-select').trigger('click')
       await wrapper
         .getComponent(selectDropdownVue)
         .find('li:nth-child(2)')
         .trigger('click')
+      expect(count).toBe(2)
       expect(pageSizeWatcher).toHaveBeenCalled()
       assertCurrent(wrapper, 5 /* Math.ceil(100/20) */)
     })
@@ -285,38 +292,37 @@ describe('Pagination', () => {
 
   describe('test a11y supports', () => {
     test('test a11y attributes', async () => {
+      // 1 2 3 4 5 6 ... 10
       const wrapper = mount(() => <Pagination total={100} />)
-      expect(wrapper.find('.el-pagination').attributes('aria-label')).toBe(
-        'pagination'
+      const prev = wrapper.find('.el-pagination .btn-prev')
+      const next = wrapper.find('.el-pagination .btn-next')
+      const pagers = wrapper.findAll('.el-pagination .el-pager .number')
+      const first = pagers[0]
+      const last = pagers[pagers.length - 1]
+
+      expect(prev.attributes('aria-label')).toBe('Go to previous page')
+      expect(next.attributes('aria-label')).toBe('Go to next page')
+      expect(last.attributes('aria-label')).toBe('page 10')
+      pagers.slice(0, 6).forEach((item, index) => {
+        expect(item.attributes('aria-label')).toBe(`page ${index + 1}`)
+      })
+      expect(wrapper.find('.more').attributes('aria-label')).toBe(
+        'Next 5 pages'
       )
-      expect(wrapper.find('.el-pagination').attributes('role')).toBe(
-        'pagination'
+
+      expect(prev.attributes('aria-disabled')).toBe('true')
+      expect(next.attributes('aria-disabled')).toBe('false')
+      expect(first.attributes('aria-current')).toBe('true')
+      expect(last.attributes('aria-current')).toBe('false')
+
+      await last.trigger('click')
+      expect(prev.attributes('aria-disabled')).toBe('false')
+      expect(next.attributes('aria-disabled')).toBe('true')
+      expect(first.attributes('aria-current')).toBe('false')
+      expect(last.attributes('aria-current')).toBe('true')
+      expect(wrapper.find('.more').attributes('aria-label')).toBe(
+        'Previous 5 pages'
       )
-      expect(
-        wrapper.find('.el-pagination .btn-prev').attributes('aria-disabled')
-      ).toBe('true')
-      expect(
-        wrapper.find('.el-pagination .btn-next').attributes('aria-disabled')
-      ).toBe('false')
-      expect(
-        wrapper.find('.el-pager li:first-child').attributes('aria-current')
-      ).toBe('true')
-      expect(
-        wrapper.find('.el-pager li:last-child').attributes('aria-current')
-      ).toBe('false')
-      await wrapper.find('.el-pager li:last-child').trigger('click')
-      expect(
-        wrapper.find('.el-pagination .btn-prev').attributes('aria-disabled')
-      ).toBe('false')
-      expect(
-        wrapper.find('.el-pagination .btn-next').attributes('aria-disabled')
-      ).toBe('true')
-      expect(
-        wrapper.find('.el-pager li:first-child').attributes('aria-current')
-      ).toBe('false')
-      expect(
-        wrapper.find('.el-pager li:last-child').attributes('aria-current')
-      ).toBe('true')
     })
 
     test('test tabindex interactive', async () => {

@@ -50,7 +50,7 @@
     &:hover {
       color: getCssVar('color-primary');
 
-      & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input_wrapper {
+      & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__wrapper {
         box-shadow: 0 0 0 1px
           var(
             #{getCssVarName('input', 'focus-border-color')},
@@ -102,9 +102,11 @@
         font-size: map.get($input-font-size, $size);
       }
 
-      .#{$namespace}-input__wrapper {
-        padding-left: #{map.get($input-height, $size) + 7};
-        padding-right: #{map.get($input-height, $size) + 7};
+      .#{$namespace}-input--#{$size} {
+        .#{$namespace}-input__wrapper {
+          padding-left: #{map.get($input-height, $size) + 7};
+          padding-right: #{map.get($input-height, $size) + 7};
+        }
       }
     }
   }

@@ -10,9 +10,10 @@
       ref="messageRef"
       :class="[
         ns.b(),
-        { [ns.m(type)]: type && !icon },
+        { [ns.m(type)]: type },
         ns.is('center', center),
         ns.is('closable', showClose),
+        ns.is('plain', plain),
         customClass,
       ]"
       :style="customStyle"
@@ -49,8 +50,8 @@ import { useEventListener, useResizeObserver, useTimeoutFn } from '@vueuse/core'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
+import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { ElIcon } from '@element-plus/components/icon'
-import { useNamespace } from '@element-plus/hooks'
 import { messageEmits, messageProps } from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
 import type { BadgeProps } from '@element-plus/components/badge'
@@ -65,7 +66,8 @@ defineOptions({
 const props = defineProps(messageProps)
 defineEmits(messageEmits)
 
-const ns = useNamespace('message')
+const { ns, zIndex } = useGlobalComponentSettings('message')
+const { currentZIndex, nextZIndex } = zIndex
 
 const messageRef = ref<HTMLDivElement>()
 const visible = ref(false)
@@ -91,7 +93,7 @@ const offset = computed(
 const bottom = computed((): number => height.value + offset.value)
 const customStyle = computed<CSSProperties>(() => ({
   top: `${offset.value}px`,
-  zIndex: props.zIndex,
+  zIndex: currentZIndex.value,
 }))
 
 function startTimer() {
@@ -118,6 +120,7 @@ function keydown({ code }: KeyboardEvent) {
 
 onMounted(() => {
   startTimer()
+  nextZIndex()
   visible.value = true
 })
 

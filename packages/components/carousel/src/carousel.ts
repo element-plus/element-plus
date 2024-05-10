@@ -28,10 +28,6 @@ export const carouselProps = buildProps({
     values: ['', 'none', 'outside'],
     default: '',
   },
-  indicator: {
-    type: Boolean,
-    default: true,
-  },
   arrow: {
     type: String,
     values: ['always', 'hover', 'never'],
@@ -54,6 +50,10 @@ export const carouselProps = buildProps({
   pauseOnHover: {
     type: Boolean,
     default: true,
+  },
+  motionBlur: {
+    type: Boolean,
+    default: false,
   },
 } as const)
 

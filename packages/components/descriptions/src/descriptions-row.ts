@@ -1,8 +1,10 @@
-import { buildProps } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
+
+import type { DescriptionItemVNode } from './description-item'
 
 export const descriptionsRowProps = buildProps({
   row: {
-    type: Array,
+    type: definePropType<DescriptionItemVNode[]>(Array),
     default: () => [],
   },
 } as const)

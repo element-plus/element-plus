@@ -2,7 +2,7 @@
 import { computed, nextTick, toRefs, watch } from 'vue'
 import { isEqual, pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isFunction } from '@element-plus/utils'
+import { escapeStringRegexp, isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
 import {
@@ -17,6 +17,7 @@ import type { Ref } from 'vue'
 import type ElSelect from '@element-plus/components/select'
 import type Node from '@element-plus/components/tree/src/model/node'
 import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
+import type { TreeInstance } from '@element-plus/components/tree'
 
 export const useTree = (
   props,
@@ -27,7 +28,7 @@ export const useTree = (
     key,
   }: {
     select: Ref<InstanceType<typeof ElSelect> | undefined>
-    tree: Ref<InstanceType<typeof ElTree> | undefined>
+    tree: Ref<TreeInstance | undefined>
     key: Ref<string>
   }
 ) => {
@@ -149,7 +150,8 @@ export const useTree = (
       if (props.filterNodeMethod)
         return props.filterNodeMethod(value, data, node)
       if (!value) return true
-      return getNodeValByProp('label', data)?.includes(value)
+      const regexp = new RegExp(escapeStringRegexp(value), 'i')
+      return regexp.test(getNodeValByProp('label', data) || '')
     },
     onNodeClick: (data, node, e) => {
       attrs.onNodeClick?.(data, node, e)
@@ -160,26 +162,44 @@ export const useTree = (
       // now `checkOnClickNode` is false, only no checkbox and `checkStrictly` or `isLeaf`
       if (!props.showCheckbox && (props.checkStrictly || node.isLeaf)) {
         if (!getNodeValByProp('disabled', data)) {
-          const option = select.value?.options.get(
+          const option = select.value?.states.options.get(
             getNodeValByProp('value', data)
           )
-          select.value?.handleOptionSelect(option, true)
+          select.value?.handleOptionSelect(option)
         }
       } else if (props.expandOnClickNode) {
         e.proxy.handleExpandIconClick()
       }
+      select.value?.focus()
     },
     onCheck: (data, params) => {
-      attrs.onCheck?.(data, params)
+      // ignore when no checkbox, like only `checkOnClickNode` is true
+      if (!props.showCheckbox) return
 
       const dataValue = getNodeValByProp('value', data)
+      const dataMap = {}
+      treeEach(
+        [tree.value.store.root],
+        (node) => (dataMap[node.key] = node),
+        (node) => node.childNodes
+      )
+
+      // fix: checkedKeys has not cached keys
+      const uncachedCheckedKeys = params.checkedKeys
+      const cachedKeys = props.multiple
+        ? toValidArray(props.modelValue).filter(
+            (item) => !(item in dataMap) && !uncachedCheckedKeys.includes(item)
+          )
+        : []
+      const checkedKeys = cachedKeys.concat(uncachedCheckedKeys)
+
       if (props.checkStrictly) {
         emit(
           UPDATE_MODEL_EVENT,
           // Checking for changes may come from `check-on-node-click`
           props.multiple
-            ? params.checkedKeys
-            : params.checkedKeys.includes(dataValue)
+            ? checkedKeys
+            : checkedKeys.includes(dataValue)
             ? dataValue
             : undefined
         )
@@ -189,7 +209,7 @@ export const useTree = (
         if (props.multiple) {
           emit(
             UPDATE_MODEL_EVENT,
-            (tree.value as InstanceType<typeof ElTree>).getCheckedKeys(true)
+            cachedKeys.concat((tree.value as TreeInstance).getCheckedKeys(true))
           )
         } else {
           // select first leaf node when check parent
@@ -221,6 +241,20 @@ export const useTree = (
           )
         }
       }
+
+      nextTick(() => {
+        const checkedKeys = toValidArray(props.modelValue)
+        tree.value.setCheckedKeys(checkedKeys)
+
+        attrs.onCheck?.(data, {
+          checkedKeys: tree.value.getCheckedKeys(),
+          checkedNodes: tree.value.getCheckedNodes(),
+          halfCheckedKeys: tree.value.getHalfCheckedKeys(),
+          halfCheckedNodes: tree.value.getHalfCheckedNodes(),
+        })
+      })
+
+      select.value?.focus()
     },
 
     // else

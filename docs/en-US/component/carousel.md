@@ -15,6 +15,16 @@ carousel/basic
 
 :::
 
+## Motion blur ^(2.6.0)
+
+Add motion blur to infuse dynamism and smoothness into the carousel.
+
+:::demo Enabling motion blur enhances the dynamism and smoothness of the carousel. By default, the `motion-blur` parameter is set to `false`, activating this feature and providing a visually engaging experience.
+
+carousel/motion-blur
+
+:::
+
 ## Indicators
 
 Indicators can be displayed outside the carousel
@@ -32,6 +42,16 @@ You can define when arrows are displayed
 :::demo The `arrow` attribute determines when arrows are displayed. By default they appear when mouse hovers over the carousel. Setting `arrow` to `always` or `never` shows/hides the arrows permanently.
 
 carousel/arrows
+
+:::
+
+## Auto height
+
+When the `height` of `carousel` is set to `auto`, the `carousel` height will be automatically set according to the height of the `carousel item`
+
+:::demo
+
+carousel/auto-height
 
 :::
 
@@ -57,19 +77,20 @@ carousel/vertical
 
 ## Carousel Attributes
 
-| Name               | Description                                           | Type    | Accepted Values     | Default    |
-| ------------------ | ----------------------------------------------------- | ------- | ------------------- | ---------- |
-| height             | height of the carousel                                | string  | —                   | —          |
-| initial-index      | index of the initially active slide (starting from 0) | number  | —                   | 0          |
-| trigger            | how indicators are triggered                          | string  | hover/click         | hover      |
-| autoplay           | whether automatically loop the slides                 | boolean | —                   | true       |
-| interval           | interval of the auto loop, in milliseconds            | number  | —                   | 3000       |
-| indicator-position | position of the indicators                            | string  | outside/none        | —          |
-| arrow              | when arrows are shown                                 | string  | always/hover/never  | hover      |
-| type               | type of the Carousel                                  | string  | card                | —          |
-| loop               | display the items in loop                             | boolean | -                   | true       |
-| direction          | display direction                                     | string  | horizontal/vertical | horizontal |
-| pause-on-hover     | pause autoplay when hover                             | boolean | -                   | true       |
+| Name                 | Description                                           | Type    | Accepted Values     | Default    |
+| -------------------- | ----------------------------------------------------- | ------- | ------------------- | ---------- |
+| height               | height of the carousel                                | string  | —                   | —          |
+| initial-index        | index of the initially active slide (starting from 0) | number  | —                   | 0          |
+| trigger              | how indicators are triggered                          | string  | hover/click         | hover      |
+| autoplay             | whether automatically loop the slides                 | boolean | —                   | true       |
+| interval             | interval of the auto loop, in milliseconds            | number  | —                   | 3000       |
+| indicator-position   | position of the indicators                            | string  | outside/none        | —          |
+| arrow                | when arrows are shown                                 | string  | always/hover/never  | hover      |
+| type                 | type of the Carousel                                  | string  | card                | —          |
+| loop                 | display the items in loop                             | boolean | -                   | true       |
+| direction            | display direction                                     | string  | horizontal/vertical | horizontal |
+| pause-on-hover       | pause autoplay when hover                             | boolean | -                   | true       |
+| motion-blur ^(2.6.0) | infuse dynamism and smoothness into the carousel      | boolean | -                   | false      |
 
 ## Carousel Events
 

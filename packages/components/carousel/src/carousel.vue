@@ -5,45 +5,53 @@
     @mouseenter.stop="handleMouseEnter"
     @mouseleave.stop="handleMouseLeave"
   >
-    <div :class="ns.e('container')" :style="{ height: height }">
-      <transition v-if="arrowDisplay" name="carousel-arrow-left">
-        <button
-          v-show="
-            (arrow === 'always' || hover) && (props.loop || activeIndex > 0)
-          "
-          type="button"
-          :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
-          @mouseenter="handleButtonEnter('left')"
-          @mouseleave="handleButtonLeave"
-          @click.stop="throttledArrowClick(activeIndex - 1)"
-        >
-          <ElIcon>
-            <ArrowLeft />
-          </ElIcon>
-        </button>
-      </transition>
-      <transition v-if="arrowDisplay" name="carousel-arrow-right">
-        <button
-          v-show="
-            (arrow === 'always' || hover) &&
-            (props.loop || activeIndex < items.length - 1)
-          "
-          type="button"
-          :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
-          @mouseenter="handleButtonEnter('right')"
-          @mouseleave="handleButtonLeave"
-          @click.stop="throttledArrowClick(activeIndex + 1)"
-        >
-          <ElIcon>
-            <ArrowRight />
-          </ElIcon>
-        </button>
-      </transition>
+    <transition v-if="arrowDisplay" name="carousel-arrow-left">
+      <button
+        v-show="
+          (arrow === 'always' || hover) && (props.loop || activeIndex > 0)
+        "
+        type="button"
+        :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
+        :aria-label="t('el.carousel.leftArrow')"
+        @mouseenter="handleButtonEnter('left')"
+        @mouseleave="handleButtonLeave"
+        @click.stop="throttledArrowClick(activeIndex - 1)"
+      >
+        <ElIcon>
+          <ArrowLeft />
+        </ElIcon>
+      </button>
+    </transition>
+    <transition v-if="arrowDisplay" name="carousel-arrow-right">
+      <button
+        v-show="
+          (arrow === 'always' || hover) &&
+          (props.loop || activeIndex < items.length - 1)
+        "
+        type="button"
+        :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
+        :aria-label="t('el.carousel.rightArrow')"
+        @mouseenter="handleButtonEnter('right')"
+        @mouseleave="handleButtonLeave"
+        @click.stop="throttledArrowClick(activeIndex + 1)"
+      >
+        <ElIcon>
+          <ArrowRight />
+        </ElIcon>
+      </button>
+    </transition>
+    <div
+      :class="carouselContainer"
+      :style="containerStyle"
+      @transitionend="handleTransitionEnd"
+    >
+      <PlaceholderItem />
       <slot />
     </div>
     <ul v-if="indicatorPosition !== 'none'" :class="indicatorsClasses">
       <li
         v-for="(item, index) in items"
+        v-show="isTwoLengthShow(index)"
         :key="index"
         :class="[
           ns.e('indicator'),
@@ -53,11 +61,29 @@
         @mouseenter="throttledIndicatorHover(index)"
         @click.stop="handleIndicatorClick(index)"
       >
-        <button :class="ns.e('button')">
+        <button
+          :class="ns.e('button')"
+          :aria-label="t('el.carousel.indicator', { index: index + 1 })"
+        >
           <span v-if="hasLabel">{{ item.props.label }}</span>
         </button>
       </li>
     </ul>
+    <svg
+      v-if="props.motionBlur"
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+      style="display: none"
+    >
+      <defs>
+        <filter id="elCarouselHorizontal">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="12,0" />
+        </filter>
+        <filter id="elCarouselVertical">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="0,10" />
+        </filter>
+      </defs>
+    </svg>
   </div>
 </template>
 
@@ -65,7 +91,7 @@
 import { computed, unref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { carouselEmits, carouselProps } from './carousel'
 import { useCarousel } from './use-carousel'
 
@@ -84,18 +110,26 @@ const {
   hover,
   isCardType,
   items,
+  isVertical,
+  containerStyle,
   handleButtonEnter,
   handleButtonLeave,
+  isTransitioning,
   handleIndicatorClick,
   handleMouseEnter,
   handleMouseLeave,
+  handleTransitionEnd,
   setActiveItem,
   prev,
   next,
+  PlaceholderItem,
+  isTwoLengthShow,
   throttledArrowClick,
   throttledIndicatorHover,
 } = useCarousel(props, emit, COMPONENT_NAME)
 const ns = useNamespace('carousel')
+
+const { t } = useLocale()
 
 const carouselClasses = computed(() => {
   const classes = [ns.b(), ns.m(props.direction)]
@@ -105,13 +139,28 @@ const carouselClasses = computed(() => {
   return classes
 })
 
+const carouselContainer = computed(() => {
+  const classes = [ns.e('container')]
+  if (props.motionBlur && unref(isTransitioning)) {
+    classes.push(
+      unref(isVertical)
+        ? `${ns.namespace.value}-transitioning-vertical`
+        : `${ns.namespace.value}-transitioning`
+    )
+  }
+  return classes
+})
+
 const indicatorsClasses = computed(() => {
   const classes = [ns.e('indicators'), ns.em('indicators', props.direction)]
   if (unref(hasLabel)) {
     classes.push(ns.em('indicators', 'labels'))
   }
-  if (props.indicatorPosition === 'outside' || unref(isCardType)) {
+  if (props.indicatorPosition === 'outside') {
     classes.push(ns.em('indicators', 'outside'))
+  }
+  if (unref(isVertical)) {
+    classes.push(ns.em('indicators', 'right'))
   }
   return classes
 })

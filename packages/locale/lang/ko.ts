@@ -1,6 +1,9 @@
 export default {
   name: 'ko',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: '확인',
       clear: '초기화',
@@ -90,6 +93,12 @@ export default {
       pagesize: '건/페이지',
       total: '총 {total} 건',
       pageClassifier: '페이지로',
+      page: '페이지',
+      prev: '이전 페이지로 이동',
+      next: '다음 페이지로 이동',
+      currentPage: '페이지 {pager}',
+      prevPages: '이전 {pager} 페이지',
+      nextPages: '다음 {pager} 페이지',
       deprecationWarning:
         '더 이상 사용되지 않는 동작이 감지되었습니다. 자세한 내용은 el-pagination 문서를 참조하세요.',
     },
@@ -124,6 +133,11 @@ export default {
       clearFilter: '전체',
       sumText: '합계',
     },
+    tour: {
+      next: '다음',
+      previous: '이전',
+      finish: '종료',
+    },
     tree: {
       emptyText: '데이터 없음',
     },
@@ -144,6 +158,11 @@ export default {
     popconfirm: {
       confirmButtonText: '예',
       cancelButtonText: '아니오',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

@@ -1,6 +1,9 @@
 export default {
   name: 'vi',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Xóa',
@@ -76,6 +79,12 @@ export default {
       pagesize: '/trang',
       total: 'Tổng {total}',
       pageClassifier: '',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
     },
     messagebox: {
       title: 'Thông báo',
@@ -95,6 +104,11 @@ export default {
       resetFilter: 'Làm mới',
       clearFilter: 'Xóa hết',
       sumText: 'Tổng',
+    },
+    tour: {
+      next: 'Tiếp',
+      previous: 'Trước',
+      finish: 'Hoàn thành',
     },
     tree: {
       emptyText: 'Không có dữ liệu',
@@ -116,6 +130,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Ok',
       cancelButtonText: 'Huỷ',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

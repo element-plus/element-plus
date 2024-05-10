@@ -21,7 +21,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           registry-url: https://registry.npmjs.com/
 
       - name: Get pnpm store directory
@@ -49,12 +49,15 @@ jobs:
   publish:
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           registry-url: https://registry.npmjs.com/
 
       - name: Setup pnpm
@@ -68,6 +71,9 @@ jobs:
 
       - name: Gen npmrc
         run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
+
+      - name: Update npm
+        run: npm install npm@9 -g
 
       - name: Build&publish
         run: sh ./scripts/publish.sh

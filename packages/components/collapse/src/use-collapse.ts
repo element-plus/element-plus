@@ -2,7 +2,7 @@ import { computed, provide, ref, watch } from 'vue'
 import { ensureArray } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { collapseContextKey } from '@element-plus/tokens'
+import { collapseContextKey } from './constants'
 
 import type { SetupContext } from 'vue'
 import type {

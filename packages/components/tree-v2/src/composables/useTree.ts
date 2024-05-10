@@ -253,7 +253,7 @@ export function useTree(
 
   function isCurrent(node: TreeNode): boolean {
     const current = currentKey.value
-    return !!current && current === node.key
+    return current !== undefined && current === node.key
   }
 
   function getCurrentNode(): TreeNodeData | undefined {
