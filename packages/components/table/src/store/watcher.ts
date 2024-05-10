@@ -238,7 +238,7 @@ function useWatcher<T>() {
         selection.value ? selection.value.slice() : []
       )
     }
-    instance.emit('select-all', selection.value)
+    instance.emit('select-all', (selection.value || []).slice())
   }
 
   const updateSelectionByRowKey = () => {
