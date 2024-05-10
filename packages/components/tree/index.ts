@@ -4,7 +4,7 @@ import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils'
 
 Tree.install = (app: App): void => {
-  app.component(Tree.name as string, Tree)
+  app.component(Tree.name!, Tree)
 }
 
 const _Tree = Tree as SFCWithInstall<typeof Tree>
