@@ -705,7 +705,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       popper.value.update?.()
       // the purpose of this function is to differ the blur event trigger mechanism
     } else {
-      props.reserveKeyword === false && states.displayInputValue = ''
+      if (props.reserveKeyword === false) {
+        states.displayInputValue = ''
+      }
       states.previousQuery = null
       createNewOption('')
     }
