@@ -5,7 +5,7 @@
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
     @mouseenter="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
-    @click.prevent.stop="toggleMenu"
+    @click.prevent.stop="handelInputClick"
   >
     <el-tooltip
       ref="tooltipRef"
@@ -300,6 +300,12 @@ export default defineComponent({
       }),
       emit
     )
+
+    function handelInputClick() {
+      console.log(`handelInputClick`)
+      API.isClickOutside.value = false
+      API.toggleMenu()
+    }
     // TODO, remove the any cast to align the actual API.
     provide(selectV2InjectionKey, {
       props: reactive({
@@ -317,6 +323,7 @@ export default defineComponent({
     return {
       ...API,
       modelValue,
+      handelInputClick,
     }
   },
 })
