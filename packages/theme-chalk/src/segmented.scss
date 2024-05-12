@@ -29,7 +29,7 @@ $segmented-item-padding: () !default;
 $segmented-item-padding: map.merge(
   (
     'large': 0 11px,
-    'default':0 11px,
+    'default': 0 11px,
     'small': 0 7px,
   ),
   $segmented-item-padding
