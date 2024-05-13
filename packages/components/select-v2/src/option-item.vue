@@ -23,11 +23,11 @@ import { defineComponent, inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import { useProps } from './useProps'
-import { optionEmits, optionProps } from './defaults'
+import { OptionProps, optionEmits } from './defaults'
 import { selectV2InjectionKey } from './token'
 
 export default defineComponent({
-  props: optionProps,
+  props: OptionProps,
   emits: optionEmits,
   setup(props, { emit }) {
     const select = inject(selectV2InjectionKey)!

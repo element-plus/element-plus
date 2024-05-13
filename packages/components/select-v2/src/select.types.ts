@@ -1,5 +1,3 @@
-import type { Nullable } from '@element-plus/utils'
-
 type OptionCommon = Record<string, any>
 
 export type Option = OptionCommon & {
@@ -24,7 +22,7 @@ export type SelectStates = {
   selectionWidth: number
   calculatorWidth: number
   collapseItemWidth: number
-  previousQuery: Nullable<string>
+  previousQuery: string | null
   previousValue: unknown
   selectedLabel: string
   menuVisibleOnFocus: boolean

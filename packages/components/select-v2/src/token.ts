@@ -1,10 +1,10 @@
-import type { optionProps, selectProps } from './defaults'
+import type { OptionProps, SelectProps } from './defaults'
 import type { ExtractPropTypes, InjectionKey, Ref } from 'vue'
 import type { Option } from './select.types'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 export interface SelectV2Context {
-  props: ExtractPropTypes<typeof selectProps>
+  props: ExtractPropTypes<typeof SelectProps>
   expanded: Ref<boolean>
   tooltipRef: Ref<TooltipInstance | undefined>
   onSelect: (option: Option) => void
@@ -16,5 +16,5 @@ export interface SelectV2Context {
 export const selectV2InjectionKey: InjectionKey<SelectV2Context> = Symbol(
   'ElSelectV2Injection'
 )
-export type IOptionV2Props = ExtractPropTypes<typeof optionProps>
-export type ISelectV2Props = ExtractPropTypes<typeof selectProps>
+export type IOptionV2Props = ExtractPropTypes<typeof OptionProps>
+export type ISelectV2Props = ExtractPropTypes<typeof SelectProps>

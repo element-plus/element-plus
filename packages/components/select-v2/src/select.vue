@@ -277,7 +277,7 @@ import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
-import { selectEmits, selectProps } from './defaults'
+import { SelectProps, selectEmits } from './defaults'
 import { selectV2InjectionKey } from './token'
 
 export default defineComponent({
@@ -289,7 +289,7 @@ export default defineComponent({
     ElIcon,
   },
   directives: { ClickOutside },
-  props: selectProps,
+  props: SelectProps,
   emits: selectEmits,
   setup(props, { emit }) {
     const modelValue = computed(() => {
