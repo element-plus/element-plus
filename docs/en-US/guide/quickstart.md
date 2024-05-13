@@ -121,7 +121,7 @@ module.exports = {
 }
 ```
 
-For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.org/), [Rsbuild](https://rsbuild.dev/)) and configs please reference [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components#installation) and [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import#install).
+For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.org/)) and configs please reference [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components#installation) and [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import#install).
 
 #### Nuxt
 
