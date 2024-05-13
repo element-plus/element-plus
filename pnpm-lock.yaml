@@ -347,7 +347,7 @@ importers:
   internal/build:
     dependencies:
       '@element-plus/build-constants':
-        specifier: ^0.0.1
+        specifier: workspace:*
         version: link:../build-constants
       '@pnpm/find-workspace-packages':
         specifier: ^4.0.16
@@ -15060,6 +15060,7 @@ packages:
 
   /workbox-google-analytics@6.6.0:
     resolution: {integrity: sha512-p4DJa6OldXWd6M9zRl0H6vB9lkrmqYFkRQ2xEiNdBFp9U0LhsGO7hsBscVEyH9H2/3eZZt8c97NB2FD9U2NJ+Q==}
+    deprecated: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
     dependencies:
       workbox-background-sync: 6.6.0
       workbox-core: 6.6.0
