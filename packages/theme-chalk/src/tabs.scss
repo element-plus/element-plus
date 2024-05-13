@@ -26,7 +26,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    float: right;
     border: 1px solid getCssVar('border-color');
     height: 20px;
     width: 20px;
@@ -52,6 +51,12 @@
     &:hover {
       color: getCssVar('color-primary');
     }
+  }
+  @include e(new-tab-left) {
+    float: left;
+  }
+  @include e(new-tab-right) {
+    float: right;
   }
   @include e(nav-wrap) {
     overflow: hidden;
