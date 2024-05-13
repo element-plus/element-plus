@@ -18,7 +18,7 @@ export const defaultProps: Required<Props> = {
   options: 'options',
 }
 
-export function useProps(props: ISelectV2Props) {
+export function useProps(props: Pick<ISelectV2Props, 'props'>) {
   const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
 
   const getLabel = (option: Option) => get(option, aliasProps.value.label)

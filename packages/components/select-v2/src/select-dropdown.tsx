@@ -220,7 +220,8 @@ export default defineComponent({
     }
 
     const onEscOrTab = () => {
-      select.expanded.value = false
+      // The following line actually doesn't work. Fixing it may introduce a small breaking change for some users, so just comment it out for now.
+      // select.expanded = false
     }
 
     const onKeydown = (e: KeyboardEvent) => {

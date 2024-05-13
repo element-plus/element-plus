@@ -46,7 +46,6 @@ import type { Option, OptionType, SelectStates } from './select.types'
 import type { ISelectV2Props } from './token'
 import type { SelectEmitFn } from './defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
-import type { Nullable } from '@element-plus/utils/typescript'
 import type { SelectDropdownInstance } from './select-dropdown'
 
 const MINIMUM_INPUT_WIDTH = 11
@@ -66,14 +65,14 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
 
   const states: SelectStates = reactive({
     inputValue: '',
-    cachedOptions: [] as Option[],
-    createdOptions: [] as Option[],
+    cachedOptions: [],
+    createdOptions: [],
     hoveringIndex: -1,
     inputHovering: false,
     selectionWidth: 0,
     calculatorWidth: 0,
     collapseItemWidth: 0,
-    previousQuery: null as Nullable<string>,
+    previousQuery: null,
     previousValue: undefined,
     selectedLabel: '',
     menuVisibleOnFocus: false,

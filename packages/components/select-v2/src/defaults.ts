@@ -21,7 +21,7 @@ import type { Props } from './useProps'
 import type { Options, Placement } from '@element-plus/components/popper'
 import type { EmitFn } from '@element-plus/utils/vue/typescript'
 
-export const selectProps = buildProps({
+export const SelectProps = buildProps({
   /**
    * @description whether creating new items is allowed. To use this, `filterable` must be true
    */
@@ -255,7 +255,7 @@ export const selectProps = buildProps({
   ...useAriaProps(['ariaLabel']),
 } as const)
 
-export const optionProps = buildProps({
+export const OptionProps = buildProps({
   data: Array,
   disabled: Boolean,
   hovering: Boolean,
