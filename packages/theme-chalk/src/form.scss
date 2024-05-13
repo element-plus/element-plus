@@ -82,6 +82,9 @@ $form-item-label-top-margin-bottom: map.merge(
       vertical-align: middle;
       margin-right: 32px;
     }
+    .#{$namespace}-form-item__content {
+      width: getCssVar('form-inline-content-width');
+    }
 
     &.#{$namespace}-form--label-top {
       display: flex;
