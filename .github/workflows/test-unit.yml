@@ -60,9 +60,9 @@ jobs:
         node-version: [18, 20]
         include:
           - node-version: 18
-            node-name: LTS
+            node-name: LTS(18)
           - node-version: 20
-            node-name: LTS
+            node-name: LTS(20)
 
     steps:
       - uses: actions/checkout@v3
