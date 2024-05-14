@@ -52,7 +52,7 @@ First you need to install `unplugin-vue-components` and `unplugin-auto-import`.
 npm install -D unplugin-vue-components unplugin-auto-import
 ```
 
-Then add the code below into your `Vite` or `Webpack` config file.
+Then add the code below into your `Vite`, `Webpack` or `Rspack` config file.
 
 ##### Vite
 
@@ -83,6 +83,29 @@ export default defineConfig({
 // webpack.config.js
 const AutoImport = require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
+
+module.exports = {
+  // ...
+  plugins: [
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
+  ],
+}
+```
+
+##### Rspack
+
+Example of how to register these plugins in [Rspack](https://rspack.dev/):
+
+```js
+// rspack.config.js
+const AutoImport = require('unplugin-auto-import/rspack')
+const Components = require('unplugin-vue-components/rspack')
 const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 
 module.exports = {

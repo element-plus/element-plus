@@ -832,6 +832,25 @@ $anchor: map.merge(
   $anchor
 );
 
+// Segmented
+// css3 var in packages/theme-chalk/src/segmented.scss
+$segmented: () !default;
+$segmented: map.merge(
+  (
+    'color': getCssVar('text-color', 'regular'),
+    'bg-color': getCssVar('fill-color', 'light'),
+    'padding': 2px,
+    'item-selected-color': getCssVar('color-white'),
+    'item-selected-bg-color': getCssVar('color-primary'),
+    'item-selected-disabled-bg-color': getCssVar('color-primary', 'light-5'),
+    'item-hover-color': getCssVar('text-color', 'primary'),
+    'item-hover-bg-color': getCssVar('fill-color', 'dark'),
+    'item-active-bg-color': getCssVar('fill-color', 'darker'),
+    'item-disabled-color': getCssVar('text-color', 'placeholder'),
+  ),
+  $segmented
+);
+
 // Table
 // css3 var in packages/theme-chalk/src/table.scss
 $table: () !default;
