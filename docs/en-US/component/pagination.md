@@ -35,7 +35,7 @@ pagination/background-color
 
 Use small pagination in the case of limited space.
 
-:::demo Just set the `small` attribute to `true` and the Pagination becomes smaller.
+:::demo set size to change the `size`. Here is a demonstration of `small`
 
 pagination/small-pagination
 
