@@ -15,11 +15,11 @@ export function useCursor(
   }>()
 
   function recordCursor() {
-    if (input.value == undefined) return
+    if (input.value === undefined) return
 
     const { selectionStart, selectionEnd, value } = input.value
 
-    if (selectionStart == null || selectionEnd == null) return
+    if (selectionStart === null || selectionEnd === null) return
 
     const beforeTxt = value.slice(0, Math.max(0, selectionStart))
     const afterTxt = value.slice(Math.max(0, selectionEnd))
@@ -33,15 +33,15 @@ export function useCursor(
     }
   }
   function setCursor() {
-    if (input.value == undefined || selectionRef.value == undefined) return
+    if (input.value === undefined || selectionRef.value === undefined) return
 
     const { value } = input.value
     const { beforeTxt, afterTxt, selectionStart } = selectionRef.value
 
     if (
-      beforeTxt == undefined ||
-      afterTxt == undefined ||
-      selectionStart == undefined
+      beforeTxt === undefined ||
+      afterTxt === undefined ||
+      selectionStart === undefined
     )
       return
 

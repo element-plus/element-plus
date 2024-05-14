@@ -286,7 +286,7 @@ export default defineComponent({
         trapContainer.dispatchEvent(releasedEvent)
         if (
           !releasedEvent.defaultPrevented &&
-          (focusReason.value == 'keyboard' ||
+          (focusReason.value === 'keyboard' ||
             !isFocusCausedByUserEvent() ||
             trapContainer.contains(document.activeElement))
         ) {

@@ -6,7 +6,7 @@ describe('useCursor', () => {
   it('record and set cursor correctly', async () => {
     const inputRef = shallowRef<HTMLInputElement>()
     const [recordCursor, setCursor] = useCursor(inputRef)
-    if (inputRef.value == undefined) return
+    if (inputRef.value === undefined) return
     inputRef.value.value = 'abc'
     //set a cursor position
     inputRef.value.setSelectionRange(1, 1)

@@ -218,7 +218,7 @@ describe('Switch.vue', () => {
       return new Promise<boolean>((resolve, reject) => {
         setTimeout(() => {
           loading.value = false
-          return asyncResult.value == 'success'
+          return asyncResult.value === 'success'
             ? resolve(true)
             : reject(new Error('Error'))
         }, 1000)
