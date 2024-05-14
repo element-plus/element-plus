@@ -274,9 +274,9 @@ export const selectEmits = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [CHANGE_EVENT]: (val: ISelectV2Props['modelValue']) => true,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  'remove-tag': (val: unknown) => true,
+  removeTag: (val: unknown) => true,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  'visible-change': (visible: boolean) => true,
+  visibleChange: (visible: boolean) => true,
   clear: () => true,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   focus: (event: FocusEvent) => true,

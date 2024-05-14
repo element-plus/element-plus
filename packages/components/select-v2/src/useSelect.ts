@@ -542,7 +542,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       ]
       states.cachedOptions.splice(index, 1)
       update(selectedOptions)
-      emit('remove-tag', getValue(option))
+      emit('removeTag', getValue(option))
       removeNewOption(option)
     }
     event.stopPropagation()
@@ -780,7 +780,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       states.isBeforeHide = true
       createNewOption('')
     }
-    emit('visible-change', val)
+    emit('visibleChange', val)
   })
 
   watch(
