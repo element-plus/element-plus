@@ -2480,111 +2480,113 @@ describe('Select', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
-    // fix: 8544
-    it('When props are changed, label can be displayed correctly after selecting operation', async () => {
-      wrapper = getGroupSelectVm({}, [
-        {
-          label: 'group1',
-          options: [
-            { value: 0, label: 'x' },
-            { value: 1, label: 'y' },
-            { value: 2, label: 'z' },
-          ],
-        },
-      ])
-      await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
-      let options = getOptions()
-      const vm = wrapper.vm as any
-      expect(vm.value).toBe('')
-      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
-        DEFAULT_PLACEHOLDER
-      )
-      await nextTick()
-      options[1].click()
-      await nextTick()
-      expect(vm.value).toBe(1)
-      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('y')
-      wrapper.vm.options = [
-        {
-          label: 'group2',
-          options: [
-            { value: 0, label: 'x' },
-            { value: 1, label: 'y' },
-            { value: 2, label: 'z' },
-          ],
-        },
-      ]
+  })
 
-      await nextTick()
-      options = getOptions()
-      options[1].click()
-      await nextTick()
-      expect(vm.value).toBe(1)
-      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('y')
-      options[2].click()
-      await nextTick()
-      expect(vm.value).toBe(2)
-      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('z')
-    })
+  // fix: 8544
+  it('When props are changed, label can be displayed correctly after selecting operation', async () => {
+    wrapper = getGroupSelectVm({}, [
+      {
+        label: 'group1',
+        options: [
+          { value: 0, label: 'x' },
+          { value: 1, label: 'y' },
+          { value: 2, label: 'z' },
+        ],
+      },
+    ])
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    let options = getOptions()
+    const vm = wrapper.vm as any
+    expect(vm.value).toBe('')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+      DEFAULT_PLACEHOLDER
+    )
+    await nextTick()
+    options[1].click()
+    await nextTick()
+    expect(vm.value).toBe(1)
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('y')
+    wrapper.vm.options = [
+      {
+        label: 'group2',
+        options: [
+          { value: 0, label: 'x' },
+          { value: 1, label: 'y' },
+          { value: 2, label: 'z' },
+        ],
+      },
+    ]
 
-    it('should update selected data when the options prop is changed and the select is focused', async () => {
-      const options = [
-        {
-          value: '1',
-          label: 'option 1',
-        },
-        {
-          value: '2',
-          label: 'option 2',
-        },
-        {
-          value: '3',
-          label: 'option 3',
-        },
-      ]
+    await nextTick()
+    options = getOptions()
+    options[1].click()
+    await nextTick()
+    expect(vm.value).toBe(1)
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('y')
+    options[2].click()
+    await nextTick()
+    expect(vm.value).toBe(2)
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('z')
+  })
 
-      const wrapper = getSelectVm()
-      const vm = wrapper.vm
-      const input = wrapper.find('input')
-      const nativeInput = input.element
+  it('should update selected data when the options prop is changed and the select is focused', async () => {
+    const options = [
+      {
+        value: '1',
+        label: 'option 1',
+      },
+      {
+        value: '2',
+        label: 'option 2',
+      },
+      {
+        value: '3',
+        label: 'option 3',
+      },
+    ]
 
-      await wrapper.setProps({ modelValue: '1' })
-      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toEqual('1')
+    const wrapper = getSelectVm()
+    const vm = wrapper.vm
+    const input = wrapper.find('input')
+    const nativeInput = input.element
 
-      nativeInput.focus()
-      vm.options = options
-      await nextTick()
-      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toEqual(
-        'option 1'
-      )
+    await wrapper.setProps({ modelValue: '1' })
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toEqual('1')
 
-      vm.options = []
-      await wrapper.setProps({ modelValue: ['1'] })
-      await wrapper.setProps({ multiple: true })
+    nativeInput.focus()
+    vm.options = options
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toEqual(
+      'option 1'
+    )
 
-      nativeInput.focus()
-      vm.options = options
-      await nextTick()
-      expect(wrapper.findAll('.el-tag')[0].text()).toBe('option 1')
-    })
+    vm.options = []
+    await wrapper.setProps({ modelValue: ['1'] })
+    await wrapper.setProps({ multiple: true })
 
-    // fix: https://github.com/element-plus/element-plus/issues/11991
-    it('backspace key should delete selected tag but should not delete disabled options', async () => {
-      const options = [
-        {
-          value: 'Option1',
-          label: 'Option1',
-          disable: true,
-        },
-        {
-          value: 'Option2',
-          label: 'Option2',
-          disable: false,
-        },
-      ]
-      const value = ['Option2', 'Option1']
-      const wrapper = _mount(
-        `
+    nativeInput.focus()
+    vm.options = options
+    await nextTick()
+    expect(wrapper.findAll('.el-tag')[0].text()).toBe('option 1')
+  })
+
+  // fix: https://github.com/element-plus/element-plus/issues/11991
+  it('backspace key should delete selected tag but should not delete disabled options', async () => {
+    const options = [
+      {
+        value: 'Option1',
+        label: 'Option1',
+        disable: true,
+      },
+      {
+        value: 'Option2',
+        label: 'Option2',
+        disable: false,
+      },
+    ]
+    const value = ['Option2', 'Option1']
+    const wrapper = _mount(
+      `
           <el-select v-model="value"
             multiple
             filterable
@@ -2599,29 +2601,28 @@ describe('Select', () => {
             </el-option>
           </el-select>
         `,
-        () => ({
-          value,
-          options,
-        })
-      )
-      await nextTick()
-      const selectInput = wrapper.find('.el-select__input')
-      expect(wrapper.findAll('.el-tag').length).toBe(2)
-      // after deletion, an el-tag will be deleted
-      await selectInput.trigger('keydown', {
-        code: EVENT_CODE.backspace,
-        key: EVENT_CODE.backspace,
+      () => ({
+        value,
+        options,
       })
-      await nextTick()
-      expect(wrapper.findAll('.el-tag').length).toBe(1)
-      await selectInput.trigger('keydown', {
-        code: EVENT_CODE.backspace,
-        key: EVENT_CODE.backspace,
-      })
-      await nextTick()
-      // after deletion, an el-tag still exist
-      expect(wrapper.findAll('.el-tag').length).toBe(1)
+    )
+    await nextTick()
+    const selectInput = wrapper.find('.el-select__input')
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    // after deletion, an el-tag will be deleted
+    await selectInput.trigger('keydown', {
+      code: EVENT_CODE.backspace,
+      key: EVENT_CODE.backspace,
     })
+    await nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    await selectInput.trigger('keydown', {
+      code: EVENT_CODE.backspace,
+      key: EVENT_CODE.backspace,
+    })
+    await nextTick()
+    // after deletion, an el-tag still exist
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
   it('should ensure that isDisabled is fresh to prevent selected tag from being cleared', async () => {
     const disabled = ref(false)
