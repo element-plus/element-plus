@@ -60,7 +60,7 @@ jobs:
         node-version: [18, 20]
         include:
           - node-version: 18
-            node-name: LTS-18
+            node-name: LTS
           - node-version: 20
             node-name: LTS-20
 
