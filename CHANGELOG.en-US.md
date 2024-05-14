@@ -1,5 +1,22 @@
 ## Changelog
 
+### 2.7.3
+
+_2024-05-13_
+
+#### Features
+
+- Components [time-picker] @touchstart add passive (#16665 by @warmthsea)
+- Components [form] export fields (#16755 by @warmthsea)
+
+#### Bug fixes
+
+- Components [pagination] jumper input label warning (#16682 by @Liao-js)
+- Compoents [message-box] adapt `Parameters` extraction rules (#16592 by @reiwang01)
+- Components [InfiniteScroll] error caused by value of el[SCOPE] (#16686 by @YiMo1)
+- Components [table] selection reference when toggleAllSelection (#16800 by @Liao-js)
+- Style(components): tour delete content outline style (#16725 by @Fuphoenixes)
+
 ### 2.7.2
 
 _2024-04-26_
