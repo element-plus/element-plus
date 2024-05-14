@@ -328,7 +328,7 @@ onMounted(() => {
       : ''
   )
   innerInput.setAttribute('aria-disabled', String(inputNumberDisabled.value))
-  if (!isNumber(modelValue) && modelValue != null) {
+  if (!isNumber(modelValue) && modelValue !== null) {
     let val: number | null = Number(modelValue)
     if (Number.isNaN(val)) {
       val = null

@@ -245,8 +245,8 @@ export const useFloating = (
     return {
       position: unref(strategy),
       zIndex: unref(zIndex),
-      top: unref(y) != null ? `${unref(y)}px` : '',
-      left: unref(x) != null ? `${unref(x)}px` : '',
+      top: unref(y) !== null ? `${unref(y)}px` : '',
+      left: unref(x) !== null ? `${unref(x)}px` : '',
       maxWidth: overflow?.maxWidth ? `${overflow?.maxWidth}px` : '',
     }
   })
@@ -256,8 +256,8 @@ export const useFloating = (
 
     const { arrow } = unref(middlewareData)
     return {
-      left: arrow?.x != null ? `${arrow?.x}px` : '',
-      top: arrow?.y != null ? `${arrow?.y}px` : '',
+      left: arrow?.x !== null ? `${arrow?.x}px` : '',
+      top: arrow?.y !== null ? `${arrow?.y}px` : '',
     }
   })
 
