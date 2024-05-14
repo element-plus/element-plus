@@ -208,6 +208,25 @@
       width: 100px;
     }
   }
+  @include m(large) {
+    .btn-prev,
+    .btn-next,
+    .#{$namespace}-pager li {
+      height: getCssVar('pagination-button-height-large');
+      line-height: getCssVar('pagination-button-height-large');
+      font-size: getCssVar('pagination-font-size-large');
+      min-width: getCssVar('pagination-button-width-large');
+    }
+
+    span:not([class*='suffix']),
+    button {
+      font-size: getCssVar('pagination-font-size-large');
+    }
+
+    .#{$namespace}-select .#{$namespace}-input {
+      width: 160px;
+    }
+  }
 }
 
 @include b(pager) {

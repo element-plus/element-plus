@@ -16,7 +16,7 @@ import {
   isNumber,
   mutable,
 } from '@element-plus/utils'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace, useSizeProp } from '@element-plus/hooks'
 import { elPaginationKey } from './constants'
 
 import Prev from './components/prev.vue'
@@ -27,7 +27,6 @@ import Total from './components/total.vue'
 import Pager from './components/pager.vue'
 
 import type { ExtractPropTypes, VNode } from 'vue'
-
 /**
  * It it user's responsibility to guarantee that the value of props.total... is number
  * (same as pageSize, defaultPageSize, currentPage, defaultCurrentPage, pageCount)
@@ -138,9 +137,9 @@ export const paginationProps = buildProps({
     default: () => ArrowRight,
   },
   /**
-   * @description whether to use small pagination
+   * @description set page size
    */
-  small: Boolean,
+  size: useSizeProp,
   /**
    * @description whether the buttons have a background color
    */
@@ -347,7 +346,7 @@ export default defineComponent({
           onClick: prev,
         }),
         jumper: h(Jumper, {
-          size: props.small ? 'small' : 'default',
+          size: props.size,
         }),
         pager: h(Pager, {
           currentPage: currentPageBridge.value,
@@ -369,7 +368,7 @@ export default defineComponent({
           pageSizes: props.pageSizes,
           popperClass: props.popperClass,
           disabled: props.disabled,
-          size: props.small ? 'small' : 'default',
+          size: props.size,
         }),
         slot: slots?.default?.() ?? null,
         total: h(Total, { total: isAbsent(props.total) ? 0 : props.total }),
@@ -411,7 +410,7 @@ export default defineComponent({
             ns.b(),
             ns.is('background', props.background),
             {
-              [ns.m('small')]: props.small,
+              [ns.m(props.size)]: true,
             },
           ],
         },
