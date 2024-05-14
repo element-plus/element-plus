@@ -65,5 +65,9 @@ export const configProviderProps = buildProps({
     default: 'el',
   },
   ...useEmptyValuesProps,
+  themeOverride: {
+    type: definePropType<Record<string, Record<string, string>>>([Object]),
+    default: () => ({}),
+  },
 } as const)
 export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>
