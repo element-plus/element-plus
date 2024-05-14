@@ -1,15 +1,17 @@
-// @ts-nocheck
-import { nextTick } from 'vue'
-import { NOOP } from '@vue/shared'
+import { defineComponent, nextTick, reactive } from 'vue'
+import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { hasClass } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
-import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import Select from '../src/select.vue'
-import type { Props } from '../useProps'
+
+import type { ComponentPublicInstance, VNode } from 'vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { EmitsToProps, Writable } from '@element-plus/utils'
+import type { ISelectV2Props, selectEmits } from '../src/defaults'
 
 vi.mock('lodash-unified', async () => {
   return {
@@ -22,12 +24,6 @@ vi.mock('lodash-unified', async () => {
   }
 })
 
-const _mount = makeMountFunc({
-  components: {
-    'el-select': Select,
-  },
-})
-
 const createData = (count = 1000) => {
   const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
   return Array.from({ length: count }).map((_, idx) => ({
@@ -36,9 +32,9 @@ const createData = (count = 1000) => {
   }))
 }
 
-const clickClearButton = async (wrapper) => {
+const clickClearButton = async (wrapper: VueWrapper<CreateSelect>) => {
   const select = wrapper.findComponent(Select)
-  const selectVm = select.vm as any
+  const selectVm = select.vm
   selectVm.states.inputHovering = true
   await nextTick()
   const clearBtn = wrapper.findComponent(CircleClose)
@@ -46,138 +42,96 @@ const clickClearButton = async (wrapper) => {
   await clearBtn.trigger('click')
 }
 
-interface SelectProps {
-  popperClass?: string
-  value?: string | string[] | number | number[]
-  options?: any[]
-  props?: Props
-  disabled?: boolean
-  clearable?: boolean
-  multiple?: boolean
-  collapseTags?: boolean
-  collapseTagsTooltip?: boolean
-  maxCollapseTags?: number
-  filterable?: boolean
-  remote?: boolean
-  multipleLimit?: number
-  allowCreate?: boolean
-  popperAppendToBody?: boolean
-  placeholder?: string
+type Data = Partial<Writable<Omit<ISelectV2Props, 'modelValue'>>> & {
+  value?: any
   [key: string]: any
 }
-
-interface SelectEvents {
-  onChange?: (value?: string) => void
-  onVisibleChange?: (visible?: boolean) => void
-  onRemoveTag?: (tag?: string) => void
-  onFocus?: (event?: FocusEvent) => void
-  onBlur?: (event?) => void
-  filterMethod?: (query: string) => void | undefined
-  remoteMethod?: (query: string) => void | undefined
-  [key: string]: (...args) => any
-}
+type CreateSelect = ComponentPublicInstance<Record<string, any>, Required<Data>>
+type Events = EmitsToProps<typeof selectEmits> & ThisType<CreateSelect>
 
 const createSelect = (
   options: {
-    data?: () => SelectProps
-    methods?: SelectEvents
+    data?: () => Data
+    events?: Events
     slots?: {
-      empty?: string
-      default?: string
+      empty?: () => VNode
+      default?: (item: ReturnType<typeof createData>[number]) => VNode
     }
   } = {}
-) => {
-  const emptySlot =
-    (options.slots &&
-      options.slots.empty &&
-      `<template #empty>${options.slots.empty}</template>`) ||
-    ''
-  const defaultSlot =
-    (options.slots &&
-      options.slots.default &&
-      `<template #default="{item}">${options.slots.default}</template>`) ||
-    ''
-  return _mount(
-    `
-      <el-select
-        :options="options"
-        :props="props"
-        :popper-class="popperClass"
-        :value-key="valueKey"
-        :disabled="disabled"
-        :clearable="clearable"
-        :multiple="multiple"
-        :collapseTags="collapseTags"
-        :collapseTagsTooltip="collapseTagsTooltip"
-        :max-collapse-tags="maxCollapseTags"
-        :filterable="filterable"
-        :multiple-limit="multipleLimit"
-        :placeholder="placeholder"
-        :allow-create="allowCreate"
-        :remote="remote"
-        :reserve-keyword="reserveKeyword"
-        :scrollbar-always-on="scrollbarAlwaysOn"
-        :teleported="teleported"
-        ${
-          options.methods && options.methods.filterMethod
-            ? `:filter-method="filterMethod"`
-            : ''
-        }
-        ${
-          options.methods && options.methods.remoteMethod
-            ? `:remote-method="remoteMethod"`
-            : ''
-        }
-        @change="onChange"
-        @visible-change="onVisibleChange"
-        @remove-tag="onRemoveTag"
-        @focus="onFocus"
-        @blur="onBlur"
-        v-model="value">
-        ${defaultSlot}
-        ${emptySlot}
-      </el-select>
-    `,
-    {
-      data() {
-        return {
-          options: createData(),
-          props: {
-            label: 'label',
-            value: 'value',
-            disabled: 'disabled',
-            options: 'options',
-          },
-          value: '',
-          popperClass: '',
-          allowCreate: false,
-          valueKey: 'value',
-          disabled: false,
-          clearable: false,
-          multiple: false,
-          collapseTags: false,
-          collapseTagsTooltip: false,
-          maxCollapseTags: 1,
-          remote: false,
-          filterable: false,
-          reserveKeyword: false,
-          multipleLimit: 0,
-          placeholder: DEFAULT_PLACEHOLDER,
-          scrollbarAlwaysOn: false,
-          popperAppendToBody: undefined,
-          teleported: undefined,
-          ...(options.data && options.data()),
-        }
+): VueWrapper<CreateSelect> => {
+  const data = reactive({
+    options: createData(),
+    props: {
+      label: 'label',
+      value: 'value',
+      disabled: 'disabled',
+      options: 'options',
+    },
+    value: '',
+    popperClass: '',
+    allowCreate: false,
+    valueKey: 'value',
+    disabled: false,
+    clearable: false,
+    multiple: false,
+    collapseTags: false,
+    collapseTagsTooltip: false,
+    maxCollapseTags: 1,
+    remote: false,
+    filterable: false,
+    reserveKeyword: false,
+    multipleLimit: 0,
+    placeholder: DEFAULT_PLACEHOLDER,
+    scrollbarAlwaysOn: false,
+    popperAppendToBody: undefined,
+    teleported: undefined,
+    ...(options.data && options.data()),
+  })
+  const events = options.events || {}
+
+  return mount(
+    defineComponent({
+      setup() {
+        return data
       },
-      methods: {
-        onChange: NOOP,
-        onVisibleChange: NOOP,
-        onRemoveTag: NOOP,
-        onFocus: NOOP,
-        onBlur: NOOP,
-        ...options.methods,
+      render() {
+        return (
+          <Select
+            options={data.options}
+            props={data.props}
+            popper-class={data.popperClass}
+            valueKey={data.valueKey}
+            disabled={data.disabled}
+            clearable={data.clearable}
+            multiple={data.multiple}
+            collapseTags={data.collapseTags}
+            collapseTagsTooltip={data.collapseTagsTooltip}
+            max-collapse-tags={data.maxCollapseTags}
+            filterable={data.filterable}
+            multiple-limit={data.multipleLimit}
+            placeholder={data.placeholder}
+            allow-create={data.allowCreate}
+            remote={data.remote}
+            reserve-keyword={data.reserveKeyword}
+            scrollbar-always-on={data.scrollbarAlwaysOn}
+            teleported={data.teleported}
+            filterMethod={data.filterMethod?.bind(this)}
+            remoteMethod={data.remoteMethod?.bind(this)}
+            onChange={events.onChange?.bind(this)}
+            onVisibleChange={events.onVisibleChange?.bind(this)}
+            onRemoveTag={events.onRemoveTag?.bind(this)}
+            onFocus={events.onFocus?.bind(this)}
+            onBlur={events.onBlur?.bind(this)}
+            v-model={data.value}
+          >
+            {{
+              default: options.slots?.default,
+              empty: options.slots?.empty,
+            }}
+          </Select>
+        )
       },
-    }
+    })
   )
 }
 
@@ -207,13 +161,13 @@ describe('Select', () => {
     )
     const select = wrapper.findComponent(Select)
     await wrapper.trigger('click')
-    expect((select.vm as any).expanded).toBeTruthy()
+    expect(select.vm.expanded).toBeTruthy()
   })
 
   it('options rendered correctly', async () => {
     const wrapper = createSelect()
     await nextTick()
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     const options = Array.from(
       document.querySelectorAll(`.${OPTION_ITEM_CLASS_NAME}`)
     )
@@ -231,7 +185,7 @@ describe('Select', () => {
       }),
     })
     await nextTick()
-    expect([...document.querySelector('.el-popper').classList]).toContain(
+    expect([...document.querySelector('.el-popper')!.classList]).toContain(
       'custom-dropdown'
     )
   })
@@ -256,7 +210,7 @@ describe('Select', () => {
         ],
       }),
     })
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     await nextTick()
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
       vm.options[1].label
@@ -269,7 +223,7 @@ describe('Select', () => {
         value: undefined,
       }),
     })
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
     vm.value = vm.options[2].value
@@ -301,7 +255,7 @@ describe('Select', () => {
         ],
       }),
     })
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     await nextTick()
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
       vm.options[0].label
@@ -313,7 +267,7 @@ describe('Select', () => {
     const wrapper = createSelect()
     await nextTick()
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     vm.value = vm.options[1].value
     await nextTick()
     expect(placeholder.text()).toBe(vm.options[1].label)
@@ -329,7 +283,7 @@ describe('Select', () => {
           count: 0,
         }
       },
-      methods: {
+      events: {
         onChange() {
           this.count++
         },
@@ -337,7 +291,7 @@ describe('Select', () => {
     })
     await nextTick()
     const options = getOptions()
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     expect(vm.value).toBe('')
     expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
@@ -377,7 +331,7 @@ describe('Select', () => {
     })
 
     await nextTick()
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     const options = getOptions()
     options[1].click()
     await nextTick()
@@ -413,13 +367,13 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     const option = document.querySelector<HTMLElement>(
       `.el-select-dropdown__item.is-disabled`
     )
-    expect(option.textContent).toBe(vm.options[1].label)
-    option.click()
+    expect(option!.textContent).toBe(vm.options[1].label)
+    option!.click()
     await nextTick()
     expect(vm.value).toBe('')
     expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
@@ -457,14 +411,14 @@ describe('Select', () => {
           visible: false,
         }
       },
-      methods: {
+      events: {
         onVisibleChange(visible) {
           this.visible = visible
         },
       },
     })
     await nextTick()
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     await wrapper.trigger('click')
     await nextTick()
     expect(vm.visible).toBeTruthy()
@@ -474,7 +428,7 @@ describe('Select', () => {
     const wrapper = createSelect({
       data: () => ({ clearable: true }),
     })
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     vm.value = vm.options[1].value
     await nextTick()
     await clickClearButton(wrapper)
@@ -543,7 +497,7 @@ describe('Select', () => {
         },
       })
       await nextTick()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       const options = getOptions()
       options[1].click()
       await nextTick()
@@ -566,14 +520,14 @@ describe('Select', () => {
             multiple: true,
           }
         },
-        methods: {
+        events: {
           onRemoveTag(tag) {
             this.removeTag = tag
           },
         },
       })
       await nextTick()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       const options = getOptions()
       options[0].click()
       await nextTick()
@@ -600,7 +554,7 @@ describe('Select', () => {
         },
       })
       await nextTick()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       const options = getOptions()
       options[1].click()
       await nextTick()
@@ -638,7 +592,7 @@ describe('Select', () => {
       })
 
       await nextTick()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       const options = getOptions()
       options[1].click()
       await nextTick()
@@ -692,7 +646,7 @@ describe('Select', () => {
       })
 
       await nextTick()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       expect(wrapper.findAll('.el-tag').length).toBe(1)
       expect(wrapper.find('.el-select__tags-text').text()).toBe('option')
       const tagCloseIcons = wrapper.findAll('.el-tag__close')
@@ -713,7 +667,7 @@ describe('Select', () => {
         },
       })
       await nextTick()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       const options = getOptions()
       options[0].click()
       await nextTick()
@@ -742,7 +696,7 @@ describe('Select', () => {
         },
       })
       await nextTick()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       const options = getOptions()
       options[0].click()
       await nextTick()
@@ -753,7 +707,7 @@ describe('Select', () => {
       options[2].click()
       await nextTick()
       expect(vm.value.length).toBe(3)
-      expect(wrapper.findAll('.el-tag')[1].element.textContent.trim()).toBe(
+      expect(wrapper.findAll('.el-tag')[1].element.textContent!.trim()).toBe(
         '+ 2'
       )
     })
@@ -771,7 +725,7 @@ describe('Select', () => {
         },
       })
       await nextTick()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       const options = getOptions()
       options[0].click()
       await nextTick()
@@ -800,7 +754,7 @@ describe('Select', () => {
       })
       await nextTick()
       const options = getOptions()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
 
       expect(vm.value).toBe('')
@@ -833,7 +787,7 @@ describe('Select', () => {
         },
       })
       await nextTick()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       let placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
       expect(placeholder.exists()).toBeTruthy()
 
@@ -860,7 +814,7 @@ describe('Select', () => {
           }
         },
       })
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       const input = wrapper.find('input')
       await input.trigger('click')
       input.element.value = '1111'
@@ -895,7 +849,7 @@ describe('Select', () => {
       })
       await nextTick()
       const options = getOptions()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
 
       expect(vm.value).toBe(null)
@@ -917,7 +871,7 @@ describe('Select', () => {
       const onFocus = vi.fn()
       const onBlur = vi.fn()
       const wrapper = createSelect({
-        methods: {
+        events: {
           onFocus,
           onBlur,
         },
@@ -949,7 +903,7 @@ describe('Select', () => {
             value: [],
           }
         },
-        methods: {
+        events: {
           onFocus,
           onBlur,
         },
@@ -972,12 +926,12 @@ describe('Select', () => {
     it('only emit change on user input', async () => {
       const handleChanged = vi.fn()
       const wrapper = createSelect({
-        methods: {
+        events: {
           onChange: handleChanged,
         },
       })
       await nextTick()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       vm.value = 'option_2'
       await nextTick()
       expect(handleChanged).toHaveBeenCalledTimes(0)
@@ -1015,11 +969,11 @@ describe('Select', () => {
       })
       await nextTick()
       const select = wrapper.findComponent(Select)
-      const selectVm = select.vm as any
+      const selectVm = select.vm
       const input = wrapper.find('input')
       await input.trigger('click')
       await rAF()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       // create a new option
       input.element.value = '1111'
       await input.trigger('input')
@@ -1066,14 +1020,14 @@ describe('Select', () => {
         },
       })
       await nextTick()
-      const vm = wrapper.vm as any
+      const vm = wrapper.vm
       const input = wrapper.find('input')
       await input.trigger('click')
       input.element.value = '1111'
       await input.trigger('input')
       await nextTick()
       const select = wrapper.findComponent(Select)
-      const selectVm = select.vm as any
+      const selectVm = select.vm
       expect(selectVm.filteredOptions.length).toBe(1)
       // selected the new option
       selectVm.onSelect(selectVm.filteredOptions[0])
@@ -1130,7 +1084,7 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     await nextTick()
     await wrapper.trigger('click')
     const input = wrapper.find('input')
@@ -1172,7 +1126,7 @@ describe('Select', () => {
         }
       },
       slots: {
-        empty: '<div class="empty-slot">EmptySlot</div>',
+        empty: () => <div class="empty-slot">EmptySlot</div>,
       },
     })
     await nextTick()
@@ -1210,12 +1164,12 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     vm.value = '2'
     await nextTick()
     const select = wrapper.findComponent(Select)
-    const selectVm = select.vm as any
+    const selectVm = select.vm
     selectVm.toggleMenu()
     const input = wrapper.find('input')
     await input.trigger('focus')
@@ -1231,7 +1185,7 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
     vm.value = undefined
@@ -1273,7 +1227,7 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     expect(placeholder.text()).toBe(vm.value)
   })
@@ -1281,14 +1235,14 @@ describe('Select', () => {
   it('customized option renderer', async () => {
     const wrapper = createSelect({
       slots: {
-        default: `
+        default: (item) => (
           <div class="custom-renderer">
-            <span style="margin-right: 8px;">{{ item.label }}</span>
+            <span style="margin-right: 8px;">{item.label}</span>
             <span style="color: var(--el-text-color-secondary); font-size: 13px">
-              {{ item.value }}
+              {item.value}
             </span>
           </div>
-        `,
+        ),
       },
     })
     await nextTick()
@@ -1346,7 +1300,7 @@ describe('Select', () => {
     })
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(3)
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     vm.value.splice(0, 1)
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(2)
@@ -1395,10 +1349,8 @@ describe('Select', () => {
           return {
             filterable: true,
             multiple,
+            filterMethod,
           }
-        },
-        methods: {
-          filterMethod,
         },
       })
       const input = wrapper.find('input')
@@ -1420,25 +1372,23 @@ describe('Select', () => {
           return {
             multiple: true,
             filterable: true,
+            filterMethod() {
+              this.options = [
+                {
+                  value: 1,
+                  label: 'option 1',
+                },
+                {
+                  value: 2,
+                  label: 'option 2',
+                },
+                {
+                  value: 3,
+                  label: 'option 3',
+                },
+              ]
+            },
           }
-        },
-        methods: {
-          filterMethod() {
-            this.options = [
-              {
-                value: 1,
-                label: 'option 1',
-              },
-              {
-                value: 2,
-                label: 'option 2',
-              },
-              {
-                value: 3,
-                label: 'option 3',
-              },
-            ]
-          },
         },
       })
       const input = wrapper.find('input')
@@ -1462,10 +1412,8 @@ describe('Select', () => {
             filterable: true,
             remote: true,
             multiple,
+            remoteMethod,
           }
-        },
-        methods: {
-          remoteMethod,
         },
       })
       const input = wrapper.find('input')
@@ -1535,8 +1483,8 @@ describe('Select', () => {
       },
     })
     const select = wrapper.findComponent(Select)
-    const selectVm = select.vm as any
-    const vm = wrapper.vm as any
+    const selectVm = select.vm
+    const vm = wrapper.vm
     await wrapper.trigger('click')
     await nextTick()
     expect(selectVm.states.hoveringIndex).toBe(-1)
@@ -1595,7 +1543,7 @@ describe('Select', () => {
       },
     })
     const select = wrapper.findComponent(Select)
-    const selectVm = select.vm as any
+    const selectVm = select.vm
     const selectDom = wrapper.find('.el-select__wrapper').element
     const selectRect = {
       height: 40,
@@ -1615,7 +1563,9 @@ describe('Select', () => {
     await nextTick()
     options[2].click()
     await nextTick()
-    const tagWrappers = wrapper.findAll('.el-select__tags-text')
+    const tagWrappers = wrapper.findAll<HTMLSpanElement>(
+      '.el-select__tags-text'
+    )
     for (const tagWrapper of tagWrappers) {
       const tagWrapperDom = tagWrapper.element
       expect(
@@ -1631,9 +1581,9 @@ describe('Select', () => {
       await nextTick()
       const select = wrapper.findComponent(Select)
       await wrapper.trigger('click')
-      expect((select.vm as any).expanded).toBeTruthy()
+      expect(select.vm.expanded).toBeTruthy()
       const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
-      expect(hasClass(box, 'always-on')).toBe(false)
+      expect(hasClass(box!, 'always-on')).toBe(false)
     })
 
     it('set the scrollbar-always-on value to true, keep the scroll bar displayed', async () => {
@@ -1647,9 +1597,9 @@ describe('Select', () => {
       await nextTick()
       const select = wrapper.findComponent(Select)
       await wrapper.trigger('click')
-      expect((select.vm as any).expanded).toBeTruthy()
+      expect(select.vm.expanded).toBeTruthy()
       const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
-      expect(hasClass(box, 'always-on')).toBe(true)
+      expect(hasClass(box!, 'always-on')).toBe(true)
     })
   })
 
@@ -1730,7 +1680,7 @@ describe('Select', () => {
 
       await nextTick()
       const { selector } = usePopperContainerId()
-      expect(document.body.querySelector(selector.value).innerHTML).toBe('')
+      expect(document.body.querySelector(selector.value)!.innerHTML).toBe('')
     })
   })
 
@@ -1758,7 +1708,7 @@ describe('Select', () => {
     })
     await nextTick()
     const select = wrapper.findComponent(Select)
-    const selectVm = select.vm as any
+    const selectVm = select.vm
     selectVm.expanded = true
     await nextTick()
     await rAF()
