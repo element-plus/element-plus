@@ -117,7 +117,7 @@ $form-item-label-top-margin-bottom: map.merge(
   }
 
   .#{$namespace}-input__validateIcon {
-    display: none !important;
+    display: none;
   }
 
   @each $size in (large, default, small) {
@@ -230,6 +230,10 @@ $form-item-label-top-margin-bottom: map.merge(
     .#{$namespace}-input-group__prepend {
       .#{$namespace}-input__wrapper {
         box-shadow: 0 0 0 1px transparent inset;
+      }
+
+      .#{$namespace}-input__validateIcon {
+        display: none;
       }
     }
     .#{$namespace}-input__validateIcon {
