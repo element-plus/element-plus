@@ -21,7 +21,7 @@ const component = defineComponent({
     // here restore the deleted node.
     // @link https://github.com/element-plus/element-plus/blob/6df6e49db07b38d6cc3b5e9a960782bd30879c11/packages/components/select/src/option.vue#L78
     nextTick(() => {
-      if (!result.select.cachedOptions.get(vm.value)) {
+      if (!result.select.states.cachedOptions.get(vm.value)) {
         result.select.onOptionCreate(vm)
       }
     })

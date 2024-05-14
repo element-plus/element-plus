@@ -13,11 +13,15 @@ export const basicDateTableProps = buildProps({
   selectionMode: selectionModeWithDefault('date'),
 } as const)
 
+export const basicDateTableEmits = ['changerange', 'pick', 'select']
+
 export type BasicDateTableProps = ExtractPropTypes<typeof basicDateTableProps>
+export type BasicDateTableEmits = typeof basicDateTableEmits
 
 export type RangePickerEmits = { minDate: Dayjs; maxDate: null }
 export type DatePickerEmits = Dayjs
 export type DatesPickerEmits = Dayjs[]
+export type YearsPickerEmits = Dayjs[]
 export type WeekPickerEmits = {
   year: number
   week: number

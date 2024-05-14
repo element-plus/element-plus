@@ -1,6 +1,8 @@
 name: 🧪 Unit Test
 
-on: pull_request
+on:
+  pull_request:
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
@@ -25,7 +27,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -55,9 +57,9 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [18]
         include:
-          - node-version: 16
+          - node-version: 18
             node-name: LTS
           # - node-version: 18
           #   node-name: Current

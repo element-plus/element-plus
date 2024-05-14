@@ -36,7 +36,7 @@ table-v2/basic
 
 ## Auto resizer
 
-When you do not want to manually pass the `width` and `height` properties to the table, you can wrap the table component with the AutoResizer. 
+When you do not want to manually pass the `width` and `height` properties to the table, you can wrap the table component with the AutoResizer.
 This will automatically update the width and height for you.
 
 Resize your browser to see how it works.
@@ -222,13 +222,13 @@ table-v2/tree-data
 
 ## Dynamic height rows
 
-Virtual Table is capable of rendering rows with dynamic heights. If you're working with data and are uncertain about the content size, 
-this feature is ideal for rendering rows that adjust to the content's height. To enable this, pass down the `estimated-row-height` attribute. 
+Virtual Table is capable of rendering rows with dynamic heights. If you're working with data and are uncertain about the content size,
+this feature is ideal for rendering rows that adjust to the content's height. To enable this, pass down the `estimated-row-height` attribute.
 The closer the estimated height matches the actual content, the smoother the rendering experience.
 
 :::tip
 
-Each row's height is dynamically measured during rendering the rows. As a result, if you're trying to display a large amount of data, 
+Each row's height is dynamically measured during rendering the rows. As a result, if you're trying to display a large amount of data,
 the UI **might be** bouncing.
 
 :::
@@ -386,8 +386,8 @@ Note that these are `JavaScript` Objects, so you **CANNOT USE** kebab-case for t
 | style              | Customized style for column cell, will be merged with grid cell       | CSSProperties                                                                                                                                                    | -       |
 | sortable           | Indicates whether the column is sortable                              | Boolean                                                                                                                                                          | -       |
 | title              | The default text rendered in header cell                              | String                                                                                                                                                           | -       |
-| maxWidth           | Maximum width for the column                                          | String                                                                                                                                                           | -       |
-| minWidth           | Minimum width for the column                                          | String                                                                                                                                                           | -       |
+| maxWidth           | Maximum width for the column                                          | Number                                                                                                                                                           | -       |
+| minWidth           | Minimum width for the column                                          | Number                                                                                                                                                           | -       |
 | width ^(required)  | Width for the column                                                  | Number                                                                                                                                                           | -       |
 | cellRenderer       | Customized Cell renderer                                              | VueComponent/(props: [CellRenderProps](#typings)) => VNode                                                                                                       | -       |
 | headerCellRenderer | Customized Header renderer                                            | VueComponent/(props: [HeaderRenderProps](#typings)) => VNode                                                                                                     | -       |
@@ -524,11 +524,13 @@ type RowsRenderedParams = {
 }
 
 type RowSlotProps = {
+  columns: Column<any>[]
+  rowData: any
   columnIndex: number
   rowIndex: number
   data: any
   key: number | string
-  isScrolling?: boolean | undefined
+  isScrolling?: boolean
   style: CSSProperties
 }
 

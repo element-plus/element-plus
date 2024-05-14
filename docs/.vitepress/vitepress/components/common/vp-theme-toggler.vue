@@ -1,50 +1,97 @@
 <script setup lang="ts">
+import { nextTick, ref, watch } from 'vue'
+import { isDark, toggleDark } from '../../composables/dark'
 import DarkIcon from '../icons/dark.vue'
 import LightIcon from '../icons/light.vue'
-import VPSwitch from './vp-switch.vue'
+
+const darkMode = ref(isDark.value)
+
+watch(
+  () => darkMode.value,
+  () => {
+    toggleDark()
+  }
+)
+
+let resolveFn: (value: boolean | PromiseLike<boolean>) => void
+const switchTheme = (event: MouseEvent) => {
+  const isAppearanceTransition =
+    // @ts-expect-error
+    document.startViewTransition &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (!isAppearanceTransition || !event) {
+    resolveFn(true)
+    return
+  }
+  const x = event.clientX
+  const y = event.clientY
+  const endRadius = Math.hypot(
+    Math.max(x, innerWidth - x),
+    Math.max(y, innerHeight - y)
+  )
+  // @ts-expect-error: Transition API
+  const transition = document.startViewTransition(async () => {
+    resolveFn(true)
+    await nextTick()
+  })
+  transition.ready.then(() => {
+    const clipPath = [
+      `circle(0px at ${x}px ${y}px)`,
+      `circle(${endRadius}px at ${x}px ${y}px)`,
+    ]
+    document.documentElement.animate(
+      {
+        clipPath: isDark.value ? [...clipPath].reverse() : clipPath,
+      },
+      {
+        duration: 400,
+        easing: 'ease-in',
+        pseudoElement: isDark.value
+          ? '::view-transition-old(root)'
+          : '::view-transition-new(root)',
+      }
+    )
+  })
+}
+const beforeChange = (): Promise<boolean> => {
+  return new Promise((resolve) => {
+    resolveFn = resolve
+  })
+}
 </script>
 
 <template>
-  <VPSwitch>
-    <ElIcon :size="13">
-      <DarkIcon class="dark-icon" />
-      <LightIcon class="light-icon" />
-    </ElIcon>
-  </VPSwitch>
+  <div @click.stop="switchTheme">
+    <ClientOnly>
+      <el-switch
+        v-model="darkMode"
+        :before-change="beforeChange"
+        :active-action-icon="DarkIcon"
+        :inactive-action-icon="LightIcon"
+      />
+    </ClientOnly>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.el-icon {
-  cursor: pointer;
-}
+:deep(.el-switch__core) {
+  --el-switch-on-color: var(--bg-color-mute);
+  --el-switch-off-color: var(--bg-color-mute);
+  --el-switch-border-color: var(--border-color);
 
-.dark-icon,
-.light-icon {
-  transition: color var(--el-transition-duration),
-    opacity var(--el-transition-duration);
-}
-
-.light-icon {
-  opacity: 1;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.dark-icon {
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-@at-root .dark {
-  .dark-icon {
-    opacity: 1;
+  .el-switch__action {
+    width: 14px;
+    height: 14px;
   }
+}
 
-  .light-icon {
-    opacity: 0;
-  }
+:deep(.dark-icon) {
+  border-radius: 50%;
+  color: #cfd3dc;
+  background-color: #141414;
+}
+
+:deep(.light-icon) {
+  color: #606266;
 }
 </style>

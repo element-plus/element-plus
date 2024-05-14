@@ -70,13 +70,13 @@ describe('Radio group', () => {
     const radio = ref(3)
     const wrapper = mount(() => (
       <RadioGroup v-model={radio.value}>
-        <Radio label={3} ref="radio1">
+        <Radio value={3} ref="radio1">
           3
         </Radio>
-        <Radio label={6} ref="radio2">
+        <Radio value={6} ref="radio2">
           6
         </Radio>
-        <Radio label={9}>9</Radio>
+        <Radio value={9}>9</Radio>
       </RadioGroup>
     ))
     await nextTick()
@@ -91,26 +91,26 @@ describe('Radio group', () => {
     const radioValue1 = ref(3)
     const wrapper1 = mount(() => (
       <RadioGroup v-model={radioValue1.value}>
-        <Radio label={3} ref="radio1">
+        <Radio value={3} ref="radio1">
           3
         </Radio>
-        <Radio label={6} ref="radio2">
+        <Radio value={6} ref="radio2">
           6
         </Radio>
-        <Radio label={9}>9</Radio>
+        <Radio value={9}>9</Radio>
       </RadioGroup>
     ))
 
     const radioValue2 = ref(3)
     const wrapper2 = mount(() => (
       <RadioGroup v-model={radioValue2.value}>
-        <Radio label={3} ref="radio1">
+        <Radio value={3} ref="radio1">
           3
         </Radio>
-        <Radio label={6} ref="radio2">
+        <Radio value={6} ref="radio2">
           6
         </Radio>
-        <Radio label={9}>9</Radio>
+        <Radio value={9}>9</Radio>
       </RadioGroup>
     ))
 
@@ -124,13 +124,13 @@ describe('Radio group', () => {
     const radio = ref(3)
     const wrapper = mount(() => (
       <RadioGroup v-model={radio.value} disabled>
-        <Radio label={3} ref="radio1">
+        <Radio value={3} ref="radio1">
           3
         </Radio>
-        <Radio label={6} ref="radio2">
+        <Radio value={6} ref="radio2">
           6
         </Radio>
-        <Radio label={9}>9</Radio>
+        <Radio value={9}>9</Radio>
       </RadioGroup>
     ))
     expect(wrapper.find('label.is-disabled').exists()).toBe(true)
@@ -149,11 +149,11 @@ describe('Radio group', () => {
     }
     const wrapper = mount(() => (
       <RadioGroup v-model={radio.value} onChange={onChange}>
-        <Radio label={3}>3</Radio>
-        <Radio label={6} ref="radio2">
+        <Radio value={3}>3</Radio>
+        <Radio value={6} ref="radio2">
           6
         </Radio>
-        <Radio label={9}>9</Radio>
+        <Radio value={9}>9</Radio>
       </RadioGroup>
     ))
     const radio2 = wrapper.findAll('.el-radio').at(1)
@@ -169,11 +169,11 @@ describe('Radio group', () => {
     }
     mount(() => (
       <RadioGroup v-model={radio.value} onChange={onChange}>
-        <Radio label={3}>3</Radio>
-        <Radio label={6} ref="radio2">
+        <Radio value={3}>3</Radio>
+        <Radio value={6} ref="radio2">
           6
         </Radio>
-        <Radio label={9}>9</Radio>
+        <Radio value={9}>9</Radio>
       </RadioGroup>
     ))
 
@@ -185,13 +185,13 @@ describe('Radio group', () => {
     const radio = ref(3)
     const wrapper = mount(() => (
       <RadioGroup v-model={radio.value} disabled>
-        <RadioButton label={3} ref="radio1">
+        <RadioButton value={3} ref="radio1">
           3
         </RadioButton>
-        <RadioButton label={6} ref="radio2">
+        <RadioButton value={6} ref="radio2">
           6
         </RadioButton>
-        <RadioButton label={9}>9</RadioButton>
+        <RadioButton value={9}>9</RadioButton>
       </RadioGroup>
     ))
 
@@ -209,13 +209,13 @@ describe('Radio Button', () => {
     const radio = ref(3)
     const wrapper = mount(() => (
       <RadioGroup v-model={radio.value}>
-        <RadioButton label={3} ref="radio1">
+        <RadioButton value={3} ref="radio1">
           3
         </RadioButton>
-        <RadioButton label={6} ref="radio2">
+        <RadioButton value={6} ref="radio2">
           6
         </RadioButton>
-        <RadioButton label={9}>9</RadioButton>
+        <RadioButton value={9}>9</RadioButton>
       </RadioGroup>
     ))
     const [radio1, radio2] = wrapper.findAll('.el-radio-button')
@@ -228,13 +228,13 @@ describe('Radio Button', () => {
     const radio = ref(3)
     const wrapper = mount(() => (
       <RadioGroup v-model={radio.value} fill="#000" text-color="#ff0">
-        <RadioButton label={3} ref="radio1">
+        <RadioButton value={3} ref="radio1">
           3
         </RadioButton>
-        <RadioButton label={6} ref="radio2">
+        <RadioButton value={6} ref="radio2">
           6
         </RadioButton>
-        <RadioButton label={9}>9</RadioButton>
+        <RadioButton value={9}>9</RadioButton>
       </RadioGroup>
     ))
     const radio1 = wrapper.find('.el-radio-button')
@@ -250,13 +250,13 @@ describe('Radio Button', () => {
     }
     const wrapper = mount(() => (
       <RadioGroup v-model={radio.value} onChange={onChange}>
-        <RadioButton label={3} ref="radio1">
+        <RadioButton value={3} ref="radio1">
           3
         </RadioButton>
-        <RadioButton label={6} ref="radio2">
+        <RadioButton value={6} ref="radio2">
           6
         </RadioButton>
-        <RadioButton label={9}>9</RadioButton>
+        <RadioButton value={9}>9</RadioButton>
       </RadioGroup>
     ))
     const radio2 = wrapper.findAll('.el-radio-button').at(1)
@@ -271,13 +271,13 @@ describe('Radio Button', () => {
     }
     mount(() => (
       <RadioGroup v-model={radio.value} onChange={onChange}>
-        <RadioButton label={3} ref="radio1">
+        <RadioButton value={3} ref="radio1">
           3
         </RadioButton>
-        <RadioButton label={6} ref="radio2">
+        <RadioButton value={6} ref="radio2">
           6
         </RadioButton>
-        <RadioButton label={9}>9</RadioButton>
+        <RadioButton value={9}>9</RadioButton>
       </RadioGroup>
     ))
 
@@ -290,13 +290,13 @@ describe('Radio Button', () => {
     const radio = ref(3)
     const wrapper = mount(() => (
       <RadioGroup v-model={radio.value} size="large">
-        <RadioButton label={3} ref="radio1">
+        <RadioButton value={3} ref="radio1">
           3
         </RadioButton>
-        <RadioButton label={6} ref="radio2">
+        <RadioButton value={6} ref="radio2">
           6
         </RadioButton>
-        <RadioButton label={9}>9</RadioButton>
+        <RadioButton value={9}>9</RadioButton>
       </RadioGroup>
     ))
     expect(wrapper.findAll('.el-radio-button--large').length).toBe(3)
@@ -307,8 +307,8 @@ describe('Radio Button', () => {
       const wrapper = mount(() => (
         <ElFormItem ref="item" label="Test">
           <RadioGroup ref="radioGroup">
-            <Radio label="Foo" />
-            <Radio label="Bar" />
+            <Radio label="Foo" value="Foo" />
+            <Radio label="Bar" value="Bar" />
           </RadioGroup>
         </ElFormItem>
       ))
@@ -327,9 +327,9 @@ describe('Radio Button', () => {
     test('single radio group in form item, override label', async () => {
       const wrapper = mount(() => (
         <ElFormItem ref="item" label="Test">
-          <RadioGroup label="Foo" ref="radioGroup">
-            <Radio label="Foo" />
-            <Radio label="Bar" />
+          <RadioGroup aria-label="Foo" ref="radioGroup">
+            <Radio label="Foo" value="Foo" />
+            <Radio label="Bar" value="Bar" />
           </RadioGroup>
         </ElFormItem>
       ))
@@ -346,13 +346,13 @@ describe('Radio Button', () => {
     test('multiple radio groups in form item', async () => {
       const wrapper = mount(() => (
         <ElFormItem ref="item" label="Test">
-          <RadioGroup label="Foo" ref="radioGroup1">
-            <Radio label="Foo" />
-            <Radio label="Bar" />
+          <RadioGroup aria-label="Foo" ref="radioGroup1">
+            <Radio label="Foo" value="Foo" />
+            <Radio label="Bar" value="Bar" />
           </RadioGroup>
-          <RadioGroup label="Bar" ref="radioGroup2">
-            <Radio label="Foo" />
-            <Radio label="Bar" />
+          <RadioGroup aria-label="Bar" ref="radioGroup2">
+            <Radio label="Foo" value="Foo" />
+            <Radio label="Bar" value="Bar" />
           </RadioGroup>
         </ElFormItem>
       ))

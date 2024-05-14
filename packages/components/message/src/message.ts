@@ -28,6 +28,7 @@ export const messageDefaults = mutable({
   onClose: undefined,
   showClose: false,
   type: 'info',
+  plain: false,
   offset: 16,
   zIndex: 0,
   grouping: false,
@@ -94,7 +95,7 @@ export const messageProps = buildProps({
    */
   onClose: {
     type: definePropType<() => void>(Function),
-    required: false,
+    default: messageDefaults.onClose,
   },
   /**
    * @description whether to show a close button
@@ -110,6 +111,13 @@ export const messageProps = buildProps({
     type: String,
     values: messageTypes,
     default: messageDefaults.type,
+  },
+  /**
+   * @description whether message is plain
+   */
+  plain: {
+    type: Boolean,
+    default: messageDefaults.plain,
   },
   /**
    * @description set the distance to the top of viewport

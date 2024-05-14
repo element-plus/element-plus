@@ -14,6 +14,13 @@ export const dialogProps = buildProps({
    */
   appendToBody: Boolean,
   /**
+   * @description which element the Dialog appends to
+   */
+  appendTo: {
+    type: definePropType<string>(String),
+    default: 'body',
+  },
+  /**
    * @description callback before Dialog closes, and it will prevent Dialog from closing, use done to close the dialog
    */
   beforeClose: {
@@ -94,6 +101,13 @@ export const dialogProps = buildProps({
   trapFocus: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * @description header's aria-level attribute
+   */
+  headerAriaLevel: {
+    type: String,
+    default: '2',
   },
 } as const)
 

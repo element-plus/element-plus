@@ -22,7 +22,6 @@ import './vite.init'
 const esbuildPlugin = (): Plugin => ({
   ...esbuild({
     target: 'chrome64',
-    include: /\.vue$/,
     loaders: {
       '.vue': 'js',
     },
@@ -41,6 +40,13 @@ export default defineConfig(async ({ mode }) => {
   ).map((dep) => dep.replace(/\.js$/, ''))
 
   return {
+    // css: {
+    //   preprocessorOptions: {
+    //     scss: {
+    //       additionalData: `@use "/styles/custom.scss" as *;`,
+    //     },
+    //   },
+    // },
     resolve: {
       alias: [
         {

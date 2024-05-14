@@ -61,7 +61,7 @@ tree-v2/custom-node
 
 Tree nodes can be filtered
 
-:::demo Invoke the `filter` method of the Tree instance to filter tree nodes. Its parameter is the filtering keyword. Note that for it to work, `filter-node-method` is required, and its value is the filtering method.
+:::demo Invoke the `filter` method of the Tree instance to filter tree nodes. Its parameter is the filtering keyword. Note that for it to work, `filter-method` is required, and its value is the filtering method.
 
 tree-v2/filter
 
@@ -85,7 +85,7 @@ tree-v2/filter
 | filter-method         | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | Function(value, data) | —       |
 | indent                | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | number                | 16      |
 | icon                  | custom tree node icon                                                                                                                        | `string \| Component` | -       |
-| item-size             | custom tree node height                                                                                                                      | number                | 26      |
+| item-size ^(2.2.33)   | custom tree node height                                                                                                                      | number                | 26      |
 
 ## props
 

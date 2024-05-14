@@ -46,7 +46,7 @@ const shortcuts = [
     text: 'Yesterday',
     value: () => {
       const date = new Date()
-      date.setTime(date.getTime() - 3600 * 1000 * 24)
+      date.setDate(date.getDate() - 1)
       return date
     },
   },
@@ -54,7 +54,7 @@ const shortcuts = [
     text: 'A week ago',
     value: () => {
       const date = new Date()
-      date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+      date.setDate(date.getDate() - 7)
       return date
     },
   },

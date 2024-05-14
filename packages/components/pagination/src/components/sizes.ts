@@ -16,6 +16,7 @@ export const paginationSizesProps = buildProps({
     type: String,
   },
   disabled: Boolean,
+  teleported: Boolean,
   size: {
     type: String,
     values: componentSizes,

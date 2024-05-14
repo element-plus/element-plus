@@ -4,10 +4,13 @@
 
 <p align="center">
   <a href="https://www.npmjs.org/package/element-plus">
-    <img src="https://img.shields.io/npm/v/element-plus.svg">
+    <img src="https://img.shields.io/npm/v/element-plus.svg" />
+  </a>
+  <a href="https://github.com/element-plus/element-plus">
+    <img src="https://img.shields.io/badge/node-%20%3E%3D%2018-47c219" />
   </a>
   <a href="https://npmcharts.com/compare/element-plus?minimal=true">
-    <img src="https://img.shields.io/npm/dm/element-plus.svg">
+    <img src="https://img.shields.io/npm/dm/element-plus.svg" />
   </a>
   <a href="https://codecov.io/gh/element-plus/element-plus">
     <img src="https://codecov.io/gh/element-plus/element-plus/branch/dev/graph/badge.svg?token=BKSBO2GLZI"/>
@@ -25,7 +28,7 @@
 Alright, for you to get started if you are looking for making Element Plus better you should keep reading.
 For developers that uses Element Plus to develop your website you should go ahead visit [Getting Started](https://element-plus.org/).
 
-- 中国大陆[加速镜像站点](https://element-plus.gitee.io/)
+- 中国大陆[加速镜像站点](https://cn.element-plus.org/zh-CN/)
 
 ## Breaking change list
 
@@ -64,18 +67,23 @@ You can also try Element Plus out with the components built-in playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
+        <a href="https://melecode.com/" target="_blank">
+          <img width="150px" src="https://github.com/element-plus/element-plus/assets/82012629/9ca4269c-7545-4463-9bdc-8e5a1fbd0b08">
+        </a>
+      </td>
+      <td align="center" valign="middle">
         <a href="https://www.vform666.com/" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/17680888/156870588-b25a42d5-888b-4943-8b1b-5239dfd8f4d2.png">
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://js.design?source=element-plus" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/17680888/160634485-df0d00af-8633-4ab8-9a72-aac2b65d1d36.png">
+        <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
+          <img width="150px" src="https://github.com/element-plus/element-plus/assets/17680888/6a044d82-c393-48ab-90b8-de0d3aad1624">
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.misboot.com/?from=element-plus" target="_blank">
-          <img width="150px" src="https://github-production-user-asset-6210df.s3.amazonaws.com/82012629/250157573-b8ab8d68-ff6b-496f-beb1-9863a545d2af.png">
+        <a href="http://github.crmeb.net/u/Element?from=element-plus" target="_blank">
+          <img width="150px" src="https://github.com/element-plus/element-plus/assets/17680888/7abd3c5a-04fb-4eae-9540-0d21c5ed71ed">
         </a>
       </td>
     </tr>
@@ -88,8 +96,13 @@ You can also try Element Plus out with the components built-in playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://wonderful-code.gitee.io/?from=element-plus" target="_blank">
+        <a href="https://doc.buildadmin.com/?from=element-plus" target="_blank">
           <img width="130px" src="https://user-images.githubusercontent.com/17680888/173179536-30e35fd1-cd5a-482a-bc41-9d5f0aa66fd4.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://fantastic-admin.github.io/" target="_blank">
+          <img width="130px" src="https://github.com/element-plus/element-plus/assets/82012629/fdff8d8f-83e8-4986-9949-c5b4e0d30217">
         </a>
       </td>
       <td align="center" valign="middle">
@@ -132,12 +145,6 @@ Welcome :star_struck:! We are looking for talented developers to join us and mak
 reach out to us, you are more than welcomed to join us! :heart:
 
 We are now lacking of experts of `Testing`, `GitHub Actions`, `PM`, if you do feel like you can and willing to help us, please do reach out to us. :pray:
-
-## Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Become a sponsor](https://opencollective.com/element-plus#sponsor)
-
-<a href="https://opencollective.com/element-plus/sponsor/0/website" target="_blank"><img src="https://opencollective.com/element-plus/sponsor/0/avatar.svg"></a>
 
 ## Contributors
 

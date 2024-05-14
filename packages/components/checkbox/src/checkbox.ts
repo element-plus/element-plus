@@ -1,5 +1,5 @@
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useSizeProp } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { isBoolean, isNumber, isString } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
@@ -16,10 +16,18 @@ export const checkboxProps = {
     default: undefined,
   },
   /**
-   * @description value of the Checkbox when used inside a `checkbox-group`
+   * @description label of the Checkbox when used inside a `checkbox-group`
    */
   label: {
     type: [String, Boolean, Number, Object],
+    default: undefined,
+  },
+  /**
+   * @description value of the Checkbox when used inside a `checkbox-group`
+   */
+  value: {
+    type: [String, Boolean, Number, Object],
+    default: undefined,
   },
   /**
    * @description Set indeterminate state, only responsible for style control
@@ -43,11 +51,27 @@ export const checkboxProps = {
   /**
    * @description value of the Checkbox if it's checked
    */
+  trueValue: {
+    type: [String, Number],
+    default: undefined,
+  },
+  /**
+   * @description value of the Checkbox if it's not checked
+   */
+  falseValue: {
+    type: [String, Number],
+    default: undefined,
+  },
+  /**
+   * @deprecated use `trueValue` instead
+   * @description value of the Checkbox if it's checked
+   */
   trueLabel: {
     type: [String, Number],
     default: undefined,
   },
   /**
+   * @deprecated use `falseValue` instead
    * @description value of the Checkbox if it's not checked
    */
   falseLabel: {
@@ -62,7 +86,7 @@ export const checkboxProps = {
     default: undefined,
   },
   /**
-   * @description same as [aria-controls](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-controls), takes effect when `indeterminate` is `true`
+   * @deprecated same as [aria-controls](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-controls), takes effect when `indeterminate` is `true`
    */
   controls: {
     type: String,
@@ -87,6 +111,7 @@ export const checkboxProps = {
     type: Boolean,
     default: true,
   },
+  ...useAriaProps(['ariaControls']),
 }
 
 export const checkboxEmits = {

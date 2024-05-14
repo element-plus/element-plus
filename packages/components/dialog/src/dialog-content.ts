@@ -16,16 +16,13 @@ export const dialogContentProps = buildProps({
     type: iconPropType,
   },
   /**
-   * @deprecated will be removed in version 2.4.0, please use class
-   */
-  customClass: {
-    type: String,
-    default: '',
-  },
-  /**
    * @description enable dragging feature for Dialog
    */
   draggable: Boolean,
+  /**
+   * @description draggable Dialog can overflow the viewport
+   */
+  overflow: Boolean,
   /**
    * @description whether the Dialog takes up full screen
    */
@@ -43,6 +40,13 @@ export const dialogContentProps = buildProps({
   title: {
     type: String,
     default: '',
+  },
+  /**
+   * @description header's aria-level attribute
+   */
+  ariaLevel: {
+    type: String,
+    default: '2',
   },
 } as const)
 
