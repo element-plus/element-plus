@@ -73,6 +73,7 @@ export * from './watermark'
 export * from './tour'
 export * from './anchor'
 export * from './segmented'
+export * from './ellipsis'
 
 // plugins
 export * from './infinite-scroll'

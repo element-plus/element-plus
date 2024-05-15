@@ -55,6 +55,10 @@
       {
         "link": "/typography",
         "text": "Typography"
+      },
+      {
+        "link": "/ellipsis",
+        "text": "Ellipsis"
       }
     ]
   },

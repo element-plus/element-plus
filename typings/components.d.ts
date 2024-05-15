@@ -104,6 +104,7 @@ declare module '@vue/runtime-core' {
     ElAnchor: typeof import('../packages/element-plus')['ElAnchor']
     ElAnchorLink: typeof import('../packages/element-plus')['ElAnchorLink']
     ElSegmented: typeof import('../packages/element-plus')['ElSegmented']
+    ElEllipsis: typeof import('../packages/element-plus')['ElEllipsis']
   }
 
   interface ComponentCustomProperties {

@@ -1,0 +1,25 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(ellipsis) {
+  margin: 0;
+  padding: 0;
+  font-size: getCssVar('font-size', 'base');
+  color: getCssVar('text-color', 'regular');
+  word-break: break-word;
+
+  @include when(single-line) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @include when(multiple-line) {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+  }
+}
