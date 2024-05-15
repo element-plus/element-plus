@@ -347,7 +347,7 @@ importers:
   internal/build:
     dependencies:
       '@element-plus/build-constants':
-        specifier: ^0.0.1
+        specifier: workspace:*
         version: link:../build-constants
       '@pnpm/find-workspace-packages':
         specifier: ^4.0.16
