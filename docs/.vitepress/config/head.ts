@@ -59,6 +59,13 @@ export const head: HeadConfig[] = [
     },
   ],
   [
+    'meta',
+    {
+      property: 'og:description',
+      content: 'A Vue 3 based component library for designers and developers',
+    },
+  ],
+  [
     'script',
     {},
     `;(() => {
