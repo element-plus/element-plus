@@ -45,6 +45,7 @@ describe('Image.vue', () => {
     expect(wrapper.find('.el-image__inner').exists()).toBe(true)
     expect(wrapper.find('img').exists()).toBe(true)
     await nextTick()
+    // await nextTick()
     expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
     expect(wrapper.find('.el-image__error').exists()).toBe(false)
   })
