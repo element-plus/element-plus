@@ -158,7 +158,7 @@ const Tabs = defineComponent({
             class={[
               ns.e('new-tab'),
               ns.e(
-                props.tabPosition == 'left' ? 'new-tab-left' : 'new-tab-right'
+                props.tabPosition === 'left' ? 'new-tab-left' : 'new-tab-right'
               ),
             ]}
             tabindex="0"
