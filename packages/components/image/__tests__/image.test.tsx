@@ -56,7 +56,7 @@ describe('Image.vue', () => {
       },
     })
     await doubleWait()
-    expect(wrapper.emitted('error')).toBeDefined()
+    expect(wrapper.emitted('error'))?.toBeDefined()
     expect(wrapper.find('.el-image__inner').exists()).toBe(false)
     expect(wrapper.find('img').exists()).toBe(false)
     expect(wrapper.find('.el-image__error').exists()).toBe(true)
