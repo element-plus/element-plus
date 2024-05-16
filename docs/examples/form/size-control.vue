@@ -1,11 +1,11 @@
 <template>
   <div>
-    <el-radio-group v-model="size" label="size control">
+    <el-radio-group v-model="size" aria-label="size control">
       <el-radio-button value="large">large</el-radio-button>
       <el-radio-button value="default">default</el-radio-button>
       <el-radio-button value="small">small</el-radio-button>
     </el-radio-group>
-    <el-radio-group v-model="labelPosition" label="position control">
+    <el-radio-group v-model="labelPosition" aria-label="position control">
       <el-radio-button value="left">Left</el-radio-button>
       <el-radio-button value="right">Right</el-radio-button>
       <el-radio-button value="top">Top</el-radio-button>
@@ -37,7 +37,7 @@
         <el-date-picker
           v-model="sizeForm.date1"
           type="date"
-          label="Pick a date"
+          aria-label="Pick a date"
           placeholder="Pick a date"
           style="width: 100%"
         />
@@ -46,7 +46,7 @@
       <el-col :span="11">
         <el-time-picker
           v-model="sizeForm.date2"
-          label="Pick a time"
+          aria-label="Pick a time"
           placeholder="Pick a time"
           style="width: 100%"
         />
@@ -77,9 +77,10 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+import type { ComponentSize, FormProps } from 'element-plus'
 
-const size = ref('default')
-const labelPosition = ref('right')
+const size = ref<ComponentSize>('default')
+const labelPosition = ref<FormProps['labelPosition']>('right')
 
 const sizeForm = reactive({
   name: '',

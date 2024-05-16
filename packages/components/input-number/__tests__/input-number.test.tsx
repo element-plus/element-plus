@@ -12,7 +12,7 @@ describe('InputNumber.vue', () => {
   test('create', async () => {
     const num = ref(1)
     const wrapper = mount(() => (
-      <InputNumber label="描述文字" v-model={num.value} />
+      <InputNumber aria-label="描述文字" v-model={num.value} />
     ))
     expect(wrapper.find('input').exists()).toBe(true)
   })

@@ -1,4 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils'
+import { useAriaProps } from '@element-plus/hooks'
 
 import type { ExtractPropTypes } from 'vue'
 import type { Placement, Strategy, VirtualElement } from '@floating-ui/dom'
@@ -21,7 +22,6 @@ const tooltipV2Placements = [
 ] as const
 
 export const tooltipV2ContentProps = buildProps({
-  ariaLabel: String,
   arrowPadding: {
     type: definePropType<number>(Number),
     default: 5,
@@ -59,6 +59,7 @@ export const tooltipV2ContentProps = buildProps({
     type: Boolean,
     default: false,
   },
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export type TooltipV2ContentProps = ExtractPropTypes<

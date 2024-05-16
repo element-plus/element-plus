@@ -53,6 +53,7 @@ export default defineComponent({
         }, [])
 
         indexes.forEach((rowIndex) => {
+          rowNum = newVal
           while (rowNum > 0) {
             // find from previous
             const preChildNodes = rows[rowNum - 1]?.childNodes
