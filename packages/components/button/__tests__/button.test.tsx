@@ -262,12 +262,16 @@ describe('Button Group', () => {
     )
   })
 
-  it('shoule use props of form', async () => {
+  it('should use props of form', async () => {
     const wrapper = mount({
       setup: () => () =>
         (
           <Form size="large" disabled>
-            <Button>{{ AXIOM }}</Button>
+            <Button
+              v-slots={{
+                default: () => AXIOM,
+              }}
+            />
           </Form>
         ),
     })
@@ -278,13 +282,17 @@ describe('Button Group', () => {
     expect(btn.emitted('click')).toBeUndefined()
   })
 
-  it('shoule use size of form-item', async () => {
+  it('should use size of form-item', async () => {
     const wrapper = mount({
       setup: () => () =>
         (
           <Form size="large" disabled>
             <Form.FormItem size="small">
-              <Button>{{ AXIOM }}</Button>
+              <Button
+                v-slots={{
+                  default: () => AXIOM,
+                }}
+              />
             </Form.FormItem>
           </Form>
         ),

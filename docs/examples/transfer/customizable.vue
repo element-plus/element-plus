@@ -92,7 +92,7 @@ const renderFunc = (
   return h('span', null, option.label)
 }
 const handleChange = (
-  value: number | string,
+  value: number[] | string[],
   direction: 'left' | 'right',
   movedKeys: string[] | number[]
 ) => {

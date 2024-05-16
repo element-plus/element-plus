@@ -15,7 +15,9 @@
   border-radius: getCssVar('dialog', 'border-radius');
   box-shadow: getCssVar('dialog', 'box-shadow');
   box-sizing: border-box;
+  padding: getCssVar('dialog', 'padding-primary');
   width: var(#{getCssVarName('dialog-width')}, 50%);
+  overflow-wrap: break-word;
 
   &:focus {
     outline: none !important;
@@ -52,18 +54,26 @@
   }
 
   @include e(header) {
-    padding: getCssVar('dialog', 'padding-primary');
-    padding-bottom: 10px;
-    margin-right: 16px;
+    padding-bottom: getCssVar('dialog', 'padding-primary');
+
+    &.show-close {
+      padding-right: calc(
+        getCssVar('dialog', 'padding-primary') +
+          var(
+            #{getCssVarName('message-close-size')},
+            map.get($message, 'close-size')
+          )
+      );
+    }
   }
 
   @include e(headerbtn) {
     position: absolute;
-    top: 6px;
+    top: 0;
     right: 0;
     padding: 0;
-    width: 54px;
-    height: 54px;
+    width: 48px;
+    height: 48px;
     background: transparent;
     border: none;
     outline: none;
@@ -93,15 +103,12 @@
   }
 
   @include e(body) {
-    padding: calc(#{getCssVar('dialog-padding-primary')} + 10px)
-      getCssVar('dialog-padding-primary');
     color: getCssVar('text-color', 'regular');
     font-size: getCssVar('dialog-content-font-size');
   }
 
   @include e(footer) {
-    padding: getCssVar('dialog-padding-primary');
-    padding-top: 10px;
+    padding-top: getCssVar('dialog', 'padding-primary');
     text-align: right;
     box-sizing: border-box;
   }
@@ -112,7 +119,6 @@
 
     @include e(body) {
       text-align: initial;
-      padding: 25px calc(#{getCssVar('dialog-padding-primary')} + 5px) 30px;
     }
 
     @include e(footer) {

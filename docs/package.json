@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@docsearch/js": "^3.1.0",
-    "@element-plus/icons-vue": "^2.0.9",
+    "@element-plus/icons-vue": "^2.3.1",
     "@element-plus/metadata": "workspace:*",
     "@vue/shared": "^3.2.37",
     "@vueuse/core": "^9.1.0",
@@ -24,7 +24,7 @@
     "vue": "^3.2.37"
   },
   "devDependencies": {
-    "@crowdin/cli": "^3.7.8",
+    "@crowdin/cli": "^3.7.10",
     "@docsearch/react": "^3.1.0",
     "@element-plus/build": "workspace:*",
     "@element-plus/build-constants": "workspace:*",

@@ -6,6 +6,7 @@ on:
   pull_request:
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
   build:
@@ -26,7 +27,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -44,8 +45,10 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
-      - uses: ArtiomTr/jest-coverage-report-action@v2.0-rc.6
+      - name: 'Run Test Coverage'
+        run: pnpm run test:coverage
+
+      - uses: davelosert/vitest-coverage-report-action@v2.2.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          skip-step: install
-          test-script: pnpm run test:coverage
+          file-coverage-mode: changes

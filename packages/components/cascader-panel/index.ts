@@ -3,7 +3,7 @@ import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils'
 
 CascaderPanel.install = (app: App): void => {
-  app.component(CascaderPanel.name, CascaderPanel)
+  app.component(CascaderPanel.name!, CascaderPanel)
 }
 
 const _CascaderPanel = CascaderPanel as SFCWithInstall<typeof CascaderPanel>

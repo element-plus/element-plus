@@ -67,7 +67,7 @@ export declare interface TreeOptionProps {
   class?: (
     data: TreeNodeData,
     node: Node
-  ) => string | { [key: string]: boolean } | string
+  ) => string | { [key: string]: boolean }
 }
 export declare type RenderContentFunction = (
   h: hType,

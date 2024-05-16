@@ -547,13 +547,30 @@ class Node {
           callback.call(this, children)
         }
       }
+      const reject = () => {
+        this.loading = false
+      }
 
-      this.store.load(this, resolve)
+      this.store.load(this, resolve, reject)
     } else {
       if (callback) {
         callback.call(this)
       }
     }
+  }
+
+  eachNode(callback: (node: Node) => void) {
+    const arr: Node[] = [this]
+    while (arr.length) {
+      const node = arr.shift()!
+      arr.unshift(...node.childNodes)
+      callback(node)
+    }
+  }
+
+  reInitChecked() {
+    if (this.store.checkStrictly) return
+    reInitChecked(this)
   }
 }
 

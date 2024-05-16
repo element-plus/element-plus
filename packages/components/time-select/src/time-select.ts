@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
-import { useSizeProp } from '@element-plus/hooks'
+import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import type TimeSelect from './time-select.vue'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
 
@@ -96,6 +96,7 @@ export const timeSelectProps = buildProps({
     type: definePropType<string | Component>([String, Object]),
     default: () => CircleClose,
   },
+  ...useEmptyValuesProps,
 } as const)
 
 export type TimeSelectProps = ExtractPropTypes<typeof timeSelectProps>

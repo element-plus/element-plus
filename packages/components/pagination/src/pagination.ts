@@ -138,6 +138,13 @@ export const paginationProps = buildProps({
     default: () => ArrowRight,
   },
   /**
+   * @description whether Pagination size is teleported to body
+   */
+  teleported: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description whether to use small pagination
    */
   small: Boolean,
@@ -160,6 +167,8 @@ export const paginationEmits = {
   'update:current-page': (val: number) => isNumber(val),
   'update:page-size': (val: number) => isNumber(val),
   'size-change': (val: number) => isNumber(val),
+  change: (currentPage: number, pageSize: number) =>
+    isNumber(currentPage) && isNumber(pageSize),
   'current-change': (val: number) => isNumber(val),
   'prev-click': (val: number) => isNumber(val),
   'next-click': (val: number) => isNumber(val),
@@ -280,6 +289,14 @@ export default defineComponent({
       if (currentPageBridge.value > val) currentPageBridge.value = val
     })
 
+    watch(
+      [currentPageBridge, pageSizeBridge],
+      (value) => {
+        emit('change', ...value)
+      },
+      { flush: 'post' }
+    )
+
     function handleCurrentChange(val: number) {
       currentPageBridge.value = val
     }
@@ -369,6 +386,7 @@ export default defineComponent({
           pageSizes: props.pageSizes,
           popperClass: props.popperClass,
           disabled: props.disabled,
+          teleported: props.teleported,
           size: props.small ? 'small' : 'default',
         }),
         slot: slots?.default?.() ?? null,

@@ -1,6 +1,9 @@
 export default {
   name: 'nl',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Bevestig',
       clear: 'Wissen',
@@ -114,14 +117,19 @@ export default {
       hasCheckedFormat: '{checked}/{total} geselecteerd',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'MISLUKT',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Terug',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Ja',
+      cancelButtonText: 'Nee',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

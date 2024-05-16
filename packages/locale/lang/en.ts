@@ -1,6 +1,9 @@
 export default {
   name: 'en',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Clear',
@@ -140,6 +143,11 @@ export default {
       clearFilter: 'All',
       sumText: 'Sum',
     },
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+    },
     tree: {
       emptyText: 'No Data',
     },
@@ -160,6 +168,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes',
       cancelButtonText: 'No',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left',
+      rightArrow: 'Carousel arrow right',
+      indicator: 'Carousel switch to index {index}',
     },
   },
 }

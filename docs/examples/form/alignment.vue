@@ -1,15 +1,15 @@
 <template>
-  <el-radio-group v-model="labelPosition" label="label position">
-    <el-radio-button label="left">Left</el-radio-button>
-    <el-radio-button label="right">Right</el-radio-button>
-    <el-radio-button label="top">Top</el-radio-button>
+  <el-radio-group v-model="labelPosition" aria-label="label position">
+    <el-radio-button value="left">Left</el-radio-button>
+    <el-radio-button value="right">Right</el-radio-button>
+    <el-radio-button value="top">Top</el-radio-button>
   </el-radio-group>
   <div style="margin: 20px" />
   <el-form
     :label-position="labelPosition"
-    label-width="100px"
+    label-width="auto"
     :model="formLabelAlign"
-    style="max-width: 460px"
+    style="max-width: 600px"
   >
     <el-form-item label="Name">
       <el-input v-model="formLabelAlign.name" />
@@ -25,8 +25,9 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+import type { FormProps } from 'element-plus'
 
-const labelPosition = ref('right')
+const labelPosition = ref<FormProps['labelPosition']>('right')
 
 const formLabelAlign = reactive({
   name: '',

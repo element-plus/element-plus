@@ -221,7 +221,7 @@
       overflow: hidden;
       align-items: stretch;
       @include e('row-cell') {
-        word-break: break-all;
+        overflow-wrap: break-word;
       }
     }
   }

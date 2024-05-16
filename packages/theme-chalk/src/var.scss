@@ -46,9 +46,6 @@
 :root {
   color-scheme: light;
 
-  @include set-css-var-value('color-white', $color-white);
-  @include set-css-var-value('color-black', $color-black);
-
   // --el-color-#{$type}
   // --el-color-#{$type}-light-{$i}
   @each $type in (primary, success, warning, danger, error, info) {

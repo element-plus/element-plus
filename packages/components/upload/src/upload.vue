@@ -5,6 +5,7 @@
       :disabled="disabled"
       :list-type="listType"
       :files="uploadFiles"
+      :crossorigin="crossorigin"
       :handle-preview="onPreview"
       @remove="handleRemove"
     >
@@ -35,6 +36,7 @@
       :disabled="disabled"
       :list-type="listType"
       :files="uploadFiles"
+      :crossorigin="crossorigin"
       :handle-preview="onPreview"
       @remove="handleRemove"
     >
@@ -78,6 +80,7 @@ const {
   handleRemove,
   handleSuccess,
   handleProgress,
+  revokeFileObjectURL,
 } = useHandlers(props, uploadRef)
 
 const isPictureCard = computed(() => props.listType === 'picture-card')
@@ -93,9 +96,7 @@ const uploadContentProps = computed<UploadContentProps>(() => ({
 }))
 
 onBeforeUnmount(() => {
-  uploadFiles.value.forEach(({ url }) => {
-    if (url?.startsWith('blob:')) URL.revokeObjectURL(url)
-  })
+  uploadFiles.value.forEach(revokeFileObjectURL)
 })
 
 provide(uploadContextKey, {

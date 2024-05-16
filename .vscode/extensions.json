@@ -3,7 +3,7 @@
     "vue.volar",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "antfu.vite",
+    "antfu.unocss",
     "lokalise.i18n-ally"
   ]
 }

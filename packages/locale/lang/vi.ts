@@ -1,6 +1,9 @@
 export default {
   name: 'vi',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Xóa',
@@ -102,6 +105,11 @@ export default {
       clearFilter: 'Xóa hết',
       sumText: 'Tổng',
     },
+    tour: {
+      next: 'Tiếp',
+      previous: 'Trước',
+      finish: 'Hoàn thành',
+    },
     tree: {
       emptyText: 'Không có dữ liệu',
     },
@@ -122,6 +130,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Ok',
       cancelButtonText: 'Huỷ',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

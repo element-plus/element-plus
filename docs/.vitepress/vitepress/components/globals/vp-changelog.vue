@@ -49,7 +49,7 @@ onMounted(async () => {
           <ElSelect
             :model-value="currentRelease.name"
             :placeholder="changelog['select-version']"
-            style="min-width: 200px"
+            style="width: 200px"
             @change="onVersionChange"
           >
             <ElOption
