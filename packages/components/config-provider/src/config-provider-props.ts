@@ -1,5 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
+import { useEmptyValuesProps } from '@element-plus/hooks/use-empty-values'
+import { useSizeProp } from '@element-plus/hooks/use-size'
 
 import type { ExtractPropTypes } from 'vue'
 import type { Language } from '@element-plus/locale'

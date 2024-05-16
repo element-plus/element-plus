@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue'
-import { useGlobalConfig } from '@element-plus/components/config-provider'
+import { useGlobalConfig } from '@element-plus/components/config-provider/src/hooks/use-global-config'
 import { buildProps, debugWarn, isFunction } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'

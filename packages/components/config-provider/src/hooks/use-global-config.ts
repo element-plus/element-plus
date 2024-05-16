@@ -1,16 +1,18 @@
 import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
 import { debugWarn, keysOf } from '@element-plus/utils'
+import { SIZE_INJECTION_KEY } from '@element-plus/hooks/use-size'
 import {
-  SIZE_INJECTION_KEY,
   defaultInitialZIndex,
-  defaultNamespace,
-  localeContextKey,
-  namespaceContextKey,
-  useLocale,
-  useNamespace,
   useZIndex,
   zIndexContextKey,
-} from '@element-plus/hooks'
+} from '@element-plus/hooks/use-z-index'
+import {
+  defaultNamespace,
+  namespaceContextKey,
+  useNamespace,
+} from '@element-plus/hooks/use-namespace'
+import { localeContextKey, useLocale } from '@element-plus/hooks/use-locale'
+
 import { configProviderContextKey } from '../constants'
 
 import type { MaybeRef } from '@vueuse/core'
