@@ -12,7 +12,7 @@ export * from './src/common/props'
 const _TimePicker = TimePicker as SFCWithInstall<typeof TimePicker>
 
 _TimePicker.install = (app: App) => {
-  app.component(_TimePicker.name, _TimePicker)
+  app.component(_TimePicker.name!, _TimePicker)
 }
 
 export { CommonPicker, TimePickPanel }
