@@ -112,6 +112,7 @@ import {
   provide,
   reactive,
   ref,
+  useAttrs,
   watch,
 } from 'vue'
 import { debounce } from 'lodash-unified'
@@ -152,6 +153,7 @@ defineOptions({
 })
 const props = defineProps(colorPickerProps)
 const emit = defineEmits(colorPickerEmits)
+const attrs = useAttrs()
 
 const { t } = useLocale()
 const ns = useNamespace('color')
@@ -242,6 +244,7 @@ const btnKls = computed(() => {
     ns.is('disabled', colorDisabled.value),
     ns.bm('picker', colorSize.value),
     ns.is('focused', isFocused.value),
+    attrs.class,
   ]
 })
 
