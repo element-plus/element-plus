@@ -81,7 +81,9 @@ import type { ComponentSize, FormProps } from 'element-plus'
 
 const size = ref<ComponentSize>('default')
 const labelPosition = ref<FormProps['labelPosition']>('right')
-
+  
+const form = ref<FormInstance>()
+  
 const sizeForm = reactive({
   name: '',
   region: '',
