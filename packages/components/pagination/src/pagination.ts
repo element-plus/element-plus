@@ -17,6 +17,7 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { useLocale, useNamespace, useSizeProp } from '@element-plus/hooks'
+import { useFormSize } from '@element-plus/components/form'
 import { elPaginationKey } from './constants'
 
 import Prev from './components/prev.vue'
@@ -25,7 +26,6 @@ import Sizes from './components/sizes.vue'
 import Jumper from './components/jumper.vue'
 import Total from './components/total.vue'
 import Pager from './components/pager.vue'
-
 import type { ExtractPropTypes, VNode } from 'vue'
 /**
  * It it user's responsibility to guarantee that the value of props.total... is number
@@ -185,6 +185,7 @@ export default defineComponent({
     const { t } = useLocale()
     const ns = useNamespace('pagination')
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
+    const _size = useFormSize(computed(() => vnodeProps?.size))
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
     const hasCurrentPageListener =
       'onUpdate:currentPage' in vnodeProps ||
@@ -363,7 +364,7 @@ export default defineComponent({
           onClick: prev,
         }),
         jumper: h(Jumper, {
-          size: props.size,
+          size: _size.value,
         }),
         pager: h(Pager, {
           currentPage: currentPageBridge.value,
@@ -386,7 +387,7 @@ export default defineComponent({
           popperClass: props.popperClass,
           disabled: props.disabled,
           teleported: props.teleported,
-          size: props.size,
+          size: _size.value,
         }),
         slot: slots?.default?.() ?? null,
         total: h(Total, { total: isAbsent(props.total) ? 0 : props.total }),
@@ -428,7 +429,7 @@ export default defineComponent({
             ns.b(),
             ns.is('background', props.background),
             {
-              [ns.m(props.size)]: true,
+              [ns.m(String(_size!.value))]: true,
             },
           ],
         },
