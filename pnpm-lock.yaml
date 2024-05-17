@@ -127,8 +127,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.0(vitest@1.6.0)
       '@vitest/ui':
-        specifier: 1.6.0
-        version: 1.6.0(vitest@1.6.0)
+        specifier: 1.4.0
+        version: 1.4.0(vitest@1.6.0)
       '@vue/test-utils':
         specifier: ^2.4.6
         version: 2.4.6
@@ -218,7 +218,7 @@ importers:
         version: 2.7.11(@vueuse/core@10.9.0)(typescript@5.4.5)(vue@3.4.27)
       vitest:
         specifier: 1.6.0
-        version: 1.6.0(@types/node@18.19.25)(@vitest/ui@1.6.0)(happy-dom@14.3.3)(jsdom@16.4.0)(sass@1.53.0)
+        version: 1.6.0(@types/node@20.12.11)(@vitest/ui@1.4.0)(happy-dom@14.3.3)(jsdom@16.4.0)(sass@1.53.0)
       vue:
         specifier: ^3.4.27
         version: 3.4.27(typescript@5.4.5)
@@ -4546,7 +4546,7 @@ packages:
       std-env: 3.7.0
       strip-literal: 2.0.0
       test-exclude: 6.0.0
-      vitest: 1.6.0(@types/node@18.19.25)(@vitest/ui@1.6.0)(happy-dom@14.3.3)(jsdom@16.4.0)(sass@1.53.0)
+      vitest: 1.6.0(@types/node@20.12.11)(@vitest/ui@1.4.0)(happy-dom@14.3.3)(jsdom@16.4.0)(sass@1.53.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4581,19 +4581,28 @@ packages:
       tinyspy: 2.2.1
     dev: true
 
-  /@vitest/ui@1.6.0(vitest@1.6.0):
-    resolution: {integrity: sha512-k3Lyo+ONLOgylctiGovRKy7V4+dIN2yxstX3eY5cWFXH6WP+ooVX79YSyi0GagdTQzLmT43BF27T0s6dOIPBXA==}
+  /@vitest/ui@1.4.0(vitest@1.6.0):
+    resolution: {integrity: sha512-XC6CMhN1gzYcGbpn6/Oanj4Au2EXwQEX6vpcOeLlZv8dy7g11Ukx8zwtYQbwxs9duK2s9j2o5rbQiCP5DPAcmw==}
     peerDependencies:
-      vitest: 1.6.0
+      vitest: 1.4.0
     dependencies:
-      '@vitest/utils': 1.6.0
+      '@vitest/utils': 1.4.0
       fast-glob: 3.3.2
       fflate: 0.8.2
       flatted: 3.3.1
       pathe: 1.1.2
       picocolors: 1.0.0
       sirv: 2.0.4
-      vitest: 1.6.0(@types/node@18.19.25)(@vitest/ui@1.6.0)(happy-dom@14.3.3)(jsdom@16.4.0)(sass@1.53.0)
+      vitest: 1.6.0(@types/node@20.12.11)(@vitest/ui@1.4.0)(happy-dom@14.3.3)(jsdom@16.4.0)(sass@1.53.0)
+    dev: true
+
+  /@vitest/utils@1.4.0:
+    resolution: {integrity: sha512-mx3Yd1/6e2Vt/PUC98DcqTirtfxUyAZ32uK82r8rZzbtBeBo+nqgnjx/LvqQdWsrvNtm14VmurNgcf4nqY5gJg==}
+    dependencies:
+      diff-sequences: 29.6.3
+      estree-walker: 3.0.3
+      loupe: 2.3.7
+      pretty-format: 29.7.0
     dev: true
 
   /@vitest/utils@1.6.0:
@@ -14606,7 +14615,7 @@ packages:
       replace-ext: 1.0.1
     dev: false
 
-  /vite-node@1.6.0(@types/node@18.19.25)(sass@1.53.0):
+  /vite-node@1.6.0(@types/node@20.12.11)(sass@1.53.0):
     resolution: {integrity: sha512-de6HJgzC+TFzOu0NTC4RAIsyf/DY/ibWDYQUcuEA84EMHhcefTUGkjFHKKEJhQN4A+6I0u++kr3l36ZF2d7XRw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -14767,7 +14776,7 @@ packages:
       - typescript
     dev: true
 
-  /vitest@1.6.0(@types/node@18.19.25)(@vitest/ui@1.6.0)(happy-dom@14.3.3)(jsdom@16.4.0)(sass@1.53.0):
+  /vitest@1.6.0(@types/node@20.12.11)(@vitest/ui@1.4.0)(happy-dom@14.3.3)(jsdom@16.4.0)(sass@1.53.0):
     resolution: {integrity: sha512-H5r/dN06swuFnzNFhq/dnz37bPXnq8xB2xB5JOVk8K09rUtoeNN+LHWkoQ0A/i3hvbUKKcCei9KpbxqHMLhLLA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -14797,7 +14806,7 @@ packages:
       '@vitest/runner': 1.6.0
       '@vitest/snapshot': 1.6.0
       '@vitest/spy': 1.6.0
-      '@vitest/ui': 1.6.0(vitest@1.6.0)
+      '@vitest/ui': 1.4.0(vitest@1.6.0)
       '@vitest/utils': 1.6.0
       acorn-walk: 8.3.2
       chai: 4.4.1
@@ -14812,9 +14821,9 @@ packages:
       std-env: 3.7.0
       strip-literal: 2.0.0
       tinybench: 2.6.0
-      tinypool: 0.8.2
+      tinypool: 0.8.4
       vite: 5.1.6(@types/node@20.12.11)(sass@1.53.0)
-      vite-node: 1.4.0(@types/node@20.12.11)(sass@1.53.0)
+      vite-node: 1.6.0(@types/node@20.12.11)(sass@1.53.0)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
@@ -15171,6 +15180,7 @@ packages:
 
   /workbox-google-analytics@6.6.0:
     resolution: {integrity: sha512-p4DJa6OldXWd6M9zRl0H6vB9lkrmqYFkRQ2xEiNdBFp9U0LhsGO7hsBscVEyH9H2/3eZZt8c97NB2FD9U2NJ+Q==}
+    deprecated: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
     dependencies:
       workbox-background-sync: 6.6.0
       workbox-core: 6.6.0
