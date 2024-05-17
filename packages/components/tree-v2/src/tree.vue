@@ -28,7 +28,7 @@
           @click="handleNodeClick"
           @toggle="toggleExpand"
           @check="handleNodeCheck"
-          @mouseover="handleNodeOver"
+          @over="handleNodeOver"
         />
       </template>
     </fixed-size-list>
