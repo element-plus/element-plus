@@ -193,4 +193,5 @@ export const treeNodeEmits = {
   toggle: (node: TreeNode) => !!node,
   check: (node: TreeNode, checked: CheckboxValueType) =>
     node && typeof checked === 'boolean',
+  over: (node: TreeNode, e: MouseEvent) => !!(node && e),
 }
