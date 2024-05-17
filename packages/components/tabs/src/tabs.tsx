@@ -155,7 +155,12 @@ const Tabs = defineComponent({
       const newButton =
         props.editable || props.addable ? (
           <span
-            class={ns.e('new-tab')}
+            class={[
+              ns.e('new-tab'),
+              ns.e(
+                props.tabPosition === 'left' ? 'new-tab-left' : 'new-tab-right'
+              ),
+            ]}
             tabindex="0"
             onClick={handleTabAdd}
             onKeydown={(ev: KeyboardEvent) => {
