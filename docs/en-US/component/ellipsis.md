@@ -15,34 +15,6 @@ ellipsis/basic-usage
 
 :::
 
-## Expand
-
-:::demo
-
-empty/custom-image
-
-:::
-
-## Image size
-
-Use `image-size` prop to control image size.
-
-:::demo
-
-empty/image-size
-
-:::
-
-## Bottom content
-
-Use the default slot to insert content at the bottom.
-
-:::demo
-
-empty/bottom-content
-
-:::
-
 ## API
 
 ### Attributes
