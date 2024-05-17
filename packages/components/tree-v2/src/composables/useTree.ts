@@ -3,6 +3,7 @@ import { isObject } from '@element-plus/utils'
 import {
   CURRENT_CHANGE,
   NODE_CLICK,
+  NODE_OVER,
   NODE_COLLAPSE,
   NODE_EXPAND,
   TreeOptionsEnum,
@@ -211,6 +212,10 @@ export function useTree(
     }
   }
 
+  function handleNodeClick(node: TreeNode, e: MouseEvent) {
+    emit(NODE_OVER, node.data, node, e)
+  }
+
   function handleCurrentChange(node: TreeNode) {
     if (!isCurrent(node)) {
       currentKey.value = node.key
@@ -293,6 +298,7 @@ export function useTree(
     isCurrent,
     isForceHiddenExpandIcon,
     handleNodeClick,
+    handleNodeOver,
     handleNodeCheck,
     // expose
     getCurrentNode,
