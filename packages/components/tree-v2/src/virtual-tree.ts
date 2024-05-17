@@ -167,6 +167,7 @@ export const treeNodeContentProps = buildProps({
 
 // emits
 export const NODE_CLICK = 'node-click'
+export const NODE_OVER = 'node-over'
 export const NODE_EXPAND = 'node-expand'
 export const NODE_COLLAPSE = 'node-collapse'
 export const CURRENT_CHANGE = 'current-change'
@@ -176,6 +177,8 @@ export const NODE_CONTEXTMENU = 'node-contextmenu'
 
 export const treeEmits = {
   [NODE_CLICK]: (data: TreeNodeData, node: TreeNode, e: MouseEvent) =>
+    data && node && e,
+  [NODE_OVER]: (data: TreeNodeData, node: TreeNode, e: MouseEvent) =>
     data && node && e,
   [NODE_EXPAND]: (data: TreeNodeData, node: TreeNode) => data && node,
   [NODE_COLLAPSE]: (data: TreeNodeData, node: TreeNode) => data && node,
