@@ -18,7 +18,7 @@ type UseRangePickerProps = {
   defaultValue: Ref<DefaultValue>
   leftDate: Ref<Dayjs>
   rightDate: Ref<Dayjs>
-  unit: 'month' | 'year'
+  unit: 'month' | 'year' | 'decade'
 }
 
 export const useRangePicker = (
