@@ -151,7 +151,7 @@ const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
         : castArray(props.parsedValue).concat([dayjs(year)])
       emit('pick', newValue)
     } else if (props.selectionMode === 'range') {
-      const newDate = dayjs().year(Number(year))
+      const newDate = dayjs().startOf('year').year(Number(year))
       if (!props.rangeState.selecting) {
         emit('pick', { minDate: newDate, maxDate: null })
         emit('select', true)
