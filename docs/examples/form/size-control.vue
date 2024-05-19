@@ -13,7 +13,6 @@
   </div>
   <br />
   <el-form
-    ref="form"
     style="max-width: 600px"
     :model="sizeForm"
     label-width="auto"
@@ -81,8 +80,6 @@ import type { ComponentSize, FormProps } from 'element-plus'
 
 const size = ref<ComponentSize>('default')
 const labelPosition = ref<FormProps['labelPosition']>('right')
-  
-const form = ref<FormInstance>()
   
 const sizeForm = reactive({
   name: '',
