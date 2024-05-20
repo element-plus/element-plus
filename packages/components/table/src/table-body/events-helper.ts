@@ -8,8 +8,8 @@ import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
 
-function isGreaterThan(a: number, b: number, error = 0.01) {
-  return a - b > error
+function isGreaterThan(a: number, b: number, epsilon = 0.01) {
+  return a - b > epsilon
 }
 
 function useEvents<T>(props: Partial<TableBodyProps<T>>) {
