@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  async-validator@4.2.5:
+    hash: wdmp4xlpil2odxo3rasjmxbdfm
+    path: patches/async-validator@4.2.5.patch
+
 importers:
 
   .:
@@ -52,7 +57,7 @@ importers:
         version: 9.1.0(vue@3.2.37)
       async-validator:
         specifier: ^4.2.5
-        version: 4.2.5
+        version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
       dayjs:
         specifier: ^1.11.3
         version: 1.11.3
@@ -569,7 +574,7 @@ importers:
         version: 9.1.0(vue@3.2.37)
       async-validator:
         specifier: ^4.2.5
-        version: 4.2.5
+        version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
       dayjs:
         specifier: ^1.11.3
         version: 1.11.3
@@ -5820,9 +5825,10 @@ packages:
       async-done: 1.3.2
     dev: false
 
-  /async-validator@4.2.5:
+  /async-validator@4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm):
     resolution: {integrity: sha512-7HhHjtERjqlNbZtqNqy2rckN/SpOOlmDliet+lP7k+eKZEjPk3DgyeU9lIXLdeLz0uBbbVp+9Qdow9wJWgwwfg==}
     dev: false
+    patched: true
 
   /async@3.2.5:
     resolution: {integrity: sha512-baNZyqaaLhyLVKm/DlvdW051MSgO6b8eVfIezl9E5PqWxFgzLm/wQntEW4zOytVburDEr0JlALEpdOFwvErLsg==}
@@ -7279,7 +7285,7 @@ packages:
       '@types/lodash': 4.14.184
       '@types/lodash-es': 4.17.6
       '@vueuse/core': 9.1.0(vue@3.2.37)
-      async-validator: 4.2.5
+      async-validator: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
       dayjs: 1.11.5
       escape-html: 1.0.3
       lodash: 4.17.21
