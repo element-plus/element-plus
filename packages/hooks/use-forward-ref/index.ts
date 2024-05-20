@@ -18,7 +18,7 @@ export const useForwardRef = <T>(forwardRef: Ref<T | null>) => {
 
   provide(FORWARD_REF_INJECTION_KEY, {
     setForwardRef,
-  })
+  } as ForwardRefInjectionContext)
 }
 
 export const useForwardRefDirective = (

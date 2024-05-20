@@ -55,6 +55,7 @@ import UploadList from './upload-list.vue'
 import UploadContent from './upload-content.vue'
 import { useHandlers } from './use-handlers'
 import { uploadProps } from './upload'
+import type { UploadContext } from './constants'
 
 import type {
   UploadContentInstance,
@@ -101,7 +102,7 @@ onBeforeUnmount(() => {
 
 provide(uploadContextKey, {
   accept: toRef(props, 'accept'),
-})
+} as UploadContext)
 
 defineExpose({
   /** @description cancel upload request */
