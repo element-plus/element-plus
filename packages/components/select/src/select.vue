@@ -152,11 +152,7 @@
                 aria-haspopup="listbox"
                 @focus="handleFocus"
                 @blur="handleBlur"
-                @keydown.down.stop.prevent="navigateOptions('next')"
-                @keydown.up.stop.prevent="navigateOptions('prev')"
-                @keydown.esc.stop.prevent="handleEsc"
-                @keydown.enter.stop.prevent="selectOption"
-                @keydown.delete.stop="deletePrevTag"
+                @keydown.prevent.stop="handleKeydown"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
@@ -266,7 +262,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import { defineComponent, provide, reactive } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElInput from '@element-plus/components/input'

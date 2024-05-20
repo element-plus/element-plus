@@ -752,6 +752,28 @@ export const useSelect = (props: ISelectProps, emit) => {
     return Number.parseFloat(style.gap || '6px')
   }
 
+  const handleKeydown = (event: KeyboardEvent) => {
+    switch (event.key) {
+      case 'ArrowDown':
+        navigateOptions('next')
+        break
+      case 'ArrowUp':
+        navigateOptions('prev')
+        break
+      case 'Escape':
+        handleEsc()
+        break
+      case 'Enter':
+        selectOption()
+        break
+      case 'Delete':
+        deletePrevTag(event)
+        break
+      default:
+        break
+    }
+  }
+
   // computed style
   const tagStyle = computed(() => {
     const gapWidth = getGapWidth()
@@ -841,6 +863,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     selectOption,
     getValueKey,
     navigateOptions,
+    handleKeydown,
     dropdownMenuVisible,
     showTagList,
     collapseTagList,
