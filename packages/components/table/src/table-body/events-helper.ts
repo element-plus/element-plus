@@ -8,8 +8,8 @@ import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
 
-function compareValueWithError(a: number, b: number, error = 0.01) {
-  return a > b && a - b > error
+function isGreaterThan(a: number, b: number, error = 0.01) {
+  return a - b > error
 }
 
 function useEvents<T>(props: Partial<TableBodyProps<T>>) {
@@ -152,11 +152,11 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     const horizontalPadding = left + right
     const verticalPadding = top + bottom
     if (
-      compareValueWithError(rangeWidth + horizontalPadding, cellChildWidth) ||
-      compareValueWithError(rangeHeight + verticalPadding, cellChildHeight) ||
+      isGreaterThan(rangeWidth + horizontalPadding, cellChildWidth) ||
+      isGreaterThan(rangeHeight + verticalPadding, cellChildHeight) ||
       // When using a high-resolution screen, it is possible that a returns cellChild.scrollWidth value of 1921 and
       // cellChildWidth returns a value of 1920.994140625. #16856 #16673
-      compareValueWithError(cellChild.scrollWidth, cellChildWidth)
+      isGreaterThan(cellChild.scrollWidth, cellChildWidth)
     ) {
       createTablePopper(
         tooltipOptions,
