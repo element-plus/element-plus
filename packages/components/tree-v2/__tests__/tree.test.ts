@@ -76,6 +76,7 @@ interface TreeProps {
 
 interface TreeEvents {
   onNodeClick?: (nodeData?: TreeNodeData, node?: TreeNode) => void
+  onNodeMouseUp?: (nodeData?: TreeNodeData, node?: TreeNode) => void
   onNodeExpand?: (nodeData?: TreeNodeData, node?: TreeNode) => void
   onNodeCheck?: (
     nodeData?: TreeNodeData,
@@ -129,6 +130,7 @@ const createTree = (
         :current-node-key="currentNodeKey"
         :filter-method="filterMethod"
         @node-click="onNodeClick"
+        @node-mouse-up="onNodeMouseUp"
         @node-expand="onNodeExpand"
         @check="onNodeCheck"
         @current-change="onCurrentChange"
@@ -164,6 +166,7 @@ const createTree = (
       },
       methods: {
         onNodeClick: NOOP,
+        onNodeMouseUp: NOOP,
         onNodeExpand: NOOP,
         onNodeCheck: NOOP,
         onCurrentChange: NOOP,
@@ -203,6 +206,20 @@ describe('Virtual Tree', () => {
     const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
     await nodes[0].trigger('click')
     expect(onNodeClick).toBeCalled()
+    expect(treeVm.flattenTree.length).toBeGreaterThanOrEqual(NODE_NUMBER)
+  })
+
+  test('mouse up node', async () => {
+    const onNodeMouseUp = vi.fn()
+    const { wrapper, treeVm } = createTree({
+      methods: {
+        onNodeMouseUp,
+      },
+    })
+    await nextTick()
+    const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    await nodes[0].trigger('mouseup')
+    expect(onNodeMouseUp).toBeCalled()
     expect(treeVm.flattenTree.length).toBeGreaterThanOrEqual(NODE_NUMBER)
   })
 
