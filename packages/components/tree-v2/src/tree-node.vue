@@ -16,7 +16,7 @@
     :data-key="node?.key"
     @click.stop="handleClick"
     @contextmenu="handleContextMenu"
-    @mouseover.stop="handleNodeOver"
+    @mouseup="handleMouseUp"
   >
     <div
       :class="ns.be('node', 'content')"
@@ -94,8 +94,8 @@ const handleExpandIconClick = () => {
 const handleCheckChange = (value: CheckboxValueType) => {
   emit('check', props.node, value)
 }
-const handleNodeOver = (e: MouseEvent) => {
-  emit('over', props.node, e)
+const handleMouseUp = (e: MouseEvent) => {
+  emit('mouseup', props.node, e)
 }
 const handleContextMenu = (event: Event) => {
   if (tree?.instance?.vnode?.props?.['onNodeContextmenu']) {
