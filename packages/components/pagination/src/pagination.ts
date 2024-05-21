@@ -189,7 +189,6 @@ export default defineComponent({
     const { t } = useLocale()
     const ns = useNamespace('pagination')
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
-    console.log(props.small ? 'small' : vnodeProps?.size)
     const _size = useFormSize(
       computed(() => (props.small ? 'small' : vnodeProps?.size))
     )
