@@ -60,12 +60,14 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
       const resizeProxy = table?.refs.resizeProxy as HTMLElement
       resizeProxy.style.left = `${(dragState.value as any).startLeft}px`
 
-      document.onselectstart = function () {
-        return false
+      const handleSelectStart = (event: Event) => {
+        event.preventDefault()
       }
-      document.ondragstart = function () {
-        return false
+      const handleDragStart = (event: Event) => {
+        event.preventDefault()
       }
+      document.addEventListener('selectstart', handleSelectStart)
+      document.addEventListener('dragstart', handleDragStart)
 
       const handleMouseMove = (event: MouseEvent) => {
         const deltaLeft =
@@ -100,8 +102,8 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
 
         document.removeEventListener('mousemove', handleMouseMove)
         document.removeEventListener('mouseup', handleMouseUp)
-        document.onselectstart = null
-        document.ondragstart = null
+        document.removeEventListener('selectstart', handleSelectStart)
+        document.removeEventListener('dragstart', handleDragStart)
 
         setTimeout(() => {
           removeClass(columnEl, 'noclick')
