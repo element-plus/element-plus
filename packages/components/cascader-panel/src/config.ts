@@ -1,6 +1,7 @@
 import { computed } from 'vue'
 import { NOOP } from '@vue/shared'
 import { buildProps, definePropType } from '@element-plus/utils'
+import { useEmptyValuesProps } from '@element-plus/hooks'
 import type {
   CascaderConfig,
   CascaderOption,
@@ -29,6 +30,7 @@ export const CommonProps = buildProps({
     type: definePropType<CascaderProps>(Object),
     default: () => ({} as CascaderProps),
   },
+  ...useEmptyValuesProps,
 } as const)
 
 export const DefaultProps: CascaderConfig = {

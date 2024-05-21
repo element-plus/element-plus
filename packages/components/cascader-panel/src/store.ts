@@ -63,8 +63,6 @@ export default class Store {
     value: CascaderNodeValue | CascaderNodePathValue,
     leafOnly = false
   ): Nullable<Node> {
-    if (!value && value !== 0) return null
-
     const node = this.getFlattedNodes(leafOnly).find(
       (node) => isEqual(node.value, value) || isEqual(node.pathValues, value)
     )
