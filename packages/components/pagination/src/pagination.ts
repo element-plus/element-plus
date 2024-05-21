@@ -144,6 +144,10 @@ export const paginationProps = buildProps({
     default: true,
   },
   /**
+   * @description whether to use small pagination
+   */
+  small: Boolean,
+  /**
    * @description set page size
    */
   size: useSizeProp,
@@ -185,7 +189,10 @@ export default defineComponent({
     const { t } = useLocale()
     const ns = useNamespace('pagination')
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
-    const _size = useFormSize(computed(() => vnodeProps?.size))
+    console.log(props.small ? 'small' : vnodeProps?.size)
+    const _size = useFormSize(
+      computed(() => (props.small ? 'small' : vnodeProps?.size))
+    )
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
     const hasCurrentPageListener =
       'onUpdate:currentPage' in vnodeProps ||
