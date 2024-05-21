@@ -2583,29 +2583,24 @@ describe('Select', () => {
         label: 'Option2',
         disable: false,
       },
-      {
-        value: 'Option3',
-        label: 'Option3',
-        disable: false,
-      },
     ]
-    const value = ['Option3', 'Option2', 'Option1']
+    const value = ['Option2', 'Option1']
     const wrapper = _mount(
       `
-        <el-select v-model="value"
-          multiple
-          filterable
-        >
-          <el-option
-            v-for="option in options"
-            :key="option.value"
-            :value="option.value"
-            :label="option.label"
-            :disabled="option.disable"
+          <el-select v-model="value"
+            multiple
+            filterable
           >
-          </el-option>
-        </el-select>
-      `,
+            <el-option
+              v-for="option in options"
+              :key="option.value"
+              :value="option.value"
+              :label="option.label"
+              :disabled="option.disable"
+            >
+            </el-option>
+          </el-select>
+        `,
       () => ({
         value,
         options,
@@ -2613,14 +2608,8 @@ describe('Select', () => {
     )
     await nextTick()
     const selectInput = wrapper.find('.el-select__input')
-    expect(wrapper.findAll('.el-tag').length).toBe(3)
-    // after deletion, an el-tag will be deleted
-    await selectInput.trigger('keydown', {
-      code: EVENT_CODE.delete,
-      key: EVENT_CODE.delete,
-    })
-    await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(2)
+    // after deletion, an el-tag will be deleted
     await selectInput.trigger('keydown', {
       code: EVENT_CODE.backspace,
       key: EVENT_CODE.backspace,

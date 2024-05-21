@@ -766,7 +766,6 @@ export const useSelect = (props: ISelectProps, emit) => {
       case 'Enter':
         selectOption()
         break
-      case 'Delete':
       case 'Backspace':
         deletePrevTag(event)
         break
