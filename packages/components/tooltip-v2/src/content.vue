@@ -26,6 +26,7 @@ import ElVisuallyHidden from '@element-plus/components/visual-hidden'
 import { tooltipV2ContentKey, tooltipV2RootKey } from './constants'
 import { tooltipV2ContentProps } from './content'
 import { tooltipV2CommonProps } from './common'
+import type { TooltipV2Sides } from './common'
 
 import type { CSSProperties } from 'vue'
 import type { Middleware } from '@floating-ui/dom'
@@ -65,7 +66,9 @@ const zIndex = useZIndex().nextZIndex()
 const ns = useNamespace('tooltip-v2')
 
 const side = computed(() => {
-  return placement.value.split('-')[0]
+  return placement.value.split(
+    '-'
+  )[0] as typeof TooltipV2Sides[keyof typeof TooltipV2Sides]
 })
 
 const contentStyle = computed<CSSProperties>(() => {
