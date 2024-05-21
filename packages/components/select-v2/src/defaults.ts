@@ -5,6 +5,7 @@ import {
   useSizeProp,
 } from '@element-plus/hooks'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '../../tag'
@@ -13,6 +14,8 @@ import { defaultProps } from './useProps'
 import type { Option, OptionType } from './select.types'
 import type { Props } from './useProps'
 import type { Options, Placement } from '@element-plus/components/popper'
+import type { EmitFn } from '@element-plus/utils/vue/typescript'
+import type { ExtractPropTypes } from 'vue'
 
 export const SelectProps = buildProps({
   /**
@@ -256,8 +259,38 @@ export const OptionProps = buildProps({
     type: definePropType<Option>(Object),
     required: true,
   },
-  index: Number,
+  index: {
+    type: Number,
+    required: true,
+  },
   style: Object,
   selected: Boolean,
   created: Boolean,
 } as const)
+
+export const selectEmits = {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  [UPDATE_MODEL_EVENT]: (val: ISelectV2Props['modelValue']) => true,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  [CHANGE_EVENT]: (val: ISelectV2Props['modelValue']) => true,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  removeTag: (val: unknown) => true,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  visibleChange: (visible: boolean) => true,
+  clear: () => true,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  focus: (event: FocusEvent) => true,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  blur: (event: FocusEvent) => true,
+}
+export const optionEmits = {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  hover: (index: number) => true,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  select: (val: Option, index: number) => true,
+}
+
+export type ISelectV2Props = ExtractPropTypes<typeof SelectProps>
+export type IOptionV2Props = ExtractPropTypes<typeof OptionProps>
+export type SelectEmitFn = EmitFn<typeof selectEmits>
+export type OptionEmitFn = EmitFn<typeof optionEmits>
