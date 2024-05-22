@@ -45,6 +45,14 @@ color-picker/sizes
 
 :::
 
+## Custom trigger
+
+:::demo
+
+color-picker/custom-trigger
+
+:::
+
 ## API
 
 ### Attributes
@@ -74,6 +82,12 @@ color-picker/sizes
 | active-change  | triggers when the current active color changes | ^[Function]`(value: string) => void`     |
 | focus ^(2.4.0) | triggers when Component focuses                | ^[Function]`(event: FocusEvent) => void` |
 | blur ^(2.4.0)  | triggers when Component blurs                  | ^[Function]`(event: FocusEvent) => void` |
+
+### Slots
+
+| Name           | Description                                    | Type                                     |
+| -------------- | ---------------------------------------------- | ---------------------------------------- |
+| default         | custom trigger             | -    |
 
 ### Exposes
 
