@@ -1282,6 +1282,8 @@ describe('Select', () => {
   })
 
   test('multiple remove-tag', async () => {
+    const handleRemoveTag = vi.fn()
+
     wrapper = _mount(
       `
       <el-select v-model="value" multiple @remove-tag="handleRemoveTag">
@@ -1318,14 +1320,8 @@ describe('Select', () => {
           },
         ],
         value: ['选项1', '选项2'],
-      }),
-      {
-        methods: {
-          handleRemoveTag() {
-            // pass
-          },
-        },
-      }
+        handleRemoveTag,
+      })
     )
 
     const vm = wrapper.vm as any
@@ -1334,8 +1330,11 @@ describe('Select', () => {
     const tagCloseIcons = wrapper.findAll('.el-tag__close')
     await tagCloseIcons[1].trigger('click')
     expect(vm.value.length).toBe(1)
-    await tagCloseIcons[0].trigger('click')
+
+    const input = wrapper.find('input')
+    input.trigger('keydown.delete')
     expect(vm.value.length).toBe(0)
+    expect(handleRemoveTag).toHaveBeenLastCalledWith('选项1')
   })
 
   test('multiple limit', async () => {
