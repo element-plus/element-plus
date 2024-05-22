@@ -559,6 +559,7 @@ describe('Select', () => {
     })
 
     it('remove-tag', async () => {
+      const onRemoveTag = vi.fn()
       const wrapper = createSelect({
         data() {
           return {
@@ -567,9 +568,7 @@ describe('Select', () => {
           }
         },
         methods: {
-          onRemoveTag(tag) {
-            this.removeTag = tag
-          },
+          onRemoveTag,
         },
       })
       await nextTick()
@@ -587,6 +586,11 @@ describe('Select', () => {
       expect(vm.value.length).toBe(2)
       await tagCloseIcons[0].trigger('click')
       expect(vm.value.length).toBe(1)
+
+      const input = wrapper.find('input')
+      input.trigger('keydown.delete')
+      expect(vm.value.length).toBe(0)
+      expect(onRemoveTag).toHaveBeenLastCalledWith('option_3')
     })
 
     it('limit', async () => {
