@@ -3,9 +3,9 @@ import { isObject } from '@element-plus/utils'
 import {
   CURRENT_CHANGE,
   NODE_CLICK,
+  NODE_DROP,
   NODE_COLLAPSE,
   NODE_EXPAND,
-  NODE_MOUSE_UP,
   TreeOptionsEnum,
 } from '../virtual-tree'
 import { useCheck } from './useCheck'
@@ -201,10 +201,6 @@ export function useTree(
     expandedKeySet.value = new Set(keys)
   }
 
-  console.error = function (message) {
-    throw new Error(message)
-  }
-
   function handleNodeClick(node: TreeNode, e: MouseEvent) {
     emit(NODE_CLICK, node.data, node, e)
     handleCurrentChange(node)
@@ -216,8 +212,8 @@ export function useTree(
     }
   }
 
-  function handleNodeMouseUp(node: TreeNode, e: MouseEvent) {
-    emit(NODE_MOUSE_UP, node.data, node, e)
+  function handleNodeDrop(node: TreeNode, e: DragEvent) {
+    emit(NODE_DROP, node.data, node, e)
   }
 
   function handleCurrentChange(node: TreeNode) {
@@ -302,7 +298,7 @@ export function useTree(
     isCurrent,
     isForceHiddenExpandIcon,
     handleNodeClick,
-    handleNodeMouseUp,
+    handleNodeDrop,
     handleNodeCheck,
     // expose
     getCurrentNode,
