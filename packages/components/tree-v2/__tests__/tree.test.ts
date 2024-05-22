@@ -76,7 +76,6 @@ interface TreeProps {
 
 interface TreeEvents {
   onNodeClick?: (nodeData?: TreeNodeData, node?: TreeNode) => void
-  onNodeMouseUp?: (nodeData?: TreeNodeData, node?: TreeNode) => void
   onNodeExpand?: (nodeData?: TreeNodeData, node?: TreeNode) => void
   onNodeCheck?: (
     nodeData?: TreeNodeData,
@@ -130,7 +129,7 @@ const createTree = (
         :current-node-key="currentNodeKey"
         :filter-method="filterMethod"
         @node-click="onNodeClick"
-        @node-mouse-up="onNodeMouseUp"
+        @node-drop="onNodeDrop"
         @node-expand="onNodeExpand"
         @check="onNodeCheck"
         @current-change="onCurrentChange"
@@ -166,7 +165,7 @@ const createTree = (
       },
       methods: {
         onNodeClick: NOOP,
-        onNodeMouseUp: NOOP,
+        onNodeDrop: NOOP,
         onNodeExpand: NOOP,
         onNodeCheck: NOOP,
         onCurrentChange: NOOP,
@@ -209,17 +208,17 @@ describe('Virtual Tree', () => {
     expect(treeVm.flattenTree.length).toBeGreaterThanOrEqual(NODE_NUMBER)
   })
 
-  test('mouse up node', async () => {
-    const onNodeMouseUp = vi.fn()
+  test('drop on node', async () => {
+    const onNodeDrop = vi.fn()
     const { wrapper, treeVm } = createTree({
       methods: {
-        onNodeMouseUp,
+        onNodeDrop,
       },
     })
     await nextTick()
     const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
-    await nodes[0].trigger('mouseup')
-    expect(onNodeMouseUp).toBeCalled()
+    await nodes[0].trigger('drop')
+    expect(onNodeDrop).toBeCalled()
     expect(treeVm.flattenTree.length).toBeGreaterThanOrEqual(NODE_NUMBER)
   })
 
