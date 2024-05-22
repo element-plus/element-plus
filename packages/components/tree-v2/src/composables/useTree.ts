@@ -3,8 +3,8 @@ import { isObject } from '@element-plus/utils'
 import {
   CURRENT_CHANGE,
   NODE_CLICK,
-  NODE_DROP,
   NODE_COLLAPSE,
+  NODE_DROP,
   NODE_EXPAND,
   TreeOptionsEnum,
 } from '../virtual-tree'
