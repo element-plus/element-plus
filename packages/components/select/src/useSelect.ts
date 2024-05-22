@@ -504,9 +504,11 @@ export const useSelect = (props: ISelectProps, emit) => {
       const value = props.modelValue.slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(value)
       if (lastNotDisabledIndex < 0) return
+      const removeTagValue = value[lastNotDisabledIndex]
       value.splice(lastNotDisabledIndex, 1)
       emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
+      emit('remove-tag', removeTagValue)
     }
   }
 
