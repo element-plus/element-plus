@@ -193,7 +193,7 @@ export const treeEmits = {
 
 export const treeNodeEmits = {
   click: (node: TreeNode, e: MouseEvent) => !!(node && e),
-  drop: (node: TreeNode, e: Event) => !!(node && e),
+  drop: (node: TreeNode, e: DragEvent) => !!(node && e),
   toggle: (node: TreeNode) => !!node,
   check: (node: TreeNode, checked: CheckboxValueType) =>
     node && typeof checked === 'boolean',
