@@ -63,6 +63,5 @@ export function useFocusController<T extends HTMLElement>(
     isFocused,
     handleFocus,
     handleBlur,
-    handleClick,
   }
 }
