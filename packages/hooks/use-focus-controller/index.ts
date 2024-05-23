@@ -45,11 +45,10 @@ export function useFocusController<T extends HTMLElement>(
   }
 
   const handleClick = () => {
-    if(isClickInput.value) {
-      isClickInput.value = false
-      return
+    if(!isClickInput.value) {
+       target.value?.focus()
     }
-    target.value?.focus()
+    isClickInput.value = false
   }
 
   watch(wrapperRef, (el) => {
