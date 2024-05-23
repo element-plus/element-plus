@@ -29,7 +29,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     const classes = [ns.e('row')]
     if (
       parent?.props.highlightCurrentRow &&
-      ref(row).value === props.store.states.currentRow.value
+      row === props.store.states.currentRow.value
     ) {
       classes.push('current-row')
     }
