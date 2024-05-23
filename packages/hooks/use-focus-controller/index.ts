@@ -1,4 +1,5 @@
 import { getCurrentInstance, ref, shallowRef, watch } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import { isFunction } from '@element-plus/utils'
 import type { ShallowRef } from 'vue'
 
@@ -14,7 +15,8 @@ interface UseFocusControllerOptions {
 
 export function useFocusController<T extends HTMLElement>(
   target: ShallowRef<T | undefined>,
-  { afterFocus, beforeBlur, afterBlur }: UseFocusControllerOptions = {}
+  { afterFocus, beforeBlur, afterBlur }: UseFocusControllerOptions = {},
+  clickEventListener = true
 ) {
   const instance = getCurrentInstance()!
   const { emit } = instance
@@ -42,6 +44,10 @@ export function useFocusController<T extends HTMLElement>(
     afterBlur?.()
   }
 
+  const handleClick = () => {
+    target.value?.focus()
+  }
+
   watch(wrapperRef, (el) => {
     if (el) {
       el.setAttribute('tabindex', '-1')
@@ -51,11 +57,13 @@ export function useFocusController<T extends HTMLElement>(
   // TODO: using useEventListener will fail the test
   // useEventListener(target, 'focus', handleFocus)
   // useEventListener(target, 'blur', handleBlur)
+  clickEventListener && useEventListener(wrapperRef, 'click', handleClick)
 
   return {
     wrapperRef,
     isFocused,
     handleFocus,
     handleBlur,
+    handleClick,
   }
 }

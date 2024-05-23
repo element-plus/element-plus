@@ -266,7 +266,8 @@ const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
         elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
       }
     },
-  }
+  },
+  false
 )
 
 const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
