@@ -15,8 +15,7 @@ interface UseFocusControllerOptions {
 
 export function useFocusController<T extends HTMLElement>(
   target: ShallowRef<T | undefined>,
-  { afterFocus, beforeBlur, afterBlur }: UseFocusControllerOptions = {},
-  clickEventListener = true
+  { afterFocus, beforeBlur, afterBlur }: UseFocusControllerOptions = {}
 ) {
   const instance = getCurrentInstance()!
   const { emit } = instance
@@ -57,7 +56,7 @@ export function useFocusController<T extends HTMLElement>(
   // TODO: using useEventListener will fail the test
   // useEventListener(target, 'focus', handleFocus)
   // useEventListener(target, 'blur', handleBlur)
-  clickEventListener && useEventListener(wrapperRef, 'click', handleClick)
+  useEventListener(wrapperRef, 'click', handleClick)
 
   return {
     wrapperRef,

@@ -129,6 +129,7 @@
         @blur="handleBlur"
         @change="handleChange"
         @keydown="handleKeydown"
+        @click.stop
       />
       <span
         v-if="isWordLimitVisible"
@@ -266,8 +267,7 @@ const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
         elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
       }
     },
-  },
-  false
+  }
 )
 
 const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
