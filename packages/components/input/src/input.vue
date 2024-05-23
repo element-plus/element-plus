@@ -50,7 +50,7 @@
           @blur="handleBlur"
           @change="handleChange"
           @keydown="handleKeydown"
-          @click.stop
+          @click="isClickInput = true"
         />
 
         <!-- suffix slot -->
@@ -259,7 +259,7 @@ const textareaCalcStyle = shallowRef(props.inputStyle)
 
 const _ref = computed(() => input.value || textarea.value)
 
-const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
+const { wrapperRef, isFocused, isClickInput, handleFocus, handleBlur } = useFocusController(
   _ref,
   {
     afterBlur() {
