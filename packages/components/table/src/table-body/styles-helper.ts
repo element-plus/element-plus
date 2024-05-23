@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { inject, ref } from 'vue'
+import { inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import {
   ensurePosition,
