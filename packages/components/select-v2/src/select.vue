@@ -76,6 +76,7 @@
               <el-tooltip
                 v-if="collapseTags && modelValue.length > maxCollapseTags"
                 ref="tagTooltipRef"
+                :popper-options="popperOptions"
                 :disabled="dropdownMenuVisible || !collapseTagsTooltip"
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
