@@ -177,6 +177,16 @@ select/empty-values
 
 :::
 
+## Custom Label ^(2.7.4)
+
+You can customize label.
+
+:::demo
+
+select/custom-label
+
+:::
+
 ## Select API
 
 ### Select Attributes
@@ -254,6 +264,7 @@ select/empty-values
 | empty            | content when there is no options      | —                     |
 | tag ^(2.5.0)     | content as Select tag                 | —                     |
 | loading ^(2.5.2) | content as Select loading             | —                     |
+| label ^(2.7.4)   | content as Select label               | —                     |
 
 ### Select Exposes
 
