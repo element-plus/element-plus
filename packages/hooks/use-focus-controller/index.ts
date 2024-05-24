@@ -21,8 +21,8 @@ export function useFocusController<T extends HTMLElement>(
   const { emit } = instance
   const wrapperRef = shallowRef<HTMLElement>()
   const isFocused = ref(false)
-  const isClickInput = ref(false)
-  
+  const isClickNativeInput = ref(false)
+
   const handleFocus = (event: FocusEvent) => {
     if (isFocused.value) return
     isFocused.value = true
@@ -45,10 +45,15 @@ export function useFocusController<T extends HTMLElement>(
   }
 
   const handleClick = () => {
-    if(!isClickInput.value) {
-       target.value?.focus()
+    if (!isClickNativeInput.value) {
+      target.value?.focus()
+      return
     }
-    isClickInput.value = false
+    isClickNativeInput.value = false
+  }
+
+  const handClickNativeInput = () => {
+    isClickNativeInput.value = true
   }
 
   watch(wrapperRef, (el) => {
@@ -65,7 +70,7 @@ export function useFocusController<T extends HTMLElement>(
   return {
     wrapperRef,
     isFocused,
-    isClickInput,
+    handClickNativeInput,
     handleFocus,
     handleBlur,
   }

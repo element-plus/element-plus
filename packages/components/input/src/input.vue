@@ -50,7 +50,7 @@
           @blur="handleBlur"
           @change="handleChange"
           @keydown="handleKeydown"
-          @click="isClickInput = true"
+          @click="handClickNativeInput"
         />
 
         <!-- suffix slot -->
@@ -259,16 +259,14 @@ const textareaCalcStyle = shallowRef(props.inputStyle)
 
 const _ref = computed(() => input.value || textarea.value)
 
-const { wrapperRef, isFocused, isClickInput, handleFocus, handleBlur } = useFocusController(
-  _ref,
-  {
+const { wrapperRef, isFocused, handClickNativeInput, handleFocus, handleBlur } =
+  useFocusController(_ref, {
     afterBlur() {
       if (props.validateEvent) {
         elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
       }
     },
-  }
-)
+  })
 
 const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
 const validateState = computed(() => elFormItem?.validateState || '')
