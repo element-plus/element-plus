@@ -322,20 +322,9 @@ export default class TreeStore {
         node.setChecked(true, false)
         continue
       }
-      node.setChecked(true, true)
 
-      if (leafOnly) {
-        node.setChecked(false, false)
-        const traverse = function (node: Node): void {
-          const childNodes = node.childNodes
-          childNodes.forEach((child) => {
-            if (!child.isLeaf) {
-              child.setChecked(false, false)
-            }
-            traverse(child)
-          })
-        }
-        traverse(node)
+      if (!leafOnly) {
+        node.setChecked(true, true)
       }
     }
   }

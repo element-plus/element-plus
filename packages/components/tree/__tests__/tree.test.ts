@@ -714,8 +714,11 @@ describe('Tree.vue', () => {
     const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCheckedKeys([2], true)
-    expect(tree.getCheckedNodes().length).toEqual(2)
-    expect(tree.getCheckedKeys().length).toEqual(2)
+    expect(tree.getCheckedNodes().length).toEqual(0)
+    expect(tree.getCheckedKeys().length).toEqual(0)
+    tree.setCheckedKeys([2, 21], true)
+    expect(tree.getCheckedKeys().length).toEqual(1)
+    expect(tree.getCheckedKeys().length).toEqual(1)
   })
 
   test('setCurrentKey', async () => {
