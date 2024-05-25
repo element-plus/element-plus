@@ -1,4 +1,5 @@
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
   nextTick,
@@ -80,6 +81,10 @@ const Tabs = defineComponent({
   setup(props, { emit, slots, expose }) {
     const ns = useNamespace('tabs')
 
+    const isVertical = computed(() =>
+      ['left', 'right'].includes(props.tabPosition)
+    )
+
     const {
       children: panes,
       addChild: registerPane,
@@ -157,8 +162,7 @@ const Tabs = defineComponent({
           <div
             class={[
               ns.e('new-tab'),
-              ['left', 'right'].includes(props.tabPosition) &&
-                ns.e('new-tab-vertical'),
+              isVertical.value && ns.e('new-tab-vertical'),
             ]}
             tabindex="0"
             onClick={handleTabAdd}
@@ -180,8 +184,7 @@ const Tabs = defineComponent({
         <div
           class={[
             ns.e('header'),
-            ['left', 'right'].includes(props.tabPosition) &&
-              ns.e('header-vertical'),
+            isVertical.value && ns.e('header-vertical'),
             ns.is(props.tabPosition),
           ]}
         >
