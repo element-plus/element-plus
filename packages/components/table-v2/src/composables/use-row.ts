@@ -64,7 +64,9 @@ export const useRow = (
       return
     }
     const tableRoot = tableInstance!.vnode.el as HTMLElement
-    const rows = tableRoot.querySelectorAll(`[rowkey=${rowKey as string}]`)
+
+    const rows = tableRoot.querySelectorAll(`[rowkey="${rowKey as string}"]`)
+
     rows.forEach((row) => {
       if (hovered) {
         row.classList.add(ns.is('hovered'))
