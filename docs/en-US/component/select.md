@@ -9,7 +9,7 @@ When there are plenty of options, use a drop-down menu to display and select des
 
 :::tip
 
-After version ^(2.5.0), the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width.
+After version ^(2.5.0), the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width  (eg: [Example](https://github.com/element-plus/element-plus/issues/15834#issuecomment-1936919229)) .
 
 :::
 
