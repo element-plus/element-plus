@@ -193,29 +193,36 @@ const useSelect = (props: ISelectV2Props, emit) => {
       return []
     }
 
-    return [...states.createdOptions, ...props.options].reduce((all, item) => {
-      const options = getOptions(item)
+    const options = [...states.createdOptions, ...props.options].reduce(
+      (all, item) => {
+        const options = getOptions(item)
 
-      if (isArray(options)) {
-        const filtered = options.filter(isValidOption)
+        if (isArray(options)) {
+          const filtered = options.filter(isValidOption)
 
-        if (filtered.length > 0) {
-          all.push(
-            {
-              label: getLabel(item),
-              isTitle: true,
-              type: 'Group',
-            },
-            ...filtered,
-            { type: 'Group' }
-          )
+          if (filtered.length > 0) {
+            all.push(
+              {
+                label: getLabel(item),
+                isTitle: true,
+                type: 'Group',
+              },
+              ...filtered,
+              { type: 'Group' }
+            )
+          }
+        } else if (props.remote || isValidOption(item)) {
+          all.push(item)
         }
-      } else if (props.remote || isValidOption(item)) {
-        all.push(item)
-      }
 
-      return all
-    }, []) as OptionType[]
+        return all
+      },
+      []
+    )
+    if (options.length > 0 && options[options.length - 1].type === 'Group') {
+      options.pop()
+    }
+    return options as OptionType[]
   }
 
   const updateOptions = () => {
