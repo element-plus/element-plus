@@ -568,6 +568,8 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
       ) {
         rightDate.value = parsedValueD.add(1, 'month')
         maxDate.value = minDate.value.add(1, 'month')
+      } else if (minDate.value.isSame(leftDate.value)) {
+        leftDate.value = dayjs().locale(lang.value)
       }
     } else {
       rightDate.value = parsedValueD
@@ -581,6 +583,8 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
       ) {
         leftDate.value = parsedValueD.subtract(1, 'month')
         minDate.value = maxDate.value.subtract(1, 'month')
+      } else if (maxDate.value.isSame(rightDate.value)) {
+        rightDate.value = dayjs().locale(lang.value).add(1, unit)
       }
     }
   }
