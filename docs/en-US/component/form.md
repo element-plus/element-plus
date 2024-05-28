@@ -213,7 +213,7 @@ If you don't want to trigger the validator based on input events, set the `valid
 | validateMessage | Validation message.                               | ^[object]`Ref<string>`                                                                               |
 | validateState   | Validation state.                                 | ^[object]`Ref<'' \| 'error' \| 'validating' \| 'success'>`                                           |
 | validate        | Validate form item.                               | ^[Function]`(trigger: string, callback?: FormValidateCallback \| undefined) => FormValidationResult` |
-| resetField      | Reset current field and remove validation result. | ^[Function]`() => void`                                                                              |
+| resetFields     | Reset current field and remove validation result. | ^[Function]`() => void`                                                                              |
 | clearValidate   | Remove validation status of the field.            | ^[Function]`() => void`                                                                              |
 
 ## Type Declarations
