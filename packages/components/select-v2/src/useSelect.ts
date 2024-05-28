@@ -203,11 +203,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
           all.push(
             {
               label: getLabel(item),
-              isTitle: true,
               type: 'Group',
             },
-            ...filtered,
-            { type: 'Group' }
+            ...filtered
           )
         }
       } else if (props.remote || isValidOption(item)) {
