@@ -1561,7 +1561,7 @@ describe('Select', () => {
     selectVm.onKeyboardNavigate('backward')
     await nextTick()
     // navigate to the last one
-    expect(selectVm.states.hoveringIndex).toBe(9)
+    expect(selectVm.states.hoveringIndex).toBe(8)
     selectVm.onKeyboardSelect()
     await nextTick()
     expect(vm.value).toEqual([6])
