@@ -38,7 +38,7 @@ export default defineComponent({
   },
   setup(props) {
     const ns = useNamespace('color-predefine')
-    const { currentColor } = inject(colorPickerContextKey)!
+    const { currentColor, showAlpha } = inject(colorPickerContextKey)!
 
     const rgbaColors = ref(parseColors(props.colors, props.color)) as Ref<
       Color[]
@@ -68,7 +68,7 @@ export default defineComponent({
       return colors.map((value) => {
         const c = new Color()
         c.enableAlpha = true
-        c.format = 'rgba'
+        c.format = showAlpha ? 'rgba' : 'rgb'
         c.fromString(value)
         c.selected = c.value === color.value
         return c

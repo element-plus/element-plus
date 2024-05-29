@@ -86,6 +86,7 @@ export type ColorPickerInstance = InstanceType<typeof ColorPicker>
 
 export interface ColorPickerContext {
   currentColor: ComputedRef<string>
+  showAlpha: boolean
 }
 
 export const colorPickerContextKey: InjectionKey<ColorPickerContext> = Symbol(

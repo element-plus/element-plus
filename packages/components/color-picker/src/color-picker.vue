@@ -415,6 +415,7 @@ watch(
 
 provide(colorPickerContextKey, {
   currentColor,
+  showAlpha: props.showAlpha,
 })
 
 defineExpose({

@@ -357,6 +357,11 @@ export default class Color {
           )}`
           break
         }
+        case 'rgb': {
+          const { r, g, b } = hsv2rgb(_hue, _saturation, _value)
+          this.value = `rgb(${r}, ${g}, ${b})`
+          break
+        }
         default: {
           const { r, g, b } = hsv2rgb(_hue, _saturation, _value)
           this.value = `rgba(${r}, ${g}, ${b}, ${this.get('alpha') / 100})`
