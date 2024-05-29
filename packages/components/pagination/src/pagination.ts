@@ -16,7 +16,12 @@ import {
   isNumber,
   mutable,
 } from '@element-plus/utils'
-import { useLocale, useNamespace, useSizeProp } from '@element-plus/hooks'
+import {
+  useDeprecated,
+  useLocale,
+  useNamespace,
+  useSizeProp,
+} from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
 import { elPaginationKey } from './constants'
 
@@ -191,6 +196,16 @@ export default defineComponent({
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
     const _size = useFormSize(
       computed(() => (props.small ? 'small' : vnodeProps?.size))
+    )
+    useDeprecated(
+      {
+        from: 'small',
+        replacement: 'link',
+        version: '2.7.4',
+        scope: 'el-pagination',
+        ref: 'https://element-plus.org/zh-CN/component/pagination.html',
+      },
+      computed(() => !!props.small)
     )
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
     const hasCurrentPageListener =

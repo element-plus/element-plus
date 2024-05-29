@@ -33,6 +33,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     ) {
       classes.push('current-row')
     }
+
     if (props.stripe && rowIndex % 2 === 1) {
       classes.push(ns.em('row', 'striped'))
     }

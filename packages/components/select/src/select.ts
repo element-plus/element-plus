@@ -38,6 +38,10 @@ export const SelectProps = buildProps({
    */
   automaticDropdown: Boolean,
   /**
+   * @description whether to use small pagination
+   */
+  small: Boolean,
+  /**
    * @description size of Input
    */
   size: useSizeProp,
