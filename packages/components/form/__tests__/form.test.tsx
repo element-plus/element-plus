@@ -339,10 +339,10 @@ describe('Form', () => {
             </FormItem>
             <FormItem label="type" prop="type">
               <CheckboxGroup v-model={form.type}>
-                <Checkbox label="type1" name="type" />
-                <Checkbox label="type2" name="type" />
-                <Checkbox label="type3" name="type" />
-                <Checkbox label="type4" name="type" />
+                <Checkbox label="type1" value="type1" name="type" />
+                <Checkbox label="type2" value="type2" name="type" />
+                <Checkbox label="type3" value="type3" name="type" />
+                <Checkbox label="type4" value="type4" name="type" />
               </CheckboxGroup>
             </FormItem>
           </Form>
@@ -410,10 +410,10 @@ describe('Form', () => {
             </FormItem>
             <FormItem label="type" prop="type">
               <CheckboxGroup v-model={form.type}>
-                <Checkbox label="type1" name="type" />
-                <Checkbox label="type2" name="type" />
-                <Checkbox label="type3" name="type" />
-                <Checkbox label="type4" name="type" />
+                <Checkbox label="type1" value="type1" name="type" />
+                <Checkbox label="type2" value="type2" name="type" />
+                <Checkbox label="type3" value="type3" name="type" />
+                <Checkbox label="type4" value="type4" name="type" />
               </CheckboxGroup>
             </FormItem>
           </Form>
@@ -468,6 +468,44 @@ describe('Form', () => {
     )
 
     window.HTMLElement.prototype.scrollIntoView = oldScrollIntoView
+  })
+
+  it('get form all fields', async () => {
+    const form = reactive({
+      age: '20',
+    })
+
+    const wrapper = mount({
+      setup() {
+        const rules = ref({
+          age: [
+            { required: true, message: 'Please input age', trigger: 'change' },
+          ],
+        })
+        return () => (
+          <Form ref="formRef" model={form} rules={rules.value}>
+            <FormItem ref="age" prop="age" label="age" required>
+              <Input v-model={form.age} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    const formRef = wrapper.findComponent({ ref: 'formRef' }).vm as FormInstance
+    expect(formRef).toHaveProperty('fields')
+    expect(formRef.fields).toBeInstanceOf(Array)
+    const field = formRef.fields[0]
+    expect(field).toHaveProperty('fieldValue')
+    expect(field.fieldValue).toBe('20')
+    expect(field).toHaveProperty('required')
+    expect(field.required).toBe(true)
+    expect(field).toHaveProperty('validateState')
+    expect(field.validateState).toBe('')
+    await formRef.validate()
+    const field2 = formRef.fields[0]
+    expect(field2).toHaveProperty('validateState')
+    expect(field2.validateState).toBe('success')
   })
 
   it('validate return parameters', async () => {
@@ -560,6 +598,49 @@ describe('Form', () => {
     const ageField = wrapper.findComponent({ ref: 'age' })
     expect(ageField.classes('is-success')).toBe(true)
     expect(ageField.classes()).toContain('is-success')
+  })
+
+  it('validate promise callback', async () => {
+    const form = reactive({
+      age: '20',
+    })
+
+    const wrapper = mount({
+      setup() {
+        const rules = ref({
+          age: [
+            { required: true, message: 'Please input age', trigger: 'change' },
+          ],
+        })
+        return () => (
+          <Form ref="formRef" model={form} rules={rules.value}>
+            <FormItem ref="age" prop="age" label="age">
+              <Input v-model={form.age} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    const fn = vi.fn()
+
+    await (wrapper.vm.$refs.formRef as FormInstance)
+      .validate(() => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            fn('beforeResolve')
+            resolve()
+          }, 100)
+        })
+      })
+      .finally(() => {
+        fn('finally')
+      })
+      .catch(() => undefined)
+
+    expect(fn.mock.calls.length).toBe(2)
+    expect(fn.mock.calls[0][0]).toBe('beforeResolve')
+    expect(fn.mock.calls[1][0]).toBe('finally')
   })
 
   describe('FormItem', () => {

@@ -124,7 +124,7 @@ const mergeConfig = (
   const keys = [...new Set([...keysOf(a), ...keysOf(b)])]
   const obj: Record<string, any> = {}
   for (const key of keys) {
-    obj[key] = b[key] ?? a[key]
+    obj[key] = b[key] !== undefined ? b[key] : a[key]
   }
   return obj
 }

@@ -1,13 +1,4 @@
-export const rightRichTextSponsors = [
-  {
-    name: 'MISBoot',
-    img: '/images/sponsors/MISBoot.png',
-    url: 'https://www.misboot.com/?from=element-plus',
-    slogan: 'Low-code platform for rapid development',
-    slogan_cn: '低代码开发平台，应用可视化快速开发',
-    slogan_index: '低代码开发平台，应用快速开发',
-  },
-]
+export const rightRichTextSponsors = []
 
 export const rightBigLogoSponsors = [
   {
@@ -26,9 +17,17 @@ export const rightLogoSmallSponsors = [
     name: 'BuildAdmin',
     img: '/images/sponsors/buildadmin.png',
     imgL: '/images/sponsors/buildadmin-l.png',
-    url: 'https://wonderful-code.gitee.io/?from=element-plus',
+    url: 'https://doc.buildadmin.com/?from=element-plus',
     slogan: 'Vue3 opensource admin system',
     slogan_cn: 'Vue3企业级开源后台管理系统',
+  },
+  {
+    name: 'Fantastic-admin',
+    img: '/images/sponsors/fantastic-admin.png',
+    imgL: '/images/sponsors/fantastic-admin-l.png',
+    url: 'https://fantastic-admin.github.io/',
+    slogan: 'Out-of-the-box Vue3 management system framework',
+    slogan_cn: '一款开箱即用的 Vue3 中后台管理系统框架',
   },
   {
     name: 'bit',
@@ -42,13 +41,12 @@ export const rightLogoSmallSponsors = [
 
 export const leftCustomImgSponsors = [
   {
-    name: 'JSDesign',
-    name_cn: '即时设计',
-    img: '/images/js-design.png',
-    url: 'https://js.design/?source=element-plus&plan=sy',
-    slogan: 'Professional online UI design tool',
-    slogan_cn: '专业在线UI设计工具',
-    banner_img: '/images/js-design-banner.jpg',
+    name: '美乐',
+    img: '/images/sponsors/mele.png',
+    url: 'https://melecode.com/',
+    slogan: 'Enterprise-level low-code development platform',
+    slogan_cn: '企业级全栈低代码开发平台',
+    banner_img: '/images/sponsors/mele-banner.png',
   },
   {
     name: 'VForm',
@@ -56,7 +54,7 @@ export const leftCustomImgSponsors = [
     url: 'https://vform666.com/',
     slogan: 'Vue 2/3 Visual/Low-Code Forms',
     slogan_cn: 'Vue 2/3 可视化低代码表单',
-    banner_img: '/images/vform-banner.png',
+    banner_img: '/images/sponsors/vform-banner.png',
   },
   {
     name: 'JNPF',

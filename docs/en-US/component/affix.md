@@ -67,4 +67,3 @@ affix/fixed
 | ---------- | --------------------------- | ----------------------- |
 | update     | update affix state manually | ^[Function]`() => void` |
 | updateRoot | update rootRect info        | ^[Function]`() => void` |
-

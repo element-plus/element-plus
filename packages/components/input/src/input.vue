@@ -1,6 +1,5 @@
 <template>
   <div
-    v-show="type !== 'hidden'"
     v-bind="containerAttrs"
     :class="containerKls"
     :style="containerStyle"
@@ -31,18 +30,18 @@
           ref="input"
           :class="nsInput.e('inner')"
           v-bind="attrs"
+          :minlength="minlength"
+          :maxlength="maxlength"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
           :disabled="inputDisabled"
-          :formatter="formatter"
-          :parser="parser"
           :readonly="readonly"
           :autocomplete="autocomplete"
           :tabindex="tabindex"
-          :aria-label="label"
+          :aria-label="label || ariaLabel"
           :placeholder="placeholder"
           :style="inputStyle"
-          :form="props.form"
-          :autofocus="props.autofocus"
+          :form="form"
+          :autofocus="autofocus"
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
@@ -81,7 +80,7 @@
             </el-icon>
             <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
               <span :class="nsInput.e('count-inner')">
-                {{ textLength }} / {{ attrs.maxlength }}
+                {{ textLength }} / {{ maxlength }}
               </span>
             </span>
             <el-icon
@@ -111,15 +110,17 @@
         ref="textarea"
         :class="nsTextarea.e('inner')"
         v-bind="attrs"
+        :minlength="minlength"
+        :maxlength="maxlength"
         :tabindex="tabindex"
         :disabled="inputDisabled"
         :readonly="readonly"
         :autocomplete="autocomplete"
         :style="textareaStyle"
-        :aria-label="label"
+        :aria-label="label || ariaLabel"
         :placeholder="placeholder"
-        :form="props.form"
-        :autofocus="props.autofocus"
+        :form="form"
+        :autofocus="autofocus"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -134,7 +135,7 @@
         :style="countStyle"
         :class="nsInput.e('count')"
       >
-        {{ textLength }} / {{ attrs.maxlength }}
+        {{ textLength }} / {{ maxlength }}
       </span>
     </template>
   </div>
@@ -177,6 +178,7 @@ import {
 import {
   useAttrs,
   useCursor,
+  useDeprecated,
   useFocusController,
   useNamespace,
 } from '@element-plus/hooks'
@@ -221,6 +223,7 @@ const containerKls = computed(() => [
       slots.suffix || props.suffixIcon || props.clearable || props.showPassword,
     [nsInput.bm('suffix', 'password-clear')]:
       showClear.value && showPwdVisible.value,
+    [nsInput.b('hidden')]: props.type === 'hidden',
   },
   rawAttrs.class,
 ])
@@ -235,9 +238,9 @@ const attrs = useAttrs({
     return Object.keys(containerAttrs.value)
   }),
 })
-const { form, formItem } = useFormItem()
+const { form: elForm, formItem: elFormItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, {
-  formItemContext: formItem,
+  formItemContext: elFormItem,
 })
 const inputSize = useFormSize()
 const inputDisabled = useFormDisabled()
@@ -260,14 +263,14 @@ const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   {
     afterBlur() {
       if (props.validateEvent) {
-        formItem?.validate?.('blur').catch((err) => debugWarn(err))
+        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
       }
     },
   }
 )
 
-const needStatusIcon = computed(() => form?.statusIcon ?? false)
-const validateState = computed(() => formItem?.validateState || '')
+const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
+const validateState = computed(() => elFormItem?.validateState || '')
 const validateIcon = computed(
   () => validateState.value && ValidateComponentsMap[validateState.value]
 )
@@ -276,7 +279,6 @@ const passwordIcon = computed(() =>
 )
 const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
-  props.inputStyle,
 ])
 const textareaStyle = computed<StyleValue>(() => [
   props.inputStyle,
@@ -305,7 +307,7 @@ const showPwdVisible = computed(
 const isWordLimitVisible = computed(
   () =>
     props.showWordLimit &&
-    !!attrs.value.maxlength &&
+    !!props.maxlength &&
     (props.type === 'text' || props.type === 'textarea') &&
     !inputDisabled.value &&
     !props.readonly &&
@@ -315,8 +317,7 @@ const textLength = computed(() => nativeInputValue.value.length)
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
-    !!isWordLimitVisible.value &&
-    textLength.value > Number(attrs.value.maxlength)
+    !!isWordLimitVisible.value && textLength.value > Number(props.maxlength)
 )
 const suffixVisible = computed(
   () =>
@@ -492,7 +493,7 @@ watch(
   () => {
     nextTick(() => resizeTextarea())
     if (props.validateEvent) {
-      formItem?.validate?.('change').catch((err) => debugWarn(err))
+      elFormItem?.validate?.('change').catch((err) => debugWarn(err))
     }
   }
 )
@@ -524,6 +525,17 @@ onMounted(() => {
   setNativeInputValue()
   nextTick(resizeTextarea)
 })
+
+useDeprecated(
+  {
+    from: 'label',
+    replacement: 'aria-label',
+    version: '2.8.0',
+    scope: 'el-input',
+    ref: 'https://element-plus.org/en-US/component/input.html',
+  },
+  computed(() => !!props.label)
+)
 
 defineExpose({
   /** @description HTML input element */

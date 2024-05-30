@@ -23,15 +23,16 @@
   padding: getCssVar('message', 'padding');
   display: flex;
   align-items: center;
+  gap: 8px;
 
   @include when(center) {
     justify-content: center;
   }
 
-  @include when(closable) {
-    .#{$namespace}-message__content {
-      padding-right: 31px;
-    }
+  @include when(plain) {
+    background-color: getCssVar('bg-color', 'overlay');
+    border-color: getCssVar('bg-color', 'overlay');
+    box-shadow: getCssVar('box-shadow-light');
   }
 
   p {
@@ -52,17 +53,13 @@
 
       .#{$namespace}-message__content {
         color: getCssVar('message', 'text-color');
-        overflow-wrap: anywhere;
+        overflow-wrap: break-word;
       }
     }
 
     & .#{$namespace}-message-icon--#{$type} {
       color: getCssVar('message', 'text-color');
     }
-  }
-
-  @include e(icon) {
-    margin-right: 10px;
   }
 
   .#{$namespace}-message__badge {
@@ -81,10 +78,6 @@
   }
 
   & .#{$namespace}-message__closeBtn {
-    position: absolute;
-    top: 50%;
-    right: 19px;
-    transform: translateY(-50%);
     cursor: pointer;
     color: getCssVar('message', 'close-icon-color');
     font-size: getCssVar('message', 'close-size');
