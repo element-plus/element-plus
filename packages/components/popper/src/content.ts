@@ -74,7 +74,7 @@ export const popperContentProps = buildProps({
     type: definePropType<ClassType>([String, Array, Object]),
   },
   effect: {
-    type: definePropType<EffectType[]>(String),
+    type: definePropType<EffectType>(String),
     default: 'dark',
   },
   visible: Boolean,
