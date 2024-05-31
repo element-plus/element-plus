@@ -41,6 +41,7 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
+  inject,
   provide,
   ref,
   watch,
@@ -48,6 +49,7 @@ import {
 import { iconPropType } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/components/form'
+import { selectKey } from '@element-plus/components/select/src/token'
 import TreeStore from './model/tree-store'
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import ElTreeNode from './tree-node.vue'
@@ -158,6 +160,7 @@ export default defineComponent({
   setup(props, ctx) {
     const { t } = useLocale()
     const ns = useNamespace('tree')
+    const selectInfo = inject(selectKey, null)
 
     const store = ref<TreeStore>(
       new TreeStore({
@@ -198,10 +201,14 @@ export default defineComponent({
 
     const isEmpty = computed(() => {
       const { childNodes } = root.value
+      const hasFilteredOptions = selectInfo
+        ? selectInfo.hasFilteredOptions !== 0
+        : false
       return (
-        !childNodes ||
-        childNodes.length === 0 ||
-        childNodes.every(({ visible }) => !visible)
+        (!childNodes ||
+          childNodes.length === 0 ||
+          childNodes.every(({ visible }) => !visible)) &&
+        !hasFilteredOptions
       )
     })
 

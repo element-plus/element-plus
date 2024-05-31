@@ -62,6 +62,7 @@
       <div
         :id="buttonId"
         ref="triggerRef"
+        v-bind="$attrs"
         :class="btnKls"
         role="button"
         :aria-label="buttonAriaLabel"

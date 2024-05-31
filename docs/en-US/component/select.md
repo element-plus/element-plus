@@ -9,7 +9,7 @@ When there are plenty of options, use a drop-down menu to display and select des
 
 :::tip
 
-After version ^(2.5.0), the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width.
+After version ^(2.5.0), the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width  (eg: [Example](https://github.com/element-plus/element-plus/issues/15834#issuecomment-1936919229)) .
 
 :::
 
@@ -177,6 +177,16 @@ select/empty-values
 
 :::
 
+## Custom Label ^(2.7.4)
+
+You can customize label.
+
+:::demo
+
+select/custom-label
+
+:::
+
 ## Select API
 
 ### Select Attributes
@@ -254,6 +264,7 @@ select/empty-values
 | empty            | content when there is no options      | —                     |
 | tag ^(2.5.0)     | content as Select tag                 | —                     |
 | loading ^(2.5.2) | content as Select loading             | —                     |
+| label ^(2.7.4)   | content as Select label               | —                     |
 
 ### Select Exposes
 

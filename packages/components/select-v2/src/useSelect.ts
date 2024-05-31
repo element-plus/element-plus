@@ -203,11 +203,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
           all.push(
             {
               label: getLabel(item),
-              isTitle: true,
               type: 'Group',
             },
-            ...filtered,
-            { type: 'Group' }
+            ...filtered
           )
         }
       } else if (props.remote || isValidOption(item)) {
@@ -582,11 +580,13 @@ const useSelect = (props: ISelectV2Props, emit) => {
       const selected = (props.modelValue as Array<any>).slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(selected)
       if (lastNotDisabledIndex < 0) return
+      const removeTagValue = selected[lastNotDisabledIndex]
       selected.splice(lastNotDisabledIndex, 1)
       const option = states.cachedOptions[lastNotDisabledIndex]
       states.cachedOptions.splice(lastNotDisabledIndex, 1)
       removeNewOption(option)
       update(selected)
+      emit('remove-tag', removeTagValue)
     }
   }
 
