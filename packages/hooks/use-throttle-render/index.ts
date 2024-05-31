@@ -1,25 +1,61 @@
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import type { SkeletonThrottle } from '@element-plus/components'
 
 import type { Ref } from 'vue'
 
-export const useThrottleRender = (loading: Ref<boolean>, throttle = 0) => {
+export const useThrottleRender = (
+  loading: Ref<boolean>,
+  throttle: SkeletonThrottle = 0
+) => {
   if (throttle === 0) return loading
-  const throttled = ref(loading.value)
+  const initVal =
+    typeof throttle === 'object' ? throttle.initVal ?? false : false
+  const throttled = ref(initVal)
   let timeoutHandle = 0
 
-  const dispatchThrottling = () => {
+  const dispatchThrottling = (timer: number) => {
     if (timeoutHandle) {
       clearTimeout(timeoutHandle)
     }
     timeoutHandle = window.setTimeout(() => {
       throttled.value = loading.value
-    }, throttle)
+    }, timer)
   }
+
+  const leadingDispatch = () => {
+    if (typeof throttle === 'number') {
+      dispatchThrottling(throttle)
+    } else if (
+      typeof throttle === 'object' &&
+      throttle.leading &&
+      throttle.leading > 0
+    ) {
+      dispatchThrottling(throttle.leading)
+    }
+  }
+
+  const trailingDispatch = () => {
+    if (
+      typeof throttle === 'object' &&
+      throttle.trailing &&
+      throttle.trailing > 0
+    ) {
+      dispatchThrottling(throttle.trailing)
+    } else {
+      throttled.value = false
+    }
+  }
+
+  onMounted(leadingDispatch)
 
   watch(
     () => loading.value,
-    () => {
-      dispatchThrottling()
+    (val) => {
+      if (val) {
+        leadingDispatch()
+      } else {
+        trailingDispatch()
+      }
     }
   )
   return throttled
