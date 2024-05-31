@@ -4,7 +4,7 @@ import type { Ref } from 'vue'
 
 export const useThrottleRender = (loading: Ref<boolean>, throttle = 0) => {
   if (throttle === 0) return loading
-  const throttled = ref(false)
+  const throttled = ref(loading.value)
   let timeoutHandle = 0
 
   const dispatchThrottling = () => {
@@ -15,16 +15,11 @@ export const useThrottleRender = (loading: Ref<boolean>, throttle = 0) => {
       throttled.value = loading.value
     }, throttle)
   }
-  onMounted(dispatchThrottling)
 
   watch(
     () => loading.value,
-    (val) => {
-      if (val) {
-        dispatchThrottling()
-      } else {
-        throttled.value = val
-      }
+    () => {
+      dispatchThrottling()
     }
   )
   return throttled
