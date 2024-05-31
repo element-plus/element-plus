@@ -242,7 +242,7 @@ export default defineComponent({
 
 ## Using Nuxt.js
 
-We can also use [Nuxt.js](https://nuxt.com), Element-plus team member [@tolking](https://github.com/tolking) made a separate module ([Element Plus Nuxt](https://github.com/element-plus/element-plus-nuxt)) for nuxt：
+We can also use [Nuxt.js](https://nuxt.com), we provide a [Nuxt module](https://github.com/element-plus/element-plus-nuxt) that contains these special processes. You only need to install it.
 
 <div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
   <iframe src="https://glitch.com/edit/#!/element-plus-nuxt-starter?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
