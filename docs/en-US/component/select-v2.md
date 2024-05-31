@@ -209,6 +209,16 @@ select-v2/empty-values
 
 :::
 
+## Custom Label ^(2.7.4)
+
+You can customize label.
+
+:::demo
+
+select-v2/custom-label
+
+:::
+
 ## API
 
 ### Attributes
@@ -290,6 +300,7 @@ select-v2/empty-values
 | prefix           | prefix content of input               |
 | tag ^(2.5.0)     | content as Select tag                 |
 | loading ^(2.5.2) | content as Select loading             |
+| label ^(2.7.4)   | content as Select label               |
 
 ### Exposes
 
