@@ -53,6 +53,16 @@ date-picker/month-range
 
 :::
 
+## Year Range
+
+Picking a year range is supported.
+
+:::demo When in range mode, the left and right panels are linked by default. If you want the two panels to switch current years independently, you can use the `unlink-panels` attribute.
+
+date-picker/year-range
+
+:::
+
 ## Default Value
 
 If user hasn't picked a date, shows today's calendar by default. You can use `default-value` to set another date. Its value should be parsable by `new Date()`.
@@ -158,7 +168,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | placeholder             | placeholder in non-range mode                                                                                                | ^[string]                                                                                                                           | ''            |
 | start-placeholder       | placeholder for the start date in range mode                                                                                 | ^[string]                                                                                                                           | —             |
 | end-placeholder         | placeholder for the end date in range mode                                                                                   | ^[string]                                                                                                                           | —             |
-| type                    | type of the picker                                                                                                           | ^[enum]`'year' \| 'years' \|'month' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange' \| 'monthrange'` | date          |
+| type                    | type of the picker                                                                                                           | ^[enum]`'year' \| 'years' \|'month' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange' \| 'monthrange' \| 'yearrange'` | date          |
 | format                  | format of the displayed value in the input box                                                                               | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                                                             | YYYY-MM-DD    |
 | popper-class            | custom class name for DatePicker's dropdown                                                                                  | ^[string]                                                                                                                           | —             |
 | popper-options          | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                                             | ^[object]`Partial<PopperOptions>`                                                                                                   | {}            |

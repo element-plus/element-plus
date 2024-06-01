@@ -166,7 +166,7 @@ const {
 })
 
 const enableYearArrow = computed(() => {
-  return props.unlinkPanels && rightYear.value > leftYear.value + 20
+  return props.unlinkPanels && rightYear.value > leftYear.value + 19
 })
 
 type RangePickValue = {
@@ -200,7 +200,7 @@ function onParsedValueChanged(
     const minDateYear = minDate?.year() || 0
     const maxDateYear = maxDate.year()
     rightDate.value =
-      maxDateYear - minDateYear < 10 ? maxDate.add(10, unit) : maxDate
+      maxDateYear - minDateYear < 10 ? leftDate.value.add(10, unit) : maxDate
   } else {
     rightDate.value = leftDate.value.add(10, unit)
   }
