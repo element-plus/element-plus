@@ -108,7 +108,7 @@
       <textarea
         :id="inputId"
         ref="textarea"
-        :class="nsTextarea.e('inner')"
+        :class="[nsTextarea.e('inner'), nsInput.is('focus', isFocused)]"
         v-bind="attrs"
         :minlength="minlength"
         :maxlength="maxlength"
