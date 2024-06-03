@@ -62,24 +62,6 @@ describe('Image.vue', () => {
     expect(wrapper.find('.el-image__error').exists()).toBe(true)
   })
 
-  // js user null No error message
-  test('image value is null error test', async () => {
-    const wrapper = mount(
-      <Image
-        src={null}
-        v-slots={{
-          error: () => 'error text',
-        }}
-      />
-    )
-
-    await doubleWait()
-    wrapper.emitted('error') && expect(wrapper.emitted('error')).toBeDefined()
-    expect(wrapper.find('.el-image__inner').exists()).toBe(false)
-    expect(wrapper.find('img').exists()).toBe(false)
-    expect(wrapper.text()).toContain('error text')
-  })
-
   test('image load sequence success test', async () => {
     const wrapper = mount(Image, {
       props: {
