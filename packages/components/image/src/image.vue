@@ -135,8 +135,8 @@ const loadImage = () => {
 
   // reset status
   isLoading.value = true
-  hasLoadError.value = false
-  imageSrc.value = props.src
+  hasLoadError.value = !props.src
+  imageSrc.value = props.src || undefined
 }
 
 function handleLoad(event: Event) {
