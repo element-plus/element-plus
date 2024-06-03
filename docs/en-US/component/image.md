@@ -85,7 +85,7 @@ image/image-preview
 | Name   | Description                                                                                       | Type                                 |
 | ------ | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | load   | same as native load.                                                                              | ^[Function]`(e: Event) => void`      |
-| error  | same as native error.                                                                             | ^[Function]`(e: Error) => void`      |
+| error  | same as native error.                                                                             | ^[Function]`(e: Event) => void`      |
 | switch | trigger when switching images.                                                                    | ^[Function]`(index: number) => void` |
 | close  | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | ^[Function]`() => void`              |
 | show   | trigger when the viewer displays                                                                  | ^[Function]`() => void`              |
