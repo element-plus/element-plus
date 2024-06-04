@@ -217,7 +217,6 @@
   }
 
   th.#{$namespace}-table__cell {
-    user-select: none;
     background-color: getCssVar('table-header-bg-color');
 
     > .cell.highlight {

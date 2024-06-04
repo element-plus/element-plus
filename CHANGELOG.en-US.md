@@ -1,5 +1,49 @@
 ## Changelog
 
+### 2.7.4
+
+_2024-05-31_
+
+#### Features
+
+- Components [select & select-v2] add label slot (#16960 by @kooriookami)
+- Play feedback components style (#17022 by @warmthsea)
+
+#### Bug fixes
+
+- Components [popper] remove unnecessary conditional judgment (#16834 by @warmthsea)
+- Types non-null assertion component name (#16804 by @warmthsea)
+- Components [table] cell tooltip display error (#16868 by @btea)
+- Components [input] unify `async-validator` string length calc (#16757 by @btea)
+- Components [select & select-v2] remove-tag when use backspace (#16832 by @Liao-js)
+- Components [tree-select] empty slot display error (#16943 by @btea)
+- Components [color-picker] attrs class (#16887 by @Liao-js)
+- Components [date-picker] modelValue typo (#15080 by @chenxch)
+- Style(components): dropdown-item blur hover style (#16895 by @Liao-js)
+- Style(components): [select & select-v2] remove split dash (#17009 by @kooriookami)
+
+#### Refactors
+
+- Hooks unite import origin (#16872 by @warmthsea)
+- Components [virtual-list] remove use-wheel ts-nocheck comments (#16929 by @warmthsea)
+
+### 2.7.3
+
+_2024-05-13_
+
+#### Features
+
+- Components [time-picker] @touchstart add passive (#16665 by @warmthsea)
+- Components [form] export fields (#16755 by @warmthsea)
+
+#### Bug fixes
+
+- Components [pagination] jumper input label warning (#16682 by @Liao-js)
+- Compoents [message-box] adapt `Parameters` extraction rules (#16592 by @reiwang01)
+- Components [InfiniteScroll] error caused by value of el[SCOPE] (#16686 by @YiMo1)
+- Components [table] selection reference when toggleAllSelection (#16800 by @Liao-js)
+- Style(components): tour delete content outline style (#16725 by @Fuphoenixes)
+
 ### 2.7.2
 
 _2024-04-26_

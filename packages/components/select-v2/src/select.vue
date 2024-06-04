@@ -68,7 +68,13 @@
                   @close="deleteTag($event, item)"
                 >
                   <span :class="nsSelect.e('tags-text')">
-                    {{ getLabel(item) }}
+                    <slot
+                      name="label"
+                      :label="getLabel(item)"
+                      :value="getValue(item)"
+                    >
+                      {{ getLabel(item) }}
+                    </slot>
                   </span>
                 </el-tag>
               </div>
@@ -116,7 +122,13 @@
                         @close="deleteTag($event, selected)"
                       >
                         <span :class="nsSelect.e('tags-text')">
-                          {{ getLabel(selected) }}
+                          <slot
+                            name="label"
+                            :label="getLabel(selected)"
+                            :value="getValue(selected)"
+                          >
+                            {{ getLabel(selected) }}
+                          </slot>
                         </span>
                       </el-tag>
                     </div>
@@ -182,7 +194,15 @@
                 ),
               ]"
             >
-              <span>{{ currentPlaceholder }}</span>
+              <slot
+                v-if="hasModelValue"
+                name="label"
+                :label="currentPlaceholder"
+                :value="modelValue"
+              >
+                <span>{{ currentPlaceholder }}</span>
+              </slot>
+              <span v-else>{{ currentPlaceholder }}</span>
             </div>
           </div>
           <div ref="suffixRef" :class="nsSelect.e('suffix')">

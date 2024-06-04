@@ -143,6 +143,11 @@
         "text": "Transfer"
       },
       {
+        "link": "/tree-select",
+        "text": "TreeSelect",
+        "promotion": "2.1.8"
+      },
+      {
         "link": "/upload",
         "text": "Upload"
       }
@@ -232,11 +237,6 @@
       {
         "link": "/tree",
         "text": "Tree"
-      },
-      {
-        "link": "/tree-select",
-        "text": "TreeSelect",
-        "promotion": "2.1.8"
       },
       {
         "link": "/tree-v2",
