@@ -18,6 +18,8 @@ import type Autocomplete from './autocomplete.vue'
 import type { Placement } from '@element-plus/components/popper'
 import type { Awaitable } from '@element-plus/utils'
 
+type ClassType = string | Record<string, boolean>
+
 export type AutocompleteData = Record<string, any>[]
 export type AutocompleteFetchSuggestionsCallback = (
   data: AutocompleteData
@@ -77,7 +79,7 @@ export const autocompleteProps = buildProps({
    * @description custom class name for autocomplete's dropdown
    */
   popperClass: {
-    type: String,
+    type: definePropType<ClassType>([String, Object]),
     default: '',
   },
   /**
