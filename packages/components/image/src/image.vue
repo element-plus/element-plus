@@ -5,7 +5,6 @@
     </slot>
     <template v-else>
       <img
-        v-if="imageSrc !== undefined"
         v-bind="attrs"
         :src="imageSrc"
         :loading="loading"
@@ -84,7 +83,7 @@ const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
 const attrs = useAttrs()
 
-const imageSrc = ref<string | undefined>()
+const imageSrc = ref('')
 const hasLoadError = ref(false)
 const isLoading = ref(true)
 const showViewer = ref(false)
@@ -135,8 +134,8 @@ const loadImage = () => {
 
   // reset status
   isLoading.value = true
-  hasLoadError.value = !props.src
-  imageSrc.value = props.src || undefined
+  hasLoadError.value = false
+  imageSrc.value = props.src === null ? '' : props.src
 }
 
 function handleLoad(event: Event) {
