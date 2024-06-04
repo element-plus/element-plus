@@ -1,6 +1,6 @@
 <template>
   <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
-    <slot v-if="hasLoadError" name="error">
+    <slot v-if="hasLoadError || isEmpty" name="error">
       <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
     </slot>
     <template v-else>
@@ -85,6 +85,7 @@ const rawAttrs = useRawAttrs()
 const attrs = useAttrs()
 
 const imageSrc = ref<string | undefined>()
+const isEmpty = ref(false)
 const hasLoadError = ref(false)
 const isLoading = ref(true)
 const showViewer = ref(false)
@@ -136,7 +137,9 @@ const loadImage = () => {
   // reset status
   isLoading.value = true
   hasLoadError.value = false
-  imageSrc.value = props.src === null ? '' : props.src
+
+  isEmpty.value = !props.src
+  imageSrc.value = props.src
 }
 
 function handleLoad(event: Event) {
