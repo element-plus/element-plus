@@ -139,7 +139,9 @@ const loadImage = () => {
   hasLoadError.value = false
 
   isEmpty.value = !props.src
-  imageSrc.value = props.src
+  if (props.src) {
+    imageSrc.value = props.src
+  }
 }
 
 function handleLoad(event: Event) {
