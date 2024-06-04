@@ -151,6 +151,16 @@ table/filter
 
 :::
 
+## Filter with search
+
+Enable the search input in the filter panel.
+
+:::demo Set the attribute `filter-searchable` to `true` to enable the search input in the filter panel. You can also customize the placeholder, prefix icon and the size of the search input.
+
+table/filter-with-search
+
+:::
+
 ## Custom column template
 
 Customize table column so it can be integrated with other components.
@@ -356,6 +366,10 @@ table/table-layout
 | filter-class-name ^(2.5.0) | className for the filter dropdown                                                                                                                                                                                  | ^[string]                                                                                                                                                                   | —                                 |
 | filter-multiple            | whether data filtering supports multiple options                                                                                                                                                                   | ^[boolean]                                                                                                                                                                  | true                              |
 | filter-method              | data filtering method. If `filter-multiple` is on, this method will be called multiple times for each row, and a row will display if one of the calls returns `true`                                               | ^[function]`(value: any, row: any, column: any) => void`                                                                                                                    | —                                 |
+| filter-searchable          | whether to enable search input in the filter panel or not                                                                                                                                                          | ^[boolean]                                                                                                                                                                  | false                             |
+| filter-search-placeholder  | the placeholder of the search input in the filter panel                                                                                                                                                            | ^[string]                                                                                                                                                                   | ''                                |
+| filter-search-size         | the input size of the search input in the filter panel                                                                                                                                                             | ^[enum]`'small' \| 'default' \| 'large'`                                                                                                                                    | 'default'                         |
+| filter-search-icon         | specify the prefix icon component of the search input the filter panel. Set `null` to hide the prefix icon                                                                                                         | ^[string] / ^[Component] / ^[null]                                                                                                                                          | —                                 |
 | filtered-value             | filter value for selected data, might be useful when table header is rendered with `render-header`                                                                                                                 | ^[object]`string[]`                                                                                                                                                         | —                                 |
 
 ### Table-column Slots
