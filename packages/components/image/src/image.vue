@@ -5,6 +5,7 @@
     </slot>
     <template v-else>
       <img
+        v-if="imageSrc !== undefined"
         v-bind="attrs"
         :src="imageSrc"
         :loading="loading"
@@ -83,7 +84,7 @@ const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
 const attrs = useAttrs()
 
-const imageSrc = ref('')
+const imageSrc = ref<string | undefined>()
 const hasLoadError = ref(false)
 const isLoading = ref(true)
 const showViewer = ref(false)
