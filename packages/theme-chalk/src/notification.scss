@@ -44,6 +44,7 @@
     line-height: getCssVar('notification-icon-size');
     color: getCssVar('notification-title-color');
     margin: 0;
+    word-break: break-all;
   }
 
   @include e(content) {
@@ -51,6 +52,7 @@
     line-height: 24px;
     margin: 6px 0 0;
     color: getCssVar('notification-content-color');
+    word-break: break-all;
 
     p {
       margin: 0;
