@@ -121,6 +121,7 @@
         :placeholder="placeholder"
         :form="form"
         :autofocus="autofocus"
+        :rows="rows"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
