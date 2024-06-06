@@ -1148,6 +1148,10 @@ describe('Select', () => {
     await nextTick()
     options = getOptions()
     expect(options.length).toBe(2)
+    // if reserve-keyword is true, keyword will not be cleared if input be clicked
+    await input.trigger('click')
+    await nextTick()
+    expect(input.element.value).toBe('a')
 
     input.element.value = ''
     await input.trigger('input')

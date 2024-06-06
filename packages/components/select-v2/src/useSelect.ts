@@ -120,6 +120,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const filteredOptions = ref([])
   // the controller of the expanded popup
   const expanded = ref(false)
+  const isClickOutside = ref(false)
 
   const selectDisabled = computed(() => props.disabled || elForm?.disabled)
 
@@ -693,7 +694,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
 
   const handleClickOutside = (event: Event) => {
     expanded.value = false
-
+    isClickOutside.value = true
+    console.log(`handleClickOutside`, isClickOutside.value)
     if (isFocused.value) {
       const _event = new FocusEvent('focus', event)
       handleBlur(_event)
@@ -772,7 +774,10 @@ const useSelect = (props: ISelectV2Props, emit) => {
     if (val) {
       handleQueryChange('')
     } else {
-      states.inputValue = ''
+      if (isClickOutside.value === true) {
+        console.log('clear inputValue')
+        states.inputValue = ''
+      }
       states.previousQuery = null
       states.isBeforeHide = true
       createNewOption('')
@@ -867,6 +872,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     inputId,
     collapseTagSize,
     currentPlaceholder,
+    isClickOutside,
     expanded,
     emptyText,
     popupHeight,
