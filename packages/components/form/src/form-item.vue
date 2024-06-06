@@ -101,7 +101,8 @@ let initialValue: any = undefined
 let isResettingField = false
 
 const labelStyle = computed<CSSProperties>(() => {
-  if (formContext?.labelPosition === 'top') {
+  const labelPosition = props?.labelPosition || formContext?.labelPosition
+  if (labelPosition === 'top') {
     return {}
   }
 
@@ -111,7 +112,8 @@ const labelStyle = computed<CSSProperties>(() => {
 })
 
 const contentStyle = computed<CSSProperties>(() => {
-  if (formContext?.labelPosition === 'top' || formContext?.inline) {
+  const labelPosition = props?.labelPosition || formContext?.labelPosition
+  if (labelPosition === 'top' || formContext?.inline) {
     return {}
   }
   if (!props.label && !props.labelWidth && isNested) {
@@ -135,7 +137,11 @@ const formItemClasses = computed(() => [
   formContext?.requireAsteriskPosition === 'right'
     ? 'asterisk-right'
     : 'asterisk-left',
-  { [ns.m('feedback')]: formContext?.statusIcon },
+  {
+    [ns.m('feedback')]: formContext?.statusIcon,
+    [ns.m(`label-${props?.labelPosition || formContext?.labelPosition}`)]:
+      props.labelPosition || formContext?.labelPosition,
+  },
 ])
 
 const _inlineMessage = computed(() =>
