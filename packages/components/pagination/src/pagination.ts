@@ -190,11 +190,13 @@ export default defineComponent({
     const hasCurrentPageListener =
       'onUpdate:currentPage' in vnodeProps ||
       'onUpdate:current-page' in vnodeProps ||
-      'onCurrentChange' in vnodeProps
+      'onCurrentChange' in vnodeProps || 
+      'onChange' in vnodeProps
     const hasPageSizeListener =
       'onUpdate:pageSize' in vnodeProps ||
       'onUpdate:page-size' in vnodeProps ||
-      'onSizeChange' in vnodeProps
+      'onSizeChange' in vnodeProps || 
+      'onChange' in vnodeProps
     const assertValidUsage = computed(() => {
       // Users have to set either one, otherwise count of pages cannot be determined
       if (isAbsent(props.total) && isAbsent(props.pageCount)) return false
