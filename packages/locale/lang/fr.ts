@@ -2,7 +2,7 @@ export default {
   name: 'fr',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'Fil d\'Ariane',
     },
     colorpicker: {
       confirm: 'OK',
@@ -102,12 +102,12 @@ export default {
       pagesize: '/page',
       total: 'Total {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Page',
+      prev: 'Aller à la page précédente',
+      next: 'Aller à la page suivante',
+      currentPage: 'page {pager}',
+      prevPages: '{pager} pages précédentes',
+      nextPages: '{pager} pages suivantes',
       deprecationWarning:
         'Utilisations obsolètes détectées, veuillez vous référer à la documentation el-pagination pour plus de détails',
     },
@@ -164,9 +164,9 @@ export default {
       cancelButtonText: 'Non',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: 'Flèche du carrousel vers la gauche',
+      rightArrow: 'Flèche du carrousel vers la droite',
+      indicator: 'Passer au carrousel index {index}',
     },
   },
 }
