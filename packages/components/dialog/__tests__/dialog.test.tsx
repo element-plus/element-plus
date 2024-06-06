@@ -306,6 +306,9 @@ describe('Dialog.vue', () => {
       await rAF()
       await nextTick()
       expect(wrapper.find('.is-draggable').exists()).toBe(true)
+
+      const container = wrapper.find<HTMLElement>('.el-overlay-dialog').element
+      expect(container.style.overflow).toBe('hidden')
     })
   })
 
