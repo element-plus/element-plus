@@ -61,6 +61,9 @@ export const useDialog = (
     if (props.alignCenter) {
       return { display: 'flex' }
     }
+    if (props.draggable) {
+      return { overflow: 'hidden' }
+    }
     return {}
   })
 
