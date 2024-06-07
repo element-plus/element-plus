@@ -30,6 +30,9 @@ For developers that uses Element Plus to develop your website you should go ahea
 
 - 中国大陆[加速镜像站点](https://cn.element-plus.org/zh-CN/)
 
+## Installation
+```npm install element-plus```
+
 ## Breaking change list
 
 The first stable release of Element Plus suitable for use in production was released on February 07, 2022. The APIs is stable right now, and here's also a full list about how to get upgraded from [Element UI](https://element.eleme.io) to Element Plus.
