@@ -120,6 +120,7 @@ export const cascaderEmits = {
   [CHANGE_EVENT]: (_: CascaderValue) => true,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
+  clear: () => true,
   visibleChange: (val: boolean) => isBoolean(val),
   expandChange: (val: CascaderValue) => !!val,
   removeTag: (val: CascaderNode['valueByOption']) => !!val,

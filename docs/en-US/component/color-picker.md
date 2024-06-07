@@ -68,12 +68,14 @@ color-picker/sizes
 
 ### Events
 
-| Name           | Description                                    | Type                                     |
-| -------------- | ---------------------------------------------- | ---------------------------------------- |
-| change         | triggers when input value changes              | ^[Function]`(value: string) => void`     |
-| active-change  | triggers when the current active color changes | ^[Function]`(value: string) => void`     |
-| focus ^(2.4.0) | triggers when Component focuses                | ^[Function]`(event: FocusEvent) => void` |
-| blur ^(2.4.0)  | triggers when Component blurs                  | ^[Function]`(event: FocusEvent) => void` |
+| Name             | Description                                    | Type                                         |
+| ---------------- | ---------------------------------------------- | -------------------------------------------- |
+| change           | triggers when input value changes              | ^[Function]`(value: string \| null) => void` |
+| active-change    | triggers when the current active color changes | ^[Function]`(value: string) => void`         |
+| focus ^(2.4.0)   | triggers when Component focuses                | ^[Function]`(event: FocusEvent) => void`     |
+| blur ^(2.4.0)    | triggers when Component blurs                  | ^[Function]`(event: FocusEvent) => void`     |
+| clear ^(2.7.6)   | triggers when the clear is clicked             | ^[Function]`() => void`                      |
+| confirm ^(2.7.6) | triggers when the confirm is clicked button    | ^[Function]`(value: string) => void`         |
 
 ### Exposes
 

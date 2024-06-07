@@ -58,7 +58,7 @@ autocomplete/custom-loading
 ### Attributes
 
 | Name                                | Description                                                                                                                | Type                                                                                      | Default      |
-|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------| ----------------------------------------------------------------------------------------- | ------------ |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------ |
 | model-value / v-model               | binding value                                                                                                              | ^[string]                                                                                 | —            |
 | placeholder                         | the placeholder of Autocomplete                                                                                            | ^[string]                                                                                 | —            |
 | clearable                           | whether to show clear button                                                                                               | ^[boolean]                                                                                | false        |
@@ -80,10 +80,14 @@ autocomplete/custom-loading
 
 ### Events
 
-| Name   | Description                                      | Type                                                  |
-| ------ | ------------------------------------------------ | ----------------------------------------------------- |
-| select | triggers when a suggestion is clicked            | ^[Function]`(item: typeof modelValue \| any) => void` |
-| change | triggers when the icon inside Input value change | ^[Function]`(value: string \| number) => void`        |
+| Name   | Description                                                     | Type                                           |
+| ------ | --------------------------------------------------------------- | ---------------------------------------------- |
+| blur   | triggers when Input blurs                                       | ^[Function]`(event: FocusEvent) => void`       |
+| focus  | triggers when Input focuses                                     | ^[Function]`(event: FocusEvent) => void`       |
+| change | triggers when the icon inside Input value change                | ^[Function]`(value: string \| number) => void` |
+| input  | triggers when the Input value change                            | ^[Function]`(value: string \| number) => void` |
+| clear  | triggers when the Input is cleared by clicking the clear button | ^[Function]`() => void`                        |
+| select | triggers when a suggestion is clicked                           | ^[Function]`(item: typeof modelValue) => void` |
 
 ### Slots
 

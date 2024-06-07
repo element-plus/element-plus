@@ -298,6 +298,7 @@ function handleConfirm() {
 function confirmValue() {
   const value = color.value
   emit(UPDATE_MODEL_EVENT, value)
+  emit('confirm', value)
   emit('change', value)
   if (props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
@@ -324,6 +325,7 @@ function clear() {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
   resetColor()
+  emit('clear')
 }
 
 function handleClickOutside(event: Event) {
