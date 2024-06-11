@@ -100,9 +100,12 @@ const formItemRef = ref<HTMLDivElement>()
 let initialValue: any = undefined
 let isResettingField = false
 
+const labelPosition = computed(
+  () => props.labelPosition || formContext?.labelPosition
+)
+
 const labelStyle = computed<CSSProperties>(() => {
-  const labelPosition = props?.labelPosition || formContext?.labelPosition
-  if (labelPosition === 'top') {
+  if (labelPosition.value === 'top') {
     return {}
   }
 
@@ -112,8 +115,7 @@ const labelStyle = computed<CSSProperties>(() => {
 })
 
 const contentStyle = computed<CSSProperties>(() => {
-  const labelPosition = props?.labelPosition || formContext?.labelPosition
-  if (labelPosition === 'top' || formContext?.inline) {
+  if (labelPosition.value === 'top' || formContext?.inline) {
     return {}
   }
   if (!props.label && !props.labelWidth && isNested) {
@@ -139,8 +141,7 @@ const formItemClasses = computed(() => [
     : 'asterisk-left',
   {
     [ns.m('feedback')]: formContext?.statusIcon,
-    [ns.m(`label-${props?.labelPosition || formContext?.labelPosition}`)]:
-      props.labelPosition || formContext?.labelPosition,
+    [ns.m(`label-${labelPosition.value}`)]: labelPosition.value,
   },
 ])
 

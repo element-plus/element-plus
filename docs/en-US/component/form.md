@@ -121,6 +121,16 @@ form/accessibility
 
 :::
 
+## Custom Form Item labelPosition
+
+The label of the component can be positioned using the `label-position` property in el-form-item. The default extend `el-form`
+
+:::demo
+
+form/form-item-labelPosition
+
+:::
+
 ## Form API
 
 ### Form Attributes
@@ -175,6 +185,7 @@ form/accessibility
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------- |
 | prop            | A key of `model`. It could be a path of the property (e.g `a.b.0` or `['a', 'b', '0']`). In the use of `validate` and `resetFields` method, the attribute is required. | ^[string] / ^[string&#91;&#93;]                     | —       |
 | label           | Label text.                                                                                                                                                            | ^[string]                                           | —       |
+| label-position  | Position of item label. If set to `'left'` or `'right'`, `label-width` prop is also required. Default extend `label-postion` of `form`                                 | ^[enum]`'left' \| 'right' \| 'top'`                 | ''      |
 | label-width     | Width of label, e.g. `'50px'`. `'auto'` is supported.                                                                                                                  | ^[string] / ^[number]                               | ''      |
 | required        | Whether the field is required or not, will be determined by validation rules if omitted.                                                                               | ^[boolean]                                          | —       |
 | rules           | Validation rules of form, see the [following table](#formitemrule), more advanced usage at [async-validator](https://github.com/yiminghe/async-validator).             | ^[object]`Arrayable<FormItemRule>`                  | —       |
