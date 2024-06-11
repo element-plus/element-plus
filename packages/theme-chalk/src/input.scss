@@ -324,8 +324,13 @@
 
     .#{$namespace}-input__inner {
       color: map.get($input-disabled, 'text-color');
-      -webkit-text-fill-color: map.get($input-disabled, 'text-color');
       cursor: not-allowed;
+
+      @media not all and (min-resolution: 0.001dpcm) {
+        @supports (-webkit-appearance: none) {
+          -webkit-text-fill-color: var(--el-disabled-text-color);
+        }
+      }
 
       &::placeholder {
         color: map.get($input-disabled, 'placeholder-color');
