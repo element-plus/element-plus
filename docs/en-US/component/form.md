@@ -121,7 +121,7 @@ form/accessibility
 
 :::
 
-## Custom Form Item labelPosition
+## Custom Form Item labelPosition ^(2.7.6)
 
 The label of the component can be positioned using the `label-position` property in el-form-item. The default extend `el-form`
 
