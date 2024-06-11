@@ -215,6 +215,7 @@ const emit = defineEmits([
   'change',
   'focus',
   'blur',
+  'clear',
   'calendar-change',
   'panel-change',
   'visible-change',
@@ -514,6 +515,7 @@ const onClearIconClick = (event: MouseEvent) => {
     pickerVisible.value = false
     pickerOptions.value.handleClear && pickerOptions.value.handleClear()
   }
+  emit('clear')
 }
 
 const valueIsEmpty = computed(() => {

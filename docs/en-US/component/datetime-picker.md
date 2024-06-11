@@ -115,6 +115,7 @@ datetime-picker/default-time
 | change          | triggers when user confirms the value                                         | component's binding value                 |
 | blur            | triggers when Input blurs                                                     | `(e: FocusEvent)`                         |
 | focus           | triggers when Input focuses                                                   | `(e: FocusEvent)`                         |
+| clear ^(2.7.6)  | triggers when the clear icon is clicked in a clearable DateTimePicker         | ^[Function]`() => void`                   |
 | calendar-change | triggers when the calendar selected date is changed. Only for `datetimerange` | [Date, Date]                              |
 | visible-change  | triggers when the DateTimePicker's dropdown appears/disappears                | true when it appears, and false otherwise |
 

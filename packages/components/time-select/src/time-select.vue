@@ -16,6 +16,7 @@
     @change="(event) => $emit('change', event)"
     @blur="(event) => $emit('blur', event)"
     @focus="(event) => $emit('focus', event)"
+    @clear="() => $emit('clear')"
   >
     <el-option
       v-for="item in items"
@@ -51,7 +52,7 @@ defineOptions({
   name: 'ElTimeSelect',
 })
 
-defineEmits(['change', 'blur', 'focus', 'update:modelValue'])
+defineEmits(['change', 'blur', 'focus', 'clear', 'update:modelValue'])
 
 const props = defineProps(timeSelectProps)
 

@@ -72,11 +72,21 @@ describe('Color-picker', () => {
   })
   it('should pick a color when confirm button click', async () => {
     const color = ref(null)
-    const wrapper = mount(() => <ColorPicker v-model={color.value} />)
+    const isConfirm = ref(false)
+    const wrapper = mount(() => (
+      <ColorPicker
+        v-model={color.value}
+        onConfirm={() => {
+          isConfirm.value = true
+        }}
+      />
+    ))
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
+    expect(isConfirm.value).toBe(false)
     document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
     await nextTick()
+    expect(isConfirm.value).toBe(true)
     expect(color.value).toEqual('#FF0000')
     wrapper.unmount()
   })
@@ -129,13 +139,23 @@ describe('Color-picker', () => {
   })
   it('should clear a color when clear button click', async () => {
     const color = ref('#0F0')
-    const wrapper = mount(() => <ColorPicker v-model={color.value} />)
+    const isClear = ref(false)
+    const wrapper = mount(() => (
+      <ColorPicker
+        v-model={color.value}
+        onClear={() => {
+          isClear.value = true
+        }}
+      />
+    ))
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const clearBtn = document.querySelector<HTMLElement>(
       '.el-color-dropdown__link-btn'
     )
+    expect(isClear.value).toBe(false)
     clearBtn!.click()
+    expect(isClear.value).toBe(true)
     expect(color.value).toEqual(null)
     wrapper.unmount()
   })

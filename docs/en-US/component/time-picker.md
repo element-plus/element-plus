@@ -86,6 +86,7 @@ time-picker/range
 | change         | triggers when user confirms the value                      | ^[Function]`(val: number \| string \| Date \| [number, number] \| [string, string] \| [Date, Date]) => void` |
 | blur           | triggers when Input blurs                                  | ^[Function]`(e: FocusEvent) => void`                                                                         |
 | focus          | triggers when Input focuses                                | ^[Function]`(e: FocusEvent) => void`                                                                         |
+| clear ^(2.7.6) | triggers when the clear icon is clicked in a clearable TimePicker | ^[Function]`() => void`                                                                               |
 | visible-change | triggers when the TimePicker's dropdown appears/disappears | ^[Function]`(visibility: boolean) => void`                                                                   |
 
 ### Exposes
