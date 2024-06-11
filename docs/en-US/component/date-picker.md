@@ -148,7 +148,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 ### Attributes
 
 | Name                    | Description                                                                                                                  | Type                                                                                                                                | Default       |
-|-------------------------|------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | model-value / v-model   | binding value, if it is an array, the length should be 2                                                                     | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [string, string]`                                                         | ''            |
 | readonly                | whether DatePicker is read only                                                                                              | ^[boolean]                                                                                                                          | false         |
 | disabled                | whether DatePicker is disabled                                                                                               | ^[boolean]                                                                                                                          | false         |
@@ -194,14 +194,14 @@ Note, date time locale (month name, first day of the week ...) are also configur
 ### Slots
 
 | Name            | Description                    |
-|-----------------|--------------------------------|
+| --------------- | ------------------------------ |
 | default         | custom cell content            |
 | range-separator | custom range separator content |
 
 ### Exposes
 
 | Name                  | Description                 | Type                                                                           |
-|-----------------------|-----------------------------|--------------------------------------------------------------------------------|
+| --------------------- | --------------------------- | ------------------------------------------------------------------------------ |
 | focus                 | focus the Input component   | ^[Function]`(focusStartInput?: boolean, isIgnoreFocusEvent?: boolean) => void` |
 | handleOpen ^(2.2.16)  | open the DatePicker popper  | ^[Function]`() => void`                                                        |
 | handleClose ^(2.2.16) | close the DatePicker popper | ^[Function]`() => void`                                                        |

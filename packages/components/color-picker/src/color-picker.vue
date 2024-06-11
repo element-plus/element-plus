@@ -326,6 +326,7 @@ function clear() {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
   resetColor()
+  emit('clear')
 }
 
 function handleClickOutside(event: Event) {

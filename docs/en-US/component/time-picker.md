@@ -48,7 +48,7 @@ time-picker/range
 ### Attributes
 
 | Name                        | Description                                                                                                    | Type                                                                                            | Default     |
-|-----------------------------|----------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|-------------|
+| --------------------------- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------- |
 | model-value / v-model       | binding value, if it is an array, the length should be 2                                                       | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [number, number] \| [string, string]` | ''          |
 | readonly                    | whether TimePicker is read only                                                                                | ^[boolean]                                                                                      | false       |
 | disabled                    | whether TimePicker is disabled                                                                                 | ^[boolean]                                                                                      | false       |
@@ -92,7 +92,7 @@ time-picker/range
 ### Exposes
 
 | Name                  | Description                 | Type                                              |
-|-----------------------|-----------------------------|---------------------------------------------------|
+| --------------------- | --------------------------- | ------------------------------------------------- |
 | focus                 | focus the Input component   | ^[Function]`(e: FocusEvent \| undefined) => void` |
 | blur                  | blur the Input component    | ^[Function]`(e: FocusEvent \| undefined) => void` |
 | handleOpen ^(2.2.16)  | open the TimePicker popper  | ^[Function]`() => void`                           |
