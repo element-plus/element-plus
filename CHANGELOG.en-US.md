@@ -1,5 +1,131 @@
 ## Changelog
 
+### 2.7.5
+
+_2024-06-07_
+
+#### Features
+
+- Components [input] add `is-focus` class name when textarea focus (#17049 by @btea)
+
+#### Refactors
+
+- Components [watermark] change textBaseline default value to `hanging` (#17036 by @warmthsea)
+- Style(components): [table] th text can be selected (#17039 by @warmthsea)
+- Style(docs): fix fill color of badge in dark mode (#17078 by @tyj-321)
+
+### 2.7.4
+
+_2024-05-31_
+
+#### Features
+
+- Components [select & select-v2] add label slot (#16960 by @kooriookami)
+- Play feedback components style (#17022 by @warmthsea)
+
+#### Bug fixes
+
+- Components [popper] remove unnecessary conditional judgment (#16834 by @warmthsea)
+- Types non-null assertion component name (#16804 by @warmthsea)
+- Components [table] cell tooltip display error (#16868 by @btea)
+- Components [input] unify `async-validator` string length calc (#16757 by @btea)
+- Components [select & select-v2] remove-tag when use backspace (#16832 by @Liao-js)
+- Components [tree-select] empty slot display error (#16943 by @btea)
+- Components [color-picker] attrs class (#16887 by @Liao-js)
+- Components [date-picker] modelValue typo (#15080 by @chenxch)
+- Style(components): dropdown-item blur hover style (#16895 by @Liao-js)
+- Style(components): [select & select-v2] remove split dash (#17009 by @kooriookami)
+
+#### Refactors
+
+- Hooks unite import origin (#16872 by @warmthsea)
+- Components [virtual-list] remove use-wheel ts-nocheck comments (#16929 by @warmthsea)
+
+### 2.7.3
+
+_2024-05-13_
+
+#### Features
+
+- Components [time-picker] @touchstart add passive (#16665 by @warmthsea)
+- Components [form] export fields (#16755 by @warmthsea)
+
+#### Bug fixes
+
+- Components [pagination] jumper input label warning (#16682 by @Liao-js)
+- Compoents [message-box] adapt `Parameters` extraction rules (#16592 by @reiwang01)
+- Components [InfiniteScroll] error caused by value of el[SCOPE] (#16686 by @YiMo1)
+- Components [table] selection reference when toggleAllSelection (#16800 by @Liao-js)
+- Style(components): tour delete content outline style (#16725 by @Fuphoenixes)
+
+### 2.7.2
+
+_2024-04-26_
+
+#### Features
+
+- Hooks add use-aria hooks (#16598 by @kooriookami)
+- Components [color-picker] add `teleported` prop (#16634 by @zhixiaotong)
+- Components [form] add validate callback promise type (#16652 by @warmthsea)
+
+#### Bug fixes
+
+- 🐛 update autocomplete default width (#16633 by @xxholly32)
+- Components [select] group error when custom option component (#16621 by @Liao-js)
+- Components [table] return type of function summary-method  supports VNode (#16648 by @FrontEndDog)
+- Test-utils fix main export error (#16504 by @wzc520pyfm)
+- Components Add missing export (#16323 by @zzh948498)
+- Components [table-v2] fix scrolling fail (#16470 by @Tsong-LC)
+- Components [select] `isDisabled` is not fresh (#16419 by @makedopamine)
+- Components [progress] bar background support gradient (#16666 by @btea)
+- Components [select-v2] custom options init error in multiple (#16664 by @Liao-js)
+
+### 2.7.1
+
+_2024-04-20_
+
+#### Features
+
+- Components [badge] Add badge-style and badge-class (#16585 by @kooriookami)
+
+#### Bug fixes
+
+- Hooks [empty-values] warning on modifying computead value (#16508 by @btea)
+- Components [input-number] fix binding wheel event warning (#16495 by @Canroc)
+- Components [table] fix cell tooltip display error (#16449 by @electroluxcode)
+- Components [table] hover style error (#16517 by @dowinweb)
+- Components [table] fix grouping head when dynamic column (#16433 by @Liao-js)
+- Components [select-v2] fix has existing option  when allow create (#16590 by @Liao-js)
+- Components [table] table body rerendered when use row-key (#16544 by @Liao-js)
+
+### 2.7.0
+
+_2024-04-12_
+
+#### Breaking changes
+
+- See #15834
+
+#### Features
+
+- Components [segmented] new component (#16258 by @kooriookami)
+- Components add empty-values and value-on-clear props (#16361 by @kooriookami)
+- Components [badge] add dotClass、dotStyle、offset props (#16434 by @lxw15337674)
+- Support node 18+ & update tsx and vitest (#16190 by @btea)
+
+#### Bug fixes
+
+- Components [input-number] wrapper padding style is overridden (#16310 by @betavs)
+- Components [input-number] fix cascading style order (#16308 by @makedopamine)
+- Components [table-v2] fixed mode hovering rerender cell (#12378 by @chenxch)
+- Components [select-v2] manually set object type modelValue error (#16473 by @Fuphoenixes)
+- Components [select & select-v2] fix filterable double click error (#16456 by @Fuphoenixes)
+- Components [table] fixed hover on colSpan > 2 background is error (#16443 by @Liao-js)
+
+#### Refactors
+
+- Components [button] use buttonkls (#16090 by @wzc520pyfm)
+
 ### 2.6.3
 
 _2024-03-29_

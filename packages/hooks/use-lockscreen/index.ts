@@ -1,5 +1,4 @@
-import { isRef, onScopeDispose, watch } from 'vue'
-import { computed } from '@vue/reactivity'
+import { computed, isRef, onScopeDispose, watch } from 'vue'
 import {
   addClass,
   getScrollBarWidth,

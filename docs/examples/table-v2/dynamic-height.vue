@@ -34,7 +34,7 @@ const textList = [shortText, midText, longText]
 let id = 0
 
 const dataGenerator = () => ({
-  id: `random:${++id}`,
+  id: `random-${++id}`,
   name: 'Tom',
   date: '2016-05-03',
   description: textList[Math.floor(Math.random() * 3)],

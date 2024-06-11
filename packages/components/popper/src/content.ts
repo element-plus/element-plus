@@ -1,5 +1,6 @@
 import { placements } from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
+import { useAriaProps } from '@element-plus/hooks'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
 import type { Options, Placement } from '@popperjs/core'
@@ -105,12 +106,9 @@ export const popperContentProps = buildProps({
     type: Boolean,
     default: true,
   },
-  ariaLabel: {
-    type: String,
-    default: undefined,
-  },
   virtualTriggering: Boolean,
   zIndex: Number,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 export type PopperContentProps = ExtractPropTypes<typeof popperContentProps>
 

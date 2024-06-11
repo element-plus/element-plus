@@ -51,6 +51,16 @@ table/with-status
 
 :::
 
+## Table with show overflow tooltip
+
+When the content is too long, it will break into multiple lines, you can use `show-overflow-tooltip` to keep it in one line.
+
+:::demo Attribute `show-overflow-tooltip`, which accepts a `Boolean` value. When set `true`, the extra content will show in tooltip when hover on the cell.
+
+table/show-overflow-tooltip
+
+:::
+
 ## Table with fixed header
 
 When there are too many rows, you can use a fixed header.
@@ -125,7 +135,7 @@ table/single-select
 
 You can also select multiple rows.
 
-:::demo Activating multiple selection is easy: simply add an `el-table-column` with its `type` set to `selection`. Apart from multiple selection, this example also uses `show-overflow-tooltip`. By default, if the content is too long, it will break into multiple lines. If you want to keep it in one line, use attribute `show-overflow-tooltip`, which accepts a `Boolean` value. When set `true`, the extra content will show in tooltip when hover on the cell.
+:::demo Activating multiple selection is easy: simply add an `el-table-column` with its `type` set to `selection`.
 
 table/multi-select
 
@@ -193,7 +203,7 @@ table/tree-and-lazy
 
 For table of numbers, you can add an extra row at the table footer displaying each column's sum.
 
-:::demo You can add the summary row by setting `show-summary` to `true`. By default, for the summary row, the first column does not sum anything up but always displays 'Sum' (you can configure the displayed text using `sum-text`), while other columns sum every number in that column up and display them. You can of course define your own sum behaviour. To do so, pass a method to `summary-method`, which returns an array, and each element of the returned array will be displayed in the columns of the summary row. The second table of this example is a detailed demo.
+:::demo You can add the summary row by setting `show-summary` to `true`. By default, for the summary row, the first column does not sum anything up but always displays 'Sum' (you can configure the displayed text using `sum-text`), while other columns sum every number in that column up and display them. You can of course define your own sum behaviour. To do so, pass a method to `summary-method`, which returns an array, and each element of the returned array will be displayed in the columns of the summary row, It can be a VNode or string. The second table of this example is a detailed demo.
 
 table/summary
 
@@ -262,7 +272,7 @@ table/table-layout
 | tooltip-options ^(2.2.28) | the options for the overflow tooltip, [see the following tooltip component](tooltip.html#attributes)                                                                                                                                                                       | ^[object]`Pick<ElTooltipProps, 'effect' \| 'enterable' \| 'hideAfter' \| 'offset' \| 'placement' \| 'popperClass' \| 'popperOptions' \| 'showAfter' \| 'showArrow'>` | ^[object]`{ enterable: true, placement: 'top', showArrow: true, hideAfter: 200, popperOptions: { strategy: 'fixed' } }` |
 | show-summary              | whether to display a summary row                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
 | sum-text                  | displayed text for the first column of summary row                                                                                                                                                                                                                         | ^[string]                                                                                                                                                            | Sum                                                                                                                     |
-| summary-method            | custom summary method                                                                                                                                                                                                                                                      | ^[Function]`(data: { columns: any[], data: any[] }) => string[]`                                                                                                     | —                                                                                                                       |
+| summary-method            | custom summary method                                                                                                                                                                                                                                                      | ^[Function]`(data: { columns: any[], data: any[] }) => (VNode \| string)[]`                                                                                          | —                                                                                                                       |
 | span-method               | method that returns rowspan and colspan                                                                                                                                                                                                                                    | ^[Function]`(data: { row: any, column: any, rowIndex: number, columnIndex: number }) => number[] \| { rowspan: number, colspan: number } \| void`                    | —                                                                                                                       |
 | select-on-indeterminate   | controls the behavior of master checkbox in multi-select tables when only some rows are selected (but not all). If true, all rows will be selected, else deselected                                                                                                        | ^[boolean]                                                                                                                                                           | true                                                                                                                    |
 | indent                    | horizontal indentation of tree data                                                                                                                                                                                                                                        | ^[number]                                                                                                                                                            | 16                                                                                                                      |

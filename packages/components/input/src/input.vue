@@ -37,7 +37,7 @@
           :readonly="readonly"
           :autocomplete="autocomplete"
           :tabindex="tabindex"
-          :aria-label="label"
+          :aria-label="label || ariaLabel"
           :placeholder="placeholder"
           :style="inputStyle"
           :form="form"
@@ -108,7 +108,7 @@
       <textarea
         :id="inputId"
         ref="textarea"
-        :class="nsTextarea.e('inner')"
+        :class="[nsTextarea.e('inner'), nsInput.is('focus', isFocused)]"
         v-bind="attrs"
         :minlength="minlength"
         :maxlength="maxlength"
@@ -117,7 +117,7 @@
         :readonly="readonly"
         :autocomplete="autocomplete"
         :style="textareaStyle"
-        :aria-label="label"
+        :aria-label="label || ariaLabel"
         :placeholder="placeholder"
         :form="form"
         :autofocus="autofocus"
@@ -178,6 +178,7 @@ import {
 import {
   useAttrs,
   useCursor,
+  useDeprecated,
   useFocusController,
   useNamespace,
 } from '@element-plus/hooks'
@@ -524,6 +525,17 @@ onMounted(() => {
   setNativeInputValue()
   nextTick(resizeTextarea)
 })
+
+useDeprecated(
+  {
+    from: 'label',
+    replacement: 'aria-label',
+    version: '2.8.0',
+    scope: 'el-input',
+    ref: 'https://element-plus.org/en-US/component/input.html',
+  },
+  computed(() => !!props.label)
+)
 
 defineExpose({
   /** @description HTML input element */
