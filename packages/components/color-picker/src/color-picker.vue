@@ -25,6 +25,7 @@
         <predefine
           v-if="predefine"
           ref="predefine"
+          :enable-alpha="showAlpha"
           :color="color"
           :colors="predefine"
         />
@@ -62,6 +63,7 @@
       <div
         :id="buttonId"
         ref="triggerRef"
+        v-bind="$attrs"
         :class="btnKls"
         role="button"
         :aria-label="buttonAriaLabel"
