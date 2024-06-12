@@ -401,21 +401,23 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     padding: 8px;
     width: 300px;
     box-sizing: content-box;
-    background-color: $color-white;
+    background-color: getCssVar('fill-color-blank');
     border-radius: getCssVar('border-radius-base');
     box-shadow: map.get($dropdown, 'menu-box-shadow');
   }
 }
 
 .#{bem('color-picker')},
-.#{bem('color-picker', 'panel')} {
+.#{bem('color-picker', 'panel')},
+.#{bem('color-picker', 'no-trigger-panel')} {
   @include set-css-var-value(('color-picker', 'alpha-bg-a'), '#ccc');
   @include set-css-var-value(('color-picker', 'alpha-bg-b'), 'transparent');
 }
 
 .dark {
   .#{bem('color-picker')},
-  .#{bem('color-picker', 'panel')} {
+  .#{bem('color-picker', 'panel')},
+  .#{bem('color-picker', 'no-trigger-panel')} {
     @include set-css-var-value(('color-picker', 'alpha-bg-a'), '#333333');
   }
 }
