@@ -104,6 +104,8 @@ provide(uploadContextKey, {
 })
 
 defineExpose({
+  /** @description expose uploadFiles*/
+  uploadFiles,
   /** @description cancel upload request */
   abort,
   /** @description upload the file list manually */
