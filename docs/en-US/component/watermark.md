@@ -73,7 +73,7 @@ watermark/custom
 | fontFamily   | font family   | ^[string]                                                                            | sans-serif      |
 | fontStyle    | font style    | ^[enum]`'none' \| 'normal' \| 'italic' \| 'oblique'`                                 | normal          |
 | textAlign    | text align    | ^[enum]`'left' \| 'right' \| 'center'\| 'start' \| 'end' `                           | center          |
-| textBaseline | text baseline | ^[enum]`'top' \| 'hanging' \| 'middle' \| 'alphabetic' \| 'ideographic' \| 'bottom'` | hanging             |
+| textBaseline | text baseline | ^[enum]`'top' \| 'hanging' \| 'middle' \| 'alphabetic' \| 'ideographic' \| 'bottom'` | hanging         |
 
 ### Slots
 
