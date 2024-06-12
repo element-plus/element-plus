@@ -1,5 +1,72 @@
 <template>
+  <DefineTemplate>
+    <div
+      :aria-disabled="noTrigger ? colorDisabled : undefined"
+      :tabindex="noTrigger ? (colorDisabled ? -1 : tabindex) : undefined"
+    >
+      <div :class="ns.be('dropdown', 'main-wrapper')">
+        <hue-slider
+          ref="hue"
+          class="hue-slider"
+          :color="color"
+          vertical
+          :disabled="noTrigger && colorDisabled"
+        />
+        <sv-panel
+          ref="sv"
+          :color="color"
+          :disabled="noTrigger && colorDisabled"
+        />
+      </div>
+      <alpha-slider
+        v-if="showAlpha"
+        ref="alpha"
+        :color="color"
+        :disabled="noTrigger && colorDisabled"
+      />
+      <predefine
+        v-if="predefine"
+        ref="predefine"
+        :enable-alpha="showAlpha"
+        :color="color"
+        :colors="predefine"
+        :disabled="noTrigger && colorDisabled"
+      />
+      <div :class="ns.be('dropdown', 'btns')">
+        <span :class="ns.be('dropdown', 'value')">
+          <el-input
+            ref="inputRef"
+            v-model="customInput"
+            :disabled="noTrigger && colorDisabled"
+            :validate-event="false"
+            size="small"
+            @keyup.enter="handleConfirm"
+            @blur="handleConfirm"
+          />
+        </span>
+        <el-button
+          :class="ns.be('dropdown', 'link-btn')"
+          :disabled="noTrigger && colorDisabled"
+          text
+          size="small"
+          @click="clear"
+        >
+          {{ t('el.colorpicker.clear') }}
+        </el-button>
+        <el-button
+          v-if="!noTrigger"
+          plain
+          size="small"
+          :class="ns.be('dropdown', 'btn')"
+          @click="confirmValue"
+        >
+          {{ t('el.colorpicker.confirm') }}
+        </el-button>
+      </div>
+    </div>
+  </DefineTemplate>
   <el-tooltip
+    v-if="!noTrigger"
     ref="popper"
     :visible="showPicker"
     :show-arrow="false"
@@ -17,46 +84,7 @@
   >
     <template #content>
       <div v-click-outside="handleClickOutside" @keydown.esc="handleEsc">
-        <div :class="ns.be('dropdown', 'main-wrapper')">
-          <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
-          <sv-panel ref="sv" :color="color" />
-        </div>
-        <alpha-slider v-if="showAlpha" ref="alpha" :color="color" />
-        <predefine
-          v-if="predefine"
-          ref="predefine"
-          :enable-alpha="showAlpha"
-          :color="color"
-          :colors="predefine"
-        />
-        <div :class="ns.be('dropdown', 'btns')">
-          <span :class="ns.be('dropdown', 'value')">
-            <el-input
-              ref="inputRef"
-              v-model="customInput"
-              :validate-event="false"
-              size="small"
-              @keyup.enter="handleConfirm"
-              @blur="handleConfirm"
-            />
-          </span>
-          <el-button
-            :class="ns.be('dropdown', 'link-btn')"
-            text
-            size="small"
-            @click="clear"
-          >
-            {{ t('el.colorpicker.clear') }}
-          </el-button>
-          <el-button
-            plain
-            size="small"
-            :class="ns.be('dropdown', 'btn')"
-            @click="confirmValue"
-          >
-            {{ t('el.colorpicker.confirm') }}
-          </el-button>
-        </div>
+        <ReuseTemplate />
       </div>
     </template>
     <template #default>
@@ -104,6 +132,9 @@
       </div>
     </template>
   </el-tooltip>
+  <div v-else :class="ns.be('picker', 'no-trigger-panel')">
+    <ReuseTemplate />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -117,6 +148,7 @@ import {
   watch,
 } from 'vue'
 import { debounce } from 'lodash-unified'
+import { createReusableTemplate } from '@vueuse/core'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'
@@ -148,6 +180,8 @@ import {
   colorPickerProps,
 } from './color-picker'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
+
+const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
 
 defineOptions({
   name: 'ElColorPicker',
@@ -399,6 +433,9 @@ watch(
   () => {
     if (!props.modelValue && !showPanelColor.value) {
       showPanelColor.value = true
+    }
+    if (props.noTrigger) {
+      confirmValue()
     }
   }
 )

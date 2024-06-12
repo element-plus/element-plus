@@ -469,4 +469,27 @@ describe('Color-picker', () => {
     expect(blurHandler).toHaveBeenCalledTimes(1)
     wrapper.unmount()
   })
+
+  it('should not change color when clicking the sv-panel while using no trigger and disabled', async () => {
+    const color = ref('#1890ff')
+    const wrapper = mount(() => (
+      <ColorPicker
+        v-model={color.value}
+        no-trigger
+        disabled
+        color-format="hex"
+      />
+    ))
+    await nextTick()
+    const colorPickerWrapper = wrapper.findComponent(ColorPicker)
+    const svPanelWrapper = colorPickerWrapper.findComponent({ ref: 'sv' })
+    ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({
+      type: 'mousemove',
+      clientX: 0,
+      clientY: 0,
+    })
+    await nextTick()
+    expect(colorPickerWrapper.vm.color.value.toLowerCase()).toEqual('#1890ff')
+    wrapper.unmount()
+  })
 })

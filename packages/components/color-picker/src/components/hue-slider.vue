@@ -1,5 +1,7 @@
 <template>
-  <div :class="[ns.b(), ns.is('vertical', vertical)]">
+  <div
+    :class="[ns.b(), ns.is('vertical', vertical), ns.is('disabled', disabled)]"
+  >
     <div ref="bar" :class="ns.e('bar')" @click="handleClick" />
     <div
       ref="thumb"
@@ -38,6 +40,10 @@ export default defineComponent({
     },
 
     vertical: Boolean,
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
     const ns = useNamespace('color-hue-slider')
@@ -62,6 +68,7 @@ export default defineComponent({
 
     // methods
     function handleClick(event: MouseEvent | TouchEvent) {
+      if (props.disabled) return
       const target = event.target
 
       if (target !== thumb.value) {
@@ -70,7 +77,7 @@ export default defineComponent({
     }
 
     function handleDrag(event: MouseEvent | TouchEvent) {
-      if (!bar.value || !thumb.value) return
+      if (props.disabled || !bar.value || !thumb.value) return
 
       const el = instance.vnode.el as HTMLElement
       const rect = el.getBoundingClientRect()

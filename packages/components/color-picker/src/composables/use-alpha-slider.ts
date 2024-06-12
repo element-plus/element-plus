@@ -19,6 +19,7 @@ export const useAlphaSlider = (props: AlphaSliderProps) => {
   const bar = shallowRef<HTMLElement>()
 
   function handleClick(event: MouseEvent | TouchEvent) {
+    if (props.disabled) return
     const target = event.target
 
     if (target !== thumb.value) {
@@ -27,7 +28,7 @@ export const useAlphaSlider = (props: AlphaSliderProps) => {
   }
 
   function handleDrag(event: MouseEvent | TouchEvent) {
-    if (!bar.value || !thumb.value) return
+    if (props.disabled || !bar.value || !thumb.value) return
 
     const el = instance.vnode.el as HTMLElement
     const rect = el.getBoundingClientRect()

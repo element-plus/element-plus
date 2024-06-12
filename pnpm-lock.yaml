@@ -53,8 +53,8 @@ importers:
         specifier: ^4.17.6
         version: 4.17.6
       '@vueuse/core':
-        specifier: ^9.1.0
-        version: 9.1.0(vue@3.2.37)
+        specifier: ^10.10.0
+        version: 10.10.1(vue@3.2.37)
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
@@ -220,7 +220,7 @@ importers:
         version: 0.4.0
       unplugin-vue-macros:
         specifier: ^2.7.11
-        version: 2.7.11(@vueuse/core@9.1.0)(typescript@4.7.4)(vue@3.2.37)
+        version: 2.7.11(@vueuse/core@10.10.1)(typescript@4.7.4)(vue@3.2.37)
       vitest:
         specifier: 1.6.0
         version: 1.6.0(@types/node@18.19.25)(@vitest/ui@1.6.0)(happy-dom@14.3.3)(jsdom@16.4.0)(sass@1.53.0)
@@ -249,8 +249,8 @@ importers:
         specifier: ^3.2.37
         version: 3.2.37
       '@vueuse/core':
-        specifier: ^9.1.0
-        version: 9.1.0(vue@3.2.37)
+        specifier: ^10.10.0
+        version: 10.10.1(vue@3.2.37)
       axios:
         specifier: ^0.27.2
         version: 0.27.2
@@ -570,8 +570,8 @@ importers:
         specifier: ^4.17.6
         version: 4.17.6
       '@vueuse/core':
-        specifier: ^9.1.0
-        version: 9.1.0(vue@3.2.37)
+        specifier: ^10.10.0
+        version: 10.10.1(vue@3.2.37)
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
@@ -4212,6 +4212,10 @@ packages:
 
   /@types/web-bluetooth@0.0.15:
     resolution: {integrity: sha512-w7hEHXnPMEZ+4nGKl/KDRVpxkwYxYExuHOYXyzIzCDzEZ9ZCGMAewulr9IqJu2LR4N37fcnb1XVeuZ09qgOxhA==}
+    dev: false
+
+  /@types/web-bluetooth@0.0.20:
+    resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==}
 
   /@types/yauzl@2.10.3:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
@@ -4729,7 +4733,7 @@ packages:
       - webpack
     dev: true
 
-  /@vue-macros/define-models@1.2.2(@vueuse/core@9.1.0)(vue@3.2.37):
+  /@vue-macros/define-models@1.2.2(@vueuse/core@10.10.1)(vue@3.2.37):
     resolution: {integrity: sha512-dLR9pTUR/OOMwIFT5rn116meXv7fqVL5ImD0OA89JdYGxdtaxGDP8UJZV6qtIaBiAF+2KNEf6ZAF72ST250xOA==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
@@ -4739,7 +4743,7 @@ packages:
         optional: true
     dependencies:
       '@vue-macros/common': 1.10.1(vue@3.2.37)
-      '@vueuse/core': 9.1.0(vue@3.2.37)
+      '@vueuse/core': 10.10.1(vue@3.2.37)
       ast-walker-scope: 0.5.0
       unplugin: 1.10.0
     transitivePeerDependencies:
@@ -5335,6 +5339,17 @@ packages:
       '@types/node': 18.19.25
     dev: true
 
+  /@vueuse/core@10.10.1(vue@3.2.37):
+    resolution: {integrity: sha512-8Vr8wxILdK+qfBjbngav8LVI+6UuM2TQCufRKMPz/GrpLHQ6dbY6kL5PLa9Eobq8JRrMaDyArPX9Jj18fMTPew==}
+    dependencies:
+      '@types/web-bluetooth': 0.0.20
+      '@vueuse/metadata': 10.10.1
+      '@vueuse/shared': 10.10.1(vue@3.2.37)
+      vue-demi: 0.14.8(vue@3.2.37)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+
   /@vueuse/core@9.1.0(vue@3.2.37):
     resolution: {integrity: sha512-BIroqvXEqt826aE9r3K5cox1zobuPuAzdYJ36kouC2TVhlXvFKIILgFVWrpp9HZPwB3aLzasmG3K87q7TSyXZg==}
     dependencies:
@@ -5345,9 +5360,22 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+    dev: false
+
+  /@vueuse/metadata@10.10.1:
+    resolution: {integrity: sha512-dpEL5afVLUqbchwGiLrV6spkl4/6UOKJ3YgxFE+wWLj/LakyIZUC83bfeFgbHkRcNhsAqTQCGR74jImsLfK8pg==}
 
   /@vueuse/metadata@9.1.0:
     resolution: {integrity: sha512-8OEhlog1iaAGTD3LICZ8oBGQdYeMwByvXetOtAOZCJOzyCRSwqwdggTsmVZZ1rkgYIEqgUBk942AsAPwM21s6A==}
+    dev: false
+
+  /@vueuse/shared@10.10.1(vue@3.2.37):
+    resolution: {integrity: sha512-edqexI+RQpoeqDxTatqBZa+K87ganbrwpoP++Fd9828U3js5jzwcEDeyrYcUgkKZ5LLL8q7M5SOMvSpMrxBPxg==}
+    dependencies:
+      vue-demi: 0.14.8(vue@3.2.37)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
 
   /@vueuse/shared@9.1.0(vue@3.2.37):
     resolution: {integrity: sha512-pB/3njQu4tfJJ78ajELNda0yMG6lKfpToQW7Soe09CprF1k3QuyoNi1tBNvo75wBDJWD+LOnr+c4B5HZ39jY/Q==}
@@ -5356,6 +5384,7 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+    dev: false
 
   /@zkochan/which@2.0.3:
     resolution: {integrity: sha512-C1ReN7vt2/2O0fyTsx5xnbQuxBrmG5NMSbcIkPKCCfCTJgpZBsuRYzFXHj3nVq8vTfK7vxHUmzfCpSHgO7j4rg==}
@@ -14205,7 +14234,7 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-vue-macros@2.7.11(@vueuse/core@9.1.0)(typescript@4.7.4)(vue@3.2.37):
+  /unplugin-vue-macros@2.7.11(@vueuse/core@10.10.1)(typescript@4.7.4)(vue@3.2.37):
     resolution: {integrity: sha512-Trfc2nH9LUMdxsAo09dTXI2kCudJS7pIowJQ9mQuJBfIonNfoG0dGJ5x2OLmpm1AwmRuJVrJqkjDcKtrA2/ACw==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
@@ -14216,7 +14245,7 @@ packages:
       '@vue-macros/chain-call': 0.2.2(vue@3.2.37)
       '@vue-macros/common': 1.10.1(vue@3.2.37)
       '@vue-macros/define-emit': 0.2.3(vue@3.2.37)
-      '@vue-macros/define-models': 1.2.2(@vueuse/core@9.1.0)(vue@3.2.37)
+      '@vue-macros/define-models': 1.2.2(@vueuse/core@10.10.1)(vue@3.2.37)
       '@vue-macros/define-prop': 0.3.3(vue@3.2.37)
       '@vue-macros/define-props': 2.0.3(@vue-macros/reactivity-transform@0.4.3)(vue@3.2.37)
       '@vue-macros/define-props-refs': 1.2.2(vue@3.2.37)
@@ -14782,6 +14811,21 @@ packages:
         optional: true
     dependencies:
       vue: 3.2.37
+    dev: false
+
+  /vue-demi@0.14.8(vue@3.2.37):
+    resolution: {integrity: sha512-Uuqnk9YE9SsWeReYqK2alDI5YzciATE0r2SkA6iMAtuXvNTMNACJLJEXNXaEy94ECuBe4Sk6RzRU80kjdbIo1Q==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      vue: 3.2.37
 
   /vue-eslint-parser@9.0.2(eslint@8.18.0):
     resolution: {integrity: sha512-uCPQwTGjOtAYrwnU+76pYxalhjsh7iFBsHwBqDHiOPTxtICDaraO4Szw54WFTNZTAEsgHHzqFOu1mmnBOBRzDA==}
@@ -15081,7 +15125,6 @@ packages:
 
   /workbox-google-analytics@6.6.0:
     resolution: {integrity: sha512-p4DJa6OldXWd6M9zRl0H6vB9lkrmqYFkRQ2xEiNdBFp9U0LhsGO7hsBscVEyH9H2/3eZZt8c97NB2FD9U2NJ+Q==}
-    deprecated: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
     dependencies:
       workbox-background-sync: 6.6.0
       workbox-core: 6.6.0

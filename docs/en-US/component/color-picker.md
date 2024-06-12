@@ -45,6 +45,14 @@ color-picker/sizes
 
 :::
 
+## No trigger
+
+:::demo No trigger element, show and use the panel directly
+
+color-picker/no-trigger
+
+:::
+
 ## API
 
 ### Attributes
@@ -64,6 +72,7 @@ color-picker/sizes
 | aria-label ^(a11y) ^(2.7.2) | ColorPicker aria-label                                | ^[string]                                                                                                        | —       |
 | id                          | ColorPicker id                                        | ^[string]                                                                                                        | —       |
 | teleported ^(2.7.2)         | whether color-picker popper is teleported to the body | ^[boolean]                                                                                                       | true    |
+| no-trigger ^(2.8.0)         | use color-picker pannel without popper                | ^[boolean]                                                                                                       | false   |
 
 ### Events
 

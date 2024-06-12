@@ -1,5 +1,5 @@
 <template>
-  <div :class="ns.b()">
+  <div :class="[ns.b(), ns.is('disabled', disabled)]">
     <div :class="ns.e('colors')">
       <div
         v-for="(item, index) in rgbaColors"
@@ -39,6 +39,10 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
     const ns = useNamespace('color-predefine')
@@ -65,6 +69,7 @@ export default defineComponent({
     })
 
     function handleSelect(index: number) {
+      if (props.disabled) return
       props.color.fromString(props.colors[index])
     }
 

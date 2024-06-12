@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="ns.b()"
+    :class="[ns.b(), ns.is('disabled', disabled)]"
     :style="{
       backgroundColor: background,
     }"
@@ -43,6 +43,10 @@ export default defineComponent({
       type: Object as PropType<Color>,
       required: true,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup(props) {
@@ -76,6 +80,7 @@ export default defineComponent({
     }
 
     function handleDrag(event: MouseEvent | TouchEvent) {
+      if (props.disabled) return
       const el = instance.vnode.el!
       const rect = el.getBoundingClientRect()
       const { clientX, clientY } = getClientXY(event)

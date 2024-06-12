@@ -1,11 +1,12 @@
 <template>
-  <div :class="rootKls">
+  <div :class="[rootKls, ns.is('disabled', disabled)]">
     <div ref="bar" :class="barKls" :style="barStyle" @click="handleClick" />
     <div ref="thumb" :class="thumbKls" :style="thumbStyle" />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useNamespace } from '@element-plus/hooks'
 import { alphaSliderProps } from '../props/alpha-slider'
 import {
   useAlphaSlider,
@@ -19,6 +20,8 @@ defineOptions({
 })
 
 const props = defineProps(alphaSliderProps)
+
+const ns = useNamespace('color-alpha-slider')
 
 const { bar, thumb, handleDrag, handleClick } = useAlphaSlider(props)
 
