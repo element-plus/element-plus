@@ -58,6 +58,8 @@ defineOptions({
   inheritAttrs: false,
 })
 
+let stopHandle: ReturnType<typeof onClickOutside> | null = null
+
 const props = defineProps(useTooltipContentProps)
 
 const { selector } = usePopperContainerId()
@@ -159,8 +161,6 @@ const onBlur = () => {
     onClose()
   }
 }
-
-let stopHandle: ReturnType<typeof onClickOutside>
 
 watch(
   () => unref(open),
