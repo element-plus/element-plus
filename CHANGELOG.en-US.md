@@ -1,5 +1,19 @@
 ## Changelog
 
+### 2.7.5
+
+_2024-06-07_
+
+#### Features
+
+- Components [input] add `is-focus` class name when textarea focus (#17049 by @btea)
+
+#### Refactors
+
+- Components [watermark] change textBaseline default value to `hanging` (#17036 by @warmthsea)
+- Style(components): [table] th text can be selected (#17039 by @warmthsea)
+- Style(docs): fix fill color of badge in dark mode (#17078 by @tyj-321)
+
 ### 2.7.4
 
 _2024-05-31_

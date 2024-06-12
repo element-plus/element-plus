@@ -25,6 +25,7 @@
         <predefine
           v-if="predefine"
           ref="predefine"
+          :enable-alpha="showAlpha"
           :color="color"
           :colors="predefine"
         />
