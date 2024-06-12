@@ -320,13 +320,12 @@ function confirmValue() {
 function clear() {
   debounceSetShowPicker(false)
   emit(UPDATE_MODEL_EVENT, null)
-  emit('change', null)
   emit('clear')
+  emit('change', null)
   if (props.modelValue !== null && props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
   resetColor()
-  emit('clear')
 }
 
 function handleClickOutside(event: Event) {
