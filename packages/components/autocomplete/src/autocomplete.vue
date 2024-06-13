@@ -351,7 +351,10 @@ const highlight = (index: number) => {
 }
 
 onClickOutside(listboxRef, () => {
-  suggestionVisible.value && close()
+  if (suggestionVisible.value && !popperRef.value?.isFocusInsideContent()) {
+    ignoreFocusEvent = false
+    close()
+  }
 })
 
 onMounted(() => {
