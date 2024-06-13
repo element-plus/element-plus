@@ -28,6 +28,9 @@
     "json",
     "jsonc"
   ],
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "vite.devCommand": "pnpm run dev -- --",
   "i18n-ally.localesPaths": "packages/locale/lang",
   "i18n-ally.enabledParsers": ["ts"],
