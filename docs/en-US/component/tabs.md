@@ -87,14 +87,14 @@ tabs/customized-trigger
 
 | Name                  | Description                                                                                                                             | Type                                | Accepted Values       | Default           |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | --------------------- | ----------------- |
-| model-value / v-model | binding value, name of the selected tab                                                                                                 | string / number                     | —                     | name of first tab |
-| type                  | type of Tab                                                                                                                             | string                              | card/border-card      | —                 |
-| closable              | whether Tab is closable                                                                                                                 | boolean                             | —                     | false             |
-| addable               | whether Tab is addable                                                                                                                  | boolean                             | —                     | false             |
-| editable              | whether Tab is addable and closable                                                                                                     | boolean                             | —                     | false             |
-| tab-position          | position of tabs                                                                                                                        | string                              | top/right/bottom/left | top               |
-| stretch               | whether width of tab automatically fits its container                                                                                   | boolean                             | —                     | false             |
-| before-leave          | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | Function(activeName, oldActiveName) | —                     | —                 |
+| model-value / v-model | binding value, name of the selected tab                                                                                                 | `string` / `number`                     | —                     | name of first tab |
+| type                  | type of Tab                                                                                                                             | `string`                              | `card`/`border-card`      | —                 |
+| closable              | whether Tab is closable                                                                                                                 | `boolean`                             | —                     | false             |
+| addable               | whether Tab is addable                                                                                                                  | `boolean`                             | —                     | false             |
+| editable              | whether Tab is addable and closable                                                                                                     | `boolean`                             | —                     | false             |
+| tab-position          | position of tabs                                                                                                                        | `string`                              | `top`/`right`/`bottom`/`left` | top               |
+| stretch               | whether width of tab automatically fits its container                                                                                   | `boolean`                             | —                     | false             |
+| before-leave          | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | `Function(activeName, oldActiveName)` | —                     | —                 |
 
 ## Tabs Events
 
@@ -118,11 +118,11 @@ tabs/customized-trigger
 
 | Name     | Description                                                                          | Type            | Accepted Values | Default                                                                        |
 | -------- | ------------------------------------------------------------------------------------ | --------------- | --------------- | ------------------------------------------------------------------------------ |
-| label    | title of the tab                                                                     | string          | —               | —                                                                              |
-| disabled | whether Tab is disabled                                                              | boolean         | —               | false                                                                          |
-| name     | identifier corresponding to the name of Tabs, representing the alias of the tab-pane | string / number | —               | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '0' |
-| closable | whether Tab is closable                                                              | boolean         | —               | false                                                                          |
-| lazy     | whether Tab is lazily rendered                                                       | boolean         | —               | false                                                                          |
+| label    | title of the tab                                                                     | `string`          | —               | —                                                                              |
+| disabled | whether Tab is disabled                                                              | `boolean`         | —               | false                                                                          |
+| name     | identifier corresponding to the name of Tabs, representing the alias of the tab-pane | `string` / `number` | —               | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '0' |
+| closable | whether Tab is closable                                                              | `boolean`         | —               | false                                                                          |
+| lazy     | whether Tab is lazily rendered                                                       | `boolean`         | —               | false                                                                          |
 
 ## Tab-pane Slots
 

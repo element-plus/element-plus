@@ -90,11 +90,11 @@ autocomplete/custom-loading
 | Name             | Description                          | Type                                     |
 | ---------------- | ------------------------------------ | ---------------------------------------- |
 | default          | custom content for input suggestions | ^[object]`{ item: Record<string, any> }` |
-| prefix           | content as Input prefix              | -                                        |
-| suffix           | content as Input suffix              | -                                        |
-| prepend          | content to prepend before Input      | -                                        |
-| append           | content to append after Input        | -                                        |
-| loading ^(2.5.0) | override loading content             | -                                        |
+| prefix           | content as Input prefix              | —                                        |
+| suffix           | content as Input suffix              | —                                        |
+| prepend          | content to prepend before Input      | —                                        |
+| append           | content to append after Input        | —                                        |
+| loading ^(2.5.0) | override loading content             | —                                        |
 
 ### Exposes
 
