@@ -237,6 +237,19 @@ describe('Loading', () => {
     expect(customClass).toBeTruthy()
   })
 
+  test('border-radius style', async () => {
+    const wrapper = _mount(() => (
+      <div v-loading="true" style="border-radius: 10px" />
+    ))
+
+    await nextTick()
+    const maskBorderRadius = getComputedStyle(
+      wrapper.find('.el-loading-mask').element
+    ).borderRadius
+
+    expect(maskBorderRadius).toBe('10px')
+  })
+
   test("parent's display is not block", async () => {
     const loading = ref(true)
     const wrapper = _mount(() => (
