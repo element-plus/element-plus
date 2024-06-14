@@ -94,7 +94,7 @@ radio/with-borders
 ### RadioGroup Attributes
 
 | Name                        | Description                                       | Type                               | Default |
-|-----------------------------| ------------------------------------------------- | ---------------------------------- | ------- |
+| --------------------------- | ------------------------------------------------- | ---------------------------------- | ------- |
 | model-value / v-model       | binding value                                     | ^[string] / ^[number] / ^[boolean] | —       |
 | size                        | the size of radio buttons or bordered radios      | ^[string]                          | default |
 | disabled                    | whether the nesting radios are disabled           | ^[boolean]                         | false   |

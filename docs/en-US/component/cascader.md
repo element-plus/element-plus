@@ -138,7 +138,7 @@ cascader/panel
 ### Cascader Attributes
 
 | Name                                | Description                                                                                                                                                                      | Type                                                          | Default |
-|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|---------|
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
 | model-value / v-model               | binding value                                                                                                                                                                    | ^[string]/^[number]/^[object]`string[] \| number[] \| any`    | —       |
 | options                             | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[object]`Record<string, unknown>[]`                          | —       |
 | props                               | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                      | —       |
@@ -166,7 +166,7 @@ cascader/panel
 ### Cascader Events
 
 | Name           | Description                                         | Type                                                        |
-|----------------|-----------------------------------------------------|-------------------------------------------------------------|
+| -------------- | --------------------------------------------------- | ----------------------------------------------------------- |
 | change         | triggers when the binding value changes             | ^[Function]`(value: CascaderValue) => void`                 |
 | expand-change  | triggers when expand option changes                 | ^[Function]`(value: CascaderValue) => void`                 |
 | blur           | triggers when Cascader blurs                        | ^[Function]`(event: FocusEvent) => void`                    |
@@ -177,14 +177,14 @@ cascader/panel
 ### Cascader Slots
 
 | Name    | Description                                                                                    | Scope                               |
-|---------|------------------------------------------------------------------------------------------------|-------------------------------------|
+| ------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
 | default | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
 | empty   | content when there is no matched options.                                                      | —                                   |
 
 ### Cascader Exposes
 
 | Name                          | Description                                                                                                       | Type                                                            |
-|-------------------------------|-------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
 | getCheckedNodes               | get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false` | ^[Function]`(leafOnly: boolean) => CascaderNode[] \| undefined` |
 | cascaderPanelRef              | cascader panel ref                                                                                                | ^[object]`ComputedRef<any>`                                     |
 | togglePopperVisible ^(2.2.31) | toggle the visible type of popper                                                                                 | ^[Function]`(visible?: boolean) => void`                        |
@@ -195,7 +195,7 @@ cascader/panel
 ### CascaderPanel Attributes
 
 | Name                  | Description                                                                              | Type                                                       | Default |
-|-----------------------|------------------------------------------------------------------------------------------|------------------------------------------------------------|---------|
+| --------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------- |
 | model-value / v-model | binding value                                                                            | ^[string]/^[number]/^[object]`string[] \| number[] \| any` | —       |
 | options               | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`Record<string, unknown>[]`                       | —       |
 | props                 | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                   | —       |
@@ -203,7 +203,7 @@ cascader/panel
 ### CascaderPanel Events
 
 | Name          | Description                                                             | Type                                                |
-|---------------|-------------------------------------------------------------------------|-----------------------------------------------------|
+| ------------- | ----------------------------------------------------------------------- | --------------------------------------------------- |
 | change        | triggers when the binding value changes                                 | ^[Function]`(value: CascaderValue) => void`         |
 | expand-change | triggers when expand option changes                                     | ^[Function]`(value: CascaderNodePathValue) => void` |
 | close         | close panel event, provided to Cascader to put away the panel judgment. | ^[Function]`() => void`                             |
@@ -211,20 +211,20 @@ cascader/panel
 ### CascaderPanel Slots
 
 | Name    | Description                                                                                    | Scope                               |
-|---------|------------------------------------------------------------------------------------------------|-------------------------------------|
+| ------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
 | default | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
 
 ### CascaderPanel Exposes
 
 | Name              | Description                                                                                                       | Type                                                            |
-|-------------------|-------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| ----------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
 | getCheckedNodes   | get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false` | ^[Function]`(leafOnly: boolean) => CascaderNode[] \| undefined` |
 | clearCheckedNodes | clear checked nodes                                                                                               | ^[Function]`() => void`                                         |
 
 ## CascaderProps
 
 | Attribute      | Description                                                                                                | Type                                                | Default  |
-|----------------|------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|----------|
+| -------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | -------- |
 | expandTrigger  | trigger mode of expanding options                                                                          | ^[enum]`'click' \| 'hover'`                         | click    |
 | multiple       | whether multiple selection is enabled                                                                      | ^[boolean]                                          | false    |
 | checkStrictly  | whether checked state of a node not affects its parent and child nodes                                     | ^[boolean]                                          | false    |
