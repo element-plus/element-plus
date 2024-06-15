@@ -44,35 +44,7 @@ const onDrop = (e: DragEvent) => {
   e.stopPropagation()
 
   const files = Array.from(e.dataTransfer!.files)
-  const accept = uploaderContext.accept.value
-  if (!accept) {
-    emit('file', files)
-    return
-  }
-
-  const filesFiltered = files.filter((file) => {
-    const { type, name } = file
-    const extension = name.includes('.') ? `.${name.split('.').pop()}` : ''
-    const baseType = type.replace(/\/.*$/, '')
-    return accept
-      .split(',')
-      .map((type) => type.trim())
-      .filter((type) => type)
-      .some((acceptedType) => {
-        if (acceptedType.startsWith('.')) {
-          return extension === acceptedType
-        }
-        if (/\/\*$/.test(acceptedType)) {
-          return baseType === acceptedType.replace(/\/\*$/, '')
-        }
-        if (/^[^/]+\/[^/]+$/.test(acceptedType)) {
-          return type === acceptedType
-        }
-        return false
-      })
-  })
-
-  emit('file', filesFiltered)
+  emit('file', files)
 }
 
 const onDragover = () => {

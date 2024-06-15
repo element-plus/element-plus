@@ -1,6 +1,9 @@
 export default {
   name: 'es',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Confirmar',
       clear: 'Despejar',
@@ -121,6 +124,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Si',
       cancelButtonText: 'No',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

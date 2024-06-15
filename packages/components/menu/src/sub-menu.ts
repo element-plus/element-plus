@@ -23,7 +23,7 @@ import {
   isString,
   throwError,
 } from '@element-plus/utils'
-import { useDeprecated, useNamespace } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
 import { ArrowDown, ArrowRight } from '@element-plus/icons-vue'
 import { ElIcon } from '@element-plus/components/icon'
 import useMenu from './use-menu'
@@ -38,28 +38,15 @@ export const subMenuProps = buildProps({
     type: String,
     required: true,
   },
-  showTimeout: {
-    type: Number,
-    default: 300,
-  },
-  hideTimeout: {
-    type: Number,
-    default: 300,
-  },
+  showTimeout: Number,
+  hideTimeout: Number,
   popperClass: String,
   disabled: Boolean,
-  popperAppendToBody: {
-    type: Boolean,
-    default: undefined,
-  },
   teleported: {
     type: Boolean,
     default: undefined,
   },
-  popperOffset: {
-    type: Number,
-    default: 6,
-  },
+  popperOffset: Number,
   expandCloseIcon: {
     type: iconPropType,
   },
@@ -81,17 +68,6 @@ export default defineComponent({
   props: subMenuProps,
 
   setup(props, { slots, expose }) {
-    useDeprecated(
-      {
-        from: 'popper-append-to-body',
-        replacement: 'teleported',
-        scope: COMPONENT_NAME,
-        version: '2.3.0',
-        ref: 'https://element-plus.org/en-US/component/menu.html#submenu-attributes',
-      },
-      computed(() => props.popperAppendToBody !== undefined)
-    )
-
     const instance = getCurrentInstance()!
     const { indexPath, parentMenu } = useMenu(
       instance,
@@ -139,7 +115,7 @@ export default defineComponent({
       return subMenu.level === 0
     })
     const appendToBody = computed(() => {
-      const value = props.teleported ?? props.popperAppendToBody
+      const value = props.teleported
       return value === undefined ? isFirstLevel.value : value
     })
     const menuTransitionName = computed(() =>
@@ -196,6 +172,22 @@ export default defineComponent({
 
     const ulStyle = useMenuCssVar(rootMenu.props, subMenu.level + 1)
 
+    const subMenuPopperOffset = computed(() => {
+      return props.popperOffset ?? rootMenu.props.popperOffset
+    })
+
+    const subMenuPopperClass = computed(() => {
+      return props.popperClass ?? rootMenu.props.popperClass
+    })
+
+    const subMenuShowTimeout = computed(() => {
+      return props.showTimeout ?? rootMenu.props.showTimeout
+    })
+
+    const subMenuHideTimeout = computed(() => {
+      return props.hideTimeout ?? rootMenu.props.hideTimeout
+    })
+
     // methods
     const doDestroy = () =>
       vPopper.value?.popperRef?.popperInstanceRef?.destroy()
@@ -224,7 +216,7 @@ export default defineComponent({
 
     const handleMouseenter = (
       event: MouseEvent | FocusEvent,
-      showTimeout = props.showTimeout
+      showTimeout = subMenuShowTimeout.value
     ) => {
       if (event.type === 'focus') {
         return
@@ -235,6 +227,7 @@ export default defineComponent({
         (!rootMenu.props.collapse && rootMenu.props.mode === 'vertical') ||
         props.disabled
       ) {
+        subMenu.mouseInChild.value = true
         return
       }
       subMenu.mouseInChild.value = true
@@ -255,6 +248,7 @@ export default defineComponent({
           rootMenu.props.mode === 'horizontal') ||
         (!rootMenu.props.collapse && rootMenu.props.mode === 'vertical')
       ) {
+        subMenu.mouseInChild.value = false
         return
       }
       timeout?.()
@@ -263,13 +257,11 @@ export default defineComponent({
         () =>
           !mouseInChild.value &&
           rootMenu.closeMenu(props.index, indexPath.value),
-        props.hideTimeout
+        subMenuHideTimeout.value
       ))
 
       if (appendToBody.value && deepDispatch) {
-        if (instance.parent?.type.name === 'ElSubMenu') {
-          subMenu.handleMouseleave?.(true)
-        }
+        subMenu.handleMouseleave?.(true)
       }
     }
 
@@ -349,10 +341,10 @@ export default defineComponent({
               visible: opened.value,
               effect: 'light',
               pure: true,
-              offset: props.popperOffset,
+              offset: subMenuPopperOffset.value,
               showArrow: false,
               persistent: true,
-              popperClass: props.popperClass,
+              popperClass: subMenuPopperClass.value,
               placement: currentPlacement.value,
               teleported: appendToBody.value,
               fallbackPlacements: fallbackPlacements.value,
@@ -367,7 +359,7 @@ export default defineComponent({
                     class: [
                       nsMenu.m(mode.value),
                       nsMenu.m('popup-container'),
-                      props.popperClass,
+                      subMenuPopperClass.value,
                     ],
                     onMouseenter: (evt: MouseEvent) =>
                       handleMouseenter(evt, 100),
@@ -444,7 +436,7 @@ export default defineComponent({
           ariaHaspopup: true,
           ariaExpanded: opened.value,
           onMouseenter: handleMouseenter,
-          onMouseleave: () => handleMouseleave(true),
+          onMouseleave: () => handleMouseleave(),
           onFocus: handleMouseenter,
         },
         [child]

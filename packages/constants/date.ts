@@ -1,5 +1,6 @@
 export const datePickTypes = [
   'year',
+  'years',
   'month',
   'date',
   'dates',

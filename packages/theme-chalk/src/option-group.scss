@@ -14,31 +14,6 @@
     list-style: none;
     margin: 0;
     padding: 0;
-
-    &:not(:last-of-type) {
-      padding-bottom: 24px;
-
-      &::after {
-        content: '';
-        position: absolute;
-        display: block;
-        left: $gap;
-        right: $gap;
-        bottom: 12px;
-        height: 1px;
-        background: getCssVar('border-color-light');
-      }
-    }
-  }
-
-  @include e(split) {
-    &-dash {
-      position: absolute;
-      left: $gap;
-      right: $gap;
-      height: 1px;
-      background: getCssVar('border-color-light');
-    }
   }
 
   @include e(title) {

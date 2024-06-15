@@ -168,7 +168,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | placeholder           | placeholder in non-range mode                                                                                                | ^[string]                                                                                                                                 | ''            |
 | start-placeholder     | placeholder for the start date in range mode                                                                                 | ^[string]                                                                                                                                 | —             |
 | end-placeholder       | placeholder for the end date in range mode                                                                                   | ^[string]                                                                                                                                 | —             |
-| type                  | type of the picker                                                                                                           | ^[enum]`'year' \| 'month' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange' \| 'monthrange' \| 'yearrange'`  | date          |
+| type                  | type of the picker                                                                                                           | ^[enum]`'year' \| 'years' \| 'month' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange' \| 'monthrange' \| 'yearrange'`  | date          |
 | format                | format of the displayed value in the input box                                                                               | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                                                                   | YYYY-MM-DD    |
 | popper-class          | custom class name for DatePicker's dropdown                                                                                  | ^[string]                                                                                                                                 | —             |
 | popper-options        | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                                             | ^[object]`Partial<PopperOptions>`                                                                                                         | {}            |
@@ -186,17 +186,20 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | shortcuts             | an object array to set shortcut options                                                                                      | ^[object]`Array<{ text: string, value: Date \| Function }>`                                                                               | []            |
 | cell-class-name       | set custom className                                                                                                         | ^[Function]`(data: Date) => string`                                                                                                       | —             |
 | teleported            | whether date-picker dropdown is teleported to the body                                                                       | ^[boolean]                                                                                                                                | true          |
+| empty-values ^(2.7.0)   | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)               | ^[array]                                                                                                                            | —             |
+| value-on-clear ^(2.7.0) | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                      | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                    | —             |
+
 
 ### Events
 
-| Name            | Description                                                | Type                                                                                |
-| --------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| change          | triggers when user confirms the value                      | ^[Function]`(val: typeof v-model) => void`                                          |
-| blur            | triggers when Input blurs                                  | ^[Function]`(e: FocusEvent) => void`                                                |
-| focus           | triggers when Input focuses                                | ^[Function]`(e: FocusEvent) => void`                                                |
-| calendar-change | triggers when the calendar selected date is changed.       | ^[Function]`(val: [Date, null \| Date]) => void`                                    |
-| panel-change    | triggers when the navigation button click.                 | ^[Function]`(date: [Dayjs, Dayjs], mode: 'month' \| 'year', view: unknown) => void` |
-| visible-change  | triggers when the DatePicker's dropdown appears/disappears | ^[Function]`(visibility: boolean) => void`                                          |
+| Name            | Description                                                | Type                                                                                      |
+| --------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| change          | triggers when user confirms the value                      | ^[Function]`(val: typeof v-model) => void`                                                |
+| blur            | triggers when Input blurs                                  | ^[Function]`(e: FocusEvent) => void`                                                      |
+| focus           | triggers when Input focuses                                | ^[Function]`(e: FocusEvent) => void`                                                      |
+| calendar-change | triggers when the calendar selected date is changed.       | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
+| panel-change    | triggers when the navigation button click.                 | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
+| visible-change  | triggers when the DatePicker's dropdown appears/disappears | ^[Function]`(visibility: boolean) => void`                                                |
 
 ### Slots
 

@@ -129,7 +129,7 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
   <el-icon :size="20">
     <Edit />
   </el-icon>
-  <el-icon color="#409EFC" class="no-inherit">
+  <el-icon color="#409efc" class="no-inherit">
     <Share />
   </el-icon>
   <el-icon>
@@ -156,7 +156,7 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
     <ElIcon :size="20">
       <Edit />
     </ElIcon>
-    <ElIcon color="#409EFC" class="no-inherit">
+    <ElIcon color="#409efc" class="no-inherit">
       <Share />
     </ElIcon>
     <ElIcon>

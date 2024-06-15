@@ -5,9 +5,9 @@
     placement="bottom"
     effect="light"
   >
-    <el-button @click="disabled = !disabled"
-      >click to {{ disabled ? 'active' : 'close' }} tooltip function</el-button
-    >
+    <el-button @click="disabled = !disabled">
+      click to {{ disabled ? 'active' : 'close' }} tooltip function
+    </el-button>
   </el-tooltip>
 </template>
 

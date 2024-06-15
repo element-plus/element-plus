@@ -1,6 +1,9 @@
 export default {
   name: 'pt-br',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Confirmar',
       clear: 'Limpar',
@@ -102,6 +105,11 @@ export default {
       clearFilter: 'Todos',
       sumText: 'Total',
     },
+    tour: {
+      next: 'Próximo',
+      previous: 'Anterior',
+      finish: 'Finalizar',
+    },
     tree: {
       emptyText: 'Sem dados',
     },
@@ -122,6 +130,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Sim',
       cancelButtonText: 'Não',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }
