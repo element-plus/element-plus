@@ -14,7 +14,7 @@
   font-size: 12px;
   line-height: 20px;
   min-width: 10px;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   visibility: visible;
 
   $arrow-selector: #{& + '__arrow'};

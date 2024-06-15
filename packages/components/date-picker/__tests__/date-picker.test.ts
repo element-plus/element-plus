@@ -178,7 +178,7 @@ describe('DatePicker', () => {
     ;(picker.vm as any).showClose = true
     await nextTick()
     ;(document.querySelector('.clear-icon') as HTMLElement).click()
-    expect(vm.value).toBeNull()
+    expect(vm.value).toBe(null)
   })
 
   it('defaultValue', async () => {
@@ -207,7 +207,7 @@ describe('DatePicker', () => {
     ;(picker.vm as any).showClose = true
     await nextTick()
     document.querySelector<HTMLElement>('.clear-icon').click()
-    expect(vm.value).toBeNull()
+    expect(vm.value).toBe(null)
 
     vm.defaultValue = new Date(2031, 5, 1)
     input.trigger('blur')
@@ -1005,6 +1005,23 @@ describe('DatePicker dates', () => {
     td[1].click()
     await nextTick()
     expect(vm.value.length).toBe(0)
+  })
+
+  it('selected', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type="dates"
+        v-model="value"
+      />`,
+      () => ({ value: [new Date()] })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    expect(
+      document.querySelectorAll('.el-date-table__row .selected').length
+    ).toBe(1)
   })
 })
 

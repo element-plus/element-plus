@@ -7,6 +7,7 @@ export const DEFAULT_FORMATS_DATEPICKER = {
   dates: DEFAULT_FORMATS_DATE,
   week: 'gggg[w]ww',
   year: 'YYYY',
+  years: 'YYYY',
   month: 'YYYY-MM',
   datetime: `${DEFAULT_FORMATS_DATE} ${DEFAULT_FORMATS_TIME}`,
   monthrange: 'YYYY-MM',

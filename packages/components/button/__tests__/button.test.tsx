@@ -267,7 +267,11 @@ describe('Button Group', () => {
       setup: () => () =>
         (
           <Form size="large" disabled>
-            <Button>{{ AXIOM }}</Button>
+            <Button
+              v-slots={{
+                default: () => AXIOM,
+              }}
+            />
           </Form>
         ),
     })
@@ -284,7 +288,11 @@ describe('Button Group', () => {
         (
           <Form size="large" disabled>
             <Form.FormItem size="small">
-              <Button>{{ AXIOM }}</Button>
+              <Button
+                v-slots={{
+                  default: () => AXIOM,
+                }}
+              />
             </Form.FormItem>
           </Form>
         ),

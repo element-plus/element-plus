@@ -48,15 +48,16 @@ card/shadow
 :::
 
 ## API
+
 ### Attributes
 
-| Name                 | Description                                                   | Type                              | Default |
-| -------------------- | ------------------------------------------------------------- | --------------------------------- | ------- |
-| header               | title of the card. Also accepts a DOM passed by `slot#header` | ^[string]                         | —       |
-| footer ^(2.4.3)      | footer of the card. Also accepts a DOM passed by `slot#footer`| ^[string]                         | —       |
-| body-style           | CSS style of card body                                        | ^[object]`CSSProperties`          | —       |
-| body-class ^(2.3.10) | custom class name of card body                                | ^[string]                         | —       |
-| shadow               | when to show card shadows                                     | ^[enum]`always \| never \| hover` | always  |
+| Name                 | Description                                                    | Type                              | Default |
+| -------------------- | -------------------------------------------------------------- | --------------------------------- | ------- |
+| header               | title of the card. Also accepts a DOM passed by `slot#header`  | ^[string]                         | —       |
+| footer ^(2.4.3)      | footer of the card. Also accepts a DOM passed by `slot#footer` | ^[string]                         | —       |
+| body-style           | CSS style of card body                                         | ^[object]`CSSProperties`          | —       |
+| body-class ^(2.3.10) | custom class name of card body                                 | ^[string]                         | —       |
+| shadow               | when to show card shadows                                      | ^[enum]`always \| never \| hover` | always  |
 
 ### Slots
 

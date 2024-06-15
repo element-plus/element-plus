@@ -27,6 +27,16 @@ message/different-types
 
 :::
 
+## Plain ^(2.6.3)
+
+Set `plain` to have a plain background.
+
+:::demo
+
+message/plain
+
+:::
+
 ## Closable
 
 A close button can be added.
@@ -85,7 +95,7 @@ import { ElMessage } from 'element-plus'
 
 In this case you should call `ElMessage(options)`. We have also registered methods for different types, e.g. `ElMessage.success(options)`. You can call `ElMessage.closeAll()` to manually close all the instances.
 
-## App context inheritance <el-tag> >= 2.0.3</el-tag>
+## App context inheritance ^(2.0.3)
 
 Now message accepts a `context` as second parameter of the message constructor which allows you to inject current app's context to message which allows you to inherit all the properties of the app.
 
@@ -114,6 +124,7 @@ ElMessage({}, appContext)
 | ------------------------ | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------- |
 | message                  | message text                                                                                         | ^[string] / ^[VNode] / ^[Function]`() => VNode`      | ''      |
 | type                     | message type                                                                                         | ^[enum]`'success' \| 'warning' \| 'info' \| 'error'` | info    |
+| plain ^(2.6.3)           | whether message is plain                                                                             | ^[boolean]                                           | false   |
 | icon                     | custom icon component, overrides `type`                                                              | ^[string] / ^[Component]                             | —       |
 | dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                          | ^[boolean]                                           | false   |
 | customClass              | custom class name for Message                                                                        | ^[string]                                            | ''      |

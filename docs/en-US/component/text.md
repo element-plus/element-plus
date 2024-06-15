@@ -56,7 +56,7 @@ text/mixed
 | type                | text type          | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —       |
 | size                | text size          | ^[enum]`'large' \| 'default' \| 'small'`                           | default |
 | truncated           | render ellipsis    | ^[boolean]                                                         | false   |
-| line-clamp ^(2.4.0) | maximum lines      | ^[string] / ^[number]                                              | -       |
+| line-clamp ^(2.4.0) | maximum lines      | ^[string] / ^[number]                                              | —       |
 | tag                 | custom element tag | ^[string]                                                          | span    |
 
 ### Slots

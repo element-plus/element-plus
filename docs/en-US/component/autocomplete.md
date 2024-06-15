@@ -43,6 +43,16 @@ autocomplete/remote-search
 
 :::
 
+## Custom Loading ^(2.5.0)
+
+Override loading content.
+
+:::demo
+
+autocomplete/custom-loading
+
+:::
+
 ## API
 
 ### Attributes
@@ -56,11 +66,11 @@ autocomplete/remote-search
 | value-key                           | key name of the input suggestion object for display                                                                        | ^[string]                                                                                 | value        |
 | debounce                            | debounce delay when typing, in milliseconds                                                                                | ^[number]                                                                                 | 300          |
 | placement                           | placement of the popup menu                                                                                                | ^[enum]`'top' \| 'top- start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'` | bottom-start |
-| fetch-suggestions                   | a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete | ^[Function]`(queryString: string, callback: callbackfn) => void`                          | —            |
+| fetch-suggestions                   | a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete | ^[Array] / ^[Function]`(queryString: string, callback: callbackfn) => void`                          | —            |
 | trigger-on-focus                    | whether show suggestions when input focus                                                                                  | ^[boolean]                                                                                | true         |
 | select-when-unmatched               | whether to emit a `select` event on enter when there is no autocomplete match                                              | ^[boolean]                                                                                | false        |
 | name                                | same as `name` in native input                                                                                             | ^[string]                                                                                 | —            |
-| label                               | label text                                                                                                                 | ^[string]                                                                                 | —            |
+| aria-label ^(a11y) ^(2.7.2)         | native `aria-label` attribute                                                                                              | ^[string]                                                                                 | —            |
 | hide-loading                        | whether to hide the loading icon in remote search                                                                          | ^[boolean]                                                                                | false        |
 | popper-class                        | custom class name for autocomplete's dropdown                                                                              | ^[string]                                                                                 | —            |
 | popper-append-to-body ^(deprecated) | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | ^[boolean]                                                                                | false        |
@@ -77,13 +87,14 @@ autocomplete/remote-search
 
 ### Slots
 
-| Name    | Description                          | Type                                     |
-| ------- | ------------------------------------ | ---------------------------------------- |
-| default | custom content for input suggestions | ^[object]`{ item: Record<string, any> }` |
-| prefix  | content as Input prefix              | -                                        |
-| suffix  | content as Input suffix              | -                                        |
-| prepend | content to prepend before Input      | -                                        |
-| append  | content to append after Input        | -                                        |
+| Name             | Description                          | Type                                     |
+| ---------------- | ------------------------------------ | ---------------------------------------- |
+| default          | custom content for input suggestions | ^[object]`{ item: Record<string, any> }` |
+| prefix           | content as Input prefix              | -                                        |
+| suffix           | content as Input suffix              | -                                        |
+| prepend          | content to prepend before Input      | -                                        |
+| append           | content to append after Input        | -                                        |
+| loading ^(2.5.0) | override loading content             | -                                        |
 
 ### Exposes
 
