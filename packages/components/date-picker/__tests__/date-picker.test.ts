@@ -1633,4 +1633,30 @@ describe('MonthRange', () => {
     expect(vm.value.getDate()).toBe(1)
     expect(vm.value.getHours()).toBe(12)
   })
+  it('prop format should be Responsive for monthRange', async () => {
+    const format = 'YYYY/MM/DD HH:mm:ss'
+    const wrapper = _mount(
+      `<el-date-picker
+          v-model="value"
+          type="monthrange"
+          :format="format"
+        />
+        <button @click="changeFormat">click</button>`,
+      () => ({
+        value: '',
+        format,
+      }),
+      {
+        methods: {
+          changeFormat() {
+            this.format = 'YYYY-MM-DD'
+          },
+        },
+      }
+    )
+    await wrapper.find('button').trigger('click')
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.format).toBe('YYYY-MM-DD')
+  })
 })
