@@ -1633,17 +1633,17 @@ describe('MonthRange', () => {
     expect(vm.value.getDate()).toBe(1)
     expect(vm.value.getHours()).toBe(12)
   })
-  it('prop format should be Responsive for monthRange', async () => {
+  it('format allows dynamic changes', async () => {
     const format = 'YYYY/MM/DD HH:mm:ss'
     const wrapper = _mount(
       `<el-date-picker
           v-model="value"
-          type="monthrange"
+          type="datetimerange"
           :format="format"
         />
         <button @click="changeFormat">click</button>`,
       () => ({
-        value: '',
+        value: ['2024/06/14', '2024/06/15'],
         format,
       }),
       {
@@ -1654,9 +1654,13 @@ describe('MonthRange', () => {
         },
       }
     )
+    await nextTick()
+    const inputRange = wrapper.findAll('.el-range-input')
+    expect(inputRange[0].element.value).toBe('2024/06/14 00:00:00')
+    expect(inputRange[1].element.value).toBe('2024/06/15 00:00:00')
     await wrapper.find('button').trigger('click')
     await nextTick()
-    const vm = wrapper.vm as any
-    expect(vm.format).toBe('YYYY-MM-DD')
+    expect(inputRange[0].element.value).toBe('2024-06-14')
+    expect(inputRange[1].element.value).toBe('2024-06-15')
   })
 })
