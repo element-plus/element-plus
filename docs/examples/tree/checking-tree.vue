@@ -1,6 +1,7 @@
 <template>
   <el-tree
     ref="treeRef"
+    style="max-width: 600px"
     :data="data"
     show-checkbox
     default-expand-all

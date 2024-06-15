@@ -1,6 +1,9 @@
 export default {
   name: 'pl',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Wyczyść',
@@ -102,6 +105,11 @@ export default {
       clearFilter: 'Wszystko',
       sumText: 'Razem',
     },
+    tour: {
+      next: 'Dalej',
+      previous: 'Wróć',
+      finish: 'Zakończ',
+    },
     tree: {
       emptyText: 'Brak danych',
     },
@@ -122,6 +130,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Tak',
       cancelButtonText: 'Nie',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

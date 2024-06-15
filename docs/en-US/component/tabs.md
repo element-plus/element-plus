@@ -93,7 +93,7 @@ tabs/customized-trigger
 | addable               | whether Tab is addable                                                                                                                  | boolean                             | —                     | false             |
 | editable              | whether Tab is addable and closable                                                                                                     | boolean                             | —                     | false             |
 | tab-position          | position of tabs                                                                                                                        | string                              | top/right/bottom/left | top               |
-| stretch               | whether width of tab automatically fits its container                                                                                   | boolean                             | -                     | false             |
+| stretch               | whether width of tab automatically fits its container                                                                                   | boolean                             | —                     | false             |
 | before-leave          | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | Function(activeName, oldActiveName) | —                     | —                 |
 
 ## Tabs Events
@@ -108,10 +108,11 @@ tabs/customized-trigger
 
 ## Tabs Slots
 
-| Name             | Description               | Subtags  |
-| ---------------- | ------------------------- | -------- |
-| -                | customize default content | Tab-pane |
-| addIcon ^(2.4.0) | customize add button icon | -        |
+| Name                           | Description               | Subtags  |
+| ------------------------------ | ------------------------- | -------- |
+| -                              | customize default content | Tab-pane |
+| addIcon ^(2.4.0) ^(deprecated) | customize add button icon | —        |
+| add-icon ^(2.5.4)              | customize add button icon | —        |
 
 ## Tab-pane Attributes
 

@@ -70,6 +70,9 @@ export * from './tree-v2'
 export * from './upload'
 export * from './virtual-list'
 export * from './watermark'
+export * from './tour'
+export * from './anchor'
+export * from './segmented'
 
 // plugins
 export * from './infinite-scroll'

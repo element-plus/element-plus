@@ -83,7 +83,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 ## API
 
-## Attributes
+### Attributes
 
 | Name                       | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                                           | Default |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
@@ -98,9 +98,9 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | custom-class ^(deprecated) | Extra class names for Drawer                                                                                                                                                                                                                                                                                 | ^[string]                                                                                                                                                                                      | —       |
 | destroy-on-close           | Indicates whether children should be destroyed after Drawer closed                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                                                     | false   |
 | modal                      | Should show shadowing layer                                                                                                                                                                                                                                                                                  | ^[boolean]                                                                                                                                                                                     | true    |
-| direction                  | Drawer's opening direction                                                                                                                                                                                                                                                                                   | ^[enum]`'rtl' \| 'ltr' \| 'ttb' \| 'btt' \| 'rtl'`                                                                                                                                             | rtl     |
+| direction                  | Drawer's opening direction                                                                                                                                                                                                                                                                                   | ^[enum]`'rtl' \| 'ltr' \| 'ttb' \| 'btt'`                                                                                                                                                      | rtl     |
 | show-close                 | Should show close button at the top right of Drawer                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | true    |
-| size                       | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | ^[number] \| ^[string]                                                                                                                                                                         | 30%     |
+| size                       | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | ^[number] / ^[string]                                                                                                                                                                          | 30%     |
 | title                      | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form                                                                                                                                                                                                           | ^[string]                                                                                                                                                                                      | —       |
 | withHeader                 | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work                                                                                                                                                         | ^[boolean]                                                                                                                                                                                     | true    |
 | modal-class                | Extra class names for shadowing layer                                                                                                                                                                                                                                                                        | ^[string]                                                                                                                                                                                      | —       |
@@ -113,7 +113,18 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 :::
 
-## Slots
+### Events
+
+| Name             | Description                                      | Type                    |
+| ---------------- | ------------------------------------------------ | ----------------------- |
+| open             | Triggered before Drawer opening animation begins | ^[Function]`() => void` |
+| opened           | Triggered after Drawer opening animation ended   | ^[Function]`() => void` |
+| close            | Triggered before Drawer closing animation begins | ^[Function]`() => void` |
+| closed           | Triggered after Drawer closing animation ended   | ^[Function]`() => void` |
+| open-auto-focus  | triggers after Drawer opens and content focused  | ^[Function]`() => void` |
+| close-auto-focus | triggers after Drawer closed and content focused | ^[Function]`() => void` |
+
+### Slots
 
 | Name                | Description                                                                                    |
 | ------------------- | ---------------------------------------------------------------------------------------------- |
@@ -122,17 +133,8 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | title ^(deprecated) | Works the same as the header slot. Use that instead.                                           |
 | footer              | Drawer footer Section                                                                          |
 
-## Methods
+### Exposes
 
 | Name        | Description                                                     |
 | ----------- | --------------------------------------------------------------- |
 | handleClose | In order to close Drawer, this method will call `before-close`. |
-
-## Events
-
-| Name   | Description                                      | Parameter |
-| ------ | ------------------------------------------------ | --------- |
-| open   | Triggered before Drawer opening animation begins | —         |
-| opened | Triggered after Drawer opening animation ended   | —         |
-| close  | Triggered before Drawer closing animation begins | —         |
-| closed | Triggered after Drawer closing animation ended   | —         |

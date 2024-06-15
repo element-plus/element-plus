@@ -82,6 +82,7 @@ export default defineComponent({
         filterable: props.filters || props.filterMethod,
         filteredValue: [],
         filterPlacement: '',
+        filterClassName: '',
         isColumnGroup: false,
         isSubColumn: false,
         filterOpened: false,
@@ -113,6 +114,7 @@ export default defineComponent({
         'filterOpened',
         'filteredValue',
         'filterPlacement',
+        'filterClassName',
       ]
 
       let column = getPropsData(basicProps, sortProps, selectProps, filterProps)
@@ -149,12 +151,14 @@ export default defineComponent({
         )
     })
     onBeforeUnmount(() => {
-      owner.value.store.commit(
-        'removeColumn',
-        columnConfig.value,
-        isSubColumn.value ? parent.columnConfig.value : null,
-        updateColumnOrder
-      )
+      const columnIndex = columnConfig.value.getColumnIndex()
+      columnIndex > -1 &&
+        owner.value.store.commit(
+          'removeColumn',
+          columnConfig.value,
+          isSubColumn.value ? parent.columnConfig.value : null,
+          updateColumnOrder
+        )
     })
     instance.columnId = columnId.value
 

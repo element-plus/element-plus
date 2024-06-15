@@ -1,6 +1,9 @@
 export default {
   name: 'ja',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'クリア',
@@ -102,6 +105,11 @@ export default {
       clearFilter: 'すべて',
       sumText: '合計',
     },
+    tour: {
+      next: '次へ',
+      previous: '前へ',
+      finish: 'ツアー終了',
+    },
     tree: {
       emptyText: 'データなし',
     },
@@ -122,6 +130,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'はい',
       cancelButtonText: 'いいえ',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }
