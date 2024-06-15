@@ -149,6 +149,7 @@
                 ref="inputRef"
                 v-model="states.inputValue"
                 type="text"
+                :name="name"
                 :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
                 :disabled="selectDisabled"
                 :autocomplete="autocomplete"
