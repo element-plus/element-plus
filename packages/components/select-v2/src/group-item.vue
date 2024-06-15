@@ -1,7 +1,7 @@
 <template>
   <div
     :class="ns.be('group', 'title')"
-    :style="[style, { lineHeight: `${height}px` }]"
+    :style="{ ...style, lineHeight: `${height}px` }"
   >
     {{ item.label }}
   </div>
@@ -20,11 +20,9 @@ export default defineComponent({
     },
     style: {
       type: Object as PropType<CSSProperties>,
-      required: true,
     },
     height: {
       type: Number,
-      required: true,
     },
   },
   setup() {

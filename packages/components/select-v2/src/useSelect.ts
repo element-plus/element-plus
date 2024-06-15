@@ -153,7 +153,6 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   )
 
   const validateState = computed(() => elFormItem?.validateState || '')
-  // eslint-disable-next-line vue/return-in-computed-property
   const validateIcon = computed(() => {
     if (!validateState.value) return
     return ValidateComponentsMap[validateState.value]
@@ -589,7 +588,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       states.cachedOptions.splice(lastNotDisabledIndex, 1)
       removeNewOption(option)
       update(selected)
-      emit('remove-tag', removeTagValue)
+      emit('removeTag', removeTagValue)
     }
   }
 
@@ -667,8 +666,8 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     }
   }
 
-  const onHoverOption = (idx: number) => {
-    states.hoveringIndex = idx
+  const onHoverOption = (idx?: number) => {
+    states.hoveringIndex = idx ?? -1
   }
 
   const updateHoveringIndex = () => {

@@ -4,7 +4,12 @@ import {
   useEmptyValuesProps,
   useSizeProp,
 } from '@element-plus/hooks'
-import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
+import {
+  buildProps,
+  definePropType,
+  iconPropType,
+  isNumber,
+} from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
@@ -261,7 +266,6 @@ export const OptionProps = buildProps({
   },
   index: {
     type: Number,
-    required: true,
   },
   style: Object,
   selected: Boolean,
@@ -278,16 +282,14 @@ export const selectEmits = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   visibleChange: (visible: boolean) => true,
   clear: () => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  focus: (event: FocusEvent) => true,
+  focus: (event: FocusEvent) => event instanceof FocusEvent,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   blur: (event: FocusEvent) => true,
 }
 export const optionEmits = {
+  hover: (index?: number) => isNumber(index),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  hover: (index: number) => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  select: (val: Option, index: number) => true,
+  select: (val: Option, index?: number) => true,
 }
 
 export type ISelectV2Props = ExtractPropTypes<typeof SelectProps>

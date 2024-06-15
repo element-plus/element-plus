@@ -10,14 +10,9 @@ export const useCache = <T>() => {
   const props = vm.proxy!.$props as VirtualizedProps
 
   return computed(() => {
-    const _getItemStyleCache = (
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      _: any,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      __: any,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ___: any
-    ): Record<string, T> => ({})
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _getItemStyleCache = (_: any, __: any, ___: any) =>
+      ({} as Record<string, T>)
     return props.perfMode
       ? memoize(_getItemStyleCache)
       : memoOne(_getItemStyleCache)

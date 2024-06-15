@@ -8,7 +8,7 @@ export interface SelectV2Context {
   expanded: Ref<boolean>
   tooltipRef: Ref<TooltipInstance | undefined>
   onSelect: (option: Option) => void
-  onHover: (idx: number) => void
+  onHover: (idx?: number) => void
   onKeyboardNavigate: (direction: 'forward' | 'backward') => void
   onKeyboardSelect: () => void
 }

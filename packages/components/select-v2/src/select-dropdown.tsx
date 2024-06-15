@@ -181,7 +181,7 @@ export default defineComponent({
           <GroupItem
             item={item}
             style={style}
-            height={(sized ? itemSize : estimatedSize) as number}
+            height={sized ? (itemSize as number) : estimatedSize}
           />
         )
       }
