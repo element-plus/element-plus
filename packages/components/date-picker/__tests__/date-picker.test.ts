@@ -1670,8 +1670,8 @@ describe('YearRange', () => {
     const vm = wrapper.vm as any
     expect(Array.isArray(vm.value)).toBeTruthy()
     // input text is something like date string
-    expect(inputs[0].element.value.length).toBe(7)
-    expect(inputs[1].element.value.length).toBe(7)
+    expect(inputs[0].element.value.length).toBe(4)
+    expect(inputs[1].element.value.length).toBe(4)
     // reverse selection
     p1.click()
     await nextTick()
