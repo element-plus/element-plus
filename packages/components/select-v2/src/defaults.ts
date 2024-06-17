@@ -272,25 +272,21 @@ export const OptionProps = buildProps({
   created: Boolean,
 } as const)
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export const selectEmits = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [UPDATE_MODEL_EVENT]: (val: ISelectV2Props['modelValue']) => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [CHANGE_EVENT]: (val: ISelectV2Props['modelValue']) => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeTag: (val: unknown) => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   visibleChange: (visible: boolean) => true,
-  clear: () => true,
-  focus: (event: FocusEvent) => event instanceof FocusEvent,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   blur: (event: FocusEvent) => true,
+  focus: (event: FocusEvent) => event instanceof FocusEvent,
+  clear: () => true,
 }
 export const optionEmits = {
   hover: (index?: number) => isNumber(index),
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   select: (val: Option, index?: number) => true,
 }
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 export type ISelectV2Props = ExtractPropTypes<typeof SelectProps>
 export type IOptionV2Props = ExtractPropTypes<typeof OptionProps>
