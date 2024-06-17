@@ -110,14 +110,14 @@ menu/popper-offset
 
 | Name                                | Description                                                                                                                                   | Type                  | Accepted Values | Default                                         |
 | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | --------------- | ----------------------------------------------- |
-| index                               | unique identification                                                                                                                         | string                | —               | —                                               |
-| popper-class                        | custom class name for the popup menu                                                                                                          | string                | —               | —                                               |
-| show-timeout                        | timeout before showing a sub-menu(inherit `show-timeout` of the menu by default.)                                                             | number                | —               | —                                               |
-| hide-timeout                        | timeout before hiding a sub-menu(inherit `hide-timeout` of the menu by default.)                                                              | number                | —               | —                                               |
-| disabled                            | whether the sub-menu is disabled                                                                                                              | boolean               | —               | false                                           |
-| popper-append-to-body ^(deprecated) | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop                              | boolean               | —               | level one SubMenu: true / other SubMenus: false |
-| teleported                          | whether popup menu is teleported to the body                                                                                                  | boolean               | —               | level one SubMenu: true / other SubMenus: false |
-| popper-offset                       | offset of the popper (overrides the `popper` of menu)                                                                                         | number                | —               | —                                               |
+| index                               | unique identification                                                                                                                         | `string`                | —               | —                                               |
+| popper-class                        | custom class name for the popup menu                                                                                                          | `string`                | —               | —                                               |
+| show-timeout                        | timeout before showing a sub-menu(inherit `show-timeout` of the menu by default.)                                                             | `number`                | —               | —                                               |
+| hide-timeout                        | timeout before hiding a sub-menu(inherit `hide-timeout` of the menu by default.)                                                              | `number`                | —               | —                                               |
+| disabled                            | whether the sub-menu is disabled                                                                                                              | `boolean`               | —               | false                                           |
+| popper-append-to-body ^(deprecated) | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop                              | `boolean`               | —               | level one SubMenu: true / other SubMenus: false |
+| teleported                          | whether popup menu is teleported to the body                                                                                                  | `boolean`               | —               | level one SubMenu: true / other SubMenus: false |
+| popper-offset                       | offset of the popper (overrides the `popper` of menu)                                                                                         | `number`                | —               | —                                               |
 | expand-close-icon                   | Icon when menu are expanded and submenu are closed, `expand-close-icon` and `expand-open-icon` need to be passed together to take effect      | `string \| Component` | —               | —                                               |
 | expand-open-icon                    | Icon when menu are expanded and submenu are opened, `expand-open-icon` and `expand-close-icon` need to be passed together to take effect      | `string \| Component` | —               | —                                               |
 | collapse-close-icon                 | Icon when menu are collapsed and submenu are closed, `collapse-close-icon` and `collapse-open-icon` need to be passed together to take effect | `string \| Component` | —               | —                                               |
@@ -134,9 +134,9 @@ menu/popper-offset
 
 | Name     | Description           | Type        | Accepted Values | Default |
 | -------- | --------------------- | ----------- | --------------- | ------- |
-| index    | unique identification | string/null | —               | null    |
-| route    | Vue Router object     | object      | —               | —       |
-| disabled | whether disabled      | boolean     | —               | false   |
+| index    | unique identification | `string/null` | —               | null    |
+| route    | Vue Router object     | `object`      | —               | —       |
+| disabled | whether disabled      | `boolean`     | —               | false   |
 
 ## Menu-Item Events
 
@@ -155,7 +155,7 @@ menu/popper-offset
 
 | Name  | Description | Type   | Accepted Values | Default |
 | ----- | ----------- | ------ | --------------- | ------- |
-| title | group title | string | —               | —       |
+| title | group title | `string` | —               | —       |
 
 ## Menu-Item-Group Slots
 
