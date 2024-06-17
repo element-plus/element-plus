@@ -343,8 +343,7 @@ const highlight = (index: number) => {
     suggestion.scrollTop -= scrollHeight
   }
   highlightedIndex.value = index
-  // TODO: use Volar generate dts to fix it.
-  ;(inputRef.value as any).ref!.setAttribute(
+  inputRef.value!.ref!.setAttribute(
     'aria-activedescendant',
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
@@ -355,16 +354,15 @@ onClickOutside(listboxRef, () => {
 })
 
 onMounted(() => {
-  // TODO: use Volar generate dts to fix it.
-  ;(inputRef.value as any).ref!.setAttribute('role', 'textbox')
-  ;(inputRef.value as any).ref!.setAttribute('aria-autocomplete', 'list')
-  ;(inputRef.value as any).ref!.setAttribute('aria-controls', 'id')
-  ;(inputRef.value as any).ref!.setAttribute(
+  inputRef.value!.ref!.setAttribute('role', 'textbox')
+  inputRef.value!.ref!.setAttribute('aria-autocomplete', 'list')
+  inputRef.value!.ref!.setAttribute('aria-controls', 'id')
+  inputRef.value!.ref!.setAttribute(
     'aria-activedescendant',
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
   // get readonly attr
-  readonly = (inputRef.value as any).ref!.hasAttribute('readonly')
+  readonly = inputRef.value!.ref!.hasAttribute('readonly')
 })
 
 defineExpose({
