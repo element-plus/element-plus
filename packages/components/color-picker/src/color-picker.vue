@@ -298,7 +298,6 @@ function handleConfirm() {
 function confirmValue() {
   const value = color.value
   emit(UPDATE_MODEL_EVENT, value)
-  emit('confirm', value)
   emit('change', value)
   if (props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
@@ -320,7 +319,6 @@ function confirmValue() {
 function clear() {
   debounceSetShowPicker(false)
   emit(UPDATE_MODEL_EVENT, null)
-  emit('clear')
   emit('change', null)
   if (props.modelValue !== null && props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
