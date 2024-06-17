@@ -21,9 +21,7 @@ export default defineComponent({
     style: {
       type: Object as PropType<CSSProperties>,
     },
-    height: {
-      type: Number,
-    },
+    height: Number,
   },
   setup() {
     const ns = useNamespace('select')

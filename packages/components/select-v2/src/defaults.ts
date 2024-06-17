@@ -264,9 +264,7 @@ export const OptionProps = buildProps({
     type: definePropType<Option>(Object),
     required: true,
   },
-  index: {
-    type: Number,
-  },
+  index: Number,
   style: Object,
   selected: Boolean,
   created: Boolean,
