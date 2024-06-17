@@ -100,7 +100,7 @@ switch/custom-action-slot
 ### Attributes
 
 | Name                          | Description                                                                                                                                     | Type                                             | Default |
-|-------------------------------| ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ------- |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ------- |
 | model-value / v-model         | binding value, it should be equivalent to either `active-value` or `inactive-value`, by default it's `boolean` type                             | ^[boolean] / ^[string] / ^[number]               | false   |
 | disabled                      | whether Switch is disabled                                                                                                                      | ^[boolean]                                       | false   |
 | loading                       | whether Switch is in loading state                                                                                                              | ^[boolean]                                       | false   |

@@ -84,7 +84,7 @@ tree-v2/filter
 | current-node-key      | key of initially selected node                                                                                                               | string / number       | —       |
 | filter-method         | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | Function(value, data) | —       |
 | indent                | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | number                | 16      |
-| icon                  | custom tree node icon                                                                                                                        | `string \| Component` | -       |
+| icon                  | custom tree node icon                                                                                                                        | `string \| Component` | —       |
 | item-size ^(2.2.33)   | custom tree node height                                                                                                                      | number                | 26      |
 
 ## props
@@ -107,10 +107,10 @@ tree-v2/filter
 | setCheckedKeys | set certain nodes to be checked | `(keys: TreeKey[])` |
 | setChecked | set node to be checked or not | `(key: TreeKey, checked: boolean)` |
 | setExpandedKeys | set certain nodes to be expanded | `(keys: TreeKey[])` |
-| getHalfCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes | - |
-| getHalfCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys | - |
-| getCurrentKey | return the highlight node's key (undefined if no node is highlighted) | - |
-| getCurrentNode | return the highlight node's data (undefined if no node is highlighted) | - |
+| getHalfCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes | — |
+| getHalfCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys | — |
+| getCurrentKey | return the highlight node's key (undefined if no node is highlighted) | — |
+| getCurrentNode | return the highlight node's data (undefined if no node is highlighted) | — |
 | setCurrentKey | set highlighted node by key | `(key: TreeKey)` |
 | getNode | get node by key or data | `(data: TreeKey \| TreeNodeData)` |
 | expandNode | expand specified node | `(node: TreeNode)` |

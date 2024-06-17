@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, it } from 'vitest'
 import Options from '../src/options'
 
+import type { PropType } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 
 describe('options', () => {
@@ -12,6 +13,9 @@ describe('options', () => {
     name: 'ElOption',
     props: {
       label: String,
+      value: [String, Number, Boolean, Object] as PropType<
+        string | number | boolean | object
+      >,
     },
     template: '<div></div>',
   })
@@ -20,6 +24,9 @@ describe('options', () => {
 
   const ElOptionGroupStub = defineComponent({
     name: 'ElOptionGroup',
+    props: {
+      label: String,
+    },
     template: '<div><slot /></div>',
   })
 
