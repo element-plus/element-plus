@@ -2,7 +2,7 @@ export default {
   name: 'fr',
   el: {
     breadcrumb: {
-      label: 'Fil d\'Ariane',
+      label: `Fil d'Ariane`,
     },
     colorpicker: {
       confirm: 'OK',
