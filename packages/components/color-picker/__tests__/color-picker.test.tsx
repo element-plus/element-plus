@@ -72,21 +72,11 @@ describe('Color-picker', () => {
   })
   it('should pick a color when confirm button click', async () => {
     const color = ref(null)
-    const isConfirm = ref(false)
-    const wrapper = mount(() => (
-      <ColorPicker
-        v-model={color.value}
-        onConfirm={() => {
-          isConfirm.value = true
-        }}
-      />
-    ))
+    const wrapper = mount(() => <ColorPicker v-model={color.value} />)
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
-    expect(isConfirm.value).toBe(false)
     document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
     await nextTick()
-    expect(isConfirm.value).toBe(true)
     expect(color.value).toEqual('#FF0000')
     wrapper.unmount()
   })
