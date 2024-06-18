@@ -22,7 +22,6 @@ import {
   useNamespace,
   useSizeProp,
 } from '@element-plus/hooks'
-import { useFormSize } from '@element-plus/components/form'
 import { elPaginationKey } from './constants'
 
 import Prev from './components/prev.vue'
