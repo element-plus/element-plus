@@ -193,7 +193,7 @@ export default defineComponent({
     const { t } = useLocale()
     const ns = useNamespace('pagination')
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
-    const _size = props.small ? 'small' : props?.size
+    const _size = computed(() => (props.small ? 'small' : props?.size))
     useDeprecated(
       {
         from: 'small',
@@ -382,7 +382,7 @@ export default defineComponent({
           onClick: prev,
         }),
         jumper: h(Jumper, {
-          size: _size,
+          size: _size.value,
         }),
         pager: h(Pager, {
           currentPage: currentPageBridge.value,
@@ -405,7 +405,7 @@ export default defineComponent({
           popperClass: props.popperClass,
           disabled: props.disabled,
           teleported: props.teleported,
-          size: _size,
+          size: _size.value,
         }),
         slot: slots?.default?.() ?? null,
         total: h(Total, { total: isAbsent(props.total) ? 0 : props.total }),
@@ -447,7 +447,7 @@ export default defineComponent({
             ns.b(),
             ns.is('background', props.background),
             {
-              [ns.m(_size)]: true,
+              [ns.m(_size.value)]: true,
             },
           ],
         },
