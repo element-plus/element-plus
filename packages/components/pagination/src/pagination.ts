@@ -201,7 +201,7 @@ export default defineComponent({
       {
         from: 'small',
         replacement: 'size',
-        version: '2.7.4',
+        version: '3.0.0',
         scope: 'el-pagination',
         ref: 'https://element-plus.org/zh-CN/component/pagination.html',
       },
