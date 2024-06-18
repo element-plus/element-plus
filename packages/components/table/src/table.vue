@@ -296,7 +296,7 @@ export default defineComponent({
     })
 
     const columns = computed(() => {
-      return convertToRows(store.states.originColumns.value)
+      return convertToRows(store.states.originColumns.value)[0]
     })
 
     useKeyRender(table)
