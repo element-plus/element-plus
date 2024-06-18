@@ -549,6 +549,8 @@ const handleMaxTimeClose = () => {
   maxTimePickerVisible.value = false
 }
 
+const leftDate = ref<Dayjs | null>(null);
+const rightDate = ref<Dayjs | null>(null);
 const handleDateInput = (value: string | null, type: ChangeType) => {
   dateUserInput.value[type] = value
   const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
