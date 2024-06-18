@@ -591,7 +591,8 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
 const handleDateChange = (_: unknown, type: ChangeType) => {
   dateUserInput.value[type] = null
 }
-
+const leftTime = ref<Dayjs | null>(null);
+const rightTime = ref<Dayjs | null>(null);
 const handleTimeInput = (value: string | null, type: ChangeType) => {
   timeUserInput.value[type] = value
   const parsedValueD = dayjs(value, timeFormat.value).locale(lang.value)
