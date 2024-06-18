@@ -194,9 +194,7 @@ export default defineComponent({
     const { t } = useLocale()
     const ns = useNamespace('pagination')
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
-    const _size = useFormSize(
-      computed(() => (props.small ? 'small' : vnodeProps?.size))
-    )
+    const _size = props.small ? 'small' : vnodeProps?.size
     useDeprecated(
       {
         from: 'small',
@@ -450,7 +448,7 @@ export default defineComponent({
             ns.b(),
             ns.is('background', props.background),
             {
-              [ns.m(String(_size!.value))]: true,
+              [ns.m(_size.value)]: true,
             },
           ],
         },
