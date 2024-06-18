@@ -382,7 +382,7 @@ export default defineComponent({
           onClick: prev,
         }),
         jumper: h(Jumper, {
-          size: _size.value,
+          size: _size,
         }),
         pager: h(Pager, {
           currentPage: currentPageBridge.value,
@@ -405,7 +405,7 @@ export default defineComponent({
           popperClass: props.popperClass,
           disabled: props.disabled,
           teleported: props.teleported,
-          size: _size.value,
+          size: _size,
         }),
         slot: slots?.default?.() ?? null,
         total: h(Total, { total: isAbsent(props.total) ? 0 : props.total }),
@@ -447,7 +447,7 @@ export default defineComponent({
             ns.b(),
             ns.is('background', props.background),
             {
-              [ns.m(_size.value)]: true,
+              [ns.m(_size)]: true,
             },
           ],
         },
