@@ -198,8 +198,8 @@ export default defineComponent({
     useDeprecated(
       {
         from: 'small',
-        replacement: 'link',
-        version: '2.7.4',
+        replacement: 'size',
+        version: '3.0.0',
         scope: 'el-pagination',
         ref: 'https://element-plus.org/zh-CN/component/pagination.html',
       },
