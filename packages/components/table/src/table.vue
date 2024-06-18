@@ -177,6 +177,7 @@ import TableHeader from './table-header'
 import TableBody from './table-body'
 import TableFooter from './table-footer'
 import useUtils from './table/utils-helper'
+import { convertToRows } from './table-header/utils-helper'
 import useStyle from './table/style-helper'
 import useKeyRender from './table/key-render-helper'
 import defaultProps from './table/defaults'
@@ -294,12 +295,17 @@ export default defineComponent({
       return props.emptyText || t('el.table.emptyText')
     })
 
+    const columns = computed(() => {
+      return convertToRows(store.states.originColumns.value)
+    })
+
     useKeyRender(table)
 
     return {
       ns,
       layout,
       store,
+      columns,
       handleHeaderFooterMousewheel,
       handleMouseLeave,
       tableId,
