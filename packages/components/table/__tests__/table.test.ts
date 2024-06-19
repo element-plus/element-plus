@@ -1019,6 +1019,30 @@ describe('Table.vue', () => {
 
       wrapper.unmount()
     })
+
+    it('get table columns', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+        <div>
+          <el-table ref="table" :data="testData" highlight-current-row>
+            <el-table-column prop="name" sortable />
+            <el-table-column prop="release" sortable />
+          </el-table>
+        </div>
+        `,
+        data() {
+          return { testData: getTestData() }
+        },
+      })
+      const vm = wrapper.vm
+      await doubleWait()
+      expect(vm.$refs.table.columns.length).toBe(2)
+      wrapper.unmount()
+    })
   })
 
   it('hover', async () => {
