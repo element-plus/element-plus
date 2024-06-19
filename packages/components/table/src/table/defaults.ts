@@ -3,7 +3,6 @@ import { useSizeProp } from '@element-plus/hooks'
 import { iconPropType } from '@element-plus/utils'
 import type {
   CSSProperties,
-  Component,
   ComponentInternalInstance,
   PropType,
   Ref,
