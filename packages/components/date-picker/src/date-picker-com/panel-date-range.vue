@@ -681,7 +681,10 @@ const handleClear = () => {
   rightDate.value = leftDate.value.add(1, 'month')
   maxDate.value = undefined
   minDate.value = undefined
-  emit('pick', null)
+
+  if (props.type === 'datetimerange') {
+    emit('pick', null)
+  }
 }
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
