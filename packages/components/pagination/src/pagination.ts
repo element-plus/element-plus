@@ -446,9 +446,7 @@ export default defineComponent({
           class: [
             ns.b(),
             ns.is('background', props.background),
-            {
-              [ns.m(_size.value)]: true,
-            },
+            ns.m(_size.value),
           ],
         },
         rootChildren
