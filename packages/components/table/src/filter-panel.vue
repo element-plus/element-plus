@@ -89,14 +89,7 @@
 
 <script lang="ts">
 // @ts-nocheck
-import {
-  Component,
-  computed,
-  defineComponent,
-  getCurrentInstance,
-  ref,
-  watch,
-} from 'vue'
+import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
