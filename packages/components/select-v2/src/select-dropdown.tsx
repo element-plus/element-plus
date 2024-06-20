@@ -65,7 +65,8 @@ export default defineComponent({
 
       return {
         estimatedSize: select.props.estimatedOptionHeight,
-        itemSize: (idx: number) => cachedHeights.value[idx],
+        itemSize: (idx: number) =>
+          cachedHeights.value[idx] ?? select.props.estimatedOptionHeight,
       }
     })
 
