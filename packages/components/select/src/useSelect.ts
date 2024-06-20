@@ -249,6 +249,11 @@ export const useSelect = (props: ISelectProps, emit) => {
       : states.selectedLabel
   })
 
+  // 判断 modelValue 是否发生过变化
+  const modelValueChange = ref(false)
+  // 判断 Array 是否是生成的
+  const isGenerateArray = ref(false)
+
   watch(
     () => props.modelValue,
     (val, oldVal) => {
@@ -260,6 +265,12 @@ export const useSelect = (props: ISelectProps, emit) => {
       }
       setSelected()
       if (!isEqual(val, oldVal) && props.validateEvent) {
+        // fix: select multiple 没有填写默认值时候 初始化会自动触发一次表单校验
+        if (isGenerateArray.value && !modelValueChange.value) {
+          modelValueChange.value = true
+          return
+        }
+        modelValueChange.value = true
         formItem?.validate('change').catch((err) => debugWarn(err))
       }
     },
@@ -773,6 +784,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   }))
 
   if (props.multiple && !isArray(props.modelValue)) {
+    isGenerateArray.value = true
     emit(UPDATE_MODEL_EVENT, [])
   }
   if (!props.multiple && isArray(props.modelValue)) {
