@@ -185,6 +185,7 @@ function useWatcher<T>() {
   }
 
   const getSelectionRows = () => {
+    _toggleAllSelection()
     return (selection.value || []).slice()
   }
 
