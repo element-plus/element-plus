@@ -376,5 +376,60 @@ describe('<upload />', () => {
       await nextTick()
       expect(onProgress).toHaveBeenCalled()
     })
+
+    test('httpRequest should work even global Promise is overwritten', async () => {
+      const GlobalPromise = globalThis.Promise
+      class Deferred<T> {
+        public resolve!: (value: T | PromiseLike<T>) => void
+        public reject!: (reason: any) => void
+        public promise: Promise<T>
+        constructor(
+          executor: (
+            resolve: (value: T | PromiseLike<T>) => void,
+            reject: (reason?: any) => void
+          ) => void
+        ) {
+          let resolve: (value: T | PromiseLike<T>) => void
+          let reject: (reason: any) => void
+          this.promise = new GlobalPromise((ok, err) => {
+            resolve = ok
+            reject = err
+            executor(ok, err)
+          })
+          this.resolve = resolve!
+          this.reject = reject!
+        }
+
+        then(onfulfilled?: any, onrejected?: any) {
+          return this.promise.then(onfulfilled, onrejected)
+        }
+
+        static resolve<T>(value: T | PromiseLike<T>) {
+          return GlobalPromise.resolve(value)
+        }
+      }
+      globalThis.Promise = Deferred as any
+      try {
+        const onSuccess = vi.fn((value) => {
+          expect(value).toBe(42)
+        })
+        const httpRequest = vi.fn(async () => {
+          return 42
+        })
+        const wrapper = mount(
+          <UploadContent httpRequest={httpRequest} onSuccess={onSuccess} />
+        )
+
+        const fileList = [new File(['content'], 'test-file.txt')]
+        mockGetFile(wrapper.find('input').element, fileList)
+
+        await wrapper.find('input').trigger('change')
+        await nextTick()
+        expect(httpRequest).toHaveBeenCalled()
+        expect(onSuccess).toHaveBeenCalled()
+      } finally {
+        globalThis.Promise = GlobalPromise
+      }
+    })
   })
 })
