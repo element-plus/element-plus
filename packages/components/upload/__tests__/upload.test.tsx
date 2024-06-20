@@ -400,12 +400,17 @@ describe('<upload />', () => {
           this.reject = reject!
         }
 
-        then(onfulfilled?: any, onrejected?: any) {
-          return this.promise.then(onfulfilled, onrejected)
+        then<TResult = T>(
+          onfulfilled?: (value: T) => TResult | PromiseLike<TResult>,
+          onrejected?: any
+        ): Deferred<TResult> {
+          return Deferred.resolve(this.promise.then(onfulfilled, onrejected))
         }
 
         static resolve<T>(value: T | PromiseLike<T>) {
-          return GlobalPromise.resolve(value)
+          return new Deferred<T>((resolve) => {
+            resolve(value)
+          })
         }
       }
       globalThis.Promise = Deferred as any
