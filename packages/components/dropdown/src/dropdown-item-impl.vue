@@ -7,11 +7,11 @@
   />
   <li
     :ref="itemRef"
-    v-bind="{ ...dataset, ...$attrs }"
     :aria-disabled="disabled"
     :class="[ns.be('menu', 'item'), ns.is('disabled', disabled)]"
     :tabindex="tabIndex"
     :role="role"
+    v-bind="{ ...dataset, ...$attrs }"
     @click="(e) => $emit('clickimpl', e)"
     @focus="handleFocus"
     @keydown.self="handleKeydown"
