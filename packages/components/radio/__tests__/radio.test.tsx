@@ -1,6 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, it, test } from 'vitest'
+import { describe, expect, it, test, vi } from 'vitest'
+import { noop } from 'lodash'
 import { ElFormItem } from '@element-plus/components/form'
 import Radio from '../src/radio.vue'
 import RadioGroup from '../src/radio-group.vue'
@@ -300,6 +301,41 @@ describe('Radio Button', () => {
       </RadioGroup>
     ))
     expect(wrapper.findAll('.el-radio-button--large').length).toBe(3)
+  })
+
+  it('use computed', async () => {
+    const onChange = vi.fn()
+    const wrapper = mount({
+      components: {
+        RadioGroup,
+        RadioButton,
+      },
+      template: `
+          <RadioGroup size="large" v-model="radio" @change="onChange">
+            <RadioButton :label="0">0</RadioButton>
+            <RadioButton :label="1">1</RadioButton>
+            <RadioButton :label="2">2</RadioButton>
+          </RadioGroup>
+        `,
+      method: {
+        onChange,
+      },
+      computed: {
+        radio: {
+          get() {
+            return 1
+          },
+          set: noop,
+        },
+      },
+    })
+    const radios = wrapper.findAll<HTMLInputElement>('[type=radio]')
+    radios[0].trigger('click')
+    await nextTick()
+    expect(radios[0].element.checked, 'radio 0').toBe(false)
+    expect(radios[1].element.checked, 'radio 1').toBe(true)
+    expect(radios[2].element.checked, 'radio 2').toBe(false)
+    expect(onChange).toBeCalledTimes(0)
   })
 
   describe('form item accessibility integration', () => {
