@@ -4,6 +4,7 @@ import chalk from 'chalk'
 import consola from 'consola'
 import { docRoot, errorAndExit } from '@element-plus/build-utils'
 
+const hiddenFileReg = new RegExp(/^\.[^/]+/, 'g')
 // NB: this file is only for generating files that enables developers to develop the website.
 const componentLocaleRoot = path.resolve(docRoot, '.vitepress/crowdin')
 
@@ -20,9 +21,11 @@ async function main() {
   const dirs = await fs.promises.readdir(componentLocaleRoot, {
     withFileTypes: true,
   })
-  const languages = dirs.map((dir) => dir.name)
+  // match directories that follow language naming rules.
+  const languages = dirs
+    .filter((dir) => !hiddenFileReg.test(dir.name))
+    .map((dir) => dir.name)
   const langWithoutEn = languages.filter((l) => l !== 'en-US')
-
   await fs.promises.mkdir(localeOutput)
 
   // build lang.json for telling `header>language-select` how many languages are there
@@ -56,6 +59,7 @@ async function traverseDir(
 
   await Promise.all(
     contents.map(async (c) => {
+      if (hiddenFileReg.test(c.name)) return Promise.resolve()
       if (c.isDirectory()) {
         await fs.promises.mkdir(path.resolve(targetPath, c.name), {
           recursive: true,
