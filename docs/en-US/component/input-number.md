@@ -92,7 +92,7 @@ input-number/custom
 ### Attributes
 
 | Name                        | Description                                      | Type                                          | Default   |
-|-----------------------------| ------------------------------------------------ | --------------------------------------------- | --------- |
+| --------------------------- | ------------------------------------------------ | --------------------------------------------- | --------- |
 | model-value / v-model       | binding value                                    | ^[number]                                     | —         |
 | min                         | the minimum allowed value                        | ^[number]                                     | -Infinity |
 | max                         | the maximum allowed value                        | ^[number]                                     | Infinity  |

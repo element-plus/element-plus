@@ -51,6 +51,16 @@ table/with-status
 
 :::
 
+## Table with show overflow tooltip
+
+When the content is too long, it will break into multiple lines, you can use `show-overflow-tooltip` to keep it in one line.
+
+:::demo Attribute `show-overflow-tooltip`, which accepts a `Boolean` value. When set `true`, the extra content will show in tooltip when hover on the cell.
+
+table/show-overflow-tooltip
+
+:::
+
 ## Table with fixed header
 
 When there are too many rows, you can use a fixed header.
@@ -125,7 +135,7 @@ table/single-select
 
 You can also select multiple rows.
 
-:::demo Activating multiple selection is easy: simply add an `el-table-column` with its `type` set to `selection`. Apart from multiple selection, this example also uses `show-overflow-tooltip`. By default, if the content is too long, it will break into multiple lines. If you want to keep it in one line, use attribute `show-overflow-tooltip`, which accepts a `Boolean` value. When set `true`, the extra content will show in tooltip when hover on the cell.
+:::demo Activating multiple selection is easy: simply add an `el-table-column` with its `type` set to `selection`.
 
 table/multi-select
 
@@ -322,6 +332,8 @@ table/table-layout
 | scrollTo           | scrolls to a particular set of coordinates                                                                                                                        | ^[Function]`(options: number \| ScrollToOptions, yCoord?: number) => void` |
 | setScrollTop       | set vertical scroll position                                                                                                                                      | ^[Function]`(top?: number) => void`                                        |
 | setScrollLeft      | set horizontal scroll position                                                                                                                                    | ^[Function]`(left?: number) => void`                                       |
+| columns ^(2.7.6)   | Get table columns context.                                                                                                                                        | ^[array]`TableColumnCtx<T>[]`                                              |
+
 
 ## Table-column API
 
