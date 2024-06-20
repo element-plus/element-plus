@@ -217,4 +217,33 @@ describe('TableV2.vue', () => {
     expect(cell.exists()).toBe(true)
     expect(cell.find('div [style^=margin-inline-star]').exists()).toBe(false)
   })
+
+  test('In flexible layout mode, it should render correctly when the width changes from 0 to 1000', async () => {
+    const columns = ref(generateColumns(10))
+    const data = ref(generateData(columns.value, 20))
+    const width = ref(0)
+    const wrapper = mount(() => (
+      <TableV2
+        columns={columns.value}
+        estimatedRowHeight={50}
+        data={data.value}
+        width={width.value}
+        height={400}
+      />
+    ))
+    expect(
+      wrapper
+        .find('.el-table-v2__body>div>div')
+        .attributes('style')
+        ?.includes('width: 0px')
+    ).toBe(true)
+    width.value = 1000
+    await nextTick()
+    expect(
+      wrapper
+        .find('.el-table-v2__body>div>div')
+        .attributes('style')
+        ?.includes('width: 1000px')
+    ).toBe(true)
+  })
 })
