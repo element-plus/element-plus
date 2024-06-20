@@ -30,10 +30,13 @@ function useUtils<T>(store: Store<T>) {
   const sort = (prop: string, order: string) => {
     store.commit('sort', { prop, order })
   }
-
+  const clearTreeNode = (key: string) => {
+    return store.clearTreeNode(key)
+  }
   return {
     setCurrentRow,
     getSelectionRows,
+    clearTreeNode,
     toggleRowSelection,
     clearSelection,
     clearFilter,
