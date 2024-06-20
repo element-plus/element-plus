@@ -81,7 +81,11 @@ export default defineComponent({
         >
           {{
             default: (scopedProps: /**FIXME: remove any type */ any) => (
-              <Component {...scopedProps} />
+              <Component {...scopedProps}>
+                {{
+                  footer: slots.footer ? slots.footer : undefined,
+                }}
+              </Component>
             ),
             'range-separator': slots['range-separator'],
           }}

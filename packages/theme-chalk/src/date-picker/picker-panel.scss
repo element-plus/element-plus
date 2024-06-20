@@ -36,6 +36,13 @@
     font-size: 0;
   }
 
+  @include e(footer__slot) {
+    border-top: 1px solid getCssVar('datepicker-inner-border-color');
+    padding: 4px 12px;
+    background-color: getCssVar('bg-color', 'overlay');
+    position: relative;
+  }
+
   @include e(shortcut) {
     display: block;
     width: 100%;

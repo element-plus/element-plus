@@ -226,31 +226,41 @@
         </div>
       </div>
     </div>
-    <div v-if="showTime" :class="ppNs.e('footer')">
-      <el-button
-        v-if="clearable"
-        text
-        size="small"
-        :class="ppNs.e('link-btn')"
-        @click="handleClear"
-      >
-        {{ t('el.datepicker.clear') }}
-      </el-button>
-      <el-button
-        plain
-        size="small"
-        :class="ppNs.e('link-btn')"
-        :disabled="btnDisabled"
-        @click="handleRangeConfirm(false)"
-      >
-        {{ t('el.datepicker.confirm') }}
-      </el-button>
+    <div
+      v-if="showTime || slots.footer"
+      :class="[
+        { [ppNs.e('footer')]: showTime && !slots.footer },
+        { [ppNs.e('footer__slot')]: slots.footer },
+      ]"
+    >
+      <slot name="footer">
+        <template v-if="showTime">
+          <el-button
+            v-if="clearable"
+            text
+            size="small"
+            :class="ppNs.e('link-btn')"
+            @click="handleClear"
+          >
+            {{ t('el.datepicker.clear') }}
+          </el-button>
+          <el-button
+            plain
+            size="small"
+            :class="ppNs.e('link-btn')"
+            :disabled="btnDisabled"
+            @click="handleRangeConfirm(false)"
+          >
+            {{ t('el.datepicker.confirm') }}
+          </el-button>
+        </template>
+      </slot>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, unref } from 'vue'
+import { computed, inject, ref, toRef, unref, useSlots } from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import { isArray } from '@element-plus/utils'
@@ -300,6 +310,7 @@ const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
 const leftDate = ref<Dayjs>(dayjs().locale(lang.value))
 const rightDate = ref<Dayjs>(dayjs().locale(lang.value).add(1, unit))
+const slots = useSlots()
 
 const {
   minDate,
