@@ -377,7 +377,7 @@ describe('<upload />', () => {
       expect(onProgress).toHaveBeenCalled()
     })
 
-    test('httpRequest should work even global Promise is overwritten', async () => {
+    test('onSuccess should be called when global Promise is overwritten and httpRequest is async function', async () => {
       const GlobalPromise = globalThis.Promise
       class Deferred<T> {
         public resolve!: (value: T | PromiseLike<T>) => void
