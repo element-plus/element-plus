@@ -11,7 +11,7 @@ import type { ExtractPropTypes } from 'vue'
 import type { FormItemProp } from './form-item'
 import type { FormRules } from './types'
 
-const formMetaProps = buildProps({
+export const formMetaProps = buildProps({
   /**
    * @description Control the size of components in this form.
    */

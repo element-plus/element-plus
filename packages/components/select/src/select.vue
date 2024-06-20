@@ -5,7 +5,7 @@
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
     @mouseenter="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
-    @click.stop="toggleMenu"
+    @click.prevent.stop="toggleMenu"
   >
     <el-tooltip
       ref="tooltipRef"
@@ -68,7 +68,13 @@
                   @close="deleteTag($event, item)"
                 >
                   <span :class="nsSelect.e('tags-text')">
-                    {{ item.currentLabel }}
+                    <slot
+                      name="label"
+                      :label="item.currentLabel"
+                      :value="item.value"
+                    >
+                      {{ item.currentLabel }}
+                    </slot>
                   </span>
                 </el-tag>
               </div>
@@ -116,7 +122,13 @@
                         @close="deleteTag($event, item)"
                       >
                         <span :class="nsSelect.e('tags-text')">
-                          {{ item.currentLabel }}
+                          <slot
+                            name="label"
+                            :label="item.currentLabel"
+                            :value="item.value"
+                          >
+                            {{ item.currentLabel }}
+                          </slot>
                         </span>
                       </el-tag>
                     </div>
@@ -137,6 +149,7 @@
                 ref="inputRef"
                 v-model="states.inputValue"
                 type="text"
+                :name="name"
                 :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
                 :disabled="selectDisabled"
                 :autocomplete="autocomplete"
@@ -182,7 +195,15 @@
                 ),
               ]"
             >
-              <span>{{ currentPlaceholder }}</span>
+              <slot
+                v-if="hasModelValue"
+                name="label"
+                :label="currentPlaceholder"
+                :value="modelValue"
+              >
+                <span>{{ currentPlaceholder }}</span>
+              </slot>
+              <span v-else>{{ currentPlaceholder }}</span>
             </div>
           </div>
           <div ref="suffixRef" :class="nsSelect.e('suffix')">
@@ -210,7 +231,11 @@
       </template>
       <template #content>
         <el-select-menu ref="menuRef">
-          <div v-if="$slots.header" :class="nsSelect.be('dropdown', 'header')">
+          <div
+            v-if="$slots.header"
+            :class="nsSelect.be('dropdown', 'header')"
+            @click.stop
+          >
             <slot name="header" />
           </div>
           <el-scrollbar
@@ -248,7 +273,11 @@
               <span>{{ emptyText }}</span>
             </slot>
           </div>
-          <div v-if="$slots.footer" :class="nsSelect.be('dropdown', 'footer')">
+          <div
+            v-if="$slots.footer"
+            :class="nsSelect.be('dropdown', 'footer')"
+            @click.stop
+          >
             <slot name="footer" />
           </div>
         </el-select-menu>

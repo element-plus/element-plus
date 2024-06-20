@@ -301,6 +301,7 @@ export default defineComponent({
 
     let isFirstTimeRender = true
     const handleResize = () => {
+      if (sliceIndex.value === calcSliceIndex()) return
       const callback = () => {
         sliceIndex.value = -1
         nextTick(() => {

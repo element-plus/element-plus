@@ -17,6 +17,7 @@ import {
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import {
+  useEmptyValues,
   useFocusController,
   useLocale,
   useNamespace,
@@ -57,7 +58,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const { inputId } = useFormItemInputId(props, {
     formItemContext: elFormItem,
   })
-  const { getLabel, getValue, getDisabled, getOptions } = useProps(props)
+  const { aliasProps, getLabel, getValue, getDisabled, getOptions } =
+    useProps(props)
+  const { valueOnClear, isEmptyValue } = useEmptyValues(props)
 
   const states = reactive({
     inputValue: '',
@@ -76,7 +79,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
   })
 
   // data refs
-  const selectedIndex = ref(-1)
   const popperSize = ref(-1)
 
   // DOM & Component refs
@@ -129,18 +131,16 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const hasModelValue = computed(() => {
     return props.multiple
       ? isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined &&
-          props.modelValue !== null &&
-          props.modelValue !== ''
+      : !isEmptyValue(props.modelValue)
   })
 
   const showClearBtn = computed(() => {
-    const criteria =
+    return (
       props.clearable &&
       !selectDisabled.value &&
       states.inputHovering &&
       hasModelValue.value
-    return criteria
+    )
   })
 
   const iconComponent = computed(() =>
@@ -203,11 +203,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
           all.push(
             {
               label: getLabel(item),
-              isTitle: true,
               type: 'Group',
             },
-            ...filtered,
-            { type: 'Group' }
+            ...filtered
           )
         }
       } else if (props.remote || isValidOption(item)) {
@@ -222,6 +220,15 @@ const useSelect = (props: ISelectV2Props, emit) => {
     allOptions.value = filterOptions('') as OptionType[]
     filteredOptions.value = filterOptions(states.inputValue) as OptionType[]
   }
+
+  const allOptionsValueMap = computed(() => {
+    const valueMap = new Map()
+
+    allOptions.value.forEach((option, index) => {
+      valueMap.set(getValueKey(getValue(option)), { option, index })
+    })
+    return valueMap
+  })
 
   const filteredOptionsValueMap = computed(() => {
     const valueMap = new Map()
@@ -433,7 +440,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const update = (val: any) => {
     emit(UPDATE_MODEL_EVENT, val)
     emitChange(val)
-    states.previousValue = String(val)
+    states.previousValue = props.multiple ? String(val) : val
   }
 
   const getValueIndex = (arr = [], value: unknown) => {
@@ -481,7 +488,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     tagTooltipRef.value?.updatePopper?.()
   }
 
-  const onSelect = (option: Option, idx: number) => {
+  const onSelect = (option: Option) => {
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
@@ -509,7 +516,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
         states.inputValue = ''
       }
     } else {
-      selectedIndex.value = idx
       states.selectedLabel = getLabel(option)
       update(getValue(option))
       expanded.value = false
@@ -574,11 +580,13 @@ const useSelect = (props: ISelectV2Props, emit) => {
       const selected = (props.modelValue as Array<any>).slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(selected)
       if (lastNotDisabledIndex < 0) return
+      const removeTagValue = selected[lastNotDisabledIndex]
       selected.splice(lastNotDisabledIndex, 1)
       const option = states.cachedOptions[lastNotDisabledIndex]
       states.cachedOptions.splice(lastNotDisabledIndex, 1)
       removeNewOption(option)
       update(selected)
+      emit('remove-tag', removeTagValue)
     }
   }
 
@@ -587,7 +595,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     if (isArray(props.modelValue)) {
       emptyValue = []
     } else {
-      emptyValue = undefined
+      emptyValue = valueOnClear.value
     }
 
     if (props.multiple) {
@@ -652,10 +660,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
       ~states.hoveringIndex &&
       filteredOptions.value[states.hoveringIndex]
     ) {
-      onSelect(
-        filteredOptions.value[states.hoveringIndex],
-        states.hoveringIndex
-      )
+      onSelect(filteredOptions.value[states.hoveringIndex])
     }
   }
 
@@ -669,17 +674,11 @@ const useSelect = (props: ISelectV2Props, emit) => {
         return getValueKey(item) === getValueKey(props.modelValue)
       })
     } else {
-      if (props.modelValue.length > 0) {
-        states.hoveringIndex = Math.min(
-          ...props.modelValue.map((selected) => {
-            return filteredOptions.value.findIndex((item) => {
-              return getValue(item) === selected
-            })
-          })
+      states.hoveringIndex = filteredOptions.value.findIndex((item) =>
+        props.modelValue.some(
+          (modelValue) => getValueKey(modelValue) === getValueKey(item)
         )
-      } else {
-        states.hoveringIndex = -1
-      }
+      )
     }
   }
 
@@ -702,6 +701,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   }
 
   const handleMenuEnter = () => {
+    states.isBeforeHide = false
     return nextTick(() => {
       if (~indexRef.value) {
         scrollToItem(states.hoveringIndex)
@@ -717,14 +717,14 @@ const useSelect = (props: ISelectV2Props, emit) => {
     // match the option with the given value, if not found, create a new option
     const selectValue = getValueKey(value)
 
-    if (filteredOptionsValueMap.value.has(selectValue)) {
-      const { option } = filteredOptionsValueMap.value.get(selectValue)
+    if (allOptionsValueMap.value.has(selectValue)) {
+      const { option } = allOptionsValueMap.value.get(selectValue)
 
       return option
     }
     return {
-      value,
-      label: value,
+      [aliasProps.value.value]: value,
+      [aliasProps.value.label]: value,
     }
   }
 
@@ -783,7 +783,12 @@ const useSelect = (props: ISelectV2Props, emit) => {
   watch(
     () => props.modelValue,
     (val, oldVal) => {
-      if (!val || val.toString() !== states.previousValue) {
+      if (
+        !val ||
+        (props.multiple && val.toString() !== states.previousValue) ||
+        (!props.multiple &&
+          getValueKey(val) !== getValueKey(states.previousValue))
+      ) {
         initStates()
       }
       if (!isEqual(val, oldVal) && props.validateEvent) {

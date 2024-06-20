@@ -180,12 +180,12 @@ export interface ElMessageBoxOptions {
 
 export type ElMessageBoxShortcutMethod = ((
   message: ElMessageBoxOptions['message'],
-  title: ElMessageBoxOptions['title'],
   options?: ElMessageBoxOptions,
   appContext?: AppContext | null
 ) => Promise<MessageBoxData>) &
   ((
     message: ElMessageBoxOptions['message'],
+    title: ElMessageBoxOptions['title'],
     options?: ElMessageBoxOptions,
     appContext?: AppContext | null
   ) => Promise<MessageBoxData>)

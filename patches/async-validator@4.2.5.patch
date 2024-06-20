@@ -1,0 +1,28 @@
+diff --git a/dist-node/index.js b/dist-node/index.js
+index 563b966fe2b4dce9583c6d90ceb996215c1104bc..f81c89359f4566b7a1e7b6228227fc858e026670 100644
+--- a/dist-node/index.js
++++ b/dist-node/index.js
+@@ -564,7 +564,8 @@ var range = function range(rule, value, source, errors, options) {
+ 
+   if (str) {
+     // 处理码点大于U+010000的文字length属性不准确的bug，如"𠮷𠮷𠮷".lenght !== 3
+-    val = value.replace(spRegexp, '_').length;
++    // val = value.replace(spRegexp, '_').length;
++    val = value.length;
+   }
+ 
+   if (len) {
+diff --git a/dist-web/index.js b/dist-web/index.js
+index 3bdcb3926b75854c4a9203281400376aa7ea246b..4c4e10a409d007280e6991a0021c6874e9e2a1c3 100644
+--- a/dist-web/index.js
++++ b/dist-web/index.js
+@@ -560,7 +560,8 @@ var range = function range(rule, value, source, errors, options) {
+ 
+   if (str) {
+     // 处理码点大于U+010000的文字length属性不准确的bug，如"𠮷𠮷𠮷".lenght !== 3
+-    val = value.replace(spRegexp, '_').length;
++    // val = value.replace(spRegexp, '_').length;
++    val = value.length;
+   }
+ 
+   if (len) {

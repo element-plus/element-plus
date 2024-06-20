@@ -8,6 +8,10 @@ import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
 
+function isGreaterThan(a: number, b: number, epsilon = 0.01) {
+  return a - b > epsilon
+}
+
 function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY)
   const tooltipContent = ref('')
@@ -131,9 +135,11 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
      *    - Expected: 188
      *    - Actual: 188.00000762939453
      */
-    let rangeWidth = range.getBoundingClientRect().width
-    let rangeHeight = range.getBoundingClientRect().height
+    let { width: rangeWidth, height: rangeHeight } =
+      range.getBoundingClientRect()
     const offsetWidth = rangeWidth - Math.floor(rangeWidth)
+    const { width: cellChildWidth, height: cellChildHeight } =
+      cellChild.getBoundingClientRect()
     if (offsetWidth < 0.001) {
       rangeWidth = Math.floor(rangeWidth)
     }
@@ -146,9 +152,11 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     const horizontalPadding = left + right
     const verticalPadding = top + bottom
     if (
-      rangeWidth + horizontalPadding > cellChild.offsetWidth ||
-      rangeHeight + verticalPadding > cellChild.offsetHeight ||
-      cellChild.scrollWidth > cellChild.offsetWidth
+      isGreaterThan(rangeWidth + horizontalPadding, cellChildWidth) ||
+      isGreaterThan(rangeHeight + verticalPadding, cellChildHeight) ||
+      // When using a high-resolution screen, it is possible that a returns cellChild.scrollWidth value of 1921 and
+      // cellChildWidth returns a value of 1920.994140625. #16856 #16673
+      isGreaterThan(cellChild.scrollWidth, cellChildWidth)
     ) {
       createTablePopper(
         tooltipOptions,

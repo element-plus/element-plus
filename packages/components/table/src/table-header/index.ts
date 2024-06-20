@@ -171,7 +171,12 @@ export default defineComponent({
                   subColumns,
                   column
                 ),
-                onClick: ($event) => handleHeaderClick($event, column),
+                onClick: ($event) => {
+                  if ($event.currentTarget.classList.contains('noclick')) {
+                    return
+                  }
+                  handleHeaderClick($event, column)
+                },
                 onContextmenu: ($event) =>
                   handleHeaderContextMenu($event, column),
                 onMousedown: ($event) => handleMouseDown($event, column),

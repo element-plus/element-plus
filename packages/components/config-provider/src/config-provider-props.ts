@@ -1,5 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 
 import type { ExtractPropTypes } from 'vue'
 import type { Language } from '@element-plus/locale'
@@ -64,5 +64,6 @@ export const configProviderProps = buildProps({
     type: String,
     default: 'el',
   },
+  ...useEmptyValuesProps,
 } as const)
 export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>
