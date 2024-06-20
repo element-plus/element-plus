@@ -34,11 +34,11 @@ export interface CascaderProps {
   emitPath?: boolean
   lazy?: boolean
   lazyLoad?: LazyLoad
-  value?: string
-  label?: string
-  children?: string
-  disabled?: string | isDisabled
-  leaf?: string | isLeaf
+  value?: string | string[]
+  label?: string | string[]
+  children?: string | string[]
+  disabled?: string | string[] | isDisabled
+  leaf?: string | string[] | isLeaf
   hoverThreshold?: number
 }
 
@@ -58,6 +58,18 @@ const calculatePathNodes = (node: Node) => {
   }
 
   return nodes
+}
+
+const getValueByPath = (data: CascaderOption, path: string | string[]) => {
+  if (Array.isArray(path)) {
+    let tempData = data
+    for (const key of path) {
+      if (tempData[key] === undefined) return undefined
+      tempData = tempData[key]
+    }
+    return tempData
+  }
+  return data[path]
 }
 
 class Node {
@@ -100,12 +112,12 @@ class Node {
   ) {
     const { value: valueKey, label: labelKey, children: childrenKey } = config
 
-    const childrenData = data[childrenKey] as ChildrenData
+    const childrenData = getValueByPath(data, childrenKey) as ChildrenData
     const pathNodes = calculatePathNodes(this)
 
     this.level = root ? 0 : parent ? parent.level + 1 : 1
-    this.value = data[valueKey] as CascaderNodeValue
-    this.label = data[labelKey] as string
+    this.value = getValueByPath(data, valueKey) as CascaderNodeValue
+    this.label = getValueByPath(data, labelKey) as string
     this.pathNodes = pathNodes
     this.pathValues = pathNodes.map((node) => node.value)
     this.pathLabels = pathNodes.map((node) => node.label)
@@ -121,14 +133,16 @@ class Node {
     const { disabled, checkStrictly } = config
     const isDisabled = isFunction(disabled)
       ? disabled(data, this)
-      : !!data[disabled]
+      : !!getValueByPath(data, disabled)
     return isDisabled || (!checkStrictly && parent?.isDisabled)
   }
 
   get isLeaf(): boolean {
     const { data, config, childrenData, loaded } = this
     const { lazy, leaf } = config
-    const isLeaf = isFunction(leaf) ? leaf(data, this) : data[leaf]
+    const isLeaf = isFunction(leaf)
+      ? leaf(data, this)
+      : getValueByPath(data, leaf)
 
     return isUndefined(isLeaf)
       ? lazy && !loaded
