@@ -23,6 +23,16 @@ dropdown/basic-usage
 
 :::
 
+## Placement
+
+Support 6 placements.
+
+:::demo Set `placement` property to make dropdown appear in different locations.
+
+dropdown/placements
+
+:::
+
 ## Triggering element
 
 Use the button to trigger the dropdown list.
