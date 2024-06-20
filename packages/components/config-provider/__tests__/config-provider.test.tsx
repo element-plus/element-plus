@@ -6,10 +6,8 @@ import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import { ElButton, ElMessage } from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
-import {
-  useGlobalComponentSettings,
-  useGlobalConfig,
-} from '../src/hooks/use-global-config'
+import { useGlobalConfig } from '../src/hooks/use-global-config'
+import { useGlobalComponentSettings } from '../src/hooks/use-global-component-settings'
 import ConfigProvider from '../src/config-provider'
 
 import type { PropType } from 'vue'
