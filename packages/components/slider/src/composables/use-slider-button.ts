@@ -61,6 +61,7 @@ export const useSliderButton = (
     min,
     max,
     step,
+    markList,
     showTooltip,
     precision,
     sliderSize,
@@ -211,7 +212,15 @@ export const useSliderButton = (
         initData.currentX = clientX
         diff = ((initData.currentX - initData.startX) / sliderSize.value) * 100
       }
-      initData.newPosition = initData.startPosition + diff
+
+      const newPosition = initData.startPosition + diff
+      const closestMark = !event.ctrlKey
+        ? markList.value.find(
+            (m) => newPosition >= m.snap.min && newPosition <= m.snap.max
+          )
+        : undefined
+
+      initData.newPosition = closestMark ? closestMark.position : newPosition
       setPosition(initData.newPosition)
     }
   }
