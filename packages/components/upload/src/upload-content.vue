@@ -186,15 +186,9 @@ const doUpload = async (
   }
   const request = httpRequest(options)
   requests.value[uid] = request
-  let result: any
-  try {
-    result = await request
-  } catch (err: any) {
-    options.onError(err)
-    return
+  if (isThenable(request)) {
+    request.then(options.onSuccess, options.onError)
   }
-  options.onSuccess(result)
-  return result
 }
 
 const handleChange = (e: Event) => {
