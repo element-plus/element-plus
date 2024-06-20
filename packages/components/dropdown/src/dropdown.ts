@@ -103,6 +103,10 @@ export const dropdownItemProps = buildProps({
   },
 } as const)
 
+export const dropdownItemGroupProps = buildProps({
+  title: String,
+} as const)
+
 export const dropdownMenuProps = buildProps({
   onKeydown: { type: definePropType<(e: KeyboardEvent) => void>(Function) },
 })

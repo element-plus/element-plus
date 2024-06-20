@@ -10,6 +10,7 @@ import { usePopperContainerId } from '@element-plus/hooks'
 import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
 import DropdownMenu from '../src/dropdown-menu.vue'
+import DropdownItemGroup from '../src/dropdown-item-group.vue'
 
 const MOUSE_ENTER_EVENT = 'mouseenter'
 const MOUSE_LEAVE_EVENT = 'mouseleave'
@@ -22,6 +23,7 @@ const _mount = (template: string, data, otherObj?) =>
       [Dropdown.name]: Dropdown,
       [DropdownItem.name]: DropdownItem,
       [DropdownMenu.name]: DropdownMenu,
+      [DropdownItemGroup.name]: DropdownItemGroup,
     },
     template,
     data,
@@ -759,6 +761,28 @@ describe('Dropdown', () => {
       const menuItem = menu.find('.el-dropdown-menu__item')
       expect(menu.attributes()['role']).toBe('group')
       expect(menuItem.attributes()['role']).toBe('button')
+    })
+
+    test('Menu items group', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown>
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-item-group ref="menu-group" title="Group Title">
+                <el-dropdown-item ref="menu-item">Item</el-dropdown-item>
+              </el-dropdown-item-group>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      const group = wrapper.findComponent({ ref: 'menu-group' })
+      expect(
+        group.vm.$el.querySelector('.el-dropdown-menu__item-group--title')
+          .innerHTML
+      ).toEqual('Group Title')
     })
   })
 
