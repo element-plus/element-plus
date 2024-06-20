@@ -772,9 +772,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
   }))
 
-  if (props.multiple && !isArray(props.modelValue)) {
-    emit(UPDATE_MODEL_EVENT, [])
-  }
   if (!props.multiple && isArray(props.modelValue)) {
     emit(UPDATE_MODEL_EVENT, '')
   }

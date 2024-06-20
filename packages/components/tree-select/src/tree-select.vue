@@ -1,7 +1,10 @@
 <script lang="ts">
 // @ts-nocheck
 import { computed, defineComponent, h, onMounted, reactive, ref } from 'vue'
+import { isArray } from '@vue/shared'
 import { pick } from 'lodash-unified'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+
 import ElSelect from '@element-plus/components/select'
 import ElTree from '@element-plus/components/tree'
 import { useSelect } from './select'
@@ -37,6 +40,10 @@ export default defineComponent({
       tree,
       key,
     })
+
+    if (props.multiple && !isArray(props.modelValue)) {
+      context.emit(UPDATE_MODEL_EVENT, [])
+    }
 
     // expose ElTree/ElSelect methods
     const methods = reactive({})
