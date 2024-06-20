@@ -63,6 +63,7 @@
           :view-style="scrollbarViewStyle"
           :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
+          @scroll="scrollHandle"
         >
           <table
             ref="tableBody"
@@ -274,8 +275,13 @@ export default defineComponent({
       scrollbarStyle,
     } = useStyle<Row>(props, layout, store, table)
 
-    const { scrollBarRef, scrollTo, setScrollLeft, setScrollTop } =
-      useScrollbar()
+    const {
+      scrollBarRef,
+      scrollTo,
+      setScrollLeft,
+      setScrollTop,
+      scrollHandle,
+    } = useScrollbar()
 
     const debouncedUpdateLayout = debounce(doLayout, 50)
 
@@ -383,6 +389,7 @@ export default defineComponent({
        * @description set vertical scroll position
        */
       setScrollTop,
+      scrollHandle,
     }
   },
 })
