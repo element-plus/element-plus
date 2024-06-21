@@ -126,7 +126,6 @@ $button-icon-span-gap: map.merge(
   }
 
   @include when(loading) {
-    position: relative;
     pointer-events: none;
 
     &:before {
