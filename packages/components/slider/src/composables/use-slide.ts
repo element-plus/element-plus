@@ -5,8 +5,8 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useFormItem } from '@element-plus/components/form'
+import { type Arrayable, isArray } from '@element-plus/utils'
 import type { CSSProperties, Ref, SetupContext } from 'vue'
-import type { Arrayable } from '@element-plus/utils'
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
 import type { ButtonRefs, SliderButtonInstance } from '../button'
 
@@ -139,7 +139,7 @@ export const useSlide = (
     if (props.modelValue === undefined) return
 
     if (props.range) {
-      if (Array.isArray(props.modelValue)) {
+      if (isArray(props.modelValue)) {
         initData.firstValue = Math.max(
           props.min,
           props.modelValue[0] || props.min
