@@ -111,7 +111,7 @@ anchor/affix
 | Property | Description                          | Type     | Default |
 | -------- | ------------------------------------ | -------- | ------- |
 | title    | the text content of the anchor link. | `string` | —       |
-| href     | The address of the anchor link.      | `string` | -       |
+| href     | The address of the anchor link.      | `string` | —       |
 
 ### AnchorLink Slots
 

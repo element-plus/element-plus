@@ -9,7 +9,7 @@ When there are plenty of options, use a drop-down menu to display and select des
 
 :::tip
 
-After version ^(2.5.0), the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width  (eg: [Example](https://github.com/element-plus/element-plus/issues/15834#issuecomment-1936919229)) .
+After version ^(2.5.0), the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width (eg: [Example](https://github.com/element-plus/element-plus/issues/15834#issuecomment-1936919229)) .
 
 :::
 
@@ -192,7 +192,7 @@ select/custom-label
 ### Select Attributes
 
 | Name                            | Description                                                                                                           | Type                                                                                                                                                                        | Default                                        |
-|---------------------------------|-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | model-value / v-model           | binding value                                                                                                         | ^[string] / ^[number] / ^[boolean] / ^[object] / ^[array]                                                                                                                   | —                                              |
 | multiple                        | whether multiple-select is activated                                                                                  | ^[boolean]                                                                                                                                                                  | false                                          |
 | disabled                        | whether Select is disabled                                                                                            | ^[boolean]                                                                                                                                                                  | false                                          |
@@ -245,7 +245,7 @@ select/custom-label
 ### Select Events
 
 | Name           | Description                                                   | Type                                     |
-|----------------|---------------------------------------------------------------|------------------------------------------|
+| -------------- | ------------------------------------------------------------- | ---------------------------------------- |
 | change         | triggers when the selected value changes                      | ^[Function]`(value: any) => void`        |
 | visible-change | triggers when the dropdown appears/disappears                 | ^[Function]`(visible: boolean) => void`  |
 | remove-tag     | triggers when a tag is removed in multiple mode               | ^[Function]`(tagValue: any) => void`     |
@@ -256,7 +256,7 @@ select/custom-label
 ### Select Slots
 
 | Name             | Description                           | Subtags               |
-|------------------|---------------------------------------|-----------------------|
+| ---------------- | ------------------------------------- | --------------------- |
 | default          | option component list                 | Option Group / Option |
 | header ^(2.4.3)  | content at the top of the dropdown    | —                     |
 | footer ^(2.4.3)  | content at the bottom of the dropdown | —                     |
@@ -269,7 +269,7 @@ select/custom-label
 ### Select Exposes
 
 | Method | Description                                     | Type                    |
-|--------|-------------------------------------------------|-------------------------|
+| ------ | ----------------------------------------------- | ----------------------- |
 | focus  | focus the Input component                       | ^[Function]`() => void` |
 | blur   | blur the Input component, and hide the dropdown | ^[Function]`() => void` |
 
@@ -278,14 +278,14 @@ select/custom-label
 ### Option Group Attributes
 
 | Name     | Description                                  | Type       | Default |
-|----------|----------------------------------------------|------------|---------|
+| -------- | -------------------------------------------- | ---------- | ------- |
 | label    | name of the group                            | ^[string]  | —       |
 | disabled | whether to disable all options in this group | ^[boolean] | false   |
 
 ### Option Group Slots
 
 | Name    | Description               | Subtags |
-|---------|---------------------------|---------|
+| ------- | ------------------------- | ------- |
 | default | customize default content | Option  |
 
 ## Option API
@@ -293,7 +293,7 @@ select/custom-label
 ### Option Attributes
 
 | Name     | Description                                 | Type                                           | Default |
-|----------|---------------------------------------------|------------------------------------------------|---------|
+| -------- | ------------------------------------------- | ---------------------------------------------- | ------- |
 | value    | value of option                             | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | label    | label of option, same as `value` if omitted | ^[string] / ^[number]                          | —       |
 | disabled | whether option is disabled                  | ^[boolean]                                     | false   |
@@ -301,5 +301,5 @@ select/custom-label
 ### Option Slots
 
 | Name    | Description               |
-|---------|---------------------------|
+| ------- | ------------------------- |
 | default | customize default content |

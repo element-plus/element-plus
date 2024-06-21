@@ -3,7 +3,7 @@
     ref="selectRef"
     v-click-outside:[popperRef]="handleClickOutside"
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
-    @mouseenter="states.inputHovering = true"
+    @[mouseEnterEventName]="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
     @click.prevent.stop="toggleMenu"
   >
@@ -149,6 +149,7 @@
                 ref="inputRef"
                 v-model="states.inputValue"
                 type="text"
+                :name="name"
                 :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
                 :disabled="selectDisabled"
                 :autocomplete="autocomplete"

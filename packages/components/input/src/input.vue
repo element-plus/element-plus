@@ -1,7 +1,13 @@
 <template>
   <div
     v-bind="containerAttrs"
-    :class="containerKls"
+    :class="[
+      containerKls,
+      {
+        [nsInput.bm('group', 'append')]: $slots.append,
+        [nsInput.bm('group', 'prepend')]: $slots.prepend,
+      },
+    ]"
     :style="containerStyle"
     :role="containerRole"
     @mouseenter="handleMouseEnter"
@@ -216,8 +222,6 @@ const containerKls = computed(() => [
   nsInput.is('exceed', inputExceed.value),
   {
     [nsInput.b('group')]: slots.prepend || slots.append,
-    [nsInput.bm('group', 'append')]: slots.append,
-    [nsInput.bm('group', 'prepend')]: slots.prepend,
     [nsInput.m('prefix')]: slots.prefix || props.prefixIcon,
     [nsInput.m('suffix')]:
       slots.suffix || props.suffixIcon || props.clearable || props.showPassword,
