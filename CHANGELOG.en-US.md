@@ -1,5 +1,28 @@
 ## Changelog
 
+### 2.7.6
+
+_2024-06-21_
+
+#### Features
+
+- Components [table] export columns (#17252 by @warmthsea)
+- Pagination : add  `size` prop (#16858 by @webvs2)
+
+#### Bug fixes
+
+- Components [color-picker] replenish enableAlpha contral (#17015 by @warmthsea)
+- Components [select] invalid name setting (#17127 by @btea)
+- Components [table] dragging cell should not trigger `header-click` (#17093 by @btea)
+- Components [table-v2] the selector is invalid when `row-key` is a number (#16989 by @Whbbit1999)
+- Components [input] class bind error corresponding to dynamic slot (#17194 by @btea)
+- Components [table] fit set to false bottom border error (#17023 by @btea)
+- Components date-picker minDate change unexpectedly (#16748 by @xiaodong2008)
+- Components [select-v2] with `teleported="false"` dropdown closes abnormally (#16714 by @GUEThe)
+- Components fix iOS select click event listening (#16393 by @raphaelbernhart)
+- Components [progress] setting both color and striped is invalid (#17235 by @btea)
+- Components [date-picker] support dynamic setting of `format` (#17161 by @dddssw)
+
 ### 2.7.5
 
 _2024-06-07_
