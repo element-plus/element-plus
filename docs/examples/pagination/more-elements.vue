@@ -86,7 +86,7 @@ const currentPage4 = ref(4)
 const pageSize2 = ref(100)
 const pageSize3 = ref(100)
 const pageSize4 = ref(100)
-const size = ref<sizeType>('default')
+const size = ref<ComponentSize>('default')
 const background = ref(false)
 const disabled = ref(false)
 
