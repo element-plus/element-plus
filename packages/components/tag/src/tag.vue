@@ -63,10 +63,14 @@ const isVisible = ref(true)
 
 // methods
 const handleClose = (event: MouseEvent) => {
-  isVisible.value = false
-  setTimeout(() => {
+  if (props.disableTransitions) {
     emit('close', event)
-  }, 0)
+  } else {
+    isVisible.value = false
+    setTimeout(() => {
+      emit('close', event)
+    }, 0)
+  }
 }
 
 const handleClick = (event: MouseEvent) => {
