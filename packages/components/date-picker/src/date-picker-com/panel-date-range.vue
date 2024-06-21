@@ -293,8 +293,8 @@ const emit = defineEmits([
 const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject('EP_PICKER_BASE') as any
-const { disabledDate, cellClassName, format, defaultTime, clearable } =
-  pickerBase.props
+const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
+const format = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
@@ -388,11 +388,11 @@ const maxVisibleTime = computed(() => {
 })
 
 const timeFormat = computed(() => {
-  return props.timeFormat || extractTimeFormat(format)
+  return props.timeFormat || extractTimeFormat(format.value)
 })
 
 const dateFormat = computed(() => {
-  return props.dateFormat || extractDateFormat(format)
+  return props.dateFormat || extractDateFormat(format.value)
 })
 
 const isValidValue = (date: [Dayjs, Dayjs]) => {
@@ -686,14 +686,14 @@ const handleClear = () => {
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
   return isArray(value)
-    ? value.map((_) => _.format(format))
-    : value.format(format)
+    ? value.map((_) => _.format(format.value))
+    : value.format(format.value)
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
   return isArray(value)
-    ? value.map((_) => dayjs(_, format).locale(lang.value))
-    : dayjs(value, format).locale(lang.value)
+    ? value.map((_) => dayjs(_, format.value).locale(lang.value))
+    : dayjs(value, format.value).locale(lang.value)
 }
 
 function onParsedValueChanged(
