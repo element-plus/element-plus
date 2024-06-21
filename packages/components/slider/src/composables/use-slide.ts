@@ -5,7 +5,8 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useFormItem } from '@element-plus/components/form'
-import { type Arrayable, isArray } from '@element-plus/utils'
+import { isArray } from '@element-plus/utils'
+import type { Arrayable } from '@element-plus/utils'
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
 import type { ButtonRefs, SliderButtonInstance } from '../button'
