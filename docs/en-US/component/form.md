@@ -45,7 +45,7 @@ form/inline-form
 
 ## Alignment
 
-Depending on your design, there are several different ways to align your label element. You can set the position of `el-form-item` separately using `label-position`. If the value is not set, the `label-position` of `el-form` is used.
+Depending on your design, there are several different ways to align your label element. You can set the position of `el-form-item` separately using `label-position` ^(2.7.7). If the value is not set, the `label-position` of `el-form` is used.
 
 :::demo The `label-position` attribute decides how labels align, it can be `top` or `left`. When set to `top`, labels will be placed at the top of the form field.
 
