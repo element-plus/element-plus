@@ -100,6 +100,7 @@
 <script lang="ts" setup>
 import { computed, inject, ref, toRef, watch } from 'vue'
 import dayjs from 'dayjs'
+import { isArray } from '@element-plus/utils'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -200,7 +201,7 @@ const formatToString = (days: Dayjs[]) => {
 }
 const getDefaultValue = () => {
   let start: Dayjs
-  if (Array.isArray(defaultValue.value)) {
+  if (isArray(defaultValue.value)) {
     const left = dayjs(defaultValue.value[0])
     let right = dayjs(defaultValue.value[1])
     if (!props.unlinkPanels) {

@@ -21,7 +21,7 @@
           @keydown.enter.prevent.stop="handleYearTableClick"
         >
           <div>
-            <a class="cell">{{ cell.text }}</a>
+            <span class="cell">{{ cell.text }}</span>
           </div>
         </td>
       </tr>
@@ -149,7 +149,7 @@ const focus = () => {
 }
 
 const getCellStyle = (cell: YearCell) => {
-  const style = {} as any
+  const style: Record<string, boolean> = {}
   const today = dayjs().locale(lang.value)
   const year = cell.text
 
