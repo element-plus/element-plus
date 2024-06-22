@@ -186,7 +186,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | change          | triggers when user confirms the value                      | ^[Function]`(val: typeof v-model) => void`                                                |
 | blur            | triggers when Input blurs                                  | ^[Function]`(e: FocusEvent) => void`                                                      |
 | focus           | triggers when Input focuses                                | ^[Function]`(e: FocusEvent) => void`                                                      |
-| clear ^(2.7.6)  | triggers when the clear icon is clicked in a clearable DatePicker | ^[Function]`() => void`                                                            |
+| clear ^(2.7.7)  | triggers when the clear icon is clicked in a clearable DatePicker | ^[Function]`() => void`                                                            |
 | calendar-change | triggers when the calendar selected date is changed.       | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
 | panel-change    | triggers when the navigation button click.                 | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
 | visible-change  | triggers when the DatePicker's dropdown appears/disappears | ^[Function]`(visibility: boolean) => void`                                                |

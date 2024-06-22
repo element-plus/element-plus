@@ -171,7 +171,7 @@ cascader/panel
 | expand-change  | triggers when expand option changes                 | ^[Function]`(value: CascaderValue) => void`                 |
 | blur           | triggers when Cascader blurs                        | ^[Function]`(event: FocusEvent) => void`                    |
 | focus          | triggers when Cascader focuses                      | ^[Function]`(event: FocusEvent) => void`                    |
-| clear ^(2.7.6) | triggers when the clear icon is clicked in a clearable Select | ^[Function]`() => void`                           |
+| clear ^(2.7.7) | triggers when the clear icon is clicked in a clearable Select | ^[Function]`() => void`                           |
 | visible-change | triggers when the dropdown appears/disappears       | ^[Function]`(value: boolean) => void`                       |
 | remove-tag     | triggers when remove tag in multiple selection mode | ^[Function]`(value: CascaderNode['valueByOption']) => void` |
 
