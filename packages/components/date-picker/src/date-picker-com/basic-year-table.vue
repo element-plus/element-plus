@@ -37,7 +37,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
-import { castArray, hasClass } from '@element-plus/utils'
+import { ensureArray, hasClass } from '@element-plus/utils'
 import { basicYearTableProps } from '../props/basic-year-table'
 
 const datesInYear = (year: number, lang: string) => {
@@ -72,7 +72,7 @@ const getCellKls = (year: number) => {
     : false
 
   kls.current =
-    castArray(props.parsedValue).findIndex((d) => d!.year() === year) >= 0
+    ensureArray(props.parsedValue).findIndex((d) => d!.year() === year) >= 0
 
   kls.today = today.year() === year
 
@@ -84,8 +84,9 @@ const isSelectedCell = (year: number) => {
     (year === startYear.value &&
       props.date.year() < startYear.value &&
       props.date.year() > startYear.value + 9) ||
-    castArray(props.date).findIndex((date) => date.year() === year) >= 0 ||
-    castArray(props.parsedValue).findIndex((date) => date?.year() === year) >= 0
+    ensureArray(props.date).findIndex((date) => date.year() === year) >= 0 ||
+    ensureArray(props.parsedValue).findIndex((date) => date?.year() === year) >=
+      0
   )
 }
 
@@ -97,12 +98,14 @@ const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
     const year = target.textContent || target.innerText
     if (props.selectionMode === 'years') {
       if (event.type === 'keydown') {
-        emit('pick', castArray(props.parsedValue), false)
+        emit('pick', ensureArray(props.parsedValue), false)
         return
       }
       const newValue = hasClass(target, 'current')
-        ? castArray(props.parsedValue).filter((d) => d?.year() !== Number(year))
-        : castArray(props.parsedValue).concat([dayjs(year)])
+        ? ensureArray(props.parsedValue).filter(
+            (d) => d?.year() !== Number(year)
+          )
+        : ensureArray(props.parsedValue).concat([dayjs(year)])
       emit('pick', newValue)
     } else {
       emit('pick', Number(year))

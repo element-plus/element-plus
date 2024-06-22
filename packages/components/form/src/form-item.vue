@@ -55,7 +55,7 @@ import { clone } from 'lodash-unified'
 import { refDebounced } from '@vueuse/core'
 import {
   addUnit,
-  ensureArray,
+  castArray,
   getProp,
   isBoolean,
   isFunction,
@@ -184,7 +184,7 @@ const normalizedRules = computed(() => {
   const rules: FormItemRule[] = []
 
   if (props.rules) {
-    rules.push(...ensureArray(props.rules))
+    rules.push(...castArray(props.rules))
   }
 
   const formRules = formContext?.rules
@@ -194,7 +194,7 @@ const normalizedRules = computed(() => {
       props.prop
     ).value
     if (_rules) {
-      rules.push(...ensureArray(_rules))
+      rules.push(...castArray(_rules))
     }
   }
 
