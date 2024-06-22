@@ -5,7 +5,7 @@ import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 export interface SelectV2Context {
   props: ExtractPropTypes<typeof SelectProps>
-  expanded?: boolean
+  expanded: boolean
   tooltipRef: Ref<TooltipInstance>
   onSelect: (option: Option) => void
   onHover: (idx: number) => void

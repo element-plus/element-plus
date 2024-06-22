@@ -332,7 +332,7 @@ export default defineComponent({
       onHover: API.onHover,
       onKeyboardNavigate: API.onKeyboardNavigate,
       onKeyboardSelect: API.onKeyboardSelect,
-    } as SelectV2Context)
+    } as unknown as SelectV2Context)
 
     return {
       ...API,

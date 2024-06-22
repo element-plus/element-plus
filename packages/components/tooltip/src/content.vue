@@ -70,7 +70,8 @@ const props = defineProps(useTooltipContentProps)
 
 const { selector } = usePopperContainerId()
 const ns = useNamespace('tooltip')
-const contentRef = ref<InstanceType<typeof ElPopperContent> | null>(null)
+// TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
+const contentRef = ref<any>(null)
 const destroyed = ref(false)
 // The el-popper-content should rendered once when el-tooltip is mounted, because
 // sometimes the component's function relies on the props of the slot elements. #17258
