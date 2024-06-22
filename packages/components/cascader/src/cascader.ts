@@ -1,6 +1,6 @@
 import { CommonProps } from '@element-plus/components/cascader-panel'
 import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
-import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
+import { useSizeProp } from '@element-plus/hooks'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -110,7 +110,6 @@ export const cascaderProps = buildProps({
     type: Boolean,
     default: true,
   },
-  ...useEmptyValuesProps,
 })
 
 export const cascaderEmits = {
