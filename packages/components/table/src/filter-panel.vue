@@ -223,7 +223,6 @@ export default defineComponent({
     watch(
       tooltipVisible,
       (value) => {
-        // todo
         if (props.column) {
           props.upDataColumn('filterOpened', value)
         }

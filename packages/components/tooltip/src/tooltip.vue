@@ -83,8 +83,7 @@ usePopperContainer()
 
 const id = useId()
 const popperRef = ref<PopperInstance>()
-// TODO any is temporary, replace with `TooltipContentInstance` later
-const contentRef = ref<any>()
+const contentRef = ref<InstanceType<typeof ElTooltipContent> | null>()
 
 const updatePopper = () => {
   const popperComponent = unref(popperRef)

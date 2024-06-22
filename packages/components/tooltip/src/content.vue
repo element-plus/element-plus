@@ -45,7 +45,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
+import {
+  computed,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  unref,
+  watch,
+} from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
 import { composeEventHandlers } from '@element-plus/utils'
@@ -62,9 +70,11 @@ const props = defineProps(useTooltipContentProps)
 
 const { selector } = usePopperContainerId()
 const ns = useNamespace('tooltip')
-// TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
-const contentRef = ref<any>(null)
+const contentRef = ref<InstanceType<typeof ElPopperContent> | null>(null)
 const destroyed = ref(false)
+// The el-popper-content should rendered once when el-tooltip is mounted, because
+// sometimes the component's function relies on the props of the slot elements. #17258
+const mounted = ref(false)
 const {
   controlled,
   id,
@@ -93,8 +103,12 @@ onBeforeUnmount(() => {
   destroyed.value = true
 })
 
+onMounted(() => {
+  mounted.value = true
+})
+
 const shouldRender = computed(() => {
-  return unref(persistentRef) ? true : unref(open)
+  return unref(persistentRef) || !mounted.value ? true : unref(open)
 })
 
 const shouldShow = computed(() => {
