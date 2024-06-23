@@ -2,8 +2,10 @@
 import { computed, h, inject } from 'vue'
 import { merge } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
+import { isArray } from '@element-plus/utils'
 import { getRowIdentity } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
+import { sortData } from '../store/watcher'
 import useEvents from './events-helper'
 import useStyles from './styles-helper'
 import type { TableBodyProps } from './defaults'
@@ -257,8 +259,16 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         }
         // 对于 root 节点，display 一定为 true
         cur.display = true
-        const nodes =
-          lazyTreeNodeMap.value[key] || row[childrenColumnName.value]
+        let nodes = lazyTreeNodeMap.value[key] || row[childrenColumnName.value]
+        // Sort the lazyTreeNode #17206
+        if (isArray(nodes) && nodes.length > 0) {
+          const { sortingColumn, sortProp, sortOrder } = store.states
+          nodes = sortData(nodes, {
+            sortingColumn: sortingColumn.value,
+            sortProp: sortProp.value,
+            sortOrder: sortOrder.value,
+          })
+        }
         traverse(nodes, cur)
       }
       return tmp
