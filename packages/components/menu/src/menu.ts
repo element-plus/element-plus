@@ -150,7 +150,7 @@ export default defineComponent({
     const activeIndex = ref<MenuProvider['activeIndex']>(props.defaultActive)
     const items = ref<MenuProvider['items']>({})
     const subMenus = ref<MenuProvider['subMenus']>({})
-
+    const focusMenuItemsTasks: Array<() => void> = []
     // computed
     const isMenuPopup = computed<MenuProvider['isMenuPopup']>(() => {
       return (
@@ -355,6 +355,19 @@ export default defineComponent({
         items.value[item.index] = item
       }
 
+      const addFocusMenuItemsTask = (func: () => void) => {
+        if (props.mode === 'horizontal') focusMenuItemsTasks.push(func)
+      }
+
+      const invokeFocusMenuItemsTask = () => {
+        if (props.mode !== 'horizontal') return
+        const pendingTask = [...focusMenuItemsTasks]
+        focusMenuItemsTasks.length = 0
+        pendingTask.forEach((func: any) => {
+          func()
+        })
+      }
+
       const removeMenuItem: MenuProvider['removeMenuItem'] = (item) => {
         delete items.value[item.index]
       }
@@ -368,6 +381,8 @@ export default defineComponent({
           activeIndex,
           isMenuPopup,
 
+          addFocusMenuItemsTask,
+          invokeFocusMenuItemsTask,
           addMenuItem,
           removeMenuItem,
           addSubMenu,
