@@ -18,6 +18,7 @@ import {
 } from '@element-plus/utils'
 import {
   useDeprecated,
+  useGlobalSize,
   useLocale,
   useNamespace,
   useSizeProp,
@@ -193,7 +194,9 @@ export default defineComponent({
     const { t } = useLocale()
     const ns = useNamespace('pagination')
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
-    const _size = computed(() => (props.small ? 'small' : props?.size))
+    const _size = computed(() =>
+      props.small ? 'small' : props.size ?? useGlobalSize().value
+    )
     useDeprecated(
       {
         from: 'small',
