@@ -10,6 +10,7 @@ export const Effect = {
   LIGHT: 'light',
   DARK: 'dark',
 } as const
+export type EffectType = typeof Effect[keyof typeof Effect]
 
 export const roleTypes = [
   'dialog',

@@ -1,6 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
 
+import type { EffectType } from '@element-plus/components/popper'
 import type { ExtractPropTypes } from 'vue'
 import type { Placement, Strategy, VirtualElement } from '@floating-ui/dom'
 
@@ -27,8 +28,8 @@ export const tooltipV2ContentProps = buildProps({
     default: 5,
   },
   effect: {
-    type: String,
-    default: '',
+    type: definePropType<EffectType>(String),
+    default: 'light',
   },
   contentClass: String,
   /**
