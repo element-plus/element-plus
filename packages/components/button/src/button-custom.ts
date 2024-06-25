@@ -19,14 +19,13 @@ export function useButtonCustomStyle(props: ButtonProps) {
 
     let buttonColor = props.color
 
-    const match = (buttonColor as string).match(/var\((.*?)\)/)
-    if (match) {
-      buttonColor = getComputedStyle(document.documentElement).getPropertyValue(
-        match[1]
-      )
-    }
-
     if (buttonColor) {
+      const match = (buttonColor as string).match(/var\((.*?)\)/)
+      if (match) {
+        buttonColor = getComputedStyle(
+          document.documentElement
+        ).getPropertyValue(match[1])
+      }
       const color = new TinyColor(buttonColor)
       const activeBgColor = props.dark
         ? color.tint(20).toString()
