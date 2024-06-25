@@ -105,17 +105,26 @@ const transformComponentMarkdown = (
   const docUrl = `${GITHUB_BLOB_URL}/${docsDirName}/en-US/component/${componentId}.md`
   const componentUrl = `${GITHUB_TREE_URL}/packages/components/${componentId}`
   const styleUrl = `${GITHUB_TREE_URL}/packages/theme-chalk/src/${componentId}.scss`
+
   const componentPath = path.resolve(
     projRoot,
     `packages/components/${componentId}`
   )
+  const stylePath = path.resolve(
+    projRoot,
+    `packages/theme-chalk/src/${componentId}.scss`
+  )
+
   const isComponent = fs.existsSync(componentPath)
+  const isHaveComponentStyle = fs.existsSync(stylePath)
 
   const links = [[footerLocale[lang].docs, docUrl]]
-  if (isComponent) {
+
+  if (isComponent && isHaveComponentStyle)
     links.unshift([footerLocale[lang].style, styleUrl])
-    links.unshift([footerLocale[lang].component, componentUrl])
-  }
+
+  if (isComponent) links.unshift([footerLocale[lang].component, componentUrl])
+
   const linksText = links
     .filter((i) => i)
     .map(([text, link]) => `[${text}](${link})`)
