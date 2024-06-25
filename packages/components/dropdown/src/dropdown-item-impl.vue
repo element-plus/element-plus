@@ -19,9 +19,11 @@
     @pointermove="(e) => $emit('pointermove', e)"
     @pointerleave="(e) => $emit('pointerleave', e)"
   >
-    <el-icon v-if="icon">
-      <component :is="icon" />
-    </el-icon>
+    <slot name="icon">
+      <el-icon v-if="icon">
+        <component :is="icon" />
+      </el-icon>
+    </slot>
     <slot />
   </li>
 </template>

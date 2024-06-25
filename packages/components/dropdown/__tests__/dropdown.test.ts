@@ -815,4 +815,35 @@ describe('Dropdown', () => {
       expect(document.body.querySelector(selector.value).innerHTML).toBe('')
     })
   })
+
+  test('use icon slot in dropdown item', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown>
+        <span class="el-dropdown-link">
+          Dropdown List
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <template #icon>
+                <i class="el-icon-plus"></i>
+              </template>
+              dropdown item
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    await nextTick()
+
+    // 查找并验证dropdown-item中的自定义icon是否存在
+    const iconElement = wrapper
+      .findComponent({ name: 'DropdownItemImpl' })
+      .find('.el-icon-plus')
+
+    expect(iconElement.exists()).toBe(true)
+  })
 })
