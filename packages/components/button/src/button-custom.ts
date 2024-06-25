@@ -17,7 +17,14 @@ export function useButtonCustomStyle(props: ButtonProps) {
   return computed(() => {
     let styles: Record<string, string> = {}
 
-    const buttonColor = props.color
+    let buttonColor = props.color
+
+    const match = (buttonColor as string).match(/var\((.*?)\)/)
+    if (match) {
+      buttonColor = getComputedStyle(document.documentElement).getPropertyValue(
+        match[1]
+      )
+    }
 
     if (buttonColor) {
       const color = new TinyColor(buttonColor)
