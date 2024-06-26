@@ -39,9 +39,9 @@ const displayValue = computed(() => {
   const { value, formatter, precision, decimalSeparator, groupSeparator } =
     props
 
-  if (isFunction(formatter)) return formatter(value)
-
   if (!isNumber(value)) return value
+
+  if (isFunction(formatter)) return formatter(value)
 
   let [integer, decimal = ''] = String(value).split('.')
   decimal = decimal
