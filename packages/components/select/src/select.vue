@@ -3,7 +3,7 @@
     ref="selectRef"
     v-click-outside:[popperRef]="handleClickOutside"
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
-    @mouseenter="states.inputHovering = true"
+    @[mouseEnterEventName]="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
     @click.prevent.stop="toggleMenu"
   >
@@ -68,7 +68,13 @@
                   @close="deleteTag($event, item)"
                 >
                   <span :class="nsSelect.e('tags-text')">
-                    {{ item.currentLabel }}
+                    <slot
+                      name="label"
+                      :label="item.currentLabel"
+                      :value="item.value"
+                    >
+                      {{ item.currentLabel }}
+                    </slot>
                   </span>
                 </el-tag>
               </div>
@@ -116,7 +122,13 @@
                         @close="deleteTag($event, item)"
                       >
                         <span :class="nsSelect.e('tags-text')">
-                          {{ item.currentLabel }}
+                          <slot
+                            name="label"
+                            :label="item.currentLabel"
+                            :value="item.value"
+                          >
+                            {{ item.currentLabel }}
+                          </slot>
                         </span>
                       </el-tag>
                     </div>
@@ -137,6 +149,7 @@
                 ref="inputRef"
                 v-model="states.inputValue"
                 type="text"
+                :name="name"
                 :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
                 :disabled="selectDisabled"
                 :autocomplete="autocomplete"
@@ -182,7 +195,15 @@
                 ),
               ]"
             >
-              <span>{{ currentPlaceholder }}</span>
+              <slot
+                v-if="hasModelValue"
+                name="label"
+                :label="currentPlaceholder"
+                :value="modelValue"
+              >
+                <span>{{ currentPlaceholder }}</span>
+              </slot>
+              <span v-else>{{ currentPlaceholder }}</span>
             </div>
           </div>
           <div ref="suffixRef" :class="nsSelect.e('suffix')">

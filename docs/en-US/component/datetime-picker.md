@@ -76,7 +76,7 @@ datetime-picker/default-time
 ## Attributes
 
 | Name                    | Description                                                                                                    | Type                                             | Accepted Values                                               | Default             |
-|-------------------------|----------------------------------------------------------------------------------------------------------------|--------------------------------------------------|---------------------------------------------------------------|---------------------|
+| ----------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------- | ------------------- |
 | model-value / v-model   | binding value, if it is an array, the length should be 2                                                       | Date / number / string / Array                   | —                                                             | —                   |
 | readonly                | whether DatePicker is read only                                                                                | boolean                                          | —                                                             | false               |
 | disabled                | whether DatePicker is disabled                                                                                 | boolean                                          | —                                                             | false               |
@@ -111,22 +111,23 @@ datetime-picker/default-time
 ## Events
 
 | Name            | Description                                                                   | Parameters                                |
-|-----------------|-------------------------------------------------------------------------------|-------------------------------------------|
+| --------------- | ----------------------------------------------------------------------------- | ----------------------------------------- |
 | change          | triggers when user confirms the value                                         | component's binding value                 |
 | blur            | triggers when Input blurs                                                     | `(e: FocusEvent)`                         |
 | focus           | triggers when Input focuses                                                   | `(e: FocusEvent)`                         |
+| clear ^(2.7.7)  | triggers when the clear icon is clicked in a clearable DateTimePicker         | ^[Function]`() => void`                   |
 | calendar-change | triggers when the calendar selected date is changed. Only for `datetimerange` | [Date, Date]                              |
 | visible-change  | triggers when the DateTimePicker's dropdown appears/disappears                | true when it appears, and false otherwise |
 
 ## Methods
 
 | Method | Description               | Parameters |
-|--------|---------------------------|------------|
+| ------ | ------------------------- | ---------- |
 | focus  | focus the Input component | —          |
 
 ## Slots
 
 | Name            | Description                    |
-|-----------------|--------------------------------|
+| --------------- | ------------------------------ |
 | default         | custom cell content            |
 | range-separator | custom range separator content |
