@@ -85,6 +85,7 @@ time-select/time-range
 | change | triggers when user confirms the value | ^[Function]`(value: string) => void`     |
 | blur   | triggers when Input blurs             | ^[Function]`(event: FocusEvent) => void` |
 | focus  | triggers when Input focuses           | ^[Function]`(event: FocusEvent) => void` |
+| clear ^(2.7.7) | triggers when the clear icon is clicked in a clearable TimeSelect | ^[Function]`() => void` |
 
 ### Exposes
 
