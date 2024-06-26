@@ -86,6 +86,10 @@ export default defineComponent({
         isColumnGroup: false,
         isSubColumn: false,
         filterOpened: false,
+        filterSearchable: false,
+        filterSearchPlaceholder: undefined,
+        filterSearchIcon: undefined,
+        filterSearchSize: 'default',
         // sort 相关属性
         sortable,
         // index 列
@@ -115,6 +119,10 @@ export default defineComponent({
         'filteredValue',
         'filterPlacement',
         'filterClassName',
+        'filterSearchable',
+        'filterSearchPlaceholder',
+        'filterSearchIcon',
+        'filterSearchSize',
       ]
 
       let column = getPropsData(basicProps, sortProps, selectProps, filterProps)

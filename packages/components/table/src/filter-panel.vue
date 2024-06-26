@@ -15,6 +15,14 @@
     <template #content>
       <div v-if="multiple">
         <div :class="ns.e('content')">
+          <el-input
+            v-if="searchable"
+            v-model="keyword"
+            :size="searchSize"
+            :prefix-icon="searchIcon"
+            :placeholder="searchPlaceholder"
+            :class="ns.e('search')"
+          />
           <el-scrollbar :wrap-class="ns.e('wrap')">
             <el-checkbox-group
               v-model="filteredValue"
@@ -44,29 +52,39 @@
           </button>
         </div>
       </div>
-      <ul v-else :class="ns.e('list')">
-        <li
-          :class="[
-            ns.e('list-item'),
-            {
-              [ns.is('active')]:
-                filterValue === undefined || filterValue === null,
-            },
-          ]"
-          @click="handleSelect(null)"
-        >
-          {{ t('el.table.clearFilter') }}
-        </li>
-        <li
-          v-for="filter in filters"
-          :key="filter.value"
-          :class="[ns.e('list-item'), ns.is('active', isActive(filter))]"
-          :label="filter.value"
-          @click="handleSelect(filter.value)"
-        >
-          {{ filter.text }}
-        </li>
-      </ul>
+      <div v-else>
+        <el-input
+          v-if="searchable"
+          v-model="keyword"
+          :size="searchSize"
+          :prefix-icon="searchIcon"
+          :placeholder="searchPlaceholder"
+          :class="ns.e('search')"
+        />
+        <ul :class="ns.e('list')">
+          <li
+            :class="[
+              ns.e('list-item'),
+              {
+                [ns.is('active')]:
+                  filterValue === undefined || filterValue === null,
+              },
+            ]"
+            @click="handleSelect(null)"
+          >
+            {{ t('el.table.clearFilter') }}
+          </li>
+          <li
+            v-for="filter in filters"
+            :key="filter.value"
+            :class="[ns.e('list-item'), ns.is('active', isActive(filter))]"
+            :label="filter.value"
+            @click="handleSelect(filter.value)"
+          >
+            {{ filter.text }}
+          </li>
+        </ul>
+      </div>
     </template>
     <template #default>
       <span
@@ -91,9 +109,10 @@
 import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
-import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp, Search } from '@element-plus/icons-vue'
 import { ClickOutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import type { Placement } from '@element-plus/components/popper'
@@ -111,6 +130,7 @@ export default defineComponent({
     ElCheckbox,
     ElCheckboxGroup,
     ElScrollbar,
+    ElInput,
     ElTooltip,
     ElIcon,
     ArrowDown,
@@ -121,6 +141,22 @@ export default defineComponent({
     placement: {
       type: String as PropType<Placement>,
       default: 'bottom-start',
+    },
+    searchable: {
+      type: Boolean,
+      default: false,
+    },
+    searchPlaceholder: {
+      type: String,
+      default: '',
+    },
+    searchIcon: {
+      type: [Object, null],
+      default: () => Search,
+    },
+    searchSize: {
+      type: String,
+      default: 'default',
     },
     store: {
       type: Object as PropType<Store<unknown>>,
@@ -133,6 +169,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const keyword = ref('')
     const instance = getCurrentInstance()
     const { t } = useLocale()
     const ns = useNamespace('table-filter')
@@ -143,7 +180,12 @@ export default defineComponent({
     const tooltipVisible = ref(false)
     const tooltip = ref<InstanceType<typeof ElTooltip> | null>(null)
     const filters = computed(() => {
-      return props.column && props.column.filters
+      return (
+        props.column &&
+        props.column.filters.filter(({ text }) =>
+          text.toLowerCase().includes(keyword.value.toLowerCase())
+        )
+      )
     })
     const filterClassName = computed(() => {
       if (props.column.filterClassName) {
@@ -187,6 +229,7 @@ export default defineComponent({
     }
     const hidden = () => {
       tooltipVisible.value = false
+      keyword.value = ''
     }
     const showFilterPanel = (e: MouseEvent) => {
       e.stopPropagation()
@@ -194,6 +237,7 @@ export default defineComponent({
     }
     const hideFilterPanel = () => {
       tooltipVisible.value = false
+      keyword.value = ''
     }
     const handleConfirm = () => {
       confirmFilter(filteredValue.value)
@@ -254,6 +298,7 @@ export default defineComponent({
       hideFilterPanel,
       popperPaneRef,
       tooltip,
+      keyword,
     }
   },
 })

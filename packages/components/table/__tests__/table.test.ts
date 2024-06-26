@@ -439,6 +439,150 @@ describe('Table.vue', () => {
     })
   })
 
+  describe('filter with searchable', () => {
+    let wrapper: VueWrapper<ComponentPublicInstance>
+
+    beforeEach(async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table ref="table" :data="testData" @filter-change="handleFilterChange">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column
+              prop="director"
+              column-key="director"
+              :filters="[
+                { text: 'Peter Parker', value: 'Peter Parker' },
+                { text: 'Peter Docter', value: 'Peter Docter' },
+                { text: 'Andrew Stanton', value: 'Andrew Stanton' }
+              ]"
+              :filter-method="filterMethod"
+              filter-searchable
+              filterSearchPlaceholder="Search..."
+              filterSearchSize="small"
+              label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+
+        created() {
+          this.testData = getTestData()
+        },
+
+        methods: {
+          filterMethod(value, row) {
+            return value === row.director
+          },
+          handleFilterChange(filters) {
+            this.filters = filters
+          },
+        },
+      })
+      await doubleWait()
+    })
+
+    afterEach(() => wrapper.unmount())
+
+    it('render', () => {
+      expect(
+        wrapper.find('.el-table__column-filter-trigger')
+      ).not.toBeUndefined()
+    })
+
+    it('click dropdown', async () => {
+      const btn = wrapper.find('.el-table__column-filter-trigger')
+      btn.trigger('click')
+      await doubleWait()
+      const filter = document.body.querySelector('.el-table-filter')
+      expect(filter).not.toBeUndefined()
+      filter.parentNode.removeChild(filter)
+    })
+
+    it('click filter', async () => {
+      const btn = wrapper.find('.el-table__column-filter-trigger')
+
+      btn.trigger('click')
+      await doubleWait()
+      const filter = document.body.querySelector('.el-table-filter')
+
+      const searchElInput = filter.querySelector('.el-input')
+      expect(searchElInput).not.toBeUndefined()
+      expect(searchElInput.classList.contains('el-input--small')).toBe(true)
+
+      const searchInput = searchElInput.querySelector('.el-input__inner')
+      expect(searchInput.getAttribute('placeholder')).toEqual('Search...')
+
+      searchInput.value = 'peter'
+      triggerEvent(searchInput, 'input', true, false)
+      await doubleWait()
+
+      const checkboxes = filter.querySelectorAll('.el-checkbox')
+      expect(checkboxes.length).toBe(2)
+    })
+
+    it('reset the search query on confirm', async () => {
+      const btn = wrapper.find('.el-table__column-filter-trigger')
+      btn.trigger('click')
+      await doubleWait()
+      const filter = document.body.querySelector('.el-table-filter')
+
+      let searchInput = filter.querySelector('.el-input .el-input__inner')
+      searchInput.value = 'peter'
+      triggerEvent(searchInput, 'input', true, false, 'peter')
+      await doubleWait()
+      triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
+      // confirm button
+      await doubleWait()
+      triggerEvent(
+        filter.querySelector('.el-table-filter__bottom button'),
+        'click',
+        true,
+        false
+      )
+      await doubleWait()
+
+      // open filter panel again
+      btn.trigger('click')
+      await doubleWait()
+
+      searchInput = filter.querySelector('.el-table-filter .el-input__inner')
+      expect(searchInput.value).toEqual('')
+    })
+
+    it('reset the search query on reset', async () => {
+      const btn = wrapper.find('.el-table__column-filter-trigger')
+      btn.trigger('click')
+      await doubleWait()
+      const filter = document.body.querySelector('.el-table-filter')
+
+      let searchInput = filter.querySelector('.el-input .el-input__inner')
+      searchInput.value = 'peter'
+      triggerEvent(searchInput, 'input', true, false, 'peter')
+      await doubleWait()
+      triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
+      // reset button
+      await doubleWait()
+      triggerEvent(
+        filter.querySelectorAll('.el-table-filter__bottom button')[1],
+        'click',
+        true,
+        false
+      )
+      await doubleWait()
+
+      // open filter panel again
+      btn.trigger('click')
+      await doubleWait()
+
+      searchInput = filter.querySelector('.el-table-filter .el-input__inner')
+      expect(searchInput.value).toEqual('')
+    })
+  })
+
   describe('events', () => {
     const createTable = function (prop = '') {
       return mount({

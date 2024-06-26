@@ -50,6 +50,10 @@ interface TableColumnCtx<T> {
   filterPlacement: string
   filterMultiple: boolean
   filterClassName: string
+  filterSearchable: boolean
+  filterSearchPlaceholder: string
+  filterSearchIcon: string | object | (() => string | object | null) | null
+  filterSearchSize: string
   index: number | ((index: number) => number)
   sortOrders: ('ascending' | 'descending' | null)[]
   renderCell: (data: any) => void
@@ -216,6 +220,31 @@ export default {
    * @description className for the filter dropdown
    */
   filterClassName: String,
+  /**
+   * @description Set `true` to enable search within the filter panel
+   */
+  filterSearchable: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * @description The placeholder of the search input in the filter panel
+   */
+  filterSearchPlaceholder: String,
+  /**
+   * @description The size of the search input in the filter panel
+   */
+  filterSearchSize: {
+    type: String,
+    default: 'default',
+  },
+  /**
+   * @description The prefix icon of the search input in the filter panel
+   */
+  filterSearchIcon: {
+    type: [null, String, Object, Function],
+    default: undefined,
+  },
   /**
    * @description customize indices for each row, works on columns with `type=index`
    */
