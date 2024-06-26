@@ -1,7 +1,7 @@
 <template>
   <transition-group tag="ul" :class="containerKls" :name="nsList.b()">
     <li
-      v-for="file in files"
+      v-for="(file, index) in files"
       :key="file.uid || file.name"
       :class="[
         nsUpload.be('list', 'item'),
@@ -9,7 +9,7 @@
         { focusing },
       ]"
       tabindex="0"
-      @keydown.delete="!disabled && handleRemove(file)"
+      @keydown.delete="!disabled && handleRemove(file, index)"
       @focus="focusing = true"
       @blur="focusing = false"
       @click="focusing = false"
@@ -31,7 +31,7 @@
         >
           <a
             :class="nsUpload.be('list', 'item-name')"
-            @click.prevent="handlePreview(file)"
+            @click.prevent="handlePreview(file, index)"
           >
             <el-icon :class="nsIcon.m('document')">
               <Document />
@@ -69,7 +69,7 @@
         <el-icon
           v-if="!disabled"
           :class="nsIcon.m('close')"
-          @click="handleRemove(file)"
+          @click="handleRemove(file, index)"
         >
           <Close />
         </el-icon>
@@ -85,14 +85,14 @@
         >
           <span
             :class="nsUpload.be('list', 'item-preview')"
-            @click="handlePreview(file)"
+            @click="handlePreview(file, index)"
           >
             <el-icon :class="nsIcon.m('zoom-in')"><zoom-in /></el-icon>
           </span>
           <span
             v-if="!disabled"
             :class="nsUpload.be('list', 'item-delete')"
-            @click="handleRemove(file)"
+            @click="handleRemove(file, index)"
           >
             <el-icon :class="nsIcon.m('delete')">
               <Delete />
@@ -143,7 +143,7 @@ const containerKls = computed(() => [
   nsUpload.is('disabled', props.disabled),
 ])
 
-const handleRemove = (file: UploadFile) => {
-  emit('remove', file)
+const handleRemove = (file: UploadFile, index: number) => {
+  emit('remove', file, index)
 }
 </script>
