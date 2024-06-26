@@ -125,6 +125,16 @@ date-picker/custom-content
 
 :::
 
+## Custom icon
+
+Custom icons available with slots.
+
+:::demo
+
+date-picker/custom-icon
+
+:::
+
 For data details, please refer:
 
 ```ts
@@ -203,10 +213,14 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ### Slots
 
-| Name            | Description                    |
-| --------------- | ------------------------------ |
-| default         | custom cell content            |
-| range-separator | custom range separator content |
+| Name                | Description                    |
+| ------------------- | ------------------------------ |
+| default             | custom cell content            |
+| range-separator     | custom range separator content |
+| prev-month ^(2.8.0) | prev month icon                |
+| next-month ^(2.8.0) | next month icon                |
+| prev-year ^(2.8.0)  | prev year icon                 |
+| next-year ^(2.8.0)  | next year icon                 |
 
 ### Exposes
 

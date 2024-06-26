@@ -73,6 +73,16 @@ datetime-picker/default-time
 
 :::
 
+## Custom icon
+
+Custom icons available with slots.
+
+:::demo
+
+datetime-picker/custom-icon
+
+:::
+
 ## Attributes
 
 | Name                    | Description                                                                                                    | Type                                             | Accepted Values                                               | Default             |
@@ -127,7 +137,11 @@ datetime-picker/default-time
 
 ## Slots
 
-| Name            | Description                    |
-| --------------- | ------------------------------ |
-| default         | custom cell content            |
-| range-separator | custom range separator content |
+| Name                | Description                    |
+| ------------------- | ------------------------------ |
+| default             | custom cell content            |
+| range-separator     | custom range separator content |
+| prev-month ^(2.8.0) | prev month icon                |
+| next-month ^(2.8.0) | next month icon                |
+| prev-year ^(2.8.0)  | prev year icon                 |
+| next-year ^(2.8.0)  | next year icon                 |
