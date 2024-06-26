@@ -1,7 +1,7 @@
 <template>
   <DefineTemplate>
     <div
-      :aria-disabled="noTrigger ? colorDisabled : undefined"
+      :aria-disabled="colorDisabled || undefined"
       :tabindex="noTrigger ? (colorDisabled ? -1 : tabindex) : undefined"
     >
       <div :class="ns.be('dropdown', 'main-wrapper')">

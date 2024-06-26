@@ -70,10 +70,7 @@ export const colorPickerProps = buildProps({
     type: Boolean,
     default: true,
   },
-  noTrigger: {
-    type: Boolean,
-    default: false,
-  },
+  noTrigger: Boolean,
   ...useAriaProps(['ariaLabel']),
 } as const)
 export const colorPickerEmits = {
