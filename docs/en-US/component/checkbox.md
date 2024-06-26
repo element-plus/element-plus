@@ -124,19 +124,19 @@ checkbox/with-border
 
 ### CheckboxGroup Attributes
 
-| Name                        | Description                                       | Type                                     | Default |
-| --------------------------- | ------------------------------------------------- | ---------------------------------------- | ------- |
-| model-value / v-model       | binding value                                     | ^[object]`string[] \| number[]`          | []      |
-| size                        | size of checkbox                                  | ^[enum]`'large' \| 'default' \| 'small'` | —       |
-| disabled                    | whether the nesting checkboxes are disabled       | ^[boolean]                               | false   |
-| min                         | minimum number of checkbox checked                | ^[number]                                | —       |
-| max                         | maximum number of checkbox checked                | ^[number]                                | —       |
-| label ^(a11y) ^(deprecated) | native `aria-label` attribute                     | ^[string]                                | —       |
-| aria-label ^(a11y) ^(2.7.2) | native `aria-label` attribute                     | ^[string]                                | —       |
-| text-color                  | font color when button is active                  | ^[string]                                | #ffffff |
-| fill                        | border and background color when button is active | ^[string]                                | #409eff |
-| tag                         | element tag of the checkbox group                 | ^[string]                                | div     |
-| validate-event              | whether to trigger form validation                | ^[boolean]                               | true    |
+| Name                        | Description                                       | Type                                        | Default |
+| --------------------------- | ------------------------------------------------- | ------------------------------------------- | ------- |
+| model-value / v-model       | binding value                                     | ^[object]`string[] \| number[] \| object[]` | []      |
+| size                        | size of checkbox                                  | ^[enum]`'large' \| 'default' \| 'small'`    | —       |
+| disabled                    | whether the nesting checkboxes are disabled       | ^[boolean]                                  | false   |
+| min                         | minimum number of checkbox checked                | ^[number]                                   | —       |
+| max                         | maximum number of checkbox checked                | ^[number]                                   | —       |
+| label ^(a11y) ^(deprecated) | native `aria-label` attribute                     | ^[string]                                   | —       |
+| aria-label ^(a11y) ^(2.7.2) | native `aria-label` attribute                     | ^[string]                                   | —       |
+| text-color                  | font color when button is active                  | ^[string]                                   | #ffffff |
+| fill                        | border and background color when button is active | ^[string]                                   | #409eff |
+| tag                         | element tag of the checkbox group                 | ^[string]                                   | div     |
+| validate-event              | whether to trigger form validation                | ^[boolean]                                  | true    |
 
 ### CheckboxGroup Events
 
