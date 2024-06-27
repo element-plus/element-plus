@@ -1,7 +1,12 @@
 <template>
   <teleport to="body" :disabled="!teleported">
     <transition name="viewer-fade" appear>
-      <div ref="wrapper" :tabindex="-1" :class="ns.e('wrapper')" :style="{ zIndex }">
+      <div
+        ref="wrapper"
+        :tabindex="-1"
+        :class="ns.e('wrapper')"
+        :style="{ zIndex }"
+      >
         <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
         <!-- CLOSE -->
@@ -48,10 +53,19 @@
         </div>
         <!-- CANVAS -->
         <div :class="ns.e('canvas')">
-          <img v-for="(url, i) in urlList" v-show="i === activeIndex"
-            :ref="(el) => (imgRefs[i] = el as HTMLImageElement)" :key="url" :src="url" :style="imgStyle"
-            :class="ns.e('img')" :crossorigin="crossorigin" @load="handleImgLoad" @error="handleImgError"
-            @mousedown="handleMouseDown" />
+          <img
+            v-for="(url, i) in urlList"
+            v-show="i === activeIndex"
+            :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
+            :key="url"
+            :src="url"
+            :style="imgStyle"
+            :class="ns.e('img')"
+            :crossorigin="crossorigin"
+            @load="handleImgLoad"
+            @error="handleImgError"
+            @mousedown="handleMouseDown"
+          />
         </div>
         <slot />
       </div>
@@ -119,7 +133,9 @@ const imgRefs = ref<HTMLImageElement[]>([])
 const scopeEventListener = effectScope()
 
 const loading = ref(true)
-const crossorigin = ref<string>(props.crossorigin);
+const crossorigin = ref<'anonymous' | 'use-credentials' | undefined | ''>(
+  props.crossorigin
+)
 const activeIndex = ref(props.initialIndex)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
@@ -248,7 +264,7 @@ function handleImgLoad() {
 
 function handleImgError(e: Event) {
   loading.value = false
-    ; (e.target as HTMLImageElement).alt = t('el.image.error')
+  ;(e.target as HTMLImageElement).alt = t('el.image.error')
 }
 
 function handleMouseDown(e: MouseEvent) {
