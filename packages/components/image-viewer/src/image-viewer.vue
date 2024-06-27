@@ -1,26 +1,27 @@
 <template>
   <teleport to="body" :disabled="!teleported">
     <transition name="viewer-fade" appear>
-      <div
-        ref="wrapper"
-        :tabindex="-1"
-        :class="ns.e('wrapper')"
-        :style="{ zIndex }"
-      >
+      <div ref="wrapper" :tabindex="-1" :class="ns.e('wrapper')" :style="{ zIndex }">
         <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
         <!-- CLOSE -->
         <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
-          <el-icon><Close /></el-icon>
+          <el-icon>
+            <Close />
+          </el-icon>
         </span>
 
         <!-- ARROW -->
         <template v-if="!isSingle">
           <span :class="arrowPrevKls" @click="prev">
-            <el-icon><ArrowLeft /></el-icon>
+            <el-icon>
+              <ArrowLeft />
+            </el-icon>
           </span>
           <span :class="arrowNextKls" @click="next">
-            <el-icon><ArrowRight /></el-icon>
+            <el-icon>
+              <ArrowRight />
+            </el-icon>
           </span>
         </template>
         <!-- ACTIONS -->
@@ -47,19 +48,10 @@
         </div>
         <!-- CANVAS -->
         <div :class="ns.e('canvas')">
-          <img
-            v-for="(url, i) in urlList"
-            v-show="i === activeIndex"
-            :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
-            :key="url"
-            :src="url"
-            :style="imgStyle"
-            :class="ns.e('img')"
-            :crossorigin="crossorigin"
-            @load="handleImgLoad"
-            @error="handleImgError"
-            @mousedown="handleMouseDown"
-          />
+          <img v-for="(url, i) in urlList" v-show="i === activeIndex"
+            :ref="(el) => (imgRefs[i] = el as HTMLImageElement)" :key="url" :src="url" :style="imgStyle"
+            :class="ns.e('img')" :crossorigin="crossorigin" @load="handleImgLoad" @error="handleImgError"
+            @mousedown="handleMouseDown" />
         </div>
         <slot />
       </div>
@@ -127,6 +119,7 @@ const imgRefs = ref<HTMLImageElement[]>([])
 const scopeEventListener = effectScope()
 
 const loading = ref(true)
+const crossorigin = ref<string>(props.crossorigin);
 const activeIndex = ref(props.initialIndex)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
@@ -255,7 +248,7 @@ function handleImgLoad() {
 
 function handleImgError(e: Event) {
   loading.value = false
-  ;(e.target as HTMLImageElement).alt = t('el.image.error')
+    ; (e.target as HTMLImageElement).alt = t('el.image.error')
 }
 
 function handleMouseDown(e: MouseEvent) {
