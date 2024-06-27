@@ -153,6 +153,12 @@ export default class TreeStore {
     }
   }
 
+  reloadLazyChildren(refData: TreeKey | TreeNodeData | Node) {
+    const node = this.getNode(refData)
+    node.loaded = false
+    node.loadData()
+  }
+
   _initDefaultCheckedNodes(): void {
     const defaultCheckedKeys = this.defaultCheckedKeys || []
     const nodesMap = this.nodesMap
