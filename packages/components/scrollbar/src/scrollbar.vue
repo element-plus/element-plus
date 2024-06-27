@@ -82,10 +82,21 @@ const resizeKls = computed(() => {
   return [ns.e('view'), props.viewClass]
 })
 
+const scrollPosition = ref<{
+  top: number
+  left: number
+}>({
+  top: 0,
+  left: 0,
+})
+
 const handleScroll = () => {
   if (wrapRef.value) {
     barRef.value?.handleScroll(wrapRef.value)
-
+    scrollPosition.value = {
+      top: wrapRef.value.scrollTop,
+      left: wrapRef.value.scrollLeft,
+    }
     emit('scroll', {
       scrollTop: wrapRef.value.scrollTop,
       scrollLeft: wrapRef.value.scrollLeft,
@@ -181,5 +192,7 @@ defineExpose({
   setScrollLeft,
   /** @description handle scroll event */
   handleScroll,
+  /** @description scroll position */
+  scrollPosition,
 })
 </script>
