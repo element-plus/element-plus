@@ -1,4 +1,4 @@
-import { isArray, isObject, isString } from '@vue/shared'
+import { isArray, isFunction, isObject, isString } from '@vue/shared'
 import { isNil } from 'lodash-unified'
 
 export {
@@ -39,4 +39,13 @@ export const isStringNumber = (val: string): boolean => {
 
 export const isWindow = (val: unknown): val is Window => {
   return val === window
+}
+
+export const isThenable = (val: unknown): val is PromiseLike<unknown> => {
+  try {
+    return isObject(val) && isFunction(val.then)
+  } catch {
+    // accessing .then property may throws an error if it is a getter or proxy
+    return false
+  }
 }

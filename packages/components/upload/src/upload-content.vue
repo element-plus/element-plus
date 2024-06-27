@@ -31,7 +31,7 @@ import { shallowRef } from 'vue'
 import { isPlainObject } from '@vue/shared'
 import { cloneDeep, isEqual } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
-import { entriesOf, isFunction } from '@element-plus/utils'
+import { entriesOf, isFunction, isThenable } from '@element-plus/utils'
 import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
 import { uploadContentProps } from './upload-content'
@@ -186,7 +186,7 @@ const doUpload = async (
   }
   const request = httpRequest(options)
   requests.value[uid] = request
-  if (request instanceof Promise) {
+  if (isThenable(request)) {
     request.then(options.onSuccess, options.onError)
   }
 }
