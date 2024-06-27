@@ -255,7 +255,7 @@ const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
 
 const hovering = ref(false)
-const isComposing = ref(false)
+const composing = ref(false)
 const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
@@ -404,6 +404,7 @@ const handleInput = async (event: Event) => {
   recordCursor()
 
   let { value } = event.target as TargetElement
+  const { isComposing } = event as InputEvent
 
   if (props.formatter) {
     value = props.parser ? props.parser(value) : value
@@ -411,7 +412,7 @@ const handleInput = async (event: Event) => {
 
   // should not emit input during composition
   // see: https://github.com/ElemeFE/element/issues/10516
-  if (isComposing.value) return
+  if (isComposing || composing.value) return
 
   // hack for https://github.com/ElemeFE/element/issues/8548
   // should remove the following line when we don't support IE
@@ -436,20 +437,20 @@ const handleChange = (event: Event) => {
 
 const handleCompositionStart = (event: CompositionEvent) => {
   emit('compositionstart', event)
-  isComposing.value = true
+  composing.value = true
 }
 
 const handleCompositionUpdate = (event: CompositionEvent) => {
   emit('compositionupdate', event)
   const text = (event.target as HTMLInputElement)?.value
   const lastCharacter = text[text.length - 1] || ''
-  isComposing.value = !isKorean(lastCharacter)
+  composing.value = !isKorean(lastCharacter)
 }
 
 const handleCompositionEnd = (event: CompositionEvent) => {
   emit('compositionend', event)
-  if (isComposing.value) {
-    isComposing.value = false
+  if (composing.value) {
+    composing.value = false
     handleInput(event)
   }
 }
