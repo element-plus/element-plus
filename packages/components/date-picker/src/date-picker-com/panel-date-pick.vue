@@ -406,16 +406,12 @@ const keyboardMode = computed<string>(() => {
 const hasShortcuts = computed(() => !!shortcuts.length)
 
 const handleMonthPick = async (month: number) => {
-  innerDate.value = innerDate.value.startOf('month').month(month)
   if (selectionMode.value === 'month') {
+    innerDate.value = innerDate.value.startOf('month').month(month)
     emit(innerDate.value, false)
   } else {
+    innerDate.value = innerDate.value.month(month)
     currentView.value = 'date'
-    if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
-      emit(innerDate.value, true)
-      await nextTick()
-      handleFocusPicker()
-    }
   }
   handlePanelChange('month')
 }
@@ -432,11 +428,6 @@ const handleYearPick = async (
   } else {
     innerDate.value = innerDate.value.year(year as number)
     currentView.value = 'month'
-    if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
-      emit(innerDate.value, true)
-      await nextTick()
-      handleFocusPicker()
-    }
   }
   handlePanelChange('year')
 }
