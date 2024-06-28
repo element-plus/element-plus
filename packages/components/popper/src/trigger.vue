@@ -58,6 +58,16 @@ const ariaExpanded = computed<string | undefined>(() => {
 
 let virtualTriggerAriaStopWatch: WatchStopHandle | undefined = undefined
 
+const TRIGGER_ELE_EVENTS = [
+  'onMouseenter',
+  'onMouseleave',
+  'onClick',
+  'onKeydown',
+  'onFocus',
+  'onBlur',
+  'onContextmenu',
+]
+
 onMounted(() => {
   watch(
     () => props.virtualRef,
@@ -77,18 +87,8 @@ onMounted(() => {
       virtualTriggerAriaStopWatch?.()
       virtualTriggerAriaStopWatch = undefined
       if (isElement(el)) {
-        ;(
-          [
-            'onMouseenter',
-            'onMouseleave',
-            'onClick',
-            'onKeydown',
-            'onFocus',
-            'onBlur',
-            'onContextmenu',
-          ] as const
-        ).forEach((eventName) => {
-          const handler = props[eventName]
+        TRIGGER_ELE_EVENTS.forEach((eventName) => {
+          const handler = (props as Record<string, any>)[eventName]
           if (handler) {
             ;(el as HTMLElement).addEventListener(
               eventName.slice(2).toLowerCase(),
@@ -135,6 +135,16 @@ onMounted(() => {
 onBeforeUnmount(() => {
   virtualTriggerAriaStopWatch?.()
   virtualTriggerAriaStopWatch = undefined
+  if (triggerRef.value && isElement(triggerRef.value)) {
+    const el = triggerRef.value as HTMLElement
+    TRIGGER_ELE_EVENTS.forEach((eventName) => {
+      const handler = (props as Record<string, any>)[eventName] as any
+      if (handler) {
+        el.removeEventListener(eventName.slice(2).toLowerCase(), handler)
+      }
+    })
+    triggerRef.value = undefined
+  }
 })
 
 defineExpose({
