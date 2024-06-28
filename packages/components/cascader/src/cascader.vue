@@ -577,6 +577,7 @@ const handleClear = () => {
     syncPresentTextValue()
   }
   togglePopperVisible(false)
+  emit('clear')
 }
 
 const syncPresentTextValue = () => {
