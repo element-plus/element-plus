@@ -133,9 +133,6 @@ const imgRefs = ref<HTMLImageElement[]>([])
 const scopeEventListener = effectScope()
 
 const loading = ref(true)
-const crossorigin = ref<'anonymous' | 'use-credentials' | undefined | ''>(
-  props.crossorigin
-)
 const activeIndex = ref(props.initialIndex)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
