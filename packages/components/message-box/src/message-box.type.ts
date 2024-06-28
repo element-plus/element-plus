@@ -38,6 +38,8 @@ export declare interface MessageBoxState {
   cancelButtonText: string
   confirmButtonLoading: boolean
   cancelButtonLoading: boolean
+  confirmButtonLoadingIcon: string | Component
+  cancelButtonLoadingIcon: string | Component
   confirmButtonClass: string
   confirmButtonDisabled: boolean
   cancelButtonClass: string
