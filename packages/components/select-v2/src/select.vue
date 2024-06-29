@@ -34,6 +34,7 @@
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
           ]"
+          @click.prevent.stop="toggleMenu"
         >
           <div
             v-if="$slots.prefix"
