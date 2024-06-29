@@ -333,6 +333,8 @@ table/table-layout
 | scrollTo           | scrolls to a particular set of coordinates                                                                                                                        | ^[Function]`(options: number \| ScrollToOptions, yCoord?: number) => void` |
 | setScrollTop       | set vertical scroll position                                                                                                                                      | ^[Function]`(top?: number) => void`                                        |
 | setScrollLeft      | set horizontal scroll position                                                                                                                                    | ^[Function]`(left?: number) => void`                                       |
+| columns ^(2.7.6)   | Get table columns context.                                                                                                                                        | ^[array]`TableColumnCtx<T>[]`                                              |
+
 
 ## Table-column API
 
