@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { NOOP } from '@vue/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { hasClass } from '@element-plus/utils'
@@ -1486,6 +1486,49 @@ describe('Select', () => {
     it('should call remote method in multiple mode', async () => {
       await testRemoteSearch({ multiple: true })
     })
+  })
+
+  it('remote search should be not initialized', async () => {
+    const states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas']
+    const list = states.map((item): ListItem => {
+      return { value: `value:${item}`, label: `label:${item}` }
+    })
+    const options = ref([{ value: `value:Alabama`, label: `label:Alabama` }])
+    const remoteMethod = (query: string) => {
+      if (query !== '') {
+        options.value = list.filter((item) => {
+          return item.label.toLowerCase().includes(query.toLowerCase())
+        })
+      } else {
+        options.value = []
+      }
+    }
+    const wrapper = createSelect({
+      data() {
+        return {
+          filterable: true,
+          remote: true,
+          options,
+          multiple: true,
+          value: ['value:Alabama'],
+        }
+      },
+      methods: {
+        remoteMethod,
+      },
+    })
+    const input = wrapper.find('input')
+    input.element.value = 'A'
+    await input.trigger('input')
+
+    const tag = wrapper.find('.el-select__tags-text')
+    // filter or remote-search scenarios should be not initialized
+    expect(tag.text()).toBe('label:Alabama')
+
+    await wrapper.trigger('blur')
+    await input.trigger('click')
+    // filter or remote-search scenarios should be not initialized
+    expect(tag.text()).toBe('label:Alabama')
   })
 
   it('keyboard operations', async () => {
