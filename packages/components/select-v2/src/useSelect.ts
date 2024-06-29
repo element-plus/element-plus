@@ -810,7 +810,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     () => {
       const input = inputRef.value
       // filter or remote-search scenarios are not initialized
-      if (!input || (input && document.activeElement !== input)) {
+      if (!input || !(props.filterable || props.remote)) {
         initStates()
       }
     },
