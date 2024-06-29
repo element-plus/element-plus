@@ -77,6 +77,7 @@ export const config: UserConfig = {
     template: {
       ssr: true,
       compilerOptions: {
+        hoistStatic: false,
         directiveTransforms: buildTransformers(),
       },
     },
