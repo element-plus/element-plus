@@ -92,6 +92,12 @@ export interface ElMessageBoxOptions {
   /** Text content of confirm button */
   confirmButtonText?: string
 
+  /** Loading Icon content of cancel button */
+  cancelButtonLoadingIcon?: string | Component
+
+  /** Loading Icon content of confirm button */
+  confirmButtonLoadingIcon?: string | Component
+
   /** Custom class name of cancel button */
   cancelButtonClass?: string
 
