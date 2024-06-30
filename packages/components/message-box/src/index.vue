@@ -291,7 +291,7 @@ export default defineComponent({
       type: '',
       title: undefined,
       showInput: false,
-      action: 'cancel' as Action,
+      action: '' as Action,
       confirmButtonLoading: false,
       cancelButtonLoading: false,
       confirmButtonDisabled: false,
@@ -382,9 +382,12 @@ export default defineComponent({
       }
     })
 
-    function doClose() {
+    function doClose(action?: Action) {
       if (!visible.value) return
       visible.value = false
+      if (action) {
+        state.action = action
+      }
       nextTick(() => {
         if (state.action) emit('action', state.action)
       })

@@ -26,7 +26,7 @@ import type {
 // component default merge props & data
 
 const messageInstance = new Map<
-  ComponentPublicInstance<{ doClose: () => void }>, // marking doClose as function
+  ComponentPublicInstance<{ doClose: (action?: any) => void }>, // marking doClose as function
   {
     options: any
     callback: Callback | undefined
@@ -226,15 +226,21 @@ function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
   }
 }
 
-MessageBox.close = () => {
+MessageBox.close = (action?: Action) => {
   // instance.setupInstall.doClose()
   // instance.setupInstall.state.visible = false
+  if (!action && typeof action != 'undefined') {
+    action = 'cancel'
+  }
 
   messageInstance.forEach((_, vm) => {
-    vm.doClose()
+    if (action === 'close') {
+      const options = messageInstance.get(vm)?.options
+      if (options) options.distinguishCancelAndClose = true
+    }
+    vm.doClose(action)
   })
-
-  messageInstance.clear()
+  // clear messageInstance in onVanish
 }
 ;(MessageBox as IElMessageBox)._context = null
 
