@@ -6,6 +6,7 @@
 <script lang="ts" setup>
 import { computed, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { isDirectionType } from '@element-plus/utils'
 
 import type { Component, VNode } from 'vue'
 
@@ -18,6 +19,7 @@ const props = defineProps({
    */
   direction: {
     type: String,
+    validator: isDirectionType,
   },
 })
 const slots = useSlots()
