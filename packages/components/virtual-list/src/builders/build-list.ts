@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -59,7 +58,7 @@ const createList = ({
 
       const dynamicSizeCache = ref(initCache(props, instance))
 
-      const getItemStyleCache = useCache()
+      const getItemStyleCache = useCache<CSSProperties>()
       // refs
       // here windowRef and innerRef can be type of HTMLElement
       // or user defined component type, depends on the type passed
