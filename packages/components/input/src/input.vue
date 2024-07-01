@@ -56,6 +56,7 @@
           @blur="handleBlur"
           @change="handleChange"
           @keydown="handleKeydown"
+          @click.stop
         />
 
         <!-- suffix slot -->
@@ -135,6 +136,7 @@
         @blur="handleBlur"
         @change="handleChange"
         @keydown="handleKeydown"
+        @click.stop
       />
       <span
         v-if="isWordLimitVisible"
