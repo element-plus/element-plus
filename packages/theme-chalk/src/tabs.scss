@@ -284,16 +284,6 @@
     }
   }
   @include m((top, bottom)) {
-    .#{$namespace}-tabs__item.is-top:nth-child(2),
-    .#{$namespace}-tabs__item.is-bottom:nth-child(2) {
-      padding-left: 0;
-    }
-    .#{$namespace}-tabs__item.is-top:last-child,
-    .#{$namespace}-tabs__item.is-bottom:last-child {
-      padding-right: 0;
-    }
-
-    &.#{$namespace}-tabs--border-card,
     &.#{$namespace}-tabs--card,
     .#{$namespace}-tabs--left,
     .#{$namespace}-tabs--right {
