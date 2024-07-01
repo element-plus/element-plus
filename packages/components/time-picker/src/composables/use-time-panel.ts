@@ -28,8 +28,7 @@ export const useTimePanel = ({
       minute: getAvailableMinutes,
       second: getAvailableSeconds,
     } as const
-    let result = date
-    ;(['hour', 'minute', 'second'] as const).forEach((type) => {
+    return (['hour', 'minute', 'second'] as const).reduce((result, type) => {
       if (availableTimeGetters[type]) {
         let availableTimeSlots: number[]
         const method = availableTimeGetters[type]
@@ -68,8 +67,8 @@ export const useTimePanel = ({
           result = result[type](availableTimeSlots[pos]) as unknown as Dayjs
         }
       }
-    })
-    return result
+      return result
+    }, date)
   }
 
   const timePickerOptions: Record<string, (...args: any[]) => void> = {}
