@@ -104,8 +104,8 @@ export default defineComponent({
 
         e.preventDefault()
 
-        if (target !== unref(contentRef)) return
-        if (!FIRST_LAST_KEYS.includes(code)) return
+        if (target !== unref(contentRef) || !FIRST_LAST_KEYS.includes(code))
+          return
         const items = getItems<{ disabled: boolean }>().filter(
           (item) => !item.disabled
         )
