@@ -45,9 +45,7 @@ const getBarStyle = (): CSSProperties => {
     const $el = instance.parent?.refs?.[`tab-${tab.uid}`] as HTMLElement
     if (!$el) return false
 
-    if (!tab.active) {
-      return true
-    }
+    if (!tab.active) return true
 
     offset = $el[`offset${capitalize(position)}`]
     tabSize = $el[`client${capitalize(sizeName)}`]
