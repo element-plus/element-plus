@@ -9,6 +9,10 @@ import {
 } from '../virtual-tree'
 import { useCheck } from './useCheck'
 import { useFilter } from './useFilter'
+import type {
+  Alignment,
+  FixedSizeList,
+} from '@element-plus/components/virtual-list'
 import type { SetupContext } from 'vue'
 import type { treeEmits } from '../virtual-tree'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
@@ -28,6 +32,7 @@ export function useTree(
   const expandedKeySet = ref<Set<TreeKey>>(new Set(props.defaultExpandedKeys))
   const currentKey = ref<TreeKey | undefined>()
   const tree = shallowRef<Tree | undefined>()
+  const listRef = ref<typeof FixedSizeList | undefined>()
 
   watch(
     () => props.currentNodeKey,
@@ -278,10 +283,18 @@ export function useTree(
     return tree.value?.treeNodeMap.get(key)
   }
 
+  function scrollTo(key: TreeKey, align: Alignment = 'auto') {
+    const node = getNode(key)
+    if (node && listRef.value) {
+      listRef.value.scrollToItem(flattenTree.value.indexOf(node), align)
+    }
+  }
+
   return {
     tree,
     flattenTree,
     isNotEmpty,
+    listRef,
     getKey,
     getChildren,
     toggleExpand,
@@ -310,5 +323,6 @@ export function useTree(
     expandNode,
     collapseNode,
     setExpandedKeys,
+    scrollTo,
   }
 }
