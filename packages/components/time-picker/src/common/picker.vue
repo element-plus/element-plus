@@ -96,39 +96,43 @@
         >
           <component :is="triggerIcon" />
         </el-icon>
-        <input
-          :id="id && id[0]"
-          autocomplete="off"
-          :name="name && name[0]"
-          :placeholder="startPlaceholder"
-          :value="displayValue && displayValue[0]"
-          :disabled="pickerDisabled"
-          :readonly="!editable || readonly"
-          :class="nsRange.b('input')"
-          @mousedown="onMouseDownInput"
-          @input="handleStartInput"
-          @change="handleStartChange"
-          @focus="handleFocusInput"
-          @blur="handleBlurInput"
-        />
-        <slot name="range-separator">
-          <span :class="nsRange.b('separator')">{{ rangeSeparator }}</span>
-        </slot>
-        <input
-          :id="id && id[1]"
-          autocomplete="off"
-          :name="name && name[1]"
-          :placeholder="endPlaceholder"
-          :value="displayValue && displayValue[1]"
-          :disabled="pickerDisabled"
-          :readonly="!editable || readonly"
-          :class="nsRange.b('input')"
-          @mousedown="onMouseDownInput"
-          @focus="handleFocusInput"
-          @blur="handleBlurInput"
-          @input="handleEndInput"
-          @change="handleEndChange"
-        />
+        <range-input-id-provider :id="id">
+          <template #default="{ inputIdForStart, inputIdForEnd }">
+            <input
+              :id="inputIdForStart"
+              autocomplete="off"
+              :name="name && name[0]"
+              :placeholder="startPlaceholder"
+              :value="displayValue && displayValue[0]"
+              :disabled="pickerDisabled"
+              :readonly="!editable || readonly"
+              :class="nsRange.b('input')"
+              @mousedown="onMouseDownInput"
+              @input="handleStartInput"
+              @change="handleStartChange"
+              @focus="handleFocusInput"
+              @blur="handleBlurInput"
+            />
+            <slot name="range-separator">
+              <span :class="nsRange.b('separator')">{{ rangeSeparator }}</span>
+            </slot>
+            <input
+              :id="inputIdForEnd"
+              autocomplete="off"
+              :name="name && name[1]"
+              :placeholder="endPlaceholder"
+              :value="displayValue && displayValue[1]"
+              :disabled="pickerDisabled"
+              :readonly="!editable || readonly"
+              :class="nsRange.b('input')"
+              @mousedown="onMouseDownInput"
+              @focus="handleFocusInput"
+              @blur="handleBlurInput"
+              @input="handleEndInput"
+              @change="handleEndChange"
+            />
+          </template>
+        </range-input-id-provider>
         <el-icon
           v-if="clearIcon"
           :class="clearIconKls"
@@ -188,6 +192,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
 import { formatter, parseDate, valueEquals } from '../utils'
 import { timePickerDefaultProps } from './props'
+import RangeInputIdProvider from './range-input-id-provider.vue'
 
 import type { Dayjs } from 'dayjs'
 import type { ComponentPublicInstance } from 'vue'
