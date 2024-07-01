@@ -3,6 +3,7 @@
 
 @include b(tabs) {
   @include set-component-css-var('tabs', $tabs);
+  display: flex;
 
   @include e(header) {
     padding: 0;
@@ -167,6 +168,7 @@
   @include e(content) {
     overflow: hidden;
     position: relative;
+    flex-grow: 1;
   }
   @include m(card) {
     > .#{$namespace}-tabs__header {
@@ -317,6 +319,8 @@
     }
   }
   @include m(bottom) {
+    flex-direction: column;
+
     .#{$namespace}-tabs__header.is-bottom {
       margin-bottom: 0;
       margin-top: 10px;
@@ -413,8 +417,9 @@
     }
   }
   @include m(left) {
+    flex-direction: row-reverse;
+
     .#{$namespace}-tabs__header.is-left {
-      float: left;
       margin-bottom: 0;
       margin-right: 10px;
     }
@@ -497,7 +502,6 @@
   }
   @include m(right) {
     .#{$namespace}-tabs__header.is-right {
-      float: right;
       margin-bottom: 0;
       margin-left: 10px;
     }
@@ -567,6 +571,9 @@
         }
       }
     }
+  }
+  @include m(top) {
+    flex-direction: column-reverse;
   }
 }
 
