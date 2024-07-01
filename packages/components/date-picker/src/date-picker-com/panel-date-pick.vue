@@ -48,6 +48,7 @@
               @change="handleVisibleTimeChange"
             />
             <time-pick-panel
+              class="is-last-time-pick"
               :visible="timePickerVisible"
               :format="timeFormat"
               :parsed-value="innerDate"
