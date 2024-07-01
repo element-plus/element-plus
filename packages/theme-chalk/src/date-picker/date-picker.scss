@@ -48,7 +48,7 @@
   }
 
   @include e(header) {
-    margin: 12px;
+    padding: 12px 12px 0;
     text-align: center;
 
     @include m(bordered) {
