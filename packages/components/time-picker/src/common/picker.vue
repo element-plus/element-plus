@@ -417,7 +417,6 @@ const handleBlurInput = (e?: FocusEvent) => {
           }).length === 0
         ) {
           handleChange()
-          pickerVisible.value = false
           emit('blur', e)
           props.validateEvent &&
             formItem?.validate('blur').catch((err) => debugWarn(err))
