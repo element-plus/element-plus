@@ -11,6 +11,7 @@ export declare type IDatePickerType =
   | 'datetimerange'
   | 'daterange'
   | 'monthrange'
+  | 'yearrange'
 
 type DateCellType = 'normal' | 'today' | 'week' | 'next-month' | 'prev-month'
 export interface DateCell {
