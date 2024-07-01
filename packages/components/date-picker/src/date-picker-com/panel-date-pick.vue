@@ -71,7 +71,9 @@
               :class="ppNs.e('icon-btn')"
               @click="moveByYear(false)"
             >
-              <el-icon><d-arrow-left /></el-icon>
+              <slot name="prev-year">
+                <el-icon><d-arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               v-show="currentView === 'date'"
@@ -81,7 +83,9 @@
               class="arrow-left"
               @click="moveByMonth(false)"
             >
-              <el-icon><arrow-left /></el-icon>
+              <slot name="prev-month">
+                <el-icon><arrow-left /></el-icon>
+              </slot>
             </button>
           </span>
           <span
@@ -115,7 +119,9 @@
               class="arrow-right"
               @click="moveByMonth(true)"
             >
-              <el-icon><arrow-right /></el-icon>
+              <slot name="next-month">
+                <el-icon><arrow-right /></el-icon>
+              </slot>
             </button>
             <button
               type="button"
@@ -124,7 +130,9 @@
               class="d-arrow-right"
               @click="moveByYear(true)"
             >
-              <el-icon><d-arrow-right /></el-icon>
+              <slot name="next-year">
+                <el-icon><d-arrow-right /></el-icon>
+              </slot>
             </button>
           </span>
         </div>
