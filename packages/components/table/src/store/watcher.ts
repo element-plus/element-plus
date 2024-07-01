@@ -18,11 +18,12 @@ import type { TableColumnCtx } from '../table-column/defaults'
 import type { Table, TableRefs } from '../table/defaults'
 import type { StoreFilter } from '.'
 
-const sortData = (data, states) => {
+export const sortData = (data, states) => {
   const sortingColumn = states.sortingColumn
   if (!sortingColumn || typeof sortingColumn.sortable === 'string') {
     return data
   }
+
   return orderBy(
     data,
     states.sortProp,
