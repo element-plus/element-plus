@@ -97,6 +97,7 @@ export default {
       loading: 'Loading',
       placeholder: 'Select',
       noData: 'No data',
+      selectAll: 'Select All',
     },
     pagination: {
       goto: 'Go to',

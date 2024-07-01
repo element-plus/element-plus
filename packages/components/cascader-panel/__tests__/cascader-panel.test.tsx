@@ -330,13 +330,13 @@ describe('CascaderPanel.vue', () => {
       />
     ))
 
-    const zjNode = wrapper.findAll(NODE)[1]
+    const zjNode = wrapper.findAll(NODE)[2]
     const zjCheckbox = zjNode.find(CHECKBOX)
     expect(zjCheckbox.exists()).toBe(true)
 
     await zjNode.trigger('click')
     const secondMenu = wrapper.findAll(MENU)[1]
-    const [hzCheckbox, nbCheckbox] = secondMenu.findAll(CHECKBOX)
+    const [, hzCheckbox, nbCheckbox] = secondMenu.findAll(CHECKBOX)
 
     await hzCheckbox.find('input').trigger('click')
     expect(hzCheckbox.classes('is-checked')).toBe(true)
@@ -371,8 +371,8 @@ describe('CascaderPanel.vue', () => {
 
     await nextTick()
 
-    const bjNode = wrapper.find(NODE)
-    const bjCheckbox = wrapper.find(CHECKBOX)
+    const bjNode = wrapper.findAll(NODE)[1]
+    const bjCheckbox = bjNode.find(CHECKBOX)
     expect(bjNode.classes('is-disabled')).toBe(true)
     expect(bjCheckbox.classes('is-disabled')).toBe(true)
     expect(bjCheckbox.classes('is-checked')).toBe(true)
@@ -434,8 +434,8 @@ describe('CascaderPanel.vue', () => {
       />
     ))
 
-    const shNode = wrapper.findAll(NODE)[2]
-    const [, zjCheckbox, shCheckbox] = wrapper.findAll(CHECKBOX)
+    const shNode = wrapper.findAll(NODE)[3]
+    const [, , zjCheckbox, shCheckbox] = wrapper.findAll(CHECKBOX)
 
     await nextTick()
     await shNode.trigger('click')
@@ -580,23 +580,23 @@ describe('CascaderPanel.vue', () => {
     vi.runAllTimers()
     await nextTick()
     const firstMenu = wrapper.findAll(MENU)[0]
-    const firstOption = wrapper.find(NODE)
+    const firstOption = wrapper.findAll(NODE)[1]
     await firstOption.trigger('click')
     vi.runAllTimers()
     await nextTick()
 
-    await firstMenu.find(CHECKBOX).find('input').trigger('click')
+    await firstMenu.findAll(CHECKBOX)[1].find('input').trigger('click')
 
     const secondMenu = wrapper.findAll(MENU)[1]
     expect(secondMenu.exists()).toBe(true)
     expect(firstMenu.find(CHECKBOX).classes('is-checked')).toBe(false)
     expect(firstMenu.find(CHECKBOX).classes('is-indeterminate')).toBe(true)
-    expect(secondMenu.findAll(CHECKBOX)[0].classes('is-checked')).toBe(false)
-    expect(secondMenu.findAll(CHECKBOX)[0].classes('is-indeterminate')).toBe(
+    expect(secondMenu.findAll(CHECKBOX)[1].classes('is-checked')).toBe(false)
+    expect(secondMenu.findAll(CHECKBOX)[2].classes('is-indeterminate')).toBe(
       false
     )
-    expect(secondMenu.findAll(CHECKBOX)[1].classes('is-checked')).toBe(true)
-    expect(secondMenu.findAll(CHECKBOX)[1].classes('is-indeterminate')).toBe(
+    expect(secondMenu.findAll(CHECKBOX)[2].classes('is-checked')).toBe(true)
+    expect(secondMenu.findAll(CHECKBOX)[2].classes('is-indeterminate')).toBe(
       false
     )
     vi.useRealTimers()
@@ -689,4 +689,63 @@ describe('CascaderPanel.vue', () => {
     await nextTick()
     expect(node!.classes('is-active')).toBe(true)
   })
+})
+
+test('multiple mode selectAll', async () => {
+  const value = ref([])
+  const props = {
+    multiple: true,
+  }
+  const wrapper = mount(() => (
+    <CascaderPanel
+      v-model={value.value}
+      options={NORMAL_OPTIONS}
+      props={props}
+    />
+  ))
+
+  const zjNode = wrapper.findAll(NODE)[2]
+  const zjCheckbox = zjNode.find(CHECKBOX)
+  expect(zjCheckbox.exists()).toBe(true)
+
+  await zjNode.trigger('click')
+
+  const selectorAllNode = wrapper.findAll(NODE)[0]
+  const electorAllCheckbox = selectorAllNode.find(CHECKBOX)
+  expect(electorAllCheckbox.exists()).toBe(true)
+
+  await electorAllCheckbox.find('input').trigger('click')
+
+  const firstMenu = wrapper.findAll(MENU)[0]
+  const [firstSelectAllbox] = firstMenu.findAll(CHECKBOX)
+
+  const secondMenu = wrapper.findAll(MENU)[1]
+  const [, hzCheckbox, nbCheckbox] = secondMenu.findAll(CHECKBOX)
+
+  expect(firstSelectAllbox.classes('is-checked')).toBe(true)
+  expect(value.value).toEqual([
+    ['beijing'],
+    ['zhejiang', 'hangzhou'],
+    ['zhejiang', 'ningbo'],
+    ['shanghai', 'shanghai'],
+    ['guangdong'],
+  ])
+
+  await nbCheckbox.find('input').trigger('click')
+  expect(zjCheckbox.classes('is-indeterminate')).toBe(true)
+  expect(value.value).toEqual([
+    ['beijing'],
+    ['zhejiang', 'hangzhou'],
+    ['shanghai', 'shanghai'],
+    ['guangdong'],
+  ])
+
+  await hzCheckbox.find('input').trigger('click')
+  expect(firstSelectAllbox.classes('is-indeterminate')).toBe(true)
+
+  expect(value.value).toEqual([
+    ['beijing'],
+    ['shanghai', 'shanghai'],
+    ['guangdong'],
+  ])
 })
