@@ -78,7 +78,8 @@
         @click="showFilterPanel"
       >
         <el-icon>
-          <arrow-up v-if="column.filterOpened" />
+          <component :is="filterIcon" v-if="filterIcon" />
+          <arrow-up v-else-if="column.filterOpened" />
           <arrow-down v-else />
         </el-icon>
       </span>
@@ -96,6 +97,7 @@ import { ClickOutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
+import { iconPropType } from '@element-plus/utils'
 import type { Placement } from '@element-plus/components/popper'
 
 import type { PropType, WritableComputedRef } from 'vue'
@@ -130,6 +132,9 @@ export default defineComponent({
     },
     upDataColumn: {
       type: Function,
+    },
+    filterIcon: {
+      type: iconPropType,
     },
   },
   setup(props) {

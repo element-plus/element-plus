@@ -225,6 +225,7 @@ export default defineComponent({
                       ),
                     column.filterable &&
                       h(FilterPanel, {
+                        filterIcon: $parent?.$props.filterIcon,
                         store,
                         placement: column.filterPlacement || 'bottom-start',
                         column,

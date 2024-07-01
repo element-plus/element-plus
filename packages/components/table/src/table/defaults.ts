@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useSizeProp } from '@element-plus/hooks'
+import { iconPropType } from '@element-plus/utils'
 import type {
   CSSProperties,
   ComponentInternalInstance,
@@ -384,6 +385,12 @@ export default {
   showOverflowTooltip: [Boolean, Object] as PropType<
     TableProps<DefaultRow>['showOverflowTooltip']
   >,
+  /**
+   * @description the filter icon component
+   */
+  filterIcon: {
+    type: iconPropType,
+  },
 }
 export type {
   SummaryMethod,
