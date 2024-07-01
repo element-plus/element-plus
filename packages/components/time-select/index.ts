@@ -11,3 +11,5 @@ const _TimeSelect = TimeSelect as SFCWithInstall<typeof TimeSelect>
 
 export default _TimeSelect
 export const ElTimeSelect = _TimeSelect
+
+export * from './src/time-select'
