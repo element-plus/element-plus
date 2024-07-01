@@ -23,6 +23,7 @@
         :value="actualValue"
         :name="name || radioGroup?.name"
         :disabled="disabled"
+        :checked="modelValue === actualValue"
         type="radio"
         @focus="focus = true"
         @blur="focus = false"
