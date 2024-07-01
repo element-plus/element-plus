@@ -48,6 +48,7 @@ const doFlattenColumns = (columns) => {
 function useWatcher<T>() {
   const instance = getCurrentInstance() as Table<T>
   const { size: tableSize } = toRefs(instance.proxy?.$props as any)
+  const disabled = ref<Record<Record<string, any>, boolean>>(new Map())
   const rowKey: Ref<string> = ref(null)
   const data: Ref<T[]> = ref([])
   const _data: Ref<T[]> = ref([])
@@ -193,6 +194,7 @@ function useWatcher<T>() {
     selected = undefined,
     emitChange = true
   ) => {
+    if (disabled.value.get(row)) return
     const changed = toggleRowStatus(selection.value, row, selected)
     if (changed) {
       const newSelection = (selection.value || []).slice()
@@ -505,6 +507,7 @@ function useWatcher<T>() {
     loadOrToggle,
     updateTreeData,
     states: {
+      disabled,
       tableSize,
       rowKey,
       data,
