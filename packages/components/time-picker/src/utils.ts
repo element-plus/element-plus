@@ -2,13 +2,22 @@ import dayjs from 'dayjs'
 import { isArray, isDate, isEmpty } from '@element-plus/utils'
 
 import type { Dayjs } from 'dayjs'
-export type TimeList = [number | undefined, number, undefined | number]
+export type TimeOption = { disabled: boolean; key: number }
+export type TimeList = [
+  TimeOption | undefined,
+  TimeOption,
+  undefined | TimeOption
+]
 
-export const buildTimeList = (value: number, bound: number): TimeList => {
+export const buildTimeList = (
+  value: number,
+  options: TimeOption[]
+): TimeList => {
+  const index = options.findIndex((item) => item.key === value)
   return [
-    value > 0 ? value - 1 : undefined,
-    value,
-    value < bound ? value + 1 : undefined,
+    index === 0 ? undefined : options[index - 1],
+    options[index],
+    index === options.length - 1 ? undefined : options[index + 1],
   ]
 }
 

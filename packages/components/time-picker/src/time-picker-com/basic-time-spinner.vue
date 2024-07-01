@@ -14,14 +14,14 @@
         @mousemove="adjustCurrentSpinner(item)"
       >
         <li
-          v-for="(disabled, key) in timeList[item]"
+          v-for="({ disabled, key }, index) in timeList[item]"
           :key="key"
           :class="[
             ns.be('spinner', 'item'),
             ns.is('active', key === timePartials[item]),
             ns.is('disabled', disabled),
           ]"
-          @click="handleClick(item, { value: key, disabled })"
+          @click="handleClick(item, { value: key, index, disabled })"
         >
           <template v-if="item === 'hours'">
             {{ ('0' + (amPmMode ? key % 12 || 12 : key)).slice(-2)
@@ -54,21 +54,24 @@
         </el-icon>
         <ul :class="ns.be('spinner', 'list')">
           <li
-            v-for="(time, key) in arrowControlTimeList[item]"
+            v-for="(timeItem, key) in arrowControlTimeList[item]"
             :key="key"
             :class="[
               ns.be('spinner', 'item'),
-              ns.is('active', time === timePartials[item]),
-              ns.is('disabled', timeList[item][time!]),
+              ns.is('active', timeItem?.key === timePartials[item]),
+              ns.is('disabled', timeItem?.disabled),
             ]"
           >
-            <template v-if="typeof time === 'number'">
+            <template v-if="timeItem">
               <template v-if="item === 'hours'">
-                {{ ('0' + (amPmMode ? time % 12 || 12 : time)).slice(-2)
-                }}{{ getAmPmFlag(time) }}
+                {{
+                  (
+                    '0' + (amPmMode ? timeItem.key % 12 || 12 : timeItem.key)
+                  ).slice(-2)
+                }}{{ getAmPmFlag(timeItem.key) }}
               </template>
               <template v-else>
-                {{ ('0' + time).slice(-2) }}
+                {{ ('0' + timeItem.key).slice(-2) }}
               </template>
             </template>
           </li>
@@ -78,7 +81,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, unref, watch } from 'vue'
+import { computed, inject, nextTick, onMounted, ref, unref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import { vRepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -94,8 +97,10 @@ import { getTimeLists } from '../composables/use-time-picker'
 import type { Ref } from 'vue'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 import type { TimeUnit } from '../constants'
-import type { TimeList } from '../utils'
+import type { TimeList, TimeOption } from '../utils'
 
+const pickerBase = inject('EP_PICKER_BASE') as any
+const { timeFilter } = pickerBase.props
 const props = defineProps(basicTimeSpinnerProps)
 const emit = defineEmits(['change', 'select-range', 'set-option'])
 
@@ -133,22 +138,39 @@ const timePartials = computed<Record<TimeUnit, number>>(() => {
   return { hours, minutes, seconds }
 })
 
-const timeList = computed(() => {
+const timeList = computed<Record<TimeUnit, TimeOption[]>>(() => {
   const { hours, minutes } = unref(timePartials)
-  return {
-    hours: getHoursList(props.role),
-    minutes: getMinutesList(hours, props.role),
-    seconds: getSecondsList(hours, minutes, props.role),
+  const list = {
+    hours: getHoursList(props.role).map((item, key) => ({
+      key,
+      disabled: item,
+    })),
+    minutes: getMinutesList(hours, props.role).map((item, key) => ({
+      key,
+      disabled: item,
+    })),
+    seconds: getSecondsList(hours, minutes, props.role).map((item, key) => ({
+      key,
+      disabled: item,
+    })),
   }
+  if (timeFilter) {
+    for (const [key, value] of Object.entries(list)) {
+      list[key as keyof typeof list] = value.filter((item) =>
+        timeFilter(key, item)
+      )
+    }
+  }
+  return list
 })
 
 const arrowControlTimeList = computed<Record<TimeUnit, TimeList>>(() => {
   const { hours, minutes, seconds } = unref(timePartials)
 
   return {
-    hours: buildTimeList(hours, 23),
-    minutes: buildTimeList(minutes, 59),
-    seconds: buildTimeList(seconds, 59),
+    hours: buildTimeList(hours, timeList.value['hours']),
+    minutes: buildTimeList(minutes, timeList.value['minutes']),
+    seconds: buildTimeList(seconds, timeList.value['seconds']),
   }
 })
 
@@ -188,7 +210,10 @@ const emitSelectRange = (type: TimeUnit) => {
 }
 
 const adjustCurrentSpinner = (type: TimeUnit) => {
-  adjustSpinner(type, unref(timePartials)[type])
+  const index = timeList.value[type].findIndex(
+    (item) => item.key === unref(timePartials)[type]
+  )
+  adjustSpinner(type, index)
 }
 
 const adjustSpinners = () => {
@@ -235,31 +260,60 @@ const scrollDown = (step: number) => {
 
   const label = currentScrollbar.value!
   const now = unref(timePartials)[label]
-  const total = currentScrollbar.value === 'hours' ? 24 : 60
-  const next = findNextUnDisabled(label, now, step, total)
-
-  modifyDateField(label, next)
-  adjustSpinner(label, next)
+  const next = findNextUnDisabled(now, timeList.value[label], step)
+  if (next.index === -1) {
+    return
+  }
+  modifyDateField(label, next.key)
+  adjustSpinner(label, next.index)
   nextTick(() => emitSelectRange(label))
 }
 
 const findNextUnDisabled = (
-  type: TimeUnit,
   now: number,
-  step: number,
-  total: number
+  timeList: TimeOption[],
+  step: number
 ) => {
-  let next = (now + step + total) % total
-  const list = unref(timeList)[type]
-  while (list[next] && next !== now) {
-    next = (next + step + total) % total
+  let curIndex = -1
+  let prevIndex = -1
+  let nextIndex = -1
+  for (const [i, item] of timeList.entries()) {
+    if (item.key === now) {
+      curIndex = i
+    }
+    if (!item.disabled && item.key !== now) {
+      if (
+        curIndex === -1 ||
+        (curIndex !== -1 && prevIndex === -1) ||
+        prevIndex > curIndex
+      ) {
+        prevIndex = i
+      }
+      if (
+        nextIndex === -1 ||
+        (curIndex !== -1 && i > curIndex && nextIndex < curIndex)
+      ) {
+        nextIndex = i
+      }
+    }
   }
-  return next
+
+  if (step === -1) {
+    return {
+      index: prevIndex,
+      key: timeList[prevIndex]?.key,
+    }
+  } else {
+    return {
+      index: nextIndex,
+      key: timeList[nextIndex]?.key,
+    }
+  }
 }
 
 const modifyDateField = (type: TimeUnit, value: number) => {
   const list = unref(timeList)[type]
-  const isDisabled = list[value]
+  const isDisabled = list.find((item) => item.key === value)?.disabled
   if (isDisabled) return
 
   const { hours, minutes, seconds } = unref(timePartials)
@@ -281,12 +335,16 @@ const modifyDateField = (type: TimeUnit, value: number) => {
 
 const handleClick = (
   type: TimeUnit,
-  { value, disabled }: { value: number; disabled: boolean }
+  {
+    value,
+    disabled,
+    index,
+  }: { value: number; index: number; disabled: boolean }
 ) => {
   if (!disabled) {
     modifyDateField(type, value)
     emitSelectRange(type)
-    adjustSpinner(type, value)
+    adjustSpinner(type, index)
   }
 }
 
@@ -302,7 +360,8 @@ const handleScroll = (type: TimeUnit) => {
     ),
     type === 'hours' ? 23 : 59
   )
-  modifyDateField(type, value)
+  const option = timeList.value[type].find((item, index) => index === value)
+  modifyDateField(type, option?.key as number)
 }
 
 const scrollBarHeight = (type: TimeUnit) => {
@@ -325,7 +384,33 @@ const bindScrollEvent = () => {
   bindFunction('seconds')
 }
 
+const adjustDefaultTime = () => {
+  const types: TimeUnit[] = ['hours', 'minutes', 'seconds']
+  const times: number[] = []
+  types.forEach((type) => {
+    let closestIndex = -1
+    let closestDiff = Number.POSITIVE_INFINITY
+    timeList.value[type].forEach((item, index) => {
+      if (!item.disabled) {
+        const diff = Math.abs(item.key - unref(timePartials)[type])
+        if (diff < closestDiff) {
+          closestDiff = diff
+          closestIndex = index
+        }
+      }
+    })
+    times.push(timeList.value[type][closestIndex].key)
+  })
+  emit(
+    'change',
+    props.spinnerDate.hour(times[0]).minute(times[1]).second(times[2])
+  )
+}
+
 onMounted(() => {
+  if (timeFilter) {
+    adjustDefaultTime()
+  }
   nextTick(() => {
     !props.arrowControl && bindScrollEvent()
     adjustSpinners()

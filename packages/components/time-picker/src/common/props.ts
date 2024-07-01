@@ -29,6 +29,10 @@ export type GetDisabledSeconds = (
   role: string,
   comparingDate?: Dayjs
 ) => number[]
+export type SetTimeFilter = (
+  type: 'hours' | 'minutes' | 'seconds',
+  option: { key: number; disabled: boolean }
+) => boolean
 
 export const timePickerDefaultProps = buildProps({
   /**
@@ -172,6 +176,12 @@ export const timePickerDefaultProps = buildProps({
    */
   disabledDate: {
     type: Function,
+  },
+  /**
+   * @description a function determining if a time is filtered with that time as its parameter. Should return a Boolean
+   */
+  timeFilter: {
+    type: definePropType<SetTimeFilter>([Function]),
   },
   /**
    * @description set custom className
