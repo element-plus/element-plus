@@ -13,6 +13,7 @@ describe('validator', () => {
     expect(isValidDatePickType('year')).toBe(true)
     expect(isValidDatePickType('years')).toBe(true)
     expect(isValidDatePickType('month')).toBe(true)
+    expect(isValidDatePickType('months')).toBe(true)
     expect(isValidDatePickType('date')).toBe(true)
     expect(isValidDatePickType('dates')).toBe(true)
     expect(isValidDatePickType('week')).toBe(true)
