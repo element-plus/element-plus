@@ -45,7 +45,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
+import {
+  computed,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  unref,
+  watch,
+} from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
 import { composeEventHandlers } from '@element-plus/utils'
@@ -65,6 +73,10 @@ const ns = useNamespace('tooltip')
 // TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
 const contentRef = ref<any>(null)
 const destroyed = ref(false)
+// The data of the select and tree-select components comes from the child components rendered
+// by el - popper - content, so when the value of persistent is false, the initial rendering
+// is also performed to correctly echo the default value. #17258
+const firstRender = ref(false)
 const {
   controlled,
   id,
@@ -93,8 +105,12 @@ onBeforeUnmount(() => {
   destroyed.value = true
 })
 
+onMounted(() => {
+  firstRender.value = true
+})
+
 const shouldRender = computed(() => {
-  return unref(persistentRef) ? true : unref(open)
+  return unref(persistentRef) || !firstRender.value ? true : unref(open)
 })
 
 const shouldShow = computed(() => {
