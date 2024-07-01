@@ -118,7 +118,7 @@
     "vitest": "1.6.0",
     "vue": "^3.2.37",
     "vue-router": "^4.0.16",
-    "vue-tsc": "^0.38.2"
+    "vue-tsc": "^1.2.0"
   },
   "engines": {
     "node": ">= 18"
@@ -139,8 +139,5 @@
     "patchedDependencies": {
       "async-validator@4.2.5": "patches/async-validator@4.2.5.patch"
     }
-  },
-  "lint-staged": {
-    "*.{vue,js,ts,jsx,tsx,md,json}": "eslint --fix"
   }
 }
