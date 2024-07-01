@@ -172,6 +172,8 @@ import { ElOverlay } from '@element-plus/components/overlay'
 import {
   TypeComponents,
   TypeComponentsMap,
+  isFunction,
+  isString,
   isValidComponentSize,
 } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
@@ -339,24 +341,19 @@ export default defineComponent({
       (val) => {
         if (val) {
           if (props.boxType !== 'prompt') {
-            if (state.autofocus) {
-              focusStartRef.value = confirmRef.value?.$el ?? rootRef.value
-            } else {
-              focusStartRef.value = rootRef.value
-            }
+            focusStartRef.value = state.autofocus
+              ? confirmRef.value?.$el ?? rootRef.value
+              : rootRef.value
           }
           state.zIndex = nextZIndex()
         }
         if (props.boxType !== 'prompt') return
         if (val) {
           nextTick().then(() => {
-            if (inputRef.value && inputRef.value.$el) {
-              if (state.autofocus) {
-                focusStartRef.value = getInputElement() ?? rootRef.value
-              } else {
-                focusStartRef.value = rootRef.value
-              }
-            }
+            if (!inputRef.value || !inputRef.value.$el) return
+            focusStartRef.value = state.autofocus
+              ? getInputElement() ?? rootRef.value
+              : rootRef.value
           })
         } else {
           state.editorErrorMessage = ''
@@ -406,9 +403,8 @@ export default defineComponent({
     }
 
     const handleAction = (action: Action) => {
-      if (props.boxType === 'prompt' && action === 'confirm' && !validate()) {
+      if (props.boxType === 'prompt' && action === 'confirm' && !validate())
         return
-      }
 
       state.action = action
 
@@ -429,7 +425,7 @@ export default defineComponent({
           return false
         }
         const inputValidator = state.inputValidator
-        if (typeof inputValidator === 'function') {
+        if (isFunction(inputValidator)) {
           const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
             state.editorErrorMessage =
@@ -437,7 +433,7 @@ export default defineComponent({
             state.validateError = true
             return false
           }
-          if (typeof validateResult === 'string') {
+          if (isString(validateResult)) {
             state.editorErrorMessage = validateResult
             state.validateError = true
             return false
