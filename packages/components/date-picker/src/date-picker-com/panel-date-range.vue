@@ -31,6 +31,7 @@
                 :disabled="rangeState.selecting"
                 :placeholder="t('el.datepicker.startDate')"
                 :class="drpNs.e('editor')"
+                :clearable="false"
                 :model-value="minVisibleDate"
                 :validate-event="false"
                 @input="(val) => handleDateInput(val, 'min')"
@@ -44,6 +45,7 @@
               <el-input
                 size="small"
                 :class="drpNs.e('editor')"
+                :clearable="false"
                 :disabled="rangeState.selecting"
                 :placeholder="t('el.datepicker.startTime')"
                 :model-value="minVisibleTime"
@@ -69,6 +71,7 @@
               <el-input
                 size="small"
                 :class="drpNs.e('editor')"
+                :clearable="false"
                 :disabled="rangeState.selecting"
                 :placeholder="t('el.datepicker.endDate')"
                 :model-value="maxVisibleDate"
@@ -85,6 +88,7 @@
               <el-input
                 size="small"
                 :class="drpNs.e('editor')"
+                :clearable="false"
                 :disabled="rangeState.selecting"
                 :placeholder="t('el.datepicker.endTime')"
                 :model-value="maxVisibleTime"
