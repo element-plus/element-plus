@@ -1,5 +1,6 @@
 import { computed, inject, nextTick, ref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
+import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { sliderContextKey } from '../constants'
 
@@ -272,6 +273,8 @@ export const useSliderButton = (
       updateDragging(val)
     }
   )
+
+  useEventListener(button, 'touchstart', onButtonDown, { passive: false })
 
   return {
     disabled,
