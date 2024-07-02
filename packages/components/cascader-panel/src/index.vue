@@ -28,7 +28,7 @@ import {
 } from 'vue'
 import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
 import {
-  castArray,
+  ensureArray,
   focusNode,
   getSibling,
   isClient,
@@ -222,7 +222,7 @@ export default defineComponent({
 
       if (lazy && !loaded) {
         const values: CascaderNodeValue[] = unique(
-          flattenDeep(castArray(modelValue))
+          flattenDeep(ensureArray(modelValue!))
         )
         const nodes = values
           .map((val) => store?.getNodeByValue(val))
@@ -236,7 +236,7 @@ export default defineComponent({
           syncCheckedValue(true, forced)
         }
       } else {
-        const values = multiple ? castArray(modelValue) : [modelValue]
+        const values = multiple ? ensureArray(modelValue) : [modelValue]
         const nodes = unique(
           values.map((val) => store?.getNodeByValue(val, leafOnly))
         ) as Node[]

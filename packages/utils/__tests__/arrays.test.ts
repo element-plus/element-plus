@@ -8,13 +8,13 @@ describe('arrays', () => {
     expect(unique([1, 2, 3])).toEqual([1, 2, 3])
   })
 
-  it('castArray should work', () => {
-    expect(castArray([1, 2, 3])).toEqual([1, 2, 3])
-    expect(castArray(0)).toEqual([0])
-    expect(castArray(undefined)).toEqual([])
+  it('ensureArray should work', () => {
+    expect(ensureArray([1, 2, 3])).toEqual([1, 2, 3])
+    expect(ensureArray(0)).toEqual([0])
+    expect(ensureArray(undefined)).toEqual([])
   })
 
-  it('re-export ensureArray', () => {
-    expect(ensureArray).toBe(lodashCastArray)
+  it('re-export castArray', () => {
+    expect(castArray).toBe(lodashCastArray)
   })
 })

@@ -35,7 +35,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
-import { castArray, hasClass } from '@element-plus/utils'
+import { ensureArray, hasClass } from '@element-plus/utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
 
 type MonthCell = {
@@ -155,7 +155,7 @@ const getCellStyle = (cell: MonthCell) => {
     ? datesInMonth(year, month, lang.value).every(props.disabledDate)
     : false
   style.current =
-    castArray(props.parsedValue).findIndex(
+    ensureArray(props.parsedValue).findIndex(
       (date) =>
         dayjs.isDayjs(date) && date.year() === year && date.month() === month
     ) >= 0
@@ -179,7 +179,7 @@ const isSelectedCell = (cell: MonthCell) => {
   const year = props.date.year()
   const month = cell.text
   return (
-    castArray(props.date).findIndex(
+    ensureArray(props.date).findIndex(
       (date) => date.year() === year && date.month() === month
     ) >= 0
   )

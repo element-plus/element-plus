@@ -22,7 +22,7 @@ import {
   toRefs,
 } from 'vue'
 import { useMutationObserver } from '@vueuse/core'
-import { ensureArray } from '@element-plus/utils'
+import { castArray } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { selectGroupKey } from './token'
 
@@ -62,7 +62,7 @@ export default defineComponent({
 
     // get all instances of options
     const flattedChildren = (node) => {
-      const Nodes = ensureArray(node)
+      const Nodes = castArray(node)
       const children = []
 
       Nodes.forEach((child) => {

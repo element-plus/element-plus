@@ -1,5 +1,5 @@
 import { computed, provide, ref, watch } from 'vue'
-import { ensureArray } from '@element-plus/utils'
+import { castArray } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { collapseContextKey } from './constants'
@@ -15,7 +15,7 @@ export const useCollapse = (
   props: CollapseProps,
   emit: SetupContext<CollapseEmits>['emit']
 ) => {
-  const activeNames = ref(ensureArray(props.modelValue))
+  const activeNames = ref(castArray(props.modelValue))
 
   const setActiveNames = (_activeNames: CollapseActiveName[]) => {
     activeNames.value = _activeNames
@@ -42,7 +42,7 @@ export const useCollapse = (
 
   watch(
     () => props.modelValue,
-    () => (activeNames.value = ensureArray(props.modelValue)),
+    () => (activeNames.value = castArray(props.modelValue)),
     { deep: true }
   )
 

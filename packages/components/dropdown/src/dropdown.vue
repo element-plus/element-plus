@@ -110,7 +110,7 @@ import ElIcon from '@element-plus/components/icon'
 import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useFormSize } from '@element-plus/components/form'
-import { addUnit, ensureArray } from '@element-plus/utils'
+import { addUnit, castArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
@@ -154,7 +154,7 @@ export default defineComponent({
       maxHeight: addUnit(props.maxHeight),
     }))
     const dropdownTriggerKls = computed(() => [ns.m(dropdownSize.value)])
-    const trigger = computed(() => ensureArray(props.trigger))
+    const trigger = computed(() => castArray(props.trigger))
 
     const defaultTriggerId = useId().value
     const triggerId = computed<string>(() => {
