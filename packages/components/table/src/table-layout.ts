@@ -1,7 +1,6 @@
 // @ts-nocheck
-import { isRef, nextTick, ref } from 'vue'
+import { isRef, ref } from 'vue'
 import { hasOwn, isClient } from '@element-plus/utils'
-import { parseHeight } from './util'
 import type { Ref } from 'vue'
 
 import type { TableColumnCtx } from './table-column/defaults'
@@ -75,28 +74,6 @@ class TableLayout<T> {
       return prevScrollY !== scrollY
     }
     return false
-  }
-
-  setHeight(value: string | number, prop = 'height') {
-    if (!isClient) return
-    const el = this.table.vnode.el
-    value = parseHeight(value)
-    this.height.value = Number(value)
-
-    if (!el && (value || value === 0))
-      return nextTick(() => this.setHeight(value, prop))
-
-    if (typeof value === 'number') {
-      el.style[prop] = `${value}px`
-      this.updateElsHeight()
-    } else if (typeof value === 'string') {
-      el.style[prop] = value
-      this.updateElsHeight()
-    }
-  }
-
-  setMaxHeight(value: string | number) {
-    this.setHeight(value, 'max-height')
   }
 
   getFlattenColumns(): TableColumnCtx<T>[] {
