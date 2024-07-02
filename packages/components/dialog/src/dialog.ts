@@ -100,7 +100,7 @@ export const dialogProps = buildProps({
   },
   trapFocus: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   /**
    * @description header's aria-level attribute
