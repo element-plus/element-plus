@@ -56,7 +56,7 @@ export const useLockscreen = (
   }
   watch(trigger, (val) => {
     if (!val) {
-      cleanup()
+      withoutHiddenClass && cleanup()
       return
     }
 
@@ -77,5 +77,5 @@ export const useLockscreen = (
     }
     addClass(document.body, hiddenCls.value)
   })
-  onScopeDispose(() => cleanup())
+  onScopeDispose(() => withoutHiddenClass && cleanup())
 }
