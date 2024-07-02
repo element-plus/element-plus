@@ -63,11 +63,14 @@ export function useGlobalComponentSettings(
   const size = computed(() => unref(sizeFallback) || config.value?.size || '')
   provideGlobalConfig(computed(() => unref(config) || {}))
 
+  const themeOverride = computed(() => config.value?.themeOverride || {})
+
   return {
     ns,
     locale,
     zIndex,
     size,
+    themeOverride,
   }
 }
 
