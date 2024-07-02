@@ -40,8 +40,8 @@ statistic/card
 ### Statistic Attributes
 
 | Attribute         | Description                    | Type                                                                | Default |
-| ----------------- | ------------------------------ | ------------------------------------------------------------------- | ------- |
-| value             | Numerical content              | ^[number]                                                           | 0       |
+| ----------------- |--------------------------------|---------------------------------------------------------------------| ------- |
+| value             | Basic content                  | ^[number] / ^[string] / ^[DayJs]                                    | 0       |
 | decimal-separator | Setting the decimal point      | ^[string]                                                           | .       |
 | formatter         | Custom numerical presentation  | ^[Function]`(value: number) => string \| number`                    | —       |
 | group-separator   | Sets the thousandth identifier | ^[string]                                                           | ,       |

@@ -34,7 +34,7 @@ export const statisticProps = buildProps({
    * @description Numerical content
    */
   value: {
-    type: definePropType<number | Dayjs>([Number, Object]),
+    type: definePropType<number | string | Dayjs>([Number, String, Object]),
     default: 0,
   },
   /**
