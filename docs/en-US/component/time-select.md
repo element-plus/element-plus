@@ -76,7 +76,7 @@ time-select/time-range
 | max-time                | maximum time, any time after this time will be disabled                                                        | ^[string]                                                                                        | —           |
 | format                  | set format of time                                                                                             | ^[string] see [formats](https://day.js.org/docs/en/display/format#list-of-all-available-formats) | HH:mm       |
 | empty-values ^(2.7.0)   | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                         | —           |
-| value-on-clear ^(2.7.0) | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                 | —           |
+| value-on-clear ^(2.7.0) | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[enum]`'string'\|'number'\|'boolean'\|'Function'`                                                 | —           |
 
 ### Events
 

@@ -77,7 +77,7 @@ time-picker/range
 | teleported                  | whether time-picker dropdown is teleported to the body                                                         | ^[boolean]                                                                                      | true        |
 | tabindex                    | input tabindex                                                                                                 | ^[string] / ^[number]                                                                           | 0           |
 | empty-values ^(2.7.0)       | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                        | —           |
-| value-on-clear ^(2.7.0)     | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                | —           |
+| value-on-clear ^(2.7.0)     | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[enum]`'string'\|'number'\|'boolean'\|'Function'`                                                | —           |
 
 ### Events
 
