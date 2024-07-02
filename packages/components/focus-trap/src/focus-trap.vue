@@ -319,6 +319,13 @@ export default defineComponent({
       if (props.trapped) {
         stopTrap()
       }
+
+      if (forwardRef.value) {
+        forwardRef.value.removeEventListener('keydown', onKeydown)
+        forwardRef.value.removeEventListener('focusin', onFocusIn)
+        forwardRef.value.removeEventListener('focusout', onFocusOut)
+        forwardRef.value = undefined
+      }
     })
 
     return {

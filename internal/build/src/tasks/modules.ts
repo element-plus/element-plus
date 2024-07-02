@@ -31,6 +31,12 @@ export const buildModules = async () => {
         plugins: {
           vue: vue({
             isProduction: true,
+            template: {
+              compilerOptions: {
+                hoistStatic: false,
+                cacheHandlers: false,
+              },
+            },
           }),
           vueJsx: vueJsx(),
         },

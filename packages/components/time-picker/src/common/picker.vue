@@ -165,6 +165,7 @@ import {
   computed,
   inject,
   nextTick,
+  onBeforeUnmount,
   provide,
   ref,
   unref,
@@ -567,7 +568,7 @@ const actualInputRef = computed(() => {
   return (unref(inputRef) as ComponentPublicInstance)?.$el
 })
 
-onClickOutside(actualInputRef, (e: PointerEvent) => {
+const stophandle = onClickOutside(actualInputRef, (e: PointerEvent) => {
   const unrefedPopperEl = unref(popperEl)
   const inputEl = unref(actualInputRef)
   if (
@@ -579,6 +580,12 @@ onClickOutside(actualInputRef, (e: PointerEvent) => {
   )
     return
   pickerVisible.value = false
+})
+
+onBeforeUnmount(() => {
+  if (stophandle) {
+    stophandle()
+  }
 })
 
 const userInput = ref<UserInput>(null)
