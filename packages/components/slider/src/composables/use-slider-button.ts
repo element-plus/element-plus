@@ -150,6 +150,9 @@ export const useSliderButton = (
 
   const onKeyDown = (event: KeyboardEvent) => {
     let isPreventDefault = true
+
+    if (!props.changeOnPressKeyDown) return
+
     if ([left, down].includes(event.key)) {
       onLeftKeyDown()
     } else if ([right, up].includes(event.key)) {

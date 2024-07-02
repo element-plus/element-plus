@@ -175,6 +175,13 @@ export const sliderProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description whether the Slider can be change by pressing keydown
+   */
+  changeOnPressKeyDown: {
+    type: Boolean,
+    default: true,
+  },
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type SliderProps = ExtractPropTypes<typeof sliderProps>

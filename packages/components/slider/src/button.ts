@@ -16,6 +16,13 @@ export const sliderButtonProps = buildProps({
     values: placements,
     default: 'top',
   },
+  /**
+   * @description whether the Slider can be change by pressing keydown
+   */
+  changeOnPressKeyDown: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type SliderButtonProps = ExtractPropTypes<typeof sliderButtonProps>
 

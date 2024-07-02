@@ -30,6 +30,7 @@
         :vertical="vertical"
         :tooltip-class="tooltipClass"
         :placement="placement"
+        :change-on-press-key-down="changeOnPressKeyDown"
         role="slider"
         :aria-label="
           range || !isLabeledByFormItem ? firstButtonLabel : undefined
