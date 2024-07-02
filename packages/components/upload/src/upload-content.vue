@@ -73,19 +73,19 @@ const uploadFiles = (files: File[]) => {
     files = files.slice(0, 1)
   }
 
-  for (const file of files) {
+  for (const [index, file] of files.entries()) {
     const rawFile = file as UploadRawFile
     rawFile.uid = genFileId()
     onStart(rawFile)
-    if (autoUpload) upload(rawFile)
+    if (autoUpload) upload(rawFile, index)
   }
 }
 
-const upload = async (rawFile: UploadRawFile): Promise<void> => {
+const upload = async (rawFile: UploadRawFile, index: number): Promise<void> => {
   inputRef.value!.value = ''
 
   if (!props.beforeUpload) {
-    return doUpload(rawFile)
+    return doUpload(rawFile, index)
   }
 
   let hookResult: Exclude<ReturnType<UploadHooks['beforeUpload']>, Promise<any>>
@@ -105,7 +105,7 @@ const upload = async (rawFile: UploadRawFile): Promise<void> => {
   }
 
   if (hookResult === false) {
-    props.onRemove(rawFile)
+    props.onRemove(rawFile, index)
     return
   }
 
@@ -124,6 +124,7 @@ const upload = async (rawFile: UploadRawFile): Promise<void> => {
     Object.assign(file, {
       uid: rawFile.uid,
     }),
+    index,
     beforeData
   )
 }
@@ -141,6 +142,7 @@ const resolveData = async (
 
 const doUpload = async (
   rawFile: UploadRawFile,
+  index: number,
   beforeData?: UploadContentProps['data']
 ) => {
   const {
@@ -159,7 +161,7 @@ const doUpload = async (
   try {
     beforeData = await resolveData(beforeData ?? data, rawFile)
   } catch {
-    props.onRemove(rawFile)
+    props.onRemove(rawFile, index)
     return
   }
 
