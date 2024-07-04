@@ -12,7 +12,7 @@
       width="180"
       :render-cell="renderCell"
     />
-    <el-table-column prop="address" label="Address" />
+    <el-table-column prop="address" label="Address" :render-cell="renderCell" />
   </el-table>
 </template>
 
