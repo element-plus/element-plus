@@ -181,6 +181,16 @@ table/custom-header
 
 :::
 
+## Table with custom cell
+
+Customize table cell so it can be even more customized.
+
+:::demo
+
+table/render-cell
+
+:::
+
 ## Expandable row
 
 When the row content is too long and you do not want to display the horizontal scroll bar, you can use the expandable row feature.
@@ -334,7 +344,6 @@ table/table-layout
 | setScrollLeft      | set horizontal scroll position                                                                                                                                    | ^[Function]`(left?: number) => void`                                       |
 | columns ^(2.7.6)   | Get table columns context.                                                                                                                                        | ^[array]`TableColumnCtx<T>[]`                                              |
 
-
 ## Table-column API
 
 ### Table-column Attributes
@@ -350,6 +359,7 @@ table/table-layout
 | min-width                  | column minimum width. Columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion                                                                         | ^[string] / ^[number]                                                                                                                                                       | ''                                |
 | fixed                      | whether column is fixed at left / right. Will be fixed at left if `true`                                                                                                                                           | ^[enum]`'left' \| 'right'` / ^[boolean]                                                                                                                                     | false                             |
 | render-header              | render function for table header of this column                                                                                                                                                                    | ^[Function]`(data: { column: any, $index: number }) => void`                                                                                                                | —                                 |
+| render-cell                | render function for table cell                                                                                                                                                                                     | ^[Function]`(data: { column: any, row: any, $index: number }) => void`                                                                                                      | —                                 |
 | sortable                   | whether column can be sorted. Remote sorting can be done by setting this attribute to 'custom' and listening to the `sort-change` event of Table                                                                   | ^[boolean] / ^[string]                                                                                                                                                      | false                             |
 | sort-method                | sorting method, works when `sortable` is `true`. Should return a number, just like Array.sort                                                                                                                      | ^[Function]`<T = any>(a: T, b: T) => number`                                                                                                                                | —                                 |
 | sort-by                    | specify which property to sort by, works when `sortable` is `true` and `sort-method` is `undefined`. If set to an Array, the column will sequentially sort by the next property if the previous one is equal       | ^[Function]`(row: any, index: number) => string` / ^[string] / ^[object]`string[]`                                                                                          | —                                 |

@@ -5,6 +5,8 @@ import type { TableOverflowTooltipOptions } from '../util'
 
 type CI<T> = { column: TableColumnCtx<T>; $index: number }
 
+type CRI<T> = { column: TableColumnCtx<T>; row: T; $index: number }
+
 type Filters = {
   text: string
   value: string
@@ -26,6 +28,7 @@ interface TableColumnCtx<T> {
   width: string | number
   minWidth: string | number
   renderHeader: (data: CI<T>) => VNode
+  renderCell: (data: CRI<T>) => VNode
   sortable: boolean | string
   sortMethod: (a: T, b: T) => number
   sortBy: string | ((row: T, index: number) => string) | string[]
@@ -126,6 +129,10 @@ export default {
   renderHeader: Function as PropType<
     TableColumnCtx<DefaultRow>['renderHeader']
   >,
+  /**
+   * @description render function for table cell
+   */
+  renderCell: Function as PropType<TableColumnCtx<DefaultRow>['renderCell']>,
   /**
    * @description whether column can be sorted. Remote sorting can be done by setting this attribute to 'custom' and listening to the `sort-change` event of Table
    */
