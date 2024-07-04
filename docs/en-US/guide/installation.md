@@ -89,6 +89,15 @@ on the link address, so as not to be affected by incompatible updates when Eleme
 is upgraded in the future. Please check [unpkg.com](https://unpkg.com) for
 the method to lock the version.
 
+When directly quoting in an HTML file, due to the limitations of native HTML parsing behavior, please use a complete end tag, [reference](https://vuejs.org/guide/essentials/component-basics.html#in-dom-template-parsing-caveats)
+
+```
+<el-table>
+    <el-table-column></el-table-column>
+    <el-table-column></el-table-column>
+</el-table>
+```
+
 :::
 
 ## Hello World
