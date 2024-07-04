@@ -159,26 +159,36 @@
         </div>
       </div>
     </div>
-    <div v-show="footerVisible" :class="ppNs.e('footer')">
-      <el-button
-        v-show="selectionMode !== 'dates' && selectionMode !== 'years'"
-        text
-        size="small"
-        :class="ppNs.e('link-btn')"
-        :disabled="disabledNow"
-        @click="changeToNow"
-      >
-        {{ t('el.datepicker.now') }}
-      </el-button>
-      <el-button
-        plain
-        size="small"
-        :class="ppNs.e('link-btn')"
-        :disabled="disabledConfirm"
-        @click="onConfirm"
-      >
-        {{ t('el.datepicker.confirm') }}
-      </el-button>
+    <div
+      v-show="footerVisible || slots.footer"
+      :class="[
+        { [ppNs.e('footer')]: showTime && !slots.footer },
+        { [ppNs.e('footer__slot')]: slots.footer },
+      ]"
+    >
+      <slot name="footer">
+        <template v-if="footerVisible">
+          <el-button
+            v-show="selectionMode !== 'dates' && selectionMode !== 'years'"
+            text
+            size="small"
+            :class="ppNs.e('link-btn')"
+            :disabled="disabledNow"
+            @click="changeToNow"
+          >
+            {{ t('el.datepicker.now') }}
+          </el-button>
+          <el-button
+            plain
+            size="small"
+            :class="ppNs.e('link-btn')"
+            :disabled="disabledConfirm"
+            @click="onConfirm"
+          >
+            {{ t('el.datepicker.confirm') }}
+          </el-button>
+        </template>
+      </slot>
     </div>
   </div>
 </template>
