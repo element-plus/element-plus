@@ -16,7 +16,7 @@ jobs:
         run: git branch dev origin/dev
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -61,7 +61,7 @@ jobs:
           registry-url: https://registry.npmjs.com/
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
