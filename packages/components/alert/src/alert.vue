@@ -12,7 +12,7 @@
       <div :class="ns.e('content')">
         <span
           v-if="title || $slots.title"
-          :class="[ns.e('title'), isBoldTitle]"
+          :class="[ns.e('title'), withDescription]"
         >
           <slot name="title">{{ title }}</slot>
         </span>
@@ -65,9 +65,9 @@ const iconClass = computed(() => [
   { [ns.is('big')]: !!props.description || !!slots.default },
 ])
 
-const isBoldTitle = computed(
-  () => props.description || { [ns.is('bold')]: slots.default }
-)
+const withDescription = computed(() => {
+  return { 'with-description': props.description || slots.default }
+})
 
 const close = (evt: MouseEvent) => {
   visible.value = false

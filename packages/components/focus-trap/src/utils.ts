@@ -1,3 +1,11 @@
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { FOCUSOUT_PREVENTED, FOCUSOUT_PREVENTED_OPTS } from './tokens'
+
+const focusReason = ref<'pointer' | 'keyboard'>()
+const lastUserFocusTimestamp = ref<number>(0)
+const lastAutomatedFocusTimestamp = ref<number>(0)
+let focusReasonUserCount = 0
+
 export type FocusLayer = {
   paused: boolean
   pause: () => void
@@ -74,6 +82,7 @@ export const tryFocus = (
   if (element && element.focus) {
     const prevFocusedElement = document.activeElement
     element.focus({ preventScroll: true })
+    lastAutomatedFocusTimestamp.value = window.performance.now()
     if (
       element !== prevFocusedElement &&
       isSelectable(element) &&
@@ -132,3 +141,56 @@ export const focusFirstDescendant = (
 }
 
 export const focusableStack = createFocusableStack()
+
+export const isFocusCausedByUserEvent = (): boolean => {
+  return lastUserFocusTimestamp.value > lastAutomatedFocusTimestamp.value
+}
+
+const notifyFocusReasonPointer = () => {
+  focusReason.value = 'pointer'
+  lastUserFocusTimestamp.value = window.performance.now()
+}
+
+const notifyFocusReasonKeydown = () => {
+  focusReason.value = 'keyboard'
+  lastUserFocusTimestamp.value = window.performance.now()
+}
+
+export const useFocusReason = (): {
+  focusReason: typeof focusReason
+  lastUserFocusTimestamp: typeof lastUserFocusTimestamp
+  lastAutomatedFocusTimestamp: typeof lastAutomatedFocusTimestamp
+} => {
+  onMounted(() => {
+    if (focusReasonUserCount === 0) {
+      document.addEventListener('mousedown', notifyFocusReasonPointer)
+      document.addEventListener('touchstart', notifyFocusReasonPointer)
+      document.addEventListener('keydown', notifyFocusReasonKeydown)
+    }
+    focusReasonUserCount++
+  })
+
+  onBeforeUnmount(() => {
+    focusReasonUserCount--
+    if (focusReasonUserCount <= 0) {
+      document.removeEventListener('mousedown', notifyFocusReasonPointer)
+      document.removeEventListener('touchstart', notifyFocusReasonPointer)
+      document.removeEventListener('keydown', notifyFocusReasonKeydown)
+    }
+  })
+
+  return {
+    focusReason,
+    lastUserFocusTimestamp,
+    lastAutomatedFocusTimestamp,
+  }
+}
+
+export const createFocusOutPreventedEvent = (
+  detail: CustomEventInit['detail']
+) => {
+  return new CustomEvent(FOCUSOUT_PREVENTED, {
+    ...FOCUSOUT_PREVENTED_OPTS,
+    detail,
+  })
+}

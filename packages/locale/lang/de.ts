@@ -1,6 +1,9 @@
 export default {
   name: 'de',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Leeren',
@@ -78,6 +81,12 @@ export default {
       pagesize: ' pro Seite',
       total: 'Gesamt {total}',
       pageClassifier: '',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
     },
     messagebox: {
       confirm: 'OK',
@@ -96,6 +105,11 @@ export default {
       resetFilter: 'Zurücksetzen',
       clearFilter: 'Alles ',
       sumText: 'Summe',
+    },
+    tour: {
+      next: 'Weiter',
+      previous: 'Zurück',
+      finish: 'Fertig',
     },
     tree: {
       emptyText: 'Keine Einträge',
@@ -117,6 +131,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Ja',
       cancelButtonText: 'Nein',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

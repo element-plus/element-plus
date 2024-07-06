@@ -87,6 +87,7 @@ export const dropdownProps = buildProps({
   buttonProps: {
     type: definePropType<ButtonProps>(Object),
   },
+  teleported: useTooltipContentProps.teleported,
 } as const)
 
 export const dropdownItemProps = buildProps({

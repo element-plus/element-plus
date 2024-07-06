@@ -83,6 +83,7 @@ const CustomizedHeader: FunctionalComponent<
         groupCells.push(
           <div
             class="flex items-center justify-center custom-header-cell"
+            role="columnheader"
             style={{
               ...cells[columnIndex].props!.style,
               width: `${width}px`,

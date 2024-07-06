@@ -1,13 +1,5 @@
 <template>
-  <div
-    :style="style"
-    :class="[
-      ns.b(),
-      ns.is(isSimple ? 'simple' : parent.props.direction),
-      ns.is('flex', isLast && !space && !isCenter),
-      ns.is('center', isCenter && !isVertical && !isSimple),
-    ]"
-  >
+  <div :style="style" :class="containerKls">
     <!-- icon & line -->
     <div :class="[ns.e('head'), ns.is(currentStatus)]">
       <div v-if="!isSimple" :class="ns.e('line')">
@@ -66,6 +58,7 @@ import {
 import { useNamespace } from '@element-plus/hooks'
 import { ElIcon } from '@element-plus/components/icon'
 import { Check, Close } from '@element-plus/icons-vue'
+import { isNumber } from '@element-plus/utils'
 import { stepProps } from './item'
 
 import type { CSSProperties, Ref } from 'vue'
@@ -81,7 +74,7 @@ export interface IStepsProps {
 }
 
 export interface StepItemState {
-  uid: number | undefined
+  uid: number
   currentStatus: string
   setIndex: (val: number) => void
   calcProgress: (status: string) => void
@@ -90,6 +83,8 @@ export interface StepItemState {
 export interface IStepsInject {
   props: IStepsProps
   steps: Ref<StepItemState[]>
+  addStep: (item: StepItemState) => void
+  removeStep: (uid: number) => void
 }
 
 defineOptions({
@@ -119,9 +114,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  parent.steps.value = parent.steps.value.filter(
-    (instance) => instance.uid !== currentInstance?.uid
-  )
+  parent.removeStep(stepItemState.uid)
 })
 
 const currentStatus = computed(() => {
@@ -157,14 +150,22 @@ const space = computed(() => {
   return isSimple.value ? '' : parent.props.space
 })
 
+const containerKls = computed(() => {
+  return [
+    ns.b(),
+    ns.is(isSimple.value ? 'simple' : parent.props.direction),
+    ns.is('flex', isLast.value && !space.value && !isCenter.value),
+    ns.is('center', isCenter.value && !isVertical.value && !isSimple.value),
+  ]
+})
+
 const style = computed(() => {
   const style: CSSProperties = {
-    flexBasis:
-      typeof space.value === 'number'
-        ? `${space.value}px`
-        : space.value
-        ? space.value
-        : `${100 / (stepsCount.value - (isCenter.value ? 0 : 1))}%`,
+    flexBasis: isNumber(space.value)
+      ? `${space.value}px`
+      : space.value
+      ? space.value
+      : `${100 / (stepsCount.value - (isCenter.value ? 0 : 1))}%`,
   }
   if (isVertical.value) return style
   if (isLast.value) {
@@ -178,15 +179,12 @@ const setIndex = (val: number) => {
 }
 
 const calcProgress = (status: string) => {
-  let step = 100
-  const style: CSSProperties = {}
-  style.transitionDelay = `${150 * index.value}ms`
-  if (status === parent.props.processStatus) {
-    step = 0
-  } else if (status === 'wait') {
-    step = 0
-    style.transitionDelay = `${-150 * index.value}ms`
+  const isWait = status === 'wait'
+  const style: CSSProperties = {
+    transitionDelay: `${isWait ? '-' : ''}${150 * index.value}ms`,
   }
+  const step = status === parent.props.processStatus || isWait ? 0 : 100
+
   style.borderWidth = step && !isSimple.value ? '1px' : 0
   style[parent.props.direction === 'vertical' ? 'height' : 'width'] = `${step}%`
   lineStyle.value = style
@@ -200,16 +198,16 @@ const updateStatus = (activeIndex: number) => {
   } else {
     internalStatus.value = 'wait'
   }
-  const prevChild = parent.steps.value[stepsCount.value - 1]
+  const prevChild = parent.steps.value[index.value - 1]
   if (prevChild) prevChild.calcProgress(internalStatus.value)
 }
 
 const stepItemState = reactive({
-  uid: computed(() => currentInstance?.uid),
+  uid: currentInstance!.uid,
   currentStatus,
   setIndex,
   calcProgress,
 })
 
-parent.steps.value = [...parent.steps.value, stepItemState]
+parent.addStep(stepItemState)
 </script>

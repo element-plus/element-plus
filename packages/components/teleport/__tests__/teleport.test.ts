@@ -6,7 +6,7 @@ import type { TeleportInstance } from '../src/teleport'
 
 const AXIOM = 'rem is the best girl'
 
-describe('ElTelport', () => {
+describe('ElTeleport', () => {
   let wrapper: VueWrapper<TeleportInstance>
 
   beforeEach(() => {

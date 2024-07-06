@@ -1,4 +1,5 @@
 import { watch } from 'vue'
+import { isNil } from 'lodash-unified'
 import { useVModel } from '@vueuse/core'
 import { debugWarn, throwError } from '@element-plus/utils'
 import { genFileId } from './upload'
@@ -17,7 +18,7 @@ import type {
 
 const SCOPE = 'ElUpload'
 
-const revokeObjectURL = (file: UploadFile) => {
+const revokeFileObjectURL = (file: UploadFile) => {
   if (file.url?.startsWith('blob:')) {
     URL.revokeObjectURL(file.url)
   }
@@ -84,6 +85,7 @@ export const useHandlers = (
   }
 
   const handleStart: UploadContentProps['onStart'] = (file) => {
+    if (isNil(file.uid)) file.uid = genFileId()
     const uploadFile: UploadFile = {
       name: file.name,
       percentage: 0,
@@ -115,7 +117,7 @@ export const useHandlers = (
       const fileList = uploadFiles.value
       fileList.splice(fileList.indexOf(file), 1)
       props.onRemove(file, fileList)
-      revokeObjectURL(file)
+      revokeFileObjectURL(file)
     }
 
     if (props.beforeRemove) {
@@ -175,5 +177,6 @@ export const useHandlers = (
     handleSuccess,
     handleRemove,
     submit,
+    revokeFileObjectURL,
   }
 }

@@ -7,7 +7,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Inspect from 'vite-plugin-inspect'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
-import DefineOptions from 'unplugin-vue-define-options/vite'
+import VueMacros from 'unplugin-vue-macros/vite'
 import esbuild from 'rollup-plugin-esbuild'
 import {
   epPackage,
@@ -16,12 +16,12 @@ import {
   pkgRoot,
   projRoot,
 } from '@element-plus/build-utils'
+import type { Plugin } from 'vite'
 import './vite.init'
 
-const esbuildPlugin = () => ({
+const esbuildPlugin = (): Plugin => ({
   ...esbuild({
     target: 'chrome64',
-    include: /\.vue$/,
     loaders: {
       '.vue': 'js',
     },
@@ -40,6 +40,13 @@ export default defineConfig(async ({ mode }) => {
   ).map((dep) => dep.replace(/\.js$/, ''))
 
   return {
+    // css: {
+    //   preprocessorOptions: {
+    //     scss: {
+    //       additionalData: `@use "/styles/custom.scss" as *;`,
+    //     },
+    //   },
+    // },
     resolve: {
       alias: [
         {
@@ -57,10 +64,15 @@ export default defineConfig(async ({ mode }) => {
       https: !!env.HTTPS,
     },
     plugins: [
-      vue(),
+      VueMacros({
+        setupComponent: false,
+        setupSFC: false,
+        plugins: {
+          vue: vue(),
+          vueJsx: vueJsx(),
+        },
+      }),
       esbuildPlugin(),
-      vueJsx(),
-      DefineOptions(),
       Components({
         include: `${__dirname}/**`,
         resolvers: ElementPlusResolver({ importStyle: 'sass' }),

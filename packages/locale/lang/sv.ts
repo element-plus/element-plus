@@ -1,6 +1,9 @@
 export default {
   name: 'sv',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Töm',
@@ -76,6 +79,12 @@ export default {
       pagesize: '/sida',
       total: 'Totalt {total}',
       pageClassifier: '',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
     },
     messagebox: {
       title: 'Meddelande',
@@ -95,6 +104,11 @@ export default {
       resetFilter: 'Återställ',
       clearFilter: 'Alla',
       sumText: 'Summa',
+    },
+    tour: {
+      next: 'Nästa',
+      previous: 'Föregående',
+      finish: 'Avsluta',
     },
     tree: {
       emptyText: 'Ingen data',
@@ -116,6 +130,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Ja',
       cancelButtonText: 'Nej',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

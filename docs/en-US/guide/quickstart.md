@@ -100,6 +100,25 @@ module.exports = {
 
 For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.org/)) and configs please reference [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components#installation) and [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import#install).
 
+#### Nuxt
+
+For Nuxt users, you only need to install `@element-plus/nuxt`.
+
+```shell
+npm install -D @element-plus/nuxt
+```
+
+Then add the code below into your config file.
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@element-plus/nuxt'],
+})
+```
+
+Refer to the [docs](https://github.com/element-plus/element-plus-nuxt#readme) for how to configure it.
+
 ### Manually import
 
 Element Plus provides out of box [Tree Shaking](https://webpack.js.org/guides/tree-shaking/)
@@ -149,6 +168,9 @@ import { ElMessage } from 'element-plus'
 ## Starter Template
 
 We provide a [Vite Template](https://github.com/element-plus/element-plus-vite-starter).
+
+For Nuxt users we have a [Nuxt Template](https://github.com/element-plus/element-plus-nuxt-starter).
+
 For Laravel users we have a [Laravel Template](https://github.com/element-plus/element-plus-in-laravel-starter).
 
 ## Global Configuration
@@ -197,13 +219,13 @@ export default defineComponent({
 
 ## Using Nuxt.js
 
-We can also use [Nuxt.js](https://v3.nuxtjs.org/)：
+We can also use [Nuxt.js](https://nuxt.com):
 
 <div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
-  <iframe src="https://glitch.com/edit/#!/nuxt-element-plus?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
+  <iframe src="https://glitch.com/edit/#!/element-plus-nuxt-starter?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
 </div>
 
 ## Let's Get Started
 
 You can bootstrap your project from now on. For each components usage, please
-refer to the individual component documentation.
+refer to [the individual component documentation](https://element-plus.org/en-US/component/button.html).

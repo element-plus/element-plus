@@ -5,3 +5,4 @@ export const ElAvatar = withInstall(Avatar)
 export default ElAvatar
 
 export * from './src/avatar'
+export type { AvatarInstance } from './src/instance'

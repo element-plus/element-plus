@@ -11,3 +11,8 @@ export default ElBreadcrumb
 
 export * from './src/breadcrumb'
 export * from './src/breadcrumb-item'
+export * from './src/constants'
+export type {
+  BreadcrumbInstance,
+  BreadcrumbItemInstance,
+} from './src/instances'

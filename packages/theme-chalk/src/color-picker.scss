@@ -244,6 +244,26 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   display: inline-block;
   position: relative;
   line-height: normal;
+  outline: none;
+
+  &:hover:not(.is-disabled, .is-focused) {
+    .#{$namespace}-color-picker__trigger {
+      border-color: getCssVar('border-color-hover');
+    }
+  }
+
+  &:focus-visible:not(.is-disabled) {
+    .#{$namespace}-color-picker__trigger {
+      outline: 2px solid getCssVar('color-primary');
+      outline-offset: 1px;
+    }
+  }
+
+  @include when(focused) {
+    .#{$namespace}-color-picker__trigger {
+      border-color: getCssVar('color-primary');
+    }
+  }
 
   @include when(disabled) {
     .#{$namespace}-color-picker__trigger {
@@ -275,8 +295,8 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   }
 
   @include e(mask) {
-    height: 38px;
-    width: 38px;
+    height: map.get($color-picker-size, 'default')-2px;
+    width: map.get($color-picker-size, 'default')-2px;
     border-radius: 4px;
     position: absolute;
     top: 1px;

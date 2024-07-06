@@ -1,9 +1,9 @@
 <template>
   <div>
     <div m="b-2">
-      <el-checkbox v-model="config.autoInsertSpace"
-        >autoInsertSpace</el-checkbox
-      >
+      <el-checkbox v-model="config.autoInsertSpace">
+        autoInsertSpace
+      </el-checkbox>
     </div>
 
     <el-config-provider :button="config">

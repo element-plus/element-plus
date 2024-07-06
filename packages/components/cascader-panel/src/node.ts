@@ -73,8 +73,23 @@ class Node {
   children: Node[]
   text: string
   loaded: boolean
+  /**
+   * Is it checked
+   *
+   * @default false
+   */
   checked = false
+  /**
+   * Used to indicate the intermediate state of unchecked and fully checked child nodes
+   *
+   * @default false
+   */
   indeterminate = false
+  /**
+   * Loading Status
+   *
+   * @default false
+   */
   loading = false
 
   constructor(

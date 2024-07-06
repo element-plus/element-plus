@@ -102,6 +102,9 @@ export interface ElMessageBoxOptions {
   /** Whether MessageBox can be drag */
   draggable?: boolean
 
+  /** Draggable MessageBox can overflow the viewport */
+  overflow?: boolean
+
   /** Content of the MessageBox */
   message?: string | VNode | (() => VNode)
 
@@ -170,16 +173,19 @@ export interface ElMessageBoxOptions {
 
   /** Custom size of confirm and cancel buttons */
   buttonSize?: ComponentSize
+
+  /** Custom element to append the message box to */
+  appendTo?: HTMLElement | string
 }
 
 export type ElMessageBoxShortcutMethod = ((
   message: ElMessageBoxOptions['message'],
-  title: ElMessageBoxOptions['title'],
   options?: ElMessageBoxOptions,
   appContext?: AppContext | null
 ) => Promise<MessageBoxData>) &
   ((
     message: ElMessageBoxOptions['message'],
+    title: ElMessageBoxOptions['title'],
     options?: ElMessageBoxOptions,
     appContext?: AppContext | null
   ) => Promise<MessageBoxData>)

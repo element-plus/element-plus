@@ -18,6 +18,9 @@
           :trapped="visible"
           :focus-trap-el="drawerRef"
           :focus-start-el="focusStartRef"
+          @focus-after-trapped="onOpenAutoFocus"
+          @focus-after-released="onCloseAutoFocus"
+          @focusout-prevented="onFocusoutPrevented"
           @release-requested="onCloseRequested"
         >
           <div
@@ -26,7 +29,8 @@
             :aria-label="title || undefined"
             :aria-labelledby="!title ? titleId : undefined"
             :aria-describedby="bodyId"
-            :class="[ns.b(), direction, visible && 'open', customClass]"
+            v-bind="$attrs"
+            :class="[ns.b(), direction, visible && 'open']"
             :style="
               isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
             "
@@ -46,6 +50,7 @@
                   v-if="!$slots.title"
                   :id="titleId"
                   role="heading"
+                  :aria-level="headerAriaLevel"
                   :class="ns.e('title')"
                 >
                   {{ title }}
@@ -79,8 +84,8 @@
   </teleport>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { computed, ref, useSlots } from 'vue'
 import { Close } from '@element-plus/icons-vue'
 
 import { ElOverlay } from '@element-plus/components/overlay'
@@ -91,48 +96,55 @@ import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
 
-export default defineComponent({
+defineOptions({
   name: 'ElDrawer',
-  components: {
-    ElOverlay,
-    ElFocusTrap,
-    ElIcon,
-    Close,
+  inheritAttrs: false,
+})
+
+const props = defineProps(drawerProps)
+defineEmits(drawerEmits)
+const slots = useSlots()
+
+useDeprecated(
+  {
+    scope: 'el-drawer',
+    from: 'the title slot',
+    replacement: 'the header slot',
+    version: '3.0.0',
+    ref: 'https://element-plus.org/en-US/component/drawer.html#slots',
   },
-  props: drawerProps,
-  emits: drawerEmits,
+  computed(() => !!slots.title)
+)
 
-  setup(props, { slots }) {
-    useDeprecated(
-      {
-        scope: 'el-drawer',
-        from: 'the title slot',
-        replacement: 'the header slot',
-        version: '3.0.0',
-        ref: 'https://element-plus.org/en-US/component/drawer.html#slots',
-      },
-      computed(() => !!slots.title)
-    )
+const drawerRef = ref<HTMLElement>()
+const focusStartRef = ref<HTMLElement>()
+const ns = useNamespace('drawer')
+const { t } = useLocale()
+const {
+  afterEnter,
+  afterLeave,
+  beforeLeave,
+  visible,
+  rendered,
+  titleId,
+  bodyId,
+  zIndex,
+  onModalClick,
+  onOpenAutoFocus,
+  onCloseAutoFocus,
+  onFocusoutPrevented,
+  onCloseRequested,
+  handleClose,
+} = useDialog(props, drawerRef)
 
-    const drawerRef = ref<HTMLElement>()
-    const focusStartRef = ref<HTMLElement>()
-    const ns = useNamespace('drawer')
-    const { t } = useLocale()
+const isHorizontal = computed(
+  () => props.direction === 'rtl' || props.direction === 'ltr'
+)
+const drawerSize = computed(() => addUnit(props.size))
 
-    const isHorizontal = computed(
-      () => props.direction === 'rtl' || props.direction === 'ltr'
-    )
-    const drawerSize = computed(() => addUnit(props.size))
-
-    return {
-      ...useDialog(props, drawerRef),
-      drawerRef,
-      focusStartRef,
-      isHorizontal,
-      drawerSize,
-      ns,
-      t,
-    }
-  },
+defineExpose({
+  handleClose,
+  afterEnter,
+  afterLeave,
 })
 </script>

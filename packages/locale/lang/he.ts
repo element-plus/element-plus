@@ -1,6 +1,9 @@
 export default {
   name: 'he',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'אישור',
       clear: 'נקה',
@@ -17,11 +20,11 @@ export default {
       startTime: 'זמן התחלה',
       endDate: 'תאריך סיום',
       endTime: 'זמן סיום',
-      prevYear: 'Previous Year', // to be translated
-      nextYear: 'Next Year', // to be translated
-      prevMonth: 'Previous Month', // to be translated
-      nextMonth: 'Next Month', // to be translated
-      year: '',
+      prevYear: 'שנה קודמת',
+      nextYear: 'שנה הבאה',
+      prevMonth: 'חודש קודם',
+      nextMonth: 'חודש הבא',
+      year: 'שנה',
       month1: 'ינואר',
       month2: 'פברואר',
       month3: 'מרץ',
@@ -34,7 +37,7 @@ export default {
       month10: 'אוקטובר',
       month11: 'נובמבר',
       month12: 'דצמבר',
-      // week: 'week',
+      week: 'שבוע',
       weeks: {
         sun: 'א׳',
         mon: 'ב׳',
@@ -61,21 +64,27 @@ export default {
     },
     select: {
       loading: 'טוען',
-      noMatch: 'לא נמצאו נתונים',
-      noData: 'ללא נתונים',
-      placeholder: 'בחר',
+      noMatch: 'לא נמצאה התאמה',
+      noData: 'אין נתונים',
+      placeholder: 'שומר מקום',
     },
     cascader: {
-      noMatch: 'ללא נתונים מתאימים',
+      noMatch: 'לא נמצאה התאמה',
       loading: 'טוען',
-      placeholder: 'בחר',
-      noData: 'ללא נתונים',
+      placeholder: 'שומר מקום',
+      noData: 'אין נתונים',
     },
     pagination: {
       goto: 'עבור ל',
-      pagesize: '/page',
+      pagesize: '/עמוד',
       total: 'כולל {total}',
       pageClassifier: '',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
     },
     messagebox: {
       title: 'הודעה',
@@ -84,7 +93,7 @@ export default {
       error: 'קלט לא תקין',
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
+      deleteTip: 'לחץ כדי למחוק',
       delete: 'מחק',
       preview: 'תצוגה מקדימה',
       continue: 'המשך',
@@ -94,28 +103,33 @@ export default {
       confirmFilter: 'אישור',
       resetFilter: 'נקה',
       clearFilter: 'הכל',
-      sumText: 'סך',
+      sumText: 'סך הכל',
     },
     tree: {
       emptyText: 'אין נתונים',
     },
     transfer: {
-      noMatch: 'אין נתונים מתאימים',
-      noData: 'ללא נתונים',
+      noMatch: 'לא נמצאה התאמה',
+      noData: 'אין נתונים',
       titles: ['רשימה 1', 'רשימה 2'],
-      filterPlaceholder: 'הקלד',
+      filterPlaceholder: 'סנן לפי...',
       noCheckedFormat: 'פריטים {total}',
-      hasCheckedFormat: ' אישור {checked}/{total}',
+      hasCheckedFormat: ' נבחרו {checked}/{total}',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'שגיאה',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'חזרה',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'כן',
+      cancelButtonText: 'לא',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

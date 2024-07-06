@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
+import MarkdownIt from 'markdown-it'
 import { useToc } from '../../composables/use-toc'
-import { useActiveSidebarLinks } from '../../composables/active-bar'
 
 import sponsorLocale from '../../../i18n/component/sponsor.json'
 import { useLang } from '../../composables/lang'
 import SponsorsButton from '../sponsors/sponsors-button.vue'
+import SponsorRightBigLogoList from '../sponsors/right-big-logo-list.vue'
 import SponsorRightTextList from '../sponsors/right-richtext-list.vue'
 import SponsorRightLogoSmallList from '../sponsors/right-logo-small-list.vue'
+import tag from '../../../plugins/tag'
 // import SponsorLarge from '../vp-sponsor-large.vue'
 
+const localMd = MarkdownIt().use(tag)
 const headers = useToc()
-const marker = ref()
-const container = ref()
-useActiveSidebarLinks(container, marker)
 const lang = useLang()
 const sponsor = computed(() => sponsorLocale[lang.value])
 </script>
@@ -22,27 +22,28 @@ const sponsor = computed(() => sponsorLocale[lang.value])
   <aside ref="container" class="toc-wrapper">
     <nav class="toc-content">
       <h3 class="toc-content__heading">Contents</h3>
-      <ul class="toc-items">
-        <li
-          v-for="{ link, text, children } in headers"
-          :key="link"
-          class="toc-item"
-        >
-          <a class="toc-link" :href="link" :title="text">{{ text }}</a>
-          <ul v-if="children">
-            <li
-              v-for="{ link: childLink, text: childText } in children"
-              :key="childLink"
-              class="toc-item"
-            >
-              <a class="toc-link subitem" :href="childLink" :title="text">{{
-                childText
-              }}</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-      <div ref="marker" class="toc-marker" />
+      <ClientOnly>
+        <el-anchor :offset="70" :bound="120">
+          <el-anchor-link
+            v-for="{ link, text, children } in headers"
+            :key="link"
+            :href="link"
+            :title="text"
+          >
+            <div v-html="localMd.render(text)" />
+            <template v-if="children" #sub-link>
+              <el-anchor-link
+                v-for="{ link: childLink, text: childText } in children"
+                :key="childLink"
+                :href="childLink"
+                :title="text"
+              >
+                <div v-html="localMd.render(childText)" />
+              </el-anchor-link>
+            </template>
+          </el-anchor-link>
+        </el-anchor>
+      </ClientOnly>
       <!-- <SponsorLarge
         class="mt-8 toc-ads flex flex-col"
         item-style="width: 180px; height: 55px;"
@@ -51,6 +52,7 @@ const sponsor = computed(() => sponsorLocale[lang.value])
         {{ sponsor.sponsoredBy }}
       </p>
       <sponsors-button class="sponsors-button mt-4 w-100%" />
+      <sponsor-right-big-logo-list />
       <sponsor-right-logo-small-list />
       <sponsor-right-text-list />
     </nav>

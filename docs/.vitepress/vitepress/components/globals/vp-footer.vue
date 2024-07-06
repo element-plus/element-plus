@@ -23,7 +23,7 @@ const homeLang = computed(() => homeLocale[lang.value])
         {{ homeLang['11'] }}
       </a>
       <a
-        href="https://element-plus.gitee.io/zh-CN/"
+        href="https://cn.element-plus.org/zh-CN/"
         class="footer-main-link"
         target="_blank"
       >
@@ -48,7 +48,7 @@ const homeLang = computed(() => homeLocale[lang.value])
     <div class="footer-main">
       <h4>{{ homeLang['19'] }}</h4>
       <a
-        href="https://discord.link/ElementPlus"
+        href="https://discord.com/invite/gXK9XNzW3X"
         class="footer-main-link"
         target="_blank"
       >
@@ -87,13 +87,12 @@ const homeLang = computed(() => homeLocale[lang.value])
   background-color: #f5f7fa;
   box-sizing: border-box;
   padding: 42px 64px 64px;
-  // height: 340px;
 
   &.is-home {
     background-color: var(--bg-color);
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 19px;
+    padding: 40px 0;
   }
 
   .container {
@@ -110,7 +109,7 @@ const homeLang = computed(() => homeLocale[lang.value])
     h4 {
       font-size: 18px;
       line-height: 1;
-      margin: 0 0 15px 0;
+      margin: 0 0 15px;
       font-weight: 400;
       color: var(--el-text-color-primary);
     }
@@ -136,7 +135,7 @@ const homeLang = computed(() => homeLocale[lang.value])
       color: var(--text-color-light);
       font-size: 18px;
       line-height: 1;
-      margin: 0 0 20px 0;
+      margin: 0 0 20px;
       padding: 0;
       font-weight: bold;
     }

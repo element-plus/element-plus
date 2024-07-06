@@ -35,7 +35,7 @@ const sortData = (data, states) => {
 const doFlattenColumns = (columns) => {
   const result = []
   columns.forEach((column) => {
-    if (column.children) {
+    if (column.children && column.children.length > 0) {
       // eslint-disable-next-line prefer-spread
       result.push.apply(result, doFlattenColumns(column.children))
     } else {
@@ -60,6 +60,7 @@ function useWatcher<T>() {
   const leafColumns: Ref<TableColumnCtx<T>[]> = ref([])
   const fixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
   const rightFixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
+  const updateOrderFns: (() => void)[] = []
   const leafColumnsLength = ref(0)
   const fixedLeafColumnsLength = ref(0)
   const rightFixedLeafColumnsLength = ref(0)
@@ -84,8 +85,19 @@ function useWatcher<T>() {
     if (!rowKey.value) throw new Error('[ElTable] prop row-key is required')
   }
 
+  // 更新 fixed
+  const updateChildFixed = (column: TableColumnCtx<T>) => {
+    column.children?.forEach((childColumn) => {
+      childColumn.fixed = column.fixed
+      updateChildFixed(childColumn)
+    })
+  }
+
   // 更新列
   const updateColumns = () => {
+    _columns.value.forEach((column) => {
+      updateChildFixed(column)
+    })
     fixedColumns.value = _columns.value.filter(
       (column) => column.fixed === true || column.fixed === 'left'
     )
@@ -143,8 +155,8 @@ function useWatcher<T>() {
   const clearSelection = () => {
     isAllSelected.value = false
     const oldSelection = selection.value
+    selection.value = []
     if (oldSelection.length) {
-      selection.value = []
       instance.emit('selection-change', [])
     }
   }
@@ -226,7 +238,7 @@ function useWatcher<T>() {
         selection.value ? selection.value.slice() : []
       )
     }
-    instance.emit('select-all', selection.value)
+    instance.emit('select-all', (selection.value || []).slice())
   }
 
   const updateSelectionByRowKey = () => {
@@ -506,6 +518,7 @@ function useWatcher<T>() {
       leafColumns,
       fixedLeafColumns,
       rightFixedLeafColumns,
+      updateOrderFns,
       leafColumnsLength,
       fixedLeafColumnsLength,
       rightFixedLeafColumnsLength,
