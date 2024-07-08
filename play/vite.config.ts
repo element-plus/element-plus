@@ -17,6 +17,7 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import type { Plugin } from 'vite'
+import UnoCSS from 'unocss/vite'
 import './vite.init'
 
 const esbuildPlugin = (): Plugin => ({
@@ -80,6 +81,7 @@ export default defineConfig(async ({ mode }) => {
       }),
       mkcert(),
       Inspect(),
+      UnoCSS(),
     ],
 
     optimizeDeps: {
