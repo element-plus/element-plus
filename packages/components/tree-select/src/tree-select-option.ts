@@ -1,4 +1,4 @@
-import { defineComponent, getCurrentInstance, nextTick } from 'vue'
+import { defineComponent, getCurrentInstance, nextTick, watch } from 'vue'
 import { ElOption } from '@element-plus/components/select'
 
 const component = defineComponent({
@@ -25,6 +25,13 @@ const component = defineComponent({
         result.select.onOptionCreate(vm)
       }
     })
+
+    watch(
+      () => (ctx.attrs.node as any).visible,
+      (val) => {
+        result.states.visible = val
+      }
+    )
 
     return result
   },
