@@ -1,11 +1,11 @@
 import process from 'process'
 import path from 'path'
-import { mkdir, readFile, writeFile } from 'fs/promises'
+import { readFile } from 'fs/promises'
 import consola from 'consola'
 import * as vueCompiler from 'vue/compiler-sfc'
 import glob from 'fast-glob'
 import chalk from 'chalk'
-import { Project } from 'ts-morph'
+import { Project, ts } from 'ts-morph'
 import {
   buildOutput,
   epRoot,
@@ -37,7 +37,7 @@ export const generateTypesDefinitions = async () => {
     skipAddingFilesFromTsConfig: true,
   })
 
-  const sourceFiles = await addSourceFiles(project)
+  await addSourceFiles(project)
   consola.success('Added source files')
 
   typeCheck(project)
@@ -45,45 +45,60 @@ export const generateTypesDefinitions = async () => {
 
   await project.emit({
     emitOnlyDtsFiles: true,
+    customTransformers: {
+      // optional transformers to evaluate after built in .d.ts transformations
+      afterDeclarations: [
+        (context) => (sourceFile) => {
+          return visitSourceFile(
+            sourceFile,
+            context,
+            pkgNameStringLiteralRewrite
+          )
+        },
+      ],
+    },
   })
 
-  const tasks = sourceFiles.map(async (sourceFile) => {
-    const relativePath = path.relative(pkgRoot, sourceFile.getFilePath())
-    consola.trace(
-      chalk.yellow(
-        `Generating definition for file: ${chalk.bold(relativePath)}`
+  function visitSourceFile(
+    sourceFile: ts.SourceFile | ts.Bundle,
+    context: ts.TransformationContext,
+    visitNode: (node: ts.Node, context: ts.TransformationContext) => ts.Node
+  ) {
+    if (sourceFile.kind === ts.SyntaxKind.SourceFile) {
+      const relativePath = path.relative(pkgRoot, sourceFile.fileName)
+      consola.trace(
+        chalk.yellow(
+          `Generating definition for file: ${chalk.bold(relativePath)}`
+        )
       )
-    )
-
-    const emitOutput = sourceFile.getEmitOutput()
-    const emitFiles = emitOutput.getOutputFiles()
-    if (emitFiles.length === 0) {
-      throw new Error(`Emit no file: ${chalk.bold(relativePath)}`)
-    }
-
-    const subTasks = emitFiles.map(async (outputFile) => {
-      const filepath = outputFile.getFilePath()
-      await mkdir(path.dirname(filepath), {
-        recursive: true,
-      })
-
-      await writeFile(
-        filepath,
-        pathRewriter('esm')(outputFile.getText()),
-        'utf8'
-      )
-
+      const result = visitNodeAndChildren(sourceFile) as ts.SourceFile
       consola.success(
         chalk.green(
           `Definition for file: ${chalk.bold(relativePath)} generated`
         )
       )
-    })
+      return result
+    } else {
+      return sourceFile
+    }
+    function visitNodeAndChildren(node: ts.Node): ts.Node {
+      return ts.visitEachChild(
+        visitNode(node, context),
+        visitNodeAndChildren,
+        context
+      )
+    }
+  }
 
-    await Promise.all(subTasks)
-  })
-
-  await Promise.all(tasks)
+  function pkgNameStringLiteralRewrite(
+    node: ts.Node,
+    context: ts.TransformationContext
+  ) {
+    if (ts.isStringLiteral(node)) {
+      return context.factory.createStringLiteral(pathRewriter('esm')(node.text))
+    }
+    return node
+  }
 }
 
 async function addSourceFiles(project: Project) {
