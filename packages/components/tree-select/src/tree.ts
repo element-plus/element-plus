@@ -138,7 +138,7 @@ export const useTree = (
           value: getNodeValByProp('value', data),
           label: getNodeValByProp('label', data),
           disabled: getNodeValByProp('disabled', data),
-          node,
+          visible: node.visible,
         },
         props.renderContent
           ? () => props.renderContent(h, { node, data, store })

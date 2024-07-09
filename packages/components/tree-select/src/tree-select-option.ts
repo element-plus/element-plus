@@ -27,9 +27,12 @@ const component = defineComponent({
     })
 
     watch(
-      () => (ctx.attrs.node as any).visible,
+      () => ctx.attrs.visible,
       (val) => {
         result.states.visible = val
+      },
+      {
+        immediate: true,
       }
     )
 
