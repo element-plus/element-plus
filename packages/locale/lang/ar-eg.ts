@@ -1,6 +1,6 @@
 import type { Language } from '../index'
 
-export const arEg: Language = {
+const arEg: Language = {
   name: 'ar-eg',
   el: {
     breadcrumb: {

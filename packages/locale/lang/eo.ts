@@ -1,6 +1,6 @@
 import type { Language } from '../index'
 
-export const eo: Language = {
+const eo: Language = {
   name: 'eo',
   el: {
     breadcrumb: {

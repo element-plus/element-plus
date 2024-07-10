@@ -1,6 +1,6 @@
 import type { Language } from '../index'
 
-export const zhTw: Language = {
+const zhTw: Language = {
   name: 'zh-tw',
   el: {
     breadcrumb: {
