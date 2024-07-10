@@ -1,4 +1,6 @@
-export default {
+import type { Language } from '../index'
+
+export const ko: Language = {
   name: 'ko',
   el: {
     breadcrumb: {
@@ -44,7 +46,7 @@ export default {
       month10: '10월',
       month11: '11월',
       month12: '12월',
-      // week: 'week',
+      week: 'week',
       weeks: {
         sun: '일',
         mon: '월',
@@ -67,6 +69,17 @@ export default {
         oct: '10월',
         nov: '11월',
         dec: '12월',
+      },
+      selectedDate: 'Selected date',
+      // to be translated
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
       },
     },
     inputNumber: {
@@ -166,3 +179,5 @@ export default {
     },
   },
 }
+
+export default ko

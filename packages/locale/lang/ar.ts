@@ -1,4 +1,6 @@
-export default {
+import type { Language } from '../index'
+
+export const ar: Language = {
   name: 'ar',
   el: {
     breadcrumb: {
@@ -67,6 +69,18 @@ export default {
         nov: 'تشرين الثاني',
         dec: 'كانون الاول',
       },
+      selectedDate: 'Selected date', // to be translated
+
+      // to be translated
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
+      },
     },
     inputNumber: {
       decrease: 'طرح رقم',
@@ -97,7 +111,9 @@ export default {
       next: 'Go to next page', // to be translated
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages',
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
     },
     dialog: {
       close: 'أغلق هذا التبويب',
@@ -151,5 +167,19 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    // to be translated
+    slider: {
+      defaultLabel: 'slider between {min} and {max}',
+      defaultRangeStartLabel: 'pick start value',
+      defaultRangeEndLabel: 'pick end value',
+    },
+    // to be translated
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+    },
   },
 }
+
+export default ar

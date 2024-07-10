@@ -1,14 +1,18 @@
+import type en from './lang/en'
+
+export { default as en } from './lang/en'
 export { default as af } from './lang/af'
 export { default as ar } from './lang/ar'
+export { default as arEg } from './lang/ar-eg'
 export { default as az } from './lang/az'
 export { default as bg } from './lang/bg'
 export { default as bn } from './lang/bn'
 export { default as ca } from './lang/ca'
+export { default as ckb } from './lang/ckb'
 export { default as cs } from './lang/cs'
 export { default as da } from './lang/da'
 export { default as de } from './lang/de'
 export { default as el } from './lang/el'
-export { default as en } from './lang/en'
 export { default as eo } from './lang/eo'
 export { default as es } from './lang/es'
 export { default as et } from './lang/et'
@@ -54,9 +58,7 @@ export { default as vi } from './lang/vi'
 export { default as zhCn } from './lang/zh-cn'
 export { default as zhTw } from './lang/zh-tw'
 
-export type TranslatePair = {
-  [key: string]: string | string[] | TranslatePair
-}
+export type TranslatePair = typeof en['el']
 
 export type Language = {
   name: string

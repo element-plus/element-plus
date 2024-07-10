@@ -1,4 +1,6 @@
-export default {
+import type { Language } from '../index'
+
+export const ckb: Language = {
   name: 'ckb',
   el: {
     breadcrumb: {
@@ -169,5 +171,13 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    // to be translated
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+    },
   },
 }
+
+export default ckb

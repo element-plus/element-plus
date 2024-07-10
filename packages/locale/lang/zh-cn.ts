@@ -1,4 +1,6 @@
-export default {
+import type { Language } from '../index'
+
+export const zhCn: Language = {
   name: 'zh-cn',
   el: {
     breadcrumb: {
@@ -7,6 +9,8 @@ export default {
     colorpicker: {
       confirm: '确定',
       clear: '清空',
+      defaultLabel: '取色器',
+      description: '“当前颜色为 {color} , 按 Enter 键选择新颜色',
     },
     datepicker: {
       now: '此刻',
@@ -37,7 +41,7 @@ export default {
       month10: '10 月',
       month11: '11 月',
       month12: '12 月',
-      // week: '周次',
+      week: '周次',
       weeks: {
         sun: '日',
         mon: '一',
@@ -46,6 +50,15 @@ export default {
         thu: '四',
         fri: '五',
         sat: '六',
+      },
+      weeksFull: {
+        sun: '星期日',
+        mon: '星期一',
+        tue: '星期二',
+        wed: '星期三',
+        thu: '星期四',
+        fri: '星期五',
+        sat: '星期六',
       },
       months: {
         jan: '一月',
@@ -61,12 +74,23 @@ export default {
         nov: '十一月',
         dec: '十二月',
       },
+      dateTablePrompt: '',
+      monthTablePrompt: '',
+      yearTablePrompt: '',
+      selectedDate: '',
+    },
+    inputNumber: {
+      decrease: '减少数字',
+      increase: '新增数字',
     },
     select: {
       loading: '加载中',
       noMatch: '无匹配数据',
       noData: '无数据',
       placeholder: '请选择',
+    },
+    dropdown: {
+      toggleDropdown: '切换下拉菜单',
     },
     cascader: {
       noMatch: '无匹配数据',
@@ -88,17 +112,29 @@ export default {
       deprecationWarning:
         '你使用了一些已被废弃的用法，请参考 el-pagination 的官方文档',
     },
+    dialog: {
+      close: '关闭弹框',
+    },
+    drawer: {
+      close: '关闭弹框',
+    },
     messagebox: {
       title: '提示',
       confirm: '确定',
       cancel: '取消',
       error: '输入的数据不合法!',
+      close: '关闭弹框',
     },
     upload: {
       deleteTip: '按 delete 键可删除',
       delete: '删除',
       preview: '查看图片',
       continue: '继续上传',
+    },
+    slider: {
+      defaultLabel: '滑块介于 {min} 和 {max} 之间',
+      defaultRangeStartLabel: '选择起始值',
+      defaultRangeEndLabel: '选择结束值',
     },
     table: {
       emptyText: '暂无数据',
@@ -140,3 +176,5 @@ export default {
     },
   },
 }
+
+export default zhCn

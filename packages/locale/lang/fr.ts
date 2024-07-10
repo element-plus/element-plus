@@ -1,4 +1,6 @@
-export default {
+import type { Language } from '../index'
+
+export const fr: Language = {
   name: 'fr',
   el: {
     breadcrumb: {
@@ -142,6 +144,11 @@ export default {
       clearFilter: 'Tous',
       sumText: 'Somme',
     },
+    tour: {
+      next: 'suivant',
+      previous: 'précédent',
+      finish: 'fin',
+    },
     tree: {
       emptyText: 'Aucune donnée',
     },
@@ -168,5 +175,11 @@ export default {
       rightArrow: 'Flèche du carrousel vers la droite',
       indicator: 'Passer au carrousel index {index}',
     },
+    // to be translated
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown',
+    },
   },
 }
+
+export default fr

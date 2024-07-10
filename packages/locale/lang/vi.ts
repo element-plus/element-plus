@@ -1,4 +1,6 @@
-export default {
+import type { Language } from '../index'
+
+export const vi: Language = {
   name: 'vi',
   el: {
     breadcrumb: {
@@ -7,6 +9,9 @@ export default {
     colorpicker: {
       confirm: 'OK',
       clear: 'Xóa',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
     },
     datepicker: {
       now: 'Hiện tại',
@@ -37,7 +42,7 @@ export default {
       month10: 'Tháng 10',
       month11: 'Tháng 11',
       month12: 'Tháng 12',
-      // week: 'week',
+      week: 'week',
       weeks: {
         sun: 'CN',
         mon: 'T2',
@@ -60,6 +65,23 @@ export default {
         oct: 'Th.10',
         nov: 'Th.11',
         dec: 'Th.12',
+      },
+
+      // to be translated
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month',
+      monthTablePrompt: 'Use the arrow keys and enter to select the month',
+      yearTablePrompt: 'Use the arrow keys and enter to select the year',
+      selectedDate: 'Selected date',
+      // to be translated
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
       },
     },
     select: {
@@ -85,12 +107,15 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
     },
     messagebox: {
       title: 'Thông báo',
       confirm: 'OK',
       cancel: 'Hủy',
       error: 'Dữ liệu không hợp lệ',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Nhấn xoá để xoá',
@@ -136,5 +161,30 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    // to be translated
+    inputNumber: {
+      decrease: 'decrease number',
+      increase: 'increase number',
+    },
+    // to be translated
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown',
+    },
+    // to be translated
+    dialog: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    drawer: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    slider: {
+      defaultLabel: 'slider between {min} and {max}',
+      defaultRangeStartLabel: 'pick start value',
+      defaultRangeEndLabel: 'pick end value',
+    },
   },
 }
+
+export default vi

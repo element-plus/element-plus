@@ -1,4 +1,6 @@
-export default {
+import type { Language } from '../index'
+
+export const bn: Language = {
   name: 'bn',
   el: {
     breadcrumb: {
@@ -7,6 +9,9 @@ export default {
     colorpicker: {
       confirm: 'ঠিক আছে',
       clear: 'ক্লিয়ার',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
     },
     datepicker: {
       now: 'এখন',
@@ -61,6 +66,22 @@ export default {
         nov: 'নভে',
         dec: 'ডিসে',
       },
+      // to be translated
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month',
+      monthTablePrompt: 'Use the arrow keys and enter to select the month',
+      yearTablePrompt: 'Use the arrow keys and enter to select the year',
+      selectedDate: 'Selected date',
+      // to be translated
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
+      },
     },
     select: {
       loading: 'লোড হচ্ছে',
@@ -93,6 +114,7 @@ export default {
       confirm: 'ঠিক আছে',
       cancel: 'বাতিল',
       error: 'ইনপুট ডাটা গ্রহনযোগ্য নয়',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'অপসারণ করতে "ডিলিট" এ ক্লিক করুন',
@@ -133,5 +155,36 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    // to be translated
+    inputNumber: {
+      decrease: 'decrease number',
+      increase: 'increase number',
+    },
+    // to be translated
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown',
+    },
+    // to be translated
+    dialog: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    drawer: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    slider: {
+      defaultLabel: 'slider between {min} and {max}',
+      defaultRangeStartLabel: 'pick start value',
+      defaultRangeEndLabel: 'pick end value',
+    },
+    // to be translated
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+    },
   },
 }
+
+export default bn

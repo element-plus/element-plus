@@ -1,4 +1,6 @@
-export default {
+import type { Language } from '../index'
+
+export const arEg: Language = {
   name: 'ar-eg',
   el: {
     breadcrumb: {
@@ -67,6 +69,18 @@ export default {
         nov: 'نوفمبر',
         dec: 'ديسمبر',
       },
+      selectedDate: 'Selected date', // to be translated
+
+      // to be translated
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
+      },
     },
     inputNumber: {
       decrease: 'طرح رقم',
@@ -98,6 +112,8 @@ export default {
       currentPage: 'صفحة رقم {pager}',
       prevPages: 'صفحات {pager} السابقة',
       nextPages: 'صفحات {pager} التالية',
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
     },
     dialog: {
       close: 'أغلق هذا التبويب',
@@ -156,5 +172,13 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    // to be translated
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+    },
   },
 }
+
+export default arEg
