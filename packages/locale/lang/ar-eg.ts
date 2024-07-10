@@ -70,7 +70,6 @@ export const arEg: Language = {
         dec: 'ديسمبر',
       },
       selectedDate: 'Selected date', // to be translated
-
       // to be translated
       weeksFull: {
         sun: 'Sunday',
