@@ -14,7 +14,6 @@ import {
   findLastIndex,
   get,
   isEqual,
-  isNil,
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
@@ -28,11 +27,13 @@ import {
   debugWarn,
   isClient,
   isFunction,
+  isIOS,
   isNumber,
   isUndefined,
   scrollIntoView,
 } from '@element-plus/utils'
 import {
+  useEmptyValues,
   useFocusController,
   useId,
   useLocale,
@@ -120,27 +121,23 @@ export const useSelect = (props: ISelectProps, emit) => {
   const { inputId } = useFormItemInputId(props, {
     formItemContext: formItem,
   })
+  const { valueOnClear, isEmptyValue } = useEmptyValues(props)
 
   const selectDisabled = computed(() => props.disabled || form?.disabled)
-
-  const hasEmptyStringOption = computed(() =>
-    optionsArray.value.some((option) => option.value === '')
-  )
 
   const hasModelValue = computed(() => {
     return props.multiple
       ? isArray(props.modelValue) && props.modelValue.length > 0
-      : !isNil(props.modelValue) &&
-          (props.modelValue !== '' || hasEmptyStringOption.value)
+      : !isEmptyValue(props.modelValue)
   })
 
   const showClose = computed(() => {
-    const criteria =
+    return (
       props.clearable &&
       !selectDisabled.value &&
       states.inputHovering &&
       hasModelValue.value
-    return criteria
+    )
   })
   const iconComponent = computed(() =>
     props.remote && props.filterable && !props.remoteShowSuffix
@@ -220,7 +217,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (props.filterable && props.remote && isFunction(props.remoteMethod))
       return
     optionsArray.value.forEach((option) => {
-      option.updateOption(states.inputValue)
+      option.updateOption?.(states.inputValue)
     })
   }
 
@@ -252,6 +249,12 @@ export const useSelect = (props: ISelectProps, emit) => {
       ? _placeholder
       : states.selectedLabel
   })
+
+  // iOS Safari does not handle click events when a mouseenter event is registered and a DOM-change happens in a child
+  // We use a Vue custom event binding to only register the event on non-iOS devices
+  // ref.: https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html
+  // Github Issue: https://github.com/vuejs/vue/issues/9859
+  const mouseEnterEventName = computed(() => (isIOS ? null : 'mouseenter'))
 
   watch(
     () => props.modelValue,
@@ -417,7 +420,9 @@ export const useSelect = (props: ISelectProps, emit) => {
         option = {
           value,
           currentLabel: cachedOption.currentLabel,
-          isDisabled: cachedOption.isDisabled,
+          get isDisabled() {
+            return cachedOption.isDisabled
+          },
         }
         break
       }
@@ -506,9 +511,11 @@ export const useSelect = (props: ISelectProps, emit) => {
       const value = props.modelValue.slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(value)
       if (lastNotDisabledIndex < 0) return
+      const removeTagValue = value[lastNotDisabledIndex]
       value.splice(lastNotDisabledIndex, 1)
       emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
+      emit('remove-tag', removeTagValue)
     }
   }
 
@@ -527,7 +534,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const deleteSelected = (event) => {
     event.stopPropagation()
-    const value: string | any[] = props.multiple ? [] : undefined
+    const value: string | any[] = props.multiple ? [] : valueOnClear.value
     if (props.multiple) {
       for (const item of states.selected) {
         if (item.isDisabled) value.push(item.value)
@@ -635,6 +642,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const handleMenuEnter = () => {
+    states.isBeforeHide = false
     nextTick(() => scrollToOption(states.selected))
   }
 
@@ -669,6 +677,10 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const toggleMenu = () => {
     if (selectDisabled.value) return
+
+    // We only set the inputHovering state to true on mouseenter event on iOS devices
+    // To keep the state updated we set it here to true
+    if (isIOS) states.inputHovering = true
 
     if (states.menuVisibleOnFocus) {
       // controlled by automaticDropdown
@@ -814,6 +826,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     hasModelValue,
     shouldShowPlaceholder,
     currentPlaceholder,
+    mouseEnterEventName,
     showClose,
     iconComponent,
     iconReverse,

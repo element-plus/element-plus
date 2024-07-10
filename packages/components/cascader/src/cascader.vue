@@ -207,7 +207,7 @@ import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useEmptyValues, useLocale, useNamespace } from '@element-plus/hooks'
 import {
   debugWarn,
   focusNode,
@@ -268,6 +268,7 @@ const nsInput = useNamespace('input')
 
 const { t } = useLocale()
 const { form, formItem } = useFormItem()
+const { valueOnClear } = useEmptyValues(props)
 
 const tooltipRef: Ref<TooltipInstance | null> = ref(null)
 const input: Ref<InputInstance | null> = ref(null)
@@ -340,8 +341,9 @@ const checkedValue = computed<CascaderValue>({
     return cloneDeep(props.modelValue) as CascaderValue
   },
   set(val) {
-    emit(UPDATE_MODEL_EVENT, val)
-    emit(CHANGE_EVENT, val)
+    const value = val || valueOnClear.value
+    emit(UPDATE_MODEL_EVENT, value)
+    emit(CHANGE_EVENT, value)
     if (props.validateEvent) {
       formItem?.validate('change').catch((err) => debugWarn(err))
     }
@@ -575,6 +577,7 @@ const handleClear = () => {
     syncPresentTextValue()
   }
   togglePopperVisible(false)
+  emit('clear')
 }
 
 const syncPresentTextValue = () => {

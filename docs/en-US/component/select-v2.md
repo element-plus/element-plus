@@ -197,6 +197,28 @@ select-v2/custom-loading
 
 :::
 
+## Empty Values ^(2.7.0)
+
+If you want to support empty string, please set `empty-values` to `[null, undefined]`.
+
+If you want to change the clear value to `null`, please set `value-on-clear` to `null`.
+
+:::demo
+
+select-v2/empty-values
+
+:::
+
+## Custom Label ^(2.7.4)
+
+You can customize label.
+
+:::demo
+
+select-v2/custom-label
+
+:::
+
 ## API
 
 ### Attributes
@@ -243,7 +265,10 @@ select-v2/custom-loading
 | collapse-tags-tooltip ^(2.3.0)      | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                         | ^[boolean]                                                                                                                                                                  | false                                          |
 | max-collapse-tags ^(2.3.0)          | The max tags number to be shown. To use this, `collapse-tags` must be true                                                               | ^[number]                                                                                                                                                                   | 1                                              |
 | tag-type ^(2.5.0)                   | tag type                                                                                                                                 | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
+| tag-effect ^(2.7.7)                        | tag effect                                                                                                              | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                                                                                                                 | light                                           |
 | aria-label ^(a11y) ^(2.5.0)         | same as `aria-label` in native input                                                                                                     | ^[string]                                                                                                                                                                   | —                                              |
+| empty-values ^(2.7.0)               | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                           | ^[array]                                                                                                                                                                    | —                                              |
+| value-on-clear ^(2.7.0)             | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                  | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
 
 ### props
 
@@ -276,6 +301,7 @@ select-v2/custom-loading
 | prefix           | prefix content of input               |
 | tag ^(2.5.0)     | content as Select tag                 |
 | loading ^(2.5.2) | content as Select loading             |
+| label ^(2.7.4)   | content as Select label               |
 
 ### Exposes
 

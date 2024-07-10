@@ -1,5 +1,9 @@
 import { placements } from '@popperjs/core'
-import { useSizeProp } from '@element-plus/hooks'
+import {
+  useAriaProps,
+  useEmptyValuesProps,
+  useSizeProp,
+} from '@element-plus/hooks'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
@@ -187,6 +191,10 @@ export const SelectProps = buildProps({
   // eslint-disable-next-line vue/require-prop-types
   tagType: { ...tagProps.type, default: 'info' },
   /**
+   * @description tag effect
+   */
+  tagEffect: { ...tagProps.effect, default: 'light' },
+  /**
    * @description whether to trigger form validation
    */
   validateEvent: {
@@ -212,11 +220,6 @@ export const SelectProps = buildProps({
     type: definePropType<Placement[]>(Array),
     default: ['bottom-start', 'top-start', 'right', 'left'],
   },
-  /**
-   * @description native input aria-label
-   */
-  ariaLabel: {
-    type: String,
-    default: undefined,
-  },
+  ...useEmptyValuesProps,
+  ...useAriaProps(['ariaLabel']),
 })
