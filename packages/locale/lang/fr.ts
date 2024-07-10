@@ -142,6 +142,11 @@ export default {
       clearFilter: 'Tous',
       sumText: 'Somme',
     },
+    tour: {
+      next: 'suivant',
+      previous: 'précédent',
+      finish: 'fin',
+    },
     tree: {
       emptyText: 'Aucune donnée',
     },
