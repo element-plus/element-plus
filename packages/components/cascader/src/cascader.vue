@@ -241,8 +241,8 @@ const popperOptions: Partial<Options> = {
       name: 'arrowPosition',
       enabled: true,
       phase: 'main',
-      fn: ({ state }) => {
-        const { modifiersData, placement } = state as any
+      fn: ({ state }: any) => {
+        const { modifiersData, placement } = state
         if (['right', 'left', 'bottom', 'top'].includes(placement)) return
         modifiersData.arrow.x = 35
       },
@@ -424,10 +424,27 @@ const deleteTag = (tag: Tag) => {
   emit('removeTag', node.valueByOption)
 }
 
+const getStrategyCheckedNodes = (): CascaderNode[] => {
+  switch (props.showCheckedStrategy) {
+    case 'child':
+      return checkedNodes.value
+    case 'parent': {
+      const clickedNodes = getCheckedNodes(false)
+      const clickedNodesValue = clickedNodes!.map((o) => o.value)
+      const parentNodes = clickedNodes!.filter(
+        (o) => !o.parent || !clickedNodesValue.includes(o.parent.value)
+      )
+      return parentNodes
+    }
+    default:
+      return []
+  }
+}
+
 const calculatePresentTags = () => {
   if (!multiple.value) return
 
-  const nodes = checkedNodes.value
+  const nodes = getStrategyCheckedNodes()
   const tags: Tag[] = []
 
   const allTags: Tag[] = []
