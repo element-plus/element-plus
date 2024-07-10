@@ -113,6 +113,8 @@ export const useCarousel = (
       activeIndex.value = activeIndex.value + 1
     } else if (props.loop) {
       activeIndex.value = 0
+    } else {
+      isTransitioning.value = false
     }
   }
 
