@@ -66,7 +66,6 @@ const eo: Language = {
         nov: 'Nov',
         dec: 'Dec',
       },
-
       // to be translated
       dateTablePrompt:
         'Use the arrow keys and enter to select the day of the month',

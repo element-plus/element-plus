@@ -66,7 +66,6 @@ const mg: Language = {
         nov: 'Nov',
         dec: 'Des',
       },
-
       // to be translated
       dateTablePrompt:
         'Use the arrow keys and enter to select the day of the month',

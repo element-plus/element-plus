@@ -66,7 +66,6 @@ const vi: Language = {
         nov: 'Th.11',
         dec: 'Th.12',
       },
-
       // to be translated
       dateTablePrompt:
         'Use the arrow keys and enter to select the day of the month',
