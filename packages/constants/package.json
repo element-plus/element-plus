@@ -1,6 +1,46 @@
 {
   "name": "@element-plus/constants",
   "private": true,
+  "homepage": "https://github.com/element-plus/element-plus#readme",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
   "license": "MIT",
-  "main": "index.ts"
+  "author": "Element Plus Team <hello@element-plus.org>",
+  "files": [
+    "dist"
+  ],
+  "main": "./index.ts",
+  "module": "./index.ts",
+  "unpkg": "index.js",
+  "jsdelivr": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git",
+    "directory": "packages/constants"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsup ./*.ts --dts",
+    "dev": "tsup ./*.ts --watch",
+    "prepack": "clean-package",
+    "postpack": "clean-package restore",
+    "typecheck": "tsc --noEmit"
+  },
+  "clean-package": "../../clean-package.json",
+  "devDependencies": {
+    "clean-package": "^2.2.0",
+    "tsup": "^8.1.0"
+  },
+  "tsup": {
+    "entry": [
+      "./index.ts"
+    ],
+    "clean": true,
+    "target": "es2018",
+    "format": [
+      "cjs",
+      "esm"
+    ]
+  }
 }
