@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref, toRef } from 'vue'
-import { isClient, useToggle } from '@vueuse/core'
+import { computed, getCurrentInstance, ref, toRef } from 'vue'
+import { isClient, useClipboard, useToggle } from '@vueuse/core'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useLang } from '../composables/lang'
 import { useSourceCode } from '../composables/source-code'
@@ -18,6 +18,13 @@ const props = defineProps<{
   rawSource: string
   description?: string
 }>()
+
+const vm = getCurrentInstance()!
+
+const { copy, isSupported } = useClipboard({
+  source: decodeURIComponent(props.rawSource),
+  read: false,
+})
 
 const [sourceVisible, toggleSourceVisible] = useToggle()
 const lang = useLang()
@@ -51,6 +58,19 @@ const onSourceVisibleKeydown = (e: KeyboardEvent) => {
     e.preventDefault()
     toggleSourceVisible(false)
     sourceCodeRef.value?.focus()
+  }
+}
+
+const copyCode = async () => {
+  const { $message } = vm.appContext.config.globalProperties
+  if (!isSupported) {
+    $message.error(locale.value['copy-error'])
+  }
+  try {
+    await copy()
+    $message.success(locale.value['copy-success'])
+  } catch (e: any) {
+    $message.error(e.message)
   }
 }
 </script>
@@ -104,6 +124,25 @@ const onSourceVisibleKeydown = (e: KeyboardEvent) => {
             >
               <i-ri-github-line />
             </a>
+          </ElIcon>
+        </ElTooltip>
+        <ElTooltip
+          :content="locale['copy-code']"
+          :show-arrow="false"
+          :trigger="['hover', 'focus']"
+          :trigger-keys="[]"
+        >
+          <ElIcon
+            :size="16"
+            :aria-label="locale['copy-code']"
+            class="op-btn"
+            tabindex="0"
+            role="button"
+            @click="copyCode"
+            @keydown.prevent.enter="copyCode"
+            @keydown.prevent.space="copyCode"
+          >
+            <i-ri-file-copy-line />
           </ElIcon>
         </ElTooltip>
         <ElTooltip
