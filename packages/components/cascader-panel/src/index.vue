@@ -41,7 +41,7 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { useNamespace } from '@element-plus/hooks'
+import { useEmptyValues, useNamespace } from '@element-plus/hooks'
 
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
@@ -55,6 +55,7 @@ import type { Nullable } from '@element-plus/utils'
 import type {
   default as CascaderNode,
   CascaderNodeValue,
+  CascaderNodePathValue,
   CascaderOption,
   CascaderValue,
   RenderLabel,
@@ -86,6 +87,7 @@ export default defineComponent({
 
     const ns = useNamespace('cascader')
     const config = useCascaderConfig(props)
+    const { isEmptyValue } = useEmptyValues(props)
 
     let store: Nullable<Store> = null
     const initialLoaded = ref(true)
@@ -208,6 +210,16 @@ export default defineComponent({
       checkedValue.value = multiple ? values : values[0] ?? null
     }
 
+    const getNodeByValue = (
+      value: CascaderNodeValue | CascaderNodePathValue,
+      leafOnly = false
+    ) => {
+      if (isEmptyValue(value)) {
+        return null
+      }
+      return store?.getNodeByValue(value, leafOnly)
+    }
+
     const syncCheckedValue = (loaded = false, forced = false) => {
       const { modelValue } = props
       const { lazy, multiple, checkStrictly } = config.value
@@ -225,7 +237,7 @@ export default defineComponent({
           flattenDeep(castArray(modelValue))
         )
         const nodes = values
-          .map((val) => store?.getNodeByValue(val))
+          .map((val) => getNodeByValue(val))
           .filter((node) => !!node && !node.loaded && !node.loading) as Node[]
 
         if (nodes.length) {
@@ -238,7 +250,7 @@ export default defineComponent({
       } else {
         const values = multiple ? castArray(modelValue) : [modelValue]
         const nodes = unique(
-          values.map((val) => store?.getNodeByValue(val, leafOnly))
+          values.map((val) => getNodeByValue(val, leafOnly))
         ) as Node[]
         syncMenuState(nodes, forced)
         checkedValue.value = cloneDeep(modelValue)
