@@ -107,4 +107,5 @@ If Element Plus is imported entirely, a globally method `$loading` will be regis
 | element-loading-spinner      | icon of the custom spinner                                   | ^[string]                      |
 | element-loading-svg          | icon of the custom spinner (same as element-loading-spinner) | ^[string]                      |
 | element-loading-svg-view-box | sets the viewBox attribute for loading svg element           | ^[string]                      |
+| element-loading-background   | background color of the mask                                 | ^[string]                      |
 | element-loading-custom-class | custom class name for loading                                | ^[string]                      |
