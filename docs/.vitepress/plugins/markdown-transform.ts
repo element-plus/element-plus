@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { camelize } from '@vue/shared'
 import glob from 'fast-glob'
 import { docRoot, docsDirName, projRoot } from '@element-plus/build-utils'
 import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
@@ -35,9 +36,7 @@ export function MarkdownTransform(): Plugin {
       const append: Append = {
         headers: [],
         footers: [],
-        scriptSetups: [
-          `const demos = import.meta.glob('../../examples/${componentId}/*.vue', { eager: true })`,
-        ],
+        scriptSetups: getExampleImports(componentId),
       }
 
       code = transformVpScriptSetup(code, append)
@@ -130,4 +129,21 @@ ${linksText}`
   append.footers.push(sourceSection, isComponent ? contributorsSection : '')
 
   return code
+}
+
+const getExampleImports = (componentId: string) => {
+  const examplePath = path.resolve(docRoot, 'examples', componentId)
+
+  if (!fs.existsSync(examplePath)) return []
+
+  const files = fs.readdirSync(examplePath)
+
+  return files
+    .filter((item) => /\.vue$/.test(item))
+    .map((item) => {
+      const file = item.replace(/\.vue$/, '')
+      const name = camelize(`${componentId}-${file}`)
+
+      return `import ${name} from '../../examples/${componentId}/${file}.vue'`
+    })
 }
