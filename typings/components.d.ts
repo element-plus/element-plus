@@ -93,6 +93,7 @@ declare module '@vue/runtime-core' {
     ElSkeleton: typeof import('../packages/element-plus')['ElSkeleton']
     ElSkeletonItem: typeof import('../packages/element-plus')['ElSkeletonItem']
     ElStatistic: typeof import('../packages/element-plus')['ElStatistic']
+    ElCountdown: typeof import('../packages/element-plus')['ElCountdown']
     ElCheckTag: typeof import('../packages/element-plus')['ElCheckTag']
     ElDescriptions: typeof import('../packages/element-plus')['ElDescriptions']
     ElDescriptionsItem: typeof import('../packages/element-plus')['ElDescriptionsItem']

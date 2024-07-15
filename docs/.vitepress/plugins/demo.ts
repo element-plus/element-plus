@@ -45,9 +45,9 @@ function createDemoContainer(md: MarkdownIt): ContainerOpts {
         )}" path="${sourceFile}" raw-source="${encodeURIComponent(
           source
         )}" description="${encodeURIComponent(md.render(description))}">
-  <template #source><${camelize(sourceFile.replace(/\//g, '-'))}/></template>`
+  <template #source><Ex${camelize(sourceFile.replace(/\//g, '-'))}/></template>`
       } else {
-        return '</Demo>'
+        return '</Demo>\n'
       }
     },
   }

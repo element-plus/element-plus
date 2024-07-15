@@ -142,7 +142,7 @@ const getExampleImports = (componentId: string) => {
     .filter((item) => /\.vue$/.test(item))
     .map((item) => {
       const file = item.replace(/\.vue$/, '')
-      const name = camelize(`${componentId}-${file}`)
+      const name = camelize(`Ex${componentId}-${file}`)
 
       return `import ${name} from '../../examples/${componentId}/${file}.vue'`
     })
