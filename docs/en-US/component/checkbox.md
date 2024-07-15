@@ -5,15 +5,29 @@ lang: en-US
 
 # Checkbox
 
+A group of options for multiple choices.
+
 :::warning
 
 `label` act as `value` has been **deprecated**, `label` is used only as display text, this action **will be** removed in ^(3.0.0), consider switching to new API.
 
-New API `value` has been added in ^(2.6.0), you can use `value` API to set the value of Checkbox.
+:::
+
+:::tip
+
+New API `value` has been added in ^(2.6.0), the examples in the document all use the `value`.
+If you are using a version **less than** ^(2.6.0) and using `checkbox-group`, please refer to:
 
 :::
 
-A group of options for multiple choices.
+``` vue
+<el-checkbox-group v-model="checkList">
+  <!-- works when >=2.6.0, recommended ✔️ value not work when <2.6.0 ❌ -->
+  <el-checkbox label="Option 1" value="Value 1" />
+  <!-- works when <2.6.0, deprecated act as value when >=3.0.0 -->
+  <el-checkbox label="Option 2 & Value 2" />
+</el-checkbox-group>
+```
 
 ## Basic usage
 
@@ -88,7 +102,7 @@ checkbox/with-border
 ### Checkbox Attributes
 
 | Name                           | Description                                                                                                                                                    | Type                                           | Default |
-|--------------------------------| -------------------------------------------------------------------------------------------------------------------------------------------------------------- |------------------------------------------------| ------- |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------- |
 | model-value / v-model          | binding value                                                                                                                                                  | ^[string] / ^[number] / ^[boolean]             | —       |
 | value ^(2.6.0)                 | value of the Checkbox when used inside a `checkbox-group`                                                                                                      | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | label                          | label of the Checkbox when used inside a `checkbox-group`. If there's no value, `label` will act as `value`                                                    | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
@@ -125,7 +139,7 @@ checkbox/with-border
 ### CheckboxGroup Attributes
 
 | Name                        | Description                                       | Type                                     | Default |
-|-----------------------------| ------------------------------------------------- | ---------------------------------------- | ------- |
+| --------------------------- | ------------------------------------------------- | ---------------------------------------- | ------- |
 | model-value / v-model       | binding value                                     | ^[object]`string[] \| number[]`          | []      |
 | size                        | size of checkbox                                  | ^[enum]`'large' \| 'default' \| 'small'` | —       |
 | disabled                    | whether the nesting checkboxes are disabled       | ^[boolean]                               | false   |

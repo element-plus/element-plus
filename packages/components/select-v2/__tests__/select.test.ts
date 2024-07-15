@@ -206,7 +206,8 @@ describe('Select', () => {
       DEFAULT_PLACEHOLDER
     )
     const select = wrapper.findComponent(Select)
-    await wrapper.trigger('click')
+    const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await tipDefWrapper.trigger('click')
     expect((select.vm as any).expanded).toBeTruthy()
   })
 
@@ -465,7 +466,8 @@ describe('Select', () => {
     })
     await nextTick()
     const vm = wrapper.vm as any
-    await wrapper.trigger('click')
+    const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await tipDefWrapper.trigger('click')
     await nextTick()
     expect(vm.visible).toBeTruthy()
   })
@@ -559,6 +561,7 @@ describe('Select', () => {
     })
 
     it('remove-tag', async () => {
+      const onRemoveTag = vi.fn()
       const wrapper = createSelect({
         data() {
           return {
@@ -567,9 +570,7 @@ describe('Select', () => {
           }
         },
         methods: {
-          onRemoveTag(tag) {
-            this.removeTag = tag
-          },
+          onRemoveTag,
         },
       })
       await nextTick()
@@ -587,6 +588,11 @@ describe('Select', () => {
       expect(vm.value.length).toBe(2)
       await tagCloseIcons[0].trigger('click')
       expect(vm.value.length).toBe(1)
+
+      const input = wrapper.find('input')
+      input.trigger('keydown.delete')
+      expect(vm.value.length).toBe(0)
+      expect(onRemoveTag).toHaveBeenLastCalledWith('option_3')
     })
 
     it('limit', async () => {
@@ -1537,7 +1543,8 @@ describe('Select', () => {
     const select = wrapper.findComponent(Select)
     const selectVm = select.vm as any
     const vm = wrapper.vm as any
-    await wrapper.trigger('click')
+    const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await tipDefWrapper.trigger('click')
     await nextTick()
     expect(selectVm.states.hoveringIndex).toBe(-1)
     // should skip the disabled option
@@ -1557,7 +1564,7 @@ describe('Select', () => {
     selectVm.onKeyboardNavigate('backward')
     await nextTick()
     // navigate to the last one
-    expect(selectVm.states.hoveringIndex).toBe(9)
+    expect(selectVm.states.hoveringIndex).toBe(8)
     selectVm.onKeyboardSelect()
     await nextTick()
     expect(vm.value).toEqual([6])
@@ -1630,7 +1637,8 @@ describe('Select', () => {
       const wrapper = createSelect()
       await nextTick()
       const select = wrapper.findComponent(Select)
-      await wrapper.trigger('click')
+      const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+      await tipDefWrapper.trigger('click')
       expect((select.vm as any).expanded).toBeTruthy()
       const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
       expect(hasClass(box, 'always-on')).toBe(false)
@@ -1646,7 +1654,8 @@ describe('Select', () => {
       })
       await nextTick()
       const select = wrapper.findComponent(Select)
-      await wrapper.trigger('click')
+      const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+      await tipDefWrapper.trigger('click')
       expect((select.vm as any).expanded).toBeTruthy()
       const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
       expect(hasClass(box, 'always-on')).toBe(true)

@@ -10,7 +10,7 @@
       <template #default="scope">{{ scope.row.date }}</template>
     </el-table-column>
     <el-table-column property="name" label="Name" width="120" />
-    <el-table-column property="address" label="Address" show-overflow-tooltip />
+    <el-table-column property="address" label="Address" />
   </el-table>
   <div style="margin-top: 20px">
     <el-button @click="toggleSelection([tableData[1], tableData[2]])">

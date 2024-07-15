@@ -333,7 +333,7 @@ describe('Radio Button', () => {
     test('single radio group in form item, override label', async () => {
       const wrapper = mount(() => (
         <ElFormItem ref="item" label="Test">
-          <RadioGroup label="Foo" ref="radioGroup">
+          <RadioGroup aria-label="Foo" ref="radioGroup">
             <Radio label="Foo" value="Foo" />
             <Radio label="Bar" value="Bar" />
           </RadioGroup>
@@ -352,11 +352,11 @@ describe('Radio Button', () => {
     test('multiple radio groups in form item', async () => {
       const wrapper = mount(() => (
         <ElFormItem ref="item" label="Test">
-          <RadioGroup label="Foo" ref="radioGroup1">
+          <RadioGroup aria-label="Foo" ref="radioGroup1">
             <Radio label="Foo" value="Foo" />
             <Radio label="Bar" value="Bar" />
           </RadioGroup>
-          <RadioGroup label="Bar" ref="radioGroup2">
+          <RadioGroup aria-label="Bar" ref="radioGroup2">
             <Radio label="Foo" value="Foo" />
             <Radio label="Bar" value="Bar" />
           </RadioGroup>
