@@ -56,7 +56,7 @@
           <img
             v-for="(url, i) in urlList"
             v-show="i === activeIndex"
-            :ref="(el: HTMLImageElement) => (imgRefs[i] = el)"
+            :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
             :key="url"
             :src="url"
             :style="imgStyle"
