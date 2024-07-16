@@ -96,14 +96,12 @@ export function useTree(
           flattenNodes.push(node)
         }
         // Only "visible" nodes will be rendered
-        if (expandedKeys.has(node.key)) {
-          const children = node.children
-          if (children) {
-            const length = children.length
-            for (let i = length - 1; i >= 0; --i) {
-              stack.push(children[i])
-            }
-          }
+        if (!expandedKeys.has(node.key)) continue
+        const children = node.children
+        const length = children?.length
+        if (!length) continue
+        for (let i = length - 1; i >= 0; --i) {
+          stack.push(children[i])
         }
       }
     }
@@ -223,16 +221,15 @@ export function useTree(
   }
 
   function expandNode(node: TreeNode) {
+    if (!node) return
     const keySet = expandedKeySet.value
     if (tree.value && props.accordion) {
       // whether only one node among the same level can be expanded at one time
       const { treeNodeMap } = tree.value
-      keySet.forEach((key) => {
-        const treeNode = treeNodeMap.get(key)
-        if (node && node.level === treeNode?.level) {
-          keySet.delete(key)
-        }
-      })
+      keySet.forEach(
+        (key) =>
+          node.level === treeNodeMap.get(key)?.level && keySet.delete(key)
+      )
     }
     keySet.add(node.key)
     emit(NODE_EXPAND, node.data, node)

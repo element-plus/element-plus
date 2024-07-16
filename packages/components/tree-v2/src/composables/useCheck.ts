@@ -40,32 +40,31 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
       if (!nodes) continue
       nodes.forEach((node) => {
         const children = node.children
-        if (children) {
-          // Whether all child nodes are selected
-          let allChecked = true
-          // Whether a child node is selected
-          let hasChecked = false
-          for (const childNode of children) {
-            const key = childNode.key
-            if (checkedKeySet.has(key)) {
-              hasChecked = true
-            } else if (indeterminateKeySet.has(key)) {
-              allChecked = false
-              hasChecked = true
-              break
-            } else {
-              allChecked = false
-            }
-          }
-          if (allChecked) {
-            checkedKeySet.add(node.key)
-          } else if (hasChecked) {
-            indeterminateKeySet.add(node.key)
-            checkedKeySet.delete(node.key)
+        if (!children) return
+        // Whether all child nodes are selected
+        let allChecked = true
+        // Whether a child node is selected
+        let hasChecked = false
+        for (const childNode of children) {
+          const key = childNode.key
+          if (checkedKeySet.has(key)) {
+            hasChecked = true
+          } else if (indeterminateKeySet.has(key)) {
+            allChecked = false
+            hasChecked = true
+            break
           } else {
-            checkedKeySet.delete(node.key)
-            indeterminateKeySet.delete(node.key)
+            allChecked = false
           }
+        }
+        if (allChecked) {
+          checkedKeySet.add(node.key)
+        } else if (hasChecked) {
+          indeterminateKeySet.add(node.key)
+          checkedKeySet.delete(node.key)
+        } else {
+          checkedKeySet.delete(node.key)
+          indeterminateKeySet.delete(node.key)
         }
       })
     }
@@ -89,11 +88,9 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
       )
       const children = node.children
       if (!props.checkStrictly && children) {
-        children.forEach((childNode) => {
-          if (!childNode.disabled) {
-            toggle(childNode, checked)
-          }
-        })
+        children.forEach(
+          (childNode) => !childNode.disabled && toggle(childNode, checked)
+        )
       }
     }
     toggle(node, isChecked)
