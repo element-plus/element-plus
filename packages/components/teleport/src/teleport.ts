@@ -4,7 +4,7 @@ import type Teleport from './teleport.vue'
 
 export const teleportProps = buildProps({
   to: {
-    type: definePropType<string>(String),
+    type: definePropType<string | HTMLElement>([String, Object]),
     required: true,
   },
   disabled: {
