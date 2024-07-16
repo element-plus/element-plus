@@ -5,7 +5,6 @@
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
     @[mouseEnterEventName]="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
-    @click.prevent.stop="toggleMenu"
   >
     <el-tooltip
       ref="tooltipRef"
@@ -35,6 +34,7 @@
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
           ]"
+          @click.prevent.stop="toggleMenu"
         >
           <div
             v-if="$slots.prefix"
