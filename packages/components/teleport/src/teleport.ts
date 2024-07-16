@@ -1,22 +1,15 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type { ExtractPropTypes } from 'vue'
 import type Teleport from './teleport.vue'
 
 export const teleportProps = buildProps({
-  container: {
+  to: {
     type: definePropType<string>(String),
-    default: 'body',
+    required: true,
   },
   disabled: {
     type: Boolean,
     default: false,
-  },
-  style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
-  },
-  zIndex: {
-    type: String,
-    default: '2000',
   },
 } as const)
 
