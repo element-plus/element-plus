@@ -9,6 +9,7 @@
     position: relative;
     margin: 0 0 15px;
   }
+
   @include e(active-bar) {
     position: absolute;
     bottom: 0;
@@ -22,6 +23,7 @@
         getCssVar('transition-function-ease-in-out-bezier');
     list-style: none;
   }
+
   @include e(new-tab) {
     display: flex;
     align-items: center;
@@ -53,6 +55,28 @@
       color: getCssVar('color-primary');
     }
   }
+
+  @include e(prefix) {
+    float: left;
+    padding-right: 16px;
+    border-bottom: 2px solid getCssVar('border-color-light');
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    height: getCssVar('tabs-header-height');
+  }
+
+  @include e(suffix) {
+    float: right;
+    padding-left: 16px;
+    border-bottom: 2px solid getCssVar('border-color-light');
+    box-sizing: border-box;
+    display: flex;
+    height: getCssVar('tabs-header-height');
+    align-items: center;
+    gap: 16px;
+  }
+
   @include e(nav-wrap) {
     overflow: hidden;
     margin-bottom: -1px;
@@ -74,9 +98,11 @@
       box-sizing: border-box;
     }
   }
+
   @include e(nav-scroll) {
     overflow: hidden;
   }
+
   @include e((nav-next, nav-prev)) {
     position: absolute;
     cursor: pointer;
@@ -86,12 +112,15 @@
     width: 20px;
     text-align: center;
   }
+
   @include e(nav-next) {
     right: 0;
   }
+
   @include e(nav-prev) {
     left: 0;
   }
+
   @include e(nav) {
     display: flex;
     white-space: nowrap;
@@ -103,12 +132,14 @@
     @include when(stretch) {
       min-width: 100%;
       display: flex;
+
       & > * {
         flex: 1;
         text-align: center;
       }
     }
   }
+
   @include e(item) {
     padding: 0 20px;
     height: getCssVar('tabs', 'header-height');
@@ -164,27 +195,33 @@
       cursor: not-allowed;
     }
   }
+
   @include e(content) {
     overflow: hidden;
     position: relative;
   }
+
   @include m(card) {
     > .#{$namespace}-tabs__header {
       border-bottom: 1px solid getCssVar('border-color-light');
       height: getCssVar('tabs', 'header-height');
     }
+
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
     }
+
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav {
       border: 1px solid getCssVar('border-color-light');
       border-bottom: none;
       border-radius: 4px 4px 0 0;
       box-sizing: border-box;
     }
+
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__active-bar {
       display: none;
     }
+
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item .is-icon-close {
       position: relative;
       font-size: 12px;
@@ -194,6 +231,7 @@
       right: -2px;
       transform-origin: 100% 50%;
     }
+
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
       border-bottom: 1px solid transparent;
       border-left: 1px solid getCssVar('border-color-light');
@@ -230,7 +268,16 @@
         }
       }
     }
+
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__prefix {
+      border-bottom: none;
+    }
+
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__suffix {
+      border-bottom: none;
+    }
   }
+
   @include m(border-card) {
     background: getCssVar('bg-color', 'overlay');
     border: 1px solid getCssVar('border-color');
@@ -238,14 +285,17 @@
     > .#{$namespace}-tabs__content {
       padding: 15px;
     }
+
     > .#{$namespace}-tabs__header {
       background-color: getCssVar('fill-color', 'light');
       border-bottom: 1px solid getCssVar('border-color-light');
       margin: 0;
     }
+
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
     }
+
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
       transition: all getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier');
@@ -282,12 +332,28 @@
       .#{$namespace}-tabs__item:first-child {
       margin-left: 0;
     }
+
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__prefix {
+      padding: 0 16px;
+      border: 1px solid transparent;
+      border-right: 1px solid getCssVar('border-color');
+      margin-top: -1px;
+    }
+
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__suffix {
+      padding: 0 16px;
+      border: 1px solid transparent;
+      border-left: 1px solid getCssVar('border-color');
+      margin-top: -1px;
+    }
   }
+
   @include m((top, bottom)) {
     .#{$namespace}-tabs__item.is-top:nth-child(2),
     .#{$namespace}-tabs__item.is-bottom:nth-child(2) {
       padding-left: 0;
     }
+
     .#{$namespace}-tabs__item.is-top:last-child,
     .#{$namespace}-tabs__item.is-bottom:last-child {
       padding-right: 0;
@@ -316,11 +382,13 @@
       }
     }
   }
+
   @include m(bottom) {
     .#{$namespace}-tabs__header.is-bottom {
       margin-bottom: 0;
       margin-top: 10px;
     }
+
     &.#{$namespace}-tabs--border-card {
       .#{$namespace}-tabs__header.is-bottom {
         border-bottom: 0;
@@ -341,8 +409,15 @@
       }
     }
   }
+
   @include m((left, right)) {
     overflow: hidden;
+
+    .#{$namespace}-tabs__header.is-left,
+    .#{$namespace}-tabs__header.is-right {
+      display: flex;
+      flex-direction: column;
+    }
 
     .#{$namespace}-tabs__header.is-left,
     .#{$namespace}-tabs__header.is-right,
@@ -375,6 +450,10 @@
         i {
           transform: rotateZ(90deg);
         }
+      }
+
+      .#{$namespace}-tabs__nav {
+        width: 100%;
       }
 
       > .#{$namespace}-tabs__nav-prev {
@@ -411,13 +490,52 @@
     .#{$namespace}-tabs__item.is-right {
       justify-content: flex-start;
     }
+
+    .#{$namespace}-tabs__prefix {
+      order: 0;
+      border-bottom: none;
+    }
+
+    .#{$namespace}-tabs__suffix {
+      order: 9999;
+      border-bottom: none;
+    }
+
+    &.#{$namespace}-tabs--border-card {
+      .#{$namespace}-tabs__prefix,
+      .#{$namespace}-tabs__suffix {
+        width: 100%;
+        margin: 0;
+        border-left: none;
+        border-right: none;
+      }
+
+      .#{$namespace}-tabs__prefix {
+        border-bottom: 1px solid getCssVar('border-color');
+      }
+
+      .#{$namespace}-tabs__suffix {
+        border-top: 1px solid getCssVar('border-color');
+      }
+    }
   }
+
   @include m(left) {
+    .#{$namespace}-tabs__prefix,
+    .#{$namespace}-tabs__suffix {
+      justify-content: flex-end;
+      border-right: 2px solid getCssVar('border-color-light');
+      margin-right: -1px;
+      padding-left: 0;
+      padding-right: 16px;
+    }
+
     .#{$namespace}-tabs__header.is-left {
       float: left;
       margin-bottom: 0;
       margin-right: 10px;
     }
+
     .#{$namespace}-tabs__nav-wrap.is-left {
       margin-right: -1px;
 
@@ -426,10 +544,12 @@
         right: 0;
       }
     }
+
     .#{$namespace}-tabs__active-bar.is-left {
       right: 0;
       left: auto;
     }
+
     .#{$namespace}-tabs__item.is-left {
       text-align: right;
     }
@@ -476,6 +596,17 @@
       .#{$namespace}-tabs__new-tab {
         float: none;
       }
+
+      .#{$namespace}-tabs__header.is-left {
+        .#{$namespace}-tabs__prefix,
+        .#{$namespace}-tabs__suffix {
+          border-right-width: 1px;
+        }
+
+        .#{$namespace}-tabs__suffix {
+          margin-bottom: -1px;
+        }
+      }
     }
 
     &.#{$namespace}-tabs--border-card {
@@ -495,6 +626,7 @@
       }
     }
   }
+
   @include m(right) {
     .#{$namespace}-tabs__header.is-right {
       float: right;
@@ -515,7 +647,21 @@
       left: 0;
     }
 
+    .#{$namespace}-tabs__prefix,
+    .#{$namespace}-tabs__suffix {
+      justify-content: flex-start;
+      border-left: 2px solid getCssVar('border-color-light');
+      margin-left: -1px;
+      padding: 0 16px;
+    }
+
     &.#{$namespace}-tabs--card {
+      .#{$namespace}-tabs__prefix,
+      .#{$namespace}-tabs__suffix {
+        border-left-width: 1px;
+        margin: -1px 0 -1px -1px;
+      }
+
       .#{$namespace}-tabs__active-bar.is-right {
         display: none;
       }
@@ -551,6 +697,7 @@
         border-left: none;
       }
     }
+
     &.#{$namespace}-tabs--border-card {
       .#{$namespace}-tabs__header.is-right {
         border-left: 1px solid getCssVar('border-color');
