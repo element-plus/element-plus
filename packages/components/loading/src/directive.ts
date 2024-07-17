@@ -54,6 +54,7 @@ const createInstance = (
     body: getBindingProp('body') ?? binding.modifiers.body,
     lock: getBindingProp('lock') ?? binding.modifiers.lock,
   }
+  el[INSTANCE_KEY]?.instance.close()
   el[INSTANCE_KEY] = {
     options,
     instance: Loading(options),
