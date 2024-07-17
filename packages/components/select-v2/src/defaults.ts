@@ -4,7 +4,13 @@ import {
   useEmptyValuesProps,
   useSizeProp,
 } from '@element-plus/hooks'
-import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
+import {
+  buildProps,
+  definePropType,
+  iconPropType,
+  isNumber,
+} from '@element-plus/utils'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '../../tag'
@@ -13,6 +19,8 @@ import { defaultProps } from './useProps'
 import type { Option, OptionType } from './select.types'
 import type { Props } from './useProps'
 import type { Options, Placement } from '@element-plus/components/popper'
+import type { EmitFn } from '@element-plus/utils/vue/typescript'
+import type { ExtractPropTypes } from 'vue'
 
 export const SelectProps = buildProps({
   /**
@@ -265,3 +273,24 @@ export const OptionProps = buildProps({
   selected: Boolean,
   created: Boolean,
 } as const)
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+export const selectEmits = {
+  [UPDATE_MODEL_EVENT]: (val: ISelectV2Props['modelValue']) => true,
+  [CHANGE_EVENT]: (val: ISelectV2Props['modelValue']) => true,
+  removeTag: (val: unknown) => true,
+  visibleChange: (visible: boolean) => true,
+  blur: (event: FocusEvent) => true,
+  focus: (event: FocusEvent) => event instanceof FocusEvent,
+  clear: () => true,
+}
+export const optionEmits = {
+  hover: (index?: number) => isNumber(index),
+  select: (val: Option, index?: number) => true,
+}
+/* eslint-enable @typescript-eslint/no-unused-vars */
+
+export type ISelectV2Props = ExtractPropTypes<typeof SelectProps>
+export type IOptionV2Props = ExtractPropTypes<typeof OptionProps>
+export type SelectEmitFn = EmitFn<typeof selectEmits>
+export type OptionEmitFn = EmitFn<typeof optionEmits>
