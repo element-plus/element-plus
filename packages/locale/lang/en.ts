@@ -89,6 +89,9 @@ export default {
       noData: 'No data',
       placeholder: 'Select',
     },
+    mention: {
+      loading: 'Loading',
+    },
     dropdown: {
       toggleDropdown: 'Toggle Dropdown',
     },

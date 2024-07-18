@@ -107,6 +107,10 @@
         "text": "Input Number"
       },
       {
+        "link": "/mention",
+        "text": "Mention"
+      },
+      {
         "link": "/radio",
         "text": "Radio"
       },

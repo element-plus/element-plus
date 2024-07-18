@@ -79,6 +79,9 @@ export default {
       noData: '데이터 없음',
       placeholder: '선택',
     },
+    mention: {
+      loading: '불러오는 중',
+    },
     dropdown: {
       toggleDropdown: '드롭다운 전환',
     },

@@ -554,6 +554,9 @@ defineExpose({
   /** @description from props (used on unit test) */
   autosize: toRef(props, 'autosize'),
 
+  /** @description is input composing */
+  isComposing,
+
   /** @description HTML input element native method */
   focus,
   /** @description HTML input element native method */
