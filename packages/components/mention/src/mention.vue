@@ -191,7 +191,10 @@ const handleSelect = (item: MentionOption) => {
   })
 }
 
-const getInputEl = () => elInputRef.value?.ref
+const getInputEl = () =>
+  props.type === 'textarea'
+    ? elInputRef.value?.textarea
+    : elInputRef.value?.input
 
 const syncAfterCursorMove = () => {
   // can't use nextTick(), get cursor position will be wrong
