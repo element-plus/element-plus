@@ -162,11 +162,7 @@
     </div>
     <div v-show="footerVisible" :class="ppNs.e('footer')">
       <el-button
-        v-show="
-          selectionMode !== 'dates' &&
-          selectionMode !== 'months' &&
-          selectionMode !== 'years'
-        "
+        v-show="!isMultipleType"
         text
         size="small"
         :class="ppNs.e('link-btn')"
@@ -404,6 +400,14 @@ const selectionMode = computed<DatePickType>(() => {
   return 'date' as DatePickType
 })
 
+const isMultipleType = computed(() => {
+  return (
+    selectionMode.value === 'dates' ||
+    selectionMode.value === 'months' ||
+    selectionMode.value === 'years'
+  )
+})
+
 const keyboardMode = computed<string>(() => {
   return selectionMode.value === 'date'
     ? currentView.value
@@ -487,11 +491,7 @@ const disabledConfirm = computed(() => {
   return disabledDate(props.parsedValue.toDate())
 })
 const onConfirm = () => {
-  if (
-    selectionMode.value === 'dates' ||
-    selectionMode.value === 'months' ||
-    selectionMode.value === 'years'
-  ) {
+  if (isMultipleType.value) {
     emit(props.parsedValue as Dayjs[])
   } else {
     // deal with the scenario where: user opens the date time picker, then confirm without doing anything
@@ -793,12 +793,7 @@ watch(
   () => props.parsedValue,
   (val) => {
     if (val) {
-      if (
-        selectionMode.value === 'dates' ||
-        selectionMode.value === 'months' ||
-        selectionMode.value === 'years'
-      )
-        return
+      if (isMultipleType.value) return
       if (Array.isArray(val)) return
       innerDate.value = val
     } else {
