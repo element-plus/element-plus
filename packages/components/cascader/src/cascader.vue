@@ -19,7 +19,7 @@
     :transition="`${nsCascader.namespace.value}-zoom-in-top`"
     effect="light"
     pure
-    persistent
+    :persistent="persistent"
     @hide="hideSuggestionPanel"
   >
     <template #default>

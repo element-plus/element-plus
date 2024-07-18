@@ -5,6 +5,7 @@ import {
   getCurrentInstance,
   h,
   nextTick,
+  onActivated,
   onMounted,
   onUpdated,
   ref,
@@ -408,6 +409,10 @@ const createList = ({
             windowElement.scrollTop = scrollOffset
           }
         }
+      })
+
+      onActivated(() => {
+        unref(windowRef).scrollTop = unref(states).scrollOffset
       })
 
       const api = {

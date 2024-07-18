@@ -1,5 +1,29 @@
 ## Changelog
 
+### 2.7.7
+
+_2024-07-12_
+
+#### Features
+
+- Components [form-item]: add `label-position` prop (#17111 by @xing403)
+- Components improve event and supplement docs (#17150 by @warmthsea)
+- Components [message-box] add loading-icon to confirmbtn,cancelbtn (#17360 by @wzc520pyfm)
+- Components [select & select-v2] add `tag-effect` prop (#17445 by @ntnyq)
+- I18n add fr translation for el-tour (#17484 by @warmthsea)
+
+#### Bug fixes
+
+- Components [pagination] `size` global adaptation (#17306 by @webvs2)
+- Components [tree] add missing type reject for LoadFunction (#16990 by @kaedeair)
+- Components [image] imageViewer crossorigin configuration missing (#17341 by @declanchiu)
+- Components [carousel] disable the last monitoblur effect (#17374 by @btea)
+- Ssr [tree-select] document is not defined (#17460 by @tolking)
+- Components [tree-select] fix filter no matching data error (#17473 by @Fuphoenixes)
+- Hooks cannot access 'useEmptyValuesProps' before initialization (#17448 by @tolking)
+- Style: css uniformly uses `px` (#17101 by @warmthsea)
+- Flx(component): buttonColor is calculated in the 'var' case (#17319 by @webvs2)
+
 ### 2.7.6
 
 _2024-06-21_

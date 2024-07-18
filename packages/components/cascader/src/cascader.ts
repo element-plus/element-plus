@@ -110,6 +110,13 @@ export const cascaderProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description when dropdown is inactive and `persistent` is `false`, dropdown will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
   ...useEmptyValuesProps,
 })
 

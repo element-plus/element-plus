@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import MarkdownIt from 'markdown-it'
 import { useToc } from '../../composables/use-toc'
 
 import sponsorLocale from '../../../i18n/component/sponsor.json'
@@ -9,10 +8,8 @@ import SponsorsButton from '../sponsors/sponsors-button.vue'
 import SponsorRightBigLogoList from '../sponsors/right-big-logo-list.vue'
 import SponsorRightTextList from '../sponsors/right-richtext-list.vue'
 import SponsorRightLogoSmallList from '../sponsors/right-logo-small-list.vue'
-import tag from '../../../plugins/tag'
 // import SponsorLarge from '../vp-sponsor-large.vue'
 
-const localMd = MarkdownIt().use(tag)
 const headers = useToc()
 const lang = useLang()
 const sponsor = computed(() => sponsorLocale[lang.value])
@@ -30,7 +27,7 @@ const sponsor = computed(() => sponsorLocale[lang.value])
             :href="link"
             :title="text"
           >
-            <div v-html="localMd.render(text)" />
+            <div v-html="text" />
             <template v-if="children" #sub-link>
               <el-anchor-link
                 v-for="{ link: childLink, text: childText } in children"
@@ -38,7 +35,7 @@ const sponsor = computed(() => sponsorLocale[lang.value])
                 :href="childLink"
                 :title="text"
               >
-                <div v-html="localMd.render(childText)" />
+                <div v-html="childText" />
               </el-anchor-link>
             </template>
           </el-anchor-link>

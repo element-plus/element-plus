@@ -117,6 +117,7 @@
               <el-button
                 v-if="showCancelButton"
                 :loading="cancelButtonLoading"
+                :loading-icon="cancelButtonLoadingIcon"
                 :class="[cancelButtonClass]"
                 :round="roundButton"
                 :size="btnSize"
@@ -130,6 +131,7 @@
                 ref="confirmRef"
                 type="primary"
                 :loading="confirmButtonLoading"
+                :loading-icon="confirmButtonLoadingIcon"
                 :class="[confirmButtonClasses]"
                 :round="roundButton"
                 :disabled="confirmButtonDisabled"
@@ -175,6 +177,7 @@ import {
   isValidComponentSize,
 } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
+import { Loading } from '@element-plus/icons-vue'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
@@ -294,6 +297,8 @@ export default defineComponent({
       action: '' as Action,
       confirmButtonLoading: false,
       cancelButtonLoading: false,
+      confirmButtonLoadingIcon: Loading,
+      cancelButtonLoadingIcon: Loading,
       confirmButtonDisabled: false,
       editorErrorMessage: '',
       // refer to: https://github.com/ElemeFE/element/commit/2999279ae34ef10c373ca795c87b020ed6753eed
