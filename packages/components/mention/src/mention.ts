@@ -90,4 +90,4 @@ export type MentionEmits = typeof mentionEmits
 export type MentionProps = ExtractPropTypes<typeof mentionProps>
 export type MentionInstance = InstanceType<typeof Mention>
 
-export type * from './types'
+export type { MentionOption } from './types'

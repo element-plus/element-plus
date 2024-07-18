@@ -86,7 +86,7 @@ const filteredOptions = computed(() => {
   if (!mentionCtx.value) return options
   const list = options.filter((option) => {
     // Return all result if `filterOption` is false.
-    if (!!filterOption === false) {
+    if (filterOption === false) {
       return true
     }
     return filterOption(mentionCtx.value!.pattern, option)
@@ -143,10 +143,10 @@ const handleInputKeyDown = (e: KeyboardEvent | Event) => {
   }
 }
 
-let blurTimer: ReturnType<typeof setTimeout>
+let blurTimer: ReturnType<typeof setTimeout> | undefined
 
 const handleInputFocus = (e: FocusEvent) => {
-  clearTimeout(blurTimer)
+  if (blurTimer) clearTimeout(blurTimer)
   emit('focus', e)
   syncAfterCursorMove()
 }
