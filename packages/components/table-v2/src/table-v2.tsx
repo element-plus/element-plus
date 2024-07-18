@@ -130,6 +130,7 @@ const TableV2 = defineComponent({
         useIsScrolling,
         vScrollbarSize,
         width,
+        fixed,
       } = props
 
       const _data = unref(data)
@@ -145,6 +146,7 @@ const TableV2 = defineComponent({
         headerHeight,
         headerWidth: unref(headerWidth),
         height: unref(mainTableHeight),
+        fixed,
         mainTableRef,
         rowKey,
         rowHeight,
@@ -173,6 +175,7 @@ const TableV2 = defineComponent({
         headerWidth: leftColumnsWidth,
         headerHeight,
         height: _fixedTableHeight,
+        fixed: false,
         rowKey,
         scrollbarAlwaysOn,
         scrollbarStartGap: 2,
@@ -198,6 +201,7 @@ const TableV2 = defineComponent({
         headerWidth: rightColumnsWidthWithScrollbar,
         headerHeight,
         height: _fixedTableHeight,
+        fixed: false,
         rowKey,
         scrollbarAlwaysOn,
         scrollbarStartGap: 2,
