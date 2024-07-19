@@ -53,6 +53,7 @@ import { useNamespace } from '@element-plus/hooks'
 import ElInput, { inputProps } from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isFunction } from '@element-plus/utils'
 import { mentionEmits, mentionProps } from './mention'
 import { getCursorPosition, getMentionCtx } from './helper'
 import ElMentionDropdown from './mention-dropdown.vue'
@@ -119,13 +120,16 @@ const handleInputKeyDown = (e: KeyboardEvent | Event) => {
     }
   } else if (['Backspace'].includes(e.key)) {
     if (props.whole && mentionCtx.value) {
-      const { splitIndex, selectionEnd, pattern, prefixIndex } =
+      const { splitIndex, selectionEnd, pattern, prefixIndex, prefix } =
         mentionCtx.value
       const inputEl = getInputEl()
       if (!inputEl) return
       const inputValue = inputEl.value
       const matchOption = props.options.find((item) => item.value === pattern)
-      if (matchOption && splitIndex !== -1 && splitIndex + 1 === selectionEnd) {
+      const isWhole = isFunction(props.checkIsWhole)
+        ? props.checkIsWhole(pattern, prefix)
+        : matchOption
+      if (isWhole && splitIndex !== -1 && splitIndex + 1 === selectionEnd) {
         e.preventDefault()
         const newValue =
           inputValue.slice(0, prefixIndex) + inputValue.slice(splitIndex + 1)

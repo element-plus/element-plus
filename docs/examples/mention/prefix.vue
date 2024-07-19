@@ -22,9 +22,7 @@ const options = ref<MentionOption[]>([])
 
 const handleSearch = (_: string, prefix: string) => {
   options.value = (MOCK_DATA[prefix] || []).map((value) => ({
-    key: value,
     value,
-    label: value,
   }))
 }
 </script>

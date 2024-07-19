@@ -47,13 +47,21 @@ mention/loading
 
 :::
 
-## Customize Trigger Token
+## Customize trigger token
 
-Customize Trigger Token by `prefix` props. Default to `@`, `Array<string>` also supported.
+Customize trigger token by `prefix` props. Default to `@`, `Array<string>` also supported.
 
 :::demo
 
 mention/prefix
+
+:::
+
+## Delete as a whole
+
+:::demo
+
+mention/whole
 
 :::
 
@@ -76,19 +84,20 @@ Since this component is developed based on the component [`el-input`](./input.md
 and please go to the original component to view the documentation.
 :::
 
-| Name                                 | Description                                                                                  | Type                                                                         | Default    |
-| ------------------------------------ | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------- |
-| options                              | mention options list                                                                         | ^[array]`MentionOption[]`                                                    | []         |
-| prefix                               | prefix character to trigger mentions. The string length must be exactly 1                    | ^[string]                                                                    | `'@'`      |
-| split                                | character to split mentions. The string length must be exactly 1                             | ^[string]                                                                    | `' '`      |
-| filter-option                        | customize filter option logic                                                                | ^[false] \| ^[Function]`(pattern: string, option: MentionOption) => boolean` | -          |
-| placement                            | set popup placement                                                                          | ^[string]`'bottom' \| 'top'`                                                 | `'bottom'` |
-| whole                                | when pressing the Backspace key to delete, whether the mention content is deleted as a whole | ^[boolean]                                                                   | `true`     |
-| loading                              | whether the dropdown panel of mentions is in a loading state                                 | ^[boolean]                                                                   | `false`    |
-| model-value / v-model                | input value                                                                                  | ^[string]                                                                    | -          |
-| popper-class                         | custom class name for dropdown panel                                                         | ^[string]                                                                    | -          |
-| popper-options                       | [popper.js](https://popper.js.org/docs/v2/) parameters                                       | ^[object] refer to [popper.js](https://popper.js.org/docs/v2/) doc           | -          |
-| [input props](./input.md#attributes) | -                                                                                            | -                                                                            | -          |
+| Name                                 | Description                                                                            | Type                                                                         | Default    |
+| ------------------------------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------- |
+| options                              | mention options list                                                                   | ^[array]`MentionOption[]`                                                    | []         |
+| prefix                               | prefix character to trigger mentions. The string length must be exactly 1              | ^[string]                                                                    | `'@'`      |
+| split                                | character to split mentions. The string length must be exactly 1                       | ^[string]                                                                    | `' '`      |
+| filter-option                        | customize filter option logic                                                          | ^[false] \| ^[Function]`(pattern: string, option: MentionOption) => boolean` | -          |
+| placement                            | set popup placement                                                                    | ^[string]`'bottom' \| 'top'`                                                 | `'bottom'` |
+| whole                                | when backspace is pressed to delete, whether the mention content is deleted as a whole | ^[boolean]                                                                   | `false`    |
+| check-is-whole                       | when backspace is pressed to delete, check if the mention is a whole                   | ^[Function]`(pattern: string, prefix: string) => boolean`                    | -          |
+| loading                              | whether the dropdown panel of mentions is in a loading state                           | ^[boolean]                                                                   | `false`    |
+| model-value / v-model                | input value                                                                            | ^[string]                                                                    | -          |
+| popper-class                         | custom class name for dropdown panel                                                   | ^[string]                                                                    | -          |
+| popper-options                       | [popper.js](https://popper.js.org/docs/v2/) parameters                                 | ^[object] refer to [popper.js](https://popper.js.org/docs/v2/) doc           | -          |
+| [input props](./input.md#attributes) | -                                                                                      | -                                                                            | -          |
 
 ### Events
 

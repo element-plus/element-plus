@@ -46,11 +46,16 @@ export const mentionProps = buildProps({
     default: 'bottom',
   },
   /**
-   * @description when pressing the Backspace key to delete, whether the mention content is deleted as a whole
+   * @description when backspace is pressed to delete, whether the mention content is deleted as a whole
    */
-  whole: {
-    type: Boolean,
-    default: true,
+  whole: Boolean,
+  /**
+   * @description when backspace is pressed to delete, check if the mention is a whole
+   */
+  checkIsWhole: {
+    type: definePropType<(pattern: string, prefix: string) => boolean>(
+      Function
+    ),
   },
   /**
    * @description input value
