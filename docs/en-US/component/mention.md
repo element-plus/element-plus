@@ -59,6 +59,8 @@ mention/prefix
 
 ## Delete as a whole
 
+Set the `whole` attribute to `true`, and when you press the backspace, the mention will be deleted as a whole.
+Set the `check-is-whole` attribute to customize the checking logic.
 :::demo
 
 mention/whole
