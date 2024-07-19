@@ -6,14 +6,13 @@
     :ellipsis="false"
     @select="handleSelect"
   >
-    <el-menu-item index="0">
+    <el-menu-item index="0" class="img-logo">
       <img
         style="width: 100px"
         src="/images/element-plus-logo.svg"
         alt="Element logo"
       />
     </el-menu-item>
-    <div class="flex-grow" />
     <el-menu-item index="1">Processing Center</el-menu-item>
     <el-sub-menu index="2">
       <template #title>Workspace</template>
@@ -40,7 +39,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
 </script>
 
 <style>
-.flex-grow {
-  flex-grow: 1;
+.el-menu--horizontal > .el-menu-item.img-logo {
+  margin-right: auto;
 }
 </style>
