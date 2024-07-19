@@ -20,13 +20,15 @@ If you are using a version **less than** ^(2.6.0), please refer to:
 
 :::
 
-``` vue
-<el-radio-group v-model="radio1">
-  <!-- works when >=2.6.0, recommended ✔️ not work when <2.6.0 ❌ -->
-  <el-radio value="Value 1">Option 1</el-radio>
-  <!-- works when <2.6.0, deprecated act as value when >=3.0.0 -->
-  <el-radio label="Label 2 & Value 2">Option 2</el-radio>
-</el-radio-group>
+```vue
+<template>
+  <el-radio-group v-model="radio1">
+    <!-- works when >=2.6.0, recommended ✔️ not work when <2.6.0 ❌ -->
+    <el-radio value="Value 1">Option 1</el-radio>
+    <!-- works when <2.6.0, deprecated act as value when >=3.0.0 -->
+    <el-radio label="Label 2 & Value 2">Option 2</el-radio>
+  </el-radio-group>
+</template>
 ```
 
 ## Basic usage
