@@ -682,7 +682,10 @@ const getInputInnerHeight = (inputInner: HTMLElement): number =>
 
 watch(filtering, updatePopperPosition)
 
-watch([checkedNodes, isDisabled], calculatePresentTags)
+watch(
+  [checkedNodes, isDisabled, () => props.collapseTags],
+  calculatePresentTags
+)
 
 watch(presentTags, () => {
   nextTick(() => updateStyle())
