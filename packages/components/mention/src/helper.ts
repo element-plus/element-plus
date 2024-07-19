@@ -1,3 +1,5 @@
+import { isFirefox, isString } from '@element-plus/utils'
+
 import type { MentionCtx, MentionOption } from './types'
 
 export const filterOption = (
@@ -17,7 +19,7 @@ export const getMentionCtx = (
   const { selectionEnd } = inputEl
   if (selectionEnd === null) return
   const inputValue = inputEl.value
-  const prefixArray = typeof prefix === 'string' ? [prefix] : prefix
+  const prefixArray = isString(prefix) ? [prefix] : prefix
   let splitIndex = -1
   let mentionCtx: MentionCtx | undefined
   for (let i = selectionEnd - 1; i >= 0; --i) {
@@ -97,8 +99,6 @@ export const getCursorPosition = (
     'tabSize',
     'MozTabSize',
   ]
-  // Firefox 1.0+
-  const isFirefox = navigator.userAgent.toLowerCase().includes('firefox')
 
   if (options.debug) {
     const el = document.querySelector(
@@ -113,9 +113,7 @@ export const getCursorPosition = (
   document.body.appendChild(div)
 
   const style = div.style
-  const computed = window.getComputedStyle
-    ? window.getComputedStyle(element)
-    : (element as any).currentStyle // currentStyle for IE < 9
+  const computed = window.getComputedStyle(element)
 
   const isInput = element.nodeName === 'INPUT'
 
@@ -151,11 +149,11 @@ export const getCursorPosition = (
         style.lineHeight = computed.height
       }
     } else {
-      style[prop as any] = computed[prop]
+      style[prop as any] = computed[prop as any]
     }
   })
 
-  if (isFirefox) {
+  if (isFirefox()) {
     // Firefox lies about the overflow property for textareas: https://bugzilla.mozilla.org/show_bug.cgi?id=984275
     if (element.scrollHeight > Number.parseInt(computed.height as string)) {
       style.overflowY = 'scroll'
