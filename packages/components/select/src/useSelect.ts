@@ -515,7 +515,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (!props.multiple) return
     if (e.code === EVENT_CODE.delete) return
     if (e.target.value.length <= 0) {
-      const value = props.modelValue.slice()
+      const value = ensureArray(props.modelValue).slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(value)
       if (lastNotDisabledIndex < 0) return
       const removeTagValue = value[lastNotDisabledIndex]
@@ -529,7 +529,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const deleteTag = (event, tag) => {
     const index = states.selected.indexOf(tag)
     if (index > -1 && !selectDisabled.value) {
-      const value = props.modelValue.slice()
+      const value = ensureArray(props.modelValue).slice()
       value.splice(index, 1)
       emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
