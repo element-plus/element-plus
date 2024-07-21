@@ -95,8 +95,8 @@ If Element Plus is imported entirely, a globally method `$loading` will be regis
 | customClass          | custom class name for loading                                                                                                                                            | ^[string]                  | —             |
 | svg                  | custom SVG element to override the default loading spinner                                                                                                               | ^[string]                  | —             |
 | svgViewBox           | sets the viewBox attribute for loading svg element                                                                                                                       | ^[string]                  | —             |
-| beforeClose ^(2.8.0) | Function executed before loading attempts to close. If this function returns false, the closing process will be aborted. Otherwise, the loading will close.              | ^[Function]`() => boolean` | —             |
-| closed ^(2.8.0)      | Function triggered after loading has completely closed                                                                                                                   | ^[Function]`() => void`    | —             |
+| beforeClose ^(2.7.8) | Function executed before loading attempts to close. If this function returns false, the closing process will be aborted. Otherwise, the loading will close.              | ^[Function]`() => boolean` | —             |
+| closed ^(2.7.8)      | Function triggered after loading has completely closed                                                                                                                   | ^[Function]`() => void`    | —             |
 
 ### Directives
 
