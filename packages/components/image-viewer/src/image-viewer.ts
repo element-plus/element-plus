@@ -5,7 +5,7 @@ import {
   mutable,
 } from '@element-plus/utils'
 
-import type { Component, ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, ImgHTMLAttributes } from 'vue'
 import type ImageViewer from './image-viewer.vue'
 
 export type ImageViewerAction =
@@ -82,7 +82,7 @@ export const imageViewerProps = buildProps({
    * @description set HTML attribute: crossorigin.
    */
   crossorigin: {
-    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
+    type: definePropType<ImgHTMLAttributes['crossorigin']>(String),
   },
 } as const)
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>

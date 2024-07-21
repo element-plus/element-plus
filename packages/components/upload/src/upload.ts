@@ -4,7 +4,7 @@ import { ajaxUpload } from './ajax'
 import type { Awaitable, Mutable } from '@element-plus/utils'
 
 import type { UploadAjaxError } from './ajax'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, ImgHTMLAttributes } from 'vue'
 import type Upload from './upload.vue'
 
 export const uploadListTypes = ['text', 'picture', 'picture-card'] as const
@@ -257,7 +257,7 @@ export const uploadProps = buildProps({
    * @description set HTML attribute: crossorigin.
    */
   crossorigin: {
-    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
+    type: definePropType<ImgHTMLAttributes['crossorigin']>(String),
   },
 } as const)
 
