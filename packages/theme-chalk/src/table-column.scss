@@ -20,6 +20,10 @@
   box-sizing: border-box;
 
   /** used for dropdown mode */
+  @include e(search) {
+    padding: 8px 8px 0;
+  }
+
   @include e(list) {
     padding: 5px 0;
     margin: 0;

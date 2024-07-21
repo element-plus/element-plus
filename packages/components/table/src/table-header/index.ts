@@ -227,6 +227,10 @@ export default defineComponent({
                       h(FilterPanel, {
                         store,
                         placement: column.filterPlacement || 'bottom-start',
+                        searchable: column.filterSearchable,
+                        searchPlaceholder: column.filterSearchPlaceholder,
+                        searchIcon: column.filterSearchIcon,
+                        searchSize: column.filterSearchSize,
                         column,
                         upDataColumn: (key, value) => {
                           column[key] = value
