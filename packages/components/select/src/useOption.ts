@@ -11,11 +11,7 @@ export function useOption(props, states) {
 
   // computed
   const itemSelected = computed(() => {
-    if (select.props.multiple) {
-      return contains(ensureArray(select.props.modelValue), props.value)
-    } else {
-      return contains(ensureArray(select.props.modelValue), props.value)
-    }
+    return contains(ensureArray(select.props.modelValue), props.value)
   })
 
   const limitReached = computed(() => {
