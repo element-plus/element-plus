@@ -1518,6 +1518,7 @@ describe('Select', () => {
       },
     })
     const input = wrapper.find('input')
+    await input.trigger('click')
     input.element.value = 'A'
     await input.trigger('input')
 
