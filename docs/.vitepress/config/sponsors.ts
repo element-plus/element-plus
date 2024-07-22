@@ -5,7 +5,7 @@ export const rightBigLogoSponsors = [
     name: 'CRMEB',
     img: '/images/sponsors/CRMEB.png',
     imgL: '/images/sponsors/CRMEB-l.png',
-    url: 'http://github.crmeb.net/u/Element?from=element-plus',
+    url: 'http://github.crmeb.net/u/Elementyouce',
     slogan: 'High-quality open source mall system',
     slogan_cn: '高品质开源商城系统 累计服务40W+开发者',
     slogan_index: '高品质开源商城系统累计服务40W+开发者',
