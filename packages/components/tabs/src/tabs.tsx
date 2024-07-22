@@ -1,4 +1,5 @@
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
   nextTick,
@@ -80,6 +81,10 @@ const Tabs = defineComponent({
   setup(props, { emit, slots, expose }) {
     const ns = useNamespace('tabs')
 
+    const isVertical = computed(() =>
+      ['left', 'right'].includes(props.tabPosition)
+    )
+
     const {
       children: panes,
       addChild: registerPane,
@@ -154,8 +159,11 @@ const Tabs = defineComponent({
       const addSlot = slots['add-icon']
       const newButton =
         props.editable || props.addable ? (
-          <span
-            class={ns.e('new-tab')}
+          <div
+            class={[
+              ns.e('new-tab'),
+              isVertical.value && ns.e('new-tab-vertical'),
+            ]}
             tabindex="0"
             onClick={handleTabAdd}
             onKeydown={(ev: KeyboardEvent) => {
@@ -169,12 +177,17 @@ const Tabs = defineComponent({
                 <Plus />
               </ElIcon>
             )}
-          </span>
+          </div>
         ) : null
 
       const header = (
-        <div class={[ns.e('header'), ns.is(props.tabPosition)]}>
-          {newButton}
+        <div
+          class={[
+            ns.e('header'),
+            isVertical.value && ns.e('header-vertical'),
+            ns.is(props.tabPosition),
+          ]}
+        >
           <TabNav
             ref={nav$}
             currentName={currentName.value}
@@ -185,6 +198,7 @@ const Tabs = defineComponent({
             onTabClick={handleTabClick}
             onTabRemove={handleTabRemove}
           />
+          {newButton}
         </div>
       )
 
