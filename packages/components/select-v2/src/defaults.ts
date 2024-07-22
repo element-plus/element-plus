@@ -248,6 +248,10 @@ export const SelectProps = buildProps({
    * @description tag type
    */
   tagType: { ...tagProps.type, default: 'info' },
+  /**
+   * @description tag effect
+   */
+  tagEffect: { ...tagProps.effect, default: 'light' },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 } as const)

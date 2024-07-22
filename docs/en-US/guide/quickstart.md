@@ -13,7 +13,7 @@ This section describes how to use Element Plus in your project.
 
 If you don’t care about the bundle size so much, it’s more convenient to use full import.
 
-```typescript
+```ts
 // main.ts
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
@@ -219,10 +219,10 @@ export default defineComponent({
 
 ## Using Nuxt.js
 
-We can also use [Nuxt.js](https://v3.nuxtjs.org/)：
+We can also use [Nuxt.js](https://nuxt.com):
 
 <div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
-  <iframe src="https://glitch.com/edit/#!/nuxt-element-plus?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
+  <iframe src="https://glitch.com/edit/#!/element-plus-nuxt-starter?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
 </div>
 
 ## Let's Get Started

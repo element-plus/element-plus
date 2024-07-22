@@ -2,7 +2,7 @@
 import { useRoute } from 'vitepress'
 import { useStorage } from '@vueuse/core'
 import VPLink from '../common/vp-link.vue'
-import { isActiveLink } from '../../utils'
+import { isActive } from '../../utils'
 
 import type { Link } from '../../types'
 const USER_VISITED_NEW_RESOURCE_PAGE = 'USER_VISITED_NEW_RESOURCE_PAGE'
@@ -28,8 +28,8 @@ const onNavClick = (item: Link) => {
   <VPLink
     :class="{
       'is-menu-link': true,
-      active: isActiveLink(
-        route,
+      active: isActive(
+        route.data.relativePath,
         item.activeMatch || item.link,
         !!item.activeMatch
       ),
