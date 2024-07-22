@@ -161,7 +161,7 @@ cascader/panel
 | validate-event                      | whether to trigger form validation                                                                                                                                               | ^[boolean]                                                    | true    |
 | max-collapse-tags ^(2.3.10)         | The max tags number to be shown. To use this, `collpase-tags` must be true                                                                                                       | ^[number]                                                     | 1       |
 | empty-values ^(2.7.0)               | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                   | ^[array]                                                      | —       |
-| value-on-clear ^(2.7.0)             | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                          | ^[enum]`'string'\|'number'\|'boolean'\|'Function'`              | —       |
+| value-on-clear ^(2.7.0)             | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                          | ^[string] / ^[number] / ^[boolean] / ^[Function]              | —       |
 
 ### Cascader Events
 
