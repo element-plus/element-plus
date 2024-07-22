@@ -10,10 +10,7 @@ export const overlayProps = buildProps({
     type: Boolean,
     default: true,
   },
-  customMaskEvent: {
-    type: Boolean,
-    default: false,
-  },
+  customMaskEvent: Boolean,
   overlayClass: {
     type: definePropType<string | string[] | Record<string, boolean>>([
       String,
@@ -59,35 +56,35 @@ export default defineComponent({
       // it will not automatically update, thus we simply use h function to manage updating
       return props.mask
         ? createVNode(
-            'div',
-            {
-              class: [ns.b(), props.overlayClass],
-              style: {
-                zIndex: props.zIndex,
-              },
-              onClick,
-              onMousedown,
-              onMouseup,
+          'div',
+          {
+            class: [ns.b(), props.overlayClass],
+            style: {
+              zIndex: props.zIndex,
             },
-            [renderSlot(slots, 'default')],
-            PatchFlags.STYLE | PatchFlags.CLASS | PatchFlags.PROPS,
-            ['onClick', 'onMouseup', 'onMousedown']
-          )
+            onClick,
+            onMousedown,
+            onMouseup,
+          },
+          [renderSlot(slots, 'default')],
+          PatchFlags.STYLE | PatchFlags.CLASS | PatchFlags.PROPS,
+          ['onClick', 'onMouseup', 'onMousedown']
+        )
         : h(
-            'div',
-            {
-              class: props.overlayClass,
-              style: {
-                zIndex: props.zIndex,
-                position: 'fixed',
-                top: '0px',
-                right: '0px',
-                bottom: '0px',
-                left: '0px',
-              } as CSSProperties,
-            },
-            [renderSlot(slots, 'default')]
-          )
+          'div',
+          {
+            class: props.overlayClass,
+            style: {
+              zIndex: props.zIndex,
+              position: 'fixed',
+              top: '0px',
+              right: '0px',
+              bottom: '0px',
+              left: '0px',
+            } as CSSProperties,
+          },
+          [renderSlot(slots, 'default')]
+        )
     }
   },
 })

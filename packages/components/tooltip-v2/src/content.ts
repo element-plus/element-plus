@@ -56,10 +56,7 @@ export const tooltipV2ContentProps = buildProps({
     values: tooltipV2Strategies,
     default: 'absolute',
   },
-  showArrow: {
-    type: Boolean,
-    default: false,
-  },
+  showArrow: Boolean,
   ...useAriaProps(['ariaLabel']),
 } as const)
 
