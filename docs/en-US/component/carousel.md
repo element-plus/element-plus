@@ -87,10 +87,11 @@ carousel/vertical
 | indicator-position   | position of the indicators                            | string  | outside/none        | —          |
 | arrow                | when arrows are shown                                 | string  | always/hover/never  | hover      |
 | type                 | type of the Carousel                                  | string  | card                | —          |
-| loop                 | display the items in loop                             | boolean | -                   | true       |
+| cardScale ^(2.7.8)   | when type is card, scaled size of secondary cards     | number  | —                   | 0.83       |
+| loop                 | display the items in loop                             | boolean | —                   | true       |
 | direction            | display direction                                     | string  | horizontal/vertical | horizontal |
-| pause-on-hover       | pause autoplay when hover                             | boolean | -                   | true       |
-| motion-blur ^(2.6.0) | infuse dynamism and smoothness into the carousel      | boolean | -                   | false      |
+| pause-on-hover       | pause autoplay when hover                             | boolean | —                   | true       |
+| motion-blur ^(2.6.0) | infuse dynamism and smoothness into the carousel      | boolean | —                   | false      |
 
 ## Carousel Events
 
