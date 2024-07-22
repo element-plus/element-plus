@@ -223,6 +223,10 @@ $form-item-label-top-margin-bottom: map.merge(
       .#{$namespace}-input__wrapper {
         box-shadow: 0 0 0 1px transparent inset;
       }
+
+      .#{$namespace}-input__validateIcon {
+        display: none;
+      }
     }
 
     .#{$namespace}-input__validateIcon {
