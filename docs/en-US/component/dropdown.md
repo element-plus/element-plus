@@ -83,6 +83,16 @@ dropdown/sizes
 
 :::
 
+## dropdown-item icon slot
+
+Use `icon` slot to customize the icon of the dropdown item.
+
+:::demo
+
+dropdown/icon-slot
+
+:::
+
 ## Dropdown Attributes
 
 | Name                 | Description                                                                                                           | Type            | Accepted Values                                          | Default                                                                    |
@@ -145,3 +155,4 @@ dropdown/sizes
 | Name | Description                |
 | ---- | -------------------------- |
 | —    | customize of Dropdown Item |
+| icon | custom icon                |
