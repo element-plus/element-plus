@@ -56,35 +56,35 @@ export default defineComponent({
       // it will not automatically update, thus we simply use h function to manage updating
       return props.mask
         ? createVNode(
-          'div',
-          {
-            class: [ns.b(), props.overlayClass],
-            style: {
-              zIndex: props.zIndex,
+            'div',
+            {
+              class: [ns.b(), props.overlayClass],
+              style: {
+                zIndex: props.zIndex,
+              },
+              onClick,
+              onMousedown,
+              onMouseup,
             },
-            onClick,
-            onMousedown,
-            onMouseup,
-          },
-          [renderSlot(slots, 'default')],
-          PatchFlags.STYLE | PatchFlags.CLASS | PatchFlags.PROPS,
-          ['onClick', 'onMouseup', 'onMousedown']
-        )
+            [renderSlot(slots, 'default')],
+            PatchFlags.STYLE | PatchFlags.CLASS | PatchFlags.PROPS,
+            ['onClick', 'onMouseup', 'onMousedown']
+          )
         : h(
-          'div',
-          {
-            class: props.overlayClass,
-            style: {
-              zIndex: props.zIndex,
-              position: 'fixed',
-              top: '0px',
-              right: '0px',
-              bottom: '0px',
-              left: '0px',
-            } as CSSProperties,
-          },
-          [renderSlot(slots, 'default')]
-        )
+            'div',
+            {
+              class: props.overlayClass,
+              style: {
+                zIndex: props.zIndex,
+                position: 'fixed',
+                top: '0px',
+                right: '0px',
+                bottom: '0px',
+                left: '0px',
+              } as CSSProperties,
+            },
+            [renderSlot(slots, 'default')]
+          )
     }
   },
 })
