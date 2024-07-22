@@ -23,9 +23,7 @@ export const textProps = buildProps({
   /**
    * @description render ellipsis
    */
-  truncated: {
-    type: Boolean,
-  },
+  truncated: Boolean,
   /**
    * @description maximum lines
    */
