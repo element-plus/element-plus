@@ -38,6 +38,10 @@ export const carouselProps = buildProps({
     values: ['', 'card'],
     default: '',
   },
+  cardScale: {
+    type: Number,
+    default: 0.83,
+  },
   loop: {
     type: Boolean,
     default: true,

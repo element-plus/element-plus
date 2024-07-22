@@ -33,7 +33,7 @@ export const useCarouselItem = (
     )
   }
 
-  const CARD_SCALE = 0.83
+  const CARD_SCALE = carouselContext.cardScale
 
   const carouselItemRef = ref<HTMLElement>()
   const hover = ref(false)
