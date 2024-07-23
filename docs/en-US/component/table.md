@@ -51,6 +51,16 @@ table/with-status
 
 :::
 
+## Table with show overflow tooltip
+
+When the content is too long, it will break into multiple lines, you can use `show-overflow-tooltip` to keep it in one line.
+
+:::demo Attribute `show-overflow-tooltip`, which accepts a `Boolean` value. When set `true`, the extra content will show in tooltip when hover on the cell.
+
+table/show-overflow-tooltip
+
+:::
+
 ## Table with fixed header
 
 When there are too many rows, you can use a fixed header.
@@ -125,7 +135,7 @@ table/single-select
 
 You can also select multiple rows.
 
-:::demo Activating multiple selection is easy: simply add an `el-table-column` with its `type` set to `selection`. Apart from multiple selection, this example also uses `show-overflow-tooltip`. By default, if the content is too long, it will break into multiple lines. If you want to keep it in one line, use attribute `show-overflow-tooltip`, which accepts a `Boolean` value. When set `true`, the extra content will show in tooltip when hover on the cell.
+:::demo Activating multiple selection is easy: simply add an `el-table-column` with its `type` set to `selection`.
 
 table/multi-select
 
@@ -256,7 +266,7 @@ table/table-layout
 | row-key                   | key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used | ^[function]`(row: any) => string` / ^[string]                                                                                                                        | —                                                                                                                       |
 | empty-text                | displayed text when data is empty. You can customize this area with `#empty`                                                                                                                                                                                               | ^[string]                                                                                                                                                            | No Data                                                                                                                 |
 | default-expand-all        | whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data                                                                                                                                                        | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
-| expand-row-keys           | set expanded rows by this prop, prop's value is the keys of expand rows, you should set row-key before using this prop                                                                                                                                                     | ^[object]`any[]`                                                                                                                                                     | —                                                                                                                       |
+| expand-row-keys           | set expanded rows by this prop, prop's value is the keys of expand rows, you should set row-key before using this prop                                                                                                                                                     | ^[Array]`string[]`                                                                                                                                                   | —                                                                                                                       |
 | default-sort              | set the default sort column and order. property `prop` is used to set default sort column, property `order` is used to set default sort order                                                                                                                              | ^[object]`Sort`                                                                                                                                                      | if `prop` is set, and `order` is not set, then `order` is default to ascending                                          |
 | tooltip-effect            | the `effect` of the overflow tooltip                                                                                                                                                                                                                                       | ^[enum]`'dark' \| 'light'`                                                                                                                                           | dark                                                                                                                    |
 | tooltip-options ^(2.2.28) | the options for the overflow tooltip, [see the following tooltip component](tooltip.html#attributes)                                                                                                                                                                       | ^[object]`Pick<ElTooltipProps, 'effect' \| 'enterable' \| 'hideAfter' \| 'offset' \| 'placement' \| 'popperClass' \| 'popperOptions' \| 'showAfter' \| 'showArrow'>` | ^[object]`{ enterable: true, placement: 'top', showArrow: true, hideAfter: 200, popperOptions: { strategy: 'fixed' } }` |
@@ -322,6 +332,7 @@ table/table-layout
 | scrollTo           | scrolls to a particular set of coordinates                                                                                                                        | ^[Function]`(options: number \| ScrollToOptions, yCoord?: number) => void` |
 | setScrollTop       | set vertical scroll position                                                                                                                                      | ^[Function]`(top?: number) => void`                                        |
 | setScrollLeft      | set horizontal scroll position                                                                                                                                    | ^[Function]`(left?: number) => void`                                       |
+| columns ^(2.7.6)   | Get table columns context.                                                                                                                                        | ^[array]`TableColumnCtx<T>[]`                                              |
 
 ## Table-column API
 

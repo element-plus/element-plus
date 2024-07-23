@@ -13,7 +13,6 @@
   </div>
   <br />
   <el-form
-    ref="form"
     style="max-width: 600px"
     :model="sizeForm"
     label-width="auto"
@@ -37,7 +36,7 @@
         <el-date-picker
           v-model="sizeForm.date1"
           type="date"
-          label="Pick a date"
+          aria-label="Pick a date"
           placeholder="Pick a date"
           style="width: 100%"
         />

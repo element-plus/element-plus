@@ -11,16 +11,22 @@
 
         <!-- CLOSE -->
         <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
-          <el-icon><Close /></el-icon>
+          <el-icon>
+            <Close />
+          </el-icon>
         </span>
 
         <!-- ARROW -->
         <template v-if="!isSingle">
           <span :class="arrowPrevKls" @click="prev">
-            <el-icon><ArrowLeft /></el-icon>
+            <el-icon>
+              <ArrowLeft />
+            </el-icon>
           </span>
           <span :class="arrowNextKls" @click="next">
-            <el-icon><ArrowRight /></el-icon>
+            <el-icon>
+              <ArrowRight />
+            </el-icon>
           </span>
         </template>
         <!-- ACTIONS -->

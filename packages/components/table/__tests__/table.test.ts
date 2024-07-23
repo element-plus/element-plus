@@ -790,6 +790,46 @@ describe('Table.vue', () => {
 
       wrapper.unmount()
     })
+
+    it('selection reference', async () => {
+      const wrapper = mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+        },
+        template: `
+          <el-table ref="table" :data="testData" @select-all="handleSelectAll">
+            <el-table-column prop="name" />
+            <el-table-column prop="release" />
+            <el-table-column prop="director" />
+            <el-table-column prop="runtime"/>
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: getTestData(),
+            selection: null,
+          }
+        },
+        methods: {
+          handleSelectAll(selection) {
+            this.selection = selection
+          },
+        },
+      })
+
+      const vm = wrapper.vm
+      vm.$refs.table.toggleAllSelection()
+      await doubleWait()
+      const oldSelection = vm.selection
+      vm.$refs.table.toggleAllSelection()
+      await doubleWait()
+      const newSelection = vm.selection
+      vm.$refs.table.clearSelection()
+      expect(oldSelection !== newSelection).toBe(true)
+      wrapper.unmount()
+    })
+
     it('sort', async () => {
       const wrapper = mount({
         components: {
@@ -977,6 +1017,30 @@ describe('Table.vue', () => {
       await doubleWait()
       expect([...secondRow.classList]).not.toContain('current-row')
 
+      wrapper.unmount()
+    })
+
+    it('get table columns', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+        <div>
+          <el-table ref="table" :data="testData" highlight-current-row>
+            <el-table-column prop="name" sortable />
+            <el-table-column prop="release" sortable />
+          </el-table>
+        </div>
+        `,
+        data() {
+          return { testData: getTestData() }
+        },
+      })
+      const vm = wrapper.vm
+      await doubleWait()
+      expect(vm.$refs.table.columns.length).toBe(2)
       wrapper.unmount()
     })
   })
