@@ -51,6 +51,8 @@
           //
           handleKeydownInput as any
         "
+        @keypress="handleKeypressInput"
+        @keyup="handleKeyupInput"
         @change="handleChange"
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
@@ -221,6 +223,8 @@ const emit = defineEmits([
   'panel-change',
   'visible-change',
   'keydown',
+  'keypress',
+  'keyup',
 ])
 const attrs = useAttrs()
 
@@ -677,6 +681,17 @@ const handleKeydownInput = async (event: KeyboardEvent) => {
     pickerOptions.value.handleKeydownInput(event)
   }
 }
+
+const handleKeypressInput = (event: KeyboardEvent) => {
+  if (props.readonly || pickerDisabled.value) return
+  emit('keypress', event)
+}
+
+const handleKeyupInput = (event: KeyboardEvent) => {
+  if (props.readonly || pickerDisabled.value) return
+  emit('keyup', event)
+}
+
 const onUserInput = (e: string) => {
   userInput.value = e
   // Temporary fix when the picker is dismissed and the input box
