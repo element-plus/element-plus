@@ -33,8 +33,6 @@ export const useCarouselItem = (
     )
   }
 
-  const CARD_SCALE = carouselContext.cardScale
-
   const carouselItemRef = ref<HTMLElement>()
   const hover = ref(false)
   const translate = ref(0)
@@ -45,7 +43,7 @@ export const useCarouselItem = (
   const animating = ref(false)
 
   // computed
-  const { isCardType, isVertical } = carouselContext
+  const { isCardType, isVertical, cardScale } = carouselContext
 
   // methods
 
@@ -73,11 +71,11 @@ export const useCarouselItem = (
       : carouselContext.root.value?.offsetWidth || 0
 
     if (inStage.value) {
-      return (parentWidth * ((2 - CARD_SCALE) * (index - activeIndex) + 1)) / 4
+      return (parentWidth * ((2 - cardScale) * (index - activeIndex) + 1)) / 4
     } else if (index < activeIndex) {
-      return (-(1 + CARD_SCALE) * parentWidth) / 4
+      return (-(1 + cardScale) * parentWidth) / 4
     } else {
-      return ((3 + CARD_SCALE) * parentWidth) / 4
+      return ((3 + cardScale) * parentWidth) / 4
     }
   }
 
@@ -117,7 +115,7 @@ export const useCarouselItem = (
     if (_isCardType) {
       inStage.value = Math.round(Math.abs(index - activeIndex)) <= 1
       translate.value = calcCardTranslate(index, activeIndex)
-      scale.value = unref(active) ? 1 : CARD_SCALE
+      scale.value = unref(active) ? 1 : cardScale
     } else {
       translate.value = calcTranslate(index, activeIndex, _isVertical)
     }
