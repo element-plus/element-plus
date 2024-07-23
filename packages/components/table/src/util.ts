@@ -263,7 +263,8 @@ export function compose(...funcs) {
 export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
-  newVal: boolean
+  newVal: boolean,
+  filter: (row: T) => boolean = () => true
 ): boolean {
   let changed = false
   const index = statusArr.indexOf(row)
@@ -277,7 +278,7 @@ export function toggleRowStatus<T>(
     }
     changed = true
     if (isArray(row.children)) {
-      row.children.forEach((item) => {
+      row.children.filter(filter).forEach((item) => {
         toggleRowStatus(statusArr, item, newVal ?? !included)
       })
     }
