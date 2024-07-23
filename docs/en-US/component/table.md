@@ -283,7 +283,6 @@ table/table-layout
 | scrollbar-always-on       | always show scrollbar                                                                                                                                                                                                                                                      | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
 | show-overflow-tooltip     | whether to hide extra content and show them in a tooltip when hovering on the cell.It will affect all the table columns, refer to table [tooltip-options](#table-attributes)                                                                                               | ^[boolean] / [`object`](#table-attributes) ^(2.3.7)                                                                                                                  | —                                                                                                                       |
 | flexible ^(2.2.1)         | ensure main axis minimum-size doesn't follow the content                                                                                                                                                                                                                   | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
-| filter-icon ^(2.7.7)      | set the filter icon                                                                                                                                                                                                                                                        | ^[string] / ^[Component]                                                                                                                                             | —                                                                                                                       |
 
 ### Table Events
 
@@ -372,10 +371,11 @@ table/table-layout
 
 ### Table-column Slots
 
-| Name    | Description                      | Type                                                 |
-| ------- | -------------------------------- | ---------------------------------------------------- |
-| default | Custom content for table columns | ^[object]`{ row: any, column: any, $index: number }` |
-| header  | Custom content for table header  | ^[object]`{ column: any, $index: number }`           |
+| Name                 | Description                      | Type                                                 |
+| -------------------- | -------------------------------- | ---------------------------------------------------- |
+| default              | Custom content for table columns | ^[object]`{ row: any, column: any, $index: number }` |
+| header               | Custom content for table header  | ^[object]`{ column: any, $index: number }`           |
+| filter-icon ^(2.7.8) | Custom content for filter icon   | ^[object]`{ filterOpened: boolean }`                 |
 
 ## Type Declarations
 

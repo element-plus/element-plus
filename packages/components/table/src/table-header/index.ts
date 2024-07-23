@@ -224,15 +224,25 @@ export default defineComponent({
                         ]
                       ),
                     column.filterable &&
-                      h(FilterPanel, {
-                        filterIcon: $parent?.$props.filterIcon,
-                        store,
-                        placement: column.filterPlacement || 'bottom-start',
-                        column,
-                        upDataColumn: (key, value) => {
-                          column[key] = value
+                      h(
+                        FilterPanel,
+                        {
+                          store,
+                          placement: column.filterPlacement || 'bottom-start',
+                          column,
+                          upDataColumn: (key, value) => {
+                            column[key] = value
+                          },
                         },
-                      }),
+                        {
+                          'filter-icon': () =>
+                            column.renderFilterIcon
+                              ? column.renderFilterIcon({
+                                  filterOpened: column.filterOpened,
+                                })
+                              : null,
+                        }
+                      ),
                   ]
                 ),
               ]
