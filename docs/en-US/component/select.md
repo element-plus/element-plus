@@ -9,7 +9,7 @@ When there are plenty of options, use a drop-down menu to display and select des
 
 :::tip
 
-After version ^(2.5.0), the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width.
+After version ^(2.5.0), the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width (eg: [Example](https://github.com/element-plus/element-plus/issues/15834#issuecomment-1936919229)) .
 
 :::
 
@@ -177,12 +177,22 @@ select/empty-values
 
 :::
 
+## Custom Label ^(2.7.4)
+
+You can customize label.
+
+:::demo
+
+select/custom-label
+
+:::
+
 ## Select API
 
 ### Select Attributes
 
 | Name                            | Description                                                                                                           | Type                                                                                                                                                                        | Default                                        |
-|---------------------------------|-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | model-value / v-model           | binding value                                                                                                         | ^[string] / ^[number] / ^[boolean] / ^[object] / ^[array]                                                                                                                   | —                                              |
 | multiple                        | whether multiple-select is activated                                                                                  | ^[boolean]                                                                                                                                                                  | false                                          |
 | disabled                        | whether Select is disabled                                                                                            | ^[boolean]                                                                                                                                                                  | false                                          |
@@ -217,6 +227,7 @@ select/empty-values
 | suffix-icon                     | custom suffix icon component                                                                                          | ^[string] / ^[object]`Component`                                                                                                                                            | ArrowDown                                      |
 | suffix-transition ^(deprecated) | animation when dropdown appears/disappears icon                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | tag-type                        | tag type                                                                                                              | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
+| tag-effect ^(2.7.7)                        | tag effect                                                                                                              | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                                                                                                                 | light                                           |
 | validate-event                  | whether to trigger form validation                                                                                    | ^[boolean]                                                                                                                                                                  | true                                           |
 | placement ^(2.2.17)             | position of dropdown                                                                                                  | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start                                   |
 | fallback-placements ^(2.5.6)    | list of possible positions for dropdown [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements) | ^[array]`Placement[]`                                                                                                                                                       | ['bottom-start', 'top-start', 'right', 'left'] |
@@ -235,7 +246,7 @@ select/empty-values
 ### Select Events
 
 | Name           | Description                                                   | Type                                     |
-|----------------|---------------------------------------------------------------|------------------------------------------|
+| -------------- | ------------------------------------------------------------- | ---------------------------------------- |
 | change         | triggers when the selected value changes                      | ^[Function]`(value: any) => void`        |
 | visible-change | triggers when the dropdown appears/disappears                 | ^[Function]`(visible: boolean) => void`  |
 | remove-tag     | triggers when a tag is removed in multiple mode               | ^[Function]`(tagValue: any) => void`     |
@@ -246,7 +257,7 @@ select/empty-values
 ### Select Slots
 
 | Name             | Description                           | Subtags               |
-|------------------|---------------------------------------|-----------------------|
+| ---------------- | ------------------------------------- | --------------------- |
 | default          | option component list                 | Option Group / Option |
 | header ^(2.4.3)  | content at the top of the dropdown    | —                     |
 | footer ^(2.4.3)  | content at the bottom of the dropdown | —                     |
@@ -254,11 +265,12 @@ select/empty-values
 | empty            | content when there is no options      | —                     |
 | tag ^(2.5.0)     | content as Select tag                 | —                     |
 | loading ^(2.5.2) | content as Select loading             | —                     |
+| label ^(2.7.4)   | content as Select label               | —                     |
 
 ### Select Exposes
 
 | Method | Description                                     | Type                    |
-|--------|-------------------------------------------------|-------------------------|
+| ------ | ----------------------------------------------- | ----------------------- |
 | focus  | focus the Input component                       | ^[Function]`() => void` |
 | blur   | blur the Input component, and hide the dropdown | ^[Function]`() => void` |
 
@@ -267,14 +279,14 @@ select/empty-values
 ### Option Group Attributes
 
 | Name     | Description                                  | Type       | Default |
-|----------|----------------------------------------------|------------|---------|
+| -------- | -------------------------------------------- | ---------- | ------- |
 | label    | name of the group                            | ^[string]  | —       |
 | disabled | whether to disable all options in this group | ^[boolean] | false   |
 
 ### Option Group Slots
 
 | Name    | Description               | Subtags |
-|---------|---------------------------|---------|
+| ------- | ------------------------- | ------- |
 | default | customize default content | Option  |
 
 ## Option API
@@ -282,7 +294,7 @@ select/empty-values
 ### Option Attributes
 
 | Name     | Description                                 | Type                                           | Default |
-|----------|---------------------------------------------|------------------------------------------------|---------|
+| -------- | ------------------------------------------- | ---------------------------------------------- | ------- |
 | value    | value of option                             | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | label    | label of option, same as `value` if omitted | ^[string] / ^[number]                          | —       |
 | disabled | whether option is disabled                  | ^[boolean]                                     | false   |
@@ -290,5 +302,5 @@ select/empty-values
 ### Option Slots
 
 | Name    | Description               |
-|---------|---------------------------|
+| ------- | ------------------------- |
 | default | customize default content |

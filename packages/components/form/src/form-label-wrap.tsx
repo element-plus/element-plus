@@ -95,8 +95,12 @@ export default defineComponent({
             0,
             Number.parseInt(autoLabelWidth, 10) - computedWidth.value
           )
+          const labelPosition =
+            formItemContext.labelPosition || formContext.labelPosition
+
           const marginPosition =
-            formContext.labelPosition === 'left' ? 'marginRight' : 'marginLeft'
+            labelPosition === 'left' ? 'marginRight' : 'marginLeft'
+
           if (marginWidth) {
             style[marginPosition] = `${marginWidth}px`
           }
