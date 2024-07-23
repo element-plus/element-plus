@@ -106,7 +106,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, provide, reactive, toRefs } from 'vue'
+import { computed, provide, reactive, toRefs } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import ElInputNumber from '@element-plus/components/input-number'
 import { useFormItemInputId, useFormSize } from '@element-plus/components/form'
@@ -234,13 +234,11 @@ const updateDragging = (val: boolean) => {
   initData.dragging = val
 }
 
-onMounted(() => {
-  useEventListener(sliderWrapper, 'touchstart', onSliderWrapperPrevent, {
-    passive: false,
-  })
-  useEventListener(sliderWrapper, 'touchmove', onSliderWrapperPrevent, {
-    passive: false,
-  })
+useEventListener(sliderWrapper, 'touchstart', onSliderWrapperPrevent, {
+  passive: false,
+})
+useEventListener(sliderWrapper, 'touchmove', onSliderWrapperPrevent, {
+  passive: false,
 })
 
 provide(sliderContextKey, {
