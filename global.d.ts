@@ -1,5 +1,5 @@
 // GlobalComponents for Volar
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   export interface GlobalComponents {
     ElAffix: typeof import('element-plus')['ElAffix']
     ElAlert: typeof import('element-plus')['ElAlert']
