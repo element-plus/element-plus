@@ -205,7 +205,11 @@ describe('TimeSelect', () => {
     it('specified id attachment', async () => {
       const wrapper = mount(() => (
         <ElFormItem label="Foobar" data-test-ref="item">
-          <TimeSelect id="foobar" />
+          <TimeSelect
+            // type checking failed as `id` is a fallthrough attribute
+            // @ts-ignore
+            id="foobar"
+          />
         </ElFormItem>
       ))
 

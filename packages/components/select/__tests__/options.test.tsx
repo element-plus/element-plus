@@ -61,14 +61,11 @@ describe('options', () => {
     createWrapper({
       default: () =>
         samples.map((_, i) => (
-          <ElOptionGroupStub label={getLabel(i)}>
+          <ElOptionGroupStub>
             {{
               default: () =>
                 samples.map((_, j) => (
-                  <ElOptionStub
-                    label={getLabel(`${i}-${j}`)}
-                    value={j}
-                  ></ElOptionStub>
+                  <ElOptionStub label={getLabel(`${i}-${j}`)}></ElOptionStub>
                 )),
             }}
           </ElOptionGroupStub>
