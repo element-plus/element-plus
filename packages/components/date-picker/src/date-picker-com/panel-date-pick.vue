@@ -160,7 +160,11 @@
         </div>
       </div>
     </div>
-    <div v-show="footerVisible" :class="ppNs.e('footer')">
+    <slot v-if="footerVisible && $slots['footer-btns']" name="footer-btns" />
+    <div
+      v-show="footerVisible && !$slots['footer-btns']"
+      :class="ppNs.e('footer')"
+    >
       <el-button
         v-show="!isMultipleType"
         text
