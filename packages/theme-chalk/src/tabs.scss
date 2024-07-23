@@ -8,6 +8,12 @@
     padding: 0;
     position: relative;
     margin: 0 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  @include e(header-vertical) {
+    flex-direction: column;
   }
   @include e(active-bar) {
     position: absolute;
@@ -26,7 +32,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    float: right;
     border: 1px solid getCssVar('border-color');
     height: 20px;
     width: 20px;
@@ -53,10 +58,14 @@
       color: getCssVar('color-primary');
     }
   }
+  @include e(new-tab-vertical) {
+    margin-left: 0;
+  }
   @include e(nav-wrap) {
     overflow: hidden;
     margin-bottom: -1px;
     position: relative;
+    flex: 1 auto;
 
     &::after {
       content: '';

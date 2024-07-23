@@ -104,6 +104,10 @@ export const cascaderProps = buildProps({
   // eslint-disable-next-line vue/require-prop-types
   tagType: { ...tagProps.type, default: 'info' },
   /**
+   * @description tag effect
+   */
+  tagEffect: { ...tagProps.effect, default: 'light' },
+  /**
    * @description whether to trigger form validation
    */
   validateEvent: {

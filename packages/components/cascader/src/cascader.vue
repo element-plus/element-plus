@@ -82,6 +82,7 @@
             :key="tag.key"
             :type="tagType"
             :size="tagSize"
+            :effect="tagEffect"
             :hit="tag.hitState"
             :closable="tag.closable"
             disable-transitions
@@ -114,6 +115,7 @@
                         class="in-tooltip"
                         :type="tagType"
                         :size="tagSize"
+                        :effect="tagEffect"
                         :hit="tag2.hitState"
                         :closable="tag2.closable"
                         disable-transitions
@@ -682,7 +684,10 @@ const getInputInnerHeight = (inputInner: HTMLElement): number =>
 
 watch(filtering, updatePopperPosition)
 
-watch([checkedNodes, isDisabled], calculatePresentTags)
+watch(
+  [checkedNodes, isDisabled, () => props.collapseTags],
+  calculatePresentTags
+)
 
 watch(presentTags, () => {
   nextTick(() => updateStyle())

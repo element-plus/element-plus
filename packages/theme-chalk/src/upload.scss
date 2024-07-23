@@ -28,6 +28,7 @@
 
   cursor: pointer;
   outline: none;
+
   @include e(input) {
     display: none;
   }
@@ -144,6 +145,7 @@
   padding: 0;
   list-style: none;
   position: relative;
+
   @include e(item) {
     transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     font-size: 14px;
@@ -246,6 +248,7 @@
       &:active {
         /* click时 */
         outline-width: 0;
+
         .#{bem('icon', '', 'close-tip')} {
           display: none;
         }
@@ -340,6 +343,7 @@
       .#{bem('icon', '', 'close')} {
         display: none;
       }
+
       &:hover {
         .#{bem('upload-list', 'item-status-label')} {
           opacity: 0;
@@ -404,6 +408,7 @@
 
       &:hover {
         opacity: 1;
+
         span {
           display: inline-flex;
         }
