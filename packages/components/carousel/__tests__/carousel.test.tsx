@@ -147,7 +147,7 @@ describe('Carousel', () => {
       {
         autoplay: false,
         type: 'card',
-        cardScale: 0.7,
+        cardScale: 0.6,
       },
       7
     )
@@ -160,7 +160,7 @@ describe('Carousel', () => {
     expect(items[6].classList.contains('is-in-stage')).toBeTruthy()
     await items[1].click()
     await wait()
-    expect(items[0].getAttribute('style')).toContain('scale(0.7)')
+    expect(items[0].getAttribute('style')).toContain('scale(0.6)')
     expect(items[1].getAttribute('style')).toContain('scale(1)')
     expect(items[1].classList.contains('is-active')).toBeTruthy()
     await wrapper.vm.$el.querySelector('.el-carousel__arrow--left').click()
