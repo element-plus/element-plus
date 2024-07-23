@@ -9,5 +9,6 @@ export const ElTourStep = withNoopInstall(TourStep)
 export default ElTour
 
 export * from './src/tour'
-
+export * from './src/step'
+export * from './src/content'
 export type { TourMask, TourGap, TourBtnProps } from './src/types'

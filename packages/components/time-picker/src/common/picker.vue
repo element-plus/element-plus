@@ -37,10 +37,11 @@
           !editable ||
           readonly ||
           isDatesPicker ||
+          isMonthsPicker ||
           isYearsPicker ||
           type === 'week'
         "
-        :label="label"
+        :aria-label="label || ariaLabel"
         :tabindex="tabindex"
         :validate-event="false"
         @input="onUserInput"
@@ -54,7 +55,7 @@
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
-        @touchstart="onTouchStartInput"
+        @touchstart.passive="onTouchStartInput"
         @click.stop
       >
         <template #prefix>
@@ -62,7 +63,7 @@
             v-if="triggerIcon"
             :class="nsInput.e('icon')"
             @mousedown.prevent="onMouseDownInput"
-            @touchstart="onTouchStartInput"
+            @touchstart.passive="onTouchStartInput"
           >
             <component :is="triggerIcon" />
           </el-icon>
@@ -85,14 +86,14 @@
         @click="handleFocusInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
-        @touchstart="onTouchStartInput"
+        @touchstart.passive="onTouchStartInput"
         @keydown="handleKeydownInput"
       >
         <el-icon
           v-if="triggerIcon"
           :class="[nsInput.e('icon'), nsRange.e('icon')]"
           @mousedown.prevent="onMouseDownInput"
-          @touchstart="onTouchStartInput"
+          @touchstart.passive="onTouchStartInput"
         >
           <component :is="triggerIcon" />
         </el-icon>
@@ -173,7 +174,12 @@ import {
 } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import { useEmptyValues, useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useDeprecated,
+  useEmptyValues,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
@@ -210,6 +216,7 @@ const emit = defineEmits([
   'change',
   'focus',
   'blur',
+  'clear',
   'calendar-change',
   'panel-change',
   'visible-change',
@@ -477,7 +484,7 @@ const displayValue = computed<UserInput>(() => {
   if (!isTimePicker.value && valueIsEmpty.value) return ''
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
-    return isDatesPicker.value || isYearsPicker.value
+    return isDatesPicker.value || isMonthsPicker.value || isYearsPicker.value
       ? (formattedValue as Array<string>).join(', ')
       : formattedValue
   }
@@ -489,6 +496,8 @@ const isTimeLikePicker = computed(() => props.type.includes('time'))
 const isTimePicker = computed(() => props.type.startsWith('time'))
 
 const isDatesPicker = computed(() => props.type === 'dates')
+
+const isMonthsPicker = computed(() => props.type === 'months')
 
 const isYearsPicker = computed(() => props.type === 'years')
 
@@ -509,6 +518,7 @@ const onClearIconClick = (event: MouseEvent) => {
     pickerVisible.value = false
     pickerOptions.value.handleClear && pickerOptions.value.handleClear()
   }
+  emit('clear')
 }
 
 const valueIsEmpty = computed(() => {
@@ -751,6 +761,17 @@ const onPanelChange = (
 provide('EP_PICKER_BASE', {
   props,
 })
+
+useDeprecated(
+  {
+    from: 'label',
+    replacement: 'aria-label',
+    version: '2.8.0',
+    scope: 'el-time-picker',
+    ref: 'https://element-plus.org/en-US/component/time-picker.html',
+  },
+  computed(() => !!props.label)
+)
 
 defineExpose({
   /**

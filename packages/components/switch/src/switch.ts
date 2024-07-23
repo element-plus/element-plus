@@ -12,6 +12,7 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
+import { useAriaProps } from '@element-plus/hooks'
 import type { ComponentSize } from '@element-plus/constants'
 import type Switch from './switch.vue'
 import type { ExtractPropTypes, PropType } from 'vue'
@@ -142,12 +143,13 @@ export const switchProps = buildProps({
     type: [String, Number],
   },
   /**
-   * @description native input aria-label
+   * @deprecated native input aria-label
    */
   label: {
     type: String,
     default: undefined,
   },
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>

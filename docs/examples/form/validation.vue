@@ -31,7 +31,7 @@
           <el-date-picker
             v-model="ruleForm.date1"
             type="date"
-            label="Pick a date"
+            aria-label="Pick a date"
             placeholder="Pick a date"
             style="width: 100%"
           />
@@ -44,7 +44,7 @@
         <el-form-item prop="date2">
           <el-time-picker
             v-model="ruleForm.date2"
-            label="Pick a time"
+            aria-label="Pick a time"
             placeholder="Pick a time"
             style="width: 100%"
           />
@@ -93,7 +93,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 
 interface RuleForm {
   name: string
@@ -108,7 +108,7 @@ interface RuleForm {
   desc: string
 }
 
-const formSize = ref('default')
+const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
   name: 'Hello',

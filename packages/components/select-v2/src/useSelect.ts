@@ -58,7 +58,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const { inputId } = useFormItemInputId(props, {
     formItemContext: elFormItem,
   })
-  const { getLabel, getValue, getDisabled, getOptions } = useProps(props)
+  const { aliasProps, getLabel, getValue, getDisabled, getOptions } =
+    useProps(props)
   const { valueOnClear, isEmptyValue } = useEmptyValues(props)
 
   const states = reactive({
@@ -78,7 +79,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
   })
 
   // data refs
-  const selectedIndex = ref(-1)
   const popperSize = ref(-1)
 
   // DOM & Component refs
@@ -203,11 +203,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
           all.push(
             {
               label: getLabel(item),
-              isTitle: true,
               type: 'Group',
             },
-            ...filtered,
-            { type: 'Group' }
+            ...filtered
           )
         }
       } else if (props.remote || isValidOption(item)) {
@@ -490,7 +488,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     tagTooltipRef.value?.updatePopper?.()
   }
 
-  const onSelect = (option: Option, idx: number) => {
+  const onSelect = (option: Option) => {
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
@@ -518,7 +516,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
         states.inputValue = ''
       }
     } else {
-      selectedIndex.value = idx
       states.selectedLabel = getLabel(option)
       update(getValue(option))
       expanded.value = false
@@ -583,11 +580,13 @@ const useSelect = (props: ISelectV2Props, emit) => {
       const selected = (props.modelValue as Array<any>).slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(selected)
       if (lastNotDisabledIndex < 0) return
+      const removeTagValue = selected[lastNotDisabledIndex]
       selected.splice(lastNotDisabledIndex, 1)
       const option = states.cachedOptions[lastNotDisabledIndex]
       states.cachedOptions.splice(lastNotDisabledIndex, 1)
       removeNewOption(option)
       update(selected)
+      emit('remove-tag', removeTagValue)
     }
   }
 
@@ -661,10 +660,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
       ~states.hoveringIndex &&
       filteredOptions.value[states.hoveringIndex]
     ) {
-      onSelect(
-        filteredOptions.value[states.hoveringIndex],
-        states.hoveringIndex
-      )
+      onSelect(filteredOptions.value[states.hoveringIndex])
     }
   }
 
@@ -727,8 +723,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
       return option
     }
     return {
-      value,
-      label: value,
+      [aliasProps.value.value]: value,
+      [aliasProps.value.label]: value,
     }
   }
 

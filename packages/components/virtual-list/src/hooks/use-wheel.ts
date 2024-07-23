@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { cAF, isFirefox, rAF } from '@element-plus/utils'
 import { HORIZONTAL, VERTICAL } from '../defaults'
 
@@ -8,7 +7,7 @@ import type { LayoutDirection } from '../types'
 const LayoutKeys = {
   [HORIZONTAL]: 'deltaX',
   [VERTICAL]: 'deltaY',
-}
+} as const
 
 interface ListWheelState {
   atStartEdge: ComputedRef<boolean> // exclusive to reachEnd
