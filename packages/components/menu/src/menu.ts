@@ -45,57 +45,117 @@ import type {
 import type { UseResizeObserverReturn } from '@vueuse/core'
 
 export const menuProps = buildProps({
+  /**
+   * @description menu display mode
+   */
   mode: {
     type: String,
     values: ['horizontal', 'vertical'],
     default: 'vertical',
   },
+  /**
+   * @description index of active menu on page load
+   */
   defaultActive: {
     type: String,
     default: '',
   },
+  /**
+   * @description array that contains indexes of currently active sub-menus
+   */
   defaultOpeneds: {
     type: definePropType<string[]>(Array),
     default: () => mutable([] as const),
   },
+  /**
+   * @description whether only one sub-menu can be active
+   */
   uniqueOpened: Boolean,
+  /**
+   * @description whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action. Use with `default-active` to set the active item on load.
+   */
   router: Boolean,
+  /**
+   * @description how sub-menus are triggered, only works when `mode` is 'horizontal'
+   */
   menuTrigger: {
     type: String,
     values: ['hover', 'click'],
     default: 'hover',
   },
+  /**
+   * @description whether the menu is collapsed (available only in vertical mode)
+   */
   collapse: Boolean,
+  /**
+   * @description background color of Menu (hex format) (deprecated, use `--bg-color` instead)
+   * @deprecated use `--bg-color` instead
+   */
   backgroundColor: String,
+  /**
+   * @description text color of Menu (hex format) (deprecated, use `--text-color` instead)
+   * @deprecated use `--text-color` instead
+   */
   textColor: String,
+  /**
+   * @description text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)
+   * @deprecated use `--active-color` instead
+   */
   activeTextColor: String,
+  /**
+   * @description optional, whether menu is collapsed when clicking outside
+   */
   closeOnClickOutside: Boolean,
+  /**
+   * @description whether to enable the collapse transition
+   */
   collapseTransition: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description whether the menu is ellipsis (available only in horizontal mode)
+   */
   ellipsis: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description offset of the popper (effective for all submenus)
+   */
   popperOffset: {
     type: Number,
     default: 6,
   },
+  /**
+   * @description custom ellipsis icon (available only in horizontal mode and ellipsis is true)
+   */
   ellipsisIcon: {
     type: iconPropType,
     default: () => More,
   },
+  /**
+   * @description Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed
+   */
   popperEffect: {
     type: String,
     values: ['dark', 'light'],
     default: 'dark',
   },
+  /**
+   * @description custom class name for all popup menus
+   */
   popperClass: String,
+  /**
+   * @description control timeout for all menus before showing
+   */
   showTimeout: {
     type: Number,
     default: 300,
   },
+  /**
+   * @description control timeout for all menus before hiding
+   */
   hideTimeout: {
     type: Number,
     default: 300,
