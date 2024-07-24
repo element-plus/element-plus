@@ -9,7 +9,7 @@ When there are plenty of options, use a drop-down menu to display and select des
 
 :::tip
 
-After version `2.5.0`, the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width.
+After version ^(2.5.0), the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width (eg: [Example](https://github.com/element-plus/element-plus/issues/15834#issuecomment-1936919229)) .
 
 :::
 
@@ -165,6 +165,28 @@ select/custom-loading
 
 :::
 
+## Empty Values ^(2.7.0)
+
+If you want to support empty string, please set `empty-values` to `[null, undefined]`.
+
+If you want to change the clear value to `null`, please set `value-on-clear` to `null`.
+
+:::demo
+
+select/empty-values
+
+:::
+
+## Custom Label ^(2.7.4)
+
+You can customize label.
+
+:::demo
+
+select/custom-label
+
+:::
+
 ## Select API
 
 ### Select Attributes
@@ -205,12 +227,15 @@ select/custom-loading
 | suffix-icon                     | custom suffix icon component                                                                                          | ^[string] / ^[object]`Component`                                                                                                                                            | ArrowDown                                      |
 | suffix-transition ^(deprecated) | animation when dropdown appears/disappears icon                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | tag-type                        | tag type                                                                                                              | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
+| tag-effect ^(2.7.7)                        | tag effect                                                                                                              | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                                                                                                                 | light                                           |
 | validate-event                  | whether to trigger form validation                                                                                    | ^[boolean]                                                                                                                                                                  | true                                           |
 | placement ^(2.2.17)             | position of dropdown                                                                                                  | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start                                   |
 | fallback-placements ^(2.5.6)    | list of possible positions for dropdown [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements) | ^[array]`Placement[]`                                                                                                                                                       | ['bottom-start', 'top-start', 'right', 'left'] |
 | max-collapse-tags ^(2.3.0)      | the max tags number to be shown. To use this, `collapse-tags` must be true                                            | ^[number]                                                                                                                                                                   | 1                                              |
 | popper-options                  | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                             |
 | aria-label ^(a11y)              | same as `aria-label` in native input                                                                                  | ^[string]                                                                                                                                                                   | —                                              |
+| empty-values ^(2.7.0)           | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[array]                                                                                                                                                                    | —                                              |
+| value-on-clear ^(2.7.0)         | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)               | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
 
 :::warning
 
@@ -240,6 +265,7 @@ select/custom-loading
 | empty            | content when there is no options      | —                     |
 | tag ^(2.5.0)     | content as Select tag                 | —                     |
 | loading ^(2.5.2) | content as Select loading             | —                     |
+| label ^(2.7.4)   | content as Select label               | —                     |
 
 ### Select Exposes
 

@@ -16,7 +16,7 @@ describe('no injection value', () => {
       template: '<div></div>',
     })
 
-    expect(wrapper.vm.prefix).toMatch(/^\d{0,4}$/)
+    expect(String(wrapper.vm.prefix)).toMatch(/^\d{0,4}$/)
     expect(wrapper.vm.current).toBe(0)
   })
 

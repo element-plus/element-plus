@@ -33,6 +33,7 @@
         :disabled="disabled"
         :name="name"
         :model-value="modelValue"
+        :aria-label="ariaLabel"
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"

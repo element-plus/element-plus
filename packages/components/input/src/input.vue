@@ -1,7 +1,13 @@
 <template>
   <div
     v-bind="containerAttrs"
-    :class="containerKls"
+    :class="[
+      containerKls,
+      {
+        [nsInput.bm('group', 'append')]: $slots.append,
+        [nsInput.bm('group', 'prepend')]: $slots.prepend,
+      },
+    ]"
     :style="containerStyle"
     :role="containerRole"
     @mouseenter="handleMouseEnter"
@@ -37,7 +43,7 @@
           :readonly="readonly"
           :autocomplete="autocomplete"
           :tabindex="tabindex"
-          :aria-label="label"
+          :aria-label="label || ariaLabel"
           :placeholder="placeholder"
           :style="inputStyle"
           :form="form"
@@ -108,7 +114,7 @@
       <textarea
         :id="inputId"
         ref="textarea"
-        :class="nsTextarea.e('inner')"
+        :class="[nsTextarea.e('inner'), nsInput.is('focus', isFocused)]"
         v-bind="attrs"
         :minlength="minlength"
         :maxlength="maxlength"
@@ -117,10 +123,11 @@
         :readonly="readonly"
         :autocomplete="autocomplete"
         :style="textareaStyle"
-        :aria-label="label"
+        :aria-label="label || ariaLabel"
         :placeholder="placeholder"
         :form="form"
         :autofocus="autofocus"
+        :rows="rows"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -178,6 +185,7 @@ import {
 import {
   useAttrs,
   useCursor,
+  useDeprecated,
   useFocusController,
   useNamespace,
 } from '@element-plus/hooks'
@@ -215,8 +223,6 @@ const containerKls = computed(() => [
   nsInput.is('exceed', inputExceed.value),
   {
     [nsInput.b('group')]: slots.prepend || slots.append,
-    [nsInput.bm('group', 'append')]: slots.append,
-    [nsInput.bm('group', 'prepend')]: slots.prepend,
     [nsInput.m('prefix')]: slots.prefix || props.prefixIcon,
     [nsInput.m('suffix')]:
       slots.suffix || props.suffixIcon || props.clearable || props.showPassword,
@@ -524,6 +530,17 @@ onMounted(() => {
   setNativeInputValue()
   nextTick(resizeTextarea)
 })
+
+useDeprecated(
+  {
+    from: 'label',
+    replacement: 'aria-label',
+    version: '2.8.0',
+    scope: 'el-input',
+    ref: 'https://element-plus.org/en-US/component/input.html',
+  },
+  computed(() => !!props.label)
+)
 
 defineExpose({
   /** @description HTML input element */

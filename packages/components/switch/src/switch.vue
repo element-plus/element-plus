@@ -8,7 +8,7 @@
       role="switch"
       :aria-checked="checked"
       :aria-disabled="switchDisabled"
-      :aria-label="label"
+      :aria-label="label || ariaLabel"
       :name="name"
       :true-value="activeValue"
       :false-value="inactiveValue"
@@ -88,7 +88,7 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { useNamespace } from '@element-plus/hooks'
+import { useDeprecated, useNamespace } from '@element-plus/hooks'
 import { switchEmits, switchProps } from './switch'
 import type { CSSProperties } from 'vue'
 
@@ -217,6 +217,17 @@ const focus = (): void => {
 onMounted(() => {
   input.value!.checked = checked.value
 })
+
+useDeprecated(
+  {
+    from: 'label',
+    replacement: 'aria-label',
+    version: '2.8.0',
+    scope: 'el-switch',
+    ref: 'https://element-plus.org/en-US/component/switch.html',
+  },
+  computed(() => !!props.label)
+)
 
 defineExpose({
   /**

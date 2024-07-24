@@ -38,6 +38,8 @@ export declare interface MessageBoxState {
   cancelButtonText: string
   confirmButtonLoading: boolean
   cancelButtonLoading: boolean
+  confirmButtonLoadingIcon: string | Component
+  cancelButtonLoadingIcon: string | Component
   confirmButtonClass: string
   confirmButtonDisabled: boolean
   cancelButtonClass: string
@@ -89,6 +91,12 @@ export interface ElMessageBoxOptions {
 
   /** Text content of confirm button */
   confirmButtonText?: string
+
+  /** Loading Icon content of cancel button */
+  cancelButtonLoadingIcon?: string | Component
+
+  /** Loading Icon content of confirm button */
+  confirmButtonLoadingIcon?: string | Component
 
   /** Custom class name of cancel button */
   cancelButtonClass?: string
@@ -180,12 +188,12 @@ export interface ElMessageBoxOptions {
 
 export type ElMessageBoxShortcutMethod = ((
   message: ElMessageBoxOptions['message'],
-  title: ElMessageBoxOptions['title'],
   options?: ElMessageBoxOptions,
   appContext?: AppContext | null
 ) => Promise<MessageBoxData>) &
   ((
     message: ElMessageBoxOptions['message'],
+    title: ElMessageBoxOptions['title'],
     options?: ElMessageBoxOptions,
     appContext?: AppContext | null
   ) => Promise<MessageBoxData>)
