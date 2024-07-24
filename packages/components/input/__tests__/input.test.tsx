@@ -147,8 +147,6 @@ describe('Input.vue', () => {
 
   test('rows', () => {
     const wrapper = mount(() => {
-      // type checking failed as `rows` is a fallthrough attribute
-      // @ts-ignore
       return <Input type="textarea" rows={3} />
     })
     expect(wrapper.find('textarea').element.rows).toEqual(3)
