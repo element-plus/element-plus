@@ -41,7 +41,6 @@ declare module '@vue/runtime-core' {
     LeftLayerSvg: typeof import('./.vitepress/vitepress/components/home/svg/left-layer-svg.vue')['default']
     Light: typeof import('./.vitepress/vitepress/components/icons/light.vue')['default']
     MainColor: typeof import('./.vitepress/vitepress/components/globals/main-color.vue')['default']
-    MasterGoUiKit: typeof import('./.vitepress/vitepress/components/globals/resources/master-go-ui-kit.vue')['default']
     MasterGoUiKitSvg: typeof import('./.vitepress/vitepress/components/globals/resources/master-go-ui-kit-svg.vue')['default']
     NeutralColor: typeof import('./.vitepress/vitepress/components/globals/neutral-color.vue')['default']
     OvAffix: typeof import('./.vitepress/vitepress/components/overview-icons/ov-affix.vue')['default']
