@@ -49,6 +49,7 @@ import OvTour from './ov-tour.vue'
 import OvTree from './ov-tree.vue'
 import OvTreeSelect from './ov-tree-select.vue'
 import OvStatistic from './ov-statistic.vue'
+import OvSegmented from './ov-segmented.vue'
 import OvAffix from './ov-affix.vue'
 import OvAnchor from './ov-anchor.vue'
 import OvBacktop from './ov-backtop.vue'
@@ -126,6 +127,7 @@ export default {
   'tree-select': OvTreeSelect,
   'tree-v2': OvTree,
   statistic: OvStatistic,
+  segmented: OvSegmented,
   affix: OvAffix,
   anchor: OvAnchor,
   backtop: OvBacktop,

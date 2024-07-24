@@ -155,8 +155,8 @@ function useWatcher<T>() {
   const clearSelection = () => {
     isAllSelected.value = false
     const oldSelection = selection.value
+    selection.value = []
     if (oldSelection.length) {
-      selection.value = []
       instance.emit('selection-change', [])
     }
   }
@@ -255,7 +255,7 @@ function useWatcher<T>() {
         selection.value ? selection.value.slice() : []
       )
     }
-    instance.emit('select-all', selection.value)
+    instance.emit('select-all', (selection.value || []).slice())
   }
 
   const updateSelectionByRowKey = () => {

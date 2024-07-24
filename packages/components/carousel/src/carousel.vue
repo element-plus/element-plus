@@ -166,7 +166,7 @@ const indicatorsClasses = computed(() => {
 })
 
 defineExpose({
-  /** @description manually switch slide */
+  /** @description manually switch slide, index of the slide to be switched to, starting from 0; or the `name` of corresponding `el-carousel-item` */
   setActiveItem,
   /** @description switch to the previous slide */
   prev,

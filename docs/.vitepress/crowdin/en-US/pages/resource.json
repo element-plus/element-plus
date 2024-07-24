@@ -12,5 +12,7 @@
   "figmaVariables": "Figma Variables",
   "figmaVariablesIntro": "Components all use variables to quickly switch between dark and light modes.",
   "figma2023": "2023 Figma UI Kit",
-  "figma2023Intro": "Components designed using Figma's latest variable configuration provide Light/Dark/Dark Alpha theme switching to help you quickly build interface designs."
+  "figma2023Intro": "Components designed using Figma's latest variable configuration provide Light/Dark/Dark Alpha theme switching to help you quickly build interface designs.",
+  "masterGo2024": "2024 MasterGo UI Kit",
+  "masterGo2024Intro": "MasterGo component library with optimized adaptive layouts, more complete component states, and variant switching."
 }

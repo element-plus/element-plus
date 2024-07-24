@@ -93,10 +93,7 @@ provide(POPPER_CONTENT_INJECTION_KEY, {
   arrowOffset,
 })
 
-if (
-  formItemContext &&
-  (formItemContext.addInputId || formItemContext.removeInputId)
-) {
+if (formItemContext) {
   // disallow auto-id from inside popper content
   provide(formItemContextKey, {
     ...formItemContext,

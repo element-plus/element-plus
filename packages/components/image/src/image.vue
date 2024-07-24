@@ -32,6 +32,7 @@
         :min-scale="minScale"
         :max-scale="maxScale"
         :url-list="previewSrcList"
+        :crossorigin="crossorigin"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="previewTeleported"
         :close-on-press-escape="closeOnPressEscape"

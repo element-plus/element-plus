@@ -111,7 +111,7 @@
 import { computed, provide, reactive, toRefs } from 'vue'
 import ElInputNumber from '@element-plus/components/input-number'
 import { useFormItemInputId, useFormSize } from '@element-plus/components/form'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { sliderContextKey } from './constants'
 import { sliderEmits, sliderProps } from './slider'
 import SliderButton from './button.vue'
@@ -176,6 +176,7 @@ const sliderInputSize = computed(
 const groupLabel = computed<string>(() => {
   return (
     props.label ||
+    props.ariaLabel ||
     t('el.slider.defaultLabel', {
       min: props.min,
       max: props.max,
@@ -243,6 +244,17 @@ provide(sliderContextKey, {
   resetSize,
   updateDragging,
 })
+
+useDeprecated(
+  {
+    from: 'label',
+    replacement: 'aria-label',
+    version: '2.8.0',
+    scope: 'el-slider',
+    ref: 'https://element-plus.org/en-US/component/slider.html',
+  },
+  computed(() => !!props.label)
+)
 
 defineExpose({
   onSliderClick,

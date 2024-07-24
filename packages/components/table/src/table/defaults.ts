@@ -61,7 +61,7 @@ type RenderExpanded<T> = ({
 type SummaryMethod<T> = (data: {
   columns: TableColumnCtx<T>[]
   data: T[]
-}) => string[]
+}) => (string | VNode)[]
 
 interface Table<T> extends ComponentInternalInstance {
   $ready: boolean
@@ -121,7 +121,7 @@ interface TableProps<T> {
   highlightCurrentRow?: boolean
   currentRowKey?: string | number
   emptyText?: string
-  expandRowKeys?: any[]
+  expandRowKeys?: string[]
   defaultExpandAll?: boolean
   defaultSort?: Sort
   tooltipEffect?: string

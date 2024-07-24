@@ -1,4 +1,5 @@
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
   nextTick,
@@ -29,28 +30,52 @@ import type { Awaitable } from '@element-plus/utils'
 export type TabPaneName = string | number
 
 export const tabsProps = buildProps({
+  /**
+   * @description type of Tab
+   */
   type: {
     type: String,
     values: ['card', 'border-card', ''],
     default: '',
   },
+  /**
+   * @description whether Tab is closable
+   */
   closable: Boolean,
+  /**
+   * @description whether Tab is addable
+   */
   addable: Boolean,
+  /**
+   * @description binding value, name of the selected tab
+   */
   modelValue: {
     type: [String, Number],
   },
+  /**
+   * @description whether Tab is addable and closable
+   */
   editable: Boolean,
+  /**
+   * @description position of tabs
+   */
   tabPosition: {
     type: String,
     values: ['top', 'right', 'bottom', 'left'],
     default: 'top',
   },
+  /**
+   * @description hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented
+   */
   beforeLeave: {
     type: definePropType<
       (newName: TabPaneName, oldName: TabPaneName) => Awaitable<void | boolean>
     >(Function),
     default: () => true,
   },
+  /**
+   * @description whether width of tab automatically fits its container
+   */
   stretch: Boolean,
 } as const)
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
@@ -79,6 +104,10 @@ const Tabs = defineComponent({
 
   setup(props, { emit, slots, expose }) {
     const ns = useNamespace('tabs')
+
+    const isVertical = computed(() =>
+      ['left', 'right'].includes(props.tabPosition)
+    )
 
     const {
       children: panes,
@@ -154,8 +183,11 @@ const Tabs = defineComponent({
       const addSlot = slots['add-icon']
       const newButton =
         props.editable || props.addable ? (
-          <span
-            class={ns.e('new-tab')}
+          <div
+            class={[
+              ns.e('new-tab'),
+              isVertical.value && ns.e('new-tab-vertical'),
+            ]}
             tabindex="0"
             onClick={handleTabAdd}
             onKeydown={(ev: KeyboardEvent) => {
@@ -169,12 +201,17 @@ const Tabs = defineComponent({
                 <Plus />
               </ElIcon>
             )}
-          </span>
+          </div>
         ) : null
 
       const header = (
-        <div class={[ns.e('header'), ns.is(props.tabPosition)]}>
-          {newButton}
+        <div
+          class={[
+            ns.e('header'),
+            isVertical.value && ns.e('header-vertical'),
+            ns.is(props.tabPosition),
+          ]}
+        >
           <TabNav
             ref={nav$}
             currentName={currentName.value}
@@ -185,6 +222,7 @@ const Tabs = defineComponent({
             onTabClick={handleTabClick}
             onTabRemove={handleTabRemove}
           />
+          {newButton}
         </div>
       )
 
