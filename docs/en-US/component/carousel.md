@@ -108,11 +108,12 @@ carousel/vertical
 
 ### Carousel Exposes
 
-| Method        | Description                                                                                                                     | Type                                          |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| setActiveItem | manually switch slide, index of the slide to be switched to, starting from 0; or the `name` of corresponding `el-carousel-item` | ^[Function]`(index: string \| number) => void` |
-| prev          | switch to the previous slide                                                                                                    | ^[Function]`() => void`                       |
-| next          | switch to the next slide                                                                                                        | ^[Function]`() => void`                       |
+| Method               | Description                                                                                                                     | Type                                           |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| activeIndex ^(2.7.8) | active slide index                                                                                                              | ^[number]                                      |
+| setActiveItem        | manually switch slide, index of the slide to be switched to, starting from 0; or the `name` of corresponding `el-carousel-item` | ^[Function]`(index: string \| number) => void` |
+| prev                 | switch to the previous slide                                                                                                    | ^[Function]`() => void`                        |
+| next                 | switch to the next slide                                                                                                        | ^[Function]`() => void`                        |
 
 ## Carousel-Item API
 
