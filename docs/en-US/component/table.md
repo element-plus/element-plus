@@ -266,7 +266,7 @@ table/table-layout
 | row-key                   | key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used | ^[function]`(row: any) => string` / ^[string]                                                                                                                        | —                                                                                                                       |
 | empty-text                | displayed text when data is empty. You can customize this area with `#empty`                                                                                                                                                                                               | ^[string]                                                                                                                                                            | No Data                                                                                                                 |
 | default-expand-all        | whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data                                                                                                                                                        | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
-| expand-row-keys           | set expanded rows by this prop, prop's value is the keys of expand rows, you should set row-key before using this prop                                                                                                                                                     | ^[object]`any[]`                                                                                                                                                     | —                                                                                                                       |
+| expand-row-keys           | set expanded rows by this prop, prop's value is the keys of expand rows, you should set row-key before using this prop                                                                                                                                                     | ^[Array]`string[]`                                                                                                                                                   | —                                                                                                                       |
 | default-sort              | set the default sort column and order. property `prop` is used to set default sort column, property `order` is used to set default sort order                                                                                                                              | ^[object]`Sort`                                                                                                                                                      | if `prop` is set, and `order` is not set, then `order` is default to ascending                                          |
 | tooltip-effect            | the `effect` of the overflow tooltip                                                                                                                                                                                                                                       | ^[enum]`'dark' \| 'light'`                                                                                                                                           | dark                                                                                                                    |
 | tooltip-options ^(2.2.28) | the options for the overflow tooltip, [see the following tooltip component](tooltip.html#attributes)                                                                                                                                                                       | ^[object]`Pick<ElTooltipProps, 'effect' \| 'enterable' \| 'hideAfter' \| 'offset' \| 'placement' \| 'popperClass' \| 'popperOptions' \| 'showAfter' \| 'showArrow'>` | ^[object]`{ enterable: true, placement: 'top', showArrow: true, hideAfter: 200, popperOptions: { strategy: 'fixed' } }` |
@@ -334,7 +334,6 @@ table/table-layout
 | setScrollLeft      | set horizontal scroll position                                                                                                                                    | ^[Function]`(left?: number) => void`                                       |
 | columns ^(2.7.6)   | Get table columns context.                                                                                                                                        | ^[array]`TableColumnCtx<T>[]`                                              |
 
-
 ## Table-column API
 
 ### Table-column Attributes
@@ -372,10 +371,11 @@ table/table-layout
 
 ### Table-column Slots
 
-| Name    | Description                      | Type                                                 |
-| ------- | -------------------------------- | ---------------------------------------------------- |
-| default | Custom content for table columns | ^[object]`{ row: any, column: any, $index: number }` |
-| header  | Custom content for table header  | ^[object]`{ column: any, $index: number }`           |
+| Name                 | Description                      | Type                                                 |
+| -------------------- | -------------------------------- | ---------------------------------------------------- |
+| default              | Custom content for table columns | ^[object]`{ row: any, column: any, $index: number }` |
+| header               | Custom content for table header  | ^[object]`{ column: any, $index: number }`           |
+| filter-icon ^(2.7.8) | Custom content for filter icon   | ^[object]`{ filterOpened: boolean }`                 |
 
 ## Type Declarations
 

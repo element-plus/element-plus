@@ -94,4 +94,43 @@ describe('Badge', () => {
     await nextTick()
     expect(wrapper.find('.el-badge__content').text()).toEqual('-1+')
   })
+
+  test('color', () => {
+    const badgeValue = ref(20)
+    const wrapper = mount(() => <Badge value={badgeValue.value} color="blue" />)
+    expect(wrapper.find('.el-badge__content').attributes('style')).toContain(
+      'background-color: blue'
+    )
+  })
+
+  test('badgeStyle', () => {
+    const badgeValue = ref(20)
+    const wrapper = mount(() => (
+      <Badge value={badgeValue.value} badgeStyle={{ background: 'blue' }} />
+    ))
+    expect(wrapper.find('.el-badge__content').attributes('style')).toContain(
+      'background: blue'
+    )
+  })
+
+  test('badgeClass', () => {
+    const badgeValue = ref(20)
+    const wrapper = mount(() => (
+      <Badge value={badgeValue.value} badgeClass="test-badge-class" />
+    ))
+    expect(wrapper.find('.test-badge-class').exists()).toBe(true)
+  })
+
+  test('offset', () => {
+    const badgeValue = ref(20)
+    const wrapper = mount(() => (
+      <Badge value={badgeValue.value} offset={[10, 10]} />
+    ))
+    expect(wrapper.find('.el-badge__content').attributes('style')).toContain(
+      'margin-right: -10px'
+    )
+    expect(wrapper.find('.el-badge__content').attributes('style')).toContain(
+      'margin-top: 10px'
+    )
+  })
 })

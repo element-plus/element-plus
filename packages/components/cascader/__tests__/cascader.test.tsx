@@ -308,6 +308,21 @@ describe('Cascader.vue', () => {
     expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success')
   })
 
+  test('tag effect', async () => {
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[['zhejiang', 'hangzhou']]}
+        tagEffect="dark"
+        props={props}
+        options={OPTIONS}
+      />
+    ))
+
+    await nextTick()
+    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--dark')
+  })
+
   test('filterable', async () => {
     const value = ref([])
     const wrapper = _mount(() => (
