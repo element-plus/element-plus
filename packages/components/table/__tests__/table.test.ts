@@ -4,7 +4,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ElCheckbox from '@element-plus/components/checkbox'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { CaretBottom, CaretTop } from '@element-plus/icons-vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
@@ -449,6 +448,8 @@ describe('Table.vue', () => {
         components: {
           ElTable,
           ElTableColumn,
+          CaretBottom,
+          CaretTop,
         },
         template: `
           <el-table ref="table" :data="testData" @filter-change="handleFilterChange">
