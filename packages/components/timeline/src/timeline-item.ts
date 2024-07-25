@@ -13,17 +13,11 @@ export const timelineItemProps = buildProps({
   /**
    * @description whether to show timestamp
    */
-  hideTimestamp: {
-    type: Boolean,
-    default: false,
-  },
+  hideTimestamp: Boolean,
   /**
    * @description whether vertically centered
    */
-  center: {
-    type: Boolean,
-    default: false,
-  },
+  center: Boolean,
   /**
    * @description position of timestamp
    */
@@ -64,10 +58,7 @@ export const timelineItemProps = buildProps({
   /**
    * @description icon is hollow
    */
-  hollow: {
-    type: Boolean,
-    default: false,
-  },
+  hollow: Boolean,
 } as const)
 export type TimelineItemProps = ExtractPropTypes<typeof timelineItemProps>
 
