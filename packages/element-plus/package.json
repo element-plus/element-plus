@@ -84,8 +84,6 @@
     "@element-plus/icons-vue": "^2.3.1",
     "@floating-ui/dom": "^1.0.1",
     "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
-    "@types/lodash": "^4.14.182",
-    "@types/lodash-es": "^4.17.6",
     "@vueuse/core": "^9.1.0",
     "async-validator": "^4.2.5",
     "dayjs": "^1.11.3",
@@ -97,6 +95,8 @@
     "normalize-wheel-es": "^1.2.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.182",
+    "@types/lodash-es": "^4.17.6",
     "@types/node": "*",
     "csstype": "^2.6.20",
     "vue": "^3.2.37",
