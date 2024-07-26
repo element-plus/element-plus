@@ -108,7 +108,8 @@
       },
       {
         "link": "/mention",
-        "text": "Mention"
+        "text": "Mention",
+        "promotion": "2.8.0"
       },
       {
         "link": "/radio",

@@ -1,5 +1,5 @@
 <template>
-  <div ref="el" :class="ns.b('dropdown')">
+  <div ref="dropdownRef" :class="ns.b('dropdown')">
     <div v-if="$slots.header" :class="ns.be('dropdown', 'header')">
       <slot name="header" />
     </div>
@@ -57,7 +57,7 @@ const hoveringIndex = ref(-1)
 
 const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>()
 const optionRefs = ref<HTMLElement[]>()
-const el = ref<HTMLElement>()
+const dropdownRef = ref<HTMLElement>()
 
 const handleSelect = (item: MentionOption) => {
   emit('select', item)
@@ -108,7 +108,9 @@ const scrollToOption = (option: MentionOption) => {
   const target = optionRefs.value?.[index]
 
   if (target) {
-    const menu = el.value?.querySelector?.(`.${ns.be('dropdown', 'wrap')}`)
+    const menu = dropdownRef.value?.querySelector?.(
+      `.${ns.be('dropdown', 'wrap')}`
+    )
     if (menu) {
       scrollIntoView(menu as HTMLElement, target)
     }

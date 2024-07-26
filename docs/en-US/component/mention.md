@@ -77,14 +77,14 @@ mention/form
 
 :::
 
-## API
-
-### Attributes
-
 ::: tip
 Since this component is developed based on the component [`el-input`](./input.md#attributes) , the original properties have not changed, so no repetition here,
 and please go to the original component to view the documentation.
 :::
+
+## API
+
+### Attributes
 
 | Name                                 | Description                                                                            | Type                                                                         | Default    |
 | ------------------------------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------- |
