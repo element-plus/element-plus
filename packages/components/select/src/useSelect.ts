@@ -552,16 +552,22 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (props.multiple) {
       const value = (props.modelValue || []).slice()
       const optionIndex = getValueIndex(value, option.value)
+      let shouldUpdate = false
       if (optionIndex > -1) {
         value.splice(optionIndex, 1)
+        shouldUpdate = true
       } else if (
         props.multipleLimit <= 0 ||
         value.length < props.multipleLimit
       ) {
         value.push(option.value)
+        shouldUpdate = true
       }
-      emit(UPDATE_MODEL_EVENT, value)
-      emitChange(value)
+
+      if (shouldUpdate) {
+        emit(UPDATE_MODEL_EVENT, value)
+        emitChange(value)
+      }
       if (option.created) {
         handleQueryChange('')
       }
