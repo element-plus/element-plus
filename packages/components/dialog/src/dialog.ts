@@ -98,10 +98,7 @@ export const dialogProps = buildProps({
   zIndex: {
     type: Number,
   },
-  trapFocus: {
-    type: Boolean,
-    default: false,
-  },
+  trapFocus: Boolean,
   /**
    * @description header's aria-level attribute
    */

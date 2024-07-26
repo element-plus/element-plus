@@ -63,6 +63,13 @@ export const carouselProps = buildProps({
     default: '',
   },
   /**
+   * @description when type is card, scaled size of secondary cards
+   */
+  cardScale: {
+    type: Number,
+    default: 0.83,
+  },
+  /**
    * @description display the items in loop
    */
   loop: {

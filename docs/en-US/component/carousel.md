@@ -89,6 +89,7 @@ carousel/vertical
 | indicator-position   | position of the indicators                            | ^[enum]`'' \| 'none' \| 'outside'`      | ''         |
 | arrow                | when arrows are shown                                 | ^[enum]`'always' \| 'hover' \| 'never'` | hover      |
 | type                 | type of the Carousel                                  | ^[enum]`'' \| 'card'`                   | ''         |
+| cardScale ^(2.7.8)   | when type is card, scaled size of secondary cards     | ^[number]                               | 0.83       |
 | loop                 | display the items in loop                             | ^[boolean]                              | true       |
 | direction            | display direction                                     | ^[enum]`'horizontal' \| 'vertical'`     | horizontal |
 | pause-on-hover       | pause autoplay when hover                             | ^[boolean]                              | true       |
