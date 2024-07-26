@@ -5,8 +5,11 @@ export default {
       label: 'रोटी का टुकड़ा',
     },
     colorpicker: {
-      confirm: 'पुष्टि करें',
-      clear: 'साफ़',
+      confirm: "ठीक है",
+      clear: "स्पष्ट करें",
+      defaultLabel: "रंग चयनकर्ता",
+      description:
+        "वर्तमान रंग {color} है। नया रंग चयनित करने के लिए एंटर दबाएँ।"
     },
     datepicker: {
       now: 'अब',
