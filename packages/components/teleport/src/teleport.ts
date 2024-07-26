@@ -7,10 +7,7 @@ export const teleportProps = buildProps({
     type: definePropType<string>(String),
     default: 'body',
   },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+  disabled: Boolean,
   style: {
     type: definePropType<StyleValue>([String, Array, Object]),
   },

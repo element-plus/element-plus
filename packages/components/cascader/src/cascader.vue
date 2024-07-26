@@ -19,7 +19,7 @@
     :transition="`${nsCascader.namespace.value}-zoom-in-top`"
     effect="light"
     pure
-    persistent
+    :persistent="persistent"
     @hide="hideSuggestionPanel"
   >
     <template #default>
@@ -82,6 +82,7 @@
             :key="tag.key"
             :type="tagType"
             :size="tagSize"
+            :effect="tagEffect"
             :hit="tag.hitState"
             :closable="tag.closable"
             disable-transitions
@@ -114,6 +115,7 @@
                         class="in-tooltip"
                         :type="tagType"
                         :size="tagSize"
+                        :effect="tagEffect"
                         :hit="tag2.hitState"
                         :closable="tag2.closable"
                         disable-transitions
@@ -341,7 +343,8 @@ const checkedValue = computed<CascaderValue>({
     return cloneDeep(props.modelValue) as CascaderValue
   },
   set(val) {
-    const value = val || valueOnClear.value
+    // https://github.com/element-plus/element-plus/issues/17647
+    const value = val ?? valueOnClear.value
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
     if (props.validateEvent) {
@@ -682,7 +685,10 @@ const getInputInnerHeight = (inputInner: HTMLElement): number =>
 
 watch(filtering, updatePopperPosition)
 
-watch([checkedNodes, isDisabled], calculatePresentTags)
+watch(
+  [checkedNodes, isDisabled, () => props.collapseTags],
+  calculatePresentTags
+)
 
 watch(presentTags, () => {
   nextTick(() => updateStyle())

@@ -124,6 +124,12 @@ function useRender<T>(
       }
     }
 
+    if (slots['filter-icon']) {
+      column.renderFilterIcon = (scope) => {
+        return renderSlot(slots, 'filter-icon', scope)
+      }
+    }
+
     let originRenderCell = column.renderCell
     // TODO: 这里的实现调整
     if (column.type === 'expand') {

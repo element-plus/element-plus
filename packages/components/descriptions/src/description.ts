@@ -7,10 +7,7 @@ export const descriptionProps = buildProps({
   /**
    * @description with or without border
    */
-  border: {
-    type: Boolean,
-    default: false,
-  },
+  border: Boolean,
   /**
    * @description numbers of `Descriptions Item` in one line
    */

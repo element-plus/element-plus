@@ -1025,6 +1025,58 @@ describe('DatePicker dates', () => {
   })
 })
 
+describe('DatePicker months', () => {
+  it('create', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+    type='months'
+    v-model="value"
+  />`,
+      () => ({ value: '' })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const td = document.querySelectorAll(
+      '.el-month-table tr td'
+    ) as NodeListOf<HTMLElement>
+    const vm = wrapper.vm as any
+    td[0].click()
+    await nextTick()
+    expect(vm.value.length).toBe(1)
+    td[1].click()
+    await nextTick()
+    expect(vm.value.length).toBe(2)
+    expect(
+      document.querySelectorAll('.el-month-table tr .current').length
+    ).toBe(2)
+    td[0].click()
+    await nextTick()
+    expect(vm.value.length).toBe(1)
+    td[1].click()
+    await nextTick()
+    expect(vm.value.length).toBe(0)
+  })
+
+  it('selected', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type="months"
+        v-model="value"
+      />`,
+      () => ({ value: [new Date()] })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    expect(
+      document.querySelectorAll('.el-month-table tr .current').length
+    ).toBe(1)
+  })
+})
+
 describe('DatePicker keyboard events', () => {
   it('enter', async () => {
     const wrapper = _mount(
