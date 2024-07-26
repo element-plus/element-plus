@@ -46,12 +46,6 @@ importers:
       '@popperjs/core':
         specifier: npm:@sxzz/popperjs-es@^2.11.7
         version: /@sxzz/popperjs-es@2.11.7
-      '@types/lodash':
-        specifier: ^4.14.182
-        version: 4.14.182
-      '@types/lodash-es':
-        specifier: ^4.17.6
-        version: 4.17.6
       '@vueuse/core':
         specifier: ^9.1.0
         version: 9.1.0(vue@3.2.37)
@@ -72,7 +66,7 @@ importers:
         version: 4.17.21
       lodash-unified:
         specifier: ^1.0.2
-        version: 1.0.2(@types/lodash-es@4.17.6)(lodash-es@4.17.21)(lodash@4.17.21)
+        version: 1.0.2(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
       memoize-one:
         specifier: ^6.0.0
         version: 6.0.0
@@ -116,6 +110,12 @@ importers:
       '@types/jsdom':
         specifier: ^16.2.14
         version: 16.2.14
+      '@types/lodash':
+        specifier: ^4.14.182
+        version: 4.17.6
+      '@types/lodash-es':
+        specifier: ^4.17.6
+        version: 4.17.12
       '@types/node':
         specifier: ^18.19.25
         version: 18.19.25
@@ -426,7 +426,7 @@ importers:
     devDependencies:
       unbuild:
         specifier: ^2.0.0
-        version: 2.0.0(sass@1.53.0)(typescript@5.5.3)(vue-tsc@0.38.2)
+        version: 2.0.0(sass@1.53.0)(typescript@4.7.4)(vue-tsc@0.38.2)
 
   internal/build-utils:
     dependencies:
@@ -442,7 +442,7 @@ importers:
     devDependencies:
       unbuild:
         specifier: ^2.0.0
-        version: 2.0.0(sass@1.53.0)(typescript@5.5.3)(vue-tsc@0.38.2)
+        version: 2.0.0(sass@1.53.0)(typescript@4.7.4)(vue-tsc@0.38.2)
 
   internal/eslint-config:
     dependencies:
@@ -4519,6 +4519,7 @@ packages:
     resolution: {integrity: sha512-C/zbRYRXFjWvz9Z4haRxcTdnkPt1BtCkz+7RtBSuNmKzMzp3ZxdM28Mpccn6pt28/UWUCTXa+b0Mx1k3g6NOMA==}
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -4527,6 +4528,7 @@ packages:
     resolution: {integrity: sha512-l3m9ewPgjQSXrUMHg93vt0hYCGnrMOcUpTz6FLtbwljo2HluS4zTXFy2571YQbisTnfTKPZ01u/ukJdQTLGh9A==}
     cpu: [arm]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -4535,6 +4537,7 @@ packages:
     resolution: {integrity: sha512-rJ5D47d8WD7J+7STKdCUAgmQk49xuFrRi9pZkWoRD1UeSMakbcepWXPF8ycChBoAqs1pb2wzvbY6Q33WmN2ftw==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -4543,6 +4546,7 @@ packages:
     resolution: {integrity: sha512-be6Yx37b24ZwxQ+wOQXXLZqpq4jTckJhtGlWGZs68TgdKXJgw54lUUoFYrg6Zs/kjzAQwEwYbp8JxZVzZLRepQ==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -4551,6 +4555,7 @@ packages:
     resolution: {integrity: sha512-hNVMQK+qrA9Todu9+wqrXOHxFiD5YmdEi3paj6vP02Kx1hjd2LLYR2eaN7DsEshg09+9uzWi2W18MJDlG0cxJA==}
     cpu: [ppc64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -4559,6 +4564,7 @@ packages:
     resolution: {integrity: sha512-ROCM7i+m1NfdrsmvwSzoxp9HFtmKGHEqu5NNDiZWQtXLA8S5HBCkVvKAxJ8U+CVctHwV2Gb5VUaK7UAkzhDjlg==}
     cpu: [riscv64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -4567,6 +4573,7 @@ packages:
     resolution: {integrity: sha512-0UyyRHyDN42QL+NbqevXIIUnKA47A+45WyasO+y2bGJ1mhQrfrtXUpTxCOrfxCR4esV3/RLYyucGVPiUsO8xjg==}
     cpu: [s390x]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -4575,6 +4582,7 @@ packages:
     resolution: {integrity: sha512-xuglR2rBVHA5UsI8h8UbX4VJ470PtGCf5Vpswh7p2ukaqBGFTnsfzxUBetoWBWymHMxbIG0Cmx7Y9qDZzr648w==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -4583,6 +4591,7 @@ packages:
     resolution: {integrity: sha512-LKaqQL9osY/ir2geuLVvRRs+utWUNilzdE90TpyoX0eNqPzWjRm14oMEE+YLve4k/NAqCdPkGYDaDF5Sw+xBfg==}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -4778,23 +4787,18 @@ packages:
     resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
     dependencies:
       '@types/lodash': 4.17.6
-    dev: false
 
   /@types/lodash-es@4.17.6:
     resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
     dependencies:
-      '@types/lodash': 4.14.184
+      '@types/lodash': 4.17.6
 
   /@types/lodash@4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
     dev: false
 
-  /@types/lodash@4.14.184:
-    resolution: {integrity: sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==}
-
   /@types/lodash@4.17.6:
     resolution: {integrity: sha512-OpXEVoCKSS3lQqjx9GGGOapBeuW5eUboYHRlHP9urXPX25IKZ6AnP5ZRxtVf63iieUbsHxLn8NQ5Nlftc6yzAA==}
-    dev: false
 
   /@types/lru-cache@5.1.1:
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
@@ -4837,12 +4841,6 @@ packages:
 
   /@types/node@18.19.25:
     resolution: {integrity: sha512-NrNXHJCexZtcbR9K1hsv1fSbwAwnhv7ql7l331aKvW0sej5H0NY1o64BHe0AA2ZoQuTm7NE6fyNW079MOWXe4Q==}
-    dependencies:
-      undici-types: 5.26.5
-    dev: true
-
-  /@types/node@20.14.10:
-    resolution: {integrity: sha512-MdiXf+nDuMvY0gJKxyfZ7/6UFsETO7mGKF54MVD/ekJS6HdFtpZFBgrh6Pseu64XTb2MLyFPlbW6hj8HYRQNOQ==}
     dependencies:
       undici-types: 5.26.5
     dev: true
@@ -11055,7 +11053,7 @@ packages:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 20.14.10
+      '@types/node': 18.19.25
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: true
@@ -11213,7 +11211,7 @@ packages:
     dependencies:
       universalify: 2.0.1
     optionalDependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
 
   /jsonparse@1.3.1:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
@@ -11504,6 +11502,18 @@ packages:
 
   /lodash-es@4.17.21:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+
+  /lodash-unified@1.0.2(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21):
+    resolution: {integrity: sha512-OGbEy+1P+UT26CYi4opY4gebD8cWRDxAT6MAObIVQMiqYdxZr1g3QHWCToVsm31x2NkLS4K3+MC2qInaRMa39g==}
+    peerDependencies:
+      '@types/lodash-es': '*'
+      lodash: '*'
+      lodash-es: '*'
+    dependencies:
+      '@types/lodash-es': 4.17.12
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+    dev: false
 
   /lodash-unified@1.0.2(@types/lodash-es@4.17.6)(lodash-es@4.17.21)(lodash@4.17.21):
     resolution: {integrity: sha512-OGbEy+1P+UT26CYi4opY4gebD8cWRDxAT6MAObIVQMiqYdxZr1g3QHWCToVsm31x2NkLS4K3+MC2qInaRMa39g==}
@@ -11983,7 +11993,7 @@ packages:
       typescript: 4.7.3
     dev: true
 
-  /mkdist@1.5.3(sass@1.53.0)(typescript@5.5.3)(vue-tsc@0.38.2):
+  /mkdist@1.5.3(sass@1.53.0)(typescript@4.7.4)(vue-tsc@0.38.2):
     resolution: {integrity: sha512-XXvaXyS3k/fCExY2/c9z0fmJ9kWq/UZeZZGQ0R693M004lowXNJKIENdH5Cf5Uu3LtSB9vhGu/1YM7IGjWbfxA==}
     hasBin: true
     peerDependencies:
@@ -12014,7 +12024,7 @@ packages:
       postcss-nested: 6.0.1(postcss@8.4.39)
       sass: 1.53.0
       semver: 7.6.2
-      typescript: 5.5.3
+      typescript: 4.7.4
       vue-tsc: 0.38.2(typescript@4.7.4)
     dev: true
 
@@ -13978,7 +13988,7 @@ packages:
       '@babel/code-frame': 7.24.7
     dev: true
 
-  /rollup-plugin-dts@6.1.1(rollup@3.29.4)(typescript@5.5.3):
+  /rollup-plugin-dts@6.1.1(rollup@3.29.4)(typescript@4.7.4):
     resolution: {integrity: sha512-aSHRcJ6KG2IHIioYlvAOcEq6U99sVtqDDKVhnwt70rW6tsz3tv5OSjEiWcgzfsHdLyGXZ/3b/7b/+Za3Y6r1XA==}
     engines: {node: '>=16'}
     peerDependencies:
@@ -13987,7 +13997,7 @@ packages:
     dependencies:
       magic-string: 0.30.10
       rollup: 3.29.4
-      typescript: 5.5.3
+      typescript: 4.7.4
     optionalDependencies:
       '@babel/code-frame': 7.24.7
     dev: true
@@ -15262,12 +15272,6 @@ packages:
     engines: {node: '>=4.2.0'}
     hasBin: true
 
-  /typescript@5.5.3:
-    resolution: {integrity: sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-    dev: true
-
   /uc.micro@2.1.0:
     resolution: {integrity: sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==}
     dev: true
@@ -15327,7 +15331,7 @@ packages:
       - supports-color
     dev: true
 
-  /unbuild@2.0.0(sass@1.53.0)(typescript@5.5.3)(vue-tsc@0.38.2):
+  /unbuild@2.0.0(sass@1.53.0)(typescript@4.7.4)(vue-tsc@0.38.2):
     resolution: {integrity: sha512-JWCUYx3Oxdzvw2J9kTAp+DKE8df/BnH/JTSj6JyA4SH40ECdFu7FoJJcrm8G92B7TjofQ6GZGjJs50TRxoH6Wg==}
     hasBin: true
     peerDependencies:
@@ -15351,15 +15355,15 @@ packages:
       hookable: 5.5.3
       jiti: 1.21.6
       magic-string: 0.30.10
-      mkdist: 1.5.3(sass@1.53.0)(typescript@5.5.3)(vue-tsc@0.38.2)
+      mkdist: 1.5.3(sass@1.53.0)(typescript@4.7.4)(vue-tsc@0.38.2)
       mlly: 1.7.1
       pathe: 1.1.2
       pkg-types: 1.1.3
       pretty-bytes: 6.1.1
       rollup: 3.29.4
-      rollup-plugin-dts: 6.1.1(rollup@3.29.4)(typescript@5.5.3)
+      rollup-plugin-dts: 6.1.1(rollup@3.29.4)(typescript@4.7.4)
       scule: 1.3.0
-      typescript: 5.5.3
+      typescript: 4.7.4
       untyped: 1.4.2
     transitivePeerDependencies:
       - sass
@@ -16774,6 +16778,7 @@ packages:
 
   /workbox-google-analytics@6.6.0:
     resolution: {integrity: sha512-p4DJa6OldXWd6M9zRl0H6vB9lkrmqYFkRQ2xEiNdBFp9U0LhsGO7hsBscVEyH9H2/3eZZt8c97NB2FD9U2NJ+Q==}
+    deprecated: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
     dependencies:
       workbox-background-sync: 6.6.0
       workbox-core: 6.6.0
