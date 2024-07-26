@@ -30,6 +30,7 @@
         :name="name"
         :size="pickerSize"
         :disabled="pickerDisabled"
+        :clearable="false"
         :placeholder="placeholder"
         :class="[nsDate.b('editor'), nsDate.bm('editor', type), $attrs.class]"
         :style="$attrs.style"
