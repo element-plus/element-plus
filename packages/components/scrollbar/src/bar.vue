@@ -36,7 +36,7 @@ const handleScroll = (wrap: HTMLDivElement) => {
   }
 }
 
-const update = () => {
+const update = async () => {
   const wrap = scrollbar?.wrapElement
   if (!wrap) return
   const offsetHeight = wrap.offsetHeight - GAP

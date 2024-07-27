@@ -35,12 +35,17 @@ import {
   ref,
   watch,
 } from 'vue'
-import { useEventListener, useResizeObserver } from '@vueuse/core'
+import {
+  useEventListener,
+  useMutationObserver,
+  useResizeObserver,
+} from '@vueuse/core'
 import { addUnit, debugWarn, isNumber, isObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
 import { scrollbarContextKey } from './constants'
 import { scrollbarEmits, scrollbarProps } from './scrollbar'
+import type { ScrollbarContext } from './constants'
 import type { BarInstance } from './bar'
 import type { CSSProperties, StyleValue } from 'vue'
 
@@ -57,7 +62,7 @@ const ns = useNamespace('scrollbar')
 
 let stopResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
-
+let stopMutationObserver: (() => void) | undefined = undefined
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
 const resizeRef = ref<HTMLElement>()
@@ -131,8 +136,17 @@ watch(
     if (noresize) {
       stopResizeObserver?.()
       stopResizeListener?.()
+      stopMutationObserver?.()
     } else {
       ;({ stop: stopResizeObserver } = useResizeObserver(resizeRef, update))
+      ;({ stop: stopMutationObserver } = useMutationObserver(
+        resizeRef,
+        update,
+        {
+          attributes: true,
+          subtree: true,
+        }
+      ))
       stopResizeListener = useEventListener('resize', update)
     }
   },
@@ -157,7 +171,7 @@ provide(
   reactive({
     scrollbarElement: scrollbarRef,
     wrapElement: wrapRef,
-  })
+  }) as ScrollbarContext
 )
 
 onMounted(() => {
