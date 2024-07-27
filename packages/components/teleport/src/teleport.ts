@@ -7,10 +7,7 @@ export const teleportProps = buildProps({
     type: definePropType<string | HTMLElement>([String, Object]),
     required: true,
   },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+  disabled: Boolean,
 } as const)
 
 export type TeleportProps = ExtractPropTypes<typeof teleportProps>

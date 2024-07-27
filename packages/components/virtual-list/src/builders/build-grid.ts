@@ -10,6 +10,7 @@ import {
   resolveDynamicComponent,
   unref,
 } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import {
   getScrollBarWidth,
   hasOwn,
@@ -355,6 +356,10 @@ const createGrid = ({
         }
       )
 
+      useEventListener(windowRef, 'wheel', onWheel, {
+        passive: false,
+      })
+
       const scrollTo = ({
         scrollLeft = states.value.scrollLeft,
         scrollTop = states.value.scrollTop,
@@ -648,7 +653,6 @@ const createGrid = ({
                 class: props.className,
                 style: unref(windowStyle),
                 onScroll,
-                onWheel,
                 ref: windowRef,
               },
               !isString(Container) ? { default: () => Inner } : Inner
