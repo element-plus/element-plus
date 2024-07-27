@@ -67,7 +67,7 @@ export declare interface TreeOptionProps {
   class?: (
     data: TreeNodeData,
     node: Node
-  ) => string | { [key: string]: boolean } | string
+  ) => string | { [key: string]: boolean }
 }
 export declare type RenderContentFunction = (
   h: hType,
@@ -88,7 +88,8 @@ export declare type AllowDropFunction = (
 ) => boolean
 export declare type LoadFunction = (
   rootNode: Node,
-  loadedCallback: (data: TreeData) => void
+  loadedCallback: (data: TreeData) => void,
+  stopLoading: () => void
 ) => void
 export declare type FilterValue = any
 export declare type FilterNodeMethodFunction = (
