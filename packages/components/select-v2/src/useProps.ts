@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 import { get } from 'lodash-unified'
 
-import type { ISelectProps } from './token'
+import type { ISelectV2Props } from './token'
 import type { Option } from './select.types'
 
 export interface Props {
@@ -18,7 +18,7 @@ export const defaultProps: Required<Props> = {
   options: 'options',
 }
 
-export function useProps(props: Pick<ISelectProps, 'props'>) {
+export function useProps(props: Pick<ISelectV2Props, 'props'>) {
   const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
 
   const getLabel = (option: Option) => get(option, aliasProps.value.label)

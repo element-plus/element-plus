@@ -60,7 +60,9 @@
   box-sizing: border-box;
 
   @include m(vertical) {
-    &:not(.#{$namespace}-menu--collapse):not(.#{$namespace}-menu--popup-container) {
+    &:not(.#{$namespace}-menu--collapse):not(
+        .#{$namespace}-menu--popup-container
+      ) {
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title,
       & .#{$namespace}-menu-item-group__title {
@@ -80,16 +82,15 @@
   }
 
   @include m(horizontal) {
-    // reset menu-item popup height
-    &.#{$namespace}-menu--popup-container {
-      height: unset;
-    }
-
     display: flex;
     flex-wrap: nowrap;
     border-right: none;
 
     height: getCssVar('menu-horizontal-height');
+    // reset menu-item popup height
+    &.#{$namespace}-menu--popup-container {
+      height: unset;
+    }
 
     &.#{$namespace}-menu {
       border-bottom: solid 1px getCssVar('menu-border-color');
@@ -209,6 +210,12 @@
 
     .#{$namespace}-menu .#{$namespace}-sub-menu {
       min-width: 200px;
+    }
+
+    .#{$namespace}-sub-menu {
+      &.is-active .#{$namespace}-sub-menu__title {
+        color: getCssVar('menu-active-color');
+      }
     }
   }
   @include m(popup) {
