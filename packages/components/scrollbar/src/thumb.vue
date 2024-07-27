@@ -108,8 +108,7 @@ const startDrag = (e: MouseEvent) => {
 }
 
 const mouseMoveDocumentHandler = (e: MouseEvent) => {
-  if (!instance.value || !thumb.value) return
-  if (cursorDown === false) return
+  if (!instance.value || !thumb.value || cursorDown === false) return
 
   const prevPage = thumbState.value[bar.value.axis]
   if (!prevPage) return
