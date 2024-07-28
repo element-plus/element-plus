@@ -6,7 +6,7 @@
     <template v-else>
       <img
         v-if="imageSrc !== undefined"
-        v-bind="excludeEvtAttrs"
+        v-bind="attrs"
         :src="imageSrc"
         :loading="loading"
         :style="imageStyle"
@@ -82,7 +82,9 @@ let prevOverflow = ''
 const { t } = useLocale()
 const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
-const attrs = useAttrs()
+const attrs = useAttrs({
+  excludeListeners: true,
+})
 
 const imageSrc = ref<string | undefined>()
 const hasLoadError = ref(false)
@@ -109,20 +111,6 @@ const imageStyle = computed<CSSProperties>(() => {
     return { objectFit: fit }
   }
   return {}
-})
-
-const excludeEvtAttrs = computed(() => {
-  const excludeEvtAttrRecord: Record<string, unknown> = {}
-  const attrsVal = attrs.value
-  for (const key in attrsVal) {
-    if (
-      Object.prototype.hasOwnProperty.call(attrsVal, key) &&
-      !key.startsWith('on')
-    ) {
-      excludeEvtAttrRecord[key] = attrsVal[key]
-    }
-  }
-  return excludeEvtAttrRecord
 })
 
 const preview = computed(() => {
