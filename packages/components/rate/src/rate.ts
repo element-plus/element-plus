@@ -150,10 +150,7 @@ export const rateProps = buildProps({
   /**
    * @description whether value can be reset to `0`
    */
-  clearable: {
-    type: Boolean,
-    default: false,
-  },
+  clearable: Boolean,
   ...useAriaProps(['ariaLabel']),
 } as const)
 

@@ -3,7 +3,7 @@
     ref="selectRef"
     v-click-outside:[popperRef]="handleClickOutside"
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
-    @mouseenter="states.inputHovering = true"
+    @[mouseEnterEventName]="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
     @click.prevent.stop="toggleMenu"
   >
@@ -63,6 +63,7 @@
                   :closable="!selectDisabled && !item.isDisabled"
                   :size="collapseTagSize"
                   :type="tagType"
+                  :effect="tagEffect"
                   disable-transitions
                   :style="tagStyle"
                   @close="deleteTag($event, item)"
@@ -97,6 +98,7 @@
                       :closable="false"
                       :size="collapseTagSize"
                       :type="tagType"
+                      :effect="tagEffect"
                       disable-transitions
                       :style="collapseTagStyle"
                     >
@@ -118,6 +120,7 @@
                         :closable="!selectDisabled && !item.isDisabled"
                         :size="collapseTagSize"
                         :type="tagType"
+                        :effect="tagEffect"
                         disable-transitions
                         @close="deleteTag($event, item)"
                       >

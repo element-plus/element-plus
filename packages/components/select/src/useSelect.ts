@@ -27,11 +27,13 @@ import {
   debugWarn,
   isClient,
   isFunction,
+  isIOS,
   isNumber,
   isUndefined,
   scrollIntoView,
 } from '@element-plus/utils'
 import {
+  useComposition,
   useEmptyValues,
   useFocusController,
   useId,
@@ -44,7 +46,6 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 
-import { useInput } from '../../select-v2/src/useInput'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { ISelectProps, SelectOptionProxy } from './token'
 
@@ -89,6 +90,15 @@ export const useSelect = (props: ISelectProps, emit) => {
   const scrollbarRef = ref<{
     handleScroll: () => void
   } | null>(null)
+
+  const {
+    isComposing,
+    handleCompositionStart,
+    handleCompositionUpdate,
+    handleCompositionEnd,
+  } = useComposition({
+    afterComposition: (e) => onInput(e),
+  })
 
   const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
     inputRef,
@@ -249,6 +259,12 @@ export const useSelect = (props: ISelectProps, emit) => {
       : states.selectedLabel
   })
 
+  // iOS Safari does not handle click events when a mouseenter event is registered and a DOM-change happens in a child
+  // We use a Vue custom event binding to only register the event on non-iOS devices
+  // ref.: https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html
+  // Github Issue: https://github.com/vuejs/vue/issues/9859
+  const mouseEnterEventName = computed(() => (isIOS ? null : 'mouseenter'))
+
   watch(
     () => props.modelValue,
     (val, oldVal) => {
@@ -334,7 +350,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const handleQueryChange = (val: string) => {
-    if (states.previousQuery === val) {
+    if (states.previousQuery === val || isComposing.value) {
       return
     }
     states.previousQuery = val
@@ -624,12 +640,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   }
 
-  const {
-    handleCompositionStart,
-    handleCompositionUpdate,
-    handleCompositionEnd,
-  } = useInput((e) => onInput(e))
-
   const popperRef = computed(() => {
     return tooltipRef.value?.popperRef?.contentRef
   })
@@ -670,6 +680,10 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const toggleMenu = () => {
     if (selectDisabled.value) return
+
+    // We only set the inputHovering state to true on mouseenter event on iOS devices
+    // To keep the state updated we set it here to true
+    if (isIOS) states.inputHovering = true
 
     if (states.menuVisibleOnFocus) {
       // controlled by automaticDropdown
@@ -722,7 +736,12 @@ export const useSelect = (props: ISelectProps, emit) => {
       expanded.value = true
       return
     }
-    if (states.options.size === 0 || filteredOptionsCount.value === 0) return
+    if (
+      states.options.size === 0 ||
+      states.filteredOptionsCount === 0 ||
+      isComposing.value
+    )
+      return
 
     if (!optionsAllDisabled.value) {
       if (direction === 'next') {
@@ -815,6 +834,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     hasModelValue,
     shouldShowPlaceholder,
     currentPlaceholder,
+    mouseEnterEventName,
     showClose,
     iconComponent,
     iconReverse,
