@@ -6,7 +6,7 @@
     :ellipsis="false"
     @select="handleSelect"
   >
-    <el-menu-item index="0" class="img-logo">
+    <el-menu-item index="0">
       <img
         style="width: 100px"
         src="/images/element-plus-logo.svg"
@@ -39,7 +39,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
 </script>
 
 <style>
-.el-menu--horizontal > .el-menu-item.img-logo {
+.el-menu--horizontal > .el-menu-item:nth-child(1) {
   margin-right: auto;
 }
 </style>
