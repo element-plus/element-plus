@@ -95,6 +95,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const collapseItemRef = ref<HTMLElement>(null)
 
   const {
+    isComposing,
     handleCompositionStart,
     handleCompositionEnd,
     handleCompositionUpdate,

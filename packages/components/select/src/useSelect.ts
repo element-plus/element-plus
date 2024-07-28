@@ -739,8 +739,12 @@ export const useSelect = (props: ISelectProps, emit) => {
       expanded.value = true
       return
     }
-    if (states.options.size === 0 || states.filteredOptionsCount === 0) return
-    if (isComposing.value) return
+    if (
+      states.options.size === 0 ||
+      states.filteredOptionsCount === 0 ||
+      isComposing.value
+    )
+      return
 
     if (!optionsAllDisabled.value) {
       if (direction === 'next') {
