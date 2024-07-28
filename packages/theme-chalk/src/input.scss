@@ -242,6 +242,10 @@
     &[type='password']::-ms-reveal {
       display: none;
     }
+
+    &[type='number'] {
+      line-height: 1;
+    }
   }
 
   @each $slot in (prefix, suffix) {
@@ -399,8 +403,8 @@
 
     button.#{$namespace}-button,
     button.#{$namespace}-button:hover,
-    div.#{$namespace}-select .#{$namespace}-input__wrapper,
-    div.#{$namespace}-select:hover .#{$namespace}-input__wrapper {
+    div.#{$namespace}-select .#{$namespace}-select__wrapper,
+    div.#{$namespace}-select:hover .#{$namespace}-select__wrapper {
       border-color: transparent;
       background-color: transparent;
       color: inherit;
@@ -434,44 +438,10 @@
 
     @include e(prepend) {
       .#{$namespace}-select {
-        .#{$namespace}-input {
-          .#{$namespace}-input__inner {
-            box-shadow: none !important;
-          }
-          .#{$namespace}-input__wrapper {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-            @include inset-prepend-border(#{getCssVar('input-border-color')});
-          }
-          &.is-focus {
-            .#{$namespace}-input__inner {
-              box-shadow: none !important;
-            }
-            .#{$namespace}-input__wrapper {
-              @include inset-prepend-input-border(
-                getCssVar('input-focus-border-color')
-              );
-              z-index: 2;
-              &:focus {
-                outline: none;
-                z-index: 2;
-                @include inset-prepend-input-border(
-                  getCssVar('input-focus-border-color')
-                );
-              }
-            }
-          }
-        }
-        &:hover {
-          .#{$namespace}-input__inner {
-            box-shadow: none !important;
-          }
-          .#{$namespace}-input__wrapper {
-            z-index: 1;
-            @include inset-prepend-input-border(
-              getCssVar('input-hover-border-color')
-            );
-          }
+        .#{$namespace}-select__wrapper {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          @include inset-prepend-border(#{getCssVar('input-border-color')});
         }
       }
     }
@@ -482,41 +452,19 @@
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
     }
+
     @include e(append) {
       .#{$namespace}-select {
-        .#{$namespace}-input {
-          .#{$namespace}-input__inner {
-            box-shadow: none !important;
-          }
-          .#{$namespace}-input__wrapper {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            @include inset-append-border(#{getCssVar('input-border-color')});
-          }
-          &.is-focus {
-            .#{$namespace}-input__inner {
-              box-shadow: none !important;
-            }
-            .#{$namespace}-input__wrapper {
-              z-index: 2;
-              @include inset-append-input-border(
-                getCssVar('input-focus-border-color')
-              );
-            }
-          }
-        }
-        &:hover {
-          .#{$namespace}-input__inner {
-            box-shadow: none !important;
-          }
-          .#{$namespace}-input__wrapper {
-            z-index: 1;
-            @include inset-append-input-border(
-              getCssVar('input-hover-border-color')
-            );
-          }
+        .#{$namespace}-select__wrapper {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+          @include inset-append-border(#{getCssVar('input-border-color')});
         }
       }
     }
   }
+}
+
+@include b(input-hidden) {
+  display: none !important;
 }

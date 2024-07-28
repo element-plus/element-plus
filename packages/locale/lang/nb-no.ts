@@ -1,6 +1,9 @@
 export default {
   name: 'nb-no',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Tøm',
@@ -121,6 +124,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Ja',
       cancelButtonText: 'Nei',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

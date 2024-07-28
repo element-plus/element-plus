@@ -1,5 +1,5 @@
 <template>
-  <ul v-show="visible" :class="ns.be('group', 'wrap')">
+  <ul v-show="visible" ref="groupRef" :class="ns.be('group', 'wrap')">
     <li :class="ns.be('group', 'title')">{{ label }}</li>
     <li>
       <ul :class="ns.b('group')">
@@ -12,19 +12,19 @@
 <script lang="ts">
 // @ts-nocheck
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
-  inject,
   onMounted,
   provide,
   reactive,
   ref,
-  toRaw,
   toRefs,
-  watch,
 } from 'vue'
+import { useMutationObserver } from '@vueuse/core'
+import { ensureArray } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { selectGroupKey, selectKey } from './token'
+import { selectGroupKey } from './token'
 
 export default defineComponent({
   name: 'ElOptionGroup',
@@ -42,7 +42,7 @@ export default defineComponent({
   },
   setup(props) {
     const ns = useNamespace('select')
-    const visible = ref(true)
+    const groupRef = ref(null)
     const instance = getCurrentInstance()
     const children = ref([])
 
@@ -53,42 +53,47 @@ export default defineComponent({
       })
     )
 
-    const select = inject(selectKey)
+    const visible = computed(() =>
+      children.value.some((option) => option.visible === true)
+    )
 
-    onMounted(() => {
-      children.value = flattedChildren(instance.subTree)
-    })
+    const isOption = (node) =>
+      node.type?.name === 'ElOption' && !!node.component?.proxy
 
     // get all instances of options
     const flattedChildren = (node) => {
+      const Nodes = ensureArray(node)
       const children = []
-      if (Array.isArray(node.children)) {
-        node.children.forEach((child) => {
-          if (
-            child.type &&
-            child.type.name === 'ElOption' &&
-            child.component &&
-            child.component.proxy
-          ) {
-            children.push(child.component.proxy)
-          } else if (child.children?.length) {
-            children.push(...flattedChildren(child))
-          }
-        })
-      }
+
+      Nodes.forEach((child) => {
+        if (isOption(child)) {
+          children.push(child.component.proxy)
+        } else if (child.children?.length) {
+          children.push(...flattedChildren(child.children))
+        } else if (child.component?.subTree) {
+          children.push(...flattedChildren(child.component.subTree))
+        }
+      })
+
       return children
     }
 
-    const { groupQueryChange } = toRaw(select)
-    watch(
-      groupQueryChange,
-      () => {
-        visible.value = children.value.some((option) => option.visible === true)
-      },
-      { flush: 'post' }
-    )
+    const updateChildren = () => {
+      children.value = flattedChildren(instance.subTree)
+    }
+
+    onMounted(() => {
+      updateChildren()
+    })
+
+    useMutationObserver(groupRef, updateChildren, {
+      attributes: true,
+      subtree: true,
+      childList: true,
+    })
 
     return {
+      groupRef,
       visible,
       ns,
     }

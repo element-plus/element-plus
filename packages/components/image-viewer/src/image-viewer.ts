@@ -64,6 +64,26 @@ export const imageViewerProps = buildProps({
     type: Number,
     default: 1.2,
   },
+  /**
+   * @description the min scale of the image viewer zoom event.
+   */
+  minScale: {
+    type: Number,
+    default: 0.2,
+  },
+  /**
+   * @description the max scale of the image viewer zoom event.
+   */
+  maxScale: {
+    type: Number,
+    default: 7,
+  },
+  /**
+   * @description set HTML attribute: crossorigin.
+   */
+  crossorigin: {
+    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
+  },
 } as const)
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 

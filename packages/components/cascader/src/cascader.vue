@@ -19,7 +19,7 @@
     :transition="`${nsCascader.namespace.value}-zoom-in-top`"
     effect="light"
     pure
-    persistent
+    :persistent="persistent"
     @hide="hideSuggestionPanel"
   >
     <template #default>
@@ -69,12 +69,20 @@
           </template>
         </el-input>
 
-        <div v-if="multiple" ref="tagWrapper" :class="nsCascader.e('tags')">
+        <div
+          v-if="multiple"
+          ref="tagWrapper"
+          :class="[
+            nsCascader.e('tags'),
+            nsCascader.is('validate', Boolean(validateState)),
+          ]"
+        >
           <el-tag
             v-for="tag in presentTags"
             :key="tag.key"
             :type="tagType"
             :size="tagSize"
+            :effect="tagEffect"
             :hit="tag.hitState"
             :closable="tag.closable"
             disable-transitions
@@ -107,6 +115,7 @@
                         class="in-tooltip"
                         :type="tagType"
                         :size="tagSize"
+                        :effect="tagEffect"
                         :hit="tag2.hitState"
                         :closable="tag2.closable"
                         disable-transitions
@@ -200,7 +209,12 @@ import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
-import { useComposition, useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useComposition,
+  useEmptyValues,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
 import { debugWarn, focusNode, getSibling, isClient } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -255,6 +269,7 @@ const nsInput = useNamespace('input')
 
 const { t } = useLocale()
 const { form, formItem } = useFormItem()
+const { valueOnClear } = useEmptyValues(props)
 const { isComposing, handleComposition } = useComposition({
   afterComposition(event) {
     const text = (event.target as HTMLInputElement)?.value
@@ -323,13 +338,17 @@ const presentText = computed(() => {
     : ''
 })
 
+const validateState = computed(() => formItem?.validateState || '')
+
 const checkedValue = computed<CascaderValue>({
   get() {
     return cloneDeep(props.modelValue) as CascaderValue
   },
   set(val) {
-    emit(UPDATE_MODEL_EVENT, val)
-    emit(CHANGE_EVENT, val)
+    // https://github.com/element-plus/element-plus/issues/17647
+    const value = val ?? valueOnClear.value
+    emit(UPDATE_MODEL_EVENT, value)
+    emit(CHANGE_EVENT, value)
     if (props.validateEvent) {
       formItem?.validate('change').catch((err) => debugWarn(err))
     }
@@ -552,6 +571,7 @@ const handleClear = () => {
     syncPresentTextValue()
   }
   togglePopperVisible(false)
+  emit('clear')
 }
 
 const syncPresentTextValue = () => {
@@ -656,7 +676,10 @@ const getInputInnerHeight = (inputInner: HTMLElement): number =>
 
 watch(filtering, updatePopperPosition)
 
-watch([checkedNodes, isDisabled], calculatePresentTags)
+watch(
+  [checkedNodes, isDisabled, () => props.collapseTags],
+  calculatePresentTags
+)
 
 watch(presentTags, () => {
   nextTick(() => updateStyle())

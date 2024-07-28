@@ -33,6 +33,7 @@
         :disabled="disabled"
         :name="name"
         :model-value="modelValue"
+        :aria-label="ariaLabel"
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
@@ -77,9 +78,11 @@
           role="listbox"
         >
           <li v-if="suggestionLoading">
-            <el-icon :class="ns.is('loading')">
-              <Loading />
-            </el-icon>
+            <slot name="loading">
+              <el-icon :class="ns.is('loading')">
+                <Loading />
+              </el-icon>
+            </slot>
           </li>
           <template v-else>
             <li
@@ -105,8 +108,8 @@ import { computed, onMounted, ref, useAttrs as useRawAttrs } from 'vue'
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
-import { useAttrs, useNamespace } from '@element-plus/hooks'
-import { generateId, isArray, throwError } from '@element-plus/utils'
+import { useAttrs, useId, useNamespace } from '@element-plus/hooks'
+import { isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
@@ -152,7 +155,7 @@ const activated = ref(false)
 const suggestionDisabled = ref(false)
 const loading = ref(false)
 
-const listboxId = computed(() => ns.b(String(generateId())))
+const listboxId = useId()
 const styles = computed(() => rawAttrs.style as StyleValue)
 
 const suggestionVisible = computed(() => {

@@ -276,7 +276,7 @@
     @include pseudo('not(:last-of-type)') {
       @include e(title) {
         max-width: 50%;
-        word-break: break-all;
+        overflow-wrap: break-word;
       }
     }
 
