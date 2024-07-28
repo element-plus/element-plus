@@ -17,6 +17,7 @@ import {
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import {
+  useComposition,
   useEmptyValues,
   useFocusController,
   useLocale,
@@ -40,7 +41,6 @@ import {
 
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
-import { useInput } from './useInput'
 import { useProps } from './useProps'
 
 import type ElTooltip from '@element-plus/components/tooltip'
@@ -93,6 +93,15 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const menuRef = ref<HTMLElement>(null)
   const tagMenuRef = ref<HTMLElement>(null)
   const collapseItemRef = ref<HTMLElement>(null)
+
+  const {
+    isComposing,
+    handleCompositionStart,
+    handleCompositionEnd,
+    handleCompositionUpdate,
+  } = useComposition({
+    afterComposition: (e) => onInput(e),
+  })
 
   const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
     inputRef,
@@ -356,11 +365,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
     selectNewOption,
     clearAllNewOption,
   } = useAllowCreate(props, states)
-  const {
-    handleCompositionStart,
-    handleCompositionUpdate,
-    handleCompositionEnd,
-  } = useInput((e) => onInput(e))
 
   // methods
   const toggleMenu = () => {
@@ -385,7 +389,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)
 
   const handleQueryChange = (val: string) => {
-    if (states.previousQuery === val) {
+    if (states.previousQuery === val || isComposing.value) {
       return
     }
     states.previousQuery = val
@@ -619,7 +623,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
       !['forward', 'backward'].includes(direction) ||
       selectDisabled.value ||
       options.length <= 0 ||
-      optionsAllDisabled.value
+      optionsAllDisabled.value ||
+      isComposing.value
     ) {
       return
     }

@@ -33,6 +33,7 @@ import {
   scrollIntoView,
 } from '@element-plus/utils'
 import {
+  useComposition,
   useEmptyValues,
   useFocusController,
   useId,
@@ -45,7 +46,6 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 
-import { useInput } from '../../select-v2/src/useInput'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { ISelectProps, SelectOptionProxy } from './token'
 
@@ -90,6 +90,15 @@ export const useSelect = (props: ISelectProps, emit) => {
   const scrollbarRef = ref<{
     handleScroll: () => void
   } | null>(null)
+
+  const {
+    isComposing,
+    handleCompositionStart,
+    handleCompositionUpdate,
+    handleCompositionEnd,
+  } = useComposition({
+    afterComposition: (e) => onInput(e),
+  })
 
   const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
     inputRef,
@@ -341,7 +350,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const handleQueryChange = (val: string) => {
-    if (states.previousQuery === val) {
+    if (states.previousQuery === val || isComposing.value) {
       return
     }
     states.previousQuery = val
@@ -631,12 +640,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   }
 
-  const {
-    handleCompositionStart,
-    handleCompositionUpdate,
-    handleCompositionEnd,
-  } = useInput((e) => onInput(e))
-
   const popperRef = computed(() => {
     return tooltipRef.value?.popperRef?.contentRef
   })
@@ -733,7 +736,12 @@ export const useSelect = (props: ISelectProps, emit) => {
       expanded.value = true
       return
     }
-    if (states.options.size === 0 || filteredOptionsCount.value === 0) return
+    if (
+      states.options.size === 0 ||
+      states.filteredOptionsCount === 0 ||
+      isComposing.value
+    )
+      return
 
     if (!optionsAllDisabled.value) {
       if (direction === 'next') {
