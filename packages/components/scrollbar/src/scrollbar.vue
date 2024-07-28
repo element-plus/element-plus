@@ -28,6 +28,7 @@
 import {
   computed,
   nextTick,
+  onActivated,
   onMounted,
   onUpdated,
   provide,
@@ -62,6 +63,8 @@ const ns = useNamespace('scrollbar')
 
 let stopResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
+let wrapScrollTop = 0
+let wrapScrollLeft = 0
 let stopMutationObserver: (() => void) | undefined = undefined
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
@@ -90,6 +93,8 @@ const resizeKls = computed(() => {
 const handleScroll = () => {
   if (wrapRef.value) {
     barRef.value?.handleScroll(wrapRef.value)
+    wrapScrollTop = wrapRef.value.scrollTop
+    wrapScrollLeft = wrapRef.value.scrollLeft
 
     emit('scroll', {
       scrollTop: wrapRef.value.scrollTop,
@@ -173,6 +178,11 @@ provide(
     wrapElement: wrapRef,
   }) as ScrollbarContext
 )
+
+onActivated(() => {
+  wrapRef.value!.scrollTop = wrapScrollTop
+  wrapRef.value!.scrollLeft = wrapScrollLeft
+})
 
 onMounted(() => {
   if (!props.native)
