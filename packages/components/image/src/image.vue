@@ -6,7 +6,7 @@
     <template v-else>
       <img
         v-if="imageSrc !== undefined"
-        v-bind="attrs"
+        v-bind="excludeEvtAttrs"
         :src="imageSrc"
         :loading="loading"
         :style="imageStyle"
@@ -72,7 +72,6 @@ import type { CSSProperties, StyleValue } from 'vue'
 
 defineOptions({
   name: 'ElImage',
-  inheritAttrs: false,
 })
 
 const props = defineProps(imageProps)
@@ -110,6 +109,20 @@ const imageStyle = computed<CSSProperties>(() => {
     return { objectFit: fit }
   }
   return {}
+})
+
+const excludeEvtAttrs = computed(() => {
+  const excludeEvtAttrRecord: Record<string, unknown> = {}
+  const attrsVal = attrs.value
+  for (const key in attrsVal) {
+    if (
+      Object.prototype.hasOwnProperty.call(attrsVal, key) &&
+      !key.startsWith('on')
+    ) {
+      excludeEvtAttrRecord[key] = attrsVal[key]
+    }
+  }
+  return excludeEvtAttrRecord
 })
 
 const preview = computed(() => {
