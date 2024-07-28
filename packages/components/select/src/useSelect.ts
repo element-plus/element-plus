@@ -97,10 +97,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     handleCompositionUpdate,
     handleCompositionEnd,
   } = useComposition({
-    afterComposition(event) {
-      const text = (event.target as HTMLInputElement)?.value
-      handleQueryChange(text)
-    },
+    afterComposition: (e) => onInput(e),
   })
 
   const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
