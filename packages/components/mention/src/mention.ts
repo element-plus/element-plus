@@ -1,4 +1,9 @@
-import { buildProps, definePropType, isString } from '@element-plus/utils'
+import {
+  buildProps,
+  definePropType,
+  isFunction,
+  isString,
+} from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { inputProps } from '@element-plus/components/input'
 import { filterOption } from './helper'
@@ -37,6 +42,10 @@ export const mentionProps = buildProps({
   filterOption: {
     type: definePropType<false | typeof filterOption>([Boolean, Function]),
     default: () => filterOption,
+    validator: (val) => {
+      if (val === false) return true
+      return isFunction(val)
+    },
   },
   /**
    * @description set popup placement

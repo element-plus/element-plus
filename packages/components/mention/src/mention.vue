@@ -1,13 +1,13 @@
 <template>
-  <div :class="ns.b()">
+  <div ref="wrapperRef" :class="ns.b()">
     <el-input
       v-bind="mergeProps(passInputProps, $attrs)"
       ref="elInputRef"
       :model-value="modelValue"
       @input="handleInputChange"
       @keydown="handleInputKeyDown"
-      @focus="handleInputFocus"
-      @blur="handleInputBlur"
+      @focus="handleFocus"
+      @blur="handleBlur"
       @mousedown="handleInputMouseDown"
     >
       <template v-for="(_, name) in $slots" #[name]="slotProps">
@@ -36,6 +36,7 @@
           :disabled="disabled"
           :loading="loading"
           @select="handleSelect"
+          @click.stop="elInputRef?.focus"
         >
           <template v-for="(_, name) in $slots" #[name]="slotProps">
             <slot :name="name" v-bind="slotProps" />
@@ -49,7 +50,7 @@
 <script lang="ts" setup>
 import { computed, mergeProps, nextTick, ref } from 'vue'
 import { pick } from 'lodash-unified'
-import { useNamespace } from '@element-plus/hooks'
+import { useFocusController, useNamespace } from '@element-plus/hooks'
 import ElInput, { inputProps } from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -151,21 +152,17 @@ const handleInputKeyDown = (e: KeyboardEvent | Event) => {
   }
 }
 
-let blurTimer: ReturnType<typeof setTimeout> | undefined
-
-const handleInputFocus = (e: FocusEvent) => {
-  if (blurTimer) clearTimeout(blurTimer)
-  emit('focus', e)
-  syncAfterCursorMove()
-}
-
-const handleInputBlur = (e: FocusEvent) => {
-  emit('blur', e)
-  // the blur event fires faster than the click event, so a delay is needed here
-  blurTimer = setTimeout(() => {
+const { wrapperRef, handleFocus, handleBlur } = useFocusController(elInputRef, {
+  afterFocus() {
+    syncAfterCursorMove()
+  },
+  beforeBlur(event) {
+    return tooltipRef.value?.isFocusInsideContent(event)
+  },
+  afterBlur() {
     visible.value = false
-  }, 200)
-}
+  },
+})
 
 const handleInputMouseDown = () => {
   syncAfterCursorMove()

@@ -100,7 +100,7 @@ and please go to the original component to view the documentation.
 | loading                              | whether the dropdown panel of mentions is in a loading state                           | ^[boolean]                                                                   | `false`    |
 | model-value / v-model                | input value                                                                            | ^[string]                                                                    | -          |
 | popper-class                         | custom class name for dropdown panel                                                   | ^[string]                                                                    | -          |
-| popper-options                       | [popper.js](https://popper.js.org/docs/v2/) parameters                                 | ^[object] refer to [popper.js](https://popper.js.org/docs/v2/) doc           | -          |
+| popper-options                       | [popper.js](https://popper.js.org/docs/v2/) parameters                                 | ^[object] refer to [popper.js doc](https://popper.js.org/docs/v2/)           | -          |
 | [input props](./input.md#attributes) | -                                                                                      | -                                                                            | -          |
 
 ### Events
