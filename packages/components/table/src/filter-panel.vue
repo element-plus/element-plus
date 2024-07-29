@@ -23,7 +23,7 @@
               <el-checkbox
                 v-for="filter in filters"
                 :key="filter.value"
-                :label="filter.value"
+                :value="filter.value"
               >
                 {{ filter.text }}
               </el-checkbox>
@@ -78,8 +78,10 @@
         @click="showFilterPanel"
       >
         <el-icon>
-          <arrow-up v-if="column.filterOpened" />
-          <arrow-down v-else />
+          <slot name="filter-icon">
+            <arrow-up v-if="column.filterOpened" />
+            <arrow-down v-else />
+          </slot>
         </el-icon>
       </span>
     </template>

@@ -35,7 +35,7 @@ const fontWeight = computed(() => props.font?.fontWeight ?? 'normal')
 const fontStyle = computed(() => props.font?.fontStyle ?? 'normal')
 const fontFamily = computed(() => props.font?.fontFamily ?? 'sans-serif')
 const textAlign = computed(() => props.font?.textAlign ?? 'center')
-const textBaseline = computed(() => props.font?.textBaseline ?? 'top')
+const textBaseline = computed(() => props.font?.textBaseline ?? 'hanging')
 
 const gapX = computed(() => props.gap[0])
 const gapY = computed(() => props.gap[1])

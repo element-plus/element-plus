@@ -1,10 +1,10 @@
 // @ts-nocheck
 import { computed, ref } from 'vue'
 import { useProps } from './useProps'
-import type { ISelectProps } from './token'
+import type { ISelectV2Props } from './token'
 import type { Option } from './select.types'
 
-export function useAllowCreate(props: ISelectProps, states) {
+export function useAllowCreate(props: ISelectV2Props, states) {
   const { aliasProps, getLabel, getValue } = useProps(props)
 
   const createOptionCount = ref(0)
@@ -15,10 +15,10 @@ export function useAllowCreate(props: ISelectProps, states) {
   })
 
   function hasExistingOption(query: string) {
-    const hasValue = (option) => getValue(option) === query
+    const hasOption = (option) => getLabel(option) === query
     return (
-      (props.options && props.options.some(hasValue)) ||
-      states.createdOptions.some(hasValue)
+      (props.options && props.options.some(hasOption)) ||
+      states.createdOptions.some(hasOption)
     )
   }
 
@@ -35,7 +35,10 @@ export function useAllowCreate(props: ISelectProps, states) {
 
   function createNewOption(query: string) {
     if (enableAllowCreateMode.value) {
-      if (query && query.length > 0 && !hasExistingOption(query)) {
+      if (query && query.length > 0) {
+        if (hasExistingOption(query)) {
+          return
+        }
         const newOption = {
           [aliasProps.value.value]: query,
           [aliasProps.value.label]: query,

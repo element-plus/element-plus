@@ -69,6 +69,7 @@ image/image-preview
 | scroll-container      | the container to add scroll listener when using lazy load. By default, the container to add scroll listener when using lazy load.                 | ^[string] / ^[object]`HTMLElement`                                      | —       |
 | alt                   | native attribute `alt`.                                                                                                                           | ^[string]                                                               | —       |
 | referrerpolicy        | native attribute [referrerPolicy](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/referrerPolicy).                              | ^[string]                                                               | —       |
+| crossorigin           | native attribute [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin).                                         | ^[enum]`'' \| 'anonymous' \| 'use-credentials'`                         | —       |
 | preview-src-list      | allow big image preview.                                                                                                                          | ^[object]`string[]`                                                     | []      |
 | z-index               | set image preview z-index.                                                                                                                        | ^[number]                                                               | —       |
 | initial-index         | initial preview image index, less than the length of `url-list`.                                                                                  | ^[number]                                                               | 0       |
@@ -84,7 +85,7 @@ image/image-preview
 | Name   | Description                                                                                       | Type                                 |
 | ------ | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | load   | same as native load.                                                                              | ^[Function]`(e: Event) => void`      |
-| error  | same as native error.                                                                             | ^[Function]`(e: Error) => void`      |
+| error  | same as native error.                                                                             | ^[Function]`(e: Event) => void`      |
 | switch | trigger when switching images.                                                                    | ^[Function]`(index: number) => void` |
 | close  | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | ^[Function]`() => void`              |
 | show   | trigger when the viewer displays                                                                  | ^[Function]`() => void`              |

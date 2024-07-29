@@ -21,7 +21,9 @@
             @keydown.space.prevent.stop="handleYearTableClick"
             @keydown.enter.prevent.stop="handleYearTableClick"
           >
-            <span class="cell">{{ startYear + i * 4 + j }}</span>
+            <div>
+              <span class="cell">{{ startYear + i * 4 + j }}</span>
+            </div>
           </td>
           <td v-else />
         </template>
@@ -82,7 +84,8 @@ const isSelectedCell = (year: number) => {
     (year === startYear.value &&
       props.date.year() < startYear.value &&
       props.date.year() > startYear.value + 9) ||
-    castArray(props.date).findIndex((date) => date.year() === year) >= 0
+    castArray(props.date).findIndex((date) => date.year() === year) >= 0 ||
+    castArray(props.parsedValue).findIndex((date) => date?.year() === year) >= 0
   )
 }
 
@@ -92,7 +95,18 @@ const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
   if (target && target.textContent) {
     if (hasClass(target, 'disabled')) return
     const year = target.textContent || target.innerText
-    emit('pick', Number(year))
+    if (props.selectionMode === 'years') {
+      if (event.type === 'keydown') {
+        emit('pick', castArray(props.parsedValue), false)
+        return
+      }
+      const newValue = hasClass(target, 'current')
+        ? castArray(props.parsedValue).filter((d) => d?.year() !== Number(year))
+        : castArray(props.parsedValue).concat([dayjs(year)])
+      emit('pick', newValue)
+    } else {
+      emit('pick', Number(year))
+    }
   }
 }
 

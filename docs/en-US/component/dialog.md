@@ -99,7 +99,7 @@ dialog/destroy-on-close
 
 Try to drag the `header` part.
 
-:::demo Set `draggable` to `true` to drag.
+:::demo Set `draggable` to `true` to drag. Set `overflow` ^(2.5.4) to `true` can drag overflow the viewport.
 
 dialog/draggable-dialog
 
@@ -135,6 +135,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | show-close                 | whether to show a close button                                                                       | ^[boolean]                          | true    |
 | before-close               | callback before Dialog closes, and it will prevent Dialog from closing, use done to close the dialog | ^[Function]`(done: DoneFn) => void` | —       |
 | draggable                  | enable dragging feature for Dialog                                                                   | ^[boolean]                          | false   |
+| overflow ^(2.5.4)          | draggable Dialog can overflow the viewport                                                           | ^[boolean]                          | false   |
 | center                     | whether to align the header and footer in center                                                     | ^[boolean]                          | false   |
 | align-center ^(2.2.16)     | whether to align the dialog both horizontally and vertically                                         | ^[boolean]                          | false   |
 | destroy-on-close           | destroy elements in Dialog when closed                                                               | ^[boolean]                          | false   |

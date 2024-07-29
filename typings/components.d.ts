@@ -1,7 +1,4 @@
-// For this project development
-import '@vue/runtime-core'
-
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   // GlobalComponents for Volar
   export interface GlobalComponents {
     ElAffix: typeof import('../packages/element-plus')['ElAffix']
@@ -59,6 +56,7 @@ declare module '@vue/runtime-core' {
     ElPagination: typeof import('../packages/element-plus')['ElPagination']
     ElPopconfirm: typeof import('../packages/element-plus')['ElPopconfirm']
     ElPopper: typeof import('../packages/element-plus')['ElPopper']
+    ElPopover: typeof import('../packages/element-plus')['ElPopover']
     ElProgress: typeof import('../packages/element-plus')['ElProgress']
     ElRadio: typeof import('../packages/element-plus')['ElRadio']
     ElRadioButton: typeof import('../packages/element-plus')['ElRadioButton']
@@ -85,8 +83,8 @@ declare module '@vue/runtime-core' {
     ElTooltip: typeof import('../packages/element-plus')['ElTooltip']
     ElTransfer: typeof import('../packages/element-plus')['ElTransfer']
     ElTree: typeof import('../packages/element-plus')['ElTree']
-    ElTreeSelect: typeof import('../packages/element-plus')['ElTreeSelect']
     ElTreeV2: typeof import('../packages/element-plus')['ElTreeV2']
+    ElTreeSelect: typeof import('../packages/element-plus')['ElTreeSelect']
     ElUpload: typeof import('../packages/element-plus')['ElUpload']
     ElSpace: typeof import('../packages/element-plus')['ElSpace']
     ElSkeleton: typeof import('../packages/element-plus')['ElSkeleton']
@@ -100,6 +98,9 @@ declare module '@vue/runtime-core' {
     ElWatermark: typeof import('../packages/element-plus')['ElWatermark']
     ElTour: typeof import('../packages/element-plus')['ElTour']
     ElTourStep: typeof import('../packages/element-plus')['ElTourStep']
+    ElAnchor: typeof import('../packages/element-plus')['ElAnchor']
+    ElAnchorLink: typeof import('../packages/element-plus')['ElAnchorLink']
+    ElSegmented: typeof import('../packages/element-plus')['ElSegmented']
   }
 
   interface ComponentCustomProperties {

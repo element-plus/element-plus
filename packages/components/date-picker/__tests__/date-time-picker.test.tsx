@@ -566,6 +566,37 @@ describe('Datetimerange', () => {
     expect(value.value).not.toBe('')
   })
 
+  it('clear button should empty the input value', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetimerange" />
+    ))
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    const dateRow = document.querySelectorAll('.el-date-table__row')
+    const dateCell = dateRow[1].querySelectorAll<HTMLElement>('.available')
+    dateCell[0].click()
+    dateCell[3].click()
+    await nextTick()
+    const headerValue = document.querySelectorAll<HTMLInputElement>(
+      '.el-date-range-picker__time-header input'
+    )
+    expect(headerValue[0].value).not.toBe('')
+    expect(headerValue[1].value).not.toBe('')
+    const clearBtn = document.querySelectorAll<HTMLButtonElement>(
+      '.el-picker-panel__footer button'
+    )[0]
+    clearBtn.click()
+    await nextTick()
+    input.trigger('blur')
+    await nextTick()
+    input.trigger('focus')
+    await nextTick()
+    expect(headerValue[0].value).toBe('')
+    expect(headerValue[1].value).toBe('')
+  })
+
   it('confirm honors disabledDate', async () => {
     const value = ref('')
     const disabledDate = (date: Date) => {

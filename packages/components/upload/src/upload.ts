@@ -114,10 +114,7 @@ export const uploadBaseProps = buildProps({
   /**
    * @description whether uploading multiple files is permitted
    */
-  multiple: {
-    type: Boolean,
-    default: false,
-  },
+  multiple: Boolean,
   /**
    * @description key name for uploaded file
    */
@@ -128,10 +125,7 @@ export const uploadBaseProps = buildProps({
   /**
    * @description whether to activate drag and drop mode
    */
-  drag: {
-    type: Boolean,
-    default: false,
-  },
+  drag: Boolean,
   /**
    * @description whether cookies are sent
    */
@@ -252,6 +246,12 @@ export const uploadProps = buildProps({
   onExceed: {
     type: definePropType<UploadHooks['onExceed']>(Function),
     default: NOOP,
+  },
+  /**
+   * @description set HTML attribute: crossorigin.
+   */
+  crossorigin: {
+    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
   },
 } as const)
 
