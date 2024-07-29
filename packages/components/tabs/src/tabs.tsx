@@ -1,5 +1,6 @@
 import {
   computed,
+  createVNode,
   defineComponent,
   getCurrentInstance,
   nextTick,
@@ -220,18 +221,23 @@ const Tabs = defineComponent({
           ]}
         >
           <TabNavRenderer
-            render={() => (
-              <TabNav
-                ref={nav$}
-                currentName={currentName.value}
-                editable={props.editable}
-                type={props.type}
-                panes={panes.value}
-                stretch={props.stretch}
-                onTabClick={handleTabClick}
-                onTabRemove={handleTabRemove}
-              />
-            )}
+            render={() => {
+              const hasLabelSlot = panes.value.some((pane) => pane.slots.label)
+              return createVNode(
+                TabNav,
+                {
+                  ref: nav$,
+                  currentName: currentName.value,
+                  editable: props.editable,
+                  type: props.type,
+                  panes: panes.value,
+                  stretch: props.stretch,
+                  onTabClick: handleTabClick,
+                  onTabRemove: handleTabRemove,
+                },
+                { $stable: !hasLabelSlot }
+              )
+            }}
           />
           {newButton}
         </div>
