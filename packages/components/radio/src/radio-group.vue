@@ -4,7 +4,9 @@
     ref="radioGroupRef"
     :class="ns.b('group')"
     role="radiogroup"
-    :aria-label="!isLabeledByFormItem ? label || 'radio-group' : undefined"
+    :aria-label="
+      !isLabeledByFormItem ? label || ariaLabel || 'radio-group' : undefined
+    "
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
     <slot />
@@ -24,7 +26,7 @@ import {
 } from 'vue'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useId, useNamespace } from '@element-plus/hooks'
+import { useDeprecated, useId, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
 import { radioGroupKey } from './constants'
@@ -80,5 +82,16 @@ watch(
       formItem?.validate('change').catch((err) => debugWarn(err))
     }
   }
+)
+
+useDeprecated(
+  {
+    from: 'label',
+    replacement: 'aria-label',
+    version: '2.8.0',
+    scope: 'el-radio-group',
+    ref: 'https://element-plus.org/en-US/component/radio.html',
+  },
+  computed(() => !!props.label)
 )
 </script>

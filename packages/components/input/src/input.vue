@@ -1,8 +1,13 @@
 <template>
   <div
-    v-show="type !== 'hidden'"
     v-bind="containerAttrs"
-    :class="containerKls"
+    :class="[
+      containerKls,
+      {
+        [nsInput.bm('group', 'append')]: $slots.append,
+        [nsInput.bm('group', 'prepend')]: $slots.prepend,
+      },
+    ]"
     :style="containerStyle"
     :role="containerRole"
     @mouseenter="handleMouseEnter"
@@ -38,11 +43,11 @@
           :readonly="readonly"
           :autocomplete="autocomplete"
           :tabindex="tabindex"
-          :aria-label="label"
+          :aria-label="label || ariaLabel"
           :placeholder="placeholder"
           :style="inputStyle"
-          :form="props.form"
-          :autofocus="props.autofocus"
+          :form="form"
+          :autofocus="autofocus"
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
@@ -109,17 +114,20 @@
       <textarea
         :id="inputId"
         ref="textarea"
-        :class="nsTextarea.e('inner')"
+        :class="[nsTextarea.e('inner'), nsInput.is('focus', isFocused)]"
         v-bind="attrs"
+        :minlength="minlength"
+        :maxlength="maxlength"
         :tabindex="tabindex"
         :disabled="inputDisabled"
         :readonly="readonly"
         :autocomplete="autocomplete"
         :style="textareaStyle"
-        :aria-label="label"
+        :aria-label="label || ariaLabel"
         :placeholder="placeholder"
-        :form="props.form"
-        :autofocus="props.autofocus"
+        :form="form"
+        :autofocus="autofocus"
+        :rows="rows"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -171,12 +179,13 @@ import {
   ValidateComponentsMap,
   debugWarn,
   isClient,
-  isKorean,
   isObject,
 } from '@element-plus/utils'
 import {
   useAttrs,
+  useComposition,
   useCursor,
+  useDeprecated,
   useFocusController,
   useNamespace,
 } from '@element-plus/hooks'
@@ -214,13 +223,12 @@ const containerKls = computed(() => [
   nsInput.is('exceed', inputExceed.value),
   {
     [nsInput.b('group')]: slots.prepend || slots.append,
-    [nsInput.bm('group', 'append')]: slots.append,
-    [nsInput.bm('group', 'prepend')]: slots.prepend,
     [nsInput.m('prefix')]: slots.prefix || props.prefixIcon,
     [nsInput.m('suffix')]:
       slots.suffix || props.suffixIcon || props.clearable || props.showPassword,
     [nsInput.bm('suffix', 'password-clear')]:
       showClear.value && showPwdVisible.value,
+    [nsInput.b('hidden')]: props.type === 'hidden',
   },
   rawAttrs.class,
 ])
@@ -235,9 +243,9 @@ const attrs = useAttrs({
     return Object.keys(containerAttrs.value)
   }),
 })
-const { form, formItem } = useFormItem()
+const { form: elForm, formItem: elFormItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, {
-  formItemContext: formItem,
+  formItemContext: elFormItem,
 })
 const inputSize = useFormSize()
 const inputDisabled = useFormDisabled()
@@ -248,7 +256,6 @@ const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
 
 const hovering = ref(false)
-const isComposing = ref(false)
 const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
@@ -260,14 +267,14 @@ const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   {
     afterBlur() {
       if (props.validateEvent) {
-        formItem?.validate?.('blur').catch((err) => debugWarn(err))
+        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
       }
     },
   }
 )
 
-const needStatusIcon = computed(() => form?.statusIcon ?? false)
-const validateState = computed(() => formItem?.validateState || '')
+const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
+const validateState = computed(() => elFormItem?.validateState || '')
 const validateIcon = computed(
   () => validateState.value && ValidateComponentsMap[validateState.value]
 )
@@ -427,25 +434,12 @@ const handleChange = (event: Event) => {
   emit('change', (event.target as TargetElement).value)
 }
 
-const handleCompositionStart = (event: CompositionEvent) => {
-  emit('compositionstart', event)
-  isComposing.value = true
-}
-
-const handleCompositionUpdate = (event: CompositionEvent) => {
-  emit('compositionupdate', event)
-  const text = (event.target as HTMLInputElement)?.value
-  const lastCharacter = text[text.length - 1] || ''
-  isComposing.value = !isKorean(lastCharacter)
-}
-
-const handleCompositionEnd = (event: CompositionEvent) => {
-  emit('compositionend', event)
-  if (isComposing.value) {
-    isComposing.value = false
-    handleInput(event)
-  }
-}
+const {
+  isComposing,
+  handleCompositionStart,
+  handleCompositionUpdate,
+  handleCompositionEnd,
+} = useComposition({ emit, afterComposition: handleInput })
 
 const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value
@@ -490,7 +484,7 @@ watch(
   () => {
     nextTick(() => resizeTextarea())
     if (props.validateEvent) {
-      formItem?.validate?.('change').catch((err) => debugWarn(err))
+      elFormItem?.validate?.('change').catch((err) => debugWarn(err))
     }
   }
 )
@@ -522,6 +516,17 @@ onMounted(() => {
   setNativeInputValue()
   nextTick(resizeTextarea)
 })
+
+useDeprecated(
+  {
+    from: 'label',
+    replacement: 'aria-label',
+    version: '2.8.0',
+    scope: 'el-input',
+    ref: 'https://element-plus.org/en-US/component/input.html',
+  },
+  computed(() => !!props.label)
+)
 
 defineExpose({
   /** @description HTML input element */

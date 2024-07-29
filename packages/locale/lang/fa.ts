@@ -1,6 +1,9 @@
 export default {
   name: 'fa',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'تایید',
       clear: 'حذف',
@@ -102,6 +105,11 @@ export default {
       clearFilter: 'همه',
       sumText: 'جمع',
     },
+    tour: {
+      next: 'بعدی',
+      previous: 'قبلی',
+      finish: 'پایان',
+    },
     tree: {
       emptyText: 'اطلاعاتی وجود ندارد',
     },
@@ -122,6 +130,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'بله',
       cancelButtonText: 'خیر',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }
