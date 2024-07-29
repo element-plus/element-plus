@@ -136,13 +136,13 @@ const Tabs = defineComponent({
       } catch {}
     }
 
-    const handleTabClick = (
+    const handleTabClick = async (
       tab: TabsPaneContext,
       tabName: TabPaneName,
       event: Event
     ) => {
       if (tab.props.disabled) return
-      setCurrentName(tabName, true)
+      await setCurrentName(tabName, true)
       emit('tabClick', tab, event)
     }
 
