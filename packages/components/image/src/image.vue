@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
+  <div ref="container" :class="ns.b()">
     <slot v-if="hasLoadError" name="error">
       <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
     </slot>
@@ -48,14 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  nextTick,
-  onMounted,
-  ref,
-  useAttrs as useRawAttrs,
-  watch,
-} from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
@@ -68,7 +61,7 @@ import {
 } from '@element-plus/utils'
 import { imageEmits, imageProps } from './image'
 
-import type { CSSProperties, StyleValue } from 'vue'
+import type { CSSProperties } from 'vue'
 
 defineOptions({
   name: 'ElImage',
@@ -81,7 +74,6 @@ let prevOverflow = ''
 
 const { t } = useLocale()
 const ns = useNamespace('image')
-const rawAttrs = useRawAttrs()
 const attrs = useAttrs({
   excludeListeners: true,
 })
@@ -102,8 +94,6 @@ const imageKls = computed(() => [
   preview.value && ns.e('preview'),
   isLoading.value && ns.is('loading'),
 ])
-
-const containerStyle = computed(() => rawAttrs.style as StyleValue)
 
 const imageStyle = computed<CSSProperties>(() => {
   const { fit } = props
