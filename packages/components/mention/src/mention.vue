@@ -19,8 +19,8 @@
       :visible="visible && (!!filteredOptions.length || loading)"
       :popper-class="[ns.e('popper'), popperClass]"
       :popper-options="popperOptions"
-      :placement="mergePlacement"
-      :fallback-placements="mergeFallbackPlacements"
+      :placement="computedPlacement"
+      :fallback-placements="computedFallbackPlacements"
       effect="light"
       pure
       :offset="offset"
@@ -83,11 +83,11 @@ const visible = ref(false)
 const cursorStyle = ref<CSSProperties>()
 const mentionCtx = ref<MentionCtx>()
 
-const mergePlacement = computed<Placement>(() =>
+const computedPlacement = computed<Placement>(() =>
   props.showArrow ? props.placement : `${props.placement}-start`
 )
 
-const mergeFallbackPlacements = computed<Placement[]>(() =>
+const computedFallbackPlacements = computed<Placement[]>(() =>
   props.showArrow ? ['bottom', 'top'] : ['bottom-start', 'top-start']
 )
 
