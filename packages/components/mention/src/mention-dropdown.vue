@@ -14,11 +14,7 @@
         v-for="(item, index) in options"
         ref="optionRefs"
         :key="item.value"
-        :class="[
-          ns.be('dropdown', 'item'),
-          ns.is('hovering', hoveringIndex === index),
-          ns.is('disabled', item.disabled || disabled),
-        ]"
+        :class="optionkls(item, index)"
         @mouseenter="handleMouseEnter(index)"
         @click.stop="handleSelect(item)"
       >
@@ -59,7 +55,14 @@ const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>()
 const optionRefs = ref<HTMLElement[]>()
 const dropdownRef = ref<HTMLElement>()
 
+const optionkls = (item: MentionOption, index: number) => [
+  ns.be('dropdown', 'item'),
+  ns.is('hovering', hoveringIndex.value === index),
+  ns.is('disabled', item.disabled || props.disabled),
+]
+
 const handleSelect = (item: MentionOption) => {
+  if (item.disabled || props.disabled) return
   emit('select', item)
 }
 

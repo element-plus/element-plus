@@ -19,12 +19,12 @@
       :visible="visible && (!!filteredOptions.length || loading)"
       :popper-class="[ns.e('popper'), popperClass]"
       :popper-options="popperOptions"
-      :placement="`${placement}-start`"
-      :fallback-placements="['bottom-start', 'top-start']"
+      :placement="mergePlacement"
+      :fallback-placements="mergeFallbackPlacements"
       effect="light"
       pure
-      :offset="0"
-      :show-arrow="false"
+      :offset="offset"
+      :show-arrow="showArrow"
     >
       <template #default>
         <div :style="cursorStyle" />
@@ -57,6 +57,7 @@ import { isFunction } from '@element-plus/utils'
 import { mentionEmits, mentionProps } from './mention'
 import { getCursorPosition, getMentionCtx } from './helper'
 import ElMentionDropdown from './mention-dropdown.vue'
+import type { Placement } from '@popperjs/core'
 
 import type { CSSProperties } from 'vue'
 import type { InputInstance } from '@element-plus/components/input'
@@ -74,25 +75,28 @@ const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
 
 const ns = useNamespace('mention')
 
-const elInputRef = ref<InputInstance | null>(null)
-const tooltipRef = ref<TooltipInstance | null>(null)
-const dropdownRef = ref<InstanceType<typeof ElMentionDropdown> | null>(null)
+const elInputRef = ref<InputInstance>()
+const tooltipRef = ref<TooltipInstance>()
+const dropdownRef = ref<InstanceType<typeof ElMentionDropdown>>()
 
 const visible = ref(false)
 const cursorStyle = ref<CSSProperties>()
 const mentionCtx = ref<MentionCtx>()
 
+const mergePlacement = computed<Placement>(() =>
+  props.showArrow ? props.placement : `${props.placement}-start`
+)
+
+const mergeFallbackPlacements = computed<Placement[]>(() =>
+  props.showArrow ? ['bottom', 'top'] : ['bottom-start', 'top-start']
+)
+
 const filteredOptions = computed(() => {
   const { filterOption, options } = props
-  if (!mentionCtx.value) return options
-  const list = options.filter((option) => {
-    // Return all result if `filterOption` is false.
-    if (filterOption === false) {
-      return true
-    }
-    return filterOption(mentionCtx.value!.pattern, option)
-  })
-  return list
+  if (!mentionCtx.value || !filterOption) return options
+  return options.filter((option) =>
+    filterOption(mentionCtx.value!.pattern, option)
+  )
 })
 
 const handleInputChange = (value: string) => {

@@ -184,6 +184,7 @@ input/length-limiting
 | select         | select the text in input element | ^[Function]`() => void`                                 |
 | textarea       | HTML textarea element            | ^[object]`Ref<HTMLTextAreaElement>`                     |
 | textareaStyle  | style of textarea                | ^[object]`Ref<StyleValue>`                              |
+| isComposing    | is input composing               | ^[object]`Ref<boolean>`                                 |
 
 ## FAQ
 

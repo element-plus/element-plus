@@ -46,6 +46,17 @@ export const mentionProps = buildProps({
     default: 'bottom',
   },
   /**
+   * @description whether the dropdown panel has an arrow
+   */
+  showArrow: Boolean,
+  /**
+   * @description offset of the dropdown panel
+   */
+  offset: {
+    type: Number,
+    default: 0,
+  },
+  /**
    * @description when backspace is pressed to delete, whether the mention content is deleted as a whole
    */
   whole: Boolean,
