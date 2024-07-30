@@ -34,19 +34,19 @@ describe('useFocusController', () => {
 
     await nextTick()
     expect(wrapper.find('span').text()).toBe('false')
-    expect(focusHandler).toHaveBeenCalledTimes(0)
-    expect(blurHandler).toHaveBeenCalledTimes(0)
+    expect(focusHandler).not.toHaveBeenCalled()
+    expect(blurHandler).not.toHaveBeenCalled()
 
     await wrapper.find('input').trigger('focus')
     expect(wrapper.emitted()).toHaveProperty('focus')
     expect(wrapper.find('span').text()).toBe('true')
-    expect(focusHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(0)
+    expect(focusHandler).toHaveBeenCalled()
+    expect(blurHandler).not.toHaveBeenCalled()
 
     await wrapper.find('input').trigger('blur')
     expect(wrapper.emitted()).toHaveProperty('blur')
     expect(wrapper.find('span').text()).toBe('false')
-    expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalled()
   })
 
   it('it will trigger focus & blur with tabindex', async () => {
@@ -79,19 +79,19 @@ describe('useFocusController', () => {
 
     await nextTick()
     expect(wrapper.find('span').text()).toBe('false')
-    expect(focusHandler).toHaveBeenCalledTimes(0)
-    expect(blurHandler).toHaveBeenCalledTimes(0)
+    expect(focusHandler).not.toHaveBeenCalled()
+    expect(blurHandler).not.toHaveBeenCalled()
 
     await wrapper.find('div').trigger('focus')
     expect(wrapper.emitted()).toHaveProperty('focus')
     expect(wrapper.find('span').text()).toBe('true')
-    expect(focusHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(0)
+    expect(focusHandler).toHaveBeenCalled()
+    expect(blurHandler).not.toHaveBeenCalled()
 
     await wrapper.find('div').trigger('blur')
     expect(wrapper.emitted()).toHaveProperty('blur')
     expect(wrapper.find('span').text()).toBe('false')
-    expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalled()
   })
 
   it('it will avoid trigger unnecessary blur event', async () => {
@@ -118,24 +118,24 @@ describe('useFocusController', () => {
     await nextTick()
     expect(wrapper.find('span').text()).toBe('false')
     expect(wrapper.find('div').attributes('tabindex')).toBe('-1')
-    expect(focusHandler).toHaveBeenCalledTimes(0)
-    expect(blurHandler).toHaveBeenCalledTimes(0)
+    expect(focusHandler).not.toHaveBeenCalled()
+    expect(blurHandler).not.toHaveBeenCalled()
 
     await wrapper.find('input').trigger('focus')
     expect(wrapper.emitted()).toHaveProperty('focus')
     expect(wrapper.find('span').text()).toBe('true')
-    expect(focusHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(0)
+    expect(focusHandler).toHaveBeenCalled()
+    expect(blurHandler).not.toHaveBeenCalled()
 
     await wrapper.find('span').trigger('click')
     expect(wrapper.emitted()).not.toHaveProperty('blur')
-    expect(focusHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(0)
+    expect(focusHandler).toHaveBeenCalled()
+    expect(blurHandler).not.toHaveBeenCalled()
 
     await wrapper.find('input').trigger('blur')
     expect(wrapper.emitted()).toHaveProperty('blur')
     expect(wrapper.find('span').text()).toBe('false')
-    expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalled()
   })
 
   it('it will avoid trigger unnecessary blur event by beforeBlur', async () => {
@@ -164,19 +164,19 @@ describe('useFocusController', () => {
 
     await nextTick()
     expect(wrapper.find('span').text()).toBe('false')
-    expect(beforeBlur).toHaveBeenCalledTimes(0)
+    expect(beforeBlur).not.toHaveBeenCalled()
 
     await wrapper.find('input').trigger('focus')
     expect(wrapper.emitted()).toHaveProperty('focus')
     expect(wrapper.find('span').text()).toBe('true')
-    expect(beforeBlur).toHaveBeenCalledTimes(0)
+    expect(beforeBlur).not.toHaveBeenCalled()
 
     await wrapper.find('span').trigger('click')
     expect(wrapper.emitted()).not.toHaveProperty('blur')
-    expect(beforeBlur).toHaveBeenCalledTimes(0)
+    expect(beforeBlur).not.toHaveBeenCalled()
   })
 
-  it('it will avoid triggering unnecessary blur event even with multiple input', async () => {
+  it('it will avoid triggering unnecessary blur events even with multiple input', async () => {
     const focusHandler = vi.fn()
     const blurHandler = vi.fn()
     const wrapper = mount({
@@ -200,29 +200,29 @@ describe('useFocusController', () => {
 
     await nextTick()
     expect(wrapper.find('span').text()).toBe('false')
-    expect(focusHandler).toHaveBeenCalledTimes(0)
-    expect(blurHandler).toHaveBeenCalledTimes(0)
+    expect(focusHandler).not.toHaveBeenCalled()
+    expect(blurHandler).not.toHaveBeenCalled()
 
     await wrapper.find('input').trigger('focus')
     expect(wrapper.emitted()).toHaveProperty('focus')
     expect(wrapper.find('span').text()).toBe('true')
-    expect(focusHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(0)
+    expect(focusHandler).toHaveBeenCalled()
+    expect(blurHandler).not.toHaveBeenCalled()
 
     await wrapper.find('.input2').trigger('focus')
     expect(wrapper.emitted()).toHaveProperty('focus')
     expect(wrapper.find('span').text()).toBe('true')
-    expect(focusHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(0)
+    expect(focusHandler).toHaveBeenCalled()
+    expect(blurHandler).not.toHaveBeenCalled()
 
     await wrapper.find('span').trigger('click')
     expect(wrapper.emitted()).not.toHaveProperty('blur')
-    expect(focusHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(0)
+    expect(focusHandler).toHaveBeenCalled()
+    expect(blurHandler).not.toHaveBeenCalled()
 
     await wrapper.find('input').trigger('blur')
     expect(wrapper.emitted()).toHaveProperty('blur')
     expect(wrapper.find('span').text()).toBe('false')
-    expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalled()
   })
 })

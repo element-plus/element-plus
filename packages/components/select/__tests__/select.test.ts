@@ -1350,8 +1350,7 @@ describe('Select', () => {
     expect(vm.value.indexOf('选项4')).toBe(-1)
   })
 
-  // FIXME: focus & blur event cannot be triggered
-  test.skip('event:focus & blur', async () => {
+  test('event:focus & blur', async () => {
     const handleFocus = vi.fn()
     const handleBlur = vi.fn()
     wrapper = _mount(
@@ -1436,8 +1435,7 @@ describe('Select', () => {
     expect(handleBlur).toHaveBeenCalledTimes(1)
   })
 
-  // FIXME: focus & blur event cannot be triggered
-  test.skip('event:focus & blur for multiple & filterable select', async () => {
+  test('event:focus & blur for multiple & filterable select', async () => {
     const handleFocus = vi.fn()
     const handleBlur = vi.fn()
     wrapper = _mount(
@@ -1468,8 +1466,7 @@ describe('Select', () => {
     expect(handleBlur).toHaveBeenCalledTimes(2)
   })
 
-  // FIXME: focus & blur event cannot be triggered
-  test.skip('event:focus & blur for multiple tag close', async () => {
+  test('event:focus & blur for multiple tag close', async () => {
     const handleFocus = vi.fn()
     const handleBlur = vi.fn()
     wrapper = _mount(
@@ -1538,8 +1535,7 @@ describe('Select', () => {
     expect((select.vm as any).expanded).toBe(false)
   })
 
-  // FIXME: focus & blur event cannot be triggered
-  test.skip('should open popper when automatic-dropdown is set', async () => {
+  test('should open popper when automatic-dropdown is set', async () => {
     wrapper = getSelectVm({ automaticDropdown: true })
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const input = select.find('input')

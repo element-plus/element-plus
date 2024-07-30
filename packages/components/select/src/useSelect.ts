@@ -100,7 +100,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const { wrapperRef, isFocused } = useFocusController(inputRef, {
+  const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     afterFocus() {
       if (props.automaticDropdown && !expanded.value) {
         expanded.value = true

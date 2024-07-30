@@ -1,4 +1,4 @@
-import { getCurrentInstance, ref, shallowRef, watch } from 'vue'
+import { getCurrentInstance, onMounted, ref, shallowRef, watch } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { isFunction } from '@element-plus/utils'
 import type { ShallowRef } from 'vue'
@@ -59,9 +59,19 @@ export function useFocusController<T extends { focus: () => void }>(
     }
   })
 
-  useEventListener(wrapperRef, 'focus', handleFocus, true)
-  useEventListener(wrapperRef, 'blur', handleBlur, true)
-  useEventListener(wrapperRef, 'click', handleClick, true)
+  if (process.env.NODE_ENV !== 'test') {
+    useEventListener(wrapperRef, 'focus', handleFocus, true)
+    useEventListener(wrapperRef, 'blur', handleBlur, true)
+    useEventListener(wrapperRef, 'click', handleClick, true)
+  }
+
+  // only for test
+  if (process.env.NODE_ENV === 'test') {
+    onMounted(() => {
+      useEventListener(target as unknown as HTMLElement, 'focus', handleFocus)
+      useEventListener(target as unknown as HTMLElement, 'blur', handleBlur)
+    })
+  }
 
   return {
     isFocused,

@@ -919,8 +919,7 @@ describe('Select', () => {
   })
 
   describe('event', () => {
-    // FIXME: focus & blur event cannot be triggered
-    it.skip('focus & blur', async () => {
+    it('focus & blur', async () => {
       const onFocus = vi.fn()
       const onBlur = vi.fn()
       const wrapper = createSelect({
@@ -945,8 +944,7 @@ describe('Select', () => {
       expect(onBlur).toHaveBeenCalledTimes(2)
     })
 
-    // FIXME: focus & blur event cannot be triggered
-    it.skip('focus & blur for multiple & filterable select', async () => {
+    it('focus & blur for multiple & filterable select', async () => {
       const onFocus = vi.fn()
       const onBlur = vi.fn()
       const wrapper = createSelect({
