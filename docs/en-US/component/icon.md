@@ -200,6 +200,14 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
   </div>
 </ElRow>
 
+## Loops to display Icon
+
+:::demo
+
+icon/loop
+
+:::
+
 ## Icon Collection{#icon-collection}
 
 :::tip
