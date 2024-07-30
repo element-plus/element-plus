@@ -28,6 +28,14 @@ export const collapseProps = buildProps({
     type: definePropType<CollapseModelValue>([Array, String, Number]),
     default: () => mutable([] as const),
   },
+  /**
+   * @description position of collapse item icon
+   */
+  iconPosition: {
+    type: String,
+    values: ['left', 'right'],
+    default: 'right',
+  },
 } as const)
 export type CollapseProps = ExtractPropTypes<typeof collapseProps>
 
