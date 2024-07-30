@@ -6,7 +6,7 @@
     <template v-else>
       <img
         v-if="imageSrc !== undefined"
-        v-bind="attrs"
+        v-bind="imgAttrs"
         :src="imageSrc"
         :loading="loading"
         :style="imageStyle"
@@ -48,9 +48,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
-import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
+import { pick } from 'lodash-unified'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
@@ -74,8 +75,25 @@ let prevOverflow = ''
 
 const { t } = useLocale()
 const ns = useNamespace('image')
-const attrs = useAttrs({
-  excludeListeners: true,
+
+const rawAttrs = useAttrs()
+
+const imgAttrs = computed(() => {
+  /**
+   * Extra attributes not included in props
+   * @see https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/img
+   */
+  const IMG_EXTRA_ATTR_KEYS = [
+    'alt',
+    'decoding',
+    'fetchpriority',
+    'ismap',
+    'referrerpolicy',
+    'sizes',
+    'srcset',
+    'usemap',
+  ]
+  return pick(rawAttrs, IMG_EXTRA_ATTR_KEYS)
 })
 
 const imageSrc = ref<string | undefined>()
