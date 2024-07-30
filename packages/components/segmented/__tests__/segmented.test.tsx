@@ -133,4 +133,26 @@ describe('Segmented.vue', () => {
     expect(wrapper.attributes('aria-label')).toEqual('label')
     expect(input.attributes('name')).toEqual('name')
   })
+
+  test('async disabled', async () => {
+    const value = ref('Mon')
+    const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const disabled = ref(false)
+    const wrapper = mount(() => (
+      <Segmented
+        v-model={value.value}
+        options={options}
+        disabled={disabled.value}
+      ></Segmented>
+    ))
+    expect(wrapper.find('.is-selected').text()).toEqual('Mon')
+    disabled.value = true
+    await nextTick()
+    expect(
+      wrapper
+        .find('.el-segmented__item-selected')
+        .classes()
+        .includes('is-disabled')
+    ).toBeTruthy()
+  })
 })

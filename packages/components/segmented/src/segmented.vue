@@ -159,7 +159,7 @@ useResizeObserver(segmentedRef, updateSelect)
 watch(activeElement, updateSelect)
 
 watch(
-  () => props.modelValue,
+  [() => props.modelValue, () => props.disabled],
   () => {
     updateSelect()
     if (props.validateEvent) {
