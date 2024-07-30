@@ -75,6 +75,7 @@
         :tabindex="colorDisabled ? -1 : tabindex"
         @keydown="handleKeyDown"
         @focus="handleFocus"
+        @blur="handleBlur"
       >
         <div v-if="colorDisabled" :class="ns.be('picker', 'mask')" />
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
@@ -173,8 +174,8 @@ const inputRef = ref()
 
 const {
   isFocused,
-  // handleFocus: _handleFocus,
-  // handleBlur,
+  handleFocus: _handleFocus,
+  handleBlur,
 } = useFocusController(triggerRef, {
   beforeBlur(event) {
     return popper.value?.isFocusInsideContent(event)
@@ -187,7 +188,7 @@ const {
 
 const handleFocus = (event: FocusEvent) => {
   if (colorDisabled.value) return blur()
-  // _handleFocus(event)
+  _handleFocus(event)
 }
 
 // active-change is used to prevent modelValue changes from triggering.

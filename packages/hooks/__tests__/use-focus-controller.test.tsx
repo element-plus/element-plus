@@ -176,7 +176,7 @@ describe('useFocusController', () => {
     expect(beforeBlur).toHaveBeenCalledTimes(0)
   })
 
-  it('it will avoid triggering unnecessary blur events even with multiple input', async () => {
+  it('it will avoid triggering unnecessary blur event even with multiple input', async () => {
     const focusHandler = vi.fn()
     const blurHandler = vi.fn()
     const wrapper = mount({
