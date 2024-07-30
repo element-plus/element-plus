@@ -77,7 +77,7 @@ skeleton/rendering-with-data
 
 ## Avoiding rendering bouncing.
 
-Sometimes API responds very quickly, when that happens, the skeleton just gets rendered to the DOM then it needs to switch back to real DOM, that causes the sudden flashy. To avoid such thing, you can use the `throttle` attribute.
+Sometimes API responds very quickly, when that happens, the skeleton just gets rendered to the DOM then it needs to switch back to real DOM, that causes the sudden flashy. To avoid such thing, you can use the `throttle` attribute. The `throttle` attribute supports two values: `number` and `object`. When passing a `number`, it is equivalent to `{leading: xxx}`, controlling the throttling of the skeleton screen display. Of course, you can also control the throttling of the skeleton screen disappearance by passing `{trailing: xxx}`. When the initial value of loading is true, you can set `{initVal: true}` to control the immediate display of the initial skeleton screen without throttling.
 
 :::demo
 
@@ -89,13 +89,13 @@ skeleton/avoiding-rendering-bouncing
 
 ### Skeleton Attributes
 
-| Name     | Description                                                                                                                                         | Type                                                                             | Default |
-| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------- |
-| animated | whether showing the animation                                                                                                                       | ^[boolean]                                                                       | false   |
-| count    | how many fake items to render to the DOM                                                                                                            | ^[number]                                                                        | 1       |
-| loading  | whether showing the real DOM                                                                                                                        | ^[boolean]                                                                       | false   |
-| rows     | numbers of the row, only useful when no template slot were given                                                                                    | ^[number]                                                                        | 3       |
-| throttle | rendering delay in milliseconds. Numbers represent delayed display, and can also be set to delay hide, for example { trailing: 500, initVal: true } | ^[number] / ^[object]`{ leading?: number, trailing?: number, initVal?: number }` | 0       |
+| Name     | Description                                                                                                                                                                                                                                 | Type                                                                              | Default |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------- |
+| animated | whether showing the animation                                                                                                                                                                                                               | ^[boolean]                                                                        | false   |
+| count    | how many fake items to render to the DOM                                                                                                                                                                                                    | ^[number]                                                                         | 1       |
+| loading  | whether showing the real DOM                                                                                                                                                                                                                | ^[boolean]                                                                        | false   |
+| rows     | numbers of the row, only useful when no template slot were given                                                                                                                                                                            | ^[number]                                                                         | 3       |
+| throttle | rendering delay in milliseconds. Numbers represent delayed display, and can also be set to delay hide, for example `{ leading: 500, trailing: 500 }`. When needing to control the initial value of loading, you can set `{ initVal: true }` | ^[number] / ^[object]`{ leading?: number, trailing?: number, initVal?: boolean }` | 0       |
 
 ### Skeleton Slots
 
