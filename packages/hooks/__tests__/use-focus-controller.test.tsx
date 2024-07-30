@@ -101,15 +101,14 @@ describe('useFocusController', () => {
       emits: ['focus', 'blur'],
       setup() {
         const targetRef = ref()
-        const { wrapperRef, isFocused, handleFocus, handleBlur } =
-          useFocusController(targetRef, {
-            afterFocus: focusHandler,
-            afterBlur: blurHandler,
-          })
+        const { wrapperRef, isFocused } = useFocusController(targetRef, {
+          afterFocus: focusHandler,
+          afterBlur: blurHandler,
+        })
 
         return () => (
           <div ref={wrapperRef}>
-            <input ref={targetRef} onFocus={handleFocus} onBlur={handleBlur} />
+            <input ref={targetRef} />
             <span>{String(isFocused.value)}</span>
           </div>
         )
@@ -145,22 +144,17 @@ describe('useFocusController', () => {
       emits: ['focus', 'blur'],
       setup() {
         const targetRef = ref()
-        const { wrapperRef, isFocused, handleFocus, handleBlur } =
-          useFocusController(targetRef, {
-            afterBlur: () => {
-              beforeBlur()
-              return true
-            },
-          })
+        const { wrapperRef, isFocused } = useFocusController(targetRef, {
+          afterBlur: () => {
+            beforeBlur()
+            return true
+          },
+        })
 
         return () => (
           <>
             <div ref={wrapperRef}>
-              <input
-                ref={targetRef}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-              />
+              <input ref={targetRef} />
             </div>
             <span>{String(isFocused.value)}</span>
           </>
@@ -180,5 +174,55 @@ describe('useFocusController', () => {
     await wrapper.find('span').trigger('click')
     expect(wrapper.emitted()).not.toHaveProperty('blur')
     expect(beforeBlur).toHaveBeenCalledTimes(0)
+  })
+
+  it('it will avoid triggering unnecessary blur events even with multiple input', async () => {
+    const focusHandler = vi.fn()
+    const blurHandler = vi.fn()
+    const wrapper = mount({
+      emits: ['focus', 'blur'],
+      setup() {
+        const targetRef = ref()
+        const { isFocused, wrapperRef } = useFocusController(targetRef, {
+          afterFocus: focusHandler,
+          afterBlur: blurHandler,
+        })
+
+        return () => (
+          <div ref={wrapperRef}>
+            <input ref={targetRef} />
+            <input class="input2" />
+            <span>{String(isFocused.value)}</span>
+          </div>
+        )
+      },
+    })
+
+    await nextTick()
+    expect(wrapper.find('span').text()).toBe('false')
+    expect(focusHandler).toHaveBeenCalledTimes(0)
+    expect(blurHandler).toHaveBeenCalledTimes(0)
+
+    await wrapper.find('input').trigger('focus')
+    expect(wrapper.emitted()).toHaveProperty('focus')
+    expect(wrapper.find('span').text()).toBe('true')
+    expect(focusHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalledTimes(0)
+
+    await wrapper.find('.input2').trigger('focus')
+    expect(wrapper.emitted()).toHaveProperty('focus')
+    expect(wrapper.find('span').text()).toBe('true')
+    expect(focusHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalledTimes(0)
+
+    await wrapper.find('span').trigger('click')
+    expect(wrapper.emitted()).not.toHaveProperty('blur')
+    expect(focusHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalledTimes(0)
+
+    await wrapper.find('input').trigger('blur')
+    expect(wrapper.emitted()).toHaveProperty('blur')
+    expect(wrapper.find('span').text()).toBe('false')
+    expect(blurHandler).toHaveBeenCalledTimes(1)
   })
 })

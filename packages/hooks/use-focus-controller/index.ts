@@ -53,14 +53,14 @@ export function useFocusController<T extends HTMLElement>(
     }
   })
 
-  // TODO: using useEventListener will fail the test
-  // useEventListener(target, 'focus', handleFocus)
-  // useEventListener(target, 'blur', handleBlur)
+  useEventListener(wrapperRef, 'focus', handleFocus, true)
+  useEventListener(wrapperRef, 'blur', handleBlur, true)
   useEventListener(wrapperRef, 'click', handleClick, true)
 
   return {
-    wrapperRef,
     isFocused,
+    /** Avoid using wrapperRef and handleFocus/handleBlur together */
+    wrapperRef,
     handleFocus,
     handleBlur,
   }
