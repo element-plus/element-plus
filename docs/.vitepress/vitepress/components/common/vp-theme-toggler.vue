@@ -3,8 +3,10 @@ import { nextTick, ref, watch } from 'vue'
 import { isDark, toggleDark } from '../../composables/dark'
 import DarkIcon from '../icons/dark.vue'
 import LightIcon from '../icons/light.vue'
+import type { SwitchInstance } from 'element-plus'
 
 const darkMode = ref(isDark.value)
+const switchRef = ref<SwitchInstance>()
 
 watch(
   () => darkMode.value,
@@ -14,7 +16,7 @@ watch(
 )
 
 let resolveFn: (value: boolean | PromiseLike<boolean>) => void
-const switchTheme = (event: MouseEvent) => {
+const switchTheme = (event: MouseEvent | KeyboardEvent) => {
   const isAppearanceTransition =
     // @ts-expect-error
     document.startViewTransition &&
@@ -23,8 +25,18 @@ const switchTheme = (event: MouseEvent) => {
     resolveFn(true)
     return
   }
-  const x = event.clientX
-  const y = event.clientY
+  let x: number
+  let y: number
+  if (event instanceof MouseEvent) {
+    x = event.clientX
+    y = event.clientY
+  } else {
+    const switchElement = switchRef.value?.$el
+    const rect = switchElement.getBoundingClientRect()
+
+    x = rect.left + rect.width / 2
+    y = rect.top + rect.height / 2
+  }
   const endRadius = Math.hypot(
     Math.max(x, innerWidth - x),
     Math.max(y, innerHeight - y)
@@ -61,9 +73,10 @@ const beforeChange = (): Promise<boolean> => {
 </script>
 
 <template>
-  <div @click.stop="switchTheme">
+  <div @click.stop="switchTheme" @keydown.enter.stop="switchTheme">
     <ClientOnly>
       <el-switch
+        ref="switchRef"
         v-model="darkMode"
         :before-change="beforeChange"
         :active-action-icon="DarkIcon"
