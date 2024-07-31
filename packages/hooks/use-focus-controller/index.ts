@@ -1,9 +1,14 @@
 import { getCurrentInstance, onMounted, ref, shallowRef, watch } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import { isFunction } from '@element-plus/utils'
+import { isElement, isFunction } from '@element-plus/utils'
 import type { ShallowRef } from 'vue'
 
 interface UseFocusControllerOptions {
+  /**
+   * return true to cancel focus
+   * @param event FocusEvent
+   */
+  beforeFocus?: (event: FocusEvent) => boolean | undefined
   afterFocus?: () => void
   /**
    * return true to cancel blur
@@ -15,7 +20,12 @@ interface UseFocusControllerOptions {
 
 export function useFocusController<T extends { focus: () => void }>(
   target: ShallowRef<T | undefined>,
-  { afterFocus, beforeBlur, afterBlur }: UseFocusControllerOptions = {}
+  {
+    beforeFocus,
+    afterFocus,
+    beforeBlur,
+    afterBlur,
+  }: UseFocusControllerOptions = {}
 ) {
   const instance = getCurrentInstance()!
   const { emit } = instance
@@ -23,7 +33,8 @@ export function useFocusController<T extends { focus: () => void }>(
   const isFocused = ref(false)
 
   const handleFocus = (event: FocusEvent) => {
-    if (isFocused.value) return
+    const cancelFocus = isFunction(beforeFocus) ? beforeFocus(event) : false
+    if (cancelFocus || isFocused.value) return
     isFocused.value = true
     emit('focus', event)
     afterFocus?.()
@@ -59,17 +70,21 @@ export function useFocusController<T extends { focus: () => void }>(
     }
   })
 
-  if (process.env.NODE_ENV !== 'test') {
-    useEventListener(wrapperRef, 'focus', handleFocus, true)
-    useEventListener(wrapperRef, 'blur', handleBlur, true)
-    useEventListener(wrapperRef, 'click', handleClick, true)
-  }
+  useEventListener(wrapperRef, 'focus', handleFocus, true)
+  useEventListener(wrapperRef, 'blur', handleBlur, true)
+  useEventListener(wrapperRef, 'click', handleClick, true)
 
   // only for test
   if (process.env.NODE_ENV === 'test') {
     onMounted(() => {
-      useEventListener(target as unknown as HTMLElement, 'focus', handleFocus)
-      useEventListener(target as unknown as HTMLElement, 'blur', handleBlur)
+      const targetEl = isElement(target.value)
+        ? target.value
+        : document.querySelector('input,textarea')
+
+      if (targetEl) {
+        useEventListener(targetEl, 'focus', handleFocus, true)
+        useEventListener(targetEl, 'blur', handleBlur, true)
+      }
     })
   }
 
