@@ -53,7 +53,7 @@ date-picker/month-range
 
 :::
 
-## Year Range
+## Year Range ^(2.8.0)
 
 Picking a year range is supported.
 
