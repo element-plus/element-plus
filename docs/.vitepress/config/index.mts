@@ -1,8 +1,13 @@
 import consola from 'consola'
 import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
 import { docsDirName } from '@element-plus/build-utils'
-import { languages } from './utils/lang'
-import { features, head, mdPlugin, nav, sidebars } from './config'
+import { languages } from '../utils/lang'
+import { features } from './features'
+import { head } from './head'
+import { nav } from './nav'
+import { mdPlugin } from './plugins'
+import { sidebars } from './sidebars'
+
 import type { UserConfig } from 'vitepress'
 
 const buildTransformers = () => {
@@ -41,7 +46,7 @@ languages.forEach((lang) => {
   }
 })
 
-export const config: UserConfig = {
+const config: UserConfig = {
   title: 'Element Plus',
   description: 'A Vue 3 based component library for designers and developers',
   lastUpdated: true,
@@ -53,7 +58,6 @@ export const config: UserConfig = {
 
     editLinks: true,
     editLinkText: 'Edit this page on GitHub',
-    lastUpdated: 'Last Updated',
 
     logo: '/images/element-plus-logo.svg',
     logoSmall: '/images/element-plus-logo-small.svg',
@@ -75,12 +79,10 @@ export const config: UserConfig = {
 
   vue: {
     template: {
-      ssr: true,
       compilerOptions: {
         directiveTransforms: buildTransformers(),
       },
     },
   },
 }
-
 export default config

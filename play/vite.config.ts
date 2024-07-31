@@ -63,6 +63,9 @@ export default defineConfig(async ({ mode }) => {
       host: true,
       https: !!env.HTTPS,
     },
+    build: {
+      sourcemap: true,
+    },
     plugins: [
       VueMacros({
         setupComponent: false,

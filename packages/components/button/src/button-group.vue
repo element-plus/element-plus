@@ -1,5 +1,5 @@
 <template>
-  <div :class="`${ns.b('group')}`">
+  <div :class="ns.b('group')">
     <slot />
   </div>
 </template>
