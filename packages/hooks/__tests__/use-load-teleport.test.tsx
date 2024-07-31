@@ -7,33 +7,33 @@ describe('useLoadTeleport', () => {
     document.body.innerHTML = ''
   })
 
-  it('should set isLoad to true if element null', () => {
+  it('should set isLoadTeleport to true if element null', () => {
     document.body.innerHTML = null as unknown as string
-    const { isLoad } = useLoadTeleport('#test-element')
+    const { isLoadTeleport } = useLoadTeleport('#test-element')
 
-    expect(isLoad.value).toBe(false)
+    expect(isLoadTeleport.value).toBe(false)
   })
 
-  it('should set isLoad to true if element exists', () => {
+  it('should set isLoadTeleport to true if element exists', () => {
     document.body.innerHTML = '<div id="test-element"></div>'
 
-    const { isLoad } = useLoadTeleport('#test-element')
+    const { isLoadTeleport } = useLoadTeleport('#test-element')
 
-    expect(isLoad.value).toBe(true)
+    expect(isLoadTeleport.value).toBe(true)
   })
 
-  it('should set isLoad to false if element does not exist', () => {
-    const { isLoad } = useLoadTeleport('#non-existent-element')
+  it('should set isLoadTeleport to false if element does not exist', () => {
+    const { isLoadTeleport } = useLoadTeleport('#non-existent-element')
 
-    expect(isLoad.value).toBe(false)
+    expect(isLoadTeleport.value).toBe(false)
   })
 
   it('should handle Ref correctly', () => {
     const appendToRef = ref('#test-element')
     document.body.innerHTML = '<div id="test-element"></div>'
 
-    const { isLoad } = useLoadTeleport(appendToRef)
+    const { isLoadTeleport } = useLoadTeleport(appendToRef)
 
-    expect(isLoad.value).toBe(true)
+    expect(isLoadTeleport.value).toBe(true)
   })
 })
