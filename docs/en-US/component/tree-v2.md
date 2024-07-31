@@ -116,6 +116,7 @@ tree-v2/filter
 | expandNode | expand specified node | `(node: TreeNode)` |
 | collapseNode | collapse specified node | `(node: TreeNode)` |
 | setData | When the data is very large, using reactive data will cause the poor performance, so we provide a way to avoid this situation | `(data: TreeData)` |
+| scrollTo | scroll to a given tree key with specified scroll strategy | `(key: TreeKey, align: auto \| smart \| center \| start \| end)` |
 
 ## TreeV2 Events
 
