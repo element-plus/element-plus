@@ -1,183 +1,281 @@
-/* https://github.com/antfu/prism-theme-vars */
-@use 'prism-theme-vars/base.css';
-@use 'prism-theme-vars/marker.css';
-
-[class*='language-']:before {
-  font-family: var(--code-font-family);
-}
-
-span[class~='language-css']:before {
-  content: '';
-}
+@use 'vitepress/dist/client/theme-default/styles/vars.css';
+@use 'vitepress/dist/client/theme-default/styles/icons.css';
+@use 'vitepress/dist/client/theme-default/styles/components/vp-code.css';
 
 :root {
-  --prism-marker-opacity: 0.6;
-  --prism-marker-color: var(--code-text-color);
-  --prism-line-height: var(--code-line-height);
+  --vp-code-block-bg: var(--el-fill-color-light);
+  --vp-code-line-height: 1.6;
+}
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--code-font-family);
 }
 
-html:not(.dark) {
-  --prism-builtin: #3182bd;
-  --prism-comment: #848486;
-  --prism-deleted: #3182bd;
-  --prism-function: #6196cc;
-  --prism-boolean: #c25205;
-  --prism-number: #c25205;
-  --prism-property: #717c11;
-  --prism-punctuation: #a8a9cc;
-  --prism-keyword: #c792ea;
-  --prism-variable: #0b8235;
-  --prism-url-decoration: #67cdcc;
-  --prism-symbol: green;
-  --prism-selector: #0b8235;
-}
-
-html.dark {
-  --prism-scheme: dark;
-  --prism-foreground: #a6accd;
-  --prism-background: #181818;
-  --prism-comment: #758575;
-  --prism-string: #c3e88d;
-  --prism-literal: #429988;
-  --prism-keyword: #89ddff;
-  --prism-boolean: #6394bf;
-  --prism-number: #6394bf;
-  --prism-variable: #c2b36e;
-  --prism-function: #82aaff;
-  --prism-deleted: #bc6066;
-  --prism-class: #54b1bf;
-  --prism-builtin: var(--el-color-primary-light-3);
-  --prism-property: #c792ea;
-  --prism-namespace: #db889a;
-  --prism-punctuation: #89ddff;
-  --prism-decorator: #bd8f8f;
-  --prism-regex: #ab5e3f;
-  --prism-json-property: #6b8b9e;
-  --prism-line-number: #888888;
-  --prism-line-number-gutter: #eeeeee;
-  --prism-line-highlight-background: #444444;
-  --prism-selection-background: #444444;
-  --prism-inline-background: #2d2d2d;
-}
-
-code {
-  margin: 0;
+:not(pre) > code {
   border-radius: 4px;
   padding: 0.15rem 0.5rem;
-  font-family: var(--code-font-family);
-  font-size: var(--code-font-size);
-  color: var(--code-text-color);
-  line-height: var(--code-line-height);
-  background-color: var(--code-bg-color);
+  background-color: var(--el-fill-color-light);
+  transition: color 0.25s, background-color 0.5s;
+  font-size: 14px;
 }
 
-pre {
-  code {
-    background-color: transparent;
-  }
+.doc-content a > code {
+  color: var(--vp-code-link-color);
 }
 
-a > code {
-  color: var(--code-link-color);
+.doc-content a:hover > code {
+  color: var(--vp-code-link-hover-color);
 }
 
-code .token.deleted {
-  color: #ec5975;
+.doc-content h1 > code,
+.doc-content h2 > code,
+.doc-content h3 > code {
+  font-size: 0.9em;
 }
 
-code .token.inserted {
-  color: var(--c-brand);
-}
-
-div[class*='language-'] {
+.doc-content div[class*='language-'],
+.vp-block {
   position: relative;
-  margin: 1rem -1.5rem;
-  background-color: var(--code-bg-color);
+  margin: 16px 0;
+  background-color: var(--vp-code-block-bg);
   overflow-x: auto;
+  transition: background-color 0.5s;
 }
 
-li > div[class*='language-'] {
-  border-radius: 6px 0 0 6px;
-  margin: 1rem -1.5rem 1rem -1.25rem;
-}
-
-@media (min-width: 420px) {
-  div[class*='language-'] {
-    margin: 1rem 0;
-    border-radius: 6px;
-  }
-
-  li > div[class*='language-'] {
-    margin: 1rem 0 1rem 0;
-    border-radius: 6px;
+@media (min-width: 640px) {
+  .doc-content div[class*='language-'],
+  .vp-block {
+    border-radius: 8px;
   }
 }
 
-[class*='language-'] pre,
-[class*='language-'] code {
+@media (max-width: 639px) {
+  .doc-content li div[class*='language-'] {
+    border-radius: 8px 0 0 8px;
+  }
+}
+
+.doc-content div[class*='language-'] + div[class*='language-'],
+.doc-content div[class$='-api'] + div[class*='language-'],
+.doc-content
+  div[class*='language-']
+  + div[class$='-api']
+  > div[class*='language-'] {
+  margin-top: -8px;
+}
+
+.doc-content [class*='language-'] pre,
+.doc-content [class*='language-'] code {
+  /*rtl:ignore*/
+  direction: ltr;
+  /*rtl:ignore*/
   text-align: left;
   white-space: pre;
   word-spacing: normal;
   word-break: normal;
   word-wrap: normal;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
   tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
   hyphens: none;
 }
 
-[class*='language-'] pre {
+.doc-content [class*='language-'] pre {
   position: relative;
   z-index: 1;
   margin: 0;
-  padding: 0.25rem;
+  padding: 20px 0;
   background: transparent;
   overflow-x: auto;
 }
 
-[class*='language-'] code {
-  padding: 0;
-  line-height: var(--code-line-height);
-  font-size: var(--code-font-size);
-  color: var(--code-text-color);
+.doc-content [class*='language-'] code {
+  display: block;
+  padding: 0 24px;
+  width: fit-content;
+  min-width: 100%;
+  line-height: var(--vp-code-line-height);
+  font-size: var(--vp-code-font-size);
+  color: var(--vp-code-block-color);
+  transition: color 0.5s;
 }
 
-/* Line highlighting */
+.doc-content [class*='language-'] code .highlighted {
+  background-color: var(--vp-code-line-highlight-color);
+  transition: background-color 0.5s;
+  margin: 0 -24px;
+  padding: 0 24px;
+  width: calc(100% + 2 * 24px);
+  display: inline-block;
+}
 
-.highlight-lines {
+.doc-content [class*='language-'] code .highlighted.error {
+  background-color: var(--vp-code-line-error-color);
+}
+
+.doc-content [class*='language-'] code .highlighted.warning {
+  background-color: var(--vp-code-line-warning-color);
+}
+
+.doc-content [class*='language-'] code .diff {
+  transition: background-color 0.5s;
+  margin: 0 -24px;
+  padding: 0 24px;
+  width: calc(100% + 2 * 24px);
+  display: inline-block;
+}
+
+.doc-content [class*='language-'] code .diff::before {
+  position: absolute;
+  left: 10px;
+}
+
+.doc-content [class*='language-'] .has-focused-lines .line:not(.has-focus) {
+  filter: blur(0.095rem);
+  opacity: 0.4;
+  transition: filter 0.35s, opacity 0.35s;
+}
+
+.doc-content [class*='language-'] .has-focused-lines .line:not(.has-focus) {
+  opacity: 0.7;
+  transition: filter 0.35s, opacity 0.35s;
+}
+
+.doc-content
+  [class*='language-']:hover
+  .has-focused-lines
+  .line:not(.has-focus) {
+  filter: blur(0);
+  opacity: 1;
+}
+
+.doc-content [class*='language-'] code .diff.remove {
+  background-color: var(--vp-code-line-diff-remove-color);
+  opacity: 0.7;
+}
+
+.doc-content [class*='language-'] code .diff.remove::before {
+  content: '-';
+  color: var(--vp-code-line-diff-remove-symbol-color);
+}
+
+.doc-content [class*='language-'] code .diff.add {
+  background-color: var(--vp-code-line-diff-add-color);
+}
+
+.doc-content [class*='language-'] code .diff.add::before {
+  content: '+';
+  color: var(--vp-code-line-diff-add-symbol-color);
+}
+
+.doc-content div[class*='language-'].line-numbers-mode {
+  /*rtl:ignore*/
+  padding-left: 32px;
+}
+
+.doc-content .line-numbers-wrapper {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
-  padding: 1.25rem 0;
-  width: 100%;
-  line-height: var(--code-line-height);
-  font-family: var(--code-font-family);
-  font-size: var(--code-font-size);
-  user-select: none;
-  overflow: hidden;
-}
-
-.highlight-lines .highlighted {
-  background-color: rgba(0, 0, 0, 0.66);
-}
-
-/* Line numbers mode */
-
-div[class*='language-'].line-numbers-mode {
-  padding-left: 3.5rem;
-}
-
-.line-numbers-wrapper {
-  position: absolute;
-  top: 0;
-  bottom: 0;
+  /*rtl:ignore*/
   left: 0;
   z-index: 3;
-  border-right: 1px solid var(--el-overlay-color-lighter);
-  padding: 1.25rem 0;
-  width: 3.5rem;
+  /*rtl:ignore*/
+  border-right: 1px solid var(--vp-code-block-divider-color);
+  padding-top: 20px;
+  width: 32px;
   text-align: center;
-  line-height: var(--code-line-height);
-  font-family: var(--code-font-family);
-  font-size: var(--code-font-size);
-  color: #888;
+  font-family: var(--vp-font-family-mono);
+  line-height: var(--vp-code-line-height);
+  font-size: var(--vp-code-font-size);
+  color: var(--vp-code-line-number-color);
+  transition: border-color 0.5s, color 0.5s;
+}
+
+.doc-content [class*='language-'] > button.copy {
+  /*rtl:ignore*/
+  direction: ltr;
+  position: absolute;
+  top: 12px;
+  /*rtl:ignore*/
+  right: 12px;
+  z-index: 3;
+  border: 1px solid var(--vp-code-copy-code-border-color);
+  border-radius: 4px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--vp-code-copy-code-bg);
+  opacity: 0;
+  cursor: pointer;
+  background-image: var(--vp-icon-copy);
+  background-position: 50%;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  transition: border-color 0.25s, background-color 0.25s, opacity 0.25s;
+}
+
+.doc-content [class*='language-']:hover > button.copy,
+.doc-content [class*='language-'] > button.copy:focus {
+  opacity: 1;
+}
+
+.doc-content [class*='language-'] > button.copy:hover,
+.doc-content [class*='language-'] > button.copy.copied {
+  border-color: var(--vp-code-copy-code-hover-border-color);
+  background-color: var(--vp-code-copy-code-hover-bg);
+}
+
+.doc-content [class*='language-'] > button.copy.copied,
+.doc-content [class*='language-'] > button.copy:hover.copied {
+  /*rtl:ignore*/
+  border-radius: 0 4px 4px 0;
+  background-color: var(--vp-code-copy-code-hover-bg);
+  background-image: var(--vp-icon-copied);
+}
+
+.doc-content [class*='language-'] > button.copy.copied::before,
+.doc-content [class*='language-'] > button.copy:hover.copied::before {
+  position: relative;
+  top: -1px;
+  /*rtl:ignore*/
+  transform: translateX(calc(-100% - 1px));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--vp-code-copy-code-hover-border-color);
+  /*rtl:ignore*/
+  border-right: 0;
+  border-radius: 4px 0 0 4px;
+  padding: 0 10px;
+  width: fit-content;
+  height: 40px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--vp-code-copy-code-active-text);
+  background-color: var(--vp-code-copy-code-hover-bg);
+  white-space: nowrap;
+  content: var(--vp-code-copy-copied-text-content);
+}
+
+.doc-content [class*='language-'] > span.lang {
+  position: absolute;
+  top: 2px;
+  /*rtl:ignore*/
+  right: 8px;
+  z-index: 2;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--vp-code-lang-color);
+  transition: color 0.4s, opacity 0.4s;
+}
+
+.doc-content [class*='language-']:hover > button.copy + span.lang,
+.doc-content [class*='language-'] > button.copy:focus + span.lang {
+  opacity: 0;
 }

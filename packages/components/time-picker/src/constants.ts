@@ -9,6 +9,7 @@ export const DEFAULT_FORMATS_DATEPICKER = {
   year: 'YYYY',
   years: 'YYYY',
   month: 'YYYY-MM',
+  months: 'YYYY-MM',
   datetime: `${DEFAULT_FORMATS_DATE} ${DEFAULT_FORMATS_TIME}`,
   monthrange: 'YYYY-MM',
   yearrange: 'YYYY',
