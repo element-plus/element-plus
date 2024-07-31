@@ -18,9 +18,8 @@ const loading = ref(false)
 const options = ref<MentionOption[]>([])
 
 let timer: ReturnType<typeof setTimeout>
-const handleSearch = (pattern: string, prefix: string) => {
+const handleSearch = (pattern: string) => {
   if (timer) clearTimeout(timer)
-  console.log(pattern, prefix)
 
   loading.value = true
   timer = setTimeout(() => {

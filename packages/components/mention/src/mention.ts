@@ -28,6 +28,10 @@ export const mentionProps = buildProps({
   prefix: {
     type: definePropType<string | string[]>([String, Array]),
     default: '@',
+    validator: (val: string | string[]) => {
+      if (isString(val)) return val.length === 1
+      return val.every((v) => isString(v) && v.length === 1)
+    },
   },
   /**
    * @description character to split mentions. The string length must be exactly 1.
@@ -35,6 +39,7 @@ export const mentionProps = buildProps({
   split: {
     type: String,
     default: ' ',
+    validator: (val: string) => val.length === 1,
   },
   /**
    * @description customize filter option logic.

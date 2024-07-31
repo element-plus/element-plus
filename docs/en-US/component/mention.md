@@ -89,7 +89,7 @@ and please go to the original component to view the documentation.
 | Name                                 | Description                                                                            | Type                                                                         | Default    |
 | ------------------------------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------- |
 | options                              | mention options list                                                                   | ^[array]`MentionOption[]`                                                    | []         |
-| prefix                               | prefix character to trigger mentions. The string length must be exactly 1              | ^[string]                                                                    | `'@'`      |
+| prefix                               | prefix character to trigger mentions. The string length must be exactly 1              | ^[string] \| ^[array]`string[]`                                              | `'@'`      |
 | split                                | character to split mentions. The string length must be exactly 1                       | ^[string]                                                                    | `' '`      |
 | filter-option                        | customize filter option logic                                                          | ^[false] \| ^[Function]`(pattern: string, option: MentionOption) => boolean` | -          |
 | placement                            | set popup placement                                                                    | ^[string]`'bottom' \| 'top'`                                                 | `'bottom'` |
@@ -113,20 +113,20 @@ and please go to the original component to view the documentation.
 
 ### Slots
 
-| Name                            | Description                           |
-| ------------------------------- | ------------------------------------- |
-| label                           | content as option label               |
-| loading                         | content as option loading             |
-| header                          | content at the top of the dropdown    |
-| footer                          | content at the bottom of the dropdown |
-| [input slots](./input.md#slots) | -                                     |
+| Name                            | Description                           | Type                                              |
+| ------------------------------- | ------------------------------------- | ------------------------------------------------- |
+| label                           | content as option label               | ^[object]`{ item: MentionOption, index: number }` |
+| loading                         | content as option loading             | -                                                 |
+| header                          | content at the top of the dropdown    | -                                                 |
+| footer                          | content at the bottom of the dropdown | -                                                 |
+| [input slots](./input.md#slots) | -                                     | -                                                 |
 
 ### Exposes
 
 | Name    | Description                   | Type                                    |
 | ------- | ----------------------------- | --------------------------------------- |
-| input   | el-input component instence   | ^[object]`Ref<InputInstance \| null>`   |
-| tooltip | el-tooltip component instence | ^[object]`Ref<TooltipInstance \| null>` |
+| input   | el-input component instance   | ^[object]`Ref<InputInstance \| null>`   |
+| tooltip | el-tooltip component instance | ^[object]`Ref<TooltipInstance \| null>` |
 
 ## Type Declarations
 
