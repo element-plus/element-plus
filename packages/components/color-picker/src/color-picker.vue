@@ -321,14 +321,10 @@ function clear() {
   resetColor()
 }
 
-function handleClickOutside(event: Event) {
+function handleClickOutside() {
   if (!showPicker.value) return
   hide()
-
-  // if (isFocused.value) {
-  //   const _event = new FocusEvent('focus', event)
-  //   handleBlur(_event)
-  // }
+  isFocused.value && focus()
 }
 
 function handleEsc(event: KeyboardEvent) {
