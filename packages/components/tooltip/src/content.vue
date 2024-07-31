@@ -1,5 +1,5 @@
 <template>
-  <teleport :disabled="!teleported || !isLoad" :to="appendTo">
+  <teleport :disabled="!teleported || !isLoadTeleport" :to="appendTo">
     <transition
       :name="transitionClass"
       @after-leave="onTransitionLeave"
@@ -63,7 +63,6 @@ defineOptions({
 })
 
 const props = defineProps(useTooltipContentProps)
-
 const { selector } = usePopperContainerId()
 const ns = useNamespace('tooltip')
 // TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
@@ -109,7 +108,7 @@ const appendTo = computed(() => {
   return props.appendTo || selector.value
 })
 
-const { isLoad } = useLoadTeleport(appendTo)
+const { isLoadTeleport } = useLoadTeleport(appendTo)
 
 const contentStyle = computed(() => (props.style ?? {}) as any)
 

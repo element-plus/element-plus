@@ -1,27 +1,27 @@
 import { ref, unref } from 'vue'
 import { isClient } from '@vueuse/core'
-import type { ComputedRef, Ref } from 'vue'
+import type { ComputedRef, Ref, RendererElement } from 'vue'
 
-type AppendTo = string | HTMLElement
+type AppendTo = string | HTMLElement | RendererElement | null | undefined
 
 export const useLoadTeleport = (
   appendTo: AppendTo | Ref<AppendTo> | ComputedRef<AppendTo>
 ) => {
-  const isLoad = ref(false)
+  const isLoadTeleport = ref(false)
 
   if (!isClient) {
-    isLoad.value = true
-  } else {
+    isLoadTeleport.value = true
+  } else if (unref(appendTo)) {
     const el =
       typeof unref(appendTo) === 'string'
         ? document.querySelector(unref(appendTo) as string)
         : unref(appendTo)
     if (el) {
-      isLoad.value = true
+      isLoadTeleport.value = true
     }
   }
 
   return {
-    isLoad,
+    isLoadTeleport,
   }
 }
