@@ -26,28 +26,49 @@ export interface IElDropdownInstance {
 }
 
 export const dropdownProps = buildProps({
+  /**
+   * @description how to trigger
+   */
   trigger: useTooltipTriggerProps.trigger,
   effect: {
     ...useTooltipContentProps.effect,
     default: 'light',
   },
+  /**
+   * @description menu button type, refer to `Button` Component, only works when `split-button` is true
+   */
   type: {
     type: definePropType<ButtonType>(String),
   },
+  /**
+   * @description placement of pop menu
+   */
   placement: {
     type: definePropType<Placement>(String),
     default: 'bottom',
   },
+  /**
+   * @description [popper.js](https://popper.js.org/docs/v2/) parameters
+   */
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
     default: () => ({}),
   },
   id: String,
+  /**
+   * @description menu size, also works on the split button
+   */
   size: {
     type: String,
     default: '',
   },
+  /**
+   * @description whether a button group is displayed
+   */
   splitButton: Boolean,
+  /**
+   * @description whether to hide menu after clicking menu-item
+   */
   hideOnClick: {
     type: Boolean,
     default: true,
@@ -56,30 +77,48 @@ export const dropdownProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description delay time before show a dropdown (only works when trigger is `hover`)
+   */
   showTimeout: {
     type: Number,
     default: 150,
   },
+  /**
+   * @description delay time before hide a dropdown (only works when trigger is `hover`)
+   */
   hideTimeout: {
     type: Number,
     default: 150,
   },
+  /**
+   * @description [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Dropdown
+   */
   tabindex: {
     type: definePropType<number | string>([Number, String]),
     default: 0,
   },
+  /**
+   * @description the max height of menu
+   */
   maxHeight: {
     type: definePropType<number | string>([Number, String]),
     default: '',
   },
+  /**
+   * @description custom class name for Dropdown's dropdown
+   */
   popperClass: {
     type: String,
     default: '',
   },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+  /**
+   * @description whether to disable
+   */
+  disabled: Boolean,
+  /**
+   * @description the ARIA role attribute for the dropdown menu. Depending on the use case, you may want to change this to 'navigation'
+   */
   role: {
     type: String,
     default: 'menu',
@@ -87,17 +126,32 @@ export const dropdownProps = buildProps({
   buttonProps: {
     type: definePropType<ButtonProps>(Object),
   },
+  /**
+   * @description whether the dropdown popup is teleported to the body
+   */
   teleported: useTooltipContentProps.teleported,
 } as const)
 
 export const dropdownItemProps = buildProps({
+  /**
+   * @description a command to be dispatched to Dropdown's `command` callback
+   */
   command: {
     type: [Object, String, Number],
     default: () => ({}),
   },
+  /**
+   * @description whether the item is disabled
+   */
   disabled: Boolean,
+  /**
+   * @description whether a divider is displayed
+   */
   divided: Boolean,
   textValue: String,
+  /**
+   * @description custom icon
+   */
   icon: {
     type: iconPropType,
   },
