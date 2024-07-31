@@ -2,6 +2,7 @@
   <div class="custom-tree-container">
     <p>Using render-content</p>
     <el-tree
+      style="max-width: 600px"
       :data="dataSource"
       show-checkbox
       node-key="id"
@@ -11,6 +12,7 @@
     />
     <p>Using scoped slot</p>
     <el-tree
+      style="max-width: 600px"
       :data="dataSource"
       show-checkbox
       node-key="id"

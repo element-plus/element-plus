@@ -1,11 +1,13 @@
 // GlobalComponents for Volar
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   export interface GlobalComponents {
     ElAffix: typeof import('element-plus')['ElAffix']
     ElAlert: typeof import('element-plus')['ElAlert']
     ElAside: typeof import('element-plus')['ElAside']
     ElAutocomplete: typeof import('element-plus')['ElAutocomplete']
     ElAvatar: typeof import('element-plus')['ElAvatar']
+    ElAnchor: typeof import('element-plus')['ElAnchor']
+    ElAnchorLink: typeof import('element-plus')['ElAnchorLink']
     ElBacktop: typeof import('element-plus')['ElBacktop']
     ElBadge: typeof import('element-plus')['ElBadge']
     ElBreadcrumb: typeof import('element-plus')['ElBreadcrumb']
@@ -95,6 +97,9 @@ declare module '@vue/runtime-core' {
     ElDescriptionsItem: typeof import('element-plus')['ElDescriptionsItem']
     ElResult: typeof import('element-plus')['ElResult']
     ElSelectV2: typeof import('element-plus')['ElSelectV2']
+    ElWatermark: typeof import('element-plus')['ElWatermark']
+    ElTour: typeof import('element-plus')['ElTour']
+    ElTourStep: typeof import('element-plus')['ElTourStep']
   }
 
   interface ComponentCustomProperties {

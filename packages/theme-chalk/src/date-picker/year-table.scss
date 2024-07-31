@@ -11,9 +11,17 @@
   }
 
   td {
+    width: 68px;
     text-align: center;
-    padding: 20px 3px;
+    padding: 8px 0px;
     cursor: pointer;
+    position: relative;
+
+    & div {
+      height: 48px;
+      padding: 6px 0;
+      box-sizing: border-box;
+    }
 
     &.today {
       .cell {
@@ -33,27 +41,38 @@
     }
 
     .cell {
-      width: 48px;
+      width: 54px;
       height: 36px;
       display: block;
       line-height: 36px;
       color: getCssVar('datepicker-text-color');
       border-radius: 18px;
       margin: 0 auto;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
 
       &:hover {
         color: getCssVar('datepicker-hover-text-color');
       }
     }
 
+    &.current:not(.disabled) div {
+      border-radius: 24px;
+      margin-left: 3px;
+      margin-right: 3px;
+    }
+
     &.current:not(.disabled) .cell {
-      color: getCssVar('datepicker-active-color');
+      color: $color-white;
+      background-color: getCssVar('datepicker-active-color');
     }
 
     &:focus-visible {
       outline: none;
       .cell {
         outline: 2px solid getCssVar('datepicker-active-color');
+        outline-offset: 1px;
       }
     }
   }

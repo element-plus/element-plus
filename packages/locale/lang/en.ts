@@ -1,12 +1,16 @@
 export default {
   name: 'en',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Clear',
       defaultLabel: 'color picker',
       description:
         'current color is {color}. press enter to select a new color.',
+      alphaLabel: 'pick alpha value',
     },
     datepicker: {
       now: 'Now',
@@ -140,6 +144,11 @@ export default {
       clearFilter: 'All',
       sumText: 'Sum',
     },
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+    },
     tree: {
       emptyText: 'No Data',
     },
@@ -160,6 +169,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes',
       cancelButtonText: 'No',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left',
+      rightArrow: 'Carousel arrow right',
+      indicator: 'Carousel switch to index {index}',
     },
   },
 }

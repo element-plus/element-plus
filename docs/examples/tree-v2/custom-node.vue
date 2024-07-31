@@ -1,5 +1,10 @@
 <template>
-  <el-tree-v2 :data="data" :props="props" :height="208">
+  <el-tree-v2
+    style="max-width: 600px"
+    :data="data"
+    :props="props"
+    :height="208"
+  >
     <template #default="{ node }">
       <span class="prefix" :class="{ 'is-leaf': node.isLeaf }"
         >[ElementPlus]</span

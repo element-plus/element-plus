@@ -113,7 +113,7 @@ onMounted(() => {
     target.value =
       document.querySelector<HTMLElement>(props.target) ?? undefined
     if (!target.value)
-      throwError(COMPONENT_NAME, `Target is not existed: ${props.target}`)
+      throwError(COMPONENT_NAME, `Target does not exist: ${props.target}`)
   } else {
     target.value = document.documentElement
   }

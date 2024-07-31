@@ -1,4 +1,13 @@
 {
+  "overview": {
+    "text": "Overview",
+    "children": [
+      {
+        "link": "/overview",
+        "text": "Overview"
+      }
+    ]
+  },
   "basic": {
     "text": "Basic",
     "children": [
@@ -134,6 +143,11 @@
         "text": "Transfer"
       },
       {
+        "link": "/tree-select",
+        "text": "TreeSelect",
+        "promotion": "2.1.8"
+      },
+      {
         "link": "/upload",
         "text": "Upload"
       }
@@ -216,13 +230,13 @@
         "text": "Timeline"
       },
       {
-        "link": "/tree",
-        "text": "Tree"
+        "link": "/tour",
+        "text": "Tour",
+        "promotion": "2.5.0"
       },
       {
-        "link": "/tree-select",
-        "text": "TreeSelect",
-        "promotion": "2.1.8"
+        "link": "/tree",
+        "text": "Tree"
       },
       {
         "link": "/tree-v2",
@@ -232,6 +246,11 @@
         "link": "/statistic",
         "text": "Statistic",
         "promotion": "2.2.30"
+      },
+      {
+        "link": "/segmented",
+        "text": "Segmented",
+        "promotion": "2.7.0"
       }
     ]
   },
@@ -241,6 +260,11 @@
       {
         "link": "/affix",
         "text": "Affix"
+      },
+      {
+        "link": "/anchor",
+        "text": "Anchor",
+        "promotion": "2.6.0"
       },
       {
         "link": "/backtop",
@@ -323,6 +347,11 @@
       {
         "link": "/divider",
         "text": "Divider"
+      },
+      {
+        "link": "/watermark",
+        "text": "Watermark",
+        "promotion": "2.4.0"
       }
     ]
   }

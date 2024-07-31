@@ -1,6 +1,7 @@
 <template>
   <div class="custom-tree-node-container">
     <el-tree
+      style="max-width: 600px"
       :data="data"
       show-checkbox
       node-key="id"
@@ -88,7 +89,7 @@ const data: Tree[] = [
   color: #626aef;
 }
 
-.el-tree-node.is-expanded.is-penultimate > .el-tree-node__children {
+.el-tree .el-tree-node.is-penultimate > .el-tree-node__children {
   display: flex;
   flex-direction: row;
 }

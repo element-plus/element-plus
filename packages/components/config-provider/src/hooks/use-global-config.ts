@@ -4,6 +4,7 @@ import {
   SIZE_INJECTION_KEY,
   defaultInitialZIndex,
   defaultNamespace,
+  emptyValuesContextKey,
   localeContextKey,
   namespaceContextKey,
   useLocale,
@@ -111,6 +112,14 @@ export const provideGlobalConfig = (
     size: computed(() => context.value.size || ''),
   })
 
+  provideFn(
+    emptyValuesContextKey,
+    computed(() => ({
+      emptyValues: context.value.emptyValues,
+      valueOnClear: context.value.valueOnClear,
+    }))
+  )
+
   if (global || !globalConfig.value) {
     globalConfig.value = context.value
   }
@@ -124,7 +133,7 @@ const mergeConfig = (
   const keys = [...new Set([...keysOf(a), ...keysOf(b)])]
   const obj: Record<string, any> = {}
   for (const key of keys) {
-    obj[key] = b[key] ?? a[key]
+    obj[key] = b[key] !== undefined ? b[key] : a[key]
   }
   return obj
 }

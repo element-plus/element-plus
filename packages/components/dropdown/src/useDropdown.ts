@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { computed, inject, ref } from 'vue'
-import { addClass, generateId } from '@element-plus/utils'
+import { addClass } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
-import { useNamespace } from '@element-plus/hooks'
+import { useId, useNamespace } from '@element-plus/hooks'
 import type { Nullable } from '@element-plus/utils'
 import type { IElDropdownInstance } from './dropdown'
 
@@ -25,7 +25,7 @@ export const initDropdownDomEvent = (
   const menuItems = ref<Nullable<HTMLButtonElement[]>>(null)
   const menuItemsArray = ref<Nullable<HTMLElement[]>>(null)
   const dropdownElm = ref<Nullable<HTMLElement>>(null)
-  const listId = ref(`dropdown-menu-${generateId()}`)
+  const listId = useId()
   dropdownElm.value = dropdownChildren?.subTree.el
 
   function removeTabindex() {
