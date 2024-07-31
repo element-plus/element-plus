@@ -11,7 +11,7 @@ import {
   watch,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
-import { getStyle, throwError } from '@element-plus/utils'
+import { throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { formContextKey, formItemContextKey } from './constants'
 
@@ -41,11 +41,8 @@ export default defineComponent({
 
     const getLabelWidth = () => {
       if (el.value?.firstElementChild) {
-        const width = getStyle(
-          el.value.firstElementChild as HTMLElement,
-          'width'
-        )
-        return Math.ceil(Number.parseFloat(width)) || 0
+        const width = window.getComputedStyle(el.value.firstElementChild).width
+        return Math.ceil(Number.parseFloat(width))
       } else {
         return 0
       }
@@ -98,8 +95,12 @@ export default defineComponent({
             0,
             Number.parseInt(autoLabelWidth, 10) - computedWidth.value
           )
+          const labelPosition =
+            formItemContext.labelPosition || formContext.labelPosition
+
           const marginPosition =
-            formContext.labelPosition === 'left' ? 'marginRight' : 'marginLeft'
+            labelPosition === 'left' ? 'marginRight' : 'marginLeft'
+
           if (marginWidth) {
             style[marginPosition] = `${marginWidth}px`
           }

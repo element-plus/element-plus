@@ -2,9 +2,9 @@
   <div>
     <el-button @click="show = !show">Click Me</el-button>
 
-    <div style="margin-top: 20px; height: 200px">
+    <div style="margin-top: 20px">
       <el-collapse-transition>
-        <div v-show="show">
+        <div v-show="show" style="height: 400px">
           <div class="transition-box">el-collapse-transition</div>
           <div class="transition-box">el-collapse-transition</div>
         </div>

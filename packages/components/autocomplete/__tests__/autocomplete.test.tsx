@@ -1,3 +1,7 @@
+/**
+ * @vitest-environment happy-dom
+ */
+
 import { defineComponent, nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
 import { NOOP } from '@vue/shared'
@@ -368,6 +372,7 @@ describe('Autocomplete.vue', () => {
     test('specified id attachment', async () => {
       const wrapper = mount(() => (
         <FormItem label="Foobar" data-test-ref="item">
+          {/* @ts-ignore */}
           <Autocomplete id="foobar" data-test-ref="input" />
         </FormItem>
       ))

@@ -106,7 +106,7 @@ describe('Message on command', () => {
 
   test('correct space when set offset', async () => {
     const offset = 100
-    const space = 20
+    const space = 16
     const messages = [Message({ offset }), Message({ offset })]
 
     await rAF()

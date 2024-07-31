@@ -152,11 +152,16 @@ describe('Cascader.vue', () => {
   })
 
   test('clearable', async () => {
+    const isClear = ref(false)
+
     const wrapper = _mount(() => (
       <Cascader
         modelValue={['zhejiang', 'hangzhou']}
         clearable
         options={OPTIONS}
+        onClear={() => {
+          isClear.value = true
+        }}
       />
     ))
 
@@ -164,6 +169,7 @@ describe('Cascader.vue', () => {
     expect(wrapper.findComponent(ArrowDown).exists()).toBe(true)
     await trigger.trigger('mouseenter')
     expect(wrapper.findComponent(ArrowDown).exists()).toBe(false)
+    expect(isClear.value).toBe(false)
     await wrapper.findComponent(CircleClose).trigger('click')
     expect(wrapper.find('input').element.value).toBe('')
     expect(
@@ -172,6 +178,7 @@ describe('Cascader.vue', () => {
     await trigger.trigger('mouseleave')
     await trigger.trigger('mouseenter')
     await expect(wrapper.findComponent(CircleClose).exists()).toBe(false)
+    expect(isClear.value).toBe(true)
   })
 
   test('show last level label', async () => {
@@ -256,6 +263,36 @@ describe('Cascader.vue', () => {
     expect(tooltipTags[1].textContent).toBe('Zhejiang / Wenzhou')
   })
 
+  test('max collapse tags', async () => {
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[
+          ['zhejiang', 'hangzhou'],
+          ['zhejiang', 'ningbo'],
+          ['zhejiang', 'wenzhou'],
+        ]}
+        collapseTags
+        collapseTagsTooltip
+        props={props}
+        options={OPTIONS}
+        maxCollapseTags={2}
+      />
+    ))
+
+    await nextTick()
+    const tags = wrapper.findAll(TAG)
+    const [firstTag, secondTag, thirdTag] = tags
+    expect(tags.length).toBe(3)
+    expect(firstTag.text()).toBe('Zhejiang / Hangzhou')
+    expect(secondTag.text()).toBe('Zhejiang / Ningbo')
+    expect(thirdTag.text()).toBe('+ 1')
+    const tooltipTags = document.querySelectorAll(
+      `.el-cascader__collapse-tags ${TAG}`
+    )
+    expect(tooltipTags.length).toBe(1)
+  })
+
   test('tag type', async () => {
     const props = { multiple: true }
     const wrapper = _mount(() => (
@@ -269,6 +306,21 @@ describe('Cascader.vue', () => {
 
     await nextTick()
     expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success')
+  })
+
+  test('tag effect', async () => {
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[['zhejiang', 'hangzhou']]}
+        tagEffect="dark"
+        props={props}
+        options={OPTIONS}
+      />
+    ))
+
+    await nextTick()
+    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--dark')
   })
 
   test('filterable', async () => {

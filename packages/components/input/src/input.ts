@@ -6,7 +6,7 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useSizeProp } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import type Input from './input.vue'
 import type { ExtractPropTypes, StyleValue } from 'vue'
 
@@ -38,6 +38,18 @@ export const inputProps = buildProps({
       Object,
     ]),
     default: '',
+  },
+  /**
+   * @description same as `maxlength` in native input
+   */
+  maxlength: {
+    type: [String, Number],
+  },
+  /**
+   * @description same as `minlength` in native input
+   */
+  minlength: {
+    type: [String, Number],
   },
   /**
    * @description type of input
@@ -94,31 +106,19 @@ export const inputProps = buildProps({
   /**
    * @description native input readonly
    */
-  readonly: {
-    type: Boolean,
-    default: false,
-  },
+  readonly: Boolean,
   /**
    * @description native input readonly
    */
-  clearable: {
-    type: Boolean,
-    default: false,
-  },
+  clearable: Boolean,
   /**
    * @description toggleable password input
    */
-  showPassword: {
-    type: Boolean,
-    default: false,
-  },
+  showPassword: Boolean,
   /**
    * @description word count
    */
-  showWordLimit: {
-    type: Boolean,
-    default: false,
-  },
+  showWordLimit: Boolean,
   /**
    * @description suffix icon
    */
@@ -139,7 +139,7 @@ export const inputProps = buildProps({
     default: undefined,
   },
   /**
-   * @description native input aria-label
+   * @deprecated native input aria-label
    */
   label: {
     type: String,
@@ -166,6 +166,15 @@ export const inputProps = buildProps({
     type: definePropType<StyleValue>([Object, Array, String]),
     default: () => mutable({} as const),
   },
+  /**
+   * @description native input autofocus
+   */
+  autofocus: Boolean,
+  rows: {
+    type: Number,
+    default: 2,
+  },
+  ...useAriaProps(['ariaLabel']),
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>
 

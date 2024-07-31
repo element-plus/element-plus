@@ -99,7 +99,7 @@ dialog/destroy-on-close
 
 Try to drag the `header` part.
 
-:::demo Set `draggable` to `true` to drag.
+:::demo Set `draggable` to `true` to drag. Set `overflow` ^(2.5.4) to `true` can drag overflow the viewport.
 
 dialog/draggable-dialog
 
@@ -125,6 +125,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | modal                      | whether a mask is displayed                                                                          | ^[boolean]                          | true    |
 | modal-class                | custom class names for mask                                                                          | ^[string]                           | —       |
 | append-to-body             | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`    | ^[boolean]                          | false   |
+| append-to ^(2.4.3)         | which element the Dialog appends to. Will override `append-to-body`                                  | ^[string]                           | body    |
 | lock-scroll                | whether scroll of body is disabled while Dialog is displayed                                         | ^[boolean]                          | true    |
 | custom-class ^(deprecated) | custom class names for Dialog                                                                        | ^[string]                           | ''      |
 | open-delay                 | the Time(milliseconds) before open                                                                   | ^[number]                           | 0       |
@@ -134,11 +135,13 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | show-close                 | whether to show a close button                                                                       | ^[boolean]                          | true    |
 | before-close               | callback before Dialog closes, and it will prevent Dialog from closing, use done to close the dialog | ^[Function]`(done: DoneFn) => void` | —       |
 | draggable                  | enable dragging feature for Dialog                                                                   | ^[boolean]                          | false   |
+| overflow ^(2.5.4)          | draggable Dialog can overflow the viewport                                                           | ^[boolean]                          | false   |
 | center                     | whether to align the header and footer in center                                                     | ^[boolean]                          | false   |
-| align-center               | whether to align the dialog both horizontally and vertically                                         | ^[boolean]                          | false   |
+| align-center ^(2.2.16)     | whether to align the dialog both horizontally and vertically                                         | ^[boolean]                          | false   |
 | destroy-on-close           | destroy elements in Dialog when closed                                                               | ^[boolean]                          | false   |
 | close-icon                 | custom close icon, default is Close                                                                  | ^[string] / ^[Component]            | —       |
 | z-index                    | same as z-index in native CSS, z-order of dialog                                                     | ^[number]                           | —       |
+| header-aria-level ^(a11y)  | header's `aria-level` attribute                                                                      | ^[string]                           | 2       |
 
 :::warning
 

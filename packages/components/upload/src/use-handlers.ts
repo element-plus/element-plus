@@ -18,7 +18,7 @@ import type {
 
 const SCOPE = 'ElUpload'
 
-const revokeObjectURL = (file: UploadFile) => {
+const revokeFileObjectURL = (file: UploadFile) => {
   if (file.url?.startsWith('blob:')) {
     URL.revokeObjectURL(file.url)
   }
@@ -117,7 +117,7 @@ export const useHandlers = (
       const fileList = uploadFiles.value
       fileList.splice(fileList.indexOf(file), 1)
       props.onRemove(file, fileList)
-      revokeObjectURL(file)
+      revokeFileObjectURL(file)
     }
 
     if (props.beforeRemove) {
@@ -177,5 +177,6 @@ export const useHandlers = (
     handleSuccess,
     handleRemove,
     submit,
+    revokeFileObjectURL,
   }
 }

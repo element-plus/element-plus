@@ -2,6 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { ElFormItem } from '@element-plus/components/form'
+import { EVENT_CODE } from '@element-plus/constants'
 import ColorPicker from '../src/color-picker.vue'
 import type { ComponentPublicInstance } from 'vue'
 
@@ -68,6 +69,34 @@ describe('Color-picker', () => {
       '.el-color-dropdown__value input'
     )
     expect(input!.value.trim().toUpperCase()).toEqual('#20A0FFEE')
+    wrapper.unmount()
+  })
+  it('control alpha changes through keyboard', async () => {
+    const color = ref('rgba(19, 206, 102, 0.18)')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value} show-alpha />
+    ))
+
+    await wrapper.find('.el-color-picker__trigger').trigger('click')
+    const alphaSlider = wrapper.findComponent('.el-color-alpha-slider')
+    await alphaSlider.find('.el-color-alpha-slider__thumb').trigger('keydown', {
+      key: EVENT_CODE.down,
+      code: EVENT_CODE.down,
+    })
+    await alphaSlider.find('.el-color-alpha-slider__thumb').trigger('keydown', {
+      key: EVENT_CODE.left,
+      code: EVENT_CODE.left,
+    })
+    const input = document.querySelector<HTMLInputElement>(
+      '.el-color-dropdown__value input'
+    )
+    expect(input!.value).toEqual('rgba(19, 206, 102, 0.16)')
+
+    await alphaSlider.find('.el-color-alpha-slider__thumb').trigger('keydown', {
+      key: EVENT_CODE.up,
+      code: EVENT_CODE.up,
+    })
+    expect(input!.value).toEqual('rgba(19, 206, 102, 0.17)')
     wrapper.unmount()
   })
   it('should pick a color when confirm button click', async () => {
@@ -452,5 +481,21 @@ describe('Color-picker', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+  })
+
+  it('it will target the focus & blur', async () => {
+    const focusHandler = vi.fn()
+    const blurHandler = vi.fn()
+    const wrapper = mount(() => (
+      <ColorPicker onFocus={focusHandler} onBlur={blurHandler} />
+    ))
+
+    await nextTick()
+    await wrapper.find('.el-color-picker').trigger('focus')
+    expect(focusHandler).toHaveBeenCalledTimes(1)
+
+    await wrapper.find('.el-color-picker').trigger('blur')
+    expect(blurHandler).toHaveBeenCalledTimes(1)
+    wrapper.unmount()
   })
 })
