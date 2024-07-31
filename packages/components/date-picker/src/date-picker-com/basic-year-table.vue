@@ -13,7 +13,7 @@
           :key="key_"
           :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
           class="available"
-          :class="getCellStyle(cell)"
+          :class="getCellKls(cell)"
           :aria-selected="`${isSelectedCell(cell)}`"
           :aria-label="t(`el.datepicker.year${+cell.text + 1}`)"
           :tabindex="isSelectedCell(cell) ? 0 : -1"
@@ -67,11 +67,7 @@ const startYear = computed(() => {
   return Math.floor(props.date.year() / 10) * 10
 })
 
-const tableRows = ref<YearCell[][]>([
-  [] as YearCell[],
-  [] as YearCell[],
-  [] as YearCell[],
-])
+const tableRows = ref<YearCell[][]>([[], [], []])
 const lastRow = ref<number>()
 const lastColumn = ref<number>()
 const rows = computed(() => {
@@ -148,7 +144,7 @@ const focus = () => {
   currentCellRef.value?.focus()
 }
 
-const getCellStyle = (cell: YearCell) => {
+const getCellKls = (cell: YearCell) => {
   const style: Record<string, boolean> = {}
   const today = dayjs().locale(lang.value)
   const year = cell.text
@@ -179,16 +175,9 @@ const isSelectedCell = (cell: YearCell) => {
 }
 
 const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
-  let target = (event.target as HTMLElement)?.closest(
+  const target = (event.target as HTMLElement)?.closest(
     'td'
   ) as HTMLTableCellElement
-  if (target.tagName === 'A') {
-    target = target.parentNode?.parentNode as HTMLTableCellElement
-  }
-  if (target.tagName === 'DIV') {
-    target = target.parentNode as HTMLTableCellElement
-  }
-  if (target.tagName !== 'TD') return
   if (hasClass(target, 'disabled')) return
 
   const column = target.cellIndex
@@ -217,15 +206,9 @@ const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
 const handleMouseMove = (event: MouseEvent) => {
   if (!props.rangeState.selecting) return
 
-  let target = event.target as HTMLElement
-  if (target.tagName === 'A') {
-    target = target.parentNode?.parentNode as HTMLElement
-  }
-  if (target.tagName === 'DIV') {
-    target = target.parentNode as HTMLElement
-  }
-  if (target.tagName !== 'TD') return
-
+  const target = (event.target as HTMLElement)?.closest(
+    'td'
+  ) as HTMLTableCellElement
   const row = (target.parentNode as HTMLTableRowElement).rowIndex
   const column = (target as HTMLTableCellElement).cellIndex
 
