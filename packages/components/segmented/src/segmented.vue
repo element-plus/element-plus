@@ -146,7 +146,7 @@ const selectedStyle = computed(() => ({
 
 const selectedCls = computed(() => [
   ns.e('item-selected'),
-  ns.is('disabled', state.disabled),
+  ns.is('disabled', getDisabled(getOption(props.modelValue))),
   ns.is('focus-visible', state.focusVisible),
 ])
 
@@ -159,7 +159,7 @@ useResizeObserver(segmentedRef, updateSelect)
 watch(activeElement, updateSelect)
 
 watch(
-  [() => props.modelValue, () => props.disabled],
+  () => props.modelValue,
   () => {
     updateSelect()
     if (props.validateEvent) {
