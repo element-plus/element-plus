@@ -84,5 +84,24 @@ const config: UserConfig = {
       },
     },
   },
+
+  postRender(context) {
+    // Inject the teleport markup
+    if (context.teleports) {
+      const body = Object.entries(context.teleports).reduce(
+        (all, [key, value]) => {
+          if (key.startsWith('#el-popper-container-')) {
+            return `${all}<div id="${key.slice(1)}">${value}</div>`
+          }
+          return all
+        },
+        context.teleports.body || ''
+      )
+
+      context.teleports = { body }
+    }
+
+    return context
+  },
 }
 export default config

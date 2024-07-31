@@ -2,6 +2,10 @@
 import { computed } from 'vue'
 
 const props = defineProps({
+  visible: {
+    type: Boolean,
+    required: true,
+  },
   source: {
     type: String,
     required: true,
@@ -14,7 +18,7 @@ const decoded = computed(() => {
 </script>
 
 <template>
-  <div class="example-source-wrapper">
+  <div v-show="visible" class="example-source-wrapper">
     <div class="example-source" v-html="decoded" />
   </div>
 </template>
