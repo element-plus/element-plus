@@ -1,5 +1,5 @@
 <template>
-  <teleport :disabled="!teleported" :to="appendTo">
+  <teleport :disabled="!teleported || !isLoad" :to="appendTo">
     <transition
       :name="transitionClass"
       @after-leave="onTransitionLeave"
@@ -47,7 +47,11 @@
 <script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
+import {
+  useLoadTeleport,
+  useNamespace,
+  usePopperContainerId,
+} from '@element-plus/hooks'
 import { composeEventHandlers } from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
 import { TOOLTIP_INJECTION_KEY } from './constants'
@@ -104,6 +108,8 @@ const shouldShow = computed(() => {
 const appendTo = computed(() => {
   return props.appendTo || selector.value
 })
+
+const { isLoad } = useLoadTeleport(appendTo)
 
 const contentStyle = computed(() => (props.style ?? {}) as any)
 
