@@ -7,7 +7,7 @@
   >
     <template #label="{ item }">
       <div style="display: flex; align-items: center">
-        <el-avatar :size="32" :icon="UserFilled" />
+        <el-avatar :size="24" :src="item.avatar" />
         <span style="margin-left: 6px">{{ item.value }}</span>
       </div>
     </template>
@@ -16,21 +16,24 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { UserFilled } from '@element-plus/icons-vue'
 const value = ref('')
 
 const options = ref([
   {
     value: 'Fuphoenixes',
+    avatar: 'https://avatars.githubusercontent.com/u/27912232',
   },
   {
     value: 'kooriookami',
+    avatar: 'https://avatars.githubusercontent.com/u/38392315',
   },
   {
     value: 'Jeremy',
+    avatar: 'https://avatars.githubusercontent.com/u/15975785',
   },
   {
     value: 'btea',
+    avatar: 'https://avatars.githubusercontent.com/u/24516654',
   },
 ])
 </script>
