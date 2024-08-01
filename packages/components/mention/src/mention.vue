@@ -192,6 +192,7 @@ const handleSelect = (item: MentionOption) => {
     // input value is updated
     inputEl.selectionStart = newSelectionEnd
     inputEl.selectionEnd = newSelectionEnd
+    inputEl.focus()
     syncDropdownVisible()
   })
 }
