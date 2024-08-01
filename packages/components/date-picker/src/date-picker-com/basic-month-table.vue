@@ -20,9 +20,7 @@
           @keydown.enter.prevent.stop="handleMonthTableClick"
         >
           <div>
-            <span class="cell">
-              {{ t('el.datepicker.months.' + months[cell.text]) }}
-            </span>
+            <renderMonthCell :cell="cell" />
           </div>
         </td>
       </tr>
@@ -31,12 +29,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, h, inject, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
+import { ROOT_PICKER_INJECTION_KEY } from '../constants'
 
 type MonthCell = {
   column: number
@@ -251,6 +250,20 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
   } else {
     emit('pick', month)
   }
+}
+
+const { slots } = inject(ROOT_PICKER_INJECTION_KEY)!
+const renderMonthCell = ({ cell }: { cell: MonthCell }) => {
+  return h(
+    'span',
+    { class: 'cell' },
+    {
+      default: () =>
+        slots.default
+          ? slots.default(cell)
+          : t(`el.datepicker.months.${months.value[cell.text]}`),
+    }
+  )
 }
 
 watch(
