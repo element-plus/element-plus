@@ -222,11 +222,9 @@ const syncCursor = () => {
   cursorStyle.value = {
     position: 'absolute',
     width: 0,
-    height: 0,
+    height: `${caretPosition.height}px`,
     left: `${caretPosition.left + inputRect.left - elInputRect.left}px`,
-    top: `${
-      caretPosition.top + caretPosition.height + inputRect.top - elInputRect.top
-    }px`,
+    top: `${caretPosition.top + inputRect.top - elInputRect.top}px`,
   }
 }
 
