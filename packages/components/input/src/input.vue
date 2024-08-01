@@ -1,7 +1,13 @@
 <template>
   <div
     v-bind="containerAttrs"
-    :class="containerKls"
+    :class="[
+      containerKls,
+      {
+        [nsInput.bm('group', 'append')]: $slots.append,
+        [nsInput.bm('group', 'prepend')]: $slots.prepend,
+      },
+    ]"
     :style="containerStyle"
     :role="containerRole"
     @mouseenter="handleMouseEnter"
@@ -121,6 +127,7 @@
         :placeholder="placeholder"
         :form="form"
         :autofocus="autofocus"
+        :rows="rows"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -172,11 +179,11 @@ import {
   ValidateComponentsMap,
   debugWarn,
   isClient,
-  isKorean,
   isObject,
 } from '@element-plus/utils'
 import {
   useAttrs,
+  useComposition,
   useCursor,
   useDeprecated,
   useFocusController,
@@ -216,8 +223,6 @@ const containerKls = computed(() => [
   nsInput.is('exceed', inputExceed.value),
   {
     [nsInput.b('group')]: slots.prepend || slots.append,
-    [nsInput.bm('group', 'append')]: slots.append,
-    [nsInput.bm('group', 'prepend')]: slots.prepend,
     [nsInput.m('prefix')]: slots.prefix || props.prefixIcon,
     [nsInput.m('suffix')]:
       slots.suffix || props.suffixIcon || props.clearable || props.showPassword,
@@ -251,7 +256,6 @@ const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
 
 const hovering = ref(false)
-const isComposing = ref(false)
 const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
@@ -430,25 +434,12 @@ const handleChange = (event: Event) => {
   emit('change', (event.target as TargetElement).value)
 }
 
-const handleCompositionStart = (event: CompositionEvent) => {
-  emit('compositionstart', event)
-  isComposing.value = true
-}
-
-const handleCompositionUpdate = (event: CompositionEvent) => {
-  emit('compositionupdate', event)
-  const text = (event.target as HTMLInputElement)?.value
-  const lastCharacter = text[text.length - 1] || ''
-  isComposing.value = !isKorean(lastCharacter)
-}
-
-const handleCompositionEnd = (event: CompositionEvent) => {
-  emit('compositionend', event)
-  if (isComposing.value) {
-    isComposing.value = false
-    handleInput(event)
-  }
-}
+const {
+  isComposing,
+  handleCompositionStart,
+  handleCompositionUpdate,
+  handleCompositionEnd,
+} = useComposition({ emit, afterComposition: handleInput })
 
 const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value

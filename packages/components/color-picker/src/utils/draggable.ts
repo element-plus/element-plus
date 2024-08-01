@@ -44,5 +44,5 @@ export function draggable(element: HTMLElement, options: DraggableOptions) {
   }
 
   element.addEventListener('mousedown', downFn)
-  element.addEventListener('touchstart', downFn)
+  element.addEventListener('touchstart', downFn, { passive: false })
 }

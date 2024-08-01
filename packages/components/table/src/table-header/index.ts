@@ -171,7 +171,12 @@ export default defineComponent({
                   subColumns,
                   column
                 ),
-                onClick: ($event) => handleHeaderClick($event, column),
+                onClick: ($event) => {
+                  if ($event.currentTarget.classList.contains('noclick')) {
+                    return
+                  }
+                  handleHeaderClick($event, column)
+                },
                 onContextmenu: ($event) =>
                   handleHeaderContextMenu($event, column),
                 onMousedown: ($event) => handleMouseDown($event, column),
@@ -219,14 +224,25 @@ export default defineComponent({
                         ]
                       ),
                     column.filterable &&
-                      h(FilterPanel, {
-                        store,
-                        placement: column.filterPlacement || 'bottom-start',
-                        column,
-                        upDataColumn: (key, value) => {
-                          column[key] = value
+                      h(
+                        FilterPanel,
+                        {
+                          store,
+                          placement: column.filterPlacement || 'bottom-start',
+                          column,
+                          upDataColumn: (key, value) => {
+                            column[key] = value
+                          },
                         },
-                      }),
+                        {
+                          'filter-icon': () =>
+                            column.renderFilterIcon
+                              ? column.renderFilterIcon({
+                                  filterOpened: column.filterOpened,
+                                })
+                              : null,
+                        }
+                      ),
                   ]
                 ),
               ]
