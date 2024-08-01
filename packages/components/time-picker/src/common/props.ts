@@ -191,13 +191,6 @@ export const timePickerDefaultProps = buildProps({
    */
   arrowControl: Boolean,
   /**
-   * @deprecated same as `aria-label` in native input
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description input tabindex
    */
   tabindex: {

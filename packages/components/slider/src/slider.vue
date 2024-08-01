@@ -175,7 +175,6 @@ const sliderInputSize = computed(
 
 const groupLabel = computed<string>(() => {
   return (
-    props.label ||
     props.ariaLabel ||
     t('el.slider.defaultLabel', {
       min: props.min,
@@ -251,17 +250,6 @@ provide(sliderContextKey, {
   resetSize,
   updateDragging,
 })
-
-useDeprecated(
-  {
-    from: 'label',
-    replacement: 'aria-label',
-    version: '2.8.0',
-    scope: 'el-slider',
-    ref: 'https://element-plus.org/en-US/component/slider.html',
-  },
-  computed(() => !!props.label)
-)
 
 defineExpose({
   onSliderClick,
