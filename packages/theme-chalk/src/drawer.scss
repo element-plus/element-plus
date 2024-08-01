@@ -127,6 +127,11 @@ $directions: rtl, ltr, ttb, btt;
 
   &-enter-from,
   &-leave-to {
+    background-color: transparent !important;
+  }
+
+  &-enter-from,
+  &-leave-to {
     @each $direction in $directions {
       .#{$direction} {
         @if $direction == ltr {
