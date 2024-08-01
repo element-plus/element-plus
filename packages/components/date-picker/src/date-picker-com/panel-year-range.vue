@@ -1,13 +1,5 @@
 <template>
-  <div
-    :class="[
-      ppNs.b(),
-      drpNs.b(),
-      {
-        'has-sidebar': Boolean($slots.sidebar) || hasShortcuts,
-      },
-    ]"
-  >
+  <div :class="divKls">
     <div :class="ppNs.e('body-wrapper')">
       <slot name="sidebar" :class="ppNs.e('sidebar')" />
       <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
@@ -98,7 +90,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, watch } from 'vue'
+import { computed, inject, ref, toRef, useSlots, watch } from 'vue'
 import dayjs from 'dayjs'
 import { isArray } from '@element-plus/utils'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
@@ -131,6 +123,14 @@ const { pickerNs: ppNs } = inject(ROOT_PICKER_INJECTION_KEY)!
 const drpNs = useNamespace('date-range-picker')
 
 const hasShortcuts = computed(() => !!shortcuts.length)
+
+const divKls = computed(() => [
+  ppNs.b(),
+  drpNs.b(),
+  {
+    'has-sidebar': Boolean(useSlots().sidebar) || hasShortcuts,
+  },
+])
 
 const handleShortcutClick = useShortcut(lang)
 

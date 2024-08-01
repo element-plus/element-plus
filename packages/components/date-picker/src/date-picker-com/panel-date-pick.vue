@@ -805,13 +805,6 @@ watch(
   { immediate: true }
 )
 
-// When close time-pick-panel, blur the timePickerInput
-watch(timePickerVisible, (newValue) => {
-  if (!newValue) {
-    timePickerInputRef.value?.blur()
-  }
-})
-
 contextEmit('set-picker-option', ['isValidValue', isValidValue])
 contextEmit('set-picker-option', ['formatToString', formatToString])
 contextEmit('set-picker-option', ['parseUserInput', parseUserInput])

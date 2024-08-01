@@ -49,17 +49,12 @@ export const useYearRangeHeader = ({
   })
 
   const leftYear = computed(() => {
-    const leftEndDate =
-      dayjs()
-        .year(Math.floor(leftDate.value.year() / 10) * 10)
-        .year() + 9
+    const leftEndDate = Math.floor(leftDate.value.year() / 10) * 10 + 9
     return leftEndDate
   })
 
   const rightYear = computed(() => {
-    const rightStartDate = dayjs()
-      .year(Math.floor(rightDate.value.year() / 10) * 10)
-      .year()
+    const rightStartDate = Math.floor(rightDate.value.year() / 10) * 10
     return rightStartDate
   })
 
