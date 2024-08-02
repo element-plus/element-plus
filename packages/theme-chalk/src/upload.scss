@@ -29,6 +29,12 @@
   cursor: pointer;
   outline: none;
 
+  &.is-disabled{
+    .#{$namespace}-upload-dragger {
+      cursor: not-allowed;
+    }
+  }
+
   @include e(input) {
     display: none;
   }
