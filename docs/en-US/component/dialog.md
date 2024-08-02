@@ -179,7 +179,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 | Name         | Description   | Type                    |
 | ------------ | ------------- | ----------------------- |
-| resetPostion | reset postion | ^[Function]`() => void` |
+| resetPostion ^(2.8.0) | reset postion | ^[Function]`() => void` |
 
 ## FAQ
 
