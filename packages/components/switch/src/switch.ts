@@ -133,13 +133,6 @@ export const switchProps = buildProps({
   tabindex: {
     type: [String, Number],
   },
-  /**
-   * @deprecated native input aria-label
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
   ...useAriaProps(['ariaLabel']),
 } as const)
 
