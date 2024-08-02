@@ -56,8 +56,8 @@ const sponsor = computed(() => sponsorLocale[lang.value])
   </aside>
 </template>
 <style scoped lang="scss">
-.sponsors-button:deep {
-  button {
+.sponsors-button {
+  :deep(button) {
     width: 100%;
   }
 }
