@@ -68,7 +68,6 @@ const state = reactive({
   isInit: false,
   width: 0,
   translateX: 0,
-  disabled: false,
   focusVisible: false,
 })
 
@@ -117,7 +116,6 @@ const updateSelect = () => {
   if (!selectedItem || !selectedItemInput) {
     state.width = 0
     state.translateX = 0
-    state.disabled = false
     state.focusVisible = false
     return
   }
@@ -125,7 +123,6 @@ const updateSelect = () => {
   state.isInit = true
   state.width = rect.width
   state.translateX = selectedItem.offsetLeft
-  state.disabled = getDisabled(getOption(props.modelValue))
   try {
     // This will failed in test
     state.focusVisible = selectedItemInput.matches(':focus-visible')
