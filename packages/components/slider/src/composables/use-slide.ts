@@ -185,6 +185,29 @@ export const useSlide = (
     }
   }
 
+  const onSliderMarkerDown = (point: number) => {
+    if (sliderDisabled.value || initData.dragging) return
+    if (props.range) {
+      const firstValue = initData.firstValue
+      const secondValue = initData.secondValue
+      if (point < firstValue) {
+        setFirstValue(point)
+      } else if (point > secondValue) {
+        setSecondValue(point)
+      } else {
+        const distance1 = Math.abs(point - firstValue)
+        const distance2 = Math.abs(point - secondValue)
+        if (distance1 < distance2) {
+          setFirstValue(point)
+        } else {
+          setSecondValue(point)
+        }
+      }
+    } else {
+      setFirstValue(point)
+    }
+  }
+
   return {
     elFormItem,
     slider,
@@ -201,6 +224,7 @@ export const useSlide = (
     onSliderWrapperPrevent,
     onSliderClick,
     onSliderDown,
+    onSliderMarkerDown,
     setFirstValue,
     setSecondValue,
   }

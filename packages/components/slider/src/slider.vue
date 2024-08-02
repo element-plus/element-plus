@@ -83,7 +83,7 @@
             :key="key"
             :mark="item.mark"
             :style="getStopStyle(item.position)"
-            @mousedown.stop="setFirstValue(item.point)"
+            @mousedown.stop="onSliderMarkerDown(item.point)"
           />
         </div>
       </template>
@@ -158,6 +158,7 @@ const {
   onSliderWrapperPrevent,
   onSliderClick,
   onSliderDown,
+  onSliderMarkerDown,
   setFirstValue,
   setSecondValue,
 } = useSlide(props, initData, emit)
