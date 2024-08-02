@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" :class="ns.b()">
+  <div ref="container" v-bind="containerAttrs" :class="[ns.b(), $attrs.class]">
     <slot v-if="hasLoadError" name="error">
       <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
     </slot>
@@ -48,10 +48,17 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  ref,
+  useAttrs as useRawAttrs,
+  watch,
+} from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
-import { pick } from 'lodash-unified'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { fromPairs } from 'lodash-unified'
+import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
@@ -66,6 +73,7 @@ import type { CSSProperties } from 'vue'
 
 defineOptions({
   name: 'ElImage',
+  inheritAttrs: false,
 })
 
 const props = defineProps(imageProps)
@@ -75,25 +83,21 @@ let prevOverflow = ''
 
 const { t } = useLocale()
 const ns = useNamespace('image')
+const rawAttrs = useRawAttrs()
 
-const rawAttrs = useAttrs()
+const containerAttrs = computed(() => {
+  return fromPairs(
+    Object.entries(rawAttrs).filter(
+      ([key]) => /^(data-|on[A-Z])/i.test(key) || ['id', 'style'].includes(key)
+    )
+  )
+})
 
-const imgAttrs = computed(() => {
-  /**
-   * Extra attributes not included in props
-   * @see https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/img
-   */
-  const IMG_EXTRA_ATTR_KEYS = [
-    'alt',
-    'decoding',
-    'fetchpriority',
-    'ismap',
-    'referrerpolicy',
-    'sizes',
-    'srcset',
-    'usemap',
-  ]
-  return pick(rawAttrs, IMG_EXTRA_ATTR_KEYS)
+const imgAttrs = useAttrs({
+  excludeListeners: true,
+  excludeKeys: computed<string[]>(() => {
+    return Object.keys(containerAttrs.value)
+  }),
 })
 
 const imageSrc = ref<string | undefined>()
