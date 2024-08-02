@@ -81,6 +81,7 @@ declare module '@vue/runtime-core' {
     OvLayout: typeof import('./.vitepress/vitepress/components/overview-icons/ov-layout.vue')['default']
     OvLink: typeof import('./.vitepress/vitepress/components/overview-icons/ov-link.vue')['default']
     OvLoading: typeof import('./.vitepress/vitepress/components/overview-icons/ov-loading.vue')['default']
+    OvMention: typeof import('./.vitepress/vitepress/components/overview-icons/ov-mention.vue')['default']
     OvMenu: typeof import('./.vitepress/vitepress/components/overview-icons/ov-menu.vue')['default']
     OvMessage: typeof import('./.vitepress/vitepress/components/overview-icons/ov-message.vue')['default']
     OvMessageBox: typeof import('./.vitepress/vitepress/components/overview-icons/ov-message-box.vue')['default']
