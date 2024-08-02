@@ -101,6 +101,7 @@ const {
   expandNode,
   collapseNode,
   setExpandedKeys,
+  scrollToNode,
   scrollTo,
 } = useTree(props, emit)
 
@@ -121,6 +122,7 @@ defineExpose({
   expandNode,
   collapseNode,
   setExpandedKeys,
+  scrollToNode,
   scrollTo,
 })
 </script>

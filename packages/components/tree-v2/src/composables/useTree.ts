@@ -10,8 +10,8 @@ import {
 import { useCheck } from './useCheck'
 import { useFilter } from './useFilter'
 import type {
-  Alignment,
   FixedSizeList,
+  Alignment as ScrollStrategy,
 } from '@element-plus/components/virtual-list'
 import type { SetupContext } from 'vue'
 import type { treeEmits } from '../virtual-tree'
@@ -283,11 +283,15 @@ export function useTree(
     return tree.value?.treeNodeMap.get(key)
   }
 
-  function scrollTo(key: TreeKey, align: Alignment = 'auto') {
+  function scrollToNode(key: TreeKey, strategy: ScrollStrategy = 'auto') {
     const node = getNode(key)
     if (node && listRef.value) {
-      listRef.value.scrollToItem(flattenTree.value.indexOf(node), align)
+      listRef.value.scrollToItem(flattenTree.value.indexOf(node), strategy)
     }
+  }
+
+  function scrollTo(offset: number) {
+    listRef.value?.scrollTo(offset)
   }
 
   return {
@@ -323,6 +327,7 @@ export function useTree(
     expandNode,
     collapseNode,
     setExpandedKeys,
+    scrollToNode,
     scrollTo,
   }
 }
