@@ -68,6 +68,9 @@ export default {
       noData: 'Brak danych',
       placeholder: 'Wybierz',
     },
+    mention: {
+      loading: 'Ładowanie',
+    },
     cascader: {
       noMatch: 'Brak dopasowań',
       loading: 'Ładowanie',
