@@ -227,7 +227,12 @@ const precision = computed(() => {
   return Math.max.apply(null, precisions)
 })
 
-const { sliderWrapper } = useLifecycle(props, initData, resetSize)
+const { sliderWrapper } = useLifecycle(
+  props,
+  initData,
+  resetSize,
+  setFirstValue
+)
 
 const { firstValue, secondValue, sliderSize } = toRefs(initData)
 

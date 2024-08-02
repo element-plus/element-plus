@@ -5,7 +5,8 @@ import type { SliderInitData, SliderProps } from '../slider'
 export const useLifecycle = (
   props: SliderProps,
   initData: SliderInitData,
-  resetSize: () => void
+  resetSize: () => void,
+  setFirstValue: (val: number) => void
 ) => {
   const sliderWrapper = ref<HTMLElement>()
 
@@ -24,13 +25,19 @@ export const useLifecycle = (
         typeof props.modelValue !== 'number' ||
         Number.isNaN(props.modelValue)
       ) {
-        initData.firstValue = props.min
+        setFirstValue(props.min)
       } else {
-        initData.firstValue = Math.min(
+        const clampedValue = Math.min(
           props.max,
           Math.max(props.min, props.modelValue)
         )
+        if (clampedValue !== props.modelValue) {
+          setFirstValue(clampedValue)
+        } else {
+          initData.firstValue = clampedValue
+        }
       }
+
       initData.oldValue = initData.firstValue
     }
 
