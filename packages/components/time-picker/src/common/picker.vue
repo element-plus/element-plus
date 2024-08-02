@@ -41,7 +41,7 @@
           isYearsPicker ||
           type === 'week'
         "
-        :aria-label="label || ariaLabel"
+        :aria-label="ariaLabel"
         :tabindex="tabindex"
         :validate-event="false"
         @input="onUserInput"
@@ -174,12 +174,7 @@ import {
 } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import {
-  useDeprecated,
-  useEmptyValues,
-  useLocale,
-  useNamespace,
-} from '@element-plus/hooks'
+import { useEmptyValues, useLocale, useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
@@ -761,17 +756,6 @@ const onPanelChange = (
 provide('EP_PICKER_BASE', {
   props,
 })
-
-useDeprecated(
-  {
-    from: 'label',
-    replacement: 'aria-label',
-    version: '2.8.0',
-    scope: 'el-time-picker',
-    ref: 'https://element-plus.org/en-US/component/time-picker.html',
-  },
-  computed(() => !!props.label)
-)
 
 defineExpose({
   /**
