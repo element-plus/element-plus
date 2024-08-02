@@ -1,7 +1,7 @@
 <template>
   <el-radio-group v-model="treeProps.checkStrictly">
-    <el-radio-button :label="true" />
-    <el-radio-button :label="false" />
+    <el-radio-button :value="true" label="true" />
+    <el-radio-button :value="false" label="false" />
   </el-radio-group>
   <el-table
     :data="tableData"
