@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ElCheckbox from '@element-plus/components/checkbox'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
+import { CaretBottom, CaretTop } from '@element-plus/icons-vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
 import {
@@ -436,6 +437,84 @@ describe('Table.vue', () => {
       ]).toContain('is-disabled')
       filter.parentNode.removeChild(filter)
       wrapper.unmount()
+    })
+  })
+
+  describe('filter filter-icon slot', () => {
+    let wrapper: VueWrapper<ComponentPublicInstance>
+
+    beforeEach(async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+          CaretBottom,
+          CaretTop,
+        },
+        template: `
+          <el-table ref="table" :data="testData" @filter-change="handleFilterChange">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column
+              prop="director"
+              column-key="director"
+              :filters="[
+                { text: 'John Lasseter', value: 'John Lasseter' },
+                { text: 'Peter Docter', value: 'Peter Docter' },
+                { text: 'Andrew Stanton', value: 'Andrew Stanton' }
+              ]"
+              :filter-method="filterMethod"
+              label="导演">
+              <template #filter-icon="{ filterOpened }">
+                <CaretTop v-if="filterOpened" class="top" />
+                <CaretBottom v-else class="bottom" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+
+        created() {
+          this.testData = getTestData()
+        },
+
+        methods: {
+          filterMethod(value, row) {
+            return value === row.director
+          },
+          handleFilterChange(filters) {
+            this.filters = filters
+          },
+        },
+      })
+      await doubleWait()
+    })
+
+    afterEach(() => wrapper.unmount())
+
+    it('render', () => {
+      expect(
+        wrapper.find('.el-table__column-filter-trigger')
+      ).not.toBeUndefined()
+      expect(
+        wrapper.find('.el-table__column-filter-trigger .bottom')
+      ).not.toBeUndefined()
+    })
+
+    it('click filter-trigger', async () => {
+      const btn = wrapper.find('.el-table__column-filter-trigger')
+
+      btn.trigger('click')
+      await doubleWait()
+      expect(
+        wrapper.find('.el-table__column-filter-trigger .top')
+      ).not.toBeUndefined()
+
+      btn.trigger('click')
+      await doubleWait()
+      expect(
+        wrapper.find('.el-table__column-filter-trigger .bottom')
+      ).not.toBeUndefined()
     })
   })
 

@@ -209,14 +209,13 @@ import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
-import { useEmptyValues, useLocale, useNamespace } from '@element-plus/hooks'
 import {
-  debugWarn,
-  focusNode,
-  getSibling,
-  isClient,
-  isKorean,
-} from '@element-plus/utils'
+  useComposition,
+  useEmptyValues,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
+import { debugWarn, focusNode, getSibling, isClient } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -271,6 +270,12 @@ const nsInput = useNamespace('input')
 const { t } = useLocale()
 const { form, formItem } = useFormItem()
 const { valueOnClear } = useEmptyValues(props)
+const { isComposing, handleComposition } = useComposition({
+  afterComposition(event) {
+    const text = (event.target as HTMLInputElement)?.value
+    handleInput(text)
+  },
+})
 
 const tooltipRef: Ref<TooltipInstance | null> = ref(null)
 const input: Ref<InputInstance | null> = ref(null)
@@ -286,7 +291,6 @@ const searchInputValue = ref('')
 const presentTags: Ref<Tag[]> = ref([])
 const allPresentTags: Ref<Tag[]> = ref([])
 const suggestions: Ref<CascaderNode[]> = ref([])
-const isOnComposition = ref(false)
 
 const cascaderStyle = computed<StyleValue>(() => {
   return attrs.style as StyleValue
@@ -297,9 +301,7 @@ const inputPlaceholder = computed(
   () => props.placeholder || t('el.cascader.placeholder')
 )
 const currentPlaceholder = computed(() =>
-  searchInputValue.value ||
-  presentTags.value.length > 0 ||
-  isOnComposition.value
+  searchInputValue.value || presentTags.value.length > 0 || isComposing.value
     ? ''
     : inputPlaceholder.value
 )
@@ -343,7 +345,8 @@ const checkedValue = computed<CascaderValue>({
     return cloneDeep(props.modelValue) as CascaderValue
   },
   set(val) {
-    const value = val || valueOnClear.value
+    // https://github.com/element-plus/element-plus/issues/17647
+    const value = val ?? valueOnClear.value
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
     if (props.validateEvent) {
@@ -537,19 +540,8 @@ const handleExpandChange = (value: CascaderValue) => {
   emit('expandChange', value)
 }
 
-const handleComposition = (event: CompositionEvent) => {
-  const text = (event.target as HTMLInputElement)?.value
-  if (event.type === 'compositionend') {
-    isOnComposition.value = false
-    nextTick(() => handleInput(text))
-  } else {
-    const lastCharacter = text[text.length - 1] || ''
-    isOnComposition.value = !isKorean(lastCharacter)
-  }
-}
-
 const handleKeyDown = (e: KeyboardEvent) => {
-  if (isOnComposition.value) return
+  if (isComposing.value) return
 
   switch (e.code) {
     case EVENT_CODE.enter:

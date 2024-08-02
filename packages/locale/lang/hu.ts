@@ -67,6 +67,9 @@ export default {
       noData: 'Nincs adat',
       placeholder: 'Válassz',
     },
+    mention: {
+      loading: 'Betöltés',
+    },
     cascader: {
       noMatch: 'Nincs találat',
       loading: 'Betöltés',

@@ -114,10 +114,7 @@ export const uploadBaseProps = buildProps({
   /**
    * @description whether uploading multiple files is permitted
    */
-  multiple: {
-    type: Boolean,
-    default: false,
-  },
+  multiple: Boolean,
   /**
    * @description key name for uploaded file
    */
@@ -128,10 +125,7 @@ export const uploadBaseProps = buildProps({
   /**
    * @description whether to activate drag and drop mode
    */
-  drag: {
-    type: Boolean,
-    default: false,
-  },
+  drag: Boolean,
   /**
    * @description whether cookies are sent
    */

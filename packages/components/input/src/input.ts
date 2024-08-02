@@ -106,31 +106,19 @@ export const inputProps = buildProps({
   /**
    * @description native input readonly
    */
-  readonly: {
-    type: Boolean,
-    default: false,
-  },
+  readonly: Boolean,
   /**
    * @description native input readonly
    */
-  clearable: {
-    type: Boolean,
-    default: false,
-  },
+  clearable: Boolean,
   /**
    * @description toggleable password input
    */
-  showPassword: {
-    type: Boolean,
-    default: false,
-  },
+  showPassword: Boolean,
   /**
    * @description word count
    */
-  showWordLimit: {
-    type: Boolean,
-    default: false,
-  },
+  showWordLimit: Boolean,
   /**
    * @description suffix icon
    */
@@ -147,13 +135,6 @@ export const inputProps = buildProps({
    * @description container role, internal properties provided for use by the picker component
    */
   containerRole: {
-    type: String,
-    default: undefined,
-  },
-  /**
-   * @deprecated native input aria-label
-   */
-  label: {
     type: String,
     default: undefined,
   },
@@ -181,10 +162,7 @@ export const inputProps = buildProps({
   /**
    * @description native input autofocus
    */
-  autofocus: {
-    type: Boolean,
-    default: false,
-  },
+  autofocus: Boolean,
   rows: {
     type: Number,
     default: 2,

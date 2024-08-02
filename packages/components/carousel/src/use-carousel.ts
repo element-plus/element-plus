@@ -332,6 +332,7 @@ export const useCarousel = (
     isVertical,
     items,
     loop: props.loop,
+    cardScale: props.cardScale,
     addItem,
     removeItem,
     setActiveItem,

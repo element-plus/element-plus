@@ -329,7 +329,7 @@ table/table-layout
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | clearSelection     | used in multiple selection Table, clear user selection                                                                                                            | ^[Function]`() => void`                                                    |
 | getSelectionRows   | returns the currently selected rows                                                                                                                               | ^[Function]`() => void`                                                    |
-| toggleRowSelection | used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected                    | ^[Function]`(row: any, selected: boolean) => void`                         |
+| toggleRowSelection | used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected                    | ^[Function]`(row: any, selected?: boolean) => void`                        |
 | toggleAllSelection | used in multiple selection Table, toggle select all and deselect all                                                                                              | ^[Function]`() => void`                                                    |
 | toggleRowExpansion | used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed | ^[Function]`(row: any, expanded?: boolean) => void`                        |
 | setCurrentRow      | used in single selection Table, set a certain row selected. If called without any parameter, it will clear selection                                              | ^[Function]`(row: any) => void`                                            |
@@ -379,10 +379,11 @@ table/table-layout
 
 ### Table-column Slots
 
-| Name    | Description                      | Type                                                 |
-| ------- | -------------------------------- | ---------------------------------------------------- |
-| default | Custom content for table columns | ^[object]`{ row: any, column: any, $index: number }` |
-| header  | Custom content for table header  | ^[object]`{ column: any, $index: number }`           |
+| Name                 | Description                      | Type                                                 |
+| -------------------- | -------------------------------- | ---------------------------------------------------- |
+| default              | Custom content for table columns | ^[object]`{ row: any, column: any, $index: number }` |
+| header               | Custom content for table header  | ^[object]`{ column: any, $index: number }`           |
+| filter-icon ^(2.7.8) | Custom content for filter icon   | ^[object]`{ filterOpened: boolean }`                 |
 
 ## Type Declarations
 

@@ -190,7 +190,7 @@ function useWatcher<T>() {
 
   const toggleRowSelection = (
     row: T,
-    selected = undefined,
+    selected?: boolean,
     emitChange = true
   ) => {
     const treeProps = {

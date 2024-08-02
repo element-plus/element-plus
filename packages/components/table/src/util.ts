@@ -264,7 +264,7 @@ export function compose(...funcs) {
 export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
-  newVal: boolean,
+  newVal: boolean | undefined,
   tableTreeProps: TreeProps
 ): boolean {
   let changed = false
