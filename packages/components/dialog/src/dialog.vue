@@ -1,7 +1,7 @@
 <template>
   <teleport
     :to="appendTo"
-    :disabled="appendTo !== 'body' ? false : !appendToBody"
+    :disabled="(appendTo !== 'body' ? false : !appendToBody) || !isLoadTeleport"
   >
     <transition
       name="dialog-fade"
@@ -77,7 +77,12 @@
 <script lang="ts" setup>
 import { computed, provide, ref, useSlots } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
-import { useDeprecated, useNamespace, useSameTarget } from '@element-plus/hooks'
+import {
+  useDeprecated,
+  useLoadTeleport,
+  useNamespace,
+  useSameTarget,
+} from '@element-plus/hooks'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElDialogContent from './dialog-content.vue'
 import { dialogInjectionKey } from './constants'
@@ -108,6 +113,8 @@ const ns = useNamespace('dialog')
 const dialogRef = ref<HTMLElement>()
 const headerRef = ref<HTMLElement>()
 const dialogContentRef = ref()
+
+const { isLoadTeleport } = useLoadTeleport(props.appendTo)
 
 const {
   visible,
