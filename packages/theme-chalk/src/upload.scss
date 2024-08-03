@@ -30,13 +30,7 @@
   outline: none;
 
   &.is-disabled{
-    &:focus{
-      border-color: getCssVar('border-color', 'darker');
-      color: inherit;
-      .#{$namespace}-upload-dragger{
-        border-color: getCssVar('border-color', 'darker');
-      }
-    }
+    pointer-events: none;
     .#{$namespace}-upload-dragger {
       cursor: not-allowed;
       &:hover{

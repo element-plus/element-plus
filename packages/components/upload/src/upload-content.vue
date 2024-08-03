@@ -6,7 +6,7 @@
       ns.is('drag', drag),
       ns.is('disabled', disabled),
     ]"
-    tabindex="0"
+    :tabindex="disabled ? '-1' : '0'"
     @click="handleClick"
     @keydown.self.enter.space="handleKeydown"
   >
