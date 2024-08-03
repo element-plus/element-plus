@@ -126,7 +126,8 @@ const unit = 'year'
 
 const { lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
-const { shortcuts, disabledDate, format } = pickerBase.props
+const { shortcuts, disabledDate } = pickerBase.props
+const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(1, unit))
@@ -186,6 +187,7 @@ const handleRangePick = (val: RangePickValue, close = true) => {
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {
     return
   }
+  emit('calendar-change', [minDate_.toDate(), maxDate_ && maxDate_.toDate()])
   maxDate.value = maxDate_
   minDate.value = minDate_
 

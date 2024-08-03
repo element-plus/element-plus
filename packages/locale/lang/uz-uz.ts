@@ -1,6 +1,9 @@
 export default {
   name: 'uz-uz',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Qabul qilish',
       clear: 'Tozalash',
@@ -65,6 +68,9 @@ export default {
       noData: 'Maʼlumot yoʻq',
       placeholder: 'Tanladizngiz',
     },
+    mention: {
+      loading: 'Yuklanmoqda',
+    },
     cascader: {
       noMatch: 'Mos maʼlumot topilmadi',
       loading: 'Yuklanmoqda',
@@ -122,6 +128,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

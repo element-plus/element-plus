@@ -6,6 +6,7 @@ import {
   isString,
 } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
+import { useAriaProps } from '@element-plus/hooks'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
@@ -51,7 +52,7 @@ export const autocompleteProps = buildProps({
     default: 300,
   },
   /**
-   * @description the placeholder of Autocomplete
+   * @description placement of the popup menu
    */
   placement: {
     type: definePropType<Placement>(String),
@@ -100,12 +101,6 @@ export const autocompleteProps = buildProps({
     type: Boolean,
     default: false,
   },
-  /**
-   * @description label text
-   */
-  label: {
-    type: String,
-  },
   teleported: useTooltipContentProps.teleported,
   /**
    * @description whether to highlight first item in remote search suggestions by default
@@ -139,6 +134,7 @@ export const autocompleteProps = buildProps({
    * @description same as `name` in native input
    */
   name: String,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
 

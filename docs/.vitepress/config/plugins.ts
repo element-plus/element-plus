@@ -1,18 +1,16 @@
 import path from 'path'
 import fs from 'fs'
-import MarkdownIt from 'markdown-it'
 import mdContainer from 'markdown-it-container'
 import { docRoot } from '@element-plus/build-utils'
 import externalLinkIcon from '../plugins/external-link-icon'
 import tableWrapper from '../plugins/table-wrapper'
 import tooltip from '../plugins/tooltip'
 import tag from '../plugins/tag'
+import headers from '../plugins/headers'
 import { ApiTableContainer } from '../plugins/api-table'
-import { highlight } from '../utils/highlight'
 import type Token from 'markdown-it/lib/token'
 import type Renderer from 'markdown-it/lib/renderer'
-
-const localMd = MarkdownIt().use(tag)
+import type MarkdownIt from 'markdown-it'
 
 interface ContainerOpts {
   marker?: string | undefined
@@ -27,6 +25,7 @@ interface ContainerOpts {
 }
 
 export const mdPlugin = (md: MarkdownIt) => {
+  md.use(headers)
   md.use(externalLinkIcon)
   md.use(tableWrapper)
   md.use(tooltip)
@@ -53,10 +52,10 @@ export const mdPlugin = (md: MarkdownIt) => {
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`)
 
         return `<Demo :demos="demos" source="${encodeURIComponent(
-          highlight(source, 'vue')
+          md.render(`\`\`\` vue\n${source}\`\`\``)
         )}" path="${sourceFile}" raw-source="${encodeURIComponent(
           source
-        )}" description="${encodeURIComponent(localMd.render(description))}">`
+        )}" description="${encodeURIComponent(md.render(description))}">`
       } else {
         return '</Demo>'
       }

@@ -11,7 +11,7 @@ import type { ExtractPropTypes } from 'vue'
 import type { FormItemProp } from './form-item'
 import type { FormRules } from './types'
 
-const formMetaProps = buildProps({
+export const formMetaProps = buildProps({
   /**
    * @description Control the size of components in this form.
    */
@@ -96,10 +96,7 @@ export const formProps = buildProps({
   /**
    * @description Whether to hide required fields should have a red asterisk (star) beside their labels.
    */
-  hideRequiredAsterisk: {
-    type: Boolean,
-    default: false,
-  },
+  hideRequiredAsterisk: Boolean,
   /**
    * @description When validation fails, scroll to the first error form entry.
    */

@@ -33,8 +33,15 @@
         :placeholder="placeholder"
         :class="[nsDate.b('editor'), nsDate.bm('editor', type), $attrs.class]"
         :style="$attrs.style"
-        :readonly="!editable || readonly || isDatesPicker || type === 'week'"
-        :label="label"
+        :readonly="
+          !editable ||
+          readonly ||
+          isDatesPicker ||
+          isMonthsPicker ||
+          isYearsPicker ||
+          type === 'week'
+        "
+        :aria-label="ariaLabel"
         :tabindex="tabindex"
         :validate-event="false"
         @input="onUserInput"
@@ -48,7 +55,7 @@
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
-        @touchstart="onTouchStartInput"
+        @touchstart.passive="onTouchStartInput"
         @click.stop
       >
         <template #prefix>
@@ -56,7 +63,7 @@
             v-if="triggerIcon"
             :class="nsInput.e('icon')"
             @mousedown.prevent="onMouseDownInput"
-            @touchstart="onTouchStartInput"
+            @touchstart.passive="onTouchStartInput"
           >
             <component :is="triggerIcon" />
           </el-icon>
@@ -74,28 +81,19 @@
       <div
         v-else
         ref="inputRef"
-        :class="[
-          nsDate.b('editor'),
-          nsDate.bm('editor', type),
-          nsInput.e('wrapper'),
-          nsDate.is('disabled', pickerDisabled),
-          nsDate.is('active', pickerVisible),
-          nsRange.b('editor'),
-          pickerSize ? nsRange.bm('editor', pickerSize) : '',
-          $attrs.class,
-        ]"
+        :class="rangeInputKls"
         :style="($attrs.style as any)"
         @click="handleFocusInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
-        @touchstart="onTouchStartInput"
+        @touchstart.passive="onTouchStartInput"
         @keydown="handleKeydownInput"
       >
         <el-icon
           v-if="triggerIcon"
           :class="[nsInput.e('icon'), nsRange.e('icon')]"
           @mousedown.prevent="onMouseDownInput"
-          @touchstart="onTouchStartInput"
+          @touchstart.passive="onTouchStartInput"
         >
           <component :is="triggerIcon" />
         </el-icon>
@@ -134,13 +132,7 @@
         />
         <el-icon
           v-if="clearIcon"
-          :class="[
-            nsInput.e('icon'),
-            nsRange.e('close-icon'),
-            {
-              [nsRange.e('close-icon--hidden')]: !showClose,
-            },
-          ]"
+          :class="clearIconKls"
           @click="onClearIconClick"
         >
           <component :is="clearIcon" />
@@ -153,6 +145,8 @@
         :actual-visible="pickerActualVisible"
         :parsed-value="parsedValue"
         :format="format"
+        :date-format="dateFormat"
+        :time-format="timeFormat"
         :unlink-panels="unlinkPanels"
         :type="type"
         :default-value="defaultValue"
@@ -168,10 +162,19 @@
   </el-tooltip>
 </template>
 <script lang="ts" setup>
-import { computed, inject, nextTick, provide, ref, unref, watch } from 'vue'
+import {
+  computed,
+  inject,
+  nextTick,
+  provide,
+  ref,
+  unref,
+  useAttrs,
+  watch,
+} from 'vue'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useEmptyValues, useLocale, useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
@@ -208,11 +211,13 @@ const emit = defineEmits([
   'change',
   'focus',
   'blur',
+  'clear',
   'calendar-change',
   'panel-change',
   'visible-change',
   'keydown',
 ])
+const attrs = useAttrs()
 
 const { lang } = useLocale()
 
@@ -222,6 +227,7 @@ const nsRange = useNamespace('range')
 
 const { form, formItem } = useFormItem()
 const elPopperOptions = inject('ElPopperOptions', {} as Options)
+const { valueOnClear } = useEmptyValues(props, null)
 
 const refPopper = ref<TooltipInstance>()
 const inputRef = ref<HTMLElement | ComponentPublicInstance>()
@@ -231,6 +237,23 @@ const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
 
 let hasJustTabExitedInput = false
 let ignoreFocusEvent = false
+
+const rangeInputKls = computed(() => [
+  nsDate.b('editor'),
+  nsDate.bm('editor', props.type),
+  nsInput.e('wrapper'),
+  nsDate.is('disabled', pickerDisabled.value),
+  nsDate.is('active', pickerVisible.value),
+  nsRange.b('editor'),
+  pickerSize ? nsRange.bm('editor', pickerSize.value) : '',
+  attrs.class,
+])
+
+const clearIconKls = computed(() => [
+  nsInput.e('icon'),
+  nsRange.e('close-icon'),
+  !showClose.value ? nsRange.e('close-icon--hidden') : '',
+])
 
 watch(pickerVisible, (val) => {
   if (!val) {
@@ -456,7 +479,7 @@ const displayValue = computed<UserInput>(() => {
   if (!isTimePicker.value && valueIsEmpty.value) return ''
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
-    return isDatesPicker.value
+    return isDatesPicker.value || isMonthsPicker.value || isYearsPicker.value
       ? (formattedValue as Array<string>).join(', ')
       : formattedValue
   }
@@ -469,6 +492,10 @@ const isTimePicker = computed(() => props.type.startsWith('time'))
 
 const isDatesPicker = computed(() => props.type === 'dates')
 
+const isMonthsPicker = computed(() => props.type === 'months')
+
+const isYearsPicker = computed(() => props.type === 'years')
+
 const triggerIcon = computed(
   () => props.prefixIcon || (isTimeLikePicker.value ? Clock : Calendar)
 )
@@ -480,12 +507,13 @@ const onClearIconClick = (event: MouseEvent) => {
   if (showClose.value) {
     event.stopPropagation()
     focusOnInputBox()
-    emitInput(null)
-    emitChange(null, true)
+    emitInput(valueOnClear.value)
+    emitChange(valueOnClear.value, true)
     showClose.value = false
     pickerVisible.value = false
     pickerOptions.value.handleClear && pickerOptions.value.handleClear()
   }
+  emit('clear')
 }
 
 const valueIsEmpty = computed(() => {
@@ -568,8 +596,8 @@ const handleChange = () => {
     }
   }
   if (userInput.value === '') {
-    emitInput(null)
-    emitChange(null)
+    emitInput(valueOnClear.value)
+    emitChange(valueOnClear.value)
     userInput.value = null
   }
 }
@@ -713,7 +741,7 @@ const onSetPickerOption = <T extends keyof PickerOptions>(
   pickerOptions.value.panelReady = true
 }
 
-const onCalendarChange = (e: [Date, false | Date]) => {
+const onCalendarChange = (e: [Date, null | Date]) => {
   emit('calendar-change', e)
 }
 
