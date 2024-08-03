@@ -1,5 +1,4 @@
 import { computed } from 'vue'
-import dayjs from 'dayjs'
 import type { Ref, ToRef } from 'vue'
 import type { Dayjs } from 'dayjs'
 
@@ -35,16 +34,12 @@ export const useYearRangeHeader = ({
   }
 
   const leftLabel = computed(() => {
-    const leftStartDate = dayjs()
-      .year(Math.floor(leftDate.value.year() / 10) * 10)
-      .year()
+    const leftStartDate = Math.floor(leftDate.value.year() / 10) * 10
     return `${leftStartDate}-${leftStartDate + 9}`
   })
 
   const rightLabel = computed(() => {
-    const rightStartDate = dayjs()
-      .year(Math.floor(rightDate.value.year() / 10) * 10)
-      .year()
+    const rightStartDate = Math.floor(rightDate.value.year() / 10) * 10
     return `${rightStartDate}-${rightStartDate + 9}`
   })
 
