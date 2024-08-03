@@ -145,28 +145,30 @@ const focus = () => {
 }
 
 const getCellKls = (cell: YearCell) => {
-  const style: Record<string, boolean> = {}
+  const kls: Record<string, boolean> = {}
   const today = dayjs().locale(lang.value)
   const year = cell.text
 
-  style.disabled = props.disabledDate
+  kls.disabled = props.disabledDate
     ? datesInYear(year, lang.value).every(props.disabledDate)
     : false
 
-  style.today = today.year() === year
+  kls.today = today.year() === year
+  kls.current =
+    castArray(props.parsedValue).findIndex((d) => d!.year() === year) >= 0
 
   if (cell.inRange) {
-    style['in-range'] = true
+    kls['in-range'] = true
 
     if (cell.start) {
-      style['start-date'] = true
+      kls['start-date'] = true
     }
 
     if (cell.end) {
-      style['end-date'] = true
+      kls['end-date'] = true
     }
   }
-  return style
+  return kls
 }
 
 const isSelectedCell = (cell: YearCell) => {
@@ -178,15 +180,14 @@ const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
   const target = (event.target as HTMLElement)?.closest(
     'td'
   ) as HTMLTableCellElement
-  if (hasClass(target, 'disabled')) return
-
-  const column = target.cellIndex
-  const row = (target.parentNode as HTMLTableRowElement).rowIndex
-
-  const selectedYear = row * 4 + column + startYear.value
-  const newDate = dayjs().year(selectedYear)
+  if (!target || !target.textContent || hasClass(target, 'disabled')) return
 
   if (props.selectionMode === 'range') {
+    const column = target.cellIndex
+    const row = (target.parentNode as HTMLTableRowElement).rowIndex
+
+    const selectedYear = row * 4 + column + startYear.value
+    const newDate = dayjs().year(selectedYear)
     if (!props.rangeState.selecting) {
       emit('pick', { minDate: newDate, maxDate: null })
       emit('select', true)
@@ -198,17 +199,32 @@ const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
       }
       emit('select', false)
     }
+    return
+  }
+
+  const year = target.textContent || target.innerText
+  if (props.selectionMode === 'years') {
+    if (event.type === 'keydown') {
+      emit('pick', castArray(props.parsedValue), false)
+      return
+    }
+    const newValue = hasClass(target, 'current')
+      ? castArray(props.parsedValue).filter((d) => d?.year() !== Number(year))
+      : castArray(props.parsedValue).concat([dayjs(year)])
+
+    emit('pick', newValue)
   } else {
-    emit('pick', selectedYear)
+    emit('pick', Number(year))
   }
 }
 
 const handleMouseMove = (event: MouseEvent) => {
   if (!props.rangeState.selecting) return
-
   const target = (event.target as HTMLElement)?.closest(
     'td'
   ) as HTMLTableCellElement
+  if (!target) return
+
   const row = (target.parentNode as HTMLTableRowElement).rowIndex
   const column = (target as HTMLTableCellElement).cellIndex
 

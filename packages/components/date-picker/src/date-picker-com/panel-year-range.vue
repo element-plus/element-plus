@@ -1,5 +1,5 @@
 <template>
-  <div :class="divKls">
+  <div :class="panelKls">
     <div :class="ppNs.e('body-wrapper')">
       <slot name="sidebar" :class="ppNs.e('sidebar')" />
       <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
@@ -124,7 +124,7 @@ const drpNs = useNamespace('date-range-picker')
 
 const hasShortcuts = computed(() => !!shortcuts.length)
 
-const divKls = computed(() => [
+const panelKls = computed(() => [
   ppNs.b(),
   drpNs.b(),
   {
