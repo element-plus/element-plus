@@ -68,6 +68,9 @@ export default {
       noData: 'কোন ডাটা নেই',
       placeholder: 'নির্বাচন করুন',
     },
+    mention: {
+      loading: 'লোড হচ্ছে',
+    },
     cascader: {
       noMatch: 'কোন মিল পওয়া যায়নি',
       loading: 'লোড হচ্ছে',

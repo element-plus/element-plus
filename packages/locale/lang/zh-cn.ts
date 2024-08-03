@@ -71,6 +71,9 @@ export default {
       noData: '无数据',
       placeholder: '请选择',
     },
+    mention: {
+      loading: '加载中',
+    },
     cascader: {
       noMatch: '无匹配数据',
       loading: '加载中',

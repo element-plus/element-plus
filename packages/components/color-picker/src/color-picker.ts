@@ -40,13 +40,6 @@ export const colorPickerProps = buildProps({
     default: '',
   },
   /**
-   * @deprecated ColorPicker aria-label
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description ColorPicker tabindex
    */
   tabindex: {
