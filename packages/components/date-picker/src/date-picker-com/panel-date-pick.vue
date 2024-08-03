@@ -39,7 +39,6 @@
             :class="dpNs.e('editor-wrap')"
           >
             <el-input
-              ref="timePickerInputRef"
               :placeholder="t('el.datepicker.selectTime')"
               :model-value="visibleTime"
               size="small"
@@ -250,8 +249,6 @@ const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
 const currentViewRef = ref<{ focus: () => void }>()
-const timePickerInputRef = ref<{ blur: () => void }>()
-
 const innerDate = ref(dayjs().locale(lang.value))
 
 const isChangeToNow = ref(false)

@@ -196,16 +196,19 @@ const onSelect = (selecting: boolean) => {
   }
 }
 
-const formatToString = (days: Dayjs[]) => {
-  return days.map((day) => day.format(format))
-}
+const pickerBase = inject('EP_PICKER_BASE') as any
+const { shortcuts, disabledDate } = pickerBase.props
+const format = toRef(pickerBase.props, 'format')
+const defaultValue = toRef(pickerBase.props, 'defaultValue')
+const unit = 'year'
+
 const getDefaultValue = () => {
   let start: Dayjs
   if (isArray(defaultValue.value)) {
     const left = dayjs(defaultValue.value[0])
     let right = dayjs(defaultValue.value[1])
     if (!props.unlinkPanels) {
-      right = left.add(10, 'year')
+      right = left.add(10, unit)
     }
     return [left, right]
   } else if (defaultValue.value) {
@@ -214,13 +217,8 @@ const getDefaultValue = () => {
     start = dayjs()
   }
   start = start.locale(lang.value)
-  return [start, start.add(10, 'year')]
+  return [start, start.add(10, unit)]
 }
-
-emit('set-picker-option', ['formatToString', formatToString])
-const pickerBase = inject('EP_PICKER_BASE') as any
-const { shortcuts, disabledDate, format } = pickerBase.props
-const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
 watch(
   () => defaultValue.value,
@@ -261,4 +259,39 @@ watch(
   },
   { immediate: true }
 )
+
+const parseUserInput = (value: Dayjs | Dayjs[]) => {
+  return isArray(value)
+    ? value.map((_) => dayjs(_, format.value).locale(lang.value))
+    : dayjs(value, format.value).locale(lang.value)
+}
+
+const formatToString = (value: Dayjs[] | Dayjs) => {
+  return isArray(value)
+    ? value.map((day) => day.format(format.value))
+    : value.format(format.value)
+}
+
+const isValidValue = (date: [Dayjs, Dayjs]) => {
+  return (
+    isValidRange(date) &&
+    (disabledDate
+      ? !disabledDate(date[0].toDate()) && !disabledDate(date[1].toDate())
+      : true)
+  )
+}
+
+const handleClear = () => {
+  const defaultArr = getDefaultValue()
+  leftDate.value = defaultArr[0]
+  rightDate.value = defaultArr[1]
+  maxDate.value = undefined
+  minDate.value = undefined
+  emit('pick', null)
+}
+
+emit('set-picker-option', ['isValidValue', isValidValue])
+emit('set-picker-option', ['parseUserInput', parseUserInput])
+emit('set-picker-option', ['formatToString', formatToString])
+emit('set-picker-option', ['handleClear', handleClear])
 </script>
