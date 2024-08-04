@@ -11,9 +11,8 @@ import {
 import ElTooltip, {
   type ElTooltipProps,
 } from '@element-plus/components/tooltip'
-import type { Table } from './table/defaults'
+import type { Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
-import type { TreeProps } from './table/defaults/TableProps'
 
 export type TableOverflowTooltipOptions = Partial<
   Pick<
@@ -265,11 +264,14 @@ export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
   newVal?: boolean,
-  tableTreeProps?: TreeProps
+  tableTreeProps?: TreeProps,
+  selectable?: (row: T, index?: number) => boolean,
+  rowIndex?: number
 ): boolean {
   let changed = false
   const index = statusArr.indexOf(row)
   const included = index !== -1
+  const isRowSelectable = selectable?.call(null, row, rowIndex)
 
   const toggleStatus = (type: 'add' | 'remove') => {
     if (type === 'add') {
@@ -280,22 +282,32 @@ export function toggleRowStatus<T>(
     changed = true
   }
 
-  if (isBoolean(newVal)) {
-    if (newVal && !included) {
-      toggleStatus('add')
-    } else if (!newVal && included) {
-      toggleStatus('remove')
+  if (!selectable || isRowSelectable) {
+    if (isBoolean(newVal)) {
+      if (newVal && !included) {
+        toggleStatus('add')
+      } else if (!newVal && included) {
+        toggleStatus('remove')
+      }
+    } else {
+      included ? toggleStatus('remove') : toggleStatus('add')
     }
-  } else {
-    included ? toggleStatus('remove') : toggleStatus('add')
   }
 
   if (
     !tableTreeProps?.checkStrictly &&
-    isArray(row[tableTreeProps?.children])
+    tableTreeProps?.children &&
+    isArray(row[tableTreeProps.children])
   ) {
-    row[tableTreeProps.children].forEach((item) => {
-      toggleRowStatus(statusArr, item, newVal ?? !included, tableTreeProps)
+    row[tableTreeProps.children].forEach((item, index) => {
+      toggleRowStatus(
+        statusArr,
+        item,
+        newVal ?? !included,
+        tableTreeProps,
+        selectable,
+        rowIndex + index + 1
+      )
     })
   }
   return changed

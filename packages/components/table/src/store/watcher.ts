@@ -197,7 +197,13 @@ function useWatcher<T>() {
       children: instance?.store?.states?.childrenColumnName.value,
       checkStrictly: instance?.store?.states?.checkStrictly.value,
     }
-    const changed = toggleRowStatus(selection.value, row, selected, treeProps)
+    const changed = toggleRowStatus(
+      selection.value,
+      row,
+      selected,
+      treeProps,
+      selectable.value
+    )
     if (changed) {
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
@@ -227,17 +233,17 @@ function useWatcher<T>() {
 
     data.value.forEach((row, index) => {
       const rowIndex = index + childrenCount
-      if (selectable.value) {
-        if (
-          selectable.value.call(null, row, rowIndex) &&
-          toggleRowStatus(selection.value, row, value, treeProps)
-        ) {
-          selectionChanged = true
-        }
-      } else {
-        if (toggleRowStatus(selection.value, row, value, treeProps)) {
-          selectionChanged = true
-        }
+      if (
+        toggleRowStatus(
+          selection.value,
+          row,
+          value,
+          treeProps,
+          selectable.value,
+          rowIndex
+        )
+      ) {
+        selectionChanged = true
       }
       childrenCount += getChildrenCount(getRowIdentity(row, rowKey))
     })
@@ -308,8 +314,8 @@ function useWatcher<T>() {
       return true
     }
 
-    isAllSelected.value =
-      selectedCount === 0 ? false : checkSelectedStatus(data.value || [])
+    const isAllSelected_ = checkSelectedStatus(data.value || [])
+    isAllSelected.value = selectedCount === 0 ? false : isAllSelected_
   }
 
   const getChildrenCount = (rowKey: string) => {
