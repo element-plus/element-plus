@@ -280,6 +280,7 @@ class Node {
     }
 
     this.updateLeafState()
+    return child
   }
 
   insertBefore(child: FakeNode | Node, ref: Node): void {
@@ -287,7 +288,7 @@ class Node {
     if (ref) {
       index = this.childNodes.indexOf(ref)
     }
-    this.insertChild(child, index)
+    return this.insertChild(child, index)
   }
 
   insertAfter(child: FakeNode | Node, ref: Node): void {
@@ -296,7 +297,7 @@ class Node {
       index = this.childNodes.indexOf(ref)
       if (index !== -1) index += 1
     }
-    this.insertChild(child, index)
+    return this.insertChild(child, index)
   }
 
   removeChild(child: Node): void {
