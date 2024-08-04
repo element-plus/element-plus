@@ -189,7 +189,7 @@ const handleMouseMove = (event: MouseEvent) => {
   if (!props.rangeState.selecting) return
 
   let target = event.target as HTMLElement
-  if (target.tagName === 'A') {
+  if (target.tagName === 'SPAN') {
     target = target.parentNode?.parentNode as HTMLElement
   }
   if (target.tagName === 'DIV') {
@@ -223,7 +223,20 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
   const row = (target.parentNode as HTMLTableRowElement).rowIndex
   const month = row * 4 + column
   const newDate = props.date.startOf('year').month(month)
-  if (props.selectionMode === 'range') {
+  if (props.selectionMode === 'months') {
+    if (event.type === 'keydown') {
+      emit('pick', castArray(props.parsedValue), false)
+      return
+    }
+    const newMonth = props.date.startOf('month').month(month)
+
+    const newValue = hasClass(target, 'current')
+      ? castArray(props.parsedValue).filter(
+          (d) => Number(d) !== Number(newMonth)
+        )
+      : castArray(props.parsedValue).concat([dayjs(newMonth)])
+    emit('pick', newValue)
+  } else if (props.selectionMode === 'range') {
     if (!props.rangeState.selecting) {
       emit('pick', { minDate: newDate, maxDate: null })
       emit('select', true)

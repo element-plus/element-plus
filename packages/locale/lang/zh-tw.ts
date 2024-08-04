@@ -1,6 +1,9 @@
 export default {
   name: 'zh-tw',
   el: {
+    breadcrumb: {
+      label: '面包屑',
+    },
     colorpicker: {
       confirm: '確認',
       clear: '清空',
@@ -84,6 +87,9 @@ export default {
       noData: '無資料',
       placeholder: '請選擇',
     },
+    mention: {
+      loading: '載入中',
+    },
     dropdown: {
       toggleDropdown: '切換下拉選單',
     },
@@ -103,7 +109,7 @@ export default {
       next: '下一頁',
       currentPage: '第 {pager} 頁',
       prevPages: '向前 {pager} 頁',
-      nextPages: '向后 {pager} 頁',
+      nextPages: '向後 {pager} 頁',
       deprecationWarning:
         '偵測到已過時的使用方式，請參閱 el-pagination 說明文件以了解更多資訊',
     },
@@ -138,6 +144,11 @@ export default {
       clearFilter: '全部',
       sumText: '合計',
     },
+    tour: {
+      next: '下一步',
+      previous: '上一步',
+      finish: '結束導覽',
+    },
     tree: {
       emptyText: '暫無資料',
     },
@@ -158,6 +169,11 @@ export default {
     popconfirm: {
       confirmButtonText: '確認',
       cancelButtonText: '取消',
+    },
+    carousel: {
+      leftArrow: '上一張投影片',
+      rightArrow: '下一張投影片',
+      indicator: '投影片切換至索引 {index}',
     },
   },
 }

@@ -1,9 +1,15 @@
 export default {
   name: 'zh-cn',
   el: {
+    breadcrumb: {
+      label: '面包屑',
+    },
     colorpicker: {
       confirm: '确定',
       clear: '清空',
+      defaultLabel: '颜色选择器',
+      description: '当前颜色 {color}，按 Enter 键选择新颜色',
+      alphaLabel: '选择透明度的值',
     },
     datepicker: {
       now: '此刻',
@@ -65,6 +71,9 @@ export default {
       noData: '无数据',
       placeholder: '请选择',
     },
+    mention: {
+      loading: '加载中',
+    },
     cascader: {
       noMatch: '无匹配数据',
       loading: '加载中',
@@ -104,6 +113,11 @@ export default {
       clearFilter: '全部',
       sumText: '合计',
     },
+    tour: {
+      next: '下一步',
+      previous: '上一步',
+      finish: '结束导览',
+    },
     tree: {
       emptyText: '暂无数据',
     },
@@ -124,6 +138,11 @@ export default {
     popconfirm: {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
+    },
+    carousel: {
+      leftArrow: '上一张幻灯片',
+      rightArrow: '下一张幻灯片',
+      indicator: '幻灯片切换至索引 {index}',
     },
   },
 }

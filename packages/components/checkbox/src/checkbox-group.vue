@@ -4,7 +4,9 @@
     :id="groupId"
     :class="ns.b('group')"
     role="group"
-    :aria-label="!isLabeledByFormItem ? label || 'checkbox-group' : undefined"
+    :aria-label="
+      !isLabeledByFormItem ? ariaLabel || 'checkbox-group' : undefined
+    "
     :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
   >
     <slot />

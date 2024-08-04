@@ -36,6 +36,8 @@ export const useBackTop = (
       }
       container.value = el.value
     }
+    // Give visible an initial value, fix #13066
+    handleScroll()
   })
 
   return {

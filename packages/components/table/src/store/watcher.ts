@@ -35,7 +35,7 @@ const sortData = (data, states) => {
 const doFlattenColumns = (columns) => {
   const result = []
   columns.forEach((column) => {
-    if (column.children) {
+    if (column.children && column.children.length > 0) {
       // eslint-disable-next-line prefer-spread
       result.push.apply(result, doFlattenColumns(column.children))
     } else {
@@ -155,8 +155,8 @@ function useWatcher<T>() {
   const clearSelection = () => {
     isAllSelected.value = false
     const oldSelection = selection.value
+    selection.value = []
     if (oldSelection.length) {
-      selection.value = []
       instance.emit('selection-change', [])
     }
   }
@@ -190,7 +190,7 @@ function useWatcher<T>() {
 
   const toggleRowSelection = (
     row: T,
-    selected = undefined,
+    selected?: boolean,
     emitChange = true
   ) => {
     const changed = toggleRowStatus(selection.value, row, selected)
@@ -238,7 +238,7 @@ function useWatcher<T>() {
         selection.value ? selection.value.slice() : []
       )
     }
-    instance.emit('select-all', selection.value)
+    instance.emit('select-all', (selection.value || []).slice())
   }
 
   const updateSelectionByRowKey = () => {

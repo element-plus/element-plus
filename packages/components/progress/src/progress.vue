@@ -49,6 +49,7 @@
           :class="ns.be('circle', 'track')"
           :d="trackPath"
           :stroke="`var(${ns.cssVarName('fill-color-light')}, #e5e9f2)`"
+          :stroke-linecap="strokeLinecap"
           :stroke-width="relativeStrokeWidth"
           fill="none"
           :style="trailPathStyle"
@@ -72,7 +73,9 @@
     >
       <slot :percentage="percentage">
         <span v-if="!status">{{ content }}</span>
-        <el-icon v-else><component :is="statusIcon" /></el-icon>
+        <el-icon v-else>
+          <component :is="statusIcon" />
+        </el-icon>
       </slot>
     </div>
   </div>
@@ -109,11 +112,19 @@ const props = defineProps(progressProps)
 
 const ns = useNamespace('progress')
 
-const barStyle = computed<CSSProperties>(() => ({
-  width: `${props.percentage}%`,
-  animationDuration: `${props.duration}s`,
-  backgroundColor: getCurrentColor(props.percentage),
-}))
+const barStyle = computed<CSSProperties>(() => {
+  const barStyle: CSSProperties = {
+    width: `${props.percentage}%`,
+    animationDuration: `${props.duration}s`,
+  }
+  const color = getCurrentColor(props.percentage)
+  if (color.includes('gradient')) {
+    barStyle.background = color
+  } else {
+    barStyle.backgroundColor = color
+  }
+  return barStyle
+})
 
 const relativeStrokeWidth = computed(() =>
   ((props.strokeWidth / props.width) * 100).toFixed(1)

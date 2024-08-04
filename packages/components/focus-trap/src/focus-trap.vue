@@ -293,7 +293,7 @@ export default defineComponent({
           tryFocus(lastFocusBeforeTrapped ?? document.body)
         }
 
-        trapContainer.removeEventListener(FOCUS_AFTER_RELEASED, trapOnFocus)
+        trapContainer.removeEventListener(FOCUS_AFTER_RELEASED, releaseOnFocus)
         focusableStack.remove(focusLayer)
       }
     }

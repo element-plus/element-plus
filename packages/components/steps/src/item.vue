@@ -1,13 +1,5 @@
 <template>
-  <div
-    :style="style"
-    :class="[
-      ns.b(),
-      ns.is(isSimple ? 'simple' : parent.props.direction),
-      ns.is('flex', isLast && !space && !isCenter),
-      ns.is('center', isCenter && !isVertical && !isSimple),
-    ]"
-  >
+  <div :style="style" :class="containerKls">
     <!-- icon & line -->
     <div :class="[ns.e('head'), ns.is(currentStatus)]">
       <div v-if="!isSimple" :class="ns.e('line')">
@@ -82,7 +74,7 @@ export interface IStepsProps {
 }
 
 export interface StepItemState {
-  uid: number | undefined
+  uid: number
   currentStatus: string
   setIndex: (val: number) => void
   calcProgress: (status: string) => void
@@ -91,6 +83,8 @@ export interface StepItemState {
 export interface IStepsInject {
   props: IStepsProps
   steps: Ref<StepItemState[]>
+  addStep: (item: StepItemState) => void
+  removeStep: (uid: number) => void
 }
 
 defineOptions({
@@ -120,9 +114,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  parent.steps.value = parent.steps.value.filter(
-    (instance) => instance.uid !== currentInstance?.uid
-  )
+  parent.removeStep(stepItemState.uid)
 })
 
 const currentStatus = computed(() => {
@@ -156,6 +148,15 @@ const isLast = computed(() => {
 
 const space = computed(() => {
   return isSimple.value ? '' : parent.props.space
+})
+
+const containerKls = computed(() => {
+  return [
+    ns.b(),
+    ns.is(isSimple.value ? 'simple' : parent.props.direction),
+    ns.is('flex', isLast.value && !space.value && !isCenter.value),
+    ns.is('center', isCenter.value && !isVertical.value && !isSimple.value),
+  ]
 })
 
 const style = computed(() => {
@@ -202,11 +203,11 @@ const updateStatus = (activeIndex: number) => {
 }
 
 const stepItemState = reactive({
-  uid: computed(() => currentInstance?.uid),
+  uid: currentInstance!.uid,
   currentStatus,
   setIndex,
   calcProgress,
 })
 
-parent.steps.value = [...parent.steps.value, stepItemState]
+parent.addStep(stepItemState)
 </script>

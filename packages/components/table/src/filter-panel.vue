@@ -9,7 +9,7 @@
     teleported
     effect="light"
     pure
-    :popper-class="ns.b()"
+    :popper-class="filterClassName"
     persistent
   >
     <template #content>
@@ -23,7 +23,7 @@
               <el-checkbox
                 v-for="filter in filters"
                 :key="filter.value"
-                :label="filter.value"
+                :value="filter.value"
               >
                 {{ filter.text }}
               </el-checkbox>
@@ -78,8 +78,10 @@
         @click="showFilterPanel"
       >
         <el-icon>
-          <arrow-up v-if="column.filterOpened" />
-          <arrow-down v-else />
+          <slot name="filter-icon">
+            <arrow-up v-if="column.filterOpened" />
+            <arrow-down v-else />
+          </slot>
         </el-icon>
       </span>
     </template>
@@ -144,6 +146,12 @@ export default defineComponent({
     const tooltip = ref<InstanceType<typeof ElTooltip> | null>(null)
     const filters = computed(() => {
       return props.column && props.column.filters
+    })
+    const filterClassName = computed(() => {
+      if (props.column.filterClassName) {
+        return `${ns.b()} ${props.column.filterClassName}`
+      }
+      return ns.b()
     })
     const filterValue = computed({
       get: () => (props.column?.filteredValue || [])[0],
@@ -234,6 +242,7 @@ export default defineComponent({
     return {
       tooltipVisible,
       multiple,
+      filterClassName,
       filteredValue,
       filterValue,
       filters,

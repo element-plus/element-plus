@@ -100,8 +100,12 @@ const formItemRef = ref<HTMLDivElement>()
 let initialValue: any = undefined
 let isResettingField = false
 
+const labelPosition = computed(
+  () => props.labelPosition || formContext?.labelPosition
+)
+
 const labelStyle = computed<CSSProperties>(() => {
-  if (formContext?.labelPosition === 'top') {
+  if (labelPosition.value === 'top') {
     return {}
   }
 
@@ -111,7 +115,7 @@ const labelStyle = computed<CSSProperties>(() => {
 })
 
 const contentStyle = computed<CSSProperties>(() => {
-  if (formContext?.labelPosition === 'top' || formContext?.inline) {
+  if (labelPosition.value === 'top' || formContext?.inline) {
     return {}
   }
   if (!props.label && !props.labelWidth && isNested) {
@@ -135,7 +139,10 @@ const formItemClasses = computed(() => [
   formContext?.requireAsteriskPosition === 'right'
     ? 'asterisk-right'
     : 'asterisk-left',
-  { [ns.m('feedback')]: formContext?.statusIcon },
+  {
+    [ns.m('feedback')]: formContext?.statusIcon,
+    [ns.m(`label-${labelPosition.value}`)]: labelPosition.value,
+  },
 ])
 
 const _inlineMessage = computed(() =>
@@ -159,9 +166,9 @@ const hasLabel = computed<boolean>(() => {
 })
 
 const labelFor = computed<string | undefined>(() => {
-  return props.for || inputIds.value.length === 1
-    ? inputIds.value[0]
-    : undefined
+  return (
+    props.for || (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
+  )
 })
 
 const isGroup = computed<boolean>(() => {
@@ -379,6 +386,7 @@ const context: FormItemContext = reactive({
   inputIds,
   isGroup,
   hasLabel,
+  fieldValue,
   addInputId,
   removeInputId,
   resetField,

@@ -1,7 +1,7 @@
 <template>
   <span
     v-if="disableTransitions"
-    :class="classes"
+    :class="containerKls"
     :style="{ backgroundColor: color }"
     @click="handleClick"
   >
@@ -14,7 +14,7 @@
   </span>
   <transition v-else :name="`${ns.namespace.value}-zoom-in-center`" appear>
     <span
-      :class="classes"
+      :class="containerKls"
       :style="{ backgroundColor: color }"
       @click="handleClick"
     >
@@ -45,12 +45,12 @@ const emit = defineEmits(tagEmits)
 
 const tagSize = useFormSize()
 const ns = useNamespace('tag')
-const classes = computed(() => {
+const containerKls = computed(() => {
   const { type, hit, effect, closable, round } = props
   return [
     ns.b(),
     ns.is('closable', closable),
-    ns.m(type),
+    ns.m(type || 'primary'),
     ns.m(tagSize.value),
     ns.m(effect),
     ns.is('hit', hit),
