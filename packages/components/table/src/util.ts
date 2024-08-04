@@ -264,8 +264,8 @@ export function compose(...funcs) {
 export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
-  newVal: boolean | undefined,
-  tableTreeProps: TreeProps
+  newVal?: boolean,
+  tableTreeProps?: TreeProps
 ): boolean {
   let changed = false
   const index = statusArr.indexOf(row)

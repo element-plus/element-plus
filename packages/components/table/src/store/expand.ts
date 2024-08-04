@@ -32,11 +32,7 @@ function useExpand<T>(watcherData: WatcherPropsData<T>) {
   }
 
   const toggleRowExpansion = (row: T, expanded?: boolean) => {
-    const treeProps = {
-      children: instance?.store?.states?.childrenColumnName.value,
-      checkStrictly: instance?.store?.states?.checkStrictly.value,
-    }
-    const changed = toggleRowStatus(expandRows.value, row, expanded, treeProps)
+    const changed = toggleRowStatus(expandRows.value, row, expanded)
     if (changed) {
       instance.emit('expand-change', row, expandRows.value.slice())
     }
