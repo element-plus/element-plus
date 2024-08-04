@@ -249,6 +249,7 @@ const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
 const currentViewRef = ref<{ focus: () => void }>()
+
 const innerDate = ref(dayjs().locale(lang.value))
 
 const isChangeToNow = ref(false)

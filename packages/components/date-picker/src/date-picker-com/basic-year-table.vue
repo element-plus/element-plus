@@ -7,15 +7,15 @@
     @mousemove="handleMouseMove"
   >
     <tbody ref="tbodyRef">
-      <tr v-for="(row, key) in rows" :key="key">
+      <tr v-for="(row, rowKey) in rows" :key="rowKey">
         <td
-          v-for="(cell, key_) in row"
-          :key="key_"
+          v-for="(cell, cellKey) in row"
+          :key="`${rowKey}_${cellKey}`"
           :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
           class="available"
           :class="getCellKls(cell)"
           :aria-selected="`${isSelectedCell(cell)}`"
-          :aria-label="t(`el.datepicker.year${+cell.text + 1}`)"
+          :aria-label="String(cell.text)"
           :tabindex="isSelectedCell(cell) ? 0 : -1"
           @keydown.space.prevent.stop="handleYearTableClick"
           @keydown.enter.prevent.stop="handleYearTableClick"

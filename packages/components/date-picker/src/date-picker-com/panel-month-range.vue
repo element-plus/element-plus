@@ -102,8 +102,8 @@
 import { computed, inject, ref, toRef, unref } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
-import { useLocale } from '@element-plus/hooks'
 import { isArray } from '@element-plus/utils'
+import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { getDefaultValue, isValidRange } from '../utils'
 import {
@@ -113,6 +113,7 @@ import {
 import { useMonthRangeHeader } from '../composables/use-month-range-header'
 import { useRangePicker } from '../composables/use-range-picker'
 import MonthTable from './basic-month-table.vue'
+
 import type { Dayjs } from 'dayjs'
 
 defineOptions({
@@ -177,6 +178,10 @@ type RangePickValue = {
 }
 
 const handleRangePick = (val: RangePickValue, close = true) => {
+  // const defaultTime = props.defaultTime || []
+  // const minDate_ = modifyWithTimeString(val.minDate, defaultTime[0])
+  // const maxDate_ = modifyWithTimeString(val.maxDate, defaultTime[1])
+  // todo
   const minDate_ = val.minDate
   const maxDate_ = val.maxDate
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {

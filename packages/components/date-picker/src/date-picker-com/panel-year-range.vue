@@ -14,12 +14,11 @@
         </button>
       </div>
       <div :class="ppNs.e('body')">
-        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-left">
+        <div :class="leftPanelKls.content">
           <div :class="drpNs.e('header')">
             <button
               type="button"
-              :class="ppNs.e('icon-btn')"
-              class="d-arrow-left"
+              :class="leftPanelKls.arrowLeftBtn"
               @click="leftPrevYear"
             >
               <el-icon><d-arrow-left /></el-icon>
@@ -28,11 +27,7 @@
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow"
-              :class="[
-                ppNs.e('icon-btn'),
-                { [ppNs.is('disabled')]: !enableYearArrow },
-              ]"
-              class="d-arrow-right"
+              :class="leftPanelKls.arrowRightBtn"
               @click="leftNextYear"
             >
               <el-icon><d-arrow-right /></el-icon>
@@ -51,22 +46,20 @@
             @select="onSelect"
           />
         </div>
-        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
+        <div :class="rightPanelKls.content">
           <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow"
-              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
-              class="d-arrow-left"
+              :class="rightPanelKls.arrowLeftBtn"
               @click="rightPrevYear"
             >
               <el-icon><d-arrow-left /></el-icon>
             </button>
             <button
               type="button"
-              :class="ppNs.e('icon-btn')"
-              class="d-arrow-right"
+              :class="rightPanelKls.arrowRightBtn"
               @click="rightNextYear"
             >
               <el-icon><d-arrow-right /></el-icon>
@@ -131,6 +124,30 @@ const panelKls = computed(() => [
     'has-sidebar': Boolean(useSlots().sidebar) || hasShortcuts,
   },
 ])
+
+const leftPanelKls = computed(() => {
+  return {
+    content: [ppNs.e('content'), drpNs.e('content'), 'is-left'],
+    arrowLeftBtn: [ppNs.e('icon-btn'), 'd-arrow-left'],
+    arrowRightBtn: [
+      ppNs.e('icon-btn'),
+      { [ppNs.is('disabled')]: !enableYearArrow.value },
+      'd-arrow-right',
+    ],
+  }
+})
+
+const rightPanelKls = computed(() => {
+  return {
+    content: [ppNs.e('content'), drpNs.e('content'), 'is-right'],
+    arrowLeftBtn: [
+      ppNs.e('icon-btn'),
+      { 'is-disabled': !enableYearArrow.value },
+      'd-arrow-left',
+    ],
+    arrowRightBtn: [ppNs.e('icon-btn'), 'd-arrow-right'],
+  }
+})
 
 const handleShortcutClick = useShortcut(lang)
 
