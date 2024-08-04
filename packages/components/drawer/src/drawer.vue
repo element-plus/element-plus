@@ -1,5 +1,5 @@
 <template>
-  <teleport to="body" :disabled="!appendToBody">
+  <el-teleport to="body" :disabled="!appendToBody">
     <transition
       :name="ns.b('fade')"
       @after-enter="afterEnter"
@@ -81,7 +81,7 @@
         </el-focus-trap>
       </el-overlay>
     </transition>
-  </teleport>
+  </el-teleport>
 </template>
 
 <script lang="ts" setup>
@@ -90,6 +90,7 @@ import { Close } from '@element-plus/icons-vue'
 
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
+import ElTeleport from '@element-plus/components/teleport'
 import { useDialog } from '@element-plus/components/dialog'
 import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
