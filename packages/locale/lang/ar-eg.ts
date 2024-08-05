@@ -5,14 +5,14 @@ const arEg: Language = {
   name: 'ar-eg',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'مسار التنقل',
     },
     colorpicker: {
       confirm: 'موافق',
       clear: 'إزالة',
       defaultLabel: 'إختر اللون',
-      description: 'اللون الحالي هو {color}. اضفط انتر لاختيار لون جديد',
-      alphaLabel: 'pick alpha value', // to be translated
+      description: 'اللون الحالي هو {color}. اضغط انتر لاختيار لون جديد',
+      alphaLabel: 'اختر قيمة ألفا',
     },
     datepicker: {
       now: 'الآن',
@@ -71,16 +71,15 @@ const arEg: Language = {
         nov: 'نوفمبر',
         dec: 'ديسمبر',
       },
-      selectedDate: 'Selected date', // to be translated
-      // to be translated
+      selectedDate: 'التاريخ المحدد',
       weeksFull: {
-        sun: 'Sunday',
-        mon: 'Monday',
-        tue: 'Tuesday',
-        wed: 'Wednesday',
-        thu: 'Thursday',
-        fri: 'Friday',
-        sat: 'Saturday',
+        sun: 'الأحد',
+        mon: 'الأثنين',
+        tue: 'الثلاثاء',
+        wed: 'الأربعاء',
+        thu: 'الخميس',
+        fri: 'الجمعة',
+        sat: 'السبت',
       },
     },
     inputNumber: {
@@ -117,7 +116,7 @@ const arEg: Language = {
       prevPages: 'صفحات {pager} السابقة',
       nextPages: 'صفحات {pager} التالية',
       deprecationWarning:
-        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+        'تم اكتشاف استخدامات قديمة، يرجى الرجوع إلى وثائق el-pagination للحصول على مزيد من التفاصيل',
     },
     dialog: {
       close: 'أغلق هذا التبويب',
@@ -172,15 +171,14 @@ const arEg: Language = {
       cancelButtonText: 'لا',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: 'سهم الدائرة اليسار',
+      rightArrow: 'سهم الدائرة اليمين',
+      indicator: 'التبديل إلى الفهرس {index}',
     },
-    // to be translated
     tour: {
-      next: 'Next',
-      previous: 'Previous',
-      finish: 'Finish',
+      next: 'التالي',
+      previous: 'السابق',
+      finish: 'إنهاء',
     },
   },
 }
