@@ -139,13 +139,6 @@ export const inputProps = buildProps({
     default: undefined,
   },
   /**
-   * @deprecated native input aria-label
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description input tabindex
    */
   tabindex: {

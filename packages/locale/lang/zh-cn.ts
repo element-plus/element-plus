@@ -91,6 +91,9 @@ export default {
     dropdown: {
       toggleDropdown: '切换下拉选项',
     },
+    mention: {
+      loading: '加载中',
+    },
     cascader: {
       noMatch: '无匹配数据',
       loading: '加载中',
