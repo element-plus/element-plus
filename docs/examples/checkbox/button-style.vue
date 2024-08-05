@@ -30,7 +30,7 @@
       <el-checkbox-button v-for="city in cities" :key="city" :value="city">
         {{ city }}
       </el-checkbox-button>
-    </el-checkbox-group>
+    </el-checkbox-group>    
   </div>
 </template>
 
