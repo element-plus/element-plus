@@ -45,9 +45,7 @@ export const useTranslation = () => {
 
     language.value = targetLang
 
-    const firstSlash = route.path.indexOf('/', 1)
-
-    const goTo = `/${targetLang}/${route.path.slice(firstSlash + 1)}`
+    const goTo = route.path.replace(`${lang.value}`, targetLang)
 
     router.go(goTo)
 
