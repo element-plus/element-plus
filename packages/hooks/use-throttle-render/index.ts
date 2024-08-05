@@ -5,13 +5,13 @@ import type { Ref } from 'vue'
 export const useThrottleRender = (loading: Ref<boolean>, throttle = 0) => {
   if (throttle === 0) return loading
   const throttled = ref(false)
-  let timeoutHandle = 0
+  let timeoutHandle: ReturnType<typeof setTimeout> | null = null
 
   const dispatchThrottling = () => {
     if (timeoutHandle) {
       clearTimeout(timeoutHandle)
     }
-    timeoutHandle = window.setTimeout(() => {
+    timeoutHandle = setTimeout(() => {
       throttled.value = loading.value
     }, throttle)
   }

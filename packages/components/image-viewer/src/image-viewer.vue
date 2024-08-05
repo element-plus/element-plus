@@ -1,5 +1,5 @@
 <template>
-  <teleport to="body" :disabled="!teleported">
+  <el-teleport to="body" :disabled="!teleported">
     <transition name="viewer-fade" appear>
       <div
         ref="wrapper"
@@ -70,7 +70,7 @@
         <slot />
       </div>
     </transition>
-  </teleport>
+  </el-teleport>
 </template>
 
 <script lang="ts" setup>
@@ -89,6 +89,7 @@ import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import { keysOf } from '@element-plus/utils'
+import ElTeleport from '@element-plus/components/teleport'
 import ElIcon from '@element-plus/components/icon'
 import {
   ArrowLeft,
