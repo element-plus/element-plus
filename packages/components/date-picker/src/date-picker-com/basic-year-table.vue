@@ -14,7 +14,7 @@
           :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
           class="available"
           :class="getCellKls(cell)"
-          :aria-selected="`${isSelectedCell(cell)}`"
+          :aria-selected="isSelectedCell(cell)"
           :aria-label="String(cell.text)"
           :tabindex="isSelectedCell(cell) ? 0 : -1"
           @keydown.space.prevent.stop="handleYearTableClick"
@@ -136,7 +136,6 @@ const rows = computed(() => {
       row[j] = cell
     }
   }
-
   return rows
 })
 
