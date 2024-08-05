@@ -89,6 +89,9 @@ const ugCn: Language = {
       noData: 'ئۇچۇر يوق',
       placeholder: 'تاللاڭ',
     },
+    mention: {
+      loading: 'يۈكلىنىۋاتىدۇ',
+    },
     cascader: {
       noMatch: 'ئۇچۇر تېپىلمىدى',
       loading: 'يۈكلىنىۋاتىدۇ',

@@ -91,6 +91,9 @@ const arEg: Language = {
       noData: 'لايوجد بيانات',
       placeholder: 'إختر',
     },
+    mention: {
+      loading: 'جار التحميل',
+    },
     dropdown: {
       toggleDropdown: 'تبديل القائمة',
     },

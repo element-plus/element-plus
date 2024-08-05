@@ -89,6 +89,9 @@ const ku: Language = {
       noData: 'Agahî tune',
       placeholder: 'Bibijêre',
     },
+    mention: {
+      loading: 'Bardibe',
+    },
     cascader: {
       noMatch: 'Li hembere ve agahî tune',
       loading: 'Bardibe',

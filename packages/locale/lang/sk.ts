@@ -89,6 +89,9 @@ const sk: Language = {
       noData: 'Žiadne dáta',
       placeholder: 'Vybrať',
     },
+    mention: {
+      loading: 'Načítavanie',
+    },
     cascader: {
       noMatch: 'Žiadna zhoda',
       loading: 'Načítavanie',

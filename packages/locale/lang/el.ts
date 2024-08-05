@@ -89,6 +89,9 @@ const el: Language = {
       noData: 'Χωρίς δεδομένα',
       placeholder: 'Επιλογή',
     },
+    mention: {
+      loading: 'Φόρτωση',
+    },
     cascader: {
       noMatch: 'Δεν βρέθηκαν αποτελέσματα',
       loading: 'Φόρτωση',

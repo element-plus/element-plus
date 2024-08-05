@@ -119,7 +119,7 @@ const ScrollBar = defineComponent({
       onselectstartStore = document.onselectstart
       document.onselectstart = () => false
 
-      thumbEl.addEventListener('touchmove', onMouseMove)
+      thumbEl.addEventListener('touchmove', onMouseMove, { passive: true })
       thumbEl.addEventListener('touchend', onMouseUp)
     }
 

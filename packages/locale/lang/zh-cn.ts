@@ -9,8 +9,9 @@ const zhCn: Language = {
     colorpicker: {
       confirm: '确定',
       clear: '清空',
-      defaultLabel: '取色器',
-      description: '“当前颜色为 {color} , 按 Enter 键选择新颜色',
+      defaultLabel: '颜色选择器',
+      description: '当前颜色 {color}，按 Enter 键选择新颜色',
+      alphaLabel: '选择透明度的值',
     },
     datepicker: {
       now: '此刻',
@@ -88,6 +89,9 @@ const zhCn: Language = {
       noMatch: '无匹配数据',
       noData: '无数据',
       placeholder: '请选择',
+    },
+    mention: {
+      loading: '加载中',
     },
     dropdown: {
       toggleDropdown: '切换下拉菜单',

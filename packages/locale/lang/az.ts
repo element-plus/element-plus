@@ -89,6 +89,9 @@ const az: Language = {
       noData: 'Məlumat yoxdur',
       placeholder: 'Seç',
     },
+    mention: {
+      loading: 'Yüklənir',
+    },
     cascader: {
       noMatch: 'Nəticə tapılmadı',
       loading: 'Yüklənir',

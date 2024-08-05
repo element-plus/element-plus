@@ -89,6 +89,9 @@ const ro: Language = {
       noData: 'Nu există date',
       placeholder: 'Selectează',
     },
+    mention: {
+      loading: 'Se încarcă',
+    },
     cascader: {
       noMatch: 'Nu există date potrivite',
       loading: 'Se încarcă',

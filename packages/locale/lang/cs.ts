@@ -89,6 +89,9 @@ const cs: Language = {
       noData: 'Žádná data',
       placeholder: 'Vybrat',
     },
+    mention: {
+      loading: 'Načítání',
+    },
     cascader: {
       noMatch: 'Žádná shoda',
       loading: 'Načítání',

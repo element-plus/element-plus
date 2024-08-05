@@ -89,6 +89,9 @@ const ta: Language = {
       noData: 'தரவு இல்லை',
       placeholder: 'தேர்வு செய்',
     },
+    mention: {
+      loading: 'தயாராகிக்கொண்டிருக்கிறது',
+    },
     cascader: {
       noMatch: 'பொருத்தமான தரவு கிடைக்கவில்லை',
       loading: 'தயாராகிக்கொண்டிருக்கிறது',

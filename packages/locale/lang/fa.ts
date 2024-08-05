@@ -89,6 +89,9 @@ const fa: Language = {
       noData: 'اطلاعاتی وجود ندارد',
       placeholder: 'انتخاب کنید',
     },
+    mention: {
+      loading: 'در حال بارگذاری',
+    },
     cascader: {
       noMatch: 'هیچ نتیجه‌ای پیدا نشد',
       loading: 'در حال بارگذاری',

@@ -91,6 +91,9 @@ const ckb: Language = {
       noData: 'هیچ داتایەک نیە',
       placeholder: 'هەڵبژاردن',
     },
+    mention: {
+      loading: 'بارکردن',
+    },
     dropdown: {
       toggleDropdown: 'کردنەوەو داخستنی کشاو',
     },

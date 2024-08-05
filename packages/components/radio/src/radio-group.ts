@@ -35,13 +35,6 @@ export const radioGroupProps = buildProps({
     default: '',
   },
   /**
-   * @deprecated same as `aria-label` in RadioGroup
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description font color when button is active
    */
   textColor: {

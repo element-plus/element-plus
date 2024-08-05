@@ -89,6 +89,9 @@ const zhTw: Language = {
       noData: '無資料',
       placeholder: '請選擇',
     },
+    mention: {
+      loading: '載入中',
+    },
     dropdown: {
       toggleDropdown: '切換下拉選單',
     },

@@ -90,6 +90,9 @@ const bg: Language = {
       noData: 'Няма данни',
       placeholder: 'Избери',
     },
+    mention: {
+      loading: 'Зареждане',
+    },
     cascader: {
       noMatch: 'Няма намерени',
       loading: 'Зареждане',

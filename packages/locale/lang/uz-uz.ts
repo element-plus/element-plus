@@ -89,6 +89,9 @@ const uzUz: Language = {
       noData: 'Maʼlumot yoʻq',
       placeholder: 'Tanladizngiz',
     },
+    mention: {
+      loading: 'Yuklanmoqda',
+    },
     cascader: {
       noMatch: 'Mos maʼlumot topilmadi',
       loading: 'Yuklanmoqda',

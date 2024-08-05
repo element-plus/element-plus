@@ -89,6 +89,9 @@ const ru: Language = {
       noData: 'Нет данных',
       placeholder: 'Выбрать',
     },
+    mention: {
+      loading: 'Загрузка',
+    },
     cascader: {
       noMatch: 'Совпадений не найдено',
       loading: 'Загрузка',

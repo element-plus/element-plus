@@ -89,6 +89,9 @@ const nl: Language = {
       noData: 'Geen data',
       placeholder: 'Selecteer',
     },
+    mention: {
+      loading: 'Laden',
+    },
     cascader: {
       noMatch: 'Geen overeenkomende resultaten',
       loading: 'Laden',

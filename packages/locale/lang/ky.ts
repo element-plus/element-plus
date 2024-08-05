@@ -90,6 +90,9 @@ const ky: Language = {
       noData: 'маалымат жок',
       placeholder: 'тандоо',
     },
+    mention: {
+      loading: 'Жүктөлүүдө',
+    },
     cascader: {
       noMatch: 'Дал келген маалыматтар',
       loading: 'Жүктөлүүдө',

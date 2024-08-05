@@ -89,6 +89,9 @@ const pt: Language = {
       noData: 'Sem dados',
       placeholder: 'Selecione',
     },
+    mention: {
+      loading: 'A carregar',
+    },
     cascader: {
       noMatch: 'Sem correspondência',
       loading: 'A carregar',

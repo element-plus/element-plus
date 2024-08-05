@@ -89,6 +89,9 @@ const pl: Language = {
       noData: 'Brak danych',
       placeholder: 'Wybierz',
     },
+    mention: {
+      loading: 'Ładowanie',
+    },
     cascader: {
       noMatch: 'Brak dopasowań',
       loading: 'Ładowanie',

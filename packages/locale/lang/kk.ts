@@ -89,6 +89,9 @@ const kk: Language = {
       noData: 'Деректер жоқ',
       placeholder: 'Таңдаңыз',
     },
+    mention: {
+      loading: 'Жүктелуде',
+    },
     cascader: {
       noMatch: 'Сәйкес деректер жоқ',
       loading: 'Жүктелуде',

@@ -89,6 +89,9 @@ const hyAm: Language = {
       noData: 'Տվյալներ չկան',
       placeholder: 'Ընտրել',
     },
+    mention: {
+      loading: 'Բեռնում',
+    },
     cascader: {
       noMatch: 'Համապատասխան տուեալներ չկան',
       loading: 'Բեռնում',

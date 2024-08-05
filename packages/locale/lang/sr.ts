@@ -89,6 +89,9 @@ const sr: Language = {
       noData: 'Нема података',
       placeholder: 'Изабери',
     },
+    mention: {
+      loading: 'Учитавање',
+    },
     cascader: {
       noMatch: 'Нема резултата',
       loading: 'Учитавање',

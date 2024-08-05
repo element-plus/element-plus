@@ -89,6 +89,9 @@ const vi: Language = {
       noData: 'Không tìm thấy dữ liệu',
       placeholder: 'Chọn',
     },
+    mention: {
+      loading: 'Đang tải',
+    },
     cascader: {
       noMatch: 'Dữ liệu không phù hợp',
       loading: 'Đang tải',

@@ -89,6 +89,9 @@ const he: Language = {
       noData: 'אין נתונים',
       placeholder: 'שומר מקום',
     },
+    mention: {
+      loading: 'טוען',
+    },
     cascader: {
       noMatch: 'לא נמצאה התאמה',
       loading: 'טוען',
