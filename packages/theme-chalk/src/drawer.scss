@@ -127,12 +127,7 @@ $directions: rtl, ltr, ttb, btt;
 
   &-enter-from,
   &-leave-to {
-    opacity: 0;
-  }
-
-  &-enter-to,
-  &-leave-from {
-    opacity: 1;
+    background-color: transparent !important;
   }
 
   &-enter-from,

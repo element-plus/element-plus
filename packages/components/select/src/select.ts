@@ -49,7 +49,7 @@ export const SelectProps = buildProps({
    * @description tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
-    type: definePropType<PopperEffect>(String),
+    type: definePropType<PopperEffect | string>(String),
     default: 'light',
   },
   /**

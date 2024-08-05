@@ -52,7 +52,7 @@
       :max="max"
       :min="min"
       :name="name"
-      :aria-label="label || ariaLabel"
+      :aria-label="ariaLabel"
       :validate-event="false"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
@@ -74,7 +74,7 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 import { vRepeatClick } from '@element-plus/directives'
-import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import {
   debugWarn,
   isNumber,
@@ -341,16 +341,6 @@ onUpdated(() => {
   const innerInput = input.value?.input
   innerInput?.setAttribute('aria-valuenow', `${data.currentValue ?? ''}`)
 })
-useDeprecated(
-  {
-    from: 'label',
-    replacement: 'aria-label',
-    version: '2.8.0',
-    scope: 'el-input-number',
-    ref: 'https://element-plus.org/en-US/component/input-number.html',
-  },
-  computed(() => !!props.label)
-)
 defineExpose({
   /** @description get focus the input component */
   focus,
