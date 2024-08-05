@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Lithuanian / 立陶宛语 */
 const lt: Language = {
   name: 'lt',
   el: {

@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Italian / 意大利语 */
 const it: Language = {
   name: 'it',
   el: {

@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Latvian / 拉脱维亚语 */
 const lv: Language = {
   name: 'lv',
   el: {

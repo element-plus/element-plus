@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Uighur / 维吾尔语(新疆、中亚) */
 const ugCn: Language = {
   name: 'ug-cn',
   el: {

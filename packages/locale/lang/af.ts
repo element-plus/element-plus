@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Afrikaans / 南非荷兰语 */
 const af: Language = {
   name: 'af',
   el: {

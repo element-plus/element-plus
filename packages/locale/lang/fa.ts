@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Farsi / 波斯语 */
 const fa: Language = {
   name: 'fa',
   el: {

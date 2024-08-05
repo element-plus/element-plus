@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Basque / 巴斯克语 */
 const eu: Language = {
   name: 'eu',
   el: {

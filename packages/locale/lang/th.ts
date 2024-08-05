@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Thai / 泰语 */
 const th: Language = {
   name: 'th',
   el: {

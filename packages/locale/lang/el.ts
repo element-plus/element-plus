@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Greek / 希腊语  */
 const el: Language = {
   name: 'el',
   el: {

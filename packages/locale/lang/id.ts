@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Indonesian / 印度尼西亚语 */
 const id: Language = {
   name: 'id',
   el: {

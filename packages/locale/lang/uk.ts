@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Ukrainian / 乌克兰语 */
 const uk: Language = {
   name: 'uk',
   el: {

@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Japanese / 日本语 */
 const ja: Language = {
   name: 'ja',
   el: {

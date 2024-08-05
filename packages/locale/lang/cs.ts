@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Czech / 捷克语 */
 const cs: Language = {
   name: 'cs',
   el: {

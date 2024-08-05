@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Pashto / 普什图语 */
 const pa: Language = {
   name: 'pa',
   el: {

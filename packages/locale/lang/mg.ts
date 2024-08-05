@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Madagascar / 马达加斯加 */
 const mg: Language = {
   name: 'mg',
   el: {

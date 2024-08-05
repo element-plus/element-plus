@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Mongolian / 蒙古语 */
 const mn: Language = {
   name: 'mn',
   el: {

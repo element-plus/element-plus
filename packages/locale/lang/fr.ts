@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** French / 法语 */
 const fr: Language = {
   name: 'fr',
   el: {

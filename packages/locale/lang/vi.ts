@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Vietnamese / 越南语 */
 const vi: Language = {
   name: 'vi',
   el: {

@@ -1,3 +1,4 @@
+// American English / 美国英语
 export default {
   name: 'en',
   el: {

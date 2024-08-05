@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Croatian / 克罗地亚语 */
 const hr: Language = {
   name: 'hr',
   el: {

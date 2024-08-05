@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Finnish / 芬兰语 */
 const fi: Language = {
   name: 'fi',
   el: {

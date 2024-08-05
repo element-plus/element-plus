@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Simplified Chinese / 简体中文 */
 const zhCn: Language = {
   name: 'zh-cn',
   el: {

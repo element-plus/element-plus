@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Catalunya / 加泰罗尼亚语 */
 const ca: Language = {
   name: 'ca',
   el: {

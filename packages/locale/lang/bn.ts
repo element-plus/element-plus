@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Bengali / 孟加拉语 */
 const bn: Language = {
   name: 'bn',
   el: {

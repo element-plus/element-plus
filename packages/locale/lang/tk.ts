@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Turkmen / 土库曼语(中亚) */
 const tk: Language = {
   name: 'tk',
   el: {

@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Uzbek / 乌兹别克语(中亚) */
 const uzUz: Language = {
   name: 'uz-uz',
   el: {

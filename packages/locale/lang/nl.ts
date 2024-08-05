@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Dutch / 荷兰语 */
 const nl: Language = {
   name: 'nl',
   el: {

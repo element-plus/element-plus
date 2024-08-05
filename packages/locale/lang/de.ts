@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** German / 德语 */
 const de: Language = {
   name: 'de',
   el: {

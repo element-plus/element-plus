@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Armenian / 亚美尼亚语 */
 const hyAm: Language = {
   name: 'hy-am',
   el: {

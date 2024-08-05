@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Danish / 丹麦语 */
 const da: Language = {
   name: 'da',
   el: {

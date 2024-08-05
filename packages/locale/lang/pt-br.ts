@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Brazilian Portuguese / 巴西葡萄牙语 */
 const ptBr: Language = {
   name: 'pt-br',
   el: {

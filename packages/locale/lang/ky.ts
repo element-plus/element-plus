@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Kyrgyz / 吉尔吉斯语(中亚) */
 const ky: Language = {
   name: 'ky',
   el: {

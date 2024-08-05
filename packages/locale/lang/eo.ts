@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Esperanto / 世界语 */
 const eo: Language = {
   name: 'eo',
   el: {

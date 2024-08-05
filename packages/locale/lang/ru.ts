@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Russian / 俄语 */
 const ru: Language = {
   name: 'ru',
   el: {

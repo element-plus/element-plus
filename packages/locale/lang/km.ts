@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Khmer / 高棉语(柬埔寨) */
 const km: Language = {
   name: 'km',
   el: {

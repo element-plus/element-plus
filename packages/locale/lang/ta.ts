@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Tamil / 泰米尔语(印度、斯里兰卡等) */
 const ta: Language = {
   name: 'ta',
   el: {

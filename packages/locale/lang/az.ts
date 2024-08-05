@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Azerbaijani / 阿塞拜疆语 */
 const az: Language = {
   name: 'az',
   el: {

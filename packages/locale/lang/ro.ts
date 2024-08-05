@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Romanian / 罗马尼亚语 */
 const ro: Language = {
   name: 'ro',
   el: {

@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Slovenian / 斯洛文尼亚语 */
 const sl: Language = {
   name: 'sl',
   el: {

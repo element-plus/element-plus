@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Korean / 韩语 */
 const ko: Language = {
   name: 'ko',
   el: {

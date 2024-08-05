@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Egyptian Arabic / 埃及阿拉伯语 */
 const arEg: Language = {
   name: 'ar-eg',
   el: {

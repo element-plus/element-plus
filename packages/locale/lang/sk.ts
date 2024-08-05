@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Slovak / 斯洛伐克语 */
 const sk: Language = {
   name: 'sk',
   el: {

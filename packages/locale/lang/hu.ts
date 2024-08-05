@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Hungarian / 匈牙利语 */
 const hu: Language = {
   name: 'hu',
   el: {

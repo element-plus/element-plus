@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Arabic / 阿拉伯语 */
 const ar: Language = {
   name: 'ar',
   el: {

@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Kurdish / 库尔德语 */
 const ckb: Language = {
   name: 'ckb',
   el: {

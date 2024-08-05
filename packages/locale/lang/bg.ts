@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Bulgarian / 保加利亚语 */
 const bg: Language = {
   name: 'bg',
   el: {

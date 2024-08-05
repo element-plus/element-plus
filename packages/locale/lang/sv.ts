@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Swedish / 瑞典语 */
 const sv: Language = {
   name: 'sv',
   el: {

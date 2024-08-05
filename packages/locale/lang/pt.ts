@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Portuguese / 葡萄牙语  */
 const pt: Language = {
   name: 'pt',
   el: {

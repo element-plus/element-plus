@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Swahili / (东非)  */
 const sw: Language = {
   name: 'sw',
   el: {

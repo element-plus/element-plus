@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Estonian / 爱沙尼亚语 */
 const et: Language = {
   name: 'et',
   el: {

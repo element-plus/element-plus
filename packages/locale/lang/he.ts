@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Hebrew / 希伯来语 */
 const he: Language = {
   name: 'he',
   el: {

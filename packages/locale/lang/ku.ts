@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Kurdish / 库尔德语(中东地区) */
 const ku: Language = {
   name: 'ku',
   el: {

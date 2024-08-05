@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Traditional Chinese / 繁体中文(Taiwan、Hong Kong、Macau) */
 const zhTw: Language = {
   name: 'zh-tw',
   el: {

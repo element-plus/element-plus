@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Kazakh / 哈萨克语 */
 const kk: Language = {
   name: 'kk',
   el: {

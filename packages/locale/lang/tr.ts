@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Turkish / 土耳其语 */
 const tr: Language = {
   name: 'tr',
   el: {

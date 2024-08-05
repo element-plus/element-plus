@@ -1,5 +1,6 @@
 import type { Language } from '../index'
 
+/** Norwegian / 挪威语 */
 const nbNo: Language = {
   name: 'nb-no',
   el: {
