@@ -12,6 +12,7 @@ const bg: Language = {
       defaultLabel: 'color picker', // to be translated
       description:
         'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'Сега',

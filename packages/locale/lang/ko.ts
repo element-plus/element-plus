@@ -12,6 +12,7 @@ const ko: Language = {
       defaultLabel: '색상 선택기',
       description:
         '현재 색상은 {color}입니다. Enter 키를 눌러 새 색상을 선택합니다.',
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: '지금',

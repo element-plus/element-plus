@@ -11,6 +11,7 @@ const ar: Language = {
       clear: 'إزالة',
       defaultLabel: 'إختر اللون',
       description: 'اللون الحالي هو {color}. اضفط انتر لاختيار لون جديد',
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'الآن',

@@ -12,6 +12,7 @@ const sw: Language = {
       defaultLabel: 'kichagua rangi',
       description:
         'rangi ya sasa ni {color}. bonyeza kitufe cha kuingia ili kuchagua rangi mpya.',
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'sasa',

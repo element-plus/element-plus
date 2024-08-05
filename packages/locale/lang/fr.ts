@@ -12,6 +12,7 @@ const fr: Language = {
       defaultLabel: 'color picker',
       description:
         'La couleur actuelle est {color}. Appuyer sur Entrée pour sélectionner une nouvelle couleur.',
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'Maintenant',

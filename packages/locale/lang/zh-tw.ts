@@ -11,6 +11,7 @@ const zhTw: Language = {
       clear: '清空',
       defaultLabel: '色彩選擇器',
       description: '目前色彩為 {color}。按一下 Enter 以選擇新色彩。',
+      alphaLabel: '選擇透明度的值',
     },
     datepicker: {
       now: '現在',

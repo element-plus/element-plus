@@ -12,6 +12,7 @@ const ckb: Language = {
       defaultLabel: 'هەڵبژاردنی ڕەنگ',
       description:
         'ڕەنگی ئێستا {color}. ئینتەر دابگرە بۆ هەڵبژاردنی ڕەنگی نوێ.',
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'ئێستا',
