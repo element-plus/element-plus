@@ -29,20 +29,17 @@
   cursor: pointer;
   outline: none;
 
-  &.is-disabled {
-    &:focus {
+  &.is-disabled{
+    &:focus{
       border-color: getCssVar('border-color', 'darker');
       color: inherit;
-
-      .#{$namespace}-upload-dragger {
+      .#{$namespace}-upload-dragger{
         border-color: getCssVar('border-color', 'darker');
       }
     }
-
     .#{$namespace}-upload-dragger {
       cursor: not-allowed;
-
-      &:hover {
+      &:hover{
         border-color: getCssVar('border-color', 'darker');
       }
     }
@@ -82,7 +79,7 @@
 
     @include utils-inline-flex-center;
 
-    >i {
+    > i {
       font-size: 28px;
       color: getCssVar('text-color', 'secondary');
     }
@@ -108,7 +105,8 @@
 }
 
 @include b(upload-dragger) {
-  padding: getCssVar('upload-dragger-padding-horizontal') getCssVar('upload-dragger-padding-vertical');
+  padding: getCssVar('upload-dragger-padding-horizontal')
+    getCssVar('upload-dragger-padding-vertical');
   background-color: getCssVar('fill-color', 'blank');
   border: 1px dashed getCssVar('border-color');
   border-radius: 6px;
@@ -125,11 +123,11 @@
     line-height: 50px;
   }
 
-  +.#{bem('upload', 'tip')} {
+  + .#{bem('upload', 'tip')} {
     text-align: center;
   }
 
-  ~.#{bem('upload', 'files')} {
+  ~ .#{bem('upload', 'files')} {
     border-top: getCssVar('border');
     margin-top: 7px;
     padding-top: 5px;
@@ -151,7 +149,8 @@
   }
 
   @include when(dragover) {
-    padding: calc(#{getCssVar('upload-dragger-padding-horizontal')} - 1px) calc(#{getCssVar('upload-dragger-padding-vertical')} - 1px);
+    padding: calc(#{getCssVar('upload-dragger-padding-horizontal')} - 1px)
+      calc(#{getCssVar('upload-dragger-padding-vertical')} - 1px);
     background-color: getCssVar('color', 'primary', 'light-9');
     border: 2px dashed getCssVar('color-primary');
   }
@@ -255,7 +254,6 @@
       }
 
       &:focus:not(:hover) {
-
         /* 键盘focus */
         .#{bem('icon', '', 'close-tip')} {
           display: inline-block;
@@ -414,7 +412,7 @@
         cursor: pointer;
       }
 
-      span+span {
+      span + span {
         margin-left: 16px;
       }
 
@@ -556,7 +554,7 @@
     position: static;
     width: 243px;
 
-    +.#{bem('upload', 'inner')} {
+    + .#{bem('upload', 'inner')} {
       opacity: 0;
     }
   }
@@ -637,7 +635,7 @@
     color: getCssVar('text-color', 'primary');
   }
 
-  +.#{bem('upload', 'inner')} {
+  + .#{bem('upload', 'inner')} {
     opacity: 0;
     position: relative;
     z-index: 1;
