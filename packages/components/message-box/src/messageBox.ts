@@ -7,7 +7,6 @@ import {
   isFunction,
   isObject,
   isString,
-  isUndefined,
   isVNode,
 } from '@element-plus/utils'
 import MessageBoxConstructor from './index.vue'
@@ -37,22 +36,22 @@ const messageInstance = new Map<
 
 const getAppendToElement = (props: any): HTMLElement => {
   let appendTo: HTMLElement | null = document.body
-  if (props.appendTo) {
-    if (isString(props.appendTo)) {
-      appendTo = document.querySelector<HTMLElement>(props.appendTo)
-    }
-    if (isElement(props.appendTo)) {
-      appendTo = props.appendTo
-    }
+  const { appendTo: _appendTo } = props
+  if (!_appendTo) return appendTo
+  if (isString(_appendTo)) {
+    appendTo = document.querySelector<HTMLElement>(_appendTo)
+  }
+  if (isElement(_appendTo)) {
+    appendTo = _appendTo as HTMLElement
+  }
 
-    // should fallback to default value with a warning
-    if (!isElement(appendTo)) {
-      debugWarn(
-        'ElMessageBox',
-        'the appendTo option is not an HTMLElement. Falling back to document.body.'
-      )
-      appendTo = document.body
-    }
+  // should fallback to default value with a warning
+  if (!isElement(appendTo)) {
+    debugWarn(
+      'ElMessageBox',
+      'the appendTo option is not an HTMLElement. Falling back to document.body.'
+    )
+    appendTo = document.body
   }
   return appendTo
 }
@@ -98,24 +97,19 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
 
   options.onAction = (action: Action) => {
     const currentMsg = messageInstance.get(vm)!
-    let resolve: Action | { value: string; action: Action }
-    if (options.showInput) {
-      resolve = { value: vm.inputValue, action }
-    } else {
-      resolve = action
-    }
+    const resolve = options.showInput
+      ? { value: vm.inputValue, action }
+      : action
     if (options.callback) {
       options.callback(resolve, instance.proxy)
+    } else if (action === 'cancel' || action === 'close') {
+      currentMsg.reject(
+        options.distinguishCancelAndClose && action !== 'cancel'
+          ? 'close'
+          : 'cancel'
+      )
     } else {
-      if (action === 'cancel' || action === 'close') {
-        if (options.distinguishCancelAndClose && action !== 'cancel') {
-          currentMsg.reject('close')
-        } else {
-          currentMsg.reject('cancel')
-        }
-      } else {
-        currentMsg.resolve(resolve)
-      }
+      currentMsg.resolve(resolve)
     }
   }
 
@@ -202,10 +196,8 @@ function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
     if (isObject(title)) {
       options = title as ElMessageBoxOptions
       titleOrOpts = ''
-    } else if (isUndefined(title)) {
-      titleOrOpts = ''
     } else {
-      titleOrOpts = title as string
+      titleOrOpts = title || ''
     }
 
     return MessageBox(
@@ -230,9 +222,7 @@ MessageBox.close = () => {
   // instance.setupInstall.doClose()
   // instance.setupInstall.state.visible = false
 
-  messageInstance.forEach((_, vm) => {
-    vm.doClose()
-  })
+  messageInstance.forEach((_, vm) => vm.doClose())
 
   messageInstance.clear()
 }
