@@ -1,5 +1,8 @@
 <template>
-  <el-teleport to="body" :disabled="!appendToBody">
+  <el-teleport
+    :to="appendTo"
+    :disabled="appendTo !== 'body' ? false : !appendToBody"
+  >
     <transition
       :name="ns.b('fade')"
       @after-enter="afterEnter"
