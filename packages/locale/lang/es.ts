@@ -5,15 +5,15 @@ const es: Language = {
   name: 'es',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'Miga de pan',
     },
     colorpicker: {
       confirm: 'Confirmar',
       clear: 'Despejar',
-      defaultLabel: 'color picker', // to be translated
+      defaultLabel: 'selector de color',
       description:
-        'current color is {color}. press enter to select a new color.', // to be translated
-      alphaLabel: 'pick alpha value', // to be translated
+        'el color actual es {color}. presione enter para seleccionar un nuevo color.',
+      alphaLabel: 'seleccione el valor de alpha',
     },
     datepicker: {
       now: 'Ahora',
@@ -68,21 +68,21 @@ const es: Language = {
         nov: 'nov',
         dec: 'dic',
       },
-      // to be translated
       dateTablePrompt:
-        'Use the arrow keys and enter to select the day of the month',
-      monthTablePrompt: 'Use the arrow keys and enter to select the month',
-      yearTablePrompt: 'Use the arrow keys and enter to select the year',
-      selectedDate: 'Selected date',
-      // to be translated
+        'Use las teclas de flecha y enter para seleccionar el día del mes',
+      monthTablePrompt:
+        'Use las teclas de flecha y enter para seleccionar el mes',
+      yearTablePrompt:
+        'Use las teclas de flecha y enter para seleccionar el año',
+      selectedDate: 'Fecha seleccionada',
       weeksFull: {
-        sun: 'Sunday',
-        mon: 'Monday',
-        tue: 'Tuesday',
-        wed: 'Wednesday',
-        thu: 'Thursday',
-        fri: 'Friday',
-        sat: 'Saturday',
+        sun: 'Domingo',
+        mon: 'Lunes',
+        tue: 'Martes',
+        wed: 'Miércoles',
+        thu: 'Jueves',
+        fri: 'Viernes',
+        sat: 'Sábado',
       },
     },
     select: {
@@ -105,21 +105,21 @@ const es: Language = {
       pagesize: '/página',
       total: 'Total {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Página',
+      prev: 'Ir a la página anterior',
+      next: 'Ir a la página siguiente',
+      currentPage: 'página {pager}',
+      prevPages: '{pager} páginas anteriores',
+      nextPages: '{pager} páginas siguientes',
       deprecationWarning:
-        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+        'Se detectaron usos obsoletos, consulte la documentación de el-pagination para obtener más detalles',
     },
     messagebox: {
       confirm: 'Aceptar',
       cancel: 'Cancelar',
       error: 'Entrada inválida',
-      title: 'Message', // to be translated
-      close: 'Close this dialog', // to be translated
+      title: 'Mensaje',
+      close: 'Cerrar este diálogo',
     },
     upload: {
       deleteTip: 'Pulse Eliminar para retirar',
@@ -156,39 +156,32 @@ const es: Language = {
       cancelButtonText: 'No',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: 'Flecha izquierda del carrusel',
+      rightArrow: 'Flecha derecha del carrusel',
+      indicator: 'Cambiar al índice {index} del carrusel',
     },
-
-    // to be translated
     inputNumber: {
-      decrease: 'decrease number',
-      increase: 'increase number',
+      decrease: 'disminuir número',
+      increase: 'aumentar número',
     },
-    // to be translated
     dropdown: {
-      toggleDropdown: 'Toggle Dropdown',
+      toggleDropdown: 'Activar desplegable',
     },
-    // to be translated
     dialog: {
-      close: 'Close this dialog',
+      close: 'Cerrar este diálogo',
     },
-    // to be translated
     drawer: {
-      close: 'Close this dialog',
+      close: 'Cerrar este diálogo',
     },
-    // to be translated
     slider: {
-      defaultLabel: 'slider between {min} and {max}',
-      defaultRangeStartLabel: 'pick start value',
-      defaultRangeEndLabel: 'pick end value',
+      defaultLabel: 'deslizador entre {min} y {max}',
+      defaultRangeStartLabel: 'selecciona el valor inicial',
+      defaultRangeEndLabel: 'selecciona el valor final',
     },
-    // to be translated
     tour: {
-      next: 'Next',
-      previous: 'Previous',
-      finish: 'Finish',
+      next: 'Siguiente',
+      previous: 'Anterior',
+      finish: 'Finalizar',
     },
   },
 }
