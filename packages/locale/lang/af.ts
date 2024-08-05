@@ -5,15 +5,14 @@ const af: Language = {
   name: 'af',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'Broodkruimels',
     },
     colorpicker: {
       confirm: 'Bevestig',
       clear: 'Maak skoon',
-      defaultLabel: 'color picker', // to be translated
-      description:
-        'current color is {color}. press enter to select a new color.',
-      alphaLabel: 'pick alpha value', // to be translated
+      defaultLabel: 'kleurkieser',
+      description: `die huidige kleur is {color}. druk enter om'n nuwe kleur te kies.`,
+      alphaLabel: 'kies alfa-waarde',
     },
     datepicker: {
       now: 'Nou',
@@ -27,10 +26,10 @@ const af: Language = {
       startTime: 'Begintyd',
       endDate: 'Einddatum',
       endTime: 'Eindtyd',
-      prevYear: 'Previous Year', // to be translated
-      nextYear: 'Next Year', // to be translated
-      prevMonth: 'Previous Month', // to be translated
-      nextMonth: 'Next Month', // to be translated
+      prevYear: 'Vorige jaar',
+      nextYear: 'Volgende jaar',
+      prevMonth: 'Vorige maand',
+      nextMonth: 'Volgende maand',
       year: 'Jaar',
       month1: 'Jan',
       month2: 'Feb',
@@ -69,19 +68,19 @@ const af: Language = {
         dec: 'Des',
       },
       dateTablePrompt:
-        'Use the arrow keys and enter to select the day of the month', // to be translated
-      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
-      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
-      selectedDate: 'Selected date', // to be translated
-      // to be translated
+        'Gebruik die pyl-sleutels en enter om die dag van die maand te kies',
+      monthTablePrompt:
+        'Gebruik die pyl-sleutels en enter om die maand te kies',
+      yearTablePrompt: 'Gebruik die pyl-sleutels en enter om die jaar te kies',
+      selectedDate: 'Gekose datum',
       weeksFull: {
-        sun: 'Sunday',
-        mon: 'Monday',
-        tue: 'Tuesday',
-        wed: 'Wednesday',
-        thu: 'Thursday',
-        fri: 'Friday',
-        sat: 'Saturday',
+        sun: 'Sondag',
+        mon: 'Maandag',
+        tue: 'Dinsdag',
+        wed: 'Woensdag',
+        thu: 'Donderdag',
+        fri: 'Vrydag',
+        sat: 'Saterdag',
       },
     },
     select: {
@@ -101,27 +100,27 @@ const af: Language = {
     },
     pagination: {
       goto: 'Gaan na',
-      pagesize: '/page',
+      pagesize: '/bladsy',
       total: 'Totaal {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages',
+      page: 'Bladsy',
+      prev: 'Gaan na vorige bladsy',
+      next: 'Gaan na volgende bladsy',
+      currentPage: 'bladsy {pager}',
+      prevPages: 'Vorige {pager} bladsye',
+      nextPages: 'Volgende {pager} bladsye',
       deprecationWarning:
-        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+        'Verouderde gebruike waargeneem, verwys asseblief na die el-paginering dokumentasie vir meer besonderhede',
     },
     messagebox: {
       title: 'Boodskap',
       confirm: 'Bevestig',
       cancel: 'Kanselleer',
       error: 'Ongeldige invoer',
-      close: 'Close this dialog', // to be translated
+      close: 'Maak hierdie dialoogvenster toe',
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
+      deleteTip: 'druk delete om te verwyder',
       delete: 'Verwyder',
       preview: 'Voorskou',
       continue: 'Gaan voort',
@@ -145,48 +144,42 @@ const af: Language = {
       hasCheckedFormat: '{checked}/{total} gekies',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'MISLUK',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Terug',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Ja',
+      cancelButtonText: 'Nee',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: 'Karoesel-pyl links',
+      rightArrow: 'Karoesel-pyl regs',
+      indicator: 'Karoesel wissel na indeks {index}',
     },
-    // to be translated
     inputNumber: {
-      decrease: 'decrease number',
-      increase: 'increase number',
+      decrease: 'verminder getal',
+      increase: 'verhoog getal',
     },
-    // to be translated
     dropdown: {
       toggleDropdown: 'Toggle Dropdown',
     },
-    // to be translated
     dialog: {
-      close: 'Close this dialog',
+      close: 'Maak hierdie dialoogvenster toe',
     },
-    // to be translated
     drawer: {
-      close: 'Close this dialog',
+      close: 'Maak hierdie dialoogvenster toe',
     },
-    // to be translated
     slider: {
-      defaultLabel: 'slider between {min} and {max}',
-      defaultRangeStartLabel: 'pick start value',
-      defaultRangeEndLabel: 'pick end value',
+      defaultLabel: 'glyer tussen {min} en {max}',
+      defaultRangeStartLabel: 'kies beginwaarde',
+      defaultRangeEndLabel: 'kies eindwaarde',
     },
-    // to be translated
     tour: {
-      next: 'Next',
-      previous: 'Previous',
-      finish: 'Finish',
+      next: 'Volgende',
+      previous: 'Vorige',
+      finish: 'Klaar',
     },
   },
 }
