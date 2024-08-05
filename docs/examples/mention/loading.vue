@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
 import type { MentionOption } from 'element-plus'
 
 const value = ref('')
@@ -33,7 +33,7 @@ const handleSearch = (pattern: string) => {
   }, 1500)
 }
 
-onBeforeMount(() => {
+onBeforeUnmount(() => {
   if (timer) clearTimeout(timer)
 })
 </script>
