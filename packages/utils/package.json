@@ -36,16 +36,5 @@
     "@types/node": "^18.19.25",
     "clean-package": "^2.2.0",
     "tsup": "^8.1.0"
-  },
-  "tsup": {
-    "entry": [
-      "./index.ts"
-    ],
-    "clean": true,
-    "target": "es2018",
-    "format": [
-      "cjs",
-      "esm"
-    ]
   }
 }
