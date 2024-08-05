@@ -160,7 +160,6 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
     event.stopPropagation()
     const order =
       column.order === givenOrder ? null : givenOrder || toggleOrder(column)
-
     const target = (event.target as HTMLElement)?.closest('th')
 
     if (target) {
@@ -171,6 +170,16 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
     }
 
     if (!column.sortable) return
+
+    const clickTarget = event.currentTarget
+
+    if (
+      ['ascending', 'descending'].some(
+        (str) => hasClass(clickTarget, str) && !column.sortOrders.includes(str)
+      )
+    ) {
+      return
+    }
 
     const states = props.store.states
     let sortProp = states.sortProp.value

@@ -13,7 +13,7 @@ This section describes how to use Element Plus in your project.
 
 If you don’t care about the bundle size so much, it’s more convenient to use full import.
 
-```typescript
+```ts
 // main.ts
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
