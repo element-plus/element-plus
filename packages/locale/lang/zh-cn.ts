@@ -125,7 +125,7 @@ export default {
       confirm: '确定',
       cancel: '取消',
       error: '输入的数据不合法!',
-      close: '关闭此对话框'
+      close: '关闭此对话框',
     },
     upload: {
       deleteTip: '按 delete 键可删除',
