@@ -1,14 +1,8 @@
 <template>
   <div
     v-show="ready"
-    :class="[
-      ns.e('item'),
-      ns.is('active', active),
-      ns.is('in-stage', inStage),
-      ns.is('hover', hover),
-      ns.is('animating', animating),
-      { [ns.em('item', 'card')]: isCardType },
-    ]"
+    ref="carouselItemRef"
+    :class="itemKls"
     :style="itemStyle"
     @click="handleItemClick"
   >
@@ -34,6 +28,7 @@ const ns = useNamespace('carousel')
 const COMPONENT_NAME = 'ElCarouselItem'
 // inject
 const {
+  carouselItemRef,
   active,
   animating,
   hover,
@@ -45,6 +40,18 @@ const {
   ready,
   handleItemClick,
 } = useCarouselItem(props, COMPONENT_NAME)
+
+const itemKls = computed(() => [
+  ns.e('item'),
+  ns.is('active', active.value),
+  ns.is('in-stage', inStage.value),
+  ns.is('hover', hover.value),
+  ns.is('animating', animating.value),
+  {
+    [ns.em('item', 'card')]: isCardType.value,
+    [ns.em('item', 'card-vertical')]: isCardType.value && isVertical.value,
+  },
+])
 
 const itemStyle = computed<CSSProperties>(() => {
   const translateType = `translate${unref(isVertical) ? 'Y' : 'X'}`

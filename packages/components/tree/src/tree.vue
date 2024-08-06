@@ -22,9 +22,11 @@
       @node-expand="handleNodeExpand"
     />
     <div v-if="isEmpty" :class="ns.e('empty-block')">
-      <span :class="ns.e('empty-text')">{{
-        emptyText ?? t('el.tree.emptyText')
-      }}</span>
+      <slot name="empty">
+        <span :class="ns.e('empty-text')">
+          {{ emptyText ?? t('el.tree.emptyText') }}
+        </span>
+      </slot>
     </div>
     <div
       v-show="dragState.showDropIndicator"
@@ -39,6 +41,7 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
+  inject,
   provide,
   ref,
   watch,
@@ -46,6 +49,7 @@ import {
 import { iconPropType } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/components/form'
+import { selectKey } from '@element-plus/components/select/src/token'
 import TreeStore from './model/tree-store'
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import ElTreeNode from './tree-node.vue'
@@ -156,6 +160,7 @@ export default defineComponent({
   setup(props, ctx) {
     const { t } = useLocale()
     const ns = useNamespace('tree')
+    const selectInfo = inject(selectKey, null)
 
     const store = ref<TreeStore>(
       new TreeStore({
@@ -196,10 +201,14 @@ export default defineComponent({
 
     const isEmpty = computed(() => {
       const { childNodes } = root.value
+      const hasFilteredOptions = selectInfo
+        ? selectInfo.hasFilteredOptions !== 0
+        : false
       return (
-        !childNodes ||
-        childNodes.length === 0 ||
-        childNodes.every(({ visible }) => !visible)
+        (!childNodes ||
+          childNodes.length === 0 ||
+          childNodes.every(({ visible }) => !visible)) &&
+        !hasFilteredOptions
       )
     })
 
@@ -318,18 +327,20 @@ export default defineComponent({
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentNode')
 
-      handleCurrentChange(store, ctx.emit, () =>
+      handleCurrentChange(store, ctx.emit, () => {
+        broadcastExpanded(node)
         store.value.setUserCurrentNode(node, shouldAutoExpandParent)
-      )
+      })
     }
 
     const setCurrentKey = (key?: TreeKey, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentKey')
 
-      handleCurrentChange(store, ctx.emit, () =>
+      handleCurrentChange(store, ctx.emit, () => {
+        broadcastExpanded()
         store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
-      )
+      })
     }
 
     const getNode = (data: TreeKey | TreeNodeData): Node => {

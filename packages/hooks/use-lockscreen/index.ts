@@ -1,11 +1,10 @@
-import { isRef, onScopeDispose, watch } from 'vue'
-import { computed } from '@vue/reactivity'
-import { isClient } from '@vueuse/core'
+import { computed, isRef, onScopeDispose, watch } from 'vue'
 import {
   addClass,
   getScrollBarWidth,
   getStyle,
   hasClass,
+  isClient,
   removeClass,
   throwError,
 } from '@element-plus/utils'

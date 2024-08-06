@@ -1,8 +1,13 @@
 <template>
   <div
-    v-show="type !== 'hidden'"
     v-bind="containerAttrs"
-    :class="containerKls"
+    :class="[
+      containerKls,
+      {
+        [nsInput.bm('group', 'append')]: $slots.append,
+        [nsInput.bm('group', 'prepend')]: $slots.prepend,
+      },
+    ]"
     :style="containerStyle"
     :role="containerRole"
     @mouseenter="handleMouseEnter"
@@ -15,10 +20,10 @@
         <slot name="prepend" />
       </div>
 
-      <div :class="wrapperKls">
+      <div ref="wrapperRef" :class="wrapperKls">
         <!-- prefix slot -->
         <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
-          <span :class="nsInput.e('prefix-inner')" @click="focus">
+          <span :class="nsInput.e('prefix-inner')">
             <slot name="prefix" />
             <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
               <component :is="prefixIcon" />
@@ -31,17 +36,18 @@
           ref="input"
           :class="nsInput.e('inner')"
           v-bind="attrs"
+          :minlength="minlength"
+          :maxlength="maxlength"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
           :disabled="inputDisabled"
-          :formatter="formatter"
-          :parser="parser"
           :readonly="readonly"
           :autocomplete="autocomplete"
           :tabindex="tabindex"
-          :aria-label="label"
+          :aria-label="ariaLabel"
           :placeholder="placeholder"
           :style="inputStyle"
-          :form="props.form"
+          :form="form"
+          :autofocus="autofocus"
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
@@ -54,7 +60,7 @@
 
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
-          <span :class="nsInput.e('suffix-inner')" @click="focus">
+          <span :class="nsInput.e('suffix-inner')">
             <template
               v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
             >
@@ -108,16 +114,20 @@
       <textarea
         :id="inputId"
         ref="textarea"
-        :class="nsTextarea.e('inner')"
+        :class="[nsTextarea.e('inner'), nsInput.is('focus', isFocused)]"
         v-bind="attrs"
+        :minlength="minlength"
+        :maxlength="maxlength"
         :tabindex="tabindex"
         :disabled="inputDisabled"
         :readonly="readonly"
         :autocomplete="autocomplete"
         :style="textareaStyle"
-        :aria-label="label"
+        :aria-label="ariaLabel"
         :placeholder="placeholder"
-        :form="props.form"
+        :form="form"
+        :autofocus="autofocus"
+        :rows="rows"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -150,7 +160,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { isClient, useResizeObserver } from '@vueuse/core'
+import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import {
@@ -168,10 +178,16 @@ import {
   NOOP,
   ValidateComponentsMap,
   debugWarn,
-  isKorean,
+  isClient,
   isObject,
 } from '@element-plus/utils'
-import { useAttrs, useCursor, useNamespace } from '@element-plus/hooks'
+import {
+  useAttrs,
+  useComposition,
+  useCursor,
+  useFocusController,
+  useNamespace,
+} from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { calcTextareaHeight } from './utils'
 import { inputEmits, inputProps } from './input'
@@ -206,20 +222,19 @@ const containerKls = computed(() => [
   nsInput.is('exceed', inputExceed.value),
   {
     [nsInput.b('group')]: slots.prepend || slots.append,
-    [nsInput.bm('group', 'append')]: slots.append,
-    [nsInput.bm('group', 'prepend')]: slots.prepend,
     [nsInput.m('prefix')]: slots.prefix || props.prefixIcon,
     [nsInput.m('suffix')]:
       slots.suffix || props.suffixIcon || props.clearable || props.showPassword,
     [nsInput.bm('suffix', 'password-clear')]:
       showClear.value && showPwdVisible.value,
+    [nsInput.b('hidden')]: props.type === 'hidden',
   },
   rawAttrs.class,
 ])
 
 const wrapperKls = computed(() => [
   nsInput.e('wrapper'),
-  nsInput.is('focus', focused.value),
+  nsInput.is('focus', isFocused.value),
 ])
 
 const attrs = useAttrs({
@@ -227,9 +242,9 @@ const attrs = useAttrs({
     return Object.keys(containerAttrs.value)
   }),
 })
-const { form, formItem } = useFormItem()
+const { form: elForm, formItem: elFormItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, {
-  formItemContext: formItem,
+  formItemContext: elFormItem,
 })
 const inputSize = useFormSize()
 const inputDisabled = useFormDisabled()
@@ -239,17 +254,26 @@ const nsTextarea = useNamespace('textarea')
 const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
 
-const focused = ref(false)
 const hovering = ref(false)
-const isComposing = ref(false)
 const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
 
 const _ref = computed(() => input.value || textarea.value)
 
-const needStatusIcon = computed(() => form?.statusIcon ?? false)
-const validateState = computed(() => formItem?.validateState || '')
+const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
+  _ref,
+  {
+    afterBlur() {
+      if (props.validateEvent) {
+        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
+      }
+    },
+  }
+)
+
+const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
+const validateState = computed(() => elFormItem?.validateState || '')
 const validateIcon = computed(
   () => validateState.value && ValidateComponentsMap[validateState.value]
 )
@@ -258,7 +282,6 @@ const passwordIcon = computed(() =>
 )
 const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
-  props.inputStyle,
 ])
 const textareaStyle = computed<StyleValue>(() => [
   props.inputStyle,
@@ -274,7 +297,7 @@ const showClear = computed(
     !inputDisabled.value &&
     !props.readonly &&
     !!nativeInputValue.value &&
-    (focused.value || hovering.value)
+    (isFocused.value || hovering.value)
 )
 const showPwdVisible = computed(
   () =>
@@ -282,7 +305,7 @@ const showPwdVisible = computed(
     !inputDisabled.value &&
     !props.readonly &&
     !!nativeInputValue.value &&
-    (!!nativeInputValue.value || focused.value)
+    (!!nativeInputValue.value || isFocused.value)
 )
 const isWordLimitVisible = computed(
   () =>
@@ -369,8 +392,11 @@ const onceInitSizeTextarea = createOnceInitResize(resizeTextarea)
 
 const setNativeInputValue = () => {
   const input = _ref.value
-  if (!input || input.value === nativeInputValue.value) return
-  input.value = nativeInputValue.value
+  const formatterValue = props.formatter
+    ? props.formatter(nativeInputValue.value)
+    : nativeInputValue.value
+  if (!input || input.value === formatterValue) return
+  input.value = formatterValue
 }
 
 const handleInput = async (event: Event) => {
@@ -380,7 +406,6 @@ const handleInput = async (event: Event) => {
 
   if (props.formatter) {
     value = props.parser ? props.parser(value) : value
-    value = props.formatter(value)
   }
 
   // should not emit input during composition
@@ -408,25 +433,12 @@ const handleChange = (event: Event) => {
   emit('change', (event.target as TargetElement).value)
 }
 
-const handleCompositionStart = (event: CompositionEvent) => {
-  emit('compositionstart', event)
-  isComposing.value = true
-}
-
-const handleCompositionUpdate = (event: CompositionEvent) => {
-  emit('compositionupdate', event)
-  const text = (event.target as HTMLInputElement)?.value
-  const lastCharacter = text[text.length - 1] || ''
-  isComposing.value = !isKorean(lastCharacter)
-}
-
-const handleCompositionEnd = (event: CompositionEvent) => {
-  emit('compositionend', event)
-  if (isComposing.value) {
-    isComposing.value = false
-    handleInput(event)
-  }
-}
+const {
+  isComposing,
+  handleCompositionStart,
+  handleCompositionUpdate,
+  handleCompositionEnd,
+} = useComposition({ emit, afterComposition: handleInput })
 
 const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value
@@ -440,19 +452,6 @@ const focus = async () => {
 }
 
 const blur = () => _ref.value?.blur()
-
-const handleFocus = (event: FocusEvent) => {
-  focused.value = true
-  emit('focus', event)
-}
-
-const handleBlur = (event: FocusEvent) => {
-  focused.value = false
-  emit('blur', event)
-  if (props.validateEvent) {
-    formItem?.validate?.('blur').catch((err) => debugWarn(err))
-  }
-}
 
 const handleMouseLeave = (evt: MouseEvent) => {
   hovering.value = false
@@ -484,7 +483,7 @@ watch(
   () => {
     nextTick(() => resizeTextarea())
     if (props.validateEvent) {
-      formItem?.validate?.('change').catch((err) => debugWarn(err))
+      elFormItem?.validate?.('change').catch((err) => debugWarn(err))
     }
   }
 )
@@ -529,6 +528,9 @@ defineExpose({
 
   /** @description from props (used on unit test) */
   autosize: toRef(props, 'autosize'),
+
+  /** @description is input composing */
+  isComposing,
 
   /** @description HTML input element native method */
   focus,

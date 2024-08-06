@@ -63,17 +63,8 @@ Do:
 <template>
   <el-cascader :props="props" />
 </template>
-<script lang="ts">
-  export default {
-    setup() {
-      return {
-        props: {
-          // props.
-          multiple: true,
-        },
-      }
-    },
-  }
+<script lang="ts" setup>
+  const props = { multiple: true }
 </script>
 ```
 
@@ -86,7 +77,7 @@ Don't do:
 </template>
 ```
 
-:::demo When using multiple selection, all selected tags will display by default. You can set `collapse-tags = true` to fold selected tags. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
+:::demo When using multiple selection, all selected tags will display by default. You can set `collapse-tags = true` to fold selected tags. You can set `max-collapse-tags` to show max tags number, default 1. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
 
 cascader/multiple-selection
 
@@ -167,7 +158,12 @@ cascader/panel
 | teleported                          | whether cascader popup is teleported                                                                                                                                             | ^[boolean]                                                    | true    |
 | popper-append-to-body ^(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                    | true    |
 | tag-type                            | tag type                                                                                                                                                                         | ^[enum]`'success' \| 'info' \| 'warning' \| 'danger'`         | info    |
+| tag-effect ^(2.7.8)                 | tag effect                                                                                                                                                                       | ^[enum]`'light' \| 'dark' \| 'plain'`                         | light   |
 | validate-event                      | whether to trigger form validation                                                                                                                                               | ^[boolean]                                                    | true    |
+| max-collapse-tags ^(2.3.10)         | The max tags number to be shown. To use this, `collpase-tags` must be true                                                                                                       | ^[number]                                                     | 1       |
+| empty-values ^(2.7.0)               | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                   | ^[array]                                                      | —       |
+| value-on-clear ^(2.7.0)             | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                          | ^[string] / ^[number] / ^[boolean] / ^[Function]              | —       |
+| persistent ^(2.7.8)                 | when dropdown is inactive and `persistent` is `false`, dropdown will be destroyed                       | ^[boolean]                                                                                                                                                                  | true                                           |
 
 ### Cascader Events
 
@@ -177,6 +173,7 @@ cascader/panel
 | expand-change  | triggers when expand option changes                 | ^[Function]`(value: CascaderValue) => void`                 |
 | blur           | triggers when Cascader blurs                        | ^[Function]`(event: FocusEvent) => void`                    |
 | focus          | triggers when Cascader focuses                      | ^[Function]`(event: FocusEvent) => void`                    |
+| clear ^(2.7.7) | triggers when the clear icon is clicked in a clearable Select | ^[Function]`() => void`                           |
 | visible-change | triggers when the dropdown appears/disappears       | ^[Function]`(value: boolean) => void`                       |
 | remove-tag     | triggers when remove tag in multiple selection mode | ^[Function]`(value: CascaderNode['valueByOption']) => void` |
 
@@ -189,12 +186,12 @@ cascader/panel
 
 ### Cascader Exposes
 
-| Name                | Description                                                                                                       | Type                                                            |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| getCheckedNodes     | get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false` | ^[Function]`(leafOnly: boolean) => CascaderNode[] \| undefined` |
-| cascaderPanelRef    | cascader panel ref                                                                                                | ^[object]`ComputedRef<any>`                                     |
-| togglePopperVisible | toggle the visible type of popper                                                                                 | ^[Function]`(visible?: boolean) => void`                        |
-| contentRef          | cascader content ref                                                                                              | ^[object]`ComputedRef<any>`                                     |
+| Name                          | Description                                                                                                       | Type                                                            |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| getCheckedNodes               | get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false` | ^[Function]`(leafOnly: boolean) => CascaderNode[] \| undefined` |
+| cascaderPanelRef              | cascader panel ref                                                                                                | ^[object]`ComputedRef<any>`                                     |
+| togglePopperVisible ^(2.2.31) | toggle the visible type of popper                                                                                 | ^[Function]`(visible?: boolean) => void`                        |
+| contentRef                    | cascader content ref                                                                                              | ^[object]`ComputedRef<any>`                                     |
 
 ## CascaderPanel API
 

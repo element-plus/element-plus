@@ -5,7 +5,7 @@
       ns.is('disabled', disabled),
       ns.is('focus', focus),
       ns.is('bordered', border),
-      ns.is('checked', modelValue === label),
+      ns.is('checked', modelValue === actualValue),
       ns.m(size),
     ]"
   >
@@ -13,20 +13,21 @@
       :class="[
         ns.e('input'),
         ns.is('disabled', disabled),
-        ns.is('checked', modelValue === label),
+        ns.is('checked', modelValue === actualValue),
       ]"
     >
       <input
         ref="radioRef"
         v-model="modelValue"
         :class="ns.e('original')"
-        :value="label"
+        :value="actualValue"
         :name="name || radioGroup?.name"
         :disabled="disabled"
         type="radio"
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
+        @click.stop
       />
       <span :class="ns.e('inner')" />
     </span>
@@ -52,10 +53,8 @@ const props = defineProps(radioProps)
 const emit = defineEmits(radioEmits)
 
 const ns = useNamespace('radio')
-const { radioRef, radioGroup, focus, size, disabled, modelValue } = useRadio(
-  props,
-  emit
-)
+const { radioRef, radioGroup, focus, size, disabled, modelValue, actualValue } =
+  useRadio(props, emit)
 
 function handleChange() {
   nextTick(() => emit('change', modelValue.value))

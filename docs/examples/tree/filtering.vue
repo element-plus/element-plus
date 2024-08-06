@@ -1,8 +1,13 @@
 <template>
-  <el-input v-model="filterText" placeholder="Filter keyword" />
+  <el-input
+    v-model="filterText"
+    style="width: 240px"
+    placeholder="Filter keyword"
+  />
 
   <el-tree
     ref="treeRef"
+    style="max-width: 600px"
     class="filter-tree"
     :data="data"
     :props="defaultProps"
@@ -16,9 +21,7 @@ import { ref, watch } from 'vue'
 import { ElTree } from 'element-plus'
 
 interface Tree {
-  id: number
-  label: string
-  children?: Tree[]
+  [key: string]: any
 }
 
 const filterText = ref('')

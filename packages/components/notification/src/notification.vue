@@ -84,7 +84,7 @@ const verticalProperty = computed(() =>
 const positionStyle = computed<CSSProperties>(() => {
   return {
     [verticalProperty.value]: `${props.offset}px`,
-    zIndex: currentZIndex.value,
+    zIndex: props.zIndex ?? currentZIndex.value,
   }
 })
 

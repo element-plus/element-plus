@@ -4,6 +4,7 @@
     :data="data"
     check-strictly
     :render-after-expand="false"
+    style="width: 240px"
   />
   <el-divider />
   show checkbox(only click checkbox to select):
@@ -13,6 +14,7 @@
     check-strictly
     :render-after-expand="false"
     show-checkbox
+    style="width: 240px"
   />
   <el-divider />
   show checkbox with `check-on-click-node`:
@@ -23,6 +25,7 @@
     :render-after-expand="false"
     show-checkbox
     check-on-click-node
+    style="width: 240px"
   />
 </template>
 

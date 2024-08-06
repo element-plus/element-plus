@@ -56,7 +56,6 @@
                 :visible="minTimePickerVisible"
                 :format="timeFormat"
                 datetime-role="start"
-                :time-arrow-control="arrowControl"
                 :parsed-value="leftDate"
                 @pick="handleMinTimePick"
               />
@@ -99,7 +98,6 @@
                 datetime-role="end"
                 :visible="maxTimePickerVisible"
                 :format="timeFormat"
-                :time-arrow-control="arrowControl"
                 :parsed-value="rightDate"
                 @pick="handleMaxTimePick"
               />
@@ -111,6 +109,7 @@
             <button
               type="button"
               :class="ppNs.e('icon-btn')"
+              :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               @click="leftPrevYear"
             >
@@ -119,6 +118,7 @@
             <button
               type="button"
               :class="ppNs.e('icon-btn')"
+              :aria-label="t(`el.datepicker.prevMonth`)"
               class="arrow-left"
               @click="leftPrevMonth"
             >
@@ -129,6 +129,7 @@
               type="button"
               :disabled="!enableYearArrow"
               :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :aria-label="t(`el.datepicker.nextYear`)"
               class="d-arrow-right"
               @click="leftNextYear"
             >
@@ -142,6 +143,7 @@
                 ppNs.e('icon-btn'),
                 { 'is-disabled': !enableMonthArrow },
               ]"
+              :aria-label="t(`el.datepicker.nextMonth`)"
               class="arrow-right"
               @click="leftNextMonth"
             >
@@ -169,6 +171,7 @@
               type="button"
               :disabled="!enableYearArrow"
               :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               @click="rightPrevYear"
             >
@@ -182,6 +185,7 @@
                 ppNs.e('icon-btn'),
                 { 'is-disabled': !enableMonthArrow },
               ]"
+              :aria-label="t(`el.datepicker.prevMonth`)"
               class="arrow-left"
               @click="rightPrevMonth"
             >
@@ -189,6 +193,7 @@
             </button>
             <button
               type="button"
+              :aria-label="t(`el.datepicker.nextYear`)"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-right"
               @click="rightNextYear"
@@ -198,6 +203,7 @@
             <button
               type="button"
               :class="ppNs.e('icon-btn')"
+              :aria-label="t(`el.datepicker.nextMonth`)"
               class="arrow-right"
               @click="rightNextMonth"
             >
@@ -287,14 +293,8 @@ const emit = defineEmits([
 const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject('EP_PICKER_BASE') as any
-const {
-  disabledDate,
-  cellClassName,
-  format,
-  defaultTime,
-  arrowControl,
-  clearable,
-} = pickerBase.props
+const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
+const format = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
@@ -388,12 +388,21 @@ const maxVisibleTime = computed(() => {
 })
 
 const timeFormat = computed(() => {
-  return extractTimeFormat(format)
+  return props.timeFormat || extractTimeFormat(format.value)
 })
 
 const dateFormat = computed(() => {
-  return extractDateFormat(format)
+  return props.dateFormat || extractDateFormat(format.value)
 })
+
+const isValidValue = (date: [Dayjs, Dayjs]) => {
+  return (
+    isValidRange(date) &&
+    (disabledDate
+      ? !disabledDate(date[0].toDate()) && !disabledDate(date[1].toDate())
+      : true)
+  )
+}
 
 const leftPrevYear = () => {
   leftDate.value = leftDate.value.subtract(1, 'year')
@@ -543,7 +552,6 @@ const handleMaxTimeClose = () => {
 const handleDateInput = (value: string | null, type: ChangeType) => {
   dateUserInput.value[type] = value
   const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
-
   if (parsedValueD.isValid()) {
     if (disabledDate && disabledDate(parsedValueD.toDate())) {
       return
@@ -554,7 +562,10 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         .year(parsedValueD.year())
         .month(parsedValueD.month())
         .date(parsedValueD.date())
-      if (!props.unlinkPanels) {
+      if (
+        !props.unlinkPanels &&
+        (!maxDate.value || maxDate.value.isBefore(minDate.value))
+      ) {
         rightDate.value = parsedValueD.add(1, 'month')
         maxDate.value = minDate.value.add(1, 'month')
       }
@@ -564,7 +575,10 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         .year(parsedValueD.year())
         .month(parsedValueD.month())
         .date(parsedValueD.date())
-      if (!props.unlinkPanels) {
+      if (
+        !props.unlinkPanels &&
+        (!minDate.value || minDate.value.isAfter(maxDate.value))
+      ) {
         leftDate.value = parsedValueD.subtract(1, 'month')
         minDate.value = maxDate.value.subtract(1, 'month')
       }
@@ -587,9 +601,6 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
         .hour(parsedValueD.hour())
         .minute(parsedValueD.minute())
         .second(parsedValueD.second())
-      if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
-        maxDate.value = minDate.value
-      }
     } else {
       maxTimePickerVisible.value = true
       maxDate.value = (maxDate.value || rightDate.value)
@@ -597,9 +608,6 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
         .minute(parsedValueD.minute())
         .second(parsedValueD.second())
       rightDate.value = maxDate.value
-      if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
-        minDate.value = maxDate.value
-      }
     }
   }
 }
@@ -609,9 +617,15 @@ const handleTimeChange = (value: string | null, type: ChangeType) => {
   if (type === 'min') {
     leftDate.value = minDate.value!
     minTimePickerVisible.value = false
+    if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
+      maxDate.value = minDate.value
+    }
   } else {
     rightDate.value = maxDate.value!
     maxTimePickerVisible.value = false
+    if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
+      minDate.value = maxDate.value
+    }
   }
 }
 
@@ -665,19 +679,21 @@ const handleClear = () => {
     unlinkPanels: props.unlinkPanels,
   })[0]
   rightDate.value = leftDate.value.add(1, 'month')
+  maxDate.value = undefined
+  minDate.value = undefined
   emit('pick', null)
 }
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
   return isArray(value)
-    ? value.map((_) => _.format(format))
-    : value.format(format)
+    ? value.map((_) => _.format(format.value))
+    : value.format(format.value)
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
   return isArray(value)
-    ? value.map((_) => dayjs(_, format).locale(lang.value))
-    : dayjs(value, format).locale(lang.value)
+    ? value.map((_) => dayjs(_, format.value).locale(lang.value))
+    : dayjs(value, format.value).locale(lang.value)
 }
 
 function onParsedValueChanged(
@@ -704,7 +720,7 @@ function onParsedValueChanged(
   }
 }
 
-emit('set-picker-option', ['isValidValue', isValidRange])
+emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['handleClear', handleClear])

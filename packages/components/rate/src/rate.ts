@@ -7,7 +7,7 @@ import {
   isNumber,
   mutable,
 } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import type { Component, ExtractPropTypes } from 'vue'
 import type Rate from './rate.vue'
 
@@ -75,21 +75,22 @@ export const rateProps = buildProps({
     type: definePropType<
       Array<string | Component> | Record<number, string | Component>
     >([Array, Object]),
-    default: () => [StarFilled, StarFilled, StarFilled],
+    default: () =>
+      [StarFilled, StarFilled, StarFilled] as [Component, Component, Component],
   },
   /**
    * @description component of unselected icons
    */
   voidIcon: {
     type: iconPropType,
-    default: () => Star,
+    default: () => Star as Component,
   },
   /**
    * @description component of unselected read-only icons
    */
   disabledVoidIcon: {
     type: iconPropType,
-    default: () => StarFilled,
+    default: () => StarFilled as Component,
   },
   /**
    * @description whether Rate is read-only
@@ -140,19 +141,10 @@ export const rateProps = buildProps({
    */
   size: useSizeProp,
   /**
-   * @description same as `aria-label` in Rate
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description whether value can be reset to `0`
    */
-  clearable: {
-    type: Boolean,
-    default: false,
-  },
+  clearable: Boolean,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export type RateProps = ExtractPropTypes<typeof rateProps>

@@ -17,11 +17,11 @@ Next section is for those who wants to help develop Element Plus.
 
 You should be having:
 
-NodeJS >= 16
+NodeJS >= 18
 
 Git > v2.20
 
-Some of our compiling code used syntax that introduced in NodeJS>16.0 so you will be need to install that in advance.
+Some of our compiling code used syntax that introduced in NodeJS>18 so you will be need to install that in advance.
 
 ## Clone the repository
 
@@ -53,8 +53,8 @@ Ah, now you have installed the code correctly, you can choose:
 ```shell
 # If you would like to modify the website source code of https://element-plus.org
 # It was made with [VitePress](https://vitepress.vuejs.org)
-pnpm run docs:gen-locale # This generates locale files for your local development
-pnpm run docs:dev
+pnpm docs:gen-locale # This generates locale files for your local development
+pnpm docs:dev
 ```
 
 ### Making changes to the component instead of website
@@ -62,8 +62,7 @@ pnpm run docs:dev
 ```shell
 # If you would like to run a local playground to test out your changes against
 # Some specific component
-touch play/src/App.vue # Adding an entry for the play to run.
-pnpm run dev
+pnpm dev
 ```
 
 You can follow the [LOCAL DEVELOPMENT GUIDE](https://element-plus.org/en-US/guide/dev-guide.html) to do development more quickly.
