@@ -323,9 +323,9 @@ describe('Select', () => {
       DEFAULT_PLACEHOLDER
     )
     const select = wrapper.findComponent({ name: 'ElSelect' })
-    const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
-    await tipDefWrapper.trigger('mouseenter')
-    await tipDefWrapper.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
     await nextTick()
     expect((select.vm as any).expanded).toBe(true)
   })
@@ -1593,9 +1593,9 @@ describe('Select', () => {
       () => ({ value: 'test' })
     )
     const vm = wrapper.vm as any
-    const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
-    await tipDefWrapper.trigger('mouseenter')
-    await tipDefWrapper.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
     const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
     expect(selectVm.expanded).toBe(true)
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('test')
@@ -1675,9 +1675,9 @@ describe('Select', () => {
         value: 'test',
       })
     )
-    const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
-    await tipDefWrapper.trigger('mouseenter')
-    await tipDefWrapper.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
     await nextTick()
     expect(
       !!(document.querySelector('.el-select__popper') as HTMLElement).style
@@ -2198,10 +2198,10 @@ describe('Select', () => {
       clearable: true,
     })
     const select = wrapper.findComponent({ name: 'ElSelect' })
-    const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
-    await tipDefWrapper.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
-    await tipDefWrapper.trigger('click')
+    await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(false)
   })
 
@@ -2211,11 +2211,11 @@ describe('Select', () => {
       clearable: true,
     })
     const select = wrapper.findComponent({ name: 'ElSelect' })
-    const tipDefWrapper = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
-    await tipDefWrapper.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
 
-    await tipDefWrapper.trigger('click')
+    await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(false)
   })
 
