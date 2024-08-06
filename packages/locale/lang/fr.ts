@@ -13,7 +13,7 @@ const fr: Language = {
       defaultLabel: 'color picker',
       description:
         'La couleur actuelle est {color}. Appuyer sur Entrée pour sélectionner une nouvelle couleur.',
-      alphaLabel: 'pick alpha value', // to be translated
+      alphaLabel: 'Sélectionnez une valeur de transparence',
     },
     datepicker: {
       now: 'Maintenant',
@@ -180,9 +180,8 @@ const fr: Language = {
       rightArrow: 'Flèche du carrousel vers la droite',
       indicator: 'Passer au carrousel index {index}',
     },
-    // to be translated
     dropdown: {
-      toggleDropdown: 'Toggle Dropdown',
+      toggleDropdown: 'Basculer les options déroulantes',
     },
   },
 }
