@@ -22,6 +22,7 @@
       ref="inputRef"
       :class="ns.e('input')"
       :name="name"
+      :disabled="disabled"
       :multiple="multiple"
       :accept="accept"
       type="file"
