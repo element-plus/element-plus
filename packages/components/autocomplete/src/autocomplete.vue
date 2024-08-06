@@ -361,9 +361,7 @@ const stopHandle = onClickOutside(listboxRef, () => {
 })
 
 onBeforeUnmount(() => {
-  if (stopHandle) {
-    stopHandle()
-  }
+  stopHandle?.()
 })
 
 onMounted(() => {
