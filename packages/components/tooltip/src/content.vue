@@ -64,7 +64,6 @@ const ns = useNamespace('tooltip')
 // TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
 const contentRef = ref<any>(null)
 let stopHandle: ReturnType<typeof onClickOutside>
-// const destroyed = ref(false)
 const {
   controlled,
   id,
