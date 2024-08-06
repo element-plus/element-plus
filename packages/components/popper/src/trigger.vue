@@ -66,7 +66,7 @@ const TRIGGER_ELE_EVENTS = [
   'onFocus',
   'onBlur',
   'onContextmenu',
-]
+] as const
 
 onMounted(() => {
   watch(
