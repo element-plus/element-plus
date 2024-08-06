@@ -18,7 +18,7 @@ import type { UseNamespaceReturn } from '@element-plus/hooks'
 import type { LoadingOptionsResolved } from './types'
 
 export function createLoadingComponent(options: LoadingOptionsResolved) {
-  let afterLeaveTimer: number
+  let afterLeaveTimer: ReturnType<typeof setTimeout>
   // IMPORTANT NOTE: this is only a hacking way to expose the injections on an
   // instance, DO NOT FOLLOW this pattern in your own code.
   const afterLeaveFlag = ref(false)
@@ -60,7 +60,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     afterLeaveFlag.value = true
     clearTimeout(afterLeaveTimer)
 
-    afterLeaveTimer = window.setTimeout(handleAfterLeave, 400)
+    afterLeaveTimer = setTimeout(handleAfterLeave, 400)
     data.visible = false
 
     options.closed?.()
