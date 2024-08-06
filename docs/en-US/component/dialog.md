@@ -177,8 +177,8 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 ### Exposes
 
-| Name         | Description   | Type                    |
-| ------------ | ------------- | ----------------------- |
+| Name                  | Description   | Type                    |
+| --------------------- | ------------- | ----------------------- |
 | resetPostion ^(2.8.0) | reset postion | ^[Function]`() => void` |
 
 ## FAQ
