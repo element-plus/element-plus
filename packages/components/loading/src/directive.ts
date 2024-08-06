@@ -1,12 +1,21 @@
 // @ts-nocheck
 import { isRef, ref } from 'vue'
 import { hyphenate, isObject, isString } from '@vue/shared'
+import { fromPairs } from 'lodash'
 import { Loading } from './service'
 import type { Directive, DirectiveBinding, UnwrapRef } from 'vue'
 import type { LoadingOptions } from './types'
 import type { LoadingInstance } from './loading'
 
 const INSTANCE_KEY = Symbol('ElLoading')
+const attributeKeys = [
+  'text',
+  'svg',
+  'svgViewBox',
+  'spinner',
+  'background',
+  'customClass',
+]
 
 export type LoadingBinding = boolean | UnwrapRef<LoadingOptions>
 export interface ElementLoading extends HTMLElement {
@@ -32,37 +41,32 @@ const createInstance = (
     if (data) return ref(data)
     else return data
   }
-
+  const getOwnAttribute = (name) => {
+    return el.getAttribute(`element-loading-${hyphenate(name)}`)
+  }
   const getProp = <K extends keyof LoadingOptions>(name: K) =>
-    resolveExpression(
-      getBindingProp(name) ||
-        el.getAttribute(`element-loading-${hyphenate(name)}`)
-    )
+    resolveExpression(getBindingProp(name) || getOwnAttribute(name))
 
   const fullscreen =
     getBindingProp('fullscreen') ?? binding.modifiers.fullscreen
 
   const options: LoadingOptions = {
-    text: getProp('text'),
-    svg: getProp('svg'),
-    svgViewBox: getProp('svgViewBox'),
-    spinner: getProp('spinner'),
-    background: getProp('background'),
-    customClass: getProp('customClass'),
+    ...fromPairs(attributeKeys.map((key) => [key, getProp(key)])),
     fullscreen,
     target: getBindingProp('target') ?? (fullscreen ? undefined : el),
     body: getBindingProp('body') ?? binding.modifiers.body,
     lock: getBindingProp('lock') ?? binding.modifiers.lock,
   }
   el[INSTANCE_KEY] = {
+    getOwnAttribute,
     options,
     instance: Loading(options),
   }
 }
 
 const updateOptions = (
-  newOptions: UnwrapRef<LoadingOptions>,
-  originalOptions: LoadingOptions
+  originalOptions: LoadingOptions,
+  newOptions: UnwrapRef<LoadingOptions>
 ) => {
   for (const key of Object.keys(originalOptions)) {
     if (isRef(originalOptions[key]))
@@ -78,15 +82,21 @@ export const vLoading: Directive<ElementLoading, LoadingBinding> = {
   },
   updated(el, binding) {
     const instance = el[INSTANCE_KEY]
-    if (binding.oldValue !== binding.value) {
-      if (binding.value && !binding.oldValue) {
-        createInstance(el, binding)
-      } else if (binding.value && binding.oldValue) {
-        if (isObject(binding.value))
-          updateOptions(binding.value, instance!.options)
-      } else {
-        instance?.instance.close()
-      }
+    if (!binding.value) {
+      instance?.instance.close()
+      el[INSTANCE_KEY] = null
+      return
+    }
+
+    if (!instance) createInstance(el, binding)
+    else {
+      const getOwnAttribute = instance.getOwnAttribute
+      updateOptions(
+        instance.options,
+        isObject(binding.value)
+          ? binding.value
+          : fromPairs(attributeKeys.map((key) => [key, getOwnAttribute(key)]))
+      )
     }
   },
   unmounted(el) {
