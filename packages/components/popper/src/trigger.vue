@@ -138,7 +138,7 @@ onBeforeUnmount(() => {
   if (triggerRef.value && isElement(triggerRef.value)) {
     const el = triggerRef.value as HTMLElement
     TRIGGER_ELE_EVENTS.forEach((eventName) => {
-      const handler = (props as Record<string, any>)[eventName] as any
+     const handler = props[eventName]
       if (handler) {
         el.removeEventListener(eventName.slice(2).toLowerCase(), handler)
       }
