@@ -88,7 +88,7 @@ onMounted(() => {
       virtualTriggerAriaStopWatch = undefined
       if (isElement(el)) {
         TRIGGER_ELE_EVENTS.forEach((eventName) => {
-          const handler = (props as Record<string, any>)[eventName]
+          const handler = props[eventName]
           if (handler) {
             ;(el as HTMLElement).addEventListener(
               eventName.slice(2).toLowerCase(),
