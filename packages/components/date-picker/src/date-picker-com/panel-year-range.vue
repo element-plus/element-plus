@@ -121,7 +121,7 @@ const panelKls = computed(() => [
   ppNs.b(),
   drpNs.b(),
   {
-    'has-sidebar': Boolean(useSlots().sidebar) || hasShortcuts,
+    'has-sidebar': Boolean(useSlots().sidebar) || hasShortcuts.value,
   },
 ])
 

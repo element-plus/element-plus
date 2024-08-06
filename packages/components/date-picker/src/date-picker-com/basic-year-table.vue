@@ -198,11 +198,8 @@ const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
       }
       emit('select', false)
     }
-    return
-  }
-
-  const year = target.textContent || target.innerText
-  if (props.selectionMode === 'years') {
+  } else if (props.selectionMode === 'years') {
+    const year = target.textContent || target.innerText
     if (event.type === 'keydown') {
       emit('pick', castArray(props.parsedValue), false)
       return
@@ -210,9 +207,9 @@ const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
     const newValue = hasClass(target, 'current')
       ? castArray(props.parsedValue).filter((d) => d?.year() !== Number(year))
       : castArray(props.parsedValue).concat([dayjs(year)])
-
     emit('pick', newValue)
   } else {
+    const year = target.textContent || target.innerText
     emit('pick', Number(year))
   }
 }
