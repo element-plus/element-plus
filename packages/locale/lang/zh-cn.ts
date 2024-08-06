@@ -136,7 +136,7 @@ export default {
     slider: {
       defaultLabel: '滑块介于 {min} 至 {max}',
       defaultRangeStartLabel: '选择起始值',
-      defaultRangeEndLabel: '选择結束值',
+      defaultRangeEndLabel: '选择结束值',
     },
     table: {
       emptyText: '暂无数据',
