@@ -507,11 +507,16 @@ const onClearIconClick = (event: MouseEvent) => {
   if (showClose.value) {
     event.stopPropagation()
     focusOnInputBox()
-    emitInput(valueOnClear.value)
+    // When the handleClear Function was provided, emit null will be executed inside it
+    // There is no need for us to execute emit null twice. #14752
+    if (pickerOptions.value.handleClear) {
+      pickerOptions.value.handleClear()
+    } else {
+      emitInput(valueOnClear.value)
+    }
     emitChange(valueOnClear.value, true)
     showClose.value = false
     pickerVisible.value = false
-    pickerOptions.value.handleClear && pickerOptions.value.handleClear()
   }
   emit('clear')
 }
