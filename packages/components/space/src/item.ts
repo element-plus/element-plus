@@ -4,7 +4,7 @@ import { useNamespace } from '@element-plus/hooks'
 
 import type { ExtractPropTypes } from 'vue'
 
-const spaceItemProps = buildProps({
+export const spaceItemProps = buildProps({
   prefixCls: {
     type: String,
   },

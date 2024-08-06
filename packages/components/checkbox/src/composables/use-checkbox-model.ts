@@ -1,7 +1,7 @@
 import { computed, getCurrentInstance, inject, ref } from 'vue'
 import { isArray, isUndefined } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { checkboxGroupContextKey } from '@element-plus/tokens'
+import { checkboxGroupContextKey } from '../constants'
 
 import type { CheckboxProps } from '../checkbox'
 
@@ -22,7 +22,8 @@ export const useCheckboxModel = (props: CheckboxProps) => {
       if (isGroup.value && isArray(val)) {
         isLimitExceeded.value =
           checkboxGroup?.max?.value !== undefined &&
-          val.length > checkboxGroup?.max.value
+          val.length > checkboxGroup?.max.value &&
+          val.length > model.value.length
         isLimitExceeded.value === false && checkboxGroup?.changeEvent?.(val)
       } else {
         emit(UPDATE_MODEL_EVENT, val)

@@ -37,36 +37,40 @@ collapse/customization
 
 :::
 
-## Collapse Attributes
+## Collapse API
 
-| Name                  | Description                        | Type                                                 | Accepted Values | Default |
-| --------------------- | ---------------------------------- | ---------------------------------------------------- | --------------- | ------- |
-| model-value / v-model | currently active panel             | string (accordion mode) / array (non-accordion mode) | —               | —       |
-| accordion             | whether to activate accordion mode | boolean                                              | —               | false   |
+### Collapse Attributes
 
-## Collapse Events
+| Name                  | Description                                                                             | Type                 | Default |
+| --------------------- | --------------------------------------------------------------------------------------- | -------------------- | ------- |
+| model-value / v-model | currently active panel, the type is `string` in accordion mode, otherwise it is `array` | ^[string] / ^[array] | []      |
+| accordion             | whether to activate accordion mode                                                      | ^[boolean]           | false   |
 
-| Name   | Description                        | Parameters                                                          |
-| ------ | ---------------------------------- | ------------------------------------------------------------------- |
-| change | triggers when active panels change | (activeNames: array (non-accordion mode) / string (accordion mode)) |
+### Collapse Events
 
-## Collapse Slots
+| Name   | Description                                                                                                   | Type                                                |
+| ------ | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| change | triggers when active panels change, the parameter type is `string` in accordion mode, otherwise it is `array` | ^[Function]`(activeNames: array \| string) => void` |
 
-| Name | Description               | Subtags       |
-| ---- | ------------------------- | ------------- |
-| -    | customize default content | Collapse Item |
+### Collapse Slots
 
-## Collapse Item Attributes
+| Name    | Description               | Subtags       |
+| ------- | ------------------------- | ------------- |
+| default | customize default content | Collapse Item |
 
-| Name     | Description                        | Type          | Accepted Values | Default |
-| -------- | ---------------------------------- | ------------- | --------------- | ------- |
-| name     | unique identification of the panel | string/number | —               | —       |
-| title    | title of the panel                 | string        | —               | —       |
-| disabled | disable the collapse item          | boolean       | —               | —       |
+## Collapse Item API
 
-## Collapse Item Slot
+### Collapse Item Attributes
 
-| Name  | Description                    |
-| ----- | ------------------------------ |
-| —     | content of Collapse Item       |
-| title | content of Collapse Item title |
+| Name     | Description                        | Type                  | Default |
+| -------- | ---------------------------------- | --------------------- | ------- |
+| name     | unique identification of the panel | ^[string] / ^[number] | —       |
+| title    | title of the panel                 | ^[string]             | ''      |
+| disabled | disable the collapse item          | ^[boolean]            | false   |
+
+### Collapse Item Slot
+
+| Name    | Description                    |
+| ------- | ------------------------------ |
+| default | content of Collapse Item       |
+| title   | content of Collapse Item title |

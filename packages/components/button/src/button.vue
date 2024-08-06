@@ -1,23 +1,9 @@
 <template>
-  <button
+  <component
+    :is="tag"
     ref="_ref"
-    :class="[
-      ns.b(),
-      ns.m(_type),
-      ns.m(_size),
-      ns.is('disabled', _disabled),
-      ns.is('loading', loading),
-      ns.is('plain', plain),
-      ns.is('round', round),
-      ns.is('circle', circle),
-      ns.is('text', text),
-      ns.is('link', link),
-      ns.is('has-bg', bg),
-    ]"
-    :aria-disabled="_disabled || loading"
-    :disabled="_disabled || loading"
-    :autofocus="autofocus"
-    :type="nativeType"
+    v-bind="_props"
+    :class="buttonKls"
     :style="buttonStyle"
     @click="handleClick"
   >
@@ -37,10 +23,11 @@
     >
       <slot />
     </span>
-  </button>
+  </component>
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { useButton } from './use-button'
@@ -56,8 +43,21 @@ const emit = defineEmits(buttonEmits)
 
 const buttonStyle = useButtonCustomStyle(props)
 const ns = useNamespace('button')
-const { _ref, _size, _type, _disabled, shouldAddSpace, handleClick } =
+const { _ref, _size, _type, _disabled, _props, shouldAddSpace, handleClick } =
   useButton(props, emit)
+const buttonKls = computed(() => [
+  ns.b(),
+  ns.m(_type.value),
+  ns.m(_size.value),
+  ns.is('disabled', _disabled.value),
+  ns.is('loading', props.loading),
+  ns.is('plain', props.plain),
+  ns.is('round', props.round),
+  ns.is('circle', props.circle),
+  ns.is('text', props.text),
+  ns.is('link', props.link),
+  ns.is('has-bg', props.bg),
+])
 
 defineExpose({
   /** @description button html element */

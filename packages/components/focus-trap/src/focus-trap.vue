@@ -284,15 +284,16 @@ export default defineComponent({
         })
         trapContainer.addEventListener(FOCUS_AFTER_RELEASED, releaseOnFocus)
         trapContainer.dispatchEvent(releasedEvent)
-
         if (
           !releasedEvent.defaultPrevented &&
-          (focusReason.value == 'keyboard' || !isFocusCausedByUserEvent())
+          (focusReason.value == 'keyboard' ||
+            !isFocusCausedByUserEvent() ||
+            trapContainer.contains(document.activeElement))
         ) {
-          tryFocus(lastFocusBeforeTrapped ?? document.body, true)
+          tryFocus(lastFocusBeforeTrapped ?? document.body)
         }
 
-        trapContainer.removeEventListener(FOCUS_AFTER_RELEASED, trapOnFocus)
+        trapContainer.removeEventListener(FOCUS_AFTER_RELEASED, releaseOnFocus)
         focusableStack.remove(focusLayer)
       }
     }

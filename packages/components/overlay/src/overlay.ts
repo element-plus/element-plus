@@ -10,10 +10,7 @@ export const overlayProps = buildProps({
     type: Boolean,
     default: true,
   },
-  customMaskEvent: {
-    type: Boolean,
-    default: false,
-  },
+  customMaskEvent: Boolean,
   overlayClass: {
     type: definePropType<string | string[] | Record<string, boolean>>([
       String,
@@ -32,6 +29,8 @@ export const overlayEmits = {
 }
 export type OverlayEmits = typeof overlayEmits
 
+const BLOCK = 'overlay'
+
 export default defineComponent({
   name: 'ElOverlay',
 
@@ -39,7 +38,9 @@ export default defineComponent({
   emits: overlayEmits,
 
   setup(props, { slots, emit }) {
-    const ns = useNamespace('overlay')
+    // No reactivity on this prop because when its rendering with a global
+    // component, this will be a constant flag.
+    const ns = useNamespace(BLOCK)
 
     const onMaskClick = (e: MouseEvent) => {
       emit('click', e)

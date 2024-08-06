@@ -10,7 +10,7 @@ Here are the problems that are easy to encounter in development.
 ## If you encounter dependency related issues
 
 ```shell
-rm -fr node_modules
+rm -rf node_modules
 pnpm i
 ```
 

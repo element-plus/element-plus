@@ -1,9 +1,9 @@
 <template>
   <el-radio-group v-model="direction">
-    <el-radio label="ltr">left to right</el-radio>
-    <el-radio label="rtl">right to left</el-radio>
-    <el-radio label="ttb">top to bottom</el-radio>
-    <el-radio label="btt">bottom to top</el-radio>
+    <el-radio value="ltr">left to right</el-radio>
+    <el-radio value="rtl">right to left</el-radio>
+    <el-radio value="ttb">top to bottom</el-radio>
+    <el-radio value="btt">bottom to top</el-radio>
   </el-radio-group>
 
   <el-button type="primary" style="margin-left: 16px" @click="drawer = true">
@@ -22,17 +22,17 @@
     <span>Hi, there!</span>
   </el-drawer>
   <el-drawer v-model="drawer2" :direction="direction">
-    <template #title>
+    <template #header>
       <h4>set title by slot</h4>
     </template>
     <template #default>
       <div>
-        <el-radio v-model="radio1" label="Option 1" size="large"
-          >Option 1</el-radio
-        >
-        <el-radio v-model="radio1" label="Option 2" size="large"
-          >Option 2</el-radio
-        >
+        <el-radio v-model="radio1" value="Option 1" size="large">
+          Option 1
+        </el-radio>
+        <el-radio v-model="radio1" value="Option 2" size="large">
+          Option 2
+        </el-radio>
       </div>
     </template>
     <template #footer>
@@ -47,10 +47,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
+import type { DrawerProps } from 'element-plus'
 
 const drawer = ref(false)
 const drawer2 = ref(false)
-const direction = ref('rtl')
+const direction = ref<DrawerProps['direction']>('rtl')
 const radio1 = ref('Option 1')
 const handleClose = (done: () => void) => {
   ElMessageBox.confirm('Are you sure you want to close this?')

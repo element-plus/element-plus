@@ -18,6 +18,9 @@
     }
   }
   @include e(header) {
+    width: 100%;
+    padding: 0;
+    border: none;
     display: flex;
     align-items: center;
     height: getCssVar('collapse-header-height');

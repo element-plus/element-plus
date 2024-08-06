@@ -59,6 +59,13 @@ describe('Card.vue', () => {
     ).toBe('font-size:14px;color:blue;')
   })
 
+  test('should render body-class props', async () => {
+    const bodyClass = 'test-body-class'
+    const wrapper = mount(() => <Card body-class={bodyClass} />)
+
+    expect(wrapper.find('.el-card__body').classes()).toContain(bodyClass)
+  })
+
   test('shadow', () => {
     const shadow = 'always'
     const wrapper = mount(() => <Card shadow={shadow}>{AXIOM}</Card>)

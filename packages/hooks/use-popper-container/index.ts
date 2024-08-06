@@ -1,27 +1,34 @@
-import { onBeforeMount } from 'vue'
-import { isClient } from '@vueuse/core'
-import { generateId } from '@element-plus/utils'
-import { useGlobalConfig } from '../use-global-config'
-import { defaultNamespace } from '../use-namespace'
+import { computed, onBeforeMount } from 'vue'
+import { isClient } from '@element-plus/utils'
+import { useGetDerivedNamespace } from '../use-namespace'
+import { useIdInjection } from '../use-id'
 
 let cachedContainer: HTMLElement
 
-const namespace = useGlobalConfig('namespace', defaultNamespace)
+export const usePopperContainerId = () => {
+  const namespace = useGetDerivedNamespace()
+  const idInjection = useIdInjection()
 
-export const POPPER_CONTAINER_ID = `${
-  namespace.value
-}-popper-container-${generateId()}`
+  const id = computed(() => {
+    return `${namespace.value}-popper-container-${idInjection.prefix}`
+  })
+  const selector = computed(() => `#${id.value}`)
 
-export const POPPER_CONTAINER_SELECTOR = `#${POPPER_CONTAINER_ID}`
+  return {
+    id,
+    selector,
+  }
+}
 
-const createContainer = () => {
+const createContainer = (id: string) => {
   const container = document.createElement('div')
-  container.id = POPPER_CONTAINER_ID
+  container.id = id
   document.body.appendChild(container)
   return container
 }
 
 export const usePopperContainer = () => {
+  const { id, selector } = usePopperContainerId()
   onBeforeMount(() => {
     if (!isClient) return
 
@@ -30,10 +37,14 @@ export const usePopperContainer = () => {
     // for this we need to disable the caching since it's not really needed
     if (
       process.env.NODE_ENV === 'test' ||
-      !cachedContainer ||
-      !document.body.querySelector(POPPER_CONTAINER_SELECTOR)
+      (!cachedContainer && !document.body.querySelector(selector.value))
     ) {
-      cachedContainer = createContainer()
+      cachedContainer = createContainer(id.value)
     }
   })
+
+  return {
+    id,
+    selector,
+  }
 }

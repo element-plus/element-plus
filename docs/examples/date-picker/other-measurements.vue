@@ -11,11 +11,11 @@
         />
       </div>
       <div class="block">
-        <span class="demonstration">Month</span>
+        <span class="demonstration">Dates</span>
         <el-date-picker
           v-model="value2"
-          type="month"
-          placeholder="Pick a month"
+          type="dates"
+          placeholder="Pick one or more dates"
         />
       </div>
     </div>
@@ -29,11 +29,29 @@
         />
       </div>
       <div class="block">
-        <span class="demonstration">Dates</span>
+        <span class="demonstration">Years</span>
         <el-date-picker
           v-model="value4"
-          type="dates"
-          placeholder="Pick one or more dates"
+          type="years"
+          placeholder="Pick one or more years"
+        />
+      </div>
+    </div>
+    <div class="container">
+      <div class="block">
+        <span class="demonstration">Month</span>
+        <el-date-picker
+          v-model="value5"
+          type="month"
+          placeholder="Pick a month"
+        />
+      </div>
+      <div class="block">
+        <span class="demonstration">Months</span>
+        <el-date-picker
+          v-model="value6"
+          type="months"
+          placeholder="Pick one or more months"
         />
       </div>
     </div>
@@ -46,6 +64,8 @@ const value1 = ref('')
 const value2 = ref('')
 const value3 = ref('')
 const value4 = ref('')
+const value5 = ref('')
+const value6 = ref('')
 </script>
 <style scoped>
 .demo-date-picker {
@@ -61,6 +81,7 @@ const value4 = ref('')
   border-right: solid 1px var(--el-border-color);
   flex: 1;
 }
+
 .demo-date-picker .block:last-child {
   border-right: none;
 }
@@ -69,12 +90,15 @@ const value4 = ref('')
   flex: 1;
   border-right: solid 1px var(--el-border-color);
 }
+
 .demo-date-picker .container .block {
   border-right: none;
 }
+
 .demo-date-picker .container .block:last-child {
   border-top: solid 1px var(--el-border-color);
 }
+
 .demo-date-picker .container:last-child {
   border-right: none;
 }

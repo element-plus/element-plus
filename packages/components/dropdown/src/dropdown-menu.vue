@@ -8,8 +8,8 @@
     :aria-labelledby="triggerId"
     @blur="onBlur"
     @focus="onFocus"
-    @keydown="handleKeydown"
-    @mousedown="onMousedown"
+    @keydown.self="handleKeydown"
+    @mousedown.self="onMousedown"
   >
     <slot />
   </ul>

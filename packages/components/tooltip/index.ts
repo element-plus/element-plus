@@ -5,4 +5,5 @@ export const ElTooltip = withInstall(Tooltip)
 export * from './src/tooltip'
 export * from './src/trigger'
 export * from './src/content'
+export * from './src/constants'
 export default ElTooltip

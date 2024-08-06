@@ -1,9 +1,9 @@
 <template>
   <el-tooltip-v2 full-transition :transition-props="transitionProps">
     <template #trigger>
-      <el-button circle
-        ><el-icon><Plus /></el-icon
-      ></el-button>
+      <el-button circle>
+        <el-icon><Plus /></el-icon>
+      </el-button>
     </template>
     <div>content</div>
   </el-tooltip-v2>

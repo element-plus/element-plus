@@ -1,6 +1,6 @@
-import { computed, ref, useSlots } from 'vue'
+import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
-import { useDeprecated, useLocale } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
@@ -56,7 +56,6 @@ export const useCalendar = (
   emit: SetupContext<CalendarEmits>['emit'],
   componentName: string
 ) => {
-  const slots = useSlots()
   const { lang } = useLocale()
 
   const selectedDay = ref<Dayjs>()
@@ -133,7 +132,7 @@ export const useCalendar = (
       return [[firstDay, lastDay]]
     }
     // Two adjacent months
-    else if (firstMonth + 1 === lastMonth) {
+    else if ((firstMonth + 1) % 12 === lastMonth) {
       return adjacentMonth(firstDay, lastDay)
     }
     // Three consecutive months (compatible: 2021-01-30 to 2021-02-28)
@@ -172,18 +171,6 @@ export const useCalendar = (
       pickDay(day)
     }
   }
-
-  useDeprecated(
-    {
-      from: '"dateCell"',
-      replacement: '"date-cell"',
-      scope: 'ElCalendar',
-      version: '2.3.0',
-      ref: 'https://element-plus.org/en-US/component/calendar.html#slots',
-      type: 'Slot',
-    },
-    computed(() => !!slots.dateCell)
-  )
 
   return {
     calculateValidatedDateRange,
