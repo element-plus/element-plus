@@ -89,9 +89,7 @@ const persistentRef = computed(() => {
 })
 
 onBeforeUnmount(() => {
-  if (stopHandle) {
-    stopHandle()
-  }
+  stopHandle?.()
 })
 
 const shouldRender = computed(() => {
