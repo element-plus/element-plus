@@ -586,9 +586,7 @@ const stophandle = onClickOutside(actualInputRef, (e: PointerEvent) => {
 })
 
 onBeforeUnmount(() => {
-  if (stophandle) {
-    stophandle()
-  }
+  stophandle?.()
 })
 
 const userInput = ref<UserInput>(null)
