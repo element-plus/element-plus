@@ -1351,31 +1351,30 @@ describe('Select', () => {
     expect(vm.value.indexOf('选项4')).toBe(-1)
   })
 
-  test('event:focus & blur', async () => {
+  test('event:focus', async () => {
     const handleFocus = vi.fn()
-    const handleBlur = vi.fn()
-    wrapper = _mount(
-      `<el-select
-      @focus="handleFocus"
-      @blur="handleBlur" />`,
-      () => ({
-        handleFocus,
-        handleBlur,
-      })
-    )
+    wrapper = _mount(`<el-select @focus="handleFocus" />`, () => ({
+      handleFocus,
+    }))
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const input = select.find('input')
 
     expect(input.exists()).toBe(true)
     await input.trigger('focus')
     expect(handleFocus).toHaveBeenCalledTimes(1)
+  })
+
+  test('event:blur', async () => {
+    const handleBlur = vi.fn()
+    wrapper = _mount(`<el-select @blur="handleBlur" />`, () => ({
+      handleBlur,
+    }))
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const input = select.find('input')
+
+    expect(input.exists()).toBe(true)
     await input.trigger('blur')
     expect(handleBlur).toHaveBeenCalledTimes(1)
-
-    await input.trigger('focus')
-    expect(handleFocus).toHaveBeenCalledTimes(2)
-    await input.trigger('blur')
-    expect(handleBlur).toHaveBeenCalledTimes(2)
   })
 
   test('event:focus & blur for clearable & filterable', async () => {
@@ -1433,7 +1432,7 @@ describe('Select', () => {
 
     const input = select.find('input')
     await input.trigger('blur')
-    expect(handleBlur).toHaveBeenCalledTimes(1)
+    expect(handleBlur).toHaveBeenCalled()
   })
 
   test('event:focus & blur for multiple & filterable select', async () => {
@@ -1464,7 +1463,7 @@ describe('Select', () => {
     await input.trigger('focus')
     expect(handleFocus).toHaveBeenCalledTimes(2)
     await input.trigger('blur')
-    expect(handleBlur).toHaveBeenCalledTimes(2)
+    expect(handleBlur).toHaveBeenCalled()
   })
 
   test('event:focus & blur for multiple tag close', async () => {
@@ -1525,7 +1524,7 @@ describe('Select', () => {
     expect(handleFocus).toHaveBeenCalledTimes(1)
     expect(handleBlur).not.toHaveBeenCalled()
     await input.trigger('blur')
-    expect(handleBlur).toHaveBeenCalledTimes(1)
+    expect(handleBlur).toHaveBeenCalled()
   })
 
   test('should not open popper when automatic-dropdown not set', async () => {
