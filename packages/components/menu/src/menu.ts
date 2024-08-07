@@ -24,6 +24,7 @@ import {
   iconPropType,
   isObject,
   isString,
+  isThenable,
   mutable,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -182,7 +183,7 @@ export const menuEmits = {
     isString(index) &&
     checkIndexPath(indexPath) &&
     isObject(item) &&
-    (routerResult === undefined || routerResult instanceof Promise),
+    (routerResult === undefined || isThenable(routerResult)),
 }
 export type MenuEmits = typeof menuEmits
 
