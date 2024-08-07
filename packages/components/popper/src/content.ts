@@ -2,6 +2,7 @@ import { placements } from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
 
+import type { PopperEffect } from './popper'
 import type { ExtractPropTypes, StyleValue } from 'vue'
 import type { Options, Placement } from '@popperjs/core'
 import type { Measurable } from './constants'
@@ -73,7 +74,7 @@ export const popperContentProps = buildProps({
     type: definePropType<ClassType>([String, Array, Object]),
   },
   effect: {
-    type: String,
+    type: definePropType<PopperEffect | string>(String),
     default: 'dark',
   },
   visible: Boolean,

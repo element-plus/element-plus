@@ -25,6 +25,7 @@
         <predefine
           v-if="predefine"
           ref="predefine"
+          :enable-alpha="showAlpha"
           :color="color"
           :colors="predefine"
         />
@@ -62,6 +63,7 @@
       <div
         :id="buttonId"
         ref="triggerRef"
+        v-bind="$attrs"
         :class="btnKls"
         role="button"
         :aria-label="buttonAriaLabel"
@@ -127,7 +129,6 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 import {
-  useDeprecated,
   useFocusController,
   useLocale,
   useNamespace,
@@ -217,20 +218,9 @@ const currentColor = computed(() => {
 
 const buttonAriaLabel = computed<string | undefined>(() => {
   return !isLabeledByFormItem.value
-    ? props.label || props.ariaLabel || t('el.colorpicker.defaultLabel')
+    ? props.ariaLabel || t('el.colorpicker.defaultLabel')
     : undefined
 })
-
-useDeprecated(
-  {
-    from: 'label',
-    replacement: 'aria-label',
-    version: '2.8.0',
-    scope: 'el-color-picker',
-    ref: 'https://element-plus.org/en-US/component/color-picker.html',
-  },
-  computed(() => !!props.label)
-)
 
 const buttonAriaLabelledby = computed<string | undefined>(() => {
   return isLabeledByFormItem.value ? formItem?.labelId : undefined

@@ -19,13 +19,13 @@
     &__inner {
       -webkit-appearance: none;
       -moz-appearance: textfield;
+      text-align: center;
+      line-height: 1;
       &::-webkit-inner-spin-button,
       &::-webkit-outer-spin-button {
         margin: 0;
         -webkit-appearance: none;
       }
-      text-align: center;
-      line-height: 1;
     }
   }
 

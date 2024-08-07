@@ -145,7 +145,12 @@ class Node {
         this.expanded = true
         this.canFocus = true
       }
-    } else if (this.level > 0 && store.lazy && store.defaultExpandAll) {
+    } else if (
+      this.level > 0 &&
+      store.lazy &&
+      store.defaultExpandAll &&
+      !this.isLeafByUser
+    ) {
       this.expand()
     }
     if (!Array.isArray(this.data)) {
