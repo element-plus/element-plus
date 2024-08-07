@@ -11,13 +11,13 @@ export const useThrottleRender = (
   const initVal =
     typeof throttle === 'object' ? throttle.initVal ?? false : false
   const throttled = ref(initVal)
-  let timeoutHandle = 0
+  let timeoutHandle: ReturnType<typeof setTimeout> | null = null
 
   const dispatchThrottling = (timer: number) => {
     if (timeoutHandle) {
       clearTimeout(timeoutHandle)
     }
-    timeoutHandle = window.setTimeout(() => {
+    timeoutHandle = setTimeout(() => {
       throttled.value = loading.value
     }, timer)
   }
