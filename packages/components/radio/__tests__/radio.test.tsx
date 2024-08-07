@@ -141,6 +141,7 @@ describe('Radio group', () => {
     expect(radio.value).toEqual(3)
     expect(radio1.classes()).toContain('is-checked')
   })
+
   it('change event', async () => {
     const radio = ref(3)
     const data = ref<RadioProps['modelValue']>(0)
@@ -161,6 +162,7 @@ describe('Radio group', () => {
     await nextTick()
     expect(data.value).toEqual(6)
   })
+
   it('change event only triggers on user input', async () => {
     const radio = ref(3)
     const data = ref<RadioProps['modelValue']>(0)
@@ -181,6 +183,7 @@ describe('Radio group', () => {
     await nextTick()
     expect(data.value).toEqual(0)
   })
+
   it('disabled when children is radio button', async () => {
     const radio = ref(3)
     const wrapper = mount(() => (
@@ -224,6 +227,7 @@ describe('Radio Button', () => {
     expect(radio2.classes()).toContain('is-active')
     expect(radio.value).toEqual(6)
   })
+
   it('custom color', () => {
     const radio = ref(3)
     const wrapper = mount(() => (
@@ -242,6 +246,7 @@ describe('Radio Button', () => {
       'background-color: rgb(0, 0, 0); border-color: #000; box-shadow: -1px 0 0 0 #000; color: rgb(255, 255, 0);'
     )
   })
+
   it('change event', async () => {
     const radio = ref(3)
     const data = ref<RadioProps['modelValue']>(0)
@@ -263,6 +268,7 @@ describe('Radio Button', () => {
     await radio2?.trigger('click')
     expect(radio.value).toEqual(6)
   })
+
   it('change event only triggers on user input', async () => {
     const radio = ref(3)
     const data = ref<RadioProps['modelValue']>(0)

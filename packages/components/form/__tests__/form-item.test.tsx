@@ -132,4 +132,40 @@ describe('ElFormItem', () => {
       })
     })
   })
+
+  it('form-item label position', () => {
+    const wrapper = mount({
+      setup() {
+        const form = reactive({
+          name: '',
+          nickName: '',
+          address: '',
+        })
+        return () => (
+          <div>
+            <Form model={form}>
+              <FormItem labelPosition="right" ref="labelRight">
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem labelPosition="left" ref="labelLeft">
+                <Input v-model={form.nickName} />
+              </FormItem>
+              <FormItem labelPosition="top" ref="labelTop">
+                <Input v-model={form.address} />
+              </FormItem>
+            </Form>
+          </div>
+        )
+      },
+    })
+    expect(wrapper.findComponent({ ref: 'labelTop' }).classes()).toContain(
+      'el-form-item--label-top'
+    )
+    expect(wrapper.findComponent({ ref: 'labelLeft' }).classes()).toContain(
+      'el-form-item--label-left'
+    )
+    expect(wrapper.findComponent({ ref: 'labelRight' }).classes()).toContain(
+      'el-form-item--label-right'
+    )
+  })
 })
