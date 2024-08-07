@@ -6,8 +6,6 @@
       :model-value="modelValue"
       @input="handleInputChange"
       @keydown="handleInputKeyDown"
-      @focus="handleFocus"
-      @blur="handleBlur"
       @mousedown="handleInputMouseDown"
     >
       <template v-for="(_, name) in $slots" #[name]="slotProps">
@@ -152,7 +150,7 @@ const handleInputKeyDown = (e: KeyboardEvent | Event) => {
   }
 }
 
-const { wrapperRef, handleFocus, handleBlur } = useFocusController(elInputRef, {
+const { wrapperRef } = useFocusController(elInputRef, {
   afterFocus() {
     syncAfterCursorMove()
   },

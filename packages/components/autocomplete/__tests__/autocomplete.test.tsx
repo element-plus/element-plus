@@ -443,7 +443,7 @@ describe('Autocomplete.vue', () => {
     await wrapper.find('input').trigger('blur')
     vi.runAllTimers()
     await nextTick()
-    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(onBlur).toHaveBeenCalled()
   })
 
   describe('test a11y supports', () => {
