@@ -7,6 +7,9 @@ export default {
     colorpicker: {
       confirm: '确定',
       clear: '清空',
+      defaultLabel: '颜色选择器',
+      description: '当前颜色 {color}，按 Enter 键选择新颜色',
+      alphaLabel: '选择透明度的值',
     },
     datepicker: {
       now: '此刻',
@@ -67,6 +70,9 @@ export default {
       noMatch: '无匹配数据',
       noData: '无数据',
       placeholder: '请选择',
+    },
+    mention: {
+      loading: '加载中',
     },
     cascader: {
       noMatch: '无匹配数据',
