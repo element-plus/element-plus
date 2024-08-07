@@ -1,7 +1,12 @@
 <template>
   <div
-    :class="[ns.b(), ns.m(listType), ns.is('drag', drag)]"
-    tabindex="0"
+    :class="[
+      ns.b(),
+      ns.m(listType),
+      ns.is('drag', drag),
+      ns.is('disabled', disabled),
+    ]"
+    :tabindex="disabled ? '-1' : '0'"
     @click="handleClick"
     @keydown.self.enter.space="handleKeydown"
   >
@@ -17,6 +22,7 @@
       ref="inputRef"
       :class="ns.e('input')"
       :name="name"
+      :disabled="disabled"
       :multiple="multiple"
       :accept="accept"
       type="file"

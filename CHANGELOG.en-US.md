@@ -1,5 +1,71 @@
 ## Changelog
 
+### 2.7.8
+
+_2024-07-26_
+
+#### Features
+
+- Components [cascader] add persistent props to cascader to improve performace (#17526 by @0song)
+- Components [date-picker]  `type` add  `months` params (#17342 by @Panzer-Jack)
+- Components [cascader] add tag-effect prop (#17443 by @ntnyq)
+- Components [loading] replenish loading attributes (#17174 by @zhixiaotong)
+- Docs support playground sync theme (#16735 by @btea)
+- Components [time-select] export TimeSelectProps and Instance (#16511 by @l-x-f)
+- Components [table-column] add `filter-icon` slot (#17272 by @btea)
+- Components [carousel] add cardScale prop (#17621 by @warmthsea)
+- Components [carousel] export `activeIndex` (#17650 by @warmthsea)
+
+#### Bug fixes
+
+- Components [tree-v2] component activation content not displayed (#17511 by @btea)
+- Components [radio-button] model-value click style lost and format test file (#16692 by @warmthsea)
+- Components [color-picker/tree-v2] build error typechecking fails with error TS2300 (#17545 by @Aaron-zon)
+- Components [cascader] reactive prop collapse-tags (#17449 by @ntnyq)
+- Components [tree]calling method to expand node accordion mode fail (#17441 by @btea)
+- Components [table] expand-row-keys change to explicit type (#17333 by @warmthsea)
+- Components [countdown] SSR hydration error (#17554 by @tolking)
+- Sass declaration deprecation error (#17549 by @jw-foss)
+- Components [message-box] vue wraning when button state is loading (#17603 by @btea)
+- Components [input] add prop "row" explicit declare (#17085 by @sleepyShen1989)
+- Components [tabs] add button misalignment in vertical layout (#16986 by @Yolo-00)
+- Components [tabs] bar width is error when only one bar (#17016 by @Liao-js)
+- Popper content type check (#17040 by @JiuRanYa)
+- Components [form] not use status-icon and use slot icon style error (#16848 by @warmthsea)
+- Components [cascader] failed to retrieve value when value is 0 (#17651 by @dadaguai-git)
+- Components [segmented] `modelValue` boolean type validation warning (#17656 by @ToyCat93)
+
+#### Refactors
+
+- Docs upgrade vitepress (#17444 by @makedopamine)
+- Components [button-group] optimize code (#17607 by @chouchouji)
+- Components [link & text] optimize boolean type (#17610 by @chouchouji)
+- Components optimize component boolean type (#17622 by @chouchouji)
+
+### 2.7.7
+
+_2024-07-12_
+
+#### Features
+
+- Components [form-item]: add `label-position` prop (#17111 by @xing403)
+- Components improve event and supplement docs (#17150 by @warmthsea)
+- Components [message-box] add loading-icon to confirmbtn,cancelbtn (#17360 by @wzc520pyfm)
+- Components [select & select-v2] add `tag-effect` prop (#17445 by @ntnyq)
+- I18n add fr translation for el-tour (#17484 by @warmthsea)
+
+#### Bug fixes
+
+- Components [pagination] `size` global adaptation (#17306 by @webvs2)
+- Components [tree] add missing type reject for LoadFunction (#16990 by @kaedeair)
+- Components [image] imageViewer crossorigin configuration missing (#17341 by @declanchiu)
+- Components [carousel] disable the last monitoblur effect (#17374 by @btea)
+- Ssr [tree-select] document is not defined (#17460 by @tolking)
+- Components [tree-select] fix filter no matching data error (#17473 by @Fuphoenixes)
+- Hooks cannot access 'useEmptyValuesProps' before initialization (#17448 by @tolking)
+- Style: css uniformly uses `px` (#17101 by @warmthsea)
+- Flx(component): buttonColor is calculated in the 'var' case (#17319 by @webvs2)
+
 ### 2.7.6
 
 _2024-06-21_

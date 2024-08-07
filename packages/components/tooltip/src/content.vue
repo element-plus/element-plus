@@ -1,5 +1,5 @@
 <template>
-  <teleport :disabled="!teleported" :to="appendTo">
+  <el-teleport :disabled="!teleported" :to="appendTo">
     <transition
       :name="transitionClass"
       @after-leave="onTransitionLeave"
@@ -41,7 +41,7 @@
         </template>
       </el-popper-content>
     </transition>
-  </teleport>
+  </el-teleport>
 </template>
 
 <script lang="ts" setup>
@@ -50,6 +50,7 @@ import { onClickOutside } from '@vueuse/core'
 import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
 import { composeEventHandlers } from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
+import ElTeleport from '@element-plus/components/teleport'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipContentProps } from './content'
 

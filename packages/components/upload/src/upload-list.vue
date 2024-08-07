@@ -14,7 +14,7 @@
       @blur="focusing = false"
       @click="focusing = false"
     >
-      <slot :file="file">
+      <slot :file="file" :index="index">
         <img
           v-if="
             listType === 'picture' ||

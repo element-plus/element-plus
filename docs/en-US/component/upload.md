@@ -124,12 +124,12 @@ upload/manual
 
 ### Slots
 
-| Name    | Description                         | Type                            |
-| ------- | ----------------------------------- | ------------------------------- |
-| default | customize default content.          | -                               |
-| trigger | content which triggers file dialog. | -                               |
-| tip     | content of tips.                    | -                               |
-| file    | content of thumbnail template.      | ^[object]`{ file: UploadFile }` |
+| Name    | Description                         | Type                                           |
+| ------- | ----------------------------------- | ---------------------------------------------- |
+| default | customize default content.          | -                                              |
+| trigger | content which triggers file dialog. | -                                              |
+| tip     | content of tips.                    | -                                              |
+| file    | content of thumbnail template.      | ^[object]`{ file: UploadFile, index: number }` |
 
 ### Exposes
 
