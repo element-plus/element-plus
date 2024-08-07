@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { computed, getCurrentInstance, inject, toRaw, watch } from 'vue'
-import { get, isEqual } from 'lodash-unified'
+import { get } from 'lodash-unified'
 import { ensureArray, escapeStringRegexp, isObject } from '@element-plus/utils'
 import { selectGroupKey, selectKey } from './token'
 
@@ -78,7 +78,7 @@ export function useOption(props, states) {
     (val, oldVal) => {
       const { remote, valueKey } = select.props
 
-      if (!isEqual(val, oldVal)) {
+      if (val !== oldVal) {
         select.onOptionDestroy(oldVal, instance.proxy)
         select.onOptionCreate(instance.proxy)
       }
