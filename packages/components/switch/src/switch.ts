@@ -28,17 +28,11 @@ export const switchProps = buildProps({
   /**
    * @description whether Switch is disabled
    */
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+  disabled: Boolean,
   /**
    * @description whether Switch is in loading state
    */
-  loading: {
-    type: Boolean,
-    default: false,
-  },
+  loading: Boolean,
   /**
    * @description size of Switch
    */
@@ -56,10 +50,7 @@ export const switchProps = buildProps({
   /**
    * @description whether icon or text is displayed inside dot, only the first character will be rendered for text
    */
-  inlinePrompt: {
-    type: Boolean,
-    default: false,
-  },
+  inlinePrompt: Boolean,
   /**
    * @description component of the icon displayed in action when in `off` state
    */
@@ -141,13 +132,6 @@ export const switchProps = buildProps({
    */
   tabindex: {
     type: [String, Number],
-  },
-  /**
-   * @deprecated native input aria-label
-   */
-  label: {
-    type: String,
-    default: undefined,
   },
   ...useAriaProps(['ariaLabel']),
 } as const)

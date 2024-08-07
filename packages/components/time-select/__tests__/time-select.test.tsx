@@ -14,6 +14,7 @@ afterEach(() => {
   document.documentElement.innerHTML = ''
 })
 
+const WRAPPER_CLASS_NAME = 'el-select__wrapper'
 const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
 
 describe('TimeSelect', () => {
@@ -137,7 +138,8 @@ describe('TimeSelect', () => {
     })
 
     wrapper.findComponent(TimeSelect).vm.$.exposed!.focus()
-    await wrapper.findComponent(TimeSelect).trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('click')
 
     await nextTick()
     await nextTick()
@@ -205,7 +207,11 @@ describe('TimeSelect', () => {
     it('specified id attachment', async () => {
       const wrapper = mount(() => (
         <ElFormItem label="Foobar" data-test-ref="item">
-          <TimeSelect id="foobar" />
+          <TimeSelect
+            // type checking failed as `id` is a fallthrough attribute
+            // @ts-ignore
+            id="foobar"
+          />
         </ElFormItem>
       ))
 

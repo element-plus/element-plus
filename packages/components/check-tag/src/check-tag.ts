@@ -8,10 +8,7 @@ export const checkTagProps = buildProps({
   /**
    * @description is checked
    */
-  checked: {
-    type: Boolean,
-    default: false,
-  },
+  checked: Boolean,
   /**
    * @description type of Tag
    */

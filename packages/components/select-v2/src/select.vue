@@ -63,6 +63,7 @@
                   :closable="!selectDisabled && !getDisabled(item)"
                   :size="collapseTagSize"
                   :type="tagType"
+                  :effect="tagEffect"
                   disable-transitions
                   :style="tagStyle"
                   @close="deleteTag($event, item)"
@@ -97,6 +98,7 @@
                       :closable="false"
                       :size="collapseTagSize"
                       :type="tagType"
+                      :effect="tagEffect"
                       :style="collapseTagStyle"
                       disable-transitions
                     >
@@ -118,6 +120,7 @@
                         :closable="!selectDisabled && !getDisabled(selected)"
                         :size="collapseTagSize"
                         :type="tagType"
+                        :effect="tagEffect"
                         disable-transitions
                         @close="deleteTag($event, selected)"
                       >
@@ -162,8 +165,6 @@
                 spellcheck="false"
                 type="text"
                 :name="name"
-                @focus="handleFocus"
-                @blur="handleBlur"
                 @input="onInput"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"

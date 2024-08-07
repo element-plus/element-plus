@@ -113,8 +113,10 @@ export const useSlide = (
   }
 
   const setFirstValue = (firstValue: number | undefined) => {
-    initData.firstValue = firstValue!
-    _emit(props.range ? [minValue.value, maxValue.value] : firstValue!)
+    initData.firstValue = firstValue ?? props.min
+    _emit(
+      props.range ? [minValue.value, maxValue.value] : firstValue ?? props.min
+    )
   }
 
   const setSecondValue = (secondValue: number) => {
@@ -185,6 +187,11 @@ export const useSlide = (
     }
   }
 
+  const onSliderMarkerDown = (position: number) => {
+    if (sliderDisabled.value || initData.dragging) return
+    setPosition(position)
+  }
+
   return {
     elFormItem,
     slider,
@@ -201,6 +208,7 @@ export const useSlide = (
     onSliderWrapperPrevent,
     onSliderClick,
     onSliderDown,
+    onSliderMarkerDown,
     setFirstValue,
     setSecondValue,
   }
