@@ -166,8 +166,6 @@
                 :aria-label="ariaLabel"
                 aria-autocomplete="none"
                 aria-haspopup="listbox"
-                @focus="handleFocus"
-                @blur="handleBlur"
                 @keydown.down.stop.prevent="navigateOptions('next')"
                 @keydown.up.stop.prevent="navigateOptions('prev')"
                 @keydown.esc.stop.prevent="handleEsc"
