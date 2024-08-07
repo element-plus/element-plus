@@ -41,7 +41,7 @@ const displayValue = computed(() => {
 
   if (isFunction(formatter)) return formatter(value)
 
-  if (!isNumber(value)) return value
+  if (!isNumber(value) || Number.isNaN(value)) return value
 
   let [integer, decimal = ''] = String(value).split('.')
   decimal = decimal
