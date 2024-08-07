@@ -72,16 +72,15 @@ export const cellForced = {
       store: Store<T>
       $index: string
     }) {
+      const isSelect = column.selectable?.(row, $index)
       return h(ElCheckbox, {
-        disabled: column.selectable
-          ? !column.selectable.call(null, row, $index)
-          : false,
+        disabled: column.selectable ? isSelect : false,
         size: store.states.tableSize.value,
         onChange: () => {
           store.commit('rowSelectedChanged', row)
         },
         onClick: (event: Event) => event.stopPropagation(),
-        modelValue: store.isSelected(row),
+        modelValue: !isSelect ? store.isSelected(row) : false,
         ariaLabel: column.label,
       })
     },
