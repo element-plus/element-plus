@@ -323,8 +323,9 @@ describe('Select', () => {
       DEFAULT_PLACEHOLDER
     )
     const select = wrapper.findComponent({ name: 'ElSelect' })
-    await select.trigger('mouseenter')
-    await select.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
     await nextTick()
     expect((select.vm as any).expanded).toBe(true)
   })
@@ -1592,8 +1593,9 @@ describe('Select', () => {
       () => ({ value: 'test' })
     )
     const vm = wrapper.vm as any
-    await wrapper.trigger('mouseenter')
-    await wrapper.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
     const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
     expect(selectVm.expanded).toBe(true)
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('test')
@@ -1673,9 +1675,9 @@ describe('Select', () => {
         value: 'test',
       })
     )
-    const select = wrapper.findComponent({ name: 'ElSelect' })
-    await select.trigger('mouseenter')
-    await select.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
     await nextTick()
     expect(
       !!(document.querySelector('.el-select__popper') as HTMLElement).style
@@ -2196,9 +2198,10 @@ describe('Select', () => {
       clearable: true,
     })
     const select = wrapper.findComponent({ name: 'ElSelect' })
-    await select.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
-    await select.trigger('click')
+    await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(false)
   })
 
@@ -2208,11 +2211,11 @@ describe('Select', () => {
       clearable: true,
     })
     const select = wrapper.findComponent({ name: 'ElSelect' })
-
-    await select.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
 
-    await select.trigger('click')
+    await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(false)
   })
 
