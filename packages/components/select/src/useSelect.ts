@@ -25,6 +25,7 @@ import {
 import {
   ValidateComponentsMap,
   debugWarn,
+  ensureArray,
   isClient,
   isFunction,
   isIOS,
@@ -135,8 +136,8 @@ export const useSelect = (props: ISelectProps, emit) => {
   const selectDisabled = computed(() => props.disabled || form?.disabled)
 
   const hasModelValue = computed(() => {
-    return props.multiple
-      ? isArray(props.modelValue) && props.modelValue.length > 0
+    return isArray(props.modelValue)
+      ? props.modelValue.length > 0
       : !isEmptyValue(props.modelValue)
   })
 
@@ -246,10 +247,13 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const shouldShowPlaceholder = computed(() => {
-    if (isArray(props.modelValue)) {
-      return props.modelValue.length === 0 && !states.inputValue
+    if (props.multiple && !isUndefined(props.modelValue)) {
+      return ensureArray(props.modelValue).length === 0 && !states.inputValue
     }
-    return props.filterable ? !states.inputValue : true
+    const value = isArray(props.modelValue)
+      ? props.modelValue[0]
+      : props.modelValue
+    return props.filterable || isUndefined(value) ? !states.inputValue : true
   })
 
   const currentPlaceholder = computed(() => {
@@ -398,7 +402,10 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const setSelected = () => {
     if (!props.multiple) {
-      const option = getOption(props.modelValue)
+      const value = isArray(props.modelValue)
+        ? props.modelValue[0]
+        : props.modelValue
+      const option = getOption(value)
       states.selectedLabel = option.currentLabel
       states.selected = option
       return
@@ -406,8 +413,8 @@ export const useSelect = (props: ISelectProps, emit) => {
       states.selectedLabel = ''
     }
     const result: any[] = []
-    if (isArray(props.modelValue)) {
-      props.modelValue.forEach((value) => {
+    if (!isUndefined(props.modelValue)) {
+      ensureArray(props.modelValue).forEach((value) => {
         result.push(getOption(value))
       })
     }
@@ -517,7 +524,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (!props.multiple) return
     if (e.code === EVENT_CODE.delete) return
     if (e.target.value.length <= 0) {
-      const value = props.modelValue.slice()
+      const value = ensureArray(props.modelValue).slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(value)
       if (lastNotDisabledIndex < 0) return
       const removeTagValue = value[lastNotDisabledIndex]
@@ -531,7 +538,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const deleteTag = (event, tag) => {
     const index = states.selected.indexOf(tag)
     if (index > -1 && !selectDisabled.value) {
-      const value = props.modelValue.slice()
+      const value = ensureArray(props.modelValue).slice()
       value.splice(index, 1)
       emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
@@ -559,7 +566,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const handleOptionSelect = (option) => {
     if (props.multiple) {
-      const value = (props.modelValue || []).slice()
+      const value = ensureArray(props.modelValue ?? []).slice()
       const optionIndex = getValueIndex(value, option.value)
       if (optionIndex > -1) {
         value.splice(optionIndex, 1)
@@ -790,13 +797,6 @@ export const useSelect = (props: ISelectProps, emit) => {
   const inputStyle = computed(() => ({
     width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
   }))
-
-  if (props.multiple && !isArray(props.modelValue)) {
-    emit(UPDATE_MODEL_EVENT, [])
-  }
-  if (!props.multiple && isArray(props.modelValue)) {
-    emit(UPDATE_MODEL_EVENT, '')
-  }
 
   useResizeObserver(selectionRef, resetSelectionWidth)
   useResizeObserver(calculatorRef, resetCalculatorWidth)
