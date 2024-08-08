@@ -240,7 +240,7 @@ const handleMouseMove = (event: MouseEvent) => {
 }
 
 const { slots } = inject(ROOT_PICKER_INJECTION_KEY)!
-const renderYearCell = (cell: YearCell) => {
+const renderYearCell = ({ cell }: { cell: YearCell }) => {
   return h(
     'span',
     { class: 'cell' },
