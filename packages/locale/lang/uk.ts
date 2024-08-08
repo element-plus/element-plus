@@ -68,6 +68,9 @@ export default {
       noData: 'Немає даних',
       placeholder: 'Обрати',
     },
+    mention: {
+      loading: 'Завантаження',
+    },
     cascader: {
       noMatch: 'Співпадінь не знайдено',
       loading: 'Завантаження',

@@ -83,6 +83,7 @@
             :key="key"
             :mark="item.mark"
             :style="getStopStyle(item.position)"
+            @mousedown.stop="onSliderMarkerDown(item.position)"
           />
         </div>
       </template>
@@ -111,7 +112,7 @@ import { computed, provide, reactive, toRefs } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import ElInputNumber from '@element-plus/components/input-number'
 import { useFormItemInputId, useFormSize } from '@element-plus/components/form'
-import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { sliderContextKey } from './constants'
 import { sliderEmits, sliderProps } from './slider'
 import SliderButton from './button.vue'
@@ -158,6 +159,7 @@ const {
   onSliderWrapperPrevent,
   onSliderClick,
   onSliderDown,
+  onSliderMarkerDown,
   setFirstValue,
   setSecondValue,
 } = useSlide(props, initData, emit)
@@ -175,7 +177,6 @@ const sliderInputSize = computed(
 
 const groupLabel = computed<string>(() => {
   return (
-    props.label ||
     props.ariaLabel ||
     t('el.slider.defaultLabel', {
       min: props.min,
@@ -251,17 +252,6 @@ provide(sliderContextKey, {
   resetSize,
   updateDragging,
 })
-
-useDeprecated(
-  {
-    from: 'label',
-    replacement: 'aria-label',
-    version: '2.8.0',
-    scope: 'el-slider',
-    ref: 'https://element-plus.org/en-US/component/slider.html',
-  },
-  computed(() => !!props.label)
-)
 
 defineExpose({
   onSliderClick,

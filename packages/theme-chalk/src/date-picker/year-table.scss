@@ -23,10 +23,20 @@
       box-sizing: border-box;
     }
 
+    & div {
+      height: 48px;
+      padding: 6px 0;
+      box-sizing: border-box;
+    }
+
     &.today {
       .cell {
         color: getCssVar('color', 'primary');
         font-weight: bold;
+      }
+      &.start-date .cell,
+      &.end-date .cell {
+        color: $color-white;
       }
     }
 
@@ -41,7 +51,7 @@
     }
 
     .cell {
-      width: 54px;
+      width: 60px;
       height: 36px;
       display: block;
       line-height: 36px;
@@ -57,10 +67,31 @@
       }
     }
 
-    &.current:not(.disabled) div {
-      border-radius: 24px;
-      margin-left: 3px;
-      margin-right: 3px;
+    &.in-range div {
+      background-color: getCssVar('datepicker-inrange-bg-color');
+      &:hover {
+        background-color: getCssVar('datepicker-inrange-hover-bg-color');
+      }
+    }
+    &.start-date div,
+    &.end-date div {
+      color: $color-white;
+    }
+
+    &.start-date .cell,
+    &.end-date .cell {
+      color: $color-white;
+      background-color: getCssVar('datepicker-active-color');
+    }
+
+    &.start-date div {
+      border-top-left-radius: 24px;
+      border-bottom-left-radius: 24px;
+    }
+
+    &.end-date div {
+      border-top-right-radius: 24px;
+      border-bottom-right-radius: 24px;
     }
 
     &.current:not(.disabled) .cell {

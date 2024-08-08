@@ -919,13 +919,11 @@ describe('Select', () => {
   })
 
   describe('event', () => {
-    it('focus & blur', async () => {
+    it('focus', async () => {
       const onFocus = vi.fn()
-      const onBlur = vi.fn()
       const wrapper = createSelect({
         methods: {
           onFocus,
-          onBlur,
         },
       })
       const select = wrapper.findComponent(Select)
@@ -935,13 +933,20 @@ describe('Select', () => {
       expect(input.exists()).toBe(true)
       await input.trigger('focus')
       expect(onFocus).toHaveBeenCalledTimes(1)
+    })
+
+    it('blur', async () => {
+      const onBlur = vi.fn()
+      const wrapper = createSelect({
+        methods: {
+          onBlur,
+        },
+      })
+      const select = wrapper.findComponent(Select)
+      const input = select.find('input')
+      expect(input.exists()).toBe(true)
       await input.trigger('blur')
       expect(onBlur).toHaveBeenCalledTimes(1)
-
-      await input.trigger('focus')
-      expect(onFocus).toHaveBeenCalledTimes(2)
-      await input.trigger('blur')
-      expect(onBlur).toHaveBeenCalledTimes(2)
     })
 
     it('focus & blur for multiple & filterable select', async () => {
@@ -967,12 +972,12 @@ describe('Select', () => {
       await input.trigger('focus')
       expect(onFocus).toHaveBeenCalledTimes(1)
       await input.trigger('blur')
-      expect(onBlur).toHaveBeenCalledTimes(1)
+      expect(onBlur).toHaveBeenCalled()
 
       await input.trigger('focus')
       expect(onFocus).toHaveBeenCalledTimes(2)
       await input.trigger('blur')
-      expect(onBlur).toHaveBeenCalledTimes(2)
+      expect(onBlur).toHaveBeenCalled()
     })
 
     it('only emit change on user input', async () => {

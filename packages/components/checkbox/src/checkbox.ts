@@ -86,13 +86,6 @@ export const checkboxProps = {
     default: undefined,
   },
   /**
-   * @deprecated same as [aria-controls](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-controls), takes effect when `indeterminate` is `true`
-   */
-  controls: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description whether to add a border around Checkbox
    */
   border: Boolean,
