@@ -65,7 +65,7 @@ export const useButton = (
   })
 
   const handleClick = (evt: MouseEvent) => {
-    if (props.disabled || props.loading) {
+    if (_disabled.value || props.loading) {
       evt.stopPropagation()
       return
     }
