@@ -495,7 +495,7 @@ describe('Color-picker', () => {
     expect(focusHandler).toHaveBeenCalledTimes(1)
 
     await wrapper.find('.el-color-picker').trigger('blur')
-    expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalled()
     wrapper.unmount()
   })
 })

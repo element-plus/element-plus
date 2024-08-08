@@ -141,13 +141,6 @@ export const rateProps = buildProps({
    */
   size: useSizeProp,
   /**
-   * @deprecated same as `aria-label` in Rate
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description whether value can be reset to `0`
    */
   clearable: Boolean,

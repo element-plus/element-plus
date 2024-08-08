@@ -187,6 +187,11 @@ export const useSlide = (
     }
   }
 
+  const onSliderMarkerDown = (position: number) => {
+    if (sliderDisabled.value || initData.dragging) return
+    setPosition(position)
+  }
+
   return {
     elFormItem,
     slider,
@@ -203,6 +208,7 @@ export const useSlide = (
     onSliderWrapperPrevent,
     onSliderClick,
     onSliderDown,
+    onSliderMarkerDown,
     setFirstValue,
     setSecondValue,
   }
