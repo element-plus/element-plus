@@ -151,7 +151,8 @@ export default defineComponent({
         )
     })
     onBeforeUnmount(() => {
-      const columnIndex = columnConfig.value.getColumnIndex()
+      const getColumnIndex = columnConfig.value.getColumnIndex
+      const columnIndex = getColumnIndex ? getColumnIndex() : -1
       columnIndex > -1 &&
         owner.value.store.commit(
           'removeColumn',
