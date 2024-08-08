@@ -7,14 +7,14 @@
       ns.is('expanded', expanded),
       ns.is('current', node.isCurrent),
       ns.is('hidden', !node.visible),
-      ns.is('focusable', !node.disabled),
-      ns.is('checked', !node.disabled && node.checked),
+      ns.is('focusable', !nodeDisabled),
+      ns.is('checked', !nodeDisabled && node.checked),
       getNodeClass(node),
     ]"
     role="treeitem"
     tabindex="-1"
     :aria-expanded="expanded"
-    :aria-disabled="node.disabled"
+    :aria-disabled="nodeDisabled"
     :aria-checked="node.checked"
     :draggable="tree.props.draggable"
     :data-key="getNodeKey(node)"
@@ -46,7 +46,7 @@
         v-if="showCheckbox"
         :model-value="node.checked"
         :indeterminate="node.indeterminate"
-        :disabled="!!node.disabled"
+        :disabled="!!nodeDisabled"
         @click.stop
         @change="handleCheckChange"
       />
@@ -84,6 +84,7 @@
 <script lang="ts">
 // @ts-nocheck
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
   inject,
@@ -152,6 +153,8 @@ export default defineComponent({
     if (!tree) {
       debugWarn('Tree', "Can not find node's tree.")
     }
+
+    const nodeDisabled = computed(() => props.node.disabled)
 
     if (props.node.expanded) {
       expanded.value = true
@@ -243,7 +246,7 @@ export default defineComponent({
         handleExpandIconClick()
       }
 
-      if (tree.props.checkOnClickNode && !props.node.disabled) {
+      if (tree.props.checkOnClickNode && !nodeDisabled.value) {
         handleCheckChange(null, {
           target: { checked: !props.node.checked },
         })
@@ -342,6 +345,7 @@ export default defineComponent({
       handleDrop,
       handleDragEnd,
       CaretRight,
+      nodeDisabled,
     }
   },
 })
