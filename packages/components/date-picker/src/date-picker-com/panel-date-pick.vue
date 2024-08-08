@@ -450,12 +450,13 @@ const handleMonthPick = async (
   month: number | MonthsPickerEmits,
   keepOpen?: boolean
 ) => {
-  innerDate.value = getValidDateOfMonth(month as number)
   if (selectionMode.value === 'month') {
+    innerDate.value = getValidDateOfMonth(month as number)
     emit(innerDate.value, false)
   } else if (selectionMode.value === 'months') {
     emit(month as MonthsPickerEmits, keepOpen ?? true)
   } else {
+    innerDate.value = getValidDateOfMonth(month as number)
     currentView.value = 'date'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
       emit(innerDate.value, true)
@@ -471,7 +472,7 @@ const handleYearPick = async (
   keepOpen?: boolean
 ) => {
   if (selectionMode.value === 'year') {
-    innerDate.value = innerDate.value.startOf('year').year(year as number)
+    innerDate.value = getValidDateOfYear(year as number)
     emit(innerDate.value, false)
   } else if (selectionMode.value === 'years') {
     emit(year as YearsPickerEmits, keepOpen ?? true)
