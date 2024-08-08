@@ -379,5 +379,13 @@ describe('Radio Button', () => {
       expect(radioGroup2.attributes()['aria-label']).toBe('Bar')
       expect(radioGroup2.attributes()['aria-labelledby']).toBeFalsy()
     })
+
+    test('value is number change event need checked', async () => {
+      const radio = ref(1)
+      const wrapper = mount(() => <Radio v-model={radio.value} label="1" />)
+      expect(wrapper.classes()).not.toContain('is-checked')
+      await wrapper.trigger('click')
+      expect(wrapper.classes()).toContain('is-checked')
+    })
   })
 })

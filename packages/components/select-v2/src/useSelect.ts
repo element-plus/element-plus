@@ -103,27 +103,24 @@ const useSelect = (props: ISelectV2Props, emit) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
-    inputRef,
-    {
-      afterFocus() {
-        if (props.automaticDropdown && !expanded.value) {
-          expanded.value = true
-          states.menuVisibleOnFocus = true
-        }
-      },
-      beforeBlur(event) {
-        return (
-          tooltipRef.value?.isFocusInsideContent(event) ||
-          tagTooltipRef.value?.isFocusInsideContent(event)
-        )
-      },
-      afterBlur() {
-        expanded.value = false
-        states.menuVisibleOnFocus = false
-      },
-    }
-  )
+  const { wrapperRef, isFocused } = useFocusController(inputRef, {
+    afterFocus() {
+      if (props.automaticDropdown && !expanded.value) {
+        expanded.value = true
+        states.menuVisibleOnFocus = true
+      }
+    },
+    beforeBlur(event) {
+      return (
+        tooltipRef.value?.isFocusInsideContent(event) ||
+        tagTooltipRef.value?.isFocusInsideContent(event)
+      )
+    },
+    afterBlur() {
+      expanded.value = false
+      states.menuVisibleOnFocus = false
+    },
+  })
 
   const allOptions = ref([])
   const filteredOptions = ref([])
@@ -923,12 +920,10 @@ const useSelect = (props: ISelectV2Props, emit) => {
     getValue,
     getDisabled,
     getValueKey,
-    handleBlur,
     handleClear,
     handleClickOutside,
     handleDel,
     handleEsc,
-    handleFocus,
     focus,
     blur,
     handleMenuEnter,

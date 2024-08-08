@@ -52,6 +52,7 @@ describe('Tag.vue', () => {
   test('disableTransitions', () => {
     const wrapper = mount(() => <Tag disableTransitions={true} />)
     const vm = wrapper.vm
+    // FIXME: This check actually is useless as there is no the class `md-fade-center` in the code.
     expect(vm.$el.classList.contains('md-fade-center')).toEqual(false)
   })
 
