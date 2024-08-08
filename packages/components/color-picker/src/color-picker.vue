@@ -171,11 +171,10 @@ const popper = ref<TooltipInstance>()
 const triggerRef = ref()
 const inputRef = ref()
 
-const {
-  isFocused,
-  handleFocus: _handleFocus,
-  handleBlur,
-} = useFocusController(triggerRef, {
+const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
+  beforeFocus() {
+    return colorDisabled.value
+  },
   beforeBlur(event) {
     return popper.value?.isFocusInsideContent(event)
   },
@@ -184,11 +183,6 @@ const {
     resetColor()
   },
 })
-
-const handleFocus = (event: FocusEvent) => {
-  if (colorDisabled.value) return blur()
-  _handleFocus(event)
-}
 
 // active-change is used to prevent modelValue changes from triggering.
 let shouldActiveChange = true
@@ -315,14 +309,10 @@ function clear() {
   resetColor()
 }
 
-function handleClickOutside(event: Event) {
+function handleClickOutside() {
   if (!showPicker.value) return
   hide()
-
-  if (isFocused.value) {
-    const _event = new FocusEvent('focus', event)
-    handleBlur(_event)
-  }
+  isFocused.value && focus()
 }
 
 function handleEsc(event: KeyboardEvent) {
