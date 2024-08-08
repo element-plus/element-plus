@@ -17,6 +17,7 @@
     "types": [],
     "paths": {
       "@element-plus/*": ["packages/*"]
-    }
+    },
+    "preserveSymlinks": true
   }
 }

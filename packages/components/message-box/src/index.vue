@@ -153,6 +153,7 @@
 import {
   computed,
   defineComponent,
+  markRaw,
   nextTick,
   onBeforeUnmount,
   onMounted,
@@ -297,8 +298,8 @@ export default defineComponent({
       action: '' as Action,
       confirmButtonLoading: false,
       cancelButtonLoading: false,
-      confirmButtonLoadingIcon: Loading,
-      cancelButtonLoadingIcon: Loading,
+      confirmButtonLoadingIcon: markRaw(Loading),
+      cancelButtonLoadingIcon: markRaw(Loading),
       confirmButtonDisabled: false,
       editorErrorMessage: '',
       // refer to: https://github.com/ElemeFE/element/commit/2999279ae34ef10c373ca795c87b020ed6753eed

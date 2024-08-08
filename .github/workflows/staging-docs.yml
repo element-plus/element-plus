@@ -81,4 +81,4 @@ jobs:
           folder: docs/.vitepress/dist
           repository-name: element-plus/staging
           git-config-name: ElementPlusBot
-          git-config-email: hello@element-plus.org
+          git-config-email: element-plus@outlook.com

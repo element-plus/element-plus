@@ -8,7 +8,11 @@ import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
-import type { Options, Placement } from '@element-plus/components/popper'
+import type {
+  Options,
+  Placement,
+  PopperEffect,
+} from '@element-plus/components/popper'
 
 export const SelectProps = buildProps({
   /**
@@ -45,7 +49,7 @@ export const SelectProps = buildProps({
    * @description tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
-    type: definePropType<'light' | 'dark' | string>(String),
+    type: definePropType<PopperEffect | string>(String),
     default: 'light',
   },
   /**

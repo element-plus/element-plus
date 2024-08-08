@@ -34,28 +34,61 @@ import type { ExtractPropTypes, VNodeArrayChildren } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
 
 export const subMenuProps = buildProps({
+  /**
+   * @description unique identification
+   */
   index: {
     type: String,
     required: true,
   },
+  /**
+   * @description timeout before showing a sub-menu(inherit `show-timeout` of the menu by default.)
+   */
   showTimeout: Number,
+  /**
+   * @description timeout before hiding a sub-menu(inherit `hide-timeout` of the menu by default.)
+   */
   hideTimeout: Number,
+  /**
+   * @description custom class name for the popup menu
+   */
   popperClass: String,
+  /**
+   * @description whether the sub-menu is disabled
+   */
   disabled: Boolean,
+  /**
+   * @description whether popup menu is teleported to the body
+   */
   teleported: {
     type: Boolean,
     default: undefined,
   },
+  /**
+   * @description offset of the popper (overrides the `popper` of menu)
+   */
   popperOffset: Number,
+  /**
+   * @description Icon when menu are expanded and submenu are closed, `expand-close-icon` and `expand-open-icon` need to be passed together to take effect
+   */
   expandCloseIcon: {
     type: iconPropType,
   },
+  /**
+   * @description Icon when menu are expanded and submenu are opened, `expand-open-icon` and `expand-close-icon` need to be passed together to take effect
+   */
   expandOpenIcon: {
     type: iconPropType,
   },
+  /**
+   * @description Icon when menu are collapsed and submenu are closed, `collapse-close-icon` and `collapse-open-icon` need to be passed together to take effect
+   */
   collapseCloseIcon: {
     type: iconPropType,
   },
+  /**
+   * @description Icon when menu are collapsed and submenu are opened, `collapse-open-icon` and `collapse-close-icon` need to be passed together to take effect
+   */
   collapseOpenIcon: {
     type: iconPropType,
   },

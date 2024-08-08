@@ -171,6 +171,10 @@ $switch-content-padding: map.merge(
       justify-content: center;
       align-items: center;
       overflow: hidden;
+      padding: 0 #{map.get($switch-content-padding, 'default')} 0 calc(#{map.get(
+              $switch-button-size,
+              'default'
+            )} + 2px);
 
       .is-icon,
       .is-text {
@@ -179,10 +183,6 @@ $switch-content-padding: map.merge(
         user-select: none;
         @include utils-ellipsis;
       }
-      padding: 0 #{map.get($switch-content-padding, 'default')} 0 calc(#{map.get(
-              $switch-button-size,
-              'default'
-            )} + 2px);
     }
 
     .#{$namespace}-switch__action {
