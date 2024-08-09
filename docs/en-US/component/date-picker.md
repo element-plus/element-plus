@@ -125,7 +125,7 @@ date-picker/custom-content
 
 :::
 
-## Custom icon
+## Custom icon ^(2.8.0)
 
 Custom icons available with slots.
 
