@@ -48,6 +48,13 @@ const homeLang = computed(() => homeLocale[lang.value])
     <div class="footer-main">
       <h4>{{ homeLang['19'] }}</h4>
       <a
+        href="https://github.com/warmthsea/awesome-element-plus#readme"
+        class="footer-main-link"
+        target="_blank"
+      >
+        {{ homeLang['awesome'] }}
+      </a>
+      <a
         href="https://discord.com/invite/gXK9XNzW3X"
         class="footer-main-link"
         target="_blank"
