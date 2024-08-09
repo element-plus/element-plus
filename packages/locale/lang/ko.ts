@@ -1,4 +1,7 @@
-export default {
+import type { Language } from '../index'
+
+/** Korean / 韩语 */
+const ko: Language = {
   name: 'ko',
   el: {
     breadcrumb: {
@@ -10,6 +13,7 @@ export default {
       defaultLabel: '색상 선택기',
       description:
         '현재 색상은 {color}입니다. Enter 키를 눌러 새 색상을 선택합니다.',
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: '지금',
@@ -44,7 +48,7 @@ export default {
       month10: '10월',
       month11: '11월',
       month12: '12월',
-      // week: 'week',
+      week: 'week',
       weeks: {
         sun: '일',
         mon: '월',
@@ -67,6 +71,17 @@ export default {
         oct: '10월',
         nov: '11월',
         dec: '12월',
+      },
+      selectedDate: 'Selected date',
+      // to be translated
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
       },
     },
     inputNumber: {
@@ -169,3 +184,5 @@ export default {
     },
   },
 }
+
+export default ko

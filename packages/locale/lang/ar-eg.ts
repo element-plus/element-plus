@@ -1,14 +1,18 @@
-export default {
+import type { Language } from '../index'
+
+/** Egyptian Arabic / 埃及阿拉伯语 */
+const arEg: Language = {
   name: 'ar-eg',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'مسار التنقل',
     },
     colorpicker: {
       confirm: 'موافق',
       clear: 'إزالة',
       defaultLabel: 'إختر اللون',
-      description: 'اللون الحالي هو {color}. اضفط انتر لاختيار لون جديد',
+      description: 'اللون الحالي هو {color}. اضغط انتر لاختيار لون جديد',
+      alphaLabel: 'اختر قيمة ألفا',
     },
     datepicker: {
       now: 'الآن',
@@ -67,6 +71,16 @@ export default {
         nov: 'نوفمبر',
         dec: 'ديسمبر',
       },
+      selectedDate: 'التاريخ المحدد',
+      weeksFull: {
+        sun: 'الأحد',
+        mon: 'الأثنين',
+        tue: 'الثلاثاء',
+        wed: 'الأربعاء',
+        thu: 'الخميس',
+        fri: 'الجمعة',
+        sat: 'السبت',
+      },
     },
     inputNumber: {
       decrease: 'طرح رقم',
@@ -101,6 +115,8 @@ export default {
       currentPage: 'صفحة رقم {pager}',
       prevPages: 'صفحات {pager} السابقة',
       nextPages: 'صفحات {pager} التالية',
+      deprecationWarning:
+        'تم اكتشاف استخدامات قديمة، يرجى الرجوع إلى وثائق el-pagination للحصول على مزيد من التفاصيل',
     },
     dialog: {
       close: 'أغلق هذا التبويب',
@@ -155,9 +171,16 @@ export default {
       cancelButtonText: 'لا',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: 'سهم الدائرة اليسار',
+      rightArrow: 'سهم الدائرة اليمين',
+      indicator: 'التبديل إلى الفهرس {index}',
+    },
+    tour: {
+      next: 'التالي',
+      previous: 'السابق',
+      finish: 'إنهاء',
     },
   },
 }
+
+export default arEg

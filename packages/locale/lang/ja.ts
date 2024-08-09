@@ -1,4 +1,7 @@
-export default {
+import type { Language } from '../index'
+
+/** Japanese / 日本语 */
+const ja: Language = {
   name: 'ja',
   el: {
     breadcrumb: {
@@ -7,6 +10,10 @@ export default {
     colorpicker: {
       confirm: 'OK',
       clear: 'クリア',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: '現在',
@@ -37,7 +44,7 @@ export default {
       month10: '10月',
       month11: '11月',
       month12: '12月',
-      // week: '週次',
+      week: '週次',
       weeks: {
         sun: '日',
         mon: '月',
@@ -60,6 +67,22 @@ export default {
         oct: '10月',
         nov: '11月',
         dec: '12月',
+      },
+      // to be translated
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month',
+      monthTablePrompt: 'Use the arrow keys and enter to select the month',
+      yearTablePrompt: 'Use the arrow keys and enter to select the year',
+      selectedDate: 'Selected date',
+      // to be translated
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
       },
     },
     select: {
@@ -88,12 +111,15 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
     },
     messagebox: {
       title: 'メッセージ',
       confirm: 'OK',
       cancel: 'キャンセル',
       error: '正しくない入力',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Delキーを押して削除する',
@@ -139,5 +165,30 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    // to be translated
+    inputNumber: {
+      decrease: 'decrease number',
+      increase: 'increase number',
+    },
+    // to be translated
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown',
+    },
+    // to be translated
+    dialog: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    drawer: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    slider: {
+      defaultLabel: 'slider between {min} and {max}',
+      defaultRangeStartLabel: 'pick start value',
+      defaultRangeEndLabel: 'pick end value',
+    },
   },
 }
+
+export default ja

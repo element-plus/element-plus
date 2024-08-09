@@ -1,12 +1,19 @@
-export default {
+import type { Language } from '../index'
+
+/** Spanish / 西班牙语 */
+const es: Language = {
   name: 'es',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'Miga de pan',
     },
     colorpicker: {
       confirm: 'Confirmar',
       clear: 'Despejar',
+      defaultLabel: 'selector de color',
+      description:
+        'el color actual es {color}. presione enter para seleccionar un nuevo color.',
+      alphaLabel: 'seleccione el valor de alpha',
     },
     datepicker: {
       now: 'Ahora',
@@ -37,7 +44,7 @@ export default {
       month10: 'octubre',
       month11: 'noviembre',
       month12: 'diciembre',
-      // week: 'semana',
+      week: 'semana',
       weeks: {
         sun: 'dom',
         mon: 'lun',
@@ -61,6 +68,22 @@ export default {
         nov: 'nov',
         dec: 'dic',
       },
+      dateTablePrompt:
+        'Use las teclas de flecha y enter para seleccionar el día del mes',
+      monthTablePrompt:
+        'Use las teclas de flecha y enter para seleccionar el mes',
+      yearTablePrompt:
+        'Use las teclas de flecha y enter para seleccionar el año',
+      selectedDate: 'Fecha seleccionada',
+      weeksFull: {
+        sun: 'Domingo',
+        mon: 'Lunes',
+        tue: 'Martes',
+        wed: 'Miércoles',
+        thu: 'Jueves',
+        fri: 'Viernes',
+        sat: 'Sábado',
+      },
     },
     select: {
       loading: 'Cargando',
@@ -82,17 +105,21 @@ export default {
       pagesize: '/página',
       total: 'Total {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Página',
+      prev: 'Ir a la página anterior',
+      next: 'Ir a la página siguiente',
+      currentPage: 'página {pager}',
+      prevPages: '{pager} páginas anteriores',
+      nextPages: '{pager} páginas siguientes',
+      deprecationWarning:
+        'Se detectaron usos obsoletos, consulte la documentación de el-pagination para obtener más detalles',
     },
     messagebox: {
       confirm: 'Aceptar',
       cancel: 'Cancelar',
       error: 'Entrada inválida',
+      title: 'Mensaje',
+      close: 'Cerrar este diálogo',
     },
     upload: {
       deleteTip: 'Pulse Eliminar para retirar',
@@ -129,9 +156,34 @@ export default {
       cancelButtonText: 'No',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: 'Flecha izquierda del carrusel',
+      rightArrow: 'Flecha derecha del carrusel',
+      indicator: 'Cambiar al índice {index} del carrusel',
+    },
+    inputNumber: {
+      decrease: 'disminuir número',
+      increase: 'aumentar número',
+    },
+    dropdown: {
+      toggleDropdown: 'Activar desplegable',
+    },
+    dialog: {
+      close: 'Cerrar este diálogo',
+    },
+    drawer: {
+      close: 'Cerrar este diálogo',
+    },
+    slider: {
+      defaultLabel: 'deslizador entre {min} y {max}',
+      defaultRangeStartLabel: 'selecciona el valor inicial',
+      defaultRangeEndLabel: 'selecciona el valor final',
+    },
+    tour: {
+      next: 'Siguiente',
+      previous: 'Anterior',
+      finish: 'Finalizar',
     },
   },
 }
+
+export default es

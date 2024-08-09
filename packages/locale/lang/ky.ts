@@ -1,4 +1,7 @@
-export default {
+import type { Language } from '../index'
+
+/** Kyrgyz / 吉尔吉斯语(中亚) */
+const ky: Language = {
   name: 'ky',
   el: {
     breadcrumb: {
@@ -7,6 +10,10 @@ export default {
     colorpicker: {
       confirm: 'Мурунку',
       clear: 'ачык',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'азыр',
@@ -61,6 +68,23 @@ export default {
         nov: 'он биринчи ай',
         dec: 'он экинчи айда',
       },
+      week: 'week', //  to be translated
+      // to be translated
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month',
+      monthTablePrompt: 'Use the arrow keys and enter to select the month',
+      yearTablePrompt: 'Use the arrow keys and enter to select the year',
+      selectedDate: 'Selected date',
+      // to be translated
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
+      },
     },
     select: {
       loading: 'Жүктөлүүдө',
@@ -88,12 +112,15 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
     },
     messagebox: {
       title: 'тез',
       confirm: 'белгилөө',
       cancel: 'жокко чыгарылды',
       error: 'Маалыматтарды киргизүү мыйзамдуу эмес!',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'Жок кылуу баскычын басуу жок',
@@ -134,5 +161,36 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    // to be translated
+    inputNumber: {
+      decrease: 'decrease number',
+      increase: 'increase number',
+    },
+    // to be translated
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown',
+    },
+    // to be translated
+    dialog: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    drawer: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    slider: {
+      defaultLabel: 'slider between {min} and {max}',
+      defaultRangeStartLabel: 'pick start value',
+      defaultRangeEndLabel: 'pick end value',
+    },
+    // to be translated
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+    },
   },
 }
+
+export default ky

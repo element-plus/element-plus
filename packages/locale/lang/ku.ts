@@ -1,4 +1,7 @@
-export default {
+import type { Language } from '../index'
+
+/** Kurdish / 库尔德语(中东地区) */
+const ku: Language = {
   name: 'ku',
   el: {
     breadcrumb: {
@@ -7,6 +10,10 @@ export default {
     colorpicker: {
       confirm: 'Temam',
       clear: 'Paqij bike',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'Niha',
@@ -37,7 +44,7 @@ export default {
       month10: 'Kewçêr',
       month11: 'Sarmawaz',
       month12: 'Berfanbar',
-      // week: 'week',
+      week: 'week',
       weeks: {
         sun: 'Yek',
         mon: 'Duş',
@@ -60,6 +67,22 @@ export default {
         oct: 'Kew',
         nov: 'Sar',
         dec: 'Ber',
+      },
+      // to be translated
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month',
+      monthTablePrompt: 'Use the arrow keys and enter to select the month',
+      yearTablePrompt: 'Use the arrow keys and enter to select the year',
+      selectedDate: 'Selected date',
+      // to be translated
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
       },
     },
     select: {
@@ -88,12 +111,15 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
     },
     messagebox: {
       title: 'Peyam',
       confirm: 'Temam',
       cancel: 'Betal bike',
       error: 'Beyana çewt',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'ji bo rake pêl "delete" bike',
@@ -134,5 +160,36 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    // to be translated
+    inputNumber: {
+      decrease: 'decrease number',
+      increase: 'increase number',
+    },
+    // to be translated
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown',
+    },
+    // to be translated
+    dialog: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    drawer: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    slider: {
+      defaultLabel: 'slider between {min} and {max}',
+      defaultRangeStartLabel: 'pick start value',
+      defaultRangeEndLabel: 'pick end value',
+    },
+    // to be translated
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+    },
   },
 }
+
+export default ku

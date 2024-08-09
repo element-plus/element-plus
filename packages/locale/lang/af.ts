@@ -1,12 +1,18 @@
-export default {
+import type { Language } from '../index'
+
+/** Afrikaans / 南非荷兰语 */
+const af: Language = {
   name: 'af',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'Broodkruimels',
     },
     colorpicker: {
       confirm: 'Bevestig',
       clear: 'Maak skoon',
+      defaultLabel: 'kleurkieser',
+      description: `die huidige kleur is {color}. druk enter om'n nuwe kleur te kies.`,
+      alphaLabel: 'kies alfa-waarde',
     },
     datepicker: {
       now: 'Nou',
@@ -20,10 +26,10 @@ export default {
       startTime: 'Begintyd',
       endDate: 'Einddatum',
       endTime: 'Eindtyd',
-      prevYear: 'Previous Year', // to be translated
-      nextYear: 'Next Year', // to be translated
-      prevMonth: 'Previous Month', // to be translated
-      nextMonth: 'Next Month', // to be translated
+      prevYear: 'Vorige jaar',
+      nextYear: 'Volgende jaar',
+      prevMonth: 'Vorige maand',
+      nextMonth: 'Volgende maand',
       year: 'Jaar',
       month1: 'Jan',
       month2: 'Feb',
@@ -37,7 +43,7 @@ export default {
       month10: 'Okt',
       month11: 'Nov',
       month12: 'Des',
-      // week: 'week',
+      week: 'week',
       weeks: {
         sun: 'So',
         mon: 'Ma',
@@ -61,6 +67,21 @@ export default {
         nov: 'Nov',
         dec: 'Des',
       },
+      dateTablePrompt:
+        'Gebruik die pyl-sleutels en enter om die dag van die maand te kies',
+      monthTablePrompt:
+        'Gebruik die pyl-sleutels en enter om die maand te kies',
+      yearTablePrompt: 'Gebruik die pyl-sleutels en enter om die jaar te kies',
+      selectedDate: 'Gekose datum',
+      weeksFull: {
+        sun: 'Sondag',
+        mon: 'Maandag',
+        tue: 'Dinsdag',
+        wed: 'Woensdag',
+        thu: 'Donderdag',
+        fri: 'Vrydag',
+        sat: 'Saterdag',
+      },
     },
     select: {
       loading: 'Laai',
@@ -79,24 +100,27 @@ export default {
     },
     pagination: {
       goto: 'Gaan na',
-      pagesize: '/page',
+      pagesize: '/bladsy',
       total: 'Totaal {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Bladsy',
+      prev: 'Gaan na vorige bladsy',
+      next: 'Gaan na volgende bladsy',
+      currentPage: 'bladsy {pager}',
+      prevPages: 'Vorige {pager} bladsye',
+      nextPages: 'Volgende {pager} bladsye',
+      deprecationWarning:
+        'Verouderde gebruike waargeneem, verwys asseblief na die el-paginering dokumentasie vir meer besonderhede',
     },
     messagebox: {
       title: 'Boodskap',
       confirm: 'Bevestig',
       cancel: 'Kanselleer',
       error: 'Ongeldige invoer',
+      close: 'Maak hierdie dialoogvenster toe',
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
+      deleteTip: 'druk delete om te verwyder',
       delete: 'Verwyder',
       preview: 'Voorskou',
       continue: 'Gaan voort',
@@ -120,19 +144,44 @@ export default {
       hasCheckedFormat: '{checked}/{total} gekies',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'MISLUK',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Terug',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Ja',
+      cancelButtonText: 'Nee',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: 'Karoesel-pyl links',
+      rightArrow: 'Karoesel-pyl regs',
+      indicator: 'Karoesel wissel na indeks {index}',
+    },
+    inputNumber: {
+      decrease: 'verminder getal',
+      increase: 'verhoog getal',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown',
+    },
+    dialog: {
+      close: 'Maak hierdie dialoogvenster toe',
+    },
+    drawer: {
+      close: 'Maak hierdie dialoogvenster toe',
+    },
+    slider: {
+      defaultLabel: 'glyer tussen {min} en {max}',
+      defaultRangeStartLabel: 'kies beginwaarde',
+      defaultRangeEndLabel: 'kies eindwaarde',
+    },
+    tour: {
+      next: 'Volgende',
+      previous: 'Vorige',
+      finish: 'Klaar',
     },
   },
 }
+
+export default af

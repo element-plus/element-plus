@@ -5,6 +5,10 @@ lang: en-US
 
 # Translation
 
+## Components
+
+In some components such as `date-picker` and `select`, there are some built-in language codes. These codes are stored in the [`packages/locale`](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang) directory. If you want to help translate, you can modify the files there and submit a PR.
+
 ## Documentation
 
 In this chapter, we will discuss how to help translating the documentation of Element Plus.
