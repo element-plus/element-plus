@@ -288,7 +288,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import { defineComponent, provide, reactive } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
