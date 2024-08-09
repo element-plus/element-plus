@@ -88,6 +88,7 @@
   &.is-selectable.in-checked-path,
   &.is-active {
     color: getCssVar('cascader-menu', 'selected-text-color');
+    background: getCssVar('cascader-node', 'selected-background');
     font-weight: bold;
   }
 
@@ -97,6 +98,18 @@
     &:hover,
     &:focus {
       background: getCssVar('cascader-node', 'background-hover');
+    }
+
+    &.in-active-path,
+    &.is-selectable.in-checked-path,
+    &.is-active {
+      &:hover,
+      &:focus {
+        background: getCssVarWithDefault(
+          ('cascader-node', 'selected-background-hover'),
+          getCssVar('cascader-node', 'selected-background')
+        );
+      }
     }
   }
 
