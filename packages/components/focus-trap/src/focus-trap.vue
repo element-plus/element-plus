@@ -293,7 +293,7 @@ export default defineComponent({
           tryFocus(lastFocusBeforeTrapped ?? document.body)
         }
 
-        trapContainer.removeEventListener(FOCUS_AFTER_RELEASED, trapOnFocus)
+        trapContainer.removeEventListener(FOCUS_AFTER_RELEASED, releaseOnFocus)
         focusableStack.remove(focusLayer)
       }
     }
@@ -318,6 +318,13 @@ export default defineComponent({
     onBeforeUnmount(() => {
       if (props.trapped) {
         stopTrap()
+      }
+
+      if (forwardRef.value) {
+        forwardRef.value.removeEventListener('keydown', onKeydown)
+        forwardRef.value.removeEventListener('focusin', onFocusIn)
+        forwardRef.value.removeEventListener('focusout', onFocusOut)
+        forwardRef.value = undefined
       }
     })
 

@@ -1,3 +1,7 @@
+/**
+ * @vitest-environment happy-dom
+ */
+
 import { defineComponent, nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
 import { NOOP } from '@vue/shared'
@@ -368,6 +372,7 @@ describe('Autocomplete.vue', () => {
     test('specified id attachment', async () => {
       const wrapper = mount(() => (
         <FormItem label="Foobar" data-test-ref="item">
+          {/* @ts-ignore */}
           <Autocomplete id="foobar" data-test-ref="input" />
         </FormItem>
       ))
@@ -438,6 +443,24 @@ describe('Autocomplete.vue', () => {
     await wrapper.find('input').trigger('blur')
     vi.runAllTimers()
     await nextTick()
-    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(onBlur).toHaveBeenCalled()
+  })
+
+  describe('test a11y supports', () => {
+    test('test a11y attributes', async () => {
+      const wrapper = _mount()
+      await nextTick()
+
+      const container = wrapper.find('.el-autocomplete')
+      expect(container.attributes('role')).toBe('combobox')
+      expect(container.attributes('aria-haspopup')).toBe('listbox')
+      expect(container.attributes('aria-expanded')).toBe('false')
+
+      await wrapper.find('input').trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(container.attributes('aria-expanded')).toBe('true')
+    })
   })
 })

@@ -33,7 +33,7 @@
           v-for="item in filteredData"
           :key="item[propsAlias.key]"
           :class="ns.be('panel', 'item')"
-          :label="item[propsAlias.key]"
+          :value="item[propsAlias.key]"
           :disabled="item[propsAlias.disabled]"
           :validate-event="false"
         >
@@ -71,7 +71,7 @@ const props = defineProps(transferPanelProps)
 const emit = defineEmits(transferPanelEmits)
 const slots = useSlots()
 
-const OptionContent = ({ option }: { option: VNode | VNode[] }) => option
+const OptionContent = ({ option }: { option?: VNode | VNode[] }) => option
 
 const { t } = useLocale()
 const ns = useNamespace('transfer')

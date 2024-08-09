@@ -1,14 +1,11 @@
 import { buildProps } from '@element-plus/utils'
-import { datePickerSharedProps } from './shared'
+import { datePickerSharedProps, selectionModeWithDefault } from './shared'
 
 import type { ExtractPropTypes } from 'vue'
 
-const { date, disabledDate, parsedValue } = datePickerSharedProps
-
 export const basicYearTableProps = buildProps({
-  date,
-  disabledDate,
-  parsedValue,
-})
+  ...datePickerSharedProps,
+  selectionMode: selectionModeWithDefault('year'),
+} as const)
 
 export type BasicYearTableProps = ExtractPropTypes<typeof basicYearTableProps>

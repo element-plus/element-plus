@@ -9,7 +9,7 @@ Display statistics.
 
 ## Basic usage
 
-:::demo To highlight a number or a group of numbers, such as statistical value, amount, and ranking, you can add elements such as icon and unit before and after the number and title.
+:::demo To highlight a number or a group of numbers, such as statistical value, amount, and ranking, you can add elements such as icon and unit before and after the number and title. And use [vueuse](https://vueuse.org/core/useTransition/) to add animated transitions to value.
 
 statistic/basic
 
