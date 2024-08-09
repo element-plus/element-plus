@@ -230,7 +230,10 @@ export default defineComponent({
 
         if (nodes.length) {
           nodes.forEach((node) => {
-            lazyLoad(node, () => syncCheckedValue(false, forced))
+            lazyLoad(node, () => {
+              expandNode(node)
+              syncCheckedValue(false, forced)
+            })
           })
         } else {
           syncCheckedValue(true, forced)
