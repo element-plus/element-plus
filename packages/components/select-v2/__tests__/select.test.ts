@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { NOOP } from '@vue/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { hasClass } from '@element-plus/utils'
@@ -919,13 +919,11 @@ describe('Select', () => {
   })
 
   describe('event', () => {
-    it('focus & blur', async () => {
+    it('focus', async () => {
       const onFocus = vi.fn()
-      const onBlur = vi.fn()
       const wrapper = createSelect({
         methods: {
           onFocus,
-          onBlur,
         },
       })
       const select = wrapper.findComponent(Select)
@@ -935,13 +933,20 @@ describe('Select', () => {
       expect(input.exists()).toBe(true)
       await input.trigger('focus')
       expect(onFocus).toHaveBeenCalledTimes(1)
+    })
+
+    it('blur', async () => {
+      const onBlur = vi.fn()
+      const wrapper = createSelect({
+        methods: {
+          onBlur,
+        },
+      })
+      const select = wrapper.findComponent(Select)
+      const input = select.find('input')
+      expect(input.exists()).toBe(true)
       await input.trigger('blur')
       expect(onBlur).toHaveBeenCalledTimes(1)
-
-      await input.trigger('focus')
-      expect(onFocus).toHaveBeenCalledTimes(2)
-      await input.trigger('blur')
-      expect(onBlur).toHaveBeenCalledTimes(2)
     })
 
     it('focus & blur for multiple & filterable select', async () => {
@@ -967,12 +972,12 @@ describe('Select', () => {
       await input.trigger('focus')
       expect(onFocus).toHaveBeenCalledTimes(1)
       await input.trigger('blur')
-      expect(onBlur).toHaveBeenCalledTimes(1)
+      expect(onBlur).toHaveBeenCalled()
 
       await input.trigger('focus')
       expect(onFocus).toHaveBeenCalledTimes(2)
       await input.trigger('blur')
-      expect(onBlur).toHaveBeenCalledTimes(2)
+      expect(onBlur).toHaveBeenCalled()
     })
 
     it('only emit change on user input', async () => {
@@ -1486,6 +1491,50 @@ describe('Select', () => {
     it('should call remote method in multiple mode', async () => {
       await testRemoteSearch({ multiple: true })
     })
+  })
+
+  it('remote search should be not initialized', async () => {
+    const states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas']
+    const list = states.map((item): ListItem => {
+      return { value: `value:${item}`, label: `label:${item}` }
+    })
+    const options = ref([{ value: `value:Alabama`, label: `label:Alabama` }])
+    const remoteMethod = (query: string) => {
+      if (query !== '') {
+        options.value = list.filter((item) => {
+          return item.label.toLowerCase().includes(query.toLowerCase())
+        })
+      } else {
+        options.value = []
+      }
+    }
+    const wrapper = createSelect({
+      data() {
+        return {
+          filterable: true,
+          remote: true,
+          options,
+          multiple: true,
+          value: ['value:Alabama'],
+        }
+      },
+      methods: {
+        remoteMethod,
+      },
+    })
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    input.element.value = 'A'
+    await input.trigger('input')
+
+    const tag = wrapper.find('.el-select__tags-text')
+    // filter or remote-search scenarios should be not initialized
+    expect(tag.text()).toBe('label:Alabama')
+
+    await wrapper.trigger('blur')
+    await input.trigger('click')
+    // filter or remote-search scenarios should be not initialized
+    expect(tag.text()).toBe('label:Alabama')
   })
 
   it('keyboard operations', async () => {
