@@ -252,6 +252,7 @@ export default defineComponent({
       toggleRowExpansion,
       clearSort,
       sort,
+      updateKeyChildren,
     } = useUtils<Row>(store)
     const {
       isHidden,
@@ -361,6 +362,10 @@ export default defineComponent({
        * @description sort Table manually. Property `prop` is used to set sort column, property `order` is used to set sort order
        */
       sort,
+      /**
+       * @description used in lazy Table, must set `rowKey`, update key children
+       */
+      updateKeyChildren,
       t,
       setDragVisible,
       context: table,

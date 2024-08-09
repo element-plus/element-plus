@@ -465,6 +465,7 @@ function useWatcher<T>() {
     updateTreeExpandKeys,
     toggleTreeExpansion,
     updateTreeData,
+    updateKeyChildren,
     loadOrToggle,
     states: treeStates,
   } = useTree({
@@ -527,6 +528,7 @@ function useWatcher<T>() {
     updateCurrentRowData,
     loadOrToggle,
     updateTreeData,
+    updateKeyChildren,
     states: {
       tableSize,
       rowKey,
