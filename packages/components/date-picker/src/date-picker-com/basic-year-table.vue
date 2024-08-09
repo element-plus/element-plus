@@ -20,9 +20,7 @@
           @keydown.space.prevent.stop="handleYearTableClick"
           @keydown.enter.prevent.stop="handleYearTableClick"
         >
-          <div>
-            <span class="cell">{{ cell.text }}</span>
-          </div>
+          <el-date-picker-cell :cell="cell" />
         </td>
       </tr>
     </tbody>
@@ -36,6 +34,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicYearTableProps } from '../props/basic-year-table'
+import ElDatePickerCell from './basic-cell-render'
 
 type YearCell = {
   column: number

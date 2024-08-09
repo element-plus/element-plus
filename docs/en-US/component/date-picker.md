@@ -117,7 +117,7 @@ date-picker/custom-prefix-icon
 
 ## Custom content
 
-The content of cell can be customized, in scoped-slot you can get the cell data.
+The content of cell can be customized, in scoped-slot you can get the cell data. Note that the custom content structure should be consistent with the default structure, otherwise style misalignment may occur.
 
 :::demo
 
