@@ -249,7 +249,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             tmp.push(rowRender(node, $index + i, innerTreeRowData))
             if (cur) {
               const nodes =
-                lazyTreeNodeMap.value[childKey] ||
+                lazyTreeNodeMap.value[childKey]?.children ||
                 node[childrenColumnName.value]
               traverse(nodes, cur)
             }
@@ -258,7 +258,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         // 对于 root 节点，display 一定为 true
         cur.display = true
         const nodes =
-          lazyTreeNodeMap.value[key] || row[childrenColumnName.value]
+          lazyTreeNodeMap.value[key]?.children || row[childrenColumnName.value]
         traverse(nodes, cur)
       }
       return tmp
