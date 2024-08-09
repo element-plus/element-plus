@@ -453,11 +453,15 @@ const parsedValue = computed(() => {
     )
     if (!isEqual(availableResult, dayOrDays!)) {
       dayOrDays = availableResult
-      emitInput(
-        (isArray(dayOrDays)
-          ? dayOrDays.map((_) => _.toDate())
-          : dayOrDays.toDate()) as SingleOrRange<Date>
-      )
+
+      // The result is corrected only when model-value exists
+      if (!valueIsEmpty.value) {
+        emitInput(
+          (isArray(dayOrDays)
+            ? dayOrDays.map((_) => _.toDate())
+            : dayOrDays.toDate()) as SingleOrRange<Date>
+        )
+      }
     }
   }
   if (isArray(dayOrDays!) && dayOrDays.some((day) => !day)) {
