@@ -216,7 +216,11 @@
             </el-icon>
             <el-icon
               v-if="showClose && clearIcon"
-              :class="[nsSelect.e('caret'), nsSelect.e('icon')]"
+              :class="[
+                nsSelect.e('caret'),
+                nsSelect.e('icon'),
+                nsSelect.e('clear'),
+              ]"
               @click="handleClearClick"
             >
               <component :is="clearIcon" />
