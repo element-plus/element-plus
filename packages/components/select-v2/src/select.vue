@@ -281,6 +281,7 @@ import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
 import { SelectProps } from './defaults'
 import { selectV2InjectionKey } from './token'
+import type { SelectV2Context } from './token'
 
 export default defineComponent({
   name: 'ElSelectV2',
@@ -321,7 +322,6 @@ export default defineComponent({
       }),
       emit
     )
-    // TODO, remove the any cast to align the actual API.
     provide(selectV2InjectionKey, {
       props: reactive({
         ...toRefs(props),
@@ -333,7 +333,7 @@ export default defineComponent({
       onHover: API.onHover,
       onKeyboardNavigate: API.onKeyboardNavigate,
       onKeyboardSelect: API.onKeyboardSelect,
-    } as any)
+    } as unknown as SelectV2Context)
 
     return {
       ...API,
