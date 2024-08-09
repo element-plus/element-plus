@@ -18,6 +18,7 @@ type UseRangePickerProps = {
   defaultValue: Ref<DefaultValue>
   leftDate: Ref<Dayjs>
   rightDate: Ref<Dayjs>
+  step?: number
   unit: 'month' | 'year'
 }
 
@@ -27,6 +28,7 @@ export const useRangePicker = (
     defaultValue,
     leftDate,
     rightDate,
+    step,
     unit,
 
     onParsedValueChanged,
@@ -80,6 +82,7 @@ export const useRangePicker = (
   const restoreDefault = () => {
     const [start, end] = getDefaultValue(unref(defaultValue), {
       lang: unref(lang),
+      step,
       unit,
       unlinkPanels: props.unlinkPanels,
     })
