@@ -65,6 +65,10 @@ export const useButton = (
   })
 
   const handleClick = (evt: MouseEvent) => {
+    if (_disabled.value || props.loading) {
+      evt.stopPropagation()
+      return
+    }
     if (props.nativeType === 'reset') {
       form?.resetFields()
     }
