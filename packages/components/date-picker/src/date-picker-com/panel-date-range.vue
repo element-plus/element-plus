@@ -325,7 +325,7 @@ const {
 watch(
   () => props.visible,
   (visible) => {
-    if (!visible) {
+    if (!visible && rangeState.value.selecting) {
       onReset(props.parsedValue)
       onSelect(false)
     }

@@ -99,13 +99,7 @@ export const useRangePicker = (
     { immediate: true }
   )
 
-  watch(
-    () => props.parsedValue,
-    (parsedValue) => {
-      onReset(parsedValue)
-    },
-    { immediate: true }
-  )
+  watch(() => props.parsedValue, onReset, { immediate: true })
 
   return {
     minDate,
