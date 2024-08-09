@@ -465,7 +465,7 @@ describe('DatePicker', () => {
         v-model="value"
         ref="input">
         <template #default="{ isCurrent, text }">
-          <div class="cell" :class="{ current: isCurrent }">
+          <div class="el-date-table-cell__text" :class="{ current: isCurrent }">
             <div>{{ text }}</div>
           </div>
         </template>
@@ -483,12 +483,18 @@ describe('DatePicker', () => {
     input.trigger('focus')
     await nextTick()
     {
-      ;(document.querySelector('td.available .cell') as HTMLElement).click()
+      ;(
+        document.querySelector(
+          'td.available .el-date-table-cell__text'
+        ) as HTMLElement
+      ).click()
     }
     input.trigger('focus')
     await nextTick()
     expect(
-      document.querySelector('td.available .cell').classList.contains('current')
+      document
+        .querySelector('td.available .el-date-table-cell__text')
+        .classList.contains('current')
     ).toBeTruthy()
   })
 
@@ -522,7 +528,7 @@ describe('DatePicker', () => {
         v-model="value"
         ref="input">
         <template #default="{ isCurrent, text }">
-          <div class="cell" :class="{ current: isCurrent }">
+          <div class="el-date-table-cell__text" :class="{ current: isCurrent }">
             <div>{{ text + "csw" }}</div>
           </div>
         </template>
@@ -535,7 +541,7 @@ describe('DatePicker', () => {
       }
     )
     await nextTick()
-    const el = document.querySelector('td.available .cell')
+    const el = document.querySelector('td.available .el-date-table-cell__text')
     const text = el.textContent
     expect(text.includes('csw')).toBeTruthy()
   })
@@ -770,7 +776,11 @@ describe('MonthPicker', () => {
       (document.querySelector('.el-month-table') as HTMLElement).style.display
     ).toBe('')
     expect(document.querySelector('.el-year-table')).toBeNull()
-    ;(document.querySelector('.el-month-table .cell') as HTMLElement).click()
+    ;(
+      document.querySelector(
+        '.el-month-table .el-date-table-cell__text'
+      ) as HTMLElement
+    ).click()
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value.getMonth()).toBe(0)
@@ -795,7 +805,11 @@ describe('MonthPicker', () => {
     input.trigger('focus')
     await nextTick()
     {
-      ;(document.querySelector('.el-month-table .cell') as HTMLElement).click()
+      ;(
+        document.querySelector(
+          '.el-month-table .el-date-table-cell__text'
+        ) as HTMLElement
+      ).click()
     }
     await nextTick()
     expect(wrapper.findComponent(Input).vm.modelValue).toBe('2020-01')
@@ -836,7 +850,11 @@ describe('YearPicker', () => {
     }
 
     await nextTick()
-    ;(document.querySelector('.el-year-table .cell') as HTMLElement).click()
+    ;(
+      document.querySelector(
+        '.el-year-table .el-date-table-cell__text'
+      ) as HTMLElement
+    ).click()
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value.getFullYear()).toBe(2030)
@@ -860,7 +878,9 @@ describe('YearPicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const cell = document.querySelector('.el-year-table .cell') as HTMLElement
+    const cell = document.querySelector(
+      '.el-year-table .el-date-table-cell__text'
+    ) as HTMLElement
     cell.click()
     await nextTick()
     expect((wrapper.vm as any).value).toBe(
@@ -893,7 +913,9 @@ describe('WeekPicker', () => {
     ).click()
     await nextTick()
     ;(
-      document.querySelectorAll('.el-month-table .cell')[7] as HTMLElement
+      document.querySelectorAll(
+        '.el-month-table .el-date-table-cell__text'
+      )[7] as HTMLElement
     ).click()
     await nextTick()
     expect(document.querySelector('.is-week-mode')).not.toBeNull()
