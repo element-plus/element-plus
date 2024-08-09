@@ -76,6 +76,7 @@
         @keydown="handleKeyDown"
         @focus="handleFocus"
         @blur="handleBlur"
+        @click.stop
       >
         <div v-if="colorDisabled" :class="ns.be('picker', 'mask')" />
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">

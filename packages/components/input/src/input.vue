@@ -54,6 +54,7 @@
           @input="handleInput"
           @change="handleChange"
           @keydown="handleKeydown"
+          @click.stop
         />
 
         <!-- suffix slot -->
@@ -132,6 +133,7 @@
         @input="handleInput"
         @change="handleChange"
         @keydown="handleKeydown"
+        @click.stop
       />
       <span
         v-if="isWordLimitVisible"
