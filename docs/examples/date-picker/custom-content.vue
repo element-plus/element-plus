@@ -16,15 +16,15 @@
     </el-date-picker>
     <el-date-picker v-model="month" type="month" placeholder="Pick a month">
       <template #default="cell">
-        <div class="el-table-date-cell" :class="{ current: cell.isCurrent }">
-          <span class="cell">{{ cell.text + 1 }}期</span>
+        <div class="el-date-table-cell" :class="{ current: cell.isCurrent }">
+          <span class="el-date-table-cell__text">{{ cell.text + 1 }}期</span>
         </div>
       </template>
     </el-date-picker>
     <el-date-picker v-model="year" type="year" placeholder="Pick a year">
       <template #default="cell">
-        <div class="el-table-date-cell" :class="{ current: cell.isCurrent }">
-          <span class="cell">{{ cell.text + 1 }}y</span>
+        <div class="el-date-table-cell" :class="{ current: cell.isCurrent }">
+          <span class="el-date-table-cell__text">{{ cell.text + 1 }}y</span>
         </div>
       </template>
     </el-date-picker>

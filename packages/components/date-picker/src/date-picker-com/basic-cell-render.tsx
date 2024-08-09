@@ -14,9 +14,7 @@ export default defineComponent({
 
       return renderSlot(slots, 'default', { ...cell }, () => [
         <div class={ns.b()}>
-          <span class={[ns.e('text'), 'cell']}>
-            {cell?.renderText ?? cell?.text}
-          </span>
+          <span class={ns.e('text')}>{cell?.renderText ?? cell?.text}</span>
         </div>,
       ])
     }
