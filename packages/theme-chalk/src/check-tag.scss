@@ -39,12 +39,20 @@
       }
 
       @include when(disabled) {
-        background-color: getCssVar('color', $type, 'light-9');
+        @if $type == 'primary' {
+          background-color: getCssVar('color', 'info', 'light-9');
+        } @else {
+          background-color: getCssVar('color', $type, 'light-9');
+        }
         color: getCssVar('disabled-text-color');
         cursor: not-allowed;
 
         &:hover {
-          background-color: getCssVar('color', $type, 'light-9');
+          @if $type == 'primary' {
+            background-color: getCssVar('color', 'info', 'light-9');
+          } @else {
+            background-color: getCssVar('color', $type, 'light-9');
+          }
         }
       }
     }
