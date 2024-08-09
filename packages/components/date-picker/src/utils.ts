@@ -18,6 +18,7 @@ export const isValidRange = (range: DayRange): boolean => {
 
 type GetDefaultValueParams = {
   lang: string
+  step?: number
   unit: 'month' | 'year'
   unlinkPanels: boolean
 }
@@ -26,14 +27,14 @@ export type DefaultValue = [Date, Date] | Date | undefined
 
 export const getDefaultValue = (
   defaultValue: DefaultValue,
-  { lang, unit, unlinkPanels }: GetDefaultValueParams
+  { lang, step = 1, unit, unlinkPanels }: GetDefaultValueParams
 ) => {
   let start: Dayjs
 
   if (isArray(defaultValue)) {
     let [left, right] = defaultValue.map((d) => dayjs(d).locale(lang))
     if (!unlinkPanels) {
-      right = left.add(1, unit)
+      right = left.add(step, unit)
     }
     return [left, right]
   } else if (defaultValue) {
@@ -42,7 +43,7 @@ export const getDefaultValue = (
     start = dayjs()
   }
   start = start.locale(lang)
-  return [start, start.add(1, unit)]
+  return [start, start.add(step, unit)]
 }
 
 type Dimension = {
