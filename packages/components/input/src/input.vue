@@ -130,6 +130,8 @@
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
         @input="handleInput"
+        @focus="handleFocus"
+        @blur="handleBlur"
         @change="handleChange"
         @keydown="handleKeydown"
       />
@@ -257,13 +259,17 @@ const textareaCalcStyle = shallowRef(props.inputStyle)
 
 const _ref = computed(() => input.value || textarea.value)
 
-const { wrapperRef, isFocused } = useFocusController(_ref, {
-  afterBlur() {
-    if (props.validateEvent) {
-      elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
-    }
-  },
-})
+// wrapperRef for type="text", handleFocus and handleBlur for type="textarea"
+const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
+  _ref,
+  {
+    afterBlur() {
+      if (props.validateEvent) {
+        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
+      }
+    },
+  }
+)
 
 const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
 const validateState = computed(() => elFormItem?.validateState || '')
