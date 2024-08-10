@@ -39,6 +39,12 @@ async function buildFullEntry(minify: boolean) {
       plugins: {
         vue: vue({
           isProduction: true,
+          template: {
+            compilerOptions: {
+              hoistStatic: false,
+              cacheHandlers: false,
+            },
+          },
         }),
         vueJsx: vueJsx(),
       },

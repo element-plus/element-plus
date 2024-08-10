@@ -19,11 +19,12 @@
           @keydown.space.prevent.stop="handleMonthTableClick"
           @keydown.enter.prevent.stop="handleMonthTableClick"
         >
-          <div>
-            <span class="cell">
-              {{ t('el.datepicker.months.' + months[cell.text]) }}
-            </span>
-          </div>
+          <el-date-picker-cell
+            :cell="{
+              ...cell,
+              renderText: t('el.datepicker.months.' + months[cell.text]),
+            }"
+          />
         </td>
       </tr>
     </tbody>
@@ -37,6 +38,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
 import { datesInMonth } from '../utils'
+import ElDatePickerCell from './basic-cell-render'
 
 type MonthCell = {
   column: number
