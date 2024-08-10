@@ -22,6 +22,7 @@ import {
   toRefs,
   watch,
 } from 'vue'
+import { looseEqual } from '@vue/shared'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useId, useNamespace } from '@element-plus/hooks'
@@ -47,8 +48,15 @@ const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
 })
 
 const changeEvent = (value: RadioGroupProps['modelValue']) => {
+  const cacheModelValue = props.modelValue
   emit(UPDATE_MODEL_EVENT, value)
-  nextTick(() => emit('change', value))
+  nextTick(() => {
+    if (value !== props.modelValue)
+      radioGroupRef.value
+        ?.querySelectorAll<HTMLInputElement>('[type=radio]')
+        .forEach((v) => (v.checked = looseEqual(props.modelValue, v.value)))
+    if (cacheModelValue !== props.modelValue) emit('change', props.modelValue)
+  })
 }
 
 onMounted(() => {
