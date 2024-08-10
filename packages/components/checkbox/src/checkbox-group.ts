@@ -33,10 +33,6 @@ export const checkboxGroupProps = buildProps({
    */
   size: useSizeProp,
   /**
-   * @deprecated label for screen reader
-   */
-  label: String,
-  /**
    * @description border and background color when button is active
    */
   fill: String,

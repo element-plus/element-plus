@@ -465,7 +465,7 @@ describe('DatePicker', () => {
         v-model="value"
         ref="input">
         <template #default="{ isCurrent, text }">
-          <div class="cell" :class="{ current: isCurrent }">
+          <div class="el-date-table-cell__text" :class="{ current: isCurrent }">
             <div>{{ text }}</div>
           </div>
         </template>
@@ -483,12 +483,18 @@ describe('DatePicker', () => {
     input.trigger('focus')
     await nextTick()
     {
-      ;(document.querySelector('td.available .cell') as HTMLElement).click()
+      ;(
+        document.querySelector(
+          'td.available .el-date-table-cell__text'
+        ) as HTMLElement
+      ).click()
     }
     input.trigger('focus')
     await nextTick()
     expect(
-      document.querySelector('td.available .cell').classList.contains('current')
+      document
+        .querySelector('td.available .el-date-table-cell__text')
+        .classList.contains('current')
     ).toBeTruthy()
   })
 
@@ -522,7 +528,7 @@ describe('DatePicker', () => {
         v-model="value"
         ref="input">
         <template #default="{ isCurrent, text }">
-          <div class="cell" :class="{ current: isCurrent }">
+          <div class="el-date-table-cell__text" :class="{ current: isCurrent }">
             <div>{{ text + "csw" }}</div>
           </div>
         </template>
@@ -535,7 +541,7 @@ describe('DatePicker', () => {
       }
     )
     await nextTick()
-    const el = document.querySelector('td.available .cell')
+    const el = document.querySelector('td.available .el-date-table-cell__text')
     const text = el.textContent
     expect(text.includes('csw')).toBeTruthy()
   })
@@ -770,7 +776,11 @@ describe('MonthPicker', () => {
       (document.querySelector('.el-month-table') as HTMLElement).style.display
     ).toBe('')
     expect(document.querySelector('.el-year-table')).toBeNull()
-    ;(document.querySelector('.el-month-table .cell') as HTMLElement).click()
+    ;(
+      document.querySelector(
+        '.el-month-table .el-date-table-cell__text'
+      ) as HTMLElement
+    ).click()
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value.getMonth()).toBe(0)
@@ -795,7 +805,11 @@ describe('MonthPicker', () => {
     input.trigger('focus')
     await nextTick()
     {
-      ;(document.querySelector('.el-month-table .cell') as HTMLElement).click()
+      ;(
+        document.querySelector(
+          '.el-month-table .el-date-table-cell__text'
+        ) as HTMLElement
+      ).click()
     }
     await nextTick()
     expect(wrapper.findComponent(Input).vm.modelValue).toBe('2020-01')
@@ -836,7 +850,11 @@ describe('YearPicker', () => {
     }
 
     await nextTick()
-    ;(document.querySelector('.el-year-table .cell') as HTMLElement).click()
+    ;(
+      document.querySelector(
+        '.el-year-table .el-date-table-cell__text'
+      ) as HTMLElement
+    ).click()
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value.getFullYear()).toBe(2030)
@@ -860,7 +878,9 @@ describe('YearPicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const cell = document.querySelector('.el-year-table .cell') as HTMLElement
+    const cell = document.querySelector(
+      '.el-year-table .el-date-table-cell__text'
+    ) as HTMLElement
     cell.click()
     await nextTick()
     expect((wrapper.vm as any).value).toBe(
@@ -893,7 +913,9 @@ describe('WeekPicker', () => {
     ).click()
     await nextTick()
     ;(
-      document.querySelectorAll('.el-month-table .cell')[7] as HTMLElement
+      document.querySelectorAll(
+        '.el-month-table .el-date-table-cell__text'
+      )[7] as HTMLElement
     ).click()
     await nextTick()
     expect(document.querySelector('.is-week-mode')).not.toBeNull()
@@ -1021,6 +1043,58 @@ describe('DatePicker dates', () => {
     await nextTick()
     expect(
       document.querySelectorAll('.el-date-table__row .selected').length
+    ).toBe(1)
+  })
+})
+
+describe('DatePicker months', () => {
+  it('create', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+    type='months'
+    v-model="value"
+  />`,
+      () => ({ value: '' })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const td = document.querySelectorAll(
+      '.el-month-table tr td'
+    ) as NodeListOf<HTMLElement>
+    const vm = wrapper.vm as any
+    td[0].click()
+    await nextTick()
+    expect(vm.value.length).toBe(1)
+    td[1].click()
+    await nextTick()
+    expect(vm.value.length).toBe(2)
+    expect(
+      document.querySelectorAll('.el-month-table tr .current').length
+    ).toBe(2)
+    td[0].click()
+    await nextTick()
+    expect(vm.value.length).toBe(1)
+    td[1].click()
+    await nextTick()
+    expect(vm.value.length).toBe(0)
+  })
+
+  it('selected', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type="months"
+        v-model="value"
+      />`,
+      () => ({ value: [new Date()] })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    expect(
+      document.querySelectorAll('.el-month-table tr .current').length
     ).toBe(1)
   })
 })
@@ -1517,6 +1591,26 @@ describe('MonthRange', () => {
     ).toEqual(ElPopperOptions)
   })
 
+  it('user input', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+      type='monthrange'
+      v-model="value"
+      valueFormat="YYYY-MM"
+    />`,
+      () => ({ value: ['2022-01', '2022-02'] })
+    )
+
+    const [startInput, endInput] = wrapper.findAll('input')
+    await startInput.setValue('2015-01')
+    await endInput.setValue('2017-01')
+    await nextTick()
+
+    const vm = wrapper.vm
+    expect(vm.value[0]).toBe('2015-01')
+    expect(vm.value[1]).toBe('2017-01')
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = _mount(
@@ -1662,5 +1756,166 @@ describe('MonthRange', () => {
     await nextTick()
     expect(inputRange[0].element.value).toBe('2024-06-14')
     expect(inputRange[1].element.value).toBe('2024-06-15')
+  })
+})
+
+describe('YearRange', () => {
+  it('works', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+      type='yearrange'
+      v-model="value"
+    />`,
+      () => ({ value: '' })
+    )
+
+    const inputs = wrapper.findAll('input')
+    inputs[0].trigger('blur')
+    inputs[0].trigger('focus')
+    await nextTick()
+    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    expect(panels.length).toBe(2)
+    const p0 = <HTMLElement>panels[0].querySelector('td:not(.disabled)')
+    p0.click()
+    await nextTick()
+    const p1 = <HTMLElement>panels[1].querySelector('td:not(.disabled)')
+    p1.click()
+    await nextTick()
+    inputs[0].trigger('blur')
+    inputs[0].trigger('focus')
+    // correct highlight
+    const startDate = document.querySelectorAll('.start-date')
+    const endDate = document.querySelectorAll('.end-date')
+    const inRangeDate = document.querySelectorAll('.in-range')
+    expect(startDate.length).toBe(1)
+    expect(endDate.length).toBe(1)
+    expect(inRangeDate.length).toBeGreaterThan(0)
+    // value is array
+    const vm = wrapper.vm as any
+    expect(Array.isArray(vm.value)).toBeTruthy()
+    // input text is something like date string
+    expect(inputs[0].element.value.length).toBe(4)
+    expect(inputs[1].element.value.length).toBe(4)
+    // reverse selection
+    p1.click()
+    await nextTick()
+    p0.click()
+    await nextTick()
+    expect(vm.value[0].getTime() < vm.value[1].getTime()).toBeTruthy()
+  })
+
+  it('range, start-date and end-date', async () => {
+    _mount(
+      `<el-date-picker
+      type='yearrange'
+      v-model="value"
+    />`,
+      () => ({ value: '' })
+    )
+
+    const table = document.querySelector('.el-year-table')
+    const tds = (table as HTMLTableElement).querySelectorAll('td')
+
+    ;(tds[0] as HTMLElement).click()
+    await nextTick()
+    ;(tds[1] as HTMLElement).click()
+    await nextTick()
+
+    expect(tds[0].classList.contains('in-range')).toBeTruthy()
+    expect(tds[0].classList.contains('start-date')).toBeTruthy()
+    expect(tds[1].classList.contains('in-range')).toBeTruthy()
+    expect(tds[1].classList.contains('end-date')).toBeTruthy()
+    ;(tds[1] as HTMLElement).click()
+    await nextTick()
+    ;(tds[0] as HTMLElement).click()
+    await nextTick()
+
+    expect(tds[0].classList.contains('in-range')).toBeTruthy()
+    expect(tds[0].classList.contains('start-date')).toBeTruthy()
+    expect(tds[1].classList.contains('in-range')).toBeTruthy()
+    expect(tds[1].classList.contains('end-date')).toBeTruthy()
+
+    const startDate = document.querySelectorAll('.start-date')
+    const endDate = document.querySelectorAll('.end-date')
+    const inRangeDate = document.querySelectorAll('.in-range')
+    expect(startDate.length).toBe(1)
+    expect(endDate.length).toBe(1)
+    expect(inRangeDate.length).toBe(2)
+  })
+
+  it('type:yearrange unlink:true', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+      type='yearrange'
+      v-model="value"
+      unlink-panels
+    />`,
+      () => ({ value: [new Date(2024, 0), new Date(2036, 0)] })
+    )
+
+    const inputs = wrapper.findAll('input')
+    inputs[0].trigger('blur')
+    inputs[0].trigger('focus')
+    await nextTick()
+    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const left = panels[0].querySelector('.el-date-range-picker__header')
+    const right = panels[1].querySelector('.el-date-range-picker__header')
+    expect(left.textContent).toContain('2020-2029')
+    expect(right.textContent).toContain('2030-2039')
+    ;(panels[1].querySelector('.d-arrow-right') as HTMLElement).click()
+    await nextTick()
+    expect(left.textContent).toContain('2020-2029')
+    expect(right.textContent).toContain('2040-2049')
+  })
+
+  it('daylight saving time highlight', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+      type='yearrange'
+      v-model="value"
+      unlink-panels
+    />`,
+      () => ({ value: [new Date(2024, 0), new Date(2036, 0)] })
+    )
+
+    const inputs = wrapper.findAll('input')
+    inputs[0].trigger('blur')
+    inputs[0].trigger('focus')
+    await nextTick()
+    const startDate = document.querySelectorAll('.start-date')
+    const endDate = document.querySelectorAll('.end-date')
+    expect(startDate.length).toBe(1)
+    expect(endDate.length).toBe(1)
+  })
+
+  it('should accept popper options and pass down', async () => {
+    const ElPopperOptions = {
+      strategy: 'fixed',
+    }
+    const wrapper = _mount(
+      `<el-date-picker
+        type='yearrange'
+        v-model="value"
+        :popper-options="options"
+        unlink-panels
+      />`,
+      () => ({
+        value: [new Date(2024, 0), new Date(2036, 0)],
+        options: ElPopperOptions,
+      }),
+      {
+        provide() {
+          return {
+            ElPopperOptions,
+          }
+        },
+      }
+    )
+
+    await nextTick()
+
+    expect(
+      (wrapper.findComponent(CommonPicker).vm as any).elPopperOptions
+    ).toEqual(ElPopperOptions)
   })
 })

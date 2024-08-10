@@ -19,11 +19,12 @@
           @keydown.space.prevent.stop="handleMonthTableClick"
           @keydown.enter.prevent.stop="handleMonthTableClick"
         >
-          <div>
-            <span class="cell">
-              {{ t('el.datepicker.months.' + months[cell.text]) }}
-            </span>
-          </div>
+          <el-date-picker-cell
+            :cell="{
+              ...cell,
+              renderText: t('el.datepicker.months.' + months[cell.text]),
+            }"
+          />
         </td>
       </tr>
     </tbody>
@@ -37,6 +38,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
+import ElDatePickerCell from './basic-cell-render'
 
 type MonthCell = {
   column: number
@@ -223,7 +225,20 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
   const row = (target.parentNode as HTMLTableRowElement).rowIndex
   const month = row * 4 + column
   const newDate = props.date.startOf('year').month(month)
-  if (props.selectionMode === 'range') {
+  if (props.selectionMode === 'months') {
+    if (event.type === 'keydown') {
+      emit('pick', castArray(props.parsedValue), false)
+      return
+    }
+    const newMonth = props.date.startOf('month').month(month)
+
+    const newValue = hasClass(target, 'current')
+      ? castArray(props.parsedValue).filter(
+          (d) => Number(d) !== Number(newMonth)
+        )
+      : castArray(props.parsedValue).concat([dayjs(newMonth)])
+    emit('pick', newValue)
+  } else if (props.selectionMode === 'range') {
     if (!props.rangeState.selecting) {
       emit('pick', { minDate: newDate, maxDate: null })
       emit('select', true)

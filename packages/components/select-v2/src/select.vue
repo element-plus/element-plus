@@ -165,8 +165,6 @@
                 spellcheck="false"
                 type="text"
                 :name="name"
-                @focus="handleFocus"
-                @blur="handleBlur"
                 @input="onInput"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"

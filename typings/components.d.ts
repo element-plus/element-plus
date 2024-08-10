@@ -1,7 +1,4 @@
-// For this project development
-import '@vue/runtime-core'
-
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   // GlobalComponents for Volar
   export interface GlobalComponents {
     ElAffix: typeof import('../packages/element-plus')['ElAffix']
@@ -105,6 +102,7 @@ declare module '@vue/runtime-core' {
     ElAnchor: typeof import('../packages/element-plus')['ElAnchor']
     ElAnchorLink: typeof import('../packages/element-plus')['ElAnchorLink']
     ElSegmented: typeof import('../packages/element-plus')['ElSegmented']
+    ElMention: typeof import('../packages/element-plus')['ElMention']
   }
 
   interface ComponentCustomProperties {

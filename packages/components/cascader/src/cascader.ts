@@ -104,9 +104,20 @@ export const cascaderProps = buildProps({
   // eslint-disable-next-line vue/require-prop-types
   tagType: { ...tagProps.type, default: 'info' },
   /**
+   * @description tag effect
+   */
+  tagEffect: { ...tagProps.effect, default: 'light' },
+  /**
    * @description whether to trigger form validation
    */
   validateEvent: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description when dropdown is inactive and `persistent` is `false`, dropdown will be destroyed
+   */
+  persistent: {
     type: Boolean,
     default: true,
   },

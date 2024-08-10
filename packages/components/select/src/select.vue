@@ -5,7 +5,6 @@
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
     @[mouseEnterEventName]="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
-    @click.prevent.stop="toggleMenu"
   >
     <el-tooltip
       ref="tooltipRef"
@@ -35,6 +34,7 @@
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
           ]"
+          @click.prevent.stop="toggleMenu"
         >
           <div
             v-if="$slots.prefix"
@@ -166,8 +166,6 @@
                 :aria-label="ariaLabel"
                 aria-autocomplete="none"
                 aria-haspopup="listbox"
-                @focus="handleFocus"
-                @blur="handleBlur"
                 @keydown.down.stop.prevent="navigateOptions('next')"
                 @keydown.up.stop.prevent="navigateOptions('prev')"
                 @keydown.esc.stop.prevent="handleEsc"
@@ -293,7 +291,6 @@
 // @ts-nocheck
 import { defineComponent, provide, reactive } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
-import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
@@ -313,7 +310,6 @@ export default defineComponent({
   name: COMPONENT_NAME,
   componentName: COMPONENT_NAME,
   components: {
-    ElInput,
     ElSelectMenu,
     ElOption,
     ElOptions,
