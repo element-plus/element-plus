@@ -164,7 +164,7 @@ export const getValidDateOfYear = (
 ) => {
   const year = value.year()
   if (!disabledDate?.(value.toDate())) {
-    return value
+    return value.locale(lang)
   }
   const month = value.month()
   if (!datesInMonth(year, month, lang).every(disabledDate)) {
