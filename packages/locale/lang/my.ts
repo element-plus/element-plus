@@ -158,16 +158,16 @@ export default {
       transfer: {
         noMatch: 'ကိုက်ညီသောဒေတာမရှိပါ',
         noData: 'ဒေတာမရှိပါ',
-        titles: ['စာရင်း ၁', 'စာရင်း ၂'], // to be translated
-        filterPlaceholder: 'သော့ချက်စကားလုံးကို ရိုက်ထည့်ပါ', // to be translated
-        noCheckedFormat: '{total} ခု', // to be translated
-        hasCheckedFormat: '{checked}/{total} ရွေးပြီး', // to be translated
+        titles: ['စာရင်း ၁', 'စာရင်း ၂'],
+        filterPlaceholder: 'သော့ချက်စကားလုံးကို ရိုက်ထည့်ပါ',
+        noCheckedFormat: '{total} ခု',
+        hasCheckedFormat: '{checked}/{total} ရွေးပြီး',
       },
       image: {
         error: 'မအောင်မြင်ပါ',
       },
       pageHeader: {
-        title: 'ပြန်မည်', // to be translated
+        title: 'ပြန်မည်',
       },
       popconfirm: {
         confirmButtonText: 'ဟုတ်ကဲ့',
