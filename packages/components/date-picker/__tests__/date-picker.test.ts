@@ -626,6 +626,122 @@ describe('DatePicker', () => {
     expect(!!text).toBeTruthy()
   })
 
+  it('custom content for type is month', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type="month"
+        v-model="value"
+        ref="input">
+        <template #default="{ text }">
+          <div class="el-date-table-cell">
+            <div class="el-date-table-cell__text">{{ text }}期</div>
+          </div>
+        </template>
+      </el-date-picker>`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
+    )
+    await nextTick()
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    {
+      ;(document.querySelector('td .el-date-table-cell') as HTMLElement).click()
+    }
+    input.trigger('focus')
+    await nextTick()
+    const el = document.querySelector('td.current .el-date-table-cell')
+    expect(el.textContent.includes('期')).toBeTruthy()
+  })
+
+  it('custom content comment for type is month', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        type="month"
+        ref="input">
+        <template #default="{ text }">
+          <!-- <div class="el-date-table-cell">
+            <div>{{ text + "csw" }}</div>
+          </div> -->
+        </template>
+      </el-date-picker>`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
+    )
+    await nextTick()
+    const el = document.querySelector('td .el-date-table-cell')
+    const text = el.textContent
+    expect(text.includes('csw')).toBeFalsy()
+  })
+
+  it('custom content for type is year', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type="year"
+        v-model="value"
+        ref="input">
+        <template #default="{ text }">
+          <div class="el-date-table-cell">
+            <div class="el-date-table-cell__text">{{ text }}y</div>
+          </div>
+        </template>
+      </el-date-picker>`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
+    )
+    await nextTick()
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    {
+      ;(document.querySelector('td .el-date-table-cell') as HTMLElement).click()
+    }
+    input.trigger('focus')
+    await nextTick()
+    const el = document.querySelector('td.current .el-date-table-cell')
+    expect(el.textContent.includes('y')).toBeTruthy()
+  })
+
+  it('custom content comment for type is year', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        type="year"
+        ref="input">
+        <template #default="{ text }">
+          <!-- <div class="el-date-table-cell">
+            <div>{{ text + "csw" }}</div>
+          </div> -->
+        </template>
+      </el-date-picker>`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
+    )
+    await nextTick()
+    const el = document.querySelector('td .el-date-table-cell')
+    const text = el.textContent
+    expect(text.includes('csw')).toBeFalsy()
+  })
+
   describe('value-format', () => {
     it('with literal string', async () => {
       const day = dayjs()
