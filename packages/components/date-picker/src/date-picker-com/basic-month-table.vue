@@ -226,7 +226,7 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
 
     const newValue = hasClass(target, 'current')
       ? castArray(props.parsedValue).filter(
-          (d) => Number(d) !== Number(newMonth)
+          (d) => d?.month() !== newMonth.month()
         )
       : castArray(props.parsedValue).concat([dayjs(newMonth)])
     emit('pick', newValue)

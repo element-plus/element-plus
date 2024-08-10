@@ -417,16 +417,15 @@ const keyboardMode = computed<string>(() => {
 
 const hasShortcuts = computed(() => !!shortcuts.length)
 
-const getValidDateOfMonth = (month: number) => {
-  const _value = innerDate.value.startOf('month').month(month)
-  const _year = innerDate.value.year()
-  const _date = datesInMonth(_year, month, lang.value).find((date) => {
+const getValidDateOfMonth = (year: number, month: number) => {
+  const _value = dayjs().year(year).month(month).startOf('month')
+  const _date = datesInMonth(year, month, lang.value).find((date) => {
     return !disabledDate?.(date)
   })
   if (_date) {
     return dayjs(_date).locale(lang.value)
   }
-  return _value
+  return _value.locale(lang.value)
 }
 
 const getValidDateOfYear = (value: Dayjs) => {
@@ -437,11 +436,11 @@ const getValidDateOfYear = (value: Dayjs) => {
   const month = value.month()
   innerDate.value = value
   if (!datesInMonth(year, month, lang.value).every(disabledDate)) {
-    return getValidDateOfMonth(month)
+    return getValidDateOfMonth(year, month)
   }
   for (let i = 0; i < 12; i++) {
     if (!datesInMonth(year, i, lang.value).every(disabledDate)) {
-      return getValidDateOfMonth(i)
+      return getValidDateOfMonth(year, i)
     }
   }
   return value
@@ -452,12 +451,21 @@ const handleMonthPick = async (
   keepOpen?: boolean
 ) => {
   if (selectionMode.value === 'month') {
-    innerDate.value = getValidDateOfMonth(month as number)
+    innerDate.value = getValidDateOfMonth(
+      innerDate.value.year(),
+      month as number
+    )
     emit(innerDate.value, false)
   } else if (selectionMode.value === 'months') {
-    emit(month as MonthsPickerEmits, keepOpen ?? true)
+    const validMonth = (month as MonthsPickerEmits).map((v) =>
+      getValidDateOfMonth(v.year(), v.month())
+    )
+    emit(validMonth, keepOpen ?? true)
   } else {
-    innerDate.value = getValidDateOfMonth(month as number)
+    innerDate.value = getValidDateOfMonth(
+      innerDate.value.year(),
+      month as number
+    )
     currentView.value = 'date'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
       emit(innerDate.value, true)
@@ -477,7 +485,10 @@ const handleYearPick = async (
     innerDate.value = getValidDateOfYear(data)
     emit(innerDate.value, false)
   } else if (selectionMode.value === 'years') {
-    emit(year as YearsPickerEmits, keepOpen ?? true)
+    const validYear = (year as YearsPickerEmits).map((v) =>
+      getValidDateOfYear(v)
+    )
+    emit(validYear, keepOpen ?? true)
   } else {
     const data = innerDate.value.year(year as number)
     innerDate.value = getValidDateOfYear(data)
