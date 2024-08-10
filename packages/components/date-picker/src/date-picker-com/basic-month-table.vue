@@ -37,7 +37,7 @@ import dayjs from 'dayjs'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
-import { datesInMonth } from '../utils'
+import { datesInMonth, getValidDateOfMonth } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
 
 type MonthCell = {
@@ -224,8 +224,12 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
       emit('pick', castArray(props.parsedValue), false)
       return
     }
-    const newMonth = props.date.startOf('month').month(month)
-
+    const newMonth = getValidDateOfMonth(
+      props.date.year(),
+      month,
+      lang.value,
+      props.disabledDate
+    )
     const newValue = hasClass(target, 'current')
       ? castArray(props.parsedValue).filter(
           (d) => d?.month() !== newMonth.month()

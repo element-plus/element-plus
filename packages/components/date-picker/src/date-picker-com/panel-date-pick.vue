@@ -224,7 +224,7 @@ import {
 } from '@element-plus/icons-vue'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
-import { datesInMonth } from '../utils'
+import { getValidDateOfMonth, getValidDateOfYear } from '../utils'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -425,35 +425,6 @@ const keyboardMode = computed<string>(() => {
 
 const hasShortcuts = computed(() => !!shortcuts.length)
 
-const getValidDateOfMonth = (year: number, month: number) => {
-  const _value = dayjs().year(year).month(month).startOf('month')
-  const _date = datesInMonth(year, month, lang.value).find((date) => {
-    return !disabledDate?.(date)
-  })
-  if (_date) {
-    return dayjs(_date).locale(lang.value)
-  }
-  return _value.locale(lang.value)
-}
-
-const getValidDateOfYear = (value: Dayjs) => {
-  const year = value.year()
-  if (!disabledDate?.(value.toDate())) {
-    return value
-  }
-  const month = value.month()
-  innerDate.value = value
-  if (!datesInMonth(year, month, lang.value).every(disabledDate)) {
-    return getValidDateOfMonth(year, month)
-  }
-  for (let i = 0; i < 12; i++) {
-    if (!datesInMonth(year, i, lang.value).every(disabledDate)) {
-      return getValidDateOfMonth(year, i)
-    }
-  }
-  return value
-}
-
 const handleMonthPick = async (
   month: number | MonthsPickerEmits,
   keepOpen?: boolean
@@ -461,18 +432,19 @@ const handleMonthPick = async (
   if (selectionMode.value === 'month') {
     innerDate.value = getValidDateOfMonth(
       innerDate.value.year(),
-      month as number
+      month as number,
+      lang.value,
+      disabledDate
     )
     emit(innerDate.value, false)
   } else if (selectionMode.value === 'months') {
-    const validMonth = (month as MonthsPickerEmits).map((v) =>
-      getValidDateOfMonth(v.year(), v.month())
-    )
-    emit(validMonth, keepOpen ?? true)
+    emit(month as MonthsPickerEmits, keepOpen ?? true)
   } else {
     innerDate.value = getValidDateOfMonth(
       innerDate.value.year(),
-      month as number
+      month as number,
+      lang.value,
+      disabledDate
     )
     currentView.value = 'date'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
@@ -490,16 +462,13 @@ const handleYearPick = async (
 ) => {
   if (selectionMode.value === 'year') {
     const data = innerDate.value.startOf('year').year(year as number)
-    innerDate.value = getValidDateOfYear(data)
+    innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
     emit(innerDate.value, false)
   } else if (selectionMode.value === 'years') {
-    const validYear = (year as YearsPickerEmits).map((v) =>
-      getValidDateOfYear(v)
-    )
-    emit(validYear, keepOpen ?? true)
+    emit(year as YearsPickerEmits, keepOpen ?? true)
   } else {
     const data = innerDate.value.year(year as number)
-    innerDate.value = getValidDateOfYear(data)
+    innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
     currentView.value = 'month'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
       emit(innerDate.value, true)
