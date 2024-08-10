@@ -388,7 +388,7 @@ describe('DatePicker', () => {
     )[0]
     yearLabel.click()
     await nextTick()
-    const yearCells = document.querySelectorAll('.cell')
+    const yearCells = document.querySelectorAll('.el-date-table-cell__text')
     const year2023 = [...yearCells].find((item) => item.innerHTML === '2023')
     year2023.click()
     await nextTick()
@@ -418,7 +418,7 @@ describe('DatePicker', () => {
     )[1]
     monthLabel.click()
     await nextTick()
-    const monthCells = document.querySelectorAll('.cell')
+    const monthCells = document.querySelectorAll('.el-date-table-cell__text')
     const februaryCell = monthCells[1]
     februaryCell.click()
     await nextTick()
