@@ -14,6 +14,7 @@ import {
   isPropAbsent,
   isString,
   isSymbol,
+  isThenable,
   isUndefined,
   isVNode,
 } from '..'
@@ -80,5 +81,43 @@ describe('types', () => {
     expect(isPropAbsent(undefined)).toBe(true)
     expect(isPropAbsent(123)).toBe(false)
     expect(isPropAbsent({})).toBe(false)
+  })
+
+  it('isThenable should work', () => {
+    expect(isThenable(null)).toBe(false)
+    expect(isThenable(undefined)).toBe(false)
+    expect(isThenable({})).toBe(false)
+    expect(isThenable(Promise.resolve())).toBe(true)
+
+    const then = vueShared.NOOP
+    expect(isThenable({ then })).toBe(true)
+    expect(isThenable({ __proto__: { then } })).toBe(true)
+    expect(
+      isThenable({
+        get then() {
+          return then
+        },
+      })
+    ).toBe(true)
+    expect(
+      isThenable({
+        get then(): never {
+          throw new Error('error')
+        },
+      })
+    ).toBe(false)
+
+    const proxy = new Proxy(
+      {},
+      {
+        get(target, p) {
+          if (p === 'then') {
+            return then
+          }
+          throw new Error('error')
+        },
+      }
+    )
+    expect(isThenable(proxy)).toBe(true)
   })
 })

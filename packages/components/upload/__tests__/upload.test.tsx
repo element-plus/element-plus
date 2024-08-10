@@ -376,5 +376,65 @@ describe('<upload />', () => {
       await nextTick()
       expect(onProgress).toHaveBeenCalled()
     })
+
+    test('onSuccess should be called when global Promise is overwritten and httpRequest is async function', async () => {
+      const GlobalPromise = globalThis.Promise
+      class Deferred<T> {
+        public resolve!: (value: T | PromiseLike<T>) => void
+        public reject!: (reason: any) => void
+        public promise: Promise<T>
+        constructor(
+          executor: (
+            resolve: (value: T | PromiseLike<T>) => void,
+            reject: (reason?: any) => void
+          ) => void
+        ) {
+          let resolve: (value: T | PromiseLike<T>) => void
+          let reject: (reason: any) => void
+          this.promise = new GlobalPromise((ok, err) => {
+            resolve = ok
+            reject = err
+            executor(ok, err)
+          })
+          this.resolve = resolve!
+          this.reject = reject!
+        }
+
+        then<TResult = T>(
+          onfulfilled?: (value: T) => TResult | PromiseLike<TResult>,
+          onrejected?: any
+        ): Deferred<TResult> {
+          return Deferred.resolve(this.promise.then(onfulfilled, onrejected))
+        }
+
+        static resolve<T>(value: T | PromiseLike<T>) {
+          return new Deferred<T>((resolve) => {
+            resolve(value)
+          })
+        }
+      }
+      globalThis.Promise = Deferred as any
+      try {
+        const onSuccess = vi.fn((value) => {
+          expect(value).toBe(42)
+        })
+        const httpRequest = vi.fn(async () => {
+          return 42
+        })
+        const wrapper = mount(
+          <UploadContent httpRequest={httpRequest} onSuccess={onSuccess} />
+        )
+
+        const fileList = [new File(['content'], 'test-file.txt')]
+        mockGetFile(wrapper.find('input').element, fileList)
+
+        await wrapper.find('input').trigger('change')
+        await nextTick()
+        expect(httpRequest).toHaveBeenCalled()
+        expect(onSuccess).toHaveBeenCalled()
+      } finally {
+        globalThis.Promise = GlobalPromise
+      }
+    })
   })
 })
