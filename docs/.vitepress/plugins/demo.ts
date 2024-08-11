@@ -1,6 +1,5 @@
 import path from 'path'
 import fs from 'fs'
-import { camelize } from 'vue'
 import { docRoot } from '@element-plus/build-utils'
 import type MarkdownIt from 'markdown-it'
 import type Token from 'markdown-it/lib/token'
@@ -45,7 +44,7 @@ function createDemoContainer(md: MarkdownIt): ContainerOpts {
         )}" path="${sourceFile}" raw-source="${encodeURIComponent(
           source
         )}" description="${encodeURIComponent(md.render(description))}">
-  <template #source><Ex${camelize(sourceFile.replace(/\//g, '-'))}/></template>`
+  <template #source><ep-${sourceFile.replaceAll('/', '-')}/></template>`
       } else {
         return '</Demo>\n'
       }

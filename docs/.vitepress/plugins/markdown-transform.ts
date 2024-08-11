@@ -146,17 +146,19 @@ ${linksText}`
 
 const getExampleImports = (componentId: string) => {
   const examplePath = path.resolve(docRoot, 'examples', componentId)
-
   if (!fs.existsSync(examplePath)) return []
-
   const files = fs.readdirSync(examplePath)
+  const imports: string[] = []
 
-  return files
-    .filter((item) => /\.vue$/.test(item))
-    .map((item) => {
-      const file = item.replace(/\.vue$/, '')
-      const name = camelize(`Ex${componentId}-${file}`)
+  for (const item of files) {
+    if (!/\.vue$/.test(item)) continue
+    const file = item.replace(/\.vue$/, '')
+    const name = camelize(`Ep-${componentId}-${file}`)
 
-      return `import ${name} from '../../examples/${componentId}/${file}.vue'`
-    })
+    imports.push(
+      `import ${name} from '../../examples/${componentId}/${file}.vue'`
+    )
+  }
+
+  return imports
 }

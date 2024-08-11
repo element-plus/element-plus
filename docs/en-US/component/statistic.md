@@ -20,9 +20,7 @@ statistic/basic
 :::demo Countdown component, support to add other components control countdown.
 
 statistic/countdown
-
 :::
-
 :::tip
 
 In formatting it is suggested to be in the range of days
