@@ -208,9 +208,16 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       })
     }
   }
+  // 子节点删除后手动调用更新
+  const clearTreeNode = (key: string) => {
+    if (treeData.value[key].loaded) {
+      lazyTreeNodeMap.value[key] = []
+    }
+  }
 
   return {
     loadData,
+    clearTreeNode,
     loadOrToggle,
     toggleTreeExpansion,
     updateTreeExpandKeys,

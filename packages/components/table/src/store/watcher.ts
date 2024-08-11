@@ -466,6 +466,7 @@ function useWatcher<T>() {
     toggleTreeExpansion,
     updateTreeData,
     loadOrToggle,
+    clearTreeNode,
     states: treeStates,
   } = useTree({
     data,
@@ -498,6 +499,7 @@ function useWatcher<T>() {
   }
 
   return {
+    clearTreeNode,
     assertRowKey,
     updateColumns,
     scheduleLayout,
