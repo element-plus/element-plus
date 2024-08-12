@@ -1,5 +1,5 @@
 <template>
-  <template v-if="disabled">
+  <template v-if="disabled || !isLoadTeleport">
     <slot />
   </template>
   <teleport v-else :to="to">
@@ -8,7 +8,10 @@
 </template>
 
 <script lang="ts" setup>
+import { useLoadTeleport } from '@element-plus/hooks'
 import { teleportProps } from './teleport'
 
-defineProps(teleportProps)
+const props = defineProps(teleportProps)
+
+const isLoadTeleport = useLoadTeleport(props.to)
 </script>
