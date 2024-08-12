@@ -133,9 +133,15 @@ export const useSelect = (props: ISelectProps, emit) => {
   const selectDisabled = computed(() => props.disabled || form?.disabled)
 
   const hasModelValue = computed(() => {
-    return isArray(props.modelValue)
-      ? props.modelValue.length > 0
-      : !isEmptyValue(props.modelValue)
+    if (props.multiple) {
+      if (isArray(props.modelValue)) {
+        return props.modelValue.length > 0
+      }
+
+      return !isEmptyValue(props.modelValue)
+    }
+
+    return !isEmptyValue(props.modelValue) || !!states.selectedLabel
   })
 
   const showClose = computed(() => {
