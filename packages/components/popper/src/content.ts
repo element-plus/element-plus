@@ -74,7 +74,8 @@ export const popperContentProps = buildProps({
     type: definePropType<ClassType>([String, Array, Object]),
   },
   effect: {
-    type: definePropType<PopperEffect | string>(String),
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    type: definePropType<PopperEffect | (string & {})>(String),
     default: 'dark',
   },
   visible: Boolean,

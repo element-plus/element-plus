@@ -32,7 +32,8 @@ export const timeSelectProps = buildProps({
    * @description Tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
-    type: definePropType<PopperEffect | string>(String),
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    type: definePropType<PopperEffect | (string & {})>(String),
     default: 'light',
   },
   /**
