@@ -71,7 +71,9 @@
               :class="ppNs.e('icon-btn')"
               @click="moveByYear(false)"
             >
-              <el-icon><d-arrow-left /></el-icon>
+              <slot name="prev-year">
+                <el-icon><d-arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               v-show="currentView === 'date'"
@@ -81,7 +83,9 @@
               class="arrow-left"
               @click="moveByMonth(false)"
             >
-              <el-icon><arrow-left /></el-icon>
+              <slot name="prev-month">
+                <el-icon><arrow-left /></el-icon>
+              </slot>
             </button>
           </span>
           <span
@@ -115,7 +119,9 @@
               class="arrow-right"
               @click="moveByMonth(true)"
             >
-              <el-icon><arrow-right /></el-icon>
+              <slot name="next-month">
+                <el-icon><arrow-right /></el-icon>
+              </slot>
             </button>
             <button
               type="button"
@@ -124,7 +130,9 @@
               class="d-arrow-right"
               @click="moveByYear(true)"
             >
-              <el-icon><d-arrow-right /></el-icon>
+              <slot name="next-year">
+                <el-icon><d-arrow-right /></el-icon>
+              </slot>
             </button>
           </span>
         </div>
@@ -216,6 +224,7 @@ import {
 } from '@element-plus/icons-vue'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
+import { getValidDateOfMonth, getValidDateOfYear } from '../utils'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -421,12 +430,22 @@ const handleMonthPick = async (
   keepOpen?: boolean
 ) => {
   if (selectionMode.value === 'month') {
-    innerDate.value = innerDate.value.startOf('month').month(month as number)
+    innerDate.value = getValidDateOfMonth(
+      innerDate.value.year(),
+      month as number,
+      lang.value,
+      disabledDate
+    )
     emit(innerDate.value, false)
   } else if (selectionMode.value === 'months') {
     emit(month as MonthsPickerEmits, keepOpen ?? true)
   } else {
-    innerDate.value = innerDate.value.startOf('month').month(month as number)
+    innerDate.value = getValidDateOfMonth(
+      innerDate.value.year(),
+      month as number,
+      lang.value,
+      disabledDate
+    )
     currentView.value = 'date'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
       emit(innerDate.value, true)
@@ -442,12 +461,14 @@ const handleYearPick = async (
   keepOpen?: boolean
 ) => {
   if (selectionMode.value === 'year') {
-    innerDate.value = innerDate.value.startOf('year').year(year as number)
+    const data = innerDate.value.startOf('year').year(year as number)
+    innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
     emit(innerDate.value, false)
   } else if (selectionMode.value === 'years') {
     emit(year as YearsPickerEmits, keepOpen ?? true)
   } else {
-    innerDate.value = innerDate.value.year(year as number)
+    const data = innerDate.value.year(year as number)
+    innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
     currentView.value = 'month'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
       emit(innerDate.value, true)

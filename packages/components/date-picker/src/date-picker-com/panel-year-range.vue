@@ -21,7 +21,9 @@
               :class="leftPanelKls.arrowLeftBtn"
               @click="leftPrevYear"
             >
-              <el-icon><d-arrow-left /></el-icon>
+              <slot name="prev-year">
+                <el-icon><d-arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               v-if="unlinkPanels"
@@ -30,7 +32,9 @@
               :class="leftPanelKls.arrowRightBtn"
               @click="leftNextYear"
             >
-              <el-icon><d-arrow-right /></el-icon>
+              <slot name="next-year">
+                <el-icon><d-arrow-right /></el-icon>
+              </slot>
             </button>
             <div>{{ leftLabel }}</div>
           </div>
@@ -55,14 +59,18 @@
               :class="rightPanelKls.arrowLeftBtn"
               @click="rightPrevYear"
             >
-              <el-icon><d-arrow-left /></el-icon>
+              <slot name="prev-year">
+                <el-icon><d-arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               type="button"
               :class="rightPanelKls.arrowRightBtn"
               @click="rightNextYear"
             >
-              <el-icon><d-arrow-right /></el-icon>
+              <slot name="next-year">
+                <el-icon><d-arrow-right /></el-icon>
+              </slot>
             </button>
             <div>{{ rightLabel }}</div>
           </div>
