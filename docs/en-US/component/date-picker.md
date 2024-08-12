@@ -117,11 +117,21 @@ date-picker/custom-prefix-icon
 
 ## Custom content
 
-The content of cell can be customized, in scoped-slot you can get the cell data.
+The content of cell can be customized, in scoped-slot you can get the cell data. Note that the custom content structure should be consistent with the default structure, otherwise style misalignment may occur.
 
 :::demo
 
 date-picker/custom-content
+
+:::
+
+## Custom icon ^(2.8.0)
+
+Custom icons available with slots.
+
+:::demo
+
+date-picker/custom-icon
 
 :::
 
@@ -203,10 +213,14 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ### Slots
 
-| Name            | Description                    |
-| --------------- | ------------------------------ |
-| default         | custom cell content            |
-| range-separator | custom range separator content |
+| Name                | Description                    |
+| ------------------- | ------------------------------ |
+| default             | custom cell content            |
+| range-separator     | custom range separator content |
+| prev-month ^(2.8.0) | prev month icon                |
+| next-month ^(2.8.0) | next month icon                |
+| prev-year ^(2.8.0)  | prev year icon                 |
+| next-year ^(2.8.0)  | next year icon                 |
 
 ### Exposes
 

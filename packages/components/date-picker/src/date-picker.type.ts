@@ -27,6 +27,7 @@ export interface DateCell {
   isSelected?: boolean
   start?: boolean
   text?: number
+  renderText?: string
   timestamp?: number
   date?: Date
   dayjs?: Dayjs
