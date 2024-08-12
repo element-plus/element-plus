@@ -128,6 +128,7 @@ describe('TimePicker', () => {
     input.trigger('focus')
     await nextTick()
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+
     expect(value.value).toBeInstanceOf(Date)
   })
 
@@ -863,6 +864,32 @@ describe('TimePicker(range)', () => {
     const value = ref([undefined, undefined])
     const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
 
+    await nextTick()
+
+    const [startInput, endInput] = wrapper.findAll('input')
+    expect(startInput.element.value).toBe('')
+    expect(endInput.element.value).toBe('')
+  })
+
+  it('avoid update initial value when using disabledHours', async () => {
+    const value = ref([])
+    const makeRange = (start: number, end: number) => {
+      const result: number[] = []
+      for (let i = start; i <= end; i++) {
+        result.push(i)
+      }
+      return result
+    }
+    const disabledHours = () => {
+      return makeRange(8, 23)
+    }
+    const wrapper = mount(() => (
+      <TimePicker
+        v-model={value.value}
+        disabled-hours={disabledHours}
+        is-range={true}
+      />
+    ))
     await nextTick()
 
     const [startInput, endInput] = wrapper.findAll('input')
