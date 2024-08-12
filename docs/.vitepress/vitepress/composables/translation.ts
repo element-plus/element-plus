@@ -20,7 +20,7 @@ export const useTranslation = () => {
     'ja-JP': '日本語',
   }
 
-  const helpTranslate = computed(() => translationLocale[lang.value].help)
+  const locale = computed(() => translationLocale[lang.value])
   const langsRef = computed(() => {
     const currentLang = lang.value
 
@@ -60,7 +60,7 @@ export const useTranslation = () => {
   }
 
   return {
-    helpTranslate,
+    locale,
     languageMap,
     langs: langsRef,
     lang,

@@ -53,7 +53,7 @@ export const usePopper = (
       popper: {
         position: unref(options).strategy,
         left: '0',
-        right: '0',
+        top: '0',
       },
       arrow: {
         position: 'absolute',
@@ -101,7 +101,7 @@ export const usePopper = (
   })
 
   return {
-    state: computed(() => unref(instanceRef)?.state),
+    state: computed(() => ({ ...(unref(instanceRef)?.state || {}) })),
     styles: computed(() => unref(states).styles),
     attributes: computed(() => unref(states).attributes),
     update: () => unref(instanceRef)?.update(),
@@ -119,7 +119,7 @@ function deriveState(state: State) {
   const styles = fromPairs(
     elements.map(
       (element) =>
-        [element, state.elements[element] || {}] as [
+        [element, state.styles[element] || {}] as [
           string,
           State['styles'][keyof State['styles']]
         ]
@@ -141,3 +141,5 @@ function deriveState(state: State) {
     attributes,
   }
 }
+
+export type UsePopperReturn = ReturnType<typeof usePopper>

@@ -8,11 +8,11 @@ We are excited that you are interested in contributing to Element Plus. Before s
 
 ## Issue Guidelines
 
-- Issues are exclusively for bug reports, feature requests and design-related topics. Other questions may be closed directly. If any questions come up when you are using Element Plus, please hit [Discord](https://discord.link/ElementPlus) for help.
+- Issues are exclusively for bug reports, feature requests and design-related topics. Other questions may be closed directly. If any questions come up when you are using Element Plus, please hit [Discord](https://discord.com/invite/gXK9XNzW3X) for help.
 
 - Before submitting an issue, please check if similar problems have already been issued.
 
-- Please specify which version of `Element Plus` and `Vue` you are using, and provide OS and browser information. [JSFiddle](https://jsfiddle.net/) is recommended to build a live demo so that your issue can be reproduced clearly.
+- Please specify which version of `Element Plus` and `Vue` you are using, and provide OS and browser information. [Playground](https://element-plus.run/) is recommended to build a live demo so that your issue can be reproduced clearly.
 
 ## Pull Request Guidelines
 

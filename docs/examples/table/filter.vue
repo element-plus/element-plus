@@ -32,7 +32,7 @@
     >
       <template #default="scope">
         <el-tag
-          :type="scope.row.tag === 'Home' ? '' : 'success'"
+          :type="scope.row.tag === 'Home' ? 'primary' : 'success'"
           disable-transitions
           >{{ scope.row.tag }}</el-tag
         >
@@ -43,7 +43,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElTable, type TableColumnCtx } from 'element-plus'
+import type { TableColumnCtx, TableInstance } from 'element-plus'
 
 interface User {
   date: string
@@ -52,15 +52,12 @@ interface User {
   tag: string
 }
 
-const tableRef = ref<InstanceType<typeof ElTable>>()
+const tableRef = ref<TableInstance>()
 
 const resetDateFilter = () => {
   tableRef.value!.clearFilter(['date'])
 }
-// TODO: improvement typing when refactor table
 const clearFilter = () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
   tableRef.value!.clearFilter()
 }
 const formatter = (row: User, column: TableColumnCtx<User>) => {

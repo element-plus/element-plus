@@ -158,7 +158,7 @@ export default defineComponent({
       childNodeRendered.value = true
     }
 
-    const childrenKey = tree.props['children'] || 'children'
+    const childrenKey = tree.props.props['children'] || 'children'
     watch(
       () => {
         const children = props.node.data[childrenKey]
@@ -181,6 +181,11 @@ export default defineComponent({
       (val) => {
         handleSelectChange(val, props.node.indeterminate)
       }
+    )
+
+    watch(
+      () => props.node.childNodes.length,
+      () => props.node.reInitChecked()
     )
 
     watch(

@@ -28,15 +28,6 @@
               </el-icon>
             </span>
           </div>
-          <div class="footer-item">
-            <span>two days ago</span>
-            <span class="red">
-              17%
-              <el-icon>
-                <CaretBottom />
-              </el-icon>
-            </span>
-          </div>
         </div>
       </div>
     </el-col>
@@ -59,15 +50,6 @@
           </template>
         </el-statistic>
         <div class="statistic-footer">
-          <div class="footer-item">
-            <span>year on year</span>
-            <span class="green">
-              24%
-              <el-icon>
-                <CaretTop />
-              </el-icon>
-            </span>
-          </div>
           <div class="footer-item">
             <span>month on month</span>
             <span class="red">

@@ -37,4 +37,12 @@ describe('Backtop.vue', () => {
     await wrapper.trigger('click')
     expect(wrapper.emitted()).toBeDefined()
   })
+  test('render when visibilityHeight is zero', async () => {
+    const wrapper = _mount(() => (
+      <Backtop visibilityHeight={0} right={100} bottom={200} />
+    ))
+    await nextTick()
+
+    expect(wrapper.find('.el-backtop').exists()).toBe(true)
+  })
 })

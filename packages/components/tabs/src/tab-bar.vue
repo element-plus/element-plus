@@ -10,8 +10,8 @@
 import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { capitalize, throwError } from '@element-plus/utils'
-import { tabsRootContextKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
+import { tabsRootContextKey } from './constants'
 import { tabBarProps } from './tab-bar'
 
 import type { CSSProperties } from 'vue'
@@ -55,11 +55,9 @@ const getBarStyle = (): CSSProperties => {
     const tabStyles = window.getComputedStyle($el)
 
     if (sizeName === 'width') {
-      if (props.tabs.length > 1) {
-        tabSize -=
-          Number.parseFloat(tabStyles.paddingLeft) +
-          Number.parseFloat(tabStyles.paddingRight)
-      }
+      tabSize -=
+        Number.parseFloat(tabStyles.paddingLeft) +
+        Number.parseFloat(tabStyles.paddingRight)
       offset += Number.parseFloat(tabStyles.paddingLeft)
     }
     return false

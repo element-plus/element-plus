@@ -19,7 +19,10 @@
   >
     <div
       :class="ns.be('node', 'content')"
-      :style="{ paddingLeft: `${(node.level - 1) * indent}px` }"
+      :style="{
+        paddingLeft: `${(node.level - 1) * indent}px`,
+        height: itemSize + 'px',
+      }"
     >
       <el-icon
         v-if="icon"
