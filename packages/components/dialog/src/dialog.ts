@@ -17,7 +17,7 @@ export const dialogProps = buildProps({
    * @description which element the Dialog appends to
    */
   appendTo: {
-    type: definePropType<string>(String),
+    type: definePropType<string | HTMLElement>([String, Object]),
     default: 'body',
   },
   /**
