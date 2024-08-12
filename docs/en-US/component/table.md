@@ -341,7 +341,7 @@ table/table-layout
 | setScrollTop               | set vertical scroll position                                                                                                                                      | ^[Function]`(top?: number) => void`                                        |
 | setScrollLeft              | set horizontal scroll position                                                                                                                                    | ^[Function]`(left?: number) => void`                                       |
 | columns ^(2.7.6)           | get table columns context.                                                                                                                                        | ^[array]`TableColumnCtx<T>[]`                                              |
-| updateKeyChildren ^(2.8.0) | used in lazy Table, must set `rowKey`, update key children                                                                                                        | ^[Function]`(key: string, data: T[]) =>void`                               |
+| updateKeyChildren ^(2.8.1) | used in lazy Table, must set `rowKey`, update key children                                                                                                        | ^[Function]`(key: string, data: T[]) =>void`                               |
 
 ## Table-column API
 
