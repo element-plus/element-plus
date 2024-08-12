@@ -138,7 +138,7 @@ describe('CascaderPanel.vue', () => {
         v-model={value.value}
         options={NORMAL_OPTIONS}
         onChange={handleChange}
-        onExpandChange={handleExpandChange}
+        onExpand-change={handleExpandChange}
       />
     ))
 
@@ -223,7 +223,7 @@ describe('CascaderPanel.vue', () => {
         v-model={value.value}
         options={DISABLED_OPTIONS}
         onChange={handleChange}
-        onExpandChange={handleExpandChange}
+        onExpand-change={handleExpandChange}
       />
     ))
 

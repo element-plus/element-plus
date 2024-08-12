@@ -1,5 +1,5 @@
 <template>
-  <teleport :disabled="!isLoadTeleport" :to="appendTo">
+  <el-teleport :to="appendTo">
     <div :class="kls" v-bind="$attrs">
       <el-tour-mask
         :visible="mergedShowMask"
@@ -24,7 +24,7 @@
         </el-tour-steps>
       </el-tour-content>
     </div>
-  </teleport>
+  </el-teleport>
   <!-- just for IDE -->
   <slot v-if="false" name="indicators" :current="current + 1" :total="total" />
 </template>
@@ -32,8 +32,9 @@
 <script lang="ts" setup>
 import { computed, provide, ref, toRef, useSlots, watch } from 'vue'
 import { useVModel } from '@vueuse/core'
-import { useLoadTeleport, useNamespace, useZIndex } from '@element-plus/hooks'
+import { useNamespace, useZIndex } from '@element-plus/hooks'
 import { isBoolean } from '@element-plus/utils'
+import ElTeleport from '@element-plus/components/teleport'
 import ElTourMask from './mask.vue'
 import ElTourContent from './content.vue'
 import ElTourSteps from './steps'
@@ -52,7 +53,6 @@ const ns = useNamespace('tour')
 const total = ref(0)
 const currentStep = ref<TourStepProps>()
 
-const { isLoadTeleport } = useLoadTeleport(props.appendTo)
 const current = useVModel(props, 'current', emit, {
   passive: true,
 })

@@ -68,6 +68,9 @@ export default {
       noData: 'Tsy misy angona',
       placeholder: 'Safidy',
     },
+    mention: {
+      loading: 'Eo ampiandrasana',
+    },
     cascader: {
       noMatch: 'Tsy misy angona mifanentana',
       loading: 'Eo ampiandrasana',

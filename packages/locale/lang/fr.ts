@@ -91,6 +91,9 @@ export default {
       noData: 'Aucune donnée',
       placeholder: 'Choisir',
     },
+    mention: {
+      loading: 'Chargement',
+    },
     cascader: {
       noMatch: 'Aucune correspondance',
       loading: 'Chargement',

@@ -30,7 +30,9 @@
               class="d-arrow-left"
               @click="leftPrevYear"
             >
-              <el-icon><d-arrow-left /></el-icon>
+              <slot name="prev-year">
+                <el-icon><d-arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               v-if="unlinkPanels"
@@ -43,7 +45,9 @@
               class="d-arrow-right"
               @click="leftNextYear"
             >
-              <el-icon><d-arrow-right /></el-icon>
+              <slot name="next-year">
+                <el-icon><d-arrow-right /></el-icon>
+              </slot>
             </button>
             <div>{{ leftLabel }}</div>
           </div>
@@ -69,7 +73,9 @@
               class="d-arrow-left"
               @click="rightPrevYear"
             >
-              <el-icon><d-arrow-left /></el-icon>
+              <slot name="prev-year">
+                <el-icon><d-arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               type="button"
@@ -77,7 +83,9 @@
               class="d-arrow-right"
               @click="rightNextYear"
             >
-              <el-icon><d-arrow-right /></el-icon>
+              <slot name="next-year">
+                <el-icon><d-arrow-right /></el-icon>
+              </slot>
             </button>
             <div>{{ rightLabel }}</div>
           </div>
@@ -99,11 +107,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef } from 'vue'
+import { computed, inject, ref, toRef, unref } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
+import { isArray } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
+import { getDefaultValue, isValidRange } from '../utils'
 import {
   panelMonthRangeEmits,
   panelMonthRangeProps,
@@ -193,8 +203,26 @@ const handleRangePick = (val: RangePickValue, close = true) => {
   handleRangeConfirm()
 }
 
-const formatToString = (days: Dayjs[]) => {
-  return days.map((day) => day.format(format.value))
+const handleClear = () => {
+  leftDate.value = getDefaultValue(unref(defaultValue), {
+    lang: unref(lang),
+    unit: 'year',
+    unlinkPanels: props.unlinkPanels,
+  })[0]
+  rightDate.value = leftDate.value.add(1, 'year')
+  emit('pick', null)
+}
+
+const formatToString = (value: Dayjs | Dayjs[]) => {
+  return isArray(value)
+    ? value.map((_) => _.format(format.value))
+    : value.format(format.value)
+}
+
+const parseUserInput = (value: Dayjs | Dayjs[]) => {
+  return isArray(value)
+    ? value.map((_) => dayjs(_, format.value).locale(lang.value))
+    : dayjs(value, format.value).locale(lang.value)
 }
 
 function onParsedValueChanged(
@@ -211,5 +239,8 @@ function onParsedValueChanged(
   }
 }
 
+emit('set-picker-option', ['isValidValue', isValidRange])
 emit('set-picker-option', ['formatToString', formatToString])
+emit('set-picker-option', ['parseUserInput', parseUserInput])
+emit('set-picker-option', ['handleClear', handleClear])
 </script>

@@ -4,7 +4,7 @@
       <tooltip-v2-trigger v-bind="triggerProps" nowrap>
         <slot name="trigger" />
       </tooltip-v2-trigger>
-      <teleport :to="to" :disabled="!teleported || !isLoadTeleport">
+      <el-teleport :to="to" :disabled="!teleported">
         <template v-if="fullTransition">
           <transition v-bind="transitionProps">
             <tooltip-v2-content v-if="alwaysOn || open" v-bind="contentProps">
@@ -33,7 +33,7 @@
             </template>
           </tooltip-v2-content>
         </template>
-      </teleport>
+      </el-teleport>
     </template>
   </tooltip-v2-root>
 </template>
@@ -42,7 +42,7 @@
 // @ts-nocheck
 import { reactive, toRefs } from 'vue'
 import { pick } from 'lodash-unified'
-import { useLoadTeleport } from '@element-plus/hooks'
+import ElTeleport from '@element-plus/components/teleport'
 import { tooltipV2ArrowProps } from './arrow'
 import { tooltipV2ContentProps } from './content'
 import { tooltipV2RootProps } from './root'
@@ -72,6 +72,4 @@ const rootProps = reactive(pick(refedProps, Object.keys(tooltipV2RootProps)))
 const triggerProps = reactive(
   pick(refedProps, Object.keys(tooltipV2TriggerProps))
 )
-
-const { isLoadTeleport } = useLoadTeleport(props.to)
 </script>
