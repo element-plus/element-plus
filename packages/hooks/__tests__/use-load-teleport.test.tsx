@@ -9,7 +9,7 @@ describe('useLoadTeleport', () => {
 
   it('should set isLoadTeleport to true if element null', () => {
     document.body.innerHTML = null as unknown as string
-    const { isLoadTeleport } = useLoadTeleport('#test-element')
+    const isLoadTeleport = useLoadTeleport('#test-element')
 
     expect(isLoadTeleport.value).toBe(false)
   })
@@ -17,13 +17,13 @@ describe('useLoadTeleport', () => {
   it('should set isLoadTeleport to true if element exists', () => {
     document.body.innerHTML = '<div id="test-element"></div>'
 
-    const { isLoadTeleport } = useLoadTeleport('#test-element')
+    const isLoadTeleport = useLoadTeleport('#test-element')
 
     expect(isLoadTeleport.value).toBe(true)
   })
 
   it('should set isLoadTeleport to false if element does not exist', () => {
-    const { isLoadTeleport } = useLoadTeleport('#non-existent-element')
+    const isLoadTeleport = useLoadTeleport('#non-existent-element')
 
     expect(isLoadTeleport.value).toBe(false)
   })
@@ -32,7 +32,7 @@ describe('useLoadTeleport', () => {
     const appendToRef = ref('#test-element')
     document.body.innerHTML = '<div id="test-element"></div>'
 
-    const { isLoadTeleport } = useLoadTeleport(appendToRef)
+    const isLoadTeleport = useLoadTeleport(appendToRef)
 
     expect(isLoadTeleport.value).toBe(true)
   })
