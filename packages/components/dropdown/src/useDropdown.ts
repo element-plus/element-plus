@@ -30,9 +30,7 @@ export const initDropdownDomEvent = (
 
   function removeTabindex() {
     triggerElm.setAttribute('tabindex', '-1')
-    menuItemsArray.value?.forEach((item) => {
-      item.setAttribute('tabindex', '-1')
-    })
+    menuItemsArray.value?.forEach((item) => item.setAttribute('tabindex', '-1'))
   }
 
   function resetTabindex(ele) {

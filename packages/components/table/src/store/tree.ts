@@ -13,6 +13,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   const lazyTreeNodeMap = ref({})
   const lazyColumnIdentifier = ref('hasChildren')
   const childrenColumnName = ref('children')
+  const checkStrictly = ref(false)
   const instance = getCurrentInstance() as Table<T>
   const normalizedData = computed(() => {
     if (!watcherData.rowKey.value) return {}
@@ -234,6 +235,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       lazyTreeNodeMap,
       lazyColumnIdentifier,
       childrenColumnName,
+      checkStrictly,
     },
   }
 }

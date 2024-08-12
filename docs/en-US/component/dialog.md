@@ -125,7 +125,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | modal                      | whether a mask is displayed                                                                          | ^[boolean]                          | true    |
 | modal-class                | custom class names for mask                                                                          | ^[string]                           | —       |
 | append-to-body             | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`    | ^[boolean]                          | false   |
-| append-to ^(2.4.3)         | which element the Dialog appends to. Will override `append-to-body`                                  | ^[string]                           | body    |
+| append-to ^(2.4.3)         | which element the Dialog appends to. Will override `append-to-body`                                  | ^[string] / ^[HTMLElement]          | body    |
 | lock-scroll                | whether scroll of body is disabled while Dialog is displayed                                         | ^[boolean]                          | true    |
 | custom-class ^(deprecated) | custom class names for Dialog                                                                        | ^[string]                           | ''      |
 | open-delay                 | the Time(milliseconds) before open                                                                   | ^[number]                           | 0       |
@@ -174,6 +174,12 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | closed           | triggers when the Dialog closing animation ends  | ^[Function]`() => void` |
 | open-auto-focus  | triggers after Dialog opens and content focused  | ^[Function]`() => void` |
 | close-auto-focus | triggers after Dialog closed and content focused | ^[Function]`() => void` |
+
+### Exposes
+
+| Name                  | Description   | Type                    |
+| --------------------- | ------------- | ----------------------- |
+| resetPostion ^(2.8.0) | reset postion | ^[Function]`() => void` |
 
 ## FAQ
 

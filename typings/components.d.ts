@@ -101,6 +101,7 @@ declare module 'vue' {
     ElAnchor: typeof import('../packages/element-plus')['ElAnchor']
     ElAnchorLink: typeof import('../packages/element-plus')['ElAnchorLink']
     ElSegmented: typeof import('../packages/element-plus')['ElSegmented']
+    ElMention: typeof import('../packages/element-plus')['ElMention']
   }
 
   interface ComponentCustomProperties {

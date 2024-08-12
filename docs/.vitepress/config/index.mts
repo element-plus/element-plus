@@ -80,6 +80,7 @@ const config: UserConfig = {
   vue: {
     template: {
       compilerOptions: {
+        hoistStatic: false,
         directiveTransforms: buildTransformers(),
       },
     },

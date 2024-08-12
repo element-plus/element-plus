@@ -32,6 +32,7 @@ import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
+import type { PopperEffect } from '@element-plus/components/popper'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
@@ -138,8 +139,7 @@ export const menuProps = buildProps({
    * @description Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed
    */
   popperEffect: {
-    type: String,
-    values: ['dark', 'light'],
+    type: definePropType<PopperEffect | string>(String),
     default: 'dark',
   },
   /**
