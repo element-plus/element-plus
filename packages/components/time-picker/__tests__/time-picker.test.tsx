@@ -880,8 +880,15 @@ describe('TimePicker(range)', () => {
       }
       return result
     }
+
     const disabledHours = () => {
-      return makeRange(8, 23)
+      const curH = dayjs().hour()
+      if (curH === 0) {
+        return makeRange(curH, 1)
+      } else if (curH === 23) {
+        return makeRange(curH - 1, curH)
+      }
+      return makeRange(curH - 1, curH + 1)
     }
     const wrapper = mount(() => (
       <TimePicker
@@ -893,6 +900,7 @@ describe('TimePicker(range)', () => {
     await nextTick()
 
     const [startInput, endInput] = wrapper.findAll('input')
+
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
   })
