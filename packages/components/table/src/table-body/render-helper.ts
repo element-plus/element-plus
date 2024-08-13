@@ -218,7 +218,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             // 父节点的 display 状态影响子节点的显示状态
             const innerTreeRowData = {
               display: parent.display && parent.expanded,
-              level: parent.level + 1,
+              level: +parent.level + 1,
               expanded: false,
               noLazyChildren: false,
               loading: false,
