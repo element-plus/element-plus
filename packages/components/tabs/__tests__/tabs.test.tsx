@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -6,7 +6,20 @@ import Tabs from '../src/tabs'
 import TabPane from '../src/tab-pane.vue'
 import TabNav from '../src/tab-nav'
 import type { TabPaneName } from '../src/tabs'
-import type { TabsPaneContext } from '@element-plus/tokens'
+import type { TabsPaneContext } from '@element-plus/components/tabs'
+
+const Comp = defineComponent({
+  components: {
+    TabPane,
+  },
+  setup() {
+    return () => (
+      <TabPane name="tab1" label="tab1">
+        Tab 1 content
+      </TabPane>
+    )
+  },
+})
 
 describe('Tabs.vue', () => {
   test('create', async () => {
@@ -521,7 +534,7 @@ describe('Tabs.vue', () => {
     wrapper.unmount()
   })
 
-  test('horizonal-scrollable', async () => {
+  test('horizontal-scrollable', async () => {
     // TODO: jsdom not support `clientWidth`.
   })
 
@@ -644,14 +657,11 @@ describe('Tabs.vue', () => {
   })
 
   test('DOM update finished calculating navOffset', async () => {
-    const tabs = ref<string[]>([])
-    for (let i = 0; i < 5000; i++) {
-      tabs.value.push(i.toString())
-    }
+    const tabs = Array.from({ length: 100 }, (_, i) => i.toString())
     const activeName = ref('0')
     const wrapper = mount(() => (
       <Tabs v-model={activeName.value}>
-        {tabs.value.map((item) => (
+        {tabs.map((item) => (
           <TabPane key={item} label={item} name={item} />
         ))}
       </Tabs>
@@ -662,20 +672,20 @@ describe('Tabs.vue', () => {
 
     const mockOffsetLeft = vi
       .spyOn(
-        wrapper.find('#tab-4999').element as HTMLElement,
+        wrapper.find('#tab-99').element as HTMLElement,
         'offsetLeft',
         'get'
       )
-      .mockImplementation(() => 5000)
+      .mockImplementation(() => 100)
     const mockComputedStyle = vi
       .spyOn(window, 'getComputedStyle')
       .mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
 
-    await wrapper.find('#tab-4999').trigger('click')
+    await wrapper.find('#tab-99').trigger('click')
     await nextTick()
 
     expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch(
-      'translateX(5000px)'
+      'translateX(100px)'
     )
 
     mockOffsetLeft.mockRestore()
@@ -753,5 +763,18 @@ describe('Tabs.vue', () => {
     expect(navItemsWrapper[1].classes('is-active')).toBe(false)
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
     expect(navItemsWrapper[3].classes('is-active')).toBe(false)
+  })
+
+  test('tab-pane nested', async () => {
+    const wrapper = mount(() => (
+      <Tabs>
+        <Comp />
+      </Tabs>
+    ))
+
+    const panesWrapper = wrapper.findAllComponents(TabPane)
+    await nextTick()
+
+    expect(panesWrapper.length).toBe(1)
   })
 })

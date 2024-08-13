@@ -15,7 +15,7 @@
         rootMenu.props.collapse &&
         $slots.title
       "
-      :effect="Effect.DARK"
+      :effect="rootMenu.props.popperEffect"
       placement="right"
       :fallback-placements="['left']"
       persistent
@@ -47,7 +47,6 @@ import {
   toRef,
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
-import { Effect } from '@element-plus/components/popper'
 import { throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import useMenu from './use-menu'
@@ -106,7 +105,6 @@ export default defineComponent({
     })
 
     return {
-      Effect,
       parentMenu,
       rootMenu,
       active,

@@ -1,11 +1,11 @@
-import { isNumber } from '@element-plus/utils'
+import { isFirefox, isNumber } from '@element-plus/utils'
 
 let hiddenTextarea: HTMLTextAreaElement | undefined = undefined
 
 const HIDDEN_STYLE = `
   height:0 !important;
   visibility:hidden !important;
-  overflow:hidden !important;
+  ${isFirefox() ? '' : 'overflow:hidden !important;'}
   position:absolute !important;
   z-index:-1000 !important;
   top:0 !important;

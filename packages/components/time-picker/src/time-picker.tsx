@@ -13,6 +13,9 @@ export default defineComponent({
   install: null,
   props: {
     ...timePickerDefaultProps,
+    /**
+     * @description whether to pick a time range
+     */
     isRange: {
       type: Boolean,
       default: false,
@@ -29,25 +32,25 @@ export default defineComponent({
     provide('ElPopperOptions', props.popperOptions)
     ctx.expose({
       /**
-       * @description focus on the input element
+       * @description focus the Input component
        */
       focus: (e: FocusEvent | undefined) => {
         commonPicker.value?.handleFocusInput(e)
       },
       /**
-       * @description blur from the input element
+       * @description blur the Input component
        */
       blur: (e: FocusEvent | undefined) => {
         commonPicker.value?.handleBlurInput(e)
       },
       /**
-       * @description opens the picker element
+       * @description open the TimePicker popper
        */
       handleOpen: () => {
         commonPicker.value?.handleOpen()
       },
       /**
-       * @description closes the picker element
+       * @description close the TimePicker popper
        */
       handleClose: () => {
         commonPicker.value?.handleClose()

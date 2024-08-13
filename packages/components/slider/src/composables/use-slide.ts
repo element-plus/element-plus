@@ -4,7 +4,7 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { useFormItem } from '@element-plus/hooks'
+import { useFormItem } from '@element-plus/components/form'
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
@@ -113,8 +113,10 @@ export const useSlide = (
   }
 
   const setFirstValue = (firstValue: number | undefined) => {
-    initData.firstValue = firstValue!
-    _emit(props.range ? [minValue.value, maxValue.value] : firstValue!)
+    initData.firstValue = firstValue ?? props.min
+    _emit(
+      props.range ? [minValue.value, maxValue.value] : firstValue ?? props.min
+    )
   }
 
   const setSecondValue = (secondValue: number) => {
@@ -185,6 +187,11 @@ export const useSlide = (
     }
   }
 
+  const onSliderMarkerDown = (position: number) => {
+    if (sliderDisabled.value || initData.dragging) return
+    setPosition(position)
+  }
+
   return {
     elFormItem,
     slider,
@@ -201,6 +208,7 @@ export const useSlide = (
     onSliderWrapperPrevent,
     onSliderClick,
     onSliderDown,
+    onSliderMarkerDown,
     setFirstValue,
     setSecondValue,
   }

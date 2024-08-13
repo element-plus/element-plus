@@ -1,7 +1,8 @@
-import { defineComponent, nextTick } from 'vue'
+import { computed, defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { provideGlobalConfig, useNamespace } from '..'
+import { provideGlobalConfig } from '@element-plus/components/config-provider'
+import { useNamespace } from '..'
 import type { VueWrapper } from '@vue/test-utils'
 
 const TestComp = defineComponent({
@@ -43,7 +44,7 @@ const TestComp = defineComponent({
   },
 })
 
-describe('use-locale', () => {
+describe('use-namespace', () => {
   const Comp = defineComponent({
     setup(_props, { slots }) {
       provideGlobalConfig({ namespace: 'ep' })
@@ -79,5 +80,32 @@ describe('use-locale', () => {
     expect(style).not.toMatch('--ep-border-width:')
     expect(style).toMatch('--ep-table-text-color: #409eff;')
     expect(style).not.toMatch('--ep-table-active-color:')
+  })
+
+  it('overrides namespace', () => {
+    const overrides = 'override'
+    const { vm } = mount(
+      defineComponent({
+        setup(_, { expose }) {
+          const { namespace } = useNamespace(
+            'ns',
+            computed(() => overrides)
+          )
+          expose({
+            namespace,
+          })
+        },
+        template: '<div></div>',
+      }),
+      {
+        global: {
+          provide: {
+            namespace: 'el',
+          },
+        },
+      }
+    )
+
+    expect(vm.namespace).toBe(overrides)
   })
 })

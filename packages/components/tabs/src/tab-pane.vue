@@ -25,9 +25,9 @@ import {
   watch,
 } from 'vue'
 import { eagerComputed } from '@vueuse/core'
-import { tabsRootContextKey } from '@element-plus/tokens'
 import { throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
+import { tabsRootContextKey } from './constants'
 import { tabPaneProps } from './tab-pane'
 
 const COMPONENT_NAME = 'ElTabPane'
@@ -70,8 +70,9 @@ const pane = reactive({
   isClosable,
 })
 
+tabsRoot.registerPane(pane)
 onMounted(() => {
-  tabsRoot.registerPane(pane)
+  tabsRoot.sortPane(pane)
 })
 
 onUnmounted(() => {

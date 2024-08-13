@@ -56,6 +56,18 @@ describe('Rate.vue', () => {
     expect(text.textContent).toMatchInlineSnapshot('"4"')
   })
 
+  it('text color', () => {
+    const wrapper = mount(Rate, {
+      props: {
+        showText: true,
+        modelValue: 1,
+        textColor: 'red',
+      },
+    })
+    const text = wrapper.find('.el-rate__text').element as HTMLSpanElement
+    expect(text.style.color).toEqual('red')
+  })
+
   it('value change', async () => {
     const wrapper = mount(Rate, {
       props: {
@@ -134,6 +146,21 @@ describe('Rate.vue', () => {
     fifthStar.click()
     expect(value.value).toEqual(5)
     expect(changeCount.value).toEqual(2)
+  })
+
+  it('show background icon when allow-half attribute is true', async () => {
+    const value = ref(3.5)
+    const wrapper = mount(() => <Rate v-model={value.value} allow-half />)
+    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
+    value.value = 3.4
+    await nextTick()
+    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(false)
+  })
+
+  it('show background icon when disabled attribute is true', async () => {
+    const value = ref(3.2)
+    const wrapper = mount(() => <Rate v-model={value.value} disabled />)
+    expect(wrapper.find('.el-rate__decimal--box').exists()).toBe(true)
   })
 
   describe('form item accessibility integration', () => {

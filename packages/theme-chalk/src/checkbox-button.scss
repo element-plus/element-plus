@@ -26,7 +26,7 @@
       map.get($button, 'bg-color')
     );
     border: getCssVar('border');
-    border-left: 0;
+    border-left-color: transparent;
     color: var(
       #{getCssVarName('button-text-color')},
       map.get($button, 'text-color')
