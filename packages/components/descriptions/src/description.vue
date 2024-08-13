@@ -92,13 +92,12 @@ const getRows = () => {
 
     if (rowspan > 1) {
       for (let i = 1; i < rowspan; i++) {
-        rowspanTemp[rowNo + i] || (rowspanTemp[rowNo + i] = 0)
+        rowspanTemp[rowNo + i] ||= 0
         rowspanTemp[rowNo + i]++
         totalSpan++
       }
     }
     if (rowspanTemp[rowNo] > 0) {
-      // 当前行有跨列，则减去对应列数，减完归零防止同行后续列重复减
       count -= rowspanTemp[rowNo]
       rowspanTemp[rowNo] = 0
     }

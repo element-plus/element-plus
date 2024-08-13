@@ -48,7 +48,6 @@ export default defineComponent({
     const content = this.cell?.children?.default?.()
     const span = item.span
     const rowspan = item.rowspan
-    const rowspan = item.rowspan
     const align = item.align ? `is-${item.align}` : ''
     const labelAlign = item.labelAlign ? `is-${item.labelAlign}` : '' || align
     const className = item.className
