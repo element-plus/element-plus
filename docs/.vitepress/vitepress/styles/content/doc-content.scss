@@ -15,6 +15,11 @@
       min-width: var(--vp-content-width);
       width: 100%;
     }
+
+    @include respond-to('max') {
+      --vp-content-width: 1136px;
+    }
+
   }
 
   @include respond-to('md') {
