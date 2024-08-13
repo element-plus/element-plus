@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
+import { isEqual } from 'lodash-unified'
 import { hasOwn } from '@element-plus/utils'
 import {
   getColumnById,
@@ -149,7 +150,7 @@ function useWatcher<T>() {
 
   // 选择
   const isSelected = (row) => {
-    return selection.value.includes(row)
+    return selection.value.some((item) => isEqual(item, row))
   }
 
   const clearSelection = () => {
