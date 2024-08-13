@@ -86,4 +86,35 @@ describe('Mention.vue', () => {
       4
     )
   })
+
+  test('It should generate accessible attributes', async () => {
+    const wrapper = mount(Mention, {
+      attachTo: document.body,
+      props: { options },
+    })
+
+    const input = wrapper.find('input')
+    expect(input.attributes('role')).toBe(undefined)
+    expect(input.attributes('aria-autocomplete')).toBe(undefined)
+    expect(input.attributes('aria-controls')).toBe(undefined)
+    expect(input.attributes('aria-expanded')).toBe(undefined)
+    expect(input.attributes('aria-haspopup')).toBe(undefined)
+    expect(input.attributes('aria-activedescendant')).toBe(undefined)
+
+    wrapper.find('input').trigger('focus')
+    input.element.value = '@'
+    wrapper.find('input').trigger('input')
+    await sleep(150)
+    const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
+    const list = dropdown.find('.el-mention-dropdown__list')
+    const option = dropdown.find('.el-mention-dropdown__item')
+
+    expect(list.attributes('id')).toBeTruthy()
+    expect(list.attributes('role')).toBe('listbox')
+    expect(list.attributes('aria-orientation')).toBe('vertical')
+    expect(option.attributes('id')).toBeTruthy()
+    expect(option.attributes('role')).toBe('option')
+    expect(option.attributes('aria-disabled')).toBe(undefined)
+    expect(option.attributes('aria-selected')).toBe('true')
+  })
 })
