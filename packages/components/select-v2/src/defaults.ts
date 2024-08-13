@@ -49,8 +49,9 @@ export const SelectProps = buildProps({
    * @description tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    type: definePropType<PopperEffect | (string & {})>(String),
+    type: definePropType<PopperEffect | (string & NonNullable<unknown>)>(
+      String
+    ),
     default: 'light',
   },
   /**
