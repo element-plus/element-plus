@@ -83,9 +83,9 @@ container/example
 
 ### Container Attributes
 
-| Name      | Description                         | Type                                  | Default                                                                    |
-| --------- | ----------------------------------- | ------------------------------------- | -------------------------------------------------------------------------- |
-| direction | layout direction for child elements | ^[string]`'horizontal' \| 'vertical'` | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
+| Name      | Description                         | Type                                | Default                                                                    |
+| --------- | ----------------------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
+| direction | layout direction for child elements | ^[enum]`'horizontal' \| 'vertical'` | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
 
 ### Container Slots
 

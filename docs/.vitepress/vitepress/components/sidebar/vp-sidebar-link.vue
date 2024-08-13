@@ -1,23 +1,37 @@
 <script lang="ts" setup>
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vitepress'
 import { isActive } from '../../utils'
 
 import type { Link } from '../../types'
 
-defineProps<{
+const props = defineProps<{
   item: Link
 }>()
 
 defineEmits(['close'])
 
+const sidebarItem = ref<HTMLElement>()
+
 const route = useRoute()
+
+const activeLink = computed<boolean>(() =>
+  isActive(route.data.relativePath, props.item.link)
+)
+
+watch([activeLink, sidebarItem], ([active, el]) => {
+  if (active && el) {
+    el.scrollIntoView?.({ block: 'nearest' })
+  }
+})
 </script>
 
 <template>
   <a
+    ref="sidebarItem"
     :class="{
       link: true,
-      active: isActive(route, item.link),
+      active: activeLink,
       'flex items-center': item.promotion,
     }"
     :href="item.link"
@@ -51,6 +65,7 @@ const route = useRoute()
 
 .link.active {
   background-color: var(--link-active-bg-color);
+
   .link-text {
     font-weight: 600;
     color: var(--brand-color);

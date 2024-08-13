@@ -19,6 +19,9 @@ export const useTooltipProps = buildProps({
   ...useTooltipContentProps,
   ...useTooltipTriggerProps,
   ...popperArrowProps,
+  /**
+   * @description whether the tooltip content has an arrow
+   */
   showArrow: {
     type: Boolean,
     default: true,

@@ -1,15 +1,14 @@
 import { createVNode, render } from 'vue'
-import { isClient } from '@vueuse/core'
 import {
   debugWarn,
+  isClient,
   isElement,
   isFunction,
   isNumber,
   isString,
   isVNode,
 } from '@element-plus/utils'
-import { useZIndex } from '@element-plus/hooks'
-import { messageConfig } from '@element-plus/components/config-provider/src/config-provider'
+import { messageConfig } from '@element-plus/components/config-provider'
 import MessageConstructor from './message.vue'
 import { messageDefaults, messageTypes } from './message'
 import { instances } from './instance'
@@ -74,8 +73,6 @@ const createMessage = (
   { appendTo, ...options }: MessageParamsNormalized,
   context?: AppContext | null
 ): MessageContext => {
-  const { nextZIndex } = useZIndex()
-
   const id = `message_${seed++}`
   const userOnClose = options.onClose
 
@@ -83,7 +80,8 @@ const createMessage = (
 
   const props = {
     ...options,
-    zIndex: nextZIndex() + options.zIndex,
+    // now the zIndex will be used inside the message.vue component instead of here.
+    // zIndex: nextIndex() + options.zIndex
     id,
     onClose: () => {
       userOnClose?.()

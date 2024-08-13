@@ -17,10 +17,12 @@
       :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
       @keydown.enter="decrease"
     >
-      <el-icon>
-        <arrow-down v-if="controlsAtRight" />
-        <minus v-else />
-      </el-icon>
+      <slot name="decrease-icon">
+        <el-icon>
+          <arrow-down v-if="controlsAtRight" />
+          <minus v-else />
+        </el-icon>
+      </slot>
     </span>
     <span
       v-if="controls"
@@ -30,10 +32,12 @@
       :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
       @keydown.enter="increase"
     >
-      <el-icon>
-        <arrow-up v-if="controlsAtRight" />
-        <plus v-else />
-      </el-icon>
+      <slot name="increase-icon">
+        <el-icon>
+          <arrow-up v-if="controlsAtRight" />
+          <plus v-else />
+        </el-icon>
+      </slot>
     </span>
     <el-input
       :id="id"
@@ -48,7 +52,7 @@
       :max="max"
       :min="min"
       :name="name"
-      :label="label"
+      :aria-label="ariaLabel"
       :validate-event="false"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
@@ -64,15 +68,20 @@ import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { ElInput } from '@element-plus/components/input'
 import { ElIcon } from '@element-plus/components/icon'
-import { vRepeatClick } from '@element-plus/directives'
 import {
-  useDisabled,
+  useFormDisabled,
   useFormItem,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
-import { debugWarn, isNumber, isString, isUndefined } from '@element-plus/utils'
+  useFormSize,
+} from '@element-plus/components/form'
+import { vRepeatClick } from '@element-plus/directives'
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  debugWarn,
+  isNumber,
+  isString,
+  isUndefined,
+  throwError,
+} from '@element-plus/utils'
 import { ArrowDown, ArrowUp, Minus, Plus } from '@element-plus/icons-vue'
 import {
   CHANGE_EVENT,
@@ -106,13 +115,10 @@ const data = reactive<Data>({
 const { formItem } = useFormItem()
 
 const minDisabled = computed(
-  () =>
-    isNumber(props.modelValue) &&
-    ensurePrecision(props.modelValue, -1)! < props.min
+  () => isNumber(props.modelValue) && props.modelValue <= props.min
 )
 const maxDisabled = computed(
-  () =>
-    isNumber(props.modelValue) && ensurePrecision(props.modelValue)! > props.max
+  () => isNumber(props.modelValue) && props.modelValue >= props.max
 )
 
 const numPrecision = computed(() => {
@@ -133,8 +139,8 @@ const controlsAtRight = computed(() => {
   return props.controls && props.controlsPosition === 'right'
 })
 
-const inputNumberSize = useSize()
-const inputNumberDisabled = useDisabled()
+const inputNumberSize = useFormSize()
+const inputNumberDisabled = useFormDisabled()
 
 const displayValue = computed(() => {
   if (data.userInput !== null) {
@@ -186,6 +192,7 @@ const increase = () => {
   const newVal = ensurePrecision(value)
   setCurrentValue(newVal)
   emit(INPUT_EVENT, data.currentValue)
+  setCurrentValueToModelValue()
 }
 const decrease = () => {
   if (props.readonly || inputNumberDisabled.value || minDisabled.value) return
@@ -193,12 +200,16 @@ const decrease = () => {
   const newVal = ensurePrecision(value, -1)
   setCurrentValue(newVal)
   emit(INPUT_EVENT, data.currentValue)
+  setCurrentValueToModelValue()
 }
 const verifyValue = (
   value: number | string | null | undefined,
   update?: boolean
 ): number | null | undefined => {
   const { max, min, step, precision, stepStrictly, valueOnClear } = props
+  if (max < min) {
+    throwError('InputNumber', 'min should not be greater than max.')
+  }
   let newVal = Number(value)
   if (isNil(value) || Number.isNaN(newVal)) {
     return null
@@ -227,14 +238,16 @@ const setCurrentValue = (
 ) => {
   const oldVal = data.currentValue
   const newVal = verifyValue(value)
-  if (oldVal === newVal) return
   if (!emitChange) {
     emit(UPDATE_MODEL_EVENT, newVal!)
     return
   }
+  if (oldVal === newVal && value) return
   data.userInput = null
   emit(UPDATE_MODEL_EVENT, newVal!)
-  emit(CHANGE_EVENT, newVal!, oldVal!)
+  if (oldVal !== newVal) {
+    emit(CHANGE_EVENT, newVal!, oldVal!)
+  }
   if (props.validateEvent) {
     formItem?.validate?.('change').catch((err) => debugWarn(err))
   }
@@ -251,6 +264,7 @@ const handleInputChange = (value: string) => {
   if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
     setCurrentValue(newVal)
   }
+  setCurrentValueToModelValue()
   data.userInput = null
 }
 
@@ -267,20 +281,28 @@ const handleFocus = (event: MouseEvent | FocusEvent) => {
 }
 
 const handleBlur = (event: MouseEvent | FocusEvent) => {
+  data.userInput = null
   emit('blur', event)
   if (props.validateEvent) {
     formItem?.validate?.('blur').catch((err) => debugWarn(err))
   }
 }
 
+const setCurrentValueToModelValue = () => {
+  if (data.currentValue !== props.modelValue) {
+    data.currentValue = props.modelValue
+  }
+}
+const handleWheel = (e: WheelEvent) => {
+  if (document.activeElement === e.target) e.preventDefault()
+}
+
 watch(
   () => props.modelValue,
-  (value) => {
-    const userInput = verifyValue(data.userInput)
+  (value, oldValue) => {
     const newValue = verifyValue(value, true)
-    if (!userInput || userInput !== newValue) {
+    if (data.userInput === null && newValue !== oldValue) {
       data.currentValue = newValue
-      data.userInput = null
     }
   },
   { immediate: true }
@@ -299,7 +321,12 @@ onMounted(() => {
   } else {
     innerInput.removeAttribute('aria-valuemin')
   }
-  innerInput.setAttribute('aria-valuenow', String(data.currentValue))
+  innerInput.setAttribute(
+    'aria-valuenow',
+    data.currentValue || data.currentValue === 0
+      ? String(data.currentValue)
+      : ''
+  )
   innerInput.setAttribute('aria-disabled', String(inputNumberDisabled.value))
   if (!isNumber(modelValue) && modelValue != null) {
     let val: number | null = Number(modelValue)
@@ -308,10 +335,11 @@ onMounted(() => {
     }
     emit(UPDATE_MODEL_EVENT, val!)
   }
+  innerInput.addEventListener('wheel', handleWheel, { passive: false })
 })
 onUpdated(() => {
   const innerInput = input.value?.input
-  innerInput?.setAttribute('aria-valuenow', `${data.currentValue}`)
+  innerInput?.setAttribute('aria-valuenow', `${data.currentValue ?? ''}`)
 })
 defineExpose({
   /** @description get focus the input component */

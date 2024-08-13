@@ -20,8 +20,8 @@
   @include set-component-css-var('date-editor', $date-editor);
   @include set-component-css-var('input', $input);
   position: relative;
-  display: inline-block;
   text-align: left;
+  vertical-align: middle;
 
   &.#{$namespace}-input__wrapper {
     @include inset-input-border(
@@ -111,10 +111,6 @@
     &::placeholder {
       color: getCssVar('text-color', 'placeholder');
     }
-
-    &::selection {
-      outline: none;
-    }
   }
 
   .#{$namespace}-range-separator {
@@ -126,7 +122,7 @@
     padding: 0 5px;
     margin: 0;
     font-size: 14px;
-    word-break: keep-all;
+    overflow-wrap: break-word;
     color: getCssVar('text-color', 'primary');
   }
 

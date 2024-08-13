@@ -1,6 +1,9 @@
 export default {
   name: 'ku',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Temam',
       clear: 'Paqij bike',
@@ -65,6 +68,9 @@ export default {
       noData: 'Agahî tune',
       placeholder: 'Bibijêre',
     },
+    mention: {
+      loading: 'Bardibe',
+    },
     cascader: {
       noMatch: 'Li hembere ve agahî tune',
       loading: 'Bardibe',
@@ -76,6 +82,12 @@ export default {
       pagesize: '/rupel',
       total: 'Tevahî {total}',
       pageClassifier: '',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
     },
     messagebox: {
       title: 'Peyam',
@@ -116,6 +128,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

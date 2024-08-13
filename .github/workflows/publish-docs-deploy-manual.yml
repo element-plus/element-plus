@@ -8,15 +8,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -57,6 +57,7 @@ jobs:
         run: pnpm docs:build
         env:
           DOC_ENV: production
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.3.4
@@ -65,7 +66,7 @@ jobs:
           branch: gh-pages
           folder: docs/.vitepress/dist
           git-config-name: ElementPlusBot
-          git-config-email: hello@element-plus.org
+          git-config-email: element-plus@outlook.com
           commit-message: website deploy
 
       - name: Deploy to vercel
@@ -76,7 +77,7 @@ jobs:
           folder: docs/.vitepress/dist
           repository-name: element-plus/vercel-publish
           git-config-name: ElementPlusBot
-          git-config-email: hello@element-plus.org
+          git-config-email: element-plus@outlook.com
 
       - name: Sync
         env:

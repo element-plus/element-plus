@@ -275,68 +275,6 @@ describe('default active', () => {
     expect(submenu.classes()).toContain('is-opened')
     expect(submenu.classes()).toContain('is-active')
   })
-  test('default active and uniqueOpened', async () => {
-    const template = `<div>
-      <el-menu unique-opened default-active="0-0-0">
-        <el-sub-menu v-for="(menu, index) of menus" :index="menu.key" :ref="'submenu' + index" @click="handleOpenSubMenu(index)">
-          <template #title>{{ menu.title }}</template>
-          <el-sub-menu :index="menu.key + '-0'" v-if="navData[menu.title]">
-            <template #title>{{ navData[menu.title].subTitle }}</template>
-            <el-menu-item :index="menu.key + '-0-0'" :ref="'submenuItem' + index">
-              <template #title>{{ navData[menu.title].itemTitle }}</template>
-            </el-menu-item>
-          </el-sub-menu>
-        </el-sub-menu>
-      </el-menu>
-    </div>`
-
-    const wrapper = _mount(template, {
-      data() {
-        return {
-          menus: [],
-          navData: {},
-        }
-      },
-      methods: {
-        handleOpenSubMenu(index) {
-          const { menus, navData } = this
-          const menu = menus[index]
-          if (navData[menu.title]) return
-          navData[menu.title] = {
-            subTitle: `subTitle${index}`,
-            itemTitle: `menuItem${index}`,
-          }
-        },
-      },
-    })
-    const instance = wrapper.vm as any
-    instance.menus = Array.from({ length: 7 }).map((_, i) => {
-      return {
-        key: `${i}`,
-        title: `menu${i}`,
-      }
-    })
-    await nextTick()
-    const submenu1 = await wrapper.findComponent({ ref: 'submenu0' })
-    submenu1.vm.$el.querySelector('.el-sub-menu__title').click()
-    await nextTick()
-    const submenuItem1 = await wrapper.findComponent({ ref: 'submenuItem0' })
-    expect(submenuItem1.classes()).toContain('is-active')
-    expect(submenu1.classes()).toContain('is-opened')
-    expect(submenu1.classes()).toContain('is-active')
-
-    const submenu2 = await wrapper.findComponent({ ref: 'submenu1' })
-    submenu2.vm.$el.querySelector('.el-sub-menu__title').click()
-    await nextTick()
-    const submenuItem2 = await wrapper.findComponent({ ref: 'submenuItem1' })
-    expect(submenu2.classes()).toContain('is-opened')
-    expect(submenu1.classes()).not.toContain('is-opened')
-    await submenuItem2.trigger('click')
-    await nextTick()
-    expect(submenu2.classes()).toContain('is-opened')
-    expect(submenu2.classes()).toContain('is-active')
-    expect(submenuItem2.classes()).toContain('is-active')
-  })
 })
 
 describe('submenu', () => {

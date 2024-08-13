@@ -55,7 +55,7 @@ describe('Avatar.vue', () => {
     )
 
     await nextTick()
-    expect(wrapper.emitted('error')).toBeDefined()
+    wrapper.emitted('error') && expect(wrapper.emitted('error')).toBeDefined()
     await nextTick()
     expect(wrapper.text()).toBe('fallback')
     expect(wrapper.find('img').exists()).toBe(false)

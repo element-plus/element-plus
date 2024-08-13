@@ -82,14 +82,12 @@ const useTableGrid = (props: TableV2GridProps) => {
     const header$ = unref(headerRef)
     const body$ = unref(bodyRef)
 
-    if (!header$ || !body$) return
-
     if (isObject(leftOrOptions)) {
-      header$.scrollToLeft(leftOrOptions.scrollLeft)
-      body$.scrollTo(leftOrOptions)
+      header$?.scrollToLeft(leftOrOptions.scrollLeft)
+      body$?.scrollTo(leftOrOptions)
     } else {
-      header$.scrollToLeft(leftOrOptions)
-      body$.scrollTo({
+      header$?.scrollToLeft(leftOrOptions)
+      body$?.scrollTo({
         scrollLeft: leftOrOptions,
         scrollTop: top,
       })
@@ -228,6 +226,7 @@ const TableGrid = defineComponent({
             width={width}
             height={unref(gridHeight)}
             class={ns.e('body')}
+            role="rowgroup"
             scrollbarStartGap={scrollbarStartGap}
             scrollbarEndGap={scrollbarEndGap}
             scrollbarAlwaysOn={scrollbarAlwaysOn}
