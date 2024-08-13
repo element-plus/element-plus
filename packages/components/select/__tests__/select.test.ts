@@ -2732,7 +2732,7 @@ describe('Select', () => {
     })
   })
 
-  it('should be taget the click event', async () => {
+  it('should be trigger the click event', async () => {
     const handleClick = vi.fn()
     const wrapper = _mount(`<el-select @click="handleClick" />`, () => ({
       handleClick,
