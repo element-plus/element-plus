@@ -2,6 +2,9 @@
   "cSpell.words": ["Element Plus", "element-plus"],
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
   "npm.packageManager": "pnpm",
   "eslint.probe": [
     "javascript",
@@ -25,6 +28,9 @@
     "json",
     "jsonc"
   ],
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "vite.devCommand": "pnpm run dev -- --",
   "i18n-ally.localesPaths": "packages/locale/lang",
   "i18n-ally.enabledParsers": ["ts"],

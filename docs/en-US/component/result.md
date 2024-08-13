@@ -23,19 +23,21 @@ result/customized-content
 
 :::
 
-## Result Attributes
+## API
 
-| Name      | Description | Type   | Accepted Values                  | Default |
-| --------- | ----------- | ------ | -------------------------------- | ------- |
-| title     | title       | string | —                                | —       |
-| sub-title | sub title   | string | —                                | —       |
-| icon      | icon type   | string | success / warning / info / error | info    |
+### Attributes
 
-## Result Slots
+| Name      | Description         | Type                                                 | Default |
+| --------- | ------------------- | ---------------------------------------------------- | ------- |
+| title     | title of result     | ^[string]                                            | ''      |
+| sub-title | sub title of result | ^[string]                                            | ''      |
+| icon      | icon type of result | ^[enum]`'success' \| 'warning' \| 'info' \| 'error'` | info    |
 
-| Name      | Description       |
-| --------- | ----------------- |
-| icon      | custom icon       |
-| title     | custom title      |
-| sub-title | custom sub title  |
-| extra     | custom extra area |
+### Slots
+
+| Name      | Description                  |
+| --------- | ---------------------------- |
+| icon      | content as result icon       |
+| title     | content as result title      |
+| sub-title | content as result sub title  |
+| extra     | content as result extra area |

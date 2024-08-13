@@ -5,14 +5,15 @@ import {
   getCurrentInstance,
   h,
   nextTick,
+  onActivated,
   onMounted,
   onUpdated,
   ref,
   resolveDynamicComponent,
   unref,
 } from 'vue'
-import { isClient } from '@vueuse/core'
-import { hasOwn, isNumber, isString } from '@element-plus/utils'
+import { useEventListener } from '@vueuse/core'
+import { hasOwn, isClient, isNumber, isString } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useCache } from '../hooks/use-cache'
 import useWheel from '../hooks/use-wheel'
@@ -171,6 +172,10 @@ const createList = ({
           )
         }
       )
+
+      useEventListener(windowRef, 'wheel', onWheel, {
+        passive: false,
+      })
 
       const emitEvents = () => {
         const { total } = props
@@ -411,6 +416,10 @@ const createList = ({
         }
       })
 
+      onActivated(() => {
+        unref(windowRef).scrollTop = unref(states).scrollOffset
+      })
+
       const api = {
         ns,
         clientSize,
@@ -459,7 +468,6 @@ const createList = ({
         total,
         onScroll,
         onScrollbarScroll,
-        onWheel,
         states,
         useIsScrolling,
         windowStyle,
@@ -519,7 +527,6 @@ const createList = ({
           class: [ns.e('window'), className],
           style: windowStyle,
           onScroll,
-          onWheel,
           ref: 'windowRef',
           key: 0,
         },

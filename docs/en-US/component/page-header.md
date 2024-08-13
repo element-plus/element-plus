@@ -98,27 +98,29 @@ The component is consisted of these parts
 </template>
 ```
 
-## Attributes
+## API
 
-| Name    | Description    | Type                  | Accepted Values | Default |
-| ------- | -------------- | --------------------- | --------------- | ------- |
-| icon    | icon component | `string \| Component` | —               | Back    |
-| title   | main title     | string                | —               | Back    |
-| content | content        | string                | —               | —       |
+### Attributes
 
-## Events
+| Name    | Description                                                   | Type                     | Default |
+| ------- | ------------------------------------------------------------- | ------------------------ | ------- |
+| icon    | icon component of page header                                 | ^[string] / ^[Component] | Back    |
+| title   | main title of page header, default is Back that built-in a11y | ^[string]                | ''      |
+| content | content of page header                                        | ^[string]                | ''      |
 
-| Name | Description                         | Parameters |
-| ---- | ----------------------------------- | ---------- |
-| back | triggers when right side is clicked | —          |
+### Events
 
-## Slots
+| Name | Description                         | Type                    |
+| ---- | ----------------------------------- | ----------------------- |
+| back | triggers when right side is clicked | ^[Function]`() => void` |
 
-| Name       | Description        |
-| ---------- | ------------------ |
-| icon       | custom icon        |
-| title      | title content      |
-| content    | content            |
-| extra      | extra              |
-| breadcrumb | breadcrumb content |
-| default    | main content       |
+### Slots
+
+| Name       | Description           |
+| ---------- | --------------------- |
+| icon       | content as icon       |
+| title      | content as title      |
+| content    | content               |
+| extra      | extra                 |
+| breadcrumb | content as breadcrumb |
+| default    | main content          |

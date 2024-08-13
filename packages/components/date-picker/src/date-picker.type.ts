@@ -2,7 +2,9 @@ import type { Dayjs } from 'dayjs'
 
 export declare type IDatePickerType =
   | 'year'
+  | 'years'
   | 'month'
+  | 'months'
   | 'date'
   | 'dates'
   | 'week'
@@ -10,6 +12,7 @@ export declare type IDatePickerType =
   | 'datetimerange'
   | 'daterange'
   | 'monthrange'
+  | 'yearrange'
 
 type DateCellType = 'normal' | 'today' | 'week' | 'next-month' | 'prev-month'
 export interface DateCell {
@@ -24,6 +27,7 @@ export interface DateCell {
   isSelected?: boolean
   start?: boolean
   text?: number
+  renderText?: string
   timestamp?: number
   date?: Date
   dayjs?: Dayjs

@@ -3,8 +3,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { CascaderProps } from 'element-plus'
+
 let id = 0
-const props = {
+const props: CascaderProps = {
   lazy: true,
   lazyLoad(node, resolve) {
     const { level } = node

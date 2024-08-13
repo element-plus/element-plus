@@ -35,6 +35,10 @@ export default defineComponent({
       type: Object as PropType<Color>,
       required: true,
     },
+    enableAlpha: {
+      type: Boolean,
+      required: true,
+    },
   },
   setup(props) {
     const ns = useNamespace('color-predefine')
@@ -67,7 +71,7 @@ export default defineComponent({
     function parseColors(colors: string[], color: Color) {
       return colors.map((value) => {
         const c = new Color()
-        c.enableAlpha = true
+        c.enableAlpha = props.enableAlpha
         c.format = 'rgba'
         c.fromString(value)
         c.selected = c.value === color.value

@@ -12,18 +12,14 @@
   }
 }
 
-.#{$namespace}-col-0 {
-  display: none;
-  // to avoid introducing !important syntax, redundant css rule is required due to selector priority.
-  @include when(guttered) {
-    display: none;
-  }
-}
-
 @for $i from 0 through 24 {
   .#{$namespace}-col-#{$i} {
+    display: if($i == 0, none, block);
     max-width: (math.div(1, 24) * $i * 100) * 1%;
     flex: 0 0 (math.div(1, 24) * $i * 100) * 1%;
+    @include when(guttered) {
+      display: if($i == 0, none, block);
+    }
   }
 
   .#{$namespace}-col-offset-#{$i} {

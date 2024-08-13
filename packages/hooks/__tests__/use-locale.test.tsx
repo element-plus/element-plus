@@ -3,8 +3,8 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
+import { provideGlobalConfig } from '@element-plus/components/config-provider'
 import { buildTranslator, useLocale } from '../use-locale'
-import { provideGlobalConfig } from '..'
 import type { Language } from '@element-plus/locale'
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
@@ -66,5 +66,32 @@ describe('use-locale', () => {
   it('return key name if not defined', () => {
     const t = buildTranslator(English)
     expect(t('el.popconfirm.someThing')).toBe('el.popconfirm.someThing')
+  })
+
+  describe('overrides', () => {
+    it('should be override correctly', () => {
+      const override = computed(() => English)
+
+      const wrapper = mount(
+        defineComponent({
+          setup(_, { expose }) {
+            const { locale } = useLocale(override)
+            expose({
+              locale,
+            })
+          },
+          template: '<div></div>',
+        }),
+        {
+          global: {
+            provide: {
+              locale: Chinese,
+            },
+          },
+        }
+      )
+
+      expect(wrapper.vm.locale).toBe(override.value)
+    })
   })
 })

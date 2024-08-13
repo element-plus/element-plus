@@ -11,7 +11,7 @@ import {
   ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
-import { isString } from '@element-plus/utils'
+import { isString, isUndefined } from '@element-plus/utils'
 import { cellStarts } from '../config'
 import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
@@ -55,6 +55,7 @@ export default defineComponent({
       getPropsData,
       getColumnElIndex,
       realAlign,
+      updateColumnOrder,
     } = useRender(props as unknown as TableColumnCtx<unknown>, slots, owner)
 
     const parent = columnOrTableParent.value
@@ -66,6 +67,9 @@ export default defineComponent({
 
       const type = props.type || 'default'
       const sortable = props.sortable === '' ? true : props.sortable
+      const showOverflowTooltip = isUndefined(props.showOverflowTooltip)
+        ? parent.props.showOverflowTooltip
+        : props.showOverflowTooltip
       const defaults = {
         ...cellStarts[type],
         id: columnId.value,
@@ -73,12 +77,12 @@ export default defineComponent({
         property: props.prop || props.property,
         align: realAlign,
         headerAlign: realHeaderAlign,
-        showOverflowTooltip:
-          props.showOverflowTooltip || props.showTooltipWhenOverflow,
+        showOverflowTooltip,
         // filter 相关属性
         filterable: props.filters || props.filterMethod,
         filteredValue: [],
         filterPlacement: '',
+        filterClassName: '',
         isColumnGroup: false,
         isSubColumn: false,
         filterOpened: false,
@@ -110,6 +114,7 @@ export default defineComponent({
         'filterOpened',
         'filteredValue',
         'filterPlacement',
+        'filterClassName',
       ]
 
       let column = getPropsData(basicProps, sortProps, selectProps, filterProps)
@@ -141,15 +146,19 @@ export default defineComponent({
         owner.value.store.commit(
           'insertColumn',
           columnConfig.value,
-          isSubColumn.value ? parent.columnConfig.value : null
+          isSubColumn.value ? parent.columnConfig.value : null,
+          updateColumnOrder
         )
     })
     onBeforeUnmount(() => {
-      owner.value.store.commit(
-        'removeColumn',
-        columnConfig.value,
-        isSubColumn.value ? parent.columnConfig.value : null
-      )
+      const columnIndex = columnConfig.value.getColumnIndex()
+      columnIndex > -1 &&
+        owner.value.store.commit(
+          'removeColumn',
+          columnConfig.value,
+          isSubColumn.value ? parent.columnConfig.value : null,
+          updateColumnOrder
+        )
     })
     instance.columnId = columnId.value
 

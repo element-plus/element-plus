@@ -1,9 +1,11 @@
 import { placements } from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
+import { useAriaProps } from '@element-plus/hooks'
 
+import type { PopperEffect } from './popper'
 import type { ExtractPropTypes, StyleValue } from 'vue'
 import type { Options, Placement } from '@popperjs/core'
-import type { Measurable } from '@element-plus/tokens'
+import type { Measurable } from './constants'
 import type Content from './content.vue'
 
 type ClassObjectType = Record<string, boolean>
@@ -30,15 +32,24 @@ export const popperCoreConfigProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description offset of the Tooltip
+   */
   offset: {
     type: Number,
     default: 12,
   },
+  /**
+   * @description position of Tooltip
+   */
   placement: {
     type: String,
     values: placements,
     default: 'bottom',
   },
+  /**
+   * @description [popper.js](https://popper.js.org/docs/v2/) parameters
+   */
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
     default: () => ({}),
@@ -63,7 +74,7 @@ export const popperContentProps = buildProps({
     type: definePropType<ClassType>([String, Array, Object]),
   },
   effect: {
-    type: String,
+    type: definePropType<PopperEffect | string>(String),
     default: 'dark',
   },
   visible: Boolean,
@@ -96,12 +107,9 @@ export const popperContentProps = buildProps({
     type: Boolean,
     default: true,
   },
-  ariaLabel: {
-    type: String,
-    default: undefined,
-  },
   virtualTriggering: Boolean,
   zIndex: Number,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 export type PopperContentProps = ExtractPropTypes<typeof popperContentProps>
 

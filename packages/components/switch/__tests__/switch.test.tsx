@@ -2,7 +2,7 @@ import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { debugWarn } from '@element-plus/utils'
-import { Checked, CircleClose } from '@element-plus/icons-vue'
+import { Checked, CircleClose, Hide, View } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import Switch from '../src/switch.vue'
 import type { VueWrapper } from '@vue/test-utils'
@@ -21,18 +21,10 @@ describe('Switch.vue', () => {
     const props = {
       activeText: 'on',
       inactiveText: 'off',
-      activeColor: '#0f0',
-      inactiveColor: '#f00',
       width: 100,
     }
     const wrapper = mount(() => <Switch {...props} />)
     const vm = wrapper.vm
-    expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
-      '#0f0'
-    )
-    expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
-      '#f00'
-    )
     expect(vm.$el.classList.contains('is-checked')).false
     const coreEl = vm.$el.querySelector('.el-switch__core')
     expect(coreEl.style.width).toEqual('100px')
@@ -55,18 +47,10 @@ describe('Switch.vue', () => {
       inlinePrompt: true,
       activeText: 'on',
       inactiveText: 'off',
-      activeColor: '#0f0',
-      inactiveColor: '#f00',
       width: 100,
     }
     const wrapper = mount(() => <Switch {...props} />)
     const vm = wrapper.vm
-    expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
-      '#0f0'
-    )
-    expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
-      '#f00'
-    )
     expect(vm.$el.classList.contains('is-checked')).false
     const coreEl = vm.$el.querySelector('.el-switch__core')
     expect(coreEl.style.width).toEqual('100px')
@@ -87,16 +71,8 @@ describe('Switch.vue', () => {
 
   test('value correctly update', async () => {
     const value = ref(true)
-    const wrapper = mount(() => (
-      <Switch v-model={value.value} activeColor="#0f0" inactiveColor="#f00" />
-    ))
+    const wrapper = mount(() => <Switch v-model={value.value} />)
     const vm = wrapper.vm
-    expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
-      '#0f0'
-    )
-    expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
-      '#f00'
-    )
     expect(vm.$el.classList.contains('is-checked')).true
     const coreWrapper = wrapper.find('.el-switch__core')
     await coreWrapper.trigger('click')
@@ -178,7 +154,7 @@ describe('Switch.vue', () => {
   })
 
   test('value is the single source of truth', async () => {
-    const wrapper = mount(() => <Switch value={true} />)
+    const wrapper = mount(() => <Switch modelValue={true} />)
 
     const vm = wrapper.vm
     const coreWrapper = wrapper.find('.el-switch__core')
@@ -310,6 +286,32 @@ describe('Switch.vue', () => {
     expect(value.value).toEqual(true)
   })
 
+  test('custom action icon', async () => {
+    const value = ref(true)
+    const wrapper = mount(() => (
+      <div>
+        <Switch
+          v-model={value.value}
+          activeActionIcon={View}
+          inactiveActionIcon={Hide}
+        />
+      </div>
+    ))
+
+    const coreWrapper = wrapper.find('.el-switch__core')
+    const switchWrapper = wrapper.findComponent(Switch)
+    const switchVm = switchWrapper.vm
+    const inputEl = switchVm.$el.querySelector('input')
+
+    expect(switchWrapper.classes('is-checked')).toEqual(true)
+    expect(inputEl.checked).toEqual(true)
+    expect(wrapper.findComponent(View).exists()).toBe(true)
+
+    await coreWrapper.trigger('click')
+    expect(switchWrapper.classes('is-checked')).toEqual(false)
+    expect(inputEl.checked).toEqual(false)
+    expect(wrapper.findComponent(Hide).exists()).toBe(true)
+  })
   describe('form item accessibility integration', () => {
     test('automatic id attachment', async () => {
       const wrapper = mount(() => (
@@ -353,6 +355,31 @@ describe('Switch.vue', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    test('custom switch action slots', async () => {
+      const value = ref(true)
+      const wrapper = mount({
+        setup: () => () =>
+          (
+            <Switch
+              v-model={value.value}
+              v-slots={{
+                'active-action': () => (
+                  <span class="custom-active-action">T</span>
+                ),
+                'inactive-action': () => (
+                  <span class="custom-inactive-action">F</span>
+                ),
+              }}
+            />
+          ),
+      })
+      await nextTick()
+
+      const coreWrapper = wrapper.find('.el-switch__core')
+      const actionWrapper = coreWrapper.find('.el-switch__action')
+      expect(actionWrapper.find('.custom-active-action').exists()).toBeTruthy()
     })
   })
 })

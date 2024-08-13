@@ -8,12 +8,12 @@ import { h } from 'vue'
 import { ElMessage } from 'element-plus'
 
 const open = () => {
-  ElMessage('this is a message.')
+  ElMessage('This is a message.')
 }
 
 const openVn = () => {
   ElMessage({
-    message: h('p', null, [
+    message: h('p', { style: 'line-height: 1; font-size: 14px' }, [
       h('span', null, 'Message can be '),
       h('i', { style: 'color: teal' }, 'VNode'),
     ]),
