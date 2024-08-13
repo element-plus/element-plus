@@ -165,6 +165,7 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     const { draggingNode, dropType, dropNode } = dragState.value
     event.preventDefault()
 
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=1911486
     if (event.dataTransfer) {
       event.dataTransfer.dropEffect = 'move'
     }
