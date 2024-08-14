@@ -9,7 +9,7 @@ export default {
       clear: 'ရှင်းမယ်',
       defaultLabel: 'အရောင်ရွေးချယ်ပါ',
       description:
-        'လက်ရှိအရောင်မှာ {color} ဖြစ်ပါတယ်။ တခြားအရောင်ကိုရွေးချယ်လိုပါက enter ကိုနှိပ်ပါ။',
+        'လက်ရှိအရောင်မှာ {color} ဖြစ်ပါသည်။ တခြားအရောင်ကိုရွေးချယ်လိုပါက enter ကိုနှိပ်ပါ။',
       alphaLabel: 'alpha တန်ဖိုးကို ရွေးချယ်ပါ',
     },
     datepicker: {
@@ -19,12 +19,12 @@ export default {
       clear: 'ရှင်းမယ်',
       confirm: 'အိုကေ',
       dateTablePrompt:
-        'arrow keys နှင့် enter ကိုအသုံးပြုပြီး လတလရဲ့နေ့ရက်ကို ရွေးချယ်ပါ',
+        'arrow keys နှင့် enter ကိုအသုံးပြုပြီး နေ့ရက် ကိုရွေးချယ်ပါ',
       monthTablePrompt:
         'arrow keys နှင့် enter ကိုအသုံးပြုပြီး လ ကိုရွေးချယ်ပါ',
       yearTablePrompt:
         'arrow keys နှင့် enter ကိုအသုံးပြုပြီး နှစ် ကိုရွေးချယ်ပါ',
-      selectedDate: 'ရွေးချယ်ထားတဲ့ ရက်စွဲ',
+      selectedDate: 'ရွေးချယ်ထားသော ရက်စွဲ',
       selectDate: 'ရက်စွဲကို ရွေးချယ်ပါ',
       selectTime: 'အချိန်ကို ရွေးချယ်ပါ',
       startDate: 'စတင်မည့်ရက်စွဲ',
@@ -96,7 +96,7 @@ export default {
       loading: 'ဝန်တင်နေသည်',
     },
     dropdown: {
-      toggleDropdown: 'Dropdown ဖွင့်/ပိတ်',
+      toggleDropdown: 'Dropdown စာရင်း ဖွင့်/ပိတ်',
     },
     cascader: {
       noMatch: 'ကိုက်ညီသောဒေတာမရှိပါ',
@@ -116,7 +116,7 @@ export default {
       prevPages: 'ရှေ့စာမျက်နှာ {pager} သို့',
       nextPages: 'နောက်စာမျက်နှာ {pager} သို့',
       deprecationWarning:
-        'ကန့်ကွက်ထားသော အသုံးပြုမှုများကို တွေ့ရှိပါတယ်။ အသေးစိတ်အချက်အလက်များကို el-pagination ရဲ့စာရွက်စာတမ်းတွင် ဖတ်ရှုပါ။',
+        'ကန့်ကွက်ထားသော အသုံးပြုမှုများကို တွေ့ရှိပါသည်။ အသေးစိတ်အချက်အလက်များကို el-pagination ရဲ့စာရွက်စာတမ်းတွင် ဖတ်ရှုပါ။',
     },
     dialog: {
       close: 'ဤဒိုင်ယာလော့ဂ်ကို ပိတ်ပါ',
@@ -132,7 +132,7 @@ export default {
       close: 'ဤဒိုင်ယာလော့ဂ်ကို ပိတ်ပါ',
     },
     upload: {
-      deleteTip: 'ဖယ်ရှားရန် delete ကိုနှိပ်ပါ',
+      deleteTip: 'ဖယ်ရှားရန် ဖျက်မည် ကိုနှိပ်ပါ',
       delete: 'ဖျက်မည်',
       preview: 'အစမ်းကြည့်မည်',
       continue: 'ရှေ့ဆက်မည်',
