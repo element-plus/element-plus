@@ -12,8 +12,8 @@ import {
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { throwError } from '@element-plus/utils'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
+import { formContextKey, formItemContextKey } from './constants'
 
 import type { CSSProperties } from 'vue'
 
@@ -95,8 +95,12 @@ export default defineComponent({
             0,
             Number.parseInt(autoLabelWidth, 10) - computedWidth.value
           )
+          const labelPosition =
+            formItemContext.labelPosition || formContext.labelPosition
+
           const marginPosition =
-            formContext.labelPosition === 'left' ? 'marginRight' : 'marginLeft'
+            labelPosition === 'left' ? 'marginRight' : 'marginLeft'
+
           if (marginWidth) {
             style[marginPosition] = `${marginWidth}px`
           }

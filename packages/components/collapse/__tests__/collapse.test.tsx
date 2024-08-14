@@ -4,7 +4,7 @@ import { describe, expect, test, vi } from 'vitest'
 import Collapse from '../src/collapse.vue'
 import CollapseItem from '../src/collapse-item.vue'
 import type { VueWrapper } from '@vue/test-utils'
-import type { CollapseItemInstance } from '../src/collapse-item'
+import type { CollapseItemInstance } from '../src/instance'
 
 describe('Collapse.vue', () => {
   test('create', async () => {

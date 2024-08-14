@@ -129,7 +129,7 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
   <el-icon :size="20">
     <Edit />
   </el-icon>
-  <el-icon color="#409EFC" class="no-inherit">
+  <el-icon color="#409efc" class="no-inherit">
     <Share />
   </el-icon>
   <el-icon>
@@ -156,7 +156,7 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
     <ElIcon :size="20">
       <Edit />
     </ElIcon>
-    <ElIcon color="#409EFC" class="no-inherit">
+    <ElIcon color="#409efc" class="no-inherit">
       <Share />
     </ElIcon>
     <ElIcon>
@@ -200,7 +200,7 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
   </div>
 </ElRow>
 
-## Icon Collection
+## Icon Collection{#icon-collection}
 
 :::tip
 
@@ -212,15 +212,17 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
 
 <IconList />
 
-## Icon Attributes
+## API
 
-| Name  | Description                | Type                           | Acceptable Value | Default                |
-| ----- | -------------------------- | ------------------------------ | ---------------- | ---------------------- |
-| color | SVG tag's fill attribute   | Pick\<CSSProperties, 'color'\> | -                | inherit from color     |
-| size  | SVG icon size, size x size | number \| string               | -                | inherit from font size |
+### Attributes
 
-## Icon Slots
+| Name  | Description                | Type                  | Default                |
+| ----- | -------------------------- | --------------------- | ---------------------- |
+| color | SVG tag's fill attribute   | ^[string]             | inherit from color     |
+| size  | SVG icon size, size x size | ^[number] / ^[string] | inherit from font size |
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+### Slots
+
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |

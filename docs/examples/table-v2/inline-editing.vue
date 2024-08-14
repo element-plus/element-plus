@@ -15,18 +15,17 @@
 </template>
 
 <script lang="tsx" setup>
-import { nextTick, ref, resolveDynamicComponent } from 'vue'
+import { ref } from 'vue'
+import { ElInput } from 'element-plus'
 
 import type { FunctionalComponent } from 'vue'
-import type { Column, ElInput } from 'element-plus'
-
-const Input = resolveDynamicComponent('ElInput') as typeof ElInput
+import type { Column, InputInstance } from 'element-plus'
 
 type SelectionCellProps = {
   value: string
   intermediate?: boolean
   onChange: (value: string) => void
-  forwardRef: (el: InstanceType<typeof ElInput>) => void
+  forwardRef: (el: InputInstance) => void
 }
 
 const InputCell: FunctionalComponent<SelectionCellProps> = ({
@@ -34,7 +33,9 @@ const InputCell: FunctionalComponent<SelectionCellProps> = ({
   onChange,
   forwardRef,
 }) => {
-  return <Input ref={forwardRef as any} onInput={onChange} modelValue={value} />
+  return (
+    <ElInput ref={forwardRef as any} onInput={onChange} modelValue={value} />
+  )
 }
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>

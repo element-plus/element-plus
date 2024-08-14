@@ -14,12 +14,14 @@
     :role="role"
     @click="(e) => $emit('clickimpl', e)"
     @focus="handleFocus"
-    @keydown="handleKeydown"
+    @keydown.self="handleKeydown"
     @mousedown="handleMousedown"
     @pointermove="(e) => $emit('pointermove', e)"
     @pointerleave="(e) => $emit('pointerleave', e)"
   >
-    <el-icon v-if="icon"><component :is="icon" /></el-icon>
+    <el-icon v-if="icon">
+      <component :is="icon" />
+    </el-icon>
     <slot />
   </li>
 </template>

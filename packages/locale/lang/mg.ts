@@ -1,6 +1,9 @@
 export default {
   name: 'mg',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'ENY',
       clear: 'Fafana',
@@ -65,6 +68,9 @@ export default {
       noData: 'Tsy misy angona',
       placeholder: 'Safidy',
     },
+    mention: {
+      loading: 'Eo ampiandrasana',
+    },
     cascader: {
       noMatch: 'Tsy misy angona mifanentana',
       loading: 'Eo ampiandrasana',
@@ -76,6 +82,12 @@ export default {
       pagesize: '/page',
       total: 'Totaly {total}',
       pageClassifier: '',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
       deprecationWarning:
         'Fampiasana tsy ampiasaina intsony no hita, azafady mba jereo ny tahirin-kevitra el-pagination raha mila fanazavana fanampiny',
     },
@@ -118,6 +130,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Eny',
       cancelButtonText: 'Tsy',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

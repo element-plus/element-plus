@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { computed, nextTick, ref, shallowRef, watch } from 'vue'
 import { isObject } from '@element-plus/utils'
 import {
@@ -11,6 +10,13 @@ import {
 import { useCheck } from './useCheck'
 import { useFilter } from './useFilter'
 import type {
+  FixedSizeList,
+  Alignment as ScrollStrategy,
+} from '@element-plus/components/virtual-list'
+import type { SetupContext } from 'vue'
+import type { treeEmits } from '../virtual-tree'
+import type { CheckboxValueType } from '@element-plus/components/checkbox'
+import type {
   Tree,
   TreeData,
   TreeKey,
@@ -19,10 +25,14 @@ import type {
   TreeProps,
 } from '../types'
 
-export function useTree(props: TreeProps, emit) {
+export function useTree(
+  props: TreeProps,
+  emit: SetupContext<typeof treeEmits>['emit']
+) {
   const expandedKeySet = ref<Set<TreeKey>>(new Set(props.defaultExpandedKeys))
   const currentKey = ref<TreeKey | undefined>()
   const tree = shallowRef<Tree | undefined>()
+  const listRef = ref<typeof FixedSizeList | undefined>()
 
   watch(
     () => props.currentNodeKey,
@@ -213,7 +223,7 @@ export function useTree(props: TreeProps, emit) {
     }
   }
 
-  function handleNodeCheck(node: TreeNode, checked: boolean) {
+  function handleNodeCheck(node: TreeNode, checked: CheckboxValueType) {
     toggleCheckbox(node, checked)
   }
 
@@ -224,7 +234,7 @@ export function useTree(props: TreeProps, emit) {
       const { treeNodeMap } = tree.value
       keySet.forEach((key) => {
         const treeNode = treeNodeMap.get(key)
-        if (node && node.level === treeNode.level) {
+        if (node && node.level === treeNode?.level) {
           keySet.delete(key)
         }
       })
@@ -248,7 +258,7 @@ export function useTree(props: TreeProps, emit) {
 
   function isCurrent(node: TreeNode): boolean {
     const current = currentKey.value
-    return !!current && current === node.key
+    return current !== undefined && current === node.key
   }
 
   function getCurrentNode(): TreeNodeData | undefined {
@@ -273,10 +283,22 @@ export function useTree(props: TreeProps, emit) {
     return tree.value?.treeNodeMap.get(key)
   }
 
+  function scrollToNode(key: TreeKey, strategy: ScrollStrategy = 'auto') {
+    const node = getNode(key)
+    if (node && listRef.value) {
+      listRef.value.scrollToItem(flattenTree.value.indexOf(node), strategy)
+    }
+  }
+
+  function scrollTo(offset: number) {
+    listRef.value?.scrollTo(offset)
+  }
+
   return {
     tree,
     flattenTree,
     isNotEmpty,
+    listRef,
     getKey,
     getChildren,
     toggleExpand,
@@ -305,5 +327,7 @@ export function useTree(props: TreeProps, emit) {
     expandNode,
     collapseNode,
     setExpandedKeys,
+    scrollToNode,
+    scrollTo,
   }
 }

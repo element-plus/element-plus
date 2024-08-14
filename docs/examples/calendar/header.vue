@@ -24,9 +24,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import type { CalendarDateType, CalendarInstance } from 'element-plus'
 
-const calendar = ref()
-const selectDate = (val: string) => {
+const calendar = ref<CalendarInstance>()
+const selectDate = (val: CalendarDateType) => {
+  if (!calendar.value) return
   calendar.value.selectDate(val)
 }
 </script>

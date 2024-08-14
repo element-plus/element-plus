@@ -23,7 +23,7 @@
 
   @include e(item) {
     float: left;
-    display: flex;
+    display: inline-flex;
     align-items: center;
 
     @include e(inner) {

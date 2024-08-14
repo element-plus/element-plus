@@ -1,17 +1,22 @@
+---
+title: Development FAQ
+lang: en-US
+---
+
 # Development FAQ
 
 Here are the problems that are easy to encounter in development.
 
 ## If you encounter dependency related issues
 
-```bash
-rm -fr node_modules
+```shell
+rm -rf node_modules
 pnpm i
 ```
 
 ## Link local dependencies
 
-```bash
+```shell
 # get dist
 pnpm build
 cd dist/element-plus

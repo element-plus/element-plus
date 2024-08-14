@@ -1,6 +1,9 @@
 export default {
   name: 'he',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'אישור',
       clear: 'נקה',
@@ -65,6 +68,9 @@ export default {
       noData: 'אין נתונים',
       placeholder: 'שומר מקום',
     },
+    mention: {
+      loading: 'טוען',
+    },
     cascader: {
       noMatch: 'לא נמצאה התאמה',
       loading: 'טוען',
@@ -76,6 +82,12 @@ export default {
       pagesize: '/עמוד',
       total: 'כולל {total}',
       pageClassifier: '',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
     },
     messagebox: {
       title: 'הודעה',
@@ -116,6 +128,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'כן',
       cancelButtonText: 'לא',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

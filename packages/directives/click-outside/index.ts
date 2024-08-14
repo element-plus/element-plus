@@ -1,5 +1,4 @@
-import { isClient } from '@vueuse/core'
-import { isElement } from '@element-plus/utils'
+import { isClient, isElement } from '@element-plus/utils'
 
 import type {
   ComponentPublicInstance,
@@ -18,15 +17,17 @@ type FlushList = Map<
 
 const nodeList: FlushList = new Map()
 
-let startClick: MouseEvent
-
 if (isClient) {
+  let startClick: MouseEvent | undefined
   document.addEventListener('mousedown', (e: MouseEvent) => (startClick = e))
   document.addEventListener('mouseup', (e: MouseEvent) => {
-    for (const handlers of nodeList.values()) {
-      for (const { documentHandler } of handlers) {
-        documentHandler(e as MouseEvent, startClick)
+    if (startClick) {
+      for (const handlers of nodeList.values()) {
+        for (const { documentHandler } of handlers) {
+          documentHandler(e as MouseEvent, startClick)
+        }
       }
+      startClick = undefined
     }
   })
 }

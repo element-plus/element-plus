@@ -30,10 +30,10 @@ jobs:
 
       - name: Assert result
         id: assert
-        run: echo "::set-output name=succeeded::$(<lint-result.txt)"
+        run: echo "succeeded=$(<lint-result.txt)" >> $GITHUB_OUTPUT
       - name: Get PR number
         id: pr
-        run: echo "::set-output name=pr::$(<pr.txt)"
+        run: echo "pr=$(<pr.txt)" >> $GITHUB_OUTPUT
 
   on-success:
     runs-on: ubuntu-latest

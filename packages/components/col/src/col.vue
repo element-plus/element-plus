@@ -1,5 +1,5 @@
 <template>
-  <component :is="tag" :class="[ns.b(), classes]" :style="style">
+  <component :is="tag" :class="colKls" :style="style">
     <slot />
   </component>
 </template>
@@ -8,7 +8,7 @@
 import { computed, inject } from 'vue'
 import { isNumber, isObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { rowContextKey } from '@element-plus/tokens'
+import { rowContextKey } from '@element-plus/components/row'
 import { colProps } from './col'
 import type { CSSProperties } from 'vue'
 
@@ -29,7 +29,7 @@ const style = computed(() => {
   return styles
 })
 
-const classes = computed(() => {
+const colKls = computed(() => {
   const classes: string[] = []
   const pos = ['span', 'offset', 'pull', 'push'] as const
 
@@ -60,6 +60,6 @@ const classes = computed(() => {
   if (gutter.value) {
     classes.push(ns.is('guttered'))
   }
-  return classes
+  return [ns.b(), classes]
 })
 </script>

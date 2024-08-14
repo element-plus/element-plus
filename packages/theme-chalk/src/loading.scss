@@ -1,5 +1,3 @@
-@use 'sass:math';
-
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
@@ -11,8 +9,6 @@
 @include b(loading-parent) {
   @include m(relative) {
     position: relative !important;
-    pointer-events: none;
-    user-select: none;
   }
 
   @include m(hidden) {

@@ -9,7 +9,6 @@ export interface TransferPanelState {
   checked: TransferKey[]
   allChecked: boolean
   query: string
-  inputHover: boolean
   checkChangeByUser: boolean
 }
 
