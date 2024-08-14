@@ -5,7 +5,6 @@
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
     @[mouseEnterEventName]="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
-    @click.prevent.stop="toggleMenu"
   >
     <el-tooltip
       ref="tooltipRef"
@@ -35,6 +34,7 @@
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
           ]"
+          @click.prevent="toggleMenu"
         >
           <div
             v-if="$slots.prefix"
@@ -165,8 +165,6 @@
                 :aria-label="ariaLabel"
                 aria-autocomplete="none"
                 aria-haspopup="listbox"
-                @focus="handleFocus"
-                @blur="handleBlur"
                 @keydown.down.stop.prevent="navigateOptions('next')"
                 @keydown.up.stop.prevent="navigateOptions('prev')"
                 @keydown.esc.stop.prevent="handleEsc"

@@ -5,16 +5,24 @@
     </div>
     <el-scrollbar
       v-show="options.length > 0 && !loading"
+      :id="contentId"
       ref="scrollbarRef"
       tag="ul"
       :wrap-class="ns.be('dropdown', 'wrap')"
       :view-class="ns.be('dropdown', 'list')"
+      role="listbox"
+      :aria-label="ariaLabel"
+      aria-orientation="vertical"
     >
       <li
         v-for="(item, index) in options"
+        :id="`${contentId}-${index}`"
         ref="optionRefs"
         :key="item.value"
         :class="optionkls(item, index)"
+        role="option"
+        :aria-disabled="item.disabled || disabled || undefined"
+        :aria-selected="hoveringIndex === index"
         @mouseenter="handleMouseEnter(index)"
         @click.stop="handleSelect(item)"
       >
@@ -134,6 +142,7 @@ watch(() => props.options, resetHoveringIndex, {
 })
 
 defineExpose({
+  hoveringIndex,
   navigateOptions,
   selectHoverOption,
   hoverOption,

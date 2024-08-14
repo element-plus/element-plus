@@ -34,7 +34,7 @@
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
           ]"
-          @click.prevent.stop="toggleMenu"
+          @click.prevent="toggleMenu"
         >
           <div
             v-if="$slots.prefix"
@@ -165,8 +165,6 @@
                 spellcheck="false"
                 type="text"
                 :name="name"
-                @focus="handleFocus"
-                @blur="handleBlur"
                 @input="onInput"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"

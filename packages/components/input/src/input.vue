@@ -52,8 +52,6 @@
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
           @input="handleInput"
-          @focus="handleFocus"
-          @blur="handleBlur"
           @change="handleChange"
           @keydown="handleKeydown"
         />
@@ -261,6 +259,7 @@ const textareaCalcStyle = shallowRef(props.inputStyle)
 
 const _ref = computed(() => input.value || textarea.value)
 
+// wrapperRef for type="text", handleFocus and handleBlur for type="textarea"
 const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   _ref,
   {

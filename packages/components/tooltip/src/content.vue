@@ -36,9 +36,7 @@
         @blur="onBlur"
         @close="onClose"
       >
-        <template v-if="!destroyed">
-          <slot />
-        </template>
+        <slot />
       </el-popper-content>
     </transition>
   </el-teleport>
@@ -65,7 +63,7 @@ const { selector } = usePopperContainerId()
 const ns = useNamespace('tooltip')
 // TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
 const contentRef = ref<any>(null)
-const destroyed = ref(false)
+let stopHandle: ReturnType<typeof onClickOutside>
 const {
   controlled,
   id,
@@ -91,7 +89,7 @@ const persistentRef = computed(() => {
 })
 
 onBeforeUnmount(() => {
-  destroyed.value = true
+  stopHandle?.()
 })
 
 const shouldRender = computed(() => {
@@ -160,8 +158,6 @@ const onBlur = () => {
     onClose()
   }
 }
-
-let stopHandle: ReturnType<typeof onClickOutside>
 
 watch(
   () => unref(open),

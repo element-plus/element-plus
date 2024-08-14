@@ -68,7 +68,7 @@ const DescriptionItem = defineComponent({
 
 export default DescriptionItem
 
-type DescriptionItemProps = ExtractPropTypes<typeof descriptionItemProps>
+export type DescriptionItemProps = ExtractPropTypes<typeof descriptionItemProps>
 export type DescriptionItemVNode = VNode & {
   children: { [name: string]: Slot } | null
   props: Partial<DescriptionItemProps> | null
