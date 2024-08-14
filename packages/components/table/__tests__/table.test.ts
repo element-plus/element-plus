@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick, ref } from 'vue'
+import { nextTick } from 'vue'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ElCheckbox from '@element-plus/components/checkbox'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
