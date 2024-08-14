@@ -36,7 +36,10 @@ onUpdated(() => {
 </script>
 
 <template>
-  <main :class="{ 'page-content': true, 'has-sidebar': hasSidebar }">
+  <main
+    id="page-content"
+    :class="{ 'page-content': true, 'has-sidebar': hasSidebar }"
+  >
     <VPNotFound v-if="isNotFound" />
     <VPHeroContent v-else-if="isHeroPost" />
     <VPDocContent v-else>

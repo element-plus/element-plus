@@ -59,3 +59,20 @@ export function treeFind<T extends TreeNodeData, R>(
     }
   }
 }
+
+export function treeEach<T extends TreeNodeData>(
+  treeData: T[],
+  callback: TreeCallback<T, void>,
+  getChildren: (data: T) => T[],
+  parent?: T
+) {
+  for (let i = 0; i < treeData.length; i++) {
+    const data = treeData[i]
+    callback(data, i, treeData, parent)
+
+    const children = getChildren(data)
+    if (isValidArray(children)) {
+      treeEach(children, callback, getChildren, data)
+    }
+  }
+}

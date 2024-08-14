@@ -1,5 +1,14 @@
-import { computed, ref, shallowRef, toRef, unref, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  ref,
+  shallowRef,
+  toRef,
+  unref,
+  watch,
+} from 'vue'
 import { isArray } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import {
   useColumns,
   useData,
@@ -43,14 +52,18 @@ function useTable(props: TableV2Props) {
     onMaybeEndReached,
   })
 
+  const ns = useNamespace('table-v2')
+  const instance = getCurrentInstance()!
+
+  // state
+  const isScrolling = shallowRef(false)
+
   const {
     expandedRowKeys,
-    hoveringRowKey,
     lastRenderedRowIndex,
     isDynamic,
     isResetting,
     rowHeights,
-
     resetAfterIndex,
     onRowExpanded,
     onRowHeightChange,
@@ -60,8 +73,9 @@ function useTable(props: TableV2Props) {
     mainTableRef,
     leftTableRef,
     rightTableRef,
-
-    onMaybeEndReached,
+    tableInstance: instance,
+    ns,
+    isScrolling,
   })
 
   const { data, depthMap } = useData(props, {
@@ -89,8 +103,6 @@ function useTable(props: TableV2Props) {
     fixedColumnsOnLeft,
     fixedColumnsOnRight,
   })
-  // state
-  const isScrolling = shallowRef(false)
 
   // DOM/Component refs
   const containerRef = ref()
@@ -154,7 +166,6 @@ function useTable(props: TableV2Props) {
     isDynamic,
     isResetting,
     isScrolling,
-    hoveringRowKey,
     hasFixedColumns,
     // records
     columnsStyles,

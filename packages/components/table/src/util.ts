@@ -1,22 +1,42 @@
 // @ts-nocheck
-import { createPopper } from '@popperjs/core'
+import { createVNode, render } from 'vue'
 import { flatMap, get } from 'lodash-unified'
-import escapeHtml from 'escape-html'
-import { hasOwn, throwError } from '@element-plus/utils'
-import { useZIndex } from '@element-plus/hooks'
-import type {
-  IPopperOptions,
-  PopperInstance,
-} from '@element-plus/components/popper'
-import type { Nullable } from '@element-plus/utils'
+import {
+  hasOwn,
+  isArray,
+  isBoolean,
+  isObject,
+  throwError,
+} from '@element-plus/utils'
+import ElTooltip, {
+  type ElTooltipProps,
+} from '@element-plus/components/tooltip'
+import type { Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
+
+export type TableOverflowTooltipOptions = Partial<
+  Pick<
+    ElTooltipProps,
+    | 'appendTo'
+    | 'effect'
+    | 'enterable'
+    | 'hideAfter'
+    | 'offset'
+    | 'placement'
+    | 'popperClass'
+    | 'popperOptions'
+    | 'showAfter'
+    | 'showArrow'
+    | 'transition'
+  >
+>
+
+type RemovePopperFn = (() => void) & {
+  trigger?: HTMLElement
+}
 
 export const getCell = function (event: Event) {
   return (event.target as HTMLElement)?.closest('td')
-}
-
-const isObject = function (obj: unknown): boolean {
-  return obj !== null && typeof obj === 'object'
 }
 
 export const orderBy = function <T>(
@@ -243,33 +263,65 @@ export function compose(...funcs) {
 export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
-  newVal: boolean
+  newVal?: boolean,
+  tableTreeProps?: TreeProps,
+  selectable?: (row: T, index?: number) => boolean,
+  rowIndex?: number
 ): boolean {
+  let _rowIndex = rowIndex ?? 0
   let changed = false
   const index = statusArr.indexOf(row)
   const included = index !== -1
+  const isRowSelectable = selectable?.call(null, row, rowIndex)
 
-  const addRow = () => {
-    statusArr.push(row)
-    changed = true
-  }
-  const removeRow = () => {
-    statusArr.splice(index, 1)
-    changed = true
-  }
-
-  if (typeof newVal === 'boolean') {
-    if (newVal && !included) {
-      addRow()
-    } else if (!newVal && included) {
-      removeRow()
-    }
-  } else {
-    if (included) {
-      removeRow()
+  const toggleStatus = (type: 'add' | 'remove') => {
+    if (type === 'add') {
+      statusArr.push(row)
     } else {
-      addRow()
+      statusArr.splice(index, 1)
     }
+    changed = true
+  }
+  const getChildrenCount = (row: T) => {
+    let count = 0
+    const children = tableTreeProps?.children && row[tableTreeProps.children]
+    if (children && isArray(children)) {
+      count += children.length
+      children.forEach((item) => {
+        count += getChildrenCount(item)
+      })
+    }
+    return count
+  }
+
+  if (!selectable || isRowSelectable) {
+    if (isBoolean(newVal)) {
+      if (newVal && !included) {
+        toggleStatus('add')
+      } else if (!newVal && included) {
+        toggleStatus('remove')
+      }
+    } else {
+      included ? toggleStatus('remove') : toggleStatus('add')
+    }
+  }
+
+  if (
+    !tableTreeProps?.checkStrictly &&
+    tableTreeProps?.children &&
+    isArray(row[tableTreeProps.children])
+  ) {
+    row[tableTreeProps.children].forEach((item) => {
+      toggleRowStatus(
+        statusArr,
+        item,
+        newVal ?? !included,
+        tableTreeProps,
+        selectable,
+        _rowIndex + 1
+      )
+      _rowIndex += getChildrenCount(item) + 1
+    })
   }
   return changed
 }
@@ -308,75 +360,51 @@ export function walkTreeNode(
   })
 }
 
-export let removePopper
+export let removePopper: RemovePopperFn | null = null
 
 export function createTablePopper(
-  parentNode: HTMLElement | undefined,
-  trigger: HTMLElement,
+  props: TableOverflowTooltipOptions,
   popperContent: string,
-  popperOptions: Partial<IPopperOptions>,
-  tooltipEffect: string
+  trigger: HTMLElement,
+  table: Table<[]>
 ) {
-  const { nextZIndex } = useZIndex()
-  const ns = parentNode?.dataset.prefix
-  const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
-  function renderContent(): HTMLDivElement {
-    const isLight = tooltipEffect === 'light'
-    const content = document.createElement('div')
-    content.className = `${ns}-popper ${isLight ? 'is-light' : 'is-dark'}`
-    popperContent = escapeHtml(popperContent)
-    content.innerHTML = popperContent
-    content.style.zIndex = String(nextZIndex())
-    // Avoid side effects caused by append to body
-    parentNode?.appendChild(content)
-    return content
-  }
-  function renderArrow(): HTMLDivElement {
-    const arrow = document.createElement('div')
-    arrow.className = `${ns}-popper__arrow`
-    return arrow
-  }
-  function showPopper() {
-    popperInstance && popperInstance.update()
+  if (removePopper?.trigger === trigger) {
+    return
   }
   removePopper?.()
-  removePopper = () => {
-    try {
-      popperInstance && popperInstance.destroy()
-      content && parentNode?.removeChild(content)
-      trigger.removeEventListener('mouseenter', showPopper)
-      trigger.removeEventListener('mouseleave', removePopper)
-      scrollContainer?.removeEventListener('scroll', removePopper)
-      removePopper = undefined
-    } catch {}
+  const parentNode = table?.refs.tableWrapper
+  const ns = parentNode?.dataset.prefix
+  const popperOptions = {
+    strategy: 'fixed',
+    ...props.popperOptions,
   }
-  let popperInstance: Nullable<PopperInstance> = null
-  const content = renderContent()
-  const arrow = renderArrow()
-  content.appendChild(arrow)
-  popperInstance = createPopper(trigger, content, {
-    strategy: 'absolute',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 8],
-        },
-      },
-      {
-        name: 'arrow',
-        options: {
-          element: arrow,
-          padding: 10,
-        },
-      },
-    ],
-    ...popperOptions,
+  const vm = createVNode(ElTooltip, {
+    content: popperContent,
+    virtualTriggering: true,
+    virtualRef: trigger,
+    appendTo: parentNode,
+    placement: 'top',
+    transition: 'none', // Default does not require transition
+    offset: 0,
+    hideAfter: 0,
+    ...props,
+    popperOptions,
+    onHide: () => {
+      removePopper?.()
+    },
   })
-  trigger.addEventListener('mouseenter', showPopper)
-  trigger.addEventListener('mouseleave', removePopper)
+  vm.appContext = { ...table.appContext, ...table }
+  const container = document.createElement('div')
+  render(vm, container)
+  vm.component!.exposed!.onOpen()
+  const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
+  removePopper = () => {
+    render(null, container)
+    scrollContainer?.removeEventListener('scroll', removePopper!)
+    removePopper = null
+  }
+  removePopper.trigger = trigger
   scrollContainer?.addEventListener('scroll', removePopper)
-  return popperInstance
 }
 
 function getCurrentColumns<T>(column: TableColumnCtx<T>): TableColumnCtx<T>[] {

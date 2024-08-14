@@ -158,6 +158,7 @@ export const virtualizedGridProps = buildProps({
   vScrollbarSize: scrollbarSize,
   scrollbarStartGap: startGap,
   scrollbarEndGap: endGap,
+  role: String,
   ...virtualizedProps,
 } as const)
 

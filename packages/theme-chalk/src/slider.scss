@@ -165,6 +165,7 @@ $slider-height: map.merge(
       font-size: 14px;
       color: getCssVar('color-info');
       margin-top: 15px;
+      white-space: pre;
     }
   }
 

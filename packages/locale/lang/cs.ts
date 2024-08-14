@@ -1,6 +1,9 @@
 export default {
   name: 'cs',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Vymazat',
@@ -67,6 +70,9 @@ export default {
       noData: 'Žádná data',
       placeholder: 'Vybrat',
     },
+    mention: {
+      loading: 'Načítání',
+    },
     cascader: {
       noMatch: 'Žádná shoda',
       loading: 'Načítání',
@@ -78,6 +84,12 @@ export default {
       pagesize: 'na stranu',
       total: 'Celkem {total}',
       pageClassifier: '',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
     },
     messagebox: {
       title: 'Zpráva',
@@ -118,6 +130,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

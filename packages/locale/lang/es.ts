@@ -1,6 +1,9 @@
 export default {
   name: 'es',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Confirmar',
       clear: 'Despejar',
@@ -65,6 +68,9 @@ export default {
       noData: 'Sin datos',
       placeholder: 'Seleccionar',
     },
+    mention: {
+      loading: 'Cargando',
+    },
     cascader: {
       noMatch: 'No hay datos que coincidan',
       loading: 'Cargando',
@@ -76,6 +82,12 @@ export default {
       pagesize: '/página',
       total: 'Total {total}',
       pageClassifier: '',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
     },
     messagebox: {
       confirm: 'Aceptar',
@@ -115,6 +127,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Si',
       cancelButtonText: 'No',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

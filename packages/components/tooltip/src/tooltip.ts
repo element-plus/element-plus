@@ -19,13 +19,9 @@ export const useTooltipProps = buildProps({
   ...useTooltipContentProps,
   ...useTooltipTriggerProps,
   ...popperArrowProps,
-  openDelay: {
-    type: Number,
-  },
-  visibleArrow: {
-    type: Boolean,
-    default: undefined,
-  },
+  /**
+   * @description whether the tooltip content has an arrow
+   */
   showArrow: {
     type: Boolean,
     default: true,

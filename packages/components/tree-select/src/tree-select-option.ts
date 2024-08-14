@@ -1,4 +1,4 @@
-import { defineComponent, getCurrentInstance, nextTick } from 'vue'
+import { defineComponent, getCurrentInstance, nextTick, watch } from 'vue'
 import { ElOption } from '@element-plus/components/select'
 
 const component = defineComponent({
@@ -21,10 +21,20 @@ const component = defineComponent({
     // here restore the deleted node.
     // @link https://github.com/element-plus/element-plus/blob/6df6e49db07b38d6cc3b5e9a960782bd30879c11/packages/components/select/src/option.vue#L78
     nextTick(() => {
-      if (!result.select.cachedOptions.get(vm.value)) {
+      if (!result.select.states.cachedOptions.get(vm.value)) {
         result.select.onOptionCreate(vm)
       }
     })
+
+    watch(
+      () => ctx.attrs.visible,
+      (val) => {
+        result.states.visible = val
+      },
+      {
+        immediate: true,
+      }
+    )
 
     return result
   },

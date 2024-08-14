@@ -2,7 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
-import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { usePopperContainerId } from '@element-plus/hooks'
 import Popconfirm from '../src/popconfirm.vue'
 
 const AXIOM = 'rem is the best girl'
@@ -17,7 +17,6 @@ describe('Popconfirm.vue', () => {
     const wrapper = mount(() => (
       <>
         <Popconfirm
-          attachTo="body"
           v-slots={{
             reference: () => <div class="reference">{AXIOM}</div>,
           }}
@@ -46,7 +45,6 @@ describe('Popconfirm.vue', () => {
       mount(() => (
         <>
           <Popconfirm
-            attachTo="body"
             v-slots={{
               reference: () => <div class="reference">{AXIOM}</div>,
             }}
@@ -55,9 +53,10 @@ describe('Popconfirm.vue', () => {
       ))
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML
-      ).not.toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value)!.innerHTML).not.toBe(
+        ''
+      )
     })
 
     it('should not mount on the popper container', async () => {
@@ -65,7 +64,6 @@ describe('Popconfirm.vue', () => {
       mount(() => (
         <>
           <Popconfirm
-            attachTo="body"
             teleported={false}
             v-slots={{
               reference: () => <div class="reference">{AXIOM}</div>,
@@ -75,9 +73,8 @@ describe('Popconfirm.vue', () => {
       ))
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML
-      ).toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value)!.innerHTML).toBe('')
     })
   })
 })

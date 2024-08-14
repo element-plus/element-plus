@@ -160,14 +160,6 @@ describe('table column', () => {
       wrapper.unmount()
     })
 
-    it('show-tooltip-when-overflow', async () => {
-      // old version prop name
-      const wrapper = createTable('show-tooltip-when-overflow')
-      await doubleWait()
-      expect(wrapper.findAll('.el-tooltip').length).toEqual(5)
-      wrapper.unmount()
-    })
-
     it('align', async () => {
       const wrapper = createTable(
         'align="left"',

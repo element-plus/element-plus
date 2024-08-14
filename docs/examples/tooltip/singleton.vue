@@ -11,7 +11,7 @@
 
   <el-tooltip
     ref="tooltipRef"
-    v-model:visible="visible"
+    :visible="visible"
     :popper-options="{
       modifiers: [
         {
@@ -25,7 +25,6 @@
     }"
     :virtual-ref="buttonRef"
     virtual-triggering
-    trigger="click"
     popper-class="singleton-tooltip"
   >
     <template #content>
