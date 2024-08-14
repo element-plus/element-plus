@@ -2777,4 +2777,14 @@ describe('Select', () => {
       'Option6'
     )
   })
+
+  it('should be trigger the click event', async () => {
+    const handleClick = vi.fn()
+    const wrapper = _mount(`<el-select @click="handleClick" />`, () => ({
+      handleClick,
+    }))
+
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    expect(handleClick).toHaveBeenCalledOnce()
+  })
 })
