@@ -2,7 +2,7 @@ export default {
   name: 'my',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'ဘရတ်ဒ်ခရမ်',
     },
     colorpicker: {
       confirm: 'အိုကေ',
