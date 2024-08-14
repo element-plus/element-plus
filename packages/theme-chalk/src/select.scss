@@ -161,6 +161,7 @@
 
   @include e(placeholder) {
     position: absolute;
+    z-index: 0;
     display: block;
     top: 50%;
     transform: translateY(-50%);
@@ -186,8 +187,8 @@
   }
 
   @include e(input-wrapper) {
-    max-width: 100%;
-
+    flex: 1;
+    z-index: 1;
     @include when(hidden) {
       // Out of the document flow
       position: absolute;
@@ -205,6 +206,7 @@
     appearance: none;
     height: map.get($select-item-height, 'default');
     max-width: 100%;
+    width: 100%;
     background-color: transparent;
 
     @include when(disabled) {
