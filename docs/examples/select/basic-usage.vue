@@ -13,7 +13,7 @@
         :value="item.value"
       />
     </el-select>
-    <el-select v-model="value" placeholder="Select" style="width: 240px">
+    <el-select v-model="value" placeholder="Select" style="width: 250px">
       <el-option
         v-for="item in options"
         :key="item.value"
