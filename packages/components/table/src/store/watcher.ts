@@ -107,11 +107,18 @@ function useWatcher<T>() {
     if (
       fixedColumns.value.length > 0 &&
       _columns.value[0] &&
-      _columns.value[0].type === 'selection' &&
-      !_columns.value[0].fixed
+      _columns.value[0].type === 'selection'
     ) {
-      _columns.value[0].fixed = true
-      fixedColumns.value.unshift(_columns.value[0])
+      const firstColumn = _columns.value[0]
+      firstColumn.fixed = !firstColumn.fixed
+
+      if (firstColumn.fixed) {
+        fixedColumns.value.unshift(firstColumn)
+      } else {
+        fixedColumns.value = fixedColumns.value.filter(
+          (column) => column !== firstColumn
+        )
+      }
     }
 
     const notFixedColumns = _columns.value.filter((column) => !column.fixed)
