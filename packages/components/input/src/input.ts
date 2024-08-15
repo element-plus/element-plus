@@ -188,5 +188,3 @@ export const inputEmits = {
   compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent,
 }
 export type InputEmits = typeof inputEmits
-
-export type InputInstance = InstanceType<typeof Input>
