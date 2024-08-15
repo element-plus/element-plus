@@ -1,18 +1,18 @@
 <template>
   <el-teleport to="body" :disabled="!teleported">
     <transition name="viewer-fade" appear>
-      <el-focus-trap
-        loop
-        trapped
-        :focus-trap-el="wrapper"
-        focus-start-el="container"
-        @focusout-prevented="onFocusoutPrevented"
+      <div
+        ref="wrapper"
+        :tabindex="-1"
+        :class="ns.e('wrapper')"
+        :style="{ zIndex }"
       >
-        <div
-          ref="wrapper"
-          :tabindex="-1"
-          :class="ns.e('wrapper')"
-          :style="{ zIndex }"
+        <el-focus-trap
+          loop
+          trapped
+          :focus-trap-el="wrapper"
+          focus-start-el="container"
+          @focusout-prevented="onFocusoutPrevented"
         >
           <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
@@ -75,8 +75,8 @@
             />
           </div>
           <slot />
-        </div>
-      </el-focus-trap>
+        </el-focus-trap>
+      </div>
     </transition>
   </el-teleport>
 </template>
