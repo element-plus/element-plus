@@ -4,11 +4,20 @@ import type { ExtractPropTypes } from 'vue'
 import type PageHeader from './page-header.vue'
 
 export const pageHeaderProps = buildProps({
+  /**
+   * @description icon component of page header
+   */
   icon: {
     type: iconPropType,
     default: () => Back,
   },
+  /**
+   * @description main title of page header
+   */
   title: String,
+  /**
+   * @description content of page header
+   */
   content: {
     type: String,
     default: '',

@@ -7,7 +7,7 @@ import type { LayoutDirection } from '../types'
 const LayoutKeys = {
   [HORIZONTAL]: 'deltaX',
   [VERTICAL]: 'deltaY',
-}
+} as const
 
 interface ListWheelState {
   atStartEdge: ComputedRef<boolean> // exclusive to reachEnd

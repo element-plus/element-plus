@@ -14,7 +14,7 @@
   font-size: 12px;
   line-height: 20px;
   min-width: 10px;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   visibility: visible;
 
   $arrow-selector: #{& + '__arrow'};
@@ -24,7 +24,7 @@
     background: getCssVar('text-color', 'primary');
     border: 1px solid getCssVar('text-color', 'primary');
 
-    #{$arrow-selector}::before {
+    > #{$arrow-selector}::before {
       border: 1px solid getCssVar('text-color', 'primary');
       background: getCssVar('text-color', 'primary');
       right: 0;
@@ -35,7 +35,7 @@
     background: getCssVar('bg-color', 'overlay');
     border: 1px solid getCssVar('border-color', 'light');
 
-    #{$arrow-selector}::before {
+    > #{$arrow-selector}::before {
       border: 1px solid getCssVar('border-color', 'light');
       background: getCssVar('bg-color', 'overlay');
       right: 0;

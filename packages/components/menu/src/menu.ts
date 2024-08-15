@@ -9,60 +9,156 @@ import {
   reactive,
   ref,
   watch,
+  watchEffect,
   withDirectives,
 } from 'vue'
-import { Resize } from '@element-plus/directives'
+
+import { useResizeObserver } from '@vueuse/core'
+import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {
   buildProps,
   definePropType,
+  flattedChildren,
+  iconPropType,
   isObject,
   isString,
   mutable,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
+import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
+import type { PopperEffect } from '@element-plus/components/popper'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
-import type { ExtractPropTypes, VNode, VNodeNormalizedChildren } from 'vue'
+import type {
+  Component,
+  DirectiveArguments,
+  ExtractPropTypes,
+  VNode,
+  VNodeArrayChildren,
+} from 'vue'
+import type { UseResizeObserverReturn } from '@vueuse/core'
 
 export const menuProps = buildProps({
+  /**
+   * @description menu display mode
+   */
   mode: {
     type: String,
     values: ['horizontal', 'vertical'],
     default: 'vertical',
   },
+  /**
+   * @description index of active menu on page load
+   */
   defaultActive: {
     type: String,
     default: '',
   },
+  /**
+   * @description array that contains indexes of currently active sub-menus
+   */
   defaultOpeneds: {
     type: definePropType<string[]>(Array),
     default: () => mutable([] as const),
   },
+  /**
+   * @description whether only one sub-menu can be active
+   */
   uniqueOpened: Boolean,
+  /**
+   * @description whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action. Use with `default-active` to set the active item on load.
+   */
   router: Boolean,
+  /**
+   * @description how sub-menus are triggered, only works when `mode` is 'horizontal'
+   */
   menuTrigger: {
     type: String,
     values: ['hover', 'click'],
     default: 'hover',
   },
+  /**
+   * @description whether the menu is collapsed (available only in vertical mode)
+   */
   collapse: Boolean,
+  /**
+   * @description background color of Menu (hex format) (deprecated, use `--bg-color` instead)
+   * @deprecated use `--bg-color` instead
+   */
   backgroundColor: String,
+  /**
+   * @description text color of Menu (hex format) (deprecated, use `--text-color` instead)
+   * @deprecated use `--text-color` instead
+   */
   textColor: String,
+  /**
+   * @description text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)
+   * @deprecated use `--active-color` instead
+   */
   activeTextColor: String,
+  /**
+   * @description optional, whether menu is collapsed when clicking outside
+   */
+  closeOnClickOutside: Boolean,
+  /**
+   * @description whether to enable the collapse transition
+   */
   collapseTransition: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description whether the menu is ellipsis (available only in horizontal mode)
+   */
   ellipsis: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @description offset of the popper (effective for all submenus)
+   */
+  popperOffset: {
+    type: Number,
+    default: 6,
+  },
+  /**
+   * @description custom ellipsis icon (available only in horizontal mode and ellipsis is true)
+   */
+  ellipsisIcon: {
+    type: iconPropType,
+    default: () => More,
+  },
+  /**
+   * @description Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed
+   */
+  popperEffect: {
+    type: definePropType<PopperEffect | string>(String),
+    default: 'dark',
+  },
+  /**
+   * @description custom class name for all popup menus
+   */
+  popperClass: String,
+  /**
+   * @description control timeout for all menus before showing
+   */
+  showTimeout: {
+    type: Number,
+    default: 300,
+  },
+  /**
+   * @description control timeout for all menus before hiding
+   */
+  hideTimeout: {
+    type: Number,
+    default: 300,
   },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
@@ -104,6 +200,8 @@ export default defineComponent({
     const nsSubMenu = useNamespace('sub-menu')
 
     // data
+    const sliceIndex = ref(-1)
+
     const openedMenus = ref<MenuProvider['openedMenus']>(
       props.defaultOpeneds && !props.collapse
         ? props.defaultOpeneds.slice(0)
@@ -149,11 +247,15 @@ export default defineComponent({
       emit('open', index, indexPath)
     }
 
-    const closeMenu: MenuProvider['closeMenu'] = (index, indexPath) => {
+    const close = (index: string) => {
       const i = openedMenus.value.indexOf(index)
       if (i !== -1) {
         openedMenus.value.splice(i, 1)
       }
+    }
+
+    const closeMenu: MenuProvider['closeMenu'] = (index, indexPath) => {
+      close(index)
       emit('close', index, indexPath)
     }
 
@@ -178,7 +280,7 @@ export default defineComponent({
       }
 
       const { index, indexPath } = menuItem
-      if (index === undefined || indexPath === undefined) return
+      if (isNil(index) || isNil(indexPath)) return
 
       if (props.router && router) {
         const route = menuItem.route || index
@@ -208,13 +310,67 @@ export default defineComponent({
 
       if (item) {
         activeIndex.value = item.index
-        initMenu()
       } else {
         activeIndex.value = val
       }
     }
+
+    const calcMenuItemWidth = (menuItem: HTMLElement) => {
+      const computedStyle = getComputedStyle(menuItem)
+      const marginLeft = Number.parseInt(computedStyle.marginLeft, 10)
+      const marginRight = Number.parseInt(computedStyle.marginRight, 10)
+      return menuItem.offsetWidth + marginLeft + marginRight || 0
+    }
+
+    const calcSliceIndex = () => {
+      if (!menu.value) return -1
+      const items = Array.from(menu.value?.childNodes ?? []).filter(
+        (item) =>
+          // remove comment type node #12634
+          item.nodeName !== '#comment' &&
+          (item.nodeName !== '#text' || item.nodeValue)
+      ) as HTMLElement[]
+      const moreItemWidth = 64
+      const computedMenuStyle = getComputedStyle(menu.value!)
+      const paddingLeft = Number.parseInt(computedMenuStyle.paddingLeft, 10)
+      const paddingRight = Number.parseInt(computedMenuStyle.paddingRight, 10)
+      const menuWidth = menu.value!.clientWidth - paddingLeft - paddingRight
+      let calcWidth = 0
+      let sliceIndex = 0
+      items.forEach((item, index) => {
+        calcWidth += calcMenuItemWidth(item)
+        if (calcWidth <= menuWidth - moreItemWidth) {
+          sliceIndex = index + 1
+        }
+      })
+      return sliceIndex === items.length ? -1 : sliceIndex
+    }
+
+    const getIndexPath = (index: string) => subMenus.value[index].indexPath
+
+    // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms, In order to avoid a certain chance of repeated triggering when `resize`, set wait to 16.67 * 2 = 33.34
+    const debounce = (fn: () => void, wait = 33.34) => {
+      let timmer: ReturnType<typeof setTimeout> | null
+      return () => {
+        timmer && clearTimeout(timmer)
+        timmer = setTimeout(() => {
+          fn()
+        }, wait)
+      }
+    }
+
+    let isFirstTimeRender = true
     const handleResize = () => {
-      nextTick(() => instance.proxy!.$forceUpdate())
+      if (sliceIndex.value === calcSliceIndex()) return
+      const callback = () => {
+        sliceIndex.value = -1
+        nextTick(() => {
+          sliceIndex.value = calcSliceIndex()
+        })
+      }
+      // execute callback directly when first time resize to avoid shaking
+      isFirstTimeRender ? callback() : debounce(callback)()
+      isFirstTimeRender = false
     }
 
     watch(
@@ -227,14 +383,23 @@ export default defineComponent({
       }
     )
 
-    watch(items.value, () => initMenu())
-
     watch(
       () => props.collapse,
       (value) => {
         if (value) openedMenus.value = []
       }
     )
+
+    watch(items.value, initMenu)
+
+    let resizeStopper: UseResizeObserverReturn['stop']
+    watchEffect(() => {
+      if (props.mode === 'horizontal' && props.ellipsis)
+        resizeStopper = useResizeObserver(menu, handleResize).stop
+      else resizeStopper?.()
+    })
+
+    const mouseInChild = ref(false)
 
     // provide
     {
@@ -276,14 +441,13 @@ export default defineComponent({
       provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
-        mouseInChild: ref(false),
+        mouseInChild,
         level: 0,
       })
     }
 
     // lifecycle
     onMounted(() => {
-      initMenu()
       if (props.mode === 'horizontal') {
         new Menubar(instance.vnode.el!, nsMenu.namespace.value)
       }
@@ -294,59 +458,28 @@ export default defineComponent({
         const { indexPath } = subMenus.value[index]
         indexPath.forEach((i) => openMenu(i, indexPath))
       }
+
       expose({
         open,
-        close: closeMenu,
+        close,
         handleResize,
       })
     }
 
-    const flattedChildren = (children: VNodeNormalizedChildren) => {
-      const vnodes = Array.isArray(children) ? children : [children]
-      const result: any[] = []
-      vnodes.forEach((child: any) => {
-        if (Array.isArray(child.children)) {
-          result.push(...flattedChildren(child.children))
-        } else {
-          result.push(child)
-        }
-      })
-      return result
-    }
-
-    const useVNodeResize = (vnode: VNode) =>
-      props.mode === 'horizontal'
-        ? withDirectives(vnode, [[Resize, handleResize]])
-        : vnode
     return () => {
-      let slot = slots.default?.() ?? []
+      let slot: VNodeArrayChildren = slots.default?.() ?? []
       const vShowMore: VNode[] = []
 
       if (props.mode === 'horizontal' && menu.value) {
-        const items = Array.from(menu.value?.childNodes ?? []).filter(
-          (item) => item.nodeName !== '#text' || item.nodeValue
-        ) as HTMLElement[]
-        const originalSlot = flattedChildren(slot)
-        const moreItemWidth = 64
-        const paddingLeft = Number.parseInt(
-          getComputedStyle(menu.value).paddingLeft,
-          10
-        )
-        const paddingRight = Number.parseInt(
-          getComputedStyle(menu.value).paddingRight,
-          10
-        )
-        const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
-        let calcWidth = 0
-        let sliceIndex = 0
-        items.forEach((item, index) => {
-          calcWidth += item.offsetWidth || 0
-          if (calcWidth <= menuWidth - moreItemWidth) {
-            sliceIndex = index + 1
-          }
-        })
-        const slotDefault = originalSlot.slice(0, sliceIndex)
-        const slotMore = originalSlot.slice(sliceIndex)
+        const originalSlot = flattedChildren(slot) as VNodeArrayChildren
+        const slotDefault =
+          sliceIndex.value === -1
+            ? originalSlot
+            : originalSlot.slice(0, sliceIndex.value)
+
+        const slotMore =
+          sliceIndex.value === -1 ? [] : originalSlot.slice(sliceIndex.value)
+
         if (slotMore?.length && props.ellipsis) {
           slot = slotDefault
           vShowMore.push(
@@ -355,6 +488,7 @@ export default defineComponent({
               {
                 index: 'sub-menu-more',
                 class: nsSubMenu.e('hide-arrow'),
+                popperOffset: props.popperOffset,
               },
               {
                 title: () =>
@@ -363,7 +497,9 @@ export default defineComponent({
                     {
                       class: nsSubMenu.e('icon-more'),
                     },
-                    { default: () => h(More) }
+                    {
+                      default: () => h(props.ellipsisIcon as Component),
+                    }
                   ),
                 default: () => slotMore,
               }
@@ -374,10 +510,26 @@ export default defineComponent({
 
       const ulStyle = useMenuCssVar(props, 0)
 
-      const resizeMenu = (vNode: VNode) =>
-        props.ellipsis ? useVNodeResize(vNode) : vNode
+      const directives: DirectiveArguments = props.closeOnClickOutside
+        ? [
+            [
+              vClickoutside,
+              () => {
+                if (!openedMenus.value.length) return
 
-      const vMenu = resizeMenu(
+                if (!mouseInChild.value) {
+                  openedMenus.value.forEach((openedMenu) =>
+                    emit('close', openedMenu, getIndexPath(openedMenu))
+                  )
+
+                  openedMenus.value = []
+                }
+              },
+            ],
+          ]
+        : []
+
+      const vMenu = withDirectives(
         h(
           'ul',
           {
@@ -392,7 +544,8 @@ export default defineComponent({
             },
           },
           [...slot, ...vShowMore]
-        )
+        ),
+        directives
       )
 
       if (props.collapseTransition && props.mode === 'vertical') {

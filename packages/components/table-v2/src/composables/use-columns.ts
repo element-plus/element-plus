@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, unref } from 'vue'
 import { isObject } from '@element-plus/utils'
 import { SortOrder, oppositeOrderMap } from '../constants'

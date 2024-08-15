@@ -1,12 +1,16 @@
 export default {
   name: 'en',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Clear',
       defaultLabel: 'color picker',
       description:
         'current color is {color}. press enter to select a new color.',
+      alphaLabel: 'pick alpha value',
     },
     datepicker: {
       now: 'Now',
@@ -86,6 +90,9 @@ export default {
       noData: 'No data',
       placeholder: 'Select',
     },
+    mention: {
+      loading: 'Loading',
+    },
     dropdown: {
       toggleDropdown: 'Toggle Dropdown',
     },
@@ -100,6 +107,12 @@ export default {
       pagesize: '/page',
       total: 'Total {total}',
       pageClassifier: '',
+      page: 'Page',
+      prev: 'Go to previous page',
+      next: 'Go to next page',
+      currentPage: 'page {pager}',
+      prevPages: 'Previous {pager} pages',
+      nextPages: 'Next {pager} pages',
       deprecationWarning:
         'Deprecated usages detected, please refer to the el-pagination documentation for more details',
     },
@@ -134,6 +147,11 @@ export default {
       clearFilter: 'All',
       sumText: 'Sum',
     },
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+    },
     tree: {
       emptyText: 'No Data',
     },
@@ -154,6 +172,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes',
       cancelButtonText: 'No',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left',
+      rightArrow: 'Carousel arrow right',
+      indicator: 'Carousel switch to index {index}',
     },
   },
 }

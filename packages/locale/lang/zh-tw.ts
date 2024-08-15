@@ -1,9 +1,15 @@
 export default {
   name: 'zh-tw',
   el: {
+    breadcrumb: {
+      label: '面包屑',
+    },
     colorpicker: {
       confirm: '確認',
       clear: '清空',
+      defaultLabel: '色彩選擇器',
+      description: '目前色彩為 {color}。按一下 Enter 以選擇新色彩。',
+      alphaLabel: '選擇透明度的值',
     },
     datepicker: {
       now: '現在',
@@ -11,6 +17,10 @@ export default {
       cancel: '取消',
       clear: '清空',
       confirm: '確認',
+      dateTablePrompt: '使用方向鍵與 Enter 鍵以選擇日期',
+      monthTablePrompt: '使用方向鍵與 Enter 鍵以選擇月份',
+      yearTablePrompt: '使用方向鍵與 Enter 鍵以選擇年份',
+      selectedDate: '已選日期',
       selectDate: '選擇日期',
       selectTime: '選擇時間',
       startDate: '開始日期',
@@ -44,6 +54,15 @@ export default {
         fri: '五',
         sat: '六',
       },
+      weeksFull: {
+        sun: '星期日',
+        mon: '星期一',
+        tue: '星期二',
+        wed: '星期三',
+        thu: '星期四',
+        fri: '星期五',
+        sat: '星期六',
+      },
       months: {
         jan: '一月',
         feb: '二月',
@@ -59,15 +78,25 @@ export default {
         dec: '十二月',
       },
     },
+    inputNumber: {
+      decrease: '減少數值',
+      increase: '增加數值',
+    },
     select: {
-      loading: '加載中',
-      noMatch: '無匹配資料',
+      loading: '載入中',
+      noMatch: '無相符資料',
       noData: '無資料',
       placeholder: '請選擇',
     },
+    mention: {
+      loading: '載入中',
+    },
+    dropdown: {
+      toggleDropdown: '切換下拉選單',
+    },
     cascader: {
-      noMatch: '無匹配資料',
-      loading: '加載中',
+      noMatch: '無相符資料',
+      loading: '載入中',
       placeholder: '請選擇',
       noData: '無資料',
     },
@@ -76,18 +105,38 @@ export default {
       pagesize: '項/頁',
       total: '共 {total} 項',
       pageClassifier: '頁',
+      page: '頁',
+      prev: '上一頁',
+      next: '下一頁',
+      currentPage: '第 {pager} 頁',
+      prevPages: '向前 {pager} 頁',
+      nextPages: '向後 {pager} 頁',
+      deprecationWarning:
+        '偵測到已過時的使用方式，請參閱 el-pagination 說明文件以了解更多資訊',
+    },
+    dialog: {
+      close: '關閉此對話框',
+    },
+    drawer: {
+      close: '關閉此對話框',
     },
     messagebox: {
       title: '提示',
       confirm: '確定',
       cancel: '取消',
       error: '輸入的資料不符規定!',
+      close: '關閉此對話框',
     },
     upload: {
-      deleteTip: '按 delete 鍵可刪除',
+      deleteTip: '按一下 Delete 鍵以刪除',
       delete: '刪除',
       preview: '查看圖片',
       continue: '繼續上傳',
+    },
+    slider: {
+      defaultLabel: '滑桿介於 {min} 至 {max}',
+      defaultRangeStartLabel: '選擇起始值',
+      defaultRangeEndLabel: '選擇結束值',
     },
     table: {
       emptyText: '暫無資料',
@@ -96,19 +145,24 @@ export default {
       clearFilter: '全部',
       sumText: '合計',
     },
+    tour: {
+      next: '下一步',
+      previous: '上一步',
+      finish: '結束導覽',
+    },
     tree: {
       emptyText: '暫無資料',
     },
     transfer: {
-      noMatch: '無匹配資料',
+      noMatch: '無相符資料',
       noData: '無資料',
       titles: ['列表 1', '列表 2'],
-      filterPlaceholder: '請輸入搜索內容',
+      filterPlaceholder: '請輸入搜尋內容',
       noCheckedFormat: '共 {total} 項',
       hasCheckedFormat: '已選 {checked}/{total} 項',
     },
     image: {
-      error: '加載失敗',
+      error: '載入失敗',
     },
     pageHeader: {
       title: '返回',
@@ -116,6 +170,11 @@ export default {
     popconfirm: {
       confirmButtonText: '確認',
       cancelButtonText: '取消',
+    },
+    carousel: {
+      leftArrow: '上一張投影片',
+      rightArrow: '下一張投影片',
+      indicator: '投影片切換至索引 {index}',
     },
   },
 }

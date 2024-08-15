@@ -1,10 +1,10 @@
 <template>
   <el-upload
-    action="https://jsonplaceholder.typicode.com/posts/"
+    v-model:file-list="fileList"
+    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
     list-type="picture-card"
     :on-preview="handlePictureCardPreview"
     :on-remove="handleRemove"
-    :file-list="fileList"
   >
     <el-icon><Plus /></el-icon>
   </el-upload>

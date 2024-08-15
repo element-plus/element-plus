@@ -3,7 +3,7 @@ import { describe, expect, it, test, vi } from 'vitest'
 import { getStyle } from '@element-plus/utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElMessage } from '..'
-import Message from '../src/message-method'
+import Message from '../src/method'
 
 const selector = '.el-message'
 // TODO: testing the original transition with `nextTick`'
@@ -50,6 +50,39 @@ describe('Message on command', () => {
     expect(document.querySelectorAll(selector).length).toBe(0)
   })
 
+  test('it should close all messages of the specified type', async () => {
+    const onClose = vi.fn()
+    const instances = []
+    const success = 'success'
+    for (let i = 0; i < 4; i++) {
+      const instance = Message({
+        type: success,
+        duration: 0,
+        onClose,
+      })
+      instances.push(instance)
+    }
+
+    for (let i = 0; i < 2; i++) {
+      const instance = Message({
+        duration: 0,
+        onClose,
+      })
+      instances.push(instance)
+    }
+
+    await rAF()
+    const elements = document.querySelectorAll(selector)
+    const successElements = document.querySelectorAll(`${selector}--${success}`)
+    expect(elements.length).toBe(6)
+    expect(successElements.length).toBe(4)
+    Message.closeAll(success)
+    await rAF()
+    expect(onClose).toHaveBeenCalledTimes(4)
+    expect(document.querySelectorAll(selector).length).toBe(2)
+    Message.closeAll()
+  })
+
   test('it should stack messages', async () => {
     const messages = [Message(), Message(), Message()]
     await rAF()
@@ -59,7 +92,7 @@ describe('Message on command', () => {
     const getTopValue = (elm: Element): number =>
       Number.parseInt(getStyle(elm as HTMLElement, 'top'), 10)
 
-    const topValues = []
+    const topValues: number[] = []
     elements.forEach((e) => {
       topValues.push(getTopValue(e))
     })
@@ -67,6 +100,27 @@ describe('Message on command', () => {
     for (let i = 1; i < topValues.length; i++) {
       expect(topValues[i - 1]).toBeLessThan(topValues[i])
     }
+
+    messages.forEach((m) => m.close())
+  })
+
+  test('correct space when set offset', async () => {
+    const offset = 100
+    const space = 16
+    const messages = [Message({ offset }), Message({ offset })]
+
+    await rAF()
+    const elements = document.querySelectorAll(selector)
+    expect(elements.length).toBe(2)
+
+    const getTopValue = (elm: Element): number =>
+      Number.parseFloat(getStyle(elm as HTMLElement, 'top'))
+
+    const firstElementTop = getTopValue(elements[0])
+    const secondElementTop = getTopValue(elements[1])
+
+    expect(firstElementTop).toBe(offset)
+    expect(secondElementTop).toBe(offset + space)
 
     messages.forEach((m) => m.close())
   })

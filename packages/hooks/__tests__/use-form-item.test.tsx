@@ -2,18 +2,16 @@ import { defineComponent, provide } from 'vue'
 import { NOOP } from '@vue/shared'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { ElButton } from '@element-plus/components'
+import { ElButton, buttonGroupContextKey } from '@element-plus/components'
 import {
-  buttonGroupContextKey,
   formContextKey,
   formItemContextKey,
-} from '@element-plus/tokens'
+} from '@element-plus/components/form'
 
 import type {
-  ButtonGroupContext,
   FormContext,
   FormItemContext,
-} from '@element-plus/tokens'
+} from '@element-plus/components/form'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -38,7 +36,9 @@ describe('use-form-item', () => {
     const propSize = 'small'
     const wrapper = mountComponent(
       () => {
-        provide(formItemContextKey, { size: 'large' })
+        provide(formItemContextKey, {
+          size: 'large',
+        } as FormItemContext)
       },
       {
         props: { size: propSize },
@@ -53,7 +53,7 @@ describe('use-form-item', () => {
     const wrapper = mountComponent(() => {
       provide(buttonGroupContextKey, {
         size: fallbackSize,
-      } as ButtonGroupContext)
+      })
 
       provide(formItemContextKey, {
         size: 'large',

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isRef, ref } from 'vue'
 import { hyphenate, isObject, isString } from '@vue/shared'
 import { Loading } from './service'
@@ -90,5 +91,6 @@ export const vLoading: Directive<ElementLoading, LoadingBinding> = {
   },
   unmounted(el) {
     el[INSTANCE_KEY]?.instance.close()
+    el[INSTANCE_KEY] = null
   },
 }

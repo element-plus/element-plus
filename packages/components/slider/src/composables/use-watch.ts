@@ -3,7 +3,7 @@ import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn, throwError } from '@element-plus/utils'
 import type { ComputedRef, SetupContext } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
-import type { FormItemContext } from '@element-plus/tokens'
+import type { FormItemContext } from '@element-plus/components/form'
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
 
 export const useWatch = (
@@ -32,7 +32,6 @@ export const useWatch = (
   const setValues = () => {
     if (props.min > props.max) {
       throwError('Slider', 'min should not be greater than max.')
-      return
     }
     const val = props.modelValue
     if (props.range && Array.isArray(val)) {
@@ -48,7 +47,9 @@ export const useWatch = (
         initData.firstValue = val[0]
         initData.secondValue = val[1]
         if (valueChanged()) {
-          elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+          if (props.validateEvent) {
+            elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+          }
           initData.oldValue = val.slice()
         }
       }
@@ -60,7 +61,9 @@ export const useWatch = (
       } else {
         initData.firstValue = val
         if (valueChanged()) {
-          elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+          if (props.validateEvent) {
+            elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+          }
           initData.oldValue = val
         }
       }

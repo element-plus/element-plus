@@ -36,9 +36,10 @@ const TableV2Header = defineComponent({
     const scrollToLeft = (left?: number) => {
       const headerEl = unref(headerRef)
       nextTick(() => {
-        headerEl?.scroll({
-          left,
-        })
+        headerEl?.scroll &&
+          headerEl.scroll({
+            left,
+          })
       })
     }
 
@@ -93,7 +94,12 @@ const TableV2Header = defineComponent({
       if (props.height <= 0) return
 
       return (
-        <div ref={headerRef} class={props.class} style={unref(headerStyle)}>
+        <div
+          ref={headerRef}
+          class={props.class}
+          style={unref(headerStyle)}
+          role="rowgroup"
+        >
           <div style={unref(rowStyle)} class={ns.e('header')}>
             {renderDynamicRows()}
             {renderFixedRows()}

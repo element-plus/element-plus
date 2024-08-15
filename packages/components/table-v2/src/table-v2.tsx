@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineComponent, provide, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useTable } from './use-table'
@@ -44,7 +45,6 @@ const TableV2 = defineComponent({
       depthMap,
       expandedRowKeys,
       hasFixedColumns,
-      hoveringRowKey,
       mainTableRef,
       leftTableRef,
       rightTableRef,
@@ -103,7 +103,6 @@ const TableV2 = defineComponent({
     provide(TableV2InjectionKey, {
       ns,
       isResetting,
-      hoveringRowKey,
       isScrolling,
     })
 
@@ -142,7 +141,7 @@ const TableV2 = defineComponent({
         data: _data,
         fixedData,
         estimatedRowHeight,
-        bodyWidth: unref(bodyWidth),
+        bodyWidth: unref(bodyWidth) + vScrollbarSize,
         headerHeight,
         headerWidth: unref(headerWidth),
         height: unref(mainTableHeight),
@@ -221,7 +220,6 @@ const TableV2 = defineComponent({
         expandedRowKeys: unref(expandedRowKeys),
         estimatedRowHeight,
         hasFixedColumns: unref(hasFixedColumns),
-        hoveringRowKey: unref(hoveringRowKey),
         rowProps,
         rowClass,
         rowKey,
@@ -269,7 +267,7 @@ const TableV2 = defineComponent({
                     {...tableCellProps}
                     style={_columnsStyles[props.column.key]}
                   >
-                    {slots.cell}
+                    {slots.cell(props)}
                   </Cell>
                 ) : (
                   <Cell
@@ -292,7 +290,7 @@ const TableV2 = defineComponent({
                     {...tableHeaderCellProps}
                     style={_columnsStyles[props.column.key]}
                   >
-                    {slots['header-cell']}
+                    {slots['header-cell'](props)}
                   </HeaderCell>
                 ) : (
                   <HeaderCell

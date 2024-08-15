@@ -8,8 +8,6 @@
     :aria-labelledby="
       range && isLabeledByFormItem ? elFormItem?.labelId : undefined
     "
-    @touchstart="onSliderWrapperPrevent"
-    @touchmove="onSliderWrapperPrevent"
   >
     <div
       ref="slider"
@@ -20,7 +18,7 @@
       ]"
       :style="runwayStyle"
       @mousedown="onSliderDown"
-      @touchstart="onSliderDown"
+      @touchstart.passive="onSliderDown"
     >
       <div :class="ns.e('bar')" :style="barStyle" />
       <slider-button
@@ -29,6 +27,7 @@
         :model-value="firstValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
+        :placement="placement"
         role="slider"
         :aria-label="
           range || !isLabeledByFormItem ? firstButtonLabel : undefined
@@ -50,6 +49,7 @@
         :model-value="secondValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
+        :placement="placement"
         role="slider"
         :aria-label="secondButtonLabel"
         :aria-valuemin="firstValue"
@@ -83,6 +83,7 @@
             :key="key"
             :mark="item.mark"
             :style="getStopStyle(item.position)"
+            @mousedown.stop="onSliderMarkerDown(item.position)"
           />
         </div>
       </template>
@@ -97,6 +98,7 @@
       :controls="showInputControls"
       :min="min"
       :max="max"
+      :precision="precision"
       :debounce="debounce"
       :size="sliderInputSize"
       @update:model-value="setFirstValue"
@@ -107,14 +109,11 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, toRefs } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import ElInputNumber from '@element-plus/components/input-number'
-import {
-  useFormItemInputId,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
-import { sliderContextKey } from '@element-plus/tokens'
+import { useFormItemInputId, useFormSize } from '@element-plus/components/form'
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import { sliderContextKey } from './constants'
 import { sliderEmits, sliderProps } from './slider'
 import SliderButton from './button.vue'
 import SliderMarker from './marker'
@@ -160,6 +159,7 @@ const {
   onSliderWrapperPrevent,
   onSliderClick,
   onSliderDown,
+  onSliderMarkerDown,
   setFirstValue,
   setSecondValue,
 } = useSlide(props, initData, emit)
@@ -170,14 +170,14 @@ const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: elFormItem,
 })
 
-const sliderWrapperSize = useSize()
+const sliderWrapperSize = useFormSize()
 const sliderInputSize = computed(
   () => props.inputSize || sliderWrapperSize.value
 )
 
 const groupLabel = computed<string>(() => {
   return (
-    props.label ||
+    props.ariaLabel ||
     t('el.slider.defaultLabel', {
       min: props.min,
       max: props.max,
@@ -235,6 +235,13 @@ const { firstValue, secondValue, sliderSize } = toRefs(initData)
 const updateDragging = (val: boolean) => {
   initData.dragging = val
 }
+
+useEventListener(sliderWrapper, 'touchstart', onSliderWrapperPrevent, {
+  passive: false,
+})
+useEventListener(sliderWrapper, 'touchmove', onSliderWrapperPrevent, {
+  passive: false,
+})
 
 provide(sliderContextKey, {
   ...toRefs(props),

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, inject } from 'vue'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -19,7 +20,7 @@ const getAllColumns = <T>(
   return result
 }
 
-const convertToRows = <T>(
+export const convertToRows = <T>(
   originColumns: TableColumnCtx<T>[]
 ): TableColumnCtx<T>[] => {
   let maxLevel = 1

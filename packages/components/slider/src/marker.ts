@@ -34,7 +34,7 @@ export default defineComponent({
         'div',
         {
           class: ns.e('marks-text'),
-          style,
+          style: style.value,
         },
         label.value
       )

@@ -1,74 +1,103 @@
-import { defineComponent, provide, reactive, ref, renderSlot, watch } from 'vue'
+import {
+  computed,
+  createVNode,
+  defineComponent,
+  getCurrentInstance,
+  nextTick,
+  provide,
+  ref,
+  renderSlot,
+  watch,
+} from 'vue'
 import {
   buildProps,
   definePropType,
   isNumber,
   isString,
+  isUndefined,
 } from '@element-plus/utils'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons-vue'
-import { tabsRootContextKey } from '@element-plus/tokens'
-import { useNamespace } from '@element-plus/hooks'
+import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
+import { tabsRootContextKey } from './constants'
 import TabNav from './tab-nav'
-import type { TabNavInstance } from './tab-nav'
-import type { TabsPaneContext } from '@element-plus/tokens'
 
-import type { ExtractPropTypes } from 'vue'
+import type { TabNavInstance } from './tab-nav'
+import type { TabsPaneContext } from './constants'
+import type { ExtractPropTypes, FunctionalComponent, VNode } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
 
-export type TabPanelName = string | number
+export type TabPaneName = string | number
 
 export const tabsProps = buildProps({
+  /**
+   * @description type of Tab
+   */
   type: {
     type: String,
     values: ['card', 'border-card', ''],
     default: '',
   },
-  activeName: {
-    type: [String, Number],
-    default: '',
-  },
+  /**
+   * @description whether Tab is closable
+   */
   closable: Boolean,
+  /**
+   * @description whether Tab is addable
+   */
   addable: Boolean,
+  /**
+   * @description binding value, name of the selected tab
+   */
   modelValue: {
     type: [String, Number],
-    default: '',
   },
+  /**
+   * @description whether Tab is addable and closable
+   */
   editable: Boolean,
+  /**
+   * @description position of tabs
+   */
   tabPosition: {
     type: String,
     values: ['top', 'right', 'bottom', 'left'],
     default: 'top',
   },
+  /**
+   * @description hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented
+   */
   beforeLeave: {
     type: definePropType<
-      (
-        newName: TabPanelName,
-        oldName: TabPanelName
-      ) => Awaitable<void | boolean>
+      (newName: TabPaneName, oldName: TabPaneName) => Awaitable<void | boolean>
     >(Function),
     default: () => true,
   },
+  /**
+   * @description whether width of tab automatically fits its container
+   */
   stretch: Boolean,
 } as const)
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
 
-const isPanelName = (value: unknown): value is string | number =>
+const isPaneName = (value: unknown): value is string | number =>
   isString(value) || isNumber(value)
 
 export const tabsEmits = {
-  [UPDATE_MODEL_EVENT]: (name: TabPanelName) => isPanelName(name),
-  'tab-click': (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
-  'tab-change': (name: TabPanelName) => isPanelName(name),
-  edit: (paneName: TabPanelName | undefined, action: 'remove' | 'add') =>
+  [UPDATE_MODEL_EVENT]: (name: TabPaneName) => isPaneName(name),
+  tabClick: (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
+  tabChange: (name: TabPaneName) => isPaneName(name),
+  edit: (paneName: TabPaneName | undefined, action: 'remove' | 'add') =>
     ['remove', 'add'].includes(action),
-  'tab-remove': (name: TabPanelName) => isPanelName(name),
-  'tab-add': () => true,
+  tabRemove: (name: TabPaneName) => isPaneName(name),
+  tabAdd: () => true,
 }
 export type TabsEmits = typeof tabsEmits
 
-export default defineComponent({
+export type TabsPanes = Record<number, TabsPaneContext>
+
+const Tabs = defineComponent({
   name: 'ElTabs',
 
   props: tabsProps,
@@ -77,28 +106,32 @@ export default defineComponent({
   setup(props, { emit, slots, expose }) {
     const ns = useNamespace('tabs')
 
+    const isVertical = computed(() =>
+      ['left', 'right'].includes(props.tabPosition)
+    )
+
+    const {
+      children: panes,
+      addChild: sortPane,
+      removeChild: unregisterPane,
+    } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
+
     const nav$ = ref<TabNavInstance>()
-    const panes = reactive<Record<number, TabsPaneContext>>({})
-    const currentName = ref(props.modelValue || props.activeName || '0')
+    const currentName = ref<TabPaneName>(props.modelValue ?? '0')
 
-    const changeCurrentName = (value: TabPanelName) => {
-      currentName.value = value
-      emit(UPDATE_MODEL_EVENT, value)
-      emit('tab-change', value)
-    }
-
-    const setCurrentName = async (value: TabPanelName) => {
+    const setCurrentName = async (value?: TabPaneName, trigger = false) => {
       // should do nothing.
-      if (currentName.value === value) return
+      if (currentName.value === value || isUndefined(value)) return
 
       try {
         const canLeave = await props.beforeLeave?.(value, currentName.value)
         if (canLeave !== false) {
-          changeCurrentName(value)
+          currentName.value = value
+          if (trigger) {
+            emit(UPDATE_MODEL_EVENT, value)
+            emit('tabChange', value)
+          }
 
-          // call exposed function, Vue doesn't support expose in typescript yet.
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
           nav$.value?.removeFocus?.()
         }
       } catch {}
@@ -106,30 +139,25 @@ export default defineComponent({
 
     const handleTabClick = (
       tab: TabsPaneContext,
-      tabName: TabPanelName,
+      tabName: TabPaneName,
       event: Event
     ) => {
       if (tab.props.disabled) return
-      setCurrentName(tabName)
-      emit('tab-click', tab, event)
+      setCurrentName(tabName, true)
+      emit('tabClick', tab, event)
     }
 
     const handleTabRemove = (pane: TabsPaneContext, ev: Event) => {
-      if (pane.props.disabled) return
+      if (pane.props.disabled || isUndefined(pane.props.name)) return
       ev.stopPropagation()
       emit('edit', pane.props.name, 'remove')
-      emit('tab-remove', pane.props.name)
+      emit('tabRemove', pane.props.name)
     }
 
     const handleTabAdd = () => {
       emit('edit', undefined, 'add')
-      emit('tab-add')
+      emit('tabAdd')
     }
-
-    watch(
-      () => props.activeName,
-      (modelValue) => setCurrentName(modelValue)
-    )
 
     watch(
       () => props.modelValue,
@@ -137,58 +165,81 @@ export default defineComponent({
     )
 
     watch(currentName, async () => {
-      // call exposed function, Vue doesn't support expose in typescript yet.
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+      await nextTick()
       nav$.value?.scrollToActiveTab()
     })
 
-    {
-      const registerPane = (pane: TabsPaneContext) => (panes[pane.uid] = pane)
-      const unregisterPane = (uid: number) => delete panes[uid]
-
-      provide(tabsRootContextKey, {
-        props,
-        currentName,
-        registerPane,
-        unregisterPane,
-      })
-    }
+    provide(tabsRootContextKey, {
+      props,
+      currentName,
+      registerPane: (pane: TabsPaneContext) => {
+        panes.value.push(pane)
+      },
+      sortPane,
+      unregisterPane,
+    })
 
     expose({
       currentName,
     })
-
+    const TabNavRenderer: FunctionalComponent<{ render: () => VNode }> = ({
+      render,
+    }) => {
+      return render()
+    }
     return () => {
+      const addSlot = slots['add-icon']
       const newButton =
         props.editable || props.addable ? (
-          <span
-            class={ns.e('new-tab')}
+          <div
+            class={[
+              ns.e('new-tab'),
+              isVertical.value && ns.e('new-tab-vertical'),
+            ]}
             tabindex="0"
             onClick={handleTabAdd}
             onKeydown={(ev: KeyboardEvent) => {
               if (ev.code === EVENT_CODE.enter) handleTabAdd()
             }}
           >
-            <ElIcon class={ns.is('icon-plus')}>
-              <Plus />
-            </ElIcon>
-          </span>
+            {addSlot ? (
+              renderSlot(slots, 'add-icon')
+            ) : (
+              <ElIcon class={ns.is('icon-plus')}>
+                <Plus />
+              </ElIcon>
+            )}
+          </div>
         ) : null
 
       const header = (
-        <div class={[ns.e('header'), ns.is(props.tabPosition)]}>
-          {newButton}
-          <TabNav
-            ref={nav$}
-            currentName={currentName.value}
-            editable={props.editable}
-            type={props.type}
-            panes={Object.values(panes)}
-            stretch={props.stretch}
-            onTabClick={handleTabClick}
-            onTabRemove={handleTabRemove}
+        <div
+          class={[
+            ns.e('header'),
+            isVertical.value && ns.e('header-vertical'),
+            ns.is(props.tabPosition),
+          ]}
+        >
+          <TabNavRenderer
+            render={() => {
+              const hasLabelSlot = panes.value.some((pane) => pane.slots.label)
+              return createVNode(
+                TabNav,
+                {
+                  ref: nav$,
+                  currentName: currentName.value,
+                  editable: props.editable,
+                  type: props.type,
+                  panes: panes.value,
+                  stretch: props.stretch,
+                  onTabClick: handleTabClick,
+                  onTabRemove: handleTabRemove,
+                },
+                { $stable: !hasLabelSlot }
+              )
+            }}
           />
+          {newButton}
         </div>
       )
 
@@ -207,11 +258,16 @@ export default defineComponent({
             },
           ]}
         >
-          {...props.tabPosition !== 'bottom'
-            ? [header, panels]
-            : [panels, header]}
+          {panels}
+          {header}
         </div>
       )
     }
   },
 })
+
+export type TabsInstance = InstanceType<typeof Tabs> & {
+  currentName: TabPaneName
+}
+
+export default Tabs

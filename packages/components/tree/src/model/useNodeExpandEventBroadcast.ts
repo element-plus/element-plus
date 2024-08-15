@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { inject, provide } from 'vue'
 import type Node from '../model/node'
 

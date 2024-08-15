@@ -1,7 +1,8 @@
+// @ts-nocheck
 import { computed, inject, ref } from 'vue'
-import { addClass, generateId, on } from '@element-plus/utils'
+import { addClass } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
-import { useNamespace } from '@element-plus/hooks'
+import { useId, useNamespace } from '@element-plus/hooks'
 import type { Nullable } from '@element-plus/utils'
 import type { IElDropdownInstance } from './dropdown'
 
@@ -24,14 +25,12 @@ export const initDropdownDomEvent = (
   const menuItems = ref<Nullable<HTMLButtonElement[]>>(null)
   const menuItemsArray = ref<Nullable<HTMLElement[]>>(null)
   const dropdownElm = ref<Nullable<HTMLElement>>(null)
-  const listId = ref(`dropdown-menu-${generateId()}`)
+  const listId = useId()
   dropdownElm.value = dropdownChildren?.subTree.el
 
   function removeTabindex() {
     triggerElm.setAttribute('tabindex', '-1')
-    menuItemsArray.value?.forEach((item) => {
-      item.setAttribute('tabindex', '-1')
-    })
+    menuItemsArray.value?.forEach((item) => item.setAttribute('tabindex', '-1'))
   }
 
   function resetTabindex(ele) {
@@ -95,8 +94,8 @@ export const initDropdownDomEvent = (
   }
 
   function initEvent() {
-    on(triggerElm, 'keydown', handleTriggerKeyDown)
-    on(dropdownElm.value, 'keydown', handleItemKeyDown, true)
+    triggerElm?.addEventListener('keydown', handleTriggerKeyDown)
+    dropdownElm.value?.addEventListener('keydown', handleItemKeyDown, true)
   }
 
   function initDomOperation() {

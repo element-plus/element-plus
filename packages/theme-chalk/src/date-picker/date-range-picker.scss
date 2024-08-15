@@ -13,6 +13,10 @@
     width: 756px;
   }
 
+  &.has-time .#{$namespace}-picker-panel__body-wrapper {
+    position: relative;
+  }
+
   table {
     table-layout: fixed;
     width: 100%;

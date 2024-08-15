@@ -16,7 +16,6 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, provide, ref, unref, watch } from 'vue'
 import { offset } from '@floating-ui/dom'
-import { tooltipV2ContentKey, tooltipV2RootKey } from '@element-plus/tokens'
 import {
   arrowMiddleware,
   useFloating,
@@ -24,6 +23,7 @@ import {
   useZIndex,
 } from '@element-plus/hooks'
 import ElVisuallyHidden from '@element-plus/components/visual-hidden'
+import { tooltipV2ContentKey, tooltipV2RootKey } from './constants'
 import { tooltipV2ContentProps } from './content'
 import { tooltipV2CommonProps } from './common'
 

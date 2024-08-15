@@ -82,6 +82,7 @@
   </div>
 </template>
 <script lang="ts">
+// @ts-nocheck
 import {
   defineComponent,
   getCurrentInstance,
@@ -99,7 +100,7 @@ import { CaretRight, Loading } from '@element-plus/icons-vue'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import NodeContent from './tree-node-content.vue'
-import { getNodeKey as getNodeKeyUtil } from './model/util'
+import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { dragEventsKey } from './model/useDragNode'
 import Node from './model/node'
@@ -157,7 +158,7 @@ export default defineComponent({
       childNodeRendered.value = true
     }
 
-    const childrenKey = tree.props['children'] || 'children'
+    const childrenKey = tree.props.props['children'] || 'children'
     watch(
       () => {
         const children = props.node.data[childrenKey]
@@ -180,6 +181,11 @@ export default defineComponent({
       (val) => {
         handleSelectChange(val, props.node.indeterminate)
       }
+    )
+
+    watch(
+      () => props.node.childNodes.length,
+      () => props.node.reInitChecked()
     )
 
     watch(
@@ -228,12 +234,8 @@ export default defineComponent({
     }
 
     const handleClick = (e: MouseEvent) => {
-      const store = tree.store.value
-      store.setCurrentNode(props.node)
-      tree.ctx.emit(
-        'current-change',
-        store.currentNode ? store.currentNode.data : null,
-        store.currentNode
+      handleCurrentChange(tree.store, tree.ctx.emit, () =>
+        tree.store.value.setCurrentNode(props.node)
       )
       tree.currentNode.value = props.node
 

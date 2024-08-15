@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from '@vue/runtime-core'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'

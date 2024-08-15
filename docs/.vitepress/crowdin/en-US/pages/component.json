@@ -1,4 +1,13 @@
 {
+  "overview": {
+    "text": "Overview",
+    "children": [
+      {
+        "link": "/overview",
+        "text": "Overview"
+      }
+    ]
+  },
   "basic": {
     "text": "Basic",
     "children": [
@@ -31,6 +40,11 @@
         "text": "Link"
       },
       {
+        "link": "/text",
+        "text": "Text",
+        "promotion": "2.3.0"
+      },
+      {
         "link": "/scrollbar",
         "text": "Scrollbar"
       },
@@ -56,6 +70,10 @@
   "form": {
     "text": "Form",
     "children": [
+      {
+        "link": "/autocomplete",
+        "text": "Autocomplete"
+      },
       {
         "link": "/cascader",
         "text": "Cascader"
@@ -87,6 +105,11 @@
       {
         "link": "/input-number",
         "text": "Input Number"
+      },
+      {
+        "link": "/mention",
+        "text": "Mention",
+        "promotion": "2.8.0"
       },
       {
         "link": "/radio",
@@ -125,12 +148,16 @@
         "text": "Transfer"
       },
       {
+        "link": "/tree-select",
+        "text": "TreeSelect",
+        "promotion": "2.1.8"
+      },
+      {
         "link": "/upload",
         "text": "Upload"
       }
     ]
   },
-
   "data": {
     "text": "Data",
     "children": [
@@ -208,17 +235,27 @@
         "text": "Timeline"
       },
       {
+        "link": "/tour",
+        "text": "Tour",
+        "promotion": "2.5.0"
+      },
+      {
         "link": "/tree",
         "text": "Tree"
       },
       {
-        "link": "/tree-select",
-        "text": "TreeSelect",
-        "promotion": "2.1.8"
-      },
-      {
         "link": "/tree-v2",
         "text": "Virtualized Tree"
+      },
+      {
+        "link": "/statistic",
+        "text": "Statistic",
+        "promotion": "2.2.30"
+      },
+      {
+        "link": "/segmented",
+        "text": "Segmented",
+        "promotion": "2.7.0"
       }
     ]
   },
@@ -228,6 +265,11 @@
       {
         "link": "/affix",
         "text": "Affix"
+      },
+      {
+        "link": "/anchor",
+        "text": "Anchor",
+        "promotion": "2.6.0"
       },
       {
         "link": "/backtop",
@@ -292,7 +334,7 @@
       },
       {
         "link": "/popconfirm",
-        "text": "Pop Confirm"
+        "text": "Popconfirm"
       },
       {
         "link": "/popover",
@@ -310,6 +352,11 @@
       {
         "link": "/divider",
         "text": "Divider"
+      },
+      {
+        "link": "/watermark",
+        "text": "Watermark",
+        "promotion": "2.4.0"
       }
     ]
   }

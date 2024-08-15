@@ -1,18 +1,18 @@
 <template>
   <template v-if="descriptions.direction === 'vertical'">
     <tr>
-      <template v-for="(cell, index) in row" :key="`tr1-${index}`">
+      <template v-for="(cell, _index) in row" :key="`tr1-${_index}`">
         <el-descriptions-cell :cell="cell" tag="th" type="label" />
       </template>
     </tr>
     <tr>
-      <template v-for="(cell, index) in row" :key="`tr2-${index}`">
+      <template v-for="(cell, _index) in row" :key="`tr2-${_index}`">
         <el-descriptions-cell :cell="cell" tag="td" type="content" />
       </template>
     </tr>
   </template>
   <tr v-else>
-    <template v-for="(cell, index) in row" :key="`tr3-${index}`">
+    <template v-for="(cell, _index) in row" :key="`tr3-${_index}`">
       <template v-if="descriptions.border">
         <el-descriptions-cell :cell="cell" tag="td" type="label" />
         <el-descriptions-cell :cell="cell" tag="td" type="content" />
@@ -22,29 +22,20 @@
   </tr>
 </template>
 
-<script lang="ts">
-import { defineComponent, inject } from 'vue'
-import DescriptionsCell from './descriptions-cell'
-import { elDescriptionsKey } from './token'
+<script lang="ts" setup>
+import { inject } from 'vue'
+
+import ElDescriptionsCell from './descriptions-cell'
+import { descriptionsKey } from './token'
+import { descriptionsRowProps } from './descriptions-row'
 
 import type { IDescriptionsInject } from './descriptions.type'
 
-export default defineComponent({
+defineOptions({
   name: 'ElDescriptionsRow',
-  components: {
-    [DescriptionsCell.name]: DescriptionsCell,
-  },
-  props: {
-    row: {
-      type: Array,
-    },
-  },
-  setup() {
-    const descriptions = inject(elDescriptionsKey, {} as IDescriptionsInject)
-
-    return {
-      descriptions,
-    }
-  },
 })
+
+defineProps(descriptionsRowProps)
+
+const descriptions = inject(descriptionsKey, {} as IDescriptionsInject)
 </script>

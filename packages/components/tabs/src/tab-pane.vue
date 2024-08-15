@@ -11,6 +11,7 @@
     <slot />
   </div>
 </template>
+
 <script lang="ts" setup>
 import {
   computed,
@@ -24,14 +25,14 @@ import {
   watch,
 } from 'vue'
 import { eagerComputed } from '@vueuse/core'
-import { tabsRootContextKey } from '@element-plus/tokens'
 import { throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
+import { tabsRootContextKey } from './constants'
 import { tabPaneProps } from './tab-pane'
 
 const COMPONENT_NAME = 'ElTabPane'
 defineOptions({
-  name: 'ElTabPane',
+  name: COMPONENT_NAME,
 })
 const props = defineProps(tabPaneProps)
 
@@ -47,10 +48,10 @@ const ns = useNamespace('tab-pane')
 const index = ref<string>()
 const isClosable = computed(() => props.closable || tabsRoot.props.closable)
 const active = eagerComputed(
-  () => tabsRoot.currentName.value === (props.name || index.value)
+  () => tabsRoot.currentName.value === (props.name ?? index.value)
 )
 const loaded = ref(active.value)
-const paneName = computed(() => props.name || index.value)
+const paneName = computed(() => props.name ?? index.value)
 const shouldBeRender = eagerComputed(
   () => !props.lazy || loaded.value || active.value
 )
@@ -69,8 +70,9 @@ const pane = reactive({
   isClosable,
 })
 
+tabsRoot.registerPane(pane)
 onMounted(() => {
-  tabsRoot.registerPane(pane)
+  tabsRoot.sortPane(pane)
 })
 
 onUnmounted(() => {

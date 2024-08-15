@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="popperRef"
-    v-model:visible="suggestionVisible"
+    :visible="suggestionVisible"
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass]"
@@ -13,7 +13,9 @@
     trigger="click"
     :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
+    role="listbox"
     @before-show="onSuggestionShow"
+    @hide="onHide"
   >
     <div
       ref="listboxRef"
@@ -27,7 +29,11 @@
       <el-input
         ref="inputRef"
         v-bind="attrs"
+        :clearable="clearable"
+        :disabled="disabled"
+        :name="name"
         :model-value="modelValue"
+        :aria-label="ariaLabel"
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
@@ -38,6 +44,7 @@
         @keydown.enter="handleKeyEnter"
         @keydown.tab="close"
         @keydown.esc="handleKeyEscape"
+        @mousedown="handleMouseDown"
       >
         <template v-if="$slots.prepend" #prepend>
           <slot name="prepend" />
@@ -57,7 +64,10 @@
       <div
         ref="regionRef"
         :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
-        :style="{ minWidth: dropdownWidth, outline: 'none' }"
+        :style="{
+          [fitInputWidth ? 'width' : 'minWidth']: dropdownWidth,
+          outline: 'none',
+        }"
         role="region"
       >
         <el-scrollbar
@@ -68,7 +78,11 @@
           role="listbox"
         >
           <li v-if="suggestionLoading">
-            <el-icon :class="ns.is('loading')"><Loading /></el-icon>
+            <slot name="loading">
+              <el-icon :class="ns.is('loading')">
+                <Loading />
+              </el-icon>
+            </slot>
           </li>
           <template v-else>
             <li
@@ -92,7 +106,7 @@
 <script lang="ts" setup>
 import {
   computed,
-  nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   useAttrs as useRawAttrs,
@@ -100,8 +114,8 @@ import {
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
-import { useAttrs, useNamespace } from '@element-plus/hooks'
-import { generateId, isArray, throwError } from '@element-plus/utils'
+import { useAttrs, useId, useNamespace } from '@element-plus/hooks'
+import { isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
@@ -111,6 +125,7 @@ import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
+import { useFormDisabled } from '@element-plus/components/form'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
 import type { AutocompleteData } from './autocomplete'
 
@@ -118,18 +133,18 @@ import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 
+const COMPONENT_NAME = 'ElAutocomplete'
 defineOptions({
-  name: 'ElAutocomplete',
+  name: COMPONENT_NAME,
   inheritAttrs: false,
 })
-
-const COMPONENT_NAME = 'ElAutocomplete'
 
 const props = defineProps(autocompleteProps)
 const emit = defineEmits(autocompleteEmits)
 
 const attrs = useAttrs()
 const rawAttrs = useRawAttrs()
+const disabled = useFormDisabled()
 const ns = useNamespace('autocomplete')
 
 const inputRef = ref<InputInstance>()
@@ -137,7 +152,8 @@ const regionRef = ref<HTMLElement>()
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
 
-let isClear = false
+let readonly = false
+let ignoreFocusEvent = false
 const suggestions = ref<AutocompleteData>([])
 const highlightedIndex = ref(-1)
 const dropdownWidth = ref('')
@@ -145,7 +161,7 @@ const activated = ref(false)
 const suggestionDisabled = ref(false)
 const loading = ref(false)
 
-const listboxId = computed(() => ns.b(String(generateId())))
+const listboxId = useId()
 const styles = computed(() => rawAttrs.style as StyleValue)
 
 const suggestionVisible = computed(() => {
@@ -155,11 +171,23 @@ const suggestionVisible = computed(() => {
 
 const suggestionLoading = computed(() => !props.hideLoading && loading.value)
 
-const onSuggestionShow = async () => {
-  await nextTick()
+const refInput = computed<HTMLInputElement[]>(() => {
+  if (inputRef.value) {
+    return Array.from<HTMLInputElement>(
+      inputRef.value.$el.querySelectorAll('input')
+    )
+  }
+  return []
+})
+
+const onSuggestionShow = () => {
   if (suggestionVisible.value) {
     dropdownWidth.value = `${inputRef.value!.$el.offsetWidth}px`
   }
+}
+
+const onHide = () => {
+  highlightedIndex.value = -1
 }
 
 const getData = async (queryString: string) => {
@@ -194,17 +222,25 @@ const handleInput = (value: string) => {
   emit(UPDATE_MODEL_EVENT, value)
 
   suggestionDisabled.value = false
-  activated.value ||= isClear && valuePresented
+  activated.value ||= valuePresented
 
   if (!props.triggerOnFocus && !value) {
     suggestionDisabled.value = true
     suggestions.value = []
     return
   }
-  if (isClear && valuePresented) {
-    isClear = false
-  }
+
   debouncedGetData(value)
+}
+
+const handleMouseDown = (event: MouseEvent) => {
+  if (disabled.value) return
+  if (
+    (event.target as HTMLElement)?.tagName !== 'INPUT' ||
+    refInput.value.includes(document.activeElement as HTMLInputElement)
+  ) {
+    activated.value = true
+  }
 }
 
 const handleChange = (value: string) => {
@@ -212,20 +248,33 @@ const handleChange = (value: string) => {
 }
 
 const handleFocus = (evt: FocusEvent) => {
-  activated.value = true
-  emit('focus', evt)
-  if (props.triggerOnFocus) {
-    debouncedGetData(String(props.modelValue))
+  if (!ignoreFocusEvent) {
+    activated.value = true
+    emit('focus', evt)
+
+    if (props.triggerOnFocus && !readonly) {
+      debouncedGetData(String(props.modelValue))
+    }
+  } else {
+    ignoreFocusEvent = false
   }
 }
 
 const handleBlur = (evt: FocusEvent) => {
-  emit('blur', evt)
+  setTimeout(() => {
+    // validate current focus event is inside el-tooltip-content
+    // if so, ignore the blur event and the next focus event
+    if (popperRef.value?.isFocusInsideContent()) {
+      ignoreFocusEvent = true
+      return
+    }
+    activated.value && close()
+    emit('blur', evt)
+  })
 }
 
 const handleClear = () => {
   activated.value = false
-  isClear = true
   emit(UPDATE_MODEL_EVENT, '')
   emit('clear')
 }
@@ -239,7 +288,6 @@ const handleKeyEnter = async () => {
     handleSelect(suggestions.value[highlightedIndex.value])
   } else if (props.selectWhenUnmatched) {
     emit('select', { value: props.modelValue })
-    await nextTick()
     suggestions.value = []
     highlightedIndex.value = -1
   }
@@ -261,11 +309,14 @@ const focus = () => {
   inputRef.value?.focus()
 }
 
+const blur = () => {
+  inputRef.value?.blur()
+}
+
 const handleSelect = async (item: any) => {
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)
-  await nextTick()
   suggestions.value = []
   highlightedIndex.value = -1
 }
@@ -305,7 +356,13 @@ const highlight = (index: number) => {
   )
 }
 
-onClickOutside(listboxRef, close)
+const stopHandle = onClickOutside(listboxRef, () => {
+  suggestionVisible.value && close()
+})
+
+onBeforeUnmount(() => {
+  stopHandle?.()
+})
 
 onMounted(() => {
   // TODO: use Volar generate dts to fix it.
@@ -316,6 +373,8 @@ onMounted(() => {
     'aria-activedescendant',
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
+  // get readonly attr
+  readonly = (inputRef.value as any).ref!.hasAttribute('readonly')
 })
 
 defineExpose({
@@ -337,6 +396,8 @@ defineExpose({
   handleKeyEnter,
   /** @description focus the input element */
   focus,
+  /** @description blur the input element */
+  blur,
   /** @description close suggestion */
   close,
   /** @description highlight an item in a suggestion */

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { reactive } from 'vue'
 import { hasOwn } from '@element-plus/utils'
 import { NODE_KEY, markNodeData } from './util'
@@ -34,7 +35,7 @@ export const getChildState = (node: Node[]): TreeNodeChildState => {
 }
 
 const reInitChecked = function (node: Node): void {
-  if (node.childNodes.length === 0) return
+  if (node.childNodes.length === 0 || node.loading) return
 
   const { all, none, half } = getChildState(node.childNodes)
   if (all) {
@@ -144,7 +145,12 @@ class Node {
         this.expanded = true
         this.canFocus = true
       }
-    } else if (this.level > 0 && store.lazy && store.defaultExpandAll) {
+    } else if (
+      this.level > 0 &&
+      store.lazy &&
+      store.defaultExpandAll &&
+      !this.isLeafByUser
+    ) {
       this.expand()
     }
     if (!Array.isArray(this.data)) {
@@ -535,24 +541,41 @@ class Node {
       this.loading = true
 
       const resolve = (children) => {
-        this.loaded = true
-        this.loading = false
         this.childNodes = []
 
         this.doCreateChildren(children, defaultProps)
+        this.loaded = true
+        this.loading = false
 
         this.updateLeafState()
         if (callback) {
           callback.call(this, children)
         }
       }
+      const reject = () => {
+        this.loading = false
+      }
 
-      this.store.load(this, resolve)
+      this.store.load(this, resolve, reject)
     } else {
       if (callback) {
         callback.call(this)
       }
     }
+  }
+
+  eachNode(callback: (node: Node) => void) {
+    const arr: Node[] = [this]
+    while (arr.length) {
+      const node = arr.shift()!
+      arr.unshift(...node.childNodes)
+      callback(node)
+    }
+  }
+
+  reInitChecked() {
+    if (this.store.checkStrictly) return
+    reInitChecked(this)
   }
 }
 

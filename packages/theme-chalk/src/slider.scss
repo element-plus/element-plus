@@ -165,11 +165,14 @@ $slider-height: map.merge(
       font-size: 14px;
       color: getCssVar('color-info');
       margin-top: 15px;
+      white-space: pre;
     }
   }
 
   @include when(vertical) {
     position: relative;
+    display: inline-flex;
+    width: auto;
     height: 100%;
     flex: 0;
 

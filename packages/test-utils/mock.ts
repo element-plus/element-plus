@@ -19,6 +19,6 @@ export function mockImageEvent() {
     })
   })
   afterAll(() => {
-    Object.defineProperty(imageProto, 'src', oldDescriptor)
+    Object.defineProperty(imageProto, 'src', oldDescriptor!)
   })
 }
