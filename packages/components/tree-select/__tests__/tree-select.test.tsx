@@ -737,8 +737,6 @@ describe('TreeSelect.vue', () => {
         checkStrictly: false,
         lazy: true,
         load: (node: object, resolve: (p: any) => any[]) => {
-          if (node?.isLeaf) return resolve([])
-
           resolve([
             {
               value: ++id,
