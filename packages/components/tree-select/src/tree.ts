@@ -2,7 +2,7 @@
 import { computed, nextTick, toRefs, watch } from 'vue'
 import { isEqual, pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { escapeStringRegexp, isFunction } from '@element-plus/utils'
+import { escapeStringRegexp, isEmpty, isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
 import {
@@ -113,6 +113,14 @@ export const useTree = (
     return options
   })
 
+  const formatCheckedValues = () => {
+    const childKeys = tree.value?.getCheckedKeys().filter((checkedKey) => {
+      const node = tree.value?.getNode(checkedKey) as Node
+      return node && !isEmpty(node.childNodes) ? false : true
+    })
+    return childKeys
+  }
+
   return {
     ...pick(toRefs(props), Object.keys(ElTree.props)),
     ...attrs,
@@ -208,10 +216,9 @@ export const useTree = (
       // only can select leaf node
       else {
         if (props.multiple) {
-          emit(
-            UPDATE_MODEL_EVENT,
-            cachedKeys.concat((tree.value as TreeInstance).getCheckedKeys(true))
-          )
+          const childKeys = formatCheckedValues()
+
+          emit(UPDATE_MODEL_EVENT, cachedKeys.concat(childKeys))
         } else {
           // select first leaf node when check parent
           const firstLeaf = treeFind(
@@ -258,6 +265,34 @@ export const useTree = (
       select.value?.focus()
     },
 
+    onNodeExpand: (data, node) => {
+      nextTick(() => {
+        if (
+          !props.checkStrictly &&
+          props.lazy &&
+          props.multiple &&
+          node.checked
+        ) {
+          const dataMap = {}
+          const uncachedCheckedKeys = (
+            tree.value as TreeInstance
+          ).getCheckedKeys()
+
+          treeEach(
+            [tree.value.store.root],
+            (node) => (dataMap[node.key] = node),
+            (node) => node.childNodes
+          )
+
+          const cachedKeys = toValidArray(props.modelValue).filter(
+            (item) => !(item in dataMap) && !uncachedCheckedKeys.includes(item)
+          )
+
+          const childKeys = formatCheckedValues()
+          emit(UPDATE_MODEL_EVENT, cachedKeys.concat(childKeys))
+        }
+      })
+    },
     // else
     cacheOptions,
   }
