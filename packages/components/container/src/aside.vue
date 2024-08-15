@@ -13,6 +13,9 @@ defineOptions({
   name: 'ElAside',
 })
 const props = defineProps({
+  /**
+   * @description width of the side section
+   */
   width: {
     type: String,
     default: null,

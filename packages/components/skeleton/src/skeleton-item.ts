@@ -3,6 +3,9 @@ import type SkeletonItem from './skeleton-item.vue'
 import type { ExtractPropTypes } from 'vue'
 
 export const skeletonItemProps = buildProps({
+  /**
+   * @description the current rendering skeleton type
+   */
   variant: {
     type: String,
     values: [

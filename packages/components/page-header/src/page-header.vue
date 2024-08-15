@@ -1,6 +1,6 @@
 <template>
   <div :class="kls">
-    <div :class="ns.e('breadcrumb')">
+    <div v-if="$slots.breadcrumb" :class="ns.e('breadcrumb')">
       <slot name="breadcrumb" />
     </div>
     <div :class="ns.e('header')">

@@ -10,10 +10,7 @@ export type CascaderValue =
   | CascaderNodePathValue
   | (CascaderNodeValue | CascaderNodePathValue)[]
 export type CascaderConfig = Required<CascaderProps>
-export enum ExpandTrigger {
-  CLICK = 'click',
-  HOVER = 'hover',
-}
+export type ExpandTrigger = 'click' | 'hover'
 export type isDisabled = (data: CascaderOption, node: Node) => boolean
 export type isLeaf = (data: CascaderOption, node: Node) => boolean
 export type Resolve = (dataList?: CascaderOption[]) => void
@@ -76,8 +73,23 @@ class Node {
   children: Node[]
   text: string
   loaded: boolean
+  /**
+   * Is it checked
+   *
+   * @default false
+   */
   checked = false
+  /**
+   * Used to indicate the intermediate state of unchecked and fully checked child nodes
+   *
+   * @default false
+   */
   indeterminate = false
+  /**
+   * Loading Status
+   *
+   * @default false
+   */
   loading = false
 
   constructor(

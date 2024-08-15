@@ -1,15 +1,17 @@
 import { computed, inject, nextTick, ref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
+import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { sliderContextKey } from '@element-plus/tokens'
+import { sliderContextKey } from '../constants'
+
 import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue'
-import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SliderProps } from '../slider'
 import type {
   SliderButtonEmits,
   SliderButtonInitData,
   SliderButtonProps,
 } from '../button'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 const { left, down, right, up, home, end, pageUp, pageDown } = EVENT_CODE
 
@@ -262,7 +264,7 @@ export const useSliderButton = (
 
     await nextTick()
     initData.dragging && displayTooltip()
-    tooltip.value.updatePopper()
+    tooltip.value!.updatePopper()
   }
 
   watch(
@@ -271,6 +273,8 @@ export const useSliderButton = (
       updateDragging(val)
     }
   )
+
+  useEventListener(button, 'touchstart', onButtonDown, { passive: false })
 
   return {
     disabled,

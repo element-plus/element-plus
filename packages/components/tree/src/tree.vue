@@ -22,9 +22,11 @@
       @node-expand="handleNodeExpand"
     />
     <div v-if="isEmpty" :class="ns.e('empty-block')">
-      <span :class="ns.e('empty-text')">{{
-        emptyText ?? t('el.tree.emptyText')
-      }}</span>
+      <slot name="empty">
+        <span :class="ns.e('empty-text')">
+          {{ emptyText ?? t('el.tree.emptyText') }}
+        </span>
+      </slot>
     </div>
     <div
       v-show="dragState.showDropIndicator"
@@ -39,15 +41,17 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
+  inject,
   provide,
   ref,
   watch,
 } from 'vue'
 import { iconPropType } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { formItemContextKey } from '@element-plus/tokens'
+import { formItemContextKey } from '@element-plus/components/form'
+import { selectKey } from '@element-plus/components/select/src/token'
 import TreeStore from './model/tree-store'
-import { getNodeKey as getNodeKeyUtil } from './model/util'
+import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import ElTreeNode from './tree-node.vue'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { useDragNodeHandler } from './model/useDragNode'
@@ -156,6 +160,7 @@ export default defineComponent({
   setup(props, ctx) {
     const { t } = useLocale()
     const ns = useNamespace('tree')
+    const selectInfo = inject(selectKey, null)
 
     const store = ref<TreeStore>(
       new TreeStore({
@@ -196,12 +201,23 @@ export default defineComponent({
 
     const isEmpty = computed(() => {
       const { childNodes } = root.value
+      const hasFilteredOptions = selectInfo
+        ? selectInfo.hasFilteredOptions !== 0
+        : false
       return (
-        !childNodes ||
-        childNodes.length === 0 ||
-        childNodes.every(({ visible }) => !visible)
+        (!childNodes ||
+          childNodes.length === 0 ||
+          childNodes.every(({ visible }) => !visible)) &&
+        !hasFilteredOptions
       )
     })
+
+    watch(
+      () => props.currentNodeKey,
+      (newVal) => {
+        store.value.setCurrentNodeKey(newVal)
+      }
+    )
 
     watch(
       () => props.defaultCheckedKeys,
@@ -285,7 +301,7 @@ export default defineComponent({
       store.value.setCheckedNodes(nodes, leafOnly)
     }
 
-    const setCheckedKeys = (keys, leafOnly?: boolean) => {
+    const setCheckedKeys = (keys: TreeKey[], leafOnly?: boolean) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCheckedKeys')
       store.value.setCheckedKeys(keys, leafOnly)
@@ -310,13 +326,21 @@ export default defineComponent({
     const setCurrentNode = (node: Node, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentNode')
-      store.value.setUserCurrentNode(node, shouldAutoExpandParent)
+
+      handleCurrentChange(store, ctx.emit, () => {
+        broadcastExpanded(node)
+        store.value.setUserCurrentNode(node, shouldAutoExpandParent)
+      })
     }
 
-    const setCurrentKey = (key: TreeKey, shouldAutoExpandParent = true) => {
+    const setCurrentKey = (key?: TreeKey, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentKey')
-      store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
+
+      handleCurrentChange(store, ctx.emit, () => {
+        broadcastExpanded()
+        store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
+      })
     }
 
     const getNode = (data: TreeKey | TreeNodeData): Node => {
@@ -336,14 +360,14 @@ export default defineComponent({
 
     const insertBefore = (
       data: TreeNodeData,
-      refNode: TreeKey | TreeNodeData
+      refNode: TreeKey | TreeNodeData | Node
     ) => {
       store.value.insertBefore(data, refNode)
     }
 
     const insertAfter = (
       data: TreeNodeData,
-      refNode: TreeKey | TreeNodeData
+      refNode: TreeKey | TreeNodeData | Node
     ) => {
       store.value.insertAfter(data, refNode)
     }

@@ -1,4 +1,4 @@
-import { markRaw, nextTick } from 'vue'
+import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { Edit } from '@element-plus/icons-vue'
@@ -189,5 +189,27 @@ describe('Steps.vue', () => {
     ))
     expect(wrapper.find('.el-step__title').text()).toBe('A')
     expect(wrapper.find('.el-step__description').text()).toBe('B')
+  })
+
+  test('order of step', async () => {
+    const data = ref(['first', 'second', 'thrid'])
+    const wrapper = _mount(() => (
+      <Steps active={0}>
+        {data.value.map((t) => (
+          <Step
+            key={t}
+            v-slots={{
+              title: () => t,
+            }}
+          />
+        ))}
+      </Steps>
+    ))
+    await nextTick()
+    data.value = ['a', 'b', 'c']
+    await nextTick()
+    wrapper.findAll('.el-step__icon-inner').forEach((domWrapper, index) => {
+      expect(domWrapper.element.textContent).toEqual((index + 1).toString())
+    })
   })
 })

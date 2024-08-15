@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   buildProp,
   buildProps,
@@ -143,7 +142,13 @@ export const virtualizedGridProps = buildProps({
   initScrollTop: initScrollOffset,
   itemKey: {
     type: definePropType<GridItemKeyGetter>(Function),
-    default: ({ columnIndex, rowIndex }) => `${rowIndex}:${columnIndex}`,
+    default: ({
+      columnIndex,
+      rowIndex,
+    }: {
+      columnIndex: number
+      rowIndex: number
+    }) => `${rowIndex}:${columnIndex}`,
   },
   rowCache: cache,
   rowHeight: itemSize,
@@ -153,6 +158,7 @@ export const virtualizedGridProps = buildProps({
   vScrollbarSize: scrollbarSize,
   scrollbarStartGap: startGap,
   scrollbarEndGap: endGap,
+  role: String,
   ...virtualizedProps,
 } as const)
 

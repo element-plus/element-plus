@@ -1,7 +1,10 @@
-import { h, render, watch } from 'vue'
-import { isClient } from '@vueuse/core'
+import { createVNode, render } from 'vue'
 import {
+  debugWarn,
   hasOwn,
+  isClient,
+  isElement,
+  isFunction,
   isObject,
   isString,
   isUndefined,
@@ -32,15 +35,47 @@ const messageInstance = new Map<
   }
 >()
 
+const getAppendToElement = (props: any): HTMLElement => {
+  let appendTo: HTMLElement | null = document.body
+  if (props.appendTo) {
+    if (isString(props.appendTo)) {
+      appendTo = document.querySelector<HTMLElement>(props.appendTo)
+    }
+    if (isElement(props.appendTo)) {
+      appendTo = props.appendTo
+    }
+
+    // should fallback to default value with a warning
+    if (!isElement(appendTo)) {
+      debugWarn(
+        'ElMessageBox',
+        'the appendTo option is not an HTMLElement. Falling back to document.body.'
+      )
+      appendTo = document.body
+    }
+  }
+  return appendTo
+}
+
 const initInstance = (
   props: any,
   container: HTMLElement,
   appContext: AppContext | null = null
 ) => {
-  const vnode = h(MessageBoxConstructor, props)
+  const vnode = createVNode(
+    MessageBoxConstructor,
+    props,
+    isFunction(props.message) || isVNode(props.message)
+      ? {
+          default: isFunction(props.message)
+            ? props.message
+            : () => props.message,
+        }
+      : null
+  )
   vnode.appContext = appContext
   render(vnode, container)
-  document.body.appendChild(container.firstElementChild!)
+  getAppendToElement(props).appendChild(container.firstElementChild!)
   return vnode.component
 }
 
@@ -101,21 +136,6 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
       vm[prop as keyof ComponentPublicInstance] = options[prop]
     }
   }
-
-  watch(
-    () => vm.message,
-    (newVal, oldVal) => {
-      if (isVNode(newVal)) {
-        // Override slots since message is vnode type.
-        instance.slots.default = () => [newVal]
-      } else if (isVNode(oldVal) && !isVNode(newVal)) {
-        delete instance.slots.default
-      }
-    },
-    {
-      immediate: true,
-    }
-  )
 
   // change visibility after everything is settled
   vm.visible = true

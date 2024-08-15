@@ -48,14 +48,12 @@ function useStyle<T>(props: TableHeaderProps<T>) {
         column,
       })
     }
-    const fixedStyle = column.isSubColumn
-      ? null
-      : getFixedColumnOffset<T>(
-          columnIndex,
-          column.fixed,
-          props.store,
-          row as unknown as TableColumnCtx<T>[]
-        )
+    const fixedStyle = getFixedColumnOffset<T>(
+      columnIndex,
+      column.fixed,
+      props.store,
+      row as unknown as TableColumnCtx<T>[]
+    )
     ensurePosition(fixedStyle, 'left')
     ensurePosition(fixedStyle, 'right')
     return Object.assign({}, headerCellStyles, fixedStyle)
@@ -67,15 +65,13 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     row: T,
     column: TableColumnCtx<T>
   ) => {
-    const fixedClasses = column.isSubColumn
-      ? []
-      : getFixedColumnsClass<T>(
-          ns.b(),
-          columnIndex,
-          column.fixed,
-          props.store,
-          row as unknown as TableColumnCtx<T>[]
-        )
+    const fixedClasses = getFixedColumnsClass<T>(
+      ns.b(),
+      columnIndex,
+      column.fixed,
+      props.store,
+      row as unknown as TableColumnCtx<T>[]
+    )
     const classes = [
       column.id,
       column.order,

@@ -1,8 +1,6 @@
-// @ts-nocheck
 import {
   computed,
   defineComponent,
-  getCurrentInstance,
   inject,
   nextTick,
   onMounted,
@@ -10,7 +8,6 @@ import {
   ref,
   watch,
 } from 'vue'
-import { NOOP } from '@vue/shared'
 import {
   useDocumentVisibility,
   useResizeObserver,
@@ -26,12 +23,13 @@ import {
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
-import { tabsRootContextKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
 import TabBar from './tab-bar.vue'
+import { tabsRootContextKey } from './constants'
+
 import type { CSSProperties, ExtractPropTypes } from 'vue'
-import type { TabsPaneContext } from '@element-plus/tokens'
-import type { TabPanelName } from './tabs'
+import type { TabsPaneContext } from './constants'
+import type { TabPaneName } from './tabs'
 
 interface Scrollable {
   next?: boolean
@@ -48,16 +46,6 @@ export const tabNavProps = buildProps({
     default: '',
   },
   editable: Boolean,
-  onTabClick: {
-    type: definePropType<
-      (tab: TabsPaneContext, tabName: TabPanelName, ev: Event) => void
-    >(Function),
-    default: NOOP,
-  },
-  onTabRemove: {
-    type: definePropType<(tab: TabsPaneContext, ev: Event) => void>(Function),
-    default: NOOP,
-  },
   type: {
     type: String,
     values: ['card', 'border-card', ''],
@@ -66,16 +54,21 @@ export const tabNavProps = buildProps({
   stretch: Boolean,
 } as const)
 
+export const tabNavEmits = {
+  tabClick: (tab: TabsPaneContext, tabName: TabPaneName, ev: Event) =>
+    ev instanceof Event,
+  tabRemove: (tab: TabsPaneContext, ev: Event) => ev instanceof Event,
+}
+
 export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
+export type TabNavEmits = typeof tabNavEmits
 
 const COMPONENT_NAME = 'ElTabNav'
 const TabNav = defineComponent({
   name: COMPONENT_NAME,
   props: tabNavProps,
-
-  setup(props, { expose }) {
-    const vm = getCurrentInstance()!
-
+  emits: tabNavEmits,
+  setup(props, { expose, emit }) {
     const rootTabs = inject(tabsRootContextKey)
     if (!rootTabs) throwError(COMPONENT_NAME, `<el-tabs><tab-nav /></el-tabs>`)
 
@@ -86,6 +79,8 @@ const TabNav = defineComponent({
     const navScroll$ = ref<HTMLDivElement>()
     const nav$ = ref<HTMLDivElement>()
     const el$ = ref<HTMLDivElement>()
+
+    const tabBarRef = ref<InstanceType<typeof TabBar>>()
 
     const scrollable = ref<false | Scrollable>(false)
     const navOffset = ref(0)
@@ -185,13 +180,14 @@ const TabNav = defineComponent({
     const update = () => {
       if (!nav$.value || !navScroll$.value) return
 
+      props.stretch && tabBarRef.value?.update()
+
       const navSize = nav$.value[`offset${capitalize(sizeName.value)}`]
       const containerSize =
         navScroll$.value[`offset${capitalize(sizeName.value)}`]
       const currentOffset = navOffset.value
 
       if (containerSize < navSize) {
-        const currentOffset = navOffset.value
         scrollable.value = scrollable.value || {}
         scrollable.value.prev = currentOffset
         scrollable.value.next = currentOffset + containerSize < navSize
@@ -238,7 +234,7 @@ const TabNav = defineComponent({
           nextIndex = 0
         }
       }
-      tabList[nextIndex].focus() // 改变焦点元素
+      tabList[nextIndex].focus({ preventScroll: true }) // 改变焦点元素
       tabList[nextIndex].click() // 选中下一个tab
       setFocus()
     }
@@ -272,12 +268,6 @@ const TabNav = defineComponent({
       scrollToActiveTab,
       removeFocus,
     })
-
-    watch(
-      () => props.panes,
-      () => vm.update(),
-      { flush: 'post' }
-    )
 
     return () => {
       const scrollBtn = scrollable.value
@@ -320,7 +310,7 @@ const TabNav = defineComponent({
             // `onClick` not exist when generate dts
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            onClick={(ev: MouseEvent) => props.onTabRemove(pane, ev)}
+            onClick={(ev: MouseEvent) => emit('tabRemove', pane, ev)}
           >
             <Close />
           </ElIcon>
@@ -350,7 +340,7 @@ const TabNav = defineComponent({
             onBlur={() => removeFocus()}
             onClick={(ev: MouseEvent) => {
               removeFocus()
-              props.onTabClick(pane, tabName, ev)
+              emit('tabClick', pane, tabName, ev)
             }}
             onKeydown={(ev: KeyboardEvent) => {
               if (
@@ -358,7 +348,7 @@ const TabNav = defineComponent({
                 (ev.code === EVENT_CODE.delete ||
                   ev.code === EVENT_CODE.backspace)
               ) {
-                props.onTabRemove(pane, ev)
+                emit('tabRemove', pane, ev)
               }
             }}
           >
@@ -394,7 +384,9 @@ const TabNav = defineComponent({
               onKeydown={changeTab}
             >
               {...[
-                !props.type ? <TabBar tabs={[...props.panes]} /> : null,
+                !props.type ? (
+                  <TabBar ref={tabBarRef} tabs={[...props.panes]} />
+                ) : null,
                 tabs,
               ]}
             </div>
@@ -405,5 +397,8 @@ const TabNav = defineComponent({
   },
 })
 
-export type TabNavInstance = InstanceType<typeof TabNav>
+export type TabNavInstance = InstanceType<typeof TabNav> & {
+  scrollToActiveTab: () => Promise<void>
+  removeFocus: () => void
+}
 export default TabNav
