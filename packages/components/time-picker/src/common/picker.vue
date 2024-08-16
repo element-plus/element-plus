@@ -175,6 +175,7 @@ import {
 } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
+import dayjs from 'dayjs'
 import { useEmptyValues, useLocale, useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import ElInput from '@element-plus/components/input'
@@ -281,12 +282,30 @@ const emitChange = (
       formItem?.validate('change').catch((err) => debugWarn(err))
   }
 }
+const formatEmitWhileRange = (emitDayjs: Dayjs, index: number) => {
+  if (props.defaultTime) {
+    const pDefaultT = Array.isArray(props.defaultTime)
+      ? props.defaultTime[index]
+      : props.defaultTime
+    const defaultTimeD = dayjs(pDefaultT).locale(lang.value)
+
+    return defaultTimeD
+      .year(emitDayjs.year())
+      .month(emitDayjs.month())
+      .date(emitDayjs.date())
+  }
+  return emitDayjs
+}
 const emitInput = (input: SingleOrRange<DateModelType | Dayjs> | null) => {
   if (!valueEquals(props.modelValue, input)) {
     let formatted
     if (isArray(input)) {
-      formatted = input.map((item) =>
-        formatter(item, props.valueFormat, lang.value)
+      formatted = input.map((item, idx) =>
+        formatter(
+          formatEmitWhileRange(dayjs(item), idx).toDate(),
+          props.valueFormat,
+          lang.value
+        )
       )
     } else if (input) {
       formatted = formatter(input, props.valueFormat, lang.value)
@@ -339,6 +358,7 @@ const onPick = (date: any = '', visible = false) => {
     result = date ? date.toDate() : date
   }
   userInput.value = null
+
   emitInput(result)
 }
 

@@ -1603,6 +1603,36 @@ describe('DateRangePicker', () => {
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
   })
+  it('change input when has defaultTime', async () => {
+    const wrapper = _mount(
+      `
+      <el-date-picker
+        v-model="value"
+        type="daterange"
+        :default-time="defaultTime"
+    />`,
+      () => ({
+        value: ['2022-01-01 13:13:13', '2022-02-01 13:13:13'],
+        defaultTime: [
+          new Date(2000, 1, 1, 0, 0, 0),
+          new Date(2000, 2, 1, 23, 59, 59),
+        ],
+      })
+    )
+
+    const inputs = wrapper.findAll('input')
+    const leftDateInput = inputs[0]
+
+    leftDateInput.element.value = '2022-01-02 13:13:13'
+    await leftDateInput.trigger('input')
+    await leftDateInput.trigger('change')
+    await nextTick()
+    const vm = wrapper.vm as any
+
+    expect(
+      vm.value.map((v) => dayjs(v).format('YYYY-MM-DD HH:mm:ss'))
+    ).toStrictEqual(['2022-01-02 00:00:00', '2022-02-01 23:59:59'])
+  })
 })
 
 describe('MonthRange', () => {
