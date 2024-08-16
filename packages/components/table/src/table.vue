@@ -288,11 +288,11 @@ export default defineComponent({
       debouncedUpdateLayout,
     }
     const computedSumText = computed(
-      () => props.sumText || t('el.table.sumText')
+      () => props.sumText ?? t('el.table.sumText')
     )
 
     const computedEmptyText = computed(() => {
-      return props.emptyText || t('el.table.emptyText')
+      return props.emptyText ?? t('el.table.emptyText')
     })
 
     const columns = computed(() => {
