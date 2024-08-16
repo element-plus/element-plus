@@ -13,6 +13,7 @@
           :focus-trap-el="wrapper"
           focus-start-el="container"
           @focusout-prevented="onFocusoutPrevented"
+          @release-requested="onCloseRequested"
         >
           <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
@@ -364,6 +365,12 @@ function handleActions(action: ImageViewerAction, options = {}) {
 function onFocusoutPrevented(event: CustomEvent) {
   if (event.detail?.focusReason === 'pointer') {
     event.preventDefault()
+  }
+}
+
+function onCloseRequested() {
+  if (props.closeOnPressEscape) {
+    hide()
   }
 }
 
