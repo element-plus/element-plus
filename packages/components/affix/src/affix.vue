@@ -74,27 +74,26 @@ const update = () => {
       ? document.documentElement.scrollTop
       : scrollContainer.value.scrollTop || 0
 
-  if (props.position === 'top') {
-    if (props.target) {
-      const difference =
-        targetRect.bottom.value - props.offset - rootHeight.value
-      fixed.value = props.offset > rootTop.value && targetRect.bottom.value > 0
-      transform.value = difference < 0 ? difference : 0
+  const { position, target, offset } = props
+  const rootHeightOffset = offset + rootHeight.value
+
+  if (position === 'top') {
+    if (target) {
+      const difference = targetRect.bottom.value - rootHeightOffset
+      fixed.value = offset > rootTop.value && targetRect.bottom.value > 0
+      transform.value = Math.min(difference, 0)
     } else {
-      fixed.value = props.offset > rootTop.value
+      fixed.value = offset > rootTop.value
     }
-  } else if (props.target) {
+  } else if (target) {
     const difference =
-      windowHeight.value -
-      targetRect.top.value -
-      props.offset -
-      rootHeight.value
+      windowHeight.value - targetRect.top.value - rootHeightOffset
     fixed.value =
-      windowHeight.value - props.offset < rootBottom.value &&
+      windowHeight.value - offset < rootBottom.value &&
       windowHeight.value > targetRect.top.value
-    transform.value = difference < 0 ? -difference : 0
+    transform.value = Math.max(-difference, 0)
   } else {
-    fixed.value = windowHeight.value - props.offset < rootBottom.value
+    fixed.value = windowHeight.value - offset < rootBottom.value
   }
 }
 
