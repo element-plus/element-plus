@@ -800,7 +800,7 @@ describe('Table.vue', () => {
         },
         template: `
           <el-table ref="table" :data="testData" @${prop}="handleEvent">
-            <el-table-column type="selection" />
+            <el-table-column type="selection" :selectable="selectable" />
             <el-table-column prop="name" />
             <el-table-column prop="release" />
             <el-table-column prop="director" />
@@ -812,6 +812,9 @@ describe('Table.vue', () => {
           handleEvent(selection) {
             this.fireCount++
             this.selection = selection
+          },
+          selectable(row) {
+            return row.id !== 1
           },
         },
 
@@ -844,7 +847,7 @@ describe('Table.vue', () => {
       const vm = wrapper.vm
       vm.$refs.table.toggleAllSelection()
       await doubleWait()
-      expect(vm.selection.length).toEqual(5)
+      expect(vm.selection.length).toEqual(4)
 
       vm.$refs.table.toggleAllSelection()
       await doubleWait()
