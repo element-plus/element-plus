@@ -4,6 +4,13 @@
       v-bind="mergeProps(passInputProps, $attrs)"
       ref="elInputRef"
       :model-value="modelValue"
+      :role="dropdownVisible ? 'combobox' : undefined"
+      :aria-activedescendant="dropdownVisible ? hoveringId || '' : undefined"
+      :aria-controls="dropdownVisible ? contentId : undefined"
+      :aria-expanded="dropdownVisible || undefined"
+      :aria-label="ariaLabel"
+      :aria-autocomplete="dropdownVisible ? 'none' : undefined"
+      :aria-haspopup="dropdownVisible ? 'listbox' : undefined"
       @input="handleInputChange"
       @keydown="handleInputKeyDown"
       @mousedown="handleInputMouseDown"
@@ -14,7 +21,7 @@
     </el-input>
     <el-tooltip
       ref="tooltipRef"
-      :visible="visible && (!!filteredOptions.length || loading)"
+      :visible="dropdownVisible"
       :popper-class="[ns.e('popper'), popperClass]"
       :popper-options="popperOptions"
       :placement="computedPlacement"
@@ -33,6 +40,8 @@
           :options="filteredOptions"
           :disabled="disabled"
           :loading="loading"
+          :content-id="contentId"
+          :aria-label="ariaLabel"
           @select="handleSelect"
           @click.stop="elInputRef?.focus"
         >
@@ -48,7 +57,7 @@
 <script lang="ts" setup>
 import { computed, mergeProps, nextTick, ref } from 'vue'
 import { pick } from 'lodash-unified'
-import { useFocusController, useNamespace } from '@element-plus/hooks'
+import { useFocusController, useId, useNamespace } from '@element-plus/hooks'
 import ElInput, { inputProps } from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -73,6 +82,7 @@ const emit = defineEmits(mentionEmits)
 const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
 
 const ns = useNamespace('mention')
+const contentId = useId()
 
 const elInputRef = ref<InputInstance>()
 const tooltipRef = ref<TooltipInstance>()
@@ -98,6 +108,14 @@ const filteredOptions = computed(() => {
   )
 })
 
+const dropdownVisible = computed(() => {
+  return visible.value && (!!filteredOptions.value.length || props.loading)
+})
+
+const hoveringId = computed(() => {
+  return `${contentId.value}-${dropdownRef.value?.hoveringIndex}`
+})
+
 const handleInputChange = (value: string) => {
   emit('update:modelValue', value)
   syncAfterCursorMove()
@@ -121,6 +139,10 @@ const handleInputKeyDown = (e: KeyboardEvent | Event) => {
     } else {
       visible.value = false
     }
+  } else if (['Escape'].includes(e.key)) {
+    if (!visible.value) return
+    e.preventDefault()
+    visible.value = false
   } else if (['Backspace'].includes(e.key)) {
     if (props.whole && mentionCtx.value) {
       const { splitIndex, selectionEnd, pattern, prefixIndex, prefix } =

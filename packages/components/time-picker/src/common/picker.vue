@@ -166,6 +166,7 @@ import {
   computed,
   inject,
   nextTick,
+  onBeforeUnmount,
   provide,
   ref,
   unref,
@@ -452,11 +453,15 @@ const parsedValue = computed(() => {
     )
     if (!isEqual(availableResult, dayOrDays!)) {
       dayOrDays = availableResult
-      emitInput(
-        (isArray(dayOrDays)
-          ? dayOrDays.map((_) => _.toDate())
-          : dayOrDays.toDate()) as SingleOrRange<Date>
-      )
+
+      // The result is corrected only when model-value exists
+      if (!valueIsEmpty.value) {
+        emitInput(
+          (isArray(dayOrDays)
+            ? dayOrDays.map((_) => _.toDate())
+            : dayOrDays.toDate()) as SingleOrRange<Date>
+        )
+      }
     }
   }
   if (isArray(dayOrDays!) && dayOrDays.some((day) => !day)) {
@@ -570,7 +575,7 @@ const actualInputRef = computed(() => {
   return (unref(inputRef) as ComponentPublicInstance)?.$el
 })
 
-onClickOutside(actualInputRef, (e: PointerEvent) => {
+const stophandle = onClickOutside(actualInputRef, (e: PointerEvent) => {
   const unrefedPopperEl = unref(popperEl)
   const inputEl = unref(actualInputRef)
   if (
@@ -582,6 +587,10 @@ onClickOutside(actualInputRef, (e: PointerEvent) => {
   )
     return
   pickerVisible.value = false
+})
+
+onBeforeUnmount(() => {
+  stophandle?.()
 })
 
 const userInput = ref<UserInput>(null)

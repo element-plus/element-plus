@@ -113,7 +113,9 @@
               class="d-arrow-left"
               @click="leftPrevYear"
             >
-              <el-icon><d-arrow-left /></el-icon>
+              <slot name="prev-year">
+                <el-icon><d-arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               type="button"
@@ -122,7 +124,9 @@
               class="arrow-left"
               @click="leftPrevMonth"
             >
-              <el-icon><arrow-left /></el-icon>
+              <slot name="prev-month">
+                <el-icon><arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               v-if="unlinkPanels"
@@ -133,7 +137,9 @@
               class="d-arrow-right"
               @click="leftNextYear"
             >
-              <el-icon><d-arrow-right /></el-icon>
+              <slot name="next-year">
+                <el-icon><d-arrow-right /></el-icon>
+              </slot>
             </button>
             <button
               v-if="unlinkPanels"
@@ -147,7 +153,9 @@
               class="arrow-right"
               @click="leftNextMonth"
             >
-              <el-icon><arrow-right /></el-icon>
+              <slot name="next-month">
+                <el-icon><arrow-right /></el-icon>
+              </slot>
             </button>
             <div>{{ leftLabel }}</div>
           </div>
@@ -175,7 +183,9 @@
               class="d-arrow-left"
               @click="rightPrevYear"
             >
-              <el-icon><d-arrow-left /></el-icon>
+              <slot name="prev-year">
+                <el-icon><d-arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               v-if="unlinkPanels"
@@ -189,7 +199,9 @@
               class="arrow-left"
               @click="rightPrevMonth"
             >
-              <el-icon><arrow-left /></el-icon>
+              <slot name="prev-month">
+                <el-icon><arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               type="button"
@@ -198,7 +210,9 @@
               class="d-arrow-right"
               @click="rightNextYear"
             >
-              <el-icon><d-arrow-right /></el-icon>
+              <slot name="next-year">
+                <el-icon><d-arrow-right /></el-icon>
+              </slot>
             </button>
             <button
               type="button"
@@ -207,7 +221,9 @@
               class="arrow-right"
               @click="rightNextMonth"
             >
-              <el-icon><arrow-right /></el-icon>
+              <slot name="next-month">
+                <el-icon><arrow-right /></el-icon>
+              </slot>
             </button>
             <div>{{ rightLabel }}</div>
           </div>
@@ -250,7 +266,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, unref } from 'vue'
+import { computed, inject, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import { isArray } from '@element-plus/utils'
@@ -312,6 +328,7 @@ const {
   handleRangeConfirm,
   handleShortcutClick,
   onSelect,
+  onReset,
   t,
 } = useRangePicker(props, {
   defaultValue,
@@ -320,6 +337,16 @@ const {
   unit,
   onParsedValueChanged,
 })
+
+watch(
+  () => props.visible,
+  (visible) => {
+    if (!visible && rangeState.value.selecting) {
+      onReset(props.parsedValue)
+      onSelect(false)
+    }
+  }
+)
 
 const dateUserInput = ref<UserInput>({
   min: null,

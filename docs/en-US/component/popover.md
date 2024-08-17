@@ -5,12 +5,6 @@ lang: en-US
 
 # Popover
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Popover is built with `ElTooltip`. So for some duplicated attributes, please refer to the documentation of Tooltip.
@@ -115,6 +109,6 @@ popover/directive-usage
 
 ### Exposes
 
-| Name         | Description  | Type                    |
-| ------------ | ------------ | ----------------------- |
-| hide         | hide popover | ^[Function]`() => void` |
+| Name | Description  | Type                    |
+| ---- | ------------ | ----------------------- |
+| hide | hide popover | ^[Function]`() => void` |

@@ -5,17 +5,10 @@
     :teleported="teleported"
     :popper-class="[nsCascader.e('dropdown'), popperClass]"
     :popper-options="popperOptions"
-    :fallback-placements="[
-      'bottom-start',
-      'bottom',
-      'top-start',
-      'top',
-      'right',
-      'left',
-    ]"
+    :fallback-placements="fallbackPlacements"
     :stop-popper-mouse-event="false"
     :gpu-acceleration="false"
-    placement="bottom-start"
+    :placement="placement"
     :transition="`${nsCascader.namespace.value}-zoom-in-top`"
     effect="light"
     pure
