@@ -10,31 +10,11 @@ jobs:
     steps:
       - name: Check for specific label
         if: contains(github.event.pull_request.labels.*.name, 'conflict')
-        uses: actions/github-script@v7
+        uses: actions-cool/maintain-one-comment@v3.1.1
         with:
-          script: |
-            const commentBodyConflict = "@${{ github.event.pull_request.user.login }} This PR has conflicts, please resolve them.";
-
-            const existingComments = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              per_page: 100,
-            });
-
-
-            let shouldComment = true;
-            existingComments.data.forEach(comment => {
-              if (comment.body.includes(commentBodyConflict)) {
-                shouldComment = false;
-              }
-            });
-
-            if (shouldComment) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: commentBodyConflict
-              });
-            }
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            @${{ github.event.pull_request.user.login }} This PR has conflicts, please resolve them.
+            <!-- ELEMENT_PLUS_CONFLICT_COMMENT -->
+          body-include: '<!-- ELEMENT_PLUS_CONFLICT_COMMENT -->'
+          number: ${{ github.event.pull_request.number }}
