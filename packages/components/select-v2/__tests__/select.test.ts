@@ -1867,4 +1867,16 @@ describe('Select', () => {
     // after deletion, an el-tag still exist
     expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
+
+  it('should be trigger the click event', async () => {
+    const handleClick = vi.fn()
+    const wrapper = _mount(`<el-select :options="[]" @click="handleClick" />`, {
+      methods: {
+        handleClick,
+      },
+    })
+
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    expect(handleClick).toHaveBeenCalledOnce()
+  })
 })

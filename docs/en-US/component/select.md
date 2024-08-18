@@ -15,12 +15,6 @@ After version ^(2.8.0), the component will no longer forcibly convert the incomi
 
 :::
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 :::demo `v-model` is the value of `el-option` that is currently selected.

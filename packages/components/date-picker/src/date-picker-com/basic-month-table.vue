@@ -35,9 +35,9 @@
 import { computed, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
+import { datesInMonth, getValidDateOfMonth } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
 
 type MonthCell = {
@@ -49,12 +49,6 @@ type MonthCell = {
   text: number
   type: 'normal' | 'today'
   inRange: boolean
-}
-
-const datesInMonth = (year: number, month: number, lang: string) => {
-  const firstDay = dayjs().locale(lang).startOf('month').month(month).year(year)
-  const numOfDays = firstDay.daysInMonth()
-  return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())
 }
 
 const props = defineProps(basicMonthTableProps)
@@ -230,11 +224,15 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
       emit('pick', castArray(props.parsedValue), false)
       return
     }
-    const newMonth = props.date.startOf('month').month(month)
-
+    const newMonth = getValidDateOfMonth(
+      props.date.year(),
+      month,
+      lang.value,
+      props.disabledDate
+    )
     const newValue = hasClass(target, 'current')
       ? castArray(props.parsedValue).filter(
-          (d) => Number(d) !== Number(newMonth)
+          (d) => d?.month() !== newMonth.month()
         )
       : castArray(props.parsedValue).concat([dayjs(newMonth)])
     emit('pick', newValue)
