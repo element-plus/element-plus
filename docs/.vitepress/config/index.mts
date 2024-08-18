@@ -99,7 +99,7 @@ const config: UserConfig = {
         context.teleports.body || ''
       )
 
-      context.teleports = { body }
+      context.teleports = { ...context.teleports, body }
     }
 
     return context
