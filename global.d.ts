@@ -100,6 +100,7 @@ declare module 'vue' {
     ElWatermark: typeof import('element-plus')['ElWatermark']
     ElTour: typeof import('element-plus')['ElTour']
     ElTourStep: typeof import('element-plus')['ElTourStep']
+    ElSegmented: typeof import('element-plus')['ElSegmented']
     ElMention: typeof import('element-plus')['ElMention']
   }
 
