@@ -21,7 +21,7 @@
       v-if="$slots.default"
       :class="{ [ns.em('text', 'expand')]: shouldAddSpace }"
     >
-      <slot />
+      test pkg-pr <slot />
     </span>
   </component>
 </template>
