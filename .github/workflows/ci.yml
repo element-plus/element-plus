@@ -1,6 +1,13 @@
-name: Publish Any Commit
-on: [push, pull_request]
-
+name: 'ci'
+on:
+  push:
+    branches:
+      - dev
+    tags:
+      - '!**'
+  pull_request:
+    branches:
+      - dev
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,6 +21,11 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.14.1
 
       - name: Install dependencies
         run: pnpm install
