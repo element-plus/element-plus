@@ -2,12 +2,12 @@ name: 'ci'
 on:
   push:
     branches:
-      - pkg-pr
+      - dev
     tags:
       - '!**'
   pull_request:
     branches:
-      - pkg-pr
+      - dev
 jobs:
   build:
     runs-on: ubuntu-latest
