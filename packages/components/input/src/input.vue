@@ -215,7 +215,7 @@ const containerAttrs = computed(() => {
 
 const containerKls = computed(() => [
   props.type === 'textarea' ? nsTextarea.b() : nsInput.b(),
-  nsInput.m(inputSize.value),
+  props.type !== 'textarea' && nsInput.m(inputSize.value),
   nsInput.is('disabled', inputDisabled.value),
   nsInput.is('exceed', inputExceed.value),
   {

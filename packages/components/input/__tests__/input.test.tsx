@@ -141,6 +141,11 @@ describe('Input.vue', () => {
     expect(wrapper.classes('el-input--large')).toBe(true)
   })
 
+  test('textarea size', () => {
+    const wrapper = mount(() => <Input type="textarea" size="large" />)
+    expect(wrapper.classes('el-input--large')).not.toBe(true)
+  })
+
   test('type', () => {
     const wrapper = mount(() => <Input type="textarea" />)
     expect(wrapper.classes('el-textarea')).toBe(true)
