@@ -1,11 +1,5 @@
-name: Publish Any pr in dev
-on:
-  push:
-    branches:
-      - pkg-pr
-  pull_request:
-    branches:
-      - pkg-pr
+name: Publish Any Commit
+on: [push, pull_request]
 
 jobs:
   build:
