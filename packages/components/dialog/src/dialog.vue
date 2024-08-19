@@ -143,7 +143,7 @@ const overlayEvent = useSameTarget(onModalClick)
 const draggable = computed(() => props.draggable && !props.fullscreen)
 
 const resetPostion = () => {
-  dialogContentRef.value.resetPostion()
+  dialogContentRef.value?.resetPostion()
 }
 
 defineExpose({
