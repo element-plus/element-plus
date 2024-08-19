@@ -21,4 +21,10 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - run: pnpx pkg-pr-new publish
+      - name: Open dist/element-plus
+        run: |
+          cd dist/element-plus
+          ls -la
+
+      - name: Publish
+        run: pnpx pkg-pr-new publish
