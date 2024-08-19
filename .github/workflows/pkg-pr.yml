@@ -27,4 +27,6 @@ jobs:
           ls -la
 
       - name: Publish
-        run: pnpx pkg-pr-new publish
+        run: |
+          cd dist/element-plus
+          pnpx pkg-pr-new publish
