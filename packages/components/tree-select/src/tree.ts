@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { computed, nextTick, toRefs, watch } from 'vue'
-import { isEqual, pick } from 'lodash-unified'
+import { isEqual, isNil, pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { escapeStringRegexp, isEmpty, isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
@@ -113,12 +113,11 @@ export const useTree = (
     return options
   })
 
-  const formatCheckedValues = () => {
-    const childKeys = tree.value?.getCheckedKeys().filter((checkedKey) => {
+  const getChildCheckedKeys = () => {
+    return tree.value?.getCheckedKeys().filter((checkedKey) => {
       const node = tree.value?.getNode(checkedKey) as Node
-      return node && !isEmpty(node.childNodes) ? false : true
+      return !isNil(node) && isEmpty(node.childNodes)
     })
-    return childKeys
   }
 
   return {
@@ -216,7 +215,7 @@ export const useTree = (
       // only can select leaf node
       else {
         if (props.multiple) {
-          const childKeys = formatCheckedValues()
+          const childKeys = getChildCheckedKeys()
 
           emit(UPDATE_MODEL_EVENT, cachedKeys.concat(childKeys))
         } else {
@@ -265,7 +264,8 @@ export const useTree = (
       select.value?.focus()
     },
 
-    onNodeExpand: (data, node) => {
+    onNodeExpand: (data, node, e) => {
+      attrs.onNodeExpand?.(data, node, e)
       nextTick(() => {
         if (
           !props.checkStrictly &&
@@ -288,7 +288,7 @@ export const useTree = (
             (item) => !(item in dataMap) && !uncachedCheckedKeys.includes(item)
           )
 
-          const childKeys = formatCheckedValues()
+          const childKeys = getChildCheckedKeys()
           emit(UPDATE_MODEL_EVENT, cachedKeys.concat(childKeys))
         }
       })
