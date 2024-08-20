@@ -5,7 +5,8 @@ import defineGetter from '@element-plus/test-utils/define-getter'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Input from '../src/input.vue'
 import type { CSSProperties } from 'vue'
-import type { InputAutoSize, InputInstance, InputProps } from '../src/input'
+import type { InputAutoSize, InputProps } from '../src/input'
+import type { InputInstance } from '../src/instance'
 
 describe('Input.vue', () => {
   afterEach(() => {
