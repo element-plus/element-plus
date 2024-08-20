@@ -81,7 +81,7 @@ const update = () => {
     if (target) {
       const difference = targetRect.bottom.value - rootHeightOffset
       fixed.value = offset > rootTop.value && targetRect.bottom.value > 0
-      transform.value = Math.min(difference, 0)
+      transform.value = difference < 0 ? difference : 0
     } else {
       fixed.value = offset > rootTop.value
     }
@@ -91,7 +91,7 @@ const update = () => {
     fixed.value =
       windowHeight.value - offset < rootBottom.value &&
       windowHeight.value > targetRect.top.value
-    transform.value = Math.max(-difference, 0)
+    transform.value = difference < 0 ? -difference : 0
   } else {
     fixed.value = windowHeight.value - offset < rootBottom.value
   }
