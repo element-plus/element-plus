@@ -6,6 +6,7 @@ import { usePopperContainerId } from '@element-plus/hooks'
 import Popconfirm from '../src/popconfirm.vue'
 
 const AXIOM = 'rem is the best girl'
+const FUN = 'dQw4w9WgXcQ'
 const selector = '.el-popper'
 
 describe('Popconfirm.vue', () => {
@@ -75,6 +76,28 @@ describe('Popconfirm.vue', () => {
       await nextTick()
       const { selector } = usePopperContainerId()
       expect(document.body.querySelector(selector.value)!.innerHTML).toBe('')
+    })
+
+    it('should override default buttons when given actions', async () => {
+      const wrapper = mount(() => (
+        <>
+          <Popconfirm
+            v-slots={{
+              reference: () => <div class="reference">{AXIOM}</div>,
+              actions: () => <div class="actions">{FUN}</div>,
+            }}
+          />
+        </>
+      ))
+      await nextTick()
+      await wrapper.find('.reference').trigger('click')
+
+      await nextTick()
+      await rAF()
+
+      const content = document.querySelector(selector)!.innerHTML
+      expect(content).toContain(FUN)
+      expect(content).not.toContain('.el-button')
     })
   })
 })

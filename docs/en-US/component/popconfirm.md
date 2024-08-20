@@ -68,3 +68,4 @@ popconfirm/trigger-event
 | Name      | Description                           |
 | --------- | ------------------------------------- |
 | reference | HTML element that triggers Popconfirm |
+| actions   | content of the Popconfirm footer      |
