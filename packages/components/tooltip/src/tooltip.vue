@@ -50,7 +50,9 @@
 <script lang="ts" setup>
 import {
   computed,
+  onBeforeUnmount,
   onDeactivated,
+  onMounted,
   provide,
   readonly,
   ref,
@@ -66,7 +68,7 @@ import {
   useId,
   usePopperContainer,
 } from '@element-plus/hooks'
-import { TOOLTIP_INJECTION_KEY } from './constants'
+import { TOOLTIP_CLOSE_ALL, TOOLTIP_INJECTION_KEY } from './constants'
 import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
@@ -112,12 +114,34 @@ const controlled = computed(
   () => isBoolean(props.visible) && !hasUpdateHandler.value
 )
 
+// Dispatches a custom event to close all tooltips.
+// https://github.com/element-plus/element-plus/issues/17246
+const dispatchCloseAllTooltips = () => {
+  const event = new CustomEvent(TOOLTIP_CLOSE_ALL)
+  window.dispatchEvent(event)
+}
+
+const closeAllPopups = () => {
+  if (open.value) {
+    onClose()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener(TOOLTIP_CLOSE_ALL, closeAllPopups)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener(TOOLTIP_CLOSE_ALL, closeAllPopups)
+})
+
 provide(TOOLTIP_INJECTION_KEY, {
   controlled,
   id,
   open: readonly(open),
   trigger: toRef(props, 'trigger'),
   onOpen: (event?: Event) => {
+    dispatchCloseAllTooltips()
     onOpen(event)
   },
   onClose: (event?: Event) => {
@@ -127,6 +151,7 @@ provide(TOOLTIP_INJECTION_KEY, {
     if (unref(open)) {
       onClose(event)
     } else {
+      dispatchCloseAllTooltips()
       onOpen(event)
     }
   },

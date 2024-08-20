@@ -17,5 +17,6 @@ export type ElTooltipInjectionContext = {
   updatePopper: () => void
 }
 
+export const TOOLTIP_CLOSE_ALL = 'tooltip.close-all'
 export const TOOLTIP_INJECTION_KEY: InjectionKey<ElTooltipInjectionContext> =
   Symbol('elTooltip')
