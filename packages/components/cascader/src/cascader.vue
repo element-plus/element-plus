@@ -323,12 +323,17 @@ const clearBtnVisible = computed(() => {
 })
 const presentText = computed(() => {
   const { showAllLevels, separator } = props
-  const nodes = checkedNodes.value
-  return nodes.length
-    ? multiple.value
-      ? ''
-      : nodes[0].calcText(showAllLevels, separator)
-    : ''
+  const [firstNode] = checkedNodes.value
+
+  if (!firstNode) {
+    return ''
+  }
+
+  if (multiple.value) {
+    return ''
+  }
+
+  return firstNode.calcText(showAllLevels, separator)
 })
 
 const validateState = computed(() => formItem?.validateState || '')
