@@ -791,7 +791,7 @@ $dialog: map.merge(
     'content-font-size': 14px,
     'font-line-height': getCssVar('font-line-height-primary'),
     'padding-primary': 16px,
-    'border-radius': getCssVar('border-radius-small'),
+    'border-radius': getCssVar('border-radius'),
   ),
   $dialog
 );
