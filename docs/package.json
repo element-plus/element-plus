@@ -16,7 +16,7 @@
     "@vueuse/core": "^9.1.0",
     "axios": "^0.27.2",
     "clipboard-copy": "^4.0.1",
-    "element-plus": "npm:element-plus@latest",
+    "element-plus": "workspace:*",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "prism-theme-vars": "^0.2.3",
