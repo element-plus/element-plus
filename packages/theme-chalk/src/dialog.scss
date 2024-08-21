@@ -136,6 +136,16 @@
   overflow: auto;
 }
 
+.#{$namespace}-vertical-center-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include b(dialog) {
+    margin: 0px;
+  }
+}
+
 .dialog-fade-enter-active {
   animation: modal-fade-in getCssVar('transition-duration');
   .#{$namespace}-overlay-dialog {

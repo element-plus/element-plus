@@ -119,6 +119,17 @@ describe('Dialog.vue', () => {
     expect(wrapper.find('.el-dialog--center').exists()).toBe(true)
   })
 
+  test('should verticalCenter dialog', async () => {
+    const wrapper = mount(() => (
+      <Dialog modelValue={true} verticalCenter={true}>
+        {AXIOM}
+      </Dialog>
+    ))
+
+    await nextTick()
+    expect(wrapper.find('.el-vertical-center-dialog').exists()).toBe(true)
+  })
+
   test('should show close button', async () => {
     const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>)
 

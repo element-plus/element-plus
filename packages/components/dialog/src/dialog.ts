@@ -79,6 +79,13 @@ export const dialogProps = buildProps({
     type: String,
   },
   /**
+   * @description Center the entire dialog vertically
+   */
+  verticalCenter: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * @description visibility of Dialog
    */
   modelValue: Boolean,

@@ -22,7 +22,12 @@
           :aria-label="title || undefined"
           :aria-labelledby="!title ? titleId : undefined"
           :aria-describedby="bodyId"
-          :class="`${ns.namespace.value}-overlay-dialog`"
+          :class="[
+            `${ns.namespace.value}-overlay-dialog`,
+            {
+              [`${ns.namespace.value}-vertical-center-dialog`]: verticalCenter,
+            },
+          ]"
           :style="overlayDialogStyle"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"

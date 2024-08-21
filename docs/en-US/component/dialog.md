@@ -132,6 +132,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | overflow ^(2.5.4)          | draggable Dialog can overflow the viewport                                                           | ^[boolean]                          | false   |
 | center                     | whether to align the header and footer in center                                                     | ^[boolean]                          | false   |
 | align-center ^(2.2.16)     | whether to align the dialog both horizontally and vertically                                         | ^[boolean]                          | false   |
+| vertical-center ^(2.8.1)   | Center the entire dialog vertically                                                                  | ^[boolean]                          | false   |
 | destroy-on-close           | destroy elements in Dialog when closed                                                               | ^[boolean]                          | false   |
 | close-icon                 | custom close icon, default is Close                                                                  | ^[string] / ^[Component]            | —       |
 | z-index                    | same as z-index in native CSS, z-order of dialog                                                     | ^[number]                           | —       |
