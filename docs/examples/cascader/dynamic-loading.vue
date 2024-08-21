@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import type { CascaderProps } from 'element-plus'
 
-let id = 0
+let id = 1
 const props: CascaderProps = {
   lazy: true,
   lazyLoad(node, resolve) {
