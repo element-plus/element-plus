@@ -11,7 +11,7 @@ _2024-08-09_
 - Components [tree-v2] add scrollTo method (#14050 by @kaine0923)
 - Components [drawer] add append-to (#17761 by @tolking)
 - Components [table] tree children add check strictly (#13519 by @tiandaoyi)
-- Hooks use-draggable support resetPosition (#17699 by @donga-gao)
+- Hooks use-draggable support resetPostion (#17699 by @donga-gao)
 - Components [upload] added index parameter to default slot (#17143 by @zhuchaoling)
 - Components [date-picker] add type yearrange for DatePicker (#14804 by @CherishTheYouth)
 - Components [date-picker] add icon slots (#17453 by @zhixiaotong)
@@ -1248,7 +1248,7 @@ _2022-11-25_
 
 _2022-11-25_
 
-#### Fix
+#### Fix 
 - Revert "fix(components): [menu] menus that are not in the expanded path do not open" (#10769 by @holazz)
 
 ### 2.2.23
@@ -3376,7 +3376,7 @@ _2021-11-05_
 - Components [el-image] initialIndex (#4235 by @Alanscut)
 - Components [el-message] merge the same content messages(#3836 by @zhazhanitian) (#3988)
 - Docs add support for copying svg content (#4169 by @adaex)
--
+- 
 #### Bug fixes
 
 - Components [el-tree-v2] indent can not set zero (#3881 by @btea)
