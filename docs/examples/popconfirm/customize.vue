@@ -4,15 +4,14 @@
     :icon="InfoFilled"
     icon-color="#626AEF"
     title="Are you sure to delete this?"
-    :disabled="deleted"
-    @confirm="onConfirm"
+    @cancel="onCancel"
   >
     <template #reference>
       <el-button>Delete</el-button>
     </template>
     <template #actions="{ confirm, cancel }">
-      <el-button size="small" @click="confirm">No!</el-button>
-      <el-button type="danger" size="small" disabled @click="cancel">
+      <el-button size="small" @click="cancel">No!</el-button>
+      <el-button type="danger" size="small" :disabled="!clicked" @click="confirm">
         Yes?
       </el-button>
     </template>
@@ -23,8 +22,8 @@
 import { ref } from 'vue'
 import { InfoFilled } from '@element-plus/icons-vue'
 
-const deleted = ref(false)
-function onConfirm() {
-  deleted.value = true
+const clicked = ref(false)
+function onCancel() {
+  clicked.value = true
 }
 </script>
