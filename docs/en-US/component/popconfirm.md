@@ -65,7 +65,7 @@ popconfirm/trigger-event
 
 ### Slots
 
-| Name      | Description                           |
-| --------- | ------------------------------------- |
-| reference | HTML element that triggers Popconfirm |
-| actions   | content of the Popconfirm footer      |
+| Name      | Description                           | Type                                                                             |
+| --------- | ------------------------------------- | -------------------------------------------------------------------------------- |
+| reference | HTML element that triggers Popconfirm | —                                                                                |
+| actions   | content of the Popconfirm footer      | ^[object]`{ confirm: (e: MouseEvent) => void, cancel: (e: MouseEvent) => void }` |

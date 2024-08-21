@@ -24,7 +24,12 @@
           {{ title }}
         </div>
         <div :class="ns.e('action')">
-          <slot v-if="$slots.actions" name="actions" />
+          <slot
+            v-if="$slots.actions"
+            name="actions"
+            :confirm="confirm"
+            :cancel="cancel"
+          />
           <template v-else>
             <el-button
               size="small"
