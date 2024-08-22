@@ -11,7 +11,12 @@
     </template>
     <template #actions="{ confirm, cancel }">
       <el-button size="small" @click="cancel">No!</el-button>
-      <el-button type="danger" size="small" :disabled="!clicked" @click="confirm">
+      <el-button
+        type="danger"
+        size="small"
+        :disabled="!clicked"
+        @click="confirm"
+      >
         Yes?
       </el-button>
     </template>
