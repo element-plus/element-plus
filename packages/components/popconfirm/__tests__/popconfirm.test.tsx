@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import { usePopperContainerId } from '@element-plus/hooks'
 import Popconfirm from '../src/popconfirm.vue'
@@ -103,12 +103,17 @@ describe('Popconfirm.vue', () => {
     })
 
     it('should pass handlers that can emit events', async () => {
+      const confirm = vi.fn()
+      const cancel = vi.fn()
       const wrapper = mount(() => (
         <>
           <Popconfirm
+            onConfirm={confirm}
+            onCancel={cancel}
+            teleported={false}
             v-slots={{
               reference: () => <div class="reference">{AXIOM}</div>,
-              actions: ({ confirm, cancel }) => (
+              actions: ({ confirm, cancel }: { confirm: any; cancel: any }) => (
                 <>
                   <button class="confirm" onClick={confirm}>
                     Confirm
@@ -131,7 +136,7 @@ describe('Popconfirm.vue', () => {
       await wrapper.find('.confirm').trigger('click')
       await nextTick()
       await rAF()
-      expect(wrapper.emitted()).toHaveProperty('confirm')
+      expect(confirm).toHaveBeenCalled()
 
       await nextTick()
       await wrapper.find('.reference').trigger('click')
@@ -142,7 +147,7 @@ describe('Popconfirm.vue', () => {
       await wrapper.find('.cancel').trigger('click')
       await nextTick()
       await rAF()
-      expect(wrapper.emitted()).toHaveProperty('cancel')
+      expect(cancel).toHaveBeenCalled()
     })
   })
 })
