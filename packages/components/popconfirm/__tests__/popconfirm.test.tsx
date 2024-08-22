@@ -77,7 +77,9 @@ describe('Popconfirm.vue', () => {
       const { selector } = usePopperContainerId()
       expect(document.body.querySelector(selector.value)!.innerHTML).toBe('')
     })
+  })
 
+  describe('actions slot', () => {
     it('should override default buttons when given actions', async () => {
       const wrapper = mount(() => (
         <>
@@ -98,6 +100,49 @@ describe('Popconfirm.vue', () => {
       const content = document.querySelector(selector)!.innerHTML
       expect(content).toContain(FUN)
       expect(content).not.toContain('.el-button')
+    })
+
+    it('should pass handlers that can emit events', async () => {
+      const wrapper = mount(() => (
+        <>
+          <Popconfirm
+            v-slots={{
+              reference: () => <div class="reference">{AXIOM}</div>,
+              actions: ({ confirm, cancel }) => (
+                <>
+                  <button class="confirm" onClick={confirm}>
+                    Confirm
+                  </button>
+                  <button class="cancel" onClick={cancel}>
+                    Cancel
+                  </button>
+                </>
+              ),
+            }}
+          />
+        </>
+      ))
+      await nextTick()
+      await wrapper.find('.reference').trigger('click')
+      await nextTick()
+      await rAF()
+
+      expect(wrapper.emitted()).not.toHaveProperty('confirm')
+      await wrapper.find('.confirm').trigger('click')
+      await nextTick()
+      await rAF()
+      expect(wrapper.emitted()).toHaveProperty('confirm')
+
+      await nextTick()
+      await wrapper.find('.reference').trigger('click')
+      await nextTick()
+      await rAF()
+
+      expect(wrapper.emitted()).not.toHaveProperty('cancel')
+      await wrapper.find('.cancel').trigger('click')
+      await nextTick()
+      await rAF()
+      expect(wrapper.emitted()).toHaveProperty('cancel')
     })
   })
 })

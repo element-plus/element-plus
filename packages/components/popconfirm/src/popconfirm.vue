@@ -24,13 +24,7 @@
           {{ title }}
         </div>
         <div :class="ns.e('action')">
-          <slot
-            v-if="$slots.actions"
-            name="actions"
-            :confirm="confirm"
-            :cancel="cancel"
-          />
-          <template v-else>
+          <slot name="actions" :confirm="confirm" :cancel="cancel">
             <el-button
               size="small"
               :type="cancelButtonType === 'text' ? '' : cancelButtonType"
@@ -47,7 +41,7 @@
             >
               {{ finalConfirmButtonText }}
             </el-button>
-          </template>
+          </slot>
         </div>
       </div>
     </template>
