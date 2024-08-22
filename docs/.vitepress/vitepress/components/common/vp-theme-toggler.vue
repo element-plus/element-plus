@@ -5,6 +5,8 @@ import DarkIcon from '../icons/dark.vue'
 import LightIcon from '../icons/light.vue'
 import type { SwitchInstance } from 'element-plus'
 
+defineOptions({ inheritAttrs: false })
+
 const darkMode = ref(isDark.value)
 const switchRef = ref<SwitchInstance>()
 
@@ -67,6 +69,7 @@ const beforeChange = () => {
     <el-switch
       ref="switchRef"
       v-model="darkMode"
+      v-bind="$attrs"
       :before-change="beforeChange"
       :active-action-icon="DarkIcon"
       :inactive-action-icon="LightIcon"
