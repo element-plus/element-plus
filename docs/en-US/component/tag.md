@@ -106,9 +106,9 @@ tag/checkable
 ### CheckTag Attributes
 
 | Name                      | Description                       | Type                                                               | Default |
-|---------------------------|-----------------------------------| ------------------------------------------------------------------ | ------- |
+| ------------------------- | --------------------------------- | ------------------------------------------------------------------ | ------- |
 | checked / v-model:checked | is checked                        | ^[boolean]                                                         | false   |
-| disabled    ^(2.8.1)              | whether the check-tag is disabled | ^[boolean]                                                         | false   |
+| disabled ^(2.8.1)         | whether the check-tag is disabled | ^[boolean]                                                         | false   |
 | type ^(2.5.4)             | type of CheckTag                  | ^[enum]`'primary' \| 'success' \| 'info' \| 'warning' \| 'danger'` | primary |
 
 ### CheckTag Events
