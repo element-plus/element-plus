@@ -9,6 +9,8 @@ export const mentionDropdownProps = buildProps({
   },
   loading: Boolean,
   disabled: Boolean,
+  contentId: String,
+  ariaLabel: String,
 })
 
 export const mentionDropdownEmits = {

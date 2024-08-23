@@ -34,7 +34,7 @@
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
           ]"
-          @click.prevent.stop="toggleMenu"
+          @click.prevent="toggleMenu"
         >
           <div
             v-if="$slots.prefix"
@@ -216,7 +216,11 @@
             </el-icon>
             <el-icon
               v-if="showClose && clearIcon"
-              :class="[nsSelect.e('caret'), nsSelect.e('icon')]"
+              :class="[
+                nsSelect.e('caret'),
+                nsSelect.e('icon'),
+                nsSelect.e('clear'),
+              ]"
               @click="handleClearClick"
             >
               <component :is="clearIcon" />

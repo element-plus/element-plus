@@ -7,12 +7,6 @@ lang: en-US
 
 Toggleable menu for displaying lists of links and actions.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Hover on the dropdown menu to unfold it for more actions.
@@ -124,11 +118,11 @@ dropdown/sizes
 
 ### Dropdown Events
 
-| Name           | Description                                                                                               | Type                                                  |
-| -------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
-| click          | if `split-button` is `true`, triggers when left button is clicked                                         | ^[Function]`(e: MouseEvent) => void`                  |
-| command        | triggers when a dropdown item is clicked, the parameters is the command dispatched from the dropdown item | ^[Function]`(...args: any[]) => void`                 |
-| visible-change | triggers when the dropdown appears/disappears, the param is true when it appears, and false otherwise     | ^[Function]`(val: boolean) => void`                   |
+| Name           | Description                                                                                               | Type                                  |
+| -------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| click          | if `split-button` is `true`, triggers when left button is clicked                                         | ^[Function]`(e: MouseEvent) => void`  |
+| command        | triggers when a dropdown item is clicked, the parameters is the command dispatched from the dropdown item | ^[Function]`(...args: any[]) => void` |
+| visible-change | triggers when the dropdown appears/disappears, the param is true when it appears, and false otherwise     | ^[Function]`(val: boolean) => void`   |
 
 ### Dropdown Exposes
 

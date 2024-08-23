@@ -34,6 +34,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicYearTableProps } from '../props/basic-year-table'
+import { getValidDateOfYear } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
 
 type YearCell = {
@@ -201,9 +202,14 @@ const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
       emit('pick', castArray(props.parsedValue), false)
       return
     }
+    const vaildYear = getValidDateOfYear(
+      newDate.startOf('year'),
+      lang.value,
+      props.disabledDate
+    )
     const newValue = hasClass(target, 'current')
       ? castArray(props.parsedValue).filter((d) => d?.year() !== selectedYear)
-      : castArray(props.parsedValue).concat([newDate])
+      : castArray(props.parsedValue).concat([vaildYear])
     emit('pick', newValue)
   } else {
     emit('pick', selectedYear)

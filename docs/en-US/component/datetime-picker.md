@@ -13,12 +13,6 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 
 :::
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Date and time
 
 :::demo You can select date and time in one picker at the same time by setting `type` to `datetime`. The way to use shortcuts is the same as Date Picker.

@@ -13,12 +13,6 @@ Since v-model is natively supported for all components, `visible.sync` has been 
 
 :::
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic Usage
 
 Callout a temporary drawer, from multiple direction

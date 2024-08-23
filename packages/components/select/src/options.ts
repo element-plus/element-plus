@@ -37,7 +37,7 @@ export default defineComponent({
       }
 
       if (children.length) {
-        filterOptions(children![0]?.children)
+        filterOptions(children[0]?.children)
       }
 
       if (!isEqual(valueList, cachedValueList)) {
