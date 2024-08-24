@@ -87,6 +87,14 @@ input-number/custom
 
 :::
 
+## With prefix and suffix
+
+:::demo You can simply use prefix-text and suffix-text attributes. Also, the prefix and suffix named slots works as well.
+
+input-number/with-prefix-suffix
+
+:::
+
 ## API
 
 ### Attributes
@@ -111,13 +119,16 @@ input-number/custom
 | id                          | same as `id` in native input                     | ^[string]                                     | —         |
 | value-on-clear ^(2.2.0)     | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —         |
 | validate-event              | whether to trigger form validation               | ^[boolean]                                    | true      |
-
+| prefix-text                 | prefix text                                      | ^[string]                                     | —         |
+| suffix-text                 | suffix text                                      | ^[string]                                     | —         |
 ### Slots
 
 | Name                   | Description                           |
 | ---------------------- | ------------------------------------- |
 | decrease-icon ^(2.6.3) | custom input box button decrease icon |
 | increase-icon ^(2.6.3) | custom input box button increase icon |
+| prefix                 | content as Input prefix               |
+| suffix                 | content as Input suffix               |
 
 ### Events
 

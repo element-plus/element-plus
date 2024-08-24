@@ -60,7 +60,14 @@
       @focus="handleFocus"
       @input="handleInput"
       @change="handleInputChange"
-    />
+    >
+      <template #prefix>
+        <slot name="prefix">{{ prefixText }}</slot>
+      </template>
+      <template #suffix>
+        <slot name="suffix">{{ suffixText }}</slot>
+      </template>
+    </el-input>
   </div>
 </template>
 <script lang="ts" setup>

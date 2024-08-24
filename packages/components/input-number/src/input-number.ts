@@ -105,6 +105,20 @@ export const inputNumberProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description prefix text
+   */
+  prefixText: {
+    type: String,
+    default: '',
+  },
+  /**
+   * @description suffix text
+   */
+  suffixText: {
+    type: String,
+    default: '',
+  },
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
