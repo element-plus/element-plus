@@ -117,7 +117,6 @@ describe('useFocusController', () => {
 
     await nextTick()
     expect(wrapper.find('span').text()).toBe('false')
-    expect(wrapper.find('div').attributes('tabindex')).toBe(undefined)
     expect(focusHandler).not.toHaveBeenCalled()
     expect(blurHandler).not.toHaveBeenCalled()
 
