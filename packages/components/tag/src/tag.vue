@@ -16,7 +16,7 @@
     v-else
     :name="`${ns.namespace.value}-zoom-in-center`"
     appear
-    @vnode-mounted="handleVNodeMounted"
+    @vue:mounted="handleVNodeMounted"
   >
     <span
       :class="containerKls"
