@@ -64,12 +64,6 @@ export function useFocusController<T extends { focus: () => void }>(
     target.value?.focus()
   }
 
-  watch(wrapperRef, (el) => {
-    if (el) {
-      el.setAttribute('tabindex', '-1')
-    }
-  })
-
   useEventListener(wrapperRef, 'focus', handleFocus, true)
   useEventListener(wrapperRef, 'blur', handleBlur, true)
   useEventListener(wrapperRef, 'click', handleClick, true)
