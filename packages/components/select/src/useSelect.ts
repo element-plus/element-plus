@@ -64,7 +64,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     cachedOptions: new Map(),
     disabledOptions: new Map(),
     optionValues: [] as any[], // sorted value of options
-    selected: props.multiple ? [] : ({} as any),
+    selected: [] as any[],
     selectionWidth: 0,
     calculatorWidth: 0,
     collapseItemWidth: 0,
@@ -404,7 +404,7 @@ export const useSelect = (props: ISelectProps, emit) => {
         : props.modelValue
       const option = getOption(value)
       states.selectedLabel = option.currentLabel
-      states.selected = option
+      states.selected = [option]
       return
     } else {
       states.selectedLabel = ''
@@ -454,17 +454,11 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const updateHoveringIndex = () => {
-    if (!props.multiple) {
-      states.hoveringIndex = optionsArray.value.findIndex((item) => {
-        return getValueKey(item) === getValueKey(states.selected)
-      })
-    } else {
-      states.hoveringIndex = optionsArray.value.findIndex((item) =>
-        states.selected.some(
-          (selected) => getValueKey(selected) === getValueKey(item)
-        )
+    states.hoveringIndex = optionsArray.value.findIndex((item) =>
+      states.selected.some(
+        (selected) => getValueKey(selected) === getValueKey(item)
       )
-    }
+    )
   }
 
   const resetSelectionWidth = () => {
