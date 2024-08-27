@@ -213,6 +213,8 @@ const containerAttrs = computed(() => {
   return comboBoxAttrs
 })
 
+const isFileType = computed(() => props.type === 'file')
+
 const containerKls = computed(() => [
   props.type === 'textarea' ? nsTextarea.b() : nsInput.b(),
   nsInput.m(inputSize.value),
@@ -394,7 +396,7 @@ const setNativeInputValue = () => {
   const formatterValue = props.formatter
     ? props.formatter(nativeInputValue.value)
     : nativeInputValue.value
-  if (!input || input.value === formatterValue) return
+  if (!input || input.value === formatterValue || isFileType.value) return
   input.value = formatterValue
 }
 
@@ -429,7 +431,7 @@ const handleInput = async (event: Event) => {
 }
 
 const handleChange = (event: Event) => {
-  emit('change', (event.target as TargetElement).value)
+  emit('change', (event.target as TargetElement).value, event)
 }
 
 const {
