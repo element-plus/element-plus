@@ -1,7 +1,19 @@
 <template>
   <div :class="rootKls">
     <div ref="bar" :class="barKls" :style="barStyle" @click="handleClick" />
-    <div ref="thumb" :class="thumbKls" :style="thumbStyle" />
+    <div
+      ref="thumb"
+      :class="thumbKls"
+      :style="thumbStyle"
+      :aria-label="alphaLabel"
+      :aria-valuenow="alpha"
+      :aria-orientation="vertical ? 'vertical' : 'horizontal'"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      role="slider"
+      tabindex="0"
+      @keydown="handleKeydown"
+    />
   </div>
 </template>
 
@@ -20,7 +32,15 @@ defineOptions({
 
 const props = defineProps(alphaSliderProps)
 
-const { bar, thumb, handleDrag, handleClick } = useAlphaSlider(props)
+const {
+  alpha,
+  alphaLabel,
+  bar,
+  thumb,
+  handleDrag,
+  handleClick,
+  handleKeydown,
+} = useAlphaSlider(props)
 
 const { rootKls, barKls, barStyle, thumbKls, thumbStyle, update } =
   useAlphaSliderDOM(props, {

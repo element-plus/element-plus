@@ -101,8 +101,8 @@ You can also try Element Plus out with the components built-in playground.
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://fantastic-admin.github.io/" target="_blank">
-          <img width="130px" src="https://github.com/element-plus/element-plus/assets/82012629/fdff8d8f-83e8-4986-9949-c5b4e0d30217">
+        <a href="http://www.i-renderer.love/home/index" target="_blank">
+          <img width="130px" src="https://github.com/element-plus/element-plus/assets/82012629/0004917d-71ad-48f9-b3ce-9299f0ff78c6">
         </a>
       </td>
       <td align="center" valign="middle">
