@@ -3,12 +3,8 @@ import { datePickerSharedProps, selectionModeWithDefault } from './shared'
 
 import type { ExtractPropTypes } from 'vue'
 
-const { date, disabledDate, parsedValue } = datePickerSharedProps
-
 export const basicYearTableProps = buildProps({
-  date,
-  disabledDate,
-  parsedValue,
+  ...datePickerSharedProps,
   selectionMode: selectionModeWithDefault('year'),
 } as const)
 

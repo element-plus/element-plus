@@ -52,7 +52,7 @@
       :max="max"
       :min="min"
       :name="name"
-      :label="label"
+      :aria-label="ariaLabel"
       :validate-event="false"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"

@@ -2,7 +2,7 @@
   <component
     :is="!hasOwnLabel && isLabeledByFormItem ? 'span' : 'label'"
     :class="compKls"
-    :aria-controls="indeterminate ? controls : null"
+    :aria-controls="indeterminate ? ariaControls : null"
     @click="onClickRoot"
   >
     <span :class="spanKls">

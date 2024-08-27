@@ -78,8 +78,10 @@
         @click="showFilterPanel"
       >
         <el-icon>
-          <arrow-up v-if="column.filterOpened" />
-          <arrow-down v-else />
+          <slot name="filter-icon">
+            <arrow-up v-if="column.filterOpened" />
+            <arrow-down v-else />
+          </slot>
         </el-icon>
       </span>
     </template>

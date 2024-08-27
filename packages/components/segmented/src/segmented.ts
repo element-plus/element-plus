@@ -1,10 +1,11 @@
 import {
   buildProps,
   definePropType,
+  isBoolean,
   isNumber,
   isString,
 } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { Option } from './types'
@@ -53,17 +54,16 @@ export const segmentedProps = buildProps({
    * @description native `name` attribute
    */
   name: String,
-  /**
-   * @description native `aria-label` attribute
-   */
-  ariaLabel: String,
+  ...useAriaProps(['ariaLabel']),
 })
 
 export type SegmentedProps = ExtractPropTypes<typeof segmentedProps>
 
 export const segmentedEmits = {
-  [UPDATE_MODEL_EVENT]: (val: any) => isString(val) || isNumber(val),
-  [CHANGE_EVENT]: (val: any) => isString(val) || isNumber(val),
+  [UPDATE_MODEL_EVENT]: (val: any) =>
+    isString(val) || isNumber(val) || isBoolean(val),
+  [CHANGE_EVENT]: (val: any) =>
+    isString(val) || isNumber(val) || isBoolean(val),
 }
 export type SegmentedEmits = typeof segmentedEmits
 

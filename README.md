@@ -7,7 +7,7 @@
     <img src="https://img.shields.io/npm/v/element-plus.svg" />
   </a>
   <a href="https://github.com/element-plus/element-plus">
-    <img src="https://img.shields.io/badge/node-%20%3E%3D%2016-47c219" />
+    <img src="https://img.shields.io/badge/node-%20%3E%3D%2018-47c219" />
   </a>
   <a href="https://npmcharts.com/compare/element-plus?minimal=true">
     <img src="https://img.shields.io/npm/dm/element-plus.svg" />
@@ -28,7 +28,7 @@
 Alright, for you to get started if you are looking for making Element Plus better you should keep reading.
 For developers that uses Element Plus to develop your website you should go ahead visit [Getting Started](https://element-plus.org/).
 
-- 中国大陆[加速镜像站点](https://element-plus.gitee.io/)
+- 中国大陆[加速镜像站点](https://cn.element-plus.org/zh-CN/)
 
 ## Breaking change list
 
@@ -67,6 +67,11 @@ You can also try Element Plus out with the components built-in playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
+        <a href="https://melecode.com/" target="_blank">
+          <img width="150px" src="https://github.com/element-plus/element-plus/assets/82012629/9ca4269c-7545-4463-9bdc-8e5a1fbd0b08">
+        </a>
+      </td>
+      <td align="center" valign="middle">
         <a href="https://www.vform666.com/" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/17680888/156870588-b25a42d5-888b-4943-8b1b-5239dfd8f4d2.png">
         </a>
@@ -91,8 +96,13 @@ You can also try Element Plus out with the components built-in playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://wonderful-code.gitee.io/?from=element-plus" target="_blank">
+        <a href="https://doc.buildadmin.com/?from=element-plus" target="_blank">
           <img width="130px" src="https://user-images.githubusercontent.com/17680888/173179536-30e35fd1-cd5a-482a-bc41-9d5f0aa66fd4.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="http://www.i-renderer.love/home/index" target="_blank">
+          <img width="130px" src="https://github.com/element-plus/element-plus/assets/82012629/0004917d-71ad-48f9-b3ce-9299f0ff78c6">
         </a>
       </td>
       <td align="center" valign="middle">

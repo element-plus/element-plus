@@ -33,6 +33,7 @@
         :disabled="disabled"
         :name="name"
         :model-value="modelValue"
+        :aria-label="ariaLabel"
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
@@ -103,7 +104,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, useAttrs as useRawAttrs } from 'vue'
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  useAttrs as useRawAttrs,
+} from 'vue'
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
@@ -349,8 +356,12 @@ const highlight = (index: number) => {
   )
 }
 
-onClickOutside(listboxRef, () => {
+const stopHandle = onClickOutside(listboxRef, () => {
   suggestionVisible.value && close()
+})
+
+onBeforeUnmount(() => {
+  stopHandle?.()
 })
 
 onMounted(() => {

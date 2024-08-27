@@ -36,7 +36,7 @@ const createComponent = ({
   ])
 
   const bindProps = reactive({
-    modelValue: ref(''),
+    modelValue: ref(),
     data: defaultData,
     renderAfterExpand: false,
     ...props,
@@ -225,6 +225,10 @@ describe('TreeSelect.vue', () => {
     tree.vm.filter('一级 1')
     await nextTick()
     expect(tree.findAll('.el-tree-node:not(.is-hidden)').length).toBe(1)
+    expect(document.querySelector('.el-select-dropdown__empty')).toBeFalsy()
+    tree.vm.filter('no match')
+    await nextTick()
+    expect(document.querySelector('.el-select-dropdown__empty')).toBeTruthy()
   })
 
   test('props', async () => {
@@ -332,7 +336,7 @@ describe('TreeSelect.vue', () => {
     const wrapperRef = await getWrapperRef()
     await tree.findAll('.el-tree-node__content')[0].trigger('click')
     await nextTick()
-    expect(select.vm.modelValue).toEqual([])
+    expect(select.vm.modelValue).toBe(undefined)
     expect(wrapperRef.getCheckedKeys()).toEqual([])
 
     await tree

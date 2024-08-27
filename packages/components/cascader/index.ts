@@ -1,15 +1,10 @@
+import { withInstall } from '@element-plus/utils'
 import Cascader from './src/cascader.vue'
-import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils'
 
-Cascader.install = (app: App): void => {
-  app.component(Cascader.name, Cascader)
-}
+export const ElCascader: SFCWithInstall<typeof Cascader> = withInstall(Cascader)
 
-const _Cascader = Cascader as SFCWithInstall<typeof Cascader>
-
-export default _Cascader
-export const ElCascader = _Cascader
+export default ElCascader
 
 export * from './src/cascader'
 export * from './src/instances'
