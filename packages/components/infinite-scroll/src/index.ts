@@ -1,10 +1,10 @@
 // @ts-nocheck
 import { nextTick } from 'vue'
-import { isFunction } from '@vue/shared'
 import { throttle } from 'lodash-unified'
 import {
   getOffsetTopDistance,
   getScrollContainer,
+  isFunction,
   throwError,
 } from '@element-plus/utils'
 

@@ -8,7 +8,6 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import { isArray, isFunction, isObject } from '@vue/shared'
 import {
   findLastIndex,
   get,
@@ -16,6 +15,14 @@ import {
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
+import {
+  ValidateComponentsMap,
+  debugWarn,
+  escapeStringRegexp,
+  isArray,
+  isFunction,
+  isObject,
+} from '@element-plus/utils'
 import {
   useComposition,
   useEmptyValues,
@@ -28,11 +35,6 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import {
-  ValidateComponentsMap,
-  debugWarn,
-  escapeStringRegexp,
-} from '@element-plus/utils'
 import {
   useFormItem,
   useFormItemInputId,

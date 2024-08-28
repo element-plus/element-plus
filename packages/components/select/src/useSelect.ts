@@ -9,7 +9,6 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import { isArray, isObject, toRawType } from '@vue/shared'
 import {
   findLastIndex,
   get,
@@ -18,21 +17,24 @@ import {
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import {
-  CHANGE_EVENT,
-  EVENT_CODE,
-  UPDATE_MODEL_EVENT,
-} from '@element-plus/constants'
-import {
   ValidateComponentsMap,
   debugWarn,
   ensureArray,
+  isArray,
   isClient,
   isFunction,
   isIOS,
   isNumber,
+  isObject,
   isUndefined,
   scrollIntoView,
+  toRawType,
 } from '@element-plus/utils'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import {
   useComposition,
   useEmptyValues,
