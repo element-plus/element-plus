@@ -1,4 +1,4 @@
-import { getCurrentInstance, onMounted, ref, shallowRef, watch } from 'vue'
+import { getCurrentInstance, onMounted, ref, shallowRef } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { isElement, isFunction } from '@element-plus/utils'
 import type { ShallowRef } from 'vue'
@@ -63,12 +63,6 @@ export function useFocusController<T extends { focus: () => void }>(
 
     target.value?.focus()
   }
-
-  watch(wrapperRef, (el) => {
-    if (el) {
-      el.setAttribute('tabindex', '-1')
-    }
-  })
 
   useEventListener(wrapperRef, 'focus', handleFocus, true)
   useEventListener(wrapperRef, 'blur', handleBlur, true)
