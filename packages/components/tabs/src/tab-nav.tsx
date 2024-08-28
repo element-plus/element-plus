@@ -345,7 +345,8 @@ const TabNav = defineComponent({
             onKeydown={(ev: KeyboardEvent) => {
               if (
                 closable &&
-                (ev.target as HTMLElement).getAttribute('role') === 'tab' &&
+                (ev.target as HTMLElement).getAttribute('id') ===
+                  `tab-${tabName}` &&
                 (ev.code === EVENT_CODE.delete ||
                   ev.code === EVENT_CODE.backspace)
               ) {
