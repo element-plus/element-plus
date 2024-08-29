@@ -89,30 +89,25 @@ export function useTree(
     const hiddenKeys = hiddenNodeKeySet.value
     const flattenNodes: TreeNode[] = []
     const nodes = (tree.value && tree.value.treeNodes) || []
-    function traverse() {
-      const stack: TreeNode[] = []
-      for (let i = nodes.length - 1; i >= 0; --i) {
-        stack.push(nodes[i])
-      }
-      while (stack.length) {
-        const node = stack.pop()
-        if (!node) continue
+
+    // https://github.com/element-plus/element-plus/issues/18073
+    function traverse(currentNodes: TreeNode[], isParentExpanded = true) {
+      for (const node of currentNodes) {
         if (!hiddenKeys.has(node.key)) {
-          flattenNodes.push(node)
-        }
-        // Only "visible" nodes will be rendered
-        if (expandedKeys.has(node.key)) {
-          const children = node.children
-          if (children) {
-            const length = children.length
-            for (let i = length - 1; i >= 0; --i) {
-              stack.push(children[i])
-            }
+          if (isParentExpanded) {
+            flattenNodes.push(node)
+          }
+
+          const isCurrentExpanded = expandedKeys.has(node.key)
+          if (node.children) {
+            // if parent node is not expanded, children should not be rendered
+            traverse(node.children, isParentExpanded && isCurrentExpanded)
           }
         }
       }
     }
-    traverse()
+
+    traverse(nodes)
     return flattenNodes
   })
 
@@ -201,8 +196,32 @@ export function useTree(
     }
   }
 
-  function setExpandedKeys(keys: TreeKey[]) {
-    expandedKeySet.value = new Set(keys)
+  function setExpandedKeys(keys: TreeKey[] | TreeKey) {
+    if (!Array.isArray(keys)) {
+      keys = [keys]
+    }
+
+    const expandedKeys = new Set<TreeKey>()
+    const nodeMap = tree.value?.treeNodeMap || new Map()
+
+    keys.forEach((k) => {
+      let node = nodeMap.get(k)
+      while (node) {
+        expandedKeys.add(node.key)
+        node = node.parent
+      }
+    })
+
+    // expand all parent nodes
+    expandedKeys.forEach((k) => {
+      let node = nodeMap.get(k)
+      while (node && node.parent) {
+        expandedKeys.add(node.parent.key)
+        node = node.parent
+      }
+    })
+
+    expandedKeySet.value = expandedKeys
   }
 
   function handleNodeClick(node: TreeNode, e: MouseEvent) {
