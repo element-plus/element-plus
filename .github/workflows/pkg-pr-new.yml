@@ -1,4 +1,4 @@
-name: 'ci'
+name: 'pkg-pr-new'
 on:
   push:
     branches:
