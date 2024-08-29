@@ -791,7 +791,7 @@ $dialog: map.merge(
     'content-font-size': 14px,
     'font-line-height': getCssVar('font-line-height-primary'),
     'padding-primary': 16px,
-    'border-radius': getCssVar('border-radius-small'),
+    'border-radius': getCssVar('border-radius-base'),
   ),
   $dialog
 );
@@ -849,6 +849,31 @@ $segmented: map.merge(
     'item-disabled-color': getCssVar('text-color', 'placeholder'),
   ),
   $segmented
+);
+
+// Mention
+// css3 var in packages/theme-chalk/src/mention.scss
+$mention: () !default;
+$mention: map.merge(
+  (
+    'font-size': getCssVar('font-size-base'),
+    'bg-color': getCssVar('bg-color', 'overlay'),
+    'shadow': getCssVar('box-shadow-light'),
+    'border': 1px solid getCssVar('border-color-light'),
+    'option-color': getCssVar('text-color-regular'),
+    'option-height': 34px,
+    'option-min-width': 100px,
+    'option-hover-background': getCssVar('fill-color', 'light'),
+    'option-selected-color': getCssVar('color-primary'),
+    'option-disabled-color': getCssVar('text-color-placeholder'),
+    'option-loading-color': getCssVar('text-color-secondary'),
+    'option-loading-padding': 10px 0,
+    'max-height': 174px,
+    'padding': 6px 0,
+    'header-padding': 10px,
+    'footer-padding': 10px,
+  ),
+  $mention
 );
 
 // Table

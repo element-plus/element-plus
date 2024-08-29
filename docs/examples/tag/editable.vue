@@ -27,11 +27,12 @@
 <script lang="ts" setup>
 import { nextTick, ref } from 'vue'
 import { ElInput } from 'element-plus'
+import type { InputInstance } from 'element-plus'
 
 const inputValue = ref('')
 const dynamicTags = ref(['Tag 1', 'Tag 2', 'Tag 3'])
 const inputVisible = ref(false)
-const InputRef = ref<InstanceType<typeof ElInput>>()
+const InputRef = ref<InputInstance>()
 
 const handleClose = (tag: string) => {
   dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1)

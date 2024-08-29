@@ -89,6 +89,8 @@ const resolveOptions = (options: LoadingOptions): LoadingOptionsResolved => {
     lock: options.lock ?? false,
     customClass: options.customClass || '',
     visible: options.visible ?? true,
+    beforeClose: options.beforeClose,
+    closed: options.closed,
     target,
   }
 }

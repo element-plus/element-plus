@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { useLocale } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
-import { ElButton, ElMessage } from '@element-plus/components'
+import { ElButton, ElMessage, ElPagination } from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
 import {
   useGlobalComponentSettings,
@@ -280,6 +280,26 @@ describe('config-provider', () => {
       await nextTick()
 
       expect(vm.size).toBe('small')
+    })
+
+    // #18004
+    it('dynamically modify global size configuration', async () => {
+      const size = ref<ComponentSize>('small')
+      const wrapper = mount(() => (
+        <ConfigProvider size={size.value}>
+          <ElButton />
+          <ElPagination total={100} background={true} />
+        </ConfigProvider>
+      ))
+      const button = wrapper.findComponent(ElButton)
+      const pagination = wrapper.findComponent(ElPagination)
+      expect(button.vm.$el.className.includes('small')).toBe(true)
+      expect(pagination.vm.$el.className.includes('small')).toBe(true)
+
+      size.value = 'large'
+      await nextTick()
+      expect(button.vm.$el.className.includes('large')).toBe(true)
+      expect(pagination.vm.$el.className.includes('large')).toBe(true)
     })
   })
 })

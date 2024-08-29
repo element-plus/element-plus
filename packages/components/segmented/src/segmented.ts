@@ -1,6 +1,7 @@
 import {
   buildProps,
   definePropType,
+  isBoolean,
   isNumber,
   isString,
 } from '@element-plus/utils'
@@ -59,8 +60,10 @@ export const segmentedProps = buildProps({
 export type SegmentedProps = ExtractPropTypes<typeof segmentedProps>
 
 export const segmentedEmits = {
-  [UPDATE_MODEL_EVENT]: (val: any) => isString(val) || isNumber(val),
-  [CHANGE_EVENT]: (val: any) => isString(val) || isNumber(val),
+  [UPDATE_MODEL_EVENT]: (val: any) =>
+    isString(val) || isNumber(val) || isBoolean(val),
+  [CHANGE_EVENT]: (val: any) =>
+    isString(val) || isNumber(val) || isBoolean(val),
 }
 export type SegmentedEmits = typeof segmentedEmits
 

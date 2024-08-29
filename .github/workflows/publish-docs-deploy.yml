@@ -8,7 +8,7 @@ on:
 jobs:
   deploy-docs:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'release' }}
 
     steps:
       - name: Checkout
@@ -73,7 +73,7 @@ jobs:
           branch: gh-pages
           folder: docs/.vitepress/dist
           git-config-name: ElementPlusBot
-          git-config-email: hello@element-plus.org
+          git-config-email: element-plus@outlook.com
           commit-message: website deploy
 
       - name: Deploy to vercel
@@ -84,7 +84,7 @@ jobs:
           folder: docs/.vitepress/dist
           repository-name: element-plus/vercel-publish
           git-config-name: ElementPlusBot
-          git-config-email: hello@element-plus.org
+          git-config-email: element-plus@outlook.com
 
       - name: Sync
         env:

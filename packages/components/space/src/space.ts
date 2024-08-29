@@ -5,7 +5,6 @@ import {
   isVNode,
   renderSlot,
 } from 'vue'
-import { isString } from '@vue/shared'
 import {
   PatchFlags,
   buildProps,
@@ -13,6 +12,7 @@ import {
   isArray,
   isFragment,
   isNumber,
+  isString,
   isValidElementNode,
 } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'

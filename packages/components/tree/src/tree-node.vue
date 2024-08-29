@@ -92,12 +92,11 @@ import {
   ref,
   watch,
 } from 'vue'
-import { isFunction, isString } from '@vue/shared'
+import { debugWarn, isFunction, isString } from '@element-plus/utils'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { CaretRight, Loading } from '@element-plus/icons-vue'
-import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import NodeContent from './tree-node-content.vue'
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'

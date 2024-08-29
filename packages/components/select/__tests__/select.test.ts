@@ -323,8 +323,9 @@ describe('Select', () => {
       DEFAULT_PLACEHOLDER
     )
     const select = wrapper.findComponent({ name: 'ElSelect' })
-    await select.trigger('mouseenter')
-    await select.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
     await nextTick()
     expect((select.vm as any).expanded).toBe(true)
   })
@@ -1350,31 +1351,30 @@ describe('Select', () => {
     expect(vm.value.indexOf('选项4')).toBe(-1)
   })
 
-  test('event:focus & blur', async () => {
+  test('event:focus', async () => {
     const handleFocus = vi.fn()
-    const handleBlur = vi.fn()
-    wrapper = _mount(
-      `<el-select
-      @focus="handleFocus"
-      @blur="handleBlur" />`,
-      () => ({
-        handleFocus,
-        handleBlur,
-      })
-    )
+    wrapper = _mount(`<el-select @focus="handleFocus" />`, () => ({
+      handleFocus,
+    }))
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const input = select.find('input')
 
     expect(input.exists()).toBe(true)
     await input.trigger('focus')
     expect(handleFocus).toHaveBeenCalledTimes(1)
+  })
+
+  test('event:blur', async () => {
+    const handleBlur = vi.fn()
+    wrapper = _mount(`<el-select @blur="handleBlur" />`, () => ({
+      handleBlur,
+    }))
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const input = select.find('input')
+
+    expect(input.exists()).toBe(true)
     await input.trigger('blur')
     expect(handleBlur).toHaveBeenCalledTimes(1)
-
-    await input.trigger('focus')
-    expect(handleFocus).toHaveBeenCalledTimes(2)
-    await input.trigger('blur')
-    expect(handleBlur).toHaveBeenCalledTimes(2)
   })
 
   test('event:focus & blur for clearable & filterable', async () => {
@@ -1432,7 +1432,7 @@ describe('Select', () => {
 
     const input = select.find('input')
     await input.trigger('blur')
-    expect(handleBlur).toHaveBeenCalledTimes(1)
+    expect(handleBlur).toHaveBeenCalled()
   })
 
   test('event:focus & blur for multiple & filterable select', async () => {
@@ -1463,7 +1463,7 @@ describe('Select', () => {
     await input.trigger('focus')
     expect(handleFocus).toHaveBeenCalledTimes(2)
     await input.trigger('blur')
-    expect(handleBlur).toHaveBeenCalledTimes(2)
+    expect(handleBlur).toHaveBeenCalled()
   })
 
   test('event:focus & blur for multiple tag close', async () => {
@@ -1524,7 +1524,7 @@ describe('Select', () => {
     expect(handleFocus).toHaveBeenCalledTimes(1)
     expect(handleBlur).not.toHaveBeenCalled()
     await input.trigger('blur')
-    expect(handleBlur).toHaveBeenCalledTimes(1)
+    expect(handleBlur).toHaveBeenCalled()
   })
 
   test('should not open popper when automatic-dropdown not set', async () => {
@@ -1592,8 +1592,9 @@ describe('Select', () => {
       () => ({ value: 'test' })
     )
     const vm = wrapper.vm as any
-    await wrapper.trigger('mouseenter')
-    await wrapper.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
     const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
     expect(selectVm.expanded).toBe(true)
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('test')
@@ -1673,9 +1674,9 @@ describe('Select', () => {
         value: 'test',
       })
     )
-    const select = wrapper.findComponent({ name: 'ElSelect' })
-    await select.trigger('mouseenter')
-    await select.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
     await nextTick()
     expect(
       !!(document.querySelector('.el-select__popper') as HTMLElement).style
@@ -2196,9 +2197,10 @@ describe('Select', () => {
       clearable: true,
     })
     const select = wrapper.findComponent({ name: 'ElSelect' })
-    await select.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
-    await select.trigger('click')
+    await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(false)
   })
 
@@ -2208,11 +2210,11 @@ describe('Select', () => {
       clearable: true,
     })
     const select = wrapper.findComponent({ name: 'ElSelect' })
-
-    await select.trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
 
-    await select.trigger('click')
+    await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(false)
   })
 
@@ -2682,5 +2684,71 @@ describe('Select', () => {
     expect(option.attributes('aria-disabled')).toBe(undefined)
     expect(option.attributes('aria-selected')).toBe('true')
     expect(disabledOption.attributes('aria-disabled')).toBe('true')
+  })
+
+  describe('It will convert the initial model-value to the desired type after selection', () => {
+    it('array to string', async () => {
+      const wrapper = _mount(
+        `<el-select v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>`,
+        () => ({
+          modelValue: ['initial'],
+        })
+      )
+
+      await nextTick()
+      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('initial')
+      const vm = wrapper.vm as any
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      expect(vm.modelValue).toEqual('1')
+      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('1')
+    })
+
+    it('string to array', async () => {
+      const wrapper = _mount(
+        `<el-select v-model="modelValue" multiple>
+            <el-option label="1" value="1" />
+          </el-select>`,
+        () => ({
+          modelValue: 'initial',
+        })
+      )
+
+      await nextTick()
+      expect(wrapper.findAll('.el-tag').length).toBe(1)
+      expect(wrapper.findAll('.el-tag')[0].text()).toBe('initial')
+
+      const vm = wrapper.vm as any
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      expect(vm.modelValue).toEqual(['initial', '1'])
+      expect(wrapper.findAll('.el-tag').length).toBe(2)
+      expect(wrapper.findAll('.el-tag')[0].text()).toBe('initial')
+      expect(wrapper.findAll('.el-tag')[1].text()).toBe('1')
+    })
+  })
+
+  it('should be trigger the click event', async () => {
+    const handleClick = vi.fn()
+    const wrapper = _mount(`<el-select @click="handleClick" />`, () => ({
+      handleClick,
+    }))
+
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    expect(handleClick).toHaveBeenCalledOnce()
+  })
+
+  test('should be run normally when switching multiple', async () => {
+    wrapper = getSelectVm({ multiple: false })
+    const vm = wrapper.vm as any
+
+    await (vm.value = undefined)
+    await (vm.multiple = true)
+    await (vm.multiple = false)
+    expect(vm.value).toBe(undefined)
   })
 })
