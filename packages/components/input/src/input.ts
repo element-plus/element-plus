@@ -1,8 +1,8 @@
-import { isString } from '@vue/shared'
 import {
   buildProps,
   definePropType,
   iconPropType,
+  isString,
   mutable,
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
