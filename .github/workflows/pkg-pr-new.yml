@@ -33,10 +33,17 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Open dist/element-plus
+      - name: Get Latest Release Version
+        id: get_release
+        run: |
+          LATEST_VERSION=$(curl -s https://api.github.com/repos/element-plus/element-plus/releases/latest | jq -r '.tag_name')
+          echo "LATEST_VERSION=${LATEST_VERSION}" >> $GITHUB_ENV
+
+      - name: Update package.json version
         run: |
           cd dist/element-plus
           ls -la
+          jq --arg newVersion "$LATEST_VERSION" '.version = $newVersion' package.json > tmp.json && mv tmp.json package.json
 
       - name: Publish
         run: |
