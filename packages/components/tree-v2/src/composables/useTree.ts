@@ -90,7 +90,6 @@ export function useTree(
     const flattenNodes: TreeNode[] = []
     const nodes = (tree.value && tree.value.treeNodes) || []
 
-    // https://github.com/element-plus/element-plus/issues/18073
     function traverse(currentNodes: TreeNode[], isParentExpanded = true) {
       for (const node of currentNodes) {
         if (!hiddenKeys.has(node.key)) {
@@ -196,27 +195,17 @@ export function useTree(
     }
   }
 
-  function setExpandedKeys(keys: TreeKey[] | TreeKey) {
-    if (!Array.isArray(keys)) {
-      keys = [keys]
-    }
-
+  function setExpandedKeys(keys: TreeKey | TreeKey[]) {
     const expandedKeys = new Set<TreeKey>()
     const nodeMap = tree.value?.treeNodeMap || new Map()
 
-    keys.forEach((k) => {
-      let node = nodeMap.get(k)
-      while (node) {
-        expandedKeys.add(node.key)
-        node = node.parent
-      }
-    })
+    // Ensure keys is always an array
+    const keyArray = Array.isArray(keys) ? keys : [keys]
 
-    // expand all parent nodes
-    expandedKeys.forEach((k) => {
+    keyArray.forEach((k) => {
       let node = nodeMap.get(k)
-      while (node && node.parent) {
-        expandedKeys.add(node.parent.key)
+      while (node && !expandedKeys.has(node.key)) {
+        expandedKeys.add(node.key)
         node = node.parent
       }
     })
