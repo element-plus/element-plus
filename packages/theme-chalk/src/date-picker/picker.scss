@@ -153,7 +153,7 @@
     display: inline-flex;
     align-items: center;
     padding: 0 10px;
-    vertical-align: middle
+    vertical-align: middle;
   }
 
   @include when(active) {
