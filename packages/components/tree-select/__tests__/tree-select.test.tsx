@@ -336,7 +336,7 @@ describe('TreeSelect.vue', () => {
     const wrapperRef = await getWrapperRef()
     await tree.findAll('.el-tree-node__content')[0].trigger('click')
     await nextTick()
-    expect(select.vm.modelValue).toBe(undefined)
+    expect(select.vm.modelValue).toEqual([])
     expect(wrapperRef.getCheckedKeys()).toEqual([])
 
     await tree
