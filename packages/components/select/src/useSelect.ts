@@ -140,6 +140,8 @@ export const useSelect = (props: ISelectProps, emit) => {
       : !isEmptyValue(props.modelValue)
   })
 
+  const needStatusIcon = computed(() => form?.statusIcon ?? false)
+
   const showClose = computed(() => {
     return (
       props.clearable &&
@@ -828,6 +830,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     shouldShowPlaceholder,
     currentPlaceholder,
     mouseEnterEventName,
+    needStatusIcon,
     showClose,
     iconComponent,
     iconReverse,
