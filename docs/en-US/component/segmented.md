@@ -62,8 +62,8 @@ segmented/custom-style
 ### Attributes
 
 | Name                  | Description                        | Type                                           | Default |
-|-----------------------|------------------------------------|------------------------------------------------|---------|
-| model-value / v-model | binding value                      | ^[string] / ^[number]                          | —       |
+| --------------------- | ---------------------------------- |------------------------------------------------| ------- |
+| model-value / v-model | binding value                      | ^[string] / ^[number] / ^[boolean]             | —       |
 | options               | data of the options                | ^[array]`Option[]`                             | []      |
 | size                  | size of component                  | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''      |
 | block                 | fit width of parent content        | ^[boolean]                                     | —       |
@@ -76,13 +76,13 @@ segmented/custom-style
 ### Events
 
 | Name   | Description                                                                   | Type                            |
-|--------|-------------------------------------------------------------------------------|---------------------------------|
+| ------ | ----------------------------------------------------------------------------- | ------------------------------- |
 | change | triggers when the selected value changes, the param is current selected value | ^[Function]`(val: any) => void` |
 
 ### Slots
 
 | Name    | Description     |
-|---------|-----------------|
+| ------- | --------------- |
 | default | option renderer |
 
 ## Type Declarations
@@ -91,12 +91,17 @@ segmented/custom-style
   <summary>Show declarations</summary>
 
 ```ts
-type Option = {
-  label: string
-  value: string | number | boolean
-  disabled?: boolean
-  [key: string]: any
-} | string | number | boolean | undefined
+type Option =
+  | {
+      label: string
+      value: string | number | boolean
+      disabled?: boolean
+      [key: string]: any
+    }
+  | string
+  | number
+  | boolean
+  | undefined
 ```
 
 </details>

@@ -7,12 +7,6 @@ lang: en-US
 
 Display multiple data with similar format. You can sort, filter, compare your data in a table.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic table
 
 Basic table is just for data display.
@@ -48,6 +42,16 @@ You can highlight your table content to distinguish between "success, informatio
 :::demo Use `row-class-name` in `el-table` to add custom classes to a certain row. Then you can style it with custom classes.
 
 table/with-status
+
+:::
+
+## Table with show overflow tooltip
+
+When the content is too long, it will break into multiple lines, you can use `show-overflow-tooltip` to keep it in one line.
+
+:::demo Attribute `show-overflow-tooltip`, which accepts a `Boolean` value. When set `true`, the extra content will show in tooltip when hover on the cell.
+
+table/show-overflow-tooltip
 
 :::
 
@@ -125,7 +129,7 @@ table/single-select
 
 You can also select multiple rows.
 
-:::demo Activating multiple selection is easy: simply add an `el-table-column` with its `type` set to `selection`. Apart from multiple selection, this example also uses `show-overflow-tooltip`. By default, if the content is too long, it will break into multiple lines. If you want to keep it in one line, use attribute `show-overflow-tooltip`, which accepts a `Boolean` value. When set `true`, the extra content will show in tooltip when hover on the cell.
+:::demo Activating multiple selection is easy: simply add an `el-table-column` with its `type` set to `selection`.
 
 table/multi-select
 
@@ -186,6 +190,14 @@ table/expandable-row
 :::demo You can display tree structure data. When row contains the `children` field, it is treated as nested data. For rendering nested data, the prop `row-key` is required. Also, child row data can be loaded asynchronously. Set `lazy` property of Table to true and the function `load`. Specify `hasChildren` attribute in row to determine which row contains children. Both `children` and `hasChildren` can be configured via `tree-props`.
 
 table/tree-and-lazy
+
+:::
+
+## Selectable tree ^(2.8.0)
+
+:::demo When `treeProps.checkStrictly` is true, the selection state of parent and child nodes is no longer associated, that is, when the parent node is selected, its child nodes will not be selected; when `treeProps.checkStrictly` is false, the selection state of parent and child nodes will be associated with the selection state of child nodes, that is, when the parent node is selected, all its child nodes will be selected.
+
+table/check-strictly
 
 :::
 
@@ -256,7 +268,7 @@ table/table-layout
 | row-key                   | key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used | ^[function]`(row: any) => string` / ^[string]                                                                                                                        | —                                                                                                                       |
 | empty-text                | displayed text when data is empty. You can customize this area with `#empty`                                                                                                                                                                                               | ^[string]                                                                                                                                                            | No Data                                                                                                                 |
 | default-expand-all        | whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data                                                                                                                                                        | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
-| expand-row-keys           | set expanded rows by this prop, prop's value is the keys of expand rows, you should set row-key before using this prop                                                                                                                                                     | ^[object]`any[]`                                                                                                                                                     | —                                                                                                                       |
+| expand-row-keys           | set expanded rows by this prop, prop's value is the keys of expand rows, you should set row-key before using this prop                                                                                                                                                     | ^[Array]`string[]`                                                                                                                                                   | —                                                                                                                       |
 | default-sort              | set the default sort column and order. property `prop` is used to set default sort column, property `order` is used to set default sort order                                                                                                                              | ^[object]`Sort`                                                                                                                                                      | if `prop` is set, and `order` is not set, then `order` is default to ascending                                          |
 | tooltip-effect            | the `effect` of the overflow tooltip                                                                                                                                                                                                                                       | ^[enum]`'dark' \| 'light'`                                                                                                                                           | dark                                                                                                                    |
 | tooltip-options ^(2.2.28) | the options for the overflow tooltip, [see the following tooltip component](tooltip.html#attributes)                                                                                                                                                                       | ^[object]`Pick<ElTooltipProps, 'effect' \| 'enterable' \| 'hideAfter' \| 'offset' \| 'placement' \| 'popperClass' \| 'popperOptions' \| 'showAfter' \| 'showArrow'>` | ^[object]`{ enterable: true, placement: 'top', showArrow: true, hideAfter: 200, popperOptions: { strategy: 'fixed' } }` |
@@ -268,7 +280,7 @@ table/table-layout
 | indent                    | horizontal indentation of tree data                                                                                                                                                                                                                                        | ^[number]                                                                                                                                                            | 16                                                                                                                      |
 | lazy                      | whether to lazy loading data                                                                                                                                                                                                                                               | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
 | load                      | method for loading child row data, only works when `lazy` is true                                                                                                                                                                                                          | ^[Function]`(row: any, treeNode: TreeNode, resolve: (data: any[]) => void) => void`                                                                                  | —                                                                                                                       |
-| tree-props                | configuration for rendering nested data                                                                                                                                                                                                                                    | ^[object]`{ hasChildren?: string, children?: string }`                                                                                                               | ^[object]`{ hasChildren: 'hasChildren', children: 'children' }`                                                         |
+| tree-props                | configuration for rendering nested data                                                                                                                                                                                                                                    | ^[object]`{ hasChildren?: string, children?: string, checkStrictly?: boolean }`                                                                                      | ^[object]`{ hasChildren: 'hasChildren', children: 'children', checkStrictly: false }`                                   |
 | table-layout              | sets the algorithm used to lay out table cells, rows, and columns                                                                                                                                                                                                          | ^[enum]`'fixed' \| 'auto'`                                                                                                                                           | fixed                                                                                                                   |
 | scrollbar-always-on       | always show scrollbar                                                                                                                                                                                                                                                      | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
 | show-overflow-tooltip     | whether to hide extra content and show them in a tooltip when hovering on the cell.It will affect all the table columns, refer to table [tooltip-options](#table-attributes)                                                                                               | ^[boolean] / [`object`](#table-attributes) ^(2.3.7)                                                                                                                  | —                                                                                                                       |
@@ -311,7 +323,7 @@ table/table-layout
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | clearSelection     | used in multiple selection Table, clear user selection                                                                                                            | ^[Function]`() => void`                                                    |
 | getSelectionRows   | returns the currently selected rows                                                                                                                               | ^[Function]`() => void`                                                    |
-| toggleRowSelection | used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected                    | ^[Function]`(row: any, selected: boolean) => void`                         |
+| toggleRowSelection | used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected                    | ^[Function]`(row: any, selected?: boolean) => void`                        |
 | toggleAllSelection | used in multiple selection Table, toggle select all and deselect all                                                                                              | ^[Function]`() => void`                                                    |
 | toggleRowExpansion | used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed | ^[Function]`(row: any, expanded?: boolean) => void`                        |
 | setCurrentRow      | used in single selection Table, set a certain row selected. If called without any parameter, it will clear selection                                              | ^[Function]`(row: any) => void`                                            |
@@ -322,6 +334,7 @@ table/table-layout
 | scrollTo           | scrolls to a particular set of coordinates                                                                                                                        | ^[Function]`(options: number \| ScrollToOptions, yCoord?: number) => void` |
 | setScrollTop       | set vertical scroll position                                                                                                                                      | ^[Function]`(top?: number) => void`                                        |
 | setScrollLeft      | set horizontal scroll position                                                                                                                                    | ^[Function]`(left?: number) => void`                                       |
+| columns ^(2.7.6)   | Get table columns context.                                                                                                                                        | ^[array]`TableColumnCtx<T>[]`                                              |
 
 ## Table-column API
 
@@ -360,10 +373,11 @@ table/table-layout
 
 ### Table-column Slots
 
-| Name    | Description                      | Type                                                 |
-| ------- | -------------------------------- | ---------------------------------------------------- |
-| default | Custom content for table columns | ^[object]`{ row: any, column: any, $index: number }` |
-| header  | Custom content for table header  | ^[object]`{ column: any, $index: number }`           |
+| Name                 | Description                      | Type                                                 |
+| -------------------- | -------------------------------- | ---------------------------------------------------- |
+| default              | Custom content for table columns | ^[object]`{ row: any, column: any, $index: number }` |
+| header               | Custom content for table header  | ^[object]`{ column: any, $index: number }`           |
+| filter-icon ^(2.7.8) | Custom content for filter icon   | ^[object]`{ filterOpened: boolean }`                 |
 
 ## Type Declarations
 

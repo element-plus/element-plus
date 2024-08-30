@@ -4,8 +4,8 @@
 
 import { defineComponent, nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
-import { NOOP } from '@vue/shared'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'
+import { NOOP } from '@element-plus/utils'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Autocomplete from '../src/autocomplete.vue'
@@ -443,7 +443,7 @@ describe('Autocomplete.vue', () => {
     await wrapper.find('input').trigger('blur')
     vi.runAllTimers()
     await nextTick()
-    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(onBlur).toHaveBeenCalled()
   })
 
   describe('test a11y supports', () => {

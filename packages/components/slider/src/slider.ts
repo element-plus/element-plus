@@ -119,13 +119,6 @@ export const sliderProps = buildProps({
     default: 300,
   },
   /**
-   * @deprecated label for screen reader
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description when `range` is true, screen reader label for the start of the range
    */
   rangeStartLabel: {

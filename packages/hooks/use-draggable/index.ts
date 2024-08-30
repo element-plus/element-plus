@@ -74,6 +74,16 @@ export const useDraggable = (
     }
   }
 
+  const resetPosition = () => {
+    transform = {
+      offsetX: 0,
+      offsetY: 0,
+    }
+    if (targetRef.value) {
+      targetRef.value.style.transform = 'none'
+    }
+  }
+
   onMounted(() => {
     watchEffect(() => {
       if (draggable.value) {
@@ -87,4 +97,8 @@ export const useDraggable = (
   onBeforeUnmount(() => {
     offDraggable()
   })
+
+  return {
+    resetPosition,
+  }
 }

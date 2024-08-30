@@ -1,6 +1,6 @@
 import { Teleport, h, onUnmounted, ref } from 'vue'
-import { NOOP } from '@vue/shared'
 import {
+  NOOP,
   createGlobalNode,
   isClient,
   removeGlobalNode,
