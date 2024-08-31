@@ -51,7 +51,7 @@ jobs:
           body-include: '<!-- ELEMENT_PLUS_PREVIEW -->'
           number: ${{ steps.pr.outputs.id }}
 
-      - name: Comment playground link
+      - name: Comment playground link & docs preview
         if: ${{ success() }}
         uses: actions-cool/maintain-one-comment@v3.1.1
         with:
@@ -59,7 +59,7 @@ jobs:
           body: |
             🧪 Playground Preview: https://element-plus.run/?pr=${{ steps.pr.outputs.id }}
             Please comment the example via this playground if needed.
-            <hr />
+            ---
 
             📄 Docs Preview: https://preview-${{ steps.pr.outputs.id }}-element-plus.surge.sh
             <!-- ELEMENT_PLUS_PLAYGROUND -->
