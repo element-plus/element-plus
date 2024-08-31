@@ -2741,4 +2741,14 @@ describe('Select', () => {
     await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
     expect(handleClick).toHaveBeenCalledOnce()
   })
+
+  test('should be run normally when switching multiple', async () => {
+    wrapper = getSelectVm({ multiple: false })
+    const vm = wrapper.vm as any
+
+    await (vm.value = undefined)
+    await (vm.multiple = true)
+    await (vm.multiple = false)
+    expect(vm.value).toBe(undefined)
+  })
 })
