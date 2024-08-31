@@ -106,6 +106,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
   })
 
   const { wrapperRef, isFocused } = useFocusController(inputRef, {
+    beforeFocus() {
+      return selectDisabled.value
+    },
     afterFocus() {
       if (props.automaticDropdown && !expanded.value) {
         expanded.value = true
