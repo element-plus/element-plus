@@ -88,25 +88,33 @@ export function useTree(
     const expandedKeys = expandedKeySet.value
     const hiddenKeys = hiddenNodeKeySet.value
     const flattenNodes: TreeNode[] = []
-    const nodes = (tree.value && tree.value.treeNodes) || []
+    const nodes = tree.value?.treeNodes || []
 
-    function traverse(currentNodes: TreeNode[], isParentExpanded = true) {
-      for (const node of currentNodes) {
-        if (!hiddenKeys.has(node.key)) {
-          if (isParentExpanded) {
-            flattenNodes.push(node)
-          }
+    // Stack to simulate recursion, each item contains [nodes, index]
+    const stack: [TreeNode[], number][] = [[nodes, 0]]
 
-          const isCurrentExpanded = expandedKeys.has(node.key)
-          if (node.children) {
-            // if parent node is not expanded, children should not be rendered
-            traverse(node.children, isParentExpanded && isCurrentExpanded)
-          }
+    while (stack.length > 0) {
+      const [currentNodes, index] = stack[stack.length - 1]
+
+      // If we've processed all nodes at this level, move up the stack
+      if (index >= currentNodes.length) {
+        stack.pop()
+        continue
+      }
+
+      const node = currentNodes[index]
+      stack[stack.length - 1][1]++ // Move to next node in current level
+
+      if (!hiddenKeys.has(node.key)) {
+        flattenNodes.push(node)
+
+        // If node is expanded and has children, add them to the stack
+        if (node.children && expandedKeys.has(node.key)) {
+          stack.push([node.children, 0])
         }
       }
     }
 
-    traverse(nodes)
     return flattenNodes
   })
 
