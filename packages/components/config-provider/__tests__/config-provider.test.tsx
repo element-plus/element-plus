@@ -195,7 +195,6 @@ describe('config-provider', () => {
         </ConfigProvider>
       ))
 
-      ElMessage.closeAll()
       await rAF()
 
       wrapper.find('.el-button').trigger('click')
