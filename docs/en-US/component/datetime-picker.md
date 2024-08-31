@@ -125,9 +125,10 @@ datetime-picker/custom-icon
 
 ## Methods
 
-| Method | Description               | Parameters |
-| ------ | ------------------------- | ---------- |
-| focus  | focus the Input component | —          |
+| Method        | Description                    | Type                    |
+| ------------- | ------------------------------ | ----------------------- |
+| focus         | focus the DatePicker component | ^[Function]`() => void` |
+| blur ^(2.8.2) | blur the DatePicker component  | ^[Function]`() => void` |
 
 ## Slots
 

@@ -1,7 +1,6 @@
 <template>
   <div
     ref="wrapperRef"
-    tabindex="-1"
     :class="[nsDate.is('active', isFocused), $attrs.class]"
     :style="($attrs.style as any)"
     @click="handleClick"

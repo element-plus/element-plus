@@ -218,11 +218,12 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ### Exposes
 
-| Name                  | Description                 | Type                                                                           |
-| --------------------- | --------------------------- | ------------------------------------------------------------------------------ |
-| focus                 | focus the Input component   | ^[Function]`(focusStartInput?: boolean, isIgnoreFocusEvent?: boolean) => void` |
-| handleOpen ^(2.2.16)  | open the DatePicker popper  | ^[Function]`() => void`                                                        |
-| handleClose ^(2.2.16) | close the DatePicker popper | ^[Function]`() => void`                                                        |
+| Name                  | Description                    | Type                    |
+| --------------------- | ------------------------------ | ----------------------- |
+| focus                 | focus the DatePicker component | ^[Function]`() => void` |
+| blur ^(2.8.2)         | blur the DatePicker component  | ^[Function]`() => void` |
+| handleOpen ^(2.2.16)  | open the DatePicker popper     | ^[Function]`() => void` |
+| handleClose ^(2.2.16) | close the DatePicker popper    | ^[Function]`() => void` |
 
 ## Type Declarations
 
