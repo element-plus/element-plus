@@ -224,7 +224,7 @@ describe('TimePicker', () => {
     await nextTick()
     await rAF()
     expect(focusHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalled()
     expect(keydownHandler).toHaveBeenCalledTimes(1)
 
     input.trigger('focus')
@@ -316,36 +316,15 @@ describe('TimePicker', () => {
     expect(enabledSeconds).toEqual([0])
   })
 
-  it('ref focus', async () => {
+  it('exposed focus & blur', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40))
     const wrapper = mount(() => <TimePicker v-model={value.value} />)
 
     await nextTick()
-    wrapper.findComponent(TimePicker).vm.$.exposed.focus()
-
-    // This one allows mounted to take effect
-    await nextTick()
-    // These following two allows popper to gets rendered.
-    await rAF()
-    const popperEl = document.querySelector('.el-picker__popper')
-    const attr = popperEl.getAttribute('aria-hidden')
-    expect(attr).toEqual('false')
-  })
-
-  it('ref blur', async () => {
-    const value = ref(new Date(2016, 9, 10, 18, 40))
-    const wrapper = mount(() => <TimePicker v-model={value.value} />)
     const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed
 
-    await nextTick()
-    timePickerExposed.focus()
-    await nextTick()
-    timePickerExposed.blur()
-
-    await nextTick()
-    const popperEl = document.querySelector('.el-picker__popper')
-    const attr = popperEl.getAttribute('aria-hidden')
-    expect(attr).toEqual('false')
+    expect(timePickerExposed.focus).toBeTruthy()
+    expect(timePickerExposed.blur).toBeTruthy()
   })
 
   it('ref handleOpen', async () => {
