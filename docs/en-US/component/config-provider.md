@@ -88,9 +88,13 @@ In this section, you can learn how to use Config Provider to provide experimenta
 
 ### Message Attribute
 
-| Attribute | Description                                                           | Type      | Default |
-| --------- | --------------------------------------------------------------------- | --------- | ------- |
-| max       | the maximum number of messages that can be displayed at the same time | ^[number] | —       |
+| Attribute | Description                                                                    | Type       | Default |
+| --------- | ------------------------------------------------------------------------------ | ---------- | ------- |
+| max       | the maximum number of messages that can be displayed at the same time          | ^[number]  | —       |
+| grouping  | merge messages with the same content, type of VNode message is not supported   | ^[boolean] | —       |
+| duration  | display duration, millisecond. If set to 0, it will not turn off automatically | ^[number]  | —       |
+| showClose | whether to show a close button                                                 | ^[boolean] | —       |
+| offset    | set the distance to the top of viewport                                        | ^[number]  | —       |
 
 ### Config Provider Slots
 
