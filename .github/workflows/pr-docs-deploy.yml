@@ -58,9 +58,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
             🧪 Playground Preview: https://element-plus.run/?pr=${{ steps.pr.outputs.id }}
-            Please comment the example via this playground if needed.
-            ---
-
+            test Please comment the example via this playground if needed.
             📄 Docs Preview: https://preview-${{ steps.pr.outputs.id }}-element-plus.surge.sh
             <!-- ELEMENT_PLUS_PLAYGROUND -->
           body-include: '<!-- ELEMENT_PLUS_PLAYGROUND -->'
