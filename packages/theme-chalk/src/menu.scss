@@ -60,9 +60,7 @@
   box-sizing: border-box;
 
   @include m(vertical) {
-    &:not(.#{$namespace}-menu--collapse):not(
-        .#{$namespace}-menu--popup-container
-      ) {
+    &:not(.#{$namespace}-menu--collapse):not(.#{$namespace}-menu--popup-container) {
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title,
       & .#{$namespace}-menu-item-group__title {
