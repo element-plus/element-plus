@@ -60,7 +60,7 @@
             v-if="triggerIcon"
             :class="nsInput.e('icon')"
             @mousedown.prevent="onMouseDownInput"
-            @touchstart.prevent="onTouchStartInput"
+            @touchstart.passive="onTouchStartInput"
           >
             <component :is="triggerIcon" />
           </el-icon>
@@ -98,11 +98,11 @@
         @start-change="handleStartChange"
         @end-input="handleEndInput"
         @end-change="handleEndChange"
-        @keydown="handleKeydownInput"
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
         @touchstart.passive="onTouchStartInput"
+        @keydown="handleKeydownInput"
       >
         <template #prefix>
           <el-icon
