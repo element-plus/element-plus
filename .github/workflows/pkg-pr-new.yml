@@ -49,4 +49,4 @@ jobs:
       - name: Publish
         run: |
           cd dist/element-plus
-          pnpx pkg-pr-new publish
+          pnpx pkg-pr-new@0.0.20 publish
