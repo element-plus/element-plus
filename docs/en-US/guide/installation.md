@@ -89,6 +89,16 @@ on the link address, so as not to be affected by incompatible updates when Eleme
 is upgraded in the future. Please check [unpkg.com](https://unpkg.com) for
 the method to lock the version.
 
+Due to the limitations of native HTML parsing behavior, single-closed tags may cause some exceptions, so please use double-closed tags, [reference](https://vuejs.org/guide/essentials/component-basics.html#in-dom-template-parsing-caveats)
+
+```html
+<!-- examples -->
+<el-table>
+  <el-table-column></el-table-column>
+  <el-table-column></el-table-column>
+</el-table>
+```
+
 :::
 
 ## Hello World

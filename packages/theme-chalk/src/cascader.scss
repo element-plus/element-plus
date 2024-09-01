@@ -13,8 +13,18 @@
     text-overflow: ellipsis;
     background: $background-color;
 
+    &.#{$namespace}-tag--dark,
+    &.#{$namespace}-tag--plain {
+      background-color: getCssVar('tag', 'bg-color');
+    }
+
     &:not(.is-hit) {
       border-color: transparent;
+
+      &.#{$namespace}-tag--dark,
+      &.#{$namespace}-tag--plain {
+        border-color: getCssVar('tag', 'border-color');
+      }
     }
 
     > span {

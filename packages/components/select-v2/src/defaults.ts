@@ -18,9 +18,13 @@ import { defaultProps } from './useProps'
 
 import type { Option, OptionType } from './select.types'
 import type { Props } from './useProps'
-import type { Options, Placement } from '@element-plus/components/popper'
 import type { EmitFn } from '@element-plus/utils/vue/typescript'
 import type { ExtractPropTypes } from 'vue'
+import type {
+  Options,
+  Placement,
+  PopperEffect,
+} from '@element-plus/components/popper'
 
 export const SelectProps = buildProps({
   /**
@@ -53,7 +57,7 @@ export const SelectProps = buildProps({
    * @description tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
-    type: definePropType<'light' | 'dark' | string>(String),
+    type: definePropType<PopperEffect | string>(String),
     default: 'light',
   },
   /**
@@ -252,6 +256,10 @@ export const SelectProps = buildProps({
    * @description tag type
    */
   tagType: { ...tagProps.type, default: 'info' },
+  /**
+   * @description tag effect
+   */
+  tagEffect: { ...tagProps.effect, default: 'light' },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 } as const)

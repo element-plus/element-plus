@@ -11,12 +11,6 @@ This component is still under testing, if you found any bug or issue please repo
 
 :::
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Background
 
 In some use-cases, a single selector may end up loading tens of thousands of rows of data.
@@ -265,6 +259,7 @@ select-v2/custom-label
 | collapse-tags-tooltip ^(2.3.0)      | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                         | ^[boolean]                                                                                                                                                                  | false                                          |
 | max-collapse-tags ^(2.3.0)          | The max tags number to be shown. To use this, `collapse-tags` must be true                                                               | ^[number]                                                                                                                                                                   | 1                                              |
 | tag-type ^(2.5.0)                   | tag type                                                                                                                                 | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
+| tag-effect ^(2.7.7)                 | tag effect                                                                                                                               | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                                                                                                                                 | light                                          |
 | aria-label ^(a11y) ^(2.5.0)         | same as `aria-label` in native input                                                                                                     | ^[string]                                                                                                                                                                   | —                                              |
 | empty-values ^(2.7.0)               | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                           | ^[array]                                                                                                                                                                    | —                                              |
 | value-on-clear ^(2.7.0)             | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                  | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |

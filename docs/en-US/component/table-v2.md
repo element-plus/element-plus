@@ -18,12 +18,6 @@ fully developed yet, which is why they are not mentioned here.
 
 :::
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Let's demonstrate the performance of the Virtualized Table by rendering a basic example with 10 columns and 1000 rows.

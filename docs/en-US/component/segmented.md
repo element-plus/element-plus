@@ -63,7 +63,7 @@ segmented/custom-style
 
 | Name                  | Description                        | Type                                           | Default |
 | --------------------- | ---------------------------------- | ---------------------------------------------- | ------- |
-| model-value / v-model | binding value                      | ^[string] / ^[number]                          | —       |
+| model-value / v-model | binding value                      | ^[string] / ^[number] / ^[boolean]             | —       |
 | options               | data of the options                | ^[array]`Option[]`                             | []      |
 | size                  | size of component                  | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''      |
 | block                 | fit width of parent content        | ^[boolean]                                     | —       |
