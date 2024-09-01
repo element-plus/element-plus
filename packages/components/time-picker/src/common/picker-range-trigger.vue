@@ -50,7 +50,7 @@ defineProps(timePickerRngeTriggerProps)
 const emit = defineEmits([
   'mouseenter',
   'mouseleave',
-  'focusClick',
+  'click',
   'touchstart',
   'focus',
   'blur',
@@ -70,7 +70,7 @@ const endInputRef = ref<HTMLInputElement>()
 const { wrapperRef, isFocused } = useFocusController(inputRef)
 
 const handleClick = (evt: MouseEvent) => {
-  isFocused.value && emit('focusClick', evt)
+  emit('click', evt)
 }
 
 const handleMouseEnter = (evt: MouseEvent) => {

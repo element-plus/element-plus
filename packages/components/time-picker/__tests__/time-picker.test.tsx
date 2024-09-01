@@ -913,4 +913,60 @@ describe('TimePicker(range)', () => {
     await nextTick()
     expect(value.value).toEqual(null)
   })
+
+  describe('It should generate accessible attributes', () => {
+    it('should generate aria attributes', async () => {
+      const wrapper = mount(() => <TimePicker aria-label="time picker" />)
+      const input = wrapper.find('input')
+      expect(input.attributes('role')).toBe('combobox')
+      expect(input.attributes('aria-controls')).toBeTruthy()
+      expect(input.attributes('aria-haspopup')).toBe('dialog')
+      expect(input.attributes('aria-expanded')).toBe('false')
+      expect(input.attributes('aria-label')).toBe('time picker')
+
+      input.trigger('focus')
+      await nextTick()
+      await rAF()
+      const popper = document.querySelector('.el-picker__popper')
+      expect(input.attributes('aria-expanded')).toBe('true')
+      expect(input.attributes('aria-controls')).toBe(popper?.getAttribute('id'))
+      expect(popper?.getAttribute('role')).toBe('dialog')
+      expect(popper?.getAttribute('aria-hidden')).toBe('false')
+      expect(popper?.getAttribute('aria-modal')).toBe('false')
+    })
+
+    it('should generate aria attributes for range', async () => {
+      const wrapper = mount(() => (
+        <TimePicker is-range aria-label="time picker" />
+      ))
+      const inputs = wrapper.findAll('input')
+      expect(inputs[0].attributes('role')).toBe('combobox')
+      expect(inputs[0].attributes('aria-controls')).toBeTruthy()
+      expect(inputs[0].attributes('aria-haspopup')).toBe('dialog')
+      expect(inputs[0].attributes('aria-expanded')).toBe('false')
+      expect(inputs[0].attributes('aria-label')).toBe('time picker')
+
+      expect(inputs[1].attributes('role')).toBe('combobox')
+      expect(inputs[1].attributes('aria-controls')).toBeTruthy()
+      expect(inputs[1].attributes('aria-haspopup')).toBe('dialog')
+      expect(inputs[1].attributes('aria-expanded')).toBe('false')
+      expect(inputs[1].attributes('aria-label')).toBe('time picker')
+      expect(inputs[0].attributes('aria-controls')).toBe(
+        inputs[1].attributes('aria-controls')
+      )
+
+      wrapper.find('input').trigger('focus')
+      await nextTick()
+      await rAF()
+      const popper = document.querySelector('.el-picker__popper')
+      expect(inputs[0].attributes('aria-expanded')).toBe('true')
+      expect(inputs[1].attributes('aria-expanded')).toBe('true')
+      expect(inputs[0].attributes('aria-controls')).toBe(
+        popper?.getAttribute('id')
+      )
+      expect(popper?.getAttribute('role')).toBe('dialog')
+      expect(popper?.getAttribute('aria-hidden')).toBe('false')
+      expect(popper?.getAttribute('aria-modal')).toBe('false')
+    })
+  })
 })

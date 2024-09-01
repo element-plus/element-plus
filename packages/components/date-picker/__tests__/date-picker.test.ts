@@ -832,6 +832,73 @@ describe('DatePicker', () => {
       expect(wrapper.findComponent(Input).vm.modelValue).toBe(dateStr)
     })
   })
+
+  describe('It should generate accessible attributes', () => {
+    it('should generate aria attributes', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="date"
+          aria-label="Date picker"
+        />`,
+        () => ({ value: '' })
+      )
+      const input = wrapper.find('input')
+      expect(input.attributes('role')).toBe('combobox')
+      expect(input.attributes('aria-controls')).toBeTruthy()
+      expect(input.attributes('aria-expanded')).toBe('false')
+      expect(input.attributes('aria-haspopup')).toBe('dialog')
+      expect(input.attributes('aria-label')).toBe('Date picker')
+
+      input.trigger('focus')
+      await nextTick()
+      const popper = document.querySelector('.el-picker__popper')
+
+      expect(input.attributes('aria-expanded')).toBe('true')
+      expect(input.attributes('aria-controls')).toBe(popper.getAttribute('id'))
+      expect(popper.getAttribute('role')).toBe('dialog')
+      expect(popper.getAttribute('aria-modal')).toBe('false')
+      expect(popper.getAttribute('aria-hidden')).toBe('false')
+    })
+
+    it('should generate aria attributes for range', async () => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="daterange"
+          aria-label="Date picker"
+        />`,
+        () => ({ value: [] })
+      )
+      const inputs = wrapper.findAll('input')
+      expect(inputs[0].attributes('role')).toBe('combobox')
+      expect(inputs[0].attributes('aria-controls')).toBeTruthy()
+      expect(inputs[0].attributes('aria-expanded')).toBe('false')
+      expect(inputs[0].attributes('aria-haspopup')).toBe('dialog')
+      expect(inputs[0].attributes('aria-label')).toBe('Date picker')
+
+      expect(inputs[1].attributes('role')).toBe('combobox')
+      expect(inputs[1].attributes('aria-controls')).toBeTruthy()
+      expect(inputs[1].attributes('aria-expanded')).toBe('false')
+      expect(inputs[1].attributes('aria-haspopup')).toBe('dialog')
+      expect(inputs[1].attributes('aria-label')).toBe('Date picker')
+      expect(inputs[1].attributes('aria-controls')).toBe(
+        inputs[0].attributes('aria-controls')
+      )
+
+      wrapper.find('input').trigger('focus')
+      await nextTick()
+      const popper = document.querySelector('.el-picker__popper')
+
+      expect(inputs[0].attributes('aria-expanded')).toBe('true')
+      expect(inputs[0].attributes('aria-controls')).toBe(
+        popper.getAttribute('id')
+      )
+      expect(popper.getAttribute('role')).toBe('dialog')
+      expect(popper.getAttribute('aria-modal')).toBe('false')
+      expect(popper.getAttribute('aria-hidden')).toBe('false')
+    })
+  })
 })
 
 describe('DatePicker Navigation', () => {

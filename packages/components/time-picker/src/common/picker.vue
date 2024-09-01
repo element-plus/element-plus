@@ -59,8 +59,8 @@
           <el-icon
             v-if="triggerIcon"
             :class="nsInput.e('icon')"
-            @mousedown="onMouseDownInput"
-            @touchstart="onTouchStartInput"
+            @mousedown.prevent="onMouseDownInput"
+            @touchstart.prevent="onTouchStartInput"
           >
             <component :is="triggerIcon" />
           </el-icon>
@@ -76,6 +76,7 @@
         </template>
       </el-input>
       <picker-range-trigger
+        v-else
         :id="(id as string[] | undefined)"
         ref="inputRef"
         :model-value="displayValue"
@@ -90,25 +91,23 @@
         :tabindex="tabindex"
         autocomplete="off"
         role="combobox"
-        @focus-click="handleFocus"
+        @click="onMouseDownInput"
         @focus="handleFocus"
         @blur="handleBlur"
         @start-input="handleStartInput"
         @start-change="handleStartChange"
         @end-input="handleEndInput"
         @end-change="handleEndChange"
+        @keydown="handleKeydownInput"
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
-        @keydown="handleKeydownInput"
         @touchstart.passive="onTouchStartInput"
       >
         <template #prefix>
           <el-icon
             v-if="triggerIcon"
             :class="[nsInput.e('icon'), nsRange.e('icon')]"
-            @mousedown.prevent="onMouseDownInput"
-            @touchstart.passive="onTouchStartInput"
           >
             <component :is="triggerIcon" />
           </el-icon>
@@ -119,15 +118,13 @@
           </slot>
         </template>
         <template #suffix>
-          <span>
-            <el-icon
-              v-if="clearIcon"
-              :class="clearIconKls"
-              @click="onClearIconClick"
-            >
-              <component :is="clearIcon" />
-            </el-icon>
-          </span>
+          <el-icon
+            v-if="clearIcon"
+            :class="clearIconKls"
+            @click="onClearIconClick"
+          >
+            <component :is="clearIcon" />
+          </el-icon>
         </template>
       </picker-range-trigger>
     </template>
@@ -237,7 +234,7 @@ let hasJustTabExitedInput = false
 
 const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
   beforeFocus() {
-    return props.readonly || pickerDisabled.value
+    return !props.editable || props.readonly || pickerDisabled.value
   },
   afterFocus() {
     pickerVisible.value = true
@@ -491,6 +488,7 @@ const onMouseEnter = () => {
 const onMouseLeave = () => {
   showClose.value = false
 }
+
 const onTouchStartInput = (event: TouchEvent) => {
   if (props.readonly || pickerDisabled.value) return
   if (
@@ -500,6 +498,7 @@ const onTouchStartInput = (event: TouchEvent) => {
     pickerVisible.value = true
   }
 }
+
 const isRangeInput = computed(() => {
   return props.type.includes('range')
 })
