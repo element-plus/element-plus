@@ -1,18 +1,14 @@
-name: Release PR Package
+name: Publish Approved Pull Requests Pkg
 
 on:
-  workflow_run:
-    workflows: ['PR Docs Build']
-    types: [completed]
+  pull_request_review:
+    types: [submitted]
 
 jobs:
-  on-success:
-    name: Docs Build successfully
+  approved:
+    if: github.event.review.state == 'APPROVED'
     runs-on: ubuntu-latest
-    if: >
-      ${{ github.event.workflow_run.conclusion == 'success' }} ||
-      ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && !startsWith(github.ref, 'refs/tags/') }} ||
-      ${{ github.event_name == 'pull_request' && github.ref == 'refs/heads/dev' }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
