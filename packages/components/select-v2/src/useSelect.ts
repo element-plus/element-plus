@@ -105,7 +105,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const { wrapperRef, isFocused } = useFocusController(inputRef, {
+  const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     beforeFocus() {
       return selectDisabled.value
     },
