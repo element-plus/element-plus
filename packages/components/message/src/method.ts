@@ -158,10 +158,6 @@ const message: MessageFn &
 ) => {
   if (!isClient) return { close: () => undefined }
 
-  if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
-    return { close: () => undefined }
-  }
-
   const normalized = normalizeOptions(options)
 
   if (normalized.grouping && instances.length) {
@@ -173,6 +169,10 @@ const message: MessageFn &
       instance.props.type = normalized.type
       return instance.handler
     }
+  }
+
+  if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
+    return { close: () => undefined }
   }
 
   const instance = createMessage(normalized, context)
