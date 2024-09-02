@@ -90,27 +90,18 @@ export function useTree(
     const flattenNodes: TreeNode[] = []
     const nodes = tree.value?.treeNodes || []
 
-    // Stack to simulate recursion, each item contains [nodes, index]
-    const stack: [TreeNode[], number][] = [[nodes, 0]]
+    const stack: TreeNode[] = []
+    for (let i = nodes.length - 1; i >= 0; --i) {
+      stack.push(nodes[i])
+    }
+    while (stack.length) {
+      const node = stack.pop()!
+      if (hiddenKeys.has(node.key)) continue
 
-    while (stack.length > 0) {
-      const [currentNodes, index] = stack[stack.length - 1]
-
-      // If we've processed all nodes at this level, move up the stack
-      if (index >= currentNodes.length) {
-        stack.pop()
-        continue
-      }
-
-      const node = currentNodes[index]
-      stack[stack.length - 1][1]++ // Move to next node in current level
-
-      if (!hiddenKeys.has(node.key)) {
-        flattenNodes.push(node)
-
-        // If node is expanded and has children, add them to the stack
-        if (node.children && expandedKeys.has(node.key)) {
-          stack.push([node.children, 0])
+      flattenNodes.push(node)
+      if (node.children && expandedKeys.has(node.key)) {
+        for (let i = node.children.length - 1; i >= 0; --i) {
+          stack.push(node.children[i])
         }
       }
     }
@@ -205,7 +196,7 @@ export function useTree(
 
   function setExpandedKeys(keys: TreeKey[]) {
     const expandedKeys = new Set<TreeKey>()
-    const nodeMap = tree.value?.treeNodeMap || new Map()
+    const nodeMap = tree.value!.treeNodeMap
 
     keys.forEach((k) => {
       let node = nodeMap.get(k)
