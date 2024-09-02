@@ -15,9 +15,9 @@ function useColumns(
   fixed: Ref<boolean>
 ) {
   const _columns = computed(() =>
-    unref(columns).map((column) => ({
+    unref(columns).map((column, index) => ({
       ...column,
-      key: column.key ?? column.dataKey,
+      key: column.key ?? column.dataKey ?? index,
     }))
   )
 
