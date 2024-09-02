@@ -6,6 +6,8 @@ declare module 'vue' {
     ElAside: typeof import('element-plus')['ElAside']
     ElAutocomplete: typeof import('element-plus')['ElAutocomplete']
     ElAvatar: typeof import('element-plus')['ElAvatar']
+    ElAnchor: typeof import('element-plus')['ElAnchor']
+    ElAnchorLink: typeof import('element-plus')['ElAnchorLink']
     ElBacktop: typeof import('element-plus')['ElBacktop']
     ElBadge: typeof import('element-plus')['ElBadge']
     ElBreadcrumb: typeof import('element-plus')['ElBreadcrumb']
@@ -99,8 +101,6 @@ declare module 'vue' {
     ElWatermark: typeof import('element-plus')['ElWatermark']
     ElTour: typeof import('element-plus')['ElTour']
     ElTourStep: typeof import('element-plus')['ElTourStep']
-    ElAnchor: typeof import('element-plus')['ElAnchor']
-    ElAnchorLink: typeof import('element-plus')['ElAnchorLink']
     ElSegmented: typeof import('element-plus')['ElSegmented']
     ElMention: typeof import('element-plus')['ElMention']
   }
