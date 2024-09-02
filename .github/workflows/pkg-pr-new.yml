@@ -1,15 +1,12 @@
-name: 'pkg-pr-new'
+name: Publish Approved Pull Requests Pkg
+
 on:
-  push:
-    branches:
-      - dev
-    tags:
-      - '!**'
-  pull_request:
-    branches:
-      - dev
+  pull_request_review:
+    types: [submitted]
+
 jobs:
-  build:
+  approved:
+    if: github.event.review.state == 'APPROVED'
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +16,7 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
           cache: 'pnpm'
 
       - name: Setup pnpm
@@ -48,4 +45,4 @@ jobs:
       - name: Publish
         run: |
           cd dist/element-plus
-          pnpx pkg-pr-new publish
+          pnpx pkg-pr-new@0.0.20 publish
