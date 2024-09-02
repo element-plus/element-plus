@@ -40,10 +40,6 @@
     transform: translate3d(0, 0, 0);
     @include mixed-input-border(#{getCssVar('border-color')});
 
-    &:hover {
-      @include mixed-input-border(#{getCssVar('text-color')});
-    }
-
     @include when(filterable) {
       cursor: text;
     }
