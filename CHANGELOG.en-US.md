@@ -1,5 +1,47 @@
 ## Changelog
 
+### 2.8.1
+
+_2024-08-23_
+
+#### Features
+
+- Components [cascader] support `placement` & `fallback-placements` (#17840 by @btea)
+- Components [description] export props types (#17859 by @ntnyq)
+- Components [mention] accessibility enhancement (#17848 by @tolking)
+- I18n add Burmese(my) translation (#17765 by @myonaingwinn)
+- Components [descriptions] add rowspan (#10314 by @guze2003)
+- Components [popconfirm] add actions slot (#17957 by @typed-sigterm)
+
+#### Bug fixes
+
+- Components [input] blur event fails when using textarea (#17836 by @tolking)
+- Components [date-picker] disabledDate is invalid when selecting year or month picker (#15848 by @xingyixiang)
+- Components [dialog] error calling resetPostion before dialog is rendered (#17855 by @donga-gao)
+- Components [tree] instance type missing (#17882 by @betavs)
+- Components [select] binding click event is invalid (#17876 by @tolking)
+- Components [tree] FireFox dargging dataTransfer judge (#17849 by @warmthsea)
+- Components [table] toggleRowSelection restores previous behavior (#17884 by @tolking)
+- Components [table] emptyText/sumText empty string is invalid (#8340 by @starryeve)
+- Components [time-picker] avoid update initial value when using disabledHours & isRange (#17813 by @momei-LJM)
+- Components [button] use tag and disabled comp click triggered (#17804 by @VENI-VIDIVICI)
+- Components [table] use isEqual to determine whether it is selected (#17885 by @tolking)
+- Components [segmented] fix async disabled style of selected item (#17716 by @wzc520pyfm)
+- Components tree nodesMap leak (#10195 by @Simon-He95)
+- Components add segmented component type to `global.d.ts` file (#17949 by @DDDDD12138)
+- Components [dialog] rename resetPostion to resetPosition (#17900 by @yuuuuuyu)
+- Theme-chalk replace margin with padding (#15499 by @kaine0923)
+- Perf(components): [virtual-list] wrap row with Fragment and set key on it (#8284 by @tkitesy)
+- Style(components): [popper] fix arrow style (#17826 by @momei-LJM)
+- Style(theme-chalk): [input-number] fix controlled comps style (#10639 by @MARIOMARUI)
+- Style(components): [select] add a unique class name for the clear icon (#17575 by @HaceraI)
+- Chore(components): [dialog] change border-radius to base (#17975 by @warmthsea)
+
+#### Refactors
+
+- Components [affix] optimized code logic (#17929 by @lxKylin)
+- Components [carousel] use var to replace raw string (#17958 by @blesstosam)
+
 ### 2.8.0
 
 _2024-08-09_

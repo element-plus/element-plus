@@ -39,10 +39,6 @@
     transition: getCssVar('transition', 'duration');
     @include mixed-input-border(#{getCssVar('border-color')});
 
-    &:hover {
-      @include mixed-input-border(#{getCssVar('text-color')});
-    }
-
     @include when(filterable) {
       cursor: text;
     }
