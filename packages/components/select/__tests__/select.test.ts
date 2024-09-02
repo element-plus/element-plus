@@ -2751,4 +2751,32 @@ describe('Select', () => {
     await (vm.multiple = false)
     expect(vm.value).toBe(undefined)
   })
+
+  // case #18022
+  it('should be do not expend options when select is disabled', async () => {
+    const value = null
+    const wrapper = _mount(
+      `
+        <el-select v-model="value"
+          filterable
+          automatic-dropdown
+          disabled
+        >
+          <el-option value="1">1</el-option>
+          <el-option value="2">2</el-option>
+          </el-option>
+        </el-select>
+      `,
+      () => ({
+        value,
+      })
+    )
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('focus')
+    await nextTick()
+    expect(
+      (document.querySelector('.el-select__popper') as HTMLElement).style
+        .display
+    ).toBe('none')
+  })
 })

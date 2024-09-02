@@ -6,6 +6,7 @@ import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import { ElButton, ElMessage, ElPagination } from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
+import { getStyle } from '@element-plus/utils'
 import {
   useGlobalComponentSettings,
   useGlobalConfig,
@@ -176,6 +177,36 @@ describe('config-provider', () => {
       wrapper.find('.el-button').trigger('click')
       await nextTick()
       expect(document.querySelectorAll('.el-message').length).toBe(7)
+    })
+
+    it('new config parameters effective', async () => {
+      const config = reactive({
+        grouping: true,
+        showClose: true,
+        offset: 200,
+      })
+      const open = () => {
+        ElMessage('this is a message.')
+      }
+
+      const wrapper = mount(() => (
+        <ConfigProvider message={config}>
+          <ElButton onClick={open}>open</ElButton>
+        </ConfigProvider>
+      ))
+
+      await rAF()
+
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      await nextTick()
+      const elements = document.querySelectorAll('.el-message')
+      expect(elements.length).toBe(1)
+      expect(document.querySelectorAll('.el-message__closeBtn').length).toBe(1)
+
+      const getTopValue = (elm: Element): number =>
+        Number.parseFloat(getStyle(elm as HTMLElement, 'top'))
+      expect(getTopValue(elements[0])).toBe(config.offset)
     })
 
     it('multiple config-provider config override', async () => {
