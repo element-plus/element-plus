@@ -800,7 +800,7 @@ describe('Table.vue', () => {
         },
         template: `
           <el-table ref="table" :data="testData" @${prop}="handleEvent">
-            <el-table-column type="selection" />
+            <el-table-column type="selection" :selectable="selectable" />
             <el-table-column prop="name" />
             <el-table-column prop="release" />
             <el-table-column prop="director" />
@@ -812,6 +812,9 @@ describe('Table.vue', () => {
           handleEvent(selection) {
             this.fireCount++
             this.selection = selection
+          },
+          selectable(row) {
+            return row.id !== 1
           },
         },
 
@@ -844,7 +847,7 @@ describe('Table.vue', () => {
       const vm = wrapper.vm
       vm.$refs.table.toggleAllSelection()
       await doubleWait()
-      expect(vm.selection.length).toEqual(5)
+      expect(vm.selection.length).toEqual(4)
 
       vm.$refs.table.toggleAllSelection()
       await doubleWait()
@@ -1784,6 +1787,75 @@ describe('Table.vue', () => {
       const firstCellSpanAfterHide = wrapper.find('.el-table__body tr td span')
       expect(firstCellSpanAfterHide.classes().includes('release')).toBeTruthy()
     })
+
+    it('selectable tree', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+              <el-table :data="testData" :tree-props="treeProps" @selection-change="change">
+                <el-table-column type="selection" />
+                <el-table-column prop="name" label="name" />
+                <el-table-column prop="release" label="release" />
+                <el-table-column prop="director" label="director" />
+                <el-table-column prop="runtime" label="runtime" />
+              </el-table>
+            `,
+        data() {
+          const treeProps = {
+            children: 'childrenTest',
+            checkStrictly: false,
+          }
+          const testData = getTestData() as any
+          testData[1].childrenTest = [
+            {
+              name: "A Bug's Life copy 1",
+              release: '1998-11-25-1',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+            {
+              name: "A Bug's Life copy 2",
+              release: '1998-11-25-2',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+          ]
+          return {
+            treeProps,
+            testData,
+            selected: [],
+          }
+        },
+
+        methods: {
+          change(rows) {
+            this.selected = rows
+          },
+        },
+      })
+      await doubleWait()
+      wrapper.findAll('.el-checkbox')[2].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(3)
+      wrapper.findAll('.el-checkbox')[2].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(0)
+
+      await (wrapper.vm.treeProps.checkStrictly = true)
+      await doubleWait()
+      wrapper.findAll('.el-checkbox')[2].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(1)
+      expect(wrapper.findAll('.el-checkbox')[2].classes()).include('is-checked')
+
+      wrapper.findAll('.el-checkbox')[3].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(2)
+      expect(wrapper.findAll('.el-checkbox')[3].classes()).include('is-checked')
+    })
   })
 
   it('when tableLayout is auto', async () => {
@@ -1837,54 +1909,7 @@ describe('Table.vue', () => {
       'min-width: 0'
     )
   })
-  it('selectable tree', async () => {
-    const wrapper = mount({
-      components: {
-        ElTable,
-        ElTableColumn,
-      },
-      template: `
-            <el-table :data="testData" @selection-change="change">
-              <el-table-column type="selection" />
-              <el-table-column prop="name" label="name" />
-              <el-table-column prop="release" label="release" />
-              <el-table-column prop="director" label="director" />
-              <el-table-column prop="runtime" label="runtime" />
-            </el-table>
-          `,
-      data() {
-        const testData = getTestData() as any
-        testData[1].children = [
-          {
-            name: "A Bug's Life copy 1",
-            release: '1998-11-25-1',
-            director: 'John Lasseter',
-            runtime: 95,
-          },
-          {
-            name: "A Bug's Life copy 2",
-            release: '1998-11-25-2',
-            director: 'John Lasseter',
-            runtime: 95,
-          },
-        ]
-        return {
-          testData,
-          selected: [],
-        }
-      },
 
-      methods: {
-        change(rows) {
-          this.selected = rows
-        },
-      },
-    })
-    await doubleWait()
-    wrapper.findAll('.el-checkbox')[2].trigger('click')
-    await doubleWait()
-    expect(wrapper.vm.selected.length).toEqual(3)
-  })
   it('change columns order when use v-for & key to render table', async () => {
     const wrapper = mount({
       components: {

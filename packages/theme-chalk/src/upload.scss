@@ -29,6 +29,33 @@
   cursor: pointer;
   outline: none;
 
+  @include when(disabled) {
+    cursor: not-allowed;
+    &:focus {
+      border-color: getCssVar('border-color', 'darker');
+      color: inherit;
+      .#{$namespace}-upload-dragger {
+        border-color: getCssVar('border-color', 'darker');
+      }
+    }
+    .#{$namespace}-upload-dragger {
+      cursor: not-allowed;
+      background-color: getCssVar('disabled-bg-color');
+
+      .#{bem('upload', 'text')} {
+        color: getCssVar('text-color-placeholder');
+
+        em {
+          color: getCssVar('disabled-text-color');
+        }
+      }
+
+      &:hover {
+        border-color: getCssVar('border-color', 'darker');
+      }
+    }
+  }
+
   @include e(input) {
     display: none;
   }

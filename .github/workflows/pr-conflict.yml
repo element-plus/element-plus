@@ -1,0 +1,20 @@
+name: Comment on PR with conflict Label
+
+on:
+  pull_request:
+    types: [labeled, synchronize]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for specific label
+        if: contains(github.event.pull_request.labels.*.name, 'conflict pending')
+        uses: actions-cool/maintain-one-comment@v3.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            @${{ github.event.pull_request.user.login }} This PR has conflicts, please resolve them.
+            <!-- ELEMENT_PLUS_CONFLICT_COMMENT -->
+          body-include: '<!-- ELEMENT_PLUS_CONFLICT_COMMENT -->'
+          number: ${{ github.event.pull_request.number }}

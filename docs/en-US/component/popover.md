@@ -5,12 +5,6 @@ lang: en-US
 
 # Popover
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Popover is built with `ElTooltip`. So for some duplicated attributes, please refer to the documentation of Tooltip.
@@ -76,7 +70,7 @@ popover/directive-usage
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | trigger                   | how the popover is triggered                                                                                                                                             | ^[enum]`'click' \| 'focus' \| 'hover' \| 'contextmenu'`                                                                                                                     | hover                                                                      |
 | title                     | popover title                                                                                                                                                            | ^[string]                                                                                                                                                                   | —                                                                          |
-| effect                    | Tooltip theme, built-in theme: `dark` / `light`                                                                                                                          | ^[enum]`'dark' \| 'light'`                                                                                                                                                  | light                                                                      |
+| effect                    | Tooltip theme, built-in theme: `dark` / `light`                                                                                                                          | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light                                                                      |
 | content                   | popover content, can be replaced with a default `slot`                                                                                                                   | ^[string]                                                                                                                                                                   | ''                                                                         |
 | width                     | popover width                                                                                                                                                            | ^[string] / ^[number]                                                                                                                                                       | 150                                                                        |
 | placement                 | popover placement                                                                                                                                                        | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom                                                                     |
@@ -115,6 +109,6 @@ popover/directive-usage
 
 ### Exposes
 
-| Name         | Description  | Type                    |
-| ------------ | ------------ | ----------------------- |
-| hide         | hide popover | ^[Function]`() => void` |
+| Name | Description  | Type                    |
+| ---- | ------------ | ----------------------- |
+| hide | hide popover | ^[Function]`() => void` |

@@ -43,7 +43,7 @@
           :readonly="readonly"
           :autocomplete="autocomplete"
           :tabindex="tabindex"
-          :aria-label="label || ariaLabel"
+          :aria-label="ariaLabel"
           :placeholder="placeholder"
           :style="inputStyle"
           :form="form"
@@ -52,8 +52,6 @@
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
           @input="handleInput"
-          @focus="handleFocus"
-          @blur="handleBlur"
           @change="handleChange"
           @keydown="handleKeydown"
         />
@@ -123,7 +121,7 @@
         :readonly="readonly"
         :autocomplete="autocomplete"
         :style="textareaStyle"
-        :aria-label="label || ariaLabel"
+        :aria-label="ariaLabel"
         :placeholder="placeholder"
         :form="form"
         :autofocus="autofocus"
@@ -185,7 +183,6 @@ import {
   useAttrs,
   useComposition,
   useCursor,
-  useDeprecated,
   useFocusController,
   useNamespace,
 } from '@element-plus/hooks'
@@ -262,9 +259,13 @@ const textareaCalcStyle = shallowRef(props.inputStyle)
 
 const _ref = computed(() => input.value || textarea.value)
 
+// wrapperRef for type="text", handleFocus and handleBlur for type="textarea"
 const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   _ref,
   {
+    beforeFocus() {
+      return inputDisabled.value
+    },
     afterBlur() {
       if (props.validateEvent) {
         elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
@@ -517,17 +518,6 @@ onMounted(() => {
   nextTick(resizeTextarea)
 })
 
-useDeprecated(
-  {
-    from: 'label',
-    replacement: 'aria-label',
-    version: '2.8.0',
-    scope: 'el-input',
-    ref: 'https://element-plus.org/en-US/component/input.html',
-  },
-  computed(() => !!props.label)
-)
-
 defineExpose({
   /** @description HTML input element */
   input,
@@ -540,6 +530,9 @@ defineExpose({
 
   /** @description from props (used on unit test) */
   autosize: toRef(props, 'autosize'),
+
+  /** @description is input composing */
+  isComposing,
 
   /** @description HTML input element native method */
   focus,

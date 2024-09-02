@@ -8,7 +8,6 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import { isArray, isFunction, isObject } from '@vue/shared'
 import {
   findLastIndex,
   get,
@@ -16,6 +15,14 @@ import {
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
+import {
+  ValidateComponentsMap,
+  debugWarn,
+  escapeStringRegexp,
+  isArray,
+  isFunction,
+  isObject,
+} from '@element-plus/utils'
 import {
   useComposition,
   useEmptyValues,
@@ -28,11 +35,6 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import {
-  ValidateComponentsMap,
-  debugWarn,
-  escapeStringRegexp,
-} from '@element-plus/utils'
 import {
   useFormItem,
   useFormItemInputId,
@@ -103,27 +105,27 @@ const useSelect = (props: ISelectV2Props, emit) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
-    inputRef,
-    {
-      afterFocus() {
-        if (props.automaticDropdown && !expanded.value) {
-          expanded.value = true
-          states.menuVisibleOnFocus = true
-        }
-      },
-      beforeBlur(event) {
-        return (
-          tooltipRef.value?.isFocusInsideContent(event) ||
-          tagTooltipRef.value?.isFocusInsideContent(event)
-        )
-      },
-      afterBlur() {
-        expanded.value = false
-        states.menuVisibleOnFocus = false
-      },
-    }
-  )
+  const { wrapperRef, isFocused } = useFocusController(inputRef, {
+    beforeFocus() {
+      return selectDisabled.value
+    },
+    afterFocus() {
+      if (props.automaticDropdown && !expanded.value) {
+        expanded.value = true
+        states.menuVisibleOnFocus = true
+      }
+    },
+    beforeBlur(event) {
+      return (
+        tooltipRef.value?.isFocusInsideContent(event) ||
+        tagTooltipRef.value?.isFocusInsideContent(event)
+      )
+    },
+    afterBlur() {
+      expanded.value = false
+      states.menuVisibleOnFocus = false
+    },
+  })
 
   const allOptions = ref([])
   const filteredOptions = ref([])
@@ -919,12 +921,10 @@ const useSelect = (props: ISelectV2Props, emit) => {
     getValue,
     getDisabled,
     getValueKey,
-    handleBlur,
     handleClear,
     handleClickOutside,
     handleDel,
     handleEsc,
-    handleFocus,
     focus,
     blur,
     handleMenuEnter,

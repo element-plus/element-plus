@@ -80,9 +80,29 @@ const config: UserConfig = {
   vue: {
     template: {
       compilerOptions: {
+        hoistStatic: false,
         directiveTransforms: buildTransformers(),
       },
     },
+  },
+
+  postRender(context) {
+    // Inject the teleport markup
+    if (context.teleports) {
+      const body = Object.entries(context.teleports).reduce(
+        (all, [key, value]) => {
+          if (key.startsWith('#el-popper-container-')) {
+            return `${all}<div id="${key.slice(1)}">${value}</div>`
+          }
+          return all
+        },
+        context.teleports.body || ''
+      )
+
+      context.teleports = { ...context.teleports, body }
+    }
+
+    return context
   },
 }
 export default config

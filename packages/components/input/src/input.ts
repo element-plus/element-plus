@@ -1,13 +1,12 @@
-import { isString } from '@vue/shared'
 import {
   buildProps,
   definePropType,
   iconPropType,
+  isString,
   mutable,
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
-import type Input from './input.vue'
 import type { ExtractPropTypes, StyleValue } from 'vue'
 
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
@@ -139,13 +138,6 @@ export const inputProps = buildProps({
     default: undefined,
   },
   /**
-   * @deprecated native input aria-label
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description input tabindex
    */
   tabindex: {
@@ -195,5 +187,3 @@ export const inputEmits = {
   compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent,
 }
 export type InputEmits = typeof inputEmits
-
-export type InputInstance = InstanceType<typeof Input>

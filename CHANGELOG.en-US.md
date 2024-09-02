@@ -1,5 +1,109 @@
 ## Changelog
 
+### 2.8.1
+
+_2024-08-23_
+
+#### Features
+
+- Components [cascader] support `placement` & `fallback-placements` (#17840 by @btea)
+- Components [description] export props types (#17859 by @ntnyq)
+- Components [mention] accessibility enhancement (#17848 by @tolking)
+- I18n add Burmese(my) translation (#17765 by @myonaingwinn)
+- Components [descriptions] add rowspan (#10314 by @guze2003)
+- Components [popconfirm] add actions slot (#17957 by @typed-sigterm)
+
+#### Bug fixes
+
+- Components [input] blur event fails when using textarea (#17836 by @tolking)
+- Components [date-picker] disabledDate is invalid when selecting year or month picker (#15848 by @xingyixiang)
+- Components [dialog] error calling resetPostion before dialog is rendered (#17855 by @donga-gao)
+- Components [tree] instance type missing (#17882 by @betavs)
+- Components [select] binding click event is invalid (#17876 by @tolking)
+- Components [tree] FireFox dargging dataTransfer judge (#17849 by @warmthsea)
+- Components [table] toggleRowSelection restores previous behavior (#17884 by @tolking)
+- Components [table] emptyText/sumText empty string is invalid (#8340 by @starryeve)
+- Components [time-picker] avoid update initial value when using disabledHours & isRange (#17813 by @momei-LJM)
+- Components [button] use tag and disabled comp click triggered (#17804 by @VENI-VIDIVICI)
+- Components [table] use isEqual to determine whether it is selected (#17885 by @tolking)
+- Components [segmented] fix async disabled style of selected item (#17716 by @wzc520pyfm)
+- Components tree nodesMap leak (#10195 by @Simon-He95)
+- Components add segmented component type to `global.d.ts` file (#17949 by @DDDDD12138)
+- Components [dialog] rename resetPostion to resetPosition (#17900 by @yuuuuuyu)
+- Theme-chalk replace margin with padding (#15499 by @kaine0923)
+- Perf(components): [virtual-list] wrap row with Fragment and set key on it (#8284 by @tkitesy)
+- Style(components): [popper] fix arrow style (#17826 by @momei-LJM)
+- Style(theme-chalk): [input-number] fix controlled comps style (#10639 by @MARIOMARUI)
+- Style(components): [select] add a unique class name for the clear icon (#17575 by @HaceraI)
+- Chore(components): [dialog] change border-radius to base (#17975 by @warmthsea)
+
+#### Refactors
+
+- Components [affix] optimized code logic (#17929 by @lxKylin)
+- Components [carousel] use var to replace raw string (#17958 by @blesstosam)
+
+### 2.8.0
+
+_2024-08-09_
+
+#### Features
+
+- Components [color-picker] alpha-slider a11y (#14245 by @tolking)
+- Add mention component (#17586 by @Fuphoenixes)
+- Components [tree-v2] add scrollTo method (#14050 by @kaine0923)
+- Components [drawer] add append-to (#17761 by @tolking)
+- Components [table] tree children add check strictly (#13519 by @tiandaoyi)
+- Hooks use-draggable support resetPostion (#17699 by @donga-gao)
+- Components [upload] added index parameter to default slot (#17143 by @zhuchaoling)
+- Components [date-picker] add type yearrange for DatePicker (#14804 by @CherishTheYouth)
+- Components [date-picker] add icon slots (#17453 by @zhixiaotong)
+
+#### Bug fixes
+
+- Build-utils ignore the effects of directories when exclude files (#17654 by @tolking)
+- Components [select] exceeding the limit will still trigger update (#17685 by @btea)
+- Components [slider] set slider precision (#15328 by @heappynd)
+- Components [table] cover more edge cases for `show-overflow-tooltip` (#17629 by @makedopamine)
+- Components [table] fix sorting issue in table-column (#17608 by @xixiIBN5100)
+- Components [scrollbar] restore scroll position in onActivated hook (#11363 by @makedopamine)
+- Components [table] inaccurate type of `toggleRowSelection` (#17687 by @makedopamine)
+- Components [slider] data anomaly when the input value is undefined (#15402 by @betavs)
+- Components [tabs] optimize SSR (#15183 by @makedopamine)
+- Style [radio] marginRight 30px same as checkbox (#15260 by @taojunnan)
+- Components [select-v2] corrent focus to input when select clicked (#17362 by @wzc520pyfm)
+- Components[tabs] reactive objects may lose reactivity in label slot (#14135 by @makedopamine)
+- Theme-chalk [tabs] padding is incorrect while hovering on `border-card`-shaped tab (#17694 by @makedopamine)
+- Components [image] cannot trigger event when image is loaded error (#17692 by @zhixiaotong)
+- Components [abort popper] fix effect type error (#17758 by @wzc520pyfm)
+- Components [date-picker] fix user input error in monthrange (#12943 by @mdoi2)
+- Components [slider] click on marks is inaccurately positioned (#15332 by @heappynd)
+- Components [date-picker] clear button repeatedly triggers update:model-value (#17274 by @CherishTheYouth)
+- Components SSR hydration error caused by disabled prop of teleport (#17551 by @tolking)
+- Components [drawer] fix low animation fps without graphics acceleration (#17696 by @qianjiachun)
+- I18n Compared with traditional Chinese, add simplified Chinese … (#17737 by @WangYJEE)
+- I18n zh-cn lang typo (#17768 by @warmthsea)
+- Components [tree] check isLeaf using lazy and default-expand-all (#17585 by @gaoxuan-haxibiao)
+- Components add class name and disable style when disabling upload (#17753 by @ma-shuo)
+- Components [select] with teleported="false" dropdown closes abnormally (#17548 by @Aaron-zon)
+- Components [select] equal objects cannot destroy instances (#17214 by @dddssw)
+- Components [radio] change not trigger (#17047 by @VENI-VIDIVICI)
+- Components [upload] remove file when fileList does not use v-model (#16715 by @Liao-js)
+- Components [statistic] fix excessive decimals when value is NAN (#17798 by @dadaguai-git)
+- Components fixed add listeners not remove on beforeunmount (#17344 by @myronliu347)
+- Components [date-picker] slot not take effect when type is month (#17748 by @btea)
+- Components [date-picker] Return to normal when reopened (#11802 by @lyric-zemin)
+- Components [dialog] appendTo type error (#17814 by @zhixiaotong)
+
+#### Refactors
+
+- Hooks rewrite composition as a composable function (#14240 by @tolking)
+- Components [slider]optimize ts types (#17292 by @tyj-321)
+- Components [image-viewer] optimise translate calc method (#13157 by @zwgwf)
+- Components [select] cancel type conversion at initialization (#17606 by @tolking)
+- Hooks determine the focus by event listening (#17719 by @tolking)
+- Improvement(components): @touchstart @touchmove @wheel add passive (#16741 by @warmthsea)
+- Perf(hooks): replace the ref object with a plain object (#15061 by @Polaris-tl)
+
 ### 2.7.8
 
 _2024-07-26_

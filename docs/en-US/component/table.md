@@ -7,12 +7,6 @@ lang: en-US
 
 Display multiple data with similar format. You can sort, filter, compare your data in a table.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic table
 
 Basic table is just for data display.
@@ -199,6 +193,14 @@ table/tree-and-lazy
 
 :::
 
+## Selectable tree ^(2.8.0)
+
+:::demo When `treeProps.checkStrictly` is true, the selection state of parent and child nodes is no longer associated, that is, when the parent node is selected, its child nodes will not be selected; when `treeProps.checkStrictly` is false, the selection state of parent and child nodes will be associated with the selection state of child nodes, that is, when the parent node is selected, all its child nodes will be selected.
+
+table/check-strictly
+
+:::
+
 ## Summary row
 
 For table of numbers, you can add an extra row at the table footer displaying each column's sum.
@@ -278,7 +280,7 @@ table/table-layout
 | indent                    | horizontal indentation of tree data                                                                                                                                                                                                                                        | ^[number]                                                                                                                                                            | 16                                                                                                                      |
 | lazy                      | whether to lazy loading data                                                                                                                                                                                                                                               | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
 | load                      | method for loading child row data, only works when `lazy` is true                                                                                                                                                                                                          | ^[Function]`(row: any, treeNode: TreeNode, resolve: (data: any[]) => void) => void`                                                                                  | —                                                                                                                       |
-| tree-props                | configuration for rendering nested data                                                                                                                                                                                                                                    | ^[object]`{ hasChildren?: string, children?: string }`                                                                                                               | ^[object]`{ hasChildren: 'hasChildren', children: 'children' }`                                                         |
+| tree-props                | configuration for rendering nested data                                                                                                                                                                                                                                    | ^[object]`{ hasChildren?: string, children?: string, checkStrictly?: boolean }`                                                                                      | ^[object]`{ hasChildren: 'hasChildren', children: 'children', checkStrictly: false }`                                   |
 | table-layout              | sets the algorithm used to lay out table cells, rows, and columns                                                                                                                                                                                                          | ^[enum]`'fixed' \| 'auto'`                                                                                                                                           | fixed                                                                                                                   |
 | scrollbar-always-on       | always show scrollbar                                                                                                                                                                                                                                                      | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
 | show-overflow-tooltip     | whether to hide extra content and show them in a tooltip when hovering on the cell.It will affect all the table columns, refer to table [tooltip-options](#table-attributes)                                                                                               | ^[boolean] / [`object`](#table-attributes) ^(2.3.7)                                                                                                                  | —                                                                                                                       |
@@ -321,7 +323,7 @@ table/table-layout
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | clearSelection     | used in multiple selection Table, clear user selection                                                                                                            | ^[Function]`() => void`                                                    |
 | getSelectionRows   | returns the currently selected rows                                                                                                                               | ^[Function]`() => void`                                                    |
-| toggleRowSelection | used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected                    | ^[Function]`(row: any, selected: boolean) => void`                         |
+| toggleRowSelection | used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected                    | ^[Function]`(row: any, selected?: boolean) => void`                        |
 | toggleAllSelection | used in multiple selection Table, toggle select all and deselect all                                                                                              | ^[Function]`() => void`                                                    |
 | toggleRowExpansion | used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed | ^[Function]`(row: any, expanded?: boolean) => void`                        |
 | setCurrentRow      | used in single selection Table, set a certain row selected. If called without any parameter, it will clear selection                                              | ^[Function]`(row: any) => void`                                            |

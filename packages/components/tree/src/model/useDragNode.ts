@@ -164,7 +164,11 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
   const treeNodeDragEnd = (event: DragEvent) => {
     const { draggingNode, dropType, dropNode } = dragState.value
     event.preventDefault()
-    event.dataTransfer.dropEffect = 'move'
+
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=1911486
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'move'
+    }
 
     if (draggingNode && dropNode) {
       const draggingNodeCopy = { data: draggingNode.node.data }

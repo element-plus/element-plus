@@ -90,6 +90,7 @@ declare module 'vue' {
     ElSkeleton: typeof import('../packages/element-plus')['ElSkeleton']
     ElSkeletonItem: typeof import('../packages/element-plus')['ElSkeletonItem']
     ElStatistic: typeof import('../packages/element-plus')['ElStatistic']
+    ElCountdown: typeof import('../packages/element-plus')['ElCountdown']
     ElCheckTag: typeof import('../packages/element-plus')['ElCheckTag']
     ElDescriptions: typeof import('../packages/element-plus')['ElDescriptions']
     ElDescriptionsItem: typeof import('../packages/element-plus')['ElDescriptionsItem']
@@ -101,6 +102,7 @@ declare module 'vue' {
     ElAnchor: typeof import('../packages/element-plus')['ElAnchor']
     ElAnchorLink: typeof import('../packages/element-plus')['ElAnchorLink']
     ElSegmented: typeof import('../packages/element-plus')['ElSegmented']
+    ElMention: typeof import('../packages/element-plus')['ElMention']
   }
 
   interface ComponentCustomProperties {

@@ -36,7 +36,7 @@ const createComponent = ({
   ])
 
   const bindProps = reactive({
-    modelValue: ref(''),
+    modelValue: ref(),
     data: defaultData,
     renderAfterExpand: false,
     ...props,
@@ -336,7 +336,7 @@ describe('TreeSelect.vue', () => {
     const wrapperRef = await getWrapperRef()
     await tree.findAll('.el-tree-node__content')[0].trigger('click')
     await nextTick()
-    expect(select.vm.modelValue).toEqual([])
+    expect(select.vm.modelValue).toBe(undefined)
     expect(wrapperRef.getCheckedKeys()).toEqual([])
 
     await tree
@@ -723,6 +723,63 @@ describe('TreeSelect.vue', () => {
     expect(node2Checkbox.element.classList.contains('is-checked')).toBe(false)
 
     expect(modelValue.value).toEqual([])
+  })
+
+  test('cached checked node and use lazy multiple', async () => {
+    const modelValue = ref<number[]>([5])
+    const cacheData = reactive([{ value: 5, label: 'lazy load node5' }])
+    let id = 0
+    const { tree, select } = createComponent({
+      props: {
+        modelValue,
+        multiple: true,
+        showCheckbox: true,
+        checkStrictly: false,
+        lazy: true,
+        load: (node: object, resolve: (p: any) => any[]) => {
+          resolve([
+            {
+              value: ++id,
+              label: `lazy load node${id}`,
+            },
+            {
+              value: ++id,
+              label: `lazy load node${id}`,
+              isLeaf: true,
+            },
+          ])
+        },
+        cacheData,
+      },
+    })
+
+    await nextTick()
+
+    const node1Checkbox = tree
+      .findAll('.el-tree-node__content')[0]
+      .find('.el-checkbox')
+    await node1Checkbox.trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).toEqual([5, 1])
+
+    const node2Checkbox = tree
+      .findAll('.el-tree-node__content')[1]
+      .find('.el-checkbox')
+    await node2Checkbox.trigger('click')
+    await nextTick()
+
+    expect(select.vm.modelValue).toEqual([5, 1, 2])
+
+    const node1 = tree.findAll('.el-tree-node__content')[0]
+    await node1.trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).toEqual([5, 3, 4, 2])
+
+    const node2 = tree.findAll('.el-tree-node__content')[1]
+    await node2.trigger('click')
+    await nextTick()
+
+    expect(select.vm.modelValue).toEqual([5, 6, 4, 2])
   })
 
   test('no checkbox and check on click node', async () => {

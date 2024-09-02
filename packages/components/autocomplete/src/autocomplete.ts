@@ -1,5 +1,5 @@
-import { NOOP } from '@vue/shared'
 import {
+  NOOP,
   buildProps,
   definePropType,
   isObject,
