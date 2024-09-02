@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale } from '@element-plus/hooks'
-import { debugWarn } from '@element-plus/utils'
+import { debugWarn, isArray, isDate } from '@element-plus/utils'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { ComputedRef, SetupContext } from 'vue'
@@ -78,7 +78,13 @@ export const useCalendar = (
 
   // if range is valid, we get a two-digit array
   const validatedRange = computed(() => {
-    if (!props.range) return []
+    if (
+      !props.range ||
+      !isArray(props.range) ||
+      props.range.length !== 2 ||
+      props.range.every((item) => isDate(item))
+    )
+      return []
     const rangeArrDayjs = props.range.map((_) => dayjs(_).locale(lang.value))
     const [startDayjs, endDayjs] = rangeArrDayjs
     if (startDayjs.isAfter(endDayjs)) {
