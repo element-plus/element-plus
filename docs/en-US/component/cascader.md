@@ -212,7 +212,7 @@ cascader/panel
 | Name                 | Description                                                                                    | Scope                               |
 | -------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
 | default              | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
-| empty-panel ^(2.6.3) | the content of the panel when there is no data.                                                | —                                   |
+| empty ^(2.8.2) | the content of the panel when there is no data.                                                | —                                   |
 
 ### CascaderPanel Exposes
 

@@ -10,8 +10,8 @@
       :index="index"
       :nodes="[...menu]"
     >
-      <template #empty-panel>
-        <slot name="empty-panel" />
+      <template #empty>
+        <slot name="empty" />
       </template>
     </el-cascader-menu>
   </div>

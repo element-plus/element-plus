@@ -153,8 +153,8 @@
         @expand-change="handleExpandChange"
         @close="$nextTick(() => togglePopperVisible(false))"
       >
-        <template #empty-panel>
-          <slot name="empty-panel" />
+        <template #empty>
+          <slot name="empty" />
         </template>
       </el-cascader-panel>
       <el-scrollbar
