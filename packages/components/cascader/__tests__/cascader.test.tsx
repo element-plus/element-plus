@@ -544,7 +544,7 @@ describe('Cascader.vue', () => {
 
     it('correct render menu list empty slot', async () => {
       const wrapper = _mount(() => (
-        <Cascader multiple>
+        <Cascader filterable>
           {{
             empty: () => <div>-=-empty-=-no-data</div>,
           }}
