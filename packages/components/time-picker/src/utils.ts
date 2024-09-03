@@ -76,7 +76,6 @@ export const formatter = function (
   lang: string
 ) {
   if (isEmpty(format)) return date
-  if (format === 'x') return +date
   return dayjs(date).locale(lang).format(format)
 }
 
