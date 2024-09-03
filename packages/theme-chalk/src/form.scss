@@ -81,10 +81,6 @@ $form-item-label-top-margin-bottom: map.merge(
   --font-size: #{map.get($input-font-size, 'default')};
   margin-bottom: #{map.get($form-item-margin-bottom, 'default')};
 
-  .#{$namespace}-form-item {
-    margin-bottom: 0;
-  }
-
   .#{$namespace}-input__validateIcon {
     display: none;
   }
