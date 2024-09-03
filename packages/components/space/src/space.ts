@@ -57,6 +57,13 @@ export const spaceProps = buildProps({
     default: '',
   },
   /**
+   * @description Extra space item style rules
+   */
+  itemStyles: {
+    type: definePropType<StyleValue[]>([Array]),
+    default: () => [],
+  },
+  /**
    * @description Controls the alignment of items
    */
   alignment: {
@@ -124,7 +131,7 @@ const Space = defineComponent({
       parentKey = '',
       extractedChildren: VNode[] = []
     ) {
-      const { prefixCls } = props
+      const { prefixCls, itemStyles } = props
       children.forEach((child, loopKey) => {
         if (isFragment(child)) {
           if (isArray(child.children)) {
@@ -140,7 +147,7 @@ const Space = defineComponent({
                   createVNode(
                     Item,
                     {
-                      style: itemStyle.value,
+                      style: [itemStyle.value, itemStyles[key]],
                       prefixCls,
                       key: `nested-${parentKey + key}`,
                     },
@@ -161,7 +168,7 @@ const Space = defineComponent({
             createVNode(
               Item,
               {
-                style: itemStyle.value,
+                style: [itemStyle.value, itemStyles[loopKey]],
                 prefixCls,
                 key: `LoopKey${parentKey + loopKey}`,
               },
