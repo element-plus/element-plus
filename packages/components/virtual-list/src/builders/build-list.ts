@@ -79,6 +79,8 @@ const createList = ({
         updateRequested: false,
         isScrollbarDragging: false,
         scrollbarAlwaysOn: props.scrollbarAlwaysOn,
+        // Mark inner size
+        innerSize: 0,
       })
 
       // computed
@@ -114,9 +116,13 @@ const createList = ({
           stopIndex,
         ]
       })
-
-      const estimatedTotalSize = computed(() =>
-        getEstimatedTotalSize(props, unref(dynamicSizeCache))
+      /**
+       * If the browser size overflows, the height will be reset and the height innerSize needs to be recalculated
+       */
+      const estimatedTotalSize = computed(
+        () =>
+          states.value.innerSize ||
+          getEstimatedTotalSize(props, unref(dynamicSizeCache))
       )
 
       const _isHorizontal = computed(() => isHorizontal(props.layout))
@@ -144,6 +150,18 @@ const createList = ({
           pointerEvents: unref(states).isScrolling ? 'none' : undefined,
           width: horizontal ? `${size}px` : '100%',
         }
+      },
+      {
+        async onTrack() {
+          await nextTick()
+          const inner = innerRef.value
+          const horizontal = unref(_isHorizontal)
+          const size = horizontal ? inner?.offsetWidth : inner?.offsetHeight
+          // The size has exceeded the browser limit and the browser
+          // will automatically adjust. It is necessary to re match the height
+          if (inner && size != 0 && estimatedTotalSize.value > size)
+            states.value.innerSize = size
+        },
       })
 
       const clientSize = computed(() =>

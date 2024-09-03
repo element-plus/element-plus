@@ -178,12 +178,27 @@ const createGrid = ({
         ]
       })
 
-      const estimatedTotalHeight = computed(() =>
-        getEstimatedTotalHeight(props, unref(cache))
-      )
-      const estimatedTotalWidth = computed(() =>
-        getEstimatedTotalWidth(props, unref(cache))
-      )
+      const estimatedTotalHeight = computed(() => {
+        const mathHeight = getEstimatedTotalHeight(props, unref(cache))
+        const inner = innerRef.value
+        // The size has exceeded the browser limit and the browser
+        // will automatically adjust. It is necessary to re match the height
+        if (inner && inner.offsetHeight !=0 && inner.offsetHeight < mathHeight) {
+          return inner.offsetHeight
+        }
+        return mathHeight
+      })
+
+      const estimatedTotalWidth = computed(() => {
+        const mathWidth = getEstimatedTotalWidth(props, unref(cache))
+        const inner = innerRef.value
+        // The size has exceeded the browser limit and the browser
+        // will automatically adjust. It is necessary to re match the height
+        if (inner && inner.offsetWidth !=0 && inner.offsetWidth < mathWidth) {
+          return inner.offsetWidth
+        }
+        return mathWidth
+      })
 
       const windowStyle = computed<StyleValue>(() => [
         {
