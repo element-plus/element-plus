@@ -82,7 +82,7 @@ export const useCalendar = (
       !props.range ||
       !isArray(props.range) ||
       props.range.length !== 2 ||
-      props.range.every((item) => isDate(item))
+      props.range.some((item) => !isDate(item))
     )
       return []
     const rangeArrDayjs = props.range.map((_) => dayjs(_).locale(lang.value))
