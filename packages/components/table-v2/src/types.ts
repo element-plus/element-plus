@@ -66,6 +66,7 @@ export type Column<T = any> = {
    */
   align?: Alignment
   class?: string | ClassNameGetter<T>
+  key?: KeyType
   dataKey?: KeyType
   fixed?: true | FixedDirection
   flexGrow?: CSSProperties['flexGrow']
