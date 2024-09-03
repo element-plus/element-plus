@@ -61,5 +61,14 @@ const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 
 const draggable = computed(() => props.draggable)
 const overflow = computed(() => props.overflow)
-useDraggable(dialogRef, headerRef, draggable, overflow)
+const { resetPosition } = useDraggable(
+  dialogRef,
+  headerRef,
+  draggable,
+  overflow
+)
+
+defineExpose({
+  resetPosition,
+})
 </script>

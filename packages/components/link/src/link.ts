@@ -21,7 +21,7 @@ export const linkProps = buildProps({
   /**
    * @description whether the component is disabled
    */
-  disabled: { type: Boolean, default: false },
+  disabled: Boolean,
   /**
    * @description same as native hyperlink's `href`
    */

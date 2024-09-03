@@ -8,7 +8,7 @@
       role="switch"
       :aria-checked="checked"
       :aria-disabled="switchDisabled"
-      :aria-label="label"
+      :aria-label="ariaLabel"
       :name="name"
       :true-value="activeValue"
       :false-value="inactiveValue"
@@ -73,8 +73,13 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import { isPromise } from '@vue/shared'
-import { addUnit, debugWarn, isBoolean, throwError } from '@element-plus/utils'
+import {
+  addUnit,
+  debugWarn,
+  isBoolean,
+  isPromise,
+  throwError,
+} from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import {
   useFormDisabled,

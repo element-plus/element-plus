@@ -107,6 +107,11 @@
         "text": "Input Number"
       },
       {
+        "link": "/mention",
+        "text": "Mention",
+        "promotion": "2.8.0"
+      },
+      {
         "link": "/radio",
         "text": "Radio"
       },
@@ -141,6 +146,11 @@
       {
         "link": "/transfer",
         "text": "Transfer"
+      },
+      {
+        "link": "/tree-select",
+        "text": "TreeSelect",
+        "promotion": "2.1.8"
       },
       {
         "link": "/upload",
@@ -234,11 +244,6 @@
         "text": "Tree"
       },
       {
-        "link": "/tree-select",
-        "text": "TreeSelect",
-        "promotion": "2.1.8"
-      },
-      {
         "link": "/tree-v2",
         "text": "Virtualized Tree"
       },
@@ -246,6 +251,11 @@
         "link": "/statistic",
         "text": "Statistic",
         "promotion": "2.2.30"
+      },
+      {
+        "link": "/segmented",
+        "text": "Segmented",
+        "promotion": "2.7.0"
       }
     ]
   },

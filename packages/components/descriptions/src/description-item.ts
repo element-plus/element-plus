@@ -3,7 +3,7 @@ import { buildProps } from '@element-plus/utils'
 
 import type { ExtractPropTypes, Slot, VNode } from 'vue'
 
-const descriptionItemProps = buildProps({
+export const descriptionItemProps = buildProps({
   /**
    * @description label text
    */
@@ -15,6 +15,13 @@ const descriptionItemProps = buildProps({
    * @description colspan of column
    */
   span: {
+    type: Number,
+    default: 1,
+  },
+  /**
+   * @description the number of rows a cell should span
+   */
+  rowspan: {
     type: Number,
     default: 1,
   },
@@ -68,7 +75,7 @@ const DescriptionItem = defineComponent({
 
 export default DescriptionItem
 
-type DescriptionItemProps = ExtractPropTypes<typeof descriptionItemProps>
+export type DescriptionItemProps = ExtractPropTypes<typeof descriptionItemProps>
 export type DescriptionItemVNode = VNode & {
   children: { [name: string]: Slot } | null
   props: Partial<DescriptionItemProps> | null

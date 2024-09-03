@@ -7,16 +7,21 @@ import {
   watch,
 } from 'vue'
 import { addUnit, getClientXY } from '@element-plus/utils'
-import { useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import { EVENT_CODE } from '@element-plus/constants'
 import { draggable } from '../utils/draggable'
 
 import type { AlphaSliderProps } from '../props/alpha-slider'
 
 export const useAlphaSlider = (props: AlphaSliderProps) => {
   const instance = getCurrentInstance()!
+  const { t } = useLocale()
 
   const thumb = shallowRef<HTMLElement>()
   const bar = shallowRef<HTMLElement>()
+
+  const alpha = computed(() => props.color.get('alpha'))
+  const alphaLabel = computed(() => t('el.colorpicker.alphaLabel'))
 
   function handleClick(event: MouseEvent | TouchEvent) {
     const target = event.target
@@ -24,6 +29,7 @@ export const useAlphaSlider = (props: AlphaSliderProps) => {
     if (target !== thumb.value) {
       handleDrag(event)
     }
+    thumb.value?.focus()
   }
 
   function handleDrag(event: MouseEvent | TouchEvent) {
@@ -62,11 +68,40 @@ export const useAlphaSlider = (props: AlphaSliderProps) => {
     }
   }
 
+  function handleKeydown(event: KeyboardEvent) {
+    const { code, shiftKey } = event
+    const step = shiftKey ? 10 : 1
+
+    switch (code) {
+      case EVENT_CODE.left:
+      case EVENT_CODE.down:
+        event.preventDefault()
+        event.stopPropagation()
+        incrementPosition(-step)
+        break
+      case EVENT_CODE.right:
+      case EVENT_CODE.up:
+        event.preventDefault()
+        event.stopPropagation()
+        incrementPosition(step)
+        break
+    }
+  }
+
+  function incrementPosition(step: number) {
+    let next = alpha.value + step
+    next = next < 0 ? 0 : next > 100 ? 100 : next
+    props.color.set('alpha', next)
+  }
+
   return {
     thumb,
     bar,
+    alpha,
+    alphaLabel,
     handleDrag,
     handleClick,
+    handleKeydown,
   }
 }
 

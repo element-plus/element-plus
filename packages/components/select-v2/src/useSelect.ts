@@ -8,16 +8,24 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import { isArray, isFunction, isObject } from '@vue/shared'
 import {
   findLastIndex,
   get,
   isEqual,
-  isNil,
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import {
+  ValidateComponentsMap,
+  debugWarn,
+  escapeStringRegexp,
+  isArray,
+  isFunction,
+  isObject,
+} from '@element-plus/utils'
+import {
+  useComposition,
+  useEmptyValues,
   useFocusController,
   useLocale,
   useNamespace,
@@ -28,11 +36,6 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
-  ValidateComponentsMap,
-  debugWarn,
-  escapeStringRegexp,
-} from '@element-plus/utils'
-import {
   useFormItem,
   useFormItemInputId,
   useFormSize,
@@ -40,7 +43,6 @@ import {
 
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
-import { useInput } from './useInput'
 import { useProps } from './useProps'
 
 import type ElTooltip from '@element-plus/components/tooltip'
@@ -58,7 +60,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const { inputId } = useFormItemInputId(props, {
     formItemContext: elFormItem,
   })
-  const { getLabel, getValue, getDisabled, getOptions } = useProps(props)
+  const { aliasProps, getLabel, getValue, getDisabled, getOptions } =
+    useProps(props)
+  const { valueOnClear, isEmptyValue } = useEmptyValues(props)
 
   const states = reactive({
     inputValue: '',
@@ -77,7 +81,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
   })
 
   // data refs
-  const selectedIndex = ref(-1)
   const popperSize = ref(-1)
 
   // DOM & Component refs
@@ -93,27 +96,36 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const tagMenuRef = ref<HTMLElement>(null)
   const collapseItemRef = ref<HTMLElement>(null)
 
-  const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
-    inputRef,
-    {
-      afterFocus() {
-        if (props.automaticDropdown && !expanded.value) {
-          expanded.value = true
-          states.menuVisibleOnFocus = true
-        }
-      },
-      beforeBlur(event) {
-        return (
-          tooltipRef.value?.isFocusInsideContent(event) ||
-          tagTooltipRef.value?.isFocusInsideContent(event)
-        )
-      },
-      afterBlur() {
-        expanded.value = false
-        states.menuVisibleOnFocus = false
-      },
-    }
-  )
+  const {
+    isComposing,
+    handleCompositionStart,
+    handleCompositionEnd,
+    handleCompositionUpdate,
+  } = useComposition({
+    afterComposition: (e) => onInput(e),
+  })
+
+  const { wrapperRef, isFocused } = useFocusController(inputRef, {
+    beforeFocus() {
+      return selectDisabled.value
+    },
+    afterFocus() {
+      if (props.automaticDropdown && !expanded.value) {
+        expanded.value = true
+        states.menuVisibleOnFocus = true
+      }
+    },
+    beforeBlur(event) {
+      return (
+        tooltipRef.value?.isFocusInsideContent(event) ||
+        tagTooltipRef.value?.isFocusInsideContent(event)
+      )
+    },
+    afterBlur() {
+      expanded.value = false
+      states.menuVisibleOnFocus = false
+    },
+  })
 
   const allOptions = ref([])
   const filteredOptions = ref([])
@@ -127,24 +139,19 @@ const useSelect = (props: ISelectV2Props, emit) => {
     return totalHeight > props.height ? props.height : totalHeight
   })
 
-  const hasEmptyStringOption = computed(() =>
-    allOptions.value.some((option) => getValue(option) === '')
-  )
-
   const hasModelValue = computed(() => {
     return props.multiple
       ? isArray(props.modelValue) && props.modelValue.length > 0
-      : !isNil(props.modelValue) &&
-          (props.modelValue !== '' || hasEmptyStringOption.value)
+      : !isEmptyValue(props.modelValue)
   })
 
   const showClearBtn = computed(() => {
-    const criteria =
+    return (
       props.clearable &&
       !selectDisabled.value &&
       states.inputHovering &&
       hasModelValue.value
-    return criteria
+    )
   })
 
   const iconComponent = computed(() =>
@@ -207,11 +214,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
           all.push(
             {
               label: getLabel(item),
-              isTitle: true,
               type: 'Group',
             },
-            ...filtered,
-            { type: 'Group' }
+            ...filtered
           )
         }
       } else if (props.remote || isValidOption(item)) {
@@ -362,11 +367,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
     selectNewOption,
     clearAllNewOption,
   } = useAllowCreate(props, states)
-  const {
-    handleCompositionStart,
-    handleCompositionUpdate,
-    handleCompositionEnd,
-  } = useInput((e) => onInput(e))
 
   // methods
   const toggleMenu = () => {
@@ -391,7 +391,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)
 
   const handleQueryChange = (val: string) => {
-    if (states.previousQuery === val) {
+    if (states.previousQuery === val || isComposing.value) {
       return
     }
     states.previousQuery = val
@@ -446,7 +446,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const update = (val: any) => {
     emit(UPDATE_MODEL_EVENT, val)
     emitChange(val)
-    states.previousValue = String(val)
+    states.previousValue = props.multiple ? String(val) : val
   }
 
   const getValueIndex = (arr = [], value: unknown) => {
@@ -494,7 +494,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     tagTooltipRef.value?.updatePopper?.()
   }
 
-  const onSelect = (option: Option, idx: number) => {
+  const onSelect = (option: Option) => {
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
@@ -522,7 +522,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
         states.inputValue = ''
       }
     } else {
-      selectedIndex.value = idx
       states.selectedLabel = getLabel(option)
       update(getValue(option))
       expanded.value = false
@@ -587,11 +586,13 @@ const useSelect = (props: ISelectV2Props, emit) => {
       const selected = (props.modelValue as Array<any>).slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(selected)
       if (lastNotDisabledIndex < 0) return
+      const removeTagValue = selected[lastNotDisabledIndex]
       selected.splice(lastNotDisabledIndex, 1)
       const option = states.cachedOptions[lastNotDisabledIndex]
       states.cachedOptions.splice(lastNotDisabledIndex, 1)
       removeNewOption(option)
       update(selected)
+      emit('remove-tag', removeTagValue)
     }
   }
 
@@ -600,7 +601,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     if (isArray(props.modelValue)) {
       emptyValue = []
     } else {
-      emptyValue = undefined
+      emptyValue = valueOnClear.value
     }
 
     if (props.multiple) {
@@ -624,7 +625,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
       !['forward', 'backward'].includes(direction) ||
       selectDisabled.value ||
       options.length <= 0 ||
-      optionsAllDisabled.value
+      optionsAllDisabled.value ||
+      isComposing.value
     ) {
       return
     }
@@ -665,10 +667,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
       ~states.hoveringIndex &&
       filteredOptions.value[states.hoveringIndex]
     ) {
-      onSelect(
-        filteredOptions.value[states.hoveringIndex],
-        states.hoveringIndex
-      )
+      onSelect(filteredOptions.value[states.hoveringIndex])
     }
   }
 
@@ -699,16 +698,13 @@ const useSelect = (props: ISelectV2Props, emit) => {
     }
   }
 
-  const handleClickOutside = (event: Event) => {
+  const handleClickOutside = () => {
     expanded.value = false
-
-    if (isFocused.value) {
-      const _event = new FocusEvent('focus', event)
-      handleBlur(_event)
-    }
+    isFocused.value && blur()
   }
 
   const handleMenuEnter = () => {
+    states.isBeforeHide = false
     return nextTick(() => {
       if (~indexRef.value) {
         scrollToItem(states.hoveringIndex)
@@ -730,8 +726,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
       return option
     }
     return {
-      value,
-      label: value,
+      [aliasProps.value.value]: value,
+      [aliasProps.value.label]: value,
     }
   }
 
@@ -790,7 +786,12 @@ const useSelect = (props: ISelectV2Props, emit) => {
   watch(
     () => props.modelValue,
     (val, oldVal) => {
-      if (!val || val.toString() !== states.previousValue) {
+      if (
+        !val ||
+        (props.multiple && val.toString() !== states.previousValue) ||
+        (!props.multiple &&
+          getValueKey(val) !== getValueKey(states.previousValue))
+      ) {
         initStates()
       }
       if (!isEqual(val, oldVal) && props.validateEvent) {
@@ -920,12 +921,10 @@ const useSelect = (props: ISelectV2Props, emit) => {
     getValue,
     getDisabled,
     getValueKey,
-    handleBlur,
     handleClear,
     handleClickOutside,
     handleDel,
     handleEsc,
-    handleFocus,
     focus,
     blur,
     handleMenuEnter,

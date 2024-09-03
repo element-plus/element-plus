@@ -23,7 +23,7 @@ const homeLang = computed(() => homeLocale[lang.value])
         {{ homeLang['11'] }}
       </a>
       <a
-        href="https://element-plus.gitee.io/zh-CN/"
+        href="https://cn.element-plus.org/zh-CN/"
         class="footer-main-link"
         target="_blank"
       >

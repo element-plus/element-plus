@@ -12,6 +12,7 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
+import { useAriaProps } from '@element-plus/hooks'
 import type { ComponentSize } from '@element-plus/constants'
 import type Switch from './switch.vue'
 import type { ExtractPropTypes, PropType } from 'vue'
@@ -27,17 +28,11 @@ export const switchProps = buildProps({
   /**
    * @description whether Switch is disabled
    */
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+  disabled: Boolean,
   /**
    * @description whether Switch is in loading state
    */
-  loading: {
-    type: Boolean,
-    default: false,
-  },
+  loading: Boolean,
   /**
    * @description size of Switch
    */
@@ -55,10 +50,7 @@ export const switchProps = buildProps({
   /**
    * @description whether icon or text is displayed inside dot, only the first character will be rendered for text
    */
-  inlinePrompt: {
-    type: Boolean,
-    default: false,
-  },
+  inlinePrompt: Boolean,
   /**
    * @description component of the icon displayed in action when in `off` state
    */
@@ -141,13 +133,7 @@ export const switchProps = buildProps({
   tabindex: {
     type: [String, Number],
   },
-  /**
-   * @description native input aria-label
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>
