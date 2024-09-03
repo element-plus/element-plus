@@ -10,14 +10,13 @@ import {
   ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
-import { isArray, isString, isUndefined } from '@element-plus/utils'
+import { isArray, isUndefined } from '@element-plus/utils'
 import { cellStarts } from '../config'
 import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 import defaultProps from './defaults'
 
-import type { VNode } from 'vue'
 import type { TableColumn, TableColumnCtx } from './defaults'
 import type { DefaultRow } from '../table/defaults'
 
@@ -181,40 +180,21 @@ export default defineComponent({
     return
   },
   render() {
-    try {
-      const renderDefault = this.$slots.default?.({
-        row: {},
-        column: {},
-        $index: -1,
-      })
-      const children = []
-      if (isArray(renderDefault)) {
-        for (const childNode of renderDefault) {
-          if (
-            (childNode.type as any)?.name === 'ElTableColumn' ||
-            childNode.shapeFlag & 2
-          ) {
-            children.push(childNode)
-          } else if (
-            childNode.type === Fragment &&
-            isArray(childNode.children)
-          ) {
-            childNode.children.forEach((vnode) => {
-              // No rendering when vnode is dynamic slot or text
-              if (
-                (vnode as VNode)?.patchFlag !== 1024 &&
-                !isString((vnode as VNode)?.children)
-              ) {
-                children.push(vnode)
-              }
-            })
-          }
+    const renderDefault = this.$slots.default?.()
+    const children = []
+    if (isArray(renderDefault)) {
+      for (const childNode of renderDefault) {
+        if (
+          (childNode.type as any)?.name === 'ElTableColumn' ||
+          childNode.shapeFlag & 2
+        ) {
+          children.push(childNode)
+        } else if (childNode.type === Fragment && isArray(childNode.children)) {
+          children.push(...childNode.children)
         }
       }
-      const vnode = h('div', children)
-      return vnode
-    } catch {
-      return h('div', [])
     }
+    const vnode = h('div', children)
+    return vnode
   },
 })

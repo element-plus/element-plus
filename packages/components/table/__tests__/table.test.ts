@@ -97,7 +97,7 @@ describe('Table.vue', () => {
       template: `
       <el-table :data="tableData">
         <el-table-column label="someLabel">
-          <template #default="{ row }">
+          <template #cell="{ row }">
             <el-checkbox-group v-model="row.checkList">
               <el-checkbox label="复选框 A" value="复选框 A"></el-checkbox>
               <el-checkbox label="复选框 B" value="复选框 B"></el-checkbox>
@@ -1491,7 +1491,7 @@ describe('Table.vue', () => {
           <el-table :data="testData" row-key="release" highlight-current-row >
             <el-table-column type="index" />
             <el-table-column type="expand">
-              <template #default="props">
+              <template #cell="props">
                 <span class="index">{{ props.$index }}</span>
                 <span class="director">{{ props.row.director }}</span>
               </template>
@@ -1966,10 +1966,10 @@ describe('Table.vue', () => {
             <button @click="hideName">hide name column</button>
             <el-table :data="testData">
               <el-table-column key="name" label="片名" v-if="showName">
-                <template #default="{ row }"><span class="name">{{ row.name }}</span></template>
+                <template #cell="{ row }"><span class="name">{{ row.name }}</span></template>
               </el-table-column>
               <el-table-column key="release" label="发行日期" >
-                <template #default="{ row }"><span class="release">{{ row.release }}</span></template>
+                <template #cell="{ row }"><span class="release">{{ row.release }}</span></template>
               </el-table-column>
             </el-table>
           </div>

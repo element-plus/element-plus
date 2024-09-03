@@ -569,7 +569,7 @@ describe('table column', () => {
             template: `
             <el-table row-key="id" :data="testData" @expand-change="handleExpand" ${extra}>
               <el-table-column type="expand">
-                <template #default="props">
+                <template #cell="props">
                   <div>{{props.row.name}}</div>
                 </template>
               </el-table-column>
@@ -1267,7 +1267,7 @@ describe('table column', () => {
         },
         template: `
           <el-table-column>
-            <template v-if="$slots.default" #default="scope">
+            <template v-if="$slots.cell" #cell="scope">
               <slot v-bind="scope" />
             </template>
           </el-table-column>
@@ -1282,7 +1282,7 @@ describe('table column', () => {
         template: `
           <el-table :data="testData">
             <table-column>
-              <template #default="{ row }">Hello World</template>
+              <template #cell="{ row }">Hello World</template>
             </table-column>
           </el-table>
         `,
