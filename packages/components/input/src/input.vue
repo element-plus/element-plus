@@ -287,9 +287,11 @@ const textareaStyle = computed<StyleValue>(() => [
   textareaCalcStyle.value,
   { resize: props.resize },
 ])
-const nativeInputValue = computed(() =>
-  isNil(props.modelValue) ? '' : String(props.modelValue)
-)
+const nativeInputValue = computed(() => {
+  if (isNil(props.modelValue)) return ''
+  const strModelValue = String(props.modelValue)
+  return props.formatter ? props.formatter(strModelValue) : strModelValue
+})
 const showClear = computed(
   () =>
     props.clearable &&
@@ -391,11 +393,8 @@ const onceInitSizeTextarea = createOnceInitResize(resizeTextarea)
 
 const setNativeInputValue = () => {
   const input = _ref.value
-  const formatterValue = props.formatter
-    ? props.formatter(nativeInputValue.value)
-    : nativeInputValue.value
-  if (!input || input.value === formatterValue) return
-  input.value = formatterValue
+  if (!input || input.value === nativeInputValue.value) return
+  input.value = nativeInputValue.value
 }
 
 const handleInput = async (event: Event) => {
