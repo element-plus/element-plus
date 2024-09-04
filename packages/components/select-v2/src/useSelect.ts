@@ -725,19 +725,18 @@ const useSelect = (props: ISelectV2Props, emit) => {
 
       return option
     }
-    let label = value
     if (cachedOptions && cachedOptions.length) {
       const option = cachedOptions.find(
         (option) => getValueKey(getValue(option)) === selectValue
       )
       if (option) {
-        label = getLabel(option)
+        return option
       }
     }
 
     return {
       [aliasProps.value.value]: value,
-      [aliasProps.value.label]: label,
+      [aliasProps.value.label]: value,
     }
   }
 
