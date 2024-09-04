@@ -49,6 +49,8 @@ const getBarStyle = (): CSSProperties => {
       return true
     }
 
+    useResizeObserver($el, update)
+
     offset = $el[`offset${capitalize(position)}`]
     tabSize = $el[`client${capitalize(sizeName)}`]
 
