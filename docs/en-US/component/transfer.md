@@ -85,6 +85,8 @@ transfer/prop-alias
 | Method              | Description                                         | Type                                            |
 | ------------------- | --------------------------------------------------- | ----------------------------------------------- |
 | clearQuery          | clear the filter keyword of a certain panel         | ^[Function]`(which: TransferDirection) => void` |
+| sourceData ^(2.8.2) | source data on the left                             | ^[array]`ComputedRef<TransferDataItem[]>`       |
+| targetData ^(2.8.2) | target data on the right                            | ^[array]`ComputedRef<TransferDataItem[]>`       |
 | addToLeft ^(2.8.2)  | transfer the selected data on the right to the left | ^[Function]`() => void`                         |
 | addToRight ^(2.8.2) | transfer the selected data on the left to the right | ^[Function]`() => void`                         |
 

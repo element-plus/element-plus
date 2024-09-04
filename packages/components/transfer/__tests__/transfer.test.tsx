@@ -2,7 +2,11 @@ import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import Transfer from '../src/transfer.vue'
-import type { TransferDataItem, renderContent } from '../src/transfer'
+import type {
+  TransferDataItem,
+  TransferInstance,
+  renderContent,
+} from '../src/transfer'
 
 describe('Transfer', () => {
   const getTestData = () => {
@@ -51,25 +55,28 @@ describe('Transfer', () => {
     expect(leftList.vm.filteredData.length).toBe(1)
   })
 
-  it('transfer', async () => {
+  it('transfer & expose', async () => {
     const value = ref([1, 4])
-    const wrapper = mount(() => (
-      <Transfer
-        v-model={value.value}
-        leftDefaultChecked={[2, 3]}
-        rightDefaultChecked={[1]}
-        data={getTestData()}
-      />
-    ))
+    const wrapper = mount({
+      setup: () => () =>
+        (
+          <Transfer
+            ref="transfer"
+            v-model={value.value}
+            leftDefaultChecked={[2, 3]}
+            rightDefaultChecked={[1]}
+            data={getTestData()}
+          />
+        ),
+    })
 
-    const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
-
-    ElTransfer.vm.addToLeft()
+    const transferRef = wrapper.vm.$refs.transfer as TransferInstance
+    transferRef.addToLeft()
     await nextTick()
-    expect(ElTransfer.vm.sourceData.length).toBe(14)
-    ElTransfer.vm.addToRight()
+    expect(transferRef.sourceData.length).toBe(14)
+    transferRef.addToRight()
     await nextTick()
-    expect(ElTransfer.vm.sourceData.length).toBe(12)
+    expect(transferRef.sourceData.length).toBe(12)
   })
 
   it('customize', () => {
