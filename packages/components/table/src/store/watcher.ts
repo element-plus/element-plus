@@ -94,6 +94,8 @@ function useWatcher<T>() {
     })
   }
 
+  let selectionInitialFixed = undefined
+
   // 更新列
   const updateColumns = () => {
     _columns.value.forEach((column) => {
@@ -105,14 +107,36 @@ function useWatcher<T>() {
     rightFixedColumns.value = _columns.value.filter(
       (column) => column.fixed === 'right'
     )
+
+    if (
+      typeof selectionInitialFixed === 'undefined' &&
+      _columns.value[0] &&
+      _columns.value[0].type === 'selection'
+    ) {
+      selectionInitialFixed = _columns.value[0].fixed
+    }
+
     if (
       fixedColumns.value.length > 0 &&
       _columns.value[0] &&
-      _columns.value[0].type === 'selection' &&
-      !_columns.value[0].fixed
+      _columns.value[0].type === 'selection'
     ) {
-      _columns.value[0].fixed = true
-      fixedColumns.value.unshift(_columns.value[0])
+      if (!_columns.value[0].fixed) {
+        _columns.value[0].fixed = true
+        fixedColumns.value.unshift(_columns.value[0])
+      } else {
+        const notSelectionFixedColumns = fixedColumns.value.filter(
+          (column) => column.type !== 'selection'
+        )
+        const notSelectionFixedColumnsLength = notSelectionFixedColumns.length
+
+        if (!notSelectionFixedColumnsLength) {
+          _columns.value[0].fixed = selectionInitialFixed
+          if (!selectionInitialFixed) fixedColumns.value.shift()
+        } else {
+          selectionInitialFixed = undefined
+        }
+      }
     }
 
     const notFixedColumns = _columns.value.filter((column) => !column.fixed)
