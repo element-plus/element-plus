@@ -1,6 +1,7 @@
 import {
   computed,
   defineComponent,
+  getCurrentInstance,
   inject,
   nextTick,
   onMounted,
@@ -69,6 +70,7 @@ const TabNav = defineComponent({
   props: tabNavProps,
   emits: tabNavEmits,
   setup(props, { expose, emit }) {
+    const vm = getCurrentInstance()!
     const rootTabs = inject(tabsRootContextKey)
     if (!rootTabs) throwError(COMPONENT_NAME, `<el-tabs><tab-nav /></el-tabs>`)
 
@@ -259,9 +261,28 @@ const TabNav = defineComponent({
       }
     })
 
+    const getTabRefId = (pane: TabsPaneContext) => `tab-${pane.uid}`
+    const tabObserves: Array<ReturnType<typeof useResizeObserver>> = []
+    const observeTabs = () => {
+      while (tabObserves.length) tabObserves.shift()!.stop()
+      props.panes.forEach((pane) => {
+        const el = vm.proxy!.$refs[getTabRefId(pane)] as HTMLDivElement
+        const ob = useResizeObserver(el, () => tabBarRef.value?.update())
+        tabObserves.push(ob)
+      })
+    }
+
+    watch(
+      () => props.panes,
+      () => observeTabs()
+    )
+
     useResizeObserver(el$, update)
 
-    onMounted(() => setTimeout(() => scrollToActiveTab(), 0))
+    onMounted(() => {
+      observeTabs()
+      setTimeout(() => scrollToActiveTab(), 0)
+    })
     onUpdated(() => update())
 
     expose({
@@ -321,7 +342,7 @@ const TabNav = defineComponent({
 
         return (
           <div
-            ref={`tab-${uid}`}
+            ref={getTabRefId(pane)}
             class={[
               ns.e('item'),
               ns.is(rootTabs.props.tabPosition),
