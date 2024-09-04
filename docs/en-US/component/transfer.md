@@ -82,9 +82,11 @@ transfer/prop-alias
 
 ### Exposes
 
-| Method     | Description                                 | Type                                            |
-| ---------- | ------------------------------------------- | ----------------------------------------------- |
-| clearQuery | clear the filter keyword of a certain panel | ^[Function]`(which: TransferDirection) => void` |
+| Method              | Description                                         | Type                                            |
+| ------------------- | --------------------------------------------------- | ----------------------------------------------- |
+| clearQuery          | clear the filter keyword of a certain panel         | ^[Function]`(which: TransferDirection) => void` |
+| addToLeft ^(2.8.2)  | transfer the selected data on the right to the left | ^[Function]`() => void`                         |
+| addToRight ^(2.8.2) | transfer the selected data on the left to the right | ^[Function]`() => void`                         |
 
 ## Type Declarations
 

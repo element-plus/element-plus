@@ -160,5 +160,9 @@ defineExpose({
   leftPanel,
   /** @description left panel ref */
   rightPanel,
+  /** @description transfer the selected data on the right to the left */
+  addToLeft,
+  /** @description transfer the selected data on the left to the right */
+  addToRight,
 })
 </script>
