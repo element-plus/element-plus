@@ -13,12 +13,6 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 
 :::
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Date and time
 
 :::demo You can select date and time in one picker at the same time by setting `type` to `datetime`. The way to use shortcuts is the same as Date Picker.
@@ -73,6 +67,16 @@ datetime-picker/default-time
 
 :::
 
+## Custom icon ^(2.8.0)
+
+Custom icons available with slots.
+
+:::demo
+
+datetime-picker/custom-icon
+
+:::
+
 ## Attributes
 
 | Name                    | Description                                                                                                    | Type                                             | Accepted Values                                               | Default             |
@@ -115,6 +119,7 @@ datetime-picker/default-time
 | change          | triggers when user confirms the value                                         | component's binding value                 |
 | blur            | triggers when Input blurs                                                     | `(e: FocusEvent)`                         |
 | focus           | triggers when Input focuses                                                   | `(e: FocusEvent)`                         |
+| clear ^(2.7.7)  | triggers when the clear icon is clicked in a clearable DateTimePicker         | ^[Function]`() => void`                   |
 | calendar-change | triggers when the calendar selected date is changed. Only for `datetimerange` | [Date, Date]                              |
 | visible-change  | triggers when the DateTimePicker's dropdown appears/disappears                | true when it appears, and false otherwise |
 
@@ -126,7 +131,11 @@ datetime-picker/default-time
 
 ## Slots
 
-| Name            | Description                    |
-| --------------- | ------------------------------ |
-| default         | custom cell content            |
-| range-separator | custom range separator content |
+| Name                | Description                    |
+| ------------------- | ------------------------------ |
+| default             | custom cell content            |
+| range-separator     | custom range separator content |
+| prev-month ^(2.8.0) | prev month icon                |
+| next-month ^(2.8.0) | next month icon                |
+| prev-year ^(2.8.0)  | prev year icon                 |
+| next-year ^(2.8.0)  | next year icon                 |

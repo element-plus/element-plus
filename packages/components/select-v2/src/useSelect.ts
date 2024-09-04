@@ -8,7 +8,6 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import { isArray, isFunction, isObject } from '@vue/shared'
 import {
   findLastIndex,
   get,
@@ -17,6 +16,15 @@ import {
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import {
+  ValidateComponentsMap,
+  debugWarn,
+  escapeStringRegexp,
+  isArray,
+  isFunction,
+  isObject,
+} from '@element-plus/utils'
+import {
+  useComposition,
   useEmptyValues,
   useFocusController,
   useLocale,
@@ -28,11 +36,6 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
-  ValidateComponentsMap,
-  debugWarn,
-  escapeStringRegexp,
-} from '@element-plus/utils'
-import {
   useFormItem,
   useFormItemInputId,
   useFormSize,
@@ -40,7 +43,6 @@ import {
 
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
-import { useInput } from './useInput'
 import { useProps } from './useProps'
 
 import type ElTooltip from '@element-plus/components/tooltip'
@@ -94,27 +96,36 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const tagMenuRef = ref<HTMLElement>(null)
   const collapseItemRef = ref<HTMLElement>(null)
 
-  const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
-    inputRef,
-    {
-      afterFocus() {
-        if (props.automaticDropdown && !expanded.value) {
-          expanded.value = true
-          states.menuVisibleOnFocus = true
-        }
-      },
-      beforeBlur(event) {
-        return (
-          tooltipRef.value?.isFocusInsideContent(event) ||
-          tagTooltipRef.value?.isFocusInsideContent(event)
-        )
-      },
-      afterBlur() {
-        expanded.value = false
-        states.menuVisibleOnFocus = false
-      },
-    }
-  )
+  const {
+    isComposing,
+    handleCompositionStart,
+    handleCompositionEnd,
+    handleCompositionUpdate,
+  } = useComposition({
+    afterComposition: (e) => onInput(e),
+  })
+
+  const { wrapperRef, isFocused } = useFocusController(inputRef, {
+    beforeFocus() {
+      return selectDisabled.value
+    },
+    afterFocus() {
+      if (props.automaticDropdown && !expanded.value) {
+        expanded.value = true
+        states.menuVisibleOnFocus = true
+      }
+    },
+    beforeBlur(event) {
+      return (
+        tooltipRef.value?.isFocusInsideContent(event) ||
+        tagTooltipRef.value?.isFocusInsideContent(event)
+      )
+    },
+    afterBlur() {
+      expanded.value = false
+      states.menuVisibleOnFocus = false
+    },
+  })
 
   const allOptions = ref([])
   const filteredOptions = ref([])
@@ -356,11 +367,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
     selectNewOption,
     clearAllNewOption,
   } = useAllowCreate(props, states)
-  const {
-    handleCompositionStart,
-    handleCompositionUpdate,
-    handleCompositionEnd,
-  } = useInput((e) => onInput(e))
 
   // methods
   const toggleMenu = () => {
@@ -385,7 +391,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)
 
   const handleQueryChange = (val: string) => {
-    if (states.previousQuery === val) {
+    if (states.previousQuery === val || isComposing.value) {
       return
     }
     states.previousQuery = val
@@ -619,7 +625,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
       !['forward', 'backward'].includes(direction) ||
       selectDisabled.value ||
       options.length <= 0 ||
-      optionsAllDisabled.value
+      optionsAllDisabled.value ||
+      isComposing.value
     ) {
       return
     }
@@ -691,13 +698,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
     }
   }
 
-  const handleClickOutside = (event: Event) => {
+  const handleClickOutside = () => {
     expanded.value = false
-
-    if (isFocused.value) {
-      const _event = new FocusEvent('focus', event)
-      handleBlur(_event)
-    }
+    isFocused.value && blur()
   }
 
   const handleMenuEnter = () => {
@@ -918,12 +921,10 @@ const useSelect = (props: ISelectV2Props, emit) => {
     getValue,
     getDisabled,
     getValueKey,
-    handleBlur,
     handleClear,
     handleClickOutside,
     handleDel,
     handleEsc,
-    handleFocus,
     focus,
     blur,
     handleMenuEnter,

@@ -13,12 +13,6 @@ After version ^(2.5.0), the default width of `el-select` changed to `100%`. When
 
 :::
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 :::demo `v-model` is the value of `el-option` that is currently selected.
@@ -227,6 +221,7 @@ select/custom-label
 | suffix-icon                     | custom suffix icon component                                                                                          | ^[string] / ^[object]`Component`                                                                                                                                            | ArrowDown                                      |
 | suffix-transition ^(deprecated) | animation when dropdown appears/disappears icon                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | tag-type                        | tag type                                                                                                              | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
+| tag-effect ^(2.7.7)             | tag effect                                                                                                            | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                                                                                                                                 | light                                          |
 | validate-event                  | whether to trigger form validation                                                                                    | ^[boolean]                                                                                                                                                                  | true                                           |
 | placement ^(2.2.17)             | position of dropdown                                                                                                  | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start                                   |
 | fallback-placements ^(2.5.6)    | list of possible positions for dropdown [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements) | ^[array]`Placement[]`                                                                                                                                                       | ['bottom-start', 'top-start', 'right', 'left'] |

@@ -3,9 +3,8 @@
     ref="selectRef"
     v-click-outside:[popperRef]="handleClickOutside"
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
-    @mouseenter="states.inputHovering = true"
+    @[mouseEnterEventName]="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
-    @click.prevent.stop="toggleMenu"
   >
     <el-tooltip
       ref="tooltipRef"
@@ -35,6 +34,7 @@
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
           ]"
+          @click.prevent="toggleMenu"
         >
           <div
             v-if="$slots.prefix"
@@ -63,6 +63,7 @@
                   :closable="!selectDisabled && !item.isDisabled"
                   :size="collapseTagSize"
                   :type="tagType"
+                  :effect="tagEffect"
                   disable-transitions
                   :style="tagStyle"
                   @close="deleteTag($event, item)"
@@ -97,6 +98,7 @@
                       :closable="false"
                       :size="collapseTagSize"
                       :type="tagType"
+                      :effect="tagEffect"
                       disable-transitions
                       :style="collapseTagStyle"
                     >
@@ -118,6 +120,7 @@
                         :closable="!selectDisabled && !item.isDisabled"
                         :size="collapseTagSize"
                         :type="tagType"
+                        :effect="tagEffect"
                         disable-transitions
                         @close="deleteTag($event, item)"
                       >
@@ -163,8 +166,6 @@
                 :aria-label="ariaLabel"
                 aria-autocomplete="none"
                 aria-haspopup="listbox"
-                @focus="handleFocus"
-                @blur="handleBlur"
                 @keydown.down.stop.prevent="navigateOptions('next')"
                 @keydown.up.stop.prevent="navigateOptions('prev')"
                 @keydown.esc.stop.prevent="handleEsc"
@@ -215,7 +216,11 @@
             </el-icon>
             <el-icon
               v-if="showClose && clearIcon"
-              :class="[nsSelect.e('caret'), nsSelect.e('icon')]"
+              :class="[
+                nsSelect.e('caret'),
+                nsSelect.e('icon'),
+                nsSelect.e('clear'),
+              ]"
               @click="handleClearClick"
             >
               <component :is="clearIcon" />
@@ -287,15 +292,14 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
-import { defineComponent, provide, reactive } from 'vue'
+import { computed, defineComponent, provide, reactive, toRefs } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
-import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isArray } from '@element-plus/utils'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
@@ -310,7 +314,6 @@ export default defineComponent({
   name: COMPONENT_NAME,
   componentName: COMPONENT_NAME,
   components: {
-    ElInput,
     ElSelectMenu,
     ElOption,
     ElOptions,
@@ -332,12 +335,29 @@ export default defineComponent({
   ],
 
   setup(props, { emit }) {
-    const API = useSelect(props, emit)
+    const modelValue = computed(() => {
+      const { modelValue: rawModelValue, multiple } = props
+      const fallback = multiple ? [] : undefined
+      // When it is array, we check if this is multi-select.
+      // Based on the result we get
+      if (isArray(rawModelValue)) {
+        return multiple ? rawModelValue : fallback
+      }
+
+      return multiple ? fallback : rawModelValue
+    })
+
+    const _props = reactive({
+      ...toRefs(props),
+      modelValue,
+    })
+
+    const API = useSelect(_props, emit)
 
     provide(
       selectKey,
       reactive({
-        props,
+        props: _props,
         states: API.states,
         optionsArray: API.optionsArray,
         handleOptionSelect: API.handleOptionSelect,
@@ -350,6 +370,7 @@ export default defineComponent({
 
     return {
       ...API,
+      modelValue,
     }
   },
 })

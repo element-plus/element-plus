@@ -91,6 +91,9 @@ export default {
       noData: 'Aucune donnée',
       placeholder: 'Choisir',
     },
+    mention: {
+      loading: 'Chargement',
+    },
     cascader: {
       noMatch: 'Aucune correspondance',
       loading: 'Chargement',
@@ -141,6 +144,11 @@ export default {
       resetFilter: 'Réinitialiser',
       clearFilter: 'Tous',
       sumText: 'Somme',
+    },
+    tour: {
+      next: 'suivant',
+      previous: 'précédent',
+      finish: 'fin',
     },
     tree: {
       emptyText: 'Aucune donnée',
