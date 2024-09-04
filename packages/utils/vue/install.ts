@@ -1,4 +1,4 @@
-import { NOOP } from '@vue/shared'
+import { NOOP } from '../functions'
 
 import type { App, Directive } from 'vue'
 import type { SFCInstallWithContext, SFCWithInstall } from './typescript'

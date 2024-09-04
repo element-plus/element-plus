@@ -8,7 +8,6 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import { isArray, isFunction, isObject } from '@vue/shared'
 import {
   findLastIndex,
   get,
@@ -16,6 +15,14 @@ import {
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
+import {
+  ValidateComponentsMap,
+  debugWarn,
+  escapeStringRegexp,
+  isArray,
+  isFunction,
+  isObject,
+} from '@element-plus/utils'
 import {
   useComposition,
   useEmptyValues,
@@ -28,11 +35,6 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import {
-  ValidateComponentsMap,
-  debugWarn,
-  escapeStringRegexp,
-} from '@element-plus/utils'
 import {
   useFormItem,
   useFormItemInputId,
@@ -104,6 +106,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
   })
 
   const { wrapperRef, isFocused } = useFocusController(inputRef, {
+    beforeFocus() {
+      return selectDisabled.value
+    },
     afterFocus() {
       if (props.automaticDropdown && !expanded.value) {
         expanded.value = true
@@ -689,13 +694,9 @@ const useSelect = (props: ISelectV2Props, emit) => {
     }
   }
 
-  const handleClickOutside = (event: Event) => {
+  const handleClickOutside = () => {
     expanded.value = false
-
-    if (isFocused.value) {
-      const _event = new FocusEvent('focus', event)
-      handleBlur(_event)
-    }
+    isFocused.value && blur()
   }
 
   const handleMenuEnter = () => {

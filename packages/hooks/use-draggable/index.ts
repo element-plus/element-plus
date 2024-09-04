@@ -74,7 +74,7 @@ export const useDraggable = (
     }
   }
 
-  const resetPostion = () => {
+  const resetPosition = () => {
     transform = {
       offsetX: 0,
       offsetY: 0,
@@ -99,6 +99,6 @@ export const useDraggable = (
   })
 
   return {
-    resetPostion,
+    resetPosition,
   }
 }
