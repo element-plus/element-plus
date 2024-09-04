@@ -263,8 +263,15 @@ const _ref = computed(() => input.value || textarea.value)
 const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   _ref,
   {
-    beforeFocus() {
-      return inputDisabled.value
+    beforeFocus(event: FocusEvent) {
+      if (inputDisabled.value) {
+        return true
+      }
+      const el = event.target as HTMLElement
+      if (el.className.includes('input__wrapper')) {
+        return true
+      }
+      return false
     },
     afterBlur() {
       if (props.validateEvent) {
