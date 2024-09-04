@@ -62,7 +62,7 @@
                 "
               >
                 <el-icon :class="ns.e('close')">
-                  <close />
+                  <component :is="closeIcon || Close" />
                 </el-icon>
               </button>
             </div>
@@ -173,6 +173,7 @@ import {
 import ElInput from '@element-plus/components/input'
 import { ElOverlay } from '@element-plus/components/overlay'
 import {
+  CloseComponents,
   TypeComponents,
   TypeComponentsMap,
   isValidComponentSize,
@@ -264,6 +265,7 @@ export default defineComponent({
 
     const { t } = locale
     const { nextZIndex } = zIndex
+    const { Close } = CloseComponents
 
     const visible = ref(false)
     // s represents state
@@ -281,6 +283,7 @@ export default defineComponent({
       dangerouslyUseHTMLString: false,
       distinguishCancelAndClose: false,
       icon: '',
+      closeIcon: '',
       inputPattern: null,
       inputPlaceholder: '',
       inputType: 'text',
@@ -505,6 +508,7 @@ export default defineComponent({
       handleInputEnter,
       handleAction,
       t,
+      Close,
     }
   },
 })
