@@ -49,8 +49,6 @@ const getBarStyle = (): CSSProperties => {
       return true
     }
 
-    useResizeObserver($el, update)
-
     offset = $el[`offset${capitalize(position)}`]
     tabSize = $el[`client${capitalize(sizeName)}`]
 
@@ -73,11 +71,29 @@ const getBarStyle = (): CSSProperties => {
 
 const update = () => (barStyle.value = getBarStyle())
 
+const saveObserver = [] as ReturnType<typeof useResizeObserver>[]
+const observerTabs = () => {
+  saveObserver.forEach((observer) => observer.stop())
+  saveObserver.length = 0
+  const list = instance.parent?.refs as Record<string, HTMLElement>
+  if (!list) return
+  for (const key in list) {
+    if (key.startsWith('tab-')) {
+      const _el = list[key]
+      if (_el) {
+        saveObserver.push(useResizeObserver(_el, update))
+      }
+    }
+  }
+}
+
 watch(
   () => props.tabs,
   async () => {
     await nextTick()
     update()
+
+    observerTabs()
   },
   { immediate: true }
 )
