@@ -791,10 +791,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
 
-  const inputStyle = computed(() => ({
-    width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
-  }))
-
   useResizeObserver(selectionRef, resetSelectionWidth)
   useResizeObserver(calculatorRef, resetCalculatorWidth)
   useResizeObserver(menuRef, updateTooltip)
@@ -865,7 +861,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     // computed style
     tagStyle,
     collapseTagStyle,
-    inputStyle,
 
     // DOM ref
     popperRef,

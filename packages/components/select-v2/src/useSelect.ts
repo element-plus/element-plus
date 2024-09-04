@@ -279,10 +279,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
 
-  const inputStyle = computed(() => ({
-    width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
-  }))
-
   const shouldShowPlaceholder = computed(() => {
     if (isArray(props.modelValue)) {
       return props.modelValue.length === 0 && !states.inputValue
@@ -879,7 +875,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
     iconReverse,
     tagStyle,
     collapseTagStyle,
-    inputStyle,
     popperSize,
     dropdownMenuVisible,
     hasModelValue,
