@@ -113,7 +113,7 @@ function useWatcher<T>() {
       _columns.value[0] &&
       _columns.value[0].type === 'selection'
     ) {
-      selectionInitialFixed = _columns.value[0].fixed
+      selectionInitialFixed = Boolean(_columns.value[0].fixed)
     }
 
     if (
