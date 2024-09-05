@@ -16,6 +16,8 @@
     :data-key="node?.key"
     @click.stop="handleClick"
     @contextmenu="handleContextMenu"
+    @dragover.prevent
+    @dragenter.prevent
     @drop.stop="handleDrop"
   >
     <div
