@@ -12,9 +12,9 @@ import { useNamespace } from '@element-plus/hooks'
 import useLayoutObserver from '../layout-observer'
 import { removePopper } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
+import { setMap } from '../store/tree'
 import useRender from './render-helper'
 import defaultProps from './defaults'
-
 import type { VNode } from 'vue'
 
 export default defineComponent({
@@ -105,6 +105,21 @@ export default defineComponent({
   render() {
     const { wrappedRowRender, store } = this
     const data = store.states.data.value || []
+
+    const buildMapTree = (arr: any[] | undefined) => {
+      if (!arr || arr.length === 0) {
+        return
+      }
+      arr.forEach((item) => {
+        if (item.children && item.children.length > 0) {
+          item.children.forEach((fitem) => {
+            setMap(fitem, item)
+          })
+          buildMapTree(item.children)
+        }
+      })
+    }
+    buildMapTree(data)
     // Why do we need tabIndex: -1 ?
     // If you set the tabindex attribute on an element ,
     // then its child content cannot be scrolled with the arrow keys,

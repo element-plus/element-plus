@@ -4,7 +4,11 @@ import { getRowIdentity, walkTreeNode } from '../util'
 
 import type { WatcherPropsData } from '.'
 import type { Table, TableProps } from '../table/defaults'
+const map: Map<T, K> = new Map()
 
+export const getMap = () => map
+
+export const setMap = (key, value) => map.set(key, value)
 function useTree<T>(watcherData: WatcherPropsData<T>) {
   const expandRowKeys = ref<string[]>([])
   const treeData = ref<unknown>({})

@@ -11,6 +11,7 @@ import {
 import ElTooltip, {
   type ElTooltipProps,
 } from '@element-plus/components/tooltip'
+import { getMap } from './store/tree'
 import type { Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
 
@@ -30,6 +31,7 @@ export type TableOverflowTooltipOptions = Partial<
     | 'transition'
   >
 >
+const childrenToParentMap = getMap()
 
 type RemovePopperFn = (() => void) & {
   trigger?: HTMLElement
@@ -266,14 +268,14 @@ export function toggleRowStatus<T>(
   newVal?: boolean,
   tableTreeProps?: TreeProps,
   selectable?: (row: T, index?: number) => boolean,
-  rowIndex?: number
+  rowIndex?: number,
+  isCallUpdateParent = true
 ): boolean {
   let _rowIndex = rowIndex ?? 0
   let changed = false
   const index = statusArr.indexOf(row)
   const included = index !== -1
   const isRowSelectable = selectable?.call(null, row, rowIndex)
-
   const toggleStatus = (type: 'add' | 'remove') => {
     if (type === 'add') {
       statusArr.push(row)
@@ -305,7 +307,9 @@ export function toggleRowStatus<T>(
       included ? toggleStatus('remove') : toggleStatus('add')
     }
   }
-
+  if (isCallUpdateParent) {
+    updateParent(statusArr, row, tableTreeProps)
+  }
   if (
     !tableTreeProps?.checkStrictly &&
     tableTreeProps?.children &&
@@ -318,7 +322,8 @@ export function toggleRowStatus<T>(
         newVal ?? !included,
         tableTreeProps,
         selectable,
-        _rowIndex + 1
+        _rowIndex + 1,
+        false
       )
       _rowIndex += getChildrenCount(item) + 1
     })
@@ -326,6 +331,23 @@ export function toggleRowStatus<T>(
   return changed
 }
 
+function updateParent(statusArr: T[], row: T, tableTreeProps?: TreeProps) {
+  if (tableTreeProps?.checkStrictly || !childrenToParentMap.has(row)) {
+    return
+  }
+  const parent = childrenToParentMap.get(row)
+  if (statusArr.includes(row) && !statusArr.includes(parent)) {
+    if (parent.children.every((child) => statusArr.includes(child))) {
+      statusArr.push(parent)
+    }
+  }
+  if (statusArr.includes(parent) && !statusArr.includes(row)) {
+    if (parent.children.every((child) => !statusArr.includes(child))) {
+      statusArr.splice(statusArr.indexOf(row), 1)
+    }
+  }
+  updateParent(statusArr, parent, tableTreeProps)
+}
 export function walkTreeNode(
   root,
   cb,
