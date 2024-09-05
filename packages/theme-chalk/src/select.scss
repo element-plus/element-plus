@@ -37,6 +37,7 @@
     border-radius: getCssVar('border-radius-base');
     background-color: getCssVar('fill-color', 'blank');
     transition: getCssVar('transition', 'duration');
+    transform: translate3d(0, 0, 0);
     @include mixed-input-border(#{getCssVar('border-color')});
 
     @include when(filterable) {

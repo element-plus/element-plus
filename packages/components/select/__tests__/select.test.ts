@@ -2686,52 +2686,6 @@ describe('Select', () => {
     expect(disabledOption.attributes('aria-disabled')).toBe('true')
   })
 
-  describe('It will convert the initial model-value to the desired type after selection', () => {
-    it('array to string', async () => {
-      const wrapper = _mount(
-        `<el-select v-model="modelValue">
-            <el-option label="1" value="1" />
-          </el-select>`,
-        () => ({
-          modelValue: ['initial'],
-        })
-      )
-
-      await nextTick()
-      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('initial')
-      const vm = wrapper.vm as any
-      const options = getOptions()
-      options[0].click()
-      await nextTick()
-      expect(vm.modelValue).toEqual('1')
-      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('1')
-    })
-
-    it('string to array', async () => {
-      const wrapper = _mount(
-        `<el-select v-model="modelValue" multiple>
-            <el-option label="1" value="1" />
-          </el-select>`,
-        () => ({
-          modelValue: 'initial',
-        })
-      )
-
-      await nextTick()
-      expect(wrapper.findAll('.el-tag').length).toBe(1)
-      expect(wrapper.findAll('.el-tag')[0].text()).toBe('initial')
-
-      const vm = wrapper.vm as any
-      const options = getOptions()
-      options[0].click()
-      await nextTick()
-      expect(vm.modelValue).toEqual(['initial', '1'])
-      expect(wrapper.findAll('.el-tag').length).toBe(2)
-      expect(wrapper.findAll('.el-tag')[0].text()).toBe('initial')
-      expect(wrapper.findAll('.el-tag')[1].text()).toBe('1')
-    })
-  })
-
   it('should be trigger the click event', async () => {
     const handleClick = vi.fn()
     const wrapper = _mount(`<el-select @click="handleClick" />`, () => ({

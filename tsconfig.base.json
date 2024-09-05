@@ -16,7 +16,8 @@
     "rootDir": ".",
     "types": [],
     "paths": {
-      "@element-plus/*": ["packages/*"]
+      "@element-plus/*": ["packages/*"],
+      "element-plus": ["packages/element-plus"]
     },
     "preserveSymlinks": true
   }

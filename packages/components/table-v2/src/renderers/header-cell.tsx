@@ -58,7 +58,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
 
   let sorting: boolean, sortOrder: SortOrder
   if (sortState) {
-    const order = sortState[column.key]
+    const order = sortState[column.key!]
     sorting = Boolean(oppositeOrderMap[order])
     sortOrder = sorting ? order : SortOrder.ASC
   } else {

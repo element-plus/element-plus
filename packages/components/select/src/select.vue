@@ -292,14 +292,14 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
-import { defineComponent, provide, reactive } from 'vue'
+import { computed, defineComponent, provide, reactive, toRefs } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isArray } from '@element-plus/utils'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
@@ -335,12 +335,29 @@ export default defineComponent({
   ],
 
   setup(props, { emit }) {
-    const API = useSelect(props, emit)
+    const modelValue = computed(() => {
+      const { modelValue: rawModelValue, multiple } = props
+      const fallback = multiple ? [] : undefined
+      // When it is array, we check if this is multi-select.
+      // Based on the result we get
+      if (isArray(rawModelValue)) {
+        return multiple ? rawModelValue : fallback
+      }
+
+      return multiple ? fallback : rawModelValue
+    })
+
+    const _props = reactive({
+      ...toRefs(props),
+      modelValue,
+    })
+
+    const API = useSelect(_props, emit)
 
     provide(
       selectKey,
       reactive({
-        props,
+        props: _props,
         states: API.states,
         optionsArray: API.optionsArray,
         handleOptionSelect: API.handleOptionSelect,
@@ -353,6 +370,7 @@ export default defineComponent({
 
     return {
       ...API,
+      modelValue,
     }
   },
 })
