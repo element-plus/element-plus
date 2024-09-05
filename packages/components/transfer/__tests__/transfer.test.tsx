@@ -71,12 +71,18 @@ describe('Transfer', () => {
     })
 
     const transferRef = wrapper.vm.$refs.transfer as TransferInstance
+    expect(transferRef.leftChecked).toEqual([2, 3])
+    expect(transferRef.rightChecked).toEqual([1])
+
     transferRef.addToLeft()
     await nextTick()
     expect(transferRef.sourceData.length).toBe(14)
     transferRef.addToRight()
     await nextTick()
     expect(transferRef.sourceData.length).toBe(12)
+
+    expect(transferRef.leftChecked).toEqual([])
+    expect(transferRef.rightChecked).toEqual([])
   })
 
   it('customize', () => {
