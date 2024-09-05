@@ -7,7 +7,14 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
+import {
+  getCurrentInstance,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  ref,
+  watch,
+} from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { capitalize, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -97,7 +104,13 @@ watch(
   },
   { immediate: true }
 )
-useResizeObserver(barRef, () => update())
+const barObserever = useResizeObserver(barRef, () => update())
+
+onBeforeUnmount(() => {
+  saveObserver.forEach((observer) => observer.stop())
+  saveObserver.length = 0
+  barObserever.stop()
+})
 
 defineExpose({
   /** @description tab root html element */
