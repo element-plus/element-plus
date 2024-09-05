@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test } from 'vitest'
 import sleep from '@element-plus/test-utils/sleep'
+import Form from '@element-plus/components/form'
 import Mention from '../src/mention.vue'
 
 describe('Mention.vue', () => {
@@ -116,5 +117,24 @@ describe('Mention.vue', () => {
     expect(option.attributes('role')).toBe('option')
     expect(option.attributes('aria-disabled')).toBe(undefined)
     expect(option.attributes('aria-selected')).toBe('true')
+  })
+
+  test('should use props of form', async () => {
+    const wrapper = mount({
+      setup: () => () =>
+        (
+          <Form disabled>
+            <Mention options={options} />
+          </Form>
+        ),
+    })
+
+    const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
+    const option = dropdown.find('.el-mention-dropdown__item')
+
+    expect(wrapper.find('.el-input').classes()).toContain('is-disabled')
+    expect(wrapper.find('input').attributes()).toHaveProperty('disabled')
+    expect(option.attributes('aria-disabled')).toBe('true')
+    expect(option.classes()).toContain('is-disabled')
   })
 })

@@ -593,6 +593,73 @@ describe('Virtual Tree', () => {
     expect(nodes.length).toBe(5)
   })
 
+  test('setExpandedKeys', async () => {
+    const { treeRef, wrapper } = createTree({
+      data() {
+        return {
+          height: 400,
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                  children: [
+                    {
+                      id: '1-1-1',
+                      label: 'node-1-1-1',
+                      children: [
+                        {
+                          id: '1-1-1-1',
+                          label: 'node-1-1-1-1',
+                        },
+                        {
+                          id: '1-1-1-2',
+                          label: 'node-1-1-1-2',
+                        },
+                      ],
+                    },
+                    {
+                      id: '1-1-2',
+                      label: 'node-1-1-2',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: '2',
+              label: 'node-2',
+              children: [
+                {
+                  id: '2-1',
+                  label: 'node-2-1',
+                  children: [
+                    {
+                      id: '2-1-1',
+                      label: 'node-2-1-1',
+                    },
+                    {
+                      id: '2-1-2',
+                      label: 'node-2-1-2',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    treeRef.setExpandedKeys(['1-1'])
+    await nextTick()
+    const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.length).toBe(5)
+  })
+
   test('indent', async () => {
     const { wrapper } = createTree({
       data() {
