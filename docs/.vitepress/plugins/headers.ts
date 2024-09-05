@@ -1,12 +1,12 @@
 import { resolveHeadersFromTokens, slugify } from '@mdit-vue/shared'
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownRenderer } from 'vitepress'
 
 /**
  * Get markdown headers info
  *
  * Extract them into env
  */
-export default (md: MarkdownIt): void => {
+export default (md: MarkdownRenderer): void => {
   // extract headers to env
   const render = md.renderer.render.bind(md.renderer)
 
