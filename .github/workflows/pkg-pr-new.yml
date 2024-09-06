@@ -3,12 +3,12 @@ name: Publish Pull Requests & Push Pkg
 on:
   push:
     branches:
-      - ci/releases-pr
+      - ci/release-pr
     tags:
       - '!**'
   pull_request:
     branches:
-      - ci/releases-pr
+      - ci/release-pr
 
 jobs:
   build:
