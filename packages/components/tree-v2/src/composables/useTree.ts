@@ -88,31 +88,24 @@ export function useTree(
     const expandedKeys = expandedKeySet.value
     const hiddenKeys = hiddenNodeKeySet.value
     const flattenNodes: TreeNode[] = []
-    const nodes = (tree.value && tree.value.treeNodes) || []
-    function traverse() {
-      const stack: TreeNode[] = []
-      for (let i = nodes.length - 1; i >= 0; --i) {
-        stack.push(nodes[i])
-      }
-      while (stack.length) {
-        const node = stack.pop()
-        if (!node) continue
-        if (!hiddenKeys.has(node.key)) {
-          flattenNodes.push(node)
-        }
-        // Only "visible" nodes will be rendered
-        if (expandedKeys.has(node.key)) {
-          const children = node.children
-          if (children) {
-            const length = children.length
-            for (let i = length - 1; i >= 0; --i) {
-              stack.push(children[i])
-            }
-          }
+    const nodes = tree.value?.treeNodes || []
+
+    const stack: TreeNode[] = []
+    for (let i = nodes.length - 1; i >= 0; --i) {
+      stack.push(nodes[i])
+    }
+    while (stack.length) {
+      const node = stack.pop()!
+      if (hiddenKeys.has(node.key)) continue
+
+      flattenNodes.push(node)
+      if (node.children && expandedKeys.has(node.key)) {
+        for (let i = node.children.length - 1; i >= 0; --i) {
+          stack.push(node.children[i])
         }
       }
     }
-    traverse()
+
     return flattenNodes
   })
 
@@ -202,7 +195,18 @@ export function useTree(
   }
 
   function setExpandedKeys(keys: TreeKey[]) {
-    expandedKeySet.value = new Set(keys)
+    const expandedKeys = new Set<TreeKey>()
+    const nodeMap = tree.value!.treeNodeMap
+
+    keys.forEach((k) => {
+      let node = nodeMap.get(k)
+      while (node && !expandedKeys.has(node.key)) {
+        expandedKeys.add(node.key)
+        node = node.parent
+      }
+    })
+
+    expandedKeySet.value = expandedKeys
   }
 
   function handleNodeClick(node: TreeNode, e: MouseEvent) {

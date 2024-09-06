@@ -194,8 +194,9 @@ export default defineComponent({
     const { t } = useLocale()
     const ns = useNamespace('pagination')
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
+    const _globalSize = useGlobalSize()
     const _size = computed(() =>
-      props.small ? 'small' : props.size ?? useGlobalSize().value
+      props.small ? 'small' : props.size ?? _globalSize.value
     )
     useDeprecated(
       {

@@ -7,7 +7,8 @@ import {
   isVNode,
   openBlock,
 } from 'vue'
-import { camelize, isArray } from '@vue/shared'
+import { camelize } from '../strings'
+import { isArray } from '../types'
 import { hasOwn } from '../objects'
 import { debugWarn } from '../error'
 import type {
