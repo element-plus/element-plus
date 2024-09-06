@@ -417,7 +417,7 @@ const createList = ({
       })
 
       onActivated(() => {
-        unref(windowRef).scrollTop = unref(states).scrollOffset
+        unref(windowRef)!.scrollTop = unref(states).scrollOffset
       })
 
       const api = {
