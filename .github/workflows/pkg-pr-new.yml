@@ -1,12 +1,17 @@
-name: Publish Approved Pull Requests Pkg
+name: Publish Pull Requests & Push Pkg
 
 on:
-  pull_request_review:
-    types: [submitted]
+  push:
+    branches:
+      - ci/releases-pr
+    tags:
+      - '!**'
+  pull_request:
+    branches:
+      - ci/releases-pr
 
 jobs:
-  approved:
-    if: github.event.review.state == 'APPROVED'
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -45,4 +50,4 @@ jobs:
       - name: Publish
         run: |
           cd dist/element-plus
-          pnpx pkg-pr-new@0.0.20 publish
+          pnpx pkg-pr-new publish
