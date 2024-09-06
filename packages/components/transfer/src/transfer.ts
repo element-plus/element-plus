@@ -1,11 +1,13 @@
 import { isNil } from 'lodash-unified'
 import {
+  NOOP,
   buildProps,
   definePropType,
   isArray,
   mutable,
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import type { Awaitable } from '@element-plus/utils'
 
 import type { ExtractPropTypes, h as H, VNode } from 'vue'
 import type Transfer from './transfer.vue'
@@ -137,6 +139,11 @@ export const transferProps = buildProps({
   validateEvent: {
     type: Boolean,
     default: true,
+  },
+  beforeTransfer: {
+    type: definePropType<
+      (data: TransferKey[]) => Awaitable<void | undefined | null | boolean>
+    >(Function),
   },
 } as const)
 export type TransferProps = ExtractPropTypes<typeof transferProps>
