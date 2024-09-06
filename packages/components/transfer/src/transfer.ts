@@ -1,6 +1,5 @@
 import { isNil } from 'lodash-unified'
 import {
-  NOOP,
   buildProps,
   definePropType,
   isArray,
