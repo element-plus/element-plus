@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
 import { isEqual } from 'lodash-unified'
-import { hasOwn } from '@element-plus/utils'
+import { hasOwn, isUndefined } from '@element-plus/utils'
 import {
   getColumnById,
   getColumnByKey,
@@ -109,7 +109,7 @@ function useWatcher<T>() {
     )
 
     if (
-      typeof selectionInitialFixed === 'undefined' &&
+      isUndefined(selectionInitialFixed) &&
       _columns.value[0] &&
       _columns.value[0].type === 'selection'
     ) {
@@ -125,12 +125,11 @@ function useWatcher<T>() {
         _columns.value[0].fixed = true
         fixedColumns.value.unshift(_columns.value[0])
       } else {
-        const notSelectionFixedColumns = fixedColumns.value.filter(
+        const hasNotSelectionColumns = fixedColumns.value.some(
           (column) => column.type !== 'selection'
         )
-        const notSelectionFixedColumnsLength = notSelectionFixedColumns.length
 
-        if (!notSelectionFixedColumnsLength) {
+        if (!hasNotSelectionColumns) {
           _columns.value[0].fixed = selectionInitialFixed
           if (!selectionInitialFixed) fixedColumns.value.shift()
         } else {
