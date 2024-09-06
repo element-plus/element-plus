@@ -99,6 +99,12 @@ export const inputNumberProps = buildProps({
       val >= 0 && val === Number.parseInt(`${val}`, 10),
   },
   /**
+   * @description format content
+   */
+  formatter: {
+    type: Function,
+  },
+  /**
    * @description whether to trigger form validation
    */
   validateEvent: {

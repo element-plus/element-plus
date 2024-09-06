@@ -154,7 +154,7 @@ const displayValue = computed(() => {
       currentValue = currentValue.toFixed(props.precision)
     }
   }
-  return currentValue
+  return props.formatter ? props.formatter(Number(currentValue)) : currentValue
 })
 const toPrecision = (num: number, pre?: number) => {
   if (isUndefined(pre)) pre = numPrecision.value

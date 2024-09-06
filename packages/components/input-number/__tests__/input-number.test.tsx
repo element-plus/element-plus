@@ -219,6 +219,34 @@ describe('InputNumber.vue', () => {
     )
   })
 
+  describe('InputNumber formatter', () => {
+    test('formatter controls zero display with precision 1', () => {
+      const num = ref(0.0)
+      const wrapper = mount(() => (
+        <InputNumber
+          v-model={num.value}
+          formatter={(val: number) => {
+            if (val === 0.0) return 0
+            return val
+          }}
+          precision={1}
+        />
+      ))
+      expect(wrapper.find('input').element.value).toEqual('0')
+    })
+
+    test('respects different precision levels', () => {
+      const num = ref(1.233)
+      const wrapper = mount(() => (
+        <InputNumber
+          v-model={num.value}
+          formatter={(val: number) => val.toFixed(2)}
+        />
+      ))
+      expect(wrapper.find('input').element.value).toEqual('1.23')
+    })
+  })
+
   test('readonly', async () => {
     const num = ref(0)
     const handleFocus = vi.fn()
