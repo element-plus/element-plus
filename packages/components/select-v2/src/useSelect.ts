@@ -165,6 +165,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
 
   const validateState = computed(() => elFormItem?.validateState || '')
   const validateIcon = computed(() => {
+    // When we use indexed access to get the type of an undeclared property,
+    // the unsafe type `any` will be inferred, which TypeScript throws an error to emphasize it.
+    // To avoid TypeScript complaining about it, we use truthiness narrowing to narrow the type of validateState.
     if (!validateState.value) return
     return ValidateComponentsMap[validateState.value]
   })
