@@ -127,7 +127,7 @@ input-number/with-prefix-suffix
 | ---------------------- | ------------------------------------- |
 | decrease-icon ^(2.6.3) | custom input box button decrease icon |
 | increase-icon ^(2.6.3) | custom input box button increase icon |
-| prefix                 | content as Input prefix               |
+| prefix ^(2.8.3)        | content as Input prefix               |
 | suffix ^(2.8.3)        | content as Input suffix               |
 
 ### Events
