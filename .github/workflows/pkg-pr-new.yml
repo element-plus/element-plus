@@ -1,4 +1,4 @@
-name: Publish Pull Requests & Push Pkg
+name: Release Pkg
 
 on:
   push:
@@ -6,14 +6,15 @@ on:
       - ci/release-pr
     tags:
       - '!**'
-  pull_request:
-    branches:
-      - ci/release-pr
+  workflow_run:
+    workflows: ['PR Docs Build']
+    types: [completed]
 
 jobs:
   build:
+    name: Build successfully or Push
     runs-on: ubuntu-latest
-
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
