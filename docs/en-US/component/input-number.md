@@ -119,7 +119,7 @@ input-number/with-prefix-suffix
 | id                          | same as `id` in native input                     | ^[string]                                     | —         |
 | value-on-clear ^(2.2.0)     | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —         |
 | validate-event              | whether to trigger form validation               | ^[boolean]                                    | true      |
-| prefix-text                 | prefix text                                      | ^[string]                                     | —         |
+| prefix-text  ^(2.8.3)       | prefix text                                      | ^[string]                                     | —         |
 | suffix-text                 | suffix text                                      | ^[string]                                     | —         |
 ### Slots
 
