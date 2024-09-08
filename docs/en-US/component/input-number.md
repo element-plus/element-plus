@@ -87,7 +87,7 @@ input-number/custom
 
 :::
 
-## With prefix and suffix ^(2.8.2)
+## With prefix and suffix ^(2.8.3)
 
 :::demo You can simply use prefix-text and suffix-text attributes. Also, the prefix and suffix named slots works as well.
 
