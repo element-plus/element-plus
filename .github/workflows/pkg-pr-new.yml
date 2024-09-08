@@ -3,18 +3,14 @@ name: Release Pkg
 on:
   push:
     branches:
-      - ci/release-pr
+      - dev
     tags:
       - '!**'
-  workflow_run:
-    workflows: ['PR Docs Build']
-    types: [completed]
 
 jobs:
-  build:
-    name: Build successfully or Push
+  release:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') }}
+    if: ${{ github.repository == 'element-plus/element-plus' && github.event_name == 'push' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
