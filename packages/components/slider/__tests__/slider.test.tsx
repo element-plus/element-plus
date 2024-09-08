@@ -450,7 +450,6 @@ describe('Slider', () => {
       'each precision accuracy test: $input $output',
       async (input, output) => {
         await wrapper.find('input').setValue(input)
-        console.log(wrapper.find('input').element.value)
 
         expect(wrapper.find('input').element.value).toEqual(`${output}`)
       }
