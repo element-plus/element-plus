@@ -1,4 +1,4 @@
-name: Release Pkg
+name: Publish Commit Pkg
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
       - '!**'
 
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'element-plus/element-plus' && github.event_name == 'push' }}
     steps:
