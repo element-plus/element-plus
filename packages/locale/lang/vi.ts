@@ -1,6 +1,9 @@
 export default {
   name: 'vi',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Xóa',
@@ -65,6 +68,9 @@ export default {
       noData: 'Không tìm thấy dữ liệu',
       placeholder: 'Chọn',
     },
+    mention: {
+      loading: 'Đang tải',
+    },
     cascader: {
       noMatch: 'Dữ liệu không phù hợp',
       loading: 'Đang tải',
@@ -127,6 +133,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Ok',
       cancelButtonText: 'Huỷ',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

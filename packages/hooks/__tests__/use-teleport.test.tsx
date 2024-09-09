@@ -1,6 +1,7 @@
 import { defineComponent, h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { NOOP } from '@element-plus/utils'
 import { useTeleport } from '../use-teleport'
 import type { VueWrapper } from '@vue/test-utils'
 
@@ -13,6 +14,7 @@ const Comp = defineComponent({
       () => h('div', AXIOM),
       appendToBody
     )
+    showTeleport()
 
     return () => (
       <>
@@ -71,5 +73,33 @@ describe('useTeleport', () => {
     await wrapper.find('.toggle').trigger('click')
 
     expect(wrapper.text()).toContain(AXIOM)
+  })
+})
+
+describe('useTeleport when isClient is false', () => {
+  const mockIsClient = false
+
+  beforeEach(() => {
+    vi.resetModules()
+    vi.doMock('@element-plus/utils', async () => {
+      const utils = await vi.importActual('@element-plus/utils')
+
+      return { ...utils, isClient: mockIsClient }
+    })
+  })
+  afterEach(() => {
+    vi.doUnmock('@element-plus/utils')
+  })
+
+  it('should get default value when isClient is false', async () => {
+    const { useTeleport: mockUseTeleport } = await import('../use-teleport')
+    const appendToBody = ref(true)
+    const { isTeleportVisible, showTeleport, hideTeleport, renderTeleport } =
+      mockUseTeleport(() => h('div', AXIOM), appendToBody)
+
+    expect(isTeleportVisible.value).toBeFalsy()
+    expect(showTeleport).toEqual(NOOP)
+    expect(hideTeleport).toEqual(NOOP)
+    expect(renderTeleport).toEqual(NOOP)
   })
 })

@@ -2,9 +2,9 @@ import { buildProps, definePropType } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { Placement, Strategy, VirtualElement } from '@floating-ui/dom'
 
-const tourStrategies = ['absolute', 'fixed'] as const
+export const tourStrategies = ['absolute', 'fixed'] as const
 
-const tourPlacements = [
+export const tourPlacements = [
   'top-start',
   'top-end',
   'top',

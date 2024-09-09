@@ -37,11 +37,8 @@
     border-radius: getCssVar('border-radius-base');
     background-color: getCssVar('fill-color', 'blank');
     transition: getCssVar('transition', 'duration');
+    transform: translate3d(0, 0, 0);
     @include mixed-input-border(#{getCssVar('border-color')});
-
-    &:hover {
-      @include mixed-input-border(#{getCssVar('text-color')});
-    }
 
     @include when(filterable) {
       cursor: text;
@@ -72,6 +69,10 @@
         @include mixed-input-border(#{getCssVar('input-focus-border-color')});
       }
 
+      @include e(selected-item) {
+        color: getCssVar('select-disabled-color');
+      }
+
       @include e(caret) {
         cursor: not-allowed;
       }
@@ -88,8 +89,8 @@
     flex-shrink: 0;
     gap: map.get($select-item-gap, 'default');
     color: var(
-        #{getCssVarName('input-icon-color')},
-        map.get($input, 'icon-color')
+      #{getCssVarName('input-icon-color')},
+      map.get($input, 'icon-color')
     );
   }
 
@@ -99,8 +100,8 @@
     flex-shrink: 0;
     gap: map.get($select-item-gap, 'default');
     color: var(
-        #{getCssVarName('input-icon-color')},
-        map.get($input, 'icon-color')
+      #{getCssVarName('input-icon-color')},
+      map.get($input, 'icon-color')
     );
   }
 
@@ -133,6 +134,10 @@
       cursor: pointer;
       border-color: transparent;
 
+      &.#{$namespace}-tag--plain {
+        border-color: getCssVar('tag', 'border-color');
+      }
+
       .#{$namespace}-tag__content {
         min-width: 0;
       }
@@ -159,8 +164,8 @@
     width: 100%;
     @include utils-ellipsis;
     color: var(
-        #{getCssVarName('input-text-color')},
-        map.get($input, 'text-color')
+      #{getCssVarName('input-text-color')},
+      map.get($input, 'text-color')
     );
 
     @include when(transparent) {
@@ -171,9 +176,9 @@
 
   @include e(popper) {
     @include picker-popper(
-        map.get($select-dropdown, 'bg-color'),
-        map.get($select-dropdown, 'border'),
-        map.get($select-dropdown, 'shadow')
+      map.get($select-dropdown, 'bg-color'),
+      map.get($select-dropdown, 'border'),
+      map.get($select-dropdown, 'shadow')
     );
   }
 

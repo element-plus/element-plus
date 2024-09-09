@@ -1,10 +1,18 @@
 import { placements } from '@popperjs/core'
-import { useSizeProp } from '@element-plus/hooks'
+import {
+  useAriaProps,
+  useEmptyValuesProps,
+  useSizeProp,
+} from '@element-plus/hooks'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
-import type { Options, Placement } from '@element-plus/components/popper'
+import type {
+  Options,
+  Placement,
+  PopperEffect,
+} from '@element-plus/components/popper'
 
 export const SelectProps = buildProps({
   /**
@@ -41,7 +49,7 @@ export const SelectProps = buildProps({
    * @description tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
-    type: definePropType<'light' | 'dark' | string>(String),
+    type: definePropType<PopperEffect | string>(String),
     default: 'light',
   },
   /**
@@ -187,6 +195,10 @@ export const SelectProps = buildProps({
   // eslint-disable-next-line vue/require-prop-types
   tagType: { ...tagProps.type, default: 'info' },
   /**
+   * @description tag effect
+   */
+  tagEffect: { ...tagProps.effect, default: 'light' },
+  /**
    * @description whether to trigger form validation
    */
   validateEvent: {
@@ -198,13 +210,6 @@ export const SelectProps = buildProps({
    */
   remoteShowSuffix: Boolean,
   /**
-   * @deprecated will be removed in version 2.4.0, please use override style scheme
-   */
-  suffixTransition: {
-    type: Boolean,
-    default: true,
-  },
-  /**
    * @description position of dropdown
    */
   placement: {
@@ -213,11 +218,11 @@ export const SelectProps = buildProps({
     default: 'bottom-start',
   },
   /**
-   * @description native input aria-label
+   * @description list of possible positions for dropdown
    */
-  ariaLabel: {
-    type: String,
-    default: undefined,
+  fallbackPlacements: {
+    type: definePropType<Placement[]>(Array),
+    default: ['bottom-start', 'top-start', 'right', 'left'],
   },
   /**
    * @description which element the selection dropdown appends to
@@ -226,4 +231,6 @@ export const SelectProps = buildProps({
     type: String,
     default: undefined,
   },
+  ...useEmptyValuesProps,
+  ...useAriaProps(['ariaLabel']),
 })

@@ -1,5 +1,8 @@
 <template>
-  <teleport to="body" :disabled="!appendToBody">
+  <el-teleport
+    :to="appendTo"
+    :disabled="appendTo !== 'body' ? false : !appendToBody"
+  >
     <transition
       :name="ns.b('fade')"
       @after-enter="afterEnter"
@@ -18,6 +21,9 @@
           :trapped="visible"
           :focus-trap-el="drawerRef"
           :focus-start-el="focusStartRef"
+          @focus-after-trapped="onOpenAutoFocus"
+          @focus-after-released="onCloseAutoFocus"
+          @focusout-prevented="onFocusoutPrevented"
           @release-requested="onCloseRequested"
         >
           <div
@@ -27,7 +33,7 @@
             :aria-labelledby="!title ? titleId : undefined"
             :aria-describedby="bodyId"
             v-bind="$attrs"
-            :class="[ns.b(), direction, visible && 'open', customClass]"
+            :class="[ns.b(), direction, visible && 'open']"
             :style="
               isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
             "
@@ -78,7 +84,7 @@
         </el-focus-trap>
       </el-overlay>
     </transition>
-  </teleport>
+  </el-teleport>
 </template>
 
 <script lang="ts" setup>
@@ -87,6 +93,7 @@ import { Close } from '@element-plus/icons-vue'
 
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
+import ElTeleport from '@element-plus/components/teleport'
 import { useDialog } from '@element-plus/components/dialog'
 import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
@@ -112,17 +119,6 @@ useDeprecated(
   },
   computed(() => !!slots.title)
 )
-useDeprecated(
-  {
-    scope: 'el-drawer',
-    from: 'custom-class',
-    replacement: 'class',
-    version: '2.3.0',
-    ref: 'https://element-plus.org/en-US/component/drawer.html#attributes',
-    type: 'Attribute',
-  },
-  computed(() => !!props.customClass)
-)
 
 const drawerRef = ref<HTMLElement>()
 const focusStartRef = ref<HTMLElement>()
@@ -136,7 +132,11 @@ const {
   rendered,
   titleId,
   bodyId,
+  zIndex,
   onModalClick,
+  onOpenAutoFocus,
+  onCloseAutoFocus,
+  onFocusoutPrevented,
   onCloseRequested,
   handleClose,
 } = useDialog(props, drawerRef)

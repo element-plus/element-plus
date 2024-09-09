@@ -178,3 +178,11 @@
   transform: translateY(-50%) translateX(10px);
   opacity: 0;
 }
+
+.#{$namespace}-transitioning {
+  filter: url('#elCarouselHorizontal');
+}
+
+.#{$namespace}-transitioning-vertical {
+  filter: url('#elCarouselVertical');
+}

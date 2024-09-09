@@ -147,6 +147,7 @@ describe('Carousel', () => {
       {
         autoplay: false,
         type: 'card',
+        cardScale: 0.6,
       },
       7
     )
@@ -159,6 +160,8 @@ describe('Carousel', () => {
     expect(items[6].classList.contains('is-in-stage')).toBeTruthy()
     await items[1].click()
     await wait()
+    expect(items[0].getAttribute('style')).toContain('scale(0.6)')
+    expect(items[1].getAttribute('style')).toContain('scale(1)')
     expect(items[1].classList.contains('is-active')).toBeTruthy()
     await wrapper.vm.$el.querySelector('.el-carousel__arrow--left').click()
     await wait()
@@ -195,6 +198,28 @@ describe('Carousel', () => {
     await wait(60)
     expect(items[1].classList.contains('is-active')).toBeTruthy()
   })
+
+  it('motion blur', async () => {
+    const state = reactive({
+      val: -1,
+      oldVal: -1,
+    })
+
+    wrapper = createComponent({
+      onChange(val: number, prevVal: number) {
+        state.val = val
+        state.oldVal = prevVal
+      },
+      interval: 100,
+      'motion-blur': true,
+    })
+
+    await nextTick()
+    await wait(100)
+    const items = wrapper.vm.$el.querySelectorAll('.el-transitioning')
+    expect(items.length).toBe(1)
+  })
+
   it('should guarantee order of indicators', async () => {
     const data = reactive([1, 2, 3, 4])
     wrapper = mount({
@@ -317,5 +342,36 @@ describe('Carousel', () => {
 
     expect(items[0].classList.contains('is-active')).toBeTruthy()
     expect(container.style.height).toBe('100px')
+  })
+
+  it('exposes', async () => {
+    const data = [100, 200, 300, 500]
+
+    wrapper = mount({
+      setup() {
+        return () => (
+          <div>
+            <Carousel ref={'carousel'}>
+              {data.map((value) => (
+                <CarouselItem label={value} key={value}>
+                  {value}
+                </CarouselItem>
+              ))}
+            </Carousel>
+          </div>
+        )
+      },
+    })
+
+    await nextTick()
+    const vm = wrapper.vm
+
+    expect(vm.$refs.carousel.activeIndex).toBe(0)
+    vm.$refs.carousel.setActiveItem(3)
+    expect(vm.$refs.carousel.activeIndex).toBe(3)
+    vm.$refs.carousel.prev()
+    expect(vm.$refs.carousel.activeIndex).toBe(2)
+    vm.$refs.carousel.next()
+    expect(vm.$refs.carousel.activeIndex).toBe(3)
   })
 })

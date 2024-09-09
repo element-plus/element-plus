@@ -105,6 +105,7 @@ upload/manual
 | show-file-list                | whether to show the uploaded file list.                                                                                                                                               | ^[boolean]                                                                                                                                 | true                                                                                                               |
 | drag                          | whether to activate drag and drop mode.                                                                                                                                               | ^[boolean]                                                                                                                                 | false                                                                                                              |
 | accept                        | accepted [file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept), will not work when `thumbnail-mode === true`.                                     | ^[string]                                                                                                                                  | ''                                                                                                                 |
+| crossorigin                   | native attribute [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin).                                                                             | ^[enum]`'' \| 'anonymous' \| 'use-credentials'`                                                                                            | —                                                                                                                  |
 | on-preview                    | hook function when clicking the uploaded files.                                                                                                                                       | ^[Function]`(uploadFile: UploadFile) => void`                                                                                              | —                                                                                                                  |
 | on-remove                     | hook function when files are removed.                                                                                                                                                 | ^[Function]`(uploadFile: UploadFile, uploadFiles: UploadFiles) => void`                                                                    | —                                                                                                                  |
 | on-success                    | hook function when uploaded successfully.                                                                                                                                             | ^[Function]`(response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => void`                                                     | —                                                                                                                  |
@@ -123,12 +124,12 @@ upload/manual
 
 ### Slots
 
-| Name    | Description                         | Type                            |
-| ------- | ----------------------------------- | ------------------------------- |
-| default | customize default content.          | -                               |
-| trigger | content which triggers file dialog. | -                               |
-| tip     | content of tips.                    | -                               |
-| file    | content of thumbnail template.      | ^[object]`{ file: UploadFile }` |
+| Name    | Description                         | Type                                           |
+| ------- | ----------------------------------- | ---------------------------------------------- |
+| default | customize default content.          | -                                              |
+| trigger | content which triggers file dialog. | -                                              |
+| tip     | content of tips.                    | -                                              |
+| file    | content of thumbnail template.      | ^[object]`{ file: UploadFile, index: number }` |
 
 ### Exposes
 

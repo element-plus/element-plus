@@ -25,7 +25,7 @@ export const tourStepProps = buildProps({
    */
   showClose: {
     type: Boolean,
-    default: true,
+    default: undefined,
   },
   /**
    * @description custom close icon, default is Close
@@ -38,7 +38,7 @@ export const tourStepProps = buildProps({
    */
   showArrow: {
     type: Boolean,
-    default: true,
+    default: undefined,
   },
   /**
    * @description position of the guide card relative to the target element
@@ -49,6 +49,7 @@ export const tourStepProps = buildProps({
    */
   mask: {
     type: definePropType<TourMask>([Boolean, Object]),
+    default: undefined,
   },
   /**
    * @description custom style for content
@@ -73,12 +74,13 @@ export const tourStepProps = buildProps({
    */
   scrollIntoViewOptions: {
     type: definePropType<boolean | ScrollIntoViewOptions>([Boolean, Object]),
+    default: undefined,
   },
   /**
    * @description type, affects the background color and text color
    */
   type: {
-    type: definePropType<'defalut' | 'primary'>(String),
+    type: definePropType<'default' | 'primary'>(String),
   },
 })
 

@@ -1,6 +1,9 @@
 export default {
   name: 'lt',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Valyti',
@@ -65,6 +68,9 @@ export default {
       noData: 'Nėra duomenų',
       placeholder: 'Pasirink',
     },
+    mention: {
+      loading: 'Kraunasi',
+    },
     cascader: {
       noMatch: 'Duomenų nerasta',
       loading: 'Kraunasi',
@@ -127,6 +133,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

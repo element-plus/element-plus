@@ -13,12 +13,6 @@ Since v-model is natively supported for all components, `visible.sync` has been 
 
 :::
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic Usage
 
 Callout a temporary drawer, from multiple direction
@@ -89,6 +83,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | model-value / v-model      | Should Drawer be displayed                                                                                                                                                                                                                                                                                   | ^[boolean]                                                                                                                                                                                     | false   |
 | append-to-body             | Controls should Drawer be inserted to DocumentBody Element, nested Drawer must assign this param to **true**                                                                                                                                                                                                 | ^[boolean]                                                                                                                                                                                     | false   |
+| append-to ^(2.8.0)         | which element the Drawer appends to. Will override `append-to-body`                                                                                                                                                                                                                                          | ^[string]                                                                                                                                                                                      | body    |
 | lock-scroll                | whether scroll of body is disabled while Drawer is displayed                                                                                                                                                                                                                                                 | ^[boolean]                                                                                                                                                                                     | true    |
 | before-close               | If set, closing procedure will be halted                                                                                                                                                                                                                                                                     | ^[Function]`(done: (cancel?: boolean) => void) => void(done is function type that accepts a boolean as parameter, calling done with true or without parameter will abort the close procedure)` | —       |
 | close-on-click-modal       | whether the Drawer can be closed by clicking the mask                                                                                                                                                                                                                                                        | ^[boolean]                                                                                                                                                                                     | true    |
@@ -98,7 +93,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | custom-class ^(deprecated) | Extra class names for Drawer                                                                                                                                                                                                                                                                                 | ^[string]                                                                                                                                                                                      | —       |
 | destroy-on-close           | Indicates whether children should be destroyed after Drawer closed                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                                                     | false   |
 | modal                      | Should show shadowing layer                                                                                                                                                                                                                                                                                  | ^[boolean]                                                                                                                                                                                     | true    |
-| direction                  | Drawer's opening direction                                                                                                                                                                                                                                                                                   | ^[enum]`'rtl' \| 'ltr' \| 'ttb' \| 'btt' \| 'rtl'`                                                                                                                                             | rtl     |
+| direction                  | Drawer's opening direction                                                                                                                                                                                                                                                                                   | ^[enum]`'rtl' \| 'ltr' \| 'ttb' \| 'btt'`                                                                                                                                                      | rtl     |
 | show-close                 | Should show close button at the top right of Drawer                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | true    |
 | size                       | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | ^[number] / ^[string]                                                                                                                                                                          | 30%     |
 | title                      | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form                                                                                                                                                                                                           | ^[string]                                                                                                                                                                                      | —       |
@@ -115,12 +110,14 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 ### Events
 
-| Name   | Description                                      | Type                    |
-| ------ | ------------------------------------------------ | ----------------------- |
-| open   | Triggered before Drawer opening animation begins | ^[Function]`() => void` |
-| opened | Triggered after Drawer opening animation ended   | ^[Function]`() => void` |
-| close  | Triggered before Drawer closing animation begins | ^[Function]`() => void` |
-| closed | Triggered after Drawer closing animation ended   | ^[Function]`() => void` |
+| Name             | Description                                      | Type                    |
+| ---------------- | ------------------------------------------------ | ----------------------- |
+| open             | Triggered before Drawer opening animation begins | ^[Function]`() => void` |
+| opened           | Triggered after Drawer opening animation ended   | ^[Function]`() => void` |
+| close            | Triggered before Drawer closing animation begins | ^[Function]`() => void` |
+| closed           | Triggered after Drawer closing animation ended   | ^[Function]`() => void` |
+| open-auto-focus  | triggers after Drawer opens and content focused  | ^[Function]`() => void` |
+| close-auto-focus | triggers after Drawer closed and content focused | ^[Function]`() => void` |
 
 ### Slots
 

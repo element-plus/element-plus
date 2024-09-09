@@ -1,12 +1,16 @@
 // @ts-nocheck
 import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
-import { hasClass } from '@element-plus/utils'
+import { addClass, hasClass, removeClass } from '@element-plus/utils'
 import { createTablePopper, getCell, getColumnByCell } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
+
+function isGreaterThan(a: number, b: number, epsilon = 0.03) {
+  return a - b > epsilon
+}
 
 function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY)
@@ -60,6 +64,21 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
       bottom: paddingBottom,
     }
   }
+
+  const toggleRowClassByCell = (
+    rowSpan: number,
+    event: MouseEvent,
+    toggle: (el: Element, cls: string) => void
+  ) => {
+    let node = event.target.parentNode
+    while (rowSpan > 1) {
+      node = node?.nextSibling
+      if (!node || node.nodeName !== 'TR') break
+      toggle(node, 'hover-row hover-fixed-row')
+      rowSpan--
+    }
+  }
+
   const handleCellMouseEnter = (
     event: MouseEvent,
     row: T,
@@ -76,6 +95,9 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
         cell,
         namespace
       )
+      if (cell.rowSpan > 1) {
+        toggleRowClassByCell(cell.rowSpan, event, addClass)
+      }
       const hoverState = (table.hoverState = { cell, column, row })
       table?.emit(
         'cell-mouse-enter',
@@ -113,24 +135,20 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
      *    - Expected: 188
      *    - Actual: 188.00000762939453
      */
-    let rangeWidth = range.getBoundingClientRect().width
-    let rangeHeight = range.getBoundingClientRect().height
-    const offsetWidth = rangeWidth - Math.floor(rangeWidth)
-    if (offsetWidth < 0.001) {
-      rangeWidth = Math.floor(rangeWidth)
-    }
-    const offsetHeight = rangeHeight - Math.floor(rangeHeight)
-    if (offsetHeight < 0.001) {
-      rangeHeight = Math.floor(rangeHeight)
-    }
+    const { width: rangeWidth, height: rangeHeight } =
+      range.getBoundingClientRect()
+    const { width: cellChildWidth, height: cellChildHeight } =
+      cellChild.getBoundingClientRect()
 
     const { top, left, right, bottom } = getPadding(cellChild)
     const horizontalPadding = left + right
     const verticalPadding = top + bottom
     if (
-      rangeWidth + horizontalPadding > cellChild.offsetWidth ||
-      rangeHeight + verticalPadding > cellChild.offsetHeight ||
-      cellChild.scrollWidth > cellChild.offsetWidth
+      isGreaterThan(rangeWidth + horizontalPadding, cellChildWidth) ||
+      isGreaterThan(rangeHeight + verticalPadding, cellChildHeight) ||
+      // When using a high-resolution screen, it is possible that a returns cellChild.scrollWidth value of 1921 and
+      // cellChildWidth returns a value of 1920.994140625. #16856 #16673
+      isGreaterThan(cellChild.scrollWidth, cellChildWidth)
     ) {
       createTablePopper(
         tooltipOptions,
@@ -143,7 +161,9 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   const handleCellMouseLeave = (event) => {
     const cell = getCell(event)
     if (!cell) return
-
+    if (cell.rowSpan > 1) {
+      toggleRowClassByCell(cell.rowSpan, event, removeClass)
+    }
     const oldHoverState = parent?.hoverState
     parent?.emit(
       'cell-mouse-leave',

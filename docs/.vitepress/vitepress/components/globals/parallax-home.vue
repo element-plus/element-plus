@@ -260,17 +260,6 @@ useEventListener(window, 'scroll', handleScroll)
   }
 
   @media (max-width: 768px) {
-    .cards {
-      li {
-        width: 80%;
-        margin: 0 auto 20px;
-        float: none;
-      }
-      .card {
-        height: auto;
-        padding-bottom: 54px;
-      }
-    }
     .banner-stars {
       display: none;
     }

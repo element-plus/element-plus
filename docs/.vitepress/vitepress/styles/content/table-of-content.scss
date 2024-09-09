@@ -4,74 +4,45 @@
   display: none;
   padding-left: 64px;
 
+  @include respond-to('xxl') {
+    display: block;
+    padding-right: 32px;
+  }
+
+  @include respond-to('max') {
+    padding-right: 48px;
+  }
+
+  @include respond-to('xxl') {
+    display: block;
+    padding-right: 32px;
+  }
+
+  @include respond-to('max') {
+    padding-right: 48px;
+  }
+
   .toc-content {
     position: sticky;
     top: calc(var(--header-height) + 32px);
     margin-top: 0;
-    padding: 4px 8px 4px 12px;
     margin-bottom: 32px;
     width: 200px;
 
-    .toc-marker {
-      opacity: 0;
-      position: absolute;
-      background-color: var(--brand-color);
-      border-radius: 4px;
-      width: 4px;
-      height: 14px;
-      top: 30px;
-      left: 0;
-      z-index: 0;
-      transition: top 0.25s cubic-bezier(0, 1, 0.5, 1), opacity 0.25s,
-        background-color 0.5s;
-    }
-
     &__heading {
       font-size: 12px;
+      line-height: 30px;
+      padding-left: 14px;
       color: var(--text-color-light);
       font-weight: 600;
       text-transform: uppercase;
       margin-top: 0;
     }
-
-    .toc-items {
-      list-style: none;
-      padding: 0;
-      margin: 12px 0 0;
-      line-height: 1.2;
-
-      .toc-item {
-        margin-top: 10px;
-        font-size: 11px;
-        color: var(--text-color-lighter);
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        color: inherit;
-
-        .toc-link {
-          display: inline-block;
-          position: relative;
-          color: var(--text-color-lighter);
-          transition: color var(--el-transition-duration);
-          &.active {
-            color: var(--brand-color);
-          }
-        }
-
-        &.subitem {
-          padding-left: 1rem;
-        }
-      }
+    p {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 11px;
     }
-  }
-
-  @include respond-to('xxl') {
-    display: block;
-  }
-
-  @include respond-to('max') {
-    padding-left: 96px;
-    display: block;
   }
 }

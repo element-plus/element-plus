@@ -36,7 +36,7 @@ const createComponent = ({
   ])
 
   const bindProps = reactive({
-    modelValue: ref(''),
+    modelValue: ref(),
     data: defaultData,
     renderAfterExpand: false,
     ...props,
@@ -225,6 +225,10 @@ describe('TreeSelect.vue', () => {
     tree.vm.filter('一级 1')
     await nextTick()
     expect(tree.findAll('.el-tree-node:not(.is-hidden)').length).toBe(1)
+    expect(document.querySelector('.el-select-dropdown__empty')).toBeFalsy()
+    tree.vm.filter('no match')
+    await nextTick()
+    expect(document.querySelector('.el-select-dropdown__empty')).toBeTruthy()
   })
 
   test('props', async () => {
@@ -494,40 +498,121 @@ describe('TreeSelect.vue', () => {
     expect(select.vm.states.selectedLabel).toBe('1-label')
   })
 
-  test('filter-method', async () => {
-    const modelValue = ref(1)
-    const data = ref([
-      { value: 1, label: '1' },
-      { value: 2, label: '2' },
-      { value: 3, label: '3' },
-    ])
-    const filterMethod = vi.fn()
-    const { select, tree } = createComponent({
-      props: {
-        modelValue,
-        data,
-        filterable: true,
-        filterMethod,
-        // trigger cache data
-        renderAfterExpand: true,
-      },
+  describe('filter method and remote method', () => {
+    const data = ref<any[]>([])
+    const setData = (keywords: string) => {
+      data.value = [
+        {
+          value: keywords,
+          label: keywords,
+          children: [
+            { value: `${keywords}-child`, label: `${keywords}-child` },
+          ],
+        },
+      ]
+    }
+    const testMethod = async (props: any) => {
+      if (props.filterMethod) {
+        props.filterMethod = vi.fn(props.filterMethod)
+      } else if (props.remoteMethod) {
+        props.remoteMethod = vi.fn(props.remoteMethod)
+      }
+
+      const { select, tree } = createComponent({
+        props: {
+          data,
+          multiple: true,
+          filterable: true,
+          ...props,
+        },
+      })
+
+      await nextTick()
+
+      const method = props.filterMethod || props.remoteMethod
+      const input = select.find('input')
+
+      // show drop menu
+      await input.trigger('click')
+      expect(method).toBeCalledWith('')
+
+      const testKeywords = async (keywords: string) => {
+        await input.setValue(keywords)
+
+        // await debounce
+        await new Promise((resolve) => setTimeout(resolve, 300))
+        expect(method).toBeCalledWith(keywords)
+
+        // await remote
+        await new Promise((resolve) => setTimeout(resolve, 200))
+        expect(tree.vm.data).toEqual(data.value)
+        expect(
+          tree.findAll('.el-select-dropdown__item').map((item) => item.text())
+        ).toEqual([keywords, `${keywords}-child`])
+
+        const treeNode = tree.find('.el-tree-node')
+        expect(treeNode.classes('is-expanded')).toBe(true)
+      }
+
+      await testKeywords('a')
+
+      // check first child
+      await tree
+        .findAll(
+          props.showCheckbox
+            ? '.el-checkbox__original'
+            : '.el-select-dropdown__item'
+        )[1]
+        .trigger('click')
+      expect(select.vm.modelValue).toEqual([`a-child`])
+
+      await testKeywords('aa')
+
+      // check first child again
+      await tree
+        .findAll(
+          props.showCheckbox
+            ? '.el-checkbox__original'
+            : '.el-select-dropdown__item'
+        )[1]
+        .trigger('click')
+      expect(select.vm.modelValue).toEqual(['a-child', 'aa-child'])
+
+      // hide drop menu
+      await input.trigger('blur')
+      expect(method).toBeCalledWith('')
+    }
+
+    test('filter-method', async () => {
+      await testMethod({
+        filterMethod: setData,
+      })
     })
 
-    await nextTick()
-    expect(tree.vm.data.length).toBe(3)
+    test('filter-method and checkbox', async () => {
+      await testMethod({
+        filterMethod: setData,
+        showCheckbox: true,
+      })
+    })
 
-    const input = select.find('input')
-    await input.trigger('click')
-    await input.setValue('')
-    expect(select.vm.states.selectedLabel).toBe('1')
-    expect(filterMethod).toHaveBeenCalled()
+    test('filter-method and checkbox & check-strictly', async () => {
+      await testMethod({
+        filterMethod: setData,
+        showCheckbox: true,
+        checkStrictly: true,
+      })
+    })
 
-    // await debounce
-    await input.setValue('2')
-    modelValue.value = 2
-    await nextTick()
-    expect(select.vm.states.selectedLabel).toBe('2')
-    expect(filterMethod).toHaveBeenCalledTimes(3)
+    test('remote-method', async () => {
+      await testMethod({
+        remote: true,
+        remoteMethod: async (keywords: string) => {
+          await new Promise((resolve) => setTimeout(resolve, 200))
+          setData(keywords)
+        },
+      })
+    })
   })
 
   test('check/check-change events can accept correct params', async () => {
@@ -600,7 +685,7 @@ describe('TreeSelect.vue', () => {
     expect(node1.text()).toBe('1-label')
     await node1Checkbox.trigger('click')
 
-    expect(modelValue.value).toEqual([1, 2])
+    expect(modelValue.value).toEqual([2, 1])
   })
 
   test('cached checked node can be canceled', async () => {
@@ -638,6 +723,63 @@ describe('TreeSelect.vue', () => {
     expect(node2Checkbox.element.classList.contains('is-checked')).toBe(false)
 
     expect(modelValue.value).toEqual([])
+  })
+
+  test('cached checked node and use lazy multiple', async () => {
+    const modelValue = ref<number[]>([5])
+    const cacheData = reactive([{ value: 5, label: 'lazy load node5' }])
+    let id = 0
+    const { tree, select } = createComponent({
+      props: {
+        modelValue,
+        multiple: true,
+        showCheckbox: true,
+        checkStrictly: false,
+        lazy: true,
+        load: (node: object, resolve: (p: any) => any[]) => {
+          resolve([
+            {
+              value: ++id,
+              label: `lazy load node${id}`,
+            },
+            {
+              value: ++id,
+              label: `lazy load node${id}`,
+              isLeaf: true,
+            },
+          ])
+        },
+        cacheData,
+      },
+    })
+
+    await nextTick()
+
+    const node1Checkbox = tree
+      .findAll('.el-tree-node__content')[0]
+      .find('.el-checkbox')
+    await node1Checkbox.trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).toEqual([5, 1])
+
+    const node2Checkbox = tree
+      .findAll('.el-tree-node__content')[1]
+      .find('.el-checkbox')
+    await node2Checkbox.trigger('click')
+    await nextTick()
+
+    expect(select.vm.modelValue).toEqual([5, 1, 2])
+
+    const node1 = tree.findAll('.el-tree-node__content')[0]
+    await node1.trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).toEqual([5, 3, 4, 2])
+
+    const node2 = tree.findAll('.el-tree-node__content')[1]
+    await node2.trigger('click')
+    await nextTick()
+
+    expect(select.vm.modelValue).toEqual([5, 6, 4, 2])
   })
 
   test('no checkbox and check on click node', async () => {
@@ -698,5 +840,41 @@ describe('TreeSelect.vue', () => {
 
     select.vm.handleOptionSelect(select.vm.states.options.get(2))
     expect(spy2).toBeCalledWith(2)
+  })
+
+  test('always focus when using filters', async () => {
+    const { tree, select } = createComponent({
+      props: {
+        filterable: true,
+        showCheckbox: true,
+        checkOnClickNode: true,
+        data: [
+          { value: 1, label: 1 },
+          { value: 2, label: 2 },
+        ],
+      },
+    })
+
+    await nextTick()
+
+    const input = select.find('input')
+
+    // mock browser blur events
+    tree.element.addEventListener('click', () => input.element.blur(), true)
+
+    input.element.focus()
+    expect(document.activeElement).toBe(input.element)
+
+    // normal click
+    await tree.find('.el-tree-node__content').trigger('click')
+    expect(select.vm.modelValue).toBe(1)
+    expect(document.activeElement).toBe(input.element)
+
+    // checkbox click
+    await tree
+      .findAll('.el-tree-node__content .el-checkbox')[1]
+      .trigger('click')
+    expect(select.vm.modelValue).toBe(2)
+    expect(document.activeElement).toBe(input.element)
   })
 })

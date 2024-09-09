@@ -65,6 +65,18 @@ export const useRangePicker = (
     }
   }
 
+  const onReset = (parsedValue: PanelRangeSharedProps['parsedValue']) => {
+    if (isArray(parsedValue) && parsedValue.length === 2) {
+      const [start, end] = parsedValue
+      minDate.value = start
+      leftDate.value = start
+      maxDate.value = end
+      onParsedValueChanged(unref(minDate), unref(maxDate))
+    } else {
+      restoreDefault()
+    }
+  }
+
   const restoreDefault = () => {
     const [start, end] = getDefaultValue(unref(defaultValue), {
       lang: unref(lang),
@@ -87,21 +99,7 @@ export const useRangePicker = (
     { immediate: true }
   )
 
-  watch(
-    () => props.parsedValue,
-    (parsedValue) => {
-      if (isArray(parsedValue) && parsedValue.length === 2) {
-        const [start, end] = parsedValue
-        minDate.value = start
-        leftDate.value = start
-        maxDate.value = end
-        onParsedValueChanged(unref(minDate), unref(maxDate))
-      } else {
-        restoreDefault()
-      }
-    },
-    { immediate: true }
-  )
+  watch(() => props.parsedValue, onReset, { immediate: true })
 
   return {
     minDate,
@@ -115,6 +113,7 @@ export const useRangePicker = (
     handleRangeConfirm,
     handleShortcutClick,
     onSelect,
+    onReset,
     t,
   }
 }

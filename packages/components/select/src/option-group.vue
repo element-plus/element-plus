@@ -21,8 +21,8 @@ import {
   ref,
   toRefs,
 } from 'vue'
-import { isArray } from '@vue/shared'
 import { useMutationObserver } from '@vueuse/core'
+import { ensureArray } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { selectGroupKey } from './token'
 
@@ -57,23 +57,24 @@ export default defineComponent({
       children.value.some((option) => option.visible === true)
     )
 
+    const isOption = (node) =>
+      node.type?.name === 'ElOption' && !!node.component?.proxy
+
     // get all instances of options
     const flattedChildren = (node) => {
+      const Nodes = ensureArray(node)
       const children = []
-      if (isArray(node.children)) {
-        node.children.forEach((child) => {
-          if (
-            child.type &&
-            child.type.name === 'ElOption' &&
-            child.component &&
-            child.component.proxy
-          ) {
-            children.push(child.component.proxy)
-          } else if (child.children?.length) {
-            children.push(...flattedChildren(child))
-          }
-        })
-      }
+
+      Nodes.forEach((child) => {
+        if (isOption(child)) {
+          children.push(child.component.proxy)
+        } else if (child.children?.length) {
+          children.push(...flattedChildren(child.children))
+        } else if (child.component?.subTree) {
+          children.push(...flattedChildren(child.component.subTree))
+        }
+      })
+
       return children
     }
 

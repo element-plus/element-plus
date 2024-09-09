@@ -9,6 +9,7 @@ export {
   isDate,
   isPromise,
   isSymbol,
+  isPlainObject,
 } from '@vue/shared'
 export { isVNode } from 'vue'
 
@@ -35,4 +36,8 @@ export const isStringNumber = (val: string): boolean => {
     return false
   }
   return !Number.isNaN(Number(val))
+}
+
+export const isWindow = (val: unknown): val is Window => {
+  return val === window
 }

@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { computed, nextTick, toRefs, watch } from 'vue'
-import { isEqual, pick } from 'lodash-unified'
+import { isEqual, isNil, pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { escapeStringRegexp, isFunction } from '@element-plus/utils'
+import { escapeStringRegexp, isEmpty, isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
 import {
@@ -17,6 +17,7 @@ import type { Ref } from 'vue'
 import type ElSelect from '@element-plus/components/select'
 import type Node from '@element-plus/components/tree/src/model/node'
 import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
+import type { TreeInstance } from '@element-plus/components/tree'
 
 export const useTree = (
   props,
@@ -27,7 +28,7 @@ export const useTree = (
     key,
   }: {
     select: Ref<InstanceType<typeof ElSelect> | undefined>
-    tree: Ref<InstanceType<typeof ElTree> | undefined>
+    tree: Ref<TreeInstance | undefined>
     key: Ref<string>
   }
 ) => {
@@ -112,12 +113,12 @@ export const useTree = (
     return options
   })
 
-  const cacheOptionsMap = computed(() => {
-    return cacheOptions.value.reduce(
-      (prev, next) => ({ ...prev, [next.value]: next }),
-      {}
-    )
-  })
+  const getChildCheckedKeys = () => {
+    return tree.value?.getCheckedKeys().filter((checkedKey) => {
+      const node = tree.value?.getNode(checkedKey) as Node
+      return !isNil(node) && isEmpty(node.childNodes)
+    })
+  }
 
   return {
     ...pick(toRefs(props), Object.keys(ElTree.props)),
@@ -144,6 +145,7 @@ export const useTree = (
           value: getNodeValByProp('value', data),
           label: getNodeValByProp('label', data),
           disabled: getNodeValByProp('disabled', data),
+          visible: node.visible,
         },
         props.renderContent
           ? () => props.renderContent(h, { node, data, store })
@@ -176,24 +178,28 @@ export const useTree = (
       } else if (props.expandOnClickNode) {
         e.proxy.handleExpandIconClick()
       }
+      select.value?.focus()
     },
     onCheck: (data, params) => {
       // ignore when no checkbox, like only `checkOnClickNode` is true
       if (!props.showCheckbox) return
 
       const dataValue = getNodeValByProp('value', data)
+      const dataMap = {}
+      treeEach(
+        [tree.value.store.root],
+        (node) => (dataMap[node.key] = node),
+        (node) => node.childNodes
+      )
 
       // fix: checkedKeys has not cached keys
       const uncachedCheckedKeys = params.checkedKeys
       const cachedKeys = props.multiple
         ? toValidArray(props.modelValue).filter(
-            (item) =>
-              item in cacheOptionsMap.value &&
-              !tree.value.getNode(item) &&
-              !uncachedCheckedKeys.includes(item)
+            (item) => !(item in dataMap) && !uncachedCheckedKeys.includes(item)
           )
         : []
-      const checkedKeys = uncachedCheckedKeys.concat(cachedKeys)
+      const checkedKeys = cachedKeys.concat(uncachedCheckedKeys)
 
       if (props.checkStrictly) {
         emit(
@@ -209,10 +215,9 @@ export const useTree = (
       // only can select leaf node
       else {
         if (props.multiple) {
-          emit(
-            UPDATE_MODEL_EVENT,
-            (tree.value as InstanceType<typeof ElTree>).getCheckedKeys(true)
-          )
+          const childKeys = getChildCheckedKeys()
+
+          emit(UPDATE_MODEL_EVENT, cachedKeys.concat(childKeys))
         } else {
           // select first leaf node when check parent
           const firstLeaf = treeFind(
@@ -255,8 +260,39 @@ export const useTree = (
           halfCheckedNodes: tree.value.getHalfCheckedNodes(),
         })
       })
+
+      select.value?.focus()
     },
 
+    onNodeExpand: (data, node, e) => {
+      attrs.onNodeExpand?.(data, node, e)
+      nextTick(() => {
+        if (
+          !props.checkStrictly &&
+          props.lazy &&
+          props.multiple &&
+          node.checked
+        ) {
+          const dataMap = {}
+          const uncachedCheckedKeys = (
+            tree.value as TreeInstance
+          ).getCheckedKeys()
+
+          treeEach(
+            [tree.value.store.root],
+            (node) => (dataMap[node.key] = node),
+            (node) => node.childNodes
+          )
+
+          const cachedKeys = toValidArray(props.modelValue).filter(
+            (item) => !(item in dataMap) && !uncachedCheckedKeys.includes(item)
+          )
+
+          const childKeys = getChildCheckedKeys()
+          emit(UPDATE_MODEL_EVENT, cachedKeys.concat(childKeys))
+        }
+      })
+    },
     // else
     cacheOptions,
   }

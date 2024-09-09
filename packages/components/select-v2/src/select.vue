@@ -5,7 +5,6 @@
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
     @mouseenter="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
-    @click.stop="toggleMenu"
   >
     <el-tooltip
       ref="tooltipRef"
@@ -15,7 +14,7 @@
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
-      :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
+      :fallback-placements="fallbackPlacements"
       :effect="effect"
       :placement="placement"
       pure
@@ -35,6 +34,7 @@
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
           ]"
+          @click.prevent="toggleMenu"
         >
           <div
             v-if="$slots.prefix"
@@ -63,12 +63,19 @@
                   :closable="!selectDisabled && !getDisabled(item)"
                   :size="collapseTagSize"
                   :type="tagType"
+                  :effect="tagEffect"
                   disable-transitions
                   :style="tagStyle"
                   @close="deleteTag($event, item)"
                 >
                   <span :class="nsSelect.e('tags-text')">
-                    {{ getLabel(item) }}
+                    <slot
+                      name="label"
+                      :label="getLabel(item)"
+                      :value="getValue(item)"
+                    >
+                      {{ getLabel(item) }}
+                    </slot>
                   </span>
                 </el-tag>
               </div>
@@ -91,6 +98,7 @@
                       :closable="false"
                       :size="collapseTagSize"
                       :type="tagType"
+                      :effect="tagEffect"
                       :style="collapseTagStyle"
                       disable-transitions
                     >
@@ -112,11 +120,18 @@
                         :closable="!selectDisabled && !getDisabled(selected)"
                         :size="collapseTagSize"
                         :type="tagType"
+                        :effect="tagEffect"
                         disable-transitions
                         @close="deleteTag($event, selected)"
                       >
                         <span :class="nsSelect.e('tags-text')">
-                          {{ getLabel(selected) }}
+                          <slot
+                            name="label"
+                            :label="getLabel(selected)"
+                            :value="getValue(selected)"
+                          >
+                            {{ getLabel(selected) }}
+                          </slot>
                         </span>
                       </el-tag>
                     </div>
@@ -150,8 +165,6 @@
                 spellcheck="false"
                 type="text"
                 :name="name"
-                @focus="handleFocus"
-                @blur="handleBlur"
                 @input="onInput"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
@@ -160,7 +173,7 @@
                 @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
                 @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
-                @keydown.delete.stop.prevent="handleDel"
+                @keydown.delete.stop="handleDel"
                 @click.stop="toggleMenu"
               />
               <span
@@ -182,7 +195,15 @@
                 ),
               ]"
             >
-              <span>{{ currentPlaceholder }}</span>
+              <slot
+                v-if="hasModelValue"
+                name="label"
+                :label="currentPlaceholder"
+                :value="modelValue"
+              >
+                <span>{{ currentPlaceholder }}</span>
+              </slot>
+              <span v-else>{{ currentPlaceholder }}</span>
             </div>
           </div>
           <div ref="suffixRef" :class="nsSelect.e('suffix')">
@@ -195,7 +216,11 @@
             </el-icon>
             <el-icon
               v-if="showClearBtn && clearIcon"
-              :class="[nsSelect.e('caret'), nsInput.e('icon')]"
+              :class="[
+                nsSelect.e('caret'),
+                nsInput.e('icon'),
+                nsSelect.e('clear'),
+              ]"
               @click.prevent.stop="handleClear"
             >
               <component :is="clearIcon" />

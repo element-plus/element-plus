@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { camelize } from '@vue/shared'
 import glob from 'fast-glob'
 import { docRoot, docsDirName, projRoot } from '@element-plus/build-utils'
 import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
@@ -35,9 +36,7 @@ export function MarkdownTransform(): Plugin {
       const append: Append = {
         headers: [],
         footers: [],
-        scriptSetups: [
-          `const demos = import.meta.globEager('../../examples/${componentId}/*.vue')`,
-        ],
+        scriptSetups: getExampleImports(componentId),
       }
 
       code = transformVpScriptSetup(code, append)
@@ -104,14 +103,27 @@ const transformComponentMarkdown = (
   const lang = getLang(id)
   const docUrl = `${GITHUB_BLOB_URL}/${docsDirName}/en-US/component/${componentId}.md`
   const componentUrl = `${GITHUB_TREE_URL}/packages/components/${componentId}`
+  const styleUrl = `${GITHUB_TREE_URL}/packages/theme-chalk/src/${componentId}.scss`
+
   const componentPath = path.resolve(
     projRoot,
     `packages/components/${componentId}`
   )
+  const stylePath = path.resolve(
+    projRoot,
+    `packages/theme-chalk/src/${componentId}.scss`
+  )
+
   const isComponent = fs.existsSync(componentPath)
+  const isHaveComponentStyle = fs.existsSync(stylePath)
 
   const links = [[footerLocale[lang].docs, docUrl]]
+
+  if (isComponent && isHaveComponentStyle)
+    links.unshift([footerLocale[lang].style, styleUrl])
+
   if (isComponent) links.unshift([footerLocale[lang].component, componentUrl])
+
   const linksText = links
     .filter((i) => i)
     .map(([text, link]) => `[${text}](${link})`)
@@ -130,4 +142,23 @@ ${linksText}`
   append.footers.push(sourceSection, isComponent ? contributorsSection : '')
 
   return code
+}
+
+const getExampleImports = (componentId: string) => {
+  const examplePath = path.resolve(docRoot, 'examples', componentId)
+  if (!fs.existsSync(examplePath)) return []
+  const files = fs.readdirSync(examplePath)
+  const imports: string[] = []
+
+  for (const item of files) {
+    if (!/\.vue$/.test(item)) continue
+    const file = item.replace(/\.vue$/, '')
+    const name = camelize(`Ep-${componentId}-${file}`)
+
+    imports.push(
+      `import ${name} from '../../examples/${componentId}/${file}.vue'`
+    )
+  }
+
+  return imports
 }
