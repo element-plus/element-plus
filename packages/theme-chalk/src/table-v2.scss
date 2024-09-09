@@ -85,8 +85,8 @@
     @include table-root;
     left: 0;
     box-shadow: 2px 0 4px 0 rgb(0 0 0 / 6%);
-    @include hidden-scrollbar;
     z-index: 1;
+    @include hidden-scrollbar;
   }
 
   @include e('right') {
