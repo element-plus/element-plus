@@ -150,6 +150,7 @@ interface TableProps<T> {
   flexible?: boolean
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
   appendFilterPanelTo?: string
+  scrollbarTabindex?: number | string
 }
 
 interface Sort {
@@ -390,6 +391,10 @@ export default {
     TableProps<DefaultRow>['showOverflowTooltip']
   >,
   appendFilterPanelTo: String,
+  scrollbarTabindex: {
+    type: [Number, String],
+    default: undefined,
+  },
 }
 export type {
   SummaryMethod,
