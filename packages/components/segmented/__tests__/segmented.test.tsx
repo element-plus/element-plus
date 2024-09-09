@@ -70,7 +70,8 @@ describe('Segmented.vue', () => {
       <Segmented v-model={value.value} options={options} disabled></Segmented>
     ))
     await nextTick()
-    expect(wrapper.findAll('.is-disabled').length).toBe(7)
+    // 8 = options.length + .el-segmented__item-selected
+    expect(wrapper.findAll('.is-disabled').length).toBe(8)
   })
 
   test('render option disabled', async () => {
@@ -112,7 +113,8 @@ describe('Segmented.vue', () => {
       <Segmented v-model={value.value} options={options}></Segmented>
     ))
     await nextTick()
-    expect(wrapper.findAll('.is-disabled').length).toBe(3)
+    // 4 = the disabled options + .el-segmented__item-selected
+    expect(wrapper.findAll('.is-disabled').length).toBe(4)
   })
 
   test('render accessible attributes', async () => {
@@ -132,5 +134,27 @@ describe('Segmented.vue', () => {
     expect(wrapper.attributes('id')).toEqual('id')
     expect(wrapper.attributes('aria-label')).toEqual('label')
     expect(input.attributes('name')).toEqual('name')
+  })
+
+  test('async disabled', async () => {
+    const value = ref('Mon')
+    const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const disabled = ref(false)
+    const wrapper = mount(() => (
+      <Segmented
+        v-model={value.value}
+        options={options}
+        disabled={disabled.value}
+      ></Segmented>
+    ))
+    expect(wrapper.find('.is-selected').text()).toEqual('Mon')
+    disabled.value = true
+    await nextTick()
+    expect(
+      wrapper
+        .find('.el-segmented__item-selected')
+        .classes()
+        .includes('is-disabled')
+    ).toBeTruthy()
   })
 })
