@@ -50,8 +50,6 @@ import {
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { ISelectProps, SelectOptionProxy } from './token'
 
-const MINIMUM_INPUT_WIDTH = 11
-
 export const useSelect = (props: ISelectProps, emit) => {
   const { t } = useLocale()
   const contentId = useId()
