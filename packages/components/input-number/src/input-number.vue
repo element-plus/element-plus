@@ -64,7 +64,7 @@
       <template #prefix>
         <slot name="prefix">{{ prefixText }}</slot>
       </template>
-      <template #suffix>
+      <template #suffix v-if="$slots.suffix || suffixText">
         <slot name="suffix">{{ suffixText }}</slot>
       </template>
     </el-input>
