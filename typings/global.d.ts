@@ -103,6 +103,7 @@ declare module 'vue' {
     ElTourStep: typeof import('element-plus')['ElTourStep']
     ElSegmented: typeof import('element-plus')['ElSegmented']
     ElMention: typeof import('element-plus')['ElMention']
+    ElKnob: typeof import('element-plus')['ElKnob']
   }
 
   interface ComponentCustomProperties {
