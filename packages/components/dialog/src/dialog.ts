@@ -3,6 +3,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { dialogContentProps } from './dialog-content'
 
 import type { ExtractPropTypes } from 'vue'
+import type Dialog from './dialog.vue'
 
 type DoneFn = (cancel?: boolean) => void
 export type DialogBeforeCloseFn = (done: DoneFn) => void
@@ -13,6 +14,13 @@ export const dialogProps = buildProps({
    * @description whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`
    */
   appendToBody: Boolean,
+  /**
+   * @description which element the Dialog appends to
+   */
+  appendTo: {
+    type: definePropType<string | HTMLElement>([String, Object]),
+    default: 'body',
+  },
   /**
    * @description callback before Dialog closes, and it will prevent Dialog from closing, use done to close the dialog
    */
@@ -91,10 +99,7 @@ export const dialogProps = buildProps({
   zIndex: {
     type: Number,
   },
-  trapFocus: {
-    type: Boolean,
-    default: false,
-  },
+  trapFocus: Boolean,
   /**
    * @description header's aria-level attribute
    */
@@ -116,3 +121,4 @@ export const dialogEmits = {
   closeAutoFocus: () => true,
 }
 export type DialogEmits = typeof dialogEmits
+export type DialogInstance = InstanceType<typeof Dialog>

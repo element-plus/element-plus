@@ -1,7 +1,7 @@
 <template>
   <transition-group tag="ul" :class="containerKls" :name="nsList.b()">
     <li
-      v-for="file in files"
+      v-for="(file, index) in files"
       :key="file.uid || file.name"
       :class="[
         nsUpload.be('list', 'item'),
@@ -14,7 +14,7 @@
       @blur="focusing = false"
       @click="focusing = false"
     >
-      <slot :file="file">
+      <slot :file="file" :index="index">
         <img
           v-if="
             listType === 'picture' ||
@@ -22,6 +22,7 @@
           "
           :class="nsUpload.be('list', 'item-thumbnail')"
           :src="file.url"
+          :crossorigin="crossorigin"
           alt=""
         />
         <div

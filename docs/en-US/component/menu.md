@@ -7,9 +7,15 @@ lang: en-US
 
 Menu that provides navigation for your website.
 
-:::tip
+::: tip
 
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+If you want to override the default height of el-menu, you can use the following CSS:
+
+```css
+.el-menu--horizontal {
+  --el-menu-horizontal-height: 100px;
+}
+```
 
 :::
 
@@ -51,99 +57,168 @@ menu/collapse
 
 :::
 
-## Menu Attributes
+## Popper Offset ^(2.4.4)
 
-| Name                    | Description                                                                                                                                                           | Type    | Accepted Values       | Default  |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------------------- | -------- |
-| mode                    | menu display mode                                                                                                                                                     | string  | horizontal / vertical | vertical |
-| collapse                | whether the menu is collapsed (available only in vertical mode)                                                                                                       | boolean | —                     | false    |
-| ellipsis                | whether the menu is ellipsis (available only in horizontal mode)                                                                                                      | boolean | —                     | true     |
-| background-color        | background color of Menu (hex format) (deprecated, use `--bg-color` instead)                                                                                          | string  | —                     | #ffffff  |
-| text-color              | text color of Menu (hex format) (deprecated, use `--text-color` instead)                                                                                              | string  | —                     | #303133  |
-| active-text-color       | text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)                                                                      | string  | —                     | #409EFF  |
-| default-active          | index of active menu on page load                                                                                                                                     | string  | —                     | —        |
-| default-openeds         | array that contains indexes of currently active sub-menus                                                                                                             | Array   | —                     | —        |
-| unique-opened           | whether only one sub-menu can be active                                                                                                                               | boolean | —                     | false    |
-| menu-trigger            | how sub-menus are triggered, only works when `mode` is 'horizontal'                                                                                                   | string  | hover / click         | hover    |
-| router                  | whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action. Use with `default-active` to set the active item on load. | boolean | —                     | false    |
-| collapse-transition     | whether to enable the collapse transition                                                                                                                             | boolean | —                     | true     |
-| popper-effect ^(2.2.26) | Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed                                                                                                | string  | dark / light          | dark     |
+Menu with popperOffset will override Submenu's `popper-offset`.
 
-## Menu Methods
+:::demo
 
-| Methods Name | Description               | Parameters                            |
-| ------------ | ------------------------- | ------------------------------------- |
-| open         | open a specific sub-menu  | index: index of the sub-menu to open  |
-| close        | close a specific sub-menu | index: index of the sub-menu to close |
+menu/popper-offset
 
-## Menu Events
+:::
 
-| Name   | Description                               | Parameters                                                                                                                                                                 |
-| ------ | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| select | callback function when menu is activated  | index: index of activated menu, indexPath: index path of activated menu, item: the selected menu item, routeResult: result returned by `vue-router` if `router` is enabled |
-| open   | callback function when sub-menu expands   | index: index of expanded sub-menu, indexPath: index path of expanded sub-menu                                                                                              |
-| close  | callback function when sub-menu collapses | index: index of collapsed sub-menu, indexPath: index path of collapsed sub-menu                                                                                            |
+## Menu API
 
-## Menu Slots
+### Menu Attributes
 
-| Name | Description               | Subtags                               |
-| ---- | ------------------------- | ------------------------------------- |
-| —    | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
+| Name                            | Description                                                                                                                                                           | Type                                   | Default  |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | -------- |
+| mode                            | menu display mode                                                                                                                                                     | ^[enum]`'horizontal' \| 'vertical'`    | vertical |
+| collapse                        | whether the menu is collapsed (available only in vertical mode)                                                                                                       | ^[boolean]                             | false    |
+| ellipsis                        | whether the menu is ellipsis (available only in horizontal mode)                                                                                                      | ^[boolean]                             | true     |
+| ellipsis-icon ^(2.4.4)          | custom ellipsis icon (available only in horizontal mode and ellipsis is true)                                                                                         | ^[string] / ^[Component]               | —        |
+| popper-offset ^(2.4.4)          | offset of the popper (effective for all submenus)                                                                                                                     | ^[number]                              | 6        |
+| background-color ^(deprecated)  | background color of Menu (hex format) (deprecated, use `--el-menu-bg-color` in a style class instead)                                                                 | ^[string]                              | #ffffff  |
+| text-color ^(deprecated)        | text color of Menu (hex format) (deprecated, use `--el-menu-text-color` in a style class instead)                                                                     | ^[string]                              | #303133  |
+| active-text-color ^(deprecated) | text color of currently active menu item (hex format) (deprecated, use `--el-menu-active-color` in a style class instead)                                             | ^[string]                              | #409eff  |
+| default-active                  | index of active menu on page load                                                                                                                                     | ^[string]                              | ''       |
+| default-openeds                 | array that contains indexes of currently active sub-menus                                                                                                             | ^[object]`string[]`                    | []       |
+| unique-opened                   | whether only one sub-menu can be active                                                                                                                               | ^[boolean]                             | false    |
+| menu-trigger                    | how sub-menus are triggered, only works when `mode` is 'horizontal'                                                                                                   | ^[enum]`'hover' \| 'click'`            | hover    |
+| router                          | whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action. Use with `default-active` to set the active item on load. | ^[boolean]                             | false    |
+| collapse-transition             | whether to enable the collapse transition                                                                                                                             | ^[boolean]                             | true     |
+| popper-effect ^(2.2.26)         | Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed                                                                                                | ^[enum]`'dark' \| 'light'` / ^[string] | dark     |
+| close-on-click-outside ^(2.4.4) | optional, whether menu is collapsed when clicking outside                                                                                                             | ^[boolean]                             | false    |
+| popper-class ^(2.5.0)           | custom class name for all popup menus                                                                                                                                 | ^[string]                              | —        |
+| show-timeout ^(2.5.0)           | control timeout for all menus before showing                                                                                                                          | ^[number]                              | 300      |
+| hide-timeout ^(2.5.0)           | control timeout for all menus before hiding                                                                                                                           | ^[number]                              | 300      |
 
-## SubMenu Attributes
+### Menu Events
 
-| Name                              | Description                                                                                                                                   | Type                  | Accepted Values | Default                                         |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | --------------- | ----------------------------------------------- |
-| index                             | unique identification                                                                                                                         | string                | —               | —                                               |
-| popper-class                      | custom class name for the popup menu                                                                                                          | string                | —               | —                                               |
-| show-timeout                      | timeout before showing a sub-menu                                                                                                             | number                | —               | 300                                             |
-| hide-timeout                      | timeout before hiding a sub-menu                                                                                                              | number                | —               | 300                                             |
-| disabled                          | whether the sub-menu is disabled                                                                                                              | boolean               | —               | false                                           |
-| popper-append-to-body(deprecated) | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop                              | boolean               | —               | level one SubMenu: true / other SubMenus: false |
-| teleported                        | whether popup menu is teleported to the body                                                                                                  | boolean               | —               | level one SubMenu: true / other SubMenus: false |
-| popper-offset                     | offset of the popper                                                                                                                          | number                | —               | 6                                               |
-| expand-close-icon                 | Icon when menu are expanded and submenu are closed, `expand-close-icon` and `expand-open-icon` need to be passed together to take effect      | `string \| Component` | —               | —                                               |
-| expand-open-icon                  | Icon when menu are expanded and submenu are opened, `expand-open-icon` and `expand-close-icon` need to be passed together to take effect      | `string \| Component` | —               | —                                               |
-| collapse-close-icon               | Icon when menu are collapsed and submenu are closed, `collapse-close-icon` and `collapse-open-icon` need to be passed together to take effect | `string \| Component` | —               | —                                               |
-| collapse-open-icon                | Icon when menu are collapsed and submenu are opened, `collapse-open-icon` and `collapse-close-icon` need to be passed together to take effect | `string \| Component` | —               | —                                               |
+| Name   | Description                               | Type                         |
+| ------ | ----------------------------------------- | ---------------------------- |
+| select | callback function when menu is activated  | ^[Function]`MenuSelectEvent` |
+| open   | callback function when sub-menu expands   | ^[Function]`MenuOpenEvent`   |
+| close  | callback function when sub-menu collapses | ^[Function]`MenuCloseEvent`  |
 
-## SubMenu Slots
+### Menu Slots
 
-| Name  | Description               | Subtags                               |
-| ----- | ------------------------- | ------------------------------------- |
-| —     | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
-| title | customize title content   | —                                     |
+| Name    | Description               | Subtags                               |
+| ------- | ------------------------- | ------------------------------------- |
+| default | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
 
-## Menu-Item Attributes
+### Menu Exposes
 
-| Name     | Description           | Type        | Accepted Values | Default |
-| -------- | --------------------- | ----------- | --------------- | ------- |
-| index    | unique identification | string/null | —               | null    |
-| route    | Vue Router object     | object      | —               | —       |
-| disabled | whether disabled      | boolean     | —               | false   |
+| Name  | Description                                                            | Type                                 |
+| ----- | ---------------------------------------------------------------------- | ------------------------------------ |
+| open  | open a specific sub-menu, the param is index of the sub-menu to open   | ^[Function]`(index: string) => void` |
+| close | close a specific sub-menu, the param is index of the sub-menu to close | ^[Function]`(index: string) => void` |
 
-## Menu-Item Events
+## SubMenu API
 
-| Name  | Description                                 | Parameters             |
-| ----- | ------------------------------------------- | ---------------------- |
-| click | callback function when menu-item is clicked | el: menu-item instance |
+### SubMenu Attributes
 
-## Menu-Item Slots
+| Name                | Description                                                                                                                                   | Type                     | Default   |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ | --------- |
+| index ^(required)   | unique identification                                                                                                                         | ^[string]                | —         |
+| popper-class        | custom class name for the popup menu                                                                                                          | ^[string]                | —         |
+| show-timeout        | timeout before showing a sub-menu(inherit `show-timeout` of the menu by default.)                                                             | ^[number]                | —         |
+| hide-timeout        | timeout before hiding a sub-menu(inherit `hide-timeout` of the menu by default.)                                                              | ^[number]                | —         |
+| disabled            | whether the sub-menu is disabled                                                                                                              | ^[boolean]               | false     |
+| teleported          | whether popup menu is teleported to the body, the default is true for the level one SubMenu, false for other SubMenus                         | ^[boolean]               | undefined |
+| popper-offset       | offset of the popper (overrides the `popper` of menu)                                                                                         | ^[number]                | —         |
+| expand-close-icon   | Icon when menu are expanded and submenu are closed, `expand-close-icon` and `expand-open-icon` need to be passed together to take effect      | ^[string] / ^[Component] | —         |
+| expand-open-icon    | Icon when menu are expanded and submenu are opened, `expand-open-icon` and `expand-close-icon` need to be passed together to take effect      | ^[string] / ^[Component] | —         |
+| collapse-close-icon | Icon when menu are collapsed and submenu are closed, `collapse-close-icon` and `collapse-open-icon` need to be passed together to take effect | ^[string] / ^[Component] | —         |
+| collapse-open-icon  | Icon when menu are collapsed and submenu are opened, `collapse-open-icon` and `collapse-close-icon` need to be passed together to take effect | ^[string] / ^[Component] | —         |
 
-| Name  | Description               |
-| ----- | ------------------------- |
-| —     | customize default content |
-| title | customize title content   |
+### SubMenu Slots
 
-## Menu-Item-Group Attributes
+| Name    | Description               | Subtags                               |
+| ------- | ------------------------- | ------------------------------------- |
+| default | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
+| title   | customize title content   | —                                     |
 
-| Name  | Description | Type   | Accepted Values | Default |
-| ----- | ----------- | ------ | --------------- | ------- |
-| title | group title | string | —               | —       |
+## Menu-Item API
 
-## Menu-Item-Group Slots
+### Menu-Item Attributes
 
-| Name  | Description               | Subtags   |
-| ----- | ------------------------- | --------- |
-| —     | customize default content | Menu-Item |
-| title | customize group title     | —         |
+| Name     | Description           | Type                | Default |
+| -------- | --------------------- | ------------------- | ------- |
+| index    | unique identification | ^[string] / ^[null] | null    |
+| route    | Vue Router object     | ^[object]           | —       |
+| disabled | whether disabled      | ^[boolean]          | false   |
+
+### Menu-Item Events
+
+| Name  | Description                                                                  | Type                                            |
+| ----- | ---------------------------------------------------------------------------- | ----------------------------------------------- |
+| click | callback function when menu-item is clicked, the param is menu-item instance | ^[Function]`(item: MenuItemRegistered) => void` |
+
+### Menu-Item Slots
+
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |
+| title   | customize title content   |
+
+## Menu-Item-Group API
+
+### Menu-Item-Group Attributes
+
+| Name  | Description | Type      | Default |
+| ----- | ----------- | --------- | ------- |
+| title | group title | ^[string] | —       |
+
+### Menu-Item-Group Slots
+
+| Name    | Description               | Subtags   |
+| ------- | ------------------------- | --------- |
+| default | customize default content | Menu-Item |
+| title   | customize group title     | —         |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+/**
+ * @param index index of activated menu
+ * @param indexPath index path of activated menu
+ * @param item the selected menu item
+ * @param routerResult result returned by `vue-router` if `router` is enabled
+ */
+type MenuSelectEvent = (
+  index: string,
+  indexPath: string[],
+  item: MenuItemClicked,
+  routerResult?: Promise<void | NavigationFailure>
+) => void
+
+/**
+ * @param index index of expanded sub-menu
+ * @param indexPath index path of expanded sub-menu
+ */
+type MenuOpenEvent = (index: string, indexPath: string[]) => void
+
+/**
+ * @param index index of collapsed sub-menu
+ * @param indexPath index path of collapsed sub-menu
+ */
+type MenuCloseEvent = (index: string, indexPath: string[]) => void
+
+interface MenuItemRegistered {
+  index: string
+  indexPath: string[]
+  active: boolean
+}
+
+interface MenuItemClicked {
+  index: string
+  indexPath: string[]
+  route?: RouteLocationRaw
+}
+```
+
+</details>

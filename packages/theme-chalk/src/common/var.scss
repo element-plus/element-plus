@@ -400,6 +400,7 @@ $select: () !default;
 $select: map.merge(
   (
     'border-color-hover': getCssVar('border-color-hover'),
+    'disabled-color': getCssVar('disabled-text-color'),
     'disabled-border': getCssVar('disabled-border-color'),
     'font-size': getCssVar('font-size-base'),
     'close-hover-color': getCssVar('text-color-secondary'),
@@ -407,6 +408,7 @@ $select: map.merge(
     'multiple-input-color': getCssVar('text-color-regular'),
     'input-focus-border-color': getCssVar('color-primary'),
     'input-font-size': 14px,
+    'width': 100%,
   ),
   $select
 );
@@ -427,7 +429,7 @@ $select-group: () !default;
 $select-group: map.merge(
   (
     'text-color': getCssVar('color-info'),
-    'height': 30px,
+    'height': 34px,
     'font-size': 12px,
   ),
   $select-group
@@ -442,19 +444,52 @@ $select-dropdown: map.merge(
     'max-height': 274px,
     'padding': 6px 0,
     'empty-padding': 10px 0,
+    'header-padding': 10px,
+    'footer-padding': 10px,
     'border': 1px solid getCssVar('border-color-light'),
   ),
   $select-dropdown
 );
 
-$select-tags-prefix-padding: () !default;
-$select-tags-prefix-padding: map.merge(
+$select-wrapper-padding: () !default;
+$select-wrapper-padding: map.merge(
   (
-    'large': 8px,
+    'large': 8px 16px,
+    'default': 4px 12px,
+    'small': 2px 8px,
+  ),
+  $select-wrapper-padding
+);
+
+$select-near-margin-left: () !default;
+$select-near-margin-left: map.merge(
+  (
+    'large': -8px,
+    'default': -8px,
+    'small': -6px,
+  ),
+  $select-near-margin-left
+);
+
+$select-item-gap: () !default;
+$select-item-gap: map.merge(
+  (
+    'large': 6px,
     'default': 6px,
     'small': 4px,
   ),
-  $select-tags-prefix-padding
+  $select-item-gap
+);
+
+// the same height of el-tag
+$select-item-height: () !default;
+$select-item-height: map.merge(
+  (
+    'large': 24px,
+    'default': 24px,
+    'small': 20px,
+  ),
+  $select-item-height
 );
 
 // Alert
@@ -464,10 +499,11 @@ $alert: map.merge(
   (
     'padding': 8px 16px,
     'border-radius-base': getCssVar('border-radius-base'),
-    'title-font-size': 13px,
-    'description-font-size': 12px,
-    'close-font-size': 12px,
-    'close-customed-font-size': 13px,
+    'title-font-size': 14px,
+    'title-with-description-font-size': 16px,
+    'description-font-size': 14px,
+    'close-font-size': 16px,
+    'close-customed-font-size': 14px,
     'icon-size': 16px,
     'icon-large-size': 28px,
   ),
@@ -482,11 +518,13 @@ $messagebox: map.merge(
     'title-color': getCssVar('text-color-primary'),
     'width': 420px,
     'border-radius': 4px,
+    'box-shadow': getCssVar('box-shadow'),
     'font-size': getCssVar('font-size-large'),
     'content-font-size': getCssVar('font-size-base'),
     'content-color': getCssVar('text-color-regular'),
     'error-font-size': 12px,
-    'padding-primary': 15px,
+    'padding-primary': 12px,
+    'font-line-height': getCssVar('font-line-height-primary'),
   ),
   $messagebox
 );
@@ -498,7 +536,7 @@ $message: map.merge(
   (
     'bg-color': getCssVar('color', 'info', 'light-9'),
     'border-color': getCssVar('border-color-lighter'),
-    'padding': 15px 19px,
+    'padding': 11px 15px,
     'close-size': 16px,
     'close-icon-color': getCssVar('text-color-placeholder'),
     'close-hover-color': getCssVar('text-color-secondary'),
@@ -752,10 +790,90 @@ $dialog: map.merge(
     'title-font-size': getCssVar('font-size-large'),
     'content-font-size': 14px,
     'font-line-height': getCssVar('font-line-height-primary'),
-    'padding-primary': 20px,
-    'border-radius': getCssVar('border-radius-small'),
+    'padding-primary': 16px,
+    'border-radius': getCssVar('border-radius-base'),
   ),
   $dialog
+);
+
+// Tour
+// css3 var in packages/theme-chalk/src/tour.scss
+$tour: () !default;
+$tour: map.merge(
+  (
+    'width': 520px,
+    'padding-primary': 12px,
+    'font-line-height': getCssVar('font-line-height-primary'),
+    'title-font-size': 16px,
+    'title-text-color': getCssVar('text-color-primary'),
+    'title-font-weight': 400,
+    'close-color': getCssVar('color-info'),
+    'font-size': 14px,
+    'color': getCssVar('text-color-primary'),
+    'bg-color': getCssVar('bg-color'),
+    'border-radius': 4px,
+  ),
+  $tour
+);
+
+// Anchor
+// css3 var in packages/theme-chalk/src/anchor.scss
+$anchor: () !default;
+$anchor: map.merge(
+  (
+    'bg-color': getCssVar('bg-color'),
+    'padding-indent': 14px,
+    'line-height': 22px,
+    'font-size': 12px,
+    'color': getCssVar('text-color-secondary'),
+    'active-color': getCssVar('color-primary'),
+    'marker-bg-color': getCssVar('color-primary'),
+  ),
+  $anchor
+);
+
+// Segmented
+// css3 var in packages/theme-chalk/src/segmented.scss
+$segmented: () !default;
+$segmented: map.merge(
+  (
+    'color': getCssVar('text-color', 'regular'),
+    'bg-color': getCssVar('fill-color', 'light'),
+    'padding': 2px,
+    'item-selected-color': getCssVar('color-white'),
+    'item-selected-bg-color': getCssVar('color-primary'),
+    'item-selected-disabled-bg-color': getCssVar('color-primary', 'light-5'),
+    'item-hover-color': getCssVar('text-color', 'primary'),
+    'item-hover-bg-color': getCssVar('fill-color', 'dark'),
+    'item-active-bg-color': getCssVar('fill-color', 'darker'),
+    'item-disabled-color': getCssVar('text-color', 'placeholder'),
+  ),
+  $segmented
+);
+
+// Mention
+// css3 var in packages/theme-chalk/src/mention.scss
+$mention: () !default;
+$mention: map.merge(
+  (
+    'font-size': getCssVar('font-size-base'),
+    'bg-color': getCssVar('bg-color', 'overlay'),
+    'shadow': getCssVar('box-shadow-light'),
+    'border': 1px solid getCssVar('border-color-light'),
+    'option-color': getCssVar('text-color-regular'),
+    'option-height': 34px,
+    'option-min-width': 100px,
+    'option-hover-background': getCssVar('fill-color', 'light'),
+    'option-selected-color': getCssVar('color-primary'),
+    'option-disabled-color': getCssVar('text-color-placeholder'),
+    'option-loading-color': getCssVar('text-color-secondary'),
+    'option-loading-padding': 10px 0,
+    'max-height': 174px,
+    'padding': 6px 0,
+    'header-padding': 10px,
+    'footer-padding': 10px,
+  ),
+  $mention
 );
 
 // Table
@@ -776,7 +894,7 @@ $table: map.merge(
     'expanded-cell-bg-color': getCssVar('fill-color', 'blank'),
     'fixed-left-column': inset 10px 0 10px -10px rgb(0 0 0 / 15%),
     'fixed-right-column': inset -10px 0 10px -10px rgb(0 0 0 / 15%),
-    'index': getCssVar('index-normal')
+    'index': getCssVar('index-normal'),
   ),
   $table
 );
@@ -830,6 +948,8 @@ $pagination: map.merge(
     'font-size-small': 12px,
     'button-width-small': 24px,
     'button-height-small': 24px,
+    'button-width-large': 40px,
+    'button-height-large': 40px,
     'item-gap': 16px,
   ),
   $pagination
@@ -1423,7 +1543,7 @@ $lg: 1200px !default;
 $xl: 1920px !default;
 
 $breakpoints: (
-  'xs': '(max-width: #{$sm})',
+  'xs': '(max-width: #{$sm - 1})',
   'sm': '(min-width: #{$sm})',
   'md': '(min-width: #{$md})',
   'lg': '(min-width: #{$lg})',

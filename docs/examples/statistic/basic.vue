@@ -17,7 +17,7 @@
       </el-statistic>
     </el-col>
     <el-col :span="6">
-      <el-statistic title="Total Transactions" :value="172000" />
+      <el-statistic title="Total Transactions" :value="outputValue" />
     </el-col>
     <el-col :span="6">
       <el-statistic title="Feedback number" :value="562">
@@ -32,7 +32,15 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
+import { useTransition } from '@vueuse/core'
 import { ChatLineRound, Male } from '@element-plus/icons-vue'
+
+const source = ref(0)
+const outputValue = useTransition(source, {
+  duration: 1500,
+})
+source.value = 172000
 </script>
 
 <style scoped>

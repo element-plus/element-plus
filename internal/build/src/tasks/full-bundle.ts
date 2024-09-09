@@ -1,6 +1,7 @@
 import path from 'path'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { rollup } from 'rollup'
+import replace from '@rollup/plugin-replace'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/rollup'
@@ -8,7 +9,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild'
 import { parallel } from 'gulp'
 import glob from 'fast-glob'
-import { camelCase, upperFirst } from 'lodash'
+import { camelCase, upperFirst } from 'lodash-unified'
 import {
   PKG_BRAND_NAME,
   PKG_CAMELCASE_LOCAL_NAME,
@@ -24,6 +25,7 @@ import {
   writeBundles,
 } from '../utils'
 import { target } from '../build-info'
+import type { TaskFunction } from 'gulp'
 import type { Plugin } from 'rollup'
 
 const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
@@ -37,6 +39,12 @@ async function buildFullEntry(minify: boolean) {
       plugins: {
         vue: vue({
           isProduction: true,
+          template: {
+            compilerOptions: {
+              hoistStatic: false,
+              cacheHandlers: false,
+            },
+          },
         }),
         vueJsx: vueJsx(),
       },
@@ -57,6 +65,9 @@ async function buildFullEntry(minify: boolean) {
       },
       treeShaking: true,
       legalComments: 'eof',
+    }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
   ]
   if (minify) {
@@ -154,7 +165,7 @@ async function buildFullLocale(minify: boolean) {
 export const buildFull = (minify: boolean) => async () =>
   Promise.all([buildFullEntry(minify), buildFullLocale(minify)])
 
-export const buildFullBundle = parallel(
+export const buildFullBundle: TaskFunction = parallel(
   withTaskName('buildFullMinified', buildFull(true)),
   withTaskName('buildFull', buildFull(false))
 )

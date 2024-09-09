@@ -1,4 +1,5 @@
 import { buildProps, definePropType, isNumber } from '@element-plus/utils'
+import { useAriaProps } from '@element-plus/hooks'
 import type { ExtractPropTypes, StyleValue } from 'vue'
 import type Scrollbar from './scrollbar.vue'
 
@@ -89,17 +90,7 @@ export const scrollbarProps = buildProps({
    * @description role of view
    */
   role: String,
-  /**
-   * @description aria-label of view
-   */
-  ariaLabel: String,
-  /**
-   * @description aria-orientation of view
-   */
-  ariaOrientation: {
-    type: String,
-    values: ['horizontal', 'vertical'],
-  },
+  ...useAriaProps(['ariaLabel', 'ariaOrientation']),
 } as const)
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
 

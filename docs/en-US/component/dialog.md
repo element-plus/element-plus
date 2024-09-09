@@ -7,12 +7,6 @@ lang: en-US
 
 Informs users while preserving the current page state.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Dialog pops up a dialog box, and it's quite customizable.
@@ -99,7 +93,7 @@ dialog/destroy-on-close
 
 Try to drag the `header` part.
 
-:::demo Set `draggable` to `true` to drag.
+:::demo Set `draggable` to `true` to drag. Set `overflow` ^(2.5.4) to `true` can drag overflow the viewport.
 
 dialog/draggable-dialog
 
@@ -125,6 +119,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | modal                      | whether a mask is displayed                                                                          | ^[boolean]                          | true    |
 | modal-class                | custom class names for mask                                                                          | ^[string]                           | —       |
 | append-to-body             | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`    | ^[boolean]                          | false   |
+| append-to ^(2.4.3)         | which element the Dialog appends to. Will override `append-to-body`                                  | ^[string] / ^[HTMLElement]          | body    |
 | lock-scroll                | whether scroll of body is disabled while Dialog is displayed                                         | ^[boolean]                          | true    |
 | custom-class ^(deprecated) | custom class names for Dialog                                                                        | ^[string]                           | ''      |
 | open-delay                 | the Time(milliseconds) before open                                                                   | ^[number]                           | 0       |
@@ -134,6 +129,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | show-close                 | whether to show a close button                                                                       | ^[boolean]                          | true    |
 | before-close               | callback before Dialog closes, and it will prevent Dialog from closing, use done to close the dialog | ^[Function]`(done: DoneFn) => void` | —       |
 | draggable                  | enable dragging feature for Dialog                                                                   | ^[boolean]                          | false   |
+| overflow ^(2.5.4)          | draggable Dialog can overflow the viewport                                                           | ^[boolean]                          | false   |
 | center                     | whether to align the header and footer in center                                                     | ^[boolean]                          | false   |
 | align-center ^(2.2.16)     | whether to align the dialog both horizontally and vertically                                         | ^[boolean]                          | false   |
 | destroy-on-close           | destroy elements in Dialog when closed                                                               | ^[boolean]                          | false   |
@@ -172,6 +168,12 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | closed           | triggers when the Dialog closing animation ends  | ^[Function]`() => void` |
 | open-auto-focus  | triggers after Dialog opens and content focused  | ^[Function]`() => void` |
 | close-auto-focus | triggers after Dialog closed and content focused | ^[Function]`() => void` |
+
+### Exposes
+
+| Name                   | Description    | Type                    |
+| ---------------------- | -------------- | ----------------------- |
+| resetPosition ^(2.8.1) | reset position | ^[Function]`() => void` |
 
 ## FAQ
 

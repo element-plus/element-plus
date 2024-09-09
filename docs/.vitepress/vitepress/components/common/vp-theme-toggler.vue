@@ -3,8 +3,12 @@ import { nextTick, ref, watch } from 'vue'
 import { isDark, toggleDark } from '../../composables/dark'
 import DarkIcon from '../icons/dark.vue'
 import LightIcon from '../icons/light.vue'
+import type { SwitchInstance } from 'element-plus'
+
+defineOptions({ inheritAttrs: false })
 
 const darkMode = ref(isDark.value)
+const switchRef = ref<SwitchInstance>()
 
 watch(
   () => darkMode.value,
@@ -13,64 +17,64 @@ watch(
   }
 )
 
-let resolveFn: (value: boolean | PromiseLike<boolean>) => void
-const switchTheme = (event: MouseEvent) => {
-  const isAppearanceTransition =
-    // @ts-expect-error
-    document.startViewTransition &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (!isAppearanceTransition || !event) {
-    resolveFn(true)
-    return
-  }
-  const x = event.clientX
-  const y = event.clientY
-  const endRadius = Math.hypot(
-    Math.max(x, innerWidth - x),
-    Math.max(y, innerHeight - y)
-  )
-  // @ts-expect-error: Transition API
-  const transition = document.startViewTransition(async () => {
-    resolveFn(true)
-    await nextTick()
-  })
-  transition.ready.then(() => {
-    const clipPath = [
-      `circle(0px at ${x}px ${y}px)`,
-      `circle(${endRadius}px at ${x}px ${y}px)`,
-    ]
-    document.documentElement.animate(
-      {
-        clipPath: isDark.value ? [...clipPath].reverse() : clipPath,
-      },
-      {
-        duration: 400,
-        easing: 'ease-in',
-        pseudoElement: isDark.value
-          ? '::view-transition-old(root)'
-          : '::view-transition-new(root)',
-      }
+const beforeChange = () => {
+  return new Promise<boolean>((resolve) => {
+    const isAppearanceTransition =
+      // @ts-expect-error
+      document.startViewTransition &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!isAppearanceTransition) {
+      resolve(true)
+      return
+    }
+
+    const switchElement = switchRef.value?.$el
+    const rect = switchElement.getBoundingClientRect()
+    const x = rect.left + rect.width / 2
+    const y = rect.top + rect.height / 2
+
+    const endRadius = Math.hypot(
+      Math.max(x, innerWidth - x),
+      Math.max(y, innerHeight - y)
     )
-  })
-}
-const beforeChange = (): Promise<boolean> => {
-  return new Promise((resolve) => {
-    resolveFn = resolve
+    // @ts-expect-error: Transition API
+    const transition = document.startViewTransition(async () => {
+      resolve(true)
+      await nextTick()
+    })
+    transition.ready.then(() => {
+      const clipPath = [
+        `circle(0px at ${x}px ${y}px)`,
+        `circle(${endRadius}px at ${x}px ${y}px)`,
+      ]
+      document.documentElement.animate(
+        {
+          clipPath: isDark.value ? [...clipPath].reverse() : clipPath,
+        },
+        {
+          duration: 400,
+          easing: 'ease-in',
+          pseudoElement: isDark.value
+            ? '::view-transition-old(root)'
+            : '::view-transition-new(root)',
+        }
+      )
+    })
   })
 }
 </script>
 
 <template>
-  <div @click.stop="switchTheme">
-    <ClientOnly>
-      <el-switch
-        v-model="darkMode"
-        :before-change="beforeChange"
-        :active-action-icon="DarkIcon"
-        :inactive-action-icon="LightIcon"
-      />
-    </ClientOnly>
-  </div>
+  <ClientOnly>
+    <el-switch
+      ref="switchRef"
+      v-model="darkMode"
+      v-bind="$attrs"
+      :before-change="beforeChange"
+      :active-action-icon="DarkIcon"
+      :inactive-action-icon="LightIcon"
+    />
+  </ClientOnly>
 </template>
 
 <style lang="scss" scoped>

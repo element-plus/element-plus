@@ -4,8 +4,9 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { useLocale } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
-import { ElButton, ElMessage } from '@element-plus/components'
+import { ElButton, ElMessage, ElPagination } from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
+import { getStyle } from '@element-plus/utils'
 import {
   useGlobalComponentSettings,
   useGlobalConfig,
@@ -178,6 +179,36 @@ describe('config-provider', () => {
       expect(document.querySelectorAll('.el-message').length).toBe(7)
     })
 
+    it('new config parameters effective', async () => {
+      const config = reactive({
+        grouping: true,
+        showClose: true,
+        offset: 200,
+      })
+      const open = () => {
+        ElMessage('this is a message.')
+      }
+
+      const wrapper = mount(() => (
+        <ConfigProvider message={config}>
+          <ElButton onClick={open}>open</ElButton>
+        </ConfigProvider>
+      ))
+
+      await rAF()
+
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      await nextTick()
+      const elements = document.querySelectorAll('.el-message')
+      expect(elements.length).toBe(1)
+      expect(document.querySelectorAll('.el-message__closeBtn').length).toBe(1)
+
+      const getTopValue = (elm: Element): number =>
+        Number.parseFloat(getStyle(elm as HTMLElement, 'top'))
+      expect(getTopValue(elements[0])).toBe(config.offset)
+    })
+
     it('multiple config-provider config override', async () => {
       const config = reactive({
         max: 3,
@@ -280,6 +311,26 @@ describe('config-provider', () => {
       await nextTick()
 
       expect(vm.size).toBe('small')
+    })
+
+    // #18004
+    it('dynamically modify global size configuration', async () => {
+      const size = ref<ComponentSize>('small')
+      const wrapper = mount(() => (
+        <ConfigProvider size={size.value}>
+          <ElButton />
+          <ElPagination total={100} background={true} />
+        </ConfigProvider>
+      ))
+      const button = wrapper.findComponent(ElButton)
+      const pagination = wrapper.findComponent(ElPagination)
+      expect(button.vm.$el.className.includes('small')).toBe(true)
+      expect(pagination.vm.$el.className.includes('small')).toBe(true)
+
+      size.value = 'large'
+      await nextTick()
+      expect(button.vm.$el.className.includes('large')).toBe(true)
+      expect(pagination.vm.$el.className.includes('large')).toBe(true)
     })
   })
 })

@@ -3,7 +3,7 @@
     :id="inputId"
     :class="[rateClasses, ns.is('disabled', rateDisabled)]"
     role="slider"
-    :aria-label="!isLabeledByFormItem ? label || 'rating' : undefined"
+    :aria-label="!isLabeledByFormItem ? ariaLabel || 'rating' : undefined"
     :aria-labelledby="
       isLabeledByFormItem ? formItemContext?.labelId : undefined
     "
@@ -34,13 +34,15 @@
           <component :is="activeComponent" v-show="item <= currentValue" />
           <component :is="voidComponent" v-show="!(item <= currentValue)" />
         </template>
-        <el-icon
-          v-if="showDecimalIcon(item)"
-          :style="decimalStyle"
-          :class="[ns.e('icon'), ns.e('decimal')]"
-        >
-          <component :is="decimalIconComponent" />
-        </el-icon>
+        <template v-if="showDecimalIcon(item)">
+          <component :is="voidComponent" :class="[ns.em('decimal', 'box')]" />
+          <el-icon
+            :style="decimalStyle"
+            :class="[ns.e('icon'), ns.e('decimal')]"
+          >
+            <component :is="decimalIconComponent" />
+          </el-icon>
+        </template>
       </el-icon>
     </span>
     <span
@@ -65,7 +67,6 @@ import {
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { rateEmits, rateProps } from './rate'
-import type { iconPropType } from '@element-plus/utils'
 import type { CSSProperties, Component } from 'vue'
 
 function getValueFromMap<T>(
@@ -181,10 +182,10 @@ const voidComponent = computed(() =>
   rateDisabled.value
     ? isString(props.disabledVoidIcon)
       ? props.disabledVoidIcon
-      : (markRaw(props.disabledVoidIcon) as typeof iconPropType)
+      : (markRaw(props.disabledVoidIcon) as Component)
     : isString(props.voidIcon)
     ? props.voidIcon
-    : (markRaw(props.voidIcon) as typeof iconPropType)
+    : (markRaw(props.voidIcon) as Component)
 )
 const activeComponent = computed(() =>
   getValueFromMap(currentValue.value, componentMap.value)

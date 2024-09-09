@@ -34,6 +34,8 @@ const fontSize = computed(() => props.font?.fontSize ?? 16)
 const fontWeight = computed(() => props.font?.fontWeight ?? 'normal')
 const fontStyle = computed(() => props.font?.fontStyle ?? 'normal')
 const fontFamily = computed(() => props.font?.fontFamily ?? 'sans-serif')
+const textAlign = computed(() => props.font?.textAlign ?? 'center')
+const textBaseline = computed(() => props.font?.textBaseline ?? 'hanging')
 
 const gapX = computed(() => props.gap[0])
 const gapY = computed(() => props.gap[1])
@@ -120,7 +122,10 @@ const getMarkSize = (ctx: CanvasRenderingContext2D) => {
 
       return [
         metrics.width,
-        metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent,
+        // Using `actualBoundingBoxAscent` to be compatible with lower version browsers (eg: Firefox < 116)
+        metrics.fontBoundingBoxAscent !== undefined
+          ? metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent
+          : metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent,
       ]
     })
     defaultWidth = Math.ceil(Math.max(...sizes.map((size) => size[0])))
@@ -163,6 +168,8 @@ const renderWatermark = () => {
           fontStyle: fontStyle.value,
           fontWeight: fontWeight.value,
           fontFamily: fontFamily.value,
+          textAlign: textAlign.value,
+          textBaseline: textBaseline.value,
         },
         gapX.value,
         gapY.value
@@ -221,5 +228,7 @@ const onMutate = (mutations: MutationRecord[]) => {
 
 useMutationObserver(containerRef, onMutate, {
   attributes: true,
+  subtree: true,
+  childList: true,
 })
 </script>

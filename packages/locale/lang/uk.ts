@@ -1,6 +1,9 @@
 export default {
   name: 'uk',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Очистити',
@@ -65,6 +68,9 @@ export default {
       noData: 'Немає даних',
       placeholder: 'Обрати',
     },
+    mention: {
+      loading: 'Завантаження',
+    },
     cascader: {
       noMatch: 'Співпадінь не знайдено',
       loading: 'Завантаження',
@@ -102,6 +108,11 @@ export default {
       clearFilter: 'Все',
       sumText: 'Сума',
     },
+    tour: {
+      next: 'Далі',
+      previous: 'Назад',
+      finish: 'Завершити',
+    },
     tree: {
       emptyText: 'Немає даних',
     },
@@ -122,6 +133,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

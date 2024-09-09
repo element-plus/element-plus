@@ -17,9 +17,17 @@ const props = defineProps(checkTagProps)
 const emit = defineEmits(checkTagEmits)
 
 const ns = useNamespace('check-tag')
-const containerKls = computed(() => [ns.b(), ns.is('checked', props.checked)])
+const isDisabled = computed(() => props.disabled)
+const containerKls = computed(() => [
+  ns.b(),
+  ns.is('checked', props.checked),
+  ns.is('disabled', isDisabled.value),
+  ns.m(props.type || 'primary'),
+])
 
 const handleChange = () => {
+  if (isDisabled.value) return
+
   const checked = !props.checked
   emit(CHANGE_EVENT, checked)
   emit('update:checked', checked)

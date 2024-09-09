@@ -1,6 +1,10 @@
 // @ts-nocheck
-import { isFunction } from '@vue/shared'
-import { capitalize, isEmpty, isUndefined } from '@element-plus/utils'
+import {
+  capitalize,
+  isEmpty,
+  isFunction,
+  isUndefined,
+} from '@element-plus/utils'
 import type { VNode } from 'vue'
 
 export type CascaderNodeValue = string | number

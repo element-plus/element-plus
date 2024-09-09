@@ -1,5 +1,5 @@
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useSizeProp } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, isArray } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
@@ -33,10 +33,6 @@ export const checkboxGroupProps = buildProps({
    */
   size: useSizeProp,
   /**
-   * @description label for screen reader
-   */
-  label: String,
-  /**
    * @description border and background color when button is active
    */
   fill: String,
@@ -58,6 +54,7 @@ export const checkboxGroupProps = buildProps({
     type: Boolean,
     default: true,
   },
+  ...useAriaProps(['ariaLabel']),
 } as const)
 
 export const checkboxGroupEmits = {

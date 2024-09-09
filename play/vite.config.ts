@@ -40,6 +40,13 @@ export default defineConfig(async ({ mode }) => {
   ).map((dep) => dep.replace(/\.js$/, ''))
 
   return {
+    // css: {
+    //   preprocessorOptions: {
+    //     scss: {
+    //       additionalData: `@use "/styles/custom.scss" as *;`,
+    //     },
+    //   },
+    // },
     resolve: {
       alias: [
         {
@@ -55,6 +62,9 @@ export default defineConfig(async ({ mode }) => {
     server: {
       host: true,
       https: !!env.HTTPS,
+    },
+    build: {
+      sourcemap: true,
     },
     plugins: [
       VueMacros({
