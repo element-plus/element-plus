@@ -466,6 +466,8 @@ export default defineComponent({
       })
     }
 
+    const ulStyle = useMenuCssVar(props, 0)
+
     return () => {
       let slot: VNodeArrayChildren = slots.default?.() ?? []
       const vShowMore: VNode[] = []
@@ -507,8 +509,6 @@ export default defineComponent({
           )
         }
       }
-
-      const ulStyle = useMenuCssVar(props, 0)
 
       const directives: DirectiveArguments = props.closeOnClickOutside
         ? [
