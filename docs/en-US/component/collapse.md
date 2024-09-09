@@ -37,6 +37,16 @@ collapse/customization
 
 :::
 
+## Custom icon ^(2.8.3)
+
+Besides using the `icon` attribute, you can customize icon of panel item with named slots, which makes adding custom content.
+
+:::demo
+
+collapse/custom-icon
+
+:::
+
 ## Collapse API
 
 ### Collapse Attributes
@@ -62,15 +72,17 @@ collapse/customization
 
 ### Collapse Item Attributes
 
-| Name     | Description                        | Type                  | Default |
-| -------- | ---------------------------------- | --------------------- | ------- |
-| name     | unique identification of the panel | ^[string] / ^[number] | —       |
-| title    | title of the panel                 | ^[string]             | ''      |
-| disabled | disable the collapse item          | ^[boolean]            | false   |
+| Name          | Description                        | Type                     | Default |
+| ------------- | ---------------------------------- | ------------------------ | ------- |
+| name          | unique identification of the panel | ^[string] / ^[number]    | —       |
+| title         | title of the panel                 | ^[string]                | ''      |
+| icon ^(2.8.3) | icon of the collapse item          | ^[string] / ^[Component] | -       |
+| disabled      | disable the collapse item          | ^[boolean]               | false   |
 
 ### Collapse Item Slot
 
-| Name    | Description                    |
-| ------- | ------------------------------ |
-| default | content of Collapse Item       |
-| title   | content of Collapse Item title |
+| Name          | Description                    | Type                             |
+| ------------- | ------------------------------ | -------------------------------- |
+| default       | content of Collapse Item       | —                                |
+| title         | content of Collapse Item title | —                                |
+| icon ^(2.8.3) | content of Collapse Item icon  | ^[object]`{ isActive: boolean }` |
