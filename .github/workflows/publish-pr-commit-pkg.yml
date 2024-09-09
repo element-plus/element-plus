@@ -1,4 +1,4 @@
-name: Publish Commit Pkg
+name: Publish PR Commit Pkg
 
 on:
   push:
@@ -6,11 +6,14 @@ on:
       - dev
     tags:
       - '!**'
+  pull_request:
+    branches:
+      - dev
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{ github.repository == 'element-plus/element-plus' && github.event_name == 'push' }}
+    if: ${{ github.repository == 'element-plus/element-plus' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
