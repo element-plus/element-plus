@@ -37,7 +37,7 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
   function (options = {}, context: AppContext | null = null) {
     if (!isClient) return { close: () => undefined }
 
-    if (typeof options === 'string' || isVNode(options)) {
+    if (isString(options) || isVNode(options)) {
       options = { message: options }
     }
 
@@ -61,10 +61,11 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
     }
 
     let appendTo: HTMLElement | null = document.body
-    if (isElement(options.appendTo)) {
-      appendTo = options.appendTo
-    } else if (isString(options.appendTo)) {
-      appendTo = document.querySelector(options.appendTo)
+    const _appendTo = options.appendTo
+    if (isElement(_appendTo)) {
+      appendTo = _appendTo
+    } else if (isString(_appendTo)) {
+      appendTo = document.querySelector(_appendTo)
     }
 
     // should fallback to default value with a warning
@@ -90,14 +91,12 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
     vm.appContext = context ?? notify._context
 
     // clean notification element preventing mem leak
-    vm.props!.onDestroy = () => {
-      render(null, container)
-    }
+    vm.props!.onDestroy = () => render(null, container)
 
     // instances will remove this item when close function gets called. So we do not need to worry about it.
     render(vm, container)
     notifications[position].push({ vm })
-    appendTo.appendChild(container.firstElementChild!)
+    appendTo?.appendChild(container.firstElementChild!)
 
     return {
       // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
@@ -110,7 +109,7 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
   }
 notificationTypes.forEach((type) => {
   notify[type] = (options = {}) => {
-    if (typeof options === 'string' || isVNode(options)) {
+    if (isString(options) || isVNode(options)) {
       options = {
         message: options,
       }
