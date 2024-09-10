@@ -530,7 +530,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
         clearAllNewOption()
       }
     }
-    focus()
   }
 
   const deleteTag = (event: MouseEvent, option: Option) => {
@@ -558,6 +557,10 @@ const useSelect = (props: ISelectV2Props, emit) => {
 
   const blur = () => {
     inputRef.value?.blur()
+  }
+
+  const handlePopperContentFocus = () => {
+    focus()
   }
 
   // keyboard handlers
@@ -700,7 +703,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
 
   const handleClickOutside = () => {
     expanded.value = false
-    isFocused.value && blur()
   }
 
   const handleMenuEnter = () => {
@@ -927,6 +929,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     handleEsc,
     focus,
     blur,
+    handlePopperContentFocus,
     handleMenuEnter,
     handleResize,
     resetSelectionWidth,

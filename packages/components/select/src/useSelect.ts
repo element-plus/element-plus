@@ -585,7 +585,6 @@ export const useSelect = (props: ISelectProps, emit) => {
       emitChange(option.value)
       expanded.value = false
     }
-    focus()
     if (expanded.value) return
     nextTick(() => {
       scrollToOption(option)
@@ -660,13 +659,16 @@ export const useSelect = (props: ISelectProps, emit) => {
     inputRef.value?.blur()
   }
 
+  const handlePopperContentFocus = () => {
+    focus()
+  }
+
   const handleClearClick = (event: Event) => {
     deleteSelected(event)
   }
 
   const handleClickOutside = () => {
     expanded.value = false
-    isFocused.value && blur()
   }
 
   const handleEsc = () => {
@@ -846,6 +848,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     handleMenuEnter,
     focus,
     blur,
+    handlePopperContentFocus,
     handleClearClick,
     handleClickOutside,
     handleEsc,

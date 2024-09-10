@@ -33,6 +33,7 @@
         :z-index="zIndex"
         @mouseenter="onContentEnter"
         @mouseleave="onContentLeave"
+        @focus="onFocus"
         @blur="onBlur"
         @close="onClose"
       >
@@ -75,6 +76,7 @@ const {
   onHide,
   onBeforeShow,
   onBeforeHide,
+  onContentFocus,
 } = inject(TOOLTIP_INJECTION_KEY, undefined)!
 const transitionClass = computed(() => {
   return props.transition || `${ns.namespace.value}-fade-in-linear`
@@ -151,6 +153,10 @@ const onAfterShow = () => {
       }
     }
   )
+}
+
+const onFocus = () => {
+  onContentFocus()
 }
 
 const onBlur = () => {

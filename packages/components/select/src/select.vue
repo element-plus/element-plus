@@ -23,6 +23,7 @@
       :persistent="persistent"
       @before-show="handleMenuEnter"
       @hide="states.isBeforeHide = false"
+      @content-focus="handlePopperContentFocus"
     >
       <template #default>
         <div
