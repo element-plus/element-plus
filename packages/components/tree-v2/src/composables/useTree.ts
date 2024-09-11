@@ -4,6 +4,7 @@ import {
   CURRENT_CHANGE,
   NODE_CLICK,
   NODE_COLLAPSE,
+  NODE_DROP,
   NODE_EXPAND,
   TreeOptionsEnum,
 } from '../virtual-tree'
@@ -220,6 +221,10 @@ export function useTree(
     }
   }
 
+  function handleNodeDrop(node: TreeNode, e: DragEvent) {
+    emit(NODE_DROP, node.data, node, e)
+  }
+
   function handleCurrentChange(node: TreeNode) {
     if (!isCurrent(node)) {
       currentKey.value = node.key
@@ -314,6 +319,7 @@ export function useTree(
     isCurrent,
     isForceHiddenExpandIcon,
     handleNodeClick,
+    handleNodeDrop,
     handleNodeCheck,
     // expose
     getCurrentNode,
