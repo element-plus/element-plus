@@ -183,7 +183,11 @@ const createGrid = ({
         const inner = innerRef.value
         // The size has exceeded the browser limit and the browser
         // will automatically adjust. It is necessary to re match the height
-        if (inner && inner.offsetHeight !=0 && inner.offsetHeight < mathHeight) {
+        if (
+          inner &&
+          inner.offsetHeight != 0 &&
+          inner.offsetHeight < mathHeight
+        ) {
           return inner.offsetHeight
         }
         return mathHeight
@@ -194,7 +198,7 @@ const createGrid = ({
         const inner = innerRef.value
         // The size has exceeded the browser limit and the browser
         // will automatically adjust. It is necessary to re match the height
-        if (inner && inner.offsetWidth !=0 && inner.offsetWidth < mathWidth) {
+        if (inner && inner.offsetWidth != 0 && inner.offsetWidth < mathWidth) {
           return inner.offsetWidth
         }
         return mathWidth

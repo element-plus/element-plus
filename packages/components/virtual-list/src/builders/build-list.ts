@@ -142,27 +142,29 @@ const createList = ({
         props.style,
       ])
 
-      const innerStyle = computed(() => {
-        const size = unref(estimatedTotalSize)
-        const horizontal = unref(_isHorizontal)
-        return {
-          height: horizontal ? '100%' : `${size}px`,
-          pointerEvents: unref(states).isScrolling ? 'none' : undefined,
-          width: horizontal ? `${size}px` : '100%',
-        }
-      },
-      {
-        async onTrack() {
-          await nextTick()
-          const inner = innerRef.value
+      const innerStyle = computed(
+        () => {
+          const size = unref(estimatedTotalSize)
           const horizontal = unref(_isHorizontal)
-          const size = horizontal ? inner?.offsetWidth : inner?.offsetHeight
-          // The size has exceeded the browser limit and the browser
-          // will automatically adjust. It is necessary to re match the height
-          if (inner && size != 0 && estimatedTotalSize.value > size)
-            states.value.innerSize = size
+          return {
+            height: horizontal ? '100%' : `${size}px`,
+            pointerEvents: unref(states).isScrolling ? 'none' : undefined,
+            width: horizontal ? `${size}px` : '100%',
+          }
         },
-      })
+        {
+          async onTrack() {
+            await nextTick()
+            const inner = innerRef.value
+            const horizontal = unref(_isHorizontal)
+            const size = horizontal ? inner?.offsetWidth : inner?.offsetHeight
+            // The size has exceeded the browser limit and the browser
+            // will automatically adjust. It is necessary to re match the height
+            if (inner && size != 0 && estimatedTotalSize.value > size)
+              states.value.innerSize = size
+          },
+        }
+      )
 
       const clientSize = computed(() =>
         _isHorizontal.value ? props.width : props.height
