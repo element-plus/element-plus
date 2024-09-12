@@ -13,7 +13,9 @@
       </el-collapse-item>
       <el-collapse-item title="Feedback" name="2">
         <template #icon="{ isActive }">
-          <span class="icon-ele">{{ isActive ? '已展开' : '已收起' }}</span>
+          <span class="icon-ele">
+            {{ isActive ? 'Expanded' : 'Collapsed' }}
+          </span>
         </template>
         <div>
           Operation feedback: enable the users to clearly perceive their

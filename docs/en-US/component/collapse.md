@@ -72,12 +72,12 @@ collapse/custom-icon
 
 ### Collapse Item Attributes
 
-| Name          | Description                        | Type                     | Default |
-| ------------- | ---------------------------------- | ------------------------ | ------- |
-| name          | unique identification of the panel | ^[string] / ^[number]    | —       |
-| title         | title of the panel                 | ^[string]                | ''      |
-| icon ^(2.8.3) | icon of the collapse item          | ^[string] / ^[Component] | -       |
-| disabled      | disable the collapse item          | ^[boolean]               | false   |
+| Name          | Description                        | Type                     | Default    |
+| ------------- | ---------------------------------- | ------------------------ | ---------- |
+| name          | unique identification of the panel | ^[string] / ^[number]    | —          |
+| title         | title of the panel                 | ^[string]                | ''         |
+| icon ^(2.8.3) | icon of the collapse item          | ^[string] / ^[Component] | ArrowRight |
+| disabled      | disable the collapse item          | ^[boolean]               | false      |
 
 ### Collapse Item Slot
 
