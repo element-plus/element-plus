@@ -1,5 +1,6 @@
 <template>
   <el-tree-v2
+    style="max-width: 600px"
     :data="data"
     :height="208"
     :props="props"

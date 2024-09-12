@@ -18,12 +18,6 @@ fully developed yet, which is why they are not mentioned here.
 
 :::
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Let's demonstrate the performance of the Virtualized Table by rendering a basic example with 10 columns and 1000 rows.
@@ -304,29 +298,29 @@ table-v2/manual-scroll
 | Name                      | Description                                                                                                                | Type                                                 | Default   |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | --------- |
 | cache                     | Number of rows rendered in advance to boost the performance                                                                | Number                                               | 2         |
-| estimated-row-height      | The estimated row height for rendering dynamic height rows                                                                 | Number                                               | -         |
-| header-class              | Customized class name passed to header wrapper                                                                             | String/Function\<[HeaderClassGetter](#typings)\>     | -         |
-| header-props              | Customized props name passed to header component                                                                           | Object/Function\<[HeaderPropsGetter](#typings)\>     | -         |
-| header-cell-props         | Customized props name passed to header cell component                                                                      | Object/Function\<[HeaderCellPropsGetter](#typings)\> | -         |
+| estimated-row-height      | The estimated row height for rendering dynamic height rows                                                                 | Number                                               | —         |
+| header-class              | Customized class name passed to header wrapper                                                                             | String/Function\<[HeaderClassGetter](#typings)\>     | —         |
+| header-props              | Customized props name passed to header component                                                                           | Object/Function\<[HeaderPropsGetter](#typings)\>     | —         |
+| header-cell-props         | Customized props name passed to header cell component                                                                      | Object/Function\<[HeaderCellPropsGetter](#typings)\> | —         |
 | header-height             | The height of the header is set by `height`. If given an array, it renders header rows equal to its length                 | Number/Array\<Number\>                               | 50        |
 | footer-height             | The height of the footer element, when provided, will be part to the calculation of the table's height.                    | Number                                               | 0         |
-| row-class                 | Customized class name passed to row wrapper                                                                                | String/Function\<[RowClassGetter](#typings)\>        | -         |
+| row-class                 | Customized class name passed to row wrapper                                                                                | String/Function\<[RowClassGetter](#typings)\>        | —         |
 | row-key                   | The key of each row, if not provided, will be the index of the row                                                         | String/Symbol/Number                                 | id        |
-| row-props                 | Customized props name passed to row component                                                                              | Object/Function\<[RowPropsGetter](#typings)\>        | -         |
+| row-props                 | Customized props name passed to row component                                                                              | Object/Function\<[RowPropsGetter](#typings)\>        | —         |
 | row-height                | The height of each row, used for calculating the total height of the table                                                 | Number                                               | 50        |
-| cell-props                | extra props passed to each cell (except header cells)                                                                      | Object/Function\<[CellPropsGetter](#typings)\>       | -         |
-| columns                   | An array of column definitions.                                                                                            | Array\<[Column](#column-attribute)\>                 | -         |
+| cell-props                | extra props passed to each cell (except header cells)                                                                      | Object/Function\<[CellPropsGetter](#typings)\>       | —         |
+| columns                   | An array of column definitions.                                                                                            | Array\<[Column](#column-attribute)\>                 | —         |
 | data                      | An array of data to be rendered in the table.                                                                              | Array\<[Data](#typings)\>                            | []        |
-| data-getter               | A method to customize data fetch from the data source.                                                                     | Function                                             | -         |
-| fixed-data                | Data for rendering rows above the main content and below the header                                                        | Array\<[Data](#typings)\>                            | -         |
-| expand-column-key         | The column key indicates which row is expandable                                                                           | String                                               | -         |
-| expanded-row-keys         | An array of keys for expanded rows, can be used with `v-model`                                                             | Array\<[KeyType](#typings)\>                         | -         |
-| default-expanded-row-keys | An array of keys for default expanded rows, **NON REACTIVE**                                                               | Array\<[KeyType](#typings)\>                         | -         |
-| class                     | Class name for the virtual table, will be applied to all three tables (left, right, main)                                  | String/Array/Object                                  | -         |
+| data-getter               | A method to customize data fetch from the data source.                                                                     | Function                                             | —         |
+| fixed-data                | Data for rendering rows above the main content and below the header                                                        | Array\<[Data](#typings)\>                            | —         |
+| expand-column-key         | The column key indicates which row is expandable                                                                           | String                                               | —         |
+| expanded-row-keys         | An array of keys for expanded rows, can be used with `v-model`                                                             | Array\<[KeyType](#typings)\>                         | —         |
+| default-expanded-row-keys | An array of keys for default expanded rows, **NON REACTIVE**                                                               | Array\<[KeyType](#typings)\>                         | —         |
+| class                     | Class name for the virtual table, will be applied to all three tables (left, right, main)                                  | String/Array/Object                                  | —         |
 | fixed                     | Flag indicates the table column's width to be fixed or flexible.                                                           | Boolean                                              | false     |
-| width ^(required)         | Width of the table                                                                                                         | Number                                               | -         |
-| height ^(required)        | Height of the table                                                                                                        | Number                                               | -         |
-| max-height                | Maximum height of the table                                                                                                | Number                                               | -         |
+| width ^(required)         | Width of the table                                                                                                         | Number                                               | —         |
+| height ^(required)        | Height of the table                                                                                                        | Number                                               | —         |
+| max-height                | Maximum height of the table                                                                                                | Number                                               | —         |
 | h-scrollbar-size          | Indicates the horizontal scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse | Number                                               | 6         |
 | v-scrollbar-size          | Indicates the vertical scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse   | Number                                               | 6         |
 | scrollbar-always-on       | If true, the scrollbar will always be shown instead of when mouse is placed above the table                                | Boolean                                              | false     |
@@ -341,9 +335,9 @@ table-v2/manual-scroll
 | header      | [HeaderSlotProps](#typings)     |
 | header-cell | [HeaderCellSlotProps](#typings) |
 | row         | [RowSlotProps](#typings)        |
-| footer      | -                               |
-| empty       | -                               |
-| overlay     | -                               |
+| footer      | —                               |
+| empty       | —                               |
+| overlay     | —                               |
 
 ## TableV2 Events
 
@@ -351,7 +345,7 @@ table-v2/manual-scroll
 | -------------------- | --------------------------------------------------------------------- | ---------------------------------------- |
 | column-sort          | Invoked when column sorted                                            | Object\<ColumnSortParam\>                |
 | expanded-rows-change | Invoked when expanded rows changed                                    | `Array<KeyType>`                         |
-| end-reached          | Invoked when the end of the table is reached                          | -                                        |
+| end-reached          | Invoked when the end of the table is reached                          | —                                        |
 | scroll               | Invoked after scrolling                                               | Object\<[ScrollParams](#typings)\>       |
 | rows-rendered        | Invoked when rows are rendered                                        | Object\<[RowsRenderedParams](#typings)\> |
 | row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon | Object\<[RowExpandParams](#typings)\>    |
@@ -377,20 +371,22 @@ Note that these are `JavaScript` Objects, so you **CANNOT USE** kebab-case for t
 | Name               | Description                                                           | Type                                                                                                                                                             | Default |
 | ------------------ | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | align              | Alignment of the table cell content                                   | [Alignment](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L6)         | left    |
-| class              | Class name for the column                                             | String                                                                                                                                                           | -       |
+| class              | Class name for the column                                             | String                                                                                                                                                           | —       |
+| key                | Unique identification                                                 | [KeyType](#typings)                                                                                                                                              | —       |
+| dataKey            | Unique identification of data                                         | [KeyType](#typings)                                                                                                                                              | —       |
 | fixed              | Fixed direction of the column                                         | Boolean/[FixedDir](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L11) | false   |
 | flexGrow           | CSSProperties flex grow, Only useful when this is not a fixed table   | Number                                                                                                                                                           | 0       |
 | flexShrink         | CSSProperties flex shrink, Only useful when this is not a fixed table | Number                                                                                                                                                           | 1       |
-| headerClass        | Used for customizing header column class                              | String                                                                                                                                                           | -       |
-| hidden             | Whether the column is invisible                                       | Boolean                                                                                                                                                          | -       |
-| style              | Customized style for column cell, will be merged with grid cell       | CSSProperties                                                                                                                                                    | -       |
-| sortable           | Indicates whether the column is sortable                              | Boolean                                                                                                                                                          | -       |
-| title              | The default text rendered in header cell                              | String                                                                                                                                                           | -       |
-| maxWidth           | Maximum width for the column                                          | String                                                                                                                                                           | -       |
-| minWidth           | Minimum width for the column                                          | String                                                                                                                                                           | -       |
-| width ^(required)  | Width for the column                                                  | Number                                                                                                                                                           | -       |
-| cellRenderer       | Customized Cell renderer                                              | VueComponent/(props: [CellRenderProps](#typings)) => VNode                                                                                                       | -       |
-| headerCellRenderer | Customized Header renderer                                            | VueComponent/(props: [HeaderRenderProps](#typings)) => VNode                                                                                                     | -       |
+| headerClass        | Used for customizing header column class                              | String                                                                                                                                                           | —       |
+| hidden             | Whether the column is invisible                                       | Boolean                                                                                                                                                          | —       |
+| style              | Customized style for column cell, will be merged with grid cell       | CSSProperties                                                                                                                                                    | —       |
+| sortable           | Indicates whether the column is sortable                              | Boolean                                                                                                                                                          | —       |
+| title              | The default text rendered in header cell                              | String                                                                                                                                                           | —       |
+| maxWidth           | Maximum width for the column                                          | Number                                                                                                                                                           | —       |
+| minWidth           | Minimum width for the column                                          | Number                                                                                                                                                           | —       |
+| width ^(required)  | Width for the column                                                  | Number                                                                                                                                                           | —       |
+| cellRenderer       | Customized Cell renderer                                              | VueComponent/(props: [CellRenderProps](#typings)) => VNode                                                                                                       | —       |
+| headerCellRenderer | Customized Header renderer                                            | VueComponent/(props: [HeaderRenderProps](#typings)) => VNode                                                                                                     | —       |
 
 ## Typings{#typings}
 

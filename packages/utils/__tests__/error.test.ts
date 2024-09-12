@@ -5,7 +5,7 @@ describe('error', () => {
   it('throwError should work', () => {
     expect(() =>
       throwError('scope', 'message')
-    ).toThrowErrorMatchingInlineSnapshot('"[scope] message"')
+    ).toThrowErrorMatchingInlineSnapshot(`[ElementPlusError: [scope] message]`)
   })
 
   it('debugWarn should work', () => {

@@ -167,6 +167,7 @@ export const treeNodeContentProps = buildProps({
 
 // emits
 export const NODE_CLICK = 'node-click'
+export const NODE_DROP = 'node-drop'
 export const NODE_EXPAND = 'node-expand'
 export const NODE_COLLAPSE = 'node-collapse'
 export const CURRENT_CHANGE = 'current-change'
@@ -177,6 +178,8 @@ export const NODE_CONTEXTMENU = 'node-contextmenu'
 export const treeEmits = {
   [NODE_CLICK]: (data: TreeNodeData, node: TreeNode, e: MouseEvent) =>
     data && node && e,
+  [NODE_DROP]: (data: TreeNodeData, node: TreeNode, e: DragEvent) =>
+    data && node && e,
   [NODE_EXPAND]: (data: TreeNodeData, node: TreeNode) => data && node,
   [NODE_COLLAPSE]: (data: TreeNodeData, node: TreeNode) => data && node,
   [CURRENT_CHANGE]: (data: TreeNodeData, node: TreeNode) => data && node,
@@ -184,12 +187,13 @@ export const treeEmits = {
     data && checkedInfo,
   [NODE_CHECK_CHANGE]: (data: TreeNodeData, checked: boolean) =>
     data && typeof checked === 'boolean',
-  [NODE_CONTEXTMENU]: (event: Event, data: TreeNodeData, node: TreeNode) =>
-    event && data && node,
+  [NODE_CONTEXTMENU]: (evt: Event, data: TreeNodeData, node: TreeNode) =>
+    evt && data && node,
 }
 
 export const treeNodeEmits = {
   click: (node: TreeNode, e: MouseEvent) => !!(node && e),
+  drop: (node: TreeNode, e: DragEvent) => !!(node && e),
   toggle: (node: TreeNode) => !!node,
   check: (node: TreeNode, checked: CheckboxValueType) =>
     node && typeof checked === 'boolean',

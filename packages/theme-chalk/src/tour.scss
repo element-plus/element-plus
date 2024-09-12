@@ -12,13 +12,14 @@
   }
 
   @include e(content) {
-    padding: 0;
     border-radius: getCssVar('tour-border-radius');
-    border: 1px solid getCssVar('tour-border-color');
     width: var(#{getCssVarName('tour-width')});
+    padding: getCssVar('tour-padding-primary');
     background: getCssVar('tour-bg-color');
     box-shadow: getCssVar('box-shadow-light');
     box-sizing: border-box;
+    overflow-wrap: break-word;
+    outline: none;
 
     $content-selector: &;
 
@@ -32,7 +33,6 @@
     @include e(arrow) {
       position: absolute;
       background: getCssVar('tour-bg-color');
-      border: 1px solid getCssVar('tour-border-color');
       width: 10px;
       height: 10px;
       pointer-events: none;
@@ -63,11 +63,11 @@
 
     @include e(closebtn) {
       position: absolute;
-      top: 6px;
+      top: 0;
       right: 0;
       padding: 0;
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       background: transparent;
       border: none;
       outline: none;
@@ -78,7 +78,7 @@
       );
 
       .#{$namespace}-tour__close {
-        color: getCssVar('tour-title-text-color');
+        color: getCssVar('tour-close-color');
         font-size: inherit;
       }
 
@@ -91,9 +91,17 @@
     }
 
     @include e(header) {
-      padding: getCssVar('tour', 'padding-primary');
-      padding-bottom: 10px;
-      margin-right: 16px;
+      padding-bottom: getCssVar('tour-padding-primary');
+
+      &.show-close {
+        padding-right: calc(
+          getCssVar('tour-padding-primary') +
+            var(
+              #{getCssVarName('message-close-size')},
+              map.get($message, 'close-size')
+            )
+        );
+      }
     }
 
     @include e(title) {
@@ -104,7 +112,6 @@
     }
 
     @include e(body) {
-      padding: 0 getCssVar('tour-padding-primary');
       color: getCssVar('tour-text-color');
       font-size: getCssVar('tour-font-size');
       img,
@@ -114,8 +121,7 @@
     }
 
     @include e(footer) {
-      padding: getCssVar('tour-padding-primary');
-      padding-top: 10px;
+      padding-top: getCssVar('tour-padding-primary');
       box-sizing: border-box;
       display: flex;
       justify-content: space-between;
@@ -144,6 +150,7 @@
     @include set-css-var-value('tour-title-text-color', #fff);
     @include set-css-var-value('tour-text-color', #fff);
     @include set-css-var-value('tour-bg-color', getCssVar('color', 'primary'));
+    @include set-css-var-value('tour-close-color', #fff);
 
     .#{$namespace}-tour__closebtn {
       &:focus,

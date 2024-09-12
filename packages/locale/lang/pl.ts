@@ -1,6 +1,9 @@
 export default {
   name: 'pl',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Wyczyść',
@@ -65,6 +68,9 @@ export default {
       noData: 'Brak danych',
       placeholder: 'Wybierz',
     },
+    mention: {
+      loading: 'Ładowanie',
+    },
     cascader: {
       noMatch: 'Brak dopasowań',
       loading: 'Ładowanie',
@@ -127,6 +133,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Tak',
       cancelButtonText: 'Nie',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

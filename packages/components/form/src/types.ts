@@ -104,7 +104,7 @@ export type FormValidationResult = Promise<boolean>
 export type FormValidateCallback = (
   isValid: boolean,
   invalidFields?: ValidateFieldsError
-) => void
+) => Promise<void> | void
 export interface FormValidateFailure {
   errors: ValidateError[] | null
   fields: ValidateFieldsError

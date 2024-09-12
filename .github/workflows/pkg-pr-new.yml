@@ -1,0 +1,48 @@
+name: Publish Approved Pull Requests Pkg
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  approved:
+    if: github.event.review.state == 'APPROVED'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.14.1
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
+
+      - name: Get Latest Release Version
+        id: get_release
+        run: |
+          LATEST_VERSION=$(curl -s https://api.github.com/repos/element-plus/element-plus/releases/latest | jq -r '.tag_name')
+          echo "LATEST_VERSION=${LATEST_VERSION}" >> $GITHUB_ENV
+
+      - name: Update package.json version
+        run: |
+          cd dist/element-plus
+          ls -la
+          jq --arg newVersion "$LATEST_VERSION" '.version = $newVersion' package.json > tmp.json && mv tmp.json package.json
+
+      - name: Publish
+        run: |
+          cd dist/element-plus
+          pnpx pkg-pr-new@0.0.20 publish

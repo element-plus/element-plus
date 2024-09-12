@@ -7,12 +7,6 @@ lang: en-US
 
 Get some recommended tips based on the current input.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic Usage
 
 Autocomplete component provides input suggestions.
@@ -66,11 +60,11 @@ autocomplete/custom-loading
 | value-key                           | key name of the input suggestion object for display                                                                        | ^[string]                                                                                 | value        |
 | debounce                            | debounce delay when typing, in milliseconds                                                                                | ^[number]                                                                                 | 300          |
 | placement                           | placement of the popup menu                                                                                                | ^[enum]`'top' \| 'top- start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'` | bottom-start |
-| fetch-suggestions                   | a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete | ^[Function]`(queryString: string, callback: callbackfn) => void`                          | —            |
+| fetch-suggestions                   | a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete | ^[Array] / ^[Function]`(queryString: string, callback: callbackfn) => void`               | —            |
 | trigger-on-focus                    | whether show suggestions when input focus                                                                                  | ^[boolean]                                                                                | true         |
 | select-when-unmatched               | whether to emit a `select` event on enter when there is no autocomplete match                                              | ^[boolean]                                                                                | false        |
 | name                                | same as `name` in native input                                                                                             | ^[string]                                                                                 | —            |
-| label                               | label text                                                                                                                 | ^[string]                                                                                 | —            |
+| aria-label ^(a11y) ^(2.7.2)         | native `aria-label` attribute                                                                                              | ^[string]                                                                                 | —            |
 | hide-loading                        | whether to hide the loading icon in remote search                                                                          | ^[boolean]                                                                                | false        |
 | popper-class                        | custom class name for autocomplete's dropdown                                                                              | ^[string]                                                                                 | —            |
 | popper-append-to-body ^(deprecated) | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | ^[boolean]                                                                                | false        |
@@ -80,10 +74,14 @@ autocomplete/custom-loading
 
 ### Events
 
-| Name   | Description                                      | Type                                                  |
-| ------ | ------------------------------------------------ | ----------------------------------------------------- |
-| select | triggers when a suggestion is clicked            | ^[Function]`(item: typeof modelValue \| any) => void` |
-| change | triggers when the icon inside Input value change | ^[Function]`(value: string \| number) => void`        |
+| Name   | Description                                                     | Type                                                  |
+| ------ | --------------------------------------------------------------- | ----------------------------------------------------- |
+| blur   | triggers when Input blurs                                       | ^[Function]`(event: FocusEvent) => void`              |
+| focus  | triggers when Input focuses                                     | ^[Function]`(event: FocusEvent) => void`              |
+| input  | triggers when the Input value change                            | ^[Function]`(value: string \| number) => void`        |
+| clear  | triggers when the Input is cleared by clicking the clear button | ^[Function]`() => void`                               |
+| select | triggers when a suggestion is clicked                           | ^[Function]`(item: typeof modelValue \| any) => void` |
+| change | triggers when the icon inside Input value change                | ^[Function]`(value: string \| number) => void`        |
 
 ### Slots
 

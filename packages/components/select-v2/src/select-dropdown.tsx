@@ -28,6 +28,7 @@ export default defineComponent({
   name: 'ElSelectDropdown',
 
   props: {
+    loading: Boolean,
     data: {
       type: Array,
       required: true,
@@ -48,7 +49,7 @@ export default defineComponent({
     watch(
       () => size.value,
       () => {
-        select.popper.value.updatePopper?.()
+        select.tooltipRef.value.updatePopper?.()
       }
     )
 
@@ -225,39 +226,35 @@ export default defineComponent({
       const { data, width } = props
       const { height, multiple, scrollbarAlwaysOn } = select.props
 
-      if (data.length === 0) {
-        return (
-          <div
-            class={ns.b('dropdown')}
-            style={{
-              width: `${width}px`,
-            }}
-          >
-            {slots.empty?.()}
-          </div>
-        )
-      }
-
       const List = unref(isSized) ? FixedSizeList : DynamicSizeList
 
       return (
-        <div class={[ns.b('dropdown'), ns.is('multiple', multiple)]}>
-          <List
-            ref={listRef}
-            {...unref(listProps)}
-            className={ns.be('dropdown', 'list')}
-            scrollbarAlwaysOn={scrollbarAlwaysOn}
-            data={data}
-            height={height}
-            width={width}
-            total={data.length}
-            // @ts-ignore - dts problem
-            onKeydown={onKeydown}
-          >
-            {{
-              default: (props: ItemProps<any>) => <Item {...props} />,
-            }}
-          </List>
+        <div
+          class={[ns.b('dropdown'), ns.is('multiple', multiple)]}
+          style={{
+            width: `${width}px`,
+          }}
+        >
+          {slots.header?.()}
+          {slots.loading?.() || slots.empty?.() || (
+            <List
+              ref={listRef}
+              {...unref(listProps)}
+              className={ns.be('dropdown', 'list')}
+              scrollbarAlwaysOn={scrollbarAlwaysOn}
+              data={data}
+              height={height}
+              width={width}
+              total={data.length}
+              // @ts-ignore - dts problem
+              onKeydown={onKeydown}
+            >
+              {{
+                default: (props: ItemProps<any>) => <Item {...props} />,
+              }}
+            </List>
+          )}
+          {slots.footer?.()}
         </div>
       )
     }

@@ -16,6 +16,9 @@
     :data-key="node?.key"
     @click.stop="handleClick"
     @contextmenu="handleContextMenu"
+    @dragover.prevent
+    @dragenter.prevent
+    @drop.stop="handleDrop"
   >
     <div
       :class="ns.be('node', 'content')"
@@ -86,6 +89,10 @@ const icon = computed(() => {
 
 const handleClick = (e: MouseEvent) => {
   emit('click', props.node, e)
+}
+
+const handleDrop = (e: DragEvent) => {
+  emit('drop', props.node, e)
 }
 const handleExpandIconClick = () => {
   emit('toggle', props.node)

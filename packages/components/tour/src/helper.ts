@@ -1,7 +1,5 @@
 import {
-  camelize,
   computed,
-  isVNode,
   onBeforeUnmount,
   onMounted,
   ref,
@@ -18,16 +16,20 @@ import {
   offset as offsetMiddelware,
   shift,
 } from '@floating-ui/dom'
-import { hasOwn, isArray, isClient, keysOf } from '@element-plus/utils'
+import {
+  isArray,
+  isClient,
+  isFunction,
+  isString,
+  keysOf,
+} from '@element-plus/utils'
 
 import type {
   CSSProperties,
   Component,
-  ComputedRef,
   InjectionKey,
   Ref,
   SetupContext,
-  VNode,
 } from 'vue'
 import type { UseNamespaceReturn } from '@element-plus/hooks'
 import type { PosInfo, TourGap, TourMask } from './types'
@@ -38,9 +40,12 @@ import type {
   Strategy,
   VirtualElement,
 } from '@floating-ui/dom'
+import type { TourStepProps } from './step'
 
 export const useTarget = (
-  target: Ref<HTMLElement | null | undefined>,
+  target: Ref<
+    string | HTMLElement | (() => HTMLElement | null) | null | undefined
+  >,
   open: Ref<boolean>,
   gap: Ref<TourGap>,
   mergedMask: Ref<TourMask>,
@@ -48,15 +53,28 @@ export const useTarget = (
 ) => {
   const posInfo: Ref<PosInfo | null> = ref(null)
 
+  const getTargetEl = () => {
+    let targetEl: HTMLElement | null | undefined
+    if (isString(target.value)) {
+      targetEl = document.querySelector<HTMLElement>(target.value)
+    } else if (isFunction(target.value)) {
+      targetEl = target.value()
+    } else {
+      targetEl = target.value
+    }
+    return targetEl
+  }
+
   const updatePosInfo = () => {
-    if (!target.value || !open.value) {
+    const targetEl = getTargetEl()
+    if (!targetEl || !open.value) {
       posInfo.value = null
       return
     }
-    if (!isInViewPort(target.value) && open.value) {
-      target.value.scrollIntoView(scrollIntoViewOptions.value)
+    if (!isInViewPort(targetEl) && open.value) {
+      targetEl.scrollIntoView(scrollIntoViewOptions.value)
     }
-    const { left, top, width, height } = target.value.getBoundingClientRect()
+    const { left, top, width, height } = targetEl.getBoundingClientRect()
     posInfo.value = {
       left,
       top,
@@ -104,8 +122,9 @@ export const useTarget = (
   })
 
   const triggerTarget = computed(() => {
-    if (!mergedMask.value || !target.value || !window.DOMRect) {
-      return target.value || undefined
+    const targetEl = getTargetEl()
+    if (!mergedMask.value || !targetEl || !window.DOMRect) {
+      return targetEl || undefined
     }
 
     return {
@@ -127,8 +146,9 @@ export const useTarget = (
 }
 
 export interface TourContext {
+  currentStep: Ref<TourStepProps | undefined>
   current: Ref<number>
-  total: ComputedRef<number>
+  total: Ref<number>
   showClose: Ref<boolean>
   closeIcon: Ref<string | Component>
   mergedType: Ref<'default' | 'primary' | undefined>
@@ -148,51 +168,6 @@ function isInViewPort(element: HTMLElement) {
   const { top, right, bottom, left } = element.getBoundingClientRect()
 
   return top >= 0 && left >= 0 && right <= viewWidth && bottom <= viewHeight
-}
-
-const isSameProps = (a: Record<string, any>, b: Record<string, any>) => {
-  if (Object.keys(a).length !== Object.keys(b).length) return false
-  for (const key in a) {
-    if (a[key] !== b[key]) {
-      return false
-    }
-  }
-  return true
-}
-
-export function isSameSteps(a: any[], b: any[]) {
-  if (a.length !== b.length) return false
-  for (const [index] of a.entries()) {
-    if (isSameProps(a[index], b[index])) {
-      return false
-    }
-  }
-  return true
-}
-
-export const getNormalizedProps = (node: VNode, booleanKeys: string[]) => {
-  if (!isVNode(node)) {
-    return {}
-  }
-
-  const raw = node.props || {}
-  const type = (node.type as any)?.props || {}
-  const props: Record<string, any> = {}
-  Object.keys(type).forEach((key) => {
-    if (hasOwn(type[key], 'default')) {
-      props[key] = type[key].default
-    }
-  })
-
-  Object.keys(raw).forEach((key) => {
-    const cameKey = camelize(key)
-    props[cameKey] = raw[key]
-    if (booleanKeys.includes(cameKey) && props[cameKey] === '') {
-      props[cameKey] = true
-    }
-  })
-
-  return props
 }
 
 export const useFloating = (
@@ -288,7 +263,11 @@ export const useFloating = (
 
   let cleanup: any
   onMounted(() => {
-    cleanup = autoUpdate(unref(referenceRef)!, unref(contentRef)!, update)
+    const referenceEl = unref(referenceRef)
+    const contentEl = unref(contentRef)
+    if (referenceEl && contentEl) {
+      cleanup = autoUpdate(referenceEl, contentEl, update)
+    }
 
     watchEffect(() => {
       update()
