@@ -15,11 +15,9 @@
       map.get($mention, 'shadow')
     );
   }
-
 }
 
 @include b(mention-dropdown) {
-
   @include set-component-css-var('mention', $mention);
 
   @include e(item) {

@@ -37,7 +37,8 @@ export const usePopperContainer = () => {
     // for this we need to disable the caching since it's not really needed
     if (
       process.env.NODE_ENV === 'test' ||
-      (!cachedContainer && !document.body.querySelector(selector.value))
+      !cachedContainer ||
+      !document.body.querySelector(selector.value)
     ) {
       cachedContainer = createContainer(id.value)
     }

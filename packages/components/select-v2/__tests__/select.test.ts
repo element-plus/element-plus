@@ -1,8 +1,7 @@
 // @ts-nocheck
 import { nextTick, ref } from 'vue'
-import { NOOP } from '@vue/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { hasClass } from '@element-plus/utils'
+import { NOOP, hasClass } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'

@@ -116,20 +116,21 @@ tree-v2/filter
 | expandNode | expand specified node | `(node: TreeNode)` |
 | collapseNode | collapse specified node | `(node: TreeNode)` |
 | setData | When the data is very large, using reactive data will cause the poor performance, so we provide a way to avoid this situation | `(data: TreeData)` |
-| scrollTo ^(2.8.0)  | scroll to a given position | `(offset: number)` |
-| scrollToNode ^(2.8.0)  | scroll to a given tree key with specified scroll strategy | `(key: TreeKey, strategy?: auto \| smart \| center \| start \| end)` |
+| scrollTo ^(2.8.0) | scroll to a given position | `(offset: number)` |
+| scrollToNode ^(2.8.0) | scroll to a given tree key with specified scroll strategy | `(key: TreeKey, strategy?: auto \| smart \| center \| start \| end)` |
 
 ## TreeV2 Events
 
-| Name             | Description                                          | Parameters                                                                                                                              |
-| ---------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| node-click       | triggers when a node is clicked                      | `(data: TreeNodeData, node: TreeNode, e: MouseEvent)`                                                                                   |
-| node-contextmenu | triggers when a node is clicked by right button      | `(e: Event, data: TreeNodeData, node: TreeNode)`                                                                                        |
-| check-change     | triggers when the selected state of the node changes | `(data: TreeNodeData, checked: boolean)`                                                                                                |
-| check            | triggers after clicking the checkbox of a node       | `(data: TreeNodeData, info: { checkedKeys: TreeKey[],checkedNodes: TreeData, halfCheckedKeys: TreeKey[], halfCheckedNodes: TreeData,})` |
-| current-change   | triggers when current node changes                   | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
-| node-expand      | triggers when current node open                      | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
-| node-collapse    | triggers when current node close                     | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
+| Name               | Description                                          | Parameters                                                                                                                              |
+| ------------------ | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| node-click         | triggers when a node is clicked                      | `(data: TreeNodeData, node: TreeNode, e: MouseEvent)`                                                                                   |
+| node-drop ^(2.8.3) | triggers when drag someting and drop on a node       | `(data: TreeNodeData, node: TreeNode, e: DragEvent)`                                                                                    |
+| node-contextmenu   | triggers when a node is clicked by right button      | `(e: Event, data: TreeNodeData, node: TreeNode)`                                                                                        |
+| check-change       | triggers when the selected state of the node changes | `(data: TreeNodeData, checked: boolean)`                                                                                                |
+| check              | triggers after clicking the checkbox of a node       | `(data: TreeNodeData, info: { checkedKeys: TreeKey[],checkedNodes: TreeData, halfCheckedKeys: TreeKey[], halfCheckedNodes: TreeData,})` |
+| current-change     | triggers when current node changes                   | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
+| node-expand        | triggers when current node open                      | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
+| node-collapse      | triggers when current node close                     | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
 
 ## TreeV2 Slots
 
