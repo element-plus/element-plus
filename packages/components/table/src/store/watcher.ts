@@ -192,13 +192,20 @@ function useWatcher<T>() {
   const toggleRowSelection = (
     row: T,
     selected?: boolean,
-    emitChange = true
+    emitChange = true,
+    ignoreSelectable = false
   ) => {
     const treeProps = {
       children: instance?.store?.states?.childrenColumnName.value,
       checkStrictly: instance?.store?.states?.checkStrictly.value,
     }
-    const changed = toggleRowStatus(selection.value, row, selected, treeProps)
+    const changed = toggleRowStatus(
+      selection.value,
+      row,
+      selected,
+      treeProps,
+      ignoreSelectable ? undefined : selectable.value
+    )
     if (changed) {
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
