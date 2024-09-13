@@ -101,7 +101,6 @@ type Option =
   | string
   | number
   | boolean
-  | undefined
 ```
 
 </details>
