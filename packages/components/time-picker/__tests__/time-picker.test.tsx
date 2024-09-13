@@ -363,8 +363,6 @@ describe('TimePicker', () => {
   })
 
   it('ref handleClose', async () => {
-    vi.useFakeTimers()
-
     const value = ref(new Date(2016, 9, 10, 18, 40))
     const wrapper = mount(() => <TimePicker v-model={value.value} />)
     const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed
@@ -374,12 +372,10 @@ describe('TimePicker', () => {
     await nextTick()
     timePickerExposed.handleClose()
 
-    await nextTick()
+    await rAF()
     const popperEl = document.querySelector('.el-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('true')
-
-    vi.useRealTimers()
   })
 
   it('model value should sync when disabled-hours was updated', async () => {
@@ -604,6 +600,33 @@ describe('TimePicker(range)', () => {
     await clearIcon.trigger('click')
     await nextTick()
     expect(value.value).toEqual(null)
+  })
+
+  it('should close pick when click the clear button on pick opened', async () => {
+    const value = ref([
+      new Date(2016, 9, 10, 9, 40),
+      new Date(2016, 9, 10, 15, 40),
+    ])
+    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
+    const findInputWrapper = () => wrapper.find('.el-date-editor')
+    const findClear = () => wrapper.find('.el-range__close-icon')
+    const findPicker = () => wrapper.find('.el-picker-panel')
+
+    await nextTick()
+    const inputWrapper = findInputWrapper()
+    await inputWrapper.trigger('mouseenter')
+    await inputWrapper.trigger('mousedown')
+
+    await nextTick()
+    // when the input is clicked, the picker is displayed.
+    expect(findPicker()).toBeTruthy()
+    const clearIcon = findClear()
+    await clearIcon.trigger('click')
+
+    await nextTick()
+    expect(value.value).toEqual(null)
+    // when the "clear" button is clicked, the pick is hidden.
+    expect(findPicker().exists()).toBe(false)
   })
 
   it('selectableRange ', async () => {

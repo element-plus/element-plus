@@ -63,6 +63,7 @@
           :view-style="scrollbarViewStyle"
           :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
+          :tabindex="scrollbarTabindex"
         >
           <table
             ref="tableBody"

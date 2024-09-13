@@ -152,9 +152,3 @@ gtag('config', 'UA-175337989-1');`,
     `,
   ],
 ]
-
-head.push([
-  'script',
-  {},
-  fs.readFileSync(path.resolve(vpRoot, 'dark-mode.js'), 'utf-8'),
-])

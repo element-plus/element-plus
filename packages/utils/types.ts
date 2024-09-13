@@ -9,6 +9,7 @@ export {
   isDate,
   isPromise,
   isSymbol,
+  isPlainObject,
 } from '@vue/shared'
 export { isVNode } from 'vue'
 
