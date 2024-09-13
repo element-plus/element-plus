@@ -724,7 +724,9 @@ const handleStartChange = () => {
     ]
     const newValue = [value, parsedVal && (parsedVal[1] || null)] as DayOrDays
     if (isValidValue(newValue)) {
-      emitInput(newValue)
+      emitInput(
+        (newValue as Array<Dayjs>).map((_) => _.toDate()) as SingleOrRange<Date>
+      )
       userInput.value = null
     }
   }
@@ -741,7 +743,9 @@ const handleEndChange = () => {
     ]
     const newValue = [parsedVal && parsedVal[0], value] as DayOrDays
     if (isValidValue(newValue)) {
-      emitInput(newValue)
+      emitInput(
+        (newValue as Array<Dayjs>).map((_) => _.toDate()) as SingleOrRange<Date>
+      )
       userInput.value = null
     }
   }
