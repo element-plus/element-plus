@@ -129,6 +129,8 @@ table/single-select
 
 You can also select multiple rows.
 
+After ^(2.8.3), `toggleRowSelection` supports the third parameter `ignoreSelectable` to determine whether to ignore the selectable attribute.
+
 :::demo Activating multiple selection is easy: simply add an `el-table-column` with its `type` set to `selection`.
 
 table/multi-select
