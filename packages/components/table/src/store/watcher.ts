@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
+import { isEqual } from 'lodash-unified'
 import { hasOwn } from '@element-plus/utils'
 import {
   getColumnById,
@@ -149,7 +150,7 @@ function useWatcher<T>() {
 
   // 选择
   const isSelected = (row) => {
-    return selection.value.includes(row)
+    return selection.value.some((item) => isEqual(item, row))
   }
 
   const clearSelection = () => {
@@ -197,13 +198,7 @@ function useWatcher<T>() {
       children: instance?.store?.states?.childrenColumnName.value,
       checkStrictly: instance?.store?.states?.checkStrictly.value,
     }
-    const changed = toggleRowStatus(
-      selection.value,
-      row,
-      selected,
-      treeProps,
-      selectable.value
-    )
+    const changed = toggleRowStatus(selection.value, row, selected, treeProps)
     if (changed) {
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件

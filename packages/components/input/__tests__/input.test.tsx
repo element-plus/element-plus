@@ -5,7 +5,8 @@ import defineGetter from '@element-plus/test-utils/define-getter'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Input from '../src/input.vue'
 import type { CSSProperties } from 'vue'
-import type { InputAutoSize, InputInstance, InputProps } from '../src/input'
+import type { InputAutoSize, InputProps } from '../src/input'
+import type { InputInstance } from '../src/instance'
 
 describe('Input.vue', () => {
   afterEach(() => {
@@ -47,10 +48,15 @@ describe('Input.vue', () => {
     expect(inputElm.element.value).toBe('')
   })
 
-  test('disabled', () => {
+  test('disabled', async () => {
     const wrapper = mount(() => <Input disabled />)
     const inputElm = wrapper.find('input')
     expect(inputElm.element.disabled).not.toBeNull()
+
+    // trigger click should not focus #18012
+    inputElm.trigger('click')
+    await nextTick()
+    expect(inputElm.element.className.includes('is-focus')).toBe(false)
   })
 
   describe('test emoji', () => {

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick, ref } from 'vue'
+import { nextTick } from 'vue'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ElCheckbox from '@element-plus/components/checkbox'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
@@ -800,7 +800,7 @@ describe('Table.vue', () => {
         },
         template: `
           <el-table ref="table" :data="testData" @${prop}="handleEvent">
-            <el-table-column type="selection" />
+            <el-table-column type="selection" :selectable="selectable" />
             <el-table-column prop="name" />
             <el-table-column prop="release" />
             <el-table-column prop="director" />
@@ -812,6 +812,9 @@ describe('Table.vue', () => {
           handleEvent(selection) {
             this.fireCount++
             this.selection = selection
+          },
+          selectable(row) {
+            return row.id !== 1
           },
         },
 
@@ -844,7 +847,7 @@ describe('Table.vue', () => {
       const vm = wrapper.vm
       vm.$refs.table.toggleAllSelection()
       await doubleWait()
-      expect(vm.selection.length).toEqual(5)
+      expect(vm.selection.length).toEqual(4)
 
       vm.$refs.table.toggleAllSelection()
       await doubleWait()
@@ -1815,10 +1818,10 @@ describe('Table.vue', () => {
               </el-table>
             `,
         data() {
-          const treeProps = ref({
+          const treeProps = {
             children: 'childrenTest',
             checkStrictly: false,
-          })
+          }
           const testData = getTestData() as any
           testData[1].childrenTest = [
             {
@@ -1860,6 +1863,12 @@ describe('Table.vue', () => {
       wrapper.findAll('.el-checkbox')[2].trigger('click')
       await doubleWait()
       expect(wrapper.vm.selected.length).toEqual(1)
+      expect(wrapper.findAll('.el-checkbox')[2].classes()).include('is-checked')
+
+      wrapper.findAll('.el-checkbox')[3].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(2)
+      expect(wrapper.findAll('.el-checkbox')[3].classes()).include('is-checked')
     })
   })
 

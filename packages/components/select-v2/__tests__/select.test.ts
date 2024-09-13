@@ -1,8 +1,7 @@
 // @ts-nocheck
 import { nextTick, ref } from 'vue'
-import { NOOP } from '@vue/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { hasClass } from '@element-plus/utils'
+import { NOOP, hasClass } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -1866,5 +1865,17 @@ describe('Select', () => {
     await nextTick()
     // after deletion, an el-tag still exist
     expect(wrapper.findAll('.el-tag').length).toBe(1)
+  })
+
+  it('should be trigger the click event', async () => {
+    const handleClick = vi.fn()
+    const wrapper = _mount(`<el-select :options="[]" @click="handleClick" />`, {
+      methods: {
+        handleClick,
+      },
+    })
+
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    expect(handleClick).toHaveBeenCalledOnce()
   })
 })
