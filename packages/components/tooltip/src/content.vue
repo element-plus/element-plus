@@ -106,10 +106,11 @@ const appendTo = computed(() => {
 
 const contentStyle = computed(() => (props.style ?? {}) as any)
 
-const ariaHidden = computed(() => !unref(open))
+const ariaHidden = ref(true)
 
 const onTransitionLeave = () => {
   onHide()
+  ariaHidden.value = true
 }
 
 const stopWhenControlled = () => {
@@ -164,6 +165,8 @@ watch(
   (val) => {
     if (!val) {
       stopHandle?.()
+    } else {
+      ariaHidden.value = false
     }
   },
   {
