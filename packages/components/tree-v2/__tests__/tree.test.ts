@@ -129,6 +129,7 @@ const createTree = (
         :current-node-key="currentNodeKey"
         :filter-method="filterMethod"
         @node-click="onNodeClick"
+        @node-drop="onNodeDrop"
         @node-expand="onNodeExpand"
         @check="onNodeCheck"
         @current-change="onCurrentChange"
@@ -164,6 +165,7 @@ const createTree = (
       },
       methods: {
         onNodeClick: NOOP,
+        onNodeDrop: NOOP,
         onNodeExpand: NOOP,
         onNodeCheck: NOOP,
         onCurrentChange: NOOP,
@@ -203,6 +205,20 @@ describe('Virtual Tree', () => {
     const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
     await nodes[0].trigger('click')
     expect(onNodeClick).toBeCalled()
+    expect(treeVm.flattenTree.length).toBeGreaterThanOrEqual(NODE_NUMBER)
+  })
+
+  test('drop on node', async () => {
+    const onNodeDrop = vi.fn()
+    const { wrapper, treeVm } = createTree({
+      methods: {
+        onNodeDrop,
+      },
+    })
+    await nextTick()
+    const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    await nodes[0].trigger('drop')
+    expect(onNodeDrop).toBeCalled()
     expect(treeVm.flattenTree.length).toBeGreaterThanOrEqual(NODE_NUMBER)
   })
 

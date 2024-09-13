@@ -1,14 +1,19 @@
-name: Publish Approved Pull Requests Pkg
+name: Publish PR Commit Pkg
 
 on:
-  pull_request_review:
-    types: [submitted]
+  push:
+    branches:
+      - dev
+    tags:
+      - '!**'
+  pull_request:
+    branches:
+      - dev
 
 jobs:
-  approved:
-    if: github.event.review.state == 'APPROVED'
+  build:
     runs-on: ubuntu-latest
-
+    if: ${{ github.repository == 'element-plus/element-plus' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,8 +26,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 8.14.1
 
       - name: Install dependencies
         run: pnpm install
@@ -45,4 +48,4 @@ jobs:
       - name: Publish
         run: |
           cd dist/element-plus
-          pnpx pkg-pr-new@0.0.20 publish
+          pnpx pkg-pr-new publish

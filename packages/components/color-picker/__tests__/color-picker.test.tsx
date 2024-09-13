@@ -498,4 +498,25 @@ describe('Color-picker', () => {
     expect(blurHandler).toHaveBeenCalled()
     wrapper.unmount()
   })
+
+  it('when colorFormat prop changes, the color format and v-model binding values should be updated', async () => {
+    const color = ref('#00FF00')
+    const colorFormat = ref('hex')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value} color-format={colorFormat.value} />
+    ))
+
+    colorFormat.value = 'rgb'
+    await nextTick()
+    const colorPickerWrapper = wrapper.findComponent(ColorPicker)
+    const customInput = colorPickerWrapper.findComponent({
+      ref: 'inputRef',
+    })
+    expect(colorPickerWrapper.vm.color.format).toBe('rgb')
+    expect(color.value).toBe('rgb(0, 255, 0)')
+    expect(
+      customInput.find<HTMLInputElement>('.el-input__inner').element.value
+    ).toBe('rgb(0, 255, 0)')
+    wrapper.unmount()
+  })
 })

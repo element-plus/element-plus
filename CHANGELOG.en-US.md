@@ -1,5 +1,26 @@
 ## Changelog
 
+### 2.8.3
+
+_2024-09-13_
+
+#### Features
+
+- Components [scrollbar] add tabindex to scrollbar wrap content (#14320 by @Karolis-Stoncius)
+- Components [tree-v2] support `node-drop` event (#16935 by @MoConWu)
+- Components [collapse] collpase item supports custom icon (#18215 by @kimverchan)
+- Components [cascader-panel] add `empty` slot (#16274 by @btea)
+
+#### Bug fixes
+
+- Components [menu] move ulStyle from render to setup to fix memory leak (#18122 by @ShirleyYoung19)
+- Components [table-v2] sass declaration deprecation error (#18218 by @gaoyia)
+- Components [select-v2] label display error when re-rendering (#18128 by @btea)
+- Components [tooltip] change ariaHidden value after closed the dropdown (#18207 by @tolking)
+- Components [color-picker] supports dynamic change of colorFormat (#18135 by @SKSQ2529720581)
+- Components [time-picker] close pick when click clear on pick open (#15390 by @wzc520pyfm)
+- Components [table] the disabled checkbox are selected (#18034 by @tolking)
+
 ### 2.8.2
 
 _2024-09-06_
