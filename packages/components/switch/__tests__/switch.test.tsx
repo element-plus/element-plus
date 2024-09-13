@@ -101,6 +101,25 @@ describe('Switch.vue', () => {
     expect(target.value).toEqual(false)
   })
 
+  test('model-value changes trigger the change event', async () => {
+    const target = ref<string | number | boolean>(1)
+    const value = ref(false)
+    const handleChange = (val: string | number | boolean) => {
+      target.value = val
+    }
+    const wrapper = mount(() => (
+      <Switch model-value={value.value} onChange={handleChange} />
+    ))
+    const vm = wrapper.vm
+    expect(target.value).toEqual(1)
+    const coreWrapper = wrapper.find('.el-switch__core')
+    await coreWrapper.trigger('click')
+    expect(target.value).toEqual(1)
+    value.value = true
+    await vm.$nextTick()
+    expect(target.value).toEqual(true)
+  })
+
   test('disabled switch should not respond to user click', async () => {
     const value = ref(true)
     const wrapper = mount(() => <Switch disabled v-model={value.value} />)
