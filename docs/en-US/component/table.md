@@ -409,14 +409,16 @@ interface TreeNode {
 
 #### How to use image preview in the table?
 
-```vue
-<el-table-column label="Thumbnail" width="180">
+```vue{5}
+<template>
+  <el-table-column width="180">
     <template #default="scope">
-        <div style="display: flex; align-items: center">
-            <el-image :preview-src-list="srcList"/>
-        </div>
+      <div style="display: flex; align-items: center">
+        <el-image preview-teleported :preview-src-list="srcList" />
+      </div>
     </template>
-</el-table-column>
+  </el-table-column>
+</template>
 ```
 
 PS: since the fixed column is implement by sticky, when you have fixed columns in table, please add the `preview-teleported` attribute in image
