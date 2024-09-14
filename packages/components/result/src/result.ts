@@ -26,15 +26,25 @@ export const IconComponentMap: Record<
 }
 
 export const resultProps = buildProps({
+  /**
+   * @description title of result
+   */
   title: {
     type: String,
     default: '',
   },
+  /**
+   * @description sub title of result
+   */
   subTitle: {
     type: String,
     default: '',
   },
+  /**
+   * @description icon type of result
+   */
   icon: {
+    type: String,
     values: ['success', 'warning', 'info', 'error'],
     default: 'info',
   },

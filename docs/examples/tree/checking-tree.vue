@@ -1,6 +1,7 @@
 <template>
   <el-tree
     ref="treeRef"
+    style="max-width: 600px"
     :data="data"
     show-checkbox
     default-expand-all
@@ -20,7 +21,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { ElTree } from 'element-plus'
+import { ElTree } from 'element-plus'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 
 interface Tree {

@@ -1,5 +1,10 @@
-import { isFunction } from '@vue/shared'
-import { isNumber, isUndefined, throwError } from '@element-plus/utils'
+// @ts-nocheck
+import {
+  isFunction,
+  isNumber,
+  isUndefined,
+  throwError,
+} from '@element-plus/utils'
 import createGrid from '../builders/build-grid'
 
 import {
@@ -414,7 +419,7 @@ const DynamicSizeGrid = createGrid({
         throwError(
           SCOPE,
           `
-          "columnWidth" must be passed as function,
+          "rowHeight" must be passed as function,
             instead ${typeof rowHeight} was given.
         `
         )

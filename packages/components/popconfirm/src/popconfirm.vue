@@ -3,7 +3,9 @@
     ref="tooltipRef"
     trigger="click"
     effect="light"
+    v-bind="$attrs"
     :popper-class="`${ns.namespace.value}-popover`"
+    :popper-style="style"
     :teleported="teleported"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
@@ -22,22 +24,24 @@
           {{ title }}
         </div>
         <div :class="ns.e('action')">
-          <el-button
-            size="small"
-            :type="cancelButtonType === 'text' ? '' : cancelButtonType"
-            :text="cancelButtonType === 'text'"
-            @click="cancel"
-          >
-            {{ finalCancelButtonText }}
-          </el-button>
-          <el-button
-            size="small"
-            :type="confirmButtonType === 'text' ? '' : confirmButtonType"
-            :text="confirmButtonType === 'text'"
-            @click="confirm"
-          >
-            {{ finalConfirmButtonText }}
-          </el-button>
+          <slot name="actions" :confirm="confirm" :cancel="cancel">
+            <el-button
+              size="small"
+              :type="cancelButtonType === 'text' ? '' : cancelButtonType"
+              :text="cancelButtonType === 'text'"
+              @click="cancel"
+            >
+              {{ finalCancelButtonText }}
+            </el-button>
+            <el-button
+              size="small"
+              :type="confirmButtonType === 'text' ? '' : confirmButtonType"
+              :text="confirmButtonType === 'text'"
+              @click="confirm"
+            >
+              {{ finalConfirmButtonText }}
+            </el-button>
+          </slot>
         </div>
       </div>
     </template>
@@ -53,7 +57,8 @@ import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { popconfirmProps } from './popconfirm'
+import { addUnit } from '@element-plus/utils'
+import { popconfirmEmits, popconfirmProps } from './popconfirm'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 
@@ -62,6 +67,7 @@ defineOptions({
 })
 
 const props = defineProps(popconfirmProps)
+const emit = defineEmits(popconfirmEmits)
 
 const { t } = useLocale()
 const ns = useNamespace('popconfirm')
@@ -71,17 +77,19 @@ const hidePopper = () => {
   tooltipRef.value?.onClose?.()
 }
 
-const handleCallback = () => {
+const style = computed(() => {
+  return {
+    width: addUnit(props.width),
+  }
+})
+
+const confirm = (e: MouseEvent) => {
+  emit('confirm', e)
   hidePopper()
 }
-
-const confirm = (e: Event) => {
-  props.onConfirm?.(e)
-  handleCallback()
-}
-const cancel = (e: Event) => {
-  props.onCancel?.(e)
-  handleCallback()
+const cancel = (e: MouseEvent) => {
+  emit('cancel', e)
+  hidePopper()
 }
 
 const finalConfirmButtonText = computed(

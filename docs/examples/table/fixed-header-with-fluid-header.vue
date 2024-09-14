@@ -6,17 +6,22 @@
     <el-table-column prop="city" label="City" width="120" />
     <el-table-column prop="address" label="Address" width="600" />
     <el-table-column prop="zip" label="Zip" width="120" />
-    <el-table-column fixed="right" label="Operations" width="120">
+    <el-table-column fixed="right" label="Operations" min-width="120">
       <template #default="scope">
-        <el-button text size="small" @click.prevent="deleteRow(scope.$index)">
+        <el-button
+          link
+          type="primary"
+          size="small"
+          @click.prevent="deleteRow(scope.$index)"
+        >
           Remove
         </el-button>
       </template>
     </el-table-column>
   </el-table>
-  <el-button class="mt-4" style="width: 100%" @click="onAddItem"
-    >Add Item</el-button
-  >
+  <el-button class="mt-4" style="width: 100%" @click="onAddItem">
+    Add Item
+  </el-button>
 </template>
 
 <script lang="ts" setup>

@@ -1,9 +1,11 @@
+// @ts-nocheck
 import {
   Comment,
   computed,
   getCurrentInstance,
   h,
   ref,
+  renderSlot,
   unref,
   watchEffect,
 } from 'vue'
@@ -64,6 +66,9 @@ function useRender<T>(
     if (realMinWidth.value) {
       column.minWidth = realMinWidth.value
     }
+    if (!realWidth.value && realMinWidth.value) {
+      column.width = undefined
+    }
     if (!column.minWidth) {
       column.minWidth = 80
     }
@@ -115,13 +120,17 @@ function useRender<T>(
       column.renderHeader = (scope) => {
         // help render
         instance.columnConfig.value['label']
-        const renderHeader = slots.header
-        return renderHeader ? renderHeader(scope) : column.label
+        return renderSlot(slots, 'header', scope, () => [column.label])
+      }
+    }
+
+    if (slots['filter-icon']) {
+      column.renderFilterIcon = (scope) => {
+        return renderSlot(slots, 'filter-icon', scope)
       }
     }
 
     let originRenderCell = column.renderCell
-    const hasTreeColumnValue = hasTreeColumn.value
     // TODO: 这里的实现调整
     if (column.type === 'expand') {
       // 对于展开行，renderCell 不允许配置的。在上一步中已经设置过，这里需要简单封装一下。
@@ -149,8 +158,13 @@ function useRender<T>(
         } else {
           children = originRenderCell(data)
         }
+
+        const { columns } = owner.value.store.states
+        const firstUserColumnIndex = columns.value.findIndex(
+          (item) => item.type === 'default'
+        )
         const shouldCreatePlaceholder =
-          hasTreeColumnValue && data.cellIndex === 0
+          hasTreeColumn.value && data.cellIndex === firstUserColumnIndex
         const prefix = treeCellPrefix(data, shouldCreatePlaceholder)
         const props = {
           class: 'cell',
@@ -184,6 +198,10 @@ function useRender<T>(
     return Array.prototype.indexOf.call(children, child)
   }
 
+  const updateColumnOrder = () => {
+    owner.value.store.commit('updateColumnOrder', instance.columnConfig.value)
+  }
+
   return {
     columnId,
     realAlign,
@@ -195,6 +213,7 @@ function useRender<T>(
     setColumnRenders,
     getPropsData,
     getColumnElIndex,
+    updateColumnOrder,
   }
 }
 

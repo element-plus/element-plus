@@ -1,9 +1,7 @@
 {
   extends: ['config:base', 'schedule:weekly', 'group:allNonMajor'],
   labels: ['dependencies'],
-  pin: false,
   rangeStrategy: 'bump',
-  node: false,
   packageRules: [
     {
       depTypeList: ['peerDependencies'],
@@ -13,14 +11,18 @@
   ignoreDeps: [
     'node',
     'csstype',
-    'esno',
 
     // pure esm
     'chalk',
 
     // test
-    '@vue/test-utils',
-
     'cypress',
+    'jsdom',
+
+    // https://github.com/vitest-dev/vitest/pull/1340
+    'vitest',
+
+    // can't work in v0.34.0
+    'unocss',
   ],
 }

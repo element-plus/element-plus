@@ -4,16 +4,18 @@
     :class="dropdownKls"
     :style="rovingFocusGroupRootStyle"
     :tabindex="-1"
-    role="menu"
+    :role="role"
+    :aria-labelledby="triggerId"
     @blur="onBlur"
     @focus="onFocus"
-    @keydown="handleKeydown"
-    @mousedown="onMousedown"
+    @keydown.self="handleKeydown"
+    @mousedown.self="onMousedown"
   >
     <slot />
   </ul>
 </template>
 <script lang="ts">
+// @ts-nocheck
 import { computed, defineComponent, inject, unref } from 'vue'
 import { composeEventHandlers, composeRefs } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -46,7 +48,10 @@ export default defineComponent({
       undefined
     )!
 
-    const { contentRef } = inject(DROPDOWN_INJECTION_KEY, undefined)!
+    const { contentRef, role, triggerId } = inject(
+      DROPDOWN_INJECTION_KEY,
+      undefined
+    )!
 
     const { collectionRef: dropdownCollectionRef, getItems } = inject(
       DROPDOWN_COLLECTION_INJECTION_KEY,
@@ -99,8 +104,8 @@ export default defineComponent({
 
         e.preventDefault()
 
-        if (target !== unref(contentRef)) return
-        if (!FIRST_LAST_KEYS.includes(code)) return
+        if (target !== unref(contentRef) || !FIRST_LAST_KEYS.includes(code))
+          return
         const items = getItems<{ disabled: boolean }>().filter(
           (item) => !item.disabled
         )
@@ -122,6 +127,8 @@ export default defineComponent({
       rovingFocusGroupRootStyle,
       tabIndex,
       dropdownKls,
+      role,
+      triggerId,
       dropdownListWrapperRef,
       handleKeydown,
       onBlur,

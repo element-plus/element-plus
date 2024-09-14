@@ -1,9 +1,15 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
-import { isString } from '@vue/shared'
-import { isClient } from '@vueuse/core'
-import { addClass, getStyle, removeClass } from '@element-plus/utils'
-import { useZIndex } from '@element-plus/hooks'
+import {
+  addClass,
+  getStyle,
+  isClient,
+  isString,
+  removeClass,
+} from '@element-plus/utils'
 import { createLoadingComponent } from './loading'
+
+import type { UseNamespaceReturn, UseZIndexReturn } from '@element-plus/hooks'
 import type { LoadingInstance } from './loading'
 import type { LoadingOptionsResolved } from '..'
 import type { LoadingOptions } from './types'
@@ -83,6 +89,8 @@ const resolveOptions = (options: LoadingOptions): LoadingOptionsResolved => {
     lock: options.lock ?? false,
     customClass: options.customClass || '',
     visible: options.visible ?? true,
+    beforeClose: options.beforeClose,
+    closed: options.closed,
     target,
   }
 }
@@ -92,7 +100,10 @@ const addStyle = async (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
-  const { nextZIndex } = useZIndex()
+  // Compatible with the instance data format of vue@3.2.12 and earlier versions #12351
+  const { nextZIndex } =
+    ((instance.vm as any).zIndex as UseZIndexReturn) ||
+    (instance.vm as any)._.exposed.zIndex
 
   const maskStyle: CSSProperties = {}
   if (options.fullscreen) {
@@ -134,17 +145,21 @@ const addClassList = (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
+  // Compatible with the instance data format of vue@3.2.12 and earlier versions #12351
+  const ns =
+    ((instance.vm as any).ns as UseNamespaceReturn) ||
+    (instance.vm as any)._.exposed.ns
+
   if (
-    instance.originalPosition.value !== 'absolute' &&
-    instance.originalPosition.value !== 'fixed'
+    !['absolute', 'fixed', 'sticky'].includes(instance.originalPosition.value)
   ) {
-    addClass(parent, 'el-loading-parent--relative')
+    addClass(parent, ns.bm('parent', 'relative'))
   } else {
-    removeClass(parent, 'el-loading-parent--relative')
+    removeClass(parent, ns.bm('parent', 'relative'))
   }
   if (options.fullscreen && options.lock) {
-    addClass(parent, 'el-loading-parent--hidden')
+    addClass(parent, ns.bm('parent', 'hidden'))
   } else {
-    removeClass(parent, 'el-loading-parent--hidden')
+    removeClass(parent, ns.bm('parent', 'hidden'))
   }
 }

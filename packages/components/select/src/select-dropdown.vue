@@ -3,23 +3,21 @@
     :class="[ns.b('dropdown'), ns.is('multiple', isMultiple), popperClass]"
     :style="{ [isFitInputWidth ? 'width' : 'minWidth']: minWidth }"
   >
+    <div v-if="$slots.header" :class="ns.be('dropdown', 'header')">
+      <slot name="header" />
+    </div>
     <slot />
+    <div v-if="$slots.footer" :class="ns.be('dropdown', 'footer')">
+      <slot name="footer" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  inject,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-} from 'vue'
+import { computed, defineComponent, inject, onMounted, ref } from 'vue'
+import { useResizeObserver } from '@vueuse/core'
 import { useNamespace } from '@element-plus/hooks'
-import { addResizeListener, removeResizeListener } from '@element-plus/utils'
 import { selectKey } from './token'
-import type { ResizableElement } from '@element-plus/utils'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -37,26 +35,14 @@ export default defineComponent({
     const minWidth = ref('')
 
     function updateMinWidth() {
-      minWidth.value = `${
-        select.selectWrapper?.getBoundingClientRect().width
-      }px`
+      minWidth.value = `${select.selectRef?.offsetWidth}px`
     }
 
     onMounted(() => {
       // TODO: updatePopper
       // popper.value.update()
       updateMinWidth()
-      addResizeListener(
-        select.selectWrapper as ResizableElement,
-        updateMinWidth
-      )
-    })
-
-    onBeforeUnmount(() => {
-      removeResizeListener(
-        select.selectWrapper as ResizableElement,
-        updateMinWidth
-      )
+      useResizeObserver(select.selectRef, updateMinWidth)
     })
 
     return {

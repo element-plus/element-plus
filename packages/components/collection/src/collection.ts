@@ -52,7 +52,7 @@ export const createCollectionWithScope = (name: string) => {
   const ElCollectionItem = {
     ...CollectionItem,
     name: COLLECTION_ITEM_NAME,
-    setup(_, { attrs }: SetupContext) {
+    setup(_: unknown, { attrs }: SetupContext) {
       const collectionItemRef = ref<HTMLElement | null>(null)
       const collectionInjection = inject(COLLECTION_INJECTION_KEY, undefined)!
 

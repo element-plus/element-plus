@@ -3,75 +3,86 @@
     <slot />
   </transition>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
+import type { RendererElement } from '@vue/runtime-core'
 
-export default defineComponent({
+defineOptions({
   name: 'ElCollapseTransition',
-  setup() {
-    const ns = useNamespace('collapse-transition')
+})
 
-    return {
-      ns,
-      on: {
-        beforeEnter(el) {
-          if (!el.dataset) el.dataset = {}
+const ns = useNamespace('collapse-transition')
 
-          el.dataset.oldPaddingTop = el.style.paddingTop
-          el.dataset.oldPaddingBottom = el.style.paddingBottom
+const reset = (el: RendererElement) => {
+  el.style.maxHeight = ''
+  el.style.overflow = el.dataset.oldOverflow
+  el.style.paddingTop = el.dataset.oldPaddingTop
+  el.style.paddingBottom = el.dataset.oldPaddingBottom
+}
 
-          el.style.maxHeight = 0
-          el.style.paddingTop = 0
-          el.style.paddingBottom = 0
-        },
+const on = {
+  beforeEnter(el: RendererElement) {
+    if (!el.dataset) el.dataset = {}
 
-        enter(el) {
-          el.dataset.oldOverflow = el.style.overflow
-          if (el.scrollHeight !== 0) {
-            el.style.maxHeight = `${el.scrollHeight}px`
-            el.style.paddingTop = el.dataset.oldPaddingTop
-            el.style.paddingBottom = el.dataset.oldPaddingBottom
-          } else {
-            el.style.maxHeight = 0
-            el.style.paddingTop = el.dataset.oldPaddingTop
-            el.style.paddingBottom = el.dataset.oldPaddingBottom
-          }
+    el.dataset.oldPaddingTop = el.style.paddingTop
+    el.dataset.oldPaddingBottom = el.style.paddingBottom
+    if (el.style.height) el.dataset.elExistsHeight = el.style.height
 
-          el.style.overflow = 'hidden'
-        },
+    el.style.maxHeight = 0
+    el.style.paddingTop = 0
+    el.style.paddingBottom = 0
+  },
 
-        afterEnter(el) {
-          el.style.maxHeight = ''
-          el.style.overflow = el.dataset.oldOverflow
-        },
+  enter(el: RendererElement) {
+    requestAnimationFrame(() => {
+      el.dataset.oldOverflow = el.style.overflow
+      if (el.dataset.elExistsHeight) {
+        el.style.maxHeight = el.dataset.elExistsHeight
+      } else if (el.scrollHeight !== 0) {
+        el.style.maxHeight = `${el.scrollHeight}px`
+      } else {
+        el.style.maxHeight = 0
+      }
 
-        beforeLeave(el) {
-          if (!el.dataset) el.dataset = {}
-          el.dataset.oldPaddingTop = el.style.paddingTop
-          el.dataset.oldPaddingBottom = el.style.paddingBottom
-          el.dataset.oldOverflow = el.style.overflow
+      el.style.paddingTop = el.dataset.oldPaddingTop
+      el.style.paddingBottom = el.dataset.oldPaddingBottom
+      el.style.overflow = 'hidden'
+    })
+  },
 
-          el.style.maxHeight = `${el.scrollHeight}px`
-          el.style.overflow = 'hidden'
-        },
+  afterEnter(el: RendererElement) {
+    el.style.maxHeight = ''
+    el.style.overflow = el.dataset.oldOverflow
+  },
 
-        leave(el) {
-          if (el.scrollHeight !== 0) {
-            el.style.maxHeight = 0
-            el.style.paddingTop = 0
-            el.style.paddingBottom = 0
-          }
-        },
+  enterCancelled(el: RendererElement) {
+    reset(el)
+  },
 
-        afterLeave(el) {
-          el.style.maxHeight = ''
-          el.style.overflow = el.dataset.oldOverflow
-          el.style.paddingTop = el.dataset.oldPaddingTop
-          el.style.paddingBottom = el.dataset.oldPaddingBottom
-        },
-      },
+  beforeLeave(el: RendererElement) {
+    if (!el.dataset) el.dataset = {}
+    el.dataset.oldPaddingTop = el.style.paddingTop
+    el.dataset.oldPaddingBottom = el.style.paddingBottom
+    el.dataset.oldOverflow = el.style.overflow
+
+    el.style.maxHeight = `${el.scrollHeight}px`
+    el.style.overflow = 'hidden'
+  },
+
+  leave(el: RendererElement) {
+    if (el.scrollHeight !== 0) {
+      el.style.maxHeight = 0
+      el.style.paddingTop = 0
+      el.style.paddingBottom = 0
     }
   },
-})
+
+  afterLeave(el: RendererElement) {
+    reset(el)
+  },
+
+  leaveCancelled(el: RendererElement) {
+    reset(el)
+  },
+}
 </script>

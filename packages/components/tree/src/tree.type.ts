@@ -62,12 +62,12 @@ export declare interface TreeStoreOptions {
 export declare interface TreeOptionProps {
   children?: string
   label?: string | ((data: TreeNodeData, node: Node) => string)
-  disabled?: string | ((data: TreeNodeData, node: Node) => string)
+  disabled?: string | ((data: TreeNodeData, node: Node) => boolean)
   isLeaf?: string | ((data: TreeNodeData, node: Node) => boolean)
   class?: (
     data: TreeNodeData,
     node: Node
-  ) => string | { [key: string]: boolean } | string
+  ) => string | { [key: string]: boolean }
 }
 export declare type RenderContentFunction = (
   h: hType,
@@ -80,15 +80,16 @@ export declare interface RenderContentContext {
   store: TreeStore
 }
 export declare type AllowDragFunction = (node: Node) => boolean
-export declare type DropType = 'inner' | 'prev' | 'next'
+export declare type AllowDropType = 'inner' | 'prev' | 'next'
 export declare type AllowDropFunction = (
   draggingNode: Node,
   dropNode: Node,
-  type: DropType
+  type: AllowDropType
 ) => boolean
 export declare type LoadFunction = (
   rootNode: Node,
-  loadedCallback: (data: TreeData) => void
+  loadedCallback: (data: TreeData) => void,
+  stopLoading: () => void
 ) => void
 export declare type FilterValue = any
 export declare type FilterNodeMethodFunction = (
@@ -124,3 +125,5 @@ export declare interface TreeComponentProps {
   indent: number
   icon: string | Component
 }
+
+export declare type NodeDropType = 'before' | 'after' | 'inner' | 'none'

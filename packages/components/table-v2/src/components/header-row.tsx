@@ -18,7 +18,7 @@ const TableV2HeaderRow = defineComponent({
           column,
           columnIndex,
           headerIndex,
-          style: columnsStyles[column.key],
+          style: columnsStyles[column.key!],
         })
       })
 
@@ -36,7 +36,7 @@ const TableV2HeaderRow = defineComponent({
       }
 
       return (
-        <div class={props.class} style={style}>
+        <div class={props.class} style={style} role="row">
           {Cells}
         </div>
       )

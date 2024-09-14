@@ -1,26 +1,38 @@
 <template>
-  <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
-    <slot v-if="loading" name="placeholder">
-      <div :class="ns.e('placeholder')" />
-    </slot>
-    <slot v-else-if="hasLoadError" name="error">
+  <div ref="container" v-bind="containerAttrs" :class="[ns.b(), $attrs.class]">
+    <slot v-if="hasLoadError" name="error">
       <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
     </slot>
-    <img
-      v-else
-      v-bind="attrs"
-      :src="src"
-      :style="imageStyle"
-      :class="[ns.e('inner'), preview ? ns.e('preview') : '']"
-      @click="clickHandler"
-    />
+    <template v-else>
+      <img
+        v-if="imageSrc !== undefined"
+        v-bind="imgAttrs"
+        :src="imageSrc"
+        :loading="loading"
+        :style="imageStyle"
+        :class="imageKls"
+        :crossorigin="crossorigin"
+        @click="clickHandler"
+        @load="handleLoad"
+        @error="handleError"
+      />
+      <div v-if="isLoading" :class="ns.e('wrapper')">
+        <slot name="placeholder">
+          <div :class="ns.e('placeholder')" />
+        </slot>
+      </div>
+    </template>
     <template v-if="preview">
       <image-viewer
         v-if="showViewer"
         :z-index="zIndex"
         :initial-index="imageIndex"
         :infinite="infinite"
+        :zoom-rate="zoomRate"
+        :min-scale="minScale"
+        :max-scale="maxScale"
         :url-list="previewSrcList"
+        :crossorigin="crossorigin"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="previewTeleported"
         :close-on-press-escape="closeOnPressEscape"
@@ -44,18 +56,20 @@ import {
   useAttrs as useRawAttrs,
   watch,
 } from 'vue'
-import { isClient, useEventListener, useThrottleFn } from '@vueuse/core'
+import { useEventListener, useThrottleFn } from '@vueuse/core'
+import { fromPairs } from 'lodash-unified'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
+  isClient,
   isElement,
   isInContainer,
   isString,
 } from '@element-plus/utils'
 import { imageEmits, imageProps } from './image'
 
-import type { CSSProperties, StyleValue } from 'vue'
+import type { CSSProperties } from 'vue'
 
 defineOptions({
   name: 'ElImage',
@@ -70,20 +84,38 @@ let prevOverflow = ''
 const { t } = useLocale()
 const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
-const attrs = useAttrs()
 
+const containerAttrs = computed(() => {
+  return fromPairs(
+    Object.entries(rawAttrs).filter(
+      ([key]) => /^(data-|on[A-Z])/i.test(key) || ['id', 'style'].includes(key)
+    )
+  )
+})
+
+const imgAttrs = useAttrs({
+  excludeListeners: true,
+  excludeKeys: computed<string[]>(() => {
+    return Object.keys(containerAttrs.value)
+  }),
+})
+
+const imageSrc = ref<string | undefined>()
 const hasLoadError = ref(false)
-const loading = ref(true)
-const imgWidth = ref(0)
-const imgHeight = ref(0)
+const isLoading = ref(true)
 const showViewer = ref(false)
 const container = ref<HTMLElement>()
-
 const _scrollContainer = ref<HTMLElement | Window>()
+
+const supportLoading = isClient && 'loading' in HTMLImageElement.prototype
 let stopScrollListener: (() => void) | undefined
 let stopWheelListener: (() => void) | undefined
 
-const containerStyle = computed(() => rawAttrs.style as StyleValue)
+const imageKls = computed(() => [
+  ns.e('inner'),
+  preview.value && ns.e('preview'),
+  isLoading.value && ns.is('loading'),
+])
 
 const imageStyle = computed<CSSProperties>(() => {
   const { fit } = props
@@ -107,49 +139,28 @@ const imageIndex = computed(() => {
   return previewIndex
 })
 
+const isManual = computed(() => {
+  if (props.loading === 'eager') return false
+  return (!supportLoading && props.loading === 'lazy') || props.lazy
+})
+
 const loadImage = () => {
   if (!isClient) return
 
   // reset status
-  loading.value = true
+  isLoading.value = true
   hasLoadError.value = false
-
-  const img = new Image()
-  const currentImageSrc = props.src
-
-  // load & error callbacks are only responsible for currentImageSrc
-  img.addEventListener('load', (e) => {
-    if (currentImageSrc !== props.src) {
-      return
-    }
-    handleLoad(e, img)
-  })
-  img.addEventListener('error', (e) => {
-    if (currentImageSrc !== props.src) {
-      return
-    }
-    handleError(e)
-  })
-
-  // bind html attrs
-  // so it can behave consistently
-  Object.entries(rawAttrs).forEach(([key, value]) => {
-    // avoid onload to be overwritten
-    if (key.toLowerCase() === 'onload') return
-    img.setAttribute(key, value as string)
-  })
-  img.src = currentImageSrc
+  imageSrc.value = props.src
 }
 
-function handleLoad(e: Event, img: HTMLImageElement) {
-  imgWidth.value = img.width
-  imgHeight.value = img.height
-  loading.value = false
+function handleLoad(event: Event) {
+  isLoading.value = false
   hasLoadError.value = false
+  emit('load', event)
 }
 
 function handleError(event: Event) {
-  loading.value = false
+  isLoading.value = false
   hasLoadError.value = true
   emit('error', event)
 }
@@ -161,7 +172,7 @@ function handleLazyLoad() {
   }
 }
 
-const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
+const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200, true)
 
 async function addLazyLoadListener() {
   if (!isClient) return
@@ -219,6 +230,7 @@ function clickHandler() {
   prevOverflow = document.body.style.overflow
   document.body.style.overflow = 'hidden'
   showViewer.value = true
+  emit('show')
 }
 
 function closeViewer() {
@@ -235,9 +247,9 @@ function switchViewer(val: number) {
 watch(
   () => props.src,
   () => {
-    if (props.lazy) {
+    if (isManual.value) {
       // reset status
-      loading.value = true
+      isLoading.value = true
       hasLoadError.value = false
       removeLazyLoadListener()
       addLazyLoadListener()
@@ -248,7 +260,7 @@ watch(
 )
 
 onMounted(() => {
-  if (props.lazy) {
+  if (isManual.value) {
     addLazyLoadListener()
   } else {
     loadImage()

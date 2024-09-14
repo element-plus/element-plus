@@ -1,14 +1,11 @@
 <template>
   <li
     v-show="visible"
-    :class="[
-      ns.be('dropdown', 'item'),
-      ns.is('disabled', isDisabled),
-      {
-        selected: itemSelected,
-        hover,
-      },
-    ]"
+    :id="id"
+    :class="containerKls"
+    role="option"
+    :aria-disabled="isDisabled || undefined"
+    :aria-selected="itemSelected"
     @mouseenter="hoverItem"
     @click.stop="selectOptionClick"
   >
@@ -19,15 +16,18 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
   nextTick,
   onBeforeUnmount,
   reactive,
   toRefs,
+  unref,
 } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useId, useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import type { SelectOptionProxy } from './token'
 
@@ -36,65 +36,89 @@ export default defineComponent({
   componentName: 'ElOption',
 
   props: {
+    /**
+     * @description value of option
+     */
     value: {
       required: false,
       validator: (value) => value !== undefined,
     },
+    /**
+     * @description label of option, same as `value` if omitted
+     */
     label: [String, Number],
     created: Boolean,
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+    /**
+     * @description whether option is disabled
+     */
+    disabled: Boolean,
   },
 
   setup(props) {
     const ns = useNamespace('select')
+    const id = useId()
+
+    const containerKls = computed(() => [
+      ns.be('dropdown', 'item'),
+      ns.is('disabled', unref(isDisabled)),
+      ns.is('selected', unref(itemSelected)),
+      ns.is('hovering', unref(hover)),
+    ])
+
     const states = reactive({
       index: -1,
       groupDisabled: false,
       visible: true,
-      hitState: false,
       hover: false,
     })
 
-    const { currentLabel, itemSelected, isDisabled, select, hoverItem } =
-      useOption(props, states)
-
-    const { visible, hover } = toRefs(states)
-
-    const vm = getCurrentInstance().proxy
-    const key = (vm as unknown as SelectOptionProxy).value
-    select.onOptionCreate(vm as unknown as SelectOptionProxy)
-
-    onBeforeUnmount(() => {
-      const { selected } = select
-      const selectedOptions = select.props.multiple ? selected : [selected]
-      const doesSelected = selectedOptions.some((item) => {
-        return item.value === (vm as unknown as SelectOptionProxy).value
-      })
-      // if option is not selected, remove it from cache
-      if (select.cachedOptions.get(key) === vm && !doesSelected) {
-        nextTick(() => {
-          select.cachedOptions.delete(key)
-        })
-      }
-      select.onOptionDestroy(key, vm)
-    })
-
-    function selectOptionClick() {
-      if (props.disabled !== true && states.groupDisabled !== true) {
-        select.handleOptionSelect(vm, true)
-      }
-    }
-
-    return {
-      ns,
+    const {
       currentLabel,
       itemSelected,
       isDisabled,
       select,
       hoverItem,
+      updateOption,
+    } = useOption(props, states)
+
+    const { visible, hover } = toRefs(states)
+
+    const vm = getCurrentInstance().proxy as unknown as SelectOptionProxy
+
+    select.onOptionCreate(vm)
+
+    onBeforeUnmount(() => {
+      const key = vm.value
+      const { selected } = select.states
+      const selectedOptions = select.props.multiple ? selected : [selected]
+      const doesSelected = selectedOptions.some((item) => {
+        return item.value === vm.value
+      })
+      // if option is not selected, remove it from cache
+      nextTick(() => {
+        if (select.states.cachedOptions.get(key) === vm && !doesSelected) {
+          select.states.cachedOptions.delete(key)
+        }
+      })
+      select.onOptionDestroy(key, vm)
+    })
+
+    function selectOptionClick() {
+      if (!isDisabled.value) {
+        select.handleOptionSelect(vm)
+      }
+    }
+
+    return {
+      ns,
+      id,
+      containerKls,
+      currentLabel,
+      itemSelected,
+      isDisabled,
+      select,
+      hoverItem,
+      updateOption,
       visible,
       hover,
       selectOptionClick,

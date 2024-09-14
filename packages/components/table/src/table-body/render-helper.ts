@@ -1,4 +1,7 @@
+// @ts-nocheck
 import { computed, h, inject } from 'vue'
+import { merge } from 'lodash-unified'
+import { useNamespace } from '@element-plus/hooks'
 import { getRowIdentity } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import useEvents from './events-helper'
@@ -8,6 +11,7 @@ import type { RenderRowData, TableProps, TreeNode } from '../table/defaults'
 
 function useRender<T>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY)
+  const ns = useNamespace('table')
   const {
     handleDoubleClick,
     handleClick,
@@ -45,12 +49,12 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     treeRowData?: TreeNode,
     expanded = false
   ) => {
-    const { tooltipEffect, store } = props
+    const { tooltipEffect, tooltipOptions, store } = props
     const { indent, columns } = store.states
     const rowClasses = getRowClass(row, $index)
     let display = true
     if (treeRowData) {
-      rowClasses.push(`el-table__row--level-${treeRowData.level}`)
+      rowClasses.push(ns.em('row', `level-${treeRowData.level}`))
       display = treeRowData.display
     }
     const displayStyle = display
@@ -75,7 +79,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         if (!rowspan || !colspan) {
           return null
         }
-        const columnData = { ...column }
+        const columnData = Object.assign({}, column)
         columnData.realWidth = getColspanRealWidth(
           columns.value,
           colspan,
@@ -106,19 +110,28 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             }
           }
         }
-        const baseKey = `${$index},${cellIndex}`
+        const baseKey = `${getKeyOfRow(row, $index)},${cellIndex}`
         const patchKey = columnData.columnKey || columnData.rawColumnKey || ''
         const tdChildren = cellChildren(cellIndex, column, data)
+        const mergedTooltipOptions =
+          column.showOverflowTooltip &&
+          merge(
+            {
+              effect: tooltipEffect,
+            },
+            tooltipOptions,
+            column.showOverflowTooltip
+          )
         return h(
           'td',
           {
             style: getCellStyle($index, cellIndex, row, column),
-            class: getCellClass($index, cellIndex, row, column),
+            class: getCellClass($index, cellIndex, row, column, colspan - 1),
             key: `${patchKey}${baseKey}`,
             rowspan,
             colspan,
             onMouseenter: ($event) =>
-              handleCellMouseEnter($event, { ...row, tooltipEffect }),
+              handleCellMouseEnter($event, row, mergedTooltipOptions),
             onMouseleave: handleCellMouseLeave,
           },
           [tdChildren]
@@ -161,7 +174,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
                   'td',
                   {
                     colspan: columns.length,
-                    class: 'el-table__cell el-table__expanded-cell',
+                    class: `${ns.e('cell')} ${ns.e('expanded-cell')}`,
                   },
                   [renderExpanded({ row, $index, store, expanded })]
                 ),

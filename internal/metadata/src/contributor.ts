@@ -4,7 +4,7 @@ import glob from 'fast-glob'
 import { Octokit } from 'octokit'
 import consola from 'consola'
 import chalk from 'chalk'
-import { chunk, mapValues } from 'lodash-es'
+import { chunk, mapValues, uniqBy } from 'lodash-unified'
 import {
   ensureDir,
   errorAndExit,
@@ -29,6 +29,7 @@ interface ApiResult {
     endCursor: string
   }
   nodes: Array<{
+    oid: string
     author: {
       avatarUrl: string
       date: string
@@ -69,6 +70,7 @@ const fetchCommits = async (
                 after ? `, after: "${after}"` : ''
               }) {
                 nodes {
+                  oid
                   author {
                     avatarUrl
                     date
@@ -90,9 +92,9 @@ const fetchCommits = async (
       }
     }
   }`
-  const respnose = (await octokit.graphql<ApiResponse>(query)).repository.object
+  const response = (await octokit.graphql<ApiResponse>(query)).repository.object
   return Object.fromEntries(
-    Object.entries(respnose).map(([key, result]) => {
+    Object.entries(response).map(([key, result]) => {
       const index = +key.replace('path', '')
       return [index, result]
     })
@@ -145,7 +147,9 @@ const getContributorsByComponents = async (components: string[]) => {
       .filter((option) => !!option.after)
   } while (options.length > 0)
 
-  return mapValues(commits, (commits) => calcContributors(commits))
+  return mapValues(commits, (commits) =>
+    calcContributors(uniqBy(commits, 'oid'))
+  )
 }
 
 async function getContributors() {

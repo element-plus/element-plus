@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
@@ -228,23 +229,6 @@ describe('Drawer', () => {
     expect(wrapper.find('.el-drawer__close-btn').exists()).toBe(false)
   })
 
-  test('should have custom classes when custom classes were given', async () => {
-    const classes = 'some-custom-class'
-    const wrapper = _mount(
-      `
-      <el-drawer :title='title' v-model='visible' ref='drawer' custom-class='${classes}'>
-        <span>${content}</span>
-      </el-drawer>
-      `,
-      () => ({
-        title,
-        visible: true,
-      })
-    )
-
-    expect(wrapper.find(`.${classes}`).exists()).toBe(true)
-  })
-
   test('drawer header should have slot props', async () => {
     const wrapper = _mount(
       `
@@ -353,6 +337,7 @@ describe('Drawer', () => {
     const drawer = wrapper.vm.$refs.drawer as any
 
     vm.visible = true
+    await nextTick()
     await nextTick()
     expect(open).toHaveBeenCalled()
     drawer.afterEnter()

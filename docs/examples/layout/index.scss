@@ -1,33 +1,30 @@
-.row-bg {
-  padding: 10px 0;
-  background-color: #f9fafc;
-}
-
-.bg-purple-dark {
-  background: #99a9bf;
-}
-.bg-purple {
-  background: #d3dce6;
-}
-.bg-purple-light {
-  background: #e5e9f2;
+:root {
+  --ep-c-bg-row: #f9fafc;
+  --ep-c-bg-purple: #d3dce6;
+  --ep-c-bg-purple-dark: #99a9bf;
+  --ep-c-bg-purple-light: #e5e9f2;
 }
 
 .dark {
-  .row-bg {
-    padding: 10px 0;
-    background-color: #18191a;
-  }
+  --ep-c-bg-row: #18191a;
+  --ep-c-bg-purple: #46494d;
+  --ep-c-bg-purple-dark: #242526;
+  --ep-c-bg-purple-light: #667180;
+}
 
-  .bg-purple-light {
-    background: #242526;
-  }
+.row-bg {
+  padding: 10px 0;
+  background-color: var(--ep-c-bg-row);
+}
 
-  .bg-purple {
-    background: #46494d;
-  }
+.ep-bg-purple-dark {
+  background: var(--ep-c-bg-purple-dark);
+}
 
-  .bg-purple-dark {
-    background: #667180;
-  }
+.ep-bg-purple {
+  background: var(--ep-c-bg-purple);
+}
+
+.ep-bg-purple-light {
+  background: var(--ep-c-bg-purple-light);
 }

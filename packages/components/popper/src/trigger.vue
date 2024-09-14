@@ -6,27 +6,29 @@
     :aria-describedby="ariaDescribedby"
     :aria-expanded="ariaExpanded"
     :aria-haspopup="ariaHaspopup"
-    :aria-owns="ariaOwns"
   >
     <slot />
   </el-only-child>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onMounted, watch } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue'
+import { isNil } from 'lodash-unified'
 import { unrefElement } from '@vueuse/core'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
-import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
 import { isElement } from '@element-plus/utils'
-import { usePopperTriggerProps } from './trigger'
+import { POPPER_INJECTION_KEY } from './constants'
+import { popperTriggerProps } from './trigger'
+
+import type { WatchStopHandle } from 'vue'
 
 defineOptions({
   name: 'ElPopperTrigger',
   inheritAttrs: false,
 })
 
-const props = defineProps(usePopperTriggerProps)
+const props = defineProps(popperTriggerProps)
 
 const { role, triggerRef } = inject(POPPER_INJECTION_KEY, undefined)!
 
@@ -54,9 +56,17 @@ const ariaExpanded = computed<string | undefined>(() => {
   return ariaHaspopup.value ? `${props.open}` : undefined
 })
 
-const ariaOwns = computed<string | undefined>(() => {
-  return ariaHaspopup.value ? props.id : undefined
-})
+let virtualTriggerAriaStopWatch: WatchStopHandle | undefined = undefined
+
+const TRIGGER_ELE_EVENTS = [
+  'onMouseenter',
+  'onMouseleave',
+  'onClick',
+  'onKeydown',
+  'onFocus',
+  'onBlur',
+  'onContextmenu',
+] as const
 
 onMounted(() => {
   watch(
@@ -72,18 +82,12 @@ onMounted(() => {
   )
 
   watch(
-    () => triggerRef.value,
+    triggerRef,
     (el, prevEl) => {
+      virtualTriggerAriaStopWatch?.()
+      virtualTriggerAriaStopWatch = undefined
       if (isElement(el)) {
-        ;[
-          'onMouseenter',
-          'onMouseleave',
-          'onClick',
-          'onKeydown',
-          'onFocus',
-          'onBlur',
-          'onContextmenu',
-        ].forEach((eventName) => {
+        TRIGGER_ELE_EVENTS.forEach((eventName) => {
           const handler = props[eventName]
           if (handler) {
             ;(el as HTMLElement).addEventListener(
@@ -96,12 +100,51 @@ onMounted(() => {
             )
           }
         })
+        virtualTriggerAriaStopWatch = watch(
+          [ariaControls, ariaDescribedby, ariaHaspopup, ariaExpanded],
+          (watches) => {
+            ;[
+              'aria-controls',
+              'aria-describedby',
+              'aria-haspopup',
+              'aria-expanded',
+            ].forEach((key, idx) => {
+              isNil(watches[idx])
+                ? el.removeAttribute(key)
+                : el.setAttribute(key, watches[idx]!)
+            })
+          },
+          { immediate: true }
+        )
+      }
+      if (isElement(prevEl)) {
+        ;[
+          'aria-controls',
+          'aria-describedby',
+          'aria-haspopup',
+          'aria-expanded',
+        ].forEach((key) => prevEl.removeAttribute(key))
       }
     },
     {
       immediate: true,
     }
   )
+})
+
+onBeforeUnmount(() => {
+  virtualTriggerAriaStopWatch?.()
+  virtualTriggerAriaStopWatch = undefined
+  if (triggerRef.value && isElement(triggerRef.value)) {
+    const el = triggerRef.value as HTMLElement
+    TRIGGER_ELE_EVENTS.forEach((eventName) => {
+      const handler = props[eventName]
+      if (handler) {
+        el.removeEventListener(eventName.slice(2).toLowerCase(), handler)
+      }
+    })
+    triggerRef.value = undefined
+  }
 })
 
 defineExpose({

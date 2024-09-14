@@ -195,12 +195,15 @@ module.exports = defineConfig({
       'error',
       { disallowTypeAnnotations: false },
     ],
+    '@typescript-eslint/ban-ts-comment': ['off', { 'ts-ignore': false }],
 
     // vue
     'vue/no-v-html': 'off',
     'vue/require-default-prop': 'off',
     'vue/require-explicit-emits': 'off',
     'vue/multi-word-component-names': 'off',
+    'vue/prefer-import-from-vue': 'off',
+    'vue/no-v-text-v-html-on-component': 'off',
     'vue/html-self-closing': [
       'error',
       {
@@ -259,6 +262,21 @@ module.exports = defineConfig({
     'import/no-named-as-default': 'off',
     'import/no-named-as-default-member': 'off',
     'import/named': 'off',
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          { name: 'lodash', message: 'Use lodash-unified instead.' },
+          { name: 'lodash-es', message: 'Use lodash-unified instead.' },
+        ],
+        patterns: [
+          {
+            group: ['lodash/*', 'lodash-es/*'],
+            message: 'Use lodash-unified instead.',
+          },
+        ],
+      },
+    ],
 
     // eslint-plugin-eslint-comments
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],

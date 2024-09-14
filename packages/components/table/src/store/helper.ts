@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import useStore from '.'
@@ -19,6 +20,10 @@ const InitialStateMap = {
   ['treeProps.children']: {
     key: 'childrenColumnName',
     default: 'children',
+  },
+  ['treeProps.checkStrictly']: {
+    key: 'checkStrictly',
+    default: false,
   },
 }
 

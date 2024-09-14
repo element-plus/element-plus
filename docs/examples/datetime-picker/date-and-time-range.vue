@@ -25,7 +25,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const value1 = ref([
+const value1 = ref<[Date, Date]>([
   new Date(2000, 10, 10, 10, 10),
   new Date(2000, 10, 11, 10, 10),
 ])
@@ -37,7 +37,7 @@ const shortcuts = [
     value: () => {
       const end = new Date()
       const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      start.setDate(start.getDate() - 7)
       return [start, end]
     },
   },
@@ -46,7 +46,7 @@ const shortcuts = [
     value: () => {
       const end = new Date()
       const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+      start.setMonth(start.getMonth() - 1)
       return [start, end]
     },
   },
@@ -55,7 +55,7 @@ const shortcuts = [
     value: () => {
       const end = new Date()
       const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+      start.setMonth(start.getMonth() - 3)
       return [start, end]
     },
   },

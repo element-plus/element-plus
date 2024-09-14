@@ -1,4 +1,7 @@
 import type { CSSProperties } from 'vue'
+import type { ThumbProps } from './thumb'
+
+export const GAP = 4 // top 2 + bottom 2 of bar instance
 
 export const BAR_MAP = {
   vertical: {
@@ -23,7 +26,13 @@ export const BAR_MAP = {
   },
 } as const
 
-export const renderThumbStyle = ({ move, size, bar }): CSSProperties => ({
+export const renderThumbStyle = ({
+  move,
+  size,
+  bar,
+}: Pick<ThumbProps, 'move' | 'size'> & {
+  bar: typeof BAR_MAP[keyof typeof BAR_MAP]
+}): CSSProperties => ({
   [bar.size]: size,
   transform: `translate${bar.axis}(${move}%)`,
 })

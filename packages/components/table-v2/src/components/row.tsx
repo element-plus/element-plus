@@ -170,7 +170,7 @@ const TableV2Row = defineComponent({
           columns,
           columnIndex,
           depth,
-          style: columnsStyles[column.key],
+          style: columnsStyles[column.key!],
           rowData,
           rowIndex,
           isScrolling: unref(isScrolling),
@@ -210,6 +210,7 @@ const TableV2Row = defineComponent({
             ref={rowRef}
             class={props.class}
             style={_measured ? style : exceptHeightStyle}
+            role="row"
             {...attrs}
             {...unref(eventHandlers)}
           >
@@ -224,6 +225,7 @@ const TableV2Row = defineComponent({
           ref={rowRef}
           class={props.class}
           style={style}
+          role="row"
           {...unref(eventHandlers)}
         >
           {ColumnCells}

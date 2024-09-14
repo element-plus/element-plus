@@ -1,5 +1,8 @@
 <template>
-  <teleport to="body" :disabled="!appendToBody">
+  <el-teleport
+    :to="appendTo"
+    :disabled="appendTo !== 'body' ? false : !appendToBody"
+  >
     <transition
       name="dialog-fade"
       @after-enter="afterEnter"
@@ -20,6 +23,7 @@
           :aria-labelledby="!title ? titleId : undefined"
           :aria-describedby="bodyId"
           :class="`${ns.namespace.value}-overlay-dialog`"
+          :style="overlayDialogStyle"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"
           @mouseup="overlayEvent.onMouseup"
@@ -30,19 +34,22 @@
             focus-start-el="container"
             @focus-after-trapped="onOpenAutoFocus"
             @focus-after-released="onCloseAutoFocus"
+            @focusout-prevented="onFocusoutPrevented"
             @release-requested="onCloseRequested"
           >
             <el-dialog-content
               v-if="rendered"
               ref="dialogContentRef"
-              :custom-class="customClass"
+              v-bind="$attrs"
               :center="center"
+              :align-center="alignCenter"
               :close-icon="closeIcon"
               :draggable="draggable"
+              :overflow="overflow"
               :fullscreen="fullscreen"
               :show-close="showClose"
-              :style="style"
               :title="title"
+              :aria-level="headerAriaLevel"
               @close="handleClose"
             >
               <template #header>
@@ -64,26 +71,23 @@
         </div>
       </el-overlay>
     </transition>
-  </teleport>
+  </el-teleport>
 </template>
 
 <script lang="ts" setup>
 import { computed, provide, ref, useSlots } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
-import {
-  useDeprecated,
-  useDraggable,
-  useNamespace,
-  useSameTarget,
-} from '@element-plus/hooks'
-import { dialogInjectionKey } from '@element-plus/tokens'
+import { useDeprecated, useNamespace, useSameTarget } from '@element-plus/hooks'
 import ElFocusTrap from '@element-plus/components/focus-trap'
+import ElTeleport from '@element-plus/components/teleport'
 import ElDialogContent from './dialog-content.vue'
+import { dialogInjectionKey } from './constants'
 import { dialogEmits, dialogProps } from './dialog'
 import { useDialog } from './use-dialog'
 
 defineOptions({
   name: 'ElDialog',
+  inheritAttrs: false,
 })
 
 const props = defineProps(dialogProps)
@@ -111,6 +115,7 @@ const {
   titleId,
   bodyId,
   style,
+  overlayDialogStyle,
   rendered,
   zIndex,
   afterEnter,
@@ -121,6 +126,7 @@ const {
   onOpenAutoFocus,
   onCloseAutoFocus,
   onCloseRequested,
+  onFocusoutPrevented,
 } = useDialog(props, dialogRef)
 
 provide(dialogInjectionKey, {
@@ -136,11 +142,14 @@ const overlayEvent = useSameTarget(onModalClick)
 
 const draggable = computed(() => props.draggable && !props.fullscreen)
 
-useDraggable(dialogRef, headerRef, draggable)
+const resetPosition = () => {
+  dialogContentRef.value?.resetPosition()
+}
 
 defineExpose({
   /** @description whether the dialog is visible */
   visible,
   dialogContentRef,
+  resetPosition,
 })
 </script>

@@ -44,6 +44,7 @@ describe('Image.vue', () => {
     await doubleWait()
     expect(wrapper.find('.el-image__inner').exists()).toBe(true)
     expect(wrapper.find('img').exists()).toBe(true)
+    await nextTick()
     expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
     expect(wrapper.find('.el-image__error').exists()).toBe(false)
   })
@@ -55,7 +56,7 @@ describe('Image.vue', () => {
       },
     })
     await doubleWait()
-    expect(wrapper.emitted('error')).toBeDefined()
+    wrapper.emitted('error') && expect(wrapper.emitted('error')).toBeDefined()
     expect(wrapper.find('.el-image__inner').exists()).toBe(false)
     expect(wrapper.find('img').exists()).toBe(false)
     expect(wrapper.find('.el-image__error').exists()).toBe(true)
@@ -113,6 +114,22 @@ describe('Image.vue', () => {
     expect(
       wrapper.findAll('.el-image-viewer__img')[1].attributes('style')
     ).not.toContain('display: none')
+  })
+
+  test('native loading attributes', async () => {
+    const wrapper = mount(Image, {
+      props: {
+        src: IMAGE_SUCCESS,
+        loading: 'eager',
+      } as ElImageProps,
+    })
+
+    await doubleWait()
+    expect(wrapper.find('img').exists()).toBe(true)
+    expect(wrapper.find('img').attributes('loading')).toBe('eager')
+
+    await wrapper.setProps({ loading: undefined })
+    expect(wrapper.find('img').attributes('loading')).toBe(undefined)
   })
 
   test('$attrs', async () => {

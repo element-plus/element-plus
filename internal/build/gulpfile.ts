@@ -20,13 +20,13 @@ export const copyFiles = () =>
       path.resolve(epOutput, 'README.md')
     ),
     copyFile(
-      path.resolve(projRoot, 'global.d.ts'),
+      path.resolve(projRoot, 'typings', 'global.d.ts'),
       path.resolve(epOutput, 'global.d.ts')
     ),
   ])
 
 export const copyTypesDefinitions: TaskFunction = (done) => {
-  const src = path.resolve(buildOutput, 'types')
+  const src = path.resolve(buildOutput, 'types', 'packages')
   const copyTypes = (module: Module) =>
     withTaskName(`copyTypes:${module}`, () =>
       copy(src, buildConfig[module].output.path, { recursive: true })

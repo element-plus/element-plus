@@ -23,9 +23,9 @@ These are examples about custom theme.
 `theme-chalk` is written in SCSS.
 You can find SCSS variables in [`packages/theme-chalk/src/common/var.scss`](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss).
 
-::: warning
+:::warning
 
-We use sass modules ([sass:map](https://sass-lang.com/documentation/values/maps)...) and `@use` to refactor all SCSS variables.
+We use sass modules ([sass:map](https://sass-lang.com/documentation/values/maps)...) and `@use` to refactor all SCSS variables. And by using `@use` to all SCSS variables, it solves the duplicate output problem caused by `@import`.
 
 > [Introducing Sass Modules | CSS-TRICKS](https://css-tricks.com/introducing-sass-modules/)
 
@@ -70,7 +70,7 @@ $colors: map.deep-merge(
 
 If your project also uses SCSS, you can directly change Element Plus style variables. Create a new style file, e.g. `styles/element/index.scss`:
 
-::: warning
+:::warning
 
 You should use `@use 'xxx.scss' as *;` instead of `@import 'xxx.scss';`.
 
@@ -98,7 +98,7 @@ Because the sass team said they will remove `@import` eventually.
 
 Then in the entry file of your project, import this style file instead of Element's built CSS:
 
-::: tip
+:::tip
 
 Import `element/index.scss` before scss of element-plus to avoid the problem of sass mixed variables, because we need generate light-x by your custom variables.
 
@@ -106,7 +106,7 @@ Import `element/index.scss` before scss of element-plus to avoid the problem of 
 
 Create a `element/index.scss` to combine your variables and variables of element-plus. (If you import them in ts, they will not be combined.)
 
-::: tip
+:::tip
 
 In addition, you should distinguish your scss from the element variable scss.
 If they are mixed together, each hot update of `element-plus` needs to compile a large number of scss files, resulting in slow speed.
@@ -204,7 +204,7 @@ CSS Variables is a very useful feature, already supported by almost all browsers
 
 We have used css variables to reconstruct the style system of almost all components.
 
-::: tip
+:::tip
 
 It is compatible with the SCSS variable system. We use the function of SCSS to automatically generate css variables for use.
 

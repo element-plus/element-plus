@@ -8,22 +8,22 @@
       ]"
       class="number"
       :aria-current="currentPage === 1"
-      tabindex="0"
+      :aria-label="t('el.pagination.currentPage', { pager: 1 })"
+      :tabindex="tabindex"
     >
       1
     </li>
     <li
       v-if="showPrevMore"
-      :class="[
-        'more',
-        'btn-quickprev',
-        nsIcon.b(),
-        nsPager.is('disabled', disabled),
-      ]"
-      @mouseenter="onMouseenter('left')"
+      :class="prevMoreKls"
+      :tabindex="tabindex"
+      :aria-label="t('el.pagination.prevPages', { pager: pagerCount - 2 })"
+      @mouseenter="onMouseEnter(true)"
       @mouseleave="quickPrevHover = false"
+      @focus="onFocus(true)"
+      @blur="quickPrevFocus = false"
     >
-      <d-arrow-left v-if="quickPrevHover" />
+      <d-arrow-left v-if="(quickPrevHover || quickPrevFocus) && !disabled" />
       <more-filled v-else />
     </li>
     <li
@@ -35,22 +35,22 @@
       ]"
       class="number"
       :aria-current="currentPage === pager"
-      tabindex="0"
+      :aria-label="t('el.pagination.currentPage', { pager })"
+      :tabindex="tabindex"
     >
       {{ pager }}
     </li>
     <li
       v-if="showNextMore"
-      :class="[
-        'more',
-        'btn-quicknext',
-        nsIcon.b(),
-        nsPager.is('disabled', disabled),
-      ]"
-      @mouseenter="onMouseenter('right')"
+      :class="nextMoreKls"
+      :tabindex="tabindex"
+      :aria-label="t('el.pagination.nextPages', { pager: pagerCount - 2 })"
+      @mouseenter="onMouseEnter()"
       @mouseleave="quickNextHover = false"
+      @focus="onFocus()"
+      @blur="quickNextFocus = false"
     >
-      <d-arrow-right v-if="quickNextHover" />
+      <d-arrow-right v-if="(quickNextHover || quickNextFocus) && !disabled" />
       <more-filled v-else />
     </li>
     <li
@@ -61,7 +61,8 @@
       ]"
       class="number"
       :aria-current="currentPage === pageCount"
-      tabindex="0"
+      :aria-label="t('el.pagination.currentPage', { pager: pageCount })"
+      :tabindex="tabindex"
     >
       {{ pageCount }}
     </li>
@@ -70,7 +71,7 @@
 <script lang="ts" setup>
 import { computed, ref, watchEffect } from 'vue'
 import { DArrowLeft, DArrowRight, MoreFilled } from '@element-plus/icons-vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { paginationPagerProps } from './pager'
 defineOptions({
   name: 'ElPaginationPager',
@@ -79,10 +80,14 @@ const props = defineProps(paginationPagerProps)
 const emit = defineEmits(['change'])
 const nsPager = useNamespace('pager')
 const nsIcon = useNamespace('icon')
+const { t } = useLocale()
+
 const showPrevMore = ref(false)
 const showNextMore = ref(false)
 const quickPrevHover = ref(false)
 const quickNextHover = ref(false)
+const quickPrevFocus = ref(false)
+const quickNextFocus = ref(false)
 const pagers = computed(() => {
   const pagerCount = props.pagerCount
   const halfPagerCount = (pagerCount - 1) / 2
@@ -120,6 +125,21 @@ const pagers = computed(() => {
   }
   return array
 })
+
+const prevMoreKls = computed(() => [
+  'more',
+  'btn-quickprev',
+  nsIcon.b(),
+  nsPager.is('disabled', props.disabled),
+])
+const nextMoreKls = computed(() => [
+  'more',
+  'btn-quicknext',
+  nsIcon.b(),
+  nsPager.is('disabled', props.disabled),
+])
+
+const tabindex = computed(() => (props.disabled ? -1 : 0))
 watchEffect(() => {
   const halfPagerCount = (props.pagerCount - 1) / 2
   showPrevMore.value = false
@@ -133,12 +153,19 @@ watchEffect(() => {
     }
   }
 })
-function onMouseenter(direction: 'left' | 'right') {
+function onMouseEnter(forward = false) {
   if (props.disabled) return
-  if (direction === 'left') {
+  if (forward) {
     quickPrevHover.value = true
   } else {
     quickNextHover.value = true
+  }
+}
+function onFocus(forward = false) {
+  if (forward) {
+    quickPrevFocus.value = true
+  } else {
+    quickNextFocus.value = true
   }
 }
 function onEnter(e: UIEvent) {
@@ -151,6 +178,11 @@ function onEnter(e: UIEvent) {
     if (newPage !== props.currentPage) {
       emit('change', newPage)
     }
+  } else if (
+    target.tagName.toLowerCase() === 'li' &&
+    Array.from(target.classList).includes('more')
+  ) {
+    onPagerClick(e)
   }
 }
 function onPagerClick(event: UIEvent) {

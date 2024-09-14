@@ -16,6 +16,7 @@ export interface MessageBoxInputValidator {
 }
 
 export declare interface MessageBoxState {
+  autofocus: boolean
   title: string
   message: string
   type: MessageType
@@ -37,6 +38,8 @@ export declare interface MessageBoxState {
   cancelButtonText: string
   confirmButtonLoading: boolean
   cancelButtonLoading: boolean
+  confirmButtonLoadingIcon: string | Component
+  cancelButtonLoadingIcon: string | Component
   confirmButtonClass: string
   confirmButtonDisabled: boolean
   cancelButtonClass: string
@@ -62,6 +65,11 @@ export type Callback =
 
 /** Options used in MessageBox */
 export interface ElMessageBoxOptions {
+  /**
+   * auto focus when open message-box
+   */
+  autofocus?: boolean
+
   /** Callback before MessageBox closes, and it will prevent MessageBox from closing */
   beforeClose?: (
     action: Action,
@@ -84,6 +92,12 @@ export interface ElMessageBoxOptions {
   /** Text content of confirm button */
   confirmButtonText?: string
 
+  /** Loading Icon content of cancel button */
+  cancelButtonLoadingIcon?: string | Component
+
+  /** Loading Icon content of confirm button */
+  confirmButtonLoadingIcon?: string | Component
+
   /** Custom class name of cancel button */
   cancelButtonClass?: string
 
@@ -96,11 +110,14 @@ export interface ElMessageBoxOptions {
   /** Whether MessageBox can be drag */
   draggable?: boolean
 
+  /** Draggable MessageBox can overflow the viewport */
+  overflow?: boolean
+
   /** Content of the MessageBox */
-  message?: string | VNode
+  message?: string | VNode | (() => VNode)
 
   /** Title of the MessageBox */
-  title?: string
+  title?: string | ElMessageBoxOptions
 
   /** Message type, used for icon display */
   type?: MessageType
@@ -164,16 +181,19 @@ export interface ElMessageBoxOptions {
 
   /** Custom size of confirm and cancel buttons */
   buttonSize?: ComponentSize
+
+  /** Custom element to append the message box to */
+  appendTo?: HTMLElement | string
 }
 
 export type ElMessageBoxShortcutMethod = ((
   message: ElMessageBoxOptions['message'],
-  title: ElMessageBoxOptions['title'],
   options?: ElMessageBoxOptions,
   appContext?: AppContext | null
 ) => Promise<MessageBoxData>) &
   ((
     message: ElMessageBoxOptions['message'],
+    title: ElMessageBoxOptions['title'],
     options?: ElMessageBoxOptions,
     appContext?: AppContext | null
   ) => Promise<MessageBoxData>)

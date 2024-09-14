@@ -1,6 +1,7 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
-import { NOOP } from '@vue/shared'
 import { describe, expect, test, vi } from 'vitest'
+import { NOOP } from '@element-plus/utils'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import Tree from '../src/tree.vue'
 import type {
@@ -121,12 +122,14 @@ const createTree = (
         :check-strictly="checkStrictly"
         :default-expanded-keys="defaultExpandedKeys"
         :indent="indent"
+        :item-size="itemSize"
         :icon-class="iconClass"
         :expand-on-click-node="expandOnClickNode"
         :check-on-click-node="checkOnClickNode"
         :current-node-key="currentNodeKey"
         :filter-method="filterMethod"
         @node-click="onNodeClick"
+        @node-drop="onNodeDrop"
         @node-expand="onNodeExpand"
         @check="onNodeCheck"
         @current-change="onCurrentChange"
@@ -151,6 +154,7 @@ const createTree = (
           checkStrictly: false,
           defaultExpandedKeys: undefined,
           indent: 16,
+          itemSize: 26,
           iconClass: undefined,
           expandOnClickNode: true,
           checkOnClickNode: false,
@@ -161,6 +165,7 @@ const createTree = (
       },
       methods: {
         onNodeClick: NOOP,
+        onNodeDrop: NOOP,
         onNodeExpand: NOOP,
         onNodeCheck: NOOP,
         onCurrentChange: NOOP,
@@ -182,9 +187,11 @@ const createTree = (
 
 describe('Virtual Tree', () => {
   test('create', async () => {
-    const { treeVm } = createTree()
+    const { wrapper, treeVm } = createTree()
     await nextTick()
     expect(treeVm.flattenTree.length).toEqual(NODE_NUMBER)
+    const iconWrapper = wrapper.find(TREE_NODE_EXPAND_ICON_CLASS_NAME)
+    expect(iconWrapper.find('svg').exists()).toBeTruthy()
   })
 
   test('click node', async () => {
@@ -198,6 +205,20 @@ describe('Virtual Tree', () => {
     const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
     await nodes[0].trigger('click')
     expect(onNodeClick).toBeCalled()
+    expect(treeVm.flattenTree.length).toBeGreaterThanOrEqual(NODE_NUMBER)
+  })
+
+  test('drop on node', async () => {
+    const onNodeDrop = vi.fn()
+    const { wrapper, treeVm } = createTree({
+      methods: {
+        onNodeDrop,
+      },
+    })
+    await nextTick()
+    const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    await nodes[0].trigger('drop')
+    expect(onNodeDrop).toBeCalled()
     expect(treeVm.flattenTree.length).toBeGreaterThanOrEqual(NODE_NUMBER)
   })
 
@@ -226,6 +247,21 @@ describe('Virtual Tree', () => {
     await nextTick()
     const el = wrapper.find('.el-tree-virtual-list').element as any
     expect(el.style.height).toBe('300px')
+  })
+
+  test('item-size', async () => {
+    const { wrapper } = createTree({
+      data() {
+        return {
+          itemSize: 40,
+        }
+      },
+    })
+    await nextTick()
+    const node = wrapper.find('.el-tree-node').element
+    const content = wrapper.find('.el-tree-node__content').element
+    expect(node.style.height).toBe('40px')
+    expect(content.style.height).toBe('40px')
   })
 
   test('props', async () => {
@@ -568,6 +604,73 @@ describe('Virtual Tree', () => {
         }
       },
     })
+    await nextTick()
+    const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.length).toBe(5)
+  })
+
+  test('setExpandedKeys', async () => {
+    const { treeRef, wrapper } = createTree({
+      data() {
+        return {
+          height: 400,
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                  children: [
+                    {
+                      id: '1-1-1',
+                      label: 'node-1-1-1',
+                      children: [
+                        {
+                          id: '1-1-1-1',
+                          label: 'node-1-1-1-1',
+                        },
+                        {
+                          id: '1-1-1-2',
+                          label: 'node-1-1-1-2',
+                        },
+                      ],
+                    },
+                    {
+                      id: '1-1-2',
+                      label: 'node-1-1-2',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: '2',
+              label: 'node-2',
+              children: [
+                {
+                  id: '2-1',
+                  label: 'node-2-1',
+                  children: [
+                    {
+                      id: '2-1-1',
+                      label: 'node-2-1-1',
+                    },
+                    {
+                      id: '2-1-2',
+                      label: 'node-2-1-2',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    treeRef.setExpandedKeys(['1-1'])
     await nextTick()
     const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
     expect(nodes.length).toBe(5)
@@ -1155,6 +1258,131 @@ describe('Virtual Tree', () => {
         label: 'node-1-1-2',
       })
       expect(treeRef.getCurrentKey()).toBe('1-1-2')
+    })
+
+    test('setCurrentKey', async () => {
+      const { treeRef, wrapper } = createTree({
+        data() {
+          return {
+            data: [
+              {
+                id: 0,
+                label: 'node-0',
+              },
+              {
+                id: '1',
+                label: 'node-1',
+                children: [
+                  {
+                    id: '1-1',
+                    label: 'node-1-1',
+                    children: [
+                      {
+                        id: '1-1-1',
+                        label: 'node-1-1-1',
+                      },
+                      {
+                        id: '1-1-2',
+                        label: 'node-1-1-2',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-2',
+                    label: 'node-1-2',
+                    children: [
+                      {
+                        id: '1-2-1',
+                        label: 'node-1-2-1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-3',
+                    label: 'node-1-3',
+                  },
+                ],
+              },
+              {
+                id: '2',
+                label: 'node-2',
+              },
+            ],
+          }
+        },
+      })
+      await nextTick()
+      treeRef.setCurrentKey(0)
+      await nextTick()
+      const currentKeys = treeRef.getCurrentKey()
+      const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+      expect(currentKeys).toBe(0)
+      expect(nodes[0].classes()).toContain('is-current')
+    })
+    test('scrollToNode', async () => {
+      const { treeVm } = createTree({
+        data() {
+          return {
+            data: [
+              {
+                id: 0,
+                label: 'node-0',
+              },
+              {
+                id: '1',
+                label: 'node-1',
+                children: [
+                  {
+                    id: '1-1',
+                    label: 'node-1-1',
+                    children: [
+                      {
+                        id: '1-1-1',
+                        label: 'node-1-1-1',
+                      },
+                      {
+                        id: '1-1-2',
+                        label: 'node-1-1-2',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-2',
+                    label: 'node-1-2',
+                    children: [
+                      {
+                        id: '1-2-1',
+                        label: 'node-1-2-1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-3',
+                    label: 'node-1-3',
+                  },
+                ],
+              },
+              {
+                id: '2',
+                label: 'node-2',
+              },
+            ],
+          }
+        },
+      })
+      await nextTick()
+      const scrollToItem = vi.spyOn(treeVm.listRef, 'scrollToItem')
+      treeVm.scrollToNode('22', 'start')
+      expect(scrollToItem).not.toHaveBeenCalled()
+      treeVm.scrollToNode('1', 'start')
+      expect(scrollToItem).toHaveBeenCalledWith(1, 'start')
+    })
+    test('scrollTo', async () => {
+      const { treeVm } = createTree()
+      await nextTick()
+      const scrollTo = vi.spyOn(treeVm.listRef, 'scrollTo')
+      treeVm.scrollTo(100)
+      expect(scrollTo).toHaveBeenCalledWith(100)
     })
   })
 })

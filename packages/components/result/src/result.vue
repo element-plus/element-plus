@@ -24,33 +24,28 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { IconComponentMap, IconMap, resultProps } from './result'
-const COMPONENT_NAME = 'ElResult'
-export default defineComponent({
-  name: COMPONENT_NAME,
-  props: resultProps,
-  setup(props) {
-    const ns = useNamespace('result')
 
-    const resultIcon = computed(() => {
-      const icon = props.icon
-      const iconClass = icon && IconMap[icon] ? IconMap[icon] : 'icon-info'
-      const iconComponent =
-        IconComponentMap[iconClass] || IconComponentMap['icon-info']
+defineOptions({
+  name: 'ElResult',
+})
 
-      return {
-        class: iconClass,
-        component: iconComponent,
-      }
-    })
+const props = defineProps(resultProps)
 
-    return {
-      ns,
-      resultIcon,
-    }
-  },
+const ns = useNamespace('result')
+
+const resultIcon = computed(() => {
+  const icon = props.icon
+  const iconClass = icon && IconMap[icon] ? IconMap[icon] : 'icon-info'
+  const iconComponent =
+    IconComponentMap[iconClass] || IconComponentMap['icon-info']
+
+  return {
+    class: iconClass,
+    component: iconComponent,
+  }
 })
 </script>

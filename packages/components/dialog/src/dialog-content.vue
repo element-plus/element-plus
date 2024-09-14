@@ -1,20 +1,11 @@
 <template>
-  <div
-    :ref="composedDialogRef"
-    :class="[
-      ns.b(),
-      ns.is('fullscreen', fullscreen),
-      ns.is('draggable', draggable),
-      { [ns.m('center')]: center },
-      customClass,
-    ]"
-    :style="style"
-    tabindex="-1"
-    @click.stop
-  >
-    <header ref="headerRef" :class="ns.e('header')">
+  <div :ref="composedDialogRef" :class="dialogKls" :style="style" tabindex="-1">
+    <header
+      ref="headerRef"
+      :class="[ns.e('header'), { 'show-close': showClose }]"
+    >
       <slot name="header">
-        <span role="heading" :class="ns.e('title')">
+        <span role="heading" :aria-level="ariaLevel" :class="ns.e('title')">
           {{ title }}
         </span>
       </slot>
@@ -40,23 +31,44 @@
 </template>
 
 <script lang="ts" setup>
-import { inject } from 'vue'
+import { computed, inject } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
-import { useLocale } from '@element-plus/hooks'
+import { useDraggable, useLocale } from '@element-plus/hooks'
 import { CloseComponents, composeRefs } from '@element-plus/utils'
-import { dialogInjectionKey } from '@element-plus/tokens'
+import { dialogInjectionKey } from './constants'
 import { dialogContentEmits, dialogContentProps } from './dialog-content'
 
 const { t } = useLocale()
 const { Close } = CloseComponents
 
 defineOptions({ name: 'ElDialogContent' })
-defineProps(dialogContentProps)
+const props = defineProps(dialogContentProps)
 defineEmits(dialogContentEmits)
 
 const { dialogRef, headerRef, bodyId, ns, style } = inject(dialogInjectionKey)!
 const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
 
+const dialogKls = computed(() => [
+  ns.b(),
+  ns.is('fullscreen', props.fullscreen),
+  ns.is('draggable', props.draggable),
+  ns.is('align-center', props.alignCenter),
+  { [ns.m('center')]: props.center },
+])
+
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
+
+const draggable = computed(() => props.draggable)
+const overflow = computed(() => props.overflow)
+const { resetPosition } = useDraggable(
+  dialogRef,
+  headerRef,
+  draggable,
+  overflow
+)
+
+defineExpose({
+  resetPosition,
+})
 </script>

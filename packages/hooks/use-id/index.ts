@@ -1,6 +1,6 @@
-import { computed, inject, unref } from 'vue'
-import { isClient } from '@vueuse/core'
-import { debugWarn } from '@element-plus/utils'
+import { computed, getCurrentInstance, inject, unref } from 'vue'
+import { debugWarn, isClient } from '@element-plus/utils'
+import { useGetDerivedNamespace } from '../use-namespace'
 
 import type { InjectionKey, Ref } from 'vue'
 import type { MaybeRef } from '@vueuse/core'
@@ -18,9 +18,14 @@ const defaultIdInjection = {
 export const ID_INJECTION_KEY: InjectionKey<ElIdInjectionContext> =
   Symbol('elIdInjection')
 
-export const useId = (deterministicId?: MaybeRef<string>): Ref<string> => {
-  const idInjection = inject(ID_INJECTION_KEY, defaultIdInjection)
+export const useIdInjection = (): ElIdInjectionContext => {
+  return getCurrentInstance()
+    ? inject(ID_INJECTION_KEY, defaultIdInjection)
+    : defaultIdInjection
+}
 
+export const useId = (deterministicId?: MaybeRef<string>): Ref<string> => {
+  const idInjection = useIdInjection()
   if (!isClient && idInjection === defaultIdInjection) {
     debugWarn(
       'IdInjection',
@@ -32,10 +37,11 @@ usage: app.provide(ID_INJECTION_KEY, {
     )
   }
 
+  const namespace = useGetDerivedNamespace()
   const idRef = computed(
     () =>
       unref(deterministicId) ||
-      `el-id-${idInjection.prefix}-${idInjection.current++}`
+      `${namespace.value}-id-${idInjection.prefix}-${idInjection.current++}`
   )
 
   return idRef

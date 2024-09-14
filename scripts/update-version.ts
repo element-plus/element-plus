@@ -39,7 +39,7 @@ async function main() {
     await writeVersion(elementPlus)
     await writeVersion(eslintConfig)
     await writeVersion(metadata)
-  } catch (err) {
+  } catch (err: any) {
     errorAndExit(err)
   }
 
