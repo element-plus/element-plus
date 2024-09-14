@@ -83,7 +83,7 @@ You can also try Element Plus out with the components built-in playground.
       </td>
       <td align="center" valign="middle">
         <a href="http://github.crmeb.net/u/Element?from=element-plus" target="_blank">
-          <img width="150px" src="https://github.com/element-plus/element-plus/assets/17680888/7abd3c5a-04fb-4eae-9540-0d21c5ed71ed">
+          <img width="150px" src="https://github.com/user-attachments/assets/18079452-986c-4c6e-84ec-fb6175c26567">
         </a>
       </td>
     </tr>
