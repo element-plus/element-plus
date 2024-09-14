@@ -222,14 +222,17 @@ const verifyValue = (
   }
   if (stepStrictly) {
     newVal = toPrecision(Math.round(newVal / step) * step, precision)
+    if (newVal !== value) {
+      update && emit(UPDATE_MODEL_EVENT, newVal)
+    }
   }
   if (!isUndefined(precision)) {
     newVal = toPrecision(newVal, precision)
   }
   if (newVal > max || newVal < min) {
     newVal = newVal > max ? max : min
+    update && emit(UPDATE_MODEL_EVENT, newVal)
   }
-  update && emit(UPDATE_MODEL_EVENT, newVal)
   return newVal
 }
 const setCurrentValue = (
