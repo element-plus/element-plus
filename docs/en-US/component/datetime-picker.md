@@ -15,7 +15,9 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 
 ## Date and time
 
-:::demo You can select date and time in one picker at the same time by setting `type` to `datetime`. The way to use shortcuts is the same as Date Picker.
+You can select date and time in one picker at the same time by setting `type` to `datetime`. The way to use shortcuts is the same as Date Picker.
+
+:::demo
 
 datetime-picker/date-and-time
 
@@ -43,9 +45,7 @@ datetime-picker/date-and-time-formats
 
 ## Date and time formats in dropdown panel
 
-Use `date-format` and `time-format` to control displayed text's format in the dropdown panel's input box.
-
-:::demo
+:::demo Use `date-format` and `time-format` to control displayed text's format in the dropdown panel's input box.
 
 datetime-picker/date-and-time-formats-panel
 
@@ -53,7 +53,9 @@ datetime-picker/date-and-time-formats-panel
 
 ## Date and time range
 
-:::demo You can select date and time range by setting `type` to `datetimerange`.
+You can select date and time range by setting `type` to `datetimerange`.
+
+:::demo
 
 datetime-picker/date-and-time-range
 
@@ -61,7 +63,9 @@ datetime-picker/date-and-time-range
 
 ## Default time value for start date and end date
 
-:::demo When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two Date objects. The first item controls time value of the start date and the second item controls time value of the end date.
+When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two Date objects. The first item controls time value of the start date and the second item controls time value of the end date.
+
+:::demo
 
 datetime-picker/default-time
 
@@ -69,7 +73,7 @@ datetime-picker/default-time
 
 ## Custom icon ^(2.8.0)
 
-Custom icons available with slots.
+You can customize arrow icons with slots.
 
 :::demo
 
@@ -77,7 +81,19 @@ datetime-picker/custom-icon
 
 :::
 
-## Attributes
+## Custom footer ^(2.8.4)
+
+You can customize the footer of the selection panel.
+
+:::demo
+
+datetime-picker/custom-footer
+
+:::
+
+## API
+
+### Attributes
 
 | Name                    | Description                                                                                                    | Type                                             | Accepted Values                                               | Default             |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------- | ------------------- |
@@ -112,7 +128,7 @@ datetime-picker/custom-icon
 | empty-values ^(2.7.0)   | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                         | —                                                             |
 | value-on-clear ^(2.7.0) | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function] | —                                                             |
 
-## Events
+### Events
 
 | Name            | Description                                                                   | Parameters                                |
 | --------------- | ----------------------------------------------------------------------------- | ----------------------------------------- |
@@ -123,19 +139,20 @@ datetime-picker/custom-icon
 | calendar-change | triggers when the calendar selected date is changed. Only for `datetimerange` | [Date, Date]                              |
 | visible-change  | triggers when the DateTimePicker's dropdown appears/disappears                | true when it appears, and false otherwise |
 
-## Methods
+### Methods
 
 | Method | Description               | Parameters |
 | ------ | ------------------------- | ---------- |
 | focus  | focus the Input component | —          |
 
-## Slots
+### Slots
 
-| Name                | Description                    |
-| ------------------- | ------------------------------ |
-| default             | custom cell content            |
-| range-separator     | custom range separator content |
-| prev-month ^(2.8.0) | prev month icon                |
-| next-month ^(2.8.0) | next month icon                |
-| prev-year ^(2.8.0)  | prev year icon                 |
-| next-year ^(2.8.0)  | next year icon                 |
+| Name                | Description                    | Type                                                                             |
+| ------------------- | ------------------------------ | -------------------------------------------------------------------------------- |
+| default             | custom cell content            | —                                                                                |
+| range-separator     | custom range separator content | —                                                                                |
+| prev-month ^(2.8.0) | prev month icon                | —                                                                                |
+| next-month ^(2.8.0) | next month icon                | —                                                                                |
+| prev-year ^(2.8.0)  | prev year icon                 | —                                                                                |
+| next-year ^(2.8.0)  | next year icon                 | —                                                                                |
+| footer ^(2.8.4)     | selection panel footer content | ^[object]`{ changeToNow?: () => void, confirm: () => void, clear?: () => void }` |
