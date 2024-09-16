@@ -69,7 +69,8 @@
           <el-icon
             v-if="showClose && clearIcon"
             :class="`${nsInput.e('icon')} clear-icon`"
-            @click.stop="onClearIconClick"
+            @mousedown.prevent="NOOP"
+            @click="onClearIconClick"
           >
             <component :is="clearIcon" />
           </el-icon>
@@ -121,6 +122,7 @@
           <el-icon
             v-if="clearIcon"
             :class="clearIconKls"
+            @mousedown.prevent="NOOP"
             @click="onClearIconClick"
           >
             <component :is="clearIcon" />
@@ -173,7 +175,7 @@ import { useFormItem, useFormSize } from '@element-plus/components/form'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { debugWarn, isArray } from '@element-plus/utils'
+import { NOOP, debugWarn, isArray } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
 import { formatter, parseDate, valueEquals } from '../utils'
@@ -507,10 +509,6 @@ const pickerSize = useFormSize()
 
 const popperEl = computed(() => unref(refPopper)?.popperRef?.contentRef)
 const actualInputRef = computed(() => {
-  if (unref(isRangeInput)) {
-    return unref(inputRef)
-  }
-
   return (unref(inputRef) as ComponentPublicInstance)?.$el
 })
 
