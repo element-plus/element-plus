@@ -143,7 +143,9 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
       cursor: head;
       width: 4px;
       height: 4px;
-      box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0, 0, 0, 0.3),
+      box-shadow:
+        0 0 0 1.5px #fff,
+        inset 0 0 1px 1px rgba(0, 0, 0, 0.3),
         0 0 1px 2px rgba(0, 0, 0, 0.4);
       border-radius: 50%;
       transform: translate(-2px, -2px);
@@ -173,7 +175,11 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
       getCssVar('color-picker', 'alpha-bg-a') 75%
     );
   background-size: 12px 12px;
-  background-position: 0 0, 6px 0, 6px -6px, 0 6px;
+  background-position:
+    0 0,
+    6px 0,
+    6px -6px,
+    0 6px;
 }
 
 @include b(color-alpha-slider) {

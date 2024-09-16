@@ -449,8 +449,8 @@ export const useSelect = (props: ISelectProps, emit) => {
     const label = isObjectValue
       ? value.label
       : !isNull && !isUndefined
-      ? value
-      : ''
+        ? value
+        : ''
     const newOption = {
       value,
       currentLabel: label,

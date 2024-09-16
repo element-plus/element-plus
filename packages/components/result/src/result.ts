@@ -16,7 +16,7 @@ export const IconMap = {
 } as const
 
 export const IconComponentMap: Record<
-  typeof IconMap[keyof typeof IconMap],
+  (typeof IconMap)[keyof typeof IconMap],
   Component
 > = {
   [IconMap.success]: CircleCheckFilled,

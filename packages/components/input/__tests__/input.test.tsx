@@ -310,15 +310,14 @@ describe('Input.vue', () => {
     test('method:resizeTextarea', async () => {
       const text = ref('TEXT:resizeTextarea')
       const wrapper = mount({
-        setup: () => () =>
-          (
-            <Input
-              ref="textarea"
-              autosize={{ minRows: 1, maxRows: 1 }}
-              type="textarea"
-              v-model={text.value}
-            />
-          ),
+        setup: () => () => (
+          <Input
+            ref="textarea"
+            autosize={{ minRows: 1, maxRows: 1 }}
+            type="textarea"
+            v-model={text.value}
+          />
+        ),
       })
       const refTextarea = wrapper.vm.$refs.textarea as InputInstance
 

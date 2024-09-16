@@ -364,9 +364,8 @@ describe('Radio Button', () => {
       ))
       await nextTick()
       const formItem = await wrapper.findComponent(ElFormItem)
-      const [radioGroup1, radioGroup2] = await wrapper.findAllComponents(
-        RadioGroup
-      )
+      const [radioGroup1, radioGroup2] =
+        await wrapper.findAllComponents(RadioGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
       expect(formItem.attributes().role).toBe('group')
       expect(formItem.attributes()['aria-labelledby']).toBe(

@@ -164,8 +164,8 @@ const style = computed(() => {
     flexBasis: isNumber(space.value)
       ? `${space.value}px`
       : space.value
-      ? space.value
-      : `${100 / (stepsCount.value - (isCenter.value ? 0 : 1))}%`,
+        ? space.value
+        : `${100 / (stepsCount.value - (isCenter.value ? 0 : 1))}%`,
   }
   if (isVertical.value) return style
   if (isLast.value) {
