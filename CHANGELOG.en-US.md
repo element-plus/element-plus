@@ -1,5 +1,60 @@
 ## Changelog
 
+### 2.8.3
+
+_2024-09-13_
+
+#### Features
+
+- Components [scrollbar] add tabindex to scrollbar wrap content (#14320 by @Karolis-Stoncius)
+- Components [tree-v2] support `node-drop` event (#16935 by @MoConWu)
+- Components [collapse] collpase item supports custom icon (#18215 by @kimverchan)
+- Components [cascader-panel] add `empty` slot (#16274 by @btea)
+
+#### Bug fixes
+
+- Components [menu] move ulStyle from render to setup to fix memory leak (#18122 by @ShirleyYoung19)
+- Components [table-v2] sass declaration deprecation error (#18218 by @gaoyia)
+- Components [select-v2] label display error when re-rendering (#18128 by @btea)
+- Components [tooltip] change ariaHidden value after closed the dropdown (#18207 by @tolking)
+- Components [color-picker] supports dynamic change of colorFormat (#18135 by @SKSQ2529720581)
+- Components [time-picker] close pick when click clear on pick open (#15390 by @wzc520pyfm)
+- Components [table] the disabled checkbox are selected (#18034 by @tolking)
+
+### 2.8.2
+
+_2024-09-06_
+
+#### Features
+
+- Components [check-tag] add disabled prop (#17936 by @HaceraI)
+- Components [config-provider] support more message config (#18106 by @btea)
+
+#### Bug fixes
+
+- The disabled state should not trigger focus (#18012 by @btea)
+- Components [pagination] global size dynamic modification error (#18004 by @btea)
+- Components [table] getColumnIndex may be undefned (#16782 by @406087475)
+- Components [tag] leave animations not working (#18006 by @makedopamine)
+- Components [select] switching single/multiple generates an error (#18030 by @tolking)
+- The disabled state should not trigger focus (#18108 by @btea)
+- Components [el-tree-select] fix lazy and multiple select node (#17903 by @gaoxuan-haxibiao)
+- Theme-chalk [select] remove unnecessary codes of the select border (#18116 by @LoTwT)
+- Components [select] call the exposes blur is invalid (#17691 by @tolking)
+- Components [mention] replace props.disabled with useFormDisabled (#18119 by @tolking)
+- Components [tree-v2] expand all ancestor nodes of the specified node (#18077 by @dadaguai-git)
+- Theme-chalk [select] box-shadow noise (#18120 by @HaceraI)
+- Hooks PopperContainer cannot be recreated when body is recreated (#18121 by @kimverchan)
+- Components [calendar] improve range validation (#18125 by @btea)
+- Components [table-v2] columns missing key field (#17891 by @betavs)
+- Components [tabs] active-bar not move with the tab label changes (#18165 by @btea)
+- Components [message] max affects grouping display (#18189 by @dadaguai-git)
+- Components [table-v2] header checkbox cover fixedHeader when scroll (#18179 by @kimverchan)
+
+#### Refactors
+
+- Import shared utilities from @element-plus/utils (#18048 by @makedopamine)
+
 ### 2.8.1
 
 _2024-08-23_

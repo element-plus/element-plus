@@ -29,12 +29,12 @@
   cursor: pointer;
   outline: none;
 
-  @include when(disabled){
+  @include when(disabled) {
     cursor: not-allowed;
-    &:focus{
+    &:focus {
       border-color: getCssVar('border-color', 'darker');
       color: inherit;
-      .#{$namespace}-upload-dragger{
+      .#{$namespace}-upload-dragger {
         border-color: getCssVar('border-color', 'darker');
       }
     }
@@ -50,7 +50,7 @@
         }
       }
 
-      &:hover{
+      &:hover {
         border-color: getCssVar('border-color', 'darker');
       }
     }

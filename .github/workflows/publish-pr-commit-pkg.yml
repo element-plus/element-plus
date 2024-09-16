@@ -1,4 +1,5 @@
-name: 'pkg-pr-new'
+name: Publish PR Commit Pkg
+
 on:
   push:
     branches:
@@ -8,10 +9,11 @@ on:
   pull_request:
     branches:
       - dev
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    if: ${{ github.repository == 'element-plus/element-plus' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,13 +21,11 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
           cache: 'pnpm'
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 8.14.1
 
       - name: Install dependencies
         run: pnpm install
