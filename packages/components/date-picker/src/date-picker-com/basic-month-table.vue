@@ -11,7 +11,9 @@
         <td
           v-for="(cell, key_) in row"
           :key="key_"
-          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
+          :ref="
+            (el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)
+          "
           :class="getCellStyle(cell)"
           :aria-selected="`${isSelectedCell(cell)}`"
           :aria-label="t(`el.datepicker.month${+cell.text + 1}`)"

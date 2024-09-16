@@ -22,8 +22,8 @@ export const roleTypes = [
   'tree',
 ] as const
 
-export type PopperEffect = typeof effects[number]
-export type PopperTrigger = typeof triggers[number]
+export type PopperEffect = (typeof effects)[number]
+export type PopperTrigger = (typeof triggers)[number]
 
 export const popperProps = buildProps({
   role: {

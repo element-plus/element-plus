@@ -175,7 +175,7 @@ export const tableV2Props = buildProps({
    */
   sortBy: {
     type: definePropType<SortBy>(Object),
-    default: () => ({} as { key: KeyType; order: SortOrder }),
+    default: () => ({}) as { key: KeyType; order: SortOrder },
   },
   sortState: {
     type: definePropType<SortState>(Object),

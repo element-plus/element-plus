@@ -90,7 +90,7 @@ Another way is to inject the teleport markup into the correct location in your f
 You need to inject the teleport markup close to the `<body>` tag.
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <title>Element Plus</title>

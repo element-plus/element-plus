@@ -47,7 +47,7 @@ export const buildProp = <
   Value = never,
   Validator = never,
   Default extends EpPropMergeType<Type, Value, Validator> = never,
-  Required extends boolean = false
+  Required extends boolean = false,
 >(
   prop: EpPropInput<Type, Value, Validator, Default, Required>,
   key?: string
@@ -104,7 +104,7 @@ export const buildProps = <
     | { [epPropKey]: true }
     | NativePropType
     | EpPropInput<any, any, any, any, any>
-  >
+  >,
 >(
   props: Props
 ): {

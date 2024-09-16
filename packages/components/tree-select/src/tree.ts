@@ -150,8 +150,8 @@ export const useTree = (
         props.renderContent
           ? () => props.renderContent(h, { node, data, store })
           : slots.default
-          ? () => slots.default({ node, data, store })
-          : undefined
+            ? () => slots.default({ node, data, store })
+            : undefined
       )
     },
     filterNodeMethod: (value, data, node) => {
@@ -208,8 +208,8 @@ export const useTree = (
           props.multiple
             ? checkedKeys
             : checkedKeys.includes(dataValue)
-            ? dataValue
-            : undefined
+              ? dataValue
+              : undefined
         )
       }
       // only can select leaf node

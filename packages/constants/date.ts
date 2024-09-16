@@ -23,4 +23,4 @@ export const WEEK_DAYS = [
   'sat',
 ] as const
 
-export type DatePickType = typeof datePickTypes[number]
+export type DatePickType = (typeof datePickTypes)[number]
