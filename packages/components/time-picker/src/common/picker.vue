@@ -164,7 +164,7 @@ import {
   watch,
 } from 'vue'
 import { isEqual } from 'lodash-unified'
-import { onClickOutside } from '@vueuse/core'
+import { onClickOutside, unrefElement } from '@vueuse/core'
 import {
   useEmptyValues,
   useFocusController,
@@ -184,7 +184,7 @@ import PickerRangeTrigger from './picker-range-trigger.vue'
 import type { InputInstance } from '@element-plus/components/input'
 
 import type { Dayjs } from 'dayjs'
-import type { ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, Ref } from 'vue'
 import type { Options } from '@popperjs/core'
 import type {
   DateModelType,
@@ -508,23 +508,23 @@ const isRangeInput = computed(() => {
 const pickerSize = useFormSize()
 
 const popperEl = computed(() => unref(refPopper)?.popperRef?.contentRef)
-const actualInputRef = computed(() => {
-  return (unref(inputRef) as ComponentPublicInstance)?.$el
-})
 
-const stophandle = onClickOutside(actualInputRef, (e: PointerEvent) => {
-  const unrefedPopperEl = unref(popperEl)
-  const inputEl = unref(actualInputRef)
-  if (
-    (unrefedPopperEl &&
-      (e.target === unrefedPopperEl ||
-        e.composedPath().includes(unrefedPopperEl))) ||
-    e.target === inputEl ||
-    e.composedPath().includes(inputEl)
-  )
-    return
-  pickerVisible.value = false
-})
+const stophandle = onClickOutside(
+  inputRef as Ref<ComponentPublicInstance>,
+  (e: PointerEvent) => {
+    const unrefedPopperEl = unref(popperEl)
+    const inputEl = unrefElement(inputRef as Ref<ComponentPublicInstance>)
+    if (
+      (unrefedPopperEl &&
+        (e.target === unrefedPopperEl ||
+          e.composedPath().includes(unrefedPopperEl))) ||
+      e.target === inputEl ||
+      (inputEl && e.composedPath().includes(inputEl))
+    )
+      return
+    pickerVisible.value = false
+  }
+)
 
 onBeforeUnmount(() => {
   stophandle?.()

@@ -139,4 +139,4 @@ datetime-picker/custom-icon
 | Method        | Description                    | Type                    |
 | ------------- | ------------------------------ | ----------------------- |
 | focus         | focus the DatePicker component | ^[Function]`() => void` |
-| blur ^(2.8.2) | blur the DatePicker component  | ^[Function]`() => void` |
+| blur ^(2.8.4) | blur the DatePicker component  | ^[Function]`() => void` |

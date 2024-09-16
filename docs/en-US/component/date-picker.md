@@ -221,7 +221,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | Name                  | Description                    | Type                    |
 | --------------------- | ------------------------------ | ----------------------- |
 | focus                 | focus the DatePicker component | ^[Function]`() => void` |
-| blur ^(2.8.2)         | blur the DatePicker component  | ^[Function]`() => void` |
+| blur ^(2.8.4)         | blur the DatePicker component  | ^[Function]`() => void` |
 | handleOpen ^(2.2.16)  | open the DatePicker popper     | ^[Function]`() => void` |
 | handleClose ^(2.2.16) | close the DatePicker popper    | ^[Function]`() => void` |
 
