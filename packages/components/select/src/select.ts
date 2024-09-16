@@ -227,10 +227,7 @@ export const SelectProps = buildProps({
   /**
    * @description which element the selection dropdown appends to
    */
-  appendTo: {
-    type: String,
-    default: undefined,
-  },
+  appendTo: String,
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 })

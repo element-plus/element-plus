@@ -136,7 +136,6 @@ export default defineComponent({
     },
     appendTo: {
       type: String,
-      default: 'body',
     },
   },
   setup(props) {
