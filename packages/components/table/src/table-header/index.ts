@@ -59,7 +59,6 @@ export default defineComponent({
     },
     appendFilterPanelTo: {
       type: String,
-      default: 'body',
     },
   },
   setup(props, { emit }) {
