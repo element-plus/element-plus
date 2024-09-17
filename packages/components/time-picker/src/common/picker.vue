@@ -23,7 +23,10 @@
     <template #default>
       <el-input
         v-if="!isRangeInput"
-        :id="id as string | undefined"
+        :id="
+          // eslint-disable-next-line vue/no-deprecated-filter
+          id as string | undefined
+        "
         ref="inputRef"
         container-role="combobox"
         :model-value="displayValue as string"

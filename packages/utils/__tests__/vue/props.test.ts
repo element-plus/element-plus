@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
-
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
@@ -355,6 +354,7 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<Record<string, any>>
       readonly required: false
+      // eslint-disable-next-line @typescript-eslint/no-empty-object-type
       readonly default: {}
       readonly validator: ((val: unknown) => boolean) | undefined
       [epPropKey]: true
@@ -362,6 +362,7 @@ describe('buildProp', () => {
   })
 
   it('extract', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const props = {
       key1: buildProp({
         type: String,

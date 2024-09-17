@@ -83,8 +83,8 @@ const arrowStyle = computed<CSSProperties>(() => {
   const { arrow } = unref(middlewareData)
 
   return {
-    [`--${ns.namespace.value}-tooltip-v2-arrow-x`]: `${arrow?.x}px` || '',
-    [`--${ns.namespace.value}-tooltip-v2-arrow-y`]: `${arrow?.y}px` || '',
+    [`--${ns.namespace.value}-tooltip-v2-arrow-x`]: `${arrow?.x}px`,
+    [`--${ns.namespace.value}-tooltip-v2-arrow-y`]: `${arrow?.y}px`,
   }
 })
 

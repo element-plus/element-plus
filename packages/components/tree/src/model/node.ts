@@ -507,7 +507,7 @@ class Node {
     newData.forEach((item, index) => {
       const key = item[NODE_KEY]
       const isNodeExists =
-        !!key && oldData.findIndex((data) => data[NODE_KEY] === key) >= 0
+        !!key && oldData.some((data) => data[NODE_KEY] === key)
       if (isNodeExists) {
         newDataMap[key] = { index, data: item }
       } else {
