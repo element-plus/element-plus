@@ -52,11 +52,13 @@ function useWatcher<T>(
       'label',
       'filters',
       'filterMultiple',
+      'filteredValue',
       'sortable',
       'index',
       'formatter',
       'className',
       'labelClassName',
+      'filterClassName',
       'showOverflowTooltip',
     ]
     const aliases = {

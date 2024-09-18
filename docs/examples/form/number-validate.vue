@@ -1,8 +1,9 @@
 <template>
   <el-form
     ref="formRef"
+    style="max-width: 600px"
     :model="numberValidateForm"
-    label-width="100px"
+    label-width="auto"
     class="demo-ruleForm"
   >
     <el-form-item
@@ -43,7 +44,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
       console.log('submit!')
     } else {
       console.log('error submit!')
-      return false
     }
   })
 }

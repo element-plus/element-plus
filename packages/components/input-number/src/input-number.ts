@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-unified'
-import { useSizeProp } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, isNumber } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -87,10 +87,6 @@ export const inputNumberProps = buildProps({
    */
   name: String,
   /**
-   * @description same as `label` in native input
-   */
-  label: String,
-  /**
    * @description same as `placeholder` in native input
    */
   placeholder: String,
@@ -109,6 +105,7 @@ export const inputNumberProps = buildProps({
     type: Boolean,
     default: true,
   },
+  ...useAriaProps(['ariaLabel']),
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
 

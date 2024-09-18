@@ -4,9 +4,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ElCheckbox from '@element-plus/components/checkbox'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
+import { CaretBottom, CaretTop } from '@element-plus/icons-vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
-import { doubleWait, getTestData, mount } from './table-test-common'
+import {
+  doubleWait,
+  getMutliRowTestData,
+  getTestData,
+  mount,
+} from './table-test-common'
 import type { VueWrapper } from '@vue/test-utils'
 import type { ComponentPublicInstance } from 'vue'
 
@@ -82,8 +88,8 @@ describe('Table.vue', () => {
         <el-table-column label="someLabel">
           <template #default="{ row }">
             <el-checkbox-group v-model="row.checkList">
-              <el-checkbox label="复选框 A"></el-checkbox>
-              <el-checkbox label="复选框 B"></el-checkbox>
+              <el-checkbox label="复选框 A" value="复选框 A"></el-checkbox>
+              <el-checkbox label="复选框 B" value="复选框 B"></el-checkbox>
             </el-checkbox-group>
           </template>
         </el-table-column>
@@ -434,6 +440,84 @@ describe('Table.vue', () => {
     })
   })
 
+  describe('filter filter-icon slot', () => {
+    let wrapper: VueWrapper<ComponentPublicInstance>
+
+    beforeEach(async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+          CaretBottom,
+          CaretTop,
+        },
+        template: `
+          <el-table ref="table" :data="testData" @filter-change="handleFilterChange">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column
+              prop="director"
+              column-key="director"
+              :filters="[
+                { text: 'John Lasseter', value: 'John Lasseter' },
+                { text: 'Peter Docter', value: 'Peter Docter' },
+                { text: 'Andrew Stanton', value: 'Andrew Stanton' }
+              ]"
+              :filter-method="filterMethod"
+              label="导演">
+              <template #filter-icon="{ filterOpened }">
+                <CaretTop v-if="filterOpened" class="top" />
+                <CaretBottom v-else class="bottom" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+
+        created() {
+          this.testData = getTestData()
+        },
+
+        methods: {
+          filterMethod(value, row) {
+            return value === row.director
+          },
+          handleFilterChange(filters) {
+            this.filters = filters
+          },
+        },
+      })
+      await doubleWait()
+    })
+
+    afterEach(() => wrapper.unmount())
+
+    it('render', () => {
+      expect(
+        wrapper.find('.el-table__column-filter-trigger')
+      ).not.toBeUndefined()
+      expect(
+        wrapper.find('.el-table__column-filter-trigger .bottom')
+      ).not.toBeUndefined()
+    })
+
+    it('click filter-trigger', async () => {
+      const btn = wrapper.find('.el-table__column-filter-trigger')
+
+      btn.trigger('click')
+      await doubleWait()
+      expect(
+        wrapper.find('.el-table__column-filter-trigger .top')
+      ).not.toBeUndefined()
+
+      btn.trigger('click')
+      await doubleWait()
+      expect(
+        wrapper.find('.el-table__column-filter-trigger .bottom')
+      ).not.toBeUndefined()
+    })
+  })
+
   describe('events', () => {
     const createTable = function (prop = '') {
       return mount({
@@ -489,6 +573,68 @@ describe('Table.vue', () => {
       expect(wrapper.vm.result.length).toEqual(4) // row, column, cell, event
       expect(wrapper.vm.result[0]).toHaveProperty('name')
       expect(wrapper.vm.result[0]['name']).toEqual(getTestData()[0].name)
+      wrapper.unmount()
+    })
+
+    it('cell mouse enter on cell of which rowSpan > 2', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+         <el-table
+          :data="testData"
+          :span-method="objectSpanMethod"
+          border
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column prop="id" label="ID" width="180" />
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
+        </el-table>
+      `,
+        data() {
+          return {
+            testData: getTestData(),
+          }
+        },
+        methods: {
+          objectSpanMethod({ rowIndex, columnIndex }) {
+            if (columnIndex === 0) {
+              if (rowIndex % 2 === 0) {
+                return {
+                  rowspan: 2,
+                  colspan: 1,
+                }
+              } else {
+                return {
+                  rowspan: 0,
+                  colspan: 0,
+                }
+              }
+            }
+          },
+        },
+      })
+      const vm = wrapper.vm
+      await doubleWait()
+      const cell = vm.$el
+        .querySelectorAll('.el-table__body-wrapper tbody tr')[0]
+        .querySelector('.el-table__cell')
+      triggerEvent(cell, 'mouseenter', true, false)
+      await doubleWait()
+      await rAF()
+      await doubleWait()
+      const row = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')[1]
+      expect([...row.classList]).toContain('hover-row')
+      await doubleWait()
+      triggerEvent(cell, 'mouseleave', true, false)
+      await rAF()
+      await doubleWait()
+      expect([...row.classList]).not.toContain('hover-row')
       wrapper.unmount()
     })
 
@@ -654,7 +800,7 @@ describe('Table.vue', () => {
         },
         template: `
           <el-table ref="table" :data="testData" @${prop}="handleEvent">
-            <el-table-column type="selection" />
+            <el-table-column type="selection" :selectable="selectable" />
             <el-table-column prop="name" />
             <el-table-column prop="release" />
             <el-table-column prop="director" />
@@ -666,6 +812,9 @@ describe('Table.vue', () => {
           handleEvent(selection) {
             this.fireCount++
             this.selection = selection
+          },
+          selectable(row) {
+            return row.id !== 1
           },
         },
 
@@ -690,6 +839,19 @@ describe('Table.vue', () => {
       expect(vm.fireCount).toEqual(2)
       expect(vm.selection.length).toEqual(0)
 
+      vm.$refs.table.toggleRowSelection(vm.testData[0], undefined, false)
+      expect(vm.selection.length).toEqual(0)
+      expect(vm.fireCount).toEqual(2)
+
+      // test use second parameter
+      vm.$refs.table.toggleRowSelection(vm.testData[1], undefined, false)
+      expect(vm.selection.length).toEqual(1)
+      expect(vm.fireCount).toEqual(3)
+
+      vm.$refs.table.toggleRowSelection(vm.testData[1], false, false)
+      expect(vm.selection.length).toEqual(0)
+      expect(vm.fireCount).toEqual(4)
+
       wrapper.unmount()
     })
 
@@ -698,7 +860,7 @@ describe('Table.vue', () => {
       const vm = wrapper.vm
       vm.$refs.table.toggleAllSelection()
       await doubleWait()
-      expect(vm.selection.length).toEqual(5)
+      expect(vm.selection.length).toEqual(4)
 
       vm.$refs.table.toggleAllSelection()
       await doubleWait()
@@ -723,6 +885,46 @@ describe('Table.vue', () => {
 
       wrapper.unmount()
     })
+
+    it('selection reference', async () => {
+      const wrapper = mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+        },
+        template: `
+          <el-table ref="table" :data="testData" @select-all="handleSelectAll">
+            <el-table-column prop="name" />
+            <el-table-column prop="release" />
+            <el-table-column prop="director" />
+            <el-table-column prop="runtime"/>
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: getTestData(),
+            selection: null,
+          }
+        },
+        methods: {
+          handleSelectAll(selection) {
+            this.selection = selection
+          },
+        },
+      })
+
+      const vm = wrapper.vm
+      vm.$refs.table.toggleAllSelection()
+      await doubleWait()
+      const oldSelection = vm.selection
+      vm.$refs.table.toggleAllSelection()
+      await doubleWait()
+      const newSelection = vm.selection
+      vm.$refs.table.clearSelection()
+      expect(oldSelection !== newSelection).toBe(true)
+      wrapper.unmount()
+    })
+
     it('sort', async () => {
       const wrapper = mount({
         components: {
@@ -912,6 +1114,30 @@ describe('Table.vue', () => {
 
       wrapper.unmount()
     })
+
+    it('get table columns', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+        <div>
+          <el-table ref="table" :data="testData" highlight-current-row>
+            <el-table-column prop="name" sortable />
+            <el-table-column prop="release" sortable />
+          </el-table>
+        </div>
+        `,
+        data() {
+          return { testData: getTestData() }
+        },
+      })
+      const vm = wrapper.vm
+      await doubleWait()
+      expect(vm.$refs.table.columns.length).toBe(2)
+      wrapper.unmount()
+    })
   })
 
   it('hover', async () => {
@@ -947,6 +1173,127 @@ describe('Table.vue', () => {
     await rAF()
     await doubleWait()
     expect(tr.classes()).not.toContain('hover-row')
+    wrapper.unmount()
+  })
+
+  it('hover on which rowSpan > 1', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+         <el-table
+          :data="testData"
+          :span-method="objectSpanMethod"
+          border
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column prop="id" label="ID" width="180" />
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
+        </el-table>
+      `,
+      data() {
+        return {
+          testData: getTestData(),
+        }
+      },
+      methods: {
+        objectSpanMethod({ rowIndex, columnIndex }) {
+          if (columnIndex === 0) {
+            if (rowIndex % 2 === 0) {
+              return {
+                rowspan: 2,
+                colspan: 1,
+              }
+            } else {
+              return {
+                rowspan: 0,
+                colspan: 0,
+              }
+            }
+          }
+        },
+      },
+    })
+    const vm = wrapper.vm
+    await doubleWait()
+    const rows = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')
+    triggerEvent(rows[1], 'mouseenter', true, false)
+    await doubleWait()
+    await rAF()
+    await doubleWait()
+    const cell = vm.$el
+      .querySelectorAll('.el-table__body-wrapper tbody tr')[0]
+      .querySelector('.el-table__cell')
+
+    expect([...cell.classList]).toContain('hover-cell')
+    await doubleWait()
+    triggerEvent(rows[1], 'mouseleave', true, false)
+    await rAF()
+    await doubleWait()
+    expect([...cell.classList]).not.toContain('hover-cell')
+    wrapper.unmount()
+  })
+
+  it('hover on which contains nested rowSpan > 1', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+        <el-table
+          :data="testData"
+          :span-method="objectSpanMethod"
+          border
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column prop="id" label="ID" width="180" />
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="amount1" label="发行日期" />
+          <el-table-column prop="amount2" label="导演" />
+          <el-table-column prop="amount3" label="时长（分）" />
+        </el-table>
+      `,
+      data() {
+        return {
+          testData: getMutliRowTestData(),
+        }
+      },
+      methods: {
+        objectSpanMethod: ({ row, columnIndex }) => {
+          if (row.span[columnIndex]) {
+            return row.span[columnIndex]
+          }
+          return [1, 1]
+        },
+      },
+    })
+    const vm = wrapper.vm
+    await doubleWait()
+    const rows = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')
+    triggerEvent(rows[3], 'mouseenter', true, false)
+    await doubleWait()
+    await rAF()
+    await doubleWait()
+    const nodeLists = vm.$el.querySelectorAll(
+      '.el-table__body-wrapper tbody tr'
+    )
+    const cellNotContain = nodeLists[0].querySelectorAll('.el-table__cell')[1]
+    expect([...cellNotContain.classList]).not.toContain('hover-cell')
+    const cellShouldContain =
+      nodeLists[2].querySelectorAll('.el-table__cell')[0]
+    expect([...cellShouldContain.classList]).toContain('hover-cell')
+
+    await doubleWait()
+    triggerEvent(rows[3], 'mouseleave', true, false)
+    await rAF()
+    await doubleWait()
+    expect([...cellShouldContain.classList]).not.toContain('hover-cell')
     wrapper.unmount()
   })
 
@@ -1453,6 +1800,75 @@ describe('Table.vue', () => {
       const firstCellSpanAfterHide = wrapper.find('.el-table__body tr td span')
       expect(firstCellSpanAfterHide.classes().includes('release')).toBeTruthy()
     })
+
+    it('selectable tree', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+              <el-table :data="testData" :tree-props="treeProps" @selection-change="change">
+                <el-table-column type="selection" />
+                <el-table-column prop="name" label="name" />
+                <el-table-column prop="release" label="release" />
+                <el-table-column prop="director" label="director" />
+                <el-table-column prop="runtime" label="runtime" />
+              </el-table>
+            `,
+        data() {
+          const treeProps = {
+            children: 'childrenTest',
+            checkStrictly: false,
+          }
+          const testData = getTestData() as any
+          testData[1].childrenTest = [
+            {
+              name: "A Bug's Life copy 1",
+              release: '1998-11-25-1',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+            {
+              name: "A Bug's Life copy 2",
+              release: '1998-11-25-2',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+          ]
+          return {
+            treeProps,
+            testData,
+            selected: [],
+          }
+        },
+
+        methods: {
+          change(rows) {
+            this.selected = rows
+          },
+        },
+      })
+      await doubleWait()
+      wrapper.findAll('.el-checkbox')[2].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(3)
+      wrapper.findAll('.el-checkbox')[2].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(0)
+
+      await (wrapper.vm.treeProps.checkStrictly = true)
+      await doubleWait()
+      wrapper.findAll('.el-checkbox')[2].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(1)
+      expect(wrapper.findAll('.el-checkbox')[2].classes()).include('is-checked')
+
+      wrapper.findAll('.el-checkbox')[3].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(2)
+      expect(wrapper.findAll('.el-checkbox')[3].classes()).include('is-checked')
+    })
   })
 
   it('when tableLayout is auto', async () => {
@@ -1506,54 +1922,7 @@ describe('Table.vue', () => {
       'min-width: 0'
     )
   })
-  it('selectable tree', async () => {
-    const wrapper = mount({
-      components: {
-        ElTable,
-        ElTableColumn,
-      },
-      template: `
-            <el-table :data="testData" @selection-change="change">
-              <el-table-column type="selection" />
-              <el-table-column prop="name" label="name" />
-              <el-table-column prop="release" label="release" />
-              <el-table-column prop="director" label="director" />
-              <el-table-column prop="runtime" label="runtime" />
-            </el-table>
-          `,
-      data() {
-        const testData = getTestData() as any
-        testData[1].children = [
-          {
-            name: "A Bug's Life copy 1",
-            release: '1998-11-25-1',
-            director: 'John Lasseter',
-            runtime: 95,
-          },
-          {
-            name: "A Bug's Life copy 2",
-            release: '1998-11-25-2',
-            director: 'John Lasseter',
-            runtime: 95,
-          },
-        ]
-        return {
-          testData,
-          selected: [],
-        }
-      },
 
-      methods: {
-        change(rows) {
-          this.selected = rows
-        },
-      },
-    })
-    await doubleWait()
-    wrapper.findAll('.el-checkbox')[2].trigger('click')
-    await doubleWait()
-    expect(wrapper.vm.selected.length).toEqual(3)
-  })
   it('change columns order when use v-for & key to render table', async () => {
     const wrapper = mount({
       components: {

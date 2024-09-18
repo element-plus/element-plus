@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { Check, Loading } from '@element-plus/icons-vue'
 import CascaderPanel from '../src/index.vue'
+import Node from '../src/node.vue'
 
 import type {
   CascaderOption,
@@ -137,7 +138,7 @@ describe('CascaderPanel.vue', () => {
         v-model={value.value}
         options={NORMAL_OPTIONS}
         onChange={handleChange}
-        onExpandChange={handleExpandChange}
+        onExpand-change={handleExpandChange}
       />
     ))
 
@@ -222,7 +223,7 @@ describe('CascaderPanel.vue', () => {
         v-model={value.value}
         options={DISABLED_OPTIONS}
         onChange={handleChange}
-        onExpandChange={handleExpandChange}
+        onExpand-change={handleExpandChange}
       />
     ))
 
@@ -674,5 +675,18 @@ describe('CascaderPanel.vue', () => {
     options.value = NORMAL_OPTIONS
     await nextTick()
     expect(vm.getCheckedNodes(true)?.length).toBe(1)
+  })
+
+  test('rerender node after changing model-value', async () => {
+    const value = ref(['zhejiang', 'hangzhou'])
+    const wrapper = mount(() => (
+      <CascaderPanel options={NORMAL_OPTIONS} model-value={value.value} />
+    ))
+    const nodes = wrapper.findAllComponents(Node)
+    const node = nodes.find((node) => node.props('node').value === 'ningbo')
+    expect(node!.classes('is-active')).toBe(false)
+    value.value = ['zhejiang', 'ningbo']
+    await nextTick()
+    expect(node!.classes('is-active')).toBe(true)
   })
 })

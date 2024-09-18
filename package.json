@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@7.3.0",
+  "packageManager": "pnpm@9.5.0",
   "workspaces": [
     "packages/*",
     "play",
@@ -37,7 +37,7 @@
     "docs:gen-locale": "pnpm run -C docs gen-locale",
     "docs:crowdin-credentials": "pnpm run -C docs crowdin-credentials",
     "stub": "pnpm run -r --parallel stub",
-    "prepare": "husky install",
+    "prepare": "husky",
     "postinstall": "pnpm stub && concurrently \"pnpm gen:version\" \"pnpm run -C internal/metadata dev\""
   },
   "peerDependencies": {
@@ -48,7 +48,7 @@
     "@element-plus/constants": "workspace:*",
     "@element-plus/directives": "workspace:*",
     "@element-plus/hooks": "workspace:*",
-    "@element-plus/icons-vue": "^2.0.6",
+    "@element-plus/icons-vue": "^2.3.1",
     "@element-plus/locale": "workspace:*",
     "@element-plus/test-utils": "workspace:*",
     "@element-plus/theme-chalk": "workspace:*",
@@ -80,11 +80,12 @@
     "@types/fs-extra": "^9.0.13",
     "@types/gulp": "^4.0.9",
     "@types/jsdom": "^16.2.14",
-    "@types/node": "*",
+    "@types/node": "^18.19.25",
     "@types/sass": "^1.43.1",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vitejs/plugin-vue-jsx": "^1.3.10",
-    "@vitest/ui": "0.16.0",
+    "@vitest/coverage-v8": "^2.0.5",
+    "@vitest/ui": "^2.0.5",
     "@vue/test-utils": "^2.0.0",
     "@vue/tsconfig": "^0.1.3",
     "c8": "^7.11.3",
@@ -98,28 +99,28 @@
     "eslint-define-config": "^1.5.1",
     "expect-type": "^0.13.0",
     "fast-glob": "^3.2.11",
-    "husky": "^8.0.1",
+    "happy-dom": "^14.3.3",
+    "husky": "^9.0.11",
     "jsdom": "16.4.0",
     "lint-staged": "^13.0.3",
-    "npm-run-all": "^4.1.5",
+    "npm-run-all2": "^5.0.0",
     "prettier": "^2.7.1",
     "puppeteer": "^17.1.3",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^3.0.2",
     "sass": "^1.53.0",
-    "ts-morph": "^14.0.0",
-    "tsx": "^3.6.0",
+    "tsx": "^4.7.1",
     "type-fest": "^2.14.0",
     "typescript": "^4.7.4",
     "unplugin-element-plus": "^0.4.0",
-    "unplugin-vue-macros": "^0.11.2",
-    "vitest": "0.12.6",
+    "unplugin-vue-macros": "^2.7.11",
+    "vitest": "^2.0.5",
     "vue": "^3.2.37",
     "vue-router": "^4.0.16",
-    "vue-tsc": "^0.38.2"
+    "vue-tsc": "^1.8.27"
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 18"
   },
   "config": {
     "commitizen": {
@@ -133,6 +134,9 @@
         "react",
         "react-dom"
       ]
+    },
+    "patchedDependencies": {
+      "async-validator@4.2.5": "patches/async-validator@4.2.5.patch"
     }
   },
   "lint-staged": {

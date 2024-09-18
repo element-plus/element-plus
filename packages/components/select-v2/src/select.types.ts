@@ -1,25 +1,13 @@
-export type OptionCommon = {
-  label: string
-}
+type OptionCommon = Record<string, any>
 
-export type Option<T = any> = OptionCommon & {
+export type Option = OptionCommon & {
   created?: boolean
-  value: T
-  // reserve for option
-  [prop: string]: any
 }
 
-export type OptionGroup<T = any> = OptionCommon & {
-  options: Array<T>
+export type OptionGroup = OptionCommon
 
-  // reserve for flexibility
-  [prop: string]: any
-}
+export type OptionType = Option | OptionGroup
 
-export type OptionType<T = any> = Option<T> | OptionGroup<T>
-
-// maybe adding T for type restriction is better here, but not sure this is going to work for
-// template rendering
 export type OptionItemProps = {
   item: any
   index: number

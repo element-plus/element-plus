@@ -10,6 +10,7 @@ import ElForm, { ElFormItem } from '@element-plus/components/form'
 import Cascader from '../src/cascader.vue'
 
 import type { VNode } from 'vue'
+import type ElCascader from '@element-plus/components/cascader'
 
 vi.mock('lodash-unified', async () => {
   return {
@@ -151,11 +152,16 @@ describe('Cascader.vue', () => {
   })
 
   test('clearable', async () => {
+    const isClear = ref(false)
+
     const wrapper = _mount(() => (
       <Cascader
         modelValue={['zhejiang', 'hangzhou']}
         clearable
         options={OPTIONS}
+        onClear={() => {
+          isClear.value = true
+        }}
       />
     ))
 
@@ -163,6 +169,7 @@ describe('Cascader.vue', () => {
     expect(wrapper.findComponent(ArrowDown).exists()).toBe(true)
     await trigger.trigger('mouseenter')
     expect(wrapper.findComponent(ArrowDown).exists()).toBe(false)
+    expect(isClear.value).toBe(false)
     await wrapper.findComponent(CircleClose).trigger('click')
     expect(wrapper.find('input').element.value).toBe('')
     expect(
@@ -171,6 +178,7 @@ describe('Cascader.vue', () => {
     await trigger.trigger('mouseleave')
     await trigger.trigger('mouseenter')
     await expect(wrapper.findComponent(CircleClose).exists()).toBe(false)
+    expect(isClear.value).toBe(true)
   })
 
   test('show last level label', async () => {
@@ -255,6 +263,36 @@ describe('Cascader.vue', () => {
     expect(tooltipTags[1].textContent).toBe('Zhejiang / Wenzhou')
   })
 
+  test('max collapse tags', async () => {
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[
+          ['zhejiang', 'hangzhou'],
+          ['zhejiang', 'ningbo'],
+          ['zhejiang', 'wenzhou'],
+        ]}
+        collapseTags
+        collapseTagsTooltip
+        props={props}
+        options={OPTIONS}
+        maxCollapseTags={2}
+      />
+    ))
+
+    await nextTick()
+    const tags = wrapper.findAll(TAG)
+    const [firstTag, secondTag, thirdTag] = tags
+    expect(tags.length).toBe(3)
+    expect(firstTag.text()).toBe('Zhejiang / Hangzhou')
+    expect(secondTag.text()).toBe('Zhejiang / Ningbo')
+    expect(thirdTag.text()).toBe('+ 1')
+    const tooltipTags = document.querySelectorAll(
+      `.el-cascader__collapse-tags ${TAG}`
+    )
+    expect(tooltipTags.length).toBe(1)
+  })
+
   test('tag type', async () => {
     const props = { multiple: true }
     const wrapper = _mount(() => (
@@ -268,6 +306,21 @@ describe('Cascader.vue', () => {
 
     await nextTick()
     expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success')
+  })
+
+  test('tag effect', async () => {
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[['zhejiang', 'hangzhou']]}
+        tagEffect="dark"
+        props={props}
+        options={OPTIONS}
+      />
+    ))
+
+    await nextTick()
+    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--dark')
   })
 
   test('filterable', async () => {
@@ -428,8 +481,9 @@ describe('Cascader.vue', () => {
   })
 
   test('should be able to trigger togglePopperVisible outside the component', async () => {
+    let cascader: InstanceType<typeof ElCascader>
     const clickFn = () => {
-      wrapper.findComponent(Cascader).vm.togglePopperVisible()
+      cascader.togglePopperVisible()
     }
     const wrapper = _mount(() => (
       <div>
@@ -437,11 +491,72 @@ describe('Cascader.vue', () => {
         <button onClick={clickFn} />
       </div>
     ))
+
+    cascader = wrapper.findComponent(Cascader).vm
     const dropdown = wrapper.findComponent(ArrowDown).element as HTMLDivElement
     expect(dropdown.style.display).not.toBe('none')
     const button = wrapper.find('button')
     await button.trigger('click')
     await nextTick()
     expect(dropdown?.style.display).not.toBe('none')
+  })
+  test('height should be changed by size when multiple', async () => {
+    const cascaderSize = ref<'small' | 'default' | 'large'>('default')
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader props={props} size={cascaderSize.value} />
+    ))
+    await nextTick()
+    const inputEl = wrapper.find('input').element as HTMLElement
+    const sizeMap: Record<string, number> = {
+      small: 24,
+      default: 32,
+      large: 40,
+    }
+
+    for (const size in sizeMap) {
+      cascaderSize.value = size as 'small' | 'default' | 'large'
+      inputEl.style.setProperty('--el-input-height', `${sizeMap[size]}px`)
+      // first is wait for the watch callback function of realSize which is to be called after nextTick
+      await nextTick()
+      // second is wait for input to set the height attribute
+      await nextTick()
+      expect(inputEl.style.height).toEqual(`${sizeMap[size] - 2}px`)
+    }
+  })
+
+  describe('render empty slot', () => {
+    it('correct render panel empty slot', async () => {
+      const wrapper = _mount(() => (
+        <Cascader>
+          {{
+            empty: () => <div>-=-empty-=-</div>,
+          }}
+        </Cascader>
+      ))
+
+      await wrapper.find(TRIGGER).trigger('click')
+      const emptySlotEl = document.querySelector(
+        '.el-cascader-menu__empty-text'
+      )
+      expect(emptySlotEl?.textContent).toBe('-=-empty-=-')
+    })
+
+    it('correct render menu list empty slot', async () => {
+      const wrapper = _mount(() => (
+        <Cascader filterable>
+          {{
+            empty: () => <div>-=-empty-=-no-data</div>,
+          }}
+        </Cascader>
+      ))
+
+      const input = wrapper.find('input')
+      await input.trigger('focus')
+      const emptySlotEl = document.querySelector(
+        '.el-cascader-menu__empty-text'
+      )
+      expect(emptySlotEl?.textContent).toBe('-=-empty-=-no-data')
+    })
   })
 })

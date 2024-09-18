@@ -1,5 +1,4 @@
-import { NOOP } from '@vue/shared'
-import { buildProps, definePropType, mutable } from '@element-plus/utils'
+import { NOOP, buildProps, definePropType, mutable } from '@element-plus/utils'
 import { uploadListTypes } from './upload'
 import type { ExtractPropTypes } from 'vue'
 import type { UploadFile, UploadFiles, UploadHooks } from './upload'
@@ -22,6 +21,12 @@ export const uploadListProps = buildProps({
     type: String,
     values: uploadListTypes,
     default: 'text',
+  },
+  /**
+   * @description set HTML attribute: crossorigin.
+   */
+  crossorigin: {
+    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
   },
 } as const)
 

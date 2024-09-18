@@ -1,4 +1,5 @@
 import path from 'path'
+import os from 'os'
 import {
   arrayToRegExp,
   getTypeSymbol,
@@ -80,7 +81,6 @@ const reAttribute: ReAttribute = (value, key) => {
   } else if (key === 'Type') {
     return rewriteType(str)
       .replaceAll(/\bfunction(\(.*\))?(:\s*\w+)?\b/gi, 'Function')
-      .replaceAll(/\bdate\b/g, 'Date')
       .replaceAll(/\([^)]*\)(?!\s*=>)/g, '')
       .replaceAll(/(<[^>]*>|\{[^}]*}|\([^)]*\))/g, (item) => {
         return item.replaceAll(/(\/|\|)/g, '=_0!')
@@ -198,14 +198,18 @@ export const buildHelper: TaskFunction = (done) => {
       ? tagVer.slice(1)
       : tagVer
     : version!
+  let entry = `${path.resolve(
+    projRoot,
+    'docs/en-US/component'
+  )}/!(datetime-picker|message-box|message).md`
+  if (os.platform() === 'win32') {
+    entry = entry.replace(/\\/g, '/')
+  }
 
   main({
     name: name!,
     version: _version,
-    entry: `${path.resolve(
-      projRoot,
-      'docs/en-US/component'
-    )}/!(datetime-picker|message-box|message).md`,
+    entry,
     outDir: epOutput,
     reComponentName,
     reDocUrl,

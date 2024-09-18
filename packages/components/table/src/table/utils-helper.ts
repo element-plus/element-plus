@@ -8,8 +8,12 @@ function useUtils<T>(store: Store<T>) {
   const getSelectionRows = () => {
     return store.getSelectionRows()
   }
-  const toggleRowSelection = (row: T, selected: boolean) => {
-    store.toggleRowSelection(row, selected, false)
+  const toggleRowSelection = (
+    row: T,
+    selected?: boolean,
+    ignoreSelectable = true
+  ) => {
+    store.toggleRowSelection(row, selected, false, ignoreSelectable)
     store.updateAllSelected()
   }
   const clearSelection = () => {

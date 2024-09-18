@@ -1,7 +1,6 @@
 import {
   computed,
   defineComponent,
-  getCurrentInstance,
   inject,
   nextTick,
   onMounted,
@@ -70,8 +69,6 @@ const TabNav = defineComponent({
   props: tabNavProps,
   emits: tabNavEmits,
   setup(props, { expose, emit }) {
-    const vm = getCurrentInstance()!
-
     const rootTabs = inject(tabsRootContextKey)
     if (!rootTabs) throwError(COMPONENT_NAME, `<el-tabs><tab-nav /></el-tabs>`)
 
@@ -272,12 +269,6 @@ const TabNav = defineComponent({
       removeFocus,
     })
 
-    watch(
-      () => props.panes,
-      () => vm.update(),
-      { flush: 'post', deep: true }
-    )
-
     return () => {
       const scrollBtn = scrollable.value
         ? [
@@ -406,5 +397,8 @@ const TabNav = defineComponent({
   },
 })
 
-export type TabNavInstance = InstanceType<typeof TabNav>
+export type TabNavInstance = InstanceType<typeof TabNav> & {
+  scrollToActiveTab: () => Promise<void>
+  removeFocus: () => void
+}
 export default TabNav

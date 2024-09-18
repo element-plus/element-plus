@@ -5,6 +5,7 @@ import {
   getCurrentInstance,
   h,
   ref,
+  renderSlot,
   unref,
   watchEffect,
 } from 'vue'
@@ -119,8 +120,13 @@ function useRender<T>(
       column.renderHeader = (scope) => {
         // help render
         instance.columnConfig.value['label']
-        const renderHeader = slots.header
-        return renderHeader ? renderHeader(scope) : column.label
+        return renderSlot(slots, 'header', scope, () => [column.label])
+      }
+    }
+
+    if (slots['filter-icon']) {
+      column.renderFilterIcon = (scope) => {
+        return renderSlot(slots, 'filter-icon', scope)
       }
     }
 
