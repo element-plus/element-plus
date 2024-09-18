@@ -1,0 +1,48 @@
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'common/var' as *;
+
+@include b(knob) {
+
+  svg {
+    border-radius: 50%;
+    outline-color: transparent;
+    transition: background 0.2s, color 0.2s, outline-color 0.2s, box-shadow 0.2s;
+  }
+
+
+  @keyframes p-knob-dash-frame {
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+
+  @include e(range) {
+    fill: none;
+    transition: stroke 0.1s ease-in;
+  }
+  @include e(value) {
+    animation-name: p-knob-dash-frame;
+    animation-fill-mode: forwards;
+    fill: none;
+  }
+
+  @include e(text) {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+
+  @each $type in (primary, success, warning, info, danger) {
+    @include m($type) {
+      @include e(value) {
+        stroke: getCssVar('color', $type);
+      }
+    }
+  }
+  @include when(disabled) {
+   cursor: not-allowed;
+  }
+}
+
