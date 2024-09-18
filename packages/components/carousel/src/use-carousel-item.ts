@@ -8,27 +8,24 @@ import {
   unref,
 } from 'vue'
 import { debugWarn, isUndefined } from '@element-plus/utils'
-import { carouselContextKey } from './constants'
+import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
 import type { CarouselItemProps } from './carousel-item'
 
-export const useCarouselItem = (
-  props: CarouselItemProps,
-  componentName: string
-) => {
+export const useCarouselItem = (props: CarouselItemProps) => {
   const carouselContext = inject(carouselContextKey)!
   // instance
   const instance = getCurrentInstance()!
   if (!carouselContext) {
     debugWarn(
-      componentName,
+      CAROUSEL_ITEM_NAME,
       'usage: <el-carousel></el-carousel-item></el-carousel>'
     )
   }
 
   if (!instance) {
     debugWarn(
-      componentName,
+      CAROUSEL_ITEM_NAME,
       'compositional hook can only be invoked inside setups'
     )
   }

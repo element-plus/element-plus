@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
-import { hasOwn } from '@element-plus/utils'
+import { isEqual } from 'lodash-unified'
+import { hasOwn, isUndefined } from '@element-plus/utils'
 import {
   getColumnById,
   getColumnByKey,
@@ -93,6 +94,8 @@ function useWatcher<T>() {
     })
   }
 
+  let selectionInitialFixed = undefined
+
   // 更新列
   const updateColumns = () => {
     _columns.value.forEach((column) => {
@@ -104,14 +107,35 @@ function useWatcher<T>() {
     rightFixedColumns.value = _columns.value.filter(
       (column) => column.fixed === 'right'
     )
+
+    if (
+      isUndefined(selectionInitialFixed) &&
+      _columns.value[0] &&
+      _columns.value[0].type === 'selection'
+    ) {
+      selectionInitialFixed = Boolean(_columns.value[0].fixed)
+    }
+
     if (
       fixedColumns.value.length > 0 &&
       _columns.value[0] &&
-      _columns.value[0].type === 'selection' &&
-      !_columns.value[0].fixed
+      _columns.value[0].type === 'selection'
     ) {
-      _columns.value[0].fixed = true
-      fixedColumns.value.unshift(_columns.value[0])
+      if (!_columns.value[0].fixed) {
+        _columns.value[0].fixed = true
+        fixedColumns.value.unshift(_columns.value[0])
+      } else {
+        const hasNotSelectionColumns = fixedColumns.value.some(
+          (column) => column.type !== 'selection'
+        )
+
+        if (!hasNotSelectionColumns) {
+          _columns.value[0].fixed = selectionInitialFixed
+          if (!selectionInitialFixed) fixedColumns.value.shift()
+        } else {
+          selectionInitialFixed = undefined
+        }
+      }
     }
 
     const notFixedColumns = _columns.value.filter((column) => !column.fixed)
@@ -149,7 +173,7 @@ function useWatcher<T>() {
 
   // 选择
   const isSelected = (row) => {
-    return selection.value.includes(row)
+    return selection.value.some((item) => isEqual(item, row))
   }
 
   const clearSelection = () => {
@@ -191,7 +215,8 @@ function useWatcher<T>() {
   const toggleRowSelection = (
     row: T,
     selected?: boolean,
-    emitChange = true
+    emitChange = true,
+    ignoreSelectable = false
   ) => {
     const treeProps = {
       children: instance?.store?.states?.childrenColumnName.value,
@@ -202,7 +227,7 @@ function useWatcher<T>() {
       row,
       selected,
       treeProps,
-      selectable.value
+      ignoreSelectable ? undefined : selectable.value
     )
     if (changed) {
       const newSelection = (selection.value || []).slice()
