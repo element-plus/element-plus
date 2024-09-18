@@ -1,5 +1,39 @@
 ## Changelog
 
+### 2.8.2
+
+_2024-09-06_
+
+#### Features
+
+- Components [check-tag] add disabled prop (#17936 by @HaceraI)
+- Components [config-provider] support more message config (#18106 by @btea)
+
+#### Bug fixes
+
+- The disabled state should not trigger focus (#18012 by @btea)
+- Components [pagination] global size dynamic modification error (#18004 by @btea)
+- Components [table] getColumnIndex may be undefned (#16782 by @406087475)
+- Components [tag] leave animations not working (#18006 by @makedopamine)
+- Components [select] switching single/multiple generates an error (#18030 by @tolking)
+- The disabled state should not trigger focus (#18108 by @btea)
+- Components [el-tree-select] fix lazy and multiple select node (#17903 by @gaoxuan-haxibiao)
+- Theme-chalk [select] remove unnecessary codes of the select border (#18116 by @LoTwT)
+- Components [select] call the exposes blur is invalid (#17691 by @tolking)
+- Components [mention] replace props.disabled with useFormDisabled (#18119 by @tolking)
+- Components [tree-v2] expand all ancestor nodes of the specified node (#18077 by @dadaguai-git)
+- Theme-chalk [select] box-shadow noise (#18120 by @HaceraI)
+- Hooks PopperContainer cannot be recreated when body is recreated (#18121 by @kimverchan)
+- Components [calendar] improve range validation (#18125 by @btea)
+- Components [table-v2] columns missing key field (#17891 by @betavs)
+- Components [tabs] active-bar not move with the tab label changes (#18165 by @btea)
+- Components [message] max affects grouping display (#18189 by @dadaguai-git)
+- Components [table-v2] header checkbox cover fixedHeader when scroll (#18179 by @kimverchan)
+
+#### Refactors
+
+- Import shared utilities from @element-plus/utils (#18048 by @makedopamine)
+
 ### 2.8.1
 
 _2024-08-23_
