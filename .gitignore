@@ -19,3 +19,6 @@ packages/element-plus/version.ts
 cypress/screenshots/*
 cypress/videos/*
 tmp
+
+# vscode
+.history

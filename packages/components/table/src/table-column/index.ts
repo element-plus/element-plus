@@ -32,23 +32,23 @@ export default defineComponent({
   setup(props, { slots }) {
     const instance = getCurrentInstance() as TableColumn<DefaultRow>
     const columnConfig = ref<Partial<TableColumnCtx<DefaultRow>>>({})
-    const owner = computed(() => {
+    const ownerGetter = () => {
       let parent = instance.parent as any
       while (parent && !parent.tableId) {
         parent = parent.parent
       }
       return parent
-    })
+    }
 
     const { registerNormalWatchers, registerComplexWatchers } = useWatcher(
-      owner,
+      ownerGetter,
       props
     )
     const {
       columnId,
       isSubColumn,
       realHeaderAlign,
-      columnOrTableParent,
+      columnOrTableParentGetter,
       setColumnWidth,
       setColumnForcedProps,
       setColumnRenders,
@@ -56,14 +56,15 @@ export default defineComponent({
       getColumnElIndex,
       realAlign,
       updateColumnOrder,
-    } = useRender(props as unknown as TableColumnCtx<unknown>, slots, owner)
+    } = useRender(props as unknown as TableColumnCtx<unknown>, slots, ownerGetter)
 
-    const parent = columnOrTableParent.value
+    const parent = columnOrTableParentGetter()
     columnId.value = `${
       parent.tableId || parent.columnId
     }_column_${columnIdSeed++}`
     onBeforeMount(() => {
-      isSubColumn.value = owner.value !== parent
+      const owner = ownerGetter()
+      isSubColumn.value = owner !== parent
 
       const type = props.type || 'default'
       const sortable = props.sortable === '' ? true : props.sortable
@@ -132,7 +133,7 @@ export default defineComponent({
       registerComplexWatchers()
     })
     onMounted(() => {
-      const parent = columnOrTableParent.value
+      const parent = columnOrTableParentGetter()
       const children = isSubColumn.value
         ? parent.vnode.el.children
         : parent.refs.hiddenColumns?.children
@@ -140,8 +141,9 @@ export default defineComponent({
         getColumnElIndex(children || [], instance.vnode.el)
       columnConfig.value.getColumnIndex = getColumnIndex
       const columnIndex = getColumnIndex()
+      const owner = ownerGetter()
       columnIndex > -1 &&
-        owner.value.store.commit(
+        owner.store.commit(
           'insertColumn',
           columnConfig.value,
           isSubColumn.value ? parent.columnConfig.value : null,
@@ -149,7 +151,8 @@ export default defineComponent({
         )
     })
     onBeforeUnmount(() => {
-      owner.value.store.commit(
+      const owner = ownerGetter()
+      owner.store.commit(
         'removeColumn',
         columnConfig.value,
         isSubColumn.value ? parent.columnConfig.value : null,

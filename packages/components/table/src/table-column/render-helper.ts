@@ -23,7 +23,7 @@ import type { TableColumn, TableColumnCtx } from './defaults'
 function useRender<T>(
   props: TableColumnCtx<T>,
   slots,
-  owner: ComputedRef<any>
+  ownerGetter: () => any
 ) {
   const instance = getCurrentInstance() as TableColumn<T>
   const columnId = ref('')
@@ -43,13 +43,13 @@ function useRender<T>(
     // nextline help render
     realHeaderAlign.value
   })
-  const columnOrTableParent = computed(() => {
+  const columnOrTableParentGetter = () => {
     let parent: any = instance.vnode.vParent || instance.parent
     while (parent && !parent.tableId && !parent.columnId) {
       parent = parent.vnode.vParent || parent.parent
     }
     return parent
-  })
+  }
   const hasTreeColumn = computed<boolean>(() => {
     const { store } = instance.parent
     if (!store) return false
@@ -136,7 +136,8 @@ function useRender<T>(
           },
           [originRenderCell(data)]
         )
-      owner.value.renderExpanded = (data) => {
+      const owner = ownerGetter()
+      owner.renderExpanded = (data) => {
         return slots.default ? slots.default(data) : slots.default
       }
     } else {
@@ -153,7 +154,8 @@ function useRender<T>(
           children = originRenderCell(data)
         }
 
-        const { columns } = owner.value.store.states
+        const owner = ownerGetter()
+        const { columns } = owner.store.states
         const firstUserColumnIndex = columns.value.findIndex(
           (item) => item.type === 'default'
         )
@@ -193,7 +195,8 @@ function useRender<T>(
   }
 
   const updateColumnOrder = () => {
-    owner.value.store.commit('updateColumnOrder', instance.columnConfig.value)
+    const owner = ownerGetter()
+    owner.store.commit('updateColumnOrder', instance.columnConfig.value)
   }
 
   return {
@@ -201,7 +204,7 @@ function useRender<T>(
     realAlign,
     isSubColumn,
     realHeaderAlign,
-    columnOrTableParent,
+    columnOrTableParentGetter,
     setColumnWidth,
     setColumnForcedProps,
     setColumnRenders,

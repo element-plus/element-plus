@@ -13,7 +13,7 @@ function getAllAliases(props, aliases) {
   }, aliases)
 }
 function useWatcher<T>(
-  owner: ComputedRef<any>,
+  ownerGetter: () => any,
   props_: Partial<TableColumnCtx<T>>
 ) {
   const instance = getCurrentInstance() as TableColumn<T>
@@ -40,7 +40,8 @@ function useWatcher<T>(
             instance.columnConfig.value[columnKey as any] = value
             instance.columnConfig.value[key] = value
             const updateColumns = columnKey === 'fixed'
-            owner.value.store.scheduleLayout(updateColumns)
+            const owner = ownerGetter()
+            owner.store.scheduleLayout(updateColumns)
           }
         )
       }
