@@ -129,6 +129,8 @@ table/single-select
 
 You can also select multiple rows.
 
+After ^(2.8.3), `toggleRowSelection` supports the third parameter `ignoreSelectable` to determine whether to ignore the selectable attribute.
+
 :::demo Activating multiple selection is easy: simply add an `el-table-column` with its `type` set to `selection`.
 
 table/multi-select
@@ -321,22 +323,22 @@ table/table-layout
 
 ### Table Exposes
 
-| Method             | Description                                                                                                                                                       | Type                                                                       |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| clearSelection     | used in multiple selection Table, clear user selection                                                                                                            | ^[Function]`() => void`                                                    |
-| getSelectionRows   | returns the currently selected rows                                                                                                                               | ^[Function]`() => any[]`                                                   |
-| toggleRowSelection | used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected                    | ^[Function]`(row: any, selected?: boolean) => void`                        |
-| toggleAllSelection | used in multiple selection Table, toggle select all and deselect all                                                                                              | ^[Function]`() => void`                                                    |
-| toggleRowExpansion | used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed | ^[Function]`(row: any, expanded?: boolean) => void`                        |
-| setCurrentRow      | used in single selection Table, set a certain row selected. If called without any parameter, it will clear selection                                              | ^[Function]`(row: any) => void`                                            |
-| clearSort          | clear sorting, restore data to the original order                                                                                                                 | ^[Function]`() => void`                                                    |
-| clearFilter        | clear filters of the columns whose `columnKey` are passed in. If no params, clear all filters                                                                     | ^[Function]`(columnKeys?: string[]) => void`                               |
-| doLayout           | refresh the layout of Table. When the visibility of Table changes, you may need to call this method to get a correct layout                                       | ^[Function]`() => void`                                                    |
-| sort               | sort Table manually. Property `prop` is used to set sort column, property `order` is used to set sort order                                                       | ^[Function]`(prop: string, order: string) => void`                         |
-| scrollTo           | scrolls to a particular set of coordinates                                                                                                                        | ^[Function]`(options: number \| ScrollToOptions, yCoord?: number) => void` |
-| setScrollTop       | set vertical scroll position                                                                                                                                      | ^[Function]`(top?: number) => void`                                        |
-| setScrollLeft      | set horizontal scroll position                                                                                                                                    | ^[Function]`(left?: number) => void`                                       |
-| columns ^(2.7.6)   | Get table columns context.                                                                                                                                        | ^[array]`TableColumnCtx<T>[]`                                              |
+| Method             | Description                                                                                                                                                       | Type                                                                         |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| clearSelection     | used in multiple selection Table, clear user selection                                                                                                            | ^[Function]`() => void`                                                      |
+| getSelectionRows   | returns the currently selected rows                                                                                                                               | ^[Function]`() => any[]`                                                     |
+| toggleRowSelection | used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected                    | ^[Function]`(row: any, selected?: boolean, ignoreSelectable = true) => void` |
+| toggleAllSelection | used in multiple selection Table, toggle select all and deselect all                                                                                              | ^[Function]`() => void`                                                      |
+| toggleRowExpansion | used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed | ^[Function]`(row: any, expanded?: boolean) => void`                          |
+| setCurrentRow      | used in single selection Table, set a certain row selected. If called without any parameter, it will clear selection                                              | ^[Function]`(row: any) => void`                                              |
+| clearSort          | clear sorting, restore data to the original order                                                                                                                 | ^[Function]`() => void`                                                      |
+| clearFilter        | clear filters of the columns whose `columnKey` are passed in. If no params, clear all filters                                                                     | ^[Function]`(columnKeys?: string[]) => void`                                 |
+| doLayout           | refresh the layout of Table. When the visibility of Table changes, you may need to call this method to get a correct layout                                       | ^[Function]`() => void`                                                      |
+| sort               | sort Table manually. Property `prop` is used to set sort column, property `order` is used to set sort order                                                       | ^[Function]`(prop: string, order: string) => void`                           |
+| scrollTo           | scrolls to a particular set of coordinates                                                                                                                        | ^[Function]`(options: number \| ScrollToOptions, yCoord?: number) => void`   |
+| setScrollTop       | set vertical scroll position                                                                                                                                      | ^[Function]`(top?: number) => void`                                          |
+| setScrollLeft      | set horizontal scroll position                                                                                                                                    | ^[Function]`(left?: number) => void`                                         |
+| columns ^(2.7.6)   | Get table columns context.                                                                                                                                        | ^[array]`TableColumnCtx<T>[]`                                                |
 
 ## Table-column API
 
@@ -410,17 +412,15 @@ interface TreeNode {
 
 #### How to use image preview in the table?
 
-```vue
-<el-table-column label="Thumbnail" width="180">
+```vue{4}
+<template>
+  <el-table-column width="180">
     <template #default="scope">
-        <div style="display: flex; align-items: center">
-            <el-image :preview-src-list="srcList"/>
-        </div>
+      <el-image preview-teleported :preview-src-list="srcList" />
     </template>
-</el-table-column>
+  </el-table-column>
+</template>
 ```
-
-PS: since the fixed column is implement by sticky, when you have fixed columns in table, please add the `preview-teleported` attribute in image
 
 #### Why column is not rendered when use DOM templates?
 
