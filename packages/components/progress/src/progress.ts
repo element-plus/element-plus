@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import type { ExtractPropTypes, SVGAttributes } from 'vue'
 import type Progress from './progress.vue'
 
@@ -20,7 +20,7 @@ export const progressProps = buildProps({
   percentage: {
     type: Number,
     default: 0,
-    validator: (val: number): boolean => val >= 0 && val <= 100,
+    // validator: (val: number): boolean => val >= 0 && val <= 100,
   },
   /**
    * @description the current status of progress bar
@@ -99,7 +99,42 @@ export const progressProps = buildProps({
     type: definePropType<ProgressFn>(Function),
     default: (percentage: number): string => `${percentage}%`,
   },
+  /**
+   * @description Step factor to increment/decrement the value.
+   */
+  step: {
+    type: Number,
+    default: 1,
+  },
+  /**
+   * @description Mininum boundary value.
+   */
+  min: {
+    type: Number,
+    default: 0,
+  },
+  /**
+   * @description Maximum boundary value.
+   */
+  max: {
+    type: Number,
+    default: 100,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 
 export type ProgressProps = ExtractPropTypes<typeof progressProps>
 export type ProgressInstance = InstanceType<typeof Progress>
+
+export const processEmits = {
+  'update:percentage': (value: number) => isNumber(value),
+  change: (value: number) => isNumber(value),
+}
+export type ProcessEmits = typeof processEmits
