@@ -2,7 +2,7 @@ export default {
   name: 'fa',
   el: {
     breadcrumb: {
-      label: 'مسیر راهنما', // to be translated
+      label: 'مسیر راهنما',
     },
     colorpicker: {
       confirm: 'تأیید',
@@ -158,16 +158,16 @@ export default {
     transfer: {
       noMatch: 'داده‌ای مطابقت ندارد',
       noData: 'داده‌ای موجود نیست',
-      titles: ['فهرست ۱', 'فهرست ۲'], // to be translated
-      filterPlaceholder: 'کلمه کلیدی را وارد کنید', // to be translated
-      noCheckedFormat: '{total} آیتم', // to be translated
-      hasCheckedFormat: '{checked}/{total} انتخاب‌شده', // to be translated
+      titles: ['فهرست ۱', 'فهرست ۲'],
+      filterPlaceholder: 'کلمه کلیدی را وارد کنید',
+      noCheckedFormat: '{total} آیتم',
+      hasCheckedFormat: '{checked}/{total} انتخاب‌شده',
     },
     image: {
       error: 'ناموفق',
     },
     pageHeader: {
-      title: 'بازگشت', // to be translated
+      title: 'بازگشت',
     },
     popconfirm: {
       confirmButtonText: 'بله',
