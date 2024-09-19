@@ -58,6 +58,10 @@
     }
   }
 
+  & + & {
+    margin-left: 12px;
+  }
+
   @include e(inner) {
     display: inline-flex;
     justify-content: center;
