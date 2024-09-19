@@ -208,7 +208,6 @@ defineOptions({
 })
 
 const props = defineProps(timePickerDefaultProps)
-console.log(props)
 const emit = defineEmits([
   'update:modelValue',
   'change',
