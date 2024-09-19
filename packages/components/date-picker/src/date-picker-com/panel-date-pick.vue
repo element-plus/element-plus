@@ -169,7 +169,13 @@
       </div>
     </div>
     <div v-show="footerVisible" :class="ppNs.e('footer')">
-      <slot name="footer" :confirm="onConfirm" :change-to-now="changeToNow">
+      <slot
+        name="footer"
+        :confirm="onConfirm"
+        :change-to-now="changeToNow"
+        :disabled-confirm="disabledConfirm"
+        :disabled-now="disabledNow"
+      >
         <el-button
           v-show="!isMultipleType"
           text
