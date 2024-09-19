@@ -1,4 +1,7 @@
-export default {
+import type { Language } from '../index'
+
+/** Simplified Chinese / 简体中文 */
+const zhCn: Language = {
   name: 'zh-cn',
   el: {
     breadcrumb: {
@@ -44,7 +47,7 @@ export default {
       month10: '10 月',
       month11: '11 月',
       month12: '12 月',
-      // week: '周次',
+      week: '周次',
       weeks: {
         sun: '日',
         mon: '一',
@@ -178,3 +181,5 @@ export default {
     },
   },
 }
+
+export default zhCn

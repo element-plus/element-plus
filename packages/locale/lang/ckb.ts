@@ -1,4 +1,7 @@
-export default {
+import type { Language } from '../index'
+
+/** Kurdish / 库尔德语 */
+const ckb: Language = {
   name: 'ckb',
   el: {
     breadcrumb: {
@@ -10,6 +13,7 @@ export default {
       defaultLabel: 'هەڵبژاردنی ڕەنگ',
       description:
         'ڕەنگی ئێستا {color}. ئینتەر دابگرە بۆ هەڵبژاردنی ڕەنگی نوێ.',
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'ئێستا',
@@ -172,5 +176,13 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    // to be translated
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+    },
   },
 }
+
+export default ckb

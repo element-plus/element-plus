@@ -1,4 +1,7 @@
-export default {
+import type { Language } from '../index'
+
+/** Swahili / (东非)  */
+const sw: Language = {
   name: 'sw',
   el: {
     breadcrumb: {
@@ -10,6 +13,7 @@ export default {
       defaultLabel: 'kichagua rangi',
       description:
         'rangi ya sasa ni {color}. bonyeza kitufe cha kuingia ili kuchagua rangi mpya.',
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'sasa',
@@ -173,5 +177,13 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    // to be translated
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+    },
   },
 }
+
+export default sw

@@ -1,4 +1,7 @@
-export default {
+import type { Language } from '../index'
+
+/** French / 法语 */
+const fr: Language = {
   name: 'fr',
   el: {
     breadcrumb: {
@@ -10,6 +13,7 @@ export default {
       defaultLabel: 'color picker',
       description:
         'La couleur actuelle est {color}. Appuyer sur Entrée pour sélectionner une nouvelle couleur.',
+      alphaLabel: 'Sélectionnez une valeur de transparence',
     },
     datepicker: {
       now: 'Maintenant',
@@ -176,5 +180,10 @@ export default {
       rightArrow: 'Flèche du carrousel vers la droite',
       indicator: 'Passer au carrousel index {index}',
     },
+    dropdown: {
+      toggleDropdown: 'Basculer les options déroulantes',
+    },
   },
 }
+
+export default fr

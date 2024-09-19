@@ -1,4 +1,7 @@
-export default {
+import type { Language } from '../index'
+
+/** Pashto / 普什图语 */
+const pa: Language = {
   name: 'pa',
   el: {
     breadcrumb: {
@@ -7,6 +10,10 @@ export default {
     colorpicker: {
       confirm: 'تایید',
       clear: 'پاکول',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'اوس',
@@ -37,7 +44,6 @@ export default {
       month10: 'اکتوبر',
       month11: 'نومبر',
       month12: 'دسمبر',
-      // week: 'week',
       weeks: {
         sun: 'یکشنبه',
         mon: 'دوشنبه',
@@ -60,6 +66,23 @@ export default {
         oct: 'اکتوبر',
         nov: 'نومبر',
         dec: 'دسمبر',
+      },
+      week: 'week', //  to be translated
+      // to be translated
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month',
+      monthTablePrompt: 'Use the arrow keys and enter to select the month',
+      yearTablePrompt: 'Use the arrow keys and enter to select the year',
+      selectedDate: 'Selected date',
+      // to be translated
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
       },
     },
     select: {
@@ -88,12 +111,15 @@ export default {
       currentPage: 'page {pager}', // to be translated
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
     },
     messagebox: {
       title: 'عنوان',
       confirm: 'تایید',
       cancel: 'لغوه کول',
       error: 'تيروتنه',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'د حذف کولو لپاره پاکه تڼۍ فشار کړئ',
@@ -134,5 +160,36 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    // to be translated
+    inputNumber: {
+      decrease: 'decrease number',
+      increase: 'increase number',
+    },
+    // to be translated
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown',
+    },
+    // to be translated
+    dialog: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    drawer: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    slider: {
+      defaultLabel: 'slider between {min} and {max}',
+      defaultRangeStartLabel: 'pick start value',
+      defaultRangeEndLabel: 'pick end value',
+    },
+    // to be translated
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+    },
   },
 }
+
+export default pa

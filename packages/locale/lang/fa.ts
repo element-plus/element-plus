@@ -1,4 +1,7 @@
-export default {
+import type { Language } from '../index'
+
+/** Farsi / 波斯语 */
+const fa: Language = {
   name: 'fa',
   el: {
     breadcrumb: {
@@ -7,6 +10,10 @@ export default {
     colorpicker: {
       confirm: 'تایید',
       clear: 'حذف',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
     },
     datepicker: {
       now: 'اکنون',
@@ -37,7 +44,7 @@ export default {
       month10: 'اکتبر',
       month11: 'نوامبر',
       month12: 'دسامبر',
-      // week: 'week',
+      week: 'week',
       weeks: {
         sun: 'یکشنبه',
         mon: 'دوشنبه',
@@ -60,6 +67,22 @@ export default {
         oct: 'اکتبر',
         nov: 'نوامبر',
         dec: 'دسامبر',
+      },
+      // to be translated
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month',
+      monthTablePrompt: 'Use the arrow keys and enter to select the month',
+      yearTablePrompt: 'Use the arrow keys and enter to select the year',
+      selectedDate: 'Selected date',
+      // to be translated
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
       },
     },
     select: {
@@ -88,12 +111,15 @@ export default {
       currentPage: 'صفحه {pager}',
       prevPages: '{pager} صفحه قبل',
       nextPages: '{pager} صفحه بعد',
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
     },
     messagebox: {
       title: 'پیام',
       confirm: 'تایید',
       cancel: 'انصراف',
       error: 'ورودی غیر مجاز',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'برای پاک کردن حذف را فشار دهید',
@@ -139,5 +165,30 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    // to be translated
+    inputNumber: {
+      decrease: 'decrease number',
+      increase: 'increase number',
+    },
+    // to be translated
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown',
+    },
+    // to be translated
+    dialog: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    drawer: {
+      close: 'Close this dialog',
+    },
+    // to be translated
+    slider: {
+      defaultLabel: 'slider between {min} and {max}',
+      defaultRangeStartLabel: 'pick start value',
+      defaultRangeEndLabel: 'pick end value',
+    },
   },
 }
+
+export default fa
