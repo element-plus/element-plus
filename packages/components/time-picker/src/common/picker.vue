@@ -11,8 +11,9 @@
     :transition="`${nsDate.namespace.value}-zoom-in-top`"
     :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass]"
     :popper-options="elPopperOptions"
-    :fallback-placements="['bottom', 'top', 'right', 'left']"
+    :fallback-placements="fallbackPlacements"
     :gpu-acceleration="false"
+    :placement="placement"
     :stop-popper-mouse-event="false"
     :hide-after="0"
     persistent
@@ -207,6 +208,7 @@ defineOptions({
 })
 
 const props = defineProps(timePickerDefaultProps)
+console.log(props)
 const emit = defineEmits([
   'update:modelValue',
   'change',
