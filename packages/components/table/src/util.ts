@@ -385,11 +385,10 @@ export function createTablePopper(
   table: Table<[]>
 ) {
   if (removePopper?.trigger === trigger) {
-    merge(removePopper!.vm.component.props, {
-      ...removePopper!.vm.component.props,
-      ...getTableOverflowTooltipProps(props, popperContent),
-    })
-    removePopper!.vm.component.exposed.updatePopper()
+    merge(
+      removePopper!.vm.component.props,
+      getTableOverflowTooltipProps(props, popperContent)
+    )
     return
   }
   removePopper?.()
