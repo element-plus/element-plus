@@ -389,9 +389,6 @@ export function createTablePopper(
     hideAfter: 0,
     ...props,
     popperOptions,
-    onHide: () => {
-      removePopper?.()
-    },
   })
   vm.appContext = { ...table.appContext, ...table }
   const container = document.createElement('div')
