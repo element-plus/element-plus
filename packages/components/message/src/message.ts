@@ -15,6 +15,10 @@ export type messageType = typeof messageTypes[number]
 
 export interface MessageConfigContext {
   max?: number
+  grouping?: boolean
+  duration?: number
+  offset?: number
+  showClose?: boolean
 }
 
 export const messageDefaults = mutable({

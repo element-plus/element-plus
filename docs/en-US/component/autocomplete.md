@@ -7,12 +7,6 @@ lang: en-US
 
 Get some recommended tips based on the current input.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic Usage
 
 Autocomplete component provides input suggestions.
@@ -66,7 +60,7 @@ autocomplete/custom-loading
 | value-key                           | key name of the input suggestion object for display                                                                        | ^[string]                                                                                 | value        |
 | debounce                            | debounce delay when typing, in milliseconds                                                                                | ^[number]                                                                                 | 300          |
 | placement                           | placement of the popup menu                                                                                                | ^[enum]`'top' \| 'top- start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'` | bottom-start |
-| fetch-suggestions                   | a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete | ^[Array] / ^[Function]`(queryString: string, callback: callbackfn) => void`                          | —            |
+| fetch-suggestions                   | a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete | ^[Array] / ^[Function]`(queryString: string, callback: callbackfn) => void`               | —            |
 | trigger-on-focus                    | whether show suggestions when input focus                                                                                  | ^[boolean]                                                                                | true         |
 | select-when-unmatched               | whether to emit a `select` event on enter when there is no autocomplete match                                              | ^[boolean]                                                                                | false        |
 | name                                | same as `name` in native input                                                                                             | ^[string]                                                                                 | —            |
@@ -80,14 +74,14 @@ autocomplete/custom-loading
 
 ### Events
 
-| Name   | Description                                      | Type                                                  |
-| ------ | ------------------------------------------------ | ----------------------------------------------------- |
-| blur   | triggers when Input blurs                                       | ^[Function]`(event: FocusEvent) => void`       |
-| focus  | triggers when Input focuses                                     | ^[Function]`(event: FocusEvent) => void`       |
-| input  | triggers when the Input value change                            | ^[Function]`(value: string \| number) => void` |
-| clear  | triggers when the Input is cleared by clicking the clear button | ^[Function]`() => void`                        |
-| select | triggers when a suggestion is clicked            | ^[Function]`(item: typeof modelValue \| any) => void` |
-| change | triggers when the icon inside Input value change | ^[Function]`(value: string \| number) => void`        |
+| Name   | Description                                                     | Type                                                  |
+| ------ | --------------------------------------------------------------- | ----------------------------------------------------- |
+| blur   | triggers when Input blurs                                       | ^[Function]`(event: FocusEvent) => void`              |
+| focus  | triggers when Input focuses                                     | ^[Function]`(event: FocusEvent) => void`              |
+| input  | triggers when the Input value change                            | ^[Function]`(value: string \| number) => void`        |
+| clear  | triggers when the Input is cleared by clicking the clear button | ^[Function]`() => void`                               |
+| select | triggers when a suggestion is clicked                           | ^[Function]`(item: typeof modelValue \| any) => void` |
+| change | triggers when the icon inside Input value change                | ^[Function]`(value: string \| number) => void`        |
 
 ### Slots
 
@@ -116,3 +110,4 @@ autocomplete/custom-loading
 | loading          | remote search loading indicator             | ^[object]`Ref<boolean>`                   |
 | popperRef        | el-tooltip component instance               | ^[object]`Ref<ElTooltipInstance>`         |
 | suggestions      | fetch suggestions result                    | ^[object]`Ref<record<string, any>>`       |
+| getData ^(2.8.4) | loading suggestion list                     | ^[Function]`(queryString: string) => void`|

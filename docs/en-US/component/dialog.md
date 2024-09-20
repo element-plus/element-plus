@@ -7,12 +7,6 @@ lang: en-US
 
 Informs users while preserving the current page state.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Dialog pops up a dialog box, and it's quite customizable.
@@ -177,9 +171,9 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 ### Exposes
 
-| Name                  | Description   | Type                    |
-| --------------------- | ------------- | ----------------------- |
-| resetPostion ^(2.8.0) | reset postion | ^[Function]`() => void` |
+| Name                   | Description    | Type                    |
+| ---------------------- | -------------- | ----------------------- |
+| resetPosition ^(2.8.1) | reset position | ^[Function]`() => void` |
 
 ## FAQ
 

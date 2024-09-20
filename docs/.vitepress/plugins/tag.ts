@@ -1,6 +1,6 @@
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownRenderer } from 'vitepress'
 
-export default (md: MarkdownIt): void => {
+export default (md: MarkdownRenderer): void => {
   md.inline.ruler.before('emphasis', 'tag', (state, silent) => {
     const tagRegExp = /^\^\(([^)]*)\)/
     const str = state.src.slice(state.pos, state.posMax)

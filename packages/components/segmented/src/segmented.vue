@@ -68,7 +68,6 @@ const state = reactive({
   isInit: false,
   width: 0,
   translateX: 0,
-  disabled: false,
   focusVisible: false,
 })
 
@@ -86,7 +85,7 @@ const getLabel = (item: Option) => {
   return isObject(item) ? item.label : item
 }
 
-const getDisabled = (item: Option) => {
+const getDisabled = (item: Option | undefined) => {
   return !!(_disabled.value || (isObject(item) ? item.disabled : false))
 }
 
@@ -117,7 +116,6 @@ const updateSelect = () => {
   if (!selectedItem || !selectedItemInput) {
     state.width = 0
     state.translateX = 0
-    state.disabled = false
     state.focusVisible = false
     return
   }
@@ -125,7 +123,6 @@ const updateSelect = () => {
   state.isInit = true
   state.width = rect.width
   state.translateX = selectedItem.offsetLeft
-  state.disabled = getDisabled(getOption(props.modelValue))
   try {
     // This will failed in test
     state.focusVisible = selectedItemInput.matches(':focus-visible')
@@ -146,7 +143,7 @@ const selectedStyle = computed(() => ({
 
 const selectedCls = computed(() => [
   ns.e('item-selected'),
-  ns.is('disabled', state.disabled),
+  ns.is('disabled', getDisabled(getOption(props.modelValue))),
   ns.is('focus-visible', state.focusVisible),
 ])
 

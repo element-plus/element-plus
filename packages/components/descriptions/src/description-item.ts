@@ -19,6 +19,13 @@ export const descriptionItemProps = buildProps({
     default: 1,
   },
   /**
+   * @description the number of rows a cell should span
+   */
+  rowspan: {
+    type: Number,
+    default: 1,
+  },
+  /**
    * @description column width, the width of the same column in different rows is set by the max value (If no `border`, width contains label and content)
    */
   width: {
@@ -68,7 +75,7 @@ const DescriptionItem = defineComponent({
 
 export default DescriptionItem
 
-type DescriptionItemProps = ExtractPropTypes<typeof descriptionItemProps>
+export type DescriptionItemProps = ExtractPropTypes<typeof descriptionItemProps>
 export type DescriptionItemVNode = VNode & {
   children: { [name: string]: Slot } | null
   props: Partial<DescriptionItemProps> | null
