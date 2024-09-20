@@ -4,6 +4,7 @@
       ref="wrapRef"
       :class="wrapKls"
       :style="wrapStyle"
+      :tabindex="tabindex"
       @scroll="handleScroll"
     >
       <component
@@ -166,8 +167,10 @@ provide(
 )
 
 onActivated(() => {
-  wrapRef.value!.scrollTop = wrapScrollTop
-  wrapRef.value!.scrollLeft = wrapScrollLeft
+  if (wrapRef.value) {
+    wrapRef.value.scrollTop = wrapScrollTop
+    wrapRef.value.scrollLeft = wrapScrollLeft
+  }
 })
 
 onMounted(() => {

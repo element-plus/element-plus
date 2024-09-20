@@ -1121,7 +1121,8 @@ describe('table column', () => {
         },
         template: `
           <el-table :data="testData">
-            <el-table-column :fixed="fixed" />
+            <el-table-column type="selection" />
+            <el-table-column :fixed="fixed" prop="name" />
             <el-table-column prop="release" />
             <el-table-column prop="director" />
             <el-table-column prop="runtime" />
@@ -1144,6 +1145,9 @@ describe('table column', () => {
       wrapper.vm.fixed = true
       await doubleWait()
       expect(wrapper.find('.el-table-fixed-column--left').exists()).toBeTruthy()
+      wrapper.vm.fixed = false
+      await doubleWait()
+      expect(wrapper.find('.el-table-fixed-column--left').exists()).toBeFalsy()
       wrapper.unmount()
     })
 

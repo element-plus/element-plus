@@ -62,7 +62,7 @@ segmented/custom-style
 ### Attributes
 
 | Name                  | Description                        | Type                                           | Default |
-| --------------------- | ---------------------------------- |------------------------------------------------| ------- |
+| --------------------- | ---------------------------------- | ---------------------------------------------- | ------- |
 | model-value / v-model | binding value                      | ^[string] / ^[number] / ^[boolean]             | —       |
 | options               | data of the options                | ^[array]`Option[]`                             | []      |
 | size                  | size of component                  | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''      |
@@ -101,7 +101,6 @@ type Option =
   | string
   | number
   | boolean
-  | undefined
 ```
 
 </details>

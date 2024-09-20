@@ -103,7 +103,10 @@ export const useSelect = (props: ISelectProps, emit) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
+  const { wrapperRef, isFocused } = useFocusController(inputRef, {
+    beforeFocus() {
+      return selectDisabled.value
+    },
     afterFocus() {
       if (props.automaticDropdown && !expanded.value) {
         expanded.value = true
@@ -654,20 +657,16 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const blur = () => {
-    handleClickOutside()
+    inputRef.value?.blur()
   }
 
   const handleClearClick = (event: Event) => {
     deleteSelected(event)
   }
 
-  const handleClickOutside = (event: Event) => {
+  const handleClickOutside = () => {
     expanded.value = false
-
-    if (isFocused.value) {
-      const _event = new FocusEvent('focus', event)
-      nextTick(() => handleBlur(_event))
-    }
+    isFocused.value && blur()
   }
 
   const handleEsc = () => {
