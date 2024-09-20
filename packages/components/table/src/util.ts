@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createVNode, render } from 'vue'
-import { flatMap, get } from 'lodash-unified'
+import { flatMap, get, merge } from 'lodash-unified'
 import {
   hasOwn,
   isArray,
@@ -385,10 +385,11 @@ export function createTablePopper(
   table: Table<[]>
 ) {
   if (removePopper?.trigger === trigger) {
-    removePopper!.vm.component.props = {
+    merge(removePopper!.vm.component.props, {
       ...removePopper!.vm.component.props,
       ...getTableOverflowTooltipProps(props, popperContent),
-    }
+    })
+    removePopper!.vm.component.exposed.updatePopper()
     return
   }
   removePopper?.()
