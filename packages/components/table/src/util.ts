@@ -13,6 +13,7 @@ import ElTooltip, {
 } from '@element-plus/components/tooltip'
 import type { Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
+import type { VNode } from 'vue'
 
 export type TableOverflowTooltipOptions = Partial<
   Pick<
@@ -33,6 +34,7 @@ export type TableOverflowTooltipOptions = Partial<
 
 type RemovePopperFn = (() => void) & {
   trigger?: HTMLElement
+  vm?: VNode
 }
 
 export const getCell = function (event: Event) {
@@ -360,6 +362,20 @@ export function walkTreeNode(
   })
 }
 
+const getTableOverflowTooltipProps = (
+  props: TableOverflowTooltipOptions,
+  content: string
+) => {
+  return {
+    content,
+    ...props,
+    popperOptions: {
+      strategy: 'fixed',
+      ...props.popperOptions,
+    },
+  }
+}
+
 export let removePopper: RemovePopperFn | null = null
 
 export function createTablePopper(
@@ -369,17 +385,16 @@ export function createTablePopper(
   table: Table<[]>
 ) {
   if (removePopper?.trigger === trigger) {
+    removePopper!.vm.component.props = {
+      ...removePopper!.vm.component.props,
+      ...getTableOverflowTooltipProps(props, popperContent),
+    }
     return
   }
   removePopper?.()
   const parentNode = table?.refs.tableWrapper
   const ns = parentNode?.dataset.prefix
-  const popperOptions = {
-    strategy: 'fixed',
-    ...props.popperOptions,
-  }
   const vm = createVNode(ElTooltip, {
-    content: popperContent,
     virtualTriggering: true,
     virtualRef: trigger,
     appendTo: parentNode,
@@ -387,8 +402,7 @@ export function createTablePopper(
     transition: 'none', // Default does not require transition
     offset: 0,
     hideAfter: 0,
-    ...props,
-    popperOptions,
+    ...getTableOverflowTooltipProps(props, popperContent),
   })
   vm.appContext = { ...table.appContext, ...table }
   const container = document.createElement('div')
@@ -401,6 +415,7 @@ export function createTablePopper(
     removePopper = null
   }
   removePopper.trigger = trigger
+  removePopper.vm = vm
   scrollContainer?.addEventListener('scroll', removePopper)
 }
 
