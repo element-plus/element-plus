@@ -61,11 +61,11 @@
       @input="handleInput"
       @change="handleInputChange"
     >
-      <template v-if="$slots.prefix || prefixText" #prefix>
-        <slot name="prefix">{{ prefixText }}</slot>
+      <template #prefix>
+        <slot name="prefix" />
       </template>
-      <template v-if="$slots.suffix || suffixText" #suffix>
-        <slot name="suffix">{{ suffixText }}</slot>
+      <template #suffix>
+        <slot name="suffix" />
       </template>
     </el-input>
   </div>

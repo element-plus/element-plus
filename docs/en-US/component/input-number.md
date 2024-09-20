@@ -87,9 +87,9 @@ input-number/custom
 
 :::
 
-## With prefix and suffix ^(2.8.3)
+## With prefix and suffix ^(2.8.4)
 
-:::demo You can simply use prefix-text and suffix-text attributes. Also, the prefix and suffix named slots works as well.
+:::demo Use the prefix and suffix named slots.
 
 input-number/with-prefix-suffix
 
@@ -119,16 +119,14 @@ input-number/with-prefix-suffix
 | id                          | same as `id` in native input                     | ^[string]                                     | —         |
 | value-on-clear ^(2.2.0)     | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —         |
 | validate-event              | whether to trigger form validation               | ^[boolean]                                    | true      |
-| prefix-text  ^(2.8.3)       | prefix text                                      | ^[string]                                     | —         |
-| suffix-text ^(2.8.3)        | suffix text                                      | ^[string]                                     | —         |
 ### Slots
 
 | Name                   | Description                           |
-| ---------------------- | ------------------------------------- |
+|------------------------| ------------------------------------- |
 | decrease-icon ^(2.6.3) | custom input box button decrease icon |
 | increase-icon ^(2.6.3) | custom input box button increase icon |
-| prefix ^(2.8.3)        | content as Input prefix               |
-| suffix ^(2.8.3)        | content as Input suffix               |
+| prefix ^(2.8.4)        | content as Input prefix               |
+| suffix ^(2.8.4)        | content as Input suffix               |
 
 ### Events
 
