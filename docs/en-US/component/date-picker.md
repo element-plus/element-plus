@@ -235,6 +235,8 @@ Note, date time locale (month name, first day of the week ...) are also configur
 import type { Options as PopperOptions } from '@popperjs/core'
 
 type TimeLikeType = 'datetime' | 'datetimerange'
+
+type Placement = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'
 ```
 
 </details>
