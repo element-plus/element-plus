@@ -721,7 +721,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     menuRef.value!.scrollToItem(index)
   }
 
-  const getOption = (value: unknown) => {
+  const getOption = (value: unknown, cachedOptions?: Option[]) => {
     // match the option with the given value, if not found, create a new option
     const selectValue = getValueKey(value)
 
@@ -730,6 +730,15 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
 
       return option
     }
+    if (cachedOptions && cachedOptions.length) {
+      const option = cachedOptions.find(
+        (option) => getValueKey(getValue(option)) === selectValue
+      )
+      if (option) {
+        return option
+      }
+    }
+
     return {
       [aliasProps.value.value]: value,
       [aliasProps.value.label]: value,
@@ -739,11 +748,12 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   const initStates = () => {
     if (props.multiple) {
       if ((props.modelValue as Array<any>).length > 0) {
+        const cachedOptions = states.cachedOptions.slice()
         states.cachedOptions.length = 0
         states.previousValue = props.modelValue.toString()
 
         for (const value of props.modelValue) {
-          const option = getOption(value)
+          const option = getOption(value, cachedOptions)
           states.cachedOptions.push(option)
         }
       } else {

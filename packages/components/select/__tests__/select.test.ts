@@ -2718,7 +2718,6 @@ describe('Select', () => {
         >
           <el-option value="1">1</el-option>
           <el-option value="2">2</el-option>
-          </el-option>
         </el-select>
       `,
       () => ({

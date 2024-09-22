@@ -85,7 +85,7 @@ const getLabel = (item: Option) => {
   return isObject(item) ? item.label : item
 }
 
-const getDisabled = (item: Option) => {
+const getDisabled = (item: Option | undefined) => {
   return !!(_disabled.value || (isObject(item) ? item.disabled : false))
 }
 
