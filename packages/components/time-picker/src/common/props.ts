@@ -216,7 +216,7 @@ export const timePickerDefaultProps = buildProps({
   placement: {
     type: definePropType<Placement>(String),
     values: placements,
-    default: 'bottom-start',
+    default: 'bottom',
   },
   /**
    * @description list of possible positions for dropdown
