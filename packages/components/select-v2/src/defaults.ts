@@ -284,8 +284,8 @@ export const selectEmits = {
   [CHANGE_EVENT]: (val: ISelectV2Props['modelValue']) => true,
   'remove-tag': (val: unknown) => true,
   'visible-change': (visible: boolean) => true,
-  blur: (event: FocusEvent) => true,
-  focus: (event: FocusEvent) => event instanceof FocusEvent,
+  focus: (evt: FocusEvent) => evt instanceof FocusEvent,
+  blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,
 }
 export const optionEmits = {
