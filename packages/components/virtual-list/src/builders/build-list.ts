@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Fragment,
   computed,
@@ -62,7 +61,7 @@ const createList = ({
 
       const dynamicSizeCache = ref(initCache(props, instance))
 
-      const getItemStyleCache = useCache()
+      const getItemStyleCache = useCache<CSSProperties>()
       // refs
       // here windowRef and innerRef can be type of HTMLElement
       // or user defined component type, depends on the type passed
@@ -418,7 +417,7 @@ const createList = ({
       })
 
       onActivated(() => {
-        unref(windowRef).scrollTop = unref(states).scrollOffset
+        unref(windowRef)!.scrollTop = unref(states).scrollOffset
       })
 
       const api = {

@@ -4,6 +4,8 @@ export { default as FixedSizeGrid } from './src/components/fixed-size-grid'
 export { default as DynamicSizeGrid } from './src/components/dynamic-size-grid'
 export * from './src/props'
 
+export type { FixedSizeListInstance } from './src/components/fixed-size-list'
+export type { DynamicSizeListInstance } from './src/components/dynamic-size-list'
 export type { GridInstance } from './src/builders/build-grid'
 export type {
   DynamicSizeGridInstance,
