@@ -49,8 +49,6 @@ import type ElTooltip from '@element-plus/components/tooltip'
 import type { Option, OptionType } from './select.types'
 import type { ISelectV2Props } from './token'
 
-const MINIMUM_INPUT_WIDTH = 11
-
 const useSelect = (props: ISelectV2Props, emit) => {
   // inject
   const { t } = useLocale()
@@ -283,10 +281,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const collapseTagStyle = computed(() => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
-
-  const inputStyle = computed(() => ({
-    width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
-  }))
 
   const shouldShowPlaceholder = computed(() => {
     if (isArray(props.modelValue)) {
@@ -890,7 +884,6 @@ const useSelect = (props: ISelectV2Props, emit) => {
     iconReverse,
     tagStyle,
     collapseTagStyle,
-    inputStyle,
     popperSize,
     dropdownMenuVisible,
     hasModelValue,
