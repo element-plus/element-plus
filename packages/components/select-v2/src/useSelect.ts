@@ -771,7 +771,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
         if (~selectedItemIndex) {
           states.selectedLabel = getLabel(options[selectedItemIndex])
         } else {
-          states.selectedLabel = getValueKey(props.modelValue)
+          if (!states.selectedLabel) {
+            states.selectedLabel = getValueKey(props.modelValue)
+          }
         }
       } else {
         states.selectedLabel = ''
