@@ -23,12 +23,12 @@ import { defineComponent, inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import { useProps } from './useProps'
-import { OptionProps } from './defaults'
+import { OptionProps, optionEmits } from './defaults'
 import { selectV2InjectionKey } from './token'
 
 export default defineComponent({
   props: OptionProps,
-  emits: ['select', 'hover'],
+  emits: optionEmits,
   setup(props, { emit }) {
     const select = inject(selectV2InjectionKey)!
     const ns = useNamespace('select')
