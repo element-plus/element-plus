@@ -60,7 +60,14 @@
       @focus="handleFocus"
       @input="handleInput"
       @change="handleInputChange"
-    />
+    >
+      <template v-if="$slots.prefix" #prefix>
+        <slot name="prefix" />
+      </template>
+      <template v-if="$slots.suffix" #suffix>
+        <slot name="suffix" />
+      </template>
+    </el-input>
   </div>
 </template>
 <script lang="ts" setup>
