@@ -299,7 +299,8 @@ select-v2/custom-label
 
 ### Exposes
 
-| Method | Description                                     | Type                    |
-| ------ | ----------------------------------------------- | ----------------------- |
-| focus  | focus the Input component                       | ^[Function]`() => void` |
-| blur   | blur the Input component, and hide the dropdown | ^[Function]`() => void` |
+| Method                 | Description                                     | Type                                       |
+| ---------------------- | ----------------------------------------------- | ------------------------------------------ |
+| focus                  | focus the Input component                       | ^[Function]`() => void`                    |
+| blur                   | blur the Input component, and hide the dropdown | ^[Function]`() => void`                    |
+| selectedLabel ^(2.8.4) | get the currently selected label                | ^[object]`ComputedRef<string \| string[]>` |
