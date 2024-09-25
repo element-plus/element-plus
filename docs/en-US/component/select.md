@@ -263,7 +263,7 @@ select/custom-label
 
 ### Select Exposes
 
-| Method                 | Description                                     | Type                                       |
+| Name                   | Description                                     | Type                                       |
 | ---------------------- | ----------------------------------------------- | ------------------------------------------ |
 | focus                  | focus the Input component                       | ^[Function]`() => void`                    |
 | blur                   | blur the Input component, and hide the dropdown | ^[Function]`() => void`                    |
