@@ -11,6 +11,7 @@
     pure
     :popper-class="filterClassName"
     persistent
+    :append-to="appendTo"
   >
     <template #content>
       <div v-if="multiple">
@@ -132,6 +133,9 @@ export default defineComponent({
     },
     upDataColumn: {
       type: Function,
+    },
+    appendTo: {
+      type: String,
     },
   },
   setup(props) {

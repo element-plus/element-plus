@@ -224,6 +224,10 @@ export const SelectProps = buildProps({
     type: definePropType<Placement[]>(Array),
     default: ['bottom-start', 'top-start', 'right', 'left'],
   },
+  /**
+   * @description which element the selection dropdown appends to
+   */
+  appendTo: String,
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 })
