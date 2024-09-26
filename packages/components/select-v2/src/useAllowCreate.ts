@@ -1,21 +1,20 @@
-// @ts-nocheck
 import { computed, ref } from 'vue'
 import { useProps } from './useProps'
 import type { ISelectV2Props } from './token'
-import type { Option } from './select.types'
+import type { Option, SelectStates } from './select.types'
 
-export function useAllowCreate(props: ISelectV2Props, states) {
+export function useAllowCreate(props: ISelectV2Props, states: SelectStates) {
   const { aliasProps, getLabel, getValue } = useProps(props)
 
   const createOptionCount = ref(0)
-  const cachedSelectedOption = ref<Option>(null)
+  const cachedSelectedOption = ref<Option>()
 
   const enableAllowCreateMode = computed(() => {
     return props.allowCreate && props.filterable
   })
 
   function hasExistingOption(query: string) {
-    const hasOption = (option) => getLabel(option) === query
+    const hasOption = (option: Option) => getLabel(option) === query
     return (
       (props.options && props.options.some(hasOption)) ||
       states.createdOptions.some(hasOption)

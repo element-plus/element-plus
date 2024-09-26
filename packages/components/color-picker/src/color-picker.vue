@@ -364,13 +364,12 @@ watch(
 )
 
 watch(
-  () => props.colorFormat,
+  () => [props.colorFormat, props.showAlpha],
   () => {
-    if (props.colorFormat) {
-      color.format = props.colorFormat
-      color.doOnChange()
-      emit(UPDATE_MODEL_EVENT, color.value)
-    }
+    color.enableAlpha = props.showAlpha
+    color.format = props.colorFormat || color.format
+    color.doOnChange()
+    emit(UPDATE_MODEL_EVENT, color.value)
   }
 )
 

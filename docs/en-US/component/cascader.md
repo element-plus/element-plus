@@ -188,6 +188,7 @@ cascader/panel
 | cascaderPanelRef              | cascader panel ref                                                                                                | ^[object]`ComputedRef<any>`                                     |
 | togglePopperVisible ^(2.2.31) | toggle the visible type of popper                                                                                 | ^[Function]`(visible?: boolean) => void`                        |
 | contentRef                    | cascader content ref                                                                                              | ^[object]`ComputedRef<any>`                                     |
+| presentText  ^(2.8.4)         | selected content text                                                                                              | ^[object]`ComputedRef<string>`                                 |
 
 ## CascaderPanel API
 
