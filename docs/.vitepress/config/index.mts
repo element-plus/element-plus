@@ -7,8 +7,9 @@ import { head } from './head'
 import { nav } from './nav'
 import { mdPlugin } from './plugins'
 import { sidebars } from './sidebars'
+import { getViteConfig } from './vite'
 
-import type { UserConfig } from 'vitepress'
+import type { UserConfigFn } from 'vitepress'
 
 const buildTransformers = () => {
   const transformer = () => {
@@ -46,63 +47,66 @@ languages.forEach((lang) => {
   }
 })
 
-const config: UserConfig = {
-  title: 'Element Plus',
-  description: 'A Vue 3 based component library for designers and developers',
-  lastUpdated: true,
-  head,
-  themeConfig: {
-    repo: REPO_PATH,
-    docsBranch: REPO_BRANCH,
-    docsDir: docsDirName,
+const setupConfig: UserConfigFn<any> = (configEnv) => {
+  const config = {
+    title: 'Element Plus',
+    description: 'A Vue 3 based component library for designers and developers',
+    lastUpdated: true,
+    head,
+    themeConfig: {
+      repo: REPO_PATH,
+      docsBranch: REPO_BRANCH,
+      docsDir: docsDirName,
 
-    editLinks: true,
-    editLinkText: 'Edit this page on GitHub',
+      editLinks: true,
+      editLinkText: 'Edit this page on GitHub',
 
-    logo: '/images/element-plus-logo.svg',
-    logoSmall: '/images/element-plus-logo-small.svg',
-    sidebars,
-    nav,
-    agolia: {
-      apiKey: '99caf32e743ba77d78b095b763b8e380',
-      appId: 'ZM3TI8AKL4',
+      logo: '/images/element-plus-logo.svg',
+      logoSmall: '/images/element-plus-logo-small.svg',
+      sidebars,
+      nav,
+      agolia: {
+        apiKey: '99caf32e743ba77d78b095b763b8e380',
+        appId: 'ZM3TI8AKL4',
+      },
+      features,
+      langs: languages,
     },
-    features,
-    langs: languages,
-  },
-
-  locales,
-
-  markdown: {
-    config: (md) => mdPlugin(md),
-  },
-
-  vue: {
-    template: {
-      compilerOptions: {
-        hoistStatic: false,
-        directiveTransforms: buildTransformers(),
+    locales,
+    vite: getViteConfig(configEnv),
+    markdown: {
+      config: (md) => mdPlugin(md),
+    },
+    vue: {
+      template: {
+        compilerOptions: {
+          hoistStatic: false,
+          directiveTransforms: buildTransformers(),
+        },
       },
     },
-  },
 
-  postRender(context) {
-    // Inject the teleport markup
-    if (context.teleports) {
-      const body = Object.entries(context.teleports).reduce(
-        (all, [key, value]) => {
-          if (key.startsWith('#el-popper-container-')) {
-            return `${all}<div id="${key.slice(1)}">${value}</div>`
-          }
-          return all
-        },
-        context.teleports.body || ''
-      )
+    postRender(context) {
+      // Inject the teleport markup
+      if (context.teleports) {
+        const body = Object.entries(context.teleports).reduce(
+          (all, [key, value]) => {
+            if (key.startsWith('#el-popper-container-')) {
+              return `${all}<div id="${key.slice(1)}">${value}</div>`
+            }
+            return all
+          },
+          context.teleports.body || ''
+        )
 
-      context.teleports = { ...context.teleports, body }
-    }
+        context.teleports = { ...context.teleports, body }
+      }
 
-    return context
-  },
+      return context
+    },
+  }
+
+  return config
 }
-export default config
+
+export default setupConfig
