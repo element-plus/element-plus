@@ -722,5 +722,9 @@ defineExpose({
    * @description cascader content ref
    */
   contentRef,
+  /**
+   * @description selected content text
+   */
+  presentText,
 })
 </script>

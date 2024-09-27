@@ -594,4 +594,14 @@ describe('InputNumber.vue', () => {
     expect(increase.classes()).toContain('el-icon')
     expect(decrease.classes()).toContain('el-icon')
   })
+
+  // fix: #18275
+  test('step-strictly is true and should keep the initial value and step matching', () => {
+    const num = ref(2.6)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} stepStrictly step={0.5} />
+    ))
+    expect(wrapper.find('input').element.value).toBe(num.value.toString())
+    wrapper.unmount()
+  })
 })

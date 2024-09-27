@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   computed,
   nextTick,
@@ -45,13 +44,15 @@ import { ArrowDown } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
 import { useProps } from './useProps'
 
-import type ElTooltip from '@element-plus/components/tooltip'
-import type { Option, OptionType } from './select.types'
+import type { Option, OptionType, SelectStates } from './select.types'
 import type { ISelectV2Props } from './token'
+import type { SelectEmitFn } from './defaults'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { SelectDropdownInstance } from './select-dropdown'
 
 const MINIMUM_INPUT_WIDTH = 11
 
-const useSelect = (props: ISelectV2Props, emit) => {
+const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   // inject
   const { t } = useLocale()
   const nsSelect = useNamespace('select')
@@ -64,10 +65,10 @@ const useSelect = (props: ISelectV2Props, emit) => {
     useProps(props)
   const { valueOnClear, isEmptyValue } = useEmptyValues(props)
 
-  const states = reactive({
+  const states: SelectStates = reactive({
     inputValue: '',
-    cachedOptions: [] as Option[],
-    createdOptions: [] as Option[],
+    cachedOptions: [],
+    createdOptions: [],
     hoveringIndex: -1,
     inputHovering: false,
     selectionWidth: 0,
@@ -84,17 +85,17 @@ const useSelect = (props: ISelectV2Props, emit) => {
   const popperSize = ref(-1)
 
   // DOM & Component refs
-  const selectRef = ref<HTMLElement>(null)
-  const selectionRef = ref<HTMLElement>(null)
-  const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
-  const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
-  const inputRef = ref<HTMLElement>(null)
-  const calculatorRef = ref<HTMLElement>(null)
-  const prefixRef = ref<HTMLElement>(null)
-  const suffixRef = ref<HTMLElement>(null)
-  const menuRef = ref<HTMLElement>(null)
-  const tagMenuRef = ref<HTMLElement>(null)
-  const collapseItemRef = ref<HTMLElement>(null)
+  const selectRef = ref<HTMLElement>()
+  const selectionRef = ref<HTMLElement>()
+  const tooltipRef = ref<TooltipInstance>()
+  const tagTooltipRef = ref<TooltipInstance>()
+  const inputRef = ref<HTMLElement>()
+  const calculatorRef = ref<HTMLElement>()
+  const prefixRef = ref<HTMLElement>()
+  const suffixRef = ref<HTMLElement>()
+  const menuRef = ref<SelectDropdownInstance>()
+  const tagMenuRef = ref<HTMLElement>()
+  const collapseItemRef = ref<HTMLElement>()
 
   const {
     isComposing,
@@ -127,8 +128,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
     },
   })
 
-  const allOptions = ref([])
-  const filteredOptions = ref([])
+  const allOptions = ref<OptionType[]>([])
+  const filteredOptions = ref<OptionType[]>([])
   // the controller of the expanded popup
   const expanded = ref(false)
 
@@ -163,9 +164,13 @@ const useSelect = (props: ISelectV2Props, emit) => {
   )
 
   const validateState = computed(() => elFormItem?.validateState || '')
-  const validateIcon = computed(
-    () => ValidateComponentsMap[validateState.value]
-  )
+  const validateIcon = computed(() => {
+    // When we use indexed access to get the type of an undeclared property,
+    // the unsafe type `any` will be inferred, which TypeScript throws an error to emphasize it.
+    // To avoid TypeScript complaining about it, we use truthiness narrowing to narrow the type of validateState.
+    if (!validateState.value) return
+    return ValidateComponentsMap[validateState.value]
+  })
 
   const debounce = computed(() => (props.remote ? 300 : 0))
 
@@ -191,7 +196,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     return null
   })
 
-  const filterOptions = (query) => {
+  const filterOptions = (query: string) => {
     const isValidOption = (o: Option): boolean => {
       if (props.filterable && isFunction(props.filterMethod)) return true
       if (props.filterable && props.remote && isFunction(props.remoteMethod))
@@ -228,8 +233,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
   }
 
   const updateOptions = () => {
-    allOptions.value = filterOptions('') as OptionType[]
-    filteredOptions.value = filterOptions(states.inputValue) as OptionType[]
+    allOptions.value = filterOptions('')
+    filteredOptions.value = filterOptions(states.inputValue)
   }
 
   const allOptionsValueMap = computed(() => {
@@ -449,7 +454,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     states.previousValue = props.multiple ? String(val) : val
   }
 
-  const getValueIndex = (arr = [], value: unknown) => {
+  const getValueIndex = (arr: unknown[] = [], value: unknown) => {
     if (!isObject(value)) {
       return arr.indexOf(value)
     }
@@ -474,16 +479,16 @@ const useSelect = (props: ISelectV2Props, emit) => {
   }
 
   const resetSelectionWidth = () => {
-    states.selectionWidth = selectionRef.value.getBoundingClientRect().width
+    states.selectionWidth = selectionRef.value!.getBoundingClientRect().width
   }
 
   const resetCalculatorWidth = () => {
-    states.calculatorWidth = calculatorRef.value.getBoundingClientRect().width
+    states.calculatorWidth = calculatorRef.value!.getBoundingClientRect().width
   }
 
   const resetCollapseItemWidth = () => {
     states.collapseItemWidth =
-      collapseItemRef.value.getBoundingClientRect().width
+      collapseItemRef.value!.getBoundingClientRect().width
   }
 
   const updateTooltip = () => {
@@ -569,7 +574,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
     }
   }
 
-  const getLastNotDisabledIndex = (value) =>
+  const getLastNotDisabledIndex = (value: unknown[]) =>
     findLastIndex(
       value,
       (it) =>
@@ -618,8 +623,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
 
   const onKeyboardNavigate = (
     direction: 'forward' | 'backward',
-    hoveringIndex: number = undefined
-  ) => {
+    hoveringIndex: number | undefined = undefined
+  ): void => {
     const options = filteredOptions.value
     if (
       !['forward', 'backward'].includes(direction) ||
@@ -671,8 +676,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
     }
   }
 
-  const onHoverOption = (idx: number) => {
-    states.hoveringIndex = idx
+  const onHoverOption = (idx?: number) => {
+    states.hoveringIndex = idx ?? -1
   }
 
   const updateHoveringIndex = () => {
@@ -683,14 +688,14 @@ const useSelect = (props: ISelectV2Props, emit) => {
     } else {
       states.hoveringIndex = filteredOptions.value.findIndex((item) =>
         props.modelValue.some(
-          (modelValue) => getValueKey(modelValue) === getValueKey(item)
+          (modelValue: unknown) => getValueKey(modelValue) === getValueKey(item)
         )
       )
     }
   }
 
-  const onInput = (event) => {
-    states.inputValue = event.target.value
+  const onInput = (event: Event) => {
+    states.inputValue = (event.target as HTMLInputElement).value
     if (props.remote) {
       debouncedOnInputChange()
     } else {
@@ -713,10 +718,10 @@ const useSelect = (props: ISelectV2Props, emit) => {
   }
 
   const scrollToItem = (index: number) => {
-    menuRef.value.scrollToItem(index)
+    menuRef.value!.scrollToItem(index)
   }
 
-  const getOption = (value: any, cachedOptions?: Option[]) => {
+  const getOption = (value: unknown, cachedOptions?: Option[]) => {
     // match the option with the given value, if not found, create a new option
     const selectValue = getValueKey(value)
 
