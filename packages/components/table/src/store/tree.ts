@@ -209,12 +209,23 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     }
   }
 
+  const updateKeyChildren = (key: string, data: T[]) => {
+    const { lazy, rowKey } = instance.props as unknown as TableProps<T>
+    if (!lazy) return
+    if (!rowKey) throw new Error('[Table] rowKey is required in updateKeyChild')
+
+    if (lazyTreeNodeMap.value[key]) {
+      lazyTreeNodeMap.value[key] = data
+    }
+  }
+
   return {
     loadData,
     loadOrToggle,
     toggleTreeExpansion,
     updateTreeExpandKeys,
     updateTreeData,
+    updateKeyChildren,
     normalize,
     states: {
       expandRowKeys,
