@@ -21,6 +21,7 @@
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
       :persistent="persistent"
+      :append-to="appendTo"
       @before-show="handleMenuEnter"
       @hide="states.isBeforeHide = false"
     >
