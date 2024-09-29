@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, h, reactive, ref, useSlots, watch } from 'vue'
+import { Comment, computed, h, reactive, ref, useSlots, watch } from 'vue'
 import { debugWarn, isEmpty, isUndefined } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElButton } from '@element-plus/components/button'
@@ -145,7 +145,12 @@ watch(
 const optionRender = computed(() => (option: TransferDataItem) => {
   if (props.renderContent) return props.renderContent(h, option)
 
-  if (slots.default) return slots.default({ option })
+  const defaultSlotVNodes = slots.default?.({ option }) || []
+  if (
+    defaultSlotVNodes.length > 0 &&
+    !(defaultSlotVNodes.length === 1 && defaultSlotVNodes[0].type === Comment)
+  )
+    return defaultSlotVNodes
 
   return h(
     'span',
