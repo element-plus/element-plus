@@ -74,11 +74,11 @@ transfer/prop-alias
 
 ### Slots
 
-| Name         | Description                                                      |
-| ------------ | ---------------------------------------------------------------- |
-| default      | Custom content for data items. The scope parameter is { option } |
-| left-footer  | content of left list footer                                      |
-| right-footer | content of right list footer                                     |
+| Name         | Description                                                        |
+| ------------ | ------------------------------------------------------------------ |
+| default      | Custom content for data items. The scope parameter is `{ option }` |
+| left-footer  | content of left list footer                                        |
+| right-footer | content of right list footer                                       |
 
 ### Exposes
 
