@@ -17,7 +17,6 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import type { Plugin } from 'vite'
-import './vite.init'
 
 const esbuildPlugin = (): Plugin => ({
   ...esbuild({
