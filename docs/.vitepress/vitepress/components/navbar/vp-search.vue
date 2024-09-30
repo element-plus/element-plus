@@ -231,7 +231,9 @@ function initialize(userOptions: any) {
     }
   }
 
-  background-color: transparent;
+  & {
+    background-color: transparent;
+  }
 
   @include respond-to('md') {
     background-color: var(--docsearch-searchbox-background);
