@@ -200,7 +200,7 @@ export default defineComponent({
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
     const _globalSize = useGlobalSize()
     const _size = computed(() =>
-      props.small ? 'small' : props.size ?? _globalSize.value
+      props.small ? 'small' : (props.size ?? _globalSize.value)
     )
     useDeprecated(
       {

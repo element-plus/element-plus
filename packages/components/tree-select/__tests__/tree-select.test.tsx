@@ -13,7 +13,7 @@ const createComponent = ({
   props = {},
 }: {
   slots?: Record<string, any>
-  props?: typeof TreeSelect['props']
+  props?: (typeof TreeSelect)['props']
 } = {}) => {
   const wrapperRef = ref<InstanceType<typeof TreeSelect>>()
   const defaultData = ref([

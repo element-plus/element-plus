@@ -8,7 +8,7 @@
           :arrow-control="arrowControl"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
-          :spinner-date="(parsedValue as any)"
+          :spinner-date="parsedValue as any"
           :disabled-hours="disabledHours"
           :disabled-minutes="disabledMinutes"
           :disabled-seconds="disabledSeconds"

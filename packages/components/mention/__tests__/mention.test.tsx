@@ -121,12 +121,11 @@ describe('Mention.vue', () => {
 
   test('should use props of form', async () => {
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <Form disabled>
-            <Mention options={options} />
-          </Form>
-        ),
+      setup: () => () => (
+        <Form disabled>
+          <Mention options={options} />
+        </Form>
+      ),
     })
 
     const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })

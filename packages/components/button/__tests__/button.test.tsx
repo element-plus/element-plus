@@ -149,15 +149,14 @@ describe('Button.vue', () => {
 
   it('loading slot', () => {
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <Button
-            v-slots={{ loading: () => <span class="custom-loading">111</span> }}
-            loading={true}
-          >
-            Loading
-          </Button>
-        ),
+      setup: () => () => (
+        <Button
+          v-slots={{ loading: () => <span class="custom-loading">111</span> }}
+          loading={true}
+        >
+          Loading
+        </Button>
+      ),
     })
 
     expect(wrapper.find('.custom-loading').exists()).toBeTruthy()
@@ -180,13 +179,12 @@ describe('Button.vue', () => {
 describe('Button Group', () => {
   it('create', () => {
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <ButtonGroup>
-            <Button type="primary">Prev</Button>
-            <Button type="primary">Next</Button>
-          </ButtonGroup>
-        ),
+      setup: () => () => (
+        <ButtonGroup>
+          <Button type="primary">Prev</Button>
+          <Button type="primary">Next</Button>
+        </ButtonGroup>
+      ),
     })
     expect(wrapper.classes()).toContain('el-button-group')
     expect(wrapper.findAll('button').length).toBe(2)
@@ -195,13 +193,12 @@ describe('Button Group', () => {
   it('button group reactive size', async () => {
     const size = ref<ComponentSize>('small')
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <ButtonGroup size={size.value}>
-            <Button type="primary">Prev</Button>
-            <Button type="primary">Next</Button>
-          </ButtonGroup>
-        ),
+      setup: () => () => (
+        <ButtonGroup size={size.value}>
+          <Button type="primary">Prev</Button>
+          <Button type="primary">Next</Button>
+        </ButtonGroup>
+      ),
     })
     expect(wrapper.classes()).toContain('el-button-group')
     expect(
@@ -218,13 +215,12 @@ describe('Button Group', () => {
 
   it('button group type', async () => {
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <ButtonGroup type="warning">
-            <Button type="primary">Prev</Button>
-            <Button>Next</Button>
-          </ButtonGroup>
-        ),
+      setup: () => () => (
+        <ButtonGroup type="warning">
+          <Button type="primary">Prev</Button>
+          <Button>Next</Button>
+        </ButtonGroup>
+      ),
     })
     expect(wrapper.classes()).toContain('el-button-group')
     expect(
@@ -264,16 +260,15 @@ describe('Button Group', () => {
 
   it('should use props of form', async () => {
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <Form size="large" disabled>
-            <Button
-              v-slots={{
-                default: () => AXIOM,
-              }}
-            />
-          </Form>
-        ),
+      setup: () => () => (
+        <Form size="large" disabled>
+          <Button
+            v-slots={{
+              default: () => AXIOM,
+            }}
+          />
+        </Form>
+      ),
     })
     const btn = wrapper.findComponent(Button)
     expect(btn.classes()).toContain('el-button--large')
@@ -284,18 +279,17 @@ describe('Button Group', () => {
 
   it('should use size of form-item', async () => {
     const wrapper = mount({
-      setup: () => () =>
-        (
-          <Form size="large" disabled>
-            <Form.FormItem size="small">
-              <Button
-                v-slots={{
-                  default: () => AXIOM,
-                }}
-              />
-            </Form.FormItem>
-          </Form>
-        ),
+      setup: () => () => (
+        <Form size="large" disabled>
+          <Form.FormItem size="small">
+            <Button
+              v-slots={{
+                default: () => AXIOM,
+              }}
+            />
+          </Form.FormItem>
+        </Form>
+      ),
     })
     const btn = wrapper.findComponent(Button)
     expect(btn.classes()).toContain('el-button--small')

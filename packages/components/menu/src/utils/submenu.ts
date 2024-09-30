@@ -6,7 +6,10 @@ import type MenuItem from './menu-item'
 class SubMenu {
   public subMenuItems: NodeList
   public subIndex = 0
-  constructor(public parent: MenuItem, public domNode: ParentNode) {
+  constructor(
+    public parent: MenuItem,
+    public domNode: ParentNode
+  ) {
     this.subIndex = 0
     this.init()
   }

@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElTreeV2 } from 'element-plus'
-import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
+import type { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types'
 
 interface Tree {
   id: string
@@ -64,11 +64,9 @@ const props = {
 
 const onQueryChanged = (query: string) => {
   // TODO: fix typing when refactor tree-v2
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
   treeRef.value!.filter(query)
 }
-const filterMethod = (query: string, node: TreeNode) => {
+const filterMethod = (query: string, node: TreeNodeData) => {
   return node.label!.includes(query)
 }
 </script>

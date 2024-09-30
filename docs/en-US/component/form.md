@@ -253,15 +253,16 @@ type PathImpl<K extends string | number, V> = V extends
   | BrowserNativeObject
   ? `${K}`
   : `${K}` | `${K}.${Path<V>}`
-type Path<T> = T extends ReadonlyArray<infer V>
-  ? IsTuple<T> extends true
-    ? {
-        [K in TupleKey<T>]-?: PathImpl<Exclude<K, symbol>, T[K]>
-      }[TupleKey<T>]
-    : PathImpl<ArrayKey, V>
-  : {
-      [K in keyof T]-?: PathImpl<Exclude<K, symbol>, T[K]>
-    }[keyof T]
+type Path<T> =
+  T extends ReadonlyArray<infer V>
+    ? IsTuple<T> extends true
+      ? {
+          [K in TupleKey<T>]-?: PathImpl<Exclude<K, symbol>, T[K]>
+        }[TupleKey<T>]
+      : PathImpl<ArrayKey, V>
+    : {
+        [K in keyof T]-?: PathImpl<Exclude<K, symbol>, T[K]>
+      }[keyof T]
 type FieldPath<T> = T extends object ? Path<T> : never
 // MaybeRef: see [@vueuse/core](https://github.com/vueuse/vueuse/blob/main/packages/shared/utils/types.ts)
 // UnwrapRef: see [vue](https://github.com/vuejs/core/blob/main/packages/reactivity/src/ref.ts)
@@ -273,7 +274,7 @@ type FormRules<T extends MaybeRef<Record<string, any> | string> = string> =
     >
   >
 
-type FormItemValidateState = typeof formItemValidateStates[number]
+type FormItemValidateState = (typeof formItemValidateStates)[number]
 type FormItemProps = ExtractPropTypes<typeof formItemProps>
 
 type FormItemContext = FormItemProps & {

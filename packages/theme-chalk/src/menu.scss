@@ -15,7 +15,8 @@
   list-style: none;
   cursor: pointer;
   position: relative;
-  transition: border-color getCssVar('transition-duration'),
+  transition:
+    border-color getCssVar('transition-duration'),
     background-color getCssVar('transition-duration'),
     color getCssVar('transition-duration');
   box-sizing: border-box;
@@ -60,7 +61,9 @@
   box-sizing: border-box;
 
   @include m(vertical) {
-    &:not(.#{$namespace}-menu--collapse):not(.#{$namespace}-menu--popup-container) {
+    &:not(.#{$namespace}-menu--collapse):not(
+        .#{$namespace}-menu--popup-container
+      ) {
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title,
       & .#{$namespace}-menu-item-group__title {

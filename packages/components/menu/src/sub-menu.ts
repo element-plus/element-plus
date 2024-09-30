@@ -139,10 +139,10 @@ export default defineComponent({
             : props.expandCloseIcon
           : ArrowDown
         : props.collapseCloseIcon && props.collapseOpenIcon
-        ? opened.value
-          ? props.collapseOpenIcon
-          : props.collapseCloseIcon
-        : ArrowRight
+          ? opened.value
+            ? props.collapseOpenIcon
+            : props.collapseCloseIcon
+          : ArrowRight
     })
     const isFirstLevel = computed(() => {
       return subMenu.level === 0

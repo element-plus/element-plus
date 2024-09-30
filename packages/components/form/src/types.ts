@@ -73,15 +73,16 @@ type PathImpl<K extends string | number, V> = V extends
  *
  * @see {@link FieldPath}
  */
-type Path<T> = T extends ReadonlyArray<infer V>
-  ? IsTuple<T> extends true
-    ? {
-        [K in TupleKey<T>]-?: PathImpl<Exclude<K, symbol>, T[K]>
-      }[TupleKey<T>] // tuple
-    : PathImpl<ArrayKey, V> // array
-  : {
-      [K in keyof T]-?: PathImpl<Exclude<K, symbol>, T[K]>
-    }[keyof T] // object
+type Path<T> =
+  T extends ReadonlyArray<infer V>
+    ? IsTuple<T> extends true
+      ? {
+          [K in TupleKey<T>]-?: PathImpl<Exclude<K, symbol>, T[K]>
+        }[TupleKey<T>] // tuple
+      : PathImpl<ArrayKey, V> // array
+    : {
+        [K in keyof T]-?: PathImpl<Exclude<K, symbol>, T[K]>
+      }[keyof T] // object
 /**
  * Type which collects all paths through a type
  *
@@ -92,7 +93,7 @@ type Path<T> = T extends ReadonlyArray<infer V>
  */
 type FieldPath<T> = T extends object ? Path<T> : never
 export type FormRules<
-  T extends MaybeRef<Record<string, any> | string> = string
+  T extends MaybeRef<Record<string, any> | string> = string,
 > = Partial<
   Record<
     UnwrapRef<T> extends string ? UnwrapRef<T> : FieldPath<UnwrapRef<T>>,

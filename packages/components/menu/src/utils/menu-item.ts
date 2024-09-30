@@ -5,7 +5,10 @@ import SubMenu from './submenu'
 
 class MenuItem {
   public submenu: SubMenu = null
-  constructor(public domNode: HTMLElement, namespace: string) {
+  constructor(
+    public domNode: HTMLElement,
+    namespace: string
+  ) {
     this.submenu = null
     this.init(namespace)
   }

@@ -177,7 +177,7 @@ function MessageBox(
 
 const MESSAGE_BOX_VARIANTS = ['alert', 'confirm', 'prompt'] as const
 const MESSAGE_BOX_DEFAULT_OPTS: Record<
-  typeof MESSAGE_BOX_VARIANTS[number],
+  (typeof MESSAGE_BOX_VARIANTS)[number],
   Partial<ElMessageBoxOptions>
 > = {
   alert: { closeOnPressEscape: false, closeOnClickModal: false },
@@ -191,7 +191,7 @@ MESSAGE_BOX_VARIANTS.forEach((boxType) => {
   ) as ElMessageBoxShortcutMethod
 })
 
-function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
+function messageBoxFactory(boxType: (typeof MESSAGE_BOX_VARIANTS)[number]) {
   return (
     message: string | VNode,
     title: string | ElMessageBoxOptions,

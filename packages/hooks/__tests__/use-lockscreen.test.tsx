@@ -39,7 +39,7 @@ describe('useLockscreen', () => {
   it('should cleanup when unmounted', async () => {
     const shouldRender = ref(true)
     mount({
-      setup: () => () => shouldRender.value ? <Comp /> : undefined,
+      setup: () => () => (shouldRender.value ? <Comp /> : undefined),
     })
 
     await nextTick()

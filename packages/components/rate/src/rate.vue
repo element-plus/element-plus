@@ -184,8 +184,8 @@ const voidComponent = computed(() =>
       ? props.disabledVoidIcon
       : (markRaw(props.disabledVoidIcon) as Component)
     : isString(props.voidIcon)
-    ? props.voidIcon
-    : (markRaw(props.voidIcon) as Component)
+      ? props.voidIcon
+      : (markRaw(props.voidIcon) as Component)
 )
 const activeComponent = computed(() =>
   getValueFromMap(currentValue.value, componentMap.value)

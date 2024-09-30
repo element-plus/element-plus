@@ -10,7 +10,7 @@ function prepareCanvas(
   ctx: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
   realWidth: number,
-  realHeight: number
+  realHeight: number,
 ] {
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')!

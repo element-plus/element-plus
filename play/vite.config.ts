@@ -73,7 +73,7 @@ export default defineConfig(async ({ mode }) => {
           vue: vue(),
           vueJsx: vueJsx(),
         },
-      }),
+      }) as any as Plugin,
       esbuildPlugin(),
       Components({
         include: `${__dirname}/**`,

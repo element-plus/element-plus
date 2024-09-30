@@ -50,8 +50,8 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
           currentIndex === -1
             ? 0
             : currentIndex !== 0
-            ? currentIndex - 1
-            : treeItems.value.length - 1
+              ? currentIndex - 1
+              : treeItems.value.length - 1
         const startIndex = nextIndex
         while (true) {
           if (
@@ -72,8 +72,8 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
           currentIndex === -1
             ? 0
             : currentIndex < treeItems.value.length - 1
-            ? currentIndex + 1
-            : 0
+              ? currentIndex + 1
+              : 0
         const startIndex = nextIndex
         while (true) {
           if (

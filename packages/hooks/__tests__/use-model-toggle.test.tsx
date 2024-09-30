@@ -124,8 +124,9 @@ describe('use-model-toggle', () => {
     const model = ref(false)
     const disabled = ref(false)
     wrapper = mount({
-      setup: () => () =>
-        <Comp v-model={model.value} disabled={disabled.value} />,
+      setup: () => () => (
+        <Comp v-model={model.value} disabled={disabled.value} />
+      ),
     })
 
     expect(wrapper.findComponent(Comp).text()).not.toContain(AXIOM)
