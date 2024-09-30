@@ -194,6 +194,7 @@ function initialize(userOptions: any) {
   --docsearch-modal-shadow: var(--el-box-shadow);
 
   transition: background-color var(--el-transition-duration-fast);
+  background-color: transparent;
 
   &.DocSearch-Container {
     z-index: 20000;
@@ -229,10 +230,6 @@ function initialize(userOptions: any) {
         box-shadow: unset;
       }
     }
-  }
-
-  & {
-    background-color: transparent;
   }
 
   @include respond-to('md') {
