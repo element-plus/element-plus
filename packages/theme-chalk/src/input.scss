@@ -5,22 +5,32 @@
 @use 'common/var' as *;
 
 @mixin inset-prepend-border($color) {
-  box-shadow: 1px 0 0 0 $color inset, 0 1px 0 0 $color inset,
+  box-shadow:
+    1px 0 0 0 $color inset,
+    0 1px 0 0 $color inset,
     0 -1px 0 0 $color inset;
 }
 
 @mixin inset-append-border($color) {
-  box-shadow: 0 1px 0 0 $color inset, 0 -1px 0 0 $color inset,
+  box-shadow:
+    0 1px 0 0 $color inset,
+    0 -1px 0 0 $color inset,
     -1px 0 0 0 $color inset;
 }
 
 @mixin inset-prepend-input-border($color) {
-  box-shadow: 1px 0 0 0 $color inset, 1px 0 0 0 $color, 0 1px 0 0 $color inset,
+  box-shadow:
+    1px 0 0 0 $color inset,
+    1px 0 0 0 $color,
+    0 1px 0 0 $color inset,
     0 -1px 0 0 $color inset !important;
 }
 
 @mixin inset-append-input-border($color) {
-  box-shadow: -1px 0 0 0 $color, -1px 0 0 0 $color inset, 0 1px 0 0 $color inset,
+  box-shadow:
+    -1px 0 0 0 $color,
+    -1px 0 0 0 $color inset,
+    0 1px 0 0 $color inset,
     0 -1px 0 0 $color inset !important;
 }
 

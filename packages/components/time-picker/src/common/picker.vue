@@ -24,10 +24,13 @@
     <template #default>
       <el-input
         v-if="!isRangeInput"
-        :id="(id as string | undefined)"
+        :id="
+          // eslint-disable-next-line vue/no-deprecated-filter
+          id as string | undefined
+        "
         ref="inputRef"
         container-role="combobox"
-        :model-value="(displayValue as string)"
+        :model-value="displayValue as string"
         :name="name"
         :size="pickerSize"
         :disabled="pickerDisabled"
@@ -83,7 +86,7 @@
         v-else
         ref="inputRef"
         :class="rangeInputKls"
-        :style="($attrs.style as any)"
+        :style="$attrs.style as any"
         @click="handleFocusInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"

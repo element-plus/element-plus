@@ -2,15 +2,17 @@
   <div
     v-if="visible"
     :class="ns.e('mask')"
-    :style="({
-    position: 'fixed',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    zIndex,
-    pointerEvents: pos && targetAreaClickable ? 'none' : 'auto',
-  } as any)"
+    :style="
+      {
+        position: 'fixed',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        zIndex,
+        pointerEvents: pos && targetAreaClickable ? 'none' : 'auto',
+      } as any
+    "
     v-bind="$attrs"
   >
     <svg

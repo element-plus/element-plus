@@ -24,7 +24,9 @@
       height: 14px;
       top: 8px;
       left: 0;
-      transition: top 0.25s ease-in-out, opacity 0.25s;
+      transition:
+        top 0.25s ease-in-out,
+        opacity 0.25s;
     }
 
     @include e(list) {
@@ -53,7 +55,10 @@
       height: 2px;
       width: 20px;
       bottom: 0;
-      transition: left 0.25s ease-in-out, opacity 0.25s, width 0.25s;
+      transition:
+        left 0.25s ease-in-out,
+        opacity 0.25s,
+        width 0.25s;
     }
 
     @include e(list) {

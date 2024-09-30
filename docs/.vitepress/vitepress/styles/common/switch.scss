@@ -12,7 +12,8 @@
   box-sizing: border-box;
   background: var(--bg-color-mute);
   cursor: pointer;
-  transition: border-color var(--el-transition-duration),
+  transition:
+    border-color var(--el-transition-duration),
     background-color var(--el-transition-duration);
 
   &:hover {
@@ -27,7 +28,8 @@
     background-color: var(--bg-color);
     transform: translateX(0);
     color: var(--text-color-light);
-    transition: border-color var(--el-transition-duration),
+    transition:
+      border-color var(--el-transition-duration),
       background-color var(--el-transition-duration),
       transform var(--el-transition-duration);
 

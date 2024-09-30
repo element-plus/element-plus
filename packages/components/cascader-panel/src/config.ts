@@ -26,7 +26,7 @@ export const CommonProps = buildProps({
    */
   props: {
     type: definePropType<CascaderProps>(Object),
-    default: () => ({} as CascaderProps),
+    default: () => ({}) as CascaderProps,
   },
 } as const)
 

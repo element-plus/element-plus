@@ -759,7 +759,7 @@ const handleKeyControl = (code: string) => {
       newDate,
       isFunction(map[code])
         ? (map[code] as unknown as KeyControlMappingCallableOffset)(newDate)
-        : (map[code] as number) ?? 0
+        : ((map[code] as number) ?? 0)
     )
     if (disabledDate && disabledDate(newDate)) {
       break

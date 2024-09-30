@@ -455,7 +455,7 @@ describe('CascaderPanel.vue', () => {
       label: 'name',
       children: 'areas',
       disabled: 'invalid',
-      leaf: (data: typeof CUSTOM_PROPS_OPTIONS[0]) => !data.areas?.length,
+      leaf: (data: (typeof CUSTOM_PROPS_OPTIONS)[0]) => !data.areas?.length,
     }
     const wrapper = mount(() => (
       <CascaderPanel

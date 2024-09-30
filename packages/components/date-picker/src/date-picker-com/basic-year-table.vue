@@ -11,7 +11,9 @@
         <td
           v-for="(cell, cellKey) in row"
           :key="`${rowKey}_${cellKey}`"
-          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
+          :ref="
+            (el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)
+          "
           class="available"
           :class="getCellKls(cell)"
           :aria-selected="isSelectedCell(cell)"
@@ -153,8 +155,7 @@ const getCellKls = (cell: YearCell) => {
     : false
 
   kls.today = today.year() === year
-  kls.current =
-    castArray(props.parsedValue).findIndex((d) => d!.year() === year) >= 0
+  kls.current = castArray(props.parsedValue).some((d) => d!.year() === year)
 
   if (cell.inRange) {
     kls['in-range'] = true
@@ -172,7 +173,7 @@ const getCellKls = (cell: YearCell) => {
 
 const isSelectedCell = (cell: YearCell) => {
   const year = cell.text
-  return castArray(props.date).findIndex((date) => date.year() === year) >= 0
+  return castArray(props.date).some((date) => date.year() === year)
 }
 
 const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
