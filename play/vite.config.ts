@@ -17,7 +17,6 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import type { Plugin } from 'vite'
-import './vite.init'
 
 const esbuildPlugin = (): Plugin => ({
   ...esbuild({
@@ -37,7 +36,7 @@ export default defineConfig(async ({ mode }) => {
     await glob(['dayjs/(locale|plugin)/*.js'], {
       cwd: path.resolve(projRoot, 'node_modules'),
     })
-  ).map((dep) => dep.replace(/\.js$/, ''))
+  )
 
   return {
     // css: {
