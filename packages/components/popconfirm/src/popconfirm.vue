@@ -24,22 +24,24 @@
           {{ title }}
         </div>
         <div :class="ns.e('action')">
-          <el-button
-            size="small"
-            :type="cancelButtonType === 'text' ? '' : cancelButtonType"
-            :text="cancelButtonType === 'text'"
-            @click="cancel"
-          >
-            {{ finalCancelButtonText }}
-          </el-button>
-          <el-button
-            size="small"
-            :type="confirmButtonType === 'text' ? '' : confirmButtonType"
-            :text="confirmButtonType === 'text'"
-            @click="confirm"
-          >
-            {{ finalConfirmButtonText }}
-          </el-button>
+          <slot name="actions" :confirm="confirm" :cancel="cancel">
+            <el-button
+              size="small"
+              :type="cancelButtonType === 'text' ? '' : cancelButtonType"
+              :text="cancelButtonType === 'text'"
+              @click="cancel"
+            >
+              {{ finalCancelButtonText }}
+            </el-button>
+            <el-button
+              size="small"
+              :type="confirmButtonType === 'text' ? '' : confirmButtonType"
+              :text="confirmButtonType === 'text'"
+              @click="confirm"
+            >
+              {{ finalConfirmButtonText }}
+            </el-button>
+          </slot>
         </div>
       </div>
     </template>

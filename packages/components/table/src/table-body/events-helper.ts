@@ -8,7 +8,7 @@ import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
 
-function isGreaterThan(a: number, b: number, epsilon = 0.01) {
+function isGreaterThan(a: number, b: number, epsilon = 0.03) {
   return a - b > epsilon
 }
 
@@ -135,18 +135,10 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
      *    - Expected: 188
      *    - Actual: 188.00000762939453
      */
-    let { width: rangeWidth, height: rangeHeight } =
+    const { width: rangeWidth, height: rangeHeight } =
       range.getBoundingClientRect()
-    const offsetWidth = rangeWidth - Math.floor(rangeWidth)
     const { width: cellChildWidth, height: cellChildHeight } =
       cellChild.getBoundingClientRect()
-    if (offsetWidth < 0.001) {
-      rangeWidth = Math.floor(rangeWidth)
-    }
-    const offsetHeight = rangeHeight - Math.floor(rangeHeight)
-    if (offsetHeight < 0.001) {
-      rangeHeight = Math.floor(rangeHeight)
-    }
 
     const { top, left, right, bottom } = getPadding(cellChild)
     const horizontalPadding = left + right

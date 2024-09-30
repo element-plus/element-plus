@@ -5,7 +5,6 @@
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
     @mouseenter="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
-    @click.prevent.stop="toggleMenu"
   >
     <el-tooltip
       ref="tooltipRef"
@@ -35,6 +34,7 @@
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
           ]"
+          @click.prevent="toggleMenu"
         >
           <div
             v-if="$slots.prefix"
@@ -63,12 +63,19 @@
                   :closable="!selectDisabled && !getDisabled(item)"
                   :size="collapseTagSize"
                   :type="tagType"
+                  :effect="tagEffect"
                   disable-transitions
                   :style="tagStyle"
                   @close="deleteTag($event, item)"
                 >
                   <span :class="nsSelect.e('tags-text')">
-                    {{ getLabel(item) }}
+                    <slot
+                      name="label"
+                      :label="getLabel(item)"
+                      :value="getValue(item)"
+                    >
+                      {{ getLabel(item) }}
+                    </slot>
                   </span>
                 </el-tag>
               </div>
@@ -91,6 +98,7 @@
                       :closable="false"
                       :size="collapseTagSize"
                       :type="tagType"
+                      :effect="tagEffect"
                       :style="collapseTagStyle"
                       disable-transitions
                     >
@@ -112,11 +120,18 @@
                         :closable="!selectDisabled && !getDisabled(selected)"
                         :size="collapseTagSize"
                         :type="tagType"
+                        :effect="tagEffect"
                         disable-transitions
                         @close="deleteTag($event, selected)"
                       >
                         <span :class="nsSelect.e('tags-text')">
-                          {{ getLabel(selected) }}
+                          <slot
+                            name="label"
+                            :label="getLabel(selected)"
+                            :value="getValue(selected)"
+                          >
+                            {{ getLabel(selected) }}
+                          </slot>
                         </span>
                       </el-tag>
                     </div>
@@ -150,8 +165,6 @@
                 spellcheck="false"
                 type="text"
                 :name="name"
-                @focus="handleFocus"
-                @blur="handleBlur"
                 @input="onInput"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
@@ -182,7 +195,15 @@
                 ),
               ]"
             >
-              <span>{{ currentPlaceholder }}</span>
+              <slot
+                v-if="hasModelValue"
+                name="label"
+                :label="currentPlaceholder"
+                :value="modelValue"
+              >
+                <span>{{ currentPlaceholder }}</span>
+              </slot>
+              <span v-else>{{ currentPlaceholder }}</span>
             </div>
           </div>
           <div ref="suffixRef" :class="nsSelect.e('suffix')">
@@ -195,7 +216,11 @@
             </el-icon>
             <el-icon
               v-if="showClearBtn && clearIcon"
-              :class="[nsSelect.e('caret'), nsInput.e('icon')]"
+              :class="[
+                nsSelect.e('caret'),
+                nsInput.e('icon'),
+                nsSelect.e('clear'),
+              ]"
               @click.prevent.stop="handleClear"
             >
               <component :is="clearIcon" />
@@ -255,10 +280,9 @@ import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
-import { SelectProps } from './defaults'
+import { SelectProps, selectEmits } from './defaults'
 import { selectV2InjectionKey } from './token'
 
 export default defineComponent({
@@ -271,16 +295,7 @@ export default defineComponent({
   },
   directives: { ClickOutside },
   props: SelectProps,
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    'remove-tag',
-    'clear',
-    'visible-change',
-    'focus',
-    'blur',
-  ],
-
+  emits: selectEmits,
   setup(props, { emit }) {
     const modelValue = computed(() => {
       const { modelValue: rawModelValue, multiple } = props
@@ -300,19 +315,19 @@ export default defineComponent({
       }),
       emit
     )
-    // TODO, remove the any cast to align the actual API.
     provide(selectV2InjectionKey, {
       props: reactive({
         ...toRefs(props),
         height: API.popupHeight,
         modelValue,
       }),
+      expanded: API.expanded,
       tooltipRef: API.tooltipRef,
       onSelect: API.onSelect,
       onHover: API.onHover,
       onKeyboardNavigate: API.onKeyboardNavigate,
       onKeyboardSelect: API.onKeyboardSelect,
-    } as any)
+    })
 
     return {
       ...API,

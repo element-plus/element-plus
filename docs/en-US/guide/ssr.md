@@ -87,16 +87,6 @@ onMounted(() => {
 
 Another way is to inject the teleport markup into the correct location in your final page HTML.
 
-:::warning
-
-There may be some [SSR problems with teleport](https://github.com/vuejs/core/issues?q=is%3Aissue+is%3Aopen+ssr+teleport+), so you should pay attention to the following precautions.
-
-1. The `teleported` attribute in all components based on ElTooltip should be consistent, it is recommended to use the default value.
-2. The `append-to-body` attribute value of ElDialog and ElDrawer should be consistent, it is recommended to enable the `append-to-body`.
-3. When the ElSubMenu component has a multi-layer popup, It is recommended to enable the `teleported`
-
-:::
-
 You need to inject the teleport markup close to the `<body>` tag.
 
 ```html

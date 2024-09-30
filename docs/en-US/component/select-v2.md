@@ -11,12 +11,6 @@ This component is still under testing, if you found any bug or issue please repo
 
 :::
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Background
 
 In some use-cases, a single selector may end up loading tens of thousands of rows of data.
@@ -209,12 +203,22 @@ select-v2/empty-values
 
 :::
 
+## Custom Label ^(2.7.4)
+
+You can customize label.
+
+:::demo
+
+select-v2/custom-label
+
+:::
+
 ## API
 
 ### Attributes
 
 | Name                                | Description                                                                                                                              | Type                                                                                                                                                                        | Default                                        |
-|-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | model-value / v-model               | binding value                                                                                                                            | ^[string] / ^[number] / ^[boolean] / ^[object] / ^[array]                                                                                                                   | —                                              |
 | options                             | data of the options, the key of `value` and `label` can be customize by `props`                                                          | ^[array]                                                                                                                                                                    | —                                              |
 | props ^(2.4.2)                      | configuration options, see the following table                                                                                           | ^[object]                                                                                                                                                                   | —                                              |
@@ -255,6 +259,7 @@ select-v2/empty-values
 | collapse-tags-tooltip ^(2.3.0)      | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                         | ^[boolean]                                                                                                                                                                  | false                                          |
 | max-collapse-tags ^(2.3.0)          | The max tags number to be shown. To use this, `collapse-tags` must be true                                                               | ^[number]                                                                                                                                                                   | 1                                              |
 | tag-type ^(2.5.0)                   | tag type                                                                                                                                 | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
+| tag-effect ^(2.7.7)                 | tag effect                                                                                                                               | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                                                                                                                                 | light                                          |
 | aria-label ^(a11y) ^(2.5.0)         | same as `aria-label` in native input                                                                                                     | ^[string]                                                                                                                                                                   | —                                              |
 | empty-values ^(2.7.0)               | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                           | ^[array]                                                                                                                                                                    | —                                              |
 | value-on-clear ^(2.7.0)             | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                  | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
@@ -262,7 +267,7 @@ select-v2/empty-values
 ### props
 
 | Attribute | Description                                                     | Type      | Default  |
-|-----------|-----------------------------------------------------------------|-----------|----------|
+| --------- | --------------------------------------------------------------- | --------- | -------- |
 | value     | specify which key of node object is used as the node's value    | ^[string] | value    |
 | label     | specify which key of node object is used as the node's label    | ^[string] | label    |
 | options   | specify which key of node object is used as the node's children | ^[string] | options  |
@@ -271,7 +276,7 @@ select-v2/empty-values
 ### Events
 
 | Name           | Description                                                                                                | Type                                     |
-|----------------|------------------------------------------------------------------------------------------------------------|------------------------------------------|
+| -------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
 | change         | triggers when the selected value changes, the param is current selected value                              | ^[Function]`(val: any) => void`          |
 | visible-change | triggers when the dropdown appears/disappears, the param will be true when it appears, and false otherwise | ^[Function]`(visible: boolean) => void`  |
 | remove-tag     | triggers when a tag is removed in multiple mode, the param is removed tag value                            | ^[Function]`(tagValue: any) => void`     |
@@ -282,7 +287,7 @@ select-v2/empty-values
 ### Slots
 
 | Name             | Description                           |
-|------------------|---------------------------------------|
+| ---------------- | ------------------------------------- |
 | default          | Option renderer                       |
 | header ^(2.5.2)  | content at the top of the dropdown    |
 | footer ^(2.5.2)  | content at the bottom of the dropdown |
@@ -290,10 +295,11 @@ select-v2/empty-values
 | prefix           | prefix content of input               |
 | tag ^(2.5.0)     | content as Select tag                 |
 | loading ^(2.5.2) | content as Select loading             |
+| label ^(2.7.4)   | content as Select label               |
 
 ### Exposes
 
 | Method | Description                                     | Type                    |
-|--------|-------------------------------------------------|-------------------------|
+| ------ | ----------------------------------------------- | ----------------------- |
 | focus  | focus the Input component                       | ^[Function]`() => void` |
 | blur   | blur the Input component, and hide the dropdown | ^[Function]`() => void` |
