@@ -108,6 +108,23 @@ function useStyle<T>(
     }
   })
 
+  const elPaddingMarginHorizontal = (el: HTMLElement) => {
+    return (
+      (el.style.paddingLeft === ''
+        ? 0
+        : Number.parseFloat(el.style.paddingLeft)) +
+      (el.style.marginLeft === ''
+        ? 0
+        : Number.parseFloat(el.style.marginLeft)) +
+      (el.style.marginRight === ''
+        ? 0
+        : Number.parseFloat(el.style.marginRight)) +
+      (el.style.paddingRight === ''
+        ? 0
+        : Number.parseFloat(el.style.paddingRight))
+    )
+  }
+
   const doLayout = () => {
     if (shouldUpdateHeight.value) {
       layout.updateElsHeight()
@@ -130,12 +147,13 @@ function useStyle<T>(
     }
 
     resizeState.value = {
-      width: (tableWidth.value = el.offsetWidth),
+      width: el.offsetWidth,
       height: el.offsetHeight,
       headerHeight:
         props.showHeader && tableHeader ? tableHeader.offsetHeight : null,
     }
 
+    tableWidth.value = el.offsetWidth - elPaddingMarginHorizontal(el)
     // init filters
     store.states.columns.value.forEach((column: TableColumnCtx<T>) => {
       if (column.filteredValue && column.filteredValue.length) {
@@ -223,7 +241,8 @@ function useStyle<T>(
       headerHeight: oldHeaderHeight,
     } = resizeState.value
 
-    const width = (tableWidth.value = el.offsetWidth)
+    tableWidth.value = el.offsetWidth - elPaddingMarginHorizontal(el)
+    const width = tableWidth.value
     if (oldWidth !== width) {
       shouldUpdateLayout = true
     }
