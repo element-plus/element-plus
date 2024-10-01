@@ -120,7 +120,7 @@ input/length-limiting
 ### Attributes
 
 | Name                        | Description                                                                                                                            | Type                                                                                                                                                                                                                         | Default |
-|-----------------------------| -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | type                        | type of input                                                                                                                          | ^[string]`'text' \| 'textarea' \| 'password' \| 'button' \| 'checkbox' \| 'file' \| 'number' \| 'radio' \| ...` [native input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text    |
 | model-value / v-model       | binding value                                                                                                                          | ^[string] / ^[number]                                                                                                                                                                                                        | —       |
 | maxlength                   | same as `maxlength` in native input                                                                                                    | ^[string] / ^[number]                                                                                                                                                                                                        | —       |
@@ -173,17 +173,18 @@ input/length-limiting
 
 ### Exposes
 
-| Name           | Description                      | Type                                                    |
-| -------------- | -------------------------------- | ------------------------------------------------------- |
-| blur           | blur the input element           | ^[Function]`() => void`                                 |
-| clear          | clear input value                | ^[Function]`() => void`                                 |
-| focus          | focus the input element          | ^[Function]`() => void`                                 |
-| input          | HTML input element               | ^[object]`Ref<HTMLInputElement>`                        |
-| ref            | HTML element, input or textarea  | ^[object]`Ref<HTMLInputElement \| HTMLTextAreaElement>` |
-| resizeTextarea | resize textarea                  | ^[Function]`() => void`                                 |
-| select         | select the text in input element | ^[Function]`() => void`                                 |
-| textarea       | HTML textarea element            | ^[object]`Ref<HTMLTextAreaElement>`                     |
-| textareaStyle  | style of textarea                | ^[object]`Ref<StyleValue>`                              |
+| Name                 | Description                      | Type                                                    |
+| -------------------- | -------------------------------- | ------------------------------------------------------- |
+| blur                 | blur the input element           | ^[Function]`() => void`                                 |
+| clear                | clear input value                | ^[Function]`() => void`                                 |
+| focus                | focus the input element          | ^[Function]`() => void`                                 |
+| input                | HTML input element               | ^[object]`Ref<HTMLInputElement>`                        |
+| ref                  | HTML element, input or textarea  | ^[object]`Ref<HTMLInputElement \| HTMLTextAreaElement>` |
+| resizeTextarea       | resize textarea                  | ^[Function]`() => void`                                 |
+| select               | select the text in input element | ^[Function]`() => void`                                 |
+| textarea             | HTML textarea element            | ^[object]`Ref<HTMLTextAreaElement>`                     |
+| textareaStyle        | style of textarea                | ^[object]`Ref<StyleValue>`                              |
+| isComposing ^(2.8.0) | is input composing               | ^[object]`Ref<boolean>`                                 |
 
 ## FAQ
 

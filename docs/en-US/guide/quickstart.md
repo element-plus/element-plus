@@ -13,7 +13,7 @@ This section describes how to use Element Plus in your project.
 
 If you don’t care about the bundle size so much, it’s more convenient to use full import.
 
-```typescript
+```ts
 // main.ts
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
@@ -52,7 +52,7 @@ First you need to install `unplugin-vue-components` and `unplugin-auto-import`.
 npm install -D unplugin-vue-components unplugin-auto-import
 ```
 
-Then add the code below into your `Vite`, `Webpack` or `Rspack` config file.
+Then add the code below into your `Vite` or `Webpack` config file.
 
 ##### Vite
 
@@ -83,29 +83,6 @@ export default defineConfig({
 // webpack.config.js
 const AutoImport = require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
-const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
-
-module.exports = {
-  // ...
-  plugins: [
-    AutoImport({
-      resolvers: [ElementPlusResolver()],
-    }),
-    Components({
-      resolvers: [ElementPlusResolver()],
-    }),
-  ],
-}
-```
-
-##### Rspack
-
-Example of how to register these plugins in [Rspack](https://rspack.dev/):
-
-```js
-// rspack.config.js
-const AutoImport = require('unplugin-auto-import/rspack')
-const Components = require('unplugin-vue-components/rspack')
 const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 
 module.exports = {
@@ -175,19 +152,6 @@ export default defineConfig({
 })
 ```
 
-:::warning
-
-You need to manually import the styles if you're using `unplugin-element-plus` and only used the component API.
-
-Example:
-
-```ts
-import 'element-plus/es/components/message/style/css'
-import { ElMessage } from 'element-plus'
-```
-
-:::
-
 ## Starter Template
 
 We provide a [Vite Template](https://github.com/element-plus/element-plus-vite-starter).
@@ -242,10 +206,10 @@ export default defineComponent({
 
 ## Using Nuxt.js
 
-We can also use [Nuxt.js](https://v3.nuxtjs.org/)：
+We can also use [Nuxt.js](https://nuxt.com):
 
 <div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
-  <iframe src="https://glitch.com/edit/#!/nuxt-element-plus?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
+  <iframe src="https://glitch.com/edit/#!/element-plus-nuxt-starter?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
 </div>
 
 ## Let's Get Started

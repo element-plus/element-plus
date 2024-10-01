@@ -1,5 +1,5 @@
 <template>
-  <teleport :disabled="!teleported" :to="appendTo">
+  <el-teleport :disabled="!teleported" :to="appendTo">
     <transition
       :name="transitionClass"
       @after-leave="onTransitionLeave"
@@ -36,12 +36,10 @@
         @blur="onBlur"
         @close="onClose"
       >
-        <template v-if="!destroyed">
-          <slot />
-        </template>
+        <slot />
       </el-popper-content>
     </transition>
-  </teleport>
+  </el-teleport>
 </template>
 
 <script lang="ts" setup>
@@ -50,6 +48,7 @@ import { onClickOutside } from '@vueuse/core'
 import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
 import { composeEventHandlers } from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
+import ElTeleport from '@element-plus/components/teleport'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipContentProps } from './content'
 
@@ -64,7 +63,7 @@ const { selector } = usePopperContainerId()
 const ns = useNamespace('tooltip')
 // TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
 const contentRef = ref<any>(null)
-const destroyed = ref(false)
+let stopHandle: ReturnType<typeof onClickOutside>
 const {
   controlled,
   id,
@@ -90,7 +89,7 @@ const persistentRef = computed(() => {
 })
 
 onBeforeUnmount(() => {
-  destroyed.value = true
+  stopHandle?.()
 })
 
 const shouldRender = computed(() => {
@@ -107,10 +106,11 @@ const appendTo = computed(() => {
 
 const contentStyle = computed(() => (props.style ?? {}) as any)
 
-const ariaHidden = computed(() => !unref(open))
+const ariaHidden = ref(true)
 
 const onTransitionLeave = () => {
   onHide()
+  ariaHidden.value = true
 }
 
 const stopWhenControlled = () => {
@@ -160,13 +160,13 @@ const onBlur = () => {
   }
 }
 
-let stopHandle: ReturnType<typeof onClickOutside>
-
 watch(
   () => unref(open),
   (val) => {
     if (!val) {
       stopHandle?.()
+    } else {
+      ariaHidden.value = false
     }
   },
   {

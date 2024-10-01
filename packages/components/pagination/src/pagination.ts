@@ -16,7 +16,13 @@ import {
   isNumber,
   mutable,
 } from '@element-plus/utils'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useDeprecated,
+  useGlobalSize,
+  useLocale,
+  useNamespace,
+  useSizeProp,
+} from '@element-plus/hooks'
 import { elPaginationKey } from './constants'
 
 import Prev from './components/prev.vue'
@@ -25,9 +31,7 @@ import Sizes from './components/sizes.vue'
 import Jumper from './components/jumper.vue'
 import Total from './components/total.vue'
 import Pager from './components/pager.vue'
-
 import type { ExtractPropTypes, VNode } from 'vue'
-
 /**
  * It it user's responsibility to guarantee that the value of props.total... is number
  * (same as pageSize, defaultPageSize, currentPage, defaultCurrentPage, pageCount)
@@ -149,6 +153,10 @@ export const paginationProps = buildProps({
    */
   small: Boolean,
   /**
+   * @description set page size
+   */
+  size: useSizeProp,
+  /**
    * @description whether the buttons have a background color
    */
   background: Boolean,
@@ -160,6 +168,10 @@ export const paginationProps = buildProps({
    * @description whether to hide when there's only one page
    */
   hideOnSinglePage: Boolean,
+  /**
+   * @description which element the size dropdown appends to.
+   */
+  appendSizeTo: String,
 } as const)
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
 
@@ -186,6 +198,20 @@ export default defineComponent({
     const { t } = useLocale()
     const ns = useNamespace('pagination')
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
+    const _globalSize = useGlobalSize()
+    const _size = computed(() =>
+      props.small ? 'small' : props.size ?? _globalSize.value
+    )
+    useDeprecated(
+      {
+        from: 'small',
+        replacement: 'size',
+        version: '3.0.0',
+        scope: 'el-pagination',
+        ref: 'https://element-plus.org/zh-CN/component/pagination.html',
+      },
+      computed(() => !!props.small)
+    )
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
     const hasCurrentPageListener =
       'onUpdate:currentPage' in vnodeProps ||
@@ -364,7 +390,7 @@ export default defineComponent({
           onClick: prev,
         }),
         jumper: h(Jumper, {
-          size: props.small ? 'small' : 'default',
+          size: _size.value,
         }),
         pager: h(Pager, {
           currentPage: currentPageBridge.value,
@@ -387,7 +413,8 @@ export default defineComponent({
           popperClass: props.popperClass,
           disabled: props.disabled,
           teleported: props.teleported,
-          size: props.small ? 'small' : 'default',
+          size: _size.value,
+          appendSizeTo: props.appendSizeTo,
         }),
         slot: slots?.default?.() ?? null,
         total: h(Total, { total: isAbsent(props.total) ? 0 : props.total }),
@@ -428,9 +455,7 @@ export default defineComponent({
           class: [
             ns.b(),
             ns.is('background', props.background),
-            {
-              [ns.m('small')]: props.small,
-            },
+            ns.m(_size.value),
           ],
         },
         rootChildren

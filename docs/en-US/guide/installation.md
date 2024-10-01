@@ -18,6 +18,20 @@ Since Vue 3 no longer supports IE11, Element Plus does not support IE either.
 | < 2.5.0 | Chrome ≥ 64                                                                                | Edge ≥ 79                                                                        | Firefox ≥ 78                                                                                   | Safari ≥ 12                                                                                |
 | 2.5.0 + | Chrome ≥ 85                                                                                | Edge ≥ 85                                                                        | Firefox ≥ 79                                                                                   | Safari ≥ 14.1                                                                              |
 
+### Sass
+
+Version `2.8.5` and later, the minimum compatible version of [Sass](https://github.com/sass) is `1.79.0`.
+
+If your terminal prompts `legacy JS API Deprecation Warning`, you can configure the following code in [vite.config.ts](https://vitejs.dev/config/shared-options.html#css-preprocessoroptions).
+
+```ts{3}
+css: {
+  preprocessorOptions: {
+    scss: { api: 'modern-compiler' },
+  }
+}
+```
+
 ### Version
 
 Element Plus is currently in a rapid development iteration.
@@ -89,6 +103,16 @@ on the link address, so as not to be affected by incompatible updates when Eleme
 is upgraded in the future. Please check [unpkg.com](https://unpkg.com) for
 the method to lock the version.
 
+Due to the limitations of native HTML parsing behavior, single-closed tags may cause some exceptions, so please use double-closed tags, [reference](https://vuejs.org/guide/essentials/component-basics.html#in-dom-template-parsing-caveats)
+
+```html
+<!-- examples -->
+<el-table>
+  <el-table-column></el-table-column>
+  <el-table-column></el-table-column>
+</el-table>
+```
+
 :::
 
 ## Hello World
@@ -96,7 +120,7 @@ the method to lock the version.
 With CDN, we can easily use Element Plus to
 write a Hello World page. [Online Demo](https://codepen.io/iamkun/pen/YzWMaVr)
 
-<iframe height="469" style="width: 100%;" scrolling="no" title="YzWMaVr" src="https://codepen.io/iamkun/embed/YzWMaVr?height=469&theme-id=light&default -tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+<iframe height="469" style="width: 100%;" scrolling="no" title="YzWMaVr" src="https://codepen.io/iamkun/embed/YzWMaVr?height=469&theme-id=light&default-tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/iamkun/pen/YzWMaVr'>YzWMaVr</a> by iamkun
   (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>

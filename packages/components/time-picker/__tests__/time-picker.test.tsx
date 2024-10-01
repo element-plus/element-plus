@@ -128,6 +128,7 @@ describe('TimePicker', () => {
     input.trigger('focus')
     await nextTick()
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+
     expect(value.value).toBeInstanceOf(Date)
   })
 
@@ -362,8 +363,6 @@ describe('TimePicker', () => {
   })
 
   it('ref handleClose', async () => {
-    vi.useFakeTimers()
-
     const value = ref(new Date(2016, 9, 10, 18, 40))
     const wrapper = mount(() => <TimePicker v-model={value.value} />)
     const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed
@@ -373,12 +372,10 @@ describe('TimePicker', () => {
     await nextTick()
     timePickerExposed.handleClose()
 
-    await nextTick()
+    await rAF()
     const popperEl = document.querySelector('.el-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('true')
-
-    vi.useRealTimers()
   })
 
   it('model value should sync when disabled-hours was updated', async () => {
@@ -603,6 +600,33 @@ describe('TimePicker(range)', () => {
     await clearIcon.trigger('click')
     await nextTick()
     expect(value.value).toEqual(null)
+  })
+
+  it('should close pick when click the clear button on pick opened', async () => {
+    const value = ref([
+      new Date(2016, 9, 10, 9, 40),
+      new Date(2016, 9, 10, 15, 40),
+    ])
+    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
+    const findInputWrapper = () => wrapper.find('.el-date-editor')
+    const findClear = () => wrapper.find('.el-range__close-icon')
+    const findPicker = () => wrapper.find('.el-picker-panel')
+
+    await nextTick()
+    const inputWrapper = findInputWrapper()
+    await inputWrapper.trigger('mouseenter')
+    await inputWrapper.trigger('mousedown')
+
+    await nextTick()
+    // when the input is clicked, the picker is displayed.
+    expect(findPicker()).toBeTruthy()
+    const clearIcon = findClear()
+    await clearIcon.trigger('click')
+
+    await nextTick()
+    expect(value.value).toEqual(null)
+    // when the "clear" button is clicked, the pick is hidden.
+    expect(findPicker().exists()).toBe(false)
   })
 
   it('selectableRange ', async () => {
@@ -868,5 +892,69 @@ describe('TimePicker(range)', () => {
     const [startInput, endInput] = wrapper.findAll('input')
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
+  })
+
+  it('avoid update initial value when using disabledHours', async () => {
+    const value = ref([])
+
+    const disabledHours = () => {
+      const curH = dayjs().hour()
+      if (curH === 0) {
+        return [curH, 1]
+      } else if (curH === 23) {
+        return [curH - 1, curH]
+      }
+      return [curH - 1, curH + 1]
+    }
+    const wrapper = mount(() => (
+      <TimePicker
+        v-model={value.value}
+        disabled-hours={disabledHours}
+        is-range={true}
+      />
+    ))
+    await nextTick()
+
+    const [startInput, endInput] = wrapper.findAll('input')
+
+    expect(startInput.element.value).toBe('')
+    expect(endInput.element.value).toBe('')
+    expect(value.value).toEqual([])
+  })
+
+  it('can clear when using disabledHours', async () => {
+    const value = ref([
+      new Date(2016, 9, 10, 9, 40),
+      new Date(2016, 9, 10, 15, 40),
+    ])
+
+    const disabledHours = () => {
+      const curH = dayjs().hour()
+      if (curH === 0) {
+        return [curH, 1]
+      } else if (curH === 23) {
+        return [curH - 1, curH]
+      }
+      return [curH - 1, curH + 1]
+    }
+    const wrapper = mount(() => (
+      <TimePicker
+        v-model={value.value}
+        disabled-hours={disabledHours}
+        is-range={true}
+      />
+    ))
+
+    await nextTick()
+    const findInputWrapper = () => wrapper.find('.el-date-editor')
+    const findClear = () => wrapper.find('.el-range__close-icon')
+
+    await nextTick()
+    const inputWrapper = findInputWrapper()
+    await inputWrapper.trigger('mouseenter')
+    const clearIcon = findClear()
+    await clearIcon.trigger('click')
+    await nextTick()
+    expect(value.value).toEqual(null)
   })
 })

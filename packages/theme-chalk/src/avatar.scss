@@ -19,6 +19,7 @@
   box-sizing: border-box;
   text-align: center;
   overflow: hidden;
+  outline: none;
   color: getCssVar('avatar', 'text-color');
   background: getCssVar('avatar', 'bg-color');
   width: getCssVar('avatar', 'size');

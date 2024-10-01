@@ -1,3 +1,4 @@
+import { placements } from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
 import {
   useAriaProps,
@@ -10,10 +11,11 @@ import { disabledTimeListsProps } from '../props/shared'
 import type { Component, ExtractPropTypes } from 'vue'
 import type { Options } from '@popperjs/core'
 import type { Dayjs } from 'dayjs'
+import type { Placement } from '@element-plus/components/popper'
 
 export type SingleOrRange<T> = T | [T, T]
 export type DateModelType = number | string | Date
-export type ModelValueType = SingleOrRange<DateModelType>
+export type ModelValueType = SingleOrRange<DateModelType> | string[]
 export type DayOrDays = SingleOrRange<Dayjs>
 export type DateOrDates = SingleOrRange<Date>
 export type UserInput = SingleOrRange<string | null>
@@ -191,13 +193,6 @@ export const timePickerDefaultProps = buildProps({
    */
   arrowControl: Boolean,
   /**
-   * @deprecated same as `aria-label` in native input
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description input tabindex
    */
   tabindex: {
@@ -215,6 +210,21 @@ export const timePickerDefaultProps = buildProps({
    * @description unlink two date-panels in range-picker
    */
   unlinkPanels: Boolean,
+  /**
+   * @description position of dropdown
+   */
+  placement: {
+    type: definePropType<Placement>(String),
+    values: placements,
+    default: 'bottom',
+  },
+  /**
+   * @description list of possible positions for dropdown
+   */
+  fallbackPlacements: {
+    type: definePropType<Placement[]>(Array),
+    default: ['bottom', 'top', 'right', 'left'],
+  },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 } as const)
