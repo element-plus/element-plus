@@ -58,6 +58,13 @@ const alias: AliasOptions = [
 export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          silenceDeprecations: ['legacy-js-api'],
+        },
+      },
+    },
     server: {
       host: true,
       fs: {
