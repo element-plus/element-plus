@@ -158,7 +158,7 @@ defineExpose({
   clearQuery,
   /** @description left panel ref */
   leftPanel,
-  /** @description left panel ref */
+  /** @description right panel ref */
   rightPanel,
 })
 </script>
