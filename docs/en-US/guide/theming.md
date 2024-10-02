@@ -145,6 +145,14 @@ export default defineConfig({
       '~/': `${path.resolve(__dirname, 'src')}/`,
     },
   },
+  Components({
+      resolvers: [
+        // Auto register Element Plus components
+        ElementPlusResolver({ importStyle: 'sass'})
+      ],
+
+      dts: path.resolve(pathSrc, 'components.d.ts')
+    }),
   css: {
     preprocessorOptions: {
       scss: {
