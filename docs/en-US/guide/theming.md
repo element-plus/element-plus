@@ -152,6 +152,14 @@ export default defineConfig({
       },
     },
   },
+  Components({
+      resolvers: [
+        // Auto register Element Plus components
+        ElementPlusResolver({ importStyle: 'sass'})
+      ],
+
+      dts: path.resolve(pathSrc, 'components.d.ts')
+    }),
   plugins: [
     vue(),
     // use unplugin-vue-components
