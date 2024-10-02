@@ -252,7 +252,7 @@ describe('Transfer', () => {
       `)
     })
 
-    it('double comment nodes', () => {
+    it('multiple comment nodes', () => {
       const wrapper = mount(Transfer, {
         props: {
           data: getTestData(),
@@ -291,7 +291,7 @@ describe('Transfer', () => {
       `)
     })
 
-    it('content with comment nodes', () => {
+    it('contents with multiple comment nodes', () => {
       const wrapper = mount(Transfer, {
         props: {
           data: getTestData(),
