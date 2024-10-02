@@ -145,12 +145,12 @@ watch(
 const optionRender = computed(() => (option: TransferDataItem) => {
   if (props.renderContent) return props.renderContent(h, option)
 
-  const defaultSlotVNodes = slots.default?.({ option }) || []
-  if (
-    defaultSlotVNodes.length > 0 &&
-    !(defaultSlotVNodes.length === 1 && defaultSlotVNodes[0].type === Comment)
+  const defaultSlotVNodes = (slots.default?.({ option }) || []).filter(
+    (node) => node.type !== Comment
   )
+  if (defaultSlotVNodes.length) {
     return defaultSlotVNodes
+  }
 
   return h(
     'span',
