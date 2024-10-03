@@ -161,6 +161,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   )
 
   const validateState = computed(() => formItem?.validateState || '')
+  const needStatusIcon = computed(() => form?.statusIcon ?? false)
   const validateIcon = computed(
     () => ValidateComponentsMap[validateState.value]
   )
@@ -831,6 +832,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     iconComponent,
     iconReverse,
     validateState,
+    needStatusIcon,
     validateIcon,
     showNewOption,
     updateOptions,
