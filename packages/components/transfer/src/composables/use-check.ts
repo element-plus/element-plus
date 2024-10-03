@@ -138,6 +138,31 @@ export const useCheck = (
     }
   )
 
+  const toggleChecked = (keys: TransferKey[], checked?: boolean) => {
+    const checkedKeys = panelState.checked.slice()
+
+    const check = (key: TransferKey) => checkedKeys.push(key)
+    const uncheck = (key: TransferKey) =>
+      checkedKeys.splice(checkedKeys.indexOf(key), 1)
+
+    const mode =
+      checked === undefined ? 'toggle' : checked ? 'check' : 'uncheck'
+
+    keys.forEach((k) => {
+      const hasChecked = checkedKeys.includes(k)
+
+      if (mode === 'toggle') {
+        hasChecked ? uncheck(k) : check(k)
+      } else if (mode === 'check' && !hasChecked) {
+        check(k)
+      } else if (mode === 'uncheck' && hasChecked) {
+        uncheck(k)
+      }
+    })
+
+    panelState.checked = checkedKeys
+  }
+
   return {
     filteredData,
     checkableData,
@@ -145,5 +170,6 @@ export const useCheck = (
     isIndeterminate,
     updateAllChecked,
     handleAllCheckedChange,
+    toggleChecked,
   }
 }

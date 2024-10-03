@@ -28,6 +28,7 @@ export const transferPanelProps = buildProps({
   filterMethod: transferProps.filterMethod,
   defaultChecked: transferProps.leftDefaultChecked,
   props: transferProps.props,
+  remainPanelBody: Boolean,
 } as const)
 export type TransferPanelProps = ExtractPropTypes<typeof transferPanelProps>
 

@@ -138,6 +138,14 @@ export const transferProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description whether to remain the left panel body when having no data or match data
+   */
+  remainLeftPanelBody: Boolean,
+  /**
+   * @description whether to remain the right panel body when having no data or match data
+   */
+  remainRightPanelBody: Boolean,
 } as const)
 export type TransferProps = ExtractPropTypes<typeof transferProps>
 
