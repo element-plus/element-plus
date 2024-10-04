@@ -599,11 +599,16 @@ export const useSelect = (props: ISelectProps, emit) => {
     const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
-      if (
-        toRaw(get(item, valueKey)) === get(value, valueKey) ||
-        (valueKey !== SelectProps.valueKey.default &&
-          get(item.value, valueKey) === get(value.value, valueKey))
-      ) {
+      if (valueKey !== SelectProps.valueKey.default) {
+        if (get(item.value, valueKey) === get(value.value, valueKey)) {
+          index = i
+          return true
+        } else {
+          return false
+        }
+      }
+
+      if (toRaw(get(item, valueKey)) === get(value, valueKey)) {
         index = i
         return true
       }
