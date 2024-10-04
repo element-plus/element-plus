@@ -49,6 +49,7 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 
+import { SelectProps } from './select'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { ISelectProps, SelectOptionProxy } from './token'
 
@@ -598,7 +599,11 @@ export const useSelect = (props: ISelectProps, emit) => {
     const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
-      if (toRaw(get(item, valueKey)) === get(value, valueKey)) {
+      if (
+        toRaw(get(item, valueKey)) === get(value, valueKey) ||
+        (valueKey !== SelectProps.valueKey.default &&
+          get(item.value, valueKey) === get(value.value, valueKey))
+      ) {
         index = i
         return true
       }
