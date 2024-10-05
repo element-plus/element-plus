@@ -5,7 +5,6 @@ import {
   onMounted,
   reactive,
   ref,
-  toRaw,
   watch,
   watchEffect,
 } from 'vue'
@@ -49,7 +48,6 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 
-import { SelectProps } from './select'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { ISelectProps, SelectOptionProxy } from './token'
 
