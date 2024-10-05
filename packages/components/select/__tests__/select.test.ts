@@ -37,7 +37,6 @@ interface SelectProps {
   defaultFirstOption?: boolean
   fitInputWidth?: boolean
   size?: 'small' | 'default' | 'large'
-  valueKey: string
 }
 
 const _mount = (template: string, data: any = () => ({}), otherObj?) =>
@@ -85,7 +84,6 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
     'collapseTags',
     'automaticDropdown',
     'fitInputWidth',
-    'valueKey',
   ].forEach((config) => {
     configs[config] = configs[config] || false
   })
@@ -139,8 +137,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :remoteMethod="remoteMethod"
       :automatic-dropdown="automaticDropdown"
       :size="size"
-      :fit-input-width="fitInputWidth"
-      :value-key="valueKey">
+      :fit-input-width="fitInputWidth">
       <el-option
         v-for="item in options"
         :label="item.label"
@@ -168,7 +165,6 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       remoteMethod: configs.remoteMethod,
       value: configs.multiple ? [] : '',
       size: configs.size || 'default',
-      valueKey: configs.valueKey,
     })
   )
 }
