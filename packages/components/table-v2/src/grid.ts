@@ -41,6 +41,7 @@ export const tableV2GridProps = buildProps({
 
   bodyWidth: requiredNumber,
   rowHeight: requiredNumber,
+  fixed: Boolean,
 
   /**
    * Special attributes

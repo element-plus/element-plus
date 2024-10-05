@@ -1,4 +1,4 @@
-import { computed, defineComponent, inject, ref, unref } from 'vue'
+import { computed, defineComponent, inject, ref, unref, watch } from 'vue'
 import {
   DynamicSizeGrid,
   FixedSizeGrid,
@@ -54,6 +54,12 @@ const useTableGrid = (props: TableV2GridProps) => {
   const hasHeader = computed(() => {
     return unref(headerHeight) + unref(fixedRowHeight) > 0
   })
+
+  // fix #14818, In flexible layout mode, force update the column width when the body size changes.
+  watch(
+    () => (props.fixed ? -1 : props.bodyWidth),
+    () => bodyRef.value?.resetAfterColumnIndex?.(0, true)
+  )
 
   const itemKey: GridItemKeyGetter = ({ data, rowIndex }) =>
     data[rowIndex][props.rowKey]
