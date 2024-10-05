@@ -37,6 +37,7 @@ interface SelectProps {
   defaultFirstOption?: boolean
   fitInputWidth?: boolean
   size?: 'small' | 'default' | 'large'
+  valueKey: string
 }
 
 const _mount = (template: string, data: any = () => ({}), otherObj?) =>
@@ -84,6 +85,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
     'collapseTags',
     'automaticDropdown',
     'fitInputWidth',
+    'valueKey',
   ].forEach((config) => {
     configs[config] = configs[config] || false
   })
@@ -137,7 +139,8 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :remoteMethod="remoteMethod"
       :automatic-dropdown="automaticDropdown"
       :size="size"
-      :fit-input-width="fitInputWidth">
+      :fit-input-width="fitInputWidth"
+      :value-key="valueKey">
       <el-option
         v-for="item in options"
         :label="item.label"
@@ -165,6 +168,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       remoteMethod: configs.remoteMethod,
       value: configs.multiple ? [] : '',
       size: configs.size || 'default',
+      valueKey: configs.valueKey,
     })
   )
 }
@@ -2731,5 +2735,76 @@ describe('Select', () => {
       (document.querySelector('.el-select__popper') as HTMLElement).style
         .display
     ).toBe('none')
+  })
+
+  it('should select first option after users search and press enter', async () => {
+    const cities = [
+      {
+        countryId: 1,
+        label: 'Beijing',
+      },
+      {
+        countryId: 2,
+        label: 'Shanghai',
+      },
+      {
+        countryId: 3,
+        label: 'Nanjing',
+      },
+      {
+        countryId: 4,
+        label: 'Chengdu',
+      },
+      {
+        countryId: 5,
+        label: 'Shenzhen',
+      },
+      {
+        countryId: 6,
+        label: 'Guangzhou',
+      },
+      {
+        countryId: 7,
+        label: 'Ho Chi Minh',
+      },
+    ]
+
+    const expectedCity = cities[4]
+    const query = expectedCity.label.slice(0, 3)
+
+    const modelValue = ''
+
+    const wrapper = _mount(
+      `
+        <el-select v-model='modelValue' filterable default-first-option value-key="countryId">
+            <el-option
+                v-for="item in cities" 
+                :key="item.countryId" 
+                :label="item.label" 
+                :value="item">
+                    {{ item.label }}
+            </el-option>
+        </el-select>
+    `,
+      () => ({
+        cities,
+        modelValue,
+      })
+    )
+
+    await nextTick()
+    const firstInputLetter = query
+
+    await nextTick()
+    await wrapper.trigger('mouseenter')
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.setValue(firstInputLetter)
+
+    await input.trigger('keydown.enter')
+    await nextTick()
+
+    expect(wrapper.vm.modelValue).deep.equal(expectedCity)
   })
 })
