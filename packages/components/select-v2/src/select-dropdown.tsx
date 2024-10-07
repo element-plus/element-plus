@@ -21,20 +21,44 @@ import { useProps } from './useProps'
 
 import { selectV2InjectionKey } from './token'
 
-import type { ItemProps } from '@element-plus/components/virtual-list'
+import type {
+  DynamicSizeListInstance,
+  FixedSizeListInstance,
+  ItemProps,
+} from '@element-plus/components/virtual-list'
 import type { Option, OptionItemProps } from './select.types'
+import type {
+  ComponentPublicInstance,
+  ComputedRef,
+  ExtractPropTypes,
+  Ref,
+} from 'vue'
 
+const props = {
+  loading: Boolean,
+  data: {
+    type: Array,
+    required: true as const,
+  },
+  hoveringIndex: Number,
+  width: Number,
+}
+interface SelectDropdownExposed {
+  listRef: Ref<FixedSizeListInstance | DynamicSizeListInstance | undefined>
+  isSized: ComputedRef<boolean>
+  isItemDisabled: (modelValue: any[] | any, selected: boolean) => boolean
+  isItemHovering: (target: number) => boolean
+  isItemSelected: (modelValue: any[] | any, target: Option) => boolean
+  scrollToItem: (index: number) => void
+  resetScrollTop: () => void
+}
+export type SelectDropdownInstance = ComponentPublicInstance<
+  ExtractPropTypes<typeof props>,
+  SelectDropdownExposed
+>
 export default defineComponent({
   name: 'ElSelectDropdown',
-
-  props: {
-    data: {
-      type: Array,
-      required: true,
-    },
-    hoveringIndex: Number,
-    width: Number,
-  },
+  props,
   setup(props, { slots, expose }) {
     const select = inject(selectV2InjectionKey)!
     const ns = useNamespace('select')
@@ -42,13 +66,13 @@ export default defineComponent({
 
     const cachedHeights = ref<Array<number>>([])
 
-    const listRef = ref()
+    const listRef = ref<FixedSizeListInstance | DynamicSizeListInstance>()
 
     const size = computed(() => props.data.length)
     watch(
       () => size.value,
       () => {
-        select.popper.value.updatePopper?.()
+        select.tooltipRef.value!.updatePopper?.()
       }
     )
 
@@ -93,14 +117,20 @@ export default defineComponent({
       }
     }
 
-    const isItemSelected = (modelValue: any[] | any, target: Option) => {
+    const isItemSelected: SelectDropdownExposed['isItemSelected'] = (
+      modelValue,
+      target
+    ) => {
       if (select.props.multiple) {
         return contains(modelValue, getValue(target))
       }
       return isEqual(modelValue, getValue(target))
     }
 
-    const isItemDisabled = (modelValue: any[] | any, selected: boolean) => {
+    const isItemDisabled: SelectDropdownExposed['isItemDisabled'] = (
+      modelValue,
+      selected
+    ) => {
       const { disabled, multiple, multipleLimit } = select.props
       return (
         disabled ||
@@ -111,23 +141,23 @@ export default defineComponent({
       )
     }
 
-    const isItemHovering = (target: number) => props.hoveringIndex === target
+    const isItemHovering: SelectDropdownExposed['isItemHovering'] = (target) =>
+      props.hoveringIndex === target
 
-    const scrollToItem = (index: number) => {
-      const list = listRef.value as any
+    const scrollToItem: SelectDropdownExposed['scrollToItem'] = (index) => {
+      const list = listRef.value
       if (list) {
         list.scrollToItem(index)
       }
     }
 
-    const resetScrollTop = () => {
-      const list = listRef.value as any
+    const resetScrollTop: SelectDropdownExposed['resetScrollTop'] = () => {
+      const list = listRef.value
       if (list) {
         list.resetScrollTop()
       }
     }
-
-    expose({
+    const exposed: SelectDropdownExposed = {
       listRef,
       isSized,
 
@@ -136,7 +166,8 @@ export default defineComponent({
       isItemSelected,
       scrollToItem,
       resetScrollTop,
-    })
+    }
+    expose(exposed)
 
     const Item = (itemProps: ItemProps<any>) => {
       const { index, data, style } = itemProps
@@ -150,7 +181,7 @@ export default defineComponent({
           <GroupItem
             item={item}
             style={style}
-            height={(sized ? itemSize : estimatedSize) as number}
+            height={sized ? (itemSize as number) : estimatedSize}
           />
         )
       }
@@ -189,7 +220,8 @@ export default defineComponent({
     }
 
     const onEscOrTab = () => {
-      select.expanded = false
+      // The following line actually doesn't work. Fixing it may introduce a small breaking change for some users, so just comment it out for now.
+      // select.expanded = false
     }
 
     const onKeydown = (e: KeyboardEvent) => {
@@ -225,39 +257,35 @@ export default defineComponent({
       const { data, width } = props
       const { height, multiple, scrollbarAlwaysOn } = select.props
 
-      if (data.length === 0) {
-        return (
-          <div
-            class={ns.b('dropdown')}
-            style={{
-              width: `${width}px`,
-            }}
-          >
-            {slots.empty?.()}
-          </div>
-        )
-      }
-
       const List = unref(isSized) ? FixedSizeList : DynamicSizeList
 
       return (
-        <div class={[ns.b('dropdown'), ns.is('multiple', multiple)]}>
-          <List
-            ref={listRef}
-            {...unref(listProps)}
-            className={ns.be('dropdown', 'list')}
-            scrollbarAlwaysOn={scrollbarAlwaysOn}
-            data={data}
-            height={height}
-            width={width}
-            total={data.length}
-            // @ts-ignore - dts problem
-            onKeydown={onKeydown}
-          >
-            {{
-              default: (props: ItemProps<any>) => <Item {...props} />,
-            }}
-          </List>
+        <div
+          class={[ns.b('dropdown'), ns.is('multiple', multiple)]}
+          style={{
+            width: `${width}px`,
+          }}
+        >
+          {slots.header?.()}
+          {slots.loading?.() || slots.empty?.() || (
+            <List
+              ref={listRef}
+              {...unref(listProps)}
+              className={ns.be('dropdown', 'list')}
+              scrollbarAlwaysOn={scrollbarAlwaysOn}
+              data={data}
+              height={height}
+              width={width}
+              total={data.length}
+              // @ts-ignore - dts problem
+              onKeydown={onKeydown}
+            >
+              {{
+                default: (props: ItemProps<any>) => <Item {...props} />,
+              }}
+            </List>
+          )}
+          {slots.footer?.()}
         </div>
       )
     }

@@ -1,5 +1,5 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type Link from './link.vue'
 
 export const linkProps = buildProps({
@@ -21,11 +21,18 @@ export const linkProps = buildProps({
   /**
    * @description whether the component is disabled
    */
-  disabled: { type: Boolean, default: false },
+  disabled: Boolean,
   /**
    * @description same as native hyperlink's `href`
    */
   href: { type: String, default: '' },
+  /**
+   * @description same as native hyperlink's `target`
+   */
+  target: {
+    type: String as PropType<'_blank' | '_parent' | '_self' | '_top' | string>,
+    default: '_self',
+  },
   /**
    * @description icon component
    */

@@ -153,6 +153,5 @@ onMounted(async () => {
         <slot name="aside-bottom" />
       </template>
     </VPContent>
-    <Debug />
   </div>
 </template>

@@ -1,5 +1,5 @@
 import { buildProps } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { radioEmits } from './radio'
 import type { ExtractPropTypes } from '@vue/runtime-core'
 import type RadioGroup from './radio-group.vue'
@@ -25,7 +25,7 @@ export const radioGroupProps = buildProps({
    */
   modelValue: {
     type: [String, Number, Boolean],
-    default: '',
+    default: undefined,
   },
   /**
    * @description border and background color when button is active
@@ -33,13 +33,6 @@ export const radioGroupProps = buildProps({
   fill: {
     type: String,
     default: '',
-  },
-  /**
-   * @description same as `aria-label` in RadioGroup
-   */
-  label: {
-    type: String,
-    default: undefined,
   },
   /**
    * @description font color when button is active
@@ -62,6 +55,7 @@ export const radioGroupProps = buildProps({
     type: Boolean,
     default: true,
   },
+  ...useAriaProps(['ariaLabel']),
 } as const)
 export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>
 

@@ -3,7 +3,7 @@
     :id="inputId"
     :class="[rateClasses, ns.is('disabled', rateDisabled)]"
     role="slider"
-    :aria-label="!isLabeledByFormItem ? label || 'rating' : undefined"
+    :aria-label="!isLabeledByFormItem ? ariaLabel || 'rating' : undefined"
     :aria-labelledby="
       isLabeledByFormItem ? formItemContext?.labelId : undefined
     "
@@ -67,7 +67,6 @@ import {
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { rateEmits, rateProps } from './rate'
-import type { iconPropType } from '@element-plus/utils'
 import type { CSSProperties, Component } from 'vue'
 
 function getValueFromMap<T>(
@@ -183,10 +182,10 @@ const voidComponent = computed(() =>
   rateDisabled.value
     ? isString(props.disabledVoidIcon)
       ? props.disabledVoidIcon
-      : (markRaw(props.disabledVoidIcon) as typeof iconPropType)
+      : (markRaw(props.disabledVoidIcon) as Component)
     : isString(props.voidIcon)
     ? props.voidIcon
-    : (markRaw(props.voidIcon) as typeof iconPropType)
+    : (markRaw(props.voidIcon) as Component)
 )
 const activeComponent = computed(() =>
   getValueFromMap(currentValue.value, componentMap.value)

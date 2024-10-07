@@ -10,6 +10,7 @@
     :stop-popper-mouse-event="false"
     effect="light"
     trigger="click"
+    :teleported="teleported"
     :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
     @hide="setShowPicker(false)"
@@ -24,6 +25,7 @@
         <predefine
           v-if="predefine"
           ref="predefine"
+          :enable-alpha="showAlpha"
           :color="color"
           :colors="predefine"
         />
@@ -61,6 +63,7 @@
       <div
         :id="buttonId"
         ref="triggerRef"
+        v-bind="$attrs"
         :class="btnKls"
         role="button"
         :aria-label="buttonAriaLabel"
@@ -168,11 +171,10 @@ const popper = ref<TooltipInstance>()
 const triggerRef = ref()
 const inputRef = ref()
 
-const {
-  isFocused,
-  handleFocus: _handleFocus,
-  handleBlur,
-} = useFocusController(triggerRef, {
+const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
+  beforeFocus() {
+    return colorDisabled.value
+  },
   beforeBlur(event) {
     return popper.value?.isFocusInsideContent(event)
   },
@@ -181,11 +183,6 @@ const {
     resetColor()
   },
 })
-
-const handleFocus = (event: FocusEvent) => {
-  if (colorDisabled.value) return blur()
-  _handleFocus(event)
-}
 
 // active-change is used to prevent modelValue changes from triggering.
 let shouldActiveChange = true
@@ -215,7 +212,7 @@ const currentColor = computed(() => {
 
 const buttonAriaLabel = computed<string | undefined>(() => {
   return !isLabeledByFormItem.value
-    ? props.label || t('el.colorpicker.defaultLabel')
+    ? props.ariaLabel || t('el.colorpicker.defaultLabel')
     : undefined
 })
 
@@ -312,14 +309,10 @@ function clear() {
   resetColor()
 }
 
-function handleClickOutside(event: Event) {
+function handleClickOutside() {
   if (!showPicker.value) return
   hide()
-
-  if (isFocused.value) {
-    const _event = new FocusEvent('focus', event)
-    handleBlur(_event)
-  }
+  isFocused.value && focus()
 }
 
 function handleEsc(event: KeyboardEvent) {
@@ -367,6 +360,16 @@ watch(
       shouldActiveChange = false
       color.fromString(newVal)
     }
+  }
+)
+
+watch(
+  () => [props.colorFormat, props.showAlpha],
+  () => {
+    color.enableAlpha = props.showAlpha
+    color.format = props.colorFormat || color.format
+    color.doOnChange()
+    emit(UPDATE_MODEL_EVENT, color.value)
   }
 )
 

@@ -28,6 +28,34 @@
 
   cursor: pointer;
   outline: none;
+
+  @include when(disabled) {
+    cursor: not-allowed;
+    &:focus {
+      border-color: getCssVar('border-color', 'darker');
+      color: inherit;
+      .#{$namespace}-upload-dragger {
+        border-color: getCssVar('border-color', 'darker');
+      }
+    }
+    .#{$namespace}-upload-dragger {
+      cursor: not-allowed;
+      background-color: getCssVar('disabled-bg-color');
+
+      .#{bem('upload', 'text')} {
+        color: getCssVar('text-color-placeholder');
+
+        em {
+          color: getCssVar('disabled-text-color');
+        }
+      }
+
+      &:hover {
+        border-color: getCssVar('border-color', 'darker');
+      }
+    }
+  }
+
   @include e(input) {
     display: none;
   }
@@ -144,6 +172,7 @@
   padding: 0;
   list-style: none;
   position: relative;
+
   @include e(item) {
     transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     font-size: 14px;
@@ -246,6 +275,7 @@
       &:active {
         /* click时 */
         outline-width: 0;
+
         .#{bem('icon', '', 'close-tip')} {
           display: none;
         }
@@ -340,6 +370,7 @@
       .#{bem('icon', '', 'close')} {
         display: none;
       }
+
       &:hover {
         .#{bem('upload-list', 'item-status-label')} {
           opacity: 0;
@@ -393,7 +424,7 @@
       }
 
       span + span {
-        margin-left: 1rem;
+        margin-left: 16px;
       }
 
       .#{bem('upload-list', 'item-delete')} {
@@ -404,6 +435,7 @@
 
       &:hover {
         opacity: 1;
+
         span {
           display: inline-flex;
         }

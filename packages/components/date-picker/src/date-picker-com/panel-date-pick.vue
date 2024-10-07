@@ -71,7 +71,9 @@
               :class="ppNs.e('icon-btn')"
               @click="moveByYear(false)"
             >
-              <el-icon><d-arrow-left /></el-icon>
+              <slot name="prev-year">
+                <el-icon><d-arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               v-show="currentView === 'date'"
@@ -81,7 +83,9 @@
               class="arrow-left"
               @click="moveByMonth(false)"
             >
-              <el-icon><arrow-left /></el-icon>
+              <slot name="prev-month">
+                <el-icon><arrow-left /></el-icon>
+              </slot>
             </button>
           </span>
           <span
@@ -115,7 +119,9 @@
               class="arrow-right"
               @click="moveByMonth(true)"
             >
-              <el-icon><arrow-right /></el-icon>
+              <slot name="next-month">
+                <el-icon><arrow-right /></el-icon>
+              </slot>
             </button>
             <button
               type="button"
@@ -124,7 +130,9 @@
               class="d-arrow-right"
               @click="moveByYear(true)"
             >
-              <el-icon><d-arrow-right /></el-icon>
+              <slot name="next-year">
+                <el-icon><d-arrow-right /></el-icon>
+              </slot>
             </button>
           </span>
         </div>
@@ -142,6 +150,7 @@
           <year-table
             v-if="currentView === 'year'"
             ref="currentViewRef"
+            :selection-mode="selectionMode"
             :date="innerDate"
             :disabled-date="disabledDate"
             :parsed-value="parsedValue"
@@ -150,6 +159,7 @@
           <month-table
             v-if="currentView === 'month'"
             ref="currentViewRef"
+            :selection-mode="selectionMode"
             :date="innerDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
@@ -158,12 +168,9 @@
         </div>
       </div>
     </div>
-    <div
-      v-show="footerVisible && currentView === 'date'"
-      :class="ppNs.e('footer')"
-    >
+    <div v-show="footerVisible" :class="ppNs.e('footer')">
       <el-button
-        v-show="selectionMode !== 'dates'"
+        v-show="!isMultipleType"
         text
         size="small"
         :class="ppNs.e('link-btn')"
@@ -217,6 +224,7 @@ import {
 } from '@element-plus/icons-vue'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
+import { getValidDateOfMonth, getValidDateOfYear } from '../utils'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -227,7 +235,9 @@ import type { PanelDatePickProps } from '../props/panel-date-pick'
 import type {
   DateTableEmits,
   DatesPickerEmits,
+  MonthsPickerEmits,
   WeekPickerEmits,
+  YearsPickerEmits,
 } from '../props/basic-date-table'
 
 type DatePickType = PanelDatePickProps['type']
@@ -305,7 +315,7 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   isChangeToNow.value = false
   isShortcut = false
 }
-const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
+const handleDatePick = async (value: DateTableEmits, keepOpen?: boolean) => {
   if (selectionMode.value === 'date') {
     value = value as Dayjs
     let newDate = props.parsedValue
@@ -323,6 +333,11 @@ const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
     }
     innerDate.value = newDate
     emit(newDate, showTime.value || keepOpen)
+    // fix: https://github.com/element-plus/element-plus/issues/14728
+    if (props.type === 'datetime') {
+      await nextTick()
+      handleFocusPicker()
+    }
   } else if (selectionMode.value === 'week') {
     emit((value as WeekPickerEmits).date)
   } else if (selectionMode.value === 'dates') {
@@ -389,8 +404,17 @@ const handleShortcutClick = (shortcut: Shortcut) => {
 
 const selectionMode = computed<DatePickType>(() => {
   const { type } = props
-  if (['week', 'month', 'year', 'dates'].includes(type)) return type
+  if (['week', 'month', 'months', 'year', 'years', 'dates'].includes(type))
+    return type
   return 'date' as DatePickType
+})
+
+const isMultipleType = computed(() => {
+  return (
+    selectionMode.value === 'dates' ||
+    selectionMode.value === 'months' ||
+    selectionMode.value === 'years'
+  )
 })
 
 const keyboardMode = computed<string>(() => {
@@ -401,11 +425,27 @@ const keyboardMode = computed<string>(() => {
 
 const hasShortcuts = computed(() => !!shortcuts.length)
 
-const handleMonthPick = async (month: number) => {
-  innerDate.value = innerDate.value.startOf('month').month(month)
+const handleMonthPick = async (
+  month: number | MonthsPickerEmits,
+  keepOpen?: boolean
+) => {
   if (selectionMode.value === 'month') {
+    innerDate.value = getValidDateOfMonth(
+      innerDate.value.year(),
+      month as number,
+      lang.value,
+      disabledDate
+    )
     emit(innerDate.value, false)
+  } else if (selectionMode.value === 'months') {
+    emit(month as MonthsPickerEmits, keepOpen ?? true)
   } else {
+    innerDate.value = getValidDateOfMonth(
+      innerDate.value.year(),
+      month as number,
+      lang.value,
+      disabledDate
+    )
     currentView.value = 'date'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
       emit(innerDate.value, true)
@@ -416,12 +456,19 @@ const handleMonthPick = async (month: number) => {
   handlePanelChange('month')
 }
 
-const handleYearPick = async (year: number) => {
+const handleYearPick = async (
+  year: number | YearsPickerEmits,
+  keepOpen?: boolean
+) => {
   if (selectionMode.value === 'year') {
-    innerDate.value = innerDate.value.startOf('year').year(year)
+    const data = innerDate.value.startOf('year').year(year as number)
+    innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
     emit(innerDate.value, false)
+  } else if (selectionMode.value === 'years') {
+    emit(year as YearsPickerEmits, keepOpen ?? true)
   } else {
-    innerDate.value = innerDate.value.year(year)
+    const data = innerDate.value.year(year as number)
+    innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
     currentView.value = 'month'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
       emit(innerDate.value, true)
@@ -443,7 +490,17 @@ const showTime = computed(
 )
 
 const footerVisible = computed(() => {
-  return showTime.value || selectionMode.value === 'dates'
+  const showDateFooter = showTime.value || selectionMode.value === 'dates'
+  const showYearFooter = selectionMode.value === 'years'
+  const showMonthFooter = selectionMode.value === 'months'
+  const isDateView = currentView.value === 'date'
+  const isYearView = currentView.value === 'year'
+  const isMonthView = currentView.value === 'month'
+  return (
+    (showDateFooter && isDateView) ||
+    (showYearFooter && isYearView) ||
+    (showMonthFooter && isMonthView)
+  )
 })
 
 const disabledConfirm = computed(() => {
@@ -455,7 +512,7 @@ const disabledConfirm = computed(() => {
   return disabledDate(props.parsedValue.toDate())
 })
 const onConfirm = () => {
-  if (selectionMode.value === 'dates') {
+  if (isMultipleType.value) {
     emit(props.parsedValue as Dayjs[])
   } else {
     // deal with the scenario where: user opens the date time picker, then confirm without doing anything
@@ -580,10 +637,9 @@ const isValidValue = (date: unknown) => {
 }
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
-  if (selectionMode.value === 'dates') {
-    return (value as Dayjs[]).map((_) => _.format(props.format))
-  }
-  return (value as Dayjs).format(props.format)
+  return isArray(value)
+    ? (value as Dayjs[]).map((_) => _.format(props.format))
+    : (value as Dayjs).format(props.format)
 }
 
 const parseUserInput = (value: Dayjs) => {
@@ -725,6 +781,12 @@ watch(
     if (['month', 'year'].includes(val)) {
       currentView.value = val
       return
+    } else if (val === 'years') {
+      currentView.value = 'year'
+      return
+    } else if (val === 'months') {
+      currentView.value = 'month'
+      return
     }
     currentView.value = 'date'
   },
@@ -752,7 +814,7 @@ watch(
   () => props.parsedValue,
   (val) => {
     if (val) {
-      if (selectionMode.value === 'dates') return
+      if (isMultipleType.value) return
       if (Array.isArray(val)) return
       innerDate.value = val
     } else {

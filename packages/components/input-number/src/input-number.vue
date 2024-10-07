@@ -17,10 +17,12 @@
       :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
       @keydown.enter="decrease"
     >
-      <el-icon>
-        <arrow-down v-if="controlsAtRight" />
-        <minus v-else />
-      </el-icon>
+      <slot name="decrease-icon">
+        <el-icon>
+          <arrow-down v-if="controlsAtRight" />
+          <minus v-else />
+        </el-icon>
+      </slot>
     </span>
     <span
       v-if="controls"
@@ -30,10 +32,12 @@
       :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
       @keydown.enter="increase"
     >
-      <el-icon>
-        <arrow-up v-if="controlsAtRight" />
-        <plus v-else />
-      </el-icon>
+      <slot name="increase-icon">
+        <el-icon>
+          <arrow-up v-if="controlsAtRight" />
+          <plus v-else />
+        </el-icon>
+      </slot>
     </span>
     <el-input
       :id="id"
@@ -48,16 +52,22 @@
       :max="max"
       :min="min"
       :name="name"
-      :label="label"
+      :aria-label="ariaLabel"
       :validate-event="false"
-      @wheel.prevent
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
       @blur="handleBlur"
       @focus="handleFocus"
       @input="handleInput"
       @change="handleInputChange"
-    />
+    >
+      <template v-if="$slots.prefix" #prefix>
+        <slot name="prefix" />
+      </template>
+      <template v-if="$slots.suffix" #suffix>
+        <slot name="suffix" />
+      </template>
+    </el-input>
   </div>
 </template>
 <script lang="ts" setup>
@@ -189,6 +199,7 @@ const increase = () => {
   const newVal = ensurePrecision(value)
   setCurrentValue(newVal)
   emit(INPUT_EVENT, data.currentValue)
+  setCurrentValueToModelValue()
 }
 const decrease = () => {
   if (props.readonly || inputNumberDisabled.value || minDisabled.value) return
@@ -196,6 +207,7 @@ const decrease = () => {
   const newVal = ensurePrecision(value, -1)
   setCurrentValue(newVal)
   emit(INPUT_EVENT, data.currentValue)
+  setCurrentValueToModelValue()
 }
 const verifyValue = (
   value: number | string | null | undefined,
@@ -217,6 +229,9 @@ const verifyValue = (
   }
   if (stepStrictly) {
     newVal = toPrecision(Math.round(newVal / step) * step, precision)
+    if (newVal !== value) {
+      update && emit(UPDATE_MODEL_EVENT, newVal)
+    }
   }
   if (!isUndefined(precision)) {
     newVal = toPrecision(newVal, precision)
@@ -237,10 +252,12 @@ const setCurrentValue = (
     emit(UPDATE_MODEL_EVENT, newVal!)
     return
   }
-  if (oldVal === newVal) return
+  if (oldVal === newVal && value) return
   data.userInput = null
   emit(UPDATE_MODEL_EVENT, newVal!)
-  emit(CHANGE_EVENT, newVal!, oldVal!)
+  if (oldVal !== newVal) {
+    emit(CHANGE_EVENT, newVal!, oldVal!)
+  }
   if (props.validateEvent) {
     formItem?.validate?.('change').catch((err) => debugWarn(err))
   }
@@ -257,6 +274,7 @@ const handleInputChange = (value: string) => {
   if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
     setCurrentValue(newVal)
   }
+  setCurrentValueToModelValue()
   data.userInput = null
 }
 
@@ -273,20 +291,28 @@ const handleFocus = (event: MouseEvent | FocusEvent) => {
 }
 
 const handleBlur = (event: MouseEvent | FocusEvent) => {
+  data.userInput = null
   emit('blur', event)
   if (props.validateEvent) {
     formItem?.validate?.('blur').catch((err) => debugWarn(err))
   }
 }
 
+const setCurrentValueToModelValue = () => {
+  if (data.currentValue !== props.modelValue) {
+    data.currentValue = props.modelValue
+  }
+}
+const handleWheel = (e: WheelEvent) => {
+  if (document.activeElement === e.target) e.preventDefault()
+}
+
 watch(
   () => props.modelValue,
-  (value) => {
-    const userInput = verifyValue(data.userInput)
+  (value, oldValue) => {
     const newValue = verifyValue(value, true)
-    if (!isNumber(userInput) && (!userInput || userInput !== newValue)) {
+    if (data.userInput === null && newValue !== oldValue) {
       data.currentValue = newValue
-      data.userInput = null
     }
   },
   { immediate: true }
@@ -319,6 +345,7 @@ onMounted(() => {
     }
     emit(UPDATE_MODEL_EVENT, val!)
   }
+  innerInput.addEventListener('wheel', handleWheel, { passive: false })
 })
 onUpdated(() => {
   const innerInput = input.value?.input

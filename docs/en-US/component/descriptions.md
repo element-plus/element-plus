@@ -31,6 +31,14 @@ descriptions/vertical-list
 
 :::
 
+## Rowspan ^(2.8.1)
+
+:::demo
+
+descriptions/rowspan
+
+:::
+
 ## Customized Style
 
 :::demo
@@ -64,10 +72,11 @@ descriptions/customized-style
 
 ### DescriptionsItem Attributes
 
-| Name             | Description                                                                                                                                                                                  | Type                                  | Default |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | ------- |
+| Name             | Description                                                                                                                                                                                  | Type                                   | Default |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ------- |
 | label            | label text                                                                                                                                                                                   | ^[string]                              | ''      |
 | span             | colspan of column                                                                                                                                                                            | ^[number]                              | 1       |
+| rowspan ^(2.8.1) | the number of rows a cell should span                                                                                                                                                        | ^[number]                              | 1       |
 | width            | column width, the width of the same column in different rows is set by the max value (If no `border`, width contains label and content)                                                      | ^[string] / ^[number]                  | ''      |
 | min-width        | column minimum width, columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion (If no`border`, width contains label and content) | ^[string] / ^[number]                  | ''      |
 | align            | column content alignment (If no `border`, effective for both label and content)                                                                                                              | ^[enum]`'left' \| 'center' \| 'right'` | left    |

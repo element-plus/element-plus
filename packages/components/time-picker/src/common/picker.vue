@@ -11,8 +11,9 @@
     :transition="`${nsDate.namespace.value}-zoom-in-top`"
     :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass]"
     :popper-options="elPopperOptions"
-    :fallback-placements="['bottom', 'top', 'right', 'left']"
+    :fallback-placements="fallbackPlacements"
     :gpu-acceleration="false"
+    :placement="placement"
     :stop-popper-mouse-event="false"
     :hide-after="0"
     persistent
@@ -33,8 +34,15 @@
         :placeholder="placeholder"
         :class="[nsDate.b('editor'), nsDate.bm('editor', type), $attrs.class]"
         :style="$attrs.style"
-        :readonly="!editable || readonly || isDatesPicker || type === 'week'"
-        :label="label"
+        :readonly="
+          !editable ||
+          readonly ||
+          isDatesPicker ||
+          isMonthsPicker ||
+          isYearsPicker ||
+          type === 'week'
+        "
+        :aria-label="ariaLabel"
         :tabindex="tabindex"
         :validate-event="false"
         @input="onUserInput"
@@ -48,7 +56,7 @@
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
-        @touchstart="onTouchStartInput"
+        @touchstart.passive="onTouchStartInput"
         @click.stop
       >
         <template #prefix>
@@ -56,7 +64,7 @@
             v-if="triggerIcon"
             :class="nsInput.e('icon')"
             @mousedown.prevent="onMouseDownInput"
-            @touchstart="onTouchStartInput"
+            @touchstart.passive="onTouchStartInput"
           >
             <component :is="triggerIcon" />
           </el-icon>
@@ -79,14 +87,14 @@
         @click="handleFocusInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
-        @touchstart="onTouchStartInput"
+        @touchstart.passive="onTouchStartInput"
         @keydown="handleKeydownInput"
       >
         <el-icon
           v-if="triggerIcon"
           :class="[nsInput.e('icon'), nsRange.e('icon')]"
           @mousedown.prevent="onMouseDownInput"
-          @touchstart="onTouchStartInput"
+          @touchstart.passive="onTouchStartInput"
         >
           <component :is="triggerIcon" />
         </el-icon>
@@ -159,6 +167,7 @@ import {
   computed,
   inject,
   nextTick,
+  onBeforeUnmount,
   provide,
   ref,
   unref,
@@ -167,7 +176,7 @@ import {
 } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useEmptyValues, useLocale, useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
@@ -204,6 +213,7 @@ const emit = defineEmits([
   'change',
   'focus',
   'blur',
+  'clear',
   'calendar-change',
   'panel-change',
   'visible-change',
@@ -219,6 +229,7 @@ const nsRange = useNamespace('range')
 
 const { form, formItem } = useFormItem()
 const elPopperOptions = inject('ElPopperOptions', {} as Options)
+const { valueOnClear } = useEmptyValues(props, null)
 
 const refPopper = ref<TooltipInstance>()
 const inputRef = ref<HTMLElement | ComponentPublicInstance>()
@@ -443,11 +454,15 @@ const parsedValue = computed(() => {
     )
     if (!isEqual(availableResult, dayOrDays!)) {
       dayOrDays = availableResult
-      emitInput(
-        (isArray(dayOrDays)
-          ? dayOrDays.map((_) => _.toDate())
-          : dayOrDays.toDate()) as SingleOrRange<Date>
-      )
+
+      // The result is corrected only when model-value exists
+      if (!valueIsEmpty.value) {
+        emitInput(
+          (isArray(dayOrDays)
+            ? dayOrDays.map((_) => _.toDate())
+            : dayOrDays.toDate()) as SingleOrRange<Date>
+        )
+      }
     }
   }
   if (isArray(dayOrDays!) && dayOrDays.some((day) => !day)) {
@@ -470,7 +485,7 @@ const displayValue = computed<UserInput>(() => {
   if (!isTimePicker.value && valueIsEmpty.value) return ''
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
-    return isDatesPicker.value
+    return isDatesPicker.value || isMonthsPicker.value || isYearsPicker.value
       ? (formattedValue as Array<string>).join(', ')
       : formattedValue
   }
@@ -483,6 +498,10 @@ const isTimePicker = computed(() => props.type.startsWith('time'))
 
 const isDatesPicker = computed(() => props.type === 'dates')
 
+const isMonthsPicker = computed(() => props.type === 'months')
+
+const isYearsPicker = computed(() => props.type === 'years')
+
 const triggerIcon = computed(
   () => props.prefixIcon || (isTimeLikePicker.value ? Clock : Calendar)
 )
@@ -494,12 +513,18 @@ const onClearIconClick = (event: MouseEvent) => {
   if (showClose.value) {
     event.stopPropagation()
     focusOnInputBox()
-    emitInput(null)
-    emitChange(null, true)
+    // When the handleClear Function was provided, emit null will be executed inside it
+    // There is no need for us to execute emit null twice. #14752
+    if (pickerOptions.value.handleClear) {
+      pickerOptions.value.handleClear()
+    } else {
+      emitInput(valueOnClear.value)
+    }
+    emitChange(valueOnClear.value, true)
     showClose.value = false
-    pickerVisible.value = false
-    pickerOptions.value.handleClear && pickerOptions.value.handleClear()
+    onHide()
   }
+  emit('clear')
 }
 
 const valueIsEmpty = computed(() => {
@@ -551,7 +576,7 @@ const actualInputRef = computed(() => {
   return (unref(inputRef) as ComponentPublicInstance)?.$el
 })
 
-onClickOutside(actualInputRef, (e: PointerEvent) => {
+const stophandle = onClickOutside(actualInputRef, (e: PointerEvent) => {
   const unrefedPopperEl = unref(popperEl)
   const inputEl = unref(actualInputRef)
   if (
@@ -563,6 +588,10 @@ onClickOutside(actualInputRef, (e: PointerEvent) => {
   )
     return
   pickerVisible.value = false
+})
+
+onBeforeUnmount(() => {
+  stophandle?.()
 })
 
 const userInput = ref<UserInput>(null)
@@ -582,8 +611,8 @@ const handleChange = () => {
     }
   }
   if (userInput.value === '') {
-    emitInput(null)
-    emitChange(null)
+    emitInput(valueOnClear.value)
+    emitChange(valueOnClear.value)
     userInput.value = null
   }
 }

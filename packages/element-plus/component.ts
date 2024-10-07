@@ -103,6 +103,10 @@ import { ElTreeSelect } from '@element-plus/components/tree-select'
 import { ElTreeV2 } from '@element-plus/components/tree-v2'
 import { ElUpload } from '@element-plus/components/upload'
 import { ElWatermark } from '@element-plus/components/watermark'
+import { ElTour, ElTourStep } from '@element-plus/components/tour'
+import { ElAnchor, ElAnchorLink } from '@element-plus/components/anchor'
+import { ElSegmented } from '@element-plus/components/segmented'
+import { ElMention } from '@element-plus/components/mention'
 
 import type { Plugin } from 'vue'
 
@@ -206,4 +210,10 @@ export default [
   ElTreeV2,
   ElUpload,
   ElWatermark,
+  ElTour,
+  ElTourStep,
+  ElAnchor,
+  ElAnchorLink,
+  ElSegmented,
+  ElMention,
 ] as Plugin[]

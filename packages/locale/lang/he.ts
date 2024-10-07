@@ -1,6 +1,9 @@
 export default {
   name: 'he',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'אישור',
       clear: 'נקה',
@@ -65,6 +68,9 @@ export default {
       noData: 'אין נתונים',
       placeholder: 'שומר מקום',
     },
+    mention: {
+      loading: 'טוען',
+    },
     cascader: {
       noMatch: 'לא נמצאה התאמה',
       loading: 'טוען',
@@ -122,6 +128,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'כן',
       cancelButtonText: 'לא',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

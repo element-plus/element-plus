@@ -7,12 +7,6 @@ lang: en-US
 
 Drag the slider within a fixed range.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 The current value is displayed when the slider is being dragged.
@@ -87,38 +81,53 @@ slider/show-marks
 
 :::
 
-## Attributes
+## API
 
-| Name                  | Description                                                                                              | Type            | Accepted Values                                                                                           | Default |
-| --------------------- | -------------------------------------------------------------------------------------------------------- | --------------- | --------------------------------------------------------------------------------------------------------- | ------- |
-| model-value / v-model | binding value                                                                                            | number          | —                                                                                                         | 0       |
-| min                   | minimum value                                                                                            | number          | —                                                                                                         | 0       |
-| max                   | maximum value                                                                                            | number          | —                                                                                                         | 100     |
-| disabled              | whether Slider is disabled                                                                               | boolean         | —                                                                                                         | false   |
-| step                  | step size                                                                                                | number          | —                                                                                                         | 1       |
-| show-input            | whether to display an input box, works when `range` is false                                             | boolean         | —                                                                                                         | false   |
-| show-input-controls   | whether to display control buttons when `show-input` is true                                             | boolean         | —                                                                                                         | true    |
-| size                  | size of the slider wrapper, will not work in vertical mode                                               | string          | large / default / small                                                                                   | default |
-| input-size            | size of the input box, when set `size`, the default is the value of `size`                               | string          | large / default / small                                                                                   | default |
-| show-stops            | whether to display breakpoints                                                                           | boolean         | —                                                                                                         | false   |
-| show-tooltip          | whether to display tooltip value                                                                         | boolean         | —                                                                                                         | true    |
-| format-tooltip        | format to display tooltip value                                                                          | function(value) | —                                                                                                         | —       |
-| range                 | whether to select a range                                                                                | boolean         | —                                                                                                         | false   |
-| vertical              | vertical mode                                                                                            | boolean         | —                                                                                                         | false   |
-| height                | Slider height, required in vertical mode                                                                 | string          | —                                                                                                         | —       |
-| label                 | label for screen reader                                                                                  | string          | —                                                                                                         | —       |
-| range-start-label     | when `range` is true, screen reader label for the start of the range                                     | string          | —                                                                                                         | —       |
-| range-end-label       | when `range` is true, screen reader label for the end of the range                                       | string          | —                                                                                                         | —       |
-| format-value-text     | format to display the `aria-valuenow` attribute for screen readers                                       | function(value) | —                                                                                                         | —       |
-| debounce              | debounce delay when typing, in milliseconds, works when `show-input` is true                             | number          | —                                                                                                         | 300     |
-| tooltip-class         | custom class name for the tooltip                                                                        | string          | —                                                                                                         | —       |
-| placement             | position of Tooltip                                                                                      | string          | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | top     |
-| marks                 | marks, type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style | object          | —                                                                                                         | —       |
-| validate-event        | whether to trigger form validation                                                                       | boolean         | -                                                                                                         | true    |
+### Attributes
 
-## Events
+| Name                        | Description                                                                                              | Type                                                                                                                                                                        | Default |
+| --------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| model-value / v-model       | binding value                                                                                            | ^[number] / ^[object]`number[]`                                                                                                                                             | 0       |
+| min                         | minimum value                                                                                            | ^[number]                                                                                                                                                                   | 0       |
+| max                         | maximum value                                                                                            | ^[number]                                                                                                                                                                   | 100     |
+| disabled                    | whether Slider is disabled                                                                               | ^[boolean]                                                                                                                                                                  | false   |
+| step                        | step size                                                                                                | ^[number]                                                                                                                                                                   | 1       |
+| show-input                  | whether to display an input box, works when `range` is false                                             | ^[boolean]                                                                                                                                                                  | false   |
+| show-input-controls         | whether to display control buttons when `show-input` is true                                             | ^[boolean]                                                                                                                                                                  | true    |
+| size                        | size of the slider wrapper, will not work in vertical mode                                               | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | default |
+| input-size                  | size of the input box, when set `size`, the default is the value of `size`                               | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | default |
+| show-stops                  | whether to display breakpoints                                                                           | ^[boolean]                                                                                                                                                                  | false   |
+| show-tooltip                | whether to display tooltip value                                                                         | ^[boolean]                                                                                                                                                                  | true    |
+| format-tooltip              | format to display tooltip value                                                                          | ^[Function]`(value: number) => number \| string`                                                                                                                            | —       |
+| range                       | whether to select a range                                                                                | ^[boolean]                                                                                                                                                                  | false   |
+| vertical                    | vertical mode                                                                                            | ^[boolean]                                                                                                                                                                  | false   |
+| height                      | slider height, required in vertical mode                                                                 | ^[string]                                                                                                                                                                   | —       |
+| label ^(a11y) ^(deprecated) | native `aria-label` attribute                                                                            | ^[string]                                                                                                                                                                   | —       |
+| aria-label ^(a11y) ^(2.7.2) | native `aria-label` attribute                                                                            | ^[string]                                                                                                                                                                   | —       |
+| range-start-label           | when `range` is true, screen reader label for the start of the range                                     | ^[string]                                                                                                                                                                   | —       |
+| range-end-label             | when `range` is true, screen reader label for the end of the range                                       | ^[string]                                                                                                                                                                   | —       |
+| format-value-text           | format to display the `aria-valuenow` attribute for screen readers                                       | ^[Function]`(value: number) => string`                                                                                                                                      | —       |
+| debounce                    | debounce delay when typing, in milliseconds, works when `show-input` is true                             | ^[number]                                                                                                                                                                   | 300     |
+| tooltip-class               | custom class name for the tooltip                                                                        | ^[string]                                                                                                                                                                   | —       |
+| placement                   | position of Tooltip                                                                                      | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | top     |
+| marks                       | marks, type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style | ^[object]`SliderMarks`                                                                                                                                                      | —       |
+| validate-event              | whether to trigger form validation                                                                       | ^[boolean]                                                                                                                                                                  | true    |
 
-| Name   | Description                                                                                                       | Parameters           |
-| ------ | ----------------------------------------------------------------------------------------------------------------- | -------------------- |
-| change | triggers when the value changes (if the mouse is being dragged, this event only fires when the mouse is released) | value after changing |
-| input  | triggers when the data changes (It'll be emitted in real time during sliding)                                     | value after changing |
+### Events
+
+| Name   | Description                                                                                                       | Type                                               |
+| ------ | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| change | triggers when the value changes (if the mouse is being dragged, this event only fires when the mouse is released) | ^[Function]`(value: Arrayable<number>) => boolean` |
+| input  | triggers when the data changes (It'll be emitted in real time during sliding)                                     | ^[Function]`(value: Arrayable<number>) => boolean` |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type SliderMarks = Record<number, string | { style: CSSProperties; label: any }>
+type Arrayable<T> = T | T[]
+```
+
+</details>
