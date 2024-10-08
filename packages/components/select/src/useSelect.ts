@@ -9,7 +9,6 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import { isArray, isObject, toRawType } from '@vue/shared'
 import {
   findLastIndex,
   get,
@@ -18,20 +17,26 @@ import {
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import {
+  ValidateComponentsMap,
+  debugWarn,
+  ensureArray,
+  isArray,
+  isClient,
+  isFunction,
+  isIOS,
+  isNumber,
+  isObject,
+  isUndefined,
+  scrollIntoView,
+  toRawType,
+} from '@element-plus/utils'
+import {
   CHANGE_EVENT,
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
-  ValidateComponentsMap,
-  debugWarn,
-  isClient,
-  isFunction,
-  isNumber,
-  isUndefined,
-  scrollIntoView,
-} from '@element-plus/utils'
-import {
+  useComposition,
   useEmptyValues,
   useFocusController,
   useId,
@@ -44,7 +49,6 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 
-import { useInput } from '../../select-v2/src/useInput'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { ISelectProps, SelectOptionProxy } from './token'
 
@@ -62,7 +66,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     cachedOptions: new Map(),
     disabledOptions: new Map(),
     optionValues: [] as any[], // sorted value of options
-    selected: props.multiple ? [] : ({} as any),
+    selected: [] as any[],
     selectionWidth: 0,
     calculatorWidth: 0,
     collapseItemWidth: 0,
@@ -90,27 +94,36 @@ export const useSelect = (props: ISelectProps, emit) => {
     handleScroll: () => void
   } | null>(null)
 
-  const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
-    inputRef,
-    {
-      afterFocus() {
-        if (props.automaticDropdown && !expanded.value) {
-          expanded.value = true
-          states.menuVisibleOnFocus = true
-        }
-      },
-      beforeBlur(event) {
-        return (
-          tooltipRef.value?.isFocusInsideContent(event) ||
-          tagTooltipRef.value?.isFocusInsideContent(event)
-        )
-      },
-      afterBlur() {
-        expanded.value = false
-        states.menuVisibleOnFocus = false
-      },
-    }
-  )
+  const {
+    isComposing,
+    handleCompositionStart,
+    handleCompositionUpdate,
+    handleCompositionEnd,
+  } = useComposition({
+    afterComposition: (e) => onInput(e),
+  })
+
+  const { wrapperRef, isFocused } = useFocusController(inputRef, {
+    beforeFocus() {
+      return selectDisabled.value
+    },
+    afterFocus() {
+      if (props.automaticDropdown && !expanded.value) {
+        expanded.value = true
+        states.menuVisibleOnFocus = true
+      }
+    },
+    beforeBlur(event) {
+      return (
+        tooltipRef.value?.isFocusInsideContent(event) ||
+        tagTooltipRef.value?.isFocusInsideContent(event)
+      )
+    },
+    afterBlur() {
+      expanded.value = false
+      states.menuVisibleOnFocus = false
+    },
+  })
 
   // the controller of the expanded popup
   const expanded = ref(false)
@@ -125,8 +138,8 @@ export const useSelect = (props: ISelectProps, emit) => {
   const selectDisabled = computed(() => props.disabled || form?.disabled)
 
   const hasModelValue = computed(() => {
-    return props.multiple
-      ? isArray(props.modelValue) && props.modelValue.length > 0
+    return isArray(props.modelValue)
+      ? props.modelValue.length > 0
       : !isEmptyValue(props.modelValue)
   })
 
@@ -236,10 +249,13 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const shouldShowPlaceholder = computed(() => {
-    if (isArray(props.modelValue)) {
-      return props.modelValue.length === 0 && !states.inputValue
+    if (props.multiple && !isUndefined(props.modelValue)) {
+      return ensureArray(props.modelValue).length === 0 && !states.inputValue
     }
-    return props.filterable ? !states.inputValue : true
+    const value = isArray(props.modelValue)
+      ? props.modelValue[0]
+      : props.modelValue
+    return props.filterable || isUndefined(value) ? !states.inputValue : true
   })
 
   const currentPlaceholder = computed(() => {
@@ -248,6 +264,12 @@ export const useSelect = (props: ISelectProps, emit) => {
       ? _placeholder
       : states.selectedLabel
   })
+
+  // iOS Safari does not handle click events when a mouseenter event is registered and a DOM-change happens in a child
+  // We use a Vue custom event binding to only register the event on non-iOS devices
+  // ref.: https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html
+  // Github Issue: https://github.com/vuejs/vue/issues/9859
+  const mouseEnterEventName = computed(() => (isIOS ? null : 'mouseenter'))
 
   watch(
     () => props.modelValue,
@@ -334,7 +356,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const handleQueryChange = (val: string) => {
-    if (states.previousQuery === val) {
+    if (states.previousQuery === val || isComposing.value) {
       return
     }
     states.previousQuery = val
@@ -382,16 +404,19 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const setSelected = () => {
     if (!props.multiple) {
-      const option = getOption(props.modelValue)
+      const value = isArray(props.modelValue)
+        ? props.modelValue[0]
+        : props.modelValue
+      const option = getOption(value)
       states.selectedLabel = option.currentLabel
-      states.selected = option
+      states.selected = [option]
       return
     } else {
       states.selectedLabel = ''
     }
     const result: any[] = []
-    if (isArray(props.modelValue)) {
-      props.modelValue.forEach((value) => {
+    if (!isUndefined(props.modelValue)) {
+      ensureArray(props.modelValue).forEach((value) => {
         result.push(getOption(value))
       })
     }
@@ -434,17 +459,11 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const updateHoveringIndex = () => {
-    if (!props.multiple) {
-      states.hoveringIndex = optionsArray.value.findIndex((item) => {
-        return getValueKey(item) === getValueKey(states.selected)
-      })
-    } else {
-      states.hoveringIndex = optionsArray.value.findIndex((item) =>
-        states.selected.some(
-          (selected) => getValueKey(selected) === getValueKey(item)
-        )
+    states.hoveringIndex = optionsArray.value.findIndex((item) =>
+      states.selected.some(
+        (selected) => getValueKey(selected) === getValueKey(item)
       )
-    }
+    )
   }
 
   const resetSelectionWidth = () => {
@@ -501,19 +520,21 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (!props.multiple) return
     if (e.code === EVENT_CODE.delete) return
     if (e.target.value.length <= 0) {
-      const value = props.modelValue.slice()
+      const value = ensureArray(props.modelValue).slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(value)
       if (lastNotDisabledIndex < 0) return
+      const removeTagValue = value[lastNotDisabledIndex]
       value.splice(lastNotDisabledIndex, 1)
       emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
+      emit('remove-tag', removeTagValue)
     }
   }
 
   const deleteTag = (event, tag) => {
     const index = states.selected.indexOf(tag)
     if (index > -1 && !selectDisabled.value) {
-      const value = props.modelValue.slice()
+      const value = ensureArray(props.modelValue).slice()
       value.splice(index, 1)
       emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
@@ -541,7 +562,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const handleOptionSelect = (option) => {
     if (props.multiple) {
-      const value = (props.modelValue || []).slice()
+      const value = ensureArray(props.modelValue ?? []).slice()
       const optionIndex = getValueIndex(value, option.value)
       if (optionIndex > -1) {
         value.splice(optionIndex, 1)
@@ -622,12 +643,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   }
 
-  const {
-    handleCompositionStart,
-    handleCompositionUpdate,
-    handleCompositionEnd,
-  } = useInput((e) => onInput(e))
-
   const popperRef = computed(() => {
     return tooltipRef.value?.popperRef?.contentRef
   })
@@ -642,20 +657,16 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const blur = () => {
-    handleClickOutside()
+    inputRef.value?.blur()
   }
 
   const handleClearClick = (event: Event) => {
     deleteSelected(event)
   }
 
-  const handleClickOutside = (event: Event) => {
+  const handleClickOutside = () => {
     expanded.value = false
-
-    if (isFocused.value) {
-      const _event = new FocusEvent('focus', event)
-      nextTick(() => handleBlur(_event))
-    }
+    isFocused.value && blur()
   }
 
   const handleEsc = () => {
@@ -668,6 +679,10 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const toggleMenu = () => {
     if (selectDisabled.value) return
+
+    // We only set the inputHovering state to true on mouseenter event on iOS devices
+    // To keep the state updated we set it here to true
+    if (isIOS) states.inputHovering = true
 
     if (states.menuVisibleOnFocus) {
       // controlled by automaticDropdown
@@ -720,7 +735,12 @@ export const useSelect = (props: ISelectProps, emit) => {
       expanded.value = true
       return
     }
-    if (states.options.size === 0 || filteredOptionsCount.value === 0) return
+    if (
+      states.options.size === 0 ||
+      states.filteredOptionsCount === 0 ||
+      isComposing.value
+    )
+      return
 
     if (!optionsAllDisabled.value) {
       if (direction === 'next') {
@@ -770,13 +790,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
   }))
 
-  if (props.multiple && !isArray(props.modelValue)) {
-    emit(UPDATE_MODEL_EVENT, [])
-  }
-  if (!props.multiple && isArray(props.modelValue)) {
-    emit(UPDATE_MODEL_EVENT, '')
-  }
-
   useResizeObserver(selectionRef, resetSelectionWidth)
   useResizeObserver(calculatorRef, resetCalculatorWidth)
   useResizeObserver(menuRef, updateTooltip)
@@ -813,6 +826,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     hasModelValue,
     shouldShowPlaceholder,
     currentPlaceholder,
+    mouseEnterEventName,
     showClose,
     iconComponent,
     iconReverse,
@@ -830,10 +844,8 @@ export const useSelect = (props: ISelectProps, emit) => {
     onOptionCreate,
     onOptionDestroy,
     handleMenuEnter,
-    handleFocus,
     focus,
     blur,
-    handleBlur,
     handleClearClick,
     handleClickOutside,
     handleEsc,

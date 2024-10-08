@@ -11,8 +11,9 @@
     :transition="`${nsDate.namespace.value}-zoom-in-top`"
     :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass]"
     :popper-options="elPopperOptions"
-    :fallback-placements="['bottom', 'top', 'right', 'left']"
+    :fallback-placements="fallbackPlacements"
     :gpu-acceleration="false"
+    :placement="placement"
     :stop-popper-mouse-event="false"
     :hide-after="0"
     persistent
@@ -37,10 +38,11 @@
           !editable ||
           readonly ||
           isDatesPicker ||
+          isMonthsPicker ||
           isYearsPicker ||
           type === 'week'
         "
-        :aria-label="label || ariaLabel"
+        :aria-label="ariaLabel"
         :tabindex="tabindex"
         :validate-event="false"
         @input="onUserInput"
@@ -165,6 +167,7 @@ import {
   computed,
   inject,
   nextTick,
+  onBeforeUnmount,
   provide,
   ref,
   unref,
@@ -173,12 +176,7 @@ import {
 } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import {
-  useDeprecated,
-  useEmptyValues,
-  useLocale,
-  useNamespace,
-} from '@element-plus/hooks'
+import { useEmptyValues, useLocale, useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
@@ -215,6 +213,7 @@ const emit = defineEmits([
   'change',
   'focus',
   'blur',
+  'clear',
   'calendar-change',
   'panel-change',
   'visible-change',
@@ -455,11 +454,15 @@ const parsedValue = computed(() => {
     )
     if (!isEqual(availableResult, dayOrDays!)) {
       dayOrDays = availableResult
-      emitInput(
-        (isArray(dayOrDays)
-          ? dayOrDays.map((_) => _.toDate())
-          : dayOrDays.toDate()) as SingleOrRange<Date>
-      )
+
+      // The result is corrected only when model-value exists
+      if (!valueIsEmpty.value) {
+        emitInput(
+          (isArray(dayOrDays)
+            ? dayOrDays.map((_) => _.toDate())
+            : dayOrDays.toDate()) as SingleOrRange<Date>
+        )
+      }
     }
   }
   if (isArray(dayOrDays!) && dayOrDays.some((day) => !day)) {
@@ -482,7 +485,7 @@ const displayValue = computed<UserInput>(() => {
   if (!isTimePicker.value && valueIsEmpty.value) return ''
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
-    return isDatesPicker.value || isYearsPicker.value
+    return isDatesPicker.value || isMonthsPicker.value || isYearsPicker.value
       ? (formattedValue as Array<string>).join(', ')
       : formattedValue
   }
@@ -494,6 +497,8 @@ const isTimeLikePicker = computed(() => props.type.includes('time'))
 const isTimePicker = computed(() => props.type.startsWith('time'))
 
 const isDatesPicker = computed(() => props.type === 'dates')
+
+const isMonthsPicker = computed(() => props.type === 'months')
 
 const isYearsPicker = computed(() => props.type === 'years')
 
@@ -508,12 +513,18 @@ const onClearIconClick = (event: MouseEvent) => {
   if (showClose.value) {
     event.stopPropagation()
     focusOnInputBox()
-    emitInput(valueOnClear.value)
+    // When the handleClear Function was provided, emit null will be executed inside it
+    // There is no need for us to execute emit null twice. #14752
+    if (pickerOptions.value.handleClear) {
+      pickerOptions.value.handleClear()
+    } else {
+      emitInput(valueOnClear.value)
+    }
     emitChange(valueOnClear.value, true)
     showClose.value = false
-    pickerVisible.value = false
-    pickerOptions.value.handleClear && pickerOptions.value.handleClear()
+    onHide()
   }
+  emit('clear')
 }
 
 const valueIsEmpty = computed(() => {
@@ -565,7 +576,7 @@ const actualInputRef = computed(() => {
   return (unref(inputRef) as ComponentPublicInstance)?.$el
 })
 
-onClickOutside(actualInputRef, (e: PointerEvent) => {
+const stophandle = onClickOutside(actualInputRef, (e: PointerEvent) => {
   const unrefedPopperEl = unref(popperEl)
   const inputEl = unref(actualInputRef)
   if (
@@ -577,6 +588,10 @@ onClickOutside(actualInputRef, (e: PointerEvent) => {
   )
     return
   pickerVisible.value = false
+})
+
+onBeforeUnmount(() => {
+  stophandle?.()
 })
 
 const userInput = ref<UserInput>(null)
@@ -756,17 +771,6 @@ const onPanelChange = (
 provide('EP_PICKER_BASE', {
   props,
 })
-
-useDeprecated(
-  {
-    from: 'label',
-    replacement: 'aria-label',
-    version: '2.8.0',
-    scope: 'el-time-picker',
-    ref: 'https://element-plus.org/en-US/component/time-picker.html',
-  },
-  computed(() => !!props.label)
-)
 
 defineExpose({
   /**

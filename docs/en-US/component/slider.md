@@ -7,12 +7,6 @@ lang: en-US
 
 Drag the slider within a fixed range.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 The current value is displayed when the slider is being dragged.
@@ -92,7 +86,7 @@ slider/show-marks
 ### Attributes
 
 | Name                        | Description                                                                                              | Type                                                                                                                                                                        | Default |
-|-----------------------------|----------------------------------------------------------------------------------------------------------| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| --------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | model-value / v-model       | binding value                                                                                            | ^[number] / ^[object]`number[]`                                                                                                                                             | 0       |
 | min                         | minimum value                                                                                            | ^[number]                                                                                                                                                                   | 0       |
 | max                         | maximum value                                                                                            | ^[number]                                                                                                                                                                   | 100     |

@@ -9,12 +9,6 @@ Use Time Select for time input.
 
 The available time range is 00:00 to 23:59
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Fixed time picker
 
 Provide a list of fixed time for users to choose.
@@ -58,7 +52,7 @@ time-select/time-range
 ### Attributes
 
 | Name                    | Description                                                                                                    | Type                                                                                             | Default     |
-|-------------------------|----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|-------------|
+| ----------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ----------- |
 | model-value / v-model   | binding value                                                                                                  | ^[string]                                                                                        | —           |
 | disabled                | whether TimeSelect is disabled                                                                                 | ^[boolean]                                                                                       | false       |
 | editable                | whether the input is editable                                                                                  | ^[boolean]                                                                                       | true        |
@@ -80,15 +74,16 @@ time-select/time-range
 
 ### Events
 
-| Name   | Description                           | Type                                     |
-|--------|---------------------------------------|------------------------------------------|
-| change | triggers when user confirms the value | ^[Function]`(value: string) => void`     |
-| blur   | triggers when Input blurs             | ^[Function]`(event: FocusEvent) => void` |
-| focus  | triggers when Input focuses           | ^[Function]`(event: FocusEvent) => void` |
+| Name           | Description                                                       | Type                                     |
+| -------------- | ----------------------------------------------------------------- | ---------------------------------------- |
+| change         | triggers when user confirms the value                             | ^[Function]`(value: string) => void`     |
+| blur           | triggers when Input blurs                                         | ^[Function]`(event: FocusEvent) => void` |
+| focus          | triggers when Input focuses                                       | ^[Function]`(event: FocusEvent) => void` |
+| clear ^(2.7.7) | triggers when the clear icon is clicked in a clearable TimeSelect | ^[Function]`() => void`                  |
 
 ### Exposes
 
 | Method | Description               | Type                    |
-|--------|---------------------------|-------------------------|
+| ------ | ------------------------- | ----------------------- |
 | focus  | focus the Input component | ^[Function]`() => void` |
 | blur   | blur the Input component  | ^[Function]`() => void` |

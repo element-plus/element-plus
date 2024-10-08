@@ -11,6 +11,7 @@
     pure
     :popper-class="filterClassName"
     persistent
+    :append-to="appendTo"
   >
     <template #content>
       <div v-if="multiple">
@@ -78,8 +79,10 @@
         @click="showFilterPanel"
       >
         <el-icon>
-          <arrow-up v-if="column.filterOpened" />
-          <arrow-down v-else />
+          <slot name="filter-icon">
+            <arrow-up v-if="column.filterOpened" />
+            <arrow-down v-else />
+          </slot>
         </el-icon>
       </span>
     </template>
@@ -130,6 +133,9 @@ export default defineComponent({
     },
     upDataColumn: {
       type: Function,
+    },
+    appendTo: {
+      type: String,
     },
   },
   setup(props) {

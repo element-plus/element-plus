@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -22,12 +22,12 @@ jobs:
         run: git branch dev origin/dev
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -57,18 +57,18 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18]
+        node-version: [20, 22]
         include:
-          - node-version: 18
+          - node-version: 20
             node-name: LTS
-          # - node-version: 18
-          #   node-name: Current
+          - node-version: 22
+            node-name: Current
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
         uses: actions/setup-node@v3
