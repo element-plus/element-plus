@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use 'sass:color';
 
 @use 'config';
 @use 'function' as *;
@@ -49,9 +50,9 @@
   $color: map.get($colors, $type, 'base');
   @include set-css-var-value(
     ('color', $type, 'rgb'),
-    #{red($color),
-    green($color),
-    blue($color)}
+    #{color.channel($color, 'red'),
+    color.channel($color, 'green'),
+    color.channel($color, 'blue')}
   );
 }
 

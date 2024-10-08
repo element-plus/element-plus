@@ -1,5 +1,32 @@
 ## Changelog
 
+### 2.8.4
+
+_2024-09-27_
+
+#### Features
+
+- Components [autocomplete] add getData to exposes (#18237 by @dormadekhin)
+- Components [date-picker] add `placement` & `fallback-placements` (#18310 by @btea)
+- Components [input-number] add prefix and suffix (#17993 by @guze2003)
+- Components [cascader] update cascader component to expost presentText (#18338 by @0song)
+- Components add the ability to append table filter panel, select and pagination size dropdowns to any element (#14318 by @Karolis-Stoncius)
+- Components [table] export `updateKeyChildren` method & correct version (#17709 by @warmthsea)
+
+#### Bug fixes
+
+- Components [segmented] item may be undefined (#18199 by @vaebe)
+- Components `step-strictly` is true and should keep the initial value and step matching (#18277 by @KESHAOYE)
+- Components [scrollbar] compatibility with `wrapRef` does not exist (#18311 by @btea)
+- I18n improve translations of Persian (Farsi) (#18290 by @Notorious-Ali)
+- Components [checkbox] default false if no false-value attr (#18187 by @tuskermanshu)
+- Components  [carousel] fix style when use motionBlur (#18329 by @momei-LJM)
+- Components [descriptions-cell] redundant slot function calls (#18330 by @betavs)
+- Components [avatar] remove outline from el-avatar component (#18303 by @DDDDD12138)
+- Components [color-picker] support dynamic change of showAlpha prop (#18280 by @chensuifengran)
+- Style(components): [form-item] top-label change to `inline-block` element (#18293 by @warmthsea)
+- Style(components): [transfer] delete input__inner `border-radius` (#18351 by @warmthsea)
+
 ### 2.8.3
 
 _2024-09-13_
