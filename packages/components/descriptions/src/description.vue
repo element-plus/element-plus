@@ -26,12 +26,13 @@
 
 <script lang="ts" setup>
 import { computed, provide, useSlots } from 'vue'
-import { flattedChildren } from '@element-plus/utils'
+import { isArray, isObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
 import ElDescriptionsRow from './descriptions-row.vue'
 import { descriptionsKey } from './token'
 import { descriptionProps } from './description'
+import type { VNode } from 'vue'
 
 import type { IDescriptionsInject } from './descriptions.type'
 import type { DescriptionItemVNode } from './description-item'
@@ -71,13 +72,38 @@ const filledNode = (
   return node
 }
 
+const getElDescriptionsItems = (
+  nodes: VNode | VNode[]
+): DescriptionItemVNode[] => {
+  const result: DescriptionItemVNode[] = []
+  const vNodes = Array.isArray(nodes) ? nodes : [nodes]
+
+  vNodes.forEach((node: any) => {
+    if (node?.type?.name === 'ElDescriptionsItem') {
+      result.push(node as DescriptionItemVNode)
+    } else if (node.children) {
+      let childrenNodes: VNode[] = []
+
+      if (Array.isArray(node.children)) {
+        childrenNodes = node.children
+      } else if (isObject(node.children) && 'default' in node.children) {
+        const defaultSlot = node.children.default()
+        if (Array.isArray(defaultSlot)) {
+          childrenNodes = defaultSlot
+        }
+      }
+
+      result.push(...getElDescriptionsItems(childrenNodes))
+    }
+  })
+
+  return result
+}
+
 const getRows = () => {
   if (!slots.default) return []
+  const children = getElDescriptionsItems(slots.default())
 
-  const children = flattedChildren(slots.default()).filter(
-    (node): node is DescriptionItemVNode =>
-      (node as any)?.type?.name === 'ElDescriptionsItem'
-  )
   const rows: DescriptionItemVNode[][] = []
   let temp: DescriptionItemVNode[] = []
   let count = props.column
