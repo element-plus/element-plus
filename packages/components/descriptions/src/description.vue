@@ -26,7 +26,7 @@
 
 <script lang="ts" setup>
 import { computed, provide, useSlots } from 'vue'
-import { isArray, isObject } from '@element-plus/utils'
+import { isObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
 import ElDescriptionsRow from './descriptions-row.vue'
