@@ -29,7 +29,6 @@
         getCssVar('transition-function-ease-in-out-bezier');
     list-style: none;
     &.is-bottom {
-      top: 0;
       bottom: auto;
     }
   }
