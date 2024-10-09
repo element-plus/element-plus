@@ -562,6 +562,11 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   }
 
   const blur = () => {
+    if (expanded.value) {
+      expanded.value = false
+      nextTick(() => inputRef.value?.blur())
+      return
+    }
     inputRef.value?.blur()
   }
 
