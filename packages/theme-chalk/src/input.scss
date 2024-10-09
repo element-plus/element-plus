@@ -299,6 +299,32 @@
     margin-left: 8px;
   }
 
+  @include e(tool) {
+    display: inline-flex;
+    height: 100%;
+    white-space: nowrap;
+    text-align: center;
+    position: relative;
+
+    @include e(tool-inner) {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      padding-left: 8px;
+      background-color: #fff;
+    }
+
+    .#{$namespace}-input__icon {
+      margin-left: 0;
+    }
+  }
+  &:has(.#{$namespace}-input__suffix) {
+    @include e(tool-inner) {
+      padding-right: 8px;
+    }
+  }
+
   @include e(validateIcon) {
     pointer-events: none;
   }
