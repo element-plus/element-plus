@@ -79,7 +79,7 @@
     "@pnpm/types": "^8.4.0",
     "@types/fs-extra": "^9.0.13",
     "@types/gulp": "^4.0.9",
-    "@types/jsdom": "^16.2.14",
+    "@types/jsdom": "^21.1.7",
     "@types/node": "^18.19.25",
     "@types/sass": "^1.43.1",
     "@vitejs/plugin-vue": "^2.3.3",
