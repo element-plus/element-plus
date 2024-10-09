@@ -1,4 +1,4 @@
-import { getCurrentInstance, useAttrs, useSlots } from 'vue'
+import { getCurrentInstance, ref, useAttrs, useSlots } from 'vue'
 import dayjs from 'dayjs'
 import { isFunction } from '@element-plus/utils'
 
@@ -17,8 +17,10 @@ export const useShortcut = (lang: ReturnType<typeof useLocale>['lang']) => {
   const { emit } = getCurrentInstance()!
   const attrs = useAttrs()
   const slots = useSlots()
+  const currentShortcut = ref(-1)
 
-  const handleShortcutClick = (shortcut: Shortcut) => {
+  const handleShortcutClick = (shortcut: Shortcut, key: number) => {
+    setShortcutActive(key)
     const shortcutValues = isFunction(shortcut.value)
       ? shortcut.value()
       : shortcut.value
@@ -39,5 +41,9 @@ export const useShortcut = (lang: ReturnType<typeof useLocale>['lang']) => {
     }
   }
 
-  return handleShortcutClick
+  const setShortcutActive = (key: number) => {
+    currentShortcut.value = key
+  }
+
+  return { handleShortcutClick, currentShortcut, setShortcutActive }
 }

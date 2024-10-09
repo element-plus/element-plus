@@ -345,6 +345,96 @@ describe('DatePicker', () => {
     expect(vm.value.valueOf()).toBe(value.valueOf())
   })
 
+  it('remove active class when click date table cell', async () => {
+    const text = 'Yesterday'
+    const value = new Date(Date.now() - 86400000)
+    value.setHours(0, 0, 0, 0)
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        :shortcuts="shortcuts"
+          />`,
+      () => ({
+        value: '',
+        shortcuts: [
+          {
+            text,
+            value,
+          },
+        ],
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const shortcut = document.querySelector('.el-picker-panel__shortcut')
+    ;(shortcut as HTMLElement).click()
+    await nextTick()
+    expect(shortcut.classList.contains('active')).toBeTruthy()
+    const td = document.querySelector('td.available') as HTMLElement
+    td.click()
+    await nextTick()
+    expect(shortcut.classList.contains('active')).toBeFalsy()
+  })
+
+  it('active shortcut should have active class', async () => {
+    const text = 'Yesterday'
+    const value = new Date(Date.now() - 86400000)
+    value.setHours(0, 0, 0, 0)
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        :shortcuts="shortcuts"
+      />`,
+      () => ({
+        value: '',
+        shortcuts: [
+          {
+            text,
+            value,
+          },
+        ],
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const shortcut = document.querySelector('.el-picker-panel__shortcut')
+    ;(shortcut as HTMLElement).click()
+    expect((shortcut as HTMLElement).classList.contains('active'))
+  })
+  it('remove active class after select time range manually', async () => {
+    const text = 'Yesterday'
+    const value = new Date(Date.now() - 86400000)
+    value.setHours(0, 0, 0, 0)
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        :shortcuts="shortcuts"
+      />`,
+      () => ({
+        value: '',
+        shortcuts: [
+          {
+            text,
+            value,
+          },
+        ],
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const shortcut = document.querySelector('.el-picker-panel__shortcut')
+    ;(shortcut as HTMLElement).click()
+    const td = document.querySelector('td.available') as HTMLElement
+    td.click()
+    expect(shortcut.classList.contains('active')).toBeFalsy()
+  })
+
   it('disabledDate', async () => {
     const wrapper = _mount(
       `<el-date-picker
@@ -1605,6 +1695,62 @@ describe('DateRangePicker', () => {
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
   })
+
+  it('click shortcuts should have active class', async () => {
+    const text = 'to yesterday'
+    const value = [Date.now() - 1000 * 60 * 60 * 24, new Date()]
+    const wrapper = _mount(
+      `<el-date-picker
+      type='daterange'
+      v-model= "value"
+      :shortcuts="shortcuts"
+    />`,
+      () => ({
+        value: '',
+        shortcuts: [
+          {
+            text,
+            value,
+          },
+        ],
+      })
+    )
+    const shortcut = document.querySelector('.el-picker-panel__shortcut')
+    expect(shortcut?.classList.contains('active')).toBeFalsy()
+    ;(shortcut as HTMLElement).click()
+    await nextTick()
+    expect(shortcut?.classList.contains('active')).toBeTruthy()
+  })
+  it('pick date should remove active class', async () => {
+    const text = 'to yesterday'
+    const value = [Date.now() - 1000 * 60 * 60 * 24, new Date()]
+    const wrapper = _mount(
+      `<el-date-picker
+      type='daterange'
+      v-model= "value"
+      :shortcuts="shortcuts"
+    />`,
+      () => ({
+        value: '',
+        shortcuts: [
+          {
+            text,
+            value,
+          },
+        ],
+      })
+    )
+    const shortcut = document.querySelector('.el-picker-panel__shortcut')
+    expect(shortcut?.classList.contains('active')).toBeFalsy()
+    ;(shortcut as HTMLElement).click()
+    await nextTick()
+    expect(shortcut?.classList.contains('active')).toBeTruthy()
+    const td = document.querySelector('td.available')
+    expect(td).toBeTruthy()
+    ;(td as HTMLElement).click()
+    await nextTick()
+    expect(shortcut?.classList.contains('active')).toBeFalsy()
+  })
 })
 
 describe('MonthRange', () => {
@@ -1935,6 +2081,62 @@ describe('MonthRange', () => {
     expect(inputRange[0].element.value).toBe('2024-06-14')
     expect(inputRange[1].element.value).toBe('2024-06-15')
   })
+
+  it('click shortcuts should have active class', async () => {
+    const text = 'To last month'
+    const value = [Date.now() - 1000 * 60 * 60 * 24 * 31, new Date()]
+    const wrapper = _mount(
+      `<el-date-picker
+      type='monthrange'
+      v-model= "value"
+      :shortcuts="shortcuts"
+    />`,
+      () => ({
+        value: '',
+        shortcuts: [
+          {
+            text,
+            value,
+          },
+        ],
+      })
+    )
+    const shortcut = document.querySelector('.el-picker-panel__shortcut')
+    expect(shortcut?.classList.contains('active')).toBeFalsy()
+    ;(shortcut as HTMLElement).click()
+    await nextTick()
+    expect(shortcut?.classList.contains('active')).toBeTruthy()
+  })
+  it('pick month should remove active class', async () => {
+    const text = 'To last month'
+    const value = [Date.now() - 1000 * 60 * 60 * 24 * 31, new Date()]
+    const wrapper = _mount(
+      `<el-date-picker
+      type='monthrange'
+      v-model= "value"
+      :shortcuts="shortcuts"
+    />`,
+      () => ({
+        value: '',
+        shortcuts: [
+          {
+            text,
+            value,
+          },
+        ],
+      })
+    )
+    const shortcut = document.querySelector('.el-picker-panel__shortcut')
+    expect(shortcut?.classList.contains('active')).toBeFalsy()
+    ;(shortcut as HTMLElement).click()
+    await nextTick()
+    expect(shortcut?.classList.contains('active')).toBeTruthy()
+    const td = document.querySelector('td')
+    expect(td?.classList.toString() === '').toBeTruthy()
+    ;(td as HTMLElement).click()
+    await nextTick()
+    expect(shortcut?.classList.contains('active')).toBeFalsy()
+  })
 })
 
 describe('YearRange', () => {
@@ -2095,5 +2297,65 @@ describe('YearRange', () => {
     expect(
       (wrapper.findComponent(CommonPicker).vm as any).elPopperOptions
     ).toEqual(ElPopperOptions)
+  })
+  it('click shortcuts should have active class', async () => {
+    const text = 'To last year'
+    const end = new Date()
+    const start = new Date()
+    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30 * 12)
+    const value = [start, end]
+    const wrapper = _mount(
+      `<el-date-picker
+      type='yearrange'
+      v-model= "value"
+      :shortcuts="shortcuts"
+    />`,
+      () => ({
+        value: '',
+        shortcuts: [
+          {
+            text,
+            value,
+          },
+        ],
+      })
+    )
+    const shortcut = document.querySelector('.el-picker-panel__shortcut')
+    expect(shortcut?.classList.contains('active')).toBeFalsy()
+    ;(shortcut as HTMLElement).click()
+    await nextTick()
+    expect(shortcut?.classList.contains('active')).toBeTruthy()
+  })
+  it('pick year should remove active class', async () => {
+    const text = 'To last year'
+    const end = new Date()
+    const start = new Date()
+    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30 * 12)
+    const value = [start, end]
+    const wrapper = _mount(
+      `<el-date-picker
+      type='yearrange'
+      v-model= "value"
+      :shortcuts="shortcuts"
+    />`,
+      () => ({
+        value: '',
+        shortcuts: [
+          {
+            text,
+            value,
+          },
+        ],
+      })
+    )
+    const shortcut = document.querySelector('.el-picker-panel__shortcut')
+    expect(shortcut?.classList.contains('active')).toBeFalsy()
+    ;(shortcut as HTMLElement).click()
+    await nextTick()
+    expect(shortcut?.classList.contains('active')).toBeTruthy()
+    const td = document.querySelector('td.available')
+    ;(td as HTMLElement).click()
+    await nextTick()
+    expect(shortcut?.classList.contains('active')).toBeFalsy()
   })
 })

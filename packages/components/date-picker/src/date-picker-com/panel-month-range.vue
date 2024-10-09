@@ -15,8 +15,8 @@
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
-          :class="ppNs.e('shortcut')"
-          @click="handleShortcutClick(shortcut)"
+          :class="[ppNs.e('shortcut'), { active: currentShortcut === key }]"
+          @click="handleShortcutClick(shortcut, key)"
         >
           {{ shortcut.text }}
         </button>
@@ -146,6 +146,7 @@ const {
   rangeState,
   ppNs,
   drpNs,
+  currentShortcut,
 
   handleChangeRange,
   handleRangeConfirm,

@@ -37,7 +37,9 @@ export const useRangePicker = (
   const { pickerNs } = inject(ROOT_PICKER_INJECTION_KEY)!
   const drpNs = useNamespace('date-range-picker')
   const { t, lang } = useLocale()
-  const handleShortcutClick = useShortcut(lang)
+  const { handleShortcutClick, currentShortcut, setShortcutActive } =
+    useShortcut(lang)
+
   const minDate = ref<Dayjs>()
   const maxDate = ref<Dayjs>()
   const rangeState = ref<RangeState>({
@@ -50,6 +52,7 @@ export const useRangePicker = (
   }
 
   const handleRangeConfirm = (visible = false) => {
+    setShortcutActive(-1)
     const _minDate = unref(minDate)
     const _maxDate = unref(maxDate)
 
@@ -108,6 +111,7 @@ export const useRangePicker = (
     lang,
     ppNs: pickerNs,
     drpNs,
+    currentShortcut,
 
     handleChangeRange,
     handleRangeConfirm,
