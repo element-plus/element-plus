@@ -94,7 +94,7 @@
         <div class="el-scrollbar__wrap el-scrollbar__wrap--hidden-default" style="">
           <div class="el-scrollbar__view" style=""><!--[-->
             <aside><!--[-->
-              <div class="page-sidebar-top" data-v-dd779c5c>
+              <div class="page-sidebar-row" data-v-dd779c5c>
                 <p class="title" data-v-dd779c5c>赞助商</p>
                 <div data-v-dd779c5c data-v-faed0b94><!--[--><a href="https://melecode.com/" title="美乐 - 企业级全栈低代码开发平台"
                     class="sponsor-item inline-flex" style="" target="_blank" data-v-faed0b94><img
@@ -339,7 +339,8 @@
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>当 <code>el-table</code> 元素中注入 <code>data</code> 对象数组后，在 <code>el-table-column</code> 中用
                     <code>prop</code> 属性来对应对象中的键名即可填入数据，用 <code>label</code> 属性来定义表格的列名。 可以使用 <code>width</code>
-                    属性来定义列宽。</p>
+                    属性来定义列宽。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -2147,7 +2148,8 @@
                   <p>Table 组件提供了单选的支持， 只需要配置 <code>highlight-current-row</code> 属性即可实现单选。 之后由
                     <code>current-change</code> 事件来管理选中时触发的事件，它会传入 <code>currentRow</code>，<code>oldCurrentRow</code>。
                     如果需要显示索引，可以增加一列 <code>el-table-column</code>，设置 <code>type</code> 属性为 <code>index</code> 即可显示从 1
-                    开始的索引号。</p>
+                    开始的索引号。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><!--[-->
@@ -2318,7 +2320,8 @@
                     aria-label="Permalink to &quot;多选&quot;">​</a></h2>
                 <p>你也可以选择多行。</p>
                 <p>在<span class="vp-tag">2.8.3</span> 之后， <code>toggleRowSelection</code> 支持第三个参数
-                  <code>ignoreSelectable</code> 以确定是否忽略可选属性。</p><!--[-->
+                  <code>ignoreSelectable</code> 以确定是否忽略可选属性。
+                </p><!--[-->
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>实现多选非常简单: 手动添加一个 <code>el-table-column</code>，设 <code>type</code> 属性为 <code>selection</code> 即可；
                   </p>
@@ -2544,7 +2547,8 @@
                     <code>sort-by</code> 使用自定义的排序规则。 如果需要后端排序，需将 <code>sortable</code> 设置为 <code>custom</code>，同时在 Table
                     上监听 <code>sort-change</code> 事件， 在事件回调中可以获取当前排序的字段名和排序顺序，从而向接口请求排序后的表格数据。 在本例中，我们还使用了
                     <code>formatter</code> 属性，它用于格式化指定列的值， 接受一个 <code>Function</code>，会传入两个参数：<code>row</code> 和
-                    <code>column</code>， 可以根据自己的需求进行处理。</p>
+                    <code>column</code>， 可以根据自己的需求进行处理。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -2699,7 +2703,8 @@
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>在列中设置 <code>filters</code> 和 <code>filter-method</code> 属性即可开启该列的筛选， filters
                     是一个数组，<code>filter-method</code> 是一个方法，它用于决定某些数据是否显示， 会传入三个参数：<code>value</code>, <code>row</code> 和
-                    <code>column</code>。</p>
+                    <code>column</code>。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><!--[--><button ariadisabled="false"
@@ -3646,7 +3651,8 @@
                   <p>支持树类型的数据的显示。 当 row 中包含 <code>children</code> 字段时，被视为树形数据。 渲染嵌套数据需要 prop 的 <code>row-key</code>。
                     此外，子行数据可以异步加载。 设置 Table 的<code>lazy</code>属性为 true 与加载函数 <code>load</code> 。 通过指定 row
                     中的<code>hasChildren</code>字段来指定哪些行是包含子节点。 <code>children</code> 与<code>hasChildren</code>都可以通过
-                    <code>tree-props </code>配置。</p>
+                    <code>tree-props </code>配置。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -3934,7 +3940,8 @@
                     aria-label="Permalink to &quot;可选择的树形数据^(2.8.0)&quot;">​</a></h2><!--[-->
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>当 <code>treeProps.checkStrictly</code> 为 true，父节点和子节点的选择状态不再关联， 也就是说，当选择父节点时，它的子节点将不被选择； 当
-                    <code>treeProps.checkStrictly</code> 是false，父节点和子节点的选择状态将与子节点的选择状态相关联， 也就是说，当选择父节点时，将选择其所有子节点。</p>
+                    <code>treeProps.checkStrictly</code> 是false，父节点和子节点的选择状态将与子节点的选择状态相关联， 也就是说，当选择父节点时，将选择其所有子节点。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><!--[-->
@@ -4416,7 +4423,8 @@
                   <p>通过给 table 传入<code>span-method</code>方法可以实现合并行或列， 方法的参数是一个对象，里面包含当前行<code> row</code>、当前列
                     <code> column</code>、当前行号<code> rowIndex</code>、当前列号 <code> columnIndex</code> 四个属性。
                     该函数可以返回一个包含两个元素的数组，第一个元素代表 <code> rowspan</code>，第二个元素代表 <code> colspan</code>。
-                    也可以返回一个键名为<code> rowspan</code> 和<code> colspan</code> 的对象。</p>
+                    也可以返回一个键名为<code> rowspan</code> 和<code> colspan</code> 的对象。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -4699,7 +4707,8 @@
                 <p>自定义 <code>type=index</code> 列的行号。</p><!--[-->
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>通过给<code> type=index</code> 的列传入 index 属性，可以自定义索引。 该属性传入数字时，将作为索引的起始值。 也可以传入一个方法，它提供当前行的行号（从
-                    <code>0</code> 开始）作为参数，返回值将作为索引展示。</p>
+                    <code>0</code> 开始）作为参数，返回值将作为索引展示。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -5178,7 +5187,8 @@
                         <td>row-key</td>
                         <td>行数据的 Key，用来优化 Table 的渲染； 在使用<code>reserve-selection</code>功能与显示树形数据时，该属性是必填的。 类型为 String
                           时，支持多层访问：<code>user.info.id</code>，但不支持 <code>user.info[0].id</code>，此种情况请使用
-                          <code>Function</code>。</td>
+                          <code>Function</code>。
+                        </td>
                         <td><span class="inline-flex items-center"><code
                               class="api-typing mr-1">function</code><!----></span> / <span
                             class="inline-flex items-center"><code class="api-typing mr-1">string</code><!----></span>
@@ -5712,7 +5722,8 @@
                               class="api-typing mr-1">Function</code><!----></span> / <span
                             class="inline-flex items-center"><code class="api-typing mr-1">string</code><!----></span> /
                           <span class="inline-flex items-center"><code
-                              class="api-typing mr-1">object</code><!----></span></td>
+                              class="api-typing mr-1">object</code><!----></span>
+                        </td>
                         <td>—</td>
                       </tr>
                       <tr>
@@ -6651,15 +6662,18 @@
                   href="https://doc.buildadmin.com/?from=element-plus" title="BuildAdmin - Vue3企业级开源后台管理系统"
                   target="_blank" data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/sponsors/buildadmin-l.png" alt="BuildAdmin" data-v-8cecf616></div>
+                    <img src="/images/sponsors/buildadmin-l.png" alt="BuildAdmin" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[--><a href="http://www.i-renderer.love/home/index" title="百搭云 - 快速且优雅的低代码平台"
                   target="_blank" data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/sponsors/baidayun.png" alt="百搭云" data-v-8cecf616></div>
+                    <img src="/images/sponsors/baidayun.png" alt="百搭云" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[--><a href="https://bit.dev/?from=element-ui" title="bit - Share Code" target="_blank"
                   data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/bit-l.png" alt="bit" data-v-8cecf616></div>
+                    <img src="/images/bit-l.png" alt="bit" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[-->
                 <div class="flex bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
                   <div class="color-#ddd text-13px cursor-default" data-v-8cecf616>Your logo</div>

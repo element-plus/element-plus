@@ -93,7 +93,7 @@
         <div class="el-scrollbar__wrap el-scrollbar__wrap--hidden-default" style="">
           <div class="el-scrollbar__view" style=""><!--[-->
             <aside><!--[-->
-              <div class="page-sidebar-top" data-v-dd779c5c>
+              <div class="page-sidebar-row" data-v-dd779c5c>
                 <p class="title" data-v-dd779c5c>赞助商</p>
                 <div data-v-dd779c5c data-v-faed0b94><!--[--><a href="https://melecode.com/" title="美乐 - 企业级全栈低代码开发平台"
                     class="sponsor-item inline-flex" style="" target="_blank" data-v-faed0b94><img
@@ -335,7 +335,8 @@
                 <div class="tip custom-block">
                   <p class="custom-block-title">TIP</p>
                   <p>从设计上来说，MessageBox 的作用是美化系统自带的 <code>alert</code>、<code>confirm</code> 和
-                    <code>prompt</code>，因此适合展示较为简单的内容。 如果需要弹出较为复杂的内容，请使用 Dialog。</p>
+                    <code>prompt</code>，因此适合展示较为简单的内容。 如果需要弹出较为复杂的内容，请使用 Dialog。
+                  </p>
                 </div>
                 <h2 id="消息提示" tabindex="-1">消息提示 <a class="header-anchor vp-link" href="#消息提示"
                     aria-label="Permalink to &quot;消息提示&quot;">​</a></h2>
@@ -431,7 +432,8 @@
                     组件也拥有极高的定制性，我们可以传入 <code>options</code> 作为第三个参数，它是一个字面量对象。 <code>type</code>
                     字段表明消息类型，可以为<code>success</code>，<code>error</code>，<code>info</code>和
                     <code>warning</code>，无效的设置将会被忽略。 需要注意的是，第二个参数 <code>title</code> 必须定义为 <code>String</code> 类型，如果是
-                    <code>Object</code>，会被当做为 <code>options</code>使用。 在这里我们返回了一个 <code>Promise</code> 来处理后续响应。</p>
+                    <code>Object</code>，会被当做为 <code>options</code>使用。 在这里我们返回了一个 <code>Promise</code> 来处理后续响应。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><button ariadisabled="false" type="button"
@@ -527,7 +529,8 @@
                     <code>inputPattern</code> 字段自己规定匹配模式， 使用 <code>inputValidator</code> 来指定验证方法，它应该返回
                     <code>Boolean</code> 或 <code>String</code>。 返回 <code>false</code> 或 <code>String</code> 表示验证失败，
                     返回的字符串将用作 <code>inputErrorMessage</code>，用来提示用户错误原因。 此外，可以用 <code>inputPlaceholder</code>
-                    字段来定义输入框的占位符。</p>
+                    字段来定义输入框的占位符。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><button ariadisabled="false" type="button"
@@ -718,7 +721,8 @@
                     <code>beforeClose</code> 属性， 当 beforeClose 被赋值且被赋值为一个回调函数时，在消息弹框被关闭之前将会被调用，并且可以通过该方法来阻止弹框被关闭。
                     它是一个接收三个参数：<code>action</code>、<code>instance</code> 和<code>done</code> 的方法。
                     使用它能够在关闭前对实例进行一些操作，比如为确定按钮添加 <code>loading</code> 状态等；此时若需要关闭实例，可以调用 <code>done</code> 方法（若在
-                    <code>beforeClose</code> 中没有调用 <code>done</code>，则弹框便不会关闭）。</p>
+                    <code>beforeClose</code> 中没有调用 <code>done</code>，则弹框便不会关闭）。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><button ariadisabled="false" type="button"
@@ -1309,7 +1313,8 @@
                     aria-label="Permalink to &quot;全局方法&quot;">​</a></h2>
                 <p>如果你完整引入了 Element，它会为 <code>app.config.globalProperties</code> 添加如下全局方法：<code>$msgbox</code>、
                   <code>$alert</code>、 <code>$confirm</code> 和 <code>$prompt</code>。 因此在 Vue
-                  实例中可以采用本页面中的方式来调用<code>MessageBox</code>。 参数如下：</p>
+                  实例中可以采用本页面中的方式来调用<code>MessageBox</code>。 参数如下：
+                </p>
                 <ul>
                   <li><code>$msgbox(options)</code></li>
                   <li><code>$alert(message, title, options)</code> 或 <code>$alert(message, options)</code></li>
@@ -1994,15 +1999,18 @@
                   href="https://doc.buildadmin.com/?from=element-plus" title="BuildAdmin - Vue3企业级开源后台管理系统"
                   target="_blank" data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/sponsors/buildadmin-l.png" alt="BuildAdmin" data-v-8cecf616></div>
+                    <img src="/images/sponsors/buildadmin-l.png" alt="BuildAdmin" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[--><a href="http://www.i-renderer.love/home/index" title="百搭云 - 快速且优雅的低代码平台"
                   target="_blank" data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/sponsors/baidayun.png" alt="百搭云" data-v-8cecf616></div>
+                    <img src="/images/sponsors/baidayun.png" alt="百搭云" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[--><a href="https://bit.dev/?from=element-ui" title="bit - Share Code" target="_blank"
                   data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/bit-l.png" alt="bit" data-v-8cecf616></div>
+                    <img src="/images/bit-l.png" alt="bit" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[-->
                 <div class="flex bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
                   <div class="color-#ddd text-13px cursor-default" data-v-8cecf616>Your logo</div>

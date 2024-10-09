@@ -93,7 +93,7 @@
         <div class="el-scrollbar__wrap el-scrollbar__wrap--hidden-default" style="">
           <div class="el-scrollbar__view" style=""><!--[-->
             <aside><!--[-->
-              <div class="page-sidebar-top" data-v-dd779c5c>
+              <div class="page-sidebar-row" data-v-dd779c5c>
                 <p class="title" data-v-dd779c5c>赞助商</p>
                 <div data-v-dd779c5c data-v-faed0b94><!--[--><a href="https://melecode.com/" title="美乐 - 企业级全栈低代码开发平台"
                     class="sponsor-item inline-flex" style="" target="_blank" data-v-faed0b94><img
@@ -336,7 +336,8 @@
                     aria-label="Permalink to &quot;基础用法&quot;">​</a></h2><!--[-->
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>评分默认被分为三个等级，可以利用颜色数组对分数及情感倾向进行分级（默认情况下不区分颜色）。 三个等级所对应的颜色用 <code>colors</code> 属性设置，而它们对应的两个阈值则通过
-                    <code>low-threshold</code> 和 <code>high-threshold</code> 设定。</p>
+                    <code>low-threshold</code> 和 <code>high-threshold</code> 设定。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><!--[-->
@@ -449,7 +450,8 @@
                               <path fill="currentColor"
                                 d="m512 747.84 228.16 119.936a6.4 6.4 0 0 0 9.28-6.72l-43.52-254.08 184.512-179.904a6.4 6.4 0 0 0-3.52-10.88l-255.104-37.12L517.76 147.904a6.4 6.4 0 0 0-11.52 0L392.192 379.072l-255.104 37.12a6.4 6.4 0 0 0-3.52 10.88L318.08 606.976l-43.584 254.08a6.4 6.4 0 0 0 9.28 6.72zM313.6 924.48a70.4 70.4 0 0 1-102.144-74.24l37.888-220.928L88.96 472.96A70.4 70.4 0 0 1 128 352.896l221.76-32.256 99.2-200.96a70.4 70.4 0 0 1 126.208 0l99.2 200.96 221.824 32.256a70.4 70.4 0 0 1 39.04 120.064L774.72 629.376l37.888 220.928a70.4 70.4 0 0 1-102.144 74.24L512 820.096l-198.4 104.32z">
                               </path>
-                            </svg><!--]--><!--v-if--><!--]--></i></span><!--]--><!--v-if--></div>
+                            </svg><!--]--><!--v-if--><!--]--></i></span><!--]--><!--v-if-->
+                      </div>
                     </div><!--]--><!--]-->
                   </div>
                   <div class="el-divider el-divider--horizontal m-0" style="--el-border-style:solid;" role="separator"
@@ -892,7 +894,8 @@
                 <p>用辅助文字直接地表达对应分数</p><!--[-->
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>为组件设置 <code>show-text</code> 属性会在右侧显示辅助文字。 通过设置 <code>texts</code> 可以为每一个分值指定对应的辅助文字。
-                    <code>texts</code> 为一个数组，长度应等于最大值 <code>max</code>。</p>
+                    <code>texts</code> 为一个数组，长度应等于最大值 <code>max</code>。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -1269,7 +1272,8 @@
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>为组件设置 <code>disabled</code> 属性表示组件为只读。 此时若设置 <code>show-score</code>，则会在右侧显示目前的分值。 此外，您可以使用属性
                     <code>score-template</code> 来提供评分模板。 模板为一个包含了 <code>{value}</code> 的字符串，<code>{value}</code>
-                    会被替换为当前分值。</p>
+                    会被替换为当前分值。
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -1326,7 +1330,8 @@
                               d="M283.84 867.84 512 747.776l228.16 119.936a6.4 6.4 0 0 0 9.28-6.72l-43.52-254.08 184.512-179.904a6.4 6.4 0 0 0-3.52-10.88l-255.104-37.12L517.76 147.904a6.4 6.4 0 0 0-11.52 0L392.192 379.072l-255.104 37.12a6.4 6.4 0 0 0-3.52 10.88L318.08 606.976l-43.584 254.08a6.4 6.4 0 0 0 9.28 6.72z">
                             </path>
                           </svg><!--]--><!--v-if--><!--]--></i></span><!--]--><span class="el-rate__text"
-                        style="color:#ff9900;">3.7 points</span></div><!--]-->
+                        style="color:#ff9900;">3.7 points</span>
+                    </div><!--]-->
                   </div>
                   <div class="el-divider el-divider--horizontal m-0" style="--el-border-style:solid;" role="separator"
                     data-v-72294632><!--v-if--></div>
@@ -1958,15 +1963,18 @@
                   href="https://doc.buildadmin.com/?from=element-plus" title="BuildAdmin - Vue3企业级开源后台管理系统"
                   target="_blank" data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/sponsors/buildadmin-l.png" alt="BuildAdmin" data-v-8cecf616></div>
+                    <img src="/images/sponsors/buildadmin-l.png" alt="BuildAdmin" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[--><a href="http://www.i-renderer.love/home/index" title="百搭云 - 快速且优雅的低代码平台"
                   target="_blank" data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/sponsors/baidayun.png" alt="百搭云" data-v-8cecf616></div>
+                    <img src="/images/sponsors/baidayun.png" alt="百搭云" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[--><a href="https://bit.dev/?from=element-ui" title="bit - Share Code" target="_blank"
                   data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/bit-l.png" alt="bit" data-v-8cecf616></div>
+                    <img src="/images/bit-l.png" alt="bit" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[-->
                 <div class="flex bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
                   <div class="color-#ddd text-13px cursor-default" data-v-8cecf616>Your logo</div>

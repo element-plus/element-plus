@@ -19247,11 +19247,11 @@ div .sponsor-item img[data-v-0a7a34f6] {
     min-height: 45px;
   }
 }
-.page-sidebar-top[data-v-dd779c5c] {
+.page-sidebar-row[data-v-dd779c5c] {
   padding-bottom: 10px;
   padding-top: 0;
 }
-.page-sidebar-top .title[data-v-dd779c5c] {
+.page-sidebar-row .title[data-v-dd779c5c] {
   color: var(--text-color-secondary);
   font-weight: 300;
   font-size: 14px;

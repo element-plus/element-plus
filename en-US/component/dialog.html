@@ -93,7 +93,7 @@
         <div class="el-scrollbar__wrap el-scrollbar__wrap--hidden-default" style="">
           <div class="el-scrollbar__view" style=""><!--[-->
             <aside><!--[-->
-              <div class="page-sidebar-top" data-v-dd779c5c>
+              <div class="page-sidebar-row" data-v-dd779c5c>
                 <p class="title" data-v-dd779c5c>Sponsored by</p>
                 <div data-v-dd779c5c data-v-faed0b94><!--[--><a href="https://melecode.com/" title="美乐 - 企业级全栈低代码开发平台"
                     class="sponsor-item inline-flex" style="" target="_blank" data-v-faed0b94><img
@@ -340,7 +340,8 @@
                     it is <code>true</code>. The Dialog has two parts: <code>body</code> and <code>footer</code>, and
                     the latter requires a <code>slot</code> named <code>footer</code>. The optional <code>title</code>
                     attribute (empty by default) is for defining a title. Finally, this example demonstrates how
-                    <code>before-close</code> is used.</p>
+                    <code>before-close</code> is used.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><!--[--><button ariadisabled="false"
@@ -1001,11 +1002,13 @@
                 <h2 id="destroy-on-close" tabindex="-1">Destroy on Close <a class="header-anchor vp-link"
                     href="#destroy-on-close" aria-label="Permalink to &quot;Destroy on Close&quot;">​</a></h2>
                 <p>When this is feature is enabled, the content under default slot will be destroyed with a
-                  <code>v-if</code> directive. Enable this when you have perf concerns.</p><!--[-->
+                  <code>v-if</code> directive. Enable this when you have perf concerns.
+                </p><!--[-->
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>Note that by enabling this feature, the content will not be rendered before
                     <code>transition.beforeEnter</code> dispatched, there will only be <code>overlay</code>
-                    <code>header(if any)</code> <code>footer(if any)</code>.</p>
+                    <code>header(if any)</code> <code>footer(if any)</code>.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><!--[--><button ariadisabled="false"
@@ -1227,7 +1230,8 @@
                     <strong>true</strong>, because <code>Dialog</code> was positioned by
                     <code>position: relative</code>, when <code>modal</code> gets removed, <code>Dialog</code> will
                     position itself based on the current position in the DOM, instead of <code>Document.Body</code>,
-                    thus the style will be messed up.</p>
+                    thus the style will be messed up.
+                  </p>
                 </div>
                 <h2 id="api" tabindex="-1">API <a class="header-anchor vp-link" href="#api"
                     aria-label="Permalink to &quot;API&quot;">​</a></h2>
@@ -1298,7 +1302,8 @@
                       <tr>
                         <td>append-to-body</td>
                         <td>whether to append Dialog itself to body. A nested Dialog should have this attribute set to
-                          <code>true</code></td>
+                          <code>true</code>
+                        </td>
                         <td><span class="inline-flex items-center"><code
                               class="api-typing mr-1">boolean</code><!----></span></td>
                         <td>false</td>
@@ -1469,7 +1474,8 @@
                 <div class="warning custom-block">
                   <p class="custom-block-title">WARNING</p>
                   <p><code>title</code> has been <strong>deprecated</strong>, and <strong>will be</strong> removed in
-                    <span class="vp-tag">2.4.0</span>, please use <code>header</code>.</p>
+                    <span class="vp-tag">2.4.0</span>, please use <code>header</code>.
+                  </p>
                 </div>
                 <h3 id="events" tabindex="-1">Events <a class="header-anchor vp-link" href="#events"
                     aria-label="Permalink to &quot;Events&quot;">​</a></h3>
@@ -1575,7 +1581,8 @@
                     </svg></a></p>
                 <p>PS: It is recommended to place the scroll area inside a vue mounted node, e.g.
                   <code>&lt;div id=&quot;app&quot; /&gt;</code>, and use the <code>overflow: hidden</code> style for the
-                  body.</p>
+                  body.
+                </p>
                 <h2 id="source" tabindex="-1">Source <a class="header-anchor vp-link" href="#source"
                     aria-label="Permalink to &quot;Source&quot;">​</a></h2>
                 <p><a href="https://github.com/element-plus/element-plus/tree/dev/packages/components/dialog"
@@ -1979,15 +1986,18 @@
                   href="https://doc.buildadmin.com/?from=element-plus" title="BuildAdmin - Vue3企业级开源后台管理系统"
                   target="_blank" data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/sponsors/buildadmin-l.png" alt="BuildAdmin" data-v-8cecf616></div>
+                    <img src="/images/sponsors/buildadmin-l.png" alt="BuildAdmin" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[--><a href="http://www.i-renderer.love/home/index" title="百搭云 - 快速且优雅的低代码平台"
                   target="_blank" data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/sponsors/baidayun.png" alt="百搭云" data-v-8cecf616></div>
+                    <img src="/images/sponsors/baidayun.png" alt="百搭云" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[--><a href="https://bit.dev/?from=element-ui" title="bit - Share Code" target="_blank"
                   data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/bit-l.png" alt="bit" data-v-8cecf616></div>
+                    <img src="/images/bit-l.png" alt="bit" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[-->
                 <div class="flex bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
                   <div class="color-#ddd text-13px cursor-default" data-v-8cecf616>Your logo</div>

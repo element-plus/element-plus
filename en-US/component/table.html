@@ -96,7 +96,7 @@
         <div class="el-scrollbar__wrap el-scrollbar__wrap--hidden-default" style="">
           <div class="el-scrollbar__view" style=""><!--[-->
             <aside><!--[-->
-              <div class="page-sidebar-top" data-v-dd779c5c>
+              <div class="page-sidebar-row" data-v-dd779c5c>
                 <p class="title" data-v-dd779c5c>Sponsored by</p>
                 <div data-v-dd779c5c data-v-faed0b94><!--[--><a href="https://melecode.com/" title="美乐 - 企业级全栈低代码开发平台"
                     class="sponsor-item inline-flex" style="" target="_blank" data-v-faed0b94><img
@@ -343,7 +343,8 @@
                     use <code>prop</code> (corresponding to a key of the object in <code>data</code> array) in
                     <code>el-table-column</code> to insert data to table columns, and set the attribute
                     <code>label</code> to define the column name. You can also use the attribute <code>width</code> to
-                    define the width of columns.</p>
+                    define the width of columns.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -929,10 +930,12 @@
                     class="header-anchor vp-link" href="#table-with-show-overflow-tooltip"
                     aria-label="Permalink to &quot;Table with show overflow tooltip&quot;">​</a></h2>
                 <p>When the content is too long, it will break into multiple lines, you can use
-                  <code>show-overflow-tooltip</code> to keep it in one line.</p><!--[-->
+                  <code>show-overflow-tooltip</code> to keep it in one line.
+                </p><!--[-->
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>Attribute <code>show-overflow-tooltip</code>, which accepts a <code>Boolean</code> value. When set
-                    <code>true</code>, the extra content will show in tooltip when hover on the cell.</p>
+                    <code>true</code>, the extra content will show in tooltip when hover on the cell.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -1248,7 +1251,8 @@
                   <p>Attribute <code>fixed</code> is used in <code>el-table-column</code>, it accepts a
                     <code>Boolean</code>. If <code>true</code>, the column will be fixed at left. It also accepts two
                     string literals: 'left' and 'right', both indicating that the column will be fixed at corresponding
-                    direction.</p>
+                    direction.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -1986,7 +1990,8 @@
                 <p>fixed group head is supported</p><!--[-->
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>The attribute <code>fixed</code> of the group header is determined by the outermost
-                    <code>el-table-column</code></p>
+                    <code>el-table-column</code>
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -2177,7 +2182,8 @@
                     triggered when row selection changes, and its parameters are the rows after and before this change:
                     <code>currentRow</code> and <code>oldCurrentRow</code>. If you need to display row index, you can
                     add a new <code>el-table-column</code> with its <code>type</code> attribute assigned to
-                    <code>index</code>, and you will see the index starting from 1.</p>
+                    <code>index</code>, and you will see the index starting from 1.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><!--[-->
@@ -2348,10 +2354,12 @@
                     href="#multiple-select" aria-label="Permalink to &quot;Multiple select&quot;">​</a></h2>
                 <p>You can also select multiple rows.</p>
                 <p>After <span class="vp-tag">2.8.3</span>, <code>toggleRowSelection</code> supports the third parameter
-                  <code>ignoreSelectable</code> to determine whether to ignore the selectable attribute.</p><!--[-->
+                  <code>ignoreSelectable</code> to determine whether to ignore the selectable attribute.
+                </p><!--[-->
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>Activating multiple selection is easy: simply add an <code>el-table-column</code> with its
-                    <code>type</code> set to <code>selection</code>.</p>
+                    <code>type</code> set to <code>selection</code>.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><!--[-->
@@ -2578,7 +2586,8 @@
                     and sorting order so that you can fetch sorted table data from API. In this example we use another
                     attribute named <code>formatter</code> to format the value of certain columns. It accepts a function
                     which has two parameters: <code>row</code> and <code>column</code>. You can handle it according to
-                    your own needs.</p>
+                    your own needs.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -2734,7 +2743,8 @@
                   <p>Set attribute <code>filters</code> and <code>filter-method</code> in <code>el-table-column</code>
                     makes this column filterable. <code>filters</code> is an array, and <code>filter-method</code> is a
                     function deciding which rows are displayed. It has three parameters: <code>value</code>,
-                    <code>row</code> and <code>column</code>.</p>
+                    <code>row</code> and <code>column</code>.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><!--[--><button ariadisabled="false"
@@ -2950,7 +2960,8 @@
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>You have access to the following data: row, column, $index and store (state management of Table) by
                     <a href="https://v3.vuejs.org/guide/component-slots.html" class="vp-link" target="_blank"
-                      rel="noreferrer">slot<i-ri-external-link-line class="link-icon" /></a>.</p>
+                      rel="noreferrer">slot<i-ri-external-link-line class="link-icon" /></a>.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -3691,7 +3702,8 @@
                     child row data can be loaded asynchronously. Set <code>lazy</code> property of Table to true and the
                     function <code>load</code>. Specify <code>hasChildren</code> attribute in row to determine which row
                     contains children. Both <code>children</code> and <code>hasChildren</code> can be configured via
-                    <code>tree-props</code>.</p>
+                    <code>tree-props</code>.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -4470,7 +4482,8 @@
                     <code>column</code>, current row index <code>rowIndex</code> and current column index
                     <code>columnIndex</code>. The method should return an array of two numbers, the first number being
                     <code>rowspan</code> and second <code>colspan</code>. It can also return an object with
-                    <code>rowspan</code> and <code>colspan</code> props.</p>
+                    <code>rowspan</code> and <code>colspan</code> props.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -4755,7 +4768,8 @@
                   <p>To customize row indices, use <code>index</code> attribute on <code>el-table-column</code> with
                     <code>type=index</code>. If it is assigned to a number, all indices will have an offset of that
                     number. It also accepts a method with each index (starting from <code>0</code>) as parameter, and
-                    the returned value will be displayed as index.</p>
+                    the returned value will be displayed as index.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[-->
@@ -5244,7 +5258,8 @@
                         <td>key of row data, used for optimizing rendering. Required if <code>reserve-selection</code>
                           is on or display tree data. When its type is String, multi-level access is supported, e.g.
                           <code>user.info.id</code>, but <code>user.info[0].id</code> is not supported, in which case
-                          <code>Function</code> should be used</td>
+                          <code>Function</code> should be used
+                        </td>
                         <td><span class="inline-flex items-center"><code
                               class="api-typing mr-1">function</code><!----></span> / <span
                             class="inline-flex items-center"><code class="api-typing mr-1">string</code><!----></span>
@@ -5645,7 +5660,8 @@
                       <tr>
                         <td>sort</td>
                         <td>sort Table manually. Property <code>prop</code> is used to set sort column, property
-                          <code>order</code> is used to set sort order</td>
+                          <code>order</code> is used to set sort order
+                        </td>
                         <td><span class="inline-flex items-center"><code
                               class="api-typing mr-1">Function</code><!----></span></td>
                       </tr>
@@ -5750,7 +5766,8 @@
                       <tr>
                         <td>min-width</td>
                         <td>column minimum width. Columns with <code>width</code> has a fixed width, while columns with
-                          <code>min-width</code> has a width that is distributed in proportion</td>
+                          <code>min-width</code> has a width that is distributed in proportion
+                        </td>
                         <td><span class="inline-flex items-center"><code
                               class="api-typing mr-1">string</code><!----></span> / <span
                             class="inline-flex items-center"><code class="api-typing mr-1">number</code><!----></span>
@@ -5795,19 +5812,22 @@
                         <td>sort-by</td>
                         <td>specify which property to sort by, works when <code>sortable</code> is <code>true</code> and
                           <code>sort-method</code> is <code>undefined</code>. If set to an Array, the column will
-                          sequentially sort by the next property if the previous one is equal</td>
+                          sequentially sort by the next property if the previous one is equal
+                        </td>
                         <td><span class="inline-flex items-center"><code
                               class="api-typing mr-1">Function</code><!----></span> / <span
                             class="inline-flex items-center"><code class="api-typing mr-1">string</code><!----></span> /
                           <span class="inline-flex items-center"><code
-                              class="api-typing mr-1">object</code><!----></span></td>
+                              class="api-typing mr-1">object</code><!----></span>
+                        </td>
                         <td>—</td>
                       </tr>
                       <tr>
                         <td>sort-orders</td>
                         <td>the order of the sorting strategies used when sorting the data, works when
                           <code>sortable</code> is <code>true</code>. Accepts an array, as the user clicks on the
-                          header, the column is sorted in order of the elements in the array</td>
+                          header, the column is sorted in order of the elements in the array
+                        </td>
                         <td><span class="inline-flex items-center"><code
                               class="api-typing mr-1">object</code><!----></span></td>
                         <td>[&#39;ascending&#39;, &#39;descending&#39;, null]</td>
@@ -5883,7 +5903,8 @@
                       <tr>
                         <td>filters</td>
                         <td>an array of data filtering options. For each element in this array, <code>text</code> and
-                          <code>value</code> are required</td>
+                          <code>value</code> are required
+                        </td>
                         <td><span class="inline-flex items-center"><code
                               class="api-typing mr-1">object</code><!----></span></td>
                         <td>—</td>
@@ -5913,7 +5934,8 @@
                         <td>filter-method</td>
                         <td>data filtering method. If <code>filter-multiple</code> is on, this method will be called
                           multiple times for each row, and a row will display if one of the calls returns
-                          <code>true</code></td>
+                          <code>true</code>
+                        </td>
                         <td><span class="inline-flex items-center"><code
                               class="api-typing mr-1">function</code><!----></span></td>
                         <td>—</td>
@@ -5921,7 +5943,8 @@
                       <tr>
                         <td>filtered-value</td>
                         <td>filter value for selected data, might be useful when table header is rendered with
-                          <code>render-header</code></td>
+                          <code>render-header</code>
+                        </td>
                         <td><span class="inline-flex items-center"><code
                               class="api-typing mr-1">object</code><!----></span></td>
                         <td>—</td>
@@ -6772,15 +6795,18 @@
                   href="https://doc.buildadmin.com/?from=element-plus" title="BuildAdmin - Vue3企业级开源后台管理系统"
                   target="_blank" data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/sponsors/buildadmin-l.png" alt="BuildAdmin" data-v-8cecf616></div>
+                    <img src="/images/sponsors/buildadmin-l.png" alt="BuildAdmin" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[--><a href="http://www.i-renderer.love/home/index" title="百搭云 - 快速且优雅的低代码平台"
                   target="_blank" data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/sponsors/baidayun.png" alt="百搭云" data-v-8cecf616></div>
+                    <img src="/images/sponsors/baidayun.png" alt="百搭云" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[--><a href="https://bit.dev/?from=element-ui" title="bit - Share Code" target="_blank"
                   data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/bit-l.png" alt="bit" data-v-8cecf616></div>
+                    <img src="/images/bit-l.png" alt="bit" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[-->
                 <div class="flex bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
                   <div class="color-#ddd text-13px cursor-default" data-v-8cecf616>Your logo</div>

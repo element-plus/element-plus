@@ -93,7 +93,7 @@
         <div class="el-scrollbar__wrap el-scrollbar__wrap--hidden-default" style="">
           <div class="el-scrollbar__view" style=""><!--[-->
             <aside><!--[-->
-              <div class="page-sidebar-top" data-v-dd779c5c>
+              <div class="page-sidebar-row" data-v-dd779c5c>
                 <p class="title" data-v-dd779c5c>Patrocinado por</p>
                 <div data-v-dd779c5c data-v-faed0b94><!--[--><a href="https://melecode.com/" title="美乐 - 企业级全栈低代码开发平台"
                     class="sponsor-item inline-flex" style="" target="_blank" data-v-faed0b94><img
@@ -337,7 +337,8 @@
                   <p class="custom-block-title">TIP</p>
                   <p>Por diseño, MessageBox proporciona simulaciones de <code>alert</code> del sistema,
                     <code>confirm</code> y <code>prompt</code>, por lo que su contenido debería ser simple. Para
-                    contenido más complejo, por favor utilice el componente Dialog.</p>
+                    contenido más complejo, por favor utilice el componente Dialog.
+                  </p>
                 </div>
                 <h2 id="alerta" tabindex="-1">Alerta <a class="header-anchor vp-link" href="#alerta"
                     aria-label="Permalink to &quot;Alerta&quot;">​</a></h2>
@@ -439,7 +440,8 @@
                     <code>error</code>, <code>info</code> y <code>warning</code>. Se debe tener en cuenta que el segundo
                     atributo <code>title</code> debe ser de tipo <code>string</code>, y si es de tipo
                     <code>object</code>, será manejado como el atributo <code>options</code>. Aquí utilizamos
-                    <code>Promise</code> para manejar procesos posteriores.</p>
+                    <code>Promise</code> para manejar procesos posteriores.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><button ariadisabled="false" type="button"
@@ -539,7 +541,8 @@
                     <code>Boolean</code> o <code>String</code>. Al regresar <code>false</code> o <code>String</code>
                     significa que la validación ha fallado, y la cadena regresada se usara como
                     <code>inputErrorMessage</code>. Además, puedes personalizar el atributo placeholder del input box
-                    con el parámetro <code>inputPlaceholder</code>.</p>
+                    con el parámetro <code>inputPlaceholder</code>.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><button ariadisabled="false" type="button"
@@ -738,7 +741,8 @@
                     Utilizarlo le permite manipular la instancia antes de que se cierre, p.ej. activando
                     <code>loading</code> para el botón de confirmar; puede invocar el método <code>done</code> para
                     cerrar la instancia de MessageBox (si <code>done</code> no es llamado dentro de
-                    <code>beforeClose</code>, la instancia no se cerrará).</p>
+                    <code>beforeClose</code>, la instancia no se cerrará).
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><button ariadisabled="false" type="button"
@@ -940,7 +944,8 @@
                     <code>callback</code> son 'cancel' cuando el usuario cancela (haciendo clic en el botón cancelar) y
                     cierra (haciendo clic en el botón cerrar o en la capa de máscara, presionando la tecla ESC) el
                     MessageBox. Si <code>distinguishCancelAndClose</code> está establecido en true, los parámetros de
-                    las dos operaciones anteriores son 'cancel' y 'close' respectivamente.</p>
+                    las dos operaciones anteriores son 'cancel' y 'close' respectivamente.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><button ariadisabled="false" type="button"
@@ -1220,7 +1225,8 @@
                 <div text="sm" m="y-4" data-v-72294632>
                   <p>Setting <code>draggable</code> to <code>true</code> allows user to drag MessageBox. Set
                     <code>overflow</code> <span class="vp-tag ">2.5.4</span> to <code>true</code> can drag overflow the
-                    viewport.</p>
+                    viewport.
+                  </p>
                 </div>
                 <div class="example" data-v-72294632>
                   <div class="example-showcase" data-v-72294632><!--[--><!--[--><button ariadisabled="false"
@@ -1346,7 +1352,8 @@
                 <p>Si Element Plus se importa completamente, se añadirán los siguientes métodos globales para
                   <code>app.config.globalProperties</code>: <code>$msgbox</code>, <code>$alert</code>,
                   <code>$confirm</code> y <code>$prompt</code>. Así que en una instancia de Vue puede llamar a
-                  <code>MessageBox</code> como lo que hicimos en esta página. Los parámetros son:</p>
+                  <code>MessageBox</code> como lo que hicimos en esta página. Los parámetros son:
+                </p>
                 <ul>
                   <li><code>$msgbox(options)</code></li>
                   <li><code>$alert(message, title, options)</code> or <code>$alert(message, options)</code></li>
@@ -1386,7 +1393,8 @@
                 </div>
                 <p>Los métodos correspondientes son: <code>ElMessageBox</code>, <code>ElMessageBox.alert</code>,
                   <code>ElMessageBox.confirm</code> y <code>ElMessageBox.prompt</code>. Los parámetros son los mismos
-                  que los anteriores.</p>
+                  que los anteriores.
+                </p>
                 <h2 id="api" tabindex="-1">API <a class="header-anchor vp-link" href="#api"
                     aria-label="Permalink to &quot;API&quot;">​</a></h2>
                 <h3 id="options" tabindex="-1">Options <a class="header-anchor vp-link" href="#options"
@@ -2045,15 +2053,18 @@
                   href="https://doc.buildadmin.com/?from=element-plus" title="BuildAdmin - Vue3企业级开源后台管理系统"
                   target="_blank" data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/sponsors/buildadmin-l.png" alt="BuildAdmin" data-v-8cecf616></div>
+                    <img src="/images/sponsors/buildadmin-l.png" alt="BuildAdmin" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[--><a href="http://www.i-renderer.love/home/index" title="百搭云 - 快速且优雅的低代码平台"
                   target="_blank" data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/sponsors/baidayun.png" alt="百搭云" data-v-8cecf616></div>
+                    <img src="/images/sponsors/baidayun.png" alt="百搭云" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[--><a href="https://bit.dev/?from=element-ui" title="bit - Share Code" target="_blank"
                   data-v-8cecf616>
                   <div class="flex m-b-4px bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
-                    <img src="/images/bit-l.png" alt="bit" data-v-8cecf616></div>
+                    <img src="/images/bit-l.png" alt="bit" data-v-8cecf616>
+                  </div>
                 </a><!--]--><!--[-->
                 <div class="flex bg-#F9F9F9 rd-0px h-42px w-95px justify-center items-center" data-v-8cecf616>
                   <div class="color-#ddd text-13px cursor-default" data-v-8cecf616>Your logo</div>
