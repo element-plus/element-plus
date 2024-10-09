@@ -127,7 +127,7 @@ and please go to the original component to view the documentation.
 | ------------------------ | ----------------------------- | --------------------------------------- |
 | input                    | el-input component instance   | ^[object]`Ref<InputInstance \| null>`   |
 | tooltip                  | el-tooltip component instance | ^[object]`Ref<TooltipInstance \| null>` |
-| dropdownVisible ^(2.8.4) | tooltip display status        | `boolean`                               |
+| dropdownVisible ^(2.8.5) | tooltip display status        | ^[object]`ComputedRef<boolean>`         |
 
 ## Type Declarations
 
