@@ -142,6 +142,9 @@ provide(TOOLTIP_INJECTION_KEY, {
   onBeforeHide: () => {
     emit('before-hide', toggleReason.value)
   },
+  onContentFocus: () => {
+    emit('content-focus')
+  },
   updatePopper,
 })
 

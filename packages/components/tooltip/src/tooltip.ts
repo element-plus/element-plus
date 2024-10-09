@@ -32,6 +32,7 @@ export const tooltipEmits = [
   ...useTooltipModelToggleEmits,
   'before-show',
   'before-hide',
+  'content-focus',
   'show',
   'hide',
   'open',

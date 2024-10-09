@@ -14,6 +14,7 @@ export type ElTooltipInjectionContext = {
   onHide: () => void
   onBeforeShow: () => void
   onBeforeHide: () => void
+  onContentFocus: () => void
   updatePopper: () => void
 }
 
