@@ -274,5 +274,6 @@ const syncDropdownVisible = () => {
 defineExpose({
   input: elInputRef,
   tooltip: tooltipRef,
+  dropdownVisible,
 })
 </script>
