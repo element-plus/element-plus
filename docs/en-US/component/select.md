@@ -264,10 +264,11 @@ select/custom-label
 
 ### Select Exposes
 
-| Method | Description                                     | Type                    |
-| ------ | ----------------------------------------------- | ----------------------- |
-| focus  | focus the Input component                       | ^[Function]`() => void` |
-| blur   | blur the Input component, and hide the dropdown | ^[Function]`() => void` |
+| Name                   | Description                                     | Type                                       |
+| ---------------------- | ----------------------------------------------- | ------------------------------------------ |
+| focus                  | focus the Input component                       | ^[Function]`() => void`                    |
+| blur                   | blur the Input component, and hide the dropdown | ^[Function]`() => void`                    |
+| selectedLabel ^(2.8.5) | get the currently selected label                | ^[object]`ComputedRef<string \| string[]>` |
 
 ## Option Group API
 

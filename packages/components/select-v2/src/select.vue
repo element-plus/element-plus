@@ -329,9 +329,17 @@ export default defineComponent({
       onKeyboardSelect: API.onKeyboardSelect,
     })
 
+    const selectedLabel = computed(() => {
+      if (!props.multiple) {
+        return API.states.selectedLabel
+      }
+      return API.states.cachedOptions.map((i) => i.label as string)
+    })
+
     return {
       ...API,
       modelValue,
+      selectedLabel,
     }
   },
 })

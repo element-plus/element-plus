@@ -369,9 +369,17 @@ export default defineComponent({
       }) as unknown as SelectContext
     )
 
+    const selectedLabel = computed(() => {
+      if (!props.multiple) {
+        return API.states.selectedLabel
+      }
+      return API.states.selected.map((i) => i.currentLabel as string)
+    })
+
     return {
       ...API,
       modelValue,
+      selectedLabel,
     }
   },
 })
