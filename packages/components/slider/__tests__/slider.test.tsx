@@ -263,6 +263,71 @@ describe('Slider', () => {
       await nextTick()
       expect(value.value).toBe(10)
     })
+
+    it('test changeOnPressKeyDown', async () => {
+      const value = ref(0)
+      // changeOnPressKeyDown defalut value is true
+      const keydown = ref(true)
+
+      const wrapper = mount(() => (
+        <Slider v-model={value.value} changeOnPressKeyDown={keydown.value} />
+      ))
+      const slider = wrapper.findComponent({ name: 'ElSliderButton' })
+
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { key: EVENT_CODE.right })
+      )
+      await nextTick()
+      expect(value.value).toBe(1)
+
+      // not use keydown
+      keydown.value = false
+      await nextTick()
+
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { key: EVENT_CODE.right })
+      )
+      await nextTick()
+      expect(value.value).toBe(1)
+
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { key: EVENT_CODE.left })
+      )
+      await nextTick()
+      expect(value.value).toBe(1)
+
+      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: EVENT_CODE.up }))
+      await nextTick()
+      expect(value.value).toBe(1)
+
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { key: EVENT_CODE.down })
+      )
+      await nextTick()
+      expect(value.value).toBe(1)
+
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { key: EVENT_CODE.pageUp })
+      )
+      await nextTick()
+      expect(value.value).toBe(1)
+
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { key: EVENT_CODE.pageDown })
+      )
+      await nextTick()
+      expect(value.value).toBe(1)
+
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { key: EVENT_CODE.home })
+      )
+      await nextTick()
+      expect(value.value).toBe(1)
+
+      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: EVENT_CODE.end }))
+      await nextTick()
+      expect(value.value).toBe(1)
+    })
   })
 
   it('step', async () => {
