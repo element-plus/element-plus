@@ -1527,6 +1527,32 @@ describe('Select', () => {
     expect(handleBlur).toHaveBeenCalled()
   })
 
+  it('should be target blur event when click outside', async () => {
+    const handleBlur = vi.fn()
+    wrapper = _mount(
+      `
+      <el-select @blur="handleBlur" />
+      <button>button</button>
+      `,
+      () => ({ handleBlur })
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const input = select.find('input')
+    await input.trigger('focus')
+
+    expect(wrapper.find(`.${WRAPPER_CLASS_NAME}`).classes()).toContain(
+      'is-focused'
+    )
+
+    await wrapper.find('button').trigger('mousedown')
+    await wrapper.find('button').trigger('mouseup')
+
+    expect(wrapper.find(`.${WRAPPER_CLASS_NAME}`).classes()).not.toContain(
+      'is-focused'
+    )
+    expect(handleBlur).toHaveBeenCalledTimes(1)
+  })
+
   test('should not open popper when automatic-dropdown not set', async () => {
     wrapper = getSelectVm()
     const select = wrapper.findComponent({ name: 'ElSelect' })
