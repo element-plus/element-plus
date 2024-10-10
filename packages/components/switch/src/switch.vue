@@ -1,5 +1,5 @@
 <template>
-  <div :class="switchKls" @click.prevent="switchValue">
+  <div :class="switchKls">
     <input
       :id="inputId"
       ref="input"
@@ -28,7 +28,12 @@
         inactiveText
       }}</span>
     </span>
-    <span ref="core" :class="ns.e('core')" :style="coreStyle">
+    <span
+      ref="core"
+      :class="ns.e('core')"
+      :style="coreStyle"
+      @click.prevent="switchValue"
+    >
       <div v-if="inlinePrompt" :class="ns.e('inner')">
         <template v-if="activeIcon || inactiveIcon">
           <el-icon :class="ns.is('icon')">
