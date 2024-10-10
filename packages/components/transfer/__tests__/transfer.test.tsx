@@ -80,9 +80,46 @@ describe('Transfer', () => {
     transferRef.addToRight()
     await nextTick()
     expect(transferRef.sourceData.length).toBe(12)
+    expect(transferRef.targetData.length).toBe(3)
 
     expect(transferRef.leftChecked).toEqual([])
     expect(transferRef.rightChecked).toEqual([])
+  })
+
+  it('before-transfer', async () => {
+    const value = ref([])
+    const isCanTransfer = ref(false)
+    const beforeTransfer = () => isCanTransfer.value
+
+    const wrapper = mount({
+      setup: () => () =>
+        (
+          <Transfer
+            ref="transfer"
+            v-model={value.value}
+            leftDefaultChecked={[2]}
+            rightDefaultChecked={[]}
+            data={getTestData()}
+            before-transfer={beforeTransfer}
+          />
+        ),
+    })
+
+    const transferRef = wrapper.vm.$refs.transfer as TransferInstance
+    transferRef.addToRight()
+    await nextTick()
+    expect(transferRef.sourceData.length).toBe(15)
+    expect(transferRef.leftChecked).toEqual([2])
+
+    isCanTransfer.value = true
+    await nextTick()
+
+    transferRef.addToRight()
+    await nextTick()
+    await nextTick()
+    expect(transferRef.sourceData.length).toBe(14)
+    expect(transferRef.targetData.length).toBe(1)
+    expect(transferRef.leftChecked).toEqual([])
   })
 
   it('customize', () => {

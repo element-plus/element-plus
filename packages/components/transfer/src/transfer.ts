@@ -37,6 +37,8 @@ export interface TransferCheckedState {
   rightChecked: TransferKey[]
 }
 
+export type TransferBeforeTarget = 'left' | 'right'
+
 export const LEFT_CHECK_CHANGE_EVENT = 'left-check-change'
 export const RIGHT_CHECK_CHANGE_EVENT = 'right-check-change'
 
@@ -141,7 +143,10 @@ export const transferProps = buildProps({
   },
   beforeTransfer: {
     type: definePropType<
-      (data: TransferKey[]) => Awaitable<void | undefined | null | boolean>
+      (
+        data: TransferKey[],
+        target: TransferBeforeTarget
+      ) => Awaitable<void | undefined | null | boolean>
     >(Function),
   },
 } as const)

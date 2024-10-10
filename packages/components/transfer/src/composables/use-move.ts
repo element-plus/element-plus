@@ -29,7 +29,10 @@ export const useMove = (
 
   const addToLeft = async () => {
     if (props.beforeTransfer) {
-      const result = await props.beforeTransfer(checkedState.rightChecked)
+      const result = await props.beforeTransfer(
+        checkedState.rightChecked,
+        'left'
+      )
       if (!result) return
     }
 
@@ -46,7 +49,10 @@ export const useMove = (
 
   const addToRight = async () => {
     if (props.beforeTransfer) {
-      const result = await props.beforeTransfer(checkedState.leftChecked)
+      const result = await props.beforeTransfer(
+        checkedState.leftChecked,
+        'right'
+      )
       if (!result) return
     }
 
