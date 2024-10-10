@@ -286,24 +286,6 @@ function useStyle<T>(
     }
   })
 
-  const tableInnerStyle = computed(() => {
-    if (props.height) {
-      return {
-        height: !Number.isNaN(Number(props.height))
-          ? `${props.height}px`
-          : props.height,
-      }
-    }
-    if (props.maxHeight) {
-      return {
-        maxHeight: !Number.isNaN(Number(props.maxHeight))
-          ? `${props.maxHeight}px`
-          : props.maxHeight,
-      }
-    }
-    return {}
-  })
-
   const scrollbarStyle = computed(() => {
     if (props.height) {
       return {
@@ -370,7 +352,6 @@ function useStyle<T>(
     tableBodyStyles,
     tableLayout,
     scrollbarViewStyle,
-    tableInnerStyle,
     scrollbarStyle,
   }
 }
