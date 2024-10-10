@@ -152,7 +152,11 @@
         :render-label="$slots.default"
         @expand-change="handleExpandChange"
         @close="$nextTick(() => togglePopperVisible(false))"
-      />
+      >
+        <template #empty>
+          <slot name="empty" />
+        </template>
+      </el-cascader-panel>
       <el-scrollbar
         v-if="filterable"
         v-show="filtering"
@@ -718,5 +722,9 @@ defineExpose({
    * @description cascader content ref
    */
   contentRef,
+  /**
+   * @description selected content text
+   */
+  presentText,
 })
 </script>

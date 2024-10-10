@@ -839,6 +839,19 @@ describe('Table.vue', () => {
       expect(vm.fireCount).toEqual(2)
       expect(vm.selection.length).toEqual(0)
 
+      vm.$refs.table.toggleRowSelection(vm.testData[0], undefined, false)
+      expect(vm.selection.length).toEqual(0)
+      expect(vm.fireCount).toEqual(2)
+
+      // test use second parameter
+      vm.$refs.table.toggleRowSelection(vm.testData[1], undefined, false)
+      expect(vm.selection.length).toEqual(1)
+      expect(vm.fireCount).toEqual(3)
+
+      vm.$refs.table.toggleRowSelection(vm.testData[1], false, false)
+      expect(vm.selection.length).toEqual(0)
+      expect(vm.fireCount).toEqual(4)
+
       wrapper.unmount()
     })
 
@@ -1560,14 +1573,14 @@ describe('Table.vue', () => {
       })
     })
 
-    it('load substree row data', async () => {
+    it('load substree row data & updateKeyChildren', async () => {
       wrapper = mount({
         components: {
           ElTable,
           ElTableColumn,
         },
         template: `
-          <el-table :data="testData" row-key="release" lazy :load="load">
+          <el-table :data="testData" row-key="release" lazy :load="load" ref="table">
             <el-table-column prop="name" label="片名" />
             <el-table-column prop="release" label="发行日期" />
             <el-table-column prop="director" label="导演" />
@@ -1606,6 +1619,16 @@ describe('Table.vue', () => {
               },
             ])
           },
+          updateKeyChildren() {
+            this.$refs.table.updateKeyChildren(this.testData[1].release, [
+              {
+                name: 'Update children data',
+                release: '2024-7-30-10',
+                director: 'John Lasseter',
+                runtime: 95,
+              },
+            ])
+          },
         },
       })
       await doubleWait()
@@ -1615,6 +1638,10 @@ describe('Table.vue', () => {
       await doubleWait()
       expect(expandIcon.classes()).toContain('el-table__expand-icon--expanded')
       expect(wrapper.findAll('.el-table__row').length).toEqual(8)
+
+      wrapper.vm.updateKeyChildren()
+      await doubleWait()
+      expect(wrapper.findAll('.el-table__row').length).toEqual(7)
     })
 
     it('tree-props & default-expand-all & expand-change', async () => {

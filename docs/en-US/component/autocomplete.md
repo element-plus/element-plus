@@ -110,3 +110,4 @@ autocomplete/custom-loading
 | loading          | remote search loading indicator             | ^[object]`Ref<boolean>`                   |
 | popperRef        | el-tooltip component instance               | ^[object]`Ref<ElTooltipInstance>`         |
 | suggestions      | fetch suggestions result                    | ^[object]`Ref<record<string, any>>`       |
+| getData ^(2.8.4) | loading suggestion list                     | ^[Function]`(queryString: string) => void`|

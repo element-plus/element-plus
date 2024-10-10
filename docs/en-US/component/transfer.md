@@ -43,9 +43,9 @@ transfer/prop-alias
 
 :::
 
-## API
+## Transfer API
 
-### Attributes
+### Transfer Attributes
 
 | Name                     | Description                                                                                                                                                                                                                                                                        | Type                                                               | Default  |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | -------- |
@@ -65,7 +65,7 @@ transfer/prop-alias
 | validate-event           | whether to trigger form validation                                                                                                                                                                                                                                                 | ^[boolean]                                                         | true     |
 | before-transfer ^(2.8.2) | the callback before the transfer, the parameter is the transferred data. If not return `true`, transfer will be aborted.                                                                                                                                                           | ^[Function]`(data: TransferKey[]) => Awaitable<boolean>`           | —        |
 
-### Events
+### Transfer Events
 
 | Name               | Description                                                                         | Type                                                                                                |
 | ------------------ | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
@@ -73,25 +73,35 @@ transfer/prop-alias
 | left-check-change  | triggers when end user changes the checked state of any data item in the left list  | ^[Function]`(value: TransferKey[], movedKeys?: TransferKey[]) => void`                              |
 | right-check-change | triggers when end user changes the checked state of any data item in the right list | ^[Function]`(value: TransferKey[], movedKeys?: TransferKey[]) => void`                              |
 
-### Slots
+### Transfer Slots
 
-| Name         | Description                                                      |
-| ------------ | ---------------------------------------------------------------- |
-| default      | Custom content for data items. The scope parameter is { option } |
-| left-footer  | content of left list footer                                      |
-| right-footer | content of right list footer                                     |
+| Name         | Description                                                        |
+| ------------ | ------------------------------------------------------------------ |
+| default      | Custom content for data items. The scope parameter is `{ option }` |
+| left-footer  | content of left list footer                                        |
+| right-footer | content of right list footer                                       |
 
-### Exposes
+### Transfer Exposes
 
-| Method                | Description                                         | Type                                            |
+| Name                  | Description                                         | Type                                            |
 | --------------------- | --------------------------------------------------- | ----------------------------------------------- |
 | clearQuery            | clear the filter keyword of a certain panel         | ^[Function]`(which: TransferDirection) => void` |
-| sourceData ^(2.8.2)   | source data on the left                             | ^[array]`ComputedRef<TransferDataItem[]>`       |
-| targetData ^(2.8.2)   | target data on the right                            | ^[array]`ComputedRef<TransferDataItem[]>`       |
-| leftChecked ^(2.8.2)  | checked value on the left                           | ^[array]`ComputedRef<TransferKey[]>`            |
-| rightChecked ^(2.8.2) | checked value on the right                          | ^[array]`ComputedRef<TransferKey[]>`            |
-| addToLeft ^(2.8.2)    | transfer the selected data on the right to the left | ^[Function]`() => Promise<void>`                |
-| addToRight ^(2.8.2)   | transfer the selected data on the left to the right | ^[Function]`() => Promise<void>`                |
+| leftPanel             | left panel ref                                      | ^[object]`Ref<TransferPanelInstance>`           |
+| rightPanel            | right panel ref                                     | ^[object]`Ref<TransferPanelInstance>`           |
+| sourceData ^(2.8.5)   | source data on the left                             | ^[array]`ComputedRef<TransferDataItem[]>`       |
+| targetData ^(2.8.5)   | target data on the right                            | ^[array]`ComputedRef<TransferDataItem[]>`       |
+| leftChecked ^(2.8.5)  | checked value on the left                           | ^[array]`ComputedRef<TransferKey[]>`            |
+| rightChecked ^(2.8.5) | checked value on the right                          | ^[array]`ComputedRef<TransferKey[]>`            |
+| addToLeft ^(2.8.5)    | transfer the selected data on the right to the left | ^[Function]`() => Promise<void>`                |
+| addToRight ^(2.8.5)   | transfer the selected data on the left to the right | ^[Function]`() => Promise<void>`                |
+
+## Transfer Panel API
+
+### Transfer Panel Exposes
+
+| Name  | Description    | Type      |
+| ----- | -------------- | --------- |
+| query | filter keyword | ^[string] |
 
 ## Type Declarations
 

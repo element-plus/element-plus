@@ -18,6 +18,20 @@ Since Vue 3 no longer supports IE11, Element Plus does not support IE either.
 | < 2.5.0 | Chrome ≥ 64                                                                                | Edge ≥ 79                                                                        | Firefox ≥ 78                                                                                   | Safari ≥ 12                                                                                |
 | 2.5.0 + | Chrome ≥ 85                                                                                | Edge ≥ 85                                                                        | Firefox ≥ 79                                                                                   | Safari ≥ 14.1                                                                              |
 
+### Sass
+
+Version `2.8.5` and later, the minimum compatible version of [Sass](https://github.com/sass) is `1.79.0`.
+
+If your terminal prompts `legacy JS API Deprecation Warning`, you can configure the following code in [vite.config.ts](https://vitejs.dev/config/shared-options.html#css-preprocessoroptions).
+
+```ts{3}
+css: {
+  preprocessorOptions: {
+    scss: { api: 'modern-compiler' },
+  }
+}
+```
+
 ### Version
 
 Element Plus is currently in a rapid development iteration.
