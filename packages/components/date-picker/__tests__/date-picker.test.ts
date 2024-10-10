@@ -1699,7 +1699,7 @@ describe('DateRangePicker', () => {
   it('click shortcuts should have active class', async () => {
     const text = 'to yesterday'
     const value = [Date.now() - 1000 * 60 * 60 * 24, new Date()]
-    const wrapper = _mount(
+    _mount(
       `<el-date-picker
       type='daterange'
       v-model= "value"
@@ -1724,7 +1724,7 @@ describe('DateRangePicker', () => {
   it('pick date should remove active class', async () => {
     const text = 'to yesterday'
     const value = [Date.now() - 1000 * 60 * 60 * 24, new Date()]
-    const wrapper = _mount(
+    _mount(
       `<el-date-picker
       type='daterange'
       v-model= "value"
@@ -2085,7 +2085,7 @@ describe('MonthRange', () => {
   it('click shortcuts should have active class', async () => {
     const text = 'To last month'
     const value = [Date.now() - 1000 * 60 * 60 * 24 * 31, new Date()]
-    const wrapper = _mount(
+    _mount(
       `<el-date-picker
       type='monthrange'
       v-model= "value"
@@ -2110,7 +2110,7 @@ describe('MonthRange', () => {
   it('pick month should remove active class', async () => {
     const text = 'To last month'
     const value = [Date.now() - 1000 * 60 * 60 * 24 * 31, new Date()]
-    const wrapper = _mount(
+    _mount(
       `<el-date-picker
       type='monthrange'
       v-model= "value"
@@ -2304,7 +2304,7 @@ describe('YearRange', () => {
     const start = new Date()
     start.setTime(start.getTime() - 3600 * 1000 * 24 * 30 * 12)
     const value = [start, end]
-    const wrapper = _mount(
+    _mount(
       `<el-date-picker
       type='yearrange'
       v-model= "value"
@@ -2332,7 +2332,7 @@ describe('YearRange', () => {
     const start = new Date()
     start.setTime(start.getTime() - 3600 * 1000 * 24 * 30 * 12)
     const value = [start, end]
-    const wrapper = _mount(
+    _mount(
       `<el-date-picker
       type='yearrange'
       v-model= "value"
