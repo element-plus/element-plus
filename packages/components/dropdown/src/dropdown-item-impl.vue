@@ -3,7 +3,6 @@
     v-if="divided"
     role="separator"
     :class="ns.bem('menu', 'item', 'divided')"
-    v-bind="$attrs"
   />
   <li
     :ref="itemRef"
