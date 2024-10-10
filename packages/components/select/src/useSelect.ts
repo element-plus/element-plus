@@ -657,6 +657,11 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const blur = () => {
+    if (expanded.value) {
+      expanded.value = false
+      nextTick(() => inputRef.value?.blur())
+      return
+    }
     inputRef.value?.blur()
   }
 
