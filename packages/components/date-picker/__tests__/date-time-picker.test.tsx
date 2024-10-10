@@ -884,4 +884,87 @@ describe('Datetimerange', () => {
       '2023-01-01 12:00:00'
     )
   })
+  it('active class should exist when click shortcuts', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetimerange"
+        shortcuts={[
+          {
+            text: '12:00',
+            value: [new Date(2023, 0, 1, 12), new Date(2023, 0, 1, 13)],
+          },
+          {
+            text: '13:00',
+            value: [new Date(2023, 0, 1, 13), new Date(2023, 0, 1, 14)],
+          },
+          {
+            text: '14:00',
+            value: [new Date(2023, 0, 1, 14), new Date(2023, 0, 1, 15)],
+          },
+        ]}
+      />
+    ))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const shortcut = document.querySelector('.el-picker-panel__shortcut')!
+    ;(shortcut as HTMLElement).click()
+    await nextTick()
+    expect(shortcut.classList.contains('active')).toBeTruthy()
+  })
+
+  it('active class should remove after select time range manually', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetimerange"
+        shortcuts={[
+          {
+            text: '12:00',
+            value: [new Date(2023, 0, 1, 12), new Date(2023, 0, 1, 13)],
+          },
+          {
+            text: '13:00',
+            value: [new Date(2023, 0, 1, 13), new Date(2023, 0, 1, 14)],
+          },
+          {
+            text: '14:00',
+            value: [new Date(2023, 0, 1, 14), new Date(2023, 0, 1, 15)],
+          },
+        ]}
+      />
+    ))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const shortcut = document.querySelector('.el-picker-panel__shortcut')!
+    ;(shortcut as HTMLElement).click()
+    await nextTick()
+    expect(shortcut.classList.contains('active')).toBeTruthy()
+
+    const Points = document.querySelectorAll('.el-date-table td')
+    ;(Points[0] as HTMLElement).focus()
+    await nextTick()
+    ;(Points[1] as HTMLElement).focus()
+    await nextTick()
+    const startDate = document.querySelector('.start-date') as HTMLElement
+    const endDate = document.querySelector('.end-date') as HTMLElement
+    expect(startDate).not.toBeNull()
+    expect(endDate).not.toBeNull()
+    const okBtn = document.querySelector('.el-picker-panel__link-btn.is-plain')!
+    ;(okBtn as HTMLElement).click()
+    await nextTick()
+    const input2 = wrapper.find('input')
+    input2.trigger('blur')
+    input2.trigger('focus')
+    await nextTick()
+    const shortcut2 = document.querySelector('.el-picker-panel__shortcut')!
+    await nextTick()
+    expect(shortcut2.classList.contains('active')).toBeFalsy()
+  })
 })

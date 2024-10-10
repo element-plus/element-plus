@@ -16,8 +16,8 @@
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
-          :class="ppNs.e('shortcut')"
-          @click="handleShortcutClick(shortcut)"
+          :class="[ppNs.e('shortcut'), { active: currentShortcut === key }]"
+          @click="handleShortcutClick(shortcut, key)"
         >
           {{ shortcut.text }}
         </button>
@@ -316,6 +316,7 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   isShortcut = false
 }
 const handleDatePick = async (value: DateTableEmits, keepOpen?: boolean) => {
+  resetCurrentShortcut()
   if (selectionMode.value === 'date') {
     value = value as Dayjs
     let newDate = props.parsedValue
@@ -384,7 +385,12 @@ type Shortcut = {
   onClick?: (ctx: Omit<SetupContext, 'expose'>) => void
 }
 
-const handleShortcutClick = (shortcut: Shortcut) => {
+const currentShortcut = ref(-1)
+const resetCurrentShortcut = () => {
+  currentShortcut.value = -1
+}
+const handleShortcutClick = (shortcut: Shortcut, key: number) => {
+  currentShortcut.value = key
   const shortcutValue = isFunction(shortcut.value)
     ? shortcut.value()
     : shortcut.value
@@ -429,6 +435,7 @@ const handleMonthPick = async (
   month: number | MonthsPickerEmits,
   keepOpen?: boolean
 ) => {
+  resetCurrentShortcut()
   if (selectionMode.value === 'month') {
     innerDate.value = getValidDateOfMonth(
       innerDate.value.year(),
@@ -460,6 +467,7 @@ const handleYearPick = async (
   year: number | YearsPickerEmits,
   keepOpen?: boolean
 ) => {
+  resetCurrentShortcut()
   if (selectionMode.value === 'year') {
     const data = innerDate.value.startOf('year').year(year as number)
     innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
