@@ -56,7 +56,6 @@ const initData = reactive<SliderButtonInitData>({
   currentY: 0,
   startPosition: 0,
   newPosition: 0,
-  oldValue: props.modelValue,
 })
 
 const {
