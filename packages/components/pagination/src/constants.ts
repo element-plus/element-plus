@@ -1,6 +1,12 @@
-import type { ComputedRef, InjectionKey, WritableComputedRef } from 'vue'
+import type {
+  ComputedRef,
+  InjectionKey,
+  ShallowRef,
+  WritableComputedRef,
+} from 'vue'
 
 export interface ElPaginationContext {
+  paginationRef?: ShallowRef<HTMLElement | undefined>
   currentPage?: WritableComputedRef<number>
   pageCount?: ComputedRef<number>
   disabled?: ComputedRef<boolean>
