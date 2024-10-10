@@ -5,13 +5,13 @@ import {
   onMounted,
   reactive,
   ref,
-  toRaw,
   watch,
   watchEffect,
 } from 'vue'
 import {
   findLastIndex,
   get,
+  has,
   isEqual,
   debounce as lodashDebounce,
 } from 'lodash-unified'
@@ -595,10 +595,9 @@ export const useSelect = (props: ISelectProps, emit) => {
   const getValueIndex = (arr: any[] = [], value) => {
     if (!isObject(value)) return arr.indexOf(value)
 
-    const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
-      if (toRaw(get(item, valueKey)) === get(value, valueKey)) {
+      if (getValueKey(item) === getValueKey(value)) {
         index = i
         return true
       }
@@ -708,7 +707,19 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const getValueKey = (item) => {
-    return isObject(item.value) ? get(item.value, props.valueKey) : item.value
+    if (!has(item, 'value')) {
+      if (isObject) {
+        return get(item, props.valueKey)
+      }
+
+      return item
+    }
+
+    if (isObject(item.value)) {
+      return get(item.value, props.valueKey)
+    } else {
+      return item.value
+    }
   }
 
   const optionsAllDisabled = computed(() =>
