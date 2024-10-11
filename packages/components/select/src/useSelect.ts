@@ -708,7 +708,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const getValueKey = (item) => {
     if (!has(item, 'value')) {
-      if (isObject) {
+      if (isObject(item)) {
         return get(item, props.valueKey)
       }
 
