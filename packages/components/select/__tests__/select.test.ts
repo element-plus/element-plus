@@ -2746,7 +2746,7 @@ describe('Select', () => {
       const input = wrapper.find('input')
       input.element.focus()
 
-      selectVm.debouncedQueryChange({
+      selectVm.onInput({
         target: {
           value: '蚵仔煎',
         },
@@ -2754,7 +2754,7 @@ describe('Select', () => {
 
       vi.runAllTimers()
       await nextTick()
-      expect(selectVm.hoverIndex).toBe(2)
+      expect(selectVm.states.hoveringIndex).toBe(2)
 
       vi.useRealTimers()
     })
@@ -2772,7 +2772,7 @@ describe('Select', () => {
       const input = wrapper.find('input')
       input.element.focus()
 
-      selectVm.debouncedQueryChange({
+      selectVm.onInput({
         target: {
           value: '蚵仔煎',
         },
@@ -2780,7 +2780,7 @@ describe('Select', () => {
 
       vi.runAllTimers()
       await nextTick()
-      expect(selectVm.hoverIndex).toBe(2)
+      expect(selectVm.states.hoveringIndex).toBe(2)
 
       vi.useRealTimers()
     })
@@ -2798,7 +2798,7 @@ describe('Select', () => {
       const input = wrapper.find('input')
       input.element.focus()
 
-      selectVm.debouncedQueryChange({
+      selectVm.onInput({
         target: {
           value: '蚵仔煎',
         },
@@ -2806,7 +2806,7 @@ describe('Select', () => {
 
       vi.runAllTimers()
       await nextTick()
-      expect(selectVm.hoverIndex).toBe(2)
+      expect(selectVm.states.hoveringIndex).toBe(2)
 
       vi.useRealTimers()
     })
@@ -2847,7 +2847,7 @@ describe('Select', () => {
       const input = wrapper.find('input')
       input.element.focus()
 
-      selectVm.debouncedQueryChange({
+      selectVm.onInput({
         target: {
           value: '蚵仔煎',
         },
@@ -2855,7 +2855,7 @@ describe('Select', () => {
 
       vi.runAllTimers()
       await nextTick()
-      expect(selectVm.hoverIndex).toBe(2)
+      expect(selectVm.states.hoveringIndex).toBe(2)
 
       vi.useRealTimers()
     })
