@@ -106,7 +106,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const { wrapperRef, isFocused } = useFocusController(inputRef, {
+  const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     beforeFocus() {
       return selectDisabled.value
     },
@@ -562,6 +562,11 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   }
 
   const blur = () => {
+    if (expanded.value) {
+      expanded.value = false
+      nextTick(() => inputRef.value?.blur())
+      return
+    }
     inputRef.value?.blur()
   }
 
@@ -703,9 +708,13 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     }
   }
 
-  const handleClickOutside = () => {
+  const handleClickOutside = (event: Event) => {
     expanded.value = false
-    isFocused.value && blur()
+
+    if (isFocused.value) {
+      const _event = new FocusEvent('focus', event)
+      handleBlur(_event)
+    }
   }
 
   const handleMenuEnter = () => {
