@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="options.length"
     :id="inputId"
     ref="segmentedRef"
     :class="segmentedCls"
