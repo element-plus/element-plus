@@ -5,21 +5,14 @@
     :teleported="teleported"
     :popper-class="[nsCascader.e('dropdown'), popperClass]"
     :popper-options="popperOptions"
-    :fallback-placements="[
-      'bottom-start',
-      'bottom',
-      'top-start',
-      'top',
-      'right',
-      'left',
-    ]"
+    :fallback-placements="fallbackPlacements"
     :stop-popper-mouse-event="false"
     :gpu-acceleration="false"
-    placement="bottom-start"
+    :placement="placement"
     :transition="`${nsCascader.namespace.value}-zoom-in-top`"
     effect="light"
     pure
-    persistent
+    :persistent="persistent"
     @hide="hideSuggestionPanel"
   >
     <template #default>
@@ -69,12 +62,20 @@
           </template>
         </el-input>
 
-        <div v-if="multiple" ref="tagWrapper" :class="nsCascader.e('tags')">
+        <div
+          v-if="multiple"
+          ref="tagWrapper"
+          :class="[
+            nsCascader.e('tags'),
+            nsCascader.is('validate', Boolean(validateState)),
+          ]"
+        >
           <el-tag
             v-for="tag in presentTags"
             :key="tag.key"
             :type="tagType"
             :size="tagSize"
+            :effect="tagEffect"
             :hit="tag.hitState"
             :closable="tag.closable"
             disable-transitions
@@ -107,6 +108,7 @@
                         class="in-tooltip"
                         :type="tagType"
                         :size="tagSize"
+                        :effect="tagEffect"
                         :hit="tag2.hitState"
                         :closable="tag2.closable"
                         disable-transitions
@@ -150,7 +152,11 @@
         :render-label="$slots.default"
         @expand-change="handleExpandChange"
         @close="$nextTick(() => togglePopperVisible(false))"
-      />
+      >
+        <template #empty>
+          <slot name="empty" />
+        </template>
+      </el-cascader-panel>
       <el-scrollbar
         v-if="filterable"
         v-show="filtering"
@@ -189,9 +195,15 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
-import { isPromise } from '@vue/shared'
 import { cloneDeep, debounce } from 'lodash-unified'
 import { useCssVar, useResizeObserver } from '@vueuse/core'
+import {
+  debugWarn,
+  focusNode,
+  getSibling,
+  isClient,
+  isPromise,
+} from '@element-plus/utils'
 import ElCascaderPanel from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -200,14 +212,12 @@ import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
-import { useLocale, useNamespace } from '@element-plus/hooks'
 import {
-  debugWarn,
-  focusNode,
-  getSibling,
-  isClient,
-  isKorean,
-} from '@element-plus/utils'
+  useComposition,
+  useEmptyValues,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -261,6 +271,13 @@ const nsInput = useNamespace('input')
 
 const { t } = useLocale()
 const { form, formItem } = useFormItem()
+const { valueOnClear } = useEmptyValues(props)
+const { isComposing, handleComposition } = useComposition({
+  afterComposition(event) {
+    const text = (event.target as HTMLInputElement)?.value
+    handleInput(text)
+  },
+})
 
 const tooltipRef: Ref<TooltipInstance | null> = ref(null)
 const input: Ref<InputInstance | null> = ref(null)
@@ -276,7 +293,6 @@ const searchInputValue = ref('')
 const presentTags: Ref<Tag[]> = ref([])
 const allPresentTags: Ref<Tag[]> = ref([])
 const suggestions: Ref<CascaderNode[]> = ref([])
-const isOnComposition = ref(false)
 
 const cascaderStyle = computed<StyleValue>(() => {
   return attrs.style as StyleValue
@@ -287,9 +303,7 @@ const inputPlaceholder = computed(
   () => props.placeholder || t('el.cascader.placeholder')
 )
 const currentPlaceholder = computed(() =>
-  searchInputValue.value ||
-  presentTags.value.length > 0 ||
-  isOnComposition.value
+  searchInputValue.value || presentTags.value.length > 0 || isComposing.value
     ? ''
     : inputPlaceholder.value
 )
@@ -326,13 +340,17 @@ const presentText = computed(() => {
     : ''
 })
 
+const validateState = computed(() => formItem?.validateState || '')
+
 const checkedValue = computed<CascaderValue>({
   get() {
     return cloneDeep(props.modelValue) as CascaderValue
   },
   set(val) {
-    emit(UPDATE_MODEL_EVENT, val)
-    emit(CHANGE_EVENT, val)
+    // https://github.com/element-plus/element-plus/issues/17647
+    const value = val ?? valueOnClear.value
+    emit(UPDATE_MODEL_EVENT, value)
+    emit(CHANGE_EVENT, value)
     if (props.validateEvent) {
       formItem?.validate('change').catch((err) => debugWarn(err))
     }
@@ -524,19 +542,8 @@ const handleExpandChange = (value: CascaderValue) => {
   emit('expandChange', value)
 }
 
-const handleComposition = (event: CompositionEvent) => {
-  const text = (event.target as HTMLInputElement)?.value
-  if (event.type === 'compositionend') {
-    isOnComposition.value = false
-    nextTick(() => handleInput(text))
-  } else {
-    const lastCharacter = text[text.length - 1] || ''
-    isOnComposition.value = !isKorean(lastCharacter)
-  }
-}
-
 const handleKeyDown = (e: KeyboardEvent) => {
-  if (isOnComposition.value) return
+  if (isComposing.value) return
 
   switch (e.code) {
     case EVENT_CODE.enter:
@@ -566,6 +573,7 @@ const handleClear = () => {
     syncPresentTextValue()
   }
   togglePopperVisible(false)
+  emit('clear')
 }
 
 const syncPresentTextValue = () => {
@@ -670,7 +678,10 @@ const getInputInnerHeight = (inputInner: HTMLElement): number =>
 
 watch(filtering, updatePopperPosition)
 
-watch([checkedNodes, isDisabled], calculatePresentTags)
+watch(
+  [checkedNodes, isDisabled, () => props.collapseTags],
+  calculatePresentTags
+)
 
 watch(presentTags, () => {
   nextTick(() => updateStyle())
@@ -711,5 +722,9 @@ defineExpose({
    * @description cascader content ref
    */
   contentRef,
+  /**
+   * @description selected content text
+   */
+  presentText,
 })
 </script>

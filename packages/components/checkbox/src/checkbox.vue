@@ -2,27 +2,22 @@
   <component
     :is="!hasOwnLabel && isLabeledByFormItem ? 'span' : 'label'"
     :class="compKls"
-    :aria-controls="indeterminate ? controls : null"
+    :aria-controls="indeterminate ? ariaControls : null"
     @click="onClickRoot"
   >
-    <span
-      :class="spanKls"
-      :tabindex="indeterminate ? 0 : undefined"
-      :role="indeterminate ? 'checkbox' : undefined"
-      :aria-checked="indeterminate ? 'mixed' : undefined"
-    >
+    <span :class="spanKls">
       <input
-        v-if="trueLabel || falseLabel"
+        v-if="trueValue || falseValue || trueLabel || falseLabel"
         :id="inputId"
         v-model="model"
         :class="ns.e('original')"
         type="checkbox"
-        :aria-hidden="indeterminate ? 'true' : 'false'"
+        :indeterminate="indeterminate"
         :name="name"
         :tabindex="tabindex"
         :disabled="isDisabled"
-        :true-value="trueLabel"
-        :false-value="falseLabel"
+        :true-value="trueValue ?? trueLabel ?? true"
+        :false-value="falseValue ?? falseLabel ?? false"
         @change="handleChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
@@ -34,9 +29,9 @@
         v-model="model"
         :class="ns.e('original')"
         type="checkbox"
-        :aria-hidden="indeterminate ? 'true' : 'false'"
+        :indeterminate="indeterminate"
         :disabled="isDisabled"
-        :value="label"
+        :value="actualValue"
         :name="name"
         :tabindex="tabindex"
         @change="handleChange"
@@ -76,6 +71,7 @@ const {
   checkboxSize,
   hasOwnLabel,
   model,
+  actualValue,
   handleChange,
   onClickRoot,
 } = useCheckbox(props, slots)

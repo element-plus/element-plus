@@ -87,6 +87,14 @@ switch/custom-action-icon
 
 :::
 
+## custom action slot ^(2.4.4)
+
+:::demo You can use `active-action` and `inactive-action` slot to customize action.
+
+switch/custom-action-slot
+
+:::
+
 ## API
 
 ### Attributes
@@ -115,12 +123,21 @@ switch/custom-action-icon
 | before-change                 | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | ^[boolean] / ^[Function]`() => Promise<boolean>` | —       |
 | id                            | id for input                                                                                                                                    | ^[string]                                        | —       |
 | tabindex                      | tabindex for input                                                                                                                              | ^[string] / ^[number]                            | —       |
+| label ^(a11y) ^(deprecated)   | same as `aria-label` in native input                                                                                                            | ^[string]                                        | —       |
+| aria-label ^(a11y) ^(2.7.2)   | same as `aria-label` in native input                                                                                                            | ^[string]                                        | —       |
 
 ### Events
 
 | Name   | Description                 | Type                                                    |
 | ------ | --------------------------- | ------------------------------------------------------- |
 | change | triggers when value changes | ^[Function]`(val: boolean \| string \| number) => void` |
+
+### Switch Slots
+
+| Name                     | Description               |
+| ------------------------ | ------------------------- |
+| active-action ^(2.4.4)   | customize active action   |
+| inactive-action ^(2.4.4) | customize inactive action |
 
 ### Exposes
 

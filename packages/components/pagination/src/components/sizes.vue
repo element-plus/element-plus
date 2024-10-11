@@ -5,7 +5,9 @@
       :disabled="disabled"
       :popper-class="popperClass"
       :size="size"
+      :teleported="teleported"
       :validate-event="false"
+      :append-to="appendSizeTo"
       @change="handleChange"
     >
       <el-option

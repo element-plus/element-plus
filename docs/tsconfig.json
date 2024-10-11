@@ -15,7 +15,7 @@
       "element-plus": ["../packages/element-plus"],
       "~/*": ["./.vitepress/vitepress/*"]
     },
-    "types": ["../typings/components"],
+    "types": ["../typings/global"],
     "jsx": "preserve"
   },
   "include": ["**/*", ".vitepress/**/*"],

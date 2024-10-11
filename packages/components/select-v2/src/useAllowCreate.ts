@@ -1,21 +1,23 @@
-// @ts-nocheck
 import { computed, ref } from 'vue'
-import type { ISelectProps } from './token'
-import type { Option } from './select.types'
+import { useProps } from './useProps'
+import type { ISelectV2Props } from './token'
+import type { Option, SelectStates } from './select.types'
 
-export function useAllowCreate(props: ISelectProps, states) {
+export function useAllowCreate(props: ISelectV2Props, states: SelectStates) {
+  const { aliasProps, getLabel, getValue } = useProps(props)
+
   const createOptionCount = ref(0)
-  const cachedSelectedOption = ref<Option>(null)
+  const cachedSelectedOption = ref<Option>()
 
   const enableAllowCreateMode = computed(() => {
     return props.allowCreate && props.filterable
   })
 
   function hasExistingOption(query: string) {
-    const hasValue = (option) => option.value === query
+    const hasOption = (option: Option) => getLabel(option) === query
     return (
-      (props.options && props.options.some(hasValue)) ||
-      states.createdOptions.some(hasValue)
+      (props.options && props.options.some(hasOption)) ||
+      states.createdOptions.some(hasOption)
     )
   }
 
@@ -32,12 +34,15 @@ export function useAllowCreate(props: ISelectProps, states) {
 
   function createNewOption(query: string) {
     if (enableAllowCreateMode.value) {
-      if (query && query.length > 0 && !hasExistingOption(query)) {
+      if (query && query.length > 0) {
+        if (hasExistingOption(query)) {
+          return
+        }
         const newOption = {
-          value: query,
-          label: query,
+          [aliasProps.value.value]: query,
+          [aliasProps.value.label]: query,
           created: true,
-          disabled: false,
+          [aliasProps.value.disabled]: false,
         }
         if (states.createdOptions.length >= createOptionCount.value) {
           states.createdOptions[createOptionCount.value] = newOption
@@ -65,12 +70,12 @@ export function useAllowCreate(props: ISelectProps, states) {
       !option.created ||
       (option.created &&
         props.reserveKeyword &&
-        states.inputValue === option.label)
+        states.inputValue === getLabel(option))
     ) {
       return
     }
     const idx = states.createdOptions.findIndex(
-      (it) => it.value === option.value
+      (it) => getValue(it) === getValue(option)
     )
     if (~idx) {
       states.createdOptions.splice(idx, 1)

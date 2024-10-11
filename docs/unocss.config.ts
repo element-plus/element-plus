@@ -2,8 +2,8 @@ import { defineConfig, presetAttributify, presetIcons, presetUno } from 'unocss'
 
 export default defineConfig({
   presets: [presetUno(), presetAttributify(), presetIcons()],
-  include: [`${__dirname}/**/*`],
-  exclude: [`${__dirname}/node_modules/**/*`],
+  include: [`./**/*`],
+  exclude: [`./node_modules/**/*`, `./.vitepress/cache/**/*`],
   theme: {
     breakpoints: {
       sm: '640px',

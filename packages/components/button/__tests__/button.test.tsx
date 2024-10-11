@@ -262,12 +262,16 @@ describe('Button Group', () => {
     )
   })
 
-  it('shoule use props of form', async () => {
+  it('should use props of form', async () => {
     const wrapper = mount({
       setup: () => () =>
         (
           <Form size="large" disabled>
-            <Button>{{ AXIOM }}</Button>
+            <Button
+              v-slots={{
+                default: () => AXIOM,
+              }}
+            />
           </Form>
         ),
     })
@@ -278,18 +282,51 @@ describe('Button Group', () => {
     expect(btn.emitted('click')).toBeUndefined()
   })
 
-  it('shoule use size of form-item', async () => {
+  it('should use size of form-item', async () => {
     const wrapper = mount({
       setup: () => () =>
         (
           <Form size="large" disabled>
             <Form.FormItem size="small">
-              <Button>{{ AXIOM }}</Button>
+              <Button
+                v-slots={{
+                  default: () => AXIOM,
+                }}
+              />
             </Form.FormItem>
           </Form>
         ),
     })
     const btn = wrapper.findComponent(Button)
     expect(btn.classes()).toContain('el-button--small')
+  })
+
+  it('use custom tag disabled click not triggered', async () => {
+    const isLoaing = ref(false)
+    const isDisabled = ref(false)
+    const wrapper = mount(() => (
+      <div>
+        <Button
+          tag="div"
+          loading={isLoaing.value}
+          disabled={isDisabled.value}
+        ></Button>
+      </div>
+    ))
+    const btn = wrapper.findComponent(Button)
+    isDisabled.value = true
+    await nextTick()
+    await btn.trigger('click')
+    expect(wrapper.emitted('click')).toBeUndefined()
+    isLoaing.value = true
+    isDisabled.value = false
+    await nextTick()
+    await btn.trigger('click')
+    expect(wrapper.emitted('click')).toBeUndefined()
+    isLoaing.value = false
+    isDisabled.value = false
+    await nextTick()
+    await btn.trigger('click')
+    expect(wrapper.emitted('click')).toHaveLength(1)
   })
 })

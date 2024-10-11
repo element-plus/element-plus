@@ -431,6 +431,31 @@ describe('Slider', () => {
     expect(value.value > 0).toBeTruthy()
   })
 
+  describe('precision accuracy 3', () => {
+    const value = ref(0)
+    const wrapper = mount(() => (
+      <Slider showInput min={1} max={20} step={0.001} v-model={value.value} />
+    ))
+
+    it.each([
+      [1.1111111111, '1.111'],
+      [17.275, '17.275'],
+      [17.2745, '17.275'],
+      [1.09, '1.090'],
+      [10.999, '10.999'],
+      [10.9999, '11.000'],
+      [15.555, '15.555'],
+      [1.3335, '1.334'],
+    ])(
+      'each precision accuracy test: $input $output',
+      async (input, output) => {
+        await wrapper.find('input').setValue(input)
+
+        expect(wrapper.find('input').element.value).toEqual(`${output}`)
+      }
+    )
+  })
+
   it('show stops', () => {
     const wrapper = mount(() => <Slider step={10} show-stops />)
 

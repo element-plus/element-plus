@@ -17,12 +17,10 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import type { Plugin } from 'vite'
-import './vite.init'
 
 const esbuildPlugin = (): Plugin => ({
   ...esbuild({
     target: 'chrome64',
-    include: /\.vue$/,
     loaders: {
       '.vue': 'js',
     },
@@ -38,9 +36,17 @@ export default defineConfig(async ({ mode }) => {
     await glob(['dayjs/(locale|plugin)/*.js'], {
       cwd: path.resolve(projRoot, 'node_modules'),
     })
-  ).map((dep) => dep.replace(/\.js$/, ''))
+  )
 
   return {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          // additionalData: `@use "/styles/custom.scss" as *;`,
+          silenceDeprecations: ['legacy-js-api'],
+        },
+      },
+    },
     resolve: {
       alias: [
         {
@@ -56,6 +62,9 @@ export default defineConfig(async ({ mode }) => {
     server: {
       host: true,
       https: !!env.HTTPS,
+    },
+    build: {
+      sourcemap: true,
     },
     plugins: [
       VueMacros({

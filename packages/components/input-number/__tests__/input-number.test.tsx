@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
+import { ElIcon } from '@element-plus/components/icon'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
@@ -11,7 +12,7 @@ describe('InputNumber.vue', () => {
   test('create', async () => {
     const num = ref(1)
     const wrapper = mount(() => (
-      <InputNumber label="描述文字" v-model={num.value} />
+      <InputNumber aria-label="描述文字" v-model={num.value} />
     ))
     expect(wrapper.find('input').exists()).toBe(true)
   })
@@ -78,6 +79,23 @@ describe('InputNumber.vue', () => {
     nativeInput.value = ''
     await inputWrapper.trigger('input')
     expect(num.value).toEqual(null)
+  })
+
+  // fix: #14438
+  test('Make sure display value will match actual value', async () => {
+    const num = ref<number>(111)
+    const wrapper = mount(() => <InputNumber v-model={num.value} />)
+    const inputWrapper = wrapper.find('input')
+    const nativeInput = inputWrapper.element
+    await inputWrapper.trigger('focus')
+    nativeInput.value = ''
+    await inputWrapper.trigger('input')
+    nativeInput.value = '111'
+    await inputWrapper.trigger('input')
+    await inputWrapper.trigger('blur')
+    num.value = 222
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('222')
   })
 
   test('min', async () => {
@@ -312,6 +330,9 @@ describe('InputNumber.vue', () => {
     expect(
       wrapper.getComponent(InputNumber).emitted('update:modelValue')
     ).toHaveLength(4)
+    await wrapper.find('input').setValue('')
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(4)
+    expect(num.value).toBe(null)
   })
 
   test('blur-event', async () => {
@@ -408,6 +429,8 @@ describe('InputNumber.vue', () => {
     expect(num.value).toBe(6)
     elInput.handleInputChange('')
     await nextTick()
+    expect(num.value).toBe(5)
+    await wrapper.find('input').setValue('')
     expect(num.value).toBe(5)
     elInput.decrease()
     await nextTick()
@@ -509,5 +532,76 @@ describe('InputNumber.vue', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+  })
+
+  test('use model-value', () => {
+    const num = ref(2)
+    const wrapper = mount(() => (
+      <InputNumber modelValue={num.value} min={1} max={10} />
+    ))
+    const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
+    elInput.handleInputChange('')
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(1)
+    expect(elInput.modelValue).toBe(2)
+    expect(wrapper.getComponent(InputNumber).emitted().change[0]).toEqual([
+      null,
+      2,
+    ])
+
+    elInput.increase()
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(2)
+    expect(elInput.modelValue).toBe(2)
+    expect(wrapper.getComponent(InputNumber).emitted().change[1]).toEqual([
+      3, 2,
+    ])
+
+    elInput.handleInputChange('12')
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(3)
+    expect(elInput.modelValue).toBe(2)
+    expect(wrapper.getComponent(InputNumber).emitted().change[2]).toEqual([
+      10, 2,
+    ])
+
+    elInput.decrease()
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(4)
+    expect(elInput.modelValue).toBe(2)
+    expect(wrapper.getComponent(InputNumber).emitted().change[3]).toEqual([
+      1, 2,
+    ])
+  })
+
+  test('use slot custom icon', async () => {
+    const wrapper = mount(() => (
+      <InputNumber
+        v-slots={{
+          decreaseIcon: () => (
+            <ElIcon>
+              <ArrowDown />
+            </ElIcon>
+          ),
+          increaseIcon: () => (
+            <ElIcon>
+              <ArrowUp />
+            </ElIcon>
+          ),
+        }}
+      />
+    ))
+    const increase = wrapper.find('.el-input-number__increase i')
+    const decrease = wrapper.find('.el-input-number__decrease i')
+    expect(increase.exists()).toBe(true)
+    expect(decrease.exists()).toBe(true)
+    expect(increase.classes()).toContain('el-icon')
+    expect(decrease.classes()).toContain('el-icon')
+  })
+
+  // fix: #18275
+  test('step-strictly is true and should keep the initial value and step matching', () => {
+    const num = ref(2.6)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} stepStrictly step={0.5} />
+    ))
+    expect(wrapper.find('input').element.value).toBe(num.value.toString())
+    wrapper.unmount()
   })
 })

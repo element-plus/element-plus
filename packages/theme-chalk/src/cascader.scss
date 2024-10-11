@@ -13,8 +13,18 @@
     text-overflow: ellipsis;
     background: $background-color;
 
+    &.#{$namespace}-tag--dark,
+    &.#{$namespace}-tag--plain {
+      background-color: getCssVar('tag', 'bg-color');
+    }
+
     &:not(.is-hit) {
       border-color: transparent;
+
+      &.#{$namespace}-tag--dark,
+      &.#{$namespace}-tag--plain {
+        border-color: getCssVar('tag', 'border-color');
+      }
     }
 
     > span {
@@ -144,6 +154,10 @@
     text-align: left;
     box-sizing: border-box;
     @include cascader-tag-normal(getCssVar('cascader-tag-background'));
+
+    &.is-validate {
+      right: 55px;
+    }
   }
 
   @include e(collapse-tags) {

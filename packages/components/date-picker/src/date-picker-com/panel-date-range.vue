@@ -109,28 +109,37 @@
             <button
               type="button"
               :class="ppNs.e('icon-btn')"
+              :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               @click="leftPrevYear"
             >
-              <el-icon><d-arrow-left /></el-icon>
+              <slot name="prev-year">
+                <el-icon><d-arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               type="button"
               :class="ppNs.e('icon-btn')"
+              :aria-label="t(`el.datepicker.prevMonth`)"
               class="arrow-left"
               @click="leftPrevMonth"
             >
-              <el-icon><arrow-left /></el-icon>
+              <slot name="prev-month">
+                <el-icon><arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow"
               :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :aria-label="t(`el.datepicker.nextYear`)"
               class="d-arrow-right"
               @click="leftNextYear"
             >
-              <el-icon><d-arrow-right /></el-icon>
+              <slot name="next-year">
+                <el-icon><d-arrow-right /></el-icon>
+              </slot>
             </button>
             <button
               v-if="unlinkPanels"
@@ -140,10 +149,13 @@
                 ppNs.e('icon-btn'),
                 { 'is-disabled': !enableMonthArrow },
               ]"
+              :aria-label="t(`el.datepicker.nextMonth`)"
               class="arrow-right"
               @click="leftNextMonth"
             >
-              <el-icon><arrow-right /></el-icon>
+              <slot name="next-month">
+                <el-icon><arrow-right /></el-icon>
+              </slot>
             </button>
             <div>{{ leftLabel }}</div>
           </div>
@@ -167,10 +179,13 @@
               type="button"
               :disabled="!enableYearArrow"
               :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               @click="rightPrevYear"
             >
-              <el-icon><d-arrow-left /></el-icon>
+              <slot name="prev-year">
+                <el-icon><d-arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               v-if="unlinkPanels"
@@ -180,26 +195,35 @@
                 ppNs.e('icon-btn'),
                 { 'is-disabled': !enableMonthArrow },
               ]"
+              :aria-label="t(`el.datepicker.prevMonth`)"
               class="arrow-left"
               @click="rightPrevMonth"
             >
-              <el-icon><arrow-left /></el-icon>
+              <slot name="prev-month">
+                <el-icon><arrow-left /></el-icon>
+              </slot>
             </button>
             <button
               type="button"
+              :aria-label="t(`el.datepicker.nextYear`)"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-right"
               @click="rightNextYear"
             >
-              <el-icon><d-arrow-right /></el-icon>
+              <slot name="next-year">
+                <el-icon><d-arrow-right /></el-icon>
+              </slot>
             </button>
             <button
               type="button"
               :class="ppNs.e('icon-btn')"
+              :aria-label="t(`el.datepicker.nextMonth`)"
               class="arrow-right"
               @click="rightNextMonth"
             >
-              <el-icon><arrow-right /></el-icon>
+              <slot name="next-month">
+                <el-icon><arrow-right /></el-icon>
+              </slot>
             </button>
             <div>{{ rightLabel }}</div>
           </div>
@@ -242,7 +266,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, unref } from 'vue'
+import { computed, inject, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import { isArray } from '@element-plus/utils'
@@ -285,8 +309,8 @@ const emit = defineEmits([
 const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject('EP_PICKER_BASE') as any
-const { disabledDate, cellClassName, format, defaultTime, clearable } =
-  pickerBase.props
+const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
+const format = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
@@ -304,6 +328,7 @@ const {
   handleRangeConfirm,
   handleShortcutClick,
   onSelect,
+  onReset,
   t,
 } = useRangePicker(props, {
   defaultValue,
@@ -312,6 +337,16 @@ const {
   unit,
   onParsedValueChanged,
 })
+
+watch(
+  () => props.visible,
+  (visible) => {
+    if (!visible && rangeState.value.selecting) {
+      onReset(props.parsedValue)
+      onSelect(false)
+    }
+  }
+)
 
 const dateUserInput = ref<UserInput>({
   min: null,
@@ -380,11 +415,11 @@ const maxVisibleTime = computed(() => {
 })
 
 const timeFormat = computed(() => {
-  return extractTimeFormat(format)
+  return props.timeFormat || extractTimeFormat(format.value)
 })
 
 const dateFormat = computed(() => {
-  return extractDateFormat(format)
+  return props.dateFormat || extractDateFormat(format.value)
 })
 
 const isValidValue = (date: [Dayjs, Dayjs]) => {
@@ -593,9 +628,6 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
         .hour(parsedValueD.hour())
         .minute(parsedValueD.minute())
         .second(parsedValueD.second())
-      if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
-        maxDate.value = minDate.value
-      }
     } else {
       maxTimePickerVisible.value = true
       maxDate.value = (maxDate.value || rightDate.value)
@@ -603,9 +635,6 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
         .minute(parsedValueD.minute())
         .second(parsedValueD.second())
       rightDate.value = maxDate.value
-      if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
-        minDate.value = maxDate.value
-      }
     }
   }
 }
@@ -615,9 +644,15 @@ const handleTimeChange = (value: string | null, type: ChangeType) => {
   if (type === 'min') {
     leftDate.value = minDate.value!
     minTimePickerVisible.value = false
+    if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
+      maxDate.value = minDate.value
+    }
   } else {
     rightDate.value = maxDate.value!
     maxTimePickerVisible.value = false
+    if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
+      minDate.value = maxDate.value
+    }
   }
 }
 
@@ -671,19 +706,21 @@ const handleClear = () => {
     unlinkPanels: props.unlinkPanels,
   })[0]
   rightDate.value = leftDate.value.add(1, 'month')
+  maxDate.value = undefined
+  minDate.value = undefined
   emit('pick', null)
 }
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
   return isArray(value)
-    ? value.map((_) => _.format(format))
-    : value.format(format)
+    ? value.map((_) => _.format(format.value))
+    : value.format(format.value)
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
   return isArray(value)
-    ? value.map((_) => dayjs(_, format).locale(lang.value))
-    : dayjs(value, format).locale(lang.value)
+    ? value.map((_) => dayjs(_, format.value).locale(lang.value))
+    : dayjs(value, format.value).locale(lang.value)
 }
 
 function onParsedValueChanged(

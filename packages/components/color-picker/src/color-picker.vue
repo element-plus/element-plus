@@ -10,11 +10,13 @@
     :stop-popper-mouse-event="false"
     effect="light"
     trigger="click"
+    :teleported="teleported"
     :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
+    @hide="setShowPicker(false)"
   >
     <template #content>
-      <div v-click-outside="hide">
+      <div v-click-outside="handleClickOutside" @keydown.esc="handleEsc">
         <div :class="ns.be('dropdown', 'main-wrapper')">
           <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
           <sv-panel ref="sv" :color="color" />
@@ -23,12 +25,14 @@
         <predefine
           v-if="predefine"
           ref="predefine"
+          :enable-alpha="showAlpha"
           :color="color"
           :colors="predefine"
         />
         <div :class="ns.be('dropdown', 'btns')">
           <span :class="ns.be('dropdown', 'value')">
             <el-input
+              ref="inputRef"
               v-model="customInput"
               :validate-event="false"
               size="small"
@@ -58,6 +62,8 @@
     <template #default>
       <div
         :id="buttonId"
+        ref="triggerRef"
+        v-bind="$attrs"
         :class="btnKls"
         role="button"
         :aria-label="buttonAriaLabel"
@@ -65,8 +71,11 @@
         :aria-description="
           t('el.colorpicker.description', { color: modelValue || '' })
         "
-        :tabindex="tabindex"
-        @keydown.enter="handleTrigger"
+        :aria-disabled="colorDisabled"
+        :tabindex="colorDisabled ? -1 : tabindex"
+        @keydown="handleKeyDown"
+        @focus="handleFocus"
+        @blur="handleBlur"
       >
         <div v-if="colorDisabled" :class="ns.be('picker', 'mask')" />
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
@@ -84,7 +93,7 @@
                 <arrow-down />
               </el-icon>
               <el-icon
-                v-if="!modelValue && !showPanelColor"
+                v-show="!modelValue && !showPanelColor"
                 :class="[ns.be('picker', 'empty'), ns.is('icon-close')]"
               >
                 <close />
@@ -119,8 +128,12 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
-import { useLocale, useNamespace } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  useFocusController,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
 import AlphaSlider from './components/alpha-slider.vue'
@@ -155,6 +168,21 @@ const hue = ref<InstanceType<typeof HueSlider>>()
 const sv = ref<InstanceType<typeof SvPanel>>()
 const alpha = ref<InstanceType<typeof AlphaSlider>>()
 const popper = ref<TooltipInstance>()
+const triggerRef = ref()
+const inputRef = ref()
+
+const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
+  beforeFocus() {
+    return colorDisabled.value
+  },
+  beforeBlur(event) {
+    return popper.value?.isFocusInsideContent(event)
+  },
+  afterBlur() {
+    setShowPicker(false)
+    resetColor()
+  },
+})
 
 // active-change is used to prevent modelValue changes from triggering.
 let shouldActiveChange = true
@@ -184,7 +212,7 @@ const currentColor = computed(() => {
 
 const buttonAriaLabel = computed<string | undefined>(() => {
   return !isLabeledByFormItem.value
-    ? props.label || t('el.colorpicker.defaultLabel')
+    ? props.ariaLabel || t('el.colorpicker.defaultLabel')
     : undefined
 })
 
@@ -197,6 +225,7 @@ const btnKls = computed(() => {
     ns.b('picker'),
     ns.is('disabled', colorDisabled.value),
     ns.bm('picker', colorSize.value),
+    ns.is('focused', isFocused.value),
   ]
 })
 
@@ -215,7 +244,7 @@ function setShowPicker(value: boolean) {
   showPicker.value = value
 }
 
-const debounceSetShowPicker = debounce(setShowPicker, 100)
+const debounceSetShowPicker = debounce(setShowPicker, 100, { leading: true })
 
 function show() {
   if (colorDisabled.value) return
@@ -280,6 +309,42 @@ function clear() {
   resetColor()
 }
 
+function handleClickOutside() {
+  if (!showPicker.value) return
+  hide()
+  isFocused.value && focus()
+}
+
+function handleEsc(event: KeyboardEvent) {
+  event.preventDefault()
+  event.stopPropagation()
+  setShowPicker(false)
+  resetColor()
+}
+
+function handleKeyDown(event: KeyboardEvent) {
+  switch (event.code) {
+    case EVENT_CODE.enter:
+    case EVENT_CODE.space:
+      event.preventDefault()
+      event.stopPropagation()
+      show()
+      inputRef.value.focus()
+      break
+    case EVENT_CODE.esc:
+      handleEsc(event)
+      break
+  }
+}
+
+function focus() {
+  triggerRef.value.focus()
+}
+
+function blur() {
+  triggerRef.value.blur()
+}
+
 onMounted(() => {
   if (props.modelValue) {
     customInput.value = currentColor.value
@@ -295,6 +360,16 @@ watch(
       shouldActiveChange = false
       color.fromString(newVal)
     }
+  }
+)
+
+watch(
+  () => [props.colorFormat, props.showAlpha],
+  () => {
+    color.enableAlpha = props.showAlpha
+    color.format = props.colorFormat || color.format
+    color.doOnChange()
+    emit(UPDATE_MODEL_EVENT, color.value)
   }
 )
 
@@ -344,5 +419,13 @@ defineExpose({
    * @description manually hide ColorPicker
    */
   hide,
+  /**
+   * @description focus the input element
+   */
+  focus,
+  /**
+   * @description blur the input element
+   */
+  blur,
 })
 </script>

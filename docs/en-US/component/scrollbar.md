@@ -43,19 +43,24 @@ scrollbar/manual-scroll
 
 ### Attributes
 
-| Name       | Description                                                                                                                     | Type                                                                | Default |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ------- |
-| height     | height of scrollbar                                                                                                             | ^[string] / ^[number]                                               | —       |
-| max-height | max height of scrollbar                                                                                                         | ^[string] / ^[number]                                               | —       |
-| native     | whether to use the native scrollbar style                                                                                       | ^[boolean]                                                          | false   |
-| wrap-style | style of wrap container                                                                                                         | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
-| wrap-class | class of wrap container                                                                                                         | ^[string]                                                           | —       |
-| view-style | style of view                                                                                                                   | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
-| view-class | class of view                                                                                                                   | ^[string]                                                           | —       |
-| noresize   | do not respond to container size changes, if the container size does not change, it is better to set it to optimize performance | ^[boolean]                                                          | false   |
-| tag        | element tag of the view                                                                                                         | ^[string]                                                           | div     |
-| always     | always show scrollbar                                                                                                           | ^[boolean]                                                          | false   |
-| min-size   | minimum size of scrollbar                                                                                                       | ^[number]                                                           | 20      |
+| Name                              | Description                                                                                                                     | Type                                                                | Default |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ------- |
+| height                            | height of scrollbar                                                                                                             | ^[string] / ^[number]                                               | —       |
+| max-height                        | max height of scrollbar                                                                                                         | ^[string] / ^[number]                                               | —       |
+| native                            | whether to use the native scrollbar style                                                                                       | ^[boolean]                                                          | false   |
+| wrap-style                        | style of wrap container                                                                                                         | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
+| wrap-class                        | class of wrap container                                                                                                         | ^[string]                                                           | —       |
+| view-style                        | style of view                                                                                                                   | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
+| view-class                        | class of view                                                                                                                   | ^[string]                                                           | —       |
+| noresize                          | do not respond to container size changes, if the container size does not change, it is better to set it to optimize performance | ^[boolean]                                                          | false   |
+| tag                               | element tag of the view                                                                                                         | ^[string]                                                           | div     |
+| always                            | always show scrollbar                                                                                                           | ^[boolean]                                                          | false   |
+| min-size                          | minimum size of scrollbar                                                                                                       | ^[number]                                                           | 20      |
+| id ^(2.4.0)                       | id of view                                                                                                                      | ^[string]                                                           | —       |
+| role ^(2.4.0) ^(a11y)             | role of view                                                                                                                    | ^[string]                                                           | —       |
+| aria-label ^(2.4.0) ^(a11y)       | aria-label of view                                                                                                              | ^[string]                                                           | —       |
+| aria-orientation ^(2.4.0) ^(a11y) | aria-orientation of view                                                                                                        | ^[enum]`'horizontal' \| 'vertical'`                                 | —       |
+| tabindex ^(2.8.3)                 | tabindex of wrap container                                                                                                      | ^[number] / ^[string]                                               | —       |
 
 ### Events
 

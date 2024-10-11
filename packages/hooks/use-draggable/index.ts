@@ -5,7 +5,8 @@ import type { ComputedRef, Ref } from 'vue'
 export const useDraggable = (
   targetRef: Ref<HTMLElement | undefined>,
   dragRef: Ref<HTMLElement | undefined>,
-  draggable: ComputedRef<boolean>
+  draggable: ComputedRef<boolean>,
+  overflow?: ComputedRef<boolean>
 ) => {
   let transform = {
     offsetX: 0,
@@ -32,22 +33,24 @@ export const useDraggable = (
     const maxTop = clientHeight - targetTop - targetHeight + offsetY
 
     const onMousemove = (e: MouseEvent) => {
-      const moveX = Math.min(
-        Math.max(offsetX + e.clientX - downX, minLeft),
-        maxLeft
-      )
-      const moveY = Math.min(
-        Math.max(offsetY + e.clientY - downY, minTop),
-        maxTop
-      )
+      let moveX = offsetX + e.clientX - downX
+      let moveY = offsetY + e.clientY - downY
+
+      if (!overflow?.value) {
+        moveX = Math.min(Math.max(moveX, minLeft), maxLeft)
+        moveY = Math.min(Math.max(moveY, minTop), maxTop)
+      }
 
       transform = {
         offsetX: moveX,
         offsetY: moveY,
       }
-      targetRef.value!.style.transform = `translate(${addUnit(
-        moveX
-      )}, ${addUnit(moveY)})`
+
+      if (targetRef.value) {
+        targetRef.value.style.transform = `translate(${addUnit(
+          moveX
+        )}, ${addUnit(moveY)})`
+      }
     }
 
     const onMouseup = () => {
@@ -71,6 +74,16 @@ export const useDraggable = (
     }
   }
 
+  const resetPosition = () => {
+    transform = {
+      offsetX: 0,
+      offsetY: 0,
+    }
+    if (targetRef.value) {
+      targetRef.value.style.transform = 'none'
+    }
+  }
+
   onMounted(() => {
     watchEffect(() => {
       if (draggable.value) {
@@ -84,4 +97,8 @@ export const useDraggable = (
   onBeforeUnmount(() => {
     offDraggable()
   })
+
+  return {
+    resetPosition,
+  }
 }

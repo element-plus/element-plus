@@ -1,17 +1,26 @@
 <template>
   <div>
-    <el-input v-model="input1" placeholder="Please input">
+    <el-input
+      v-model="input1"
+      style="max-width: 600px"
+      placeholder="Please input"
+    >
       <template #prepend>Http://</template>
     </el-input>
   </div>
   <div class="mt-4">
-    <el-input v-model="input2" placeholder="Please input">
+    <el-input
+      v-model="input2"
+      style="max-width: 600px"
+      placeholder="Please input"
+    >
       <template #append>.com</template>
     </el-input>
   </div>
   <div class="mt-4">
     <el-input
       v-model="input3"
+      style="max-width: 600px"
       placeholder="Please input"
       class="input-with-select"
     >
@@ -30,6 +39,7 @@
   <div class="mt-4">
     <el-input
       v-model="input3"
+      style="max-width: 600px"
       placeholder="Please input"
       class="input-with-select"
     >

@@ -1,5 +1,4 @@
-import { isRef, onScopeDispose, watch } from 'vue'
-import { computed } from '@vue/reactivity'
+import { computed, isRef, onScopeDispose, watch } from 'vue'
 import {
   addClass,
   getScrollBarWidth,
@@ -49,6 +48,9 @@ export const useLockscreen = (
 
   const cleanup = () => {
     setTimeout(() => {
+      // When the test case is running, the context environment simulated by jsdom may have been destroyed,
+      // and the document does not exist at this time.
+      if (typeof document === 'undefined') return
       removeClass(document?.body, hiddenCls.value)
       if (withoutHiddenClass && document) {
         document.body.style.width = bodyWidth

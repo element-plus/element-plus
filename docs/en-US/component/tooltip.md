@@ -7,12 +7,6 @@ lang: en-US
 
 Display prompt information for mouse hover.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Tooltip has 9 placements.
@@ -157,6 +151,7 @@ tooltip/animations
 | content                   | display content, can be overridden by `slot#content`                                                                                                    | ^[string]                                                                                                                                                                   | ''                |
 | raw-content               | whether `content` is treated as HTML string                                                                                                             | ^[boolean]                                                                                                                                                                  | false             |
 | placement                 | position of Tooltip                                                                                                                                     | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom            |
+| fallback-placements       | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                                    | ^[array]`Placement[]`                                                                                                                                                       | —                 |
 | visible / v-model:visible | visibility of Tooltip                                                                                                                                   | ^[boolean]                                                                                                                                                                  | —                 |
 | disabled                  | whether Tooltip is disabled                                                                                                                             | ^[boolean]                                                                                                                                                                  | —                 |
 | offset                    | offset of the Tooltip                                                                                                                                   | ^[number]                                                                                                                                                                   | 12                |
