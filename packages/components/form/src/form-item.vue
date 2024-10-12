@@ -86,7 +86,7 @@ const slots = useSlots()
 const formContext = inject(formContextKey, undefined)
 const parentFormItemContext = inject(formItemContextKey, undefined)
 
-const _size = useFormSize(undefined, { formItem: false })
+const _size = useFormSize()
 const ns = useNamespace('form-item')
 
 const labelId = useId().value
