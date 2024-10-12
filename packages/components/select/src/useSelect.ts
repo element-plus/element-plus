@@ -103,7 +103,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const { wrapperRef, isFocused } = useFocusController(inputRef, {
+  const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     beforeFocus() {
       return selectDisabled.value
     },
@@ -657,6 +657,11 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const blur = () => {
+    if (expanded.value) {
+      expanded.value = false
+      nextTick(() => inputRef.value?.blur())
+      return
+    }
     inputRef.value?.blur()
   }
 
@@ -664,9 +669,13 @@ export const useSelect = (props: ISelectProps, emit) => {
     deleteSelected(event)
   }
 
-  const handleClickOutside = () => {
+  const handleClickOutside = (event: Event) => {
     expanded.value = false
-    isFocused.value && blur()
+
+    if (isFocused.value) {
+      const _event = new FocusEvent('focus', event)
+      nextTick(() => handleBlur(_event))
+    }
   }
 
   const handleEsc = () => {
