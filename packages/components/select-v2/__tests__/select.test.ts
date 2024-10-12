@@ -1,8 +1,7 @@
 // @ts-nocheck
 import { nextTick, ref } from 'vue'
-import { NOOP } from '@vue/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { hasClass } from '@element-plus/utils'
+import { NOOP, hasClass } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -532,6 +531,42 @@ describe('Select', () => {
         )
       }
     )
+  })
+
+  describe('expose', () => {
+    it('select label', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            options: [
+              { value: 'value1', label: 'label1' },
+              { value: 'value2', label: 'label2' },
+            ],
+            multiple: false,
+            value: '',
+          }
+        },
+      })
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      const selectVm = select.vm as any
+      const vm = wrapper.vm as any
+
+      const options = getOptions()
+      options[0].click()
+      expect(selectVm.selectedLabel).toBe('label1')
+      vm.value = 'value2'
+      await nextTick()
+      expect(selectVm.selectedLabel).toBe('label2')
+
+      vm.multiple = true
+      vm.value = []
+      await nextTick()
+      expect(selectVm.selectedLabel).toStrictEqual([])
+      vm.value = ['value1', 'value2']
+      await nextTick()
+      expect(selectVm.selectedLabel).toStrictEqual(['label1', 'label2'])
+    })
   })
 
   describe('multiple', () => {

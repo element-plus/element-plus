@@ -9,7 +9,6 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import { isArray, isObject, toRawType } from '@vue/shared'
 import {
   findLastIndex,
   get,
@@ -18,21 +17,24 @@ import {
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import {
-  CHANGE_EVENT,
-  EVENT_CODE,
-  UPDATE_MODEL_EVENT,
-} from '@element-plus/constants'
-import {
   ValidateComponentsMap,
   debugWarn,
   ensureArray,
+  isArray,
   isClient,
   isFunction,
   isIOS,
   isNumber,
+  isObject,
   isUndefined,
   scrollIntoView,
+  toRawType,
 } from '@element-plus/utils'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import {
   useComposition,
   useEmptyValues,
@@ -64,7 +66,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     cachedOptions: new Map(),
     disabledOptions: new Map(),
     optionValues: [] as any[], // sorted value of options
-    selected: props.multiple ? [] : ({} as any),
+    selected: [] as any[],
     selectionWidth: 0,
     calculatorWidth: 0,
     collapseItemWidth: 0,
@@ -102,6 +104,9 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
+    beforeFocus() {
+      return selectDisabled.value
+    },
     afterFocus() {
       if (props.automaticDropdown && !expanded.value) {
         expanded.value = true
@@ -404,7 +409,7 @@ export const useSelect = (props: ISelectProps, emit) => {
         : props.modelValue
       const option = getOption(value)
       states.selectedLabel = option.currentLabel
-      states.selected = option
+      states.selected = [option]
       return
     } else {
       states.selectedLabel = ''
@@ -454,17 +459,11 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const updateHoveringIndex = () => {
-    if (!props.multiple) {
-      states.hoveringIndex = optionsArray.value.findIndex((item) => {
-        return getValueKey(item) === getValueKey(states.selected)
-      })
-    } else {
-      states.hoveringIndex = optionsArray.value.findIndex((item) =>
-        states.selected.some(
-          (selected) => getValueKey(selected) === getValueKey(item)
-        )
+    states.hoveringIndex = optionsArray.value.findIndex((item) =>
+      states.selected.some(
+        (selected) => getValueKey(selected) === getValueKey(item)
       )
-    }
+    )
   }
 
   const resetSelectionWidth = () => {
@@ -658,7 +657,12 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const blur = () => {
-    handleClickOutside()
+    if (expanded.value) {
+      expanded.value = false
+      nextTick(() => inputRef.value?.blur())
+      return
+    }
+    inputRef.value?.blur()
   }
 
   const handleClearClick = (event: Event) => {

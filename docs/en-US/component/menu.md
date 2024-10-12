@@ -7,6 +7,18 @@ lang: en-US
 
 Menu that provides navigation for your website.
 
+::: tip
+
+If you want to override the default height of el-menu, you can use the following CSS:
+
+```css
+.el-menu--horizontal {
+  --el-menu-horizontal-height: 100px;
+}
+```
+
+:::
+
 ## Top bar
 
 Top bar Menu can be used in a variety of scenarios.

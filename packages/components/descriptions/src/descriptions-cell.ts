@@ -44,8 +44,8 @@ export default defineComponent({
 
     const { border, direction } = this.descriptions
     const isVertical = direction === 'vertical'
-    const label = this.cell?.children?.label?.() || item.label
-    const content = this.cell?.children?.default?.()
+    const renderLabel = () => this.cell?.children?.label?.() || item.label
+    const renderContent = () => this.cell?.children?.default?.()
     const span = item.span
     const rowspan = item.rowspan
     const align = item.align ? `is-${item.align}` : ''
@@ -76,7 +76,7 @@ export default defineComponent({
               colSpan: isVertical ? span : 1,
               rowspan: isVertical ? 1 : rowspan,
             },
-            label
+            renderLabel()
           ),
           directives
         )
@@ -97,11 +97,13 @@ export default defineComponent({
               colSpan: isVertical ? span : span * 2 - 1,
               rowspan: isVertical ? rowspan * 2 - 1 : rowspan,
             },
-            content
+            renderContent()
           ),
           directives
         )
-      default:
+      default: {
+        const label = renderLabel()
+
         return withDirectives(
           h(
             'td',
@@ -126,12 +128,13 @@ export default defineComponent({
                 {
                   class: [ns.e('content'), className],
                 },
-                content
+                renderContent()
               ),
             ]
           ),
           directives
         )
+      }
     }
   },
 })

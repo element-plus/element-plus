@@ -8,7 +8,7 @@ import Notification from '../src/notification.vue'
 
 import type { VNode } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
-import type { SpyInstance } from 'vitest'
+import type { MockInstance } from 'vitest'
 import type {
   NotificationInstance,
   NotificationProps,
@@ -126,7 +126,7 @@ describe('Notification.vue', () => {
 
       expect(wrapper.find('.el-notification__icon').exists()).toBe(false)
       expect(console.warn).toHaveBeenCalled()
-      ;(console.warn as any as SpyInstance).mockRestore()
+      ;(console.warn as any as MockInstance).mockRestore()
     })
   })
 

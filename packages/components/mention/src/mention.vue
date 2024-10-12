@@ -4,6 +4,7 @@
       v-bind="mergeProps(passInputProps, $attrs)"
       ref="elInputRef"
       :model-value="modelValue"
+      :disabled="disabled"
       :role="dropdownVisible ? 'combobox' : undefined"
       :aria-activedescendant="dropdownVisible ? hoveringId || '' : undefined"
       :aria-controls="dropdownVisible ? contentId : undefined"
@@ -61,6 +62,7 @@ import { useFocusController, useId, useNamespace } from '@element-plus/hooks'
 import ElInput, { inputProps } from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { useFormDisabled } from '@element-plus/components/form'
 import { isFunction } from '@element-plus/utils'
 import { mentionEmits, mentionProps } from './mention'
 import { getCursorPosition, getMentionCtx } from './helper'
@@ -74,6 +76,7 @@ import type { MentionCtx, MentionOption } from './types'
 
 defineOptions({
   name: 'ElMention',
+  inheritAttrs: false,
 })
 
 const props = defineProps(mentionProps)
@@ -82,6 +85,7 @@ const emit = defineEmits(mentionEmits)
 const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
 
 const ns = useNamespace('mention')
+const disabled = useFormDisabled()
 const contentId = useId()
 
 const elInputRef = ref<InputInstance>()
@@ -173,6 +177,9 @@ const handleInputKeyDown = (e: KeyboardEvent | Event) => {
 }
 
 const { wrapperRef } = useFocusController(elInputRef, {
+  beforeFocus() {
+    return disabled.value
+  },
   afterFocus() {
     syncAfterCursorMove()
   },
@@ -267,5 +274,6 @@ const syncDropdownVisible = () => {
 defineExpose({
   input: elInputRef,
   tooltip: tooltipRef,
+  dropdownVisible,
 })
 </script>

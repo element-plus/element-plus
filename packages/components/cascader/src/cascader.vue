@@ -152,7 +152,11 @@
         :render-label="$slots.default"
         @expand-change="handleExpandChange"
         @close="$nextTick(() => togglePopperVisible(false))"
-      />
+      >
+        <template #empty>
+          <slot name="empty" />
+        </template>
+      </el-cascader-panel>
       <el-scrollbar
         v-if="filterable"
         v-show="filtering"
@@ -191,9 +195,15 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
-import { isPromise } from '@vue/shared'
 import { cloneDeep, debounce } from 'lodash-unified'
 import { useCssVar, useResizeObserver } from '@vueuse/core'
+import {
+  debugWarn,
+  focusNode,
+  getSibling,
+  isClient,
+  isPromise,
+} from '@element-plus/utils'
 import ElCascaderPanel from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -208,7 +218,6 @@ import {
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
-import { debugWarn, focusNode, getSibling, isClient } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -713,5 +722,9 @@ defineExpose({
    * @description cascader content ref
    */
   contentRef,
+  /**
+   * @description selected content text
+   */
+  presentText,
 })
 </script>
