@@ -81,9 +81,9 @@ segmented/custom-style
 
 ### Slots
 
-| Name    | Description                                                          |
-| ------- | -------------------------------------------------------------------- |
-| default | Option renderer. The scope parameter is ^[object]`{ item: Option }`. |
+| Name    | Description     | Type                        |
+| ------- | --------------- | --------------------------- |
+| default | option renderer | ^[object]`{ item: Option }` |
 
 ## Type Declarations
 
