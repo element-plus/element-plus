@@ -134,14 +134,14 @@ describe('Dialog.vue', () => {
     )
 
     await nextTick()
-    expect(wrapper.find('.el-dialog__headerbtn').exists()).toBe(false)
+    expect(wrapper.find('.el-dialog__header-btn').exists()).toBe(false)
   })
 
   test('should close dialog when click on close button', async () => {
     const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>)
 
     await nextTick()
-    await wrapper.find('.el-dialog__headerbtn').trigger('click')
+    await wrapper.find('.el-dialog__header-btn').trigger('click')
     expect(wrapper.vm.visible).toBe(false)
   })
 
@@ -179,7 +179,7 @@ describe('Dialog.vue', () => {
       )
 
       await nextTick()
-      await wrapper.find('.el-dialog__headerbtn').trigger('click')
+      await wrapper.find('.el-dialog__header-btn').trigger('click')
       expect(beforeClose).toHaveBeenCalled()
     })
 
@@ -194,7 +194,7 @@ describe('Dialog.vue', () => {
         </Dialog>
       )
       await nextTick()
-      await wrapper.find('.el-dialog__headerbtn').trigger('click')
+      await wrapper.find('.el-dialog__header-btn').trigger('click')
       expect(beforeClose).toHaveBeenCalled()
       expect(wrapper.vm.visible).toBe(true)
     })
@@ -240,7 +240,7 @@ describe('Dialog.vue', () => {
       await nextTick()
       await rAF()
       await nextTick()
-      await wrapper.find('.el-dialog__headerbtn').trigger('click')
+      await wrapper.find('.el-dialog__header-btn').trigger('click')
       await wrapper.setProps({
         // manually setting this prop because that Transition is not available in testing,
         // updating model value event was emitted via transition hooks.

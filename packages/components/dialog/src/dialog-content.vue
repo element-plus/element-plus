@@ -12,7 +12,7 @@
       <button
         v-if="showClose"
         :aria-label="t('el.dialog.close')"
-        :class="ns.e('headerbtn')"
+        :class="ns.e('header-btn')"
         type="button"
         @click="$emit('close')"
       >
