@@ -1,5 +1,5 @@
 import { Loading } from './src/service'
-import { vLoading } from './src/directive'
+import vLoading from './src/directive'
 
 import type { App } from 'vue'
 

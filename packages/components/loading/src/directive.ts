@@ -70,7 +70,7 @@ const updateOptions = (
   }
 }
 
-export const vLoading: Directive<ElementLoading, LoadingBinding> = {
+const vLoading: Directive<ElementLoading, LoadingBinding> = {
   mounted(el, binding) {
     if (binding.value) {
       createInstance(el, binding)
@@ -94,3 +94,5 @@ export const vLoading: Directive<ElementLoading, LoadingBinding> = {
     el[INSTANCE_KEY] = null
   },
 }
+
+export default vLoading

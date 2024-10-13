@@ -4,6 +4,10 @@
     "composite": true,
     "types": ["node"]
   },
-  "include": ["**/vite.config.*", "**/vitest.config.*"],
+  "include": [
+    "**/vite.config.*",
+    "**/vitest.config.*",
+    "play/auto-import-components.ts"
+  ],
   "exclude": ["docs"]
 }

@@ -1,4 +1,4 @@
-import InfiniteScroll from './src'
+import InfiniteScroll from './src/directive'
 
 import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils'
