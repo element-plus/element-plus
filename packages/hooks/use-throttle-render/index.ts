@@ -1,4 +1,5 @@
 import { onMounted, ref, watch } from 'vue'
+import { isNumber } from '@element-plus/utils'
 import type { SkeletonThrottle } from '@element-plus/components'
 
 import type { Ref } from 'vue'
@@ -22,40 +23,30 @@ export const useThrottleRender = (
     }, timer)
   }
 
-  const leadingDispatch = () => {
-    if (typeof throttle === 'number') {
-      dispatchThrottling(throttle)
-    } else if (
-      typeof throttle === 'object' &&
-      throttle.leading &&
-      throttle.leading > 0
-    ) {
-      dispatchThrottling(throttle.leading)
-    }
-  }
-
-  const trailingDispatch = () => {
-    if (
-      typeof throttle === 'object' &&
-      throttle.trailing &&
-      throttle.trailing > 0
-    ) {
-      dispatchThrottling(throttle.trailing)
+  const dispatcher = (type: 'leading' | 'trailing') => {
+    if (type === 'leading') {
+      if (isNumber(throttle)) {
+        dispatchThrottling(throttle)
+      } else {
+        if (throttle?.leading! > 0) {
+          dispatchThrottling(throttle.leading!)
+        }
+      }
     } else {
-      throttled.value = false
+      if (typeof throttle === 'object' && throttle?.trailing! > 0) {
+        dispatchThrottling(throttle.trailing!)
+      } else {
+        throttled.value = false
+      }
     }
   }
 
-  onMounted(leadingDispatch)
+  onMounted(() => dispatcher('leading'))
 
   watch(
     () => loading.value,
     (val) => {
-      if (val) {
-        leadingDispatch()
-      } else {
-        trailingDispatch()
-      }
+      dispatcher(val ? 'leading' : 'trailing')
     }
   )
   return throttled
