@@ -1,6 +1,5 @@
 import path from 'path'
 import Inspect from 'vite-plugin-inspect'
-import VueMacros from 'unplugin-vue-macros/vite'
 import UnoCSS from 'unocss/vite'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
@@ -68,16 +67,7 @@ export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
       alias,
     },
     plugins: [
-      VueMacros({
-        setupComponent: false,
-        setupSFC: false,
-        hoistStatic: {
-          exclude: ['./**/*.vue'],
-        },
-        plugins: {
-          vueJsx: vueJsx(),
-        },
-      }),
+      vueJsx(),
 
       // https://github.com/antfu/unplugin-vue-components
       Components({
