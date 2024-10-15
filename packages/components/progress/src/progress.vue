@@ -44,7 +44,16 @@
       :class="ns.b('circle')"
       :style="{ height: `${width}px`, width: `${width}px` }"
     >
-      <svg viewBox="0 0 100 100">
+      <svg
+        ref="processRef"
+        viewBox="0 0 100 100"
+        @click="onClick"
+        @keydown="onKeyDown"
+        @mousedown="onMouseDown"
+        @mouseup="onMouseUp"
+        @touchstart.passive="onTouchStart"
+        @touchend="onTouchEnd"
+      >
         <path
           :class="ns.be('circle', 'track')"
           :d="trackPath"
@@ -69,7 +78,7 @@
     <div
       v-if="(showText || $slots.default) && !textInside"
       :class="ns.e('text')"
-      :style="{ fontSize: `${progressTextSize}px` }"
+      :style="textStyle"
     >
       <slot :percentage="percentage">
         <span v-if="!status">{{ content }}</span>
@@ -82,7 +91,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+/**
+ *  (see the effects on https://primevue.org/knob/)
+ *  Usages: <el-progress v-model:percentage="processVal" :min="-100" type="circle"></el-progress>
+ */
+import { computed, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   Check,
@@ -93,7 +106,7 @@ import {
 } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { isFunction, isString } from '@element-plus/utils'
-import { progressProps } from './progress'
+import { processEmits, progressProps } from './progress'
 import type { CSSProperties } from 'vue'
 import type { ProgressColor } from './progress'
 
@@ -109,6 +122,7 @@ const STATUS_COLOR_MAP: Record<string, string> = {
 }
 
 const props = defineProps(progressProps)
+const emit = defineEmits(processEmits)
 
 const ns = useNamespace('progress')
 
@@ -167,7 +181,8 @@ const trailPathStyle = computed<CSSProperties>(() => ({
 
 const circlePathStyle = computed<CSSProperties>(() => ({
   strokeDasharray: `${
-    perimeter.value * rate.value * (props.percentage / 100)
+    (perimeter.value * rate.value * (props.percentage - props.min)) /
+    (props.max - props.min)
   }px, ${perimeter.value}px`,
   strokeDashoffset: strokeDashoffset.value,
   transition:
@@ -231,4 +246,162 @@ const getCurrentColor = (percentage: number) => {
     return colors[colors.length - 1]?.color
   }
 }
+
+const MathPI = 3.14159265358979
+
+const processRef = ref(undefined)
+
+const minRadians = computed(() => {
+  return props.type === 'dashboard' ? -(MathPI * 3) / 4 : -MathPI
+})
+const maxRadians = computed(() => {
+  return props.type === 'dashboard' ? (MathPI * 3) / 4 : MathPI
+})
+
+const updateValue = (offsetX: number, offsetY: number) => {
+  let angle
+  offsetX = mapOffset(offsetX)
+  offsetY = mapOffset(offsetY)
+  const dx = offsetX - 50
+  const dy = 50 - offsetY
+  if (props.type === 'dashboard') {
+    angle = Math.atan2(dx, dy)
+  } else {
+    angle = Math.atan2(-dx, -dy)
+  }
+  updateModel(angle)
+}
+const updateModel = (angle: number) => {
+  const mappedValue = mapRange(
+    angle,
+    minRadians.value,
+    maxRadians.value,
+    props.min,
+    props.max
+  )
+  const newValue =
+    Math.round((mappedValue - props.min) / props.step) * props.step + props.min
+  emit('update:percentage', newValue)
+  emit('change', newValue)
+}
+const updatePercentage = (newValue: number) => {
+  if (newValue > props.max) emit('update:percentage', props.max)
+  else if (newValue < props.min) emit('update:percentage', props.min)
+  else emit('update:percentage', newValue)
+}
+const mapOffset = (offset: number) => {
+  return (offset * 100) / props.width
+}
+const mapRange = (
+  x: number,
+  inMin: number,
+  inMax: number,
+  outMin: number,
+  outMax: number
+) => {
+  const range = ((x - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin
+  if (range < outMin) {
+    return outMin
+  }
+  if (range > outMax) {
+    return outMax
+  }
+  return range
+}
+const onClick = (event: any) => {
+  if (!props.disabled && !props.readonly) {
+    updateValue(event.offsetX, event.offsetY)
+  }
+}
+const onMouseDown = (event: any) => {
+  if (!props.disabled && !props.readonly) {
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mouseup', onMouseUp)
+    event.preventDefault()
+  }
+}
+const onMouseUp = (event: any) => {
+  if (!props.disabled && !props.readonly) {
+    window.removeEventListener('mousemove', onMouseMove)
+    window.removeEventListener('mouseup', onMouseUp)
+    event.preventDefault()
+  }
+}
+const onTouchStart = (event: any) => {
+  if (!props.disabled && !props.readonly) {
+    window.addEventListener('touchmove', onTouchMove)
+    window.addEventListener('touchend', onTouchEnd)
+    event.preventDefault()
+  }
+}
+const onTouchEnd = (event: any) => {
+  if (!props.disabled && !props.readonly) {
+    window.removeEventListener('touchmove', onTouchMove)
+    window.removeEventListener('touchend', onTouchEnd)
+    event.preventDefault()
+  }
+}
+const onMouseMove = (event: any) => {
+  if (!props.disabled && !props.readonly) {
+    updateValue(event.offsetX, event.offsetY)
+    event.preventDefault()
+  }
+}
+const onTouchMove = (event: any) => {
+  if (!props.disabled && !props.readonly && event.touches.length == 1) {
+    const rect = processRef.value.$el.getBoundingClientRect()
+    const touch = event.targetTouches.item(0)
+    const offsetX = touch.clientX - rect.left
+    const offsetY = touch.clientY - rect.top
+
+    updateValue(offsetX, offsetY)
+  }
+}
+const onKeyDown = (event: any) => {
+  if (!props.disabled && !props.readonly) {
+    switch (event.code) {
+      case 'ArrowRight':
+      case 'ArrowUp': {
+        event.preventDefault()
+        updatePercentage(props.percentage + props.step)
+        break
+      }
+
+      case 'ArrowLeft':
+      case 'ArrowDown': {
+        event.preventDefault()
+        updatePercentage(props.percentage - props.step)
+        break
+      }
+      case 'Home': {
+        event.preventDefault()
+        emit('update:percentage', props.min)
+        break
+      }
+      case 'End': {
+        event.preventDefault()
+        emit('update:percentage', props.max)
+        break
+      }
+      case 'PageUp': {
+        event.preventDefault()
+        updatePercentage(props.percentage + 10)
+        break
+      }
+      case 'PageDown': {
+        event.preventDefault()
+        updatePercentage(props.percentage - 10)
+        break
+      }
+    }
+  }
+}
+
+const textStyle = computed(() => {
+  return {
+    fontSize: `${progressTextSize.value}px`,
+    width: `calc(100% - ${props.strokeWidth * 2 + 4}px`,
+    margin: `0 ${props.strokeWidth + 2}px`,
+  }
+})
 </script>
