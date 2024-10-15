@@ -203,6 +203,8 @@ const TabNav = defineComponent({
     }
 
     const changeTab = (e: KeyboardEvent) => {
+      if (!rootTabs.props.keyboardSwitch) return
+
       const code = e.code
 
       const { up, down, left, right } = EVENT_CODE

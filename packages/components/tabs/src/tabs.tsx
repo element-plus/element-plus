@@ -58,6 +58,14 @@ export const tabsProps = buildProps({
    */
   editable: Boolean,
   /**
+   * @description whether Tab is keyboard switch
+   * @default true
+   */
+  keyboardSwitch: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description position of tabs
    */
   tabPosition: {

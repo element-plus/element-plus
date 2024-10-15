@@ -434,6 +434,46 @@ describe('Tabs.vue', () => {
     expect(navItemsWrapper[1].classes('is-active')).toBe(false)
   })
 
+  test('keyboard-switch', async () => {
+    const activeName = ref('second')
+    const keyboardSwitch = ref(false)
+
+    const wrapper = mount(() => (
+      <Tabs v-model={activeName.value} keyboard-switch={keyboardSwitch.value}>
+        <TabPane label="label-1" name="first">
+          A
+        </TabPane>
+        <TabPane label="label-2" name="second">
+          B
+        </TabPane>
+        <TabPane label="label-3" name="third">
+          C
+        </TabPane>
+        <TabPane label="label-4" name="fourth">
+          D
+        </TabPane>
+      </Tabs>
+    ))
+
+    await nextTick()
+
+    await wrapper
+      .find('#tab-second')
+      .trigger('keydown', { code: EVENT_CODE.right })
+
+    expect(activeName.value).toEqual('second')
+
+    keyboardSwitch.value = true
+
+    await nextTick()
+
+    await wrapper
+      .find('#tab-second')
+      .trigger('keydown', { code: EVENT_CODE.right })
+
+    expect(activeName.value).toEqual('third')
+  })
+
   test('tab-position', async () => {
     const wrapper = mount(() => (
       <Tabs ref="tabs" tab-position="left">
