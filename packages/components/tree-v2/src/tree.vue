@@ -29,6 +29,7 @@
           @click="handleNodeClick"
           @toggle="toggleExpand"
           @check="handleNodeCheck"
+          @drop="handleNodeDrop"
         />
       </template>
     </fixed-size-list>
@@ -83,6 +84,7 @@ const {
   isCurrent,
   isForceHiddenExpandIcon,
   handleNodeClick,
+  handleNodeDrop,
   handleNodeCheck,
   // expose
   toggleCheckbox,

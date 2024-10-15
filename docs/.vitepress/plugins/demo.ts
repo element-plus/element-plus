@@ -1,23 +1,14 @@
 import path from 'path'
 import fs from 'fs'
 import { docRoot } from '@element-plus/build-utils'
-import type MarkdownIt from 'markdown-it'
-import type Token from 'markdown-it/lib/token'
-import type Renderer from 'markdown-it/lib/renderer'
+import type { MarkdownRenderer } from 'vitepress'
 
 interface ContainerOpts {
   marker?: string | undefined
   validate?(params: string): boolean
-  render?(
-    tokens: Token[],
-    index: number,
-    options: any,
-    env: any,
-    self: Renderer
-  ): string
+  render?: MarkdownRenderer['renderer']['rules']['container']
 }
-
-function createDemoContainer(md: MarkdownIt): ContainerOpts {
+function createDemoContainer(md: MarkdownRenderer): ContainerOpts {
   return {
     validate(params) {
       return !!params.trim().match(/^demo\s*(.*)$/)

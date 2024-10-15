@@ -76,6 +76,7 @@ import type { MentionCtx, MentionOption } from './types'
 
 defineOptions({
   name: 'ElMention',
+  inheritAttrs: false,
 })
 
 const props = defineProps(mentionProps)
@@ -273,5 +274,6 @@ const syncDropdownVisible = () => {
 defineExpose({
   input: elInputRef,
   tooltip: tooltipRef,
+  dropdownVisible,
 })
 </script>

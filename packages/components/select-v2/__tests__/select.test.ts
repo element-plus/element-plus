@@ -533,6 +533,42 @@ describe('Select', () => {
     )
   })
 
+  describe('expose', () => {
+    it('select label', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            options: [
+              { value: 'value1', label: 'label1' },
+              { value: 'value2', label: 'label2' },
+            ],
+            multiple: false,
+            value: '',
+          }
+        },
+      })
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      const selectVm = select.vm as any
+      const vm = wrapper.vm as any
+
+      const options = getOptions()
+      options[0].click()
+      expect(selectVm.selectedLabel).toBe('label1')
+      vm.value = 'value2'
+      await nextTick()
+      expect(selectVm.selectedLabel).toBe('label2')
+
+      vm.multiple = true
+      vm.value = []
+      await nextTick()
+      expect(selectVm.selectedLabel).toStrictEqual([])
+      vm.value = ['value1', 'value2']
+      await nextTick()
+      expect(selectVm.selectedLabel).toStrictEqual(['label1', 'label2'])
+    })
+  })
+
   describe('multiple', () => {
     it('multiple select', async () => {
       const wrapper = createSelect({

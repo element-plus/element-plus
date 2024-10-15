@@ -1296,6 +1296,7 @@ describe('DatePicker keyboard events', () => {
     await input.trigger('keydown', {
       code: EVENT_CODE.enter,
     })
+    await rAF()
     const popperEl2 = document.querySelectorAll('.el-picker__popper')[0]
     const attr2 = popperEl2.getAttribute('aria-hidden')
     expect(attr2).toEqual('true')
@@ -1321,6 +1322,7 @@ describe('DatePicker keyboard events', () => {
     await input.trigger('keydown', {
       code: EVENT_CODE.numpadEnter,
     })
+    await rAF()
     const popperEl2 = document.querySelectorAll('.el-picker__popper')[0]
     const attr2 = popperEl2.getAttribute('aria-hidden')
     expect(attr2).toEqual('true')

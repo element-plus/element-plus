@@ -364,6 +364,16 @@ watch(
 )
 
 watch(
+  () => [props.colorFormat, props.showAlpha],
+  () => {
+    color.enableAlpha = props.showAlpha
+    color.format = props.colorFormat || color.format
+    color.doOnChange()
+    emit(UPDATE_MODEL_EVENT, color.value)
+  }
+)
+
+watch(
   () => currentColor.value,
   (val) => {
     customInput.value = val
