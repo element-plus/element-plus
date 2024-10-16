@@ -87,6 +87,7 @@ export default defineComponent({
                   'next-month': slots['next-month'],
                   'prev-year': slots['prev-year'],
                   'next-year': slots['next-year'],
+                  footer: slots['footer'],
                 }}
               </Component>
             ),
