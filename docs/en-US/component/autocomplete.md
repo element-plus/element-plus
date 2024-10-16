@@ -67,10 +67,10 @@ autocomplete/custom-loading
 | aria-label ^(a11y) ^(2.7.2)         | native `aria-label` attribute                                                                                              | ^[string]                                                                                 | —            |
 | hide-loading                        | whether to hide the loading icon in remote search                                                                          | ^[boolean]                                                                                | false        |
 | popper-class                        | custom class name for autocomplete's dropdown                                                                              | ^[string]                                                                                 | —            |
-| popper-append-to-body ^(deprecated) | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | ^[boolean]                                                                                | false        |
 | teleported                          | whether select dropdown is teleported to the body                                                                          | ^[boolean]                                                                                | true         |
 | highlight-first-item                | whether to highlight first item in remote search suggestions by default                                                    | ^[boolean]                                                                                | false        |
 | fit-input-width                     | whether the width of the dropdown is the same as the input                                                                 | ^[boolean]                                                                                | false        |
+| popper-append-to-body ^(deprecated) | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | ^[boolean]                                                                                | false        |
 
 ### Events
 
@@ -96,18 +96,18 @@ autocomplete/custom-loading
 
 ### Exposes
 
-| Name             | Description                                 | Type                                      |
-| ---------------- | ------------------------------------------- | ----------------------------------------- |
-| activated        | if autocomplete activated                   | ^[object]`Ref<boolean>`                   |
-| blur             | blur the input element                      | ^[Function]`() => void`                   |
-| close            | collapse suggestion list                    | ^[Function]`() => void`                   |
-| focus            | focus the input element                     | ^[Function]`() => void`                   |
-| handleSelect     | triggers when a suggestion is clicked       | ^[Function]`(item: any) => promise<void>` |
-| handleKeyEnter   | handle keyboard enter event                 | ^[Function]`() => promise<void>`          |
-| highlightedIndex | the index of the currently highlighted item | ^[object]`Ref<number>`                    |
-| highlight        | highlight an item in a suggestion           | ^[Function]`(itemIndex: number) => void`  |
-| inputRef         | el-input component instance                 | ^[object]`Ref<ElInputInstance>`           |
-| loading          | remote search loading indicator             | ^[object]`Ref<boolean>`                   |
-| popperRef        | el-tooltip component instance               | ^[object]`Ref<ElTooltipInstance>`         |
-| suggestions      | fetch suggestions result                    | ^[object]`Ref<record<string, any>>`       |
-| getData ^(2.8.4) | loading suggestion list                     | ^[Function]`(queryString: string) => void`|
+| Name             | Description                                 | Type                                       |
+| ---------------- | ------------------------------------------- | ------------------------------------------ |
+| activated        | if autocomplete activated                   | ^[object]`Ref<boolean>`                    |
+| blur             | blur the input element                      | ^[Function]`() => void`                    |
+| close            | collapse suggestion list                    | ^[Function]`() => void`                    |
+| focus            | focus the input element                     | ^[Function]`() => void`                    |
+| handleSelect     | triggers when a suggestion is clicked       | ^[Function]`(item: any) => promise<void>`  |
+| handleKeyEnter   | handle keyboard enter event                 | ^[Function]`() => promise<void>`           |
+| highlightedIndex | the index of the currently highlighted item | ^[object]`Ref<number>`                     |
+| highlight        | highlight an item in a suggestion           | ^[Function]`(itemIndex: number) => void`   |
+| inputRef         | el-input component instance                 | ^[object]`Ref<ElInputInstance>`            |
+| loading          | remote search loading indicator             | ^[object]`Ref<boolean>`                    |
+| popperRef        | el-tooltip component instance               | ^[object]`Ref<ElTooltipInstance>`          |
+| suggestions      | fetch suggestions result                    | ^[object]`Ref<record<string, any>>`        |
+| getData ^(2.8.4) | loading suggestion list                     | ^[Function]`(queryString: string) => void` |

@@ -113,8 +113,8 @@ tabs/customized-trigger
 | Name                           | Description               | Subtags  |
 | ------------------------------ | ------------------------- | -------- |
 | default                        | customize default content | Tab-pane |
-| addIcon ^(2.4.0) ^(deprecated) | customize add button icon | —        |
 | add-icon ^(2.5.4)              | customize add button icon | —        |
+| addIcon ^(2.4.0) ^(deprecated) | customize add button icon | —        |
 
 ## Tab-pane API
 

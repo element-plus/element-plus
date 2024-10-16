@@ -121,7 +121,6 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | append-to-body             | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`    | ^[boolean]                          | false   |
 | append-to ^(2.4.3)         | which element the Dialog appends to. Will override `append-to-body`                                  | ^[string] / ^[HTMLElement]          | body    |
 | lock-scroll                | whether scroll of body is disabled while Dialog is displayed                                         | ^[boolean]                          | true    |
-| custom-class ^(deprecated) | custom class names for Dialog                                                                        | ^[string]                           | ''      |
 | open-delay                 | the Time(milliseconds) before open                                                                   | ^[number]                           | 0       |
 | close-delay                | the Time(milliseconds) before close                                                                  | ^[number]                           | 0       |
 | close-on-click-modal       | whether the Dialog can be closed by clicking the mask                                                | ^[boolean]                          | true    |
@@ -136,6 +135,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | close-icon                 | custom close icon, default is Close                                                                  | ^[string] / ^[Component]            | —       |
 | z-index                    | same as z-index in native CSS, z-order of dialog                                                     | ^[number]                           | —       |
 | header-aria-level ^(a11y)  | header's `aria-level` attribute                                                                      | ^[string]                           | 2       |
+| custom-class ^(deprecated) | custom class names for Dialog                                                                        | ^[string]                           | ''      |
 
 :::warning
 
@@ -149,8 +149,8 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | ------------------- | ----------------------------------------------------------------------------------------------------- |
 | —                   | content of Dialog                                                                                     |
 | header              | content of the Dialog header; Replacing this removes the title, but does not remove the close button. |
-| title ^(deprecated) | works the same as the header slot. Use that instead.                                                  |
 | footer              | content of the Dialog footer                                                                          |
+| title ^(deprecated) | works the same as the header slot. Use that instead.                                                  |
 
 :::warning
 

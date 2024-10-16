@@ -113,16 +113,17 @@ input-number/with-prefix-suffix
 | controls                    | whether to enable the control buttons            | ^[boolean]                                    | true      |
 | controls-position           | position of the control buttons                  | ^[enum]`'' \| 'right'`                        | —         |
 | name                        | same as `name` in native input                   | ^[string]                                     | —         |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in native input             | ^[string]                                     | —         |
 | aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in native input             | ^[string]                                     | —         |
 | placeholder                 | same as `placeholder` in native input            | ^[string]                                     | —         |
 | id                          | same as `id` in native input                     | ^[string]                                     | —         |
 | value-on-clear ^(2.2.0)     | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —         |
 | validate-event              | whether to trigger form validation               | ^[boolean]                                    | true      |
+| label ^(a11y) ^(deprecated) | same as `aria-label` in native input             | ^[string]                                     | —         |
+
 ### Slots
 
 | Name                   | Description                           |
-|------------------------| ------------------------------------- |
+| ---------------------- | ------------------------------------- |
 | decrease-icon ^(2.6.3) | custom input box button decrease icon |
 | increase-icon ^(2.6.3) | custom input box button increase icon |
 | prefix ^(2.8.4)        | content as Input prefix               |

@@ -115,16 +115,16 @@ switch/custom-action-slot
 | inactive-text                 | text displayed when in `off` state                                                                                                              | ^[string]                                        | ''      |
 | active-value                  | switch value when in `on` state                                                                                                                 | ^[boolean] / ^[string] / ^[number]               | true    |
 | inactive-value                | switch value when in `off` state                                                                                                                | ^[boolean] / ^[string] / ^[number]               | false   |
-| active-color ^(deprecated)    | background color when in `on` state ( deprecated, use CSS var `--el-switch-on-color` instead )                                                  | ^[string]                                        | ''      |
-| inactive-color ^(deprecated)  | background color when in `off` state ( deprecated, use CSS var `--el-switch-off-color` instead )                                                | ^[string]                                        | ''      |
-| border-color ^(deprecated)    | border color of the switch ( deprecated, use CSS var `--el-switch-border-color` instead )                                                       | ^[string]                                        | ''      |
 | name                          | input name of Switch                                                                                                                            | ^[string]                                        | ''      |
 | validate-event                | whether to trigger form validation                                                                                                              | ^[boolean]                                       | true    |
 | before-change                 | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | ^[boolean] / ^[Function]`() => Promise<boolean>` | —       |
 | id                            | id for input                                                                                                                                    | ^[string]                                        | —       |
 | tabindex                      | tabindex for input                                                                                                                              | ^[string] / ^[number]                            | —       |
-| label ^(a11y) ^(deprecated)   | same as `aria-label` in native input                                                                                                            | ^[string]                                        | —       |
 | aria-label ^(a11y) ^(2.7.2)   | same as `aria-label` in native input                                                                                                            | ^[string]                                        | —       |
+| active-color ^(deprecated)    | background color when in `on` state ( use CSS var `--el-switch-on-color` instead )                                                              | ^[string]                                        | ''      |
+| inactive-color ^(deprecated)  | background color when in `off` state ( use CSS var `--el-switch-off-color` instead )                                                            | ^[string]                                        | ''      |
+| border-color ^(deprecated)    | border color of the switch ( use CSS var `--el-switch-border-color` instead )                                                                   | ^[string]                                        | ''      |
+| label ^(a11y) ^(deprecated)   | same as `aria-label` in native input                                                                                                            | ^[string]                                        | —       |
 
 ### Events
 

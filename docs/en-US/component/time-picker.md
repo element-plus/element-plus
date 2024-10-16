@@ -61,7 +61,6 @@ time-picker/range
 | value-format                | optional, format of binding value. If not specified, the binding value will be a Date object                   | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                         | —           |
 | id                          | same as `id` in native input                                                                                   | ^[string] / ^[object]`[string, string]`                                                         | —           |
 | name                        | same as `name` in native input                                                                                 | ^[string]                                                                                       | ''          |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in native input                                                                           | ^[string]                                                                                       | —           |
 | aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in native input                                                                           | ^[string]                                                                                       | —           |
 | prefix-icon                 | Custom prefix icon component                                                                                   | ^[string] / ^[Component]                                                                        | Clock       |
 | clear-icon                  | Custom clear icon component                                                                                    | ^[string] / ^[Component]                                                                        | CircleClose |
@@ -72,6 +71,7 @@ time-picker/range
 | tabindex                    | input tabindex                                                                                                 | ^[string] / ^[number]                                                                           | 0           |
 | empty-values ^(2.7.0)       | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                        | —           |
 | value-on-clear ^(2.7.0)     | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                | —           |
+| label ^(a11y) ^(deprecated) | same as `aria-label` in native input                                                                           | ^[string]                                                                                       | —           |
 
 ### Events
 
