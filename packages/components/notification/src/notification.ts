@@ -46,7 +46,11 @@ export const notificationProps = buildProps({
    * @description description text
    */
   message: {
-    type: definePropType<string | VNode>([String, Object]),
+    type: definePropType<string | VNode | (() => VNode)>([
+      String,
+      Object,
+      Function,
+    ]),
     default: '',
   },
   /**
