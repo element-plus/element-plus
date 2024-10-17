@@ -2042,4 +2042,51 @@ describe('Table.vue', () => {
     const findTooltipEl = wrapper.findAll('.el-tooltip').length
     expect(findTooltipEl).toEqual(5)
   })
+
+  it('should display child list correctly when using tree-like list with show-overflow-tooltip', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+
+      template: `
+      <el-table :data="testData"  row-key="id"  default-expand-all  style="width: 100%;" >
+        <el-table-column   width="60" label="行号"  :show-overflow-tooltip="true" />
+        <el-table-column prop="release" label="release" />
+      </el-table>
+    `,
+      data() {
+        const testData = getTestData() as any
+        testData[1].children = [
+          {
+            id: 6,
+            name: "A Bug's Life copy 1",
+            release: '1998-11-25-1',
+            director: 'John Lasseter',
+            runtime: 95,
+          },
+          {
+            id: 7,
+            name: "A Bug's Life copy 2",
+            release: '1998-11-25-2',
+            director: 'John Lasseter',
+            runtime: 95,
+          },
+        ]
+        return {
+          testData,
+        }
+      },
+    })
+
+    await doubleWait()
+    const cells = wrapper.findAll('.el-tooltip')
+    cells[2].trigger('mouseenter')
+    await doubleWait()
+    await rAF()
+    await doubleWait()
+    const tooltipsEL = wrapper.findAll('.el-popper').length
+    expect(tooltipsEL).toEqual(0)
+  })
 })
