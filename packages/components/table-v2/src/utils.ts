@@ -29,5 +29,6 @@ export const componentToSlot = <T>(
   ComponentLike: JSX.Element | ((props: T) => Component<T>) | undefined
 ) =>
   isVNode(ComponentLike)
-    ? (props: T) => h(ComponentLike, props)
+    ? // @ts-expect-error
+      (props: T) => h(ComponentLike, props)
     : (ComponentLike as Slot)
