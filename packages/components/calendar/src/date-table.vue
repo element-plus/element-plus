@@ -63,14 +63,12 @@ const nsDay = useNamespace('calendar-day')
 
 const getCellClass = ({ text, type }: CalendarDateCell) => {
   const classes: string[] = [type]
-  if (type === 'current') {
-    const date = getFormattedDate(text, type)
-    if (date.isSame(props.selectedDay, 'day')) {
-      classes.push(nsDay.is('selected'))
-    }
-    if (date.isSame(now, 'day')) {
-      classes.push(nsDay.is('today'))
-    }
+  const date = getFormattedDate(text, type)
+  if (date.isSame(props.selectedDay, 'day')) {
+    classes.push(nsDay.is('selected'))
+  }
+  if (date.isSame(now, 'day')) {
+    classes.push(nsDay.is('today'))
   }
   return classes
 }
