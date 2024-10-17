@@ -7,8 +7,8 @@
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
-          :class="ppNs.e('shortcut')"
-          @click="handleShortcutClick(shortcut)"
+          :class="[ppNs.e('shortcut'), { active: currentShortcut === key }]"
+          @click="handleShortcutClick(shortcut, key)"
         >
           {{ shortcut.text }}
         </button>
@@ -157,7 +157,8 @@ const rightPanelKls = computed(() => {
   }
 })
 
-const handleShortcutClick = useShortcut(lang)
+const { handleShortcutClick, currentShortcut, setShortcutActive } =
+  useShortcut(lang)
 
 const {
   leftPrevYear,
@@ -195,6 +196,7 @@ type RangePickValue = {
   maxDate: Dayjs
 }
 const handleRangePick = (val: RangePickValue, close = true) => {
+  setShortcutActive(-1)
   const minDate_ = val.minDate
   const maxDate_ = val.maxDate
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {
