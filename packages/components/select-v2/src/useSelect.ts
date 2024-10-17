@@ -754,7 +754,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     }
   }
 
-  const initStates = () => {
+  const initStates = (needUpdateSelectedLabel = false) => {
     if (props.multiple) {
       if ((props.modelValue as Array<any>).length > 0) {
         const cachedOptions = states.cachedOptions.slice()
@@ -780,7 +780,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
         if (~selectedItemIndex) {
           states.selectedLabel = getLabel(options[selectedItemIndex])
         } else {
-          states.selectedLabel = getValueKey(props.modelValue)
+          if (!states.selectedLabel || needUpdateSelectedLabel) {
+            states.selectedLabel = getValueKey(props.modelValue)
+          }
         }
       } else {
         states.selectedLabel = ''
@@ -816,7 +818,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
         (!props.multiple &&
           getValueKey(val) !== getValueKey(states.previousValue))
       ) {
-        initStates()
+        initStates(true)
       }
       if (!isEqual(val, oldVal) && props.validateEvent) {
         elFormItem?.validate?.('change').catch((err) => debugWarn(err))
