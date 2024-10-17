@@ -1268,6 +1268,65 @@ describe('Select', () => {
     expect(placeholder.text()).toBe('option 2')
   })
 
+  it('not options keep the selected label', async () => {
+    const initial = [
+      {
+        value: '1',
+        label: 'option 1',
+      },
+      {
+        value: '2',
+        label: 'option 2',
+      },
+    ]
+
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: '1',
+          options: [...initial],
+        }
+      },
+
+      methods: {
+        handleSearch(value) {
+          this.options = initial.filter((item) => item.label.includes(value))
+        },
+      },
+    })
+
+    await nextTick()
+
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const vm = wrapper.vm as any
+
+    expect(selectVm.selectedLabel).toBe('option 1')
+
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
+
+    vm.handleSearch('2')
+    await nextTick()
+    expect(wrapper.vm.options.length).toBe(1)
+    expect(selectVm.selectedLabel).toBe('option 1')
+
+    vm.handleSearch('3')
+    await nextTick()
+    expect(wrapper.vm.options.length).toBe(0)
+    expect(selectVm.selectedLabel).toBe('option 1')
+
+    vm.value = '3'
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('3')
+
+    vm.value = ''
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('')
+  })
+
   it('default value is null or undefined', async () => {
     const wrapper = createSelect({
       data() {
