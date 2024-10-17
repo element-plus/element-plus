@@ -2803,4 +2803,75 @@ describe('Select', () => {
         .display
     ).toBe('none')
   })
+
+  it('should select first option after users search and press enter', async () => {
+    const cities = [
+      {
+        countryId: 1,
+        label: 'Beijing',
+      },
+      {
+        countryId: 2,
+        label: 'Shanghai',
+      },
+      {
+        countryId: 3,
+        label: 'Nanjing',
+      },
+      {
+        countryId: 4,
+        label: 'Chengdu',
+      },
+      {
+        countryId: 5,
+        label: 'Shenzhen',
+      },
+      {
+        countryId: 6,
+        label: 'Guangzhou',
+      },
+      {
+        countryId: 7,
+        label: 'Ho Chi Minh',
+      },
+    ]
+
+    const expectedCity = cities[4]
+    const query = expectedCity.label.slice(0, 3)
+
+    const modelValue = ''
+
+    const wrapper = _mount(
+      `
+        <el-select v-model='modelValue' filterable default-first-option value-key="countryId">
+            <el-option
+                v-for="item in cities" 
+                :key="item.countryId" 
+                :label="item.label" 
+                :value="item">
+                    {{ item.label }}
+            </el-option>
+        </el-select>
+    `,
+      () => ({
+        cities,
+        modelValue,
+      })
+    )
+
+    await nextTick()
+    const firstInputLetter = query
+
+    await nextTick()
+    await wrapper.trigger('mouseenter')
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.setValue(firstInputLetter)
+
+    await input.trigger('keydown.enter')
+    await nextTick()
+
+    expect(wrapper.vm.modelValue).deep.equal(expectedCity)
+  })
 })
