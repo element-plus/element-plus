@@ -233,9 +233,15 @@ export default defineComponent({
     }
 
     const handleClick = (e: MouseEvent) => {
-      handleCurrentChange(tree.store, tree.ctx.emit, () =>
-        tree.store.value.setCurrentNode(props.node)
-      )
+      handleCurrentChange(tree.store, tree.ctx.emit, () => {
+        const nodeKeyProp = tree?.props?.nodeKey
+        if (nodeKeyProp) {
+          const curNodeKey = getNodeKey(props.node)
+          tree.store.value.setCurrentNodeKey(curNodeKey)
+        } else {
+          tree.store.value.setCurrentNode(props.node)
+        }
+      })
       tree.currentNode.value = props.node
 
       if (tree.props.expandOnClickNode) {
