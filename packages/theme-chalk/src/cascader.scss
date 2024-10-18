@@ -9,7 +9,6 @@
     display: inline-flex;
     align-items: center;
     max-width: 100%;
-    margin: 2px 0 2px 6px;
     text-overflow: ellipsis;
     background: $background-color;
 
@@ -144,7 +143,7 @@
 
   @include e(tags) {
     position: absolute;
-    left: 0;
+    left: 4px;
     right: 30px;
     top: 50%;
     transform: translateY(-50%);
@@ -153,6 +152,7 @@
     line-height: normal;
     text-align: left;
     box-sizing: border-box;
+    gap: 6px;
     @include cascader-tag-normal(getCssVar('cascader-tag-background'));
 
     &.is-validate {
