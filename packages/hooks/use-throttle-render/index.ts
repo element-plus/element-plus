@@ -1,5 +1,5 @@
 import { onMounted, ref, watch } from 'vue'
-import { isNumber } from '@element-plus/utils'
+import { isNumber, isObject } from '@element-plus/utils'
 
 import type { SkeletonThrottle } from '@element-plus/components'
 import type { Ref } from 'vue'
@@ -33,11 +33,7 @@ export const useThrottleRender = (
         }
       }
     } else {
-      if (
-        typeof throttle === 'object' &&
-        throttle?.trailing &&
-        throttle.trailing > 0
-      ) {
+      if (isObject(throttle) && throttle?.trailing && throttle.trailing > 0) {
         dispatchThrottling(throttle.trailing!)
       } else {
         throttled.value = false
