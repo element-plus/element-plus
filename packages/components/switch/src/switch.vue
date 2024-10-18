@@ -143,8 +143,10 @@ const coreStyle = computed<CSSProperties>(() => ({
 
 watch(
   () => props.modelValue,
-  () => {
+  (val) => {
     isControlled.value = true
+    emit(CHANGE_EVENT, val)
+    emit(INPUT_EVENT, val)
   }
 )
 
@@ -156,8 +158,6 @@ const checked = computed(() => actualValue.value === props.activeValue)
 
 if (![props.activeValue, props.inactiveValue].includes(actualValue.value)) {
   emit(UPDATE_MODEL_EVENT, props.inactiveValue)
-  emit(CHANGE_EVENT, props.inactiveValue)
-  emit(INPUT_EVENT, props.inactiveValue)
 }
 
 watch(checked, (val) => {
@@ -171,8 +171,6 @@ watch(checked, (val) => {
 const handleChange = () => {
   const val = checked.value ? props.inactiveValue : props.activeValue
   emit(UPDATE_MODEL_EVENT, val)
-  emit(CHANGE_EVENT, val)
-  emit(INPUT_EVENT, val)
   nextTick(() => {
     input.value!.checked = checked.value
   })
