@@ -309,6 +309,7 @@ const refInput = computed<HTMLInputElement[]>(() => {
   return []
 })
 
+// @ts-expect-error
 const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
   const _inputs = refInput.value
   if (!_inputs.length) return
@@ -351,6 +352,7 @@ const onShow = () => {
   emit('visible-change', true)
 }
 
+// @ts-expect-error
 const onKeydownPopperContent = (event: KeyboardEvent) => {
   if ((event as KeyboardEvent)?.key === EVENT_CODE.esc) {
     focus(true, true)
@@ -749,6 +751,7 @@ const handleEndChange = () => {
 }
 
 const pickerOptions = ref<Partial<PickerOptions>>({})
+// @ts-expect-error
 const onSetPickerOption = <T extends keyof PickerOptions>(
   e: [T, PickerOptions[T]]
 ) => {
@@ -756,10 +759,12 @@ const onSetPickerOption = <T extends keyof PickerOptions>(
   pickerOptions.value.panelReady = true
 }
 
+// @ts-expect-error
 const onCalendarChange = (e: [Date, null | Date]) => {
   emit('calendar-change', e)
 }
 
+// @ts-expect-error
 const onPanelChange = (
   value: [Dayjs, Dayjs],
   mode: 'month' | 'year',
