@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="actualVisible"
+    v-if="actualVisible || visible"
     :class="[nsTime.b('range-picker'), nsPicker.b('panel')]"
   >
     <div :class="nsTime.be('range-picker', 'content')">
@@ -154,6 +154,10 @@ const isValidValue = (_date: Dayjs[]) => {
 
 const handleChange = (start: Dayjs, end: Dayjs) => {
   // todo getRangeAvailableTime(_date).millisecond(0)
+  // visible avoids edge cases, when use scrolls during panel closing animation
+  if (!props.visible) {
+    return
+  }
   emit('pick', [start, end], true)
 }
 const btnConfirmDisabled = computed(() => {
