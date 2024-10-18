@@ -315,7 +315,10 @@ export default defineComponent({
       }
     }
 
-    const calcMenuItemWidth = (menuItem: HTMLElement) => {
+    const calcMenuItemWidth = (menuItem: HTMLElement | Comment | Text) => {
+      // 注解 & 文本不是合法的子节点
+      // 忽略注解 & 文本的宽度
+      if (!(menuItem instanceof Element)) return 0
       const computedStyle = getComputedStyle(menuItem)
       const marginLeft = Number.parseInt(computedStyle.marginLeft, 10)
       const marginRight = Number.parseInt(computedStyle.marginRight, 10)
@@ -324,26 +327,30 @@ export default defineComponent({
 
     const calcSliceIndex = () => {
       if (!menu.value) return -1
-      const items = Array.from(menu.value?.childNodes ?? []).filter(
-        (item) =>
-          // remove comment type node #12634
-          item.nodeName !== '#comment' &&
-          (item.nodeName !== '#text' || item.nodeValue)
-      ) as HTMLElement[]
+      const items = Array.from(menu.value?.childNodes ?? []) as HTMLElement[]
       const moreItemWidth = 64
       const computedMenuStyle = getComputedStyle(menu.value!)
       const paddingLeft = Number.parseInt(computedMenuStyle.paddingLeft, 10)
       const paddingRight = Number.parseInt(computedMenuStyle.paddingRight, 10)
       const menuWidth = menu.value!.clientWidth - paddingLeft - paddingRight
+
       let calcWidth = 0
-      let sliceIndex = 0
-      items.forEach((item, index) => {
+      let isEllipsis = false
+      const calcWidthArr: number[] = []
+
+      items.forEach((item) => {
         calcWidth += calcMenuItemWidth(item)
-        if (calcWidth <= menuWidth - moreItemWidth) {
-          sliceIndex = index + 1
+        calcWidthArr.push(calcWidth)
+        if (calcWidth > menuWidth) {
+          isEllipsis = true
         }
       })
-      return sliceIndex === items.length ? -1 : sliceIndex
+
+      return isEllipsis
+        ? calcWidthArr.findIndex(
+            (currentWidth) => currentWidth + moreItemWidth > menuWidth
+          )
+        : -1
     }
 
     const getIndexPath = (index: string) => subMenus.value[index].indexPath
