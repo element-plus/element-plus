@@ -16,29 +16,29 @@
   },
   "dependencies": {
     "@element-plus/build-constants": "workspace:*",
-    "@pnpm/find-workspace-packages": "^4.0.16",
+    "@pnpm/find-workspace-packages": "^4.0.43",
     "@pnpm/logger": "^4.0.0",
-    "@rollup/plugin-commonjs": "^22.0.1",
+    "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-node-resolve": "^13.3.0",
-    "@rollup/plugin-replace": "^5.0.5",
-    "@vitejs/plugin-vue": "^2.3.3",
+    "@rollup/plugin-replace": "^5.0.7",
+    "@vitejs/plugin-vue": "^2.3.4",
     "@vitejs/plugin-vue-jsx": "^1.3.10",
     "chalk": "^5.0.1",
-    "components-helper": "^2.1.4",
+    "components-helper": "^2.2.0",
     "consola": "^2.15.3",
-    "esbuild": "^0.14.47",
-    "fast-glob": "^3.2.11",
+    "esbuild": "^0.24.0",
+    "fast-glob": "^3.3.2",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "lodash": "^4.17.21",
-    "rollup": "^2.75.7",
-    "rollup-plugin-esbuild": "^4.9.1",
-    "unplugin-vue-macros": "^0.11.2"
+    "rollup": "^2.79.2",
+    "rollup-plugin-esbuild": "^4.10.3",
+    "unplugin-vue-macros": "^0.16.5"
   },
   "devDependencies": {
-    "@esbuild-kit/cjs-loader": "^2.2.1",
-    "@pnpm/types": "^8.4.0",
-    "unbuild": "^0.7.4",
-    "vue": "^3.2.37"
+    "@esbuild-kit/cjs-loader": "^2.4.4",
+    "@pnpm/types": "^8.10.0",
+    "unbuild": "^0.9.4",
+    "vue": "^3.5.12"
   }
 }
