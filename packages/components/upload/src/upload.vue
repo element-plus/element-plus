@@ -13,7 +13,7 @@
         <slot name="file" :file="file" :index="index" />
       </template>
       <template #append>
-        <upload-content ref="uploadRef" v-bind="uploadContentProps">
+        <upload-content ref="uploadRef" v-bind="uploadContentProps" :key="new Date().getTime()">
           <slot v-if="$slots.trigger" name="trigger" />
           <slot v-if="!$slots.trigger && $slots.default" />
         </upload-content>
