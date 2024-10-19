@@ -11,8 +11,9 @@
     :transition="`${nsDate.namespace.value}-zoom-in-top`"
     :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass]"
     :popper-options="elPopperOptions"
-    :fallback-placements="['bottom', 'top', 'right', 'left']"
+    :fallback-placements="fallbackPlacements"
     :gpu-acceleration="false"
+    :placement="placement"
     :stop-popper-mouse-event="false"
     :hide-after="0"
     persistent
@@ -166,6 +167,7 @@ import {
   computed,
   inject,
   nextTick,
+  onBeforeUnmount,
   provide,
   ref,
   unref,
@@ -452,11 +454,15 @@ const parsedValue = computed(() => {
     )
     if (!isEqual(availableResult, dayOrDays!)) {
       dayOrDays = availableResult
-      emitInput(
-        (isArray(dayOrDays)
-          ? dayOrDays.map((_) => _.toDate())
-          : dayOrDays.toDate()) as SingleOrRange<Date>
-      )
+
+      // The result is corrected only when model-value exists
+      if (!valueIsEmpty.value) {
+        emitInput(
+          (isArray(dayOrDays)
+            ? dayOrDays.map((_) => _.toDate())
+            : dayOrDays.toDate()) as SingleOrRange<Date>
+        )
+      }
     }
   }
   if (isArray(dayOrDays!) && dayOrDays.some((day) => !day)) {
@@ -516,7 +522,7 @@ const onClearIconClick = (event: MouseEvent) => {
     }
     emitChange(valueOnClear.value, true)
     showClose.value = false
-    pickerVisible.value = false
+    onHide()
   }
   emit('clear')
 }
@@ -570,7 +576,7 @@ const actualInputRef = computed(() => {
   return (unref(inputRef) as ComponentPublicInstance)?.$el
 })
 
-onClickOutside(actualInputRef, (e: PointerEvent) => {
+const stophandle = onClickOutside(actualInputRef, (e: PointerEvent) => {
   const unrefedPopperEl = unref(popperEl)
   const inputEl = unref(actualInputRef)
   if (
@@ -582,6 +588,10 @@ onClickOutside(actualInputRef, (e: PointerEvent) => {
   )
     return
   pickerVisible.value = false
+})
+
+onBeforeUnmount(() => {
+  stophandle?.()
 })
 
 const userInput = ref<UserInput>(null)

@@ -7,9 +7,15 @@ lang: en-US
 
 Menu that provides navigation for your website.
 
-:::tip
+::: tip
 
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+If you want to override the default height of el-menu, you can use the following CSS:
+
+```css
+.el-menu--horizontal {
+  --el-menu-horizontal-height: 100px;
+}
+```
 
 :::
 
@@ -72,9 +78,6 @@ menu/popper-offset
 | ellipsis                        | whether the menu is ellipsis (available only in horizontal mode)                                                                                                      | ^[boolean]                             | true     |
 | ellipsis-icon ^(2.4.4)          | custom ellipsis icon (available only in horizontal mode and ellipsis is true)                                                                                         | ^[string] / ^[Component]               | —        |
 | popper-offset ^(2.4.4)          | offset of the popper (effective for all submenus)                                                                                                                     | ^[number]                              | 6        |
-| background-color ^(deprecated)  | background color of Menu (hex format) (deprecated, use `--el-menu-bg-color` in a style class instead)                                                                 | ^[string]                              | #ffffff  |
-| text-color ^(deprecated)        | text color of Menu (hex format) (deprecated, use `--el-menu-text-color` in a style class instead)                                                                     | ^[string]                              | #303133  |
-| active-text-color ^(deprecated) | text color of currently active menu item (hex format) (deprecated, use `--el-menu-active-color` in a style class instead)                                             | ^[string]                              | #409eff  |
 | default-active                  | index of active menu on page load                                                                                                                                     | ^[string]                              | ''       |
 | default-openeds                 | array that contains indexes of currently active sub-menus                                                                                                             | ^[object]`string[]`                    | []       |
 | unique-opened                   | whether only one sub-menu can be active                                                                                                                               | ^[boolean]                             | false    |
@@ -86,6 +89,9 @@ menu/popper-offset
 | popper-class ^(2.5.0)           | custom class name for all popup menus                                                                                                                                 | ^[string]                              | —        |
 | show-timeout ^(2.5.0)           | control timeout for all menus before showing                                                                                                                          | ^[number]                              | 300      |
 | hide-timeout ^(2.5.0)           | control timeout for all menus before hiding                                                                                                                           | ^[number]                              | 300      |
+| background-color ^(deprecated)  | background color of Menu (hex format) (use `--el-menu-bg-color` in a style class instead)                                                                             | ^[string]                              | #ffffff  |
+| text-color ^(deprecated)        | text color of Menu (hex format) ( use `--el-menu-text-color` in a style class instead)                                                                                | ^[string]                              | #303133  |
+| active-text-color ^(deprecated) | text color of currently active menu item (hex format) ( use `--el-menu-active-color` in a style class instead)                                                        | ^[string]                              | #409eff  |
 
 ### Menu Events
 
@@ -103,28 +109,28 @@ menu/popper-offset
 
 ### Menu Exposes
 
-| Name         | Description                                                            | Type                                 |
-| ------------ | ---------------------------------------------------------------------- | ------------------------------------ |
-| open         | open a specific sub-menu, the param is index of the sub-menu to open   | ^[Function]`(index: string) => void` |
-| close        | close a specific sub-menu, the param is index of the sub-menu to close | ^[Function]`(index: string) => void` |
+| Name  | Description                                                            | Type                                 |
+| ----- | ---------------------------------------------------------------------- | ------------------------------------ |
+| open  | open a specific sub-menu, the param is index of the sub-menu to open   | ^[Function]`(index: string) => void` |
+| close | close a specific sub-menu, the param is index of the sub-menu to close | ^[Function]`(index: string) => void` |
 
 ## SubMenu API
 
 ### SubMenu Attributes
 
-| Name                                | Description                                                                                                                                                                               | Type                     | Default   |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ | --------- |
-| index ^(required)                   | unique identification                                                                                                                                                                     | ^[string]                | —         |
-| popper-class                        | custom class name for the popup menu                                                                                                                                                      | ^[string]                | —         |
-| show-timeout                        | timeout before showing a sub-menu(inherit `show-timeout` of the menu by default.)                                                                                                         | ^[number]                | —         |
-| hide-timeout                        | timeout before hiding a sub-menu(inherit `hide-timeout` of the menu by default.)                                                                                                          | ^[number]                | —         |
-| disabled                            | whether the sub-menu is disabled                                                                                                                                                          | ^[boolean]               | false     |
-| teleported                          | whether popup menu is teleported to the body, the default is true for the level one SubMenu, false for other SubMenus                                                                     | ^[boolean]               | undefined |
-| popper-offset                       | offset of the popper (overrides the `popper` of menu)                                                                                                                                     | ^[number]                | —         |
-| expand-close-icon                   | Icon when menu are expanded and submenu are closed, `expand-close-icon` and `expand-open-icon` need to be passed together to take effect                                                  | ^[string] / ^[Component] | —         |
-| expand-open-icon                    | Icon when menu are expanded and submenu are opened, `expand-open-icon` and `expand-close-icon` need to be passed together to take effect                                                  | ^[string] / ^[Component] | —         |
-| collapse-close-icon                 | Icon when menu are collapsed and submenu are closed, `collapse-close-icon` and `collapse-open-icon` need to be passed together to take effect                                             | ^[string] / ^[Component] | —         |
-| collapse-open-icon                  | Icon when menu are collapsed and submenu are opened, `collapse-open-icon` and `collapse-close-icon` need to be passed together to take effect                                             | ^[string] / ^[Component] | —         |
+| Name                | Description                                                                                                                                   | Type                     | Default   |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ | --------- |
+| index ^(required)   | unique identification                                                                                                                         | ^[string]                | —         |
+| popper-class        | custom class name for the popup menu                                                                                                          | ^[string]                | —         |
+| show-timeout        | timeout before showing a sub-menu(inherit `show-timeout` of the menu by default.)                                                             | ^[number]                | —         |
+| hide-timeout        | timeout before hiding a sub-menu(inherit `hide-timeout` of the menu by default.)                                                              | ^[number]                | —         |
+| disabled            | whether the sub-menu is disabled                                                                                                              | ^[boolean]               | false     |
+| teleported          | whether popup menu is teleported to the body, the default is true for the level one SubMenu, false for other SubMenus                         | ^[boolean]               | undefined |
+| popper-offset       | offset of the popper (overrides the `popper` of menu)                                                                                         | ^[number]                | —         |
+| expand-close-icon   | Icon when menu are expanded and submenu are closed, `expand-close-icon` and `expand-open-icon` need to be passed together to take effect      | ^[string] / ^[Component] | —         |
+| expand-open-icon    | Icon when menu are expanded and submenu are opened, `expand-open-icon` and `expand-close-icon` need to be passed together to take effect      | ^[string] / ^[Component] | —         |
+| collapse-close-icon | Icon when menu are collapsed and submenu are closed, `collapse-close-icon` and `collapse-open-icon` need to be passed together to take effect | ^[string] / ^[Component] | —         |
+| collapse-open-icon  | Icon when menu are collapsed and submenu are opened, `collapse-open-icon` and `collapse-close-icon` need to be passed together to take effect | ^[string] / ^[Component] | —         |
 
 ### SubMenu Slots
 
@@ -214,4 +220,5 @@ interface MenuItemClicked {
   route?: RouteLocationRaw
 }
 ```
+
 </details>

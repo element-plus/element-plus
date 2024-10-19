@@ -18,12 +18,6 @@ fully developed yet, which is why they are not mentioned here.
 
 :::
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Let's demonstrate the performance of the Virtualized Table by rendering a basic example with 10 columns and 1000 rows.
@@ -378,6 +372,8 @@ Note that these are `JavaScript` Objects, so you **CANNOT USE** kebab-case for t
 | ------------------ | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | align              | Alignment of the table cell content                                   | [Alignment](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L6)         | left    |
 | class              | Class name for the column                                             | String                                                                                                                                                           | —       |
+| key                | Unique identification                                                 | [KeyType](#typings)                                                                                                                                              | —       |
+| dataKey            | Unique identification of data                                         | [KeyType](#typings)                                                                                                                                              | —       |
 | fixed              | Fixed direction of the column                                         | Boolean/[FixedDir](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L11) | false   |
 | flexGrow           | CSSProperties flex grow, Only useful when this is not a fixed table   | Number                                                                                                                                                           | 0       |
 | flexShrink         | CSSProperties flex shrink, Only useful when this is not a fixed table | Number                                                                                                                                                           | 1       |

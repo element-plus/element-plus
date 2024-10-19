@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick, ref } from 'vue'
+import { nextTick } from 'vue'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ElCheckbox from '@element-plus/components/checkbox'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
@@ -800,7 +800,7 @@ describe('Table.vue', () => {
         },
         template: `
           <el-table ref="table" :data="testData" @${prop}="handleEvent">
-            <el-table-column type="selection" />
+            <el-table-column type="selection" :selectable="selectable" />
             <el-table-column prop="name" />
             <el-table-column prop="release" />
             <el-table-column prop="director" />
@@ -812,6 +812,9 @@ describe('Table.vue', () => {
           handleEvent(selection) {
             this.fireCount++
             this.selection = selection
+          },
+          selectable(row) {
+            return row.id !== 1
           },
         },
 
@@ -836,6 +839,19 @@ describe('Table.vue', () => {
       expect(vm.fireCount).toEqual(2)
       expect(vm.selection.length).toEqual(0)
 
+      vm.$refs.table.toggleRowSelection(vm.testData[0], undefined, false)
+      expect(vm.selection.length).toEqual(0)
+      expect(vm.fireCount).toEqual(2)
+
+      // test use second parameter
+      vm.$refs.table.toggleRowSelection(vm.testData[1], undefined, false)
+      expect(vm.selection.length).toEqual(1)
+      expect(vm.fireCount).toEqual(3)
+
+      vm.$refs.table.toggleRowSelection(vm.testData[1], false, false)
+      expect(vm.selection.length).toEqual(0)
+      expect(vm.fireCount).toEqual(4)
+
       wrapper.unmount()
     })
 
@@ -844,7 +860,7 @@ describe('Table.vue', () => {
       const vm = wrapper.vm
       vm.$refs.table.toggleAllSelection()
       await doubleWait()
-      expect(vm.selection.length).toEqual(5)
+      expect(vm.selection.length).toEqual(4)
 
       vm.$refs.table.toggleAllSelection()
       await doubleWait()
@@ -1557,14 +1573,14 @@ describe('Table.vue', () => {
       })
     })
 
-    it('load substree row data', async () => {
+    it('load substree row data & updateKeyChildren', async () => {
       wrapper = mount({
         components: {
           ElTable,
           ElTableColumn,
         },
         template: `
-          <el-table :data="testData" row-key="release" lazy :load="load">
+          <el-table :data="testData" row-key="release" lazy :load="load" ref="table">
             <el-table-column prop="name" label="片名" />
             <el-table-column prop="release" label="发行日期" />
             <el-table-column prop="director" label="导演" />
@@ -1603,6 +1619,16 @@ describe('Table.vue', () => {
               },
             ])
           },
+          updateKeyChildren() {
+            this.$refs.table.updateKeyChildren(this.testData[1].release, [
+              {
+                name: 'Update children data',
+                release: '2024-7-30-10',
+                director: 'John Lasseter',
+                runtime: 95,
+              },
+            ])
+          },
         },
       })
       await doubleWait()
@@ -1612,6 +1638,10 @@ describe('Table.vue', () => {
       await doubleWait()
       expect(expandIcon.classes()).toContain('el-table__expand-icon--expanded')
       expect(wrapper.findAll('.el-table__row').length).toEqual(8)
+
+      wrapper.vm.updateKeyChildren()
+      await doubleWait()
+      expect(wrapper.findAll('.el-table__row').length).toEqual(7)
     })
 
     it('tree-props & default-expand-all & expand-change', async () => {
@@ -1801,10 +1831,10 @@ describe('Table.vue', () => {
               </el-table>
             `,
         data() {
-          const treeProps = ref({
+          const treeProps = {
             children: 'childrenTest',
             checkStrictly: false,
-          })
+          }
           const testData = getTestData() as any
           testData[1].childrenTest = [
             {
@@ -1846,6 +1876,12 @@ describe('Table.vue', () => {
       wrapper.findAll('.el-checkbox')[2].trigger('click')
       await doubleWait()
       expect(wrapper.vm.selected.length).toEqual(1)
+      expect(wrapper.findAll('.el-checkbox')[2].classes()).include('is-checked')
+
+      wrapper.findAll('.el-checkbox')[3].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(2)
+      expect(wrapper.findAll('.el-checkbox')[3].classes()).include('is-checked')
     })
   })
 

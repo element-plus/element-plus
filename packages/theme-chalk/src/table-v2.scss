@@ -110,6 +110,10 @@
   @include e('header') {
     position: relative;
     overflow: hidden;
+
+    .#{$namespace}-checkbox {
+      z-index: 0;
+    }
   }
 
   @include e('footer') {

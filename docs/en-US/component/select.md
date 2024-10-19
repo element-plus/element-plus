@@ -11,14 +11,6 @@ When there are plenty of options, use a drop-down menu to display and select des
 
 After version ^(2.5.0), the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width (eg: [Example](https://github.com/element-plus/element-plus/issues/15834#issuecomment-1936919229)) .
 
-After version ^(2.8.0), the component will no longer forcibly convert the incoming incorrect types during initialization. For example, when `multiple` is configured, and the `model-value` is of type `string`, it will no longer be forcibly converted to `[]`.
-
-:::
-
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
 :::
 
 ## Basic usage
@@ -222,12 +214,12 @@ select/custom-label
 | reserve-keyword                 | when `multiple` and `filterable` is true, whether to reserve current keyword after selecting an option                | ^[boolean]                                                                                                                                                                  | true                                           |
 | default-first-option            | select first matching option on enter key. Use with `filterable` or `remote`                                          | ^[boolean]                                                                                                                                                                  | false                                          |
 | teleported                      | whether select dropdown is teleported to the body                                                                     | ^[boolean]                                                                                                                                                                  | true                                           |
+| append-to ^(2.8.4)              | which element the select dropdown appends to                                                                          | ^[string]                                                                                                                                                                   | —                                              |
 | persistent                      | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | automatic-dropdown              | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                     | ^[boolean]                                                                                                                                                                  | false                                          |
 | clear-icon                      | custom clear icon component                                                                                           | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose                                    |
 | fit-input-width                 | whether the width of the dropdown is the same as the input                                                            | ^[boolean]                                                                                                                                                                  | false                                          |
 | suffix-icon                     | custom suffix icon component                                                                                          | ^[string] / ^[object]`Component`                                                                                                                                            | ArrowDown                                      |
-| suffix-transition ^(deprecated) | animation when dropdown appears/disappears icon                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | tag-type                        | tag type                                                                                                              | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
 | tag-effect ^(2.7.7)             | tag effect                                                                                                            | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                                                                                                                                 | light                                          |
 | validate-event                  | whether to trigger form validation                                                                                    | ^[boolean]                                                                                                                                                                  | true                                           |
@@ -238,6 +230,7 @@ select/custom-label
 | aria-label ^(a11y)              | same as `aria-label` in native input                                                                                  | ^[string]                                                                                                                                                                   | —                                              |
 | empty-values ^(2.7.0)           | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[array]                                                                                                                                                                    | —                                              |
 | value-on-clear ^(2.7.0)         | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)               | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
+| suffix-transition ^(deprecated) | animation when dropdown appears/disappears icon                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
 
 :::warning
 
@@ -271,10 +264,11 @@ select/custom-label
 
 ### Select Exposes
 
-| Method | Description                                     | Type                    |
-| ------ | ----------------------------------------------- | ----------------------- |
-| focus  | focus the Input component                       | ^[Function]`() => void` |
-| blur   | blur the Input component, and hide the dropdown | ^[Function]`() => void` |
+| Name                   | Description                                     | Type                                       |
+| ---------------------- | ----------------------------------------------- | ------------------------------------------ |
+| focus                  | focus the Input component                       | ^[Function]`() => void`                    |
+| blur                   | blur the Input component, and hide the dropdown | ^[Function]`() => void`                    |
+| selectedLabel ^(2.8.5) | get the currently selected label                | ^[object]`ComputedRef<string \| string[]>` |
 
 ## Option Group API
 

@@ -70,16 +70,29 @@ describe('Badge', () => {
       <Badge showZero={showZero.value} value={badgeValue.value} />
     ))
     expect(wrapper.find('.el-badge__content').text()).toEqual('0')
-    badgeValue.value = 80
-    await nextTick()
-    expect(wrapper.find('.el-badge__content').text()).toEqual('80')
     showZero.value = false
+    await nextTick()
+    expect(wrapper.find('.el-badge__content').classes()).toContain(
+      'is-hide-zero'
+    )
+
+    badgeValue.value = 1
+    await nextTick()
+    expect(wrapper.find('.el-badge__content').text()).toEqual('1')
+    expect(wrapper.find('.el-badge__content').classes()).not.toContain(
+      'is-hide-zero'
+    )
     badgeValue.value = 0
     await nextTick()
-    expect(wrapper.find('.el-badge__content').text()).toEqual('')
-    badgeValue.value = 80
+    expect(wrapper.find('.el-badge__content').classes()).toContain(
+      'is-hide-zero'
+    )
+
+    showZero.value = true
     await nextTick()
-    expect(wrapper.find('.el-badge__content').text()).toEqual('80')
+    expect(wrapper.find('.el-badge__content').classes()).not.toContain(
+      'is-hide-zero'
+    )
   })
 
   test('showZero with max', async () => {

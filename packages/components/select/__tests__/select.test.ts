@@ -380,6 +380,51 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
   })
 
+  test('expose select label', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :multiple="multiple">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          { value: '选项1', label: '黄金糕' },
+          { value: '选项2', label: '双皮奶' },
+        ],
+        value: '选项2',
+        multiple: false,
+      })
+    )
+    await nextTick()
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const vm = wrapper.vm as any
+    const selectVm = select.vm as any
+
+    expect(selectVm.selectedLabel).toBe('双皮奶')
+
+    const options = getOptions()
+    options[0].click()
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('黄金糕')
+    vm.value = ''
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('')
+
+    vm.value = []
+    vm.multiple = true
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual([])
+    vm.value = ['选项1', '选项2']
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['黄金糕', '双皮奶'])
+  })
+
   test('set default value to object', async () => {
     wrapper = _mount(
       `
@@ -1525,6 +1570,32 @@ describe('Select', () => {
     expect(handleBlur).not.toHaveBeenCalled()
     await input.trigger('blur')
     expect(handleBlur).toHaveBeenCalled()
+  })
+
+  it('should be target blur event when click outside', async () => {
+    const handleBlur = vi.fn()
+    wrapper = _mount(
+      `
+      <el-select @blur="handleBlur" />
+      <button>button</button>
+      `,
+      () => ({ handleBlur })
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const input = select.find('input')
+    await input.trigger('focus')
+
+    expect(wrapper.find(`.${WRAPPER_CLASS_NAME}`).classes()).toContain(
+      'is-focused'
+    )
+
+    await wrapper.find('button').trigger('mousedown')
+    await wrapper.find('button').trigger('mouseup')
+
+    expect(wrapper.find(`.${WRAPPER_CLASS_NAME}`).classes()).not.toContain(
+      'is-focused'
+    )
+    expect(handleBlur).toHaveBeenCalledTimes(1)
   })
 
   test('should not open popper when automatic-dropdown not set', async () => {
@@ -2686,49 +2757,50 @@ describe('Select', () => {
     expect(disabledOption.attributes('aria-disabled')).toBe('true')
   })
 
-  describe('It will convert the initial model-value to the desired type after selection', () => {
-    it('array to string', async () => {
-      const wrapper = _mount(
-        `<el-select v-model="modelValue">
-            <el-option label="1" value="1" />
-          </el-select>`,
-        () => ({
-          modelValue: ['initial'],
-        })
-      )
+  it('should be trigger the click event', async () => {
+    const handleClick = vi.fn()
+    const wrapper = _mount(`<el-select @click="handleClick" />`, () => ({
+      handleClick,
+    }))
 
-      await nextTick()
-      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('initial')
-      const vm = wrapper.vm as any
-      const options = getOptions()
-      options[0].click()
-      await nextTick()
-      expect(vm.modelValue).toEqual('1')
-      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('1')
-    })
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    expect(handleClick).toHaveBeenCalledOnce()
+  })
 
-    it('string to array', async () => {
-      const wrapper = _mount(
-        `<el-select v-model="modelValue" multiple>
-            <el-option label="1" value="1" />
-          </el-select>`,
-        () => ({
-          modelValue: 'initial',
-        })
-      )
+  test('should be run normally when switching multiple', async () => {
+    wrapper = getSelectVm({ multiple: false })
+    const vm = wrapper.vm as any
 
-      await nextTick()
-      expect(wrapper.findAll('.el-tag').length).toBe(1)
-      expect(wrapper.findAll('.el-tag')[0].text()).toBe('initial')
+    await (vm.value = undefined)
+    await (vm.multiple = true)
+    await (vm.multiple = false)
+    expect(vm.value).toBe(undefined)
+  })
 
-      const vm = wrapper.vm as any
-      const options = getOptions()
-      options[0].click()
-      await nextTick()
-      expect(vm.modelValue).toEqual(['initial', '1'])
-      expect(wrapper.findAll('.el-tag').length).toBe(2)
-      expect(wrapper.findAll('.el-tag')[0].text()).toBe('initial')
-      expect(wrapper.findAll('.el-tag')[1].text()).toBe('1')
-    })
+  // case #18022
+  it('should be do not expend options when select is disabled', async () => {
+    const value = null
+    const wrapper = _mount(
+      `
+        <el-select v-model="value"
+          filterable
+          automatic-dropdown
+          disabled
+        >
+          <el-option value="1">1</el-option>
+          <el-option value="2">2</el-option>
+        </el-select>
+      `,
+      () => ({
+        value,
+      })
+    )
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('focus')
+    await nextTick()
+    expect(
+      (document.querySelector('.el-select__popper') as HTMLElement).style
+        .display
+    ).toBe('none')
   })
 })

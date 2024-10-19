@@ -49,7 +49,7 @@ segmented/custom-content
 
 ## Custom Style
 
-Set default slot to render custom content.
+Set custom styles using CSS varibles.
 
 :::demo
 
@@ -62,7 +62,7 @@ segmented/custom-style
 ### Attributes
 
 | Name                  | Description                        | Type                                           | Default |
-| --------------------- | ---------------------------------- |------------------------------------------------| ------- |
+| --------------------- | ---------------------------------- | ---------------------------------------------- | ------- |
 | model-value / v-model | binding value                      | ^[string] / ^[number] / ^[boolean]             | —       |
 | options               | data of the options                | ^[array]`Option[]`                             | []      |
 | size                  | size of component                  | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''      |
@@ -81,9 +81,9 @@ segmented/custom-style
 
 ### Slots
 
-| Name    | Description     |
-| ------- | --------------- |
-| default | option renderer |
+| Name    | Description     | Type                        |
+| ------- | --------------- | --------------------------- |
+| default | option renderer | ^[object]`{ item: Option }` |
 
 ## Type Declarations
 
@@ -101,7 +101,6 @@ type Option =
   | string
   | number
   | boolean
-  | undefined
 ```
 
 </details>
