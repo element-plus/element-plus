@@ -36,6 +36,7 @@ import {
   RTL_OFFSET_POS_DESC,
   SCROLL_EVT,
 } from '../defaults'
+import type { VirtualizedGridProps } from '../props'
 import type {
   CSSProperties,
   Ref,
@@ -50,7 +51,6 @@ import type {
   GridScrollOptions,
   ScrollbarExpose,
 } from '../types'
-import type { VirtualizedGridProps } from '../props'
 
 const createGrid = ({
   name,
@@ -182,7 +182,7 @@ const createGrid = ({
         getEstimatedTotalHeight(props, unref(cache))
       )
       const estimatedTotalWidth = computed(() =>
-        getEstimatedTotalWidth(props, unref(cache))
+        Number.parseInt(getEstimatedTotalWidth(props, unref(cache)), 10)
       )
 
       const windowStyle = computed<StyleValue>(() => [
