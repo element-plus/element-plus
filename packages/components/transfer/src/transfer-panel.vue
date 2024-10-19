@@ -23,24 +23,33 @@
         clearable
         :validate-event="false"
       />
-      <el-checkbox-group
-        v-show="!hasNoMatch && !isEmpty(data)"
-        v-model="checked"
-        :validate-event="false"
+
+      <div
+        v-show="showPanelBody"
         :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
       >
-        <el-checkbox
-          v-for="item in filteredData"
-          :key="item[propsAlias.key]"
-          :class="ns.be('panel', 'item')"
-          :value="item[propsAlias.key]"
-          :disabled="item[propsAlias.disabled]"
-          :validate-event="false"
+        <slot
+          name="body"
+          :filtered-data="filteredData"
+          :checked-keys="checked"
+          :toggle-checked="toggleChecked"
         >
-          <option-content :option="optionRender?.(item)" />
-        </el-checkbox>
-      </el-checkbox-group>
-      <p v-show="hasNoMatch || isEmpty(data)" :class="ns.be('panel', 'empty')">
+          <el-checkbox-group v-model="checked" :validate-event="false">
+            <el-checkbox
+              v-for="item in filteredData"
+              :key="item[propsAlias.key]"
+              :class="ns.be('panel', 'item')"
+              :value="item[propsAlias.key]"
+              :disabled="item[propsAlias.disabled]"
+              :validate-event="false"
+            >
+              <option-content :option="optionRender?.(item)" />
+            </el-checkbox>
+          </el-checkbox-group>
+        </slot>
+      </div>
+
+      <p v-show="showPanelEmpty" :class="ns.be('panel', 'empty')">
         {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
       </p>
     </div>
@@ -90,6 +99,7 @@ const {
   checkedSummary,
   isIndeterminate,
   handleAllCheckedChange,
+  toggleChecked,
 } = useCheck(props, panelState, emit)
 
 const hasNoMatch = computed(
@@ -97,6 +107,14 @@ const hasNoMatch = computed(
 )
 
 const hasFooter = computed(() => !isEmpty(slots.default!()[0].children))
+
+const showPanelBody = computed(
+  () => props.remainPanelBody || (!hasNoMatch.value && !isEmpty(props.data))
+)
+
+const showPanelEmpty = computed(
+  () => !props.remainPanelBody && (hasNoMatch.value || isEmpty(props.data))
+)
 
 const { checked, allChecked, query } = toRefs(panelState)
 
