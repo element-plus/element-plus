@@ -221,7 +221,7 @@ const FixedSizeGrid = createGrid({
         throwError(
           SCOPE,
           `
-          "columnWidth" must be passed as number,
+          "rowHeight" must be passed as number,
             instead ${typeof rowHeight} was given.
         `
         )
