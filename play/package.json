@@ -9,13 +9,13 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
-    "vue": "^3.2.37"
+    "vue": "^3.5.12"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.3.3",
-    "unplugin-vue-components": "0.21.2",
-    "vite": "^2.9.15",
-    "vite-plugin-inspect": "^0.5.0",
-    "vite-plugin-mkcert": "^1.7.2"
+    "@vitejs/plugin-vue": "^2.3.4",
+    "unplugin-vue-components": "0.27.4",
+    "vite": "^2.9.18",
+    "vite-plugin-inspect": "^0.8.7",
+    "vite-plugin-mkcert": "^1.17.6"
   }
 }
