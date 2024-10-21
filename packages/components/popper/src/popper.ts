@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { buildProps } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
