@@ -65,6 +65,7 @@
             @load="handleImgLoad"
             @error="handleImgError"
             @mousedown="handleMouseDown"
+            @touchstart="handleTouchStart"
           />
         </div>
         <slot />
@@ -254,6 +255,36 @@ function handleImgLoad() {
 function handleImgError(e: Event) {
   loading.value = false
   ;(e.target as HTMLImageElement).alt = t('el.image.error')
+}
+
+function getEventObj(event: MouseEvent | TouchEvent) {
+  return event.type.startsWith('touch')
+    ? (event as TouchEvent).touches[0]
+    : (event as MouseEvent)
+}
+function handleTouchStart(e: TouchEvent) {
+  if (loading.value || !wrapper.value) return
+  transform.value.enableTransition = false
+  const { offsetX, offsetY } = transform.value
+  const { pageX: startX, pageY: startY } = getEventObj(e)
+
+  const dragHandler = throttle((ev: TouchEvent) => {
+    const targetTouch = getEventObj(ev)
+    transform.value = {
+      ...transform.value,
+      offsetX: offsetX + targetTouch.pageX - startX,
+      offsetY: offsetY + targetTouch.pageY - startY,
+    }
+  })
+  const removeTouchmove = useEventListener(document, 'touchmove', dragHandler)
+  useEventListener(document, 'touchend', () => {
+    removeTouchmove()
+  })
+  useEventListener(document, 'touchcancel', () => {
+    removeTouchmove()
+  })
+
+  e.preventDefault()
 }
 
 function handleMouseDown(e: MouseEvent) {
