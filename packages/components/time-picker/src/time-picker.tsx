@@ -34,14 +34,14 @@ export default defineComponent({
       /**
        * @description focus the Input component
        */
-      focus: (e: FocusEvent | undefined) => {
-        commonPicker.value?.handleFocusInput(e)
+      focus: () => {
+        commonPicker.value?.focus()
       },
       /**
        * @description blur the Input component
        */
-      blur: (e: FocusEvent | undefined) => {
-        commonPicker.value?.handleBlurInput(e)
+      blur: () => {
+        commonPicker.value?.blur()
       },
       /**
        * @description open the TimePicker popper
