@@ -1,4 +1,4 @@
-import { computed, defineComponent, nextTick, ref, unref } from 'vue'
+import { computed, defineComponent, nextTick, onUpdated, ref, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { ensureArray } from '@element-plus/utils'
 import { tableV2HeaderProps } from '../header'
@@ -83,6 +83,14 @@ const TableV2Header = defineComponent({
       })
     }
 
+    onUpdated(() => {
+      const _table = unref(headerRef)?.parentElement
+      if (!_table) return
+      const _body = _table.firstElementChild?.firstElementChild
+      if (!_body) return
+      const _left = _body.scrollLeft
+      scrollToLeft(_left)
+    })
     expose({
       /**
        * @description scroll to position based on the provided value
