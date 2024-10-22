@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { defineComponent, h } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { clearCommentSlot } from './utils'
 export default defineComponent({
   name: 'NodeContent',
   setup() {
@@ -14,10 +15,11 @@ export default defineComponent({
     const { node, panel } = this.$parent
     const { data, label } = node
     const { renderLabelFn } = panel
-    return h(
-      'span',
-      { class: ns.e('label') },
-      renderLabelFn ? renderLabelFn({ node, data }) : label
-    )
+    let children = label
+    if (renderLabelFn) {
+      const slots = clearCommentSlot(renderLabelFn({ node, data }))
+      children = slots.length > 0 ? slots : label
+    }
+    return h('span', { class: ns.e('label') }, children)
   },
 })
