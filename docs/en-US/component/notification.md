@@ -61,6 +61,18 @@ Although `message` property supports HTML strings, dynamically rendering arbitra
 
 :::
 
+## Use VNode
+
+`message` can be VNode.
+
+After ^(2.8.7), `message` supports a function whose return value is a VNode.
+
+:::demo
+
+notification/use-vnode
+
+:::
+
 ## Hide close button
 
 It is possible to hide the close button
