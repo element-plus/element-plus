@@ -1,4 +1,4 @@
-import { computed, defineComponent, inject, ref, unref } from 'vue'
+import { computed, defineComponent, inject, provide, ref, unref } from 'vue'
 import {
   DynamicSizeGrid,
   FixedSizeGrid,
@@ -157,6 +157,10 @@ const TableGrid = defineComponent({
       scrollLeft,
     } = useTableGrid(props)
 
+    provide('tableV2GridScrollLeft', {
+      scrollLeft,
+    })
+
     expose({
       forceUpdate,
       /**
@@ -263,7 +267,6 @@ const TableGrid = defineComponent({
               rowHeight={rowHeight}
               width={width}
               height={Math.min(_headerHeight + unref(fixedRowHeight), height)}
-              scrollLeft={scrollLeft.value}
             >
               {{
                 dynamic: slots.header,

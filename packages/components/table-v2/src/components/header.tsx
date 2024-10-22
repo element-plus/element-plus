@@ -1,10 +1,18 @@
-import { computed, defineComponent, nextTick, onUpdated, ref, unref } from 'vue'
+import {
+  computed,
+  defineComponent,
+  inject,
+  nextTick,
+  onUpdated,
+  ref,
+  unref,
+} from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { ensureArray } from '@element-plus/utils'
 import { tableV2HeaderProps } from '../header'
 import { enforceUnit } from '../utils'
 
-import type { CSSProperties, UnwrapRef } from 'vue'
+import type { CSSProperties, Ref, UnwrapRef } from 'vue'
 import type { TableV2HeaderProps } from '../header'
 import type { UseColumnsReturn } from '../composables/use-columns'
 
@@ -14,6 +22,9 @@ const TableV2Header = defineComponent({
   props: tableV2HeaderProps,
   setup(props, { slots, expose }) {
     const ns = useNamespace('table-v2')
+    const scrollLeftInfo = inject<{
+      scrollLeft: Ref<number>
+    }>('tableV2GridScrollLeft')
 
     const headerRef = ref<HTMLElement>()
 
@@ -84,8 +95,8 @@ const TableV2Header = defineComponent({
     }
 
     onUpdated(() => {
-      if (props.scrollLeft) {
-        scrollToLeft(props.scrollLeft)
+      if (scrollLeftInfo?.scrollLeft.value) {
+        scrollToLeft(scrollLeftInfo.scrollLeft.value)
       }
     })
     expose({
