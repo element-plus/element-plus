@@ -1,3 +1,4 @@
+@use "sass:color";
 @use 'sass:map';
 @use 'sass:math';
 
@@ -30,7 +31,7 @@ $colors: () !default;
     (
       $type: (
         '#{$mode}-#{$number}':
-          mix(
+          color.mix(
             $mix-color,
             map.get($colors, $type, 'base'),
             math.percentage(math.div($number, 10))

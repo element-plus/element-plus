@@ -1,4 +1,5 @@
 /* Element Chalk Variables */
+@use "sass:color";
 @use 'sass:math';
 @use 'sass:map';
 
@@ -60,7 +61,7 @@ $color-info: map.get($colors, 'info', 'base') !default;
     (
       $type: (
         '#{$mode}-#{$number}':
-          mix(
+          color.mix(
             $mix-color,
             map.get($colors, $type, 'base'),
             math.percentage(math.div($number, 10))
