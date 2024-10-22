@@ -84,12 +84,9 @@ const TableV2Header = defineComponent({
     }
 
     onUpdated(() => {
-      const _table = unref(headerRef)?.parentElement
-      if (!_table) return
-      const _body = _table.firstElementChild?.firstElementChild
-      if (!_body) return
-      const _left = _body.scrollLeft
-      scrollToLeft(_left)
+      if (props.scrollLeft) {
+        scrollToLeft(props.scrollLeft)
+      }
     })
     expose({
       /**

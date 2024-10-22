@@ -29,6 +29,7 @@ export const tableV2HeaderProps = buildProps({
   },
   height: requiredNumberType,
   width: requiredNumberType,
+  scrollLeft: Number,
 } as const)
 
 export type TableV2HeaderProps = ExtractPropTypes<typeof tableV2HeaderProps>
