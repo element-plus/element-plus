@@ -157,9 +157,7 @@ const TableGrid = defineComponent({
       scrollLeft,
     } = useTableGrid(props)
 
-    provide('tableV2GridScrollLeft', {
-      scrollLeft,
-    })
+    provide('tableV2GridScrollLeft', scrollLeft)
 
     expose({
       forceUpdate,

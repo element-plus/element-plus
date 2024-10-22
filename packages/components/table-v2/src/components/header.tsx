@@ -22,9 +22,7 @@ const TableV2Header = defineComponent({
   props: tableV2HeaderProps,
   setup(props, { slots, expose }) {
     const ns = useNamespace('table-v2')
-    const scrollLeftInfo = inject<{
-      scrollLeft: Ref<number>
-    }>('tableV2GridScrollLeft')
+    const scrollLeftInfo = inject<Ref<number>>('tableV2GridScrollLeft')
 
     const headerRef = ref<HTMLElement>()
 
@@ -95,8 +93,8 @@ const TableV2Header = defineComponent({
     }
 
     onUpdated(() => {
-      if (scrollLeftInfo?.scrollLeft.value) {
-        scrollToLeft(scrollLeftInfo.scrollLeft.value)
+      if (scrollLeftInfo?.value) {
+        scrollToLeft(scrollLeftInfo.value)
       }
     })
     expose({
