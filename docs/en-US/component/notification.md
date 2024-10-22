@@ -61,7 +61,7 @@ Although `message` property supports HTML strings, dynamically rendering arbitra
 
 :::
 
-## Use VNode
+## Message using functions ^(2.8.7)
 
 `message` can be VNode.
 
