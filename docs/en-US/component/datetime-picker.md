@@ -111,6 +111,7 @@ datetime-picker/custom-icon
 | teleported              | whether datetime-picker dropdown is teleported to the body                                                     | ^[boolean]                                                                                     | true                |
 | empty-values ^(2.7.0)   | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                       | —                   |
 | value-on-clear ^(2.7.0) | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                               | —                   |
+| show-now ^(2.8.7)       | whether to show the now button                                                                                 | ^[boolean]                                                                                     | true                |
 
 ## Events
 
