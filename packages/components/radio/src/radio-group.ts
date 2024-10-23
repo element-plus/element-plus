@@ -49,6 +49,13 @@ export const radioGroupProps = buildProps({
     default: undefined,
   },
   /**
+   * @description  vertical mode
+   */
+  vertical: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * @description whether to trigger form validation
    */
   validateEvent: {
