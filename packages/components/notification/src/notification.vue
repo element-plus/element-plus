@@ -38,13 +38,14 @@
   </transition>
 </template>
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { CloseComponents, TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { notificationEmits, notificationProps } from './notification'
+import { useVisibility } from './composables/use-visibility'
 
 import type { CSSProperties } from 'vue'
 
@@ -60,7 +61,7 @@ const { nextZIndex, currentZIndex } = zIndex
 
 const { Close } = CloseComponents
 
-const visible = ref(false)
+const { visible, hide: close, show: open } = useVisibility(false)
 let timer: (() => void) | undefined = undefined
 
 const typeClass = computed(() => {
@@ -100,10 +101,6 @@ function clearTimer() {
   timer?.()
 }
 
-function close() {
-  visible.value = false
-}
-
 function onKeydown({ code }: KeyboardEvent) {
   if (code === EVENT_CODE.delete || code === EVENT_CODE.backspace) {
     clearTimer() // press delete/backspace clear timer
@@ -121,7 +118,7 @@ function onKeydown({ code }: KeyboardEvent) {
 onMounted(() => {
   startTimer()
   nextZIndex()
-  visible.value = true
+  open()
 })
 
 useEventListener(document, 'keydown', onKeydown)
