@@ -39,13 +39,14 @@ export default defineConfig(async ({ mode }) => {
   )
 
   return {
-    // css: {
-    //   preprocessorOptions: {
-    //     scss: {
-    //       additionalData: `@use "/styles/custom.scss" as *;`,
-    //     },
-    //   },
-    // },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          // additionalData: `@use "/styles/custom.scss" as *;`,
+          silenceDeprecations: ['legacy-js-api'],
+        },
+      },
+    },
     resolve: {
       alias: [
         {
