@@ -49,7 +49,7 @@ export default defineComponent({
     const span = item.span
     const rowspan = item.rowspan
     const align = item.align ? `is-${item.align}` : ''
-    const labelAlign = item.labelAlign ? `is-${item.labelAlign}` : '' || align
+    const labelAlign = item.labelAlign ? `is-${item.labelAlign}` : align
     const className = item.className
     const labelClassName = item.labelClassName
     const style = {

@@ -227,6 +227,13 @@ export const timePickerDefaultProps = buildProps({
   },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
+  /**
+   * @description whether to show the now button
+   */
+  showNow: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<

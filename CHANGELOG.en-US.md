@@ -1,5 +1,49 @@
 ## Changelog
 
+### 2.8.6
+
+_2024-10-18_
+
+#### Features
+
+- Components [input] show pwd visible icon when the input is readonly (#18458 by @LoTwT)
+
+#### Bug fixes
+
+- Components [dropdown-item] remove redundant attributes (#18340 by @betavs)
+- Components [select-v2] data echo abnormality (#18334 by @betavs)
+- Components [segmented] no option to not render (#18509 by @btea)
+- Progress bar get stuck when navigating between routes (#18586 by @makedopamine)
+- Revert(components): [table-v2] #18179 & fix header checkbox z-index (#18554 by @warmthsea)
+
+### 2.8.5
+
+_2024-10-11_
+
+#### Features
+
+- I18n update germany translations (#18447 by @MaikoTan)
+- Components [mention] explicit export dropdownVisible (#18460 by @SorrowX)
+- Components [select & select-v2] explicit export `selectedLabel` (#18350 by @warmthsea)
+
+#### Bug fixes
+
+- Play dayjs cahce miss (#18381 by @makedopamine)
+- Theme-chalk upgrade SASS version and fix deprecated color function (#18376 by @lvzhenbo)
+- Components [transfer] render the option's label correctly when there's only an empty comment in the default slot (#18416 by @LoTwT)
+- Components [table] cancel layout update when component unmount (#18440 by @btea)
+- Hooks [lockscreen] compatible with document non-existence (#18445 by @btea)
+- Components [mention] native event triggered twice (#18453 by @SorrowX)
+- Components [select] use `blur` in the tooltip slot has no effect (#18335 by @warmthsea)
+- Hooks rendering multiple popper container DOM in SSR/SSG (#18482 by @tolking)
+- Components [select] the blur not triggered when click the outside (#18478 by @tolking)
+- Components [table] the last column shuld not allow drag (#18444 by @btea)
+
+#### Refactors
+
+- Components [badge] show-zero implement (#18360 by @warmthsea)
+- Docs remove Vite (#18383 by @makedopamine)
+
 ### 2.8.4
 
 _2024-09-27_
