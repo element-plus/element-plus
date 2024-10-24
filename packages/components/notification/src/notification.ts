@@ -73,6 +73,7 @@ export const notificationProps = buildProps({
   dangerouslyUseHTMLString: Boolean,
   /**
    * @description duration before close. It will not automatically close if set 0
+   * @default 4500
    */
   duration: {
     type: Number,
@@ -100,6 +101,7 @@ export const notificationProps = buildProps({
   },
   /**
    * @description offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset
+   * @default 0
    */
   offset: {
     type: Number,
@@ -121,6 +123,7 @@ export const notificationProps = buildProps({
   },
   /**
    * @description custom position
+   * @default 'top-right'
    */
   position: {
     type: String,
@@ -129,6 +132,7 @@ export const notificationProps = buildProps({
   },
   /**
    * @description whether to show a close button
+   * @default true
    */
   showClose: {
     type: Boolean,
@@ -136,6 +140,7 @@ export const notificationProps = buildProps({
   },
   /**
    * @description whether to show a progress bar
+   * @default false
    */
   showProgressBar: {
     type: Boolean,
@@ -143,6 +148,7 @@ export const notificationProps = buildProps({
   },
   /**
    * @description behavior of timer upon hover over notification
+   * @default 'reset-restart'
    */
   timerControls: {
     type: String,
