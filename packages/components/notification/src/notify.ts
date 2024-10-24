@@ -12,6 +12,7 @@ import { notificationTypes } from './notification'
 import type { AppContext, Ref, VNode } from 'vue'
 import type {
   NotificationOptions,
+  NotificationParams,
   NotificationProps,
   NotificationQueue,
   Notify,
@@ -33,14 +34,18 @@ const notifications: Record<
 const GAP_SIZE = 16
 let seed = 1
 
+function parseOptions(options: NotificationParams) {
+  if (typeof options === 'string' || isVNode(options)) {
+    return { message: options }
+  }
+  return options
+}
+
 const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
   function (options = {}, context: AppContext | null = null) {
     if (!isClient) return { close: () => undefined }
 
-    if (typeof options === 'string' || isVNode(options)) {
-      options = { message: options }
-    }
-
+    options = parseOptions(options)
     const position = options.position || 'top-right'
 
     let verticalOffset = options.offset || 0
@@ -110,11 +115,7 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
   }
 notificationTypes.forEach((type) => {
   notify[type] = (options = {}) => {
-    if (typeof options === 'string' || isVNode(options)) {
-      options = {
-        message: options,
-      }
-    }
+    options = parseOptions(options)
     return notify({
       ...options,
       type,
