@@ -516,6 +516,10 @@ importers:
       vue:
         specifier: ^3.2.0
         version: 3.2.37
+    devDependencies:
+      jsdom-testing-mocks:
+        specifier: ^1.13.1
+        version: 1.13.1
 
   packages/constants: {}
 
@@ -3629,6 +3633,9 @@ packages:
     resolution: {integrity: sha512-pbnl5XzGBdrFU/wT4jqmJVPn2B6UHPBOhzMQkY/SPUPB6QtUXtmBHBIwCbXJol93mOpGMnQyP/+BB19q04xj7g==}
     engines: {node: '>=4'}
 
+  bezier-easing@2.1.0:
+    resolution: {integrity: sha512-gbIqZ/eslnUFC1tjEvtz0sgx+xTK20wDnYMIA27VA04R7w6xxXQPZDbibjA9DTWZRA2CXtwHykkVzlCaAJAZig==}
+
   binary-extensions@1.13.1:
     resolution: {integrity: sha512-Un7MIEDdUC5gNpcGDV97op1Ywk748MpHcFTHoYs6qnj1Z3j7I53VG3nwZhKzoBZmbdRNnb6WRdFlwl7tSDuZGw==}
     engines: {node: '>=0.10.0'}
@@ -4068,6 +4075,9 @@ packages:
     engines: {node: ^14 || ^16 || >=18}
     peerDependencies:
       postcss: ^8.0.9
+
+  css-mediaquery@0.1.2:
+    resolution: {integrity: sha512-COtn4EROW5dBGlE/4PiKnh6rZpAPxDeFLaEEwt4i10jpDMFt2EhQGS79QmmrO+iKCHv0PU/HrOWEhijFd1x99Q==}
 
   css-select@5.1.0:
     resolution: {integrity: sha512-nwoRF1rvRRnnCqqY7updORDsuqKzqYJ28+oSMaJMMgOauh3fvwHqMS7EZpIPqK8GL+g9mKxF1vP/ZjSeNjEVHg==}
@@ -5993,6 +6003,10 @@ packages:
 
   jsbn@0.1.1:
     resolution: {integrity: sha512-UVU9dibq2JcFWxQPA6KCqj5O42VOmAY3zQUfEKxU0KpTGXwNoCjkX1e13eHNvw/xPynt6pU0rZ1htjWTNTSXsg==}
+
+  jsdom-testing-mocks@1.13.1:
+    resolution: {integrity: sha512-8BAsnuoO4DLGTf7LDbSm8fcx5CUHSv4h+bdUbwyt6rMYAXWjeHLRx9f8sYiSxoOTXy3S1e06pe87KER39o1ckA==}
+    engines: {node: '>=14'}
 
   jsdom@16.4.0:
     resolution: {integrity: sha512-lYMm3wYdgPhrl7pDcRmvzPhhrGVBeVhPIqeHjzeiHN3DFmD1RBpbExbi8vU7BJdH8VAZYovR8DMt0PNNDM7k8w==}
@@ -13129,6 +13143,8 @@ snapshots:
     dependencies:
       is-windows: 1.0.2
 
+  bezier-easing@2.1.0: {}
+
   binary-extensions@1.13.1: {}
 
   binary-extensions@2.2.0: {}
@@ -13643,6 +13659,8 @@ snapshots:
   css-declaration-sorter@7.2.0(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
+
+  css-mediaquery@0.1.2: {}
 
   css-select@5.1.0:
     dependencies:
@@ -15742,6 +15760,11 @@ snapshots:
       argparse: 2.0.1
 
   jsbn@0.1.1: {}
+
+  jsdom-testing-mocks@1.13.1:
+    dependencies:
+      bezier-easing: 2.1.0
+      css-mediaquery: 0.1.2
 
   jsdom@16.4.0:
     dependencies:
