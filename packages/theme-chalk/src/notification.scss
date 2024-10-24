@@ -57,6 +57,21 @@
     }
   }
 
+  @include e(progressBar) {
+    height: 6px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 0.1s;
+    background-color: currentColor;
+
+    @each $type in (success, info, warning, error) {
+      &.#{$namespace}-notification--#{$type} {
+        background-color: getCssVar('color', $type);
+      }
+    }
+  }
+
   @include e(actions) {
     display: inline-flex;
     gap: 0.25rem;

@@ -4,6 +4,7 @@ import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { notificationTypes } from '../src/notification'
 import { __mount, _mount, isClosed, isOpen } from './wrapper.utils'
+import { mockAnimationsApi } from './mock-animations-api'
 import type { NotificationVueWrapper } from './wrapper.utils'
 
 const AXIOM = 'Rem is the best girl'
@@ -12,6 +13,8 @@ const findNotification = (wrapper: NotificationVueWrapper) =>
   wrapper.find('[role=alert]')
 
 describe('Notification.vue', () => {
+  mockAnimationsApi()
+
   describe('render', () => {
     test('basic render test', () => {
       const wrapper = _mount({
@@ -117,7 +120,9 @@ describe('Notification.vue', () => {
       vi.useFakeTimers()
       const wrapper = __mount({ duration: 100 })
       vi.runAllTimers()
-      expect(wrapper).toSatisfy(isClosed)
+      await vi.waitFor(() => {
+        expect(wrapper).toSatisfy(isClosed)
+      })
       vi.useRealTimers()
     })
 
@@ -131,7 +136,9 @@ describe('Notification.vue', () => {
       await findNotification(wrapper).trigger('mouseleave')
       expect(wrapper).toSatisfy(isOpen)
       vi.runAllTimers()
-      expect(wrapper).toSatisfy(isClosed)
+      await vi.waitFor(() => {
+        expect(wrapper).toSatisfy(isClosed)
+      })
       vi.useRealTimers()
     })
 

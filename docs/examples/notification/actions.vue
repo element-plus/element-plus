@@ -18,6 +18,7 @@ import { ElNotification } from 'element-plus'
 const asynchronous = () => {
   ElNotification({
     title: 'Async',
+    showProgressBar: true,
     actions: [
       {
         label: 'Close after 1 second',
@@ -35,6 +36,7 @@ const asynchronous = () => {
 const synchronous = () => {
   return ElNotification({
     title: 'Sync',
+    showProgressBar: true,
     actions: [
       { label: 'Close', execute: () => undefined },
       { label: 'Keep open', execute: () => undefined, keepOpen: true },
@@ -52,6 +54,7 @@ const customDisableAfterExecute = () => {
     title: 'Custom disableAfterExecute',
     message:
       'Click many times on the `Custom` action. Button will not be disabled and execute will be called every time.',
+    showProgressBar: true,
     actions: [
       {
         label: 'Custom',

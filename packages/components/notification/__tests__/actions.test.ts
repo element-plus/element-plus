@@ -2,6 +2,7 @@ import { describe, expect, test, vi } from 'vitest'
 import * as utils from '@element-plus/utils'
 import { notificationKeepOpen } from '../src/notification'
 import { __mount, isClosed, isOpen } from './wrapper.utils'
+import { mockAnimationsApi } from './mock-animations-api'
 import type { NotificationAction } from '../src/notification'
 import type { NotificationVueWrapper } from './wrapper.utils'
 
@@ -15,6 +16,8 @@ const findAllActionButtons = (wrapper: NotificationVueWrapper) =>
   findActions(wrapper).findAll('button')
 
 describe('Notification.vue', () => {
+  mockAnimationsApi()
+
   describe('actions', () => {
     const validActions: NotificationAction[] = [
       { label: 'test', execute: () => undefined },

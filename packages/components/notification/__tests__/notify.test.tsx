@@ -3,12 +3,14 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import Notification, { closeAll } from '../src/notify'
 import { ElNotification } from '..'
-
+import { mockAnimationsApi } from './mock-animations-api'
 import type { NotificationHandle } from '../src/notification'
 
 const selector = '.el-notification'
 
 describe('Notification on command', () => {
+  mockAnimationsApi()
+
   afterEach(() => {
     closeAll()
   })

@@ -118,6 +118,19 @@ notification/actions
 
 :::
 
+## Progress bar ^(X.Y.Z)
+
+The progress bar's background color will match the notification's `type` prop. If no type is set, the color will default to 'currentColor'.
+
+Implementation uses <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API'>
+Web Animations API</a> and does not rely on `setInterval` and `setTimeout`.
+
+:::demo To make the progress bar visible set the `duration` prop to a positive number and set the `showProgress` prop to `true`. Otherwise the progress bar will be hidden (but will be in DOM).
+
+notification/progress-bar
+
+:::
+
 ## API
 
 ### Options
@@ -134,6 +147,7 @@ notification/actions
 | actions ^(X.Y.Z)         | buttons for notification interaction                                                                               | ^[Array]`{ label: string; execute(): void; keepOpen?: boolean \|'until-resolved'; disableAfterExecute?: boolean; button?: ButtonProps }[]` | —         |
 | position                 | custom position                                                                                                    | ^[enum]`'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left'`                                                                      | top-right |
 | showClose                | whether to show a close button                                                                                     | ^[boolean]                                                                                                                                 | true      |
+| showProgressBar ^(X.Y.Z) | whether to show a progress bar                                                                                     | ^[boolean]                                                                                                                                 | false     |
 | onClose                  | callback function when closed                                                                                      | ^[Function]`() => void`                                                                                                                    | —         |
 | onClick                  | callback function when notification clicked                                                                        | ^[Function]`() => void`                                                                                                                    | —         |
 | offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | ^[number]                                                                                                                                  | 0         |

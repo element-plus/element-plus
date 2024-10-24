@@ -128,6 +128,13 @@ export const notificationProps = buildProps({
     default: true,
   },
   /**
+   * @description whether to show a progress bar
+   */
+  showProgressBar: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * @description title
    */
   title: {

@@ -10,8 +10,8 @@
       :class="[ns.b(), customClass, horizontalClass]"
       :style="positionStyle"
       role="alert"
-      @mouseenter="clearTimer"
-      @mouseleave="startTimer"
+      @mouseenter="progress.pause"
+      @mouseleave="progress.resume"
       @click="onClick"
     >
       <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
@@ -45,19 +45,24 @@
           <Close />
         </el-icon>
       </div>
+      <div
+        ref="progressBarRef"
+        :hidden="progress.mustHide.value"
+        :class="[ns.e('progressBar'), typeClass]"
+      />
     </div>
   </transition>
 </template>
 <script lang="ts" setup>
-import { computed, onMounted } from 'vue'
-import { useEventListener, useTimeoutFn } from '@vueuse/core'
+import { computed, onMounted, ref } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import { CloseComponents, TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { ElButton } from '@element-plus/components/button'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { notificationEmits, notificationProps } from './notification'
-import { useActions, useVisibility } from './composables'
+import { useActions, useProgress, useVisibility } from './composables'
 
 import type { CSSProperties } from 'vue'
 
@@ -68,18 +73,30 @@ defineOptions({
 const props = defineProps(notificationProps)
 defineEmits(notificationEmits)
 
-const { ns, zIndex } = useGlobalComponentSettings('notification')
-const { nextZIndex, currentZIndex } = zIndex
+const { visible, show: open, hide: close } = useVisibility(false)
 
-const { Close } = CloseComponents
+const onClose = () => {
+  progress.cleanup()
+  props.onClose?.()
+}
 
-const { visible, hide: close, show: open } = useVisibility(false)
+const progressBarRef = ref<HTMLElement>()
+const progress = useProgress(
+  () => props.showProgressBar,
+  () => props.duration,
+  progressBarRef,
+  close
+)
+
 const { actions: actions_, mustShow: mustShowActions } = useActions(
   () => props.actions,
   close
 )
 
-let timer: (() => void) | undefined = undefined
+const { ns, zIndex } = useGlobalComponentSettings('notification')
+const { nextZIndex, currentZIndex } = zIndex
+
+const { Close } = CloseComponents
 
 const typeClass = computed(() => {
   const type = props.type
@@ -106,39 +123,21 @@ const positionStyle = computed<CSSProperties>(() => {
   }
 })
 
-function startTimer() {
-  if (props.duration > 0) {
-    ;({ stop: timer } = useTimeoutFn(() => {
-      if (visible.value) close()
-    }, props.duration))
-  }
-}
-
-function clearTimer() {
-  timer?.()
-}
-
-function onKeydown({ code }: KeyboardEvent) {
+useEventListener(document, 'keydown', ({ code }: KeyboardEvent) => {
   if (code === EVENT_CODE.delete || code === EVENT_CODE.backspace) {
-    clearTimer() // press delete/backspace clear timer
+    progress.pause()
   } else if (code === EVENT_CODE.esc) {
-    // press esc to close the notification
-    if (visible.value) {
-      close()
-    }
+    close()
   } else {
-    startTimer() // resume timer
+    progress.resume()
   }
-}
+})
 
-// lifecycle
 onMounted(() => {
-  startTimer()
+  progress.initialize()
   nextZIndex()
   open()
 })
-
-useEventListener(document, 'keydown', onKeydown)
 
 defineExpose({
   visible,
