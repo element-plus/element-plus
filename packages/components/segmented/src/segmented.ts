@@ -13,6 +13,10 @@ import type { ExtractPropTypes } from 'vue'
 import type Segmented from './segmented.vue'
 
 export const segmentedProps = buildProps({
+  vertical: {
+    type: Boolean,
+    default: false,
+  },
   /**
    * @description options of segmented
    */

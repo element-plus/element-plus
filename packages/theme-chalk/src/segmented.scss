@@ -28,9 +28,9 @@ $segmented-font-size: map.merge(
 $segmented-item-padding: () !default;
 $segmented-item-padding: map.merge(
   (
-    'large': 0 11px,
-    'default': 0 11px,
-    'small': 0 7px,
+    'large': 11px 11px,
+    'default': 11px 11px,
+    'small': 7px 7px,
   ),
   $segmented-item-padding
 );

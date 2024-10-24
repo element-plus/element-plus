@@ -8,7 +8,7 @@
     :aria-label="!isLabeledByFormItem ? ariaLabel || 'segmented' : undefined"
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
-    <div :class="ns.e('group')">
+    <div ref="groupRef" :class="ns.e('group')">
       <div :style="selectedStyle" :class="selectedCls" />
       <label
         v-for="(item, index) in options"
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useActiveElement, useResizeObserver } from '@vueuse/core'
 import { useId, useNamespace } from '@element-plus/hooks'
 import {
@@ -63,12 +63,15 @@ const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
 })
 
 const segmentedRef = ref<HTMLElement | null>(null)
+const groupRef = ref<HTMLElement | null>(null)
 const activeElement = useActiveElement()
 
 const state = reactive({
   isInit: false,
   width: 0,
+  height: 0,
   translateX: 0,
+  translateY: 0,
   focusVisible: false,
 })
 
@@ -117,13 +120,19 @@ const updateSelect = () => {
   if (!selectedItem || !selectedItemInput) {
     state.width = 0
     state.translateX = 0
+    state.translateY = 0
     state.focusVisible = false
     return
   }
   const rect = selectedItem.getBoundingClientRect()
   state.isInit = true
-  state.width = rect.width
-  state.translateX = selectedItem.offsetLeft
+  if (props.vertical) {
+    state.height = rect.height
+    state.translateY = selectedItem.offsetTop
+  } else {
+    state.width = rect.width
+    state.translateX = selectedItem.offsetLeft
+  }
   try {
     // This will failed in test
     state.focusVisible = selectedItemInput.matches(':focus-visible')
@@ -137,8 +146,11 @@ const segmentedCls = computed(() => [
 ])
 
 const selectedStyle = computed(() => ({
-  width: `${state.width}px`,
-  transform: `translateX(${state.translateX}px)`,
+  width: props.vertical ? '100%' : `${state.width}px`,
+  height: props.vertical ? `${state.height}px` : '100%',
+  transform: props.vertical
+    ? `translateY(${state.translateY}px)`
+    : `translateX(${state.translateX}px)`,
   display: state.isInit ? 'block' : 'none',
 }))
 
@@ -166,6 +178,28 @@ watch(
   },
   {
     flush: 'post',
+  }
+)
+
+const updateDirection = () => {
+  if (props.vertical && groupRef.value) {
+    const groupElement = groupRef.value
+    groupElement.style.display = 'flex'
+    groupElement.style.flexDirection = 'column'
+  } else if (groupRef.value) {
+    const groupElement = groupRef.value
+    groupElement.style.display = 'flex'
+    groupElement.style.flexDirection = 'row'
+  }
+}
+onMounted(() => {
+  updateDirection()
+})
+
+watch(
+  () => props.vertical,
+  () => {
+    updateDirection()
   }
 )
 </script>
