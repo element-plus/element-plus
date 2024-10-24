@@ -126,26 +126,33 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     }
     // use range width instead of scrollWidth to determine whether the text is overflowing
     // to address a potential FireFox bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1074543#c3
-    const range = document.createRange()
-    range.setStart(cellChild, 0)
-    range.setEnd(cellChild, cellChild.childNodes.length)
+    const copyEl = cellChild.cloneNode(true)
+
+    copyEl.style.width = 'fit-content'
+    copyEl.style.height = 'fit-content'
+    copyEl.style.position = 'absolute'
+    copyEl.style.visibility = 'hidden'
+    copyEl.style.pointerEvents = 'none'
+    document.body.appendChild(copyEl)
     /** detail: https://github.com/element-plus/element-plus/issues/10790
      *  What went wrong?
      *  UI > Browser > Zoom, In Blink/WebKit, getBoundingClientRect() sometimes returns inexact values, probably due to lost precision during internal calculations. In the example above:
      *    - Expected: 188
      *    - Actual: 188.00000762939453
      */
-    const { width: rangeWidth, height: rangeHeight } =
-      range.getBoundingClientRect()
-    const { width: cellChildWidth, height: cellChildHeight } =
-      cellChild.getBoundingClientRect()
+    // const { width: copyWidth, height: copyHeight } =
+    //   copyEl.getBoundingClientRect()
+    // const { width: cellChildWidth, height: cellChildHeight } =
+    //   cellChild.getBoundingClientRect()
+    const { clientWidth: copyWidth, clientHeight: copyHeight } = copyEl
+    const { clientWidth: cellChildWidth, clientHeight: cellChildHeight } =
+      cellChild
 
-    const { top, left, right, bottom } = getPadding(cellChild)
-    const horizontalPadding = left + right
-    const verticalPadding = top + bottom
+    document.body.removeChild(copyEl)
+
     if (
-      isGreaterThan(rangeWidth + horizontalPadding, cellChildWidth) ||
-      isGreaterThan(rangeHeight + verticalPadding, cellChildHeight) ||
+      isGreaterThan(copyWidth, cellChildWidth) ||
+      isGreaterThan(copyHeight, cellChildHeight) ||
       // When using a high-resolution screen, it is possible that a returns cellChild.scrollWidth value of 1921 and
       // cellChildWidth returns a value of 1920.994140625. #16856 #16673
       isGreaterThan(cellChild.scrollWidth, cellChildWidth)
