@@ -3,6 +3,7 @@ import {
   debugWarn,
   isClient,
   isElement,
+  isFunction,
   isString,
   isVNode,
 } from '@element-plus/utils'
@@ -81,11 +82,7 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
     const vm = createVNode(
       NotificationConstructor,
       props,
-      isVNode(props.message)
-        ? {
-            default: () => props.message,
-          }
-        : null
+      isFunction(props.message) ? props.message : () => props.message
     )
     vm.appContext = context ?? notify._context
 
