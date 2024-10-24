@@ -11,6 +11,13 @@ export const notificationTypes = [
   'error',
 ] as const
 
+export const notificationTimerControls = [
+  'pause-resume',
+  'reset-restart',
+] as const
+
+export type NotificationTimerControls = typeof notificationTimerControls[number]
+
 export const notificationKeepOpen = [false, true, 'until-resolved'] as const
 
 export type NotificationKeepOpen = typeof notificationKeepOpen[number]
@@ -133,6 +140,14 @@ export const notificationProps = buildProps({
   showProgressBar: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * @description behavior of timer upon hover over notification
+   */
+  timerControls: {
+    type: String,
+    values: notificationTimerControls,
+    default: 'reset-restart',
   },
   /**
    * @description title

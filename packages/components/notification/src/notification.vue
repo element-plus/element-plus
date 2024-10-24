@@ -10,7 +10,7 @@
       :class="[ns.b(), customClass, horizontalClass]"
       :style="positionStyle"
       role="alert"
-      @mouseenter="progress.pause"
+      @mouseenter="progress.pauseOrReset"
       @mouseleave="progress.resume"
       @click="onClick"
     >
@@ -84,6 +84,7 @@ const progressBarRef = ref<HTMLElement>()
 const progress = useProgress(
   () => props.showProgressBar,
   () => props.duration,
+  () => props.timerControls === 'reset-restart',
   progressBarRef,
   close
 )
@@ -125,7 +126,7 @@ const positionStyle = computed<CSSProperties>(() => {
 
 useEventListener(document, 'keydown', ({ code }: KeyboardEvent) => {
   if (code === EVENT_CODE.delete || code === EVENT_CODE.backspace) {
-    progress.pause()
+    progress.pauseOrReset()
   } else if (code === EVENT_CODE.esc) {
     close()
   } else {

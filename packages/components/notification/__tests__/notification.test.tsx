@@ -3,8 +3,15 @@ import { describe, expect, test, vi } from 'vitest'
 import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { notificationTypes } from '../src/notification'
-import { __mount, _mount, isClosed, isOpen } from './wrapper.utils'
+import {
+  __mount,
+  _mount,
+  hasVisibility,
+  isClosed,
+  isOpen,
+} from './wrapper.utils'
 import { mockAnimationsApi } from './mock-animations-api'
+import type { NotificationTimerControls } from '../src/notification'
 import type { NotificationVueWrapper } from './wrapper.utils'
 
 const AXIOM = 'Rem is the best girl'
@@ -188,6 +195,38 @@ describe('Notification.vue', () => {
       document.dispatchEvent(keydown({ code: EVENT_CODE.esc }))
       vi.runAllTimers()
       expect(wrapper).toSatisfy(isClosed)
+      vi.useRealTimers()
+    })
+
+    test.for<{
+      timerControls: NotificationTimerControls
+      isVisibleAfterRepeatedHover: boolean
+      name: string
+    }>([
+      {
+        timerControls: 'pause-resume',
+        isVisibleAfterRepeatedHover: false,
+        name: 'will be closed after multiple hovers when timerControls is pause-resume',
+      },
+      {
+        timerControls: 'reset-restart',
+        isVisibleAfterRepeatedHover: true,
+        name: 'will be open after multiple hovers when timerControls is reset-restart',
+      },
+    ])('$name', async ({ timerControls, isVisibleAfterRepeatedHover }) => {
+      vi.useFakeTimers()
+      const wrapper = __mount({ duration: 100, timerControls })
+      vi.advanceTimersByTime(50)
+      await findNotification(wrapper).trigger('mouseenter')
+      await findNotification(wrapper).trigger('mouseleave')
+      vi.advanceTimersByTime(50)
+      await vi.waitFor(() => {
+        expect(wrapper).toSatisfy(hasVisibility(isVisibleAfterRepeatedHover))
+      })
+      vi.runAllTimers()
+      await vi.waitFor(() => {
+        expect(wrapper).toSatisfy(isClosed)
+      })
       vi.useRealTimers()
     })
   })

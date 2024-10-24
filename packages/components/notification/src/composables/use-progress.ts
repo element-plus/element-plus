@@ -4,6 +4,7 @@ import { type MaybeComputedRef, resolveUnref as toValue } from '@vueuse/core'
 export function useProgress(
   showProgressBar: MaybeComputedRef<boolean>,
   duration: MaybeComputedRef<number>,
+  mustReset: MaybeComputedRef<boolean>,
   templateRef: Ref<HTMLElement | undefined>,
   onEnd: () => void
 ) {
@@ -33,8 +34,13 @@ export function useProgress(
       () => !(toValue(showProgressBar) && toValue(duration) > 0)
     ),
     initialize,
-    pause() {
+    pauseOrReset() {
       if (!animation) return
+      const mustResetAnimation = toValue(mustReset)
+      if (mustResetAnimation) {
+        animation.currentTime = toValue(duration)
+        animation.play()
+      }
       animation.pause()
     },
     resume() {
