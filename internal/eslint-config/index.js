@@ -28,16 +28,6 @@ module.exports = defineConfig({
       parser: 'jsonc-eslint-parser',
     },
     {
-      files: ['*.ts', '*.vue'],
-      rules: {
-        'no-undef': 'off',
-        '@typescript-eslint/consistent-type-imports': [
-          'error',
-          { disallowTypeAnnotations: false },
-        ],
-      },
-    },
-    {
       files: ['**/__tests__/**'],
       rules: {
         'no-console': 'off',
@@ -199,7 +189,6 @@ module.exports = defineConfig({
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
-
     '@typescript-eslint/ban-ts-comment': ['off', { 'ts-ignore': false }],
     '@typescript-eslint/no-require-imports': 'off',
     '@typescript-eslint/no-unused-expressions': 'off',
@@ -223,7 +212,6 @@ module.exports = defineConfig({
         math: 'always',
       },
     ],
-    'vue/valid-define-props': 'off',
 
     // prettier
     'prettier/prettier': 'error',
