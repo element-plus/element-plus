@@ -184,11 +184,9 @@ watch(
 const updateDirection = () => {
   if (props.vertical && groupRef.value) {
     const groupElement = groupRef.value
-    groupElement.style.display = 'flex'
     groupElement.style.flexDirection = 'column'
   } else if (groupRef.value) {
     const groupElement = groupRef.value
-    groupElement.style.display = 'flex'
     groupElement.style.flexDirection = 'row'
   }
 }
