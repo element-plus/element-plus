@@ -104,6 +104,10 @@ const { appContext } = getCurrentInstance()!
 ElNotification({}, appContext)
 ```
 
+## Keyboard listener
+
+Notification component registers a `keydown` event listener on the document. When the Escape key is pressed, it will close the notification. On Backspace and Delete, the timer will pause or reset (depending on the <a href='#timer-controls'>timerControls</a> prop). Any other key will resume or restart the timer.
+
 ## Actions ^(X.Y.Z)
 
 Actions use Element Plus's <a href='button'>Button</a> component, with button props provided via the action's `button` property.

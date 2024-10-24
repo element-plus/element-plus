@@ -167,20 +167,21 @@ describe('Notification.vue', () => {
     const keydown = (options: KeyboardEventInit) =>
       new KeyboardEvent('keydown', { ...options })
 
-    test('should be able to delete timer when press delete', async () => {
-      vi.useFakeTimers()
-      const wrapper = _mount({
-        slots: {
-          default: () => AXIOM,
-        },
-      })
-      document.dispatchEvent(
-        keydown({ code: EVENT_CODE.backspace, bubbles: true })
-      )
-      vi.runAllTimers()
-      expect(wrapper).toSatisfy(isOpen)
-      vi.useRealTimers()
-    })
+    test.for([EVENT_CODE.backspace, EVENT_CODE.delete])(
+      'should be able to delete timer when press %s',
+      async (code) => {
+        vi.useFakeTimers()
+        const wrapper = _mount({
+          slots: {
+            default: () => AXIOM,
+          },
+        })
+        document.dispatchEvent(keydown({ code, bubbles: true }))
+        vi.runAllTimers()
+        expect(wrapper).toSatisfy(isOpen)
+        vi.useRealTimers()
+      }
+    )
 
     test('should be able to close the notification immediately when press esc', async () => {
       vi.useFakeTimers()
