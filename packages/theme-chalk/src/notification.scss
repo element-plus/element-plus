@@ -57,6 +57,16 @@
     }
   }
 
+  @include e(actions) {
+    display: inline-flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+
+    .el-button + .el-button {
+      margin-left: 0;
+    }
+  }
+
   & .#{$namespace}-notification__icon {
     height: getCssVar('notification-icon-size');
     width: getCssVar('notification-icon-size');

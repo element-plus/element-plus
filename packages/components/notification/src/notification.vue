@@ -30,6 +30,17 @@
             <p v-else v-html="message" />
           </slot>
         </div>
+        <div v-if="mustShowActions" :class="ns.e('actions')">
+          <el-button
+            v-for="action of actions_"
+            :key="action.label"
+            v-bind="action.button"
+            :disabled="action.disabled.value"
+            @click="action.onClick"
+          >
+            {{ action.label }}
+          </el-button>
+        </div>
         <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
           <Close />
         </el-icon>
@@ -43,9 +54,10 @@ import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { CloseComponents, TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
+import { ElButton } from '@element-plus/components/button'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { notificationEmits, notificationProps } from './notification'
-import { useVisibility } from './composables/use-visibility'
+import { useActions, useVisibility } from './composables'
 
 import type { CSSProperties } from 'vue'
 
@@ -62,6 +74,11 @@ const { nextZIndex, currentZIndex } = zIndex
 const { Close } = CloseComponents
 
 const { visible, hide: close, show: open } = useVisibility(false)
+const { actions: actions_, mustShow: mustShowActions } = useActions(
+  () => props.actions,
+  close
+)
+
 let timer: (() => void) | undefined = undefined
 
 const typeClass = computed(() => {
