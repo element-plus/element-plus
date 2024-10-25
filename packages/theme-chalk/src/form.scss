@@ -121,7 +121,8 @@ $form-item-label-top-margin-bottom: map.merge(
     display: block;
 
     .#{$namespace}-form-item__label {
-      display: block;
+      display: inline-block;
+      vertical-align: middle;
       height: auto;
       text-align: left;
       margin-bottom: #{map.get($form-item-label-top-margin-bottom, 'default')};

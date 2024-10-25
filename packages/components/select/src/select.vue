@@ -21,6 +21,7 @@
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
       :persistent="persistent"
+      :append-to="appendTo"
       @before-show="handleMenuEnter"
       @hide="states.isBeforeHide = false"
     >
@@ -367,9 +368,17 @@ export default defineComponent({
       }) as unknown as SelectContext
     )
 
+    const selectedLabel = computed(() => {
+      if (!props.multiple) {
+        return API.states.selectedLabel
+      }
+      return API.states.selected.map((i) => i.currentLabel as string)
+    })
+
     return {
       ...API,
       modelValue,
+      selectedLabel,
     }
   },
 })

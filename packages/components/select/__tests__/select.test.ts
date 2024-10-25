@@ -380,6 +380,51 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
   })
 
+  test('expose select label', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :multiple="multiple">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          { value: '选项1', label: '黄金糕' },
+          { value: '选项2', label: '双皮奶' },
+        ],
+        value: '选项2',
+        multiple: false,
+      })
+    )
+    await nextTick()
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const vm = wrapper.vm as any
+    const selectVm = select.vm as any
+
+    expect(selectVm.selectedLabel).toBe('双皮奶')
+
+    const options = getOptions()
+    options[0].click()
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('黄金糕')
+    vm.value = ''
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('')
+
+    vm.value = []
+    vm.multiple = true
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual([])
+    vm.value = ['选项1', '选项2']
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['黄金糕', '双皮奶'])
+  })
+
   test('set default value to object', async () => {
     wrapper = _mount(
       `
@@ -1525,6 +1570,32 @@ describe('Select', () => {
     expect(handleBlur).not.toHaveBeenCalled()
     await input.trigger('blur')
     expect(handleBlur).toHaveBeenCalled()
+  })
+
+  it('should be target blur event when click outside', async () => {
+    const handleBlur = vi.fn()
+    wrapper = _mount(
+      `
+      <el-select @blur="handleBlur" />
+      <button>button</button>
+      `,
+      () => ({ handleBlur })
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const input = select.find('input')
+    await input.trigger('focus')
+
+    expect(wrapper.find(`.${WRAPPER_CLASS_NAME}`).classes()).toContain(
+      'is-focused'
+    )
+
+    await wrapper.find('button').trigger('mousedown')
+    await wrapper.find('button').trigger('mouseup')
+
+    expect(wrapper.find(`.${WRAPPER_CLASS_NAME}`).classes()).not.toContain(
+      'is-focused'
+    )
+    expect(handleBlur).toHaveBeenCalledTimes(1)
   })
 
   test('should not open popper when automatic-dropdown not set', async () => {
