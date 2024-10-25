@@ -31,8 +31,11 @@ export const isFocusable = (element: HTMLElement): boolean => {
   ) {
     return true
   }
-  // HTMLButtonElement has disabled
-  if ((element as HTMLButtonElement).disabled) {
+  if (
+    element.tabIndex < 0 ||
+    element.hasAttribute('disabled') ||
+    element.getAttribute('aria-disabled') === 'true'
+  ) {
     return false
   }
 

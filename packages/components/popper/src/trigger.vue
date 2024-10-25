@@ -17,7 +17,7 @@ import { isNil } from 'lodash-unified'
 import { unrefElement } from '@vueuse/core'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
-import { isElement } from '@element-plus/utils'
+import { isElement, isFocusable } from '@element-plus/utils'
 import { POPPER_INJECTION_KEY } from './constants'
 import { popperTriggerProps } from './trigger'
 
@@ -100,24 +100,26 @@ onMounted(() => {
             )
           }
         })
-        virtualTriggerAriaStopWatch = watch(
-          [ariaControls, ariaDescribedby, ariaHaspopup, ariaExpanded],
-          (watches) => {
-            ;[
-              'aria-controls',
-              'aria-describedby',
-              'aria-haspopup',
-              'aria-expanded',
-            ].forEach((key, idx) => {
-              isNil(watches[idx])
-                ? el.removeAttribute(key)
-                : el.setAttribute(key, watches[idx]!)
-            })
-          },
-          { immediate: true }
-        )
+        if (isFocusable(el as HTMLElement)) {
+          virtualTriggerAriaStopWatch = watch(
+            [ariaControls, ariaDescribedby, ariaHaspopup, ariaExpanded],
+            (watches) => {
+              ;[
+                'aria-controls',
+                'aria-describedby',
+                'aria-haspopup',
+                'aria-expanded',
+              ].forEach((key, idx) => {
+                isNil(watches[idx])
+                  ? el.removeAttribute(key)
+                  : el.setAttribute(key, watches[idx]!)
+              })
+            },
+            { immediate: true }
+          )
+        }
       }
-      if (isElement(prevEl)) {
+      if (isElement(prevEl) && isFocusable(prevEl as HTMLElement)) {
         ;[
           'aria-controls',
           'aria-describedby',
