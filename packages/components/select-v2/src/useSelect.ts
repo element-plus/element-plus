@@ -50,8 +50,6 @@ import type { SelectEmitFn } from './defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectDropdownInstance } from './select-dropdown'
 
-const MINIMUM_INPUT_WIDTH = 11
-
 const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   // inject
   const { t } = useLocale()
