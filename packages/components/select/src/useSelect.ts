@@ -593,13 +593,11 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const getValueIndex = (arr: any[] = [], option) => {
-    if (!isObject(option?.value)) {
-      return arr.indexOf(option.value)
-    } else {
-      return arr.findIndex((item) => {
-        return isEqual(get(item, props.valueKey), getValueKey(option))
-      })
-    }
+    if (!isObject(option?.value)) return arr.indexOf(option.value)
+
+    return arr.findIndex((item) => {
+      return isEqual(get(item, props.valueKey), getValueKey(option))
+    })
   }
 
   const scrollToOption = (option) => {
