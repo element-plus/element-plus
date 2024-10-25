@@ -1,5 +1,7 @@
+import { Comment } from 'vue'
 import { isLeaf } from '@element-plus/utils'
 import type { default as CascaderNode } from './node'
+import type { VNode } from 'vue'
 
 export const getMenuIndex = (el: HTMLElement) => {
   if (!el) return 0
@@ -37,4 +39,8 @@ export const sortByOriginalOrder = (
   res.push(...newNodesCopy)
 
   return res
+}
+
+export const clearCommentSlot = (slots: VNode[]) => {
+  return slots?.filter((item) => item.type !== Comment) || []
 }
