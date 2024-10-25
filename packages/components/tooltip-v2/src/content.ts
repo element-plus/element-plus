@@ -28,7 +28,9 @@ export const tooltipV2ContentProps = buildProps({
     default: 5,
   },
   effect: {
-    type: definePropType<PopperEffect | string>(String),
+    type: definePropType<PopperEffect | (string & NonNullable<unknown>)>(
+      String
+    ),
     default: 'light',
   },
   contentClass: String,
