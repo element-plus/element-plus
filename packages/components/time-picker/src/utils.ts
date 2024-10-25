@@ -1,7 +1,14 @@
 import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import weekOfYear from 'dayjs/plugin/weekOfYear'
+
 import { isArray, isDate, isEmpty } from '@element-plus/utils'
 
 import type { Dayjs } from 'dayjs'
+
+dayjs.extend(weekOfYear)
+dayjs.extend(customParseFormat)
+
 export type TimeList = [number | undefined, number, undefined | number]
 
 export const buildTimeList = (value: number, bound: number): TimeList => {
