@@ -6,6 +6,7 @@
         :tabindex="-1"
         :class="ns.e('wrapper')"
         :style="{ zIndex }"
+        @touchstart.passive="onTouchStart"
       >
         <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
@@ -144,6 +145,12 @@ const transform = ref({
   enableTransition: false,
 })
 const zIndex = ref(props.zIndex ?? nextZIndex())
+const coordinate = ref({
+  startX: 0,
+  startY: 0,
+  initialX: 0,
+  initialY: 0,
+})
 
 const isSingle = computed(() => {
   const { urlList } = props
@@ -350,6 +357,39 @@ function handleActions(action: ImageViewerAction, options = {}) {
       break
   }
   transform.value.enableTransition = enableTransition
+}
+
+function onTouchStart(event: TouchEvent) {
+  if (!event.touches) return
+  // for now, just the dragging touch
+  if (event.touches.length === 1) {
+    transform.value.enableTransition = false
+
+    coordinate.value.startX = event.touches[0].pageX
+    coordinate.value.startY = event.touches[0].pageY
+    coordinate.value.initialX = transform.value.offsetX
+    coordinate.value.initialY = transform.value.offsetY
+
+    const onTouchMove = throttle((ev: TouchEvent) => {
+      if (ev.touches.length === 1) {
+        const MIN_DISTANCE = 3
+
+        const dx = ev.touches[0].pageX - coordinate.value.startX
+        const dy = ev.touches[0].pageY - coordinate.value.startY
+
+        if (Math.abs(dx) > MIN_DISTANCE || Math.abs(dy) > MIN_DISTANCE) {
+          transform.value.offsetX = coordinate.value.initialX + dx
+          transform.value.offsetY = coordinate.value.initialY + dy
+        }
+      }
+    })
+
+    const removeTouchMove = useEventListener(document, 'touchmove', onTouchMove)
+
+    useEventListener(document, 'touchend', () => {
+      removeTouchMove()
+    })
+  }
 }
 
 watch(currentImg, () => {
