@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
 import { isEqual } from 'lodash-unified'
-import { hasOwn, isUndefined } from '@element-plus/utils'
+import { hasOwn, isArray, isUndefined } from '@element-plus/utils'
 import {
   getColumnById,
   getColumnByKey,
@@ -359,7 +359,7 @@ function useWatcher<T>() {
 
   // 过滤与排序
   const updateFilters = (columns, values) => {
-    if (!Array.isArray(columns)) {
+    if (!isArray(columns)) {
       columns = [columns]
     }
     const filters_ = {}
@@ -430,7 +430,7 @@ function useWatcher<T>() {
       columnKeys = [columnKeys]
     }
 
-    if (Array.isArray(columnKeys)) {
+    if (isArray(columnKeys)) {
       const columns_ = columnKeys.map((key) =>
         getColumnByKey(
           {

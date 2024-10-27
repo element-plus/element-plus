@@ -22,6 +22,7 @@ import {
   definePropType,
   flattedChildren,
   iconPropType,
+  isArray,
   isObject,
   isString,
   mutable,
@@ -164,7 +165,7 @@ export const menuProps = buildProps({
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
 const checkIndexPath = (indexPath: unknown): indexPath is string[] =>
-  Array.isArray(indexPath) && indexPath.every((path) => isString(path))
+  isArray(indexPath) && indexPath.every((path) => isString(path))
 
 export const menuEmits = {
   close: (index: string, indexPath: string[]) =>
