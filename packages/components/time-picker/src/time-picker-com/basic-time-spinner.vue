@@ -291,11 +291,14 @@ const handleClick = (
 }
 
 const handleScroll = (type: TimeUnit) => {
+  const scrollbar = unref(listRefsMap[type])
+  if (!scrollbar) return
+
   isScrolling = true
   debouncedResetScroll(type)
   const value = Math.min(
     Math.round(
-      (getScrollbarElement(unref(listRefsMap[type])!.$el).scrollTop -
+      (getScrollbarElement(scrollbar.$el).scrollTop -
         (scrollBarHeight(type) * 0.5 - 10) / typeItemHeight(type) +
         3) /
         typeItemHeight(type)
@@ -334,8 +337,8 @@ onMounted(() => {
   })
 })
 
-const setRef = (scrollbar: ScrollbarInstance, type: TimeUnit) => {
-  listRefsMap[type].value = scrollbar
+const setRef = (scrollbar: ScrollbarInstance | null, type: TimeUnit) => {
+  listRefsMap[type].value = scrollbar ?? undefined
 }
 
 emit('set-option', [`${props.role}_scrollDown`, scrollDown])
