@@ -15,6 +15,7 @@ export interface IDescriptionsItemInject {
   rowspan: number
   width: string | number
   minWidth: string | number
+  labelWidth: string | number
   align: string
   labelAlign: string
   className: string

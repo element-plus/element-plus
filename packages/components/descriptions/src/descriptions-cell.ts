@@ -53,7 +53,10 @@ export default defineComponent({
     const className = item.className
     const labelClassName = item.labelClassName
     const style = {
-      width: addUnit(item.width),
+      width:
+        this.type === 'label'
+          ? addUnit(item.labelWidth || item.width)
+          : addUnit(item.width),
       minWidth: addUnit(item.minWidth),
     }
     const ns = useNamespace('descriptions')
