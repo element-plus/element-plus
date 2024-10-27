@@ -50,6 +50,8 @@ import type { SelectEmitFn } from './defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectDropdownInstance } from './select-dropdown'
 
+const MINIMUM_INPUT_WIDTH = 11
+
 const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   // inject
   const { t } = useLocale()
@@ -286,6 +288,10 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   const collapseTagStyle = computed(() => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
+
+  const inputStyle = computed(() => ({
+    minWidth: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
+  }))
 
   const shouldShowPlaceholder = computed(() => {
     if (isArray(props.modelValue)) {
@@ -900,6 +906,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     iconReverse,
     tagStyle,
     collapseTagStyle,
+    inputStyle,
     popperSize,
     dropdownMenuVisible,
     hasModelValue,

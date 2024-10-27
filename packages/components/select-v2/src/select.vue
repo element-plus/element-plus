@@ -151,6 +151,7 @@
                 :id="inputId"
                 ref="inputRef"
                 v-model="states.inputValue"
+                :style="inputStyle"
                 :autocomplete="autocomplete"
                 aria-autocomplete="list"
                 aria-haspopup="listbox"

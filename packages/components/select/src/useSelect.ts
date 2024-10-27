@@ -52,6 +52,8 @@ import {
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { ISelectProps, SelectOptionProxy } from './token'
 
+const MINIMUM_INPUT_WIDTH = 11
+
 export const useSelect = (props: ISelectProps, emit) => {
   const { t } = useLocale()
   const contentId = useId()
@@ -793,6 +795,10 @@ export const useSelect = (props: ISelectProps, emit) => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
 
+  const inputStyle = computed(() => ({
+    minWidth: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
+  }))
+
   useResizeObserver(selectionRef, resetSelectionWidth)
   useResizeObserver(calculatorRef, resetCalculatorWidth)
   useResizeObserver(menuRef, updateTooltip)
@@ -863,6 +869,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     // computed style
     tagStyle,
     collapseTagStyle,
+    inputStyle,
 
     // DOM ref
     popperRef,
