@@ -156,7 +156,7 @@ export const flattedChildren = (
   vNodes.forEach((child) => {
     if (isArray(child)) {
       result.push(...flattedChildren(child))
-    }else if (isVNode(child) && child.component?.subTree) {
+    } else if (isVNode(child) && child.component?.subTree) {
       result.push(child, ...flattedChildren(child.component.subTree))
     } else if (isVNode(child) && isArray(child.children)) {
       result.push(...flattedChildren(child.children))
