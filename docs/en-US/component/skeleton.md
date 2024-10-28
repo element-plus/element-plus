@@ -77,13 +77,47 @@ skeleton/rendering-with-data
 
 ## Avoiding rendering bouncing.
 
-Sometimes API responds very quickly, when that happens, the skeleton just gets rendered to the DOM then it needs to switch back to real DOM, that causes the sudden flashy. To avoid such thing, you can use the `throttle` attribute. The `throttle` attribute supports two values: `number` and `object`. When passing a `number`, it is equivalent to `{leading: xxx}`, controlling the throttling of the skeleton screen display. Of course, you can also control the throttling of the skeleton screen disappearance by passing `{trailing: xxx}`. When the initial value of loading is true, you can set `{initVal: true}` to control the immediate display of the initial skeleton screen without throttling.
+Sometimes API responds very quickly, when that happens, the skeleton just gets rendered to the DOM then it needs to switch back to real DOM, that causes the sudden flashy. To avoid such thing, you can use the `throttle` attribute.
+
+:::tip
+
+The `throttle` attribute supports two values: `number` and `object`. When passing a `number`, it is equivalent to `{leading: xxx}`, controlling the throttling of the skeleton screen display. Of course, you can also control the throttling of the skeleton screen disappearance by passing `{trailing: xxx}`
+
+:::
 
 :::demo
 
 skeleton/avoiding-rendering-bouncing
 
 :::
+
+## Initial rendering loading
+
+When the initial value of loading is true, you can set `throttle: {initVal: true, leading: xxx}` to control the immediate display of the initial skeleton screen without throttling.
+
+:::demo
+
+skeleton/initial-rendering-loading
+
+:::
+
+## Loading begin and end with rending bouncing
+
+:::tip
+
+You can set `throttle: {initVal: true, leading: xxx, trailing: xxx}` to control the initial display of the skeleton effect and to make the transition of the skeleton more smooth when switching loading states.
+
+:::
+
+Sometimes you want to render the business components more smoothly when loading toggle show or hide. You can use set the `throttle: {leading: xxx, trailing:xxx}` to control the rendering bouncing.
+
+:::demo
+
+skeleton/leading-trailing-rendering-bouncing
+
+:::
+
+##
 
 ## Skeleton API
 

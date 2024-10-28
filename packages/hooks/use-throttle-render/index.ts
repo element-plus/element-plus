@@ -9,8 +9,7 @@ export const useThrottleRender = (
   throttle: SkeletonThrottle = 0
 ) => {
   if (throttle === 0) return loading
-  const initVal =
-    typeof throttle === 'object' ? throttle.initVal ?? false : false
+  const initVal = isObject(throttle) ? throttle.initVal ?? false : false
   const throttled = ref(initVal)
   let timeoutHandle: ReturnType<typeof setTimeout> | null = null
 
