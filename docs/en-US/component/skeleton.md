@@ -101,7 +101,7 @@ skeleton/initial-rendering-loading
 
 :::
 
-## Loading begin and end with rending bouncing
+## Toggle show/hide without rending bouncing
 
 :::tip
 
@@ -113,7 +113,7 @@ Sometimes you want to render the business components more smoothly when loading 
 
 :::demo
 
-skeleton/leading-trailing-rendering-bouncing
+skeleton/leading-trailing-without-bouncing
 
 :::
 
