@@ -97,7 +97,7 @@ export const getFirstValidNode = (
   nodes: VNodeNormalizedChildren,
   maxDepth = 3
 ) => {
-  if (Array.isArray(nodes)) {
+  if (isArray(nodes)) {
     return getChildren(nodes[0], maxDepth)
   } else {
     return getChildren(nodes, maxDepth)
