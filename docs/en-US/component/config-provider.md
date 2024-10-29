@@ -82,9 +82,9 @@ In this section, you can learn how to use Config Provider to provide experimenta
 
 ### Button Attribute
 
-| Attribute       | Description                                                 | Type       | Default |
-| --------------- | ----------------------------------------------------------- | ---------- | ------- |
-| autoInsertSpace | automatically insert a space between two chinese characters | ^[boolean] | false   |
+| Attribute       | Description                                                                                                                                          | Type       | Default |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------- |
+| autoInsertSpace | automatically insert a space between two chinese characters(this will only take effect when the text length is 2 and all characters are in Chinese.) | ^[boolean] | false   |
 
 ### Message Attribute
 

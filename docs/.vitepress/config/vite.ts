@@ -43,20 +43,27 @@ const alias: AliasOptions = [
   ...(process.env.DOC_ENV === 'production'
     ? []
     : [
-        {
-          find: /^element-plus(\/(es|lib))?$/,
-          replacement: path.resolve(projRoot, 'packages/element-plus/index.ts'),
-        },
-        {
-          find: /^element-plus\/(es|lib)\/(.*)$/,
-          replacement: `${path.resolve(projRoot, 'packages')}/$2`,
-        },
-      ]),
+      {
+        find: /^element-plus(\/(es|lib))?$/,
+        replacement: path.resolve(projRoot, 'packages/element-plus/index.ts'),
+      },
+      {
+        find: /^element-plus\/(es|lib)\/(.*)$/,
+        replacement: `${path.resolve(projRoot, 'packages')}/$2`,
+      },
+    ]),
 ]
 
 export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          silenceDeprecations: ['legacy-js-api'],
+        },
+      },
+    },
     server: {
       host: true,
       fs: {
