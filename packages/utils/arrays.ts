@@ -7,7 +7,7 @@ type Many<T> = T | ReadonlyArray<T>
 /** like `_.castArray`, except falsy value returns empty array. */
 export const castArray = <T>(arr: Many<T>): T[] => {
   if (!arr && (arr as any) !== 0) return []
-  return isArray(arr) ? arr : [arr]
+  return isArray(arr) ? arr : [arr as T]
 }
 
 // TODO: remove import alias
