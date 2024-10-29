@@ -13,9 +13,9 @@ import type { ExtractPropTypes } from 'vue'
 import type Segmented from './segmented.vue'
 
 export const segmentedProps = buildProps({
-  vertical: {
-    type: Boolean,
-    default: false,
+  direction: {
+    type: definePropType<'vertical' | 'horizontal'>(String),
+    default: 'horizontal',
   },
   /**
    * @description options of segmented

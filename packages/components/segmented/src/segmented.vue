@@ -126,7 +126,7 @@ const updateSelect = () => {
   }
   const rect = selectedItem.getBoundingClientRect()
   state.isInit = true
-  if (props.vertical) {
+  if (props.direction === 'vertical') {
     state.height = rect.height
     state.translateY = selectedItem.offsetTop
   } else {
@@ -146,11 +146,12 @@ const segmentedCls = computed(() => [
 ])
 
 const selectedStyle = computed(() => ({
-  width: props.vertical ? '100%' : `${state.width}px`,
-  height: props.vertical ? `${state.height}px` : '100%',
-  transform: props.vertical
-    ? `translateY(${state.translateY}px)`
-    : `translateX(${state.translateX}px)`,
+  width: props.direction === 'vertical' ? '100%' : `${state.width}px`,
+  height: props.direction === 'vertical' ? `${state.height}px` : '100%',
+  transform:
+    props.direction === 'vertical'
+      ? `translateY(${state.translateY}px)`
+      : `translateX(${state.translateX}px)`,
   display: state.isInit ? 'block' : 'none',
 }))
 
@@ -182,7 +183,7 @@ watch(
 )
 
 const updateDirection = () => {
-  if (props.vertical && groupRef.value) {
+  if (props.direction === 'vertical' && groupRef.value) {
     const groupElement = groupRef.value
     groupElement.style.flexDirection = 'column'
   } else if (groupRef.value) {
@@ -195,7 +196,7 @@ onMounted(() => {
 })
 
 watch(
-  () => props.vertical,
+  () => props.direction,
   () => {
     updateDirection()
   }

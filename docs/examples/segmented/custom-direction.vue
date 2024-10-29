@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-segmented v-model="vertical" :options="directionOptions" />
+    <el-segmented v-model="direction" :options="directionOptions" />
     <br />
-    <el-segmented v-model="value" :options="options" :vertical="vertical">
+    <el-segmented v-model="value" :options="options" :direction="direction">
       <template #default="{ item }">
         <div class="flex flex-col items-center gap-2 p-2">
           <el-icon size="20">
@@ -24,13 +24,15 @@ import {
   Pear,
   Watermelon,
 } from '@element-plus/icons-vue'
+import type { SegmentedProps } from 'element-plus'
 
 const value = ref('Apple')
-const vertical = ref(true)
+
+const direction = ref<SegmentedProps['direction']>('horizontal')
 
 const directionOptions = [
-  { label: 'Vertical', value: true },
-  { label: 'Horizontal', value: false },
+  { label: 'Horizontal', value: 'horizontal' },
+  { label: 'Vertical', value: 'vertical' },
 ]
 
 const options = [
