@@ -8,7 +8,7 @@
     :aria-label="!isLabeledByFormItem ? ariaLabel || 'segmented' : undefined"
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
-    <div ref="groupRef" :class="ns.e('group')">
+    <div :class="[ns.e('group'), ns.m(props.direction)]">
       <div :style="selectedStyle" :class="selectedCls" />
       <label
         v-for="(item, index) in options"
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { useActiveElement, useResizeObserver } from '@vueuse/core'
 import { useId, useNamespace } from '@element-plus/hooks'
 import {
@@ -63,7 +63,6 @@ const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
 })
 
 const segmentedRef = ref<HTMLElement | null>(null)
-const groupRef = ref<HTMLElement | null>(null)
 const activeElement = useActiveElement()
 
 const state = reactive({
@@ -179,26 +178,6 @@ watch(
   },
   {
     flush: 'post',
-  }
-)
-
-const updateDirection = () => {
-  if (props.direction === 'vertical' && groupRef.value) {
-    const groupElement = groupRef.value
-    groupElement.style.flexDirection = 'column'
-  } else if (groupRef.value) {
-    const groupElement = groupRef.value
-    groupElement.style.flexDirection = 'row'
-  }
-}
-onMounted(() => {
-  updateDirection()
-})
-
-watch(
-  () => props.direction,
-  () => {
-    updateDirection()
   }
 )
 </script>

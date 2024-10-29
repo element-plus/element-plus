@@ -35,6 +35,16 @@ $segmented-item-padding: map.merge(
   $segmented-item-padding
 );
 
+.#{$namespace}-segmented {
+  &--vertical {
+    flex-direction: column;
+  }
+
+  &--horizontal {
+    flex-direction: row;
+  }
+}
+
 @include b(segmented) {
   @include set-component-css-var('segmented', $segmented);
 }

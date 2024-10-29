@@ -17,7 +17,7 @@ segmented/basic
 
 :::
 
-## Direction Usage
+## Direction Usage ^(2.8.7)
 
 Set `vertical` to change direction.
 
