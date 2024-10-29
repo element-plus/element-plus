@@ -5,6 +5,7 @@ import {
   hasOwn,
   isArray,
   isBoolean,
+  isFunction,
   isObject,
   throwError,
 } from '@element-plus/utils'
@@ -176,7 +177,7 @@ export const getRowIdentity = <T>(
       current = current[element]
     }
     return `${current}`
-  } else if (typeof rowKey === 'function') {
+  } else if (isFunction(rowKey)) {
     return rowKey.call(null, row)
   }
 }
