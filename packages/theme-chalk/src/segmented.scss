@@ -28,11 +28,21 @@ $segmented-font-size: map.merge(
 $segmented-item-padding: () !default;
 $segmented-item-padding: map.merge(
   (
-    'large': 11px 11px,
-    'default': 11px 11px,
-    'small': 7px 7px,
+    'large': 0 11px,
+    'default': 0 11px,
+    'small': 0 7px,
   ),
   $segmented-item-padding
+);
+
+$segmented-item-padding-vertical: () !default;
+$segmented-item-padding-vertical: map.merge(
+  (
+    'large': 11px 0px,
+    'default':11px 0px,
+    'small': 7px 0px,
+  ),
+  $segmented-item-padding-vertical
 );
 
 .#{$namespace}-segmented {
@@ -101,6 +111,9 @@ $segmented-item-padding: map.merge(
     cursor: pointer;
     border-radius: calc(#{map.get($segmented-border-radius, 'default')} - 2px);
     padding: map.get($segmented-item-padding, 'default');
+    @include when(vertical) {
+      padding: map.get($segmented-item-padding-vertical, 'default');
+    }
 
     &:not(.is-disabled):not(.is-selected):hover {
       color: getCssVar('segmented-item-hover-color');
@@ -164,6 +177,9 @@ $segmented-item-padding: map.merge(
       @include e(item) {
         border-radius: calc(#{map.get($segmented-border-radius, $size)} - 2px);
         padding: map.get($segmented-item-padding, $size);
+        @include when(vertical) {
+          padding: map.get($segmented-item-padding-vertical, $size);
+        }
       }
     }
   }

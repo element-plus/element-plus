@@ -1,10 +1,25 @@
 <template>
   <div>
+    <el-segmented v-model="size" :options="sizeOptions" />
+    <br />
     <el-segmented v-model="direction" :options="directionOptions" />
     <br />
-    <el-segmented v-model="value" :options="options" :direction="direction">
+    <el-segmented
+      v-model="value"
+      :options="options"
+      :direction="direction"
+      :size="size"
+    >
       <template #default="{ item }">
-        <div class="flex flex-col items-center gap-2 p-2">
+        <div
+          :class="[
+            'flex',
+            'items-center',
+            'gap-2',
+            'flex-col',
+            direction === 'horizontal' && 'p-2',
+          ]"
+        >
           <el-icon size="20">
             <component :is="item.icon" />
           </el-icon>
@@ -27,13 +42,15 @@ import {
 import type { SegmentedProps } from 'element-plus'
 
 const value = ref('Apple')
-
 const direction = ref<SegmentedProps['direction']>('horizontal')
+const size = ref<SegmentedProps['size']>('default')
 
 const directionOptions = [
   { label: 'Horizontal', value: 'horizontal' },
   { label: 'Vertical', value: 'vertical' },
 ]
+
+const sizeOptions = ['large', 'default', 'small']
 
 const options = [
   {
