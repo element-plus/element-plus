@@ -1,6 +1,6 @@
 #! /bin/bash
 
-NAME=$1
+NAME=$(echo $1 | sed -E 's/([A-Z])/-\1/g' | sed -E 's/^-//g' | tr 'A-Z' 'a-z')
 
 FILE_PATH=$(cd "$(dirname "${BASH_SOURCE[0]}")/../packages" && pwd)
 
@@ -25,6 +25,7 @@ for i in $(echo $NAME | sed 's/[_|-]\([a-z]\)/\ \1/;s/^\([a-z]\)/\ \1/'); do
   NORMALIZED_NAME="$NORMALIZED_NAME${C}${i:1}"
 done
 NAME=$NORMALIZED_NAME
+PROP_NAME=$(echo "${NAME:0:1}" | tr '[:upper:]' '[:lower:]')${NAME:1}
 
 mkdir -p "$DIRNAME"
 mkdir -p "$DIRNAME/src"
@@ -38,13 +39,13 @@ cat > $DIRNAME/src/$INPUT_NAME.vue <<EOF
 </template>
 
 <script lang="ts" setup>
-import { ${INPUT_NAME}Props } from './$INPUT_NAME'
+import { ${PROP_NAME}Props } from './$INPUT_NAME'
 
 defineOptions({
   name: 'El$NAME',
 })
 
-const props = defineProps(${INPUT_NAME}Props)
+const props = defineProps(${PROP_NAME}Props)
 
 // init here
 </script>
@@ -56,17 +57,21 @@ import { buildProps } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type $NAME from './$INPUT_NAME.vue'
 
-export const ${INPUT_NAME}Props = buildProps({})
+export const ${PROP_NAME}Props = buildProps({})
+export type ${NAME}Props = ExtractPropTypes<typeof ${PROP_NAME}Props>
 
-export type ${NAME}Props = ExtractPropTypes<typeof ${INPUT_NAME}Props>
+export const ${PROP_NAME}Emits = {}
+export type ${NAME}Emits = typeof ${PROP_NAME}Emits
+
 export type ${NAME}Instance = InstanceType<typeof $NAME>
 EOF
 
 cat <<EOF >"$DIRNAME/index.ts"
 import { withInstall } from '@element-plus/utils'
 import $NAME from './src/$INPUT_NAME.vue'
+import type { SFCWithInstall } from '@element-plus/utils'
 
-export const El$NAME = withInstall($NAME)
+export const El$NAME: SFCWithInstall<typeof $NAME> = withInstall($NAME)
 export default El$NAME
 
 export * from './src/$INPUT_NAME'
