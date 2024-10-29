@@ -1,6 +1,6 @@
 import { watch } from 'vue'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { debugWarn, isArray, throwError } from '@element-plus/utils'
+import { debugWarn, isArray, isNumber, throwError } from '@element-plus/utils'
 import type { ComputedRef, SetupContext } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
 import type { FormItemContext } from '@element-plus/components/form'
@@ -53,7 +53,7 @@ export const useWatch = (
           initData.oldValue = val.slice()
         }
       }
-    } else if (!props.range && typeof val === 'number' && !Number.isNaN(val)) {
+    } else if (!props.range && isNumber(val) && !Number.isNaN(val)) {
       if (val < props.min) {
         _emit(props.min)
       } else if (val > props.max) {

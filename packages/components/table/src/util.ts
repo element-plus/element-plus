@@ -5,6 +5,7 @@ import {
   hasOwn,
   isArray,
   isBoolean,
+  isNumber,
   isObject,
   throwError,
 } from '@element-plus/utils'
@@ -232,7 +233,7 @@ export function parseMinWidth(minWidth: number | string): number | string {
 }
 
 export function parseHeight(height: number | string) {
-  if (typeof height === 'number') {
+  if (isNumber(height)) {
     return height
   }
   if (typeof height === 'string') {
