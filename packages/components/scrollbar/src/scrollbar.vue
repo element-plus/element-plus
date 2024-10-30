@@ -4,6 +4,7 @@
       ref="wrapRef"
       :class="wrapKls"
       :style="wrapStyle"
+      :tabindex="tabindex"
       @scroll="handleScroll"
     >
       <component
@@ -28,6 +29,7 @@
 import {
   computed,
   nextTick,
+  onActivated,
   onMounted,
   onUpdated,
   provide,
@@ -57,6 +59,8 @@ const ns = useNamespace('scrollbar')
 
 let stopResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
+let wrapScrollTop = 0
+let wrapScrollLeft = 0
 
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
@@ -85,6 +89,8 @@ const resizeKls = computed(() => {
 const handleScroll = () => {
   if (wrapRef.value) {
     barRef.value?.handleScroll(wrapRef.value)
+    wrapScrollTop = wrapRef.value.scrollTop
+    wrapScrollLeft = wrapRef.value.scrollLeft
 
     emit('scroll', {
       scrollTop: wrapRef.value.scrollTop,
@@ -159,6 +165,13 @@ provide(
     wrapElement: wrapRef,
   })
 )
+
+onActivated(() => {
+  if (wrapRef.value) {
+    wrapRef.value.scrollTop = wrapScrollTop
+    wrapRef.value.scrollLeft = wrapScrollLeft
+  }
+})
 
 onMounted(() => {
   if (!props.native)

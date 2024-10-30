@@ -19,11 +19,12 @@
           @keydown.space.prevent.stop="handleMonthTableClick"
           @keydown.enter.prevent.stop="handleMonthTableClick"
         >
-          <div>
-            <span class="cell">
-              {{ t('el.datepicker.months.' + months[cell.text]) }}
-            </span>
-          </div>
+          <el-date-picker-cell
+            :cell="{
+              ...cell,
+              renderText: t('el.datepicker.months.' + months[cell.text]),
+            }"
+          />
         </td>
       </tr>
     </tbody>
@@ -34,9 +35,10 @@
 import { computed, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
+import { datesInMonth, getValidDateOfMonth } from '../utils'
+import ElDatePickerCell from './basic-cell-render'
 
 type MonthCell = {
   column: number
@@ -47,12 +49,6 @@ type MonthCell = {
   text: number
   type: 'normal' | 'today'
   inRange: boolean
-}
-
-const datesInMonth = (year: number, month: number, lang: string) => {
-  const firstDay = dayjs().locale(lang).startOf('month').month(month).year(year)
-  const numOfDays = firstDay.daysInMonth()
-  return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())
 }
 
 const props = defineProps(basicMonthTableProps)
@@ -223,7 +219,24 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
   const row = (target.parentNode as HTMLTableRowElement).rowIndex
   const month = row * 4 + column
   const newDate = props.date.startOf('year').month(month)
-  if (props.selectionMode === 'range') {
+  if (props.selectionMode === 'months') {
+    if (event.type === 'keydown') {
+      emit('pick', castArray(props.parsedValue), false)
+      return
+    }
+    const newMonth = getValidDateOfMonth(
+      props.date.year(),
+      month,
+      lang.value,
+      props.disabledDate
+    )
+    const newValue = hasClass(target, 'current')
+      ? castArray(props.parsedValue).filter(
+          (d) => d?.month() !== newMonth.month()
+        )
+      : castArray(props.parsedValue).concat([dayjs(newMonth)])
+    emit('pick', newValue)
+  } else if (props.selectionMode === 'range') {
     if (!props.rangeState.selecting) {
       emit('pick', { minDate: newDate, maxDate: null })
       emit('select', true)

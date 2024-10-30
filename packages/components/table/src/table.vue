@@ -53,6 +53,7 @@
             :border="border"
             :default-sort="defaultSort"
             :store="store"
+            :append-filter-panel-to="appendFilterPanelTo"
             @set-drag-visible="setDragVisible"
           />
         </table>
@@ -63,6 +64,7 @@
           :view-style="scrollbarViewStyle"
           :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
+          :tabindex="scrollbarTabindex"
         >
           <table
             ref="tableBody"
@@ -86,6 +88,7 @@
               :border="border"
               :default-sort="defaultSort"
               :store="store"
+              :append-filter-panel-to="appendFilterPanelTo"
               @set-drag-visible="setDragVisible"
             />
             <table-body
@@ -166,7 +169,13 @@
 
 <script lang="ts">
 // @ts-nocheck
-import { computed, defineComponent, getCurrentInstance, provide } from 'vue'
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  onBeforeUnmount,
+  provide,
+} from 'vue'
 import { debounce } from 'lodash-unified'
 import { Mousewheel } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -177,6 +186,7 @@ import TableHeader from './table-header'
 import TableBody from './table-body'
 import TableFooter from './table-footer'
 import useUtils from './table/utils-helper'
+import { convertToRows } from './table-header/utils-helper'
 import useStyle from './table/style-helper'
 import useKeyRender from './table/key-render-helper'
 import defaultProps from './table/defaults'
@@ -251,6 +261,7 @@ export default defineComponent({
       toggleRowExpansion,
       clearSort,
       sort,
+      updateKeyChildren,
     } = useUtils<Row>(store)
     const {
       isHidden,
@@ -287,19 +298,28 @@ export default defineComponent({
       debouncedUpdateLayout,
     }
     const computedSumText = computed(
-      () => props.sumText || t('el.table.sumText')
+      () => props.sumText ?? t('el.table.sumText')
     )
 
     const computedEmptyText = computed(() => {
-      return props.emptyText || t('el.table.emptyText')
+      return props.emptyText ?? t('el.table.emptyText')
+    })
+
+    const columns = computed(() => {
+      return convertToRows(store.states.originColumns.value)[0]
     })
 
     useKeyRender(table)
+
+    onBeforeUnmount(() => {
+      debouncedUpdateLayout.cancel()
+    })
 
     return {
       ns,
       layout,
       store,
+      columns,
       handleHeaderFooterMousewheel,
       handleMouseLeave,
       tableId,
@@ -355,6 +375,10 @@ export default defineComponent({
        * @description sort Table manually. Property `prop` is used to set sort column, property `order` is used to set sort order
        */
       sort,
+      /**
+       * @description used in lazy Table, must set `rowKey`, update key children
+       */
+      updateKeyChildren,
       t,
       setDragVisible,
       context: table,

@@ -45,8 +45,11 @@ export default defineComponent({
 
     const commonPicker = ref<InstanceType<typeof CommonPicker>>()
     const refProps: DatePickerExpose = {
-      focus: (focusStartInput = true) => {
-        commonPicker.value?.focus(focusStartInput)
+      focus: () => {
+        commonPicker.value?.focus()
+      },
+      blur: () => {
+        commonPicker.value?.blur()
       },
       handleOpen: () => {
         commonPicker.value?.handleOpen()
@@ -81,7 +84,14 @@ export default defineComponent({
         >
           {{
             default: (scopedProps: /**FIXME: remove any type */ any) => (
-              <Component {...scopedProps} />
+              <Component {...scopedProps}>
+                {{
+                  'prev-month': slots['prev-month'],
+                  'next-month': slots['next-month'],
+                  'prev-year': slots['prev-year'],
+                  'next-year': slots['next-year'],
+                }}
+              </Component>
             ),
             'range-separator': slots['range-separator'],
           }}

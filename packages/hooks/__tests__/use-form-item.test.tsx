@@ -1,7 +1,7 @@
 import { defineComponent, provide } from 'vue'
-import { NOOP } from '@vue/shared'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import { NOOP } from '@element-plus/utils'
 import { ElButton, buttonGroupContextKey } from '@element-plus/components'
 import {
   formContextKey,

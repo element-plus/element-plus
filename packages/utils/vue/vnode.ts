@@ -7,7 +7,8 @@ import {
   isVNode,
   openBlock,
 } from 'vue'
-import { camelize, isArray } from '@vue/shared'
+import { camelize } from '../strings'
+import { isArray } from '../types'
 import { hasOwn } from '../objects'
 import { debugWarn } from '../error'
 import type {
@@ -96,7 +97,7 @@ export const getFirstValidNode = (
   nodes: VNodeNormalizedChildren,
   maxDepth = 3
 ) => {
-  if (Array.isArray(nodes)) {
+  if (isArray(nodes)) {
     return getChildren(nodes[0], maxDepth)
   } else {
     return getChildren(nodes, maxDepth)

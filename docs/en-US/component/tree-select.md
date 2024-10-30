@@ -8,12 +8,6 @@ lang: en-US
 The tree selector of the dropdown menu,
 it combines the functions of components `el-tree` and `el-select`.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Selector for tree structures.

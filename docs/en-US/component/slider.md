@@ -7,12 +7,6 @@ lang: en-US
 
 Drag the slider within a fixed range.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 The current value is displayed when the slider is being dragged.
@@ -92,7 +86,7 @@ slider/show-marks
 ### Attributes
 
 | Name                        | Description                                                                                              | Type                                                                                                                                                                        | Default |
-|-----------------------------|----------------------------------------------------------------------------------------------------------| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| --------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | model-value / v-model       | binding value                                                                                            | ^[number] / ^[object]`number[]`                                                                                                                                             | 0       |
 | min                         | minimum value                                                                                            | ^[number]                                                                                                                                                                   | 0       |
 | max                         | maximum value                                                                                            | ^[number]                                                                                                                                                                   | 100     |
@@ -108,7 +102,6 @@ slider/show-marks
 | range                       | whether to select a range                                                                                | ^[boolean]                                                                                                                                                                  | false   |
 | vertical                    | vertical mode                                                                                            | ^[boolean]                                                                                                                                                                  | false   |
 | height                      | slider height, required in vertical mode                                                                 | ^[string]                                                                                                                                                                   | —       |
-| label ^(a11y) ^(deprecated) | native `aria-label` attribute                                                                            | ^[string]                                                                                                                                                                   | —       |
 | aria-label ^(a11y) ^(2.7.2) | native `aria-label` attribute                                                                            | ^[string]                                                                                                                                                                   | —       |
 | range-start-label           | when `range` is true, screen reader label for the start of the range                                     | ^[string]                                                                                                                                                                   | —       |
 | range-end-label             | when `range` is true, screen reader label for the end of the range                                       | ^[string]                                                                                                                                                                   | —       |
@@ -118,6 +111,7 @@ slider/show-marks
 | placement                   | position of Tooltip                                                                                      | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | top     |
 | marks                       | marks, type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style | ^[object]`SliderMarks`                                                                                                                                                      | —       |
 | validate-event              | whether to trigger form validation                                                                       | ^[boolean]                                                                                                                                                                  | true    |
+| label ^(a11y) ^(deprecated) | native `aria-label` attribute                                                                            | ^[string]                                                                                                                                                                   | —       |
 
 ### Events
 

@@ -5,13 +5,15 @@ import {
   hasOwn,
   isArray,
   isBoolean,
+  isFunction,
+  isNumber,
   isObject,
   throwError,
 } from '@element-plus/utils'
 import ElTooltip, {
   type ElTooltipProps,
 } from '@element-plus/components/tooltip'
-import type { Table } from './table/defaults'
+import type { Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
 
 export type TableOverflowTooltipOptions = Partial<
@@ -49,7 +51,7 @@ export const orderBy = function <T>(
   if (
     !sortKey &&
     !sortMethod &&
-    (!sortBy || (Array.isArray(sortBy) && !sortBy.length))
+    (!sortBy || (isArray(sortBy) && !sortBy.length))
   ) {
     return array
   }
@@ -62,7 +64,7 @@ export const orderBy = function <T>(
     ? null
     : function (value, index) {
         if (sortBy) {
-          if (!Array.isArray(sortBy)) {
+          if (!isArray(sortBy)) {
             sortBy = [sortBy]
           }
           return sortBy.map((by) => {
@@ -176,7 +178,7 @@ export const getRowIdentity = <T>(
       current = current[element]
     }
     return `${current}`
-  } else if (typeof rowKey === 'function') {
+  } else if (isFunction(rowKey)) {
     return rowKey.call(null, row)
   }
 }
@@ -232,7 +234,7 @@ export function parseMinWidth(minWidth: number | string): number | string {
 }
 
 export function parseHeight(height: number | string) {
-  if (typeof height === 'number') {
+  if (isNumber(height)) {
     return height
   }
   if (typeof height === 'string') {
@@ -263,11 +265,16 @@ export function compose(...funcs) {
 export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
-  newVal: boolean
+  newVal?: boolean,
+  tableTreeProps?: TreeProps,
+  selectable?: (row: T, index?: number) => boolean,
+  rowIndex?: number
 ): boolean {
+  let _rowIndex = rowIndex ?? 0
   let changed = false
   const index = statusArr.indexOf(row)
   const included = index !== -1
+  const isRowSelectable = selectable?.call(null, row, rowIndex)
 
   const toggleStatus = (type: 'add' | 'remove') => {
     if (type === 'add') {
@@ -276,21 +283,47 @@ export function toggleRowStatus<T>(
       statusArr.splice(index, 1)
     }
     changed = true
-    if (isArray(row.children)) {
-      row.children.forEach((item) => {
-        toggleRowStatus(statusArr, item, newVal ?? !included)
+  }
+  const getChildrenCount = (row: T) => {
+    let count = 0
+    const children = tableTreeProps?.children && row[tableTreeProps.children]
+    if (children && isArray(children)) {
+      count += children.length
+      children.forEach((item) => {
+        count += getChildrenCount(item)
       })
+    }
+    return count
+  }
+
+  if (!selectable || isRowSelectable) {
+    if (isBoolean(newVal)) {
+      if (newVal && !included) {
+        toggleStatus('add')
+      } else if (!newVal && included) {
+        toggleStatus('remove')
+      }
+    } else {
+      included ? toggleStatus('remove') : toggleStatus('add')
     }
   }
 
-  if (isBoolean(newVal)) {
-    if (newVal && !included) {
-      toggleStatus('add')
-    } else if (!newVal && included) {
-      toggleStatus('remove')
-    }
-  } else {
-    included ? toggleStatus('remove') : toggleStatus('add')
+  if (
+    !tableTreeProps?.checkStrictly &&
+    tableTreeProps?.children &&
+    isArray(row[tableTreeProps.children])
+  ) {
+    row[tableTreeProps.children].forEach((item) => {
+      toggleRowStatus(
+        statusArr,
+        item,
+        newVal ?? !included,
+        tableTreeProps,
+        selectable,
+        _rowIndex + 1
+      )
+      _rowIndex += getChildrenCount(item) + 1
+    })
   }
   return changed
 }
@@ -301,7 +334,7 @@ export function walkTreeNode(
   childrenKey = 'children',
   lazyKey = 'hasChildren'
 ) {
-  const isNil = (array) => !(Array.isArray(array) && array.length)
+  const isNil = (array) => !(isArray(array) && array.length)
 
   function _walker(parent, children, level) {
     cb(parent, children, level)

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { reactive } from 'vue'
-import { hasOwn } from '@element-plus/utils'
+import { hasOwn, isArray, isFunction } from '@element-plus/utils'
 import { NODE_KEY, markNodeData } from './util'
 import type TreeStore from './tree-store'
 
@@ -62,7 +62,7 @@ const getPropertyFromData = function (node: Node, prop: string): any {
   const data = node.data || {}
   const config = props[prop]
 
-  if (typeof config === 'function') {
+  if (isFunction(config)) {
     return config(data, node)
   } else if (typeof config === 'string') {
     return data[config]
@@ -145,10 +145,15 @@ class Node {
         this.expanded = true
         this.canFocus = true
       }
-    } else if (this.level > 0 && store.lazy && store.defaultExpandAll) {
+    } else if (
+      this.level > 0 &&
+      store.lazy &&
+      store.defaultExpandAll &&
+      !this.isLeafByUser
+    ) {
       this.expand()
     }
-    if (!Array.isArray(this.data)) {
+    if (!isArray(this.data)) {
       markNodeData(this, this.data)
     }
     if (!this.data) return
@@ -179,7 +184,7 @@ class Node {
   }
 
   setData(data: TreeNodeData): void {
-    if (!Array.isArray(data)) {
+    if (!isArray(data)) {
       markNodeData(this, data)
     }
 
@@ -187,7 +192,7 @@ class Node {
     this.childNodes = []
 
     let children
-    if (this.level === 0 && Array.isArray(this.data)) {
+    if (this.level === 0 && isArray(this.data)) {
       children = this.data
     } else {
       children = getPropertyFromData(this, 'children') || []
@@ -350,7 +355,7 @@ class Node {
 
     if (this.shouldLoadData()) {
       this.loadData((data) => {
-        if (Array.isArray(data)) {
+        if (isArray(data)) {
           if (this.checked) {
             this.setChecked(true, true)
           } else if (!this.store.checkStrictly) {
