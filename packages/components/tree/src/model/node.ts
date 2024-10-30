@@ -1,6 +1,12 @@
 // @ts-nocheck
 import { reactive } from 'vue'
-import { hasOwn, isArray, isFunction, isString } from '@element-plus/utils'
+import {
+  hasOwn,
+  isArray,
+  isBoolean,
+  isFunction,
+  isString,
+} from '@element-plus/utils'
 import { NODE_KEY, markNodeData } from './util'
 import type TreeStore from './tree-store'
 
@@ -133,7 +139,7 @@ class Node {
     const props = store.props
     if (props && typeof props.isLeaf !== 'undefined') {
       const isLeaf = getPropertyFromData(this, 'isLeaf')
-      if (typeof isLeaf === 'boolean') {
+      if (isBoolean(isLeaf)) {
         this.isLeafByUser = isLeaf
       }
     }
