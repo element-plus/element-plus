@@ -5,8 +5,8 @@ import {
   hasOwn,
   isArray,
   isBoolean,
-  isNumber,
   isFunction,
+  isNumber,
   isObject,
   throwError,
 } from '@element-plus/utils'
