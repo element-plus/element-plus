@@ -34,13 +34,14 @@ cat > $DIRNAME/src/$INPUT_NAME.vue <<EOF
 </template>
 
 <script lang="ts" setup>
-import { ${PROP_NAME}Props } from './$INPUT_NAME'
+import { ${PROP_NAME}Props, ${PROP_NAME}Emits } from './$INPUT_NAME'
 
 defineOptions({
   name: 'El$NAME',
 })
 
 const props = defineProps(${PROP_NAME}Props)
+const emit = defineEmits(${PROP_NAME}Emits)
 
 // init here
 </script>
@@ -52,7 +53,7 @@ import { buildProps } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type $NAME from './$INPUT_NAME.vue'
 
-export const ${PROP_NAME}Props = buildProps({})
+export const ${PROP_NAME}Props = buildProps({} as const)
 export type ${NAME}Props = ExtractPropTypes<typeof ${PROP_NAME}Props>
 
 export const ${PROP_NAME}Emits = {}
