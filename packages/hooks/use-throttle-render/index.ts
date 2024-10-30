@@ -1,5 +1,5 @@
 import { onMounted, ref, watch } from 'vue'
-import { isNumber, isObject } from '@element-plus/utils'
+import { isNumber, isObject, isUndefined } from '@element-plus/utils'
 
 import type { SkeletonThrottle } from '@element-plus/components'
 import type { Ref } from 'vue'
@@ -9,11 +9,15 @@ export const useThrottleRender = (
   throttle: SkeletonThrottle = 0
 ) => {
   if (throttle === 0) return loading
-  const initVal = isObject(throttle) ? throttle.initVal ?? false : false
+  const initVal = isObject(throttle) && Boolean(throttle.initVal)
   const throttled = ref(initVal)
   let timeoutHandle: ReturnType<typeof setTimeout> | null = null
 
-  const dispatchThrottling = (timer: number) => {
+  const dispatchThrottling = (timer: number | undefined) => {
+    if (isUndefined(timer)) {
+      throttled.value = loading.value
+      return
+    }
     if (timeoutHandle) {
       clearTimeout(timeoutHandle)
     }
@@ -27,13 +31,11 @@ export const useThrottleRender = (
       if (isNumber(throttle)) {
         dispatchThrottling(throttle)
       } else {
-        if (throttle?.leading && throttle.leading > 0) {
-          dispatchThrottling(throttle.leading!)
-        }
+        dispatchThrottling(throttle.leading)
       }
     } else {
-      if (isObject(throttle) && throttle?.trailing && throttle.trailing > 0) {
-        dispatchThrottling(throttle.trailing!)
+      if (isObject(throttle)) {
+        dispatchThrottling(throttle.trailing)
       } else {
         throttled.value = false
       }
