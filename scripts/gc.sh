@@ -19,7 +19,7 @@ if [ -d "$DIRNAME" ]; then
   exit 1
 fi
 
-NAME=$(echo $NAME | sed -r 's/(^|-)([a-z])/\2/g' | tr 'a-z' 'A-Z')
+NAME=$(echo $NAME | awk -F'-' '{ for(i=1; i<=NF; i++) { $i = toupper(substr($i,1,1)) tolower(substr($i,2)) } print $0 }' OFS='')
 PROP_NAME=$(echo "${NAME:0:1}" | tr '[:upper:]' '[:lower:]')${NAME:1}
 
 mkdir -p "$DIRNAME"
