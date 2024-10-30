@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { isArray, isFunction } from '@element-plus/utils'
+import { isArray, isFunction, isString } from '@element-plus/utils'
 import {
   ensurePosition,
   getFixedColumnOffset,
@@ -39,7 +39,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
       classes.push(ns.em('row', 'striped'))
     }
     const rowClassName = parent?.props.rowClassName
-    if (typeof rowClassName === 'string') {
+    if (isString(rowClassName)) {
       classes.push(rowClassName)
     } else if (isFunction(rowClassName)) {
       classes.push(
@@ -95,7 +95,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     )
     const classes = [column.id, column.align, column.className, ...fixedClasses]
     const cellClassName = parent?.props.cellClassName
-    if (typeof cellClassName === 'string') {
+    if (isString(cellClassName)) {
       classes.push(cellClassName)
     } else if (isFunction(cellClassName)) {
       classes.push(

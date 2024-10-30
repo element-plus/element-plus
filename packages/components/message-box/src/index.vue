@@ -176,6 +176,7 @@ import {
   TypeComponents,
   TypeComponentsMap,
   isFunction,
+  isString,
   isValidComponentSize,
 } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
@@ -444,7 +445,7 @@ export default defineComponent({
             state.validateError = true
             return false
           }
-          if (typeof validateResult === 'string') {
+          if (isString(validateResult)) {
             state.editorErrorMessage = validateResult
             state.validateError = true
             return false
