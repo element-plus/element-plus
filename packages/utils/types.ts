@@ -27,9 +27,8 @@ export const isElement = (e: unknown): e is Element => {
   return e instanceof Element
 }
 
-export const isPropAbsent = (prop: unknown): prop is null | undefined => {
-  return isNil(prop)
-}
+export const isPropAbsent = (prop: unknown): prop is null | undefined =>
+  isNil(prop)
 
 export const isStringNumber = (val: string): boolean => {
   if (!isString(val)) {
