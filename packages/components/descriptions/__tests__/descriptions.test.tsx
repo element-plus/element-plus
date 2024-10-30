@@ -204,4 +204,18 @@ describe('Descriptions.vue', () => {
     await nextTick()
     expect(wrapper.findComponent(ElTag).text()).toBe(CHANGE_VALUE)
   })
+
+  test('should render labelWidth props', () => {
+    const wrapper = mount(() => (
+      <ElDescriptions border>
+        {Array.from({ length: 3 }).map(() => (
+          <ElDescriptionsItem label="测试标签" labelWidth="150px" />
+        ))}
+      </ElDescriptions>
+    ))
+
+    expect(
+      wrapper.find('.el-descriptions__label').attributes('style')
+    ).toContain('width: 150px')
+  })
 })
