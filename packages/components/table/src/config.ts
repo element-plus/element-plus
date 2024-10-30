@@ -3,7 +3,7 @@ import { h } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowRight, Loading } from '@element-plus/icons-vue'
-import { getProp } from '@element-plus/utils'
+import { getProp, isFunction } from '@element-plus/utils'
 
 import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
@@ -104,7 +104,7 @@ export const cellForced = {
 
       if (typeof index === 'number') {
         i = $index + index
-      } else if (typeof index === 'function') {
+      } else if (isFunction(index)) {
         i = index($index)
       }
       return h('div', {}, [i])

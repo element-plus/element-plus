@@ -175,6 +175,7 @@ import { ElOverlay } from '@element-plus/components/overlay'
 import {
   TypeComponents,
   TypeComponentsMap,
+  isFunction,
   isValidComponentSize,
 } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
@@ -435,7 +436,7 @@ export default defineComponent({
           return false
         }
         const inputValidator = state.inputValidator
-        if (typeof inputValidator === 'function') {
+        if (isFunction(inputValidator)) {
           const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
             state.editorErrorMessage =
