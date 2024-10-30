@@ -91,7 +91,7 @@ skeleton/avoiding-rendering-bouncing
 
 :::
 
-## Initial rendering loading
+## Initial rendering loading ^(2.8.7)
 
 When the initial value of loading is true, you can set `throttle: {initVal: true, leading: xxx}` to control the immediate display of the initial skeleton screen without throttling.
 
