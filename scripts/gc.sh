@@ -1,13 +1,13 @@
 #! /bin/bash
 
-NAME=$(echo $1 | sed -E 's/([A-Z])/-\1/g' | sed -E 's/^-//g' | tr 'A-Z' 'a-z')
+NAME=$(echo $1 | sed -E 's/([A-Z])/-\1/g' | sed -E 's/^-//g' | sed -E 's/_/-/g' | tr 'A-Z' 'a-z')
 
 FILE_PATH=$(cd "$(dirname "${BASH_SOURCE[0]}")/../packages" && pwd)
 
 re="[[:space:]]+"
 
 if [ "$#" -ne 1 ] || [[ $NAME =~ $re ]] || [ "$NAME" == "" ]; then
-  echo "Usage: pnpm gc \${name} with no space"
+  echo "Usage: pnpm gen \${name} with no space"
   exit 1
 fi
 
@@ -19,12 +19,7 @@ if [ -d "$DIRNAME" ]; then
   exit 1
 fi
 
-NORMALIZED_NAME=""
-for i in $(echo $NAME | sed 's/[_|-]\([a-z]\)/\ \1/;s/^\([a-z]\)/\ \1/'); do
-  C=$(echo "${i:0:1}" | tr "[:lower:]" "[:upper:]")
-  NORMALIZED_NAME="$NORMALIZED_NAME${C}${i:1}"
-done
-NAME=$NORMALIZED_NAME
+NAME=$(echo $NAME | sed -r 's/(^|-)([a-z])/\2/g' | tr 'a-z' 'A-Z')
 PROP_NAME=$(echo "${NAME:0:1}" | tr '[:upper:]' '[:lower:]')${NAME:1}
 
 mkdir -p "$DIRNAME"
