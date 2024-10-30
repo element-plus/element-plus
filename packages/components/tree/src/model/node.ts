@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { reactive } from 'vue'
-import { hasOwn, isArray } from '@element-plus/utils'
+import { hasOwn, isArray, isFunction } from '@element-plus/utils'
 import { NODE_KEY, markNodeData } from './util'
 import type TreeStore from './tree-store'
 
@@ -62,7 +62,7 @@ const getPropertyFromData = function (node: Node, prop: string): any {
   const data = node.data || {}
   const config = props[prop]
 
-  if (typeof config === 'function') {
+  if (isFunction(config)) {
     return config(data, node)
   } else if (typeof config === 'string') {
     return data[config]
