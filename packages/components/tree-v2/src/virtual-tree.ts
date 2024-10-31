@@ -2,6 +2,7 @@ import {
   buildProps,
   definePropType,
   iconPropType,
+  isBoolean,
   mutable,
 } from '@element-plus/utils'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
@@ -186,7 +187,7 @@ export const treeEmits = {
   [NODE_CHECK]: (data: TreeNodeData, checkedInfo: CheckedInfo) =>
     data && checkedInfo,
   [NODE_CHECK_CHANGE]: (data: TreeNodeData, checked: boolean) =>
-    data && typeof checked === 'boolean',
+    data && isBoolean(checked),
   [NODE_CONTEXTMENU]: (evt: Event, data: TreeNodeData, node: TreeNode) =>
     evt && data && node,
 }
@@ -196,5 +197,5 @@ export const treeNodeEmits = {
   drop: (node: TreeNode, e: DragEvent) => !!(node && e),
   toggle: (node: TreeNode) => !!node,
   check: (node: TreeNode, checked: CheckboxValueType) =>
-    node && typeof checked === 'boolean',
+    node && isBoolean(checked),
 }
