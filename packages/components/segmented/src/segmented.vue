@@ -105,7 +105,6 @@ const getItemCls = (item: Option) => {
     ns.e('item'),
     ns.is('selected', getSelected(item)),
     ns.is('disabled', getDisabled(item)),
-    ns.is('vertical', props.direction === 'vertical'),
   ]
 }
 

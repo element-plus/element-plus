@@ -45,13 +45,10 @@ $segmented-item-padding-vertical: map.merge(
   $segmented-item-padding-vertical
 );
 
-.#{$namespace}-segmented {
-  &--vertical {
-    flex-direction: column;
-  }
-
-  &--horizontal {
-    flex-direction: row;
+.#{$namespace}-segmented--vertical {
+  flex-direction: column;
+  .#{$namespace}-segmented__item {
+    padding: map.get($segmented-item-padding-vertical, 'default');
   }
 }
 
@@ -111,9 +108,6 @@ $segmented-item-padding-vertical: map.merge(
     cursor: pointer;
     border-radius: calc(#{map.get($segmented-border-radius, 'default')} - 2px);
     padding: map.get($segmented-item-padding, 'default');
-    @include when(vertical) {
-      padding: map.get($segmented-item-padding-vertical, 'default');
-    }
 
     &:not(.is-disabled):not(.is-selected):hover {
       color: getCssVar('segmented-item-hover-color');
@@ -174,12 +168,15 @@ $segmented-item-padding-vertical: map.merge(
         border-radius: calc(#{map.get($segmented-border-radius, $size)} - 2px);
       }
 
+      .#{$namespace}-segmented--vertical {
+        @include e(item) {
+          padding: map.get($segmented-item-padding-vertical, $size);
+        }
+      }
+
       @include e(item) {
         border-radius: calc(#{map.get($segmented-border-radius, $size)} - 2px);
         padding: map.get($segmented-item-padding, $size);
-        @include when(vertical) {
-          padding: map.get($segmented-item-padding-vertical, $size);
-        }
       }
     }
   }
