@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-segmented v-model="size" :options="sizeOptions" />
+    <el-segmented v-model="size" :options="sizeOptions" style="margin-bottom: 1rem;" />
     <br />
     <el-segmented v-model="direction" :options="directionOptions" />
     <br />
