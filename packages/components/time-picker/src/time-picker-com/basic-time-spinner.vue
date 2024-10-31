@@ -62,7 +62,7 @@
               ns.is('disabled', timeList[item][time!]),
             ]"
           >
-            <template v-if="typeof time === 'number'">
+            <template v-if="isNumber(time)">
               <template v-if="item === 'hours'">
                 {{ ('0' + (amPmMode ? time % 12 || 12 : time)).slice(-2)
                 }}{{ getAmPmFlag(time) }}
@@ -85,7 +85,7 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
-import { getStyle } from '@element-plus/utils'
+import { getStyle, isNumber } from '@element-plus/utils'
 import { timeUnits } from '../constants'
 import { buildTimeList } from '../utils'
 import { basicTimeSpinnerProps } from '../props/basic-time-spinner'
