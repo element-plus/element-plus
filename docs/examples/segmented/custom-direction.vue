@@ -1,8 +1,16 @@
 <template>
   <div>
-    <el-segmented v-model="size" :options="sizeOptions" style="margin-bottom: 1rem;" />
+    <el-segmented
+      v-model="size"
+      :options="sizeOptions"
+      style="margin-bottom: 1rem"
+    />
     <br />
-    <el-segmented v-model="direction" :options="directionOptions" style="margin-bottom: 1rem;" />
+    <el-segmented
+      v-model="direction"
+      :options="directionOptions"
+      style="margin-bottom: 1rem"
+    />
     <br />
     <el-segmented
       v-model="value"
