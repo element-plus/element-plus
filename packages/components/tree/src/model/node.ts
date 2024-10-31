@@ -1,6 +1,13 @@
 // @ts-nocheck
 import { reactive } from 'vue'
-import { hasOwn, isArray, isFunction } from '@element-plus/utils'
+import {
+  hasOwn,
+  isArray,
+  isBoolean,
+  isFunction,
+  isString,
+  isUndefined,
+} from '@element-plus/utils'
 import { NODE_KEY, markNodeData } from './util'
 import type TreeStore from './tree-store'
 
@@ -64,9 +71,9 @@ const getPropertyFromData = function (node: Node, prop: string): any {
 
   if (isFunction(config)) {
     return config(data, node)
-  } else if (typeof config === 'string') {
+  } else if (isString(config)) {
     return data[config]
-  } else if (typeof config === 'undefined') {
+  } else if (isUndefined(config)) {
     const dataProp = data[prop]
     return dataProp === undefined ? '' : dataProp
   }
@@ -133,7 +140,7 @@ class Node {
     const props = store.props
     if (props && typeof props.isLeaf !== 'undefined') {
       const isLeaf = getPropertyFromData(this, 'isLeaf')
-      if (typeof isLeaf === 'boolean') {
+      if (isBoolean(isLeaf)) {
         this.isLeafByUser = isLeaf
       }
     }
@@ -259,7 +266,7 @@ class Node {
       if (!batch) {
         const children = this.getChildren(true)
         if (!children.includes(child.data)) {
-          if (typeof index === 'undefined' || index < 0) {
+          if (isUndefined(index) || index < 0) {
             children.push(child.data)
           } else {
             children.splice(index, 0, child.data)
@@ -278,7 +285,7 @@ class Node {
 
     ;(child as Node).level = this.level + 1
 
-    if (typeof index === 'undefined' || index < 0) {
+    if (isUndefined(index) || index < 0) {
       this.childNodes.push(child as Node)
     } else {
       this.childNodes.splice(index, 0, child as Node)

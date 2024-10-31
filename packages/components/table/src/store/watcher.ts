@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
 import { isEqual } from 'lodash-unified'
-import { hasOwn, isArray, isUndefined } from '@element-plus/utils'
+import { hasOwn, isArray, isString, isUndefined } from '@element-plus/utils'
 import {
   getColumnById,
   getColumnByKey,
@@ -21,7 +21,7 @@ import type { StoreFilter } from '.'
 
 const sortData = (data, states) => {
   const sortingColumn = states.sortingColumn
-  if (!sortingColumn || typeof sortingColumn.sortable === 'string') {
+  if (!sortingColumn || isString(sortingColumn.sortable)) {
     return data
   }
   return orderBy(
@@ -426,7 +426,7 @@ function useWatcher<T>() {
     const keys = Object.keys(panels)
     if (!keys.length) return
 
-    if (typeof columnKeys === 'string') {
+    if (isString(columnKeys)) {
       columnKeys = [columnKeys]
     }
 

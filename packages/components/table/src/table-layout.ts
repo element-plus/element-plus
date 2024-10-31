@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { isRef, nextTick, ref } from 'vue'
-import { hasOwn, isClient, isNumber } from '@element-plus/utils'
+import { hasOwn, isClient, isNumber, isString } from '@element-plus/utils'
 import { parseHeight } from './util'
 import type { Ref } from 'vue'
 
@@ -89,7 +89,7 @@ class TableLayout<T> {
     if (isNumber(value)) {
       el.style[prop] = `${value}px`
       this.updateElsHeight()
-    } else if (typeof value === 'string') {
+    } else if (isString(value)) {
       el.style[prop] = value
       this.updateElsHeight()
     }
