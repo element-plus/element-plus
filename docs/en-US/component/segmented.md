@@ -73,7 +73,6 @@ segmented/custom-style
 
 | Name                  | Description                        | Type                                           | Default |
 | --------------------- | ---------------------------------- | ---------------------------------------------- | ------- |
-| direction ^(2.8.7)      | display direction                                                             | ^[enum]`'vertical' \| 'horizontal'`                              | horizontal |
 | model-value / v-model | binding value                      | ^[string] / ^[number] / ^[boolean]             | —       |
 | options               | data of the options                | ^[array]`Option[]`                             | []      |
 | size                  | size of component                  | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''      |
@@ -83,6 +82,7 @@ segmented/custom-style
 | name                  | native `name` attribute            | ^[string]                                      | —       |
 | id                    | native `id` attribute              | ^[string]                                      | —       |
 | aria-label ^(a11y)    | native `aria-label` attribute      | ^[string]                                      | —       |
+| direction ^(2.8.7)      | display direction                                                             | ^[enum]`'vertical' \| 'horizontal'`                              | horizontal |
 
 ### Events
 
