@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { computed, getCurrentInstance, ref, unref, watch } from 'vue'
-import { isArray } from '@element-plus/utils'
+import { isArray, isUndefined } from '@element-plus/utils'
 import { getRowIdentity, walkTreeNode } from '../util'
 
 import type { WatcherPropsData } from '.'
@@ -172,7 +172,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     const data = id && treeData.value[id]
     if (id && data && 'expanded' in data) {
       const oldExpanded = data.expanded
-      expanded = typeof expanded === 'undefined' ? !data.expanded : expanded
+      expanded = isUndefined(expanded) ? !data.expanded : expanded
       treeData.value[id].expanded = expanded
       if (oldExpanded !== expanded) {
         instance.emit('expand-change', row, expanded)

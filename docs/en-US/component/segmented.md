@@ -17,6 +17,16 @@ segmented/basic
 
 :::
 
+## Direction Usage ^(2.8.7)
+
+Set `vertical` to change direction.
+
+:::demo
+
+segmented/custom-direction
+
+:::
+
 ## Disabled
 
 Set `disabled` of segmented or option to `true` to disable it.
