@@ -71,7 +71,7 @@ export const useTarget = (
       posInfo.value = null
       return
     }
-    if (!isInViewPort(targetEl) && open.value) {
+    if (!isInViewPort(targetEl)) {
       targetEl.scrollIntoView(scrollIntoViewOptions.value)
     }
     const { left, top, width, height } = targetEl.getBoundingClientRect()

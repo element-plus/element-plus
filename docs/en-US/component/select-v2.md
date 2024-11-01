@@ -243,7 +243,6 @@ select-v2/custom-label
 | no-match-text                       | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'                    | ^[string]                                                                                                                                                                   | —                                              |
 | no-data-text                        | displayed text when there is no options, you can also use slot empty                                                                     | ^[string]                                                                                                                                                                   | No Data                                        |
 | popper-class                        | custom class name for Select's dropdown                                                                                                  | ^[string]                                                                                                                                                                   | ''                                             |
-| popper-append-to-body ^(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false              | ^[boolean]                                                                                                                                                                  | false                                          |
 | teleported                          | whether select dropdown is teleported to the body                                                                                        | ^[boolean]                                                                                                                                                                  | true                                           |
 | persistent                          | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | ^[boolean]                                                                                                                                                                  | true                                           |
 | popper-options                      | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                   | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                             |
@@ -263,6 +262,7 @@ select-v2/custom-label
 | aria-label ^(a11y) ^(2.5.0)         | same as `aria-label` in native input                                                                                                     | ^[string]                                                                                                                                                                   | —                                              |
 | empty-values ^(2.7.0)               | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                           | ^[array]                                                                                                                                                                    | —                                              |
 | value-on-clear ^(2.7.0)             | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                  | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
+| popper-append-to-body ^(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false              | ^[boolean]                                                                                                                                                                  | false                                          |
 
 ### props
 
@@ -299,7 +299,8 @@ select-v2/custom-label
 
 ### Exposes
 
-| Method | Description                                     | Type                    |
-| ------ | ----------------------------------------------- | ----------------------- |
-| focus  | focus the Input component                       | ^[Function]`() => void` |
-| blur   | blur the Input component, and hide the dropdown | ^[Function]`() => void` |
+| Name                   | Description                                     | Type                                       |
+| ---------------------- | ----------------------------------------------- | ------------------------------------------ |
+| focus                  | focus the Input component                       | ^[Function]`() => void`                    |
+| blur                   | blur the Input component, and hide the dropdown | ^[Function]`() => void`                    |
+| selectedLabel ^(2.8.5) | get the currently selected label                | ^[object]`ComputedRef<string \| string[]>` |
