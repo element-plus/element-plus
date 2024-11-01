@@ -306,7 +306,10 @@ export default defineComponent({
         }
         if (hasCurrentPageListener) {
           emit('update:current-page', newCurrentPage)
-          emit('current-change', newCurrentPage)
+          if (!isAbsent(props.total)) {
+            // Only trigger event when total exists
+            emit('current-change', newCurrentPage)
+          }
         }
       },
     })
