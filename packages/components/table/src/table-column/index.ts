@@ -78,9 +78,9 @@ export default defineComponent({
           defaultInfo.realWidth = 38
           defaultInfo.width = 38
         } else if (type === 'index') {
-          defaultInfo.minWidth = 54
-          defaultInfo.realWidth = 54
-          defaultInfo.width = 54
+          defaultInfo.minWidth = 50.64
+          defaultInfo.realWidth = 50.64
+          defaultInfo.width = 50.64
         }
       }
 
