@@ -70,22 +70,8 @@ export default defineComponent({
       const showOverflowTooltip = isUndefined(props.showOverflowTooltip)
         ? parent.props.showOverflowTooltip
         : props.showOverflowTooltip
-      const defaultInfo = cellStarts[type] || {}
-
-      if (parent.props.tableLayout === 'auto') {
-        if (type === 'selection') {
-          defaultInfo.minWidth = 38
-          defaultInfo.realWidth = 38
-          defaultInfo.width = 38
-        } else if (type === 'index') {
-          defaultInfo.minWidth = 50.64
-          defaultInfo.realWidth = 50.64
-          defaultInfo.width = 50.64
-        }
-      }
-
       const defaults = {
-        ...defaultInfo,
+        ...cellStarts[type],
         id: columnId.value,
         type,
         property: props.prop || props.property,
