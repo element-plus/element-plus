@@ -38,7 +38,10 @@ export const segmentedProps = buildProps({
   /**
    * @description whether segmented is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether to trigger form validation
    */

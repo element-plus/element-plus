@@ -53,7 +53,10 @@ export const inputNumberProps = buildProps({
   /**
    * @description whether the component is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description size of the component
    */

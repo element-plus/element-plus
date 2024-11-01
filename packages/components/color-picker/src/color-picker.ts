@@ -27,7 +27,10 @@ export const colorPickerProps = buildProps({
   /**
    * @description whether to disable the ColorPicker
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description size of ColorPicker
    */

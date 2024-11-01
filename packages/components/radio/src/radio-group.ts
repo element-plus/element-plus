@@ -19,7 +19,10 @@ export const radioGroupProps = buildProps({
   /**
    * @description whether the nesting radios are disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description binding value
    */
