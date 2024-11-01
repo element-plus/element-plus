@@ -1,0 +1,257 @@
+<template>
+  <div
+    ref="wrapperRef"
+    :class="containerKls"
+    :style="containerStyle"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+  >
+    <div v-if="$slots.prefix" :class="ns.e('prefix')">
+      <slot name="prefix" />
+    </div>
+    <div :class="ns.e('inner')">
+      <el-tag
+        v-for="(item, index) in modelValue"
+        :key="index"
+        :size="size"
+        :closable="!disabled"
+        :type="props.tagType"
+        :effect="props.tagEffect"
+        @close="handleTagRemove(index)"
+      >
+        <slot name="tag" :value="item">
+          {{ item }}
+        </slot>
+      </el-tag>
+      <div :class="ns.e('input-wrapper')">
+        <input
+          :id="inputId"
+          ref="inputRef"
+          v-model="inputValue"
+          v-bind="attrs"
+          type="text"
+          :minlength="minlength"
+          :maxlength="maxlength"
+          :disabled="disabled"
+          :readonly="readonly"
+          :autocomplete="autocomplete"
+          :tabindex="tabindex"
+          :placeholder="placeholder"
+          :form="form"
+          :autofocus="autofocus"
+          :class="ns.e('input')"
+          :style="inputStyle"
+          @compositionstart="handleCompositionStart"
+          @compositionupdate="handleCompositionUpdate"
+          @compositionend="handleCompositionEnd"
+          @change="handleInput"
+          @keydown="handleKeydown"
+        />
+        <span
+          ref="calculatorRef"
+          aria-hidden="true"
+          :class="ns.e('input-calculator')"
+          v-text="inputValue"
+        />
+      </div>
+    </div>
+    <div :class="ns.e('suffix')">
+      <template v-if="!showClear">
+        <slot name="suffix" />
+      </template>
+      <el-icon
+        v-if="showClear"
+        :class="[ns.e('icon'), ns.e('clear')]"
+        @mousedown.prevent="NOOP"
+        @click="handleClear"
+      >
+        <circle-close />
+      </el-icon>
+      <el-icon
+        v-if="validateState && validateIcon && needStatusIcon"
+        :class="[
+          ns.e('icon'),
+          ns.e('validateIcon'),
+          ns.is('loading', validateState === 'validating'),
+        ]"
+      >
+        <component :is="validateIcon" />
+      </el-icon>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { computed, ref, shallowRef, useAttrs as useRawAttrs } from 'vue'
+import { useResizeObserver } from '@vueuse/core'
+import { CircleClose } from '@element-plus/icons-vue'
+import {
+  useAttrs,
+  useComposition,
+  useFocusController,
+  useNamespace,
+} from '@element-plus/hooks'
+import { EVENT_CODE } from '@element-plus/constants'
+import ElIcon from '@element-plus/components/icon'
+import ElTag from '@element-plus/components/tag'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormItemInputId,
+  useFormSize,
+} from '@element-plus/components/form'
+import { NOOP, ValidateComponentsMap, debugWarn } from '@element-plus/utils'
+import { inputTagEmits, inputTagProps } from './input-tag'
+import type { StyleValue } from 'vue'
+
+defineOptions({
+  name: 'ElInputTag',
+  inheritAttrs: false,
+})
+
+const props = defineProps(inputTagProps)
+const emit = defineEmits(inputTagEmits)
+
+const MINIMUM_INPUT_WIDTH = 11
+
+const { form: elForm, formItem: elFormItem } = useFormItem()
+const { inputId } = useFormItemInputId(props, {
+  formItemContext: elFormItem,
+})
+const disabled = useFormDisabled()
+const size = useFormSize()
+const ns = useNamespace('input-tag')
+const rawAttrs = useRawAttrs()
+const attrs = useAttrs()
+
+const inputRef = shallowRef<HTMLInputElement>()
+const calculatorRef = ref<HTMLElement>()
+const inputValue = ref<string>()
+const hovering = ref(false)
+const calculatorWidth = ref(0)
+
+const containerKls = computed(() => [
+  ns.b(),
+  ns.is('focused', isFocused.value),
+  ns.is('hovering', hovering.value),
+  ns.b(size.value),
+  rawAttrs.class,
+])
+const containerStyle = computed<StyleValue>(() => [
+  rawAttrs.style as StyleValue,
+])
+const inputStyle = computed(() => ({
+  minWidth: `${Math.max(calculatorWidth.value, MINIMUM_INPUT_WIDTH)}px`,
+}))
+
+const placeholder = computed(() => {
+  return props.modelValue?.length ? undefined : props.placeholder
+})
+const showClear = computed(() => {
+  return (
+    props.clearable &&
+    !disabled.value &&
+    !props.readonly &&
+    props.modelValue?.length &&
+    (isFocused.value || hovering.value)
+  )
+})
+const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
+const validateState = computed(() => elFormItem?.validateState || '')
+const validateIcon = computed(() => {
+  return validateState.value && ValidateComponentsMap[validateState.value]
+})
+
+const handleInput = (event: Event) => {
+  if (isComposing.value) return
+  emit('input', (event.target as HTMLInputElement).value)
+}
+
+const handleKeydown = (event: KeyboardEvent) => {
+  switch (event.code) {
+    case props.trigger:
+      handleTagAdd()
+      break
+    case EVENT_CODE.numpadEnter:
+      props.trigger === EVENT_CODE.enter && handleTagAdd()
+      break
+    case EVENT_CODE.backspace:
+      !inputValue.value &&
+        props.modelValue?.length &&
+        handleTagRemove(props.modelValue.length - 1)
+      break
+  }
+}
+
+const handleTagAdd = () => {
+  if (!inputValue.value) return
+  const list = [...(props.modelValue ?? []), inputValue.value]
+
+  emit('tagAdd', inputValue.value)
+  emit('change', list)
+  emit('update:modelValue', list)
+  emit('input', '')
+  inputValue.value = ''
+}
+
+const handleTagRemove = (index: number) => {
+  const value = (props.modelValue ?? []).slice()
+  const [item] = value.splice(index, 1)
+
+  emit('change', value)
+  emit('update:modelValue', value)
+  emit('tagRemove', item)
+}
+
+const handleClear = () => {
+  emit('change', undefined)
+  emit('update:modelValue', undefined)
+  emit('clear')
+}
+
+const handleMouseEnter = () => {
+  hovering.value = true
+}
+
+const handleMouseLeave = () => {
+  hovering.value = false
+}
+
+const focus = () => {
+  inputRef.value?.focus()
+}
+
+const blur = () => {
+  inputRef.value?.blur()
+}
+
+const resetCalculatorWidth = () => {
+  calculatorWidth.value =
+    calculatorRef.value?.getBoundingClientRect().width ?? 0
+}
+
+const { wrapperRef, isFocused } = useFocusController(inputRef, {
+  beforeFocus() {
+    return disabled.value
+  },
+  afterBlur() {
+    if (props.validateEvent) {
+      elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
+    }
+  },
+})
+
+const {
+  isComposing,
+  handleCompositionStart,
+  handleCompositionUpdate,
+  handleCompositionEnd,
+} = useComposition({ afterComposition: handleInput })
+
+useResizeObserver(calculatorRef, resetCalculatorWidth)
+
+defineExpose({
+  focus,
+  blur,
+})
+</script>

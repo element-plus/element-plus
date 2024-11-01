@@ -1,0 +1,159 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@mixin mixed-input-border($color) {
+  box-shadow: 0 0 0 1px $color inset;
+}
+
+@include b(input-tag) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: map.get($input-font-size, 'default');
+  padding: map.get($select-wrapper-padding, 'default');
+  gap: map.get($select-item-gap, 'default');
+  width: getCssVar('select-width');
+  min-height: map.get($input-height, 'default');
+  line-height: map.get($select-item-height, 'default');
+  border-radius: getCssVar('border-radius-base');
+  background-color: getCssVar('fill-color', 'blank');
+  transition: getCssVar('transition', 'duration');
+  transform: translate3d(0, 0, 0);
+  @include mixed-input-border(#{getCssVar('border-color')});
+
+  @include when(focused) {
+    @include mixed-input-border(#{getCssVar('color-primary')});
+  }
+
+  @include when(hovering) {
+    &:not(.is-focused) {
+      @include mixed-input-border(#{getCssVar('border-color-hover')});
+    }
+  }
+
+  @include when(disabled) {
+    cursor: not-allowed;
+
+    background-color: getCssVar('fill-color', 'light');
+    @include mixed-input-border(#{getCssVar('select-disabled-border')});
+
+    &:hover {
+      @include mixed-input-border(#{getCssVar('select-disabled-border')});
+    }
+
+    &.is-focus {
+      @include mixed-input-border(#{getCssVar('input-focus-border-color')});
+    }
+
+    .#{$namespace}-tag {
+      cursor: not-allowed;
+    }
+  }
+
+  @include e(prefix) {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: map.get($select-item-gap, 'default');
+    color: var(
+      #{getCssVarName('input-icon-color')},
+      map.get($input, 'icon-color')
+    );
+  }
+
+  @include e(suffix) {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: map.get($select-item-gap, 'default');
+    color: var(
+      #{getCssVarName('input-icon-color')},
+      map.get($input, 'icon-color')
+    );
+  }
+
+  @include e(inner) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    gap: map.get($select-item-gap, 'default');
+
+    .#{$namespace}-tag {
+      cursor: pointer;
+      border-color: transparent;
+
+      &.#{$namespace}-tag--plain {
+        border-color: getCssVar('tag', 'border-color');
+      }
+
+      .#{$namespace}-tag__content {
+        min-width: 0;
+      }
+    }
+  }
+
+  @include e(input-wrapper) {
+    flex: 1;
+  }
+
+  @include e(input) {
+    border: none;
+    outline: none;
+    padding: 0;
+    color: getCssVar('select-multiple-input-color');
+    font-size: inherit;
+    font-family: inherit;
+    appearance: none;
+    height: map.get($select-item-height, 'default');
+    width: 100%;
+    background-color: transparent;
+
+    @include when(disabled) {
+      cursor: not-allowed;
+    }
+  }
+
+  @include e(input-calculator) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    max-width: 100%;
+    visibility: hidden;
+    white-space: pre;
+    overflow: hidden;
+  }
+
+  @each $size in (large, small) {
+    @include m($size) {
+      gap: map.get($select-item-gap, $size);
+      padding: map.get($select-wrapper-padding, $size);
+      min-height: map.get($input-height, $size);
+      line-height: map.get($select-item-height, $size);
+      font-size: map.get($input-font-size, $size);
+
+      @include e(inner) {
+        gap: map.get($select-item-gap, $size);
+      }
+
+      @include e(prefix) {
+        gap: map.get($select-item-gap, $size);
+      }
+
+      @include e(suffix) {
+        gap: map.get($select-item-gap, $size);
+      }
+
+      @include e(input) {
+        height: map.get($select-item-height, $size);
+      }
+    }
+  }
+}
