@@ -5,7 +5,6 @@ import {
   onMounted,
   reactive,
   ref,
-  toRaw,
   watch,
   watchEffect,
 } from 'vue'
@@ -396,8 +395,9 @@ export const useSelect = (props: ISelectProps, emit) => {
     )
     const userCreatedOption = optionsInDropdown.find((n) => n.created)
     const firstOriginOption = optionsInDropdown[0]
+    const valueList = optionsArray.value.map((item) => item.value)
     states.hoveringIndex = getValueIndex(
-      optionsArray.value,
+      valueList,
       userCreatedOption || firstOriginOption
     )
   }
@@ -576,7 +576,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const handleOptionSelect = (option) => {
     if (props.multiple) {
       const value = ensureArray(props.modelValue ?? []).slice()
-      const optionIndex = getValueIndex(value, option.value)
+      const optionIndex = getValueIndex(value, option)
       if (optionIndex > -1) {
         value.splice(optionIndex, 1)
       } else if (
@@ -605,19 +605,12 @@ export const useSelect = (props: ISelectProps, emit) => {
     })
   }
 
-  const getValueIndex = (arr: any[] = [], value) => {
-    if (!isObject(value)) return arr.indexOf(value)
+  const getValueIndex = (arr: any[] = [], option) => {
+    if (!isObject(option?.value)) return arr.indexOf(option.value)
 
-    const valueKey = props.valueKey
-    let index = -1
-    arr.some((item, i) => {
-      if (toRaw(get(item, valueKey)) === get(value, valueKey)) {
-        index = i
-        return true
-      }
-      return false
+    return arr.findIndex((item) => {
+      return isEqual(get(item, props.valueKey), getValueKey(option))
     })
-    return index
   }
 
   const scrollToOption = (option) => {

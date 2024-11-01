@@ -37,7 +37,7 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
   function (options = {}, context: AppContext | null = null) {
     if (!isClient) return { close: () => undefined }
 
-    if (typeof options === 'string' || isVNode(options)) {
+    if (isString(options) || isVNode(options)) {
       options = { message: options }
     }
 
@@ -110,7 +110,7 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
   }
 notificationTypes.forEach((type) => {
   notify[type] = (options = {}) => {
-    if (typeof options === 'string' || isVNode(options)) {
+    if (isString(options) || isVNode(options)) {
       options = {
         message: options,
       }

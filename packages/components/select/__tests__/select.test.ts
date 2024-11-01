@@ -2804,6 +2804,134 @@ describe('Select', () => {
     ).toBe('none')
   })
 
+  describe('check default first option after input', () => {
+    it('defalut', async () => {
+      vi.useFakeTimers()
+      wrapper = getSelectVm({
+        filterable: true,
+        defaultFirstOption: true,
+      })
+
+      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const selectVm = select.vm as any
+      const input = wrapper.find('input')
+      input.element.focus()
+
+      selectVm.onInput({
+        target: {
+          value: '蚵仔煎',
+        },
+      })
+
+      vi.runAllTimers()
+      await nextTick()
+      expect(selectVm.states.hoveringIndex).toBe(2)
+
+      vi.useRealTimers()
+    })
+
+    it('with multiple', async () => {
+      vi.useFakeTimers()
+      wrapper = getSelectVm({
+        multiple: true,
+        filterable: true,
+        defaultFirstOption: true,
+      })
+
+      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const selectVm = select.vm as any
+      const input = wrapper.find('input')
+      input.element.focus()
+
+      selectVm.onInput({
+        target: {
+          value: '蚵仔煎',
+        },
+      })
+
+      vi.runAllTimers()
+      await nextTick()
+      expect(selectVm.states.hoveringIndex).toBe(2)
+
+      vi.useRealTimers()
+    })
+
+    it('the value is string with value-key', async () => {
+      vi.useFakeTimers()
+      wrapper = getSelectVm({
+        filterable: true,
+        defaultFirstOption: true,
+        valueKey: 'label',
+      })
+
+      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const selectVm = select.vm as any
+      const input = wrapper.find('input')
+      input.element.focus()
+
+      selectVm.onInput({
+        target: {
+          value: '蚵仔煎',
+        },
+      })
+
+      vi.runAllTimers()
+      await nextTick()
+      expect(selectVm.states.hoveringIndex).toBe(2)
+
+      vi.useRealTimers()
+    })
+
+    it('the value is object with value-key', async () => {
+      vi.useFakeTimers()
+      wrapper = _mount(
+        `
+        <el-select v-model="value" value-key="id" filterable default-first-option>
+          <el-option
+            v-for="item in options"
+            :label="item.name"
+            :key="item.id"
+            :value="item">
+          </el-option>
+        </el-select>
+      `,
+        () => ({
+          options: [
+            {
+              id: 1,
+              name: '黄金糕',
+            },
+            {
+              id: 2,
+              name: '双皮奶',
+            },
+            {
+              id: 3,
+              name: '蚵仔煎',
+            },
+          ],
+        })
+      )
+
+      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const selectVm = select.vm as any
+      const input = wrapper.find('input')
+      input.element.focus()
+
+      selectVm.onInput({
+        target: {
+          value: '蚵仔煎',
+        },
+      })
+
+      vi.runAllTimers()
+      await nextTick()
+      expect(selectVm.states.hoveringIndex).toBe(2)
+
+      vi.useRealTimers()
+    })
+  })
+
   it('not options keep the selected label', async () => {
     const initials = [
       {

@@ -2,7 +2,8 @@ import type { ComponentPublicInstance } from 'vue'
 import type { DatePickerProps } from './props/date-picker'
 
 export type DatePickerExpose = {
-  focus: (focusStartInput: boolean) => void
+  focus: () => void
+  blur: () => void
   handleOpen: () => void
   handleClose: () => void
 }
