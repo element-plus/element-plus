@@ -1,6 +1,6 @@
 #! /bin/bash
 
-NAME=$(echo $1 | sed -E 's/([A-Z])/-\1/g' | sed -E 's/^-//g' | sed -E 's/_/-/g' | tr 'A-Z' 'a-z')
+NAME=$(echo $1 | sed -E "s/([A-Z])/-\1/g" | sed -E "s/^-//g" | sed -E "s/_/-/g" | tr "A-Z" "a-z")
 
 FILE_PATH=$(cd "$(dirname "${BASH_SOURCE[0]}")/../packages" && pwd)
 
@@ -24,6 +24,7 @@ PROP_NAME=$(echo "${NAME:0:1}" | tr '[:upper:]' '[:lower:]')${NAME:1}
 
 mkdir -p "$DIRNAME"
 mkdir -p "$DIRNAME/src"
+mkdir -p "$DIRNAME/style"
 mkdir -p "$DIRNAME/__tests__"
 
 cat > $DIRNAME/src/$INPUT_NAME.vue <<EOF
@@ -88,3 +89,22 @@ describe('$NAME.vue', () => {
   })
 })
 EOF
+
+cat > $DIRNAME/style/index.ts <<EOF
+import '@element-plus/components/base/style'
+import '@element-plus/theme-chalk/src/$INPUT_NAME.scss'
+EOF
+
+cat > $DIRNAME/style/css.ts <<EOF
+import '@element-plus/components/base/style/css'
+import '@element-plus/theme-chalk/el-$INPUT_NAME.css'
+EOF
+
+cat > $FILE_PATH/theme-chalk/src/$INPUT_NAME.scss <<EOF
+EOF
+
+perl -0777 -pi -e "s/\n\n/\nexport * from '.\/$INPUT_NAME'\n\n/" $FILE_PATH/components/index.ts
+
+TYPE_PATH=$(cd "$(dirname "${BASH_SOURCE[0]}")/../typings" && pwd)
+
+perl -0777 -pi -e "s/\n\s+}/\n    El$NAME: typeof import('element-plus')['El$NAME']\n  }/" $TYPE_PATH/global.d.ts
