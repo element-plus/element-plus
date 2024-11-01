@@ -448,13 +448,15 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (option) return option
 
     let currentLabel
-    if (
-      value &&
-      states.selected.length === 1 &&
-      states.selected[0].value === value &&
-      states.selected[0].currentLabel === states.selectedLabel
-    ) {
-      currentLabel = states.selectedLabel
+    if (value && states.selected.length === 1) {
+      const selected = states.selected[0]
+
+      if (
+        selected.value === value &&
+        selected.currentLabel === states.selectedLabel
+      ) {
+        currentLabel = states.selectedLabel
+      }
     }
 
     const label = isObjectValue
@@ -645,7 +647,10 @@ export const useSelect = (props: ISelectProps, emit) => {
   const onOptionCreate = (vm: SelectOptionProxy) => {
     states.options.set(vm.value, vm)
     states.cachedOptions.set(vm.value, vm)
-    vm.disabled && states.disabledOptions.set(vm.value, vm)
+
+    if (vm.disabled) {
+      states.disabledOptions.set(vm.value, vm)
+    }
   }
 
   const onOptionDestroy = (key, vm: SelectOptionProxy) => {
