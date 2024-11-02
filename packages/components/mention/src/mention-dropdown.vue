@@ -13,6 +13,7 @@
       role="listbox"
       :aria-label="ariaLabel"
       aria-orientation="vertical"
+      @scroll="scrollEnd"
     >
       <li
         v-for="(item, index) in options"
@@ -74,7 +75,12 @@ const handleSelect = (item: MentionOption) => {
   emit('select', item)
 }
 
+// When the mouse is prevented from scrolling in the list, if the options are switched up and down by keyboard control,
+// the mouseenter event of a certain option may be triggered, causing the hoveringIndex value to change, resulting in an unexpected selection effect.
+// Therefore, add a mark to prevent the mouseenter event from triggering the effect when switching options by keyboard control.
+const shouldPreventMouseEnter = ref(false)
 const handleMouseEnter = (index: number) => {
+  if (shouldPreventMouseEnter.value) return
   hoveringIndex.value = index
 }
 
@@ -117,7 +123,7 @@ const scrollToOption = (option: MentionOption) => {
 
   const index = options.findIndex((item) => item.value === option.value)
   const target = optionRefs.value?.[index]
-
+  shouldPreventMouseEnter.value = true
   if (target) {
     const menu = dropdownRef.value?.querySelector?.(
       `.${ns.be('dropdown', 'wrap')}`
@@ -127,6 +133,12 @@ const scrollToOption = (option: MentionOption) => {
     }
   }
   scrollbarRef.value?.handleScroll()
+}
+
+const scrollEnd = () => {
+  setTimeout(() => {
+    shouldPreventMouseEnter.value = false
+  })
 }
 
 const resetHoveringIndex = () => {
@@ -146,5 +158,6 @@ defineExpose({
   navigateOptions,
   selectHoverOption,
   hoverOption,
+  shouldPreventMouseEnter,
 })
 </script>
