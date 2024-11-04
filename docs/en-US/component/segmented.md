@@ -71,17 +71,18 @@ segmented/custom-style
 
 ### Attributes
 
-| Name                  | Description                        | Type                                           | Default |
-| --------------------- | ---------------------------------- | ---------------------------------------------- | ------- |
-| model-value / v-model | binding value                      | ^[string] / ^[number] / ^[boolean]             | —       |
-| options               | data of the options                | ^[array]`Option[]`                             | []      |
-| size                  | size of component                  | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''      |
-| block                 | fit width of parent content        | ^[boolean]                                     | —       |
-| disabled              | whether segmented is disabled      | ^[boolean]                                     | false   |
-| validate-event        | whether to trigger form validation | ^[boolean]                                     | true    |
-| name                  | native `name` attribute            | ^[string]                                      | —       |
-| id                    | native `id` attribute              | ^[string]                                      | —       |
-| aria-label ^(a11y)    | native `aria-label` attribute      | ^[string]                                      | —       |
+| Name                  | Description                        | Type                                           | Default    |
+| --------------------- | ---------------------------------- | ---------------------------------------------- | ---------- |
+| model-value / v-model | binding value                      | ^[string] / ^[number] / ^[boolean]             | —          |
+| options               | data of the options                | ^[array]`Option[]`                             | []         |
+| size                  | size of component                  | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''         |
+| block                 | fit width of parent content        | ^[boolean]                                     | —          |
+| disabled              | whether segmented is disabled      | ^[boolean]                                     | false      |
+| validate-event        | whether to trigger form validation | ^[boolean]                                     | true       |
+| name                  | native `name` attribute            | ^[string]                                      | —          |
+| id                    | native `id` attribute              | ^[string]                                      | —          |
+| aria-label ^(a11y)    | native `aria-label` attribute      | ^[string]                                      | —          |
+| direction ^(2.8.7)    | display direction                  | ^[enum]`'horizontal' \| 'vertical'`            | horizontal |
 
 ### Events
 
