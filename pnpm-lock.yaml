@@ -124,7 +124,7 @@ importers:
         version: 1.43.1
       '@vitejs/plugin-vue':
         specifier: ^2.3.3
-        version: 2.3.3(vite@5.3.3(@types/node@22.8.6)(sass@1.79.3)(terser@5.36.0))(vue@3.2.37)
+        version: 2.3.3(vite@2.9.15(sass@1.79.3))(vue@3.2.37)
       '@vitejs/plugin-vue-jsx':
         specifier: ^1.3.10
         version: 1.3.10
@@ -552,8 +552,8 @@ importers:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
       dayjs:
-        specifier: ^1.11.3
-        version: 1.11.3
+        specifier: ^1.11.13
+        version: 1.11.13
       escape-html:
         specifier: ^1.0.3
         version: 1.0.3
@@ -4173,9 +4173,6 @@ packages:
 
   dayjs@1.11.13:
     resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
-
-  dayjs@1.11.3:
-    resolution: {integrity: sha512-xxwlswWOlGhzgQ4TKzASQkUhqERI3egRNqgV4ScR8wlANA/A9tZ7miXa44vTTKEq5l7vWoL5G57bG3zA+Kow0A==}
 
   de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
@@ -11822,7 +11819,7 @@ snapshots:
   '@vue-macros/common@1.10.1(vue@3.2.37)':
     dependencies:
       '@babel/types': 7.24.0
-      '@rollup/pluginutils': 5.1.0(rollup@2.79.2)
+      '@rollup/pluginutils': 5.1.0(rollup@2.75.7)
       '@vue/compiler-sfc': 3.4.31
       ast-kit: 0.11.3
       local-pkg: 0.5.0
@@ -12643,7 +12640,7 @@ snapshots:
   ast-kit@0.11.3:
     dependencies:
       '@babel/parser': 7.24.7
-      '@rollup/pluginutils': 5.1.0(rollup@2.79.2)
+      '@rollup/pluginutils': 5.1.0(rollup@2.75.7)
       pathe: 1.1.2
     transitivePeerDependencies:
       - rollup
@@ -12651,7 +12648,7 @@ snapshots:
   ast-kit@0.9.5:
     dependencies:
       '@babel/parser': 7.24.7
-      '@rollup/pluginutils': 5.1.0(rollup@2.79.2)
+      '@rollup/pluginutils': 5.1.0(rollup@2.75.7)
       pathe: 1.1.2
     transitivePeerDependencies:
       - rollup
@@ -13504,8 +13501,6 @@ snapshots:
   date-fns@2.28.0: {}
 
   dayjs@1.11.13: {}
-
-  dayjs@1.11.3: {}
 
   de-indent@1.0.2: {}
 
