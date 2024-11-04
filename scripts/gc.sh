@@ -35,7 +35,7 @@ cat > $DIRNAME/src/$INPUT_NAME.vue <<EOF
 </template>
 
 <script lang="ts" setup>
-import { ${PROP_NAME}Props, ${PROP_NAME}Emits } from './$INPUT_NAME'
+import { ${PROP_NAME}Emits, ${PROP_NAME}Props } from './$INPUT_NAME'
 
 defineOptions({
   name: 'El$NAME',
@@ -52,13 +52,16 @@ cat > $DIRNAME/src/$INPUT_NAME.ts <<EOF
 import { buildProps } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
-import type $NAME from './$INPUT_NAME.vue'
 
 export const ${PROP_NAME}Props = buildProps({} as const)
 export type ${NAME}Props = ExtractPropTypes<typeof ${PROP_NAME}Props>
 
 export const ${PROP_NAME}Emits = {}
 export type ${NAME}Emits = typeof ${PROP_NAME}Emits
+EOF
+
+cat > $DIRNAME/src/instance.ts <<EOF
+import type $NAME from './$INPUT_NAME.vue'
 
 export type ${NAME}Instance = InstanceType<typeof $NAME>
 EOF
@@ -72,6 +75,7 @@ export const El$NAME: SFCWithInstall<typeof $NAME> = withInstall($NAME)
 export default El$NAME
 
 export * from './src/$INPUT_NAME'
+export type { ${NAME}Instance } from './src/instance'
 EOF
 
 cat > $DIRNAME/__tests__/$INPUT_NAME.test.tsx <<EOF
