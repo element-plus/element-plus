@@ -2728,6 +2728,12 @@ describe('Select', () => {
     })
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(1)
+    await selectInput.trigger('keydown', {
+      code: EVENT_CODE.enter,
+      key: EVENT_CODE.enter,
+    })
+    await nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
   it('It should generate accessible attributes', async () => {
     wrapper = _mount(

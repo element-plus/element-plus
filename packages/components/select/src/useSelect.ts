@@ -513,7 +513,10 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const getLastNotDisabledIndex = (value) =>
-    findLastIndex(value, (it) => !states.cachedOptions.get(it)?.disabled)
+    findLastIndex(value, (it) => {
+      const option = states.cachedOptions.get(it)
+      return option && !option.disabled && !option.states.groupDisabled
+    })
 
   const deletePrevTag = (e) => {
     if (!props.multiple) return
@@ -696,7 +699,8 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (!expanded.value) {
       toggleMenu()
     } else {
-      if (optionsArray.value[states.hoveringIndex]) {
+      const option = optionsArray.value[states.hoveringIndex]
+      if (option && !option.disabled && !option.states.groupDisabled) {
         handleOptionSelect(optionsArray.value[states.hoveringIndex])
       }
     }
