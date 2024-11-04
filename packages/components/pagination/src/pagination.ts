@@ -279,7 +279,7 @@ export default defineComponent({
     })
 
     const pageCountBridge = computed<number>(() => {
-      let pageCount = 0
+      let pageCount = 1
       if (!isAbsent(props.pageCount)) {
         pageCount = props.pageCount
       } else if (!isAbsent(props.total)) {
@@ -306,10 +306,7 @@ export default defineComponent({
         }
         if (hasCurrentPageListener) {
           emit('update:current-page', newCurrentPage)
-          if (!isAbsent(props.total)) {
-            // Only trigger event when total exists
-            emit('current-change', newCurrentPage)
-          }
+          emit('current-change', newCurrentPage)
         }
       },
     })
