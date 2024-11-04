@@ -701,7 +701,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     } else {
       const option = optionsArray.value[states.hoveringIndex]
       if (option && !option.disabled && !option.states.groupDisabled) {
-        handleOptionSelect(optionsArray.value[states.hoveringIndex])
+        handleOptionSelect(option)
       }
     }
   }
