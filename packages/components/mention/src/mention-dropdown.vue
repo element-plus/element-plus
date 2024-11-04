@@ -117,6 +117,7 @@ const scrollToOption = (option: MentionOption) => {
 
   const index = options.findIndex((item) => item.value === option.value)
   const target = optionRefs.value?.[index]
+
   if (target) {
     const menu = dropdownRef.value?.querySelector?.(
       `.${ns.be('dropdown', 'wrap')}`
