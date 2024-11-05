@@ -101,7 +101,7 @@ skeleton/initial-rendering-loading
 
 :::
 
-## Toggle show/hide without rending bouncing ^(2.8.7)
+## Toggle show/hide without rending bouncing ^(2.8.8)
 
 :::tip
 
