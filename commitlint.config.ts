@@ -22,6 +22,7 @@ const scopes = [
   'var',
   'ssr',
   'types',
+  'deps',
 ]
 
 const gitStatus = execSync('git status --porcelain || true')
