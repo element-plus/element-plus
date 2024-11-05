@@ -21,6 +21,7 @@ const scopes = [
   'border',
   'var',
   'ssr',
+  'types',
 ]
 
 const gitStatus = execSync('git status --porcelain || true')
@@ -96,9 +97,6 @@ export default {
         'style',
         'test',
         'improvement',
-        'site',
-        'demo',
-        'type',
       ],
     ],
   },
