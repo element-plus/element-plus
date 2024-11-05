@@ -63,7 +63,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     inputValue: '',
     options: new Map(),
     cachedOptions: new Map(),
-    disabledOptions: new Map(),
     optionValues: [] as any[], // sorted value of options
     selected: [] as any[],
     selectionWidth: 0,
@@ -514,7 +513,10 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const getLastNotDisabledIndex = (value) =>
-    findLastIndex(value, (it) => !states.disabledOptions.has(it))
+    findLastIndex(value, (it) => {
+      const option = states.cachedOptions.get(it)
+      return option && !option.disabled && !option.states.groupDisabled
+    })
 
   const deletePrevTag = (e) => {
     if (!props.multiple) return
@@ -627,7 +629,6 @@ export const useSelect = (props: ISelectProps, emit) => {
   const onOptionCreate = (vm: SelectOptionProxy) => {
     states.options.set(vm.value, vm)
     states.cachedOptions.set(vm.value, vm)
-    vm.disabled && states.disabledOptions.set(vm.value, vm)
   }
 
   const onOptionDestroy = (key, vm: SelectOptionProxy) => {
@@ -698,8 +699,9 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (!expanded.value) {
       toggleMenu()
     } else {
-      if (optionsArray.value[states.hoveringIndex]) {
-        handleOptionSelect(optionsArray.value[states.hoveringIndex])
+      const option = optionsArray.value[states.hoveringIndex]
+      if (option && !option.disabled && !option.states.groupDisabled) {
+        handleOptionSelect(option)
       }
     }
   }
