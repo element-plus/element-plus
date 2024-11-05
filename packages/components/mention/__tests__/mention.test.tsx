@@ -117,6 +117,12 @@ describe('Mention.vue', () => {
     expect(option.attributes('role')).toBe('option')
     expect(option.attributes('aria-disabled')).toBe(undefined)
     expect(option.attributes('aria-selected')).toBe('true')
+
+    const items = list.element.querySelectorAll('.el-mention-dropdown__item')
+    items.forEach((item, index) => {
+      const id = item.getAttribute('id')
+      expect(id).toBe(`${list.attributes('id')}-${index}`)
+    })
   })
 
   test('should use props of form', async () => {
