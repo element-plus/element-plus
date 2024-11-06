@@ -81,7 +81,7 @@ Sometimes API responds very quickly, when that happens, the skeleton just gets r
 
 :::tip
 
-Since ^(2.6.0), the `throttle` attribute supports two values: `number` and `object`. When passing a `number`, it is equivalent to `{leading: xxx}`, controlling the throttling of the skeleton screen display. Of course, you can also control the throttling of the skeleton screen disappearance by passing `{trailing: xxx}`
+Since ^(2.8.8), the `throttle` attribute supports two values: `number` and `object`. When passing a `number`, it is equivalent to `{leading: xxx}`, controlling the throttling of the skeleton screen display. Of course, you can also control the throttling of the skeleton screen disappearance by passing `{trailing: xxx}`
 
 :::
 
