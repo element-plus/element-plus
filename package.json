@@ -59,7 +59,7 @@
     "@types/lodash-es": "^4.17.6",
     "@vueuse/core": "^9.1.0",
     "async-validator": "^4.2.5",
-    "dayjs": "^1.11.3",
+    "dayjs": "^1.11.13",
     "escape-html": "^1.0.3",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
@@ -117,7 +117,7 @@
     "vitest": "^2.0.5",
     "vue": "^3.2.37",
     "vue-router": "^4.0.16",
-    "vue-tsc": "^2.1.6"
+    "vue-tsc": "^2.0.28"
   },
   "engines": {
     "node": ">= 18"

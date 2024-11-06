@@ -2721,6 +2721,19 @@ describe('Select', () => {
     const iconClear = wrapper.findComponent(CircleClose)
     await iconClear.trigger('click')
     expect(wrapper.findAll('.el-tag').length).toBe(1)
+    const selectInput = wrapper.find('.el-select__input')
+    await selectInput.trigger('keydown', {
+      code: EVENT_CODE.backspace,
+      key: EVENT_CODE.backspace,
+    })
+    await nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    await selectInput.trigger('keydown', {
+      code: EVENT_CODE.enter,
+      key: EVENT_CODE.enter,
+    })
+    await nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
   it('It should generate accessible attributes', async () => {
     wrapper = _mount(
