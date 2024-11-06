@@ -72,13 +72,8 @@ export default defineComponent({
     const isTableLayoutAuto = parent?.props.tableLayout === 'auto'
     const saveIndexSelection = reactive(new Map())
     const theadRef = ref()
-    onMounted(async () => {
-      // Need double await, because updateColumns is executed after nextTick for now
-      await nextTick()
-      await nextTick()
-      const { prop, order } = props.defaultSort
-      parent?.store.commit('sort', { prop, order, init: true })
 
+    const updateFixedColumnStyle = () => {
       setTimeout(() => {
         if (saveIndexSelection.size > 0) {
           saveIndexSelection.forEach((column, key) => {
@@ -93,7 +88,18 @@ export default defineComponent({
           saveIndexSelection.clear()
         }
       })
+    }
+
+    onMounted(async () => {
+      // Need double await, because updateColumns is executed after nextTick for now
+      await nextTick()
+      await nextTick()
+      const { prop, order } = props.defaultSort
+      parent?.store.commit('sort', { prop, order, init: true })
+
+      updateFixedColumnStyle()
     })
+
     const {
       handleHeaderClick,
       handleHeaderContextMenu,
@@ -141,6 +147,7 @@ export default defineComponent({
       saveIndexSelection,
       isTableLayoutAuto,
       theadRef,
+      updateFixedColumnStyle,
     }
   },
   render() {
