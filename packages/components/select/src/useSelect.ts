@@ -25,9 +25,9 @@ import {
   isIOS,
   isNumber,
   isObject,
+  isPlainObject,
   isUndefined,
   scrollIntoView,
-  toRawType,
 } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -424,9 +424,8 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const getOption = (value) => {
     let option
-    const isObjectValue = toRawType(value).toLowerCase() === 'object'
-    const isNull = toRawType(value).toLowerCase() === 'null'
-    const isUndefined = toRawType(value).toLowerCase() === 'undefined'
+    const isObjectValue = isPlainObject(value)
+    const isNullish = value === null || value === undefined
 
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
@@ -445,11 +444,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       }
     }
     if (option) return option
-    const label = isObjectValue
-      ? value.label
-      : !isNull && !isUndefined
-      ? value
-      : ''
+    const label = isObjectValue ? value.label : !isNullish ? value : ''
     const newOption = {
       value,
       currentLabel: label,
