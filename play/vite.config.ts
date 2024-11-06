@@ -61,7 +61,7 @@ export default defineConfig(async ({ mode }) => {
     },
     server: {
       host: true,
-      https: !!env.HTTPS,
+      https: !!env.HTTPS ? {} : false,
     },
     build: {
       sourcemap: true,
@@ -78,7 +78,7 @@ export default defineConfig(async ({ mode }) => {
       esbuildPlugin(),
       Components({
         include: `${__dirname}/**`,
-        resolvers: ElementPlusResolver({ importStyle: 'sass' }),
+        resolvers: ElementPlusResolver({ version: '2.0.0-dev.1', importStyle: 'sass' }),
         dts: false,
       }),
       mkcert(),
