@@ -92,7 +92,8 @@
       },
       {
         "link": "/datetime-picker",
-        "text": "DateTime Picker"
+        "text": "DateTime Picker",
+        "promotion": "2.8.7"
       },
       {
         "link": "/form",
@@ -255,7 +256,7 @@
       {
         "link": "/segmented",
         "text": "Segmented",
-        "promotion": "2.7.0"
+        "promotion": "2.8.7"
       }
     ]
   },
