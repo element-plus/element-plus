@@ -5,7 +5,10 @@ import {
   hasOwn,
   isArray,
   isBoolean,
+  isFunction,
+  isNumber,
   isObject,
+  isString,
   throwError,
 } from '@element-plus/utils'
 import ElTooltip, {
@@ -49,11 +52,11 @@ export const orderBy = function <T>(
   if (
     !sortKey &&
     !sortMethod &&
-    (!sortBy || (Array.isArray(sortBy) && !sortBy.length))
+    (!sortBy || (isArray(sortBy) && !sortBy.length))
   ) {
     return array
   }
-  if (typeof reverse === 'string') {
+  if (isString(reverse)) {
     reverse = reverse === 'descending' ? -1 : 1
   } else {
     reverse = reverse && reverse < 0 ? -1 : 1
@@ -62,11 +65,11 @@ export const orderBy = function <T>(
     ? null
     : function (value, index) {
         if (sortBy) {
-          if (!Array.isArray(sortBy)) {
+          if (!isArray(sortBy)) {
             sortBy = [sortBy]
           }
           return sortBy.map((by) => {
-            if (typeof by === 'string') {
+            if (isString(by)) {
               return get(value, by)
             } else {
               return by(value, index, array)
@@ -166,7 +169,7 @@ export const getRowIdentity = <T>(
   rowKey: string | ((row: T) => any)
 ): string => {
   if (!row) throw new Error('Row is required when get row identity')
-  if (typeof rowKey === 'string') {
+  if (isString(rowKey)) {
     if (!rowKey.includes('.')) {
       return `${row[rowKey]}`
     }
@@ -176,7 +179,7 @@ export const getRowIdentity = <T>(
       current = current[element]
     }
     return `${current}`
-  } else if (typeof rowKey === 'function') {
+  } else if (isFunction(rowKey)) {
     return rowKey.call(null, row)
   }
 }
@@ -232,10 +235,10 @@ export function parseMinWidth(minWidth: number | string): number | string {
 }
 
 export function parseHeight(height: number | string) {
-  if (typeof height === 'number') {
+  if (isNumber(height)) {
     return height
   }
-  if (typeof height === 'string') {
+  if (isString(height)) {
     if (/^\d+(?:px)?$/.test(height)) {
       return Number.parseInt(height, 10)
     } else {
@@ -332,7 +335,7 @@ export function walkTreeNode(
   childrenKey = 'children',
   lazyKey = 'hasChildren'
 ) {
-  const isNil = (array) => !(Array.isArray(array) && array.length)
+  const isNil = (array) => !(isArray(array) && array.length)
 
   function _walker(parent, children, level) {
     cb(parent, children, level)
