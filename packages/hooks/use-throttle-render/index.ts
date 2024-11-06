@@ -1,12 +1,15 @@
 import { onMounted, ref, watch } from 'vue'
 import { isNumber, isObject, isUndefined } from '@element-plus/utils'
 
-import type { SkeletonThrottle } from '@element-plus/components'
 import type { Ref } from 'vue'
+
+export type ThrottleType =
+  | { leading?: number; trailing?: number; initVal?: boolean }
+  | number
 
 export const useThrottleRender = (
   loading: Ref<boolean>,
-  throttle: SkeletonThrottle = 0
+  throttle: ThrottleType = 0
 ) => {
   if (throttle === 0) return loading
   const initVal = isObject(throttle) && Boolean(throttle.initVal)
