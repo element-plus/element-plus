@@ -1,6 +1,5 @@
 import { computed, inject, ref, unref } from 'vue'
 import { useGlobalSize, useProp } from '@element-plus/hooks'
-import { isUndefined } from '@element-plus/utils'
 import { formContextKey, formItemContextKey } from '../constants'
 
 import type { ComponentSize } from '@element-plus/constants'
@@ -37,8 +36,7 @@ export const useFormDisabled = (fallback?: MaybeRef<boolean | undefined>) => {
   const form = inject(formContextKey, undefined)
 
   return computed(() => {
-    if (!isUndefined(disabled.value)) return disabled.value
-    return unref(fallback) || form?.disabled || false
+    return disabled.value ?? unref(fallback) ?? form?.disabled ?? false
   })
 }
 
