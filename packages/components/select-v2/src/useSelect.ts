@@ -266,7 +266,8 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   )
 
   const calculatePopperSize = () => {
-    popperSize.value = selectRef.value?.offsetWidth || 200
+    // The popper has a border, so the occupied 2px should be deducted.
+    popperSize.value = (selectRef.value?.offsetWidth ?? 200) - 2
   }
 
   const getGapWidth = () => {

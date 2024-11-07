@@ -35,7 +35,8 @@ export default defineComponent({
     const minWidth = ref('')
 
     function updateMinWidth() {
-      minWidth.value = `${select.selectRef?.offsetWidth}px`
+      // The popper has a border, so the occupied 2px should be deducted.
+      minWidth.value = `${select.selectRef?.offsetWidth - 2}px`
     }
 
     onMounted(() => {
