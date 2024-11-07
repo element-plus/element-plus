@@ -236,14 +236,18 @@ export default defineComponent({
         .map((index) => subMenus.value[index])
         .filter((item) => !isUndefined(item))
 
-      isOpenTransition.value = false
-      _submenus.forEach(
-        (item, index) => index !== 0 && openedMenus.value.push(item.index)
-      )
+      if (_submenus.length > 1) {
+        isOpenTransition.value = false
+        _submenus.forEach(
+          (item, index) => index !== 0 && openedMenus.value.push(item.index)
+        )
 
-      await nextTick()
-      isOpenTransition.value = true
-      _submenus.forEach((item, index) => index !== 0 && openedMenus.value.pop())
+        await nextTick()
+        isOpenTransition.value = true
+        _submenus.forEach(
+          (item, index) => index !== 0 && openedMenus.value.pop()
+        )
+      }
 
       _submenus.forEach((item) => openMenu(item.index, item.indexPath))
     }
