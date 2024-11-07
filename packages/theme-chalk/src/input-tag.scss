@@ -10,17 +10,38 @@
 }
 
 @include b(input-tag) {
+  @include set-component-css-var('input-tag', $input-tag);
+  @include css-var-from-global('input-tag-mini-height', 'component-size');
+  @include set-css-var-value(
+    ('input-tag', 'gap'),
+    map.get($input-tag-gap, default)
+  );
+  @include set-css-var-value(
+    ('input-tag', 'padding'),
+    map.get($input-tag-padding, default)
+  );
+  @include set-css-var-value(
+    ('input-tag', 'padding-left'),
+    map.get($input-tag-padding-left, default)
+  );
+  @include set-css-var-value(
+    ('input-tag', 'line-height'),
+    map.get($tag-height, default)
+  );
+}
+
+@include b(input-tag) {
   position: relative;
   display: flex;
   align-items: center;
   box-sizing: border-box;
   cursor: pointer;
-  font-size: map.get($input-font-size, 'default');
-  padding: map.get($select-wrapper-padding, 'default');
-  gap: map.get($select-item-gap, 'default');
-  width: getCssVar('select-width');
-  min-height: map.get($input-height, 'default');
-  line-height: map.get($select-item-height, 'default');
+  font-size: getCssVar('input-tag-font-size');
+  padding: getCssVar('input-tag-padding');
+  gap: getCssVar('input-tag-gap');
+  width: getCssVar('input-tag-width');
+  min-height: getCssVar('input-tag-mini-height');
+  line-height: getCssVar('input-tag-line-height');
   border-radius: getCssVar('border-radius-base');
   background-color: getCssVar('fill-color', 'blank');
   transition: getCssVar('transition', 'duration');
@@ -41,10 +62,10 @@
     cursor: not-allowed;
 
     background-color: getCssVar('fill-color', 'light');
-    @include mixed-input-border(#{getCssVar('select-disabled-border')});
+    @include mixed-input-border(#{getCssVar('input-tag-disabled-border')});
 
     &:hover {
-      @include mixed-input-border(#{getCssVar('select-disabled-border')});
+      @include mixed-input-border(#{getCssVar('input-tag-disabled-border')});
     }
 
     &.is-focus {
@@ -60,7 +81,7 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    gap: map.get($select-item-gap, 'default');
+    padding-left: getCssVar('input-tag-padding-left');
     color: var(
       #{getCssVarName('input-icon-color')},
       map.get($input, 'icon-color')
@@ -71,7 +92,7 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    gap: map.get($select-item-gap, 'default');
+    gap: 8px;
     color: var(
       #{getCssVarName('input-icon-color')},
       map.get($input, 'icon-color')
@@ -84,7 +105,11 @@
     align-items: center;
     flex: 1;
     min-width: 0;
-    gap: map.get($select-item-gap, 'default');
+    gap: getCssVar('input-tag-gap');
+
+    &.is-space {
+      padding-left: getCssVar('input-tag-padding-left');
+    }
 
     .#{$namespace}-tag {
       cursor: pointer;
@@ -108,11 +133,11 @@
     border: none;
     outline: none;
     padding: 0;
-    color: getCssVar('select-multiple-input-color');
+    color: getCssVar('input-tag-text-color');
     font-size: inherit;
     font-family: inherit;
+    line-height: inherit;
     appearance: none;
-    height: map.get($select-item-height, 'default');
     width: 100%;
     background-color: transparent;
 
@@ -133,26 +158,32 @@
 
   @each $size in (large, small) {
     @include m($size) {
-      gap: map.get($select-item-gap, $size);
-      padding: map.get($select-wrapper-padding, $size);
-      min-height: map.get($input-height, $size);
-      line-height: map.get($select-item-height, $size);
-      font-size: map.get($input-font-size, $size);
+      @include set-css-var-value(
+        ('input-tag', 'gap'),
+        map.get($input-tag-gap, $size)
+      );
+      @include set-css-var-value(
+        ('input-tag', 'padding'),
+        map.get($input-tag-padding, $size)
+      );
+      @include set-css-var-value(
+        ('input-tag', 'padding-left'),
+        map.get($input-tag-padding-left, $size)
+      );
+      @include set-css-var-value(
+        ('input-tag', 'font-size'),
+        map.get($input-font-size, $size)
+      );
 
-      @include e(inner) {
-        gap: map.get($select-item-gap, $size);
-      }
-
-      @include e(prefix) {
-        gap: map.get($select-item-gap, $size);
-      }
-
-      @include e(suffix) {
-        gap: map.get($select-item-gap, $size);
-      }
-
-      @include e(input) {
-        height: map.get($select-item-height, $size);
+      @if $size == small {
+        @include set-css-var-value(
+          ('input-tag', 'line-height'),
+          map.get($tag-height, $size)
+        );
+        @include css-var-from-global(
+          'input-tag-mini-height',
+          ('component-size', $size)
+        );
       }
     }
   }

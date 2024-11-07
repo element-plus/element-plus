@@ -16,7 +16,6 @@ import {
 import { tagProps } from '@element-plus/components/tag/src/tag'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
-import type InputTag from './input-tag.vue'
 
 export const inputTagProps = buildProps({
   /**
@@ -134,5 +133,3 @@ export const inputTagEmits = {
   clear: () => true,
 }
 export type InputTagEmits = typeof inputTagEmits
-
-export type InputTagInstance = InstanceType<typeof InputTag>

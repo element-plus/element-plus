@@ -6,17 +6,18 @@
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
-    <div v-if="$slots.prefix" :class="ns.e('prefix')">
+    <div v-if="slots.prefix" :class="ns.e('prefix')">
       <slot name="prefix" />
     </div>
-    <div :class="ns.e('inner')">
+    <div :class="innerKls">
       <el-tag
         v-for="(item, index) in modelValue"
         :key="index"
-        :size="size"
+        :size="tagSize"
         :closable="!disabled"
-        :type="props.tagType"
-        :effect="props.tagEffect"
+        :type="tagType"
+        :effect="tagEffect"
+        disable-transitions
         @close="handleTagRemove(index)"
       >
         <slot name="tag" :value="item">
@@ -56,9 +57,7 @@
       </div>
     </div>
     <div :class="ns.e('suffix')">
-      <template v-if="!showClear">
-        <slot name="suffix" />
-      </template>
+      <slot name="suffix" />
       <el-icon
         v-if="showClear"
         :class="[ns.e('icon'), ns.e('clear')]"
@@ -70,9 +69,9 @@
       <el-icon
         v-if="validateState && validateIcon && needStatusIcon"
         :class="[
-          ns.e('icon'),
-          ns.e('validateIcon'),
-          ns.is('loading', validateState === 'validating'),
+          nsInput.e('icon'),
+          nsInput.e('validateIcon'),
+          nsInput.is('loading', validateState === 'validating'),
         ]"
       >
         <component :is="validateIcon" />
@@ -82,7 +81,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, shallowRef, useAttrs as useRawAttrs } from 'vue'
+import {
+  computed,
+  ref,
+  shallowRef,
+  useAttrs as useRawAttrs,
+  useSlots,
+  watch,
+} from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { CircleClose } from '@element-plus/icons-vue'
 import {
@@ -121,8 +127,10 @@ const { inputId } = useFormItemInputId(props, {
 const disabled = useFormDisabled()
 const size = useFormSize()
 const ns = useNamespace('input-tag')
+const nsInput = useNamespace('input')
 const rawAttrs = useRawAttrs()
 const attrs = useAttrs()
+const slots = useSlots()
 
 const inputRef = shallowRef<HTMLInputElement>()
 const calculatorRef = ref<HTMLElement>()
@@ -134,16 +142,24 @@ const containerKls = computed(() => [
   ns.b(),
   ns.is('focused', isFocused.value),
   ns.is('hovering', hovering.value),
-  ns.b(size.value),
+  ns.m(size.value),
+  nsInput.e('wrapper'),
   rawAttrs.class,
 ])
 const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
 ])
+const innerKls = computed(() => [
+  ns.e('inner'),
+  ns.is('space', !slots.prefix && !props.modelValue?.length),
+])
 const inputStyle = computed(() => ({
   minWidth: `${Math.max(calculatorWidth.value, MINIMUM_INPUT_WIDTH)}px`,
 }))
 
+const tagSize = computed(() => {
+  return ['small'].includes(size.value) ? 'small' : 'default'
+})
 const placeholder = computed(() => {
   return props.modelValue?.length ? undefined : props.placeholder
 })
@@ -152,7 +168,7 @@ const showClear = computed(() => {
     props.clearable &&
     !disabled.value &&
     !props.readonly &&
-    props.modelValue?.length &&
+    (props.modelValue?.length || inputValue.value) &&
     (isFocused.value || hovering.value)
   )
 })
@@ -170,15 +186,23 @@ const handleInput = (event: Event) => {
 const handleKeydown = (event: KeyboardEvent) => {
   switch (event.code) {
     case props.trigger:
+      event.preventDefault()
+      event.stopPropagation()
       handleTagAdd()
       break
     case EVENT_CODE.numpadEnter:
-      props.trigger === EVENT_CODE.enter && handleTagAdd()
+      if (props.trigger === EVENT_CODE.enter) {
+        event.preventDefault()
+        event.stopPropagation()
+        handleTagAdd()
+      }
       break
     case EVENT_CODE.backspace:
-      !inputValue.value &&
-        props.modelValue?.length &&
+      if (!inputValue.value && props.modelValue?.length) {
+        event.preventDefault()
+        event.stopPropagation()
         handleTagRemove(props.modelValue.length - 1)
+      }
       break
   }
 }
@@ -190,8 +214,7 @@ const handleTagAdd = () => {
   emit('tagAdd', inputValue.value)
   emit('change', list)
   emit('update:modelValue', list)
-  emit('input', '')
-  inputValue.value = ''
+  inputValue.value = undefined
 }
 
 const handleTagRemove = (index: number) => {
@@ -204,6 +227,7 @@ const handleTagRemove = (index: number) => {
 }
 
 const handleClear = () => {
+  inputValue.value = undefined
   emit('change', undefined)
   emit('update:modelValue', undefined)
   emit('clear')
@@ -235,6 +259,7 @@ const { wrapperRef, isFocused } = useFocusController(inputRef, {
     return disabled.value
   },
   afterBlur() {
+    handleTagAdd()
     if (props.validateEvent) {
       elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
     }
@@ -249,6 +274,15 @@ const {
 } = useComposition({ afterComposition: handleInput })
 
 useResizeObserver(calculatorRef, resetCalculatorWidth)
+
+watch(
+  () => props.modelValue,
+  () => {
+    if (props.validateEvent) {
+      elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+    }
+  }
+)
 
 defineExpose({
   focus,

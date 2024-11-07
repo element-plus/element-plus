@@ -877,6 +877,53 @@ $mention: map.merge(
   $mention
 );
 
+// InputTag
+// css3 var in packages/theme-chalk/src/input-tag.scss
+$input-tag: () !default;
+$input-tag: map.merge(
+  (
+    'border-color-hover': getCssVar('border-color-hover'),
+    'disabled-color': getCssVar('disabled-text-color'),
+    'disabled-border': getCssVar('disabled-border-color'),
+    'font-size': getCssVar('font-size-base'),
+    'close-hover-color': getCssVar('text-color-secondary'),
+    'text-color': getCssVar('text-color-regular'),
+    'input-focus-border-color': getCssVar('color-primary'),
+    'width': 100%,
+  ),
+  $input-tag
+);
+
+$input-tag-padding: () !default;
+$input-tag-padding: map.merge(
+  (
+    'large': 8px 16px 8px 8px,
+    'default': 4px 12px 4px 4px,
+    'small': 2px 8px 2px 2px,
+  ),
+  $input-tag-padding
+);
+
+$input-tag-padding-left: () !default;
+$input-tag-padding-left: map.merge(
+  (
+    'large': 8px,
+    'default': 8px,
+    'small': 6px,
+  ),
+  $input-tag-padding-left
+);
+
+$input-tag-gap: () !default;
+$input-tag-gap: map.merge(
+  (
+    'large': 6px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $input-tag-gap
+);
+
 // Table
 // css3 var in packages/theme-chalk/src/table.scss
 $table: () !default;
