@@ -434,6 +434,7 @@ const handlePasswordVisible = () => {
 
 const focus = async () => {
   // see: https://github.com/ElemeFE/element/issues/18573
+  _ref.value?.blur()
   await nextTick()
   _ref.value?.focus()
 }
