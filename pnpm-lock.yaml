@@ -119,9 +119,6 @@ importers:
       '@types/node':
         specifier: ^18.19.25
         version: 18.19.25
-      '@types/sass':
-        specifier: ^1.43.1
-        version: 1.43.1
       '@vitejs/plugin-vue':
         specifier: ^2.3.3
         version: 2.3.3(vite@5.4.10(@types/node@22.8.6)(sass@1.79.3)(terser@5.36.0))(vue@3.2.37)
@@ -2484,9 +2481,6 @@ packages:
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
-
-  '@types/sass@1.43.1':
-    resolution: {integrity: sha512-BPdoIt1lfJ6B7rw35ncdwBZrAssjcwzI5LByIrYs+tpXlj/CAkuVdRsgZDdP4lq5EjyWzwxZCqAoFyHKFwp32g==}
 
   '@types/tough-cookie@4.0.2':
     resolution: {integrity: sha512-Q5vtl1W5ue16D+nIaW8JWebSSraJVlK+EthKn7e7UcD4KWsaSJ8BqGPXNaPghgtcn/fhvrN17Tv8ksUsQpiplw==}
@@ -10454,10 +10448,6 @@ snapshots:
 
   '@types/resolve@1.20.2': {}
 
-  '@types/sass@1.43.1':
-    dependencies:
-      '@types/node': 18.19.25
-
   '@types/tough-cookie@4.0.2': {}
 
   '@types/undertaker-registry@1.0.1': {}
@@ -10748,6 +10738,10 @@ snapshots:
   '@vitejs/plugin-vue@2.3.3(vite@5.4.10(@types/node@22.8.6)(sass@1.79.3)(terser@5.36.0))(vue@3.2.37)':
     dependencies:
       vite: 5.4.10(@types/node@22.8.6)(sass@1.79.3)(terser@5.36.0)
+      vue: 3.2.37
+
+  '@vitejs/plugin-vue@2.3.3(vue@3.2.37)':
+    dependencies:
       vue: 3.2.37
 
   '@vitejs/plugin-vue@5.0.5(vite@5.3.3(@types/node@22.8.6)(sass@1.79.3)(terser@5.36.0))(vue@3.4.31(typescript@5.5.4))':
