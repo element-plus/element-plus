@@ -62,6 +62,7 @@ import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
+  isArray,
   isClient,
   isElement,
   isInContainer,
@@ -127,7 +128,7 @@ const imageStyle = computed<CSSProperties>(() => {
 
 const preview = computed(() => {
   const { previewSrcList } = props
-  return Array.isArray(previewSrcList) && previewSrcList.length > 0
+  return isArray(previewSrcList) && previewSrcList.length > 0
 })
 
 const imageIndex = computed(() => {

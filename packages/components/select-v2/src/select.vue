@@ -21,6 +21,7 @@
       :transition="`${nsSelect.namespace.value}-zoom-in-top`"
       trigger="click"
       :persistent="persistent"
+      :append-to="appendTo"
       @before-show="handleMenuEnter"
       @hide="states.isBeforeHide = false"
     >

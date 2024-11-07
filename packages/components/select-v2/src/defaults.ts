@@ -260,6 +260,10 @@ export const SelectProps = buildProps({
    * @description tag effect
    */
   tagEffect: { ...tagProps.effect, default: 'light' },
+  /**
+   * @description which element the select dropdown appends to
+   */
+  appendTo: String,
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 } as const)

@@ -815,7 +815,7 @@ watch(
   (val) => {
     if (val) {
       if (isMultipleType.value) return
-      if (Array.isArray(val)) return
+      if (isArray(val)) return
       innerDate.value = val
     } else {
       innerDate.value = getDefaultValue()
