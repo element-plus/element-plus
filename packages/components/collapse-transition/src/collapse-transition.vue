@@ -14,7 +14,7 @@ defineOptions({
 })
 
 const ns = useNamespace('collapse-transition')
-const isCollapseTransitionOpen = inject(collapseTransitionOpenKey)
+const isCollapseTransitionOpen = inject(collapseTransitionOpenKey, true)
 
 const reset = (el: RendererElement) => {
   el.style.maxHeight = ''
