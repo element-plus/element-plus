@@ -1,10 +1,12 @@
 <template>
-  <transition :name="ns.b()" v-on="on">
+  <transition :name="isCollapseTransitionOpen ? ns.b() : undefined" v-on="on">
     <slot />
   </transition>
 </template>
 <script lang="ts" setup>
+import { inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { collapseTransitionOpenKey } from './constants'
 import type { RendererElement } from '@vue/runtime-core'
 
 defineOptions({
@@ -12,6 +14,7 @@ defineOptions({
 })
 
 const ns = useNamespace('collapse-transition')
+const isCollapseTransitionOpen = inject(collapseTransitionOpenKey)
 
 const reset = (el: RendererElement) => {
   el.style.maxHeight = ''
