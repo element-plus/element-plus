@@ -14,7 +14,7 @@
         v-for="(item, index) in modelValue"
         :key="index"
         :size="tagSize"
-        :closable="!disabled"
+        :closable="closable"
         :type="tagType"
         :effect="tagEffect"
         disable-transitions
@@ -38,14 +38,13 @@
           :autocomplete="autocomplete"
           :tabindex="tabindex"
           :placeholder="placeholder"
-          :form="form"
           :autofocus="autofocus"
           :class="ns.e('input')"
           :style="inputStyle"
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
-          @change="handleInput"
+          @input="handleInput"
           @keydown="handleKeydown"
         />
         <span
@@ -106,7 +105,12 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
-import { NOOP, ValidateComponentsMap, debugWarn } from '@element-plus/utils'
+import {
+  NOOP,
+  ValidateComponentsMap,
+  debugWarn,
+  isUndefined,
+} from '@element-plus/utils'
 import { inputTagEmits, inputTagProps } from './input-tag'
 import type { StyleValue } from 'vue'
 
@@ -177,8 +181,19 @@ const validateState = computed(() => elFormItem?.validateState || '')
 const validateIcon = computed(() => {
   return validateState.value && ValidateComponentsMap[validateState.value]
 })
+const closable = computed(() => !(props.readonly || disabled.value))
+const inputLimit = computed(() => {
+  return isUndefined(props.max)
+    ? false
+    : (props.modelValue?.length ?? 0) >= props.max
+})
 
 const handleInput = (event: Event) => {
+  if (inputLimit.value) {
+    inputValue.value = undefined
+    return
+  }
+
   if (isComposing.value) return
   emit('input', (event.target as HTMLInputElement).value)
 }
@@ -208,7 +223,7 @@ const handleKeydown = (event: KeyboardEvent) => {
 }
 
 const handleTagAdd = () => {
-  if (!inputValue.value) return
+  if (!inputValue.value || inputLimit.value) return
   const list = [...(props.modelValue ?? []), inputValue.value]
 
   emit('tagAdd', inputValue.value)

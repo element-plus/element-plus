@@ -4,7 +4,6 @@ import {
   isArray,
   isString,
   isUndefined,
-  mutable,
 } from '@element-plus/utils'
 import { useSizeProp } from '@element-plus/hooks'
 import {
@@ -15,7 +14,7 @@ import {
 } from '@element-plus/constants'
 import { tagProps } from '@element-plus/components/tag/src/tag'
 
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type { ExtractPropTypes } from 'vue'
 
 export const inputTagProps = buildProps({
   /**
@@ -74,10 +73,6 @@ export const inputTagProps = buildProps({
    */
   placeholder: String,
   /**
-   * @description native input form
-   */
-  form: String,
-  /**
    * @description native input readonly
    */
   readonly: Boolean,
@@ -98,13 +93,6 @@ export const inputTagProps = buildProps({
   validateEvent: {
     type: Boolean,
     default: true,
-  },
-  /**
-   * @description input or textarea element style
-   */
-  inputStyle: {
-    type: definePropType<StyleValue>([Object, Array, String]),
-    default: () => mutable({} as const),
   },
   /**
    * @description native input autofocus
