@@ -108,16 +108,22 @@ const getItemCls = (item: Option) => {
   ]
 }
 
+const getSelectedElements = () => {
+  const selectedItem = segmentedRef.value?.querySelector(
+    '.is-selected'
+  ) as HTMLElement | null
+  const selectedItemInput = segmentedRef.value?.querySelector(
+    '.is-selected input'
+  ) as HTMLElement | null
+  return { selectedItem, selectedItemInput }
+}
+
 const updateSelect = () => {
   if (!segmentedRef.value) return
-  const selectedItem = segmentedRef.value.querySelector(
-    '.is-selected'
-  ) as HTMLElement
-  const selectedItemInput = segmentedRef.value.querySelector(
-    '.is-selected input'
-  ) as HTMLElement
+  const { selectedItem, selectedItemInput } = getSelectedElements()
   if (!selectedItem || !selectedItemInput) {
     state.width = 0
+    state.height = 0
     state.translateX = 0
     state.translateY = 0
     state.focusVisible = false
@@ -144,15 +150,19 @@ const segmentedCls = computed(() => [
   ns.is('block', props.block),
 ])
 
-const selectedStyle = computed(() => ({
-  width: props.direction === 'vertical' ? '100%' : `${state.width}px`,
-  height: props.direction === 'vertical' ? `${state.height}px` : '100%',
-  transform:
-    props.direction === 'vertical'
-      ? `translateY(${state.translateY}px)`
-      : `translateX(${state.translateX}px)`,
-  display: state.isInit ? 'block' : 'none',
-}))
+const selectedStyle = computed(() => {
+  const { selectedItem } = getSelectedElements()
+  const verticalWidth = selectedItem ? '100%' : 0
+  return {
+    width: props.direction === 'vertical' ? verticalWidth : `${state.width}px`,
+    height: props.direction === 'vertical' ? `${state.height}px` : '100%',
+    transform:
+      props.direction === 'vertical'
+        ? `translateY(${state.translateY}px)`
+        : `translateX(${state.translateX}px)`,
+    display: state.isInit ? 'block' : 'none',
+  }
+})
 
 const selectedCls = computed(() => [
   ns.e('item-selected'),

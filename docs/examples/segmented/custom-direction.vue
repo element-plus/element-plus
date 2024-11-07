@@ -6,6 +6,7 @@
       style="margin-bottom: 1rem"
     />
     <br />
+    <el-button @click="value = null">clear</el-button>
     <el-segmented
       v-model="direction"
       :options="directionOptions"
