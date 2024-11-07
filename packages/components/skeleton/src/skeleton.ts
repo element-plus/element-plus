@@ -1,6 +1,7 @@
-import { buildProps } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
 import type Skeleton from './skeleton.vue'
 import type { ExtractPropTypes } from 'vue'
+import type { ThrottleType } from '@element-plus/hooks'
 
 export const skeletonProps = buildProps({
   /**
@@ -35,7 +36,7 @@ export const skeletonProps = buildProps({
    * @description rendering delay in milliseconds
    */
   throttle: {
-    type: Number,
+    type: definePropType<ThrottleType>([Number, Object]),
   },
 } as const)
 export type SkeletonProps = ExtractPropTypes<typeof skeletonProps>
