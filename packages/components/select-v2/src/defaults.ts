@@ -285,6 +285,10 @@ export const SelectProps = buildProps({
    * @description which element the select dropdown appends to
    */
   appendTo: String,
+  /**
+   * @description The width of the dropdown panel
+   */
+  width: Number,
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 } as const)

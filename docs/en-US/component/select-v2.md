@@ -213,6 +213,16 @@ select-v2/custom-label
 
 :::
 
+## 自定义宽度 ^(2.8.8)
+
+下拉框默认会根据 `label` 的值进行计算，如果你通过 `default slot` 进行自定义下拉框选项时，很有可能选项内显示的文本并不等于 `label` 的值，从而导致计算错误，基于这种情况，我们可以使用 `width` 属性进行自定义下拉框宽度。
+
+:::demo
+
+select-v2/custom-width
+
+:::
+
 ## API
 
 ### Attributes
@@ -248,6 +258,7 @@ select-v2/custom-label
 | persistent                          | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | ^[boolean]                                                                                                                                                                  | true                                           |
 | popper-options                      | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                   | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                             |
 | automatic-dropdown                  | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                                        | ^[boolean]                                                                                                                                                                  | false                                          |
+| width ^(2.8.8)                      | The width of the dropdown panel                                                                                                          | ^[number]                                                                                                                                                                   | —                                              |
 | height                              | The height of the dropdown panel, 34px for each item                                                                                     | ^[number]                                                                                                                                                                   | 274                                            |
 | item-height                         | The height of the dropdown item                                                                                                          | ^[number]                                                                                                                                                                   | 34                                             |
 | scrollbar-always-on                 | Controls whether the scrollbar is always displayed                                                                                       | ^[boolean]                                                                                                                                                                  | false                                          |
