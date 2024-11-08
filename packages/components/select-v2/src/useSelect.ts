@@ -353,7 +353,33 @@ const useSelect: useSelectReturnType = (
   )
 
   const calculatePopperSize = () => {
-    popperSize.value = selectRef.value?.offsetWidth || 200
+    if (props.width !== undefined) {
+      popperSize.value = props.width
+      return
+    }
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+    const width = selectRef.value?.offsetWidth || 200
+    if (allOptions.value.length > 0 && ctx) {
+      nextTick(() => {
+        const selector = nsSelect.be('dropdown', 'item')
+        const dropdownItemEl = document.querySelector(`.${selector}`)
+        if (dropdownItemEl === null) return
+        const style = getComputedStyle(dropdownItemEl)
+        const padding =
+          Number.parseFloat(style.paddingLeft) +
+          Number.parseFloat(style.paddingRight)
+        ctx.font = style.font
+        let maxWidth = 0
+        allOptions.value.forEach((option) => {
+          const metrics = ctx.measureText(getLabel(option))
+          maxWidth = Math.max(metrics.width, maxWidth)
+        })
+        popperSize.value = Math.max(width, maxWidth + padding)
+      })
+    } else {
+      popperSize.value = width
+    }
   }
 
   const getGapWidth = () => {
