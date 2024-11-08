@@ -250,7 +250,6 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
   },
   afterBlur() {
     handleChange()
-    inputRef.value?.blur()
     pickerVisible.value = false
     hasJustTabExitedInput = false
     props.validateEvent &&

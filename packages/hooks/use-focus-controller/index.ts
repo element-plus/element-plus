@@ -41,6 +41,9 @@ export function useFocusController<T extends { focus: () => void }>(
   }
 
   const handleBlur = (event: FocusEvent) => {
+    if (!wrapperRef.value) {
+      return
+    }
     const cancelBlur = isFunction(beforeBlur) ? beforeBlur(event) : false
     if (
       cancelBlur ||
