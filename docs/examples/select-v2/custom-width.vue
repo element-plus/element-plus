@@ -12,7 +12,15 @@
       :options="options"
       placeholder="Please select"
       style="width: 240px"
-      :width="440"
+      fit-input-width
+    />
+
+    <el-select-v2
+      v-model="value"
+      :options="options"
+      placeholder="Please select"
+      style="width: 240px"
+      :fit-input-width="440"
     >
       <template #default="{ item }">
         <span>{{ item.value + item.label }}</span>
