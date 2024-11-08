@@ -425,7 +425,6 @@ export const useSelect = (props: ISelectProps, emit) => {
   const getOption = (value) => {
     let option
     const isObjectValue = isPlainObject(value)
-    const isNullish = value === null || value === undefined
 
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
@@ -444,7 +443,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       }
     }
     if (option) return option
-    const label = isObjectValue ? value.label : !isNullish ? value : ''
+    const label = isObjectValue ? value.label : value ?? ''
     const newOption = {
       value,
       currentLabel: label,
