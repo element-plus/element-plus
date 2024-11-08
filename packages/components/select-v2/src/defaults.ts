@@ -288,7 +288,7 @@ export const SelectProps = buildProps({
   /**
    * @description The width of the dropdown panel
    */
-  width: Number,
+  fitInputWidth: { type: [Boolean, Number], default: false },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 } as const)
