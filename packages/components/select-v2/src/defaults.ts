@@ -180,7 +180,7 @@ export const SelectProps = buildProps({
     type: String,
   },
   /**
-   * @description whether select dropdown is teleported to the body
+   * @description is teleported, if `true` it will be teleported to where `append-to` sets
    */
   teleported: useTooltipContentProps.teleported,
   /**
@@ -286,7 +286,9 @@ export const SelectProps = buildProps({
    */
   appendTo: String,
   /**
-   * @description The width of the dropdown panel
+   * @description if it is `true`, the width of the dropdown panel is the same as the input box.
+   * if it is `false`, the length is automatically calculated based on the value of `label`,
+   * or it can be set to a number to make it a fixed length
    */
   fitInputWidth: { type: [Boolean, Number], default: false },
   ...useEmptyValuesProps,

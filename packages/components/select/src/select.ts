@@ -161,7 +161,7 @@ export const SelectProps = buildProps({
     default: 1,
   },
   /**
-   * @description whether select dropdown is teleported to the body
+   * @description is teleported, if `true` it will be teleported to where `append-to` sets
    */
   teleported: useTooltipContentProps.teleported,
   /**
