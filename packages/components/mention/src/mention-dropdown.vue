@@ -18,7 +18,7 @@
         v-for="(item, index) in options"
         :id="`${contentId}-${index}`"
         ref="optionRefs"
-        :key="item.value"
+        :key="index"
         :class="optionkls(item, index)"
         role="option"
         :aria-disabled="item.disabled || disabled || undefined"
@@ -112,21 +112,8 @@ const navigateOptions = (direction: 'next' | 'prev') => {
   nextTick(() => scrollToOption(option))
 }
 
-const sortRefDomOrder = () => {
-  return optionRefs.value
-    ?.map((item) => ({
-      item,
-      value: Number(
-        item.getAttribute('id')?.replace(`${props.contentId}-`, '')
-      ),
-    }))
-    .sort((a, b) => a.value - b.value)
-    .map(({ item }) => item)
-}
-
 const scrollToOption = (option: MentionOption) => {
   const { options } = props
-  optionRefs.value = sortRefDomOrder()
 
   const index = options.findIndex((item) => item.value === option.value)
   const target = optionRefs.value?.[index]
