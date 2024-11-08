@@ -268,14 +268,14 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   )
 
   const calculatePopperSize = () => {
-    if (props.width !== undefined) {
-      popperSize.value = props.width
+    if (typeof props.fitInputWidth === 'number') {
+      popperSize.value = props.fitInputWidth
       return
     }
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
     const width = selectRef.value?.offsetWidth || 200
-    if (allOptions.value.length > 0 && ctx) {
+    if (!props.fitInputWidth && allOptions.value.length > 0 && ctx) {
       nextTick(() => {
         const selector = nsSelect.be('dropdown', 'item')
         const dropdownItemEl = document.querySelector(`.${selector}`)
