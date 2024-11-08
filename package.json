@@ -111,7 +111,6 @@
     "tsx": "^4.7.1",
     "type-fest": "^2.14.0",
     "typescript": "~5.5.4",
-    "unplugin-element-plus": "^0.4.0",
     "unplugin-vue-macros": "^2.7.11",
     "vitest": "^2.0.5",
     "vue": "^3.2.37",
