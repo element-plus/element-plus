@@ -60,7 +60,14 @@
       @focus="handleFocus"
       @input="handleInput"
       @change="handleInputChange"
-    />
+    >
+      <template v-if="$slots.prefix" #prefix>
+        <slot name="prefix" />
+      </template>
+      <template v-if="$slots.suffix" #suffix>
+        <slot name="suffix" />
+      </template>
+    </el-input>
   </div>
 </template>
 <script lang="ts" setup>
@@ -222,6 +229,9 @@ const verifyValue = (
   }
   if (stepStrictly) {
     newVal = toPrecision(Math.round(newVal / step) * step, precision)
+    if (newVal !== value) {
+      update && emit(UPDATE_MODEL_EVENT, newVal)
+    }
   }
   if (!isUndefined(precision)) {
     newVal = toPrecision(newVal, precision)
