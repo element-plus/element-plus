@@ -6,7 +6,6 @@ import {
   inject,
   nextTick,
   onMounted,
-  reactive,
   ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
