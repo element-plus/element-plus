@@ -195,10 +195,8 @@ export default defineComponent({
               subColumns,
               column
             )
-            if (isTableLayoutAuto) {
-              if (column.fixed) {
-                saveIndexSelection.set(_class, column)
-              }
+            if (isTableLayoutAuto && column.fixed) {
+              saveIndexSelection.set(_class, column)
             }
             return h(
               'th',
