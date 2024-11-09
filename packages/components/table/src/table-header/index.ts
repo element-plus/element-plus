@@ -70,7 +70,7 @@ export default defineComponent({
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
 
     const isTableLayoutAuto = parent?.props.tableLayout === 'auto'
-    const saveIndexSelection = reactive(new Map())
+    const saveIndexSelection = new Map()
     const theadRef = ref()
 
     const updateFixedColumnStyle = () => {
