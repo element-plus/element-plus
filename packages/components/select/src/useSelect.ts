@@ -620,7 +620,12 @@ export const useSelect = (props: ISelectProps, emit) => {
     scrollbarRef.value?.handleScroll()
   }
 
+  const prevSameOptionValues = ref<SelectOptionProxy[]>([])
+
   const onOptionCreate = (vm: SelectOptionProxy) => {
+    if (states.options.has(vm.value)) {
+      prevSameOptionValues.value.push(states.options.get(vm.value))
+    }
     states.options.set(vm.value, vm)
     states.cachedOptions.set(vm.value, vm)
   }
@@ -628,6 +633,12 @@ export const useSelect = (props: ISelectProps, emit) => {
   const onOptionDestroy = (key, vm: SelectOptionProxy) => {
     if (states.options.get(key) === vm) {
       states.options.delete(key)
+    }
+    if (prevSameOptionValues.value.length) {
+      prevSameOptionValues.value.forEach((item) => {
+        states.options.set(item.value, item)
+      })
+      prevSameOptionValues.value = []
     }
   }
 
