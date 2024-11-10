@@ -40,7 +40,7 @@ export const descriptionItemProps = buildProps({
     default: '',
   },
   /**
-   * @description column label width, if not set, it will be the same as the width of the column
+   * @description column label width, if not set, it will be the same as the width of the column. Higher priority than the `label-width` of `Descriptions`
    */
   labelWidth: {
     type: [String, Number],

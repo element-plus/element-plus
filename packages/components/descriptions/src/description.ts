@@ -43,7 +43,7 @@ export const descriptionProps = buildProps({
     default: '',
   },
   /**
-   * @description width of every label of `Descriptions Item`
+   * @description width of every label column
    */
   labelWidth: {
     type: [String, Number],
