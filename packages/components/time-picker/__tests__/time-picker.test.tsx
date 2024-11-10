@@ -24,6 +24,19 @@ const getSpinnerTextAsArray = (dom, selector) => {
     .map((node) => Number(node.textContent))
 }
 
+const compareTime = (
+  date: Date,
+  hour: number,
+  minute: number,
+  second: number
+) => {
+  return (
+    date.getHours() === hour &&
+    date.getMinutes() === minute &&
+    date.getSeconds() === second
+  )
+}
+
 afterEach(() => {
   document.body.innerHTML = ''
 })
@@ -477,17 +490,17 @@ describe('TimePicker', () => {
     ))
     date.value = new Date(2002, 7, 11, 10, 20, 45)
     await nextTick()
-    expect(date.value.toLocaleTimeString()).include('01:01:00')
+    expect(compareTime(date.value, 1, 1, 0)).toEqual(true)
     // Update disabled hours, minutes, and seconds
     disabledHours.value = () => [1, 2, 3]
     disabledMinutes.value = () => [4, 5, 6]
     disabledSeconds.value = () => [7, 8, 9]
     date.value = new Date(2002, 7, 11, 10, 20, 45)
     await nextTick()
-    expect(date.value.toLocaleTimeString()).include('10:20:45')
+    expect(compareTime(date.value, 10, 20, 45)).toEqual(true)
     date.value = new Date(2002, 7, 11, 3, 11, 9)
     await nextTick()
-    expect(date.value.toLocaleTimeString()).include('00:11:00')
+    expect(compareTime(date.value, 0, 11, 0)).toEqual(true)
   })
 })
 
@@ -987,7 +1000,7 @@ describe('TimePicker(range)', () => {
       new Date(2002, 7, 12, 6, 16, 26),
     ]
     await nextTick()
-    expect(date.value[0].toLocaleTimeString()).include('01:01:00')
+    expect(compareTime(date.value[0], 1, 1, 0)).toEqual(true)
     // Update disabled hours, minutes, and seconds
     disabledHours.value = () => [1, 2, 3]
     disabledMinutes.value = () => [4, 5, 6]
@@ -997,13 +1010,13 @@ describe('TimePicker(range)', () => {
       new Date(2002, 7, 12, 6, 16, 26),
     ]
     await nextTick()
-    expect(date.value[0].toLocaleTimeString()).include('00:20:45')
+    expect(compareTime(date.value[0], 0, 20, 45)).toEqual(true)
     date.value = [
       new Date(2002, 7, 11, 3, 11, 9),
       new Date(2002, 7, 12, 6, 16, 26),
     ]
     await nextTick()
-    expect(date.value[0].toLocaleTimeString()).include('00:11:00')
+    expect(compareTime(date.value[0], 0, 11, 0)).toEqual(true)
   })
 
   describe('It should generate accessible attributes', () => {
