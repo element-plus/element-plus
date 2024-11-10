@@ -20,7 +20,7 @@
             :disabled-minutes="disabledMinutes_"
             :disabled-seconds="disabledSeconds_"
             @change="handleMinChange"
-            @set-option="onSetOption"
+            @set-option="timePanel.onSetOption"
             @select-range="setMinSelectionRange"
           />
         </div>
@@ -41,7 +41,7 @@
             :disabled-minutes="disabledMinutes_"
             :disabled-seconds="disabledSeconds_"
             @change="handleMaxChange"
-            @set-option="onSetOption"
+            @set-option="timePanel.onSetOption"
             @select-range="setMaxSelectionRange"
           />
         </div>
@@ -76,12 +76,12 @@ import { isArray } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { panelTimeRangeProps } from '../props/panel-time-range'
 import { useTimePanel } from '../composables/use-time-panel'
+import { type TimePickerContext } from '../types'
 import {
   buildAvailableTimeSlotGetter,
   useOldValue,
 } from '../composables/use-time-picker'
 import TimeSpinner from './basic-time-spinner.vue'
-
 import type { Dayjs } from 'dayjs'
 
 const props = defineProps(panelTimeRangeProps)
@@ -98,14 +98,8 @@ const makeSelectRange = (start: number, end: number) => {
 const { t, lang } = useLocale()
 const nsTime = useNamespace('time')
 const nsPicker = useNamespace('picker')
-const pickerBase = inject('EP_PICKER_BASE') as any
-const {
-  arrowControl,
-  disabledHours,
-  disabledMinutes,
-  disabledSeconds,
-  defaultValue,
-} = pickerBase.props
+const pickerBase = inject<TimePickerContext>('EP_PICKER_BASE')!
+const { arrowControl, defaultValue } = pickerBase.props
 
 const startContainerKls = computed(() => [
   nsTime.be('range-picker', 'body'),
@@ -182,9 +176,11 @@ const changeSelectionRange = (step: number) => {
   const next = (index + step + list.length) % list.length
   const half = list.length / 2
   if (next < half) {
-    timePickerOptions['start_emitSelectRange'](mapping[next])
+    timePanel.value.timePickerOptions['start_emitSelectRange'](mapping[next])
   } else {
-    timePickerOptions['end_emitSelectRange'](mapping[next - half])
+    timePanel.value.timePickerOptions['end_emitSelectRange'](
+      mapping[next - half]
+    )
   }
 }
 
@@ -203,13 +199,14 @@ const handleKeydown = (event: KeyboardEvent) => {
   if ([up, down].includes(code)) {
     const step = code === up ? -1 : 1
     const role = selectionRange.value[0] < offset.value ? 'start' : 'end'
-    timePickerOptions[`${role}_scrollDown`](step)
+    timePanel.value.timePickerOptions[`${role}_scrollDown`](step)
     event.preventDefault()
     return
   }
 }
 
-const disabledHours_ = (role: string, compare?: Dayjs) => {
+const disabledHours_ = computed(() => (role: string, compare?: Dayjs) => {
+  const { disabledHours } = pickerBase.props
   const defaultDisable = disabledHours ? disabledHours(role) : []
   const isStart = role === 'start'
   const compareDate = compare || (isStart ? endTime.value : startTime.value)
@@ -218,68 +215,65 @@ const disabledHours_ = (role: string, compare?: Dayjs) => {
     ? makeSelectRange(compareHour + 1, 23)
     : makeSelectRange(0, compareHour - 1)
   return union(defaultDisable, nextDisable)
-}
-const disabledMinutes_ = (hour: number, role: string, compare?: Dayjs) => {
-  const defaultDisable = disabledMinutes ? disabledMinutes(hour, role) : []
-  const isStart = role === 'start'
-  const compareDate = compare || (isStart ? endTime.value : startTime.value)
-  const compareHour = compareDate.hour()
-  if (hour !== compareHour) {
-    return defaultDisable
+})
+const disabledMinutes_ = computed(
+  () => (hour: number, role: string, compare?: Dayjs) => {
+    const { disabledMinutes } = pickerBase.props
+    const defaultDisable = disabledMinutes ? disabledMinutes(hour, role) : []
+    const isStart = role === 'start'
+    const compareDate = compare || (isStart ? endTime.value : startTime.value)
+    const compareHour = compareDate.hour()
+    if (hour !== compareHour) {
+      return defaultDisable
+    }
+    const compareMinute = compareDate.minute()
+    const nextDisable = isStart
+      ? makeSelectRange(compareMinute + 1, 59)
+      : makeSelectRange(0, compareMinute - 1)
+    return union(defaultDisable, nextDisable)
   }
-  const compareMinute = compareDate.minute()
-  const nextDisable = isStart
-    ? makeSelectRange(compareMinute + 1, 59)
-    : makeSelectRange(0, compareMinute - 1)
-  return union(defaultDisable, nextDisable)
-}
-const disabledSeconds_ = (
-  hour: number,
-  minute: number,
-  role: string,
-  compare?: Dayjs
-) => {
-  const defaultDisable = disabledSeconds
-    ? disabledSeconds(hour, minute, role)
-    : []
-  const isStart = role === 'start'
-  const compareDate = compare || (isStart ? endTime.value : startTime.value)
-  const compareHour = compareDate.hour()
-  const compareMinute = compareDate.minute()
-  if (hour !== compareHour || minute !== compareMinute) {
-    return defaultDisable
+)
+const disabledSeconds_ = computed(
+  () => (hour: number, minute: number, role: string, compare?: Dayjs) => {
+    const { disabledSeconds } = pickerBase.props
+    const defaultDisable = disabledSeconds
+      ? disabledSeconds(hour, minute, role)
+      : []
+    const isStart = role === 'start'
+    const compareDate = compare || (isStart ? endTime.value : startTime.value)
+    const compareHour = compareDate.hour()
+    const compareMinute = compareDate.minute()
+    if (hour !== compareHour || minute !== compareMinute) {
+      return defaultDisable
+    }
+    const compareSecond = compareDate.second()
+    const nextDisable = isStart
+      ? makeSelectRange(compareSecond + 1, 59)
+      : makeSelectRange(0, compareSecond - 1)
+    return union(defaultDisable, nextDisable)
   }
-  const compareSecond = compareDate.second()
-  const nextDisable = isStart
-    ? makeSelectRange(compareSecond + 1, 59)
-    : makeSelectRange(0, compareSecond - 1)
-  return union(defaultDisable, nextDisable)
-}
+)
+
+const timePanel = computed(() => {
+  const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
+    buildAvailableTimeSlotGetter(
+      disabledHours_.value,
+      disabledMinutes_.value,
+      disabledSeconds_.value
+    )
+  return useTimePanel({
+    getAvailableHours,
+    getAvailableMinutes,
+    getAvailableSeconds,
+  })
+})
 
 const getRangeAvailableTime = ([start, end]: Array<Dayjs>) => {
   return [
-    getAvailableTime(start, 'start', true, end),
-    getAvailableTime(end, 'end', false, start),
+    timePanel.value.getAvailableTime(start, 'start', true, end),
+    timePanel.value.getAvailableTime(end, 'end', false, start),
   ] as const
 }
-
-const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
-  buildAvailableTimeSlotGetter(
-    disabledHours_,
-    disabledMinutes_,
-    disabledSeconds_
-  )
-
-const {
-  timePickerOptions,
-
-  getAvailableTime,
-  onSetOption,
-} = useTimePanel({
-  getAvailableHours,
-  getAvailableMinutes,
-  getAvailableSeconds,
-})
 
 const parseUserInput = (days: Dayjs[] | Dayjs) => {
   if (!days) return null

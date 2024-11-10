@@ -13,7 +13,7 @@
           :disabled-minutes="disabledMinutes"
           :disabled-seconds="disabledSeconds"
           @change="handleChange"
-          @set-option="onSetOption"
+          @set-option="timePanel.onSetOption"
           @select-range="setSelectionRange"
         />
       </div>
@@ -49,6 +49,7 @@ import {
   buildAvailableTimeSlotGetter,
   useOldValue,
 } from '../composables/use-time-picker'
+import { type TimePickerContext } from '../types'
 import TimeSpinner from './basic-time-spinner.vue'
 
 import type { Dayjs } from 'dayjs'
@@ -57,16 +58,26 @@ const props = defineProps(panelTimePickerProps)
 const emit = defineEmits(['pick', 'select-range', 'set-picker-option'])
 
 // Injections
-const pickerBase = inject('EP_PICKER_BASE') as any
-const {
-  arrowControl,
-  disabledHours,
-  disabledMinutes,
-  disabledSeconds,
-  defaultValue,
-} = pickerBase.props
-const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
-  buildAvailableTimeSlotGetter(disabledHours, disabledMinutes, disabledSeconds)
+const pickerBase = inject<TimePickerContext>('EP_PICKER_BASE')!
+const { arrowControl, defaultValue } = pickerBase.props
+
+const disabledHours = computed(() => pickerBase.props.disabledHours)
+const disabledMinutes = computed(() => pickerBase.props.disabledMinutes)
+const disabledSeconds = computed(() => pickerBase.props.disabledSeconds)
+
+const timePanel = computed(() => {
+  const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
+    buildAvailableTimeSlotGetter(
+      disabledHours.value,
+      disabledMinutes.value,
+      disabledSeconds.value
+    )
+  return useTimePanel({
+    getAvailableHours,
+    getAvailableMinutes,
+    getAvailableSeconds,
+  })
+})
 
 const ns = useNamespace('time')
 const { t, lang } = useLocale()
@@ -121,7 +132,7 @@ const changeSelectionRange = (step: number) => {
   )
   const index = list.indexOf(selectionRange.value[0])
   const next = (index + step + list.length) % list.length
-  timePickerOptions['start_emitSelectRange'](mapping[next])
+  timePanel.value.timePickerOptions['start_emitSelectRange'](mapping[next])
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
@@ -138,20 +149,14 @@ const handleKeydown = (event: KeyboardEvent) => {
 
   if ([up, down].includes(code)) {
     const step = code === up ? -1 : 1
-    timePickerOptions['start_scrollDown'](step)
+    timePanel.value.timePickerOptions['start_scrollDown'](step)
     event.preventDefault()
     return
   }
 }
 
-const { timePickerOptions, onSetOption, getAvailableTime } = useTimePanel({
-  getAvailableHours,
-  getAvailableMinutes,
-  getAvailableSeconds,
-})
-
 const getRangeAvailableTime = (date: Dayjs) => {
-  return getAvailableTime(date, props.datetimeRole || '', true)
+  return timePanel.value.getAvailableTime(date, props.datetimeRole || '', true)
 }
 
 const parseUserInput = (value: Dayjs) => {
@@ -165,7 +170,13 @@ const formatToString = (value: Dayjs) => {
 }
 
 const getDefaultValue = () => {
-  return dayjs(defaultValue).locale(lang.value)
+  let defaultValue_: Date | undefined = undefined
+  if (Array.isArray(defaultValue)) {
+    defaultValue_ = defaultValue[0]
+  } else {
+    defaultValue_ = defaultValue
+  }
+  return dayjs(defaultValue_).locale(lang.value)
 }
 
 emit('set-picker-option', ['isValidValue', isValidValue])
