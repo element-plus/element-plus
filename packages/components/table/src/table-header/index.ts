@@ -67,13 +67,38 @@ export default defineComponent({
     const ns = useNamespace('table')
     const filterPanels = ref({})
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
+
+    const isTableLayoutAuto = parent?.props.tableLayout === 'auto'
+    const saveIndexSelection = new Map()
+    const theadRef = ref()
+
+    const updateFixedColumnStyle = () => {
+      setTimeout(() => {
+        if (saveIndexSelection.size > 0) {
+          saveIndexSelection.forEach((column, key) => {
+            const el = theadRef.value.querySelector(
+              `.${key.replace(/\s/g, '.')}`
+            )
+            if (el) {
+              const width = el.getBoundingClientRect().width
+              column.width = width
+            }
+          })
+          saveIndexSelection.clear()
+        }
+      })
+    }
+
     onMounted(async () => {
       // Need double await, because updateColumns is executed after nextTick for now
       await nextTick()
       await nextTick()
       const { prop, order } = props.defaultSort
       parent?.store.commit('sort', { prop, order, init: true })
+
+      updateFixedColumnStyle()
     })
+
     const {
       handleHeaderClick,
       handleHeaderContextMenu,
@@ -118,6 +143,10 @@ export default defineComponent({
       handleFilterClick,
       isGroup,
       toggleAllSelection,
+      saveIndexSelection,
+      isTableLayoutAuto,
+      theadRef,
+      updateFixedColumnStyle,
     }
   },
   render() {
@@ -137,11 +166,14 @@ export default defineComponent({
       handleMouseOut,
       store,
       $parent,
+      saveIndexSelection,
+      isTableLayoutAuto,
     } = this
     let rowSpan = 1
     return h(
       'thead',
       {
+        ref: 'theadRef',
         class: { [ns.is('group')]: isGroup },
       },
       columnRows.map((subColumns, rowIndex) =>
@@ -156,15 +188,19 @@ export default defineComponent({
             if (column.rowSpan > rowSpan) {
               rowSpan = column.rowSpan
             }
+            const _class = getHeaderCellClass(
+              rowIndex,
+              cellIndex,
+              subColumns,
+              column
+            )
+            if (isTableLayoutAuto && column.fixed) {
+              saveIndexSelection.set(_class, column)
+            }
             return h(
               'th',
               {
-                class: getHeaderCellClass(
-                  rowIndex,
-                  cellIndex,
-                  subColumns,
-                  column
-                ),
+                class: _class,
                 colspan: column.colSpan,
                 key: `${column.id}-thead`,
                 rowspan: column.rowSpan,
