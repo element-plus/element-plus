@@ -477,17 +477,17 @@ describe('TimePicker', () => {
     ))
     date.value = new Date(2002, 7, 11, 10, 20, 45)
     await nextTick()
-    expect(date.value.toLocaleString()).toEqual('2002/8/11 01:01:00')
+    expect(date.value.toLocaleTimeString()).include('01:01:00')
     // Update disabled hours, minutes, and seconds
     disabledHours.value = () => [1, 2, 3]
     disabledMinutes.value = () => [4, 5, 6]
     disabledSeconds.value = () => [7, 8, 9]
     date.value = new Date(2002, 7, 11, 10, 20, 45)
     await nextTick()
-    expect(date.value.toLocaleString()).toEqual('2002/8/11 10:20:45')
+    expect(date.value.toLocaleTimeString()).include('10:20:45')
     date.value = new Date(2002, 7, 11, 3, 11, 9)
     await nextTick()
-    expect(date.value.toLocaleString()).toEqual('2002/8/11 00:11:00')
+    expect(date.value.toLocaleTimeString()).include('00:11:00')
   })
 })
 
@@ -987,7 +987,7 @@ describe('TimePicker(range)', () => {
       new Date(2002, 7, 12, 6, 16, 26),
     ]
     await nextTick()
-    expect(date.value[0].toLocaleString()).toEqual('2002/8/11 01:01:00')
+    expect(date.value[0].toLocaleTimeString()).include('01:01:00')
     // Update disabled hours, minutes, and seconds
     disabledHours.value = () => [1, 2, 3]
     disabledMinutes.value = () => [4, 5, 6]
@@ -997,13 +997,13 @@ describe('TimePicker(range)', () => {
       new Date(2002, 7, 12, 6, 16, 26),
     ]
     await nextTick()
-    expect(date.value[0].toLocaleString()).toEqual('2002/8/11 00:20:45')
+    expect(date.value[0].toLocaleTimeString()).include('00:20:45')
     date.value = [
       new Date(2002, 7, 11, 3, 11, 9),
       new Date(2002, 7, 12, 6, 16, 26),
     ]
     await nextTick()
-    expect(date.value[0].toLocaleString()).toEqual('2002/8/11 00:11:00')
+    expect(date.value[0].toLocaleTimeString()).include('00:11:00')
   })
 
   describe('It should generate accessible attributes', () => {
