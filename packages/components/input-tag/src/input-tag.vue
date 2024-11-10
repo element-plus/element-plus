@@ -223,10 +223,11 @@ const handleKeydown = (event: KeyboardEvent) => {
 }
 
 const handleTagAdd = () => {
-  if (!inputValue.value || inputLimit.value) return
-  const list = [...(props.modelValue ?? []), inputValue.value]
+  const value = inputValue.value?.trim()
+  if (!value || inputLimit.value) return
+  const list = [...(props.modelValue ?? []), value]
 
-  emit('tagAdd', inputValue.value)
+  emit('tagAdd', value)
   emit('change', list)
   emit('update:modelValue', list)
   inputValue.value = undefined
