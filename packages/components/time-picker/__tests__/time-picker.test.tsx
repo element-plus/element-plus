@@ -461,6 +461,34 @@ describe('TimePicker', () => {
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(20)
   })
+
+  it('should disable hours, minutes, and seconds dynamically', async () => {
+    const date = ref(new Date(2002, 7, 11, 6, 16, 26))
+    const disabledHours = ref(() => [0, 10, 20])
+    const disabledMinutes = ref(() => [0, 10, 20, 30, 40, 50])
+    const disabledSeconds = ref(() => [15, 45])
+    mount(() => (
+      <TimePicker
+        v-model={date.value}
+        disabled-hours={disabledHours.value}
+        disabled-minutes={disabledMinutes.value}
+        disabled-seconds={disabledSeconds.value}
+      />
+    ))
+    date.value = new Date(2002, 7, 11, 10, 20, 45)
+    await nextTick()
+    expect(date.value.toLocaleString()).toEqual('2002/8/11 01:01:00')
+    // Update disabled hours, minutes, and seconds
+    disabledHours.value = () => [1, 2, 3]
+    disabledMinutes.value = () => [4, 5, 6]
+    disabledSeconds.value = () => [7, 8, 9]
+    date.value = new Date(2002, 7, 11, 10, 20, 45)
+    await nextTick()
+    expect(date.value.toLocaleString()).toEqual('2002/8/11 10:20:45')
+    date.value = new Date(2002, 7, 11, 3, 11, 9)
+    await nextTick()
+    expect(date.value.toLocaleString()).toEqual('2002/8/11 00:11:00')
+  })
 })
 
 describe('TimePicker(range)', () => {
@@ -935,6 +963,47 @@ describe('TimePicker(range)', () => {
     await clearIcon.trigger('click')
     await nextTick()
     expect(value.value).toEqual(null)
+  })
+
+  it('should disable hours, minutes, and seconds dynamically', async () => {
+    const date = ref([
+      new Date(2002, 7, 11, 6, 16, 26),
+      new Date(2002, 7, 12, 6, 16, 26),
+    ])
+    const disabledHours = ref(() => [0, 10, 20])
+    const disabledMinutes = ref(() => [0, 10, 20, 30, 40, 50])
+    const disabledSeconds = ref(() => [15, 45])
+    mount(() => (
+      <TimePicker
+        v-model={date.value}
+        disabled-hours={disabledHours.value}
+        disabled-minutes={disabledMinutes.value}
+        disabled-seconds={disabledSeconds.value}
+        is-range
+      />
+    ))
+    date.value = [
+      new Date(2002, 7, 11, 10, 20, 45),
+      new Date(2002, 7, 12, 6, 16, 26),
+    ]
+    await nextTick()
+    expect(date.value[0].toLocaleString()).toEqual('2002/8/11 01:01:00')
+    // Update disabled hours, minutes, and seconds
+    disabledHours.value = () => [1, 2, 3]
+    disabledMinutes.value = () => [4, 5, 6]
+    disabledSeconds.value = () => [7, 8, 9]
+    date.value = [
+      new Date(2002, 7, 11, 10, 20, 45),
+      new Date(2002, 7, 12, 6, 16, 26),
+    ]
+    await nextTick()
+    expect(date.value[0].toLocaleString()).toEqual('2002/8/11 00:20:45')
+    date.value = [
+      new Date(2002, 7, 11, 3, 11, 9),
+      new Date(2002, 7, 12, 6, 16, 26),
+    ]
+    await nextTick()
+    expect(date.value[0].toLocaleString()).toEqual('2002/8/11 00:11:00')
   })
 
   describe('It should generate accessible attributes', () => {
