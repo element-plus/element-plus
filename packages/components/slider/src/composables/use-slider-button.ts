@@ -13,8 +13,6 @@ import type {
 } from '../button'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 
-const { left, down, right, up, home, end, pageUp, pageDown } = EVENT_CODE
-
 const useTooltip = (
   props: SliderButtonProps,
   formatTooltip: Ref<SliderProps['formatTooltip']>,
@@ -151,21 +149,33 @@ export const useSliderButton = (
 
   const onKeyDown = (event: KeyboardEvent) => {
     let isPreventDefault = true
-    if ([left, down].includes(event.key)) {
-      onLeftKeyDown()
-    } else if ([right, up].includes(event.key)) {
-      onRightKeyDown()
-    } else if (event.key === home) {
-      onHomeKeyDown()
-    } else if (event.key === end) {
-      onEndKeyDown()
-    } else if (event.key === pageDown) {
-      onPageDownKeyDown()
-    } else if (event.key === pageUp) {
-      onPageUpKeyDown()
-    } else {
-      isPreventDefault = false
+
+    switch (event.code) {
+      case EVENT_CODE.left:
+      case EVENT_CODE.down:
+        onLeftKeyDown()
+        break
+      case EVENT_CODE.right:
+      case EVENT_CODE.up:
+        onRightKeyDown()
+        break
+      case EVENT_CODE.home:
+        onHomeKeyDown()
+        break
+      case EVENT_CODE.end:
+        onEndKeyDown()
+        break
+      case EVENT_CODE.pageDown:
+        onPageDownKeyDown()
+        break
+      case EVENT_CODE.pageUp:
+        onPageUpKeyDown()
+        break
+      default:
+        isPreventDefault = false
+        break
     }
+
     isPreventDefault && event.preventDefault()
   }
 
