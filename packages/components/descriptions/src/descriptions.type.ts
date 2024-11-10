@@ -7,6 +7,7 @@ export interface IDescriptionsInject {
   size: ComponentSize
   title: string
   extra: string
+  labelWidth: string | number
 }
 
 export interface IDescriptionsItemInject {

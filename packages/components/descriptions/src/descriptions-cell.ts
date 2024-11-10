@@ -53,7 +53,9 @@ export default defineComponent({
     const className = item.className
     const labelClassName = item.labelClassName
     const width =
-      this.type === 'label' ? item.labelWidth || item.width : item.width
+      this.type === 'label'
+        ? item.labelWidth || this.descriptions.labelWidth || item.width
+        : item.width
 
     const style = {
       width: addUnit(width),
