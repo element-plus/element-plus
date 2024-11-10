@@ -238,7 +238,7 @@ let hasJustTabExitedInput = false
 
 const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
   beforeFocus() {
-    return !props.editable || props.readonly || pickerDisabled.value
+    return props.readonly || pickerDisabled.value
   },
   afterFocus() {
     pickerVisible.value = true

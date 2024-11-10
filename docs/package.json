@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "pnpm gen-locale && vitepress dev .",
-    "build": "NODE_ENV=production && vitepress build . && tsx .vitepress/build/rebuild-pwa.ts",
+    "build": "NODE_ENV=production && vitepress build .",
     "serve": "NODE_ENV=production vitepress serve . --port 5001",
     "gen-locale": "rimraf .vitepress/i18n && tsx .vitepress/build/crowdin-generate.ts",
     "crowdin-credentials": "tsx .vitepress/build/crowdin-credentials.ts"
@@ -14,7 +14,6 @@
     "@element-plus/metadata": "workspace:*",
     "@vue/shared": "^3.2.37",
     "@vueuse/core": "^9.1.0",
-    "axios": "^0.27.2",
     "clipboard-copy": "^4.0.1",
     "element-plus": "npm:element-plus@latest",
     "normalize.css": "^8.0.1",
@@ -28,19 +27,17 @@
     "@element-plus/build-utils": "workspace:*",
     "@iconify-json/ri": "^1.1.3",
     "@mdit-vue/shared": "^2.1.3",
-    "@vitejs/plugin-vue-jsx": "^1.3.10",
+    "@vitejs/plugin-vue-jsx": "^4.0.1",
     "chalk": "^4.1.2",
     "consola": "^2.15.3",
     "escape-html": "^1.0.3",
     "fast-glob": "^3.2.11",
     "markdown-it-container": "^3.0.0",
-    "octokit": "^2.0.3",
-    "unocss": "0.33.5",
-    "unplugin-icons": "^0.14.6",
-    "unplugin-vue-components": "^0.27.3",
-    "vite-plugin-inspect": "^0.5.0",
-    "vite-plugin-mkcert": "^1.7.2",
-    "vite-plugin-pwa": "^0.12.0",
+    "unocss": "0.63.6",
+    "unplugin-icons": "^0.14.15",
+    "unplugin-vue-components": "^0.27.4",
+    "vite-plugin-inspect": "^0.8.7",
+    "vite-plugin-mkcert": "^1.17.6",
     "vitepress": "^1.2.3"
   }
 }
