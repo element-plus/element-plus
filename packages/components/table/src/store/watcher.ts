@@ -77,9 +77,21 @@ function useWatcher<T>() {
   const sortOrder = ref(null)
   const hoverRow = ref(null)
 
-  watch(data, () => instance.state && scheduleLayout(false), {
-    deep: true,
-  })
+  watch(
+    data,
+    () => {
+      if (instance.state) {
+        scheduleLayout(false)
+        const needUpdateFixed = instance.props.tableLayout === 'auto'
+        if (needUpdateFixed) {
+          instance.refs.tableHeaderRef?.updateFixedColumnStyle()
+        }
+      }
+    },
+    {
+      deep: true,
+    }
+  )
 
   // 检查 rowKey 是否存在
   const assertRowKey = () => {
