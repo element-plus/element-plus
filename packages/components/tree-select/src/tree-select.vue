@@ -7,6 +7,8 @@ import ElTree from '@element-plus/components/tree'
 import { useSelect } from './select'
 import { useTree } from './tree'
 import CacheOptions from './cache-options'
+import type { TreeOptionProps } from '@element-plus/components/tree/src/tree.type'
+import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElTreeSelect',
@@ -19,7 +21,7 @@ export default defineComponent({
      * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
      */
     props: {
-      type: Object,
+      type: Object as PropType<TreeOptionProps>,
       default: () => ({ ...ElTree.props.props.default(), value: 'value' }),
     },
     cacheData: {
