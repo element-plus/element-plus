@@ -18,6 +18,10 @@ export default defineComponent({
     /**
      * @description The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data
      */
+    props: {
+      type: Object,
+      default: () => ({ ...ElTree.props.props.default(), value: 'value' }),
+    },
     cacheData: {
       type: Array,
       default: () => [],
