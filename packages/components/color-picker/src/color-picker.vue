@@ -16,7 +16,10 @@
     @hide="setShowPicker(false)"
   >
     <template #content>
-      <div v-click-outside="handleClickOutside" @keydown.esc="handleEsc">
+      <div
+        v-click-outside:[triggerRef]="handleClickOutside"
+        @keydown.esc="handleEsc"
+      >
         <div :class="ns.be('dropdown', 'main-wrapper')">
           <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
           <sv-panel ref="sv" :color="color" />
@@ -244,8 +247,8 @@ function setShowPicker(value: boolean) {
   showPicker.value = value
 }
 
+// const debounceSetShowPicker = debounce(setShowPicker, 100, { leading: true })
 const debounceSetShowPicker = debounce(setShowPicker, 100, { leading: true })
-
 function show() {
   if (colorDisabled.value) return
   setShowPicker(true)
@@ -271,6 +274,9 @@ function resetColor() {
 
 function handleTrigger() {
   if (colorDisabled.value) return
+  if (showPicker.value) {
+    resetColor()
+  }
   debounceSetShowPicker(!showPicker.value)
 }
 
