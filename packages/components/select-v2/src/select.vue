@@ -229,7 +229,7 @@
               <component :is="clearIcon" />
             </el-icon>
             <el-icon
-              v-if="validateState && validateIcon"
+              v-if="validateState && validateIcon && needStatusIcon"
               :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
             >
               <component :is="validateIcon" />
