@@ -5,11 +5,11 @@ lang: en-US
 
 # InputTag
 
-InputTag is a input component that can add content as a tag.
+The InputTag component allows users to add content as tags.
 
-## Basic usage
+## Basic Usage
 
-After pressing the Enter key, the input will be added as a value to the tag.
+Press the Enter key to add the input as a tag.
 
 :::demo
 
@@ -17,9 +17,9 @@ input-tag/basic
 
 :::
 
-## Trigger
+## Custom Trigger
 
-You can customize the key to trigger the input tag. The default is the Enter key.
+You can customize the key used to trigger the input tag. The default key is Enter.
 
 :::demo
 
@@ -27,9 +27,9 @@ input-tag/trigger
 
 :::
 
-## Max Tags
+## Maximum Tags
 
-You can set the maximum number of tags that can be entered.
+You can set a limit on the number of tags that can be added.
 
 :::demo
 

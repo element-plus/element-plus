@@ -48,7 +48,10 @@ export const inputTagProps = buildProps({
   /**
    * @description whether to disable
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description same as `maxlength` in native input
    */
