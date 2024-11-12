@@ -22,6 +22,8 @@
       :gpu-acceleration="false"
       :persistent="persistent"
       :append-to="appendTo"
+      :show-arrow="showArrow"
+      :offset="offset"
       @before-show="handleMenuEnter"
       @hide="states.isBeforeHide = false"
     >

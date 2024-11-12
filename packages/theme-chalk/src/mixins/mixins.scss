@@ -6,7 +6,10 @@
 @forward '_var';
 @use 'config' as *;
 @use 'sass:string';
-@use "sass:map";
+@use 'sass:map';
+
+$B: null;
+$E: null;
 
 // Break-points
 @mixin res($key, $map: $breakpoints) {
