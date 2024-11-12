@@ -49,14 +49,14 @@ Choose a package manager you like.
 
 ::: code-group
 
-```NPM
+```shell [npm]
 $ npm install element-plus --save
 ```
-```Yarn
+```shell [yarn]
 $ yarn add element-plus
 ```
 
-```Pnpm
+```shell [pnpm]
 $ pnpm install element-plus
 ```
 
