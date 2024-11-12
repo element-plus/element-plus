@@ -164,8 +164,10 @@ const displayValue = computed(() => {
   return currentValue
 })
 const toPrecision = (num: number, pre?: number) => {
+  const { overflow } = props
   if (isUndefined(pre)) pre = numPrecision.value
-  if (pre === 0) return Math.round(num)
+  if (overflow instanceof Function) return overflow(num, pre)
+  if (pre === 0) return Math[overflow](num)
   let snum = String(num)
   const pointPos = snum.indexOf('.')
   if (pointPos === -1) return num
@@ -173,8 +175,13 @@ const toPrecision = (num: number, pre?: number) => {
   const datum = nums[pointPos + pre]
   if (!datum) return num
   const length = snum.length
-  if (snum.charAt(length - 1) === '5') {
+  const tail = pointPos + pre + 1
+  if (overflow === 'round' && snum.charAt(length - 1) === '5') {
     snum = `${snum.slice(0, Math.max(0, length - 1))}6`
+  } else if (overflow === 'ceil') {
+    snum = `${snum.slice(0, Math.max(0, tail))}9`
+  } else if (overflow === 'floor') {
+    snum = `${snum.slice(0, Math.max(0, tail))}1`
   }
   return Number.parseFloat(Number(snum).toFixed(pre))
 }

@@ -1,6 +1,6 @@
 import { isNil } from 'lodash-unified'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
-import { buildProps, isNumber } from '@element-plus/utils'
+import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
@@ -104,6 +104,20 @@ export const inputNumberProps = buildProps({
   validateEvent: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @description how to handle decimals that exceed precision
+   */
+  overflow: {
+    type: definePropType<
+      | 'round'
+      | 'ceil'
+      | 'floor'
+      | ((number: number, precision: number) => number)
+    >([String, Function]),
+    default: 'round',
+    validator: (val: any) =>
+      ['round', 'ceil', 'floor'].includes(val) || val instanceof Function,
   },
   ...useAriaProps(['ariaLabel']),
 } as const)
