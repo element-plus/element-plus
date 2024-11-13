@@ -78,9 +78,6 @@ menu/popper-offset
 | ellipsis                        | whether the menu is ellipsis (available only in horizontal mode)                                                                                                      | ^[boolean]                             | true     |
 | ellipsis-icon ^(2.4.4)          | custom ellipsis icon (available only in horizontal mode and ellipsis is true)                                                                                         | ^[string] / ^[Component]               | —        |
 | popper-offset ^(2.4.4)          | offset of the popper (effective for all submenus)                                                                                                                     | ^[number]                              | 6        |
-| background-color ^(deprecated)  | background color of Menu (hex format) (deprecated, use `--el-menu-bg-color` in a style class instead)                                                                 | ^[string]                              | #ffffff  |
-| text-color ^(deprecated)        | text color of Menu (hex format) (deprecated, use `--el-menu-text-color` in a style class instead)                                                                     | ^[string]                              | #303133  |
-| active-text-color ^(deprecated) | text color of currently active menu item (hex format) (deprecated, use `--el-menu-active-color` in a style class instead)                                             | ^[string]                              | #409eff  |
 | default-active                  | index of active menu on page load                                                                                                                                     | ^[string]                              | ''       |
 | default-openeds                 | array that contains indexes of currently active sub-menus                                                                                                             | ^[object]`string[]`                    | []       |
 | unique-opened                   | whether only one sub-menu can be active                                                                                                                               | ^[boolean]                             | false    |
@@ -92,6 +89,9 @@ menu/popper-offset
 | popper-class ^(2.5.0)           | custom class name for all popup menus                                                                                                                                 | ^[string]                              | —        |
 | show-timeout ^(2.5.0)           | control timeout for all menus before showing                                                                                                                          | ^[number]                              | 300      |
 | hide-timeout ^(2.5.0)           | control timeout for all menus before hiding                                                                                                                           | ^[number]                              | 300      |
+| background-color ^(deprecated)  | background color of Menu (hex format) (use `--el-menu-bg-color` in a style class instead)                                                                             | ^[string]                              | #ffffff  |
+| text-color ^(deprecated)        | text color of Menu (hex format) ( use `--el-menu-text-color` in a style class instead)                                                                                | ^[string]                              | #303133  |
+| active-text-color ^(deprecated) | text color of currently active menu item (hex format) ( use `--el-menu-active-color` in a style class instead)                                                        | ^[string]                              | #409eff  |
 
 ### Menu Events
 

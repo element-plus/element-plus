@@ -1,5 +1,107 @@
 ## Changelog
 
+### 2.8.7
+
+_2024-11-01_
+
+#### Features
+
+- Components [date-picker] add `show-now` prop (#18625 by @btea)
+- Components [date-picker] accessibility enhancement (#18109 by @tolking)
+- Components segmented support vertical direction (#18653 by @thinkasany)
+
+#### Bug fixes
+
+- Components [table-v2] header rendering is misplaced (#18628 by @btea)
+- Components [tree] highlight the corresponding node after data reset (#18578 by @momei-LJM)
+- Components [slider] no render popper dom when showTooltip is false (#18667 by @zzjiaxiang)
+- Hooks [useId] SSR hydration error caused by id in vue@3.5+ (#18647 by @tolking)
+- Components [select-v2] group label overflow hidden (#18551 by @zzjiaxiang)
+- Components [select] error parameters of getValueIndex (#14173 by @tolking)
+- Downgrade vue-tsc to 2.0.28 (#18737 by @makedopamine)
+
+#### Refactors
+
+- Theme-chalk update Sass functions to prep for 3.0.0 (#18579 by @wjp980108)
+- Replace Array.isArray with the built-in isArray (#18671 by @zzjiaxiang)
+- Replace typeof fn with the built-in isFunction (#18705 by @zzjiaxiang)
+- Replace typeof number with the built-in isNumber (#18706 by @zzjiaxiang)
+- Replace type checking with built-in functions (#18720 by @zzjiaxiang)
+- Style(components): [popper] popper border error (#18635 by @Liao-js)
+- Chore(components): [tour] remove redundant check for 'open' variable (#18668 by @cszhjh)
+- Chore(components): [descriptions] optimize the labelAlign (#18644 by @zzjiaxiang)
+
+### 2.8.6
+
+_2024-10-18_
+
+#### Features
+
+- Components [input] show pwd visible icon when the input is readonly (#18458 by @LoTwT)
+
+#### Bug fixes
+
+- Components [dropdown-item] remove redundant attributes (#18340 by @betavs)
+- Components [select-v2] data echo abnormality (#18334 by @betavs)
+- Components [segmented] no option to not render (#18509 by @btea)
+- Progress bar get stuck when navigating between routes (#18586 by @makedopamine)
+- Revert(components): [table-v2] #18179 & fix header checkbox z-index (#18554 by @warmthsea)
+
+### 2.8.5
+
+_2024-10-11_
+
+#### Features
+
+- I18n update germany translations (#18447 by @MaikoTan)
+- Components [mention] explicit export dropdownVisible (#18460 by @SorrowX)
+- Components [select & select-v2] explicit export `selectedLabel` (#18350 by @warmthsea)
+
+#### Bug fixes
+
+- Play dayjs cahce miss (#18381 by @makedopamine)
+- Theme-chalk upgrade SASS version and fix deprecated color function (#18376 by @lvzhenbo)
+- Components [transfer] render the option's label correctly when there's only an empty comment in the default slot (#18416 by @LoTwT)
+- Components [table] cancel layout update when component unmount (#18440 by @btea)
+- Hooks [lockscreen] compatible with document non-existence (#18445 by @btea)
+- Components [mention] native event triggered twice (#18453 by @SorrowX)
+- Components [select] use `blur` in the tooltip slot has no effect (#18335 by @warmthsea)
+- Hooks rendering multiple popper container DOM in SSR/SSG (#18482 by @tolking)
+- Components [select] the blur not triggered when click the outside (#18478 by @tolking)
+- Components [table] the last column shuld not allow drag (#18444 by @btea)
+
+#### Refactors
+
+- Components [badge] show-zero implement (#18360 by @warmthsea)
+- Docs remove Vite (#18383 by @makedopamine)
+
+### 2.8.4
+
+_2024-09-27_
+
+#### Features
+
+- Components [autocomplete] add getData to exposes (#18237 by @dormadekhin)
+- Components [date-picker] add `placement` & `fallback-placements` (#18310 by @btea)
+- Components [input-number] add prefix and suffix (#17993 by @guze2003)
+- Components [cascader] update cascader component to expost presentText (#18338 by @0song)
+- Components add the ability to append table filter panel, select and pagination size dropdowns to any element (#14318 by @Karolis-Stoncius)
+- Components [table] export `updateKeyChildren` method & correct version (#17709 by @warmthsea)
+
+#### Bug fixes
+
+- Components [segmented] item may be undefined (#18199 by @vaebe)
+- Components `step-strictly` is true and should keep the initial value and step matching (#18277 by @KESHAOYE)
+- Components [scrollbar] compatibility with `wrapRef` does not exist (#18311 by @btea)
+- I18n improve translations of Persian (Farsi) (#18290 by @Notorious-Ali)
+- Components [checkbox] default false if no false-value attr (#18187 by @tuskermanshu)
+- Components  [carousel] fix style when use motionBlur (#18329 by @momei-LJM)
+- Components [descriptions-cell] redundant slot function calls (#18330 by @betavs)
+- Components [avatar] remove outline from el-avatar component (#18303 by @DDDDD12138)
+- Components [color-picker] support dynamic change of showAlpha prop (#18280 by @chensuifengran)
+- Style(components): [form-item] top-label change to `inline-block` element (#18293 by @warmthsea)
+- Style(components): [transfer] delete input__inner `border-radius` (#18351 by @warmthsea)
+
 ### 2.8.3
 
 _2024-09-13_

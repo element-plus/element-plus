@@ -169,7 +169,13 @@
 
 <script lang="ts">
 // @ts-nocheck
-import { computed, defineComponent, getCurrentInstance, provide } from 'vue'
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  onBeforeUnmount,
+  provide,
+} from 'vue'
 import { debounce } from 'lodash-unified'
 import { Mousewheel } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -255,6 +261,7 @@ export default defineComponent({
       toggleRowExpansion,
       clearSort,
       sort,
+      updateKeyChildren,
     } = useUtils<Row>(store)
     const {
       isHidden,
@@ -303,6 +310,10 @@ export default defineComponent({
     })
 
     useKeyRender(table)
+
+    onBeforeUnmount(() => {
+      debouncedUpdateLayout.cancel()
+    })
 
     return {
       ns,
@@ -364,6 +375,10 @@ export default defineComponent({
        * @description sort Table manually. Property `prop` is used to set sort column, property `order` is used to set sort order
        */
       sort,
+      /**
+       * @description used in lazy Table, must set `rowKey`, update key children
+       */
+      updateKeyChildren,
       t,
       setDragVisible,
       context: table,
