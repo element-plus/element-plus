@@ -108,7 +108,8 @@
       },
       {
         "link": "/input-tag",
-        "text": "Input Tag"
+        "text": "Input Tag",
+        "promotion": "2.9.0"
       },
       {
         "link": "/mention",
