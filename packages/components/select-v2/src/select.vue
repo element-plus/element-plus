@@ -21,6 +21,9 @@
       :transition="`${nsSelect.namespace.value}-zoom-in-top`"
       trigger="click"
       :persistent="persistent"
+      :append-to="appendTo"
+      :show-arrow="showArrow"
+      :offset="offset"
       @before-show="handleMenuEnter"
       @hide="states.isBeforeHide = false"
     >
@@ -226,7 +229,7 @@
               <component :is="clearIcon" />
             </el-icon>
             <el-icon
-              v-if="validateState && validateIcon"
+              v-if="validateState && validateIcon && needStatusIcon"
               :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
             >
               <component :is="validateIcon" />

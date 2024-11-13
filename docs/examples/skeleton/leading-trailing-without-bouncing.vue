@@ -8,7 +8,7 @@
       style="width: 240px"
       :loading="loading"
       animated
-      :throttle="500"
+      :throttle="{ leading: 500, trailing: 500, initVal: true }"
     >
       <template #template>
         <el-skeleton-item variant="image" style="width: 240px; height: 265px" />

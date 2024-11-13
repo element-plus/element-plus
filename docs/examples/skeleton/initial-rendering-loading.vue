@@ -8,7 +8,7 @@
       style="width: 240px"
       :loading="loading"
       animated
-      :throttle="500"
+      :throttle="{ leading: 500, initVal: true }"
     >
       <template #template>
         <el-skeleton-item variant="image" style="width: 240px; height: 265px" />
@@ -50,6 +50,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const loading = ref(false)
+const loading = ref(true)
 const currentDate = new Date().toDateString()
 </script>

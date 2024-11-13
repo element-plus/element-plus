@@ -1,5 +1,36 @@
 ## Changelog
 
+### 2.8.7
+
+_2024-11-01_
+
+#### Features
+
+- Components [date-picker] add `show-now` prop (#18625 by @btea)
+- Components [date-picker] accessibility enhancement (#18109 by @tolking)
+- Components segmented support vertical direction (#18653 by @thinkasany)
+
+#### Bug fixes
+
+- Components [table-v2] header rendering is misplaced (#18628 by @btea)
+- Components [tree] highlight the corresponding node after data reset (#18578 by @momei-LJM)
+- Components [slider] no render popper dom when showTooltip is false (#18667 by @zzjiaxiang)
+- Hooks [useId] SSR hydration error caused by id in vue@3.5+ (#18647 by @tolking)
+- Components [select-v2] group label overflow hidden (#18551 by @zzjiaxiang)
+- Components [select] error parameters of getValueIndex (#14173 by @tolking)
+- Downgrade vue-tsc to 2.0.28 (#18737 by @makedopamine)
+
+#### Refactors
+
+- Theme-chalk update Sass functions to prep for 3.0.0 (#18579 by @wjp980108)
+- Replace Array.isArray with the built-in isArray (#18671 by @zzjiaxiang)
+- Replace typeof fn with the built-in isFunction (#18705 by @zzjiaxiang)
+- Replace typeof number with the built-in isNumber (#18706 by @zzjiaxiang)
+- Replace type checking with built-in functions (#18720 by @zzjiaxiang)
+- Style(components): [popper] popper border error (#18635 by @Liao-js)
+- Chore(components): [tour] remove redundant check for 'open' variable (#18668 by @cszhjh)
+- Chore(components): [descriptions] optimize the labelAlign (#18644 by @zzjiaxiang)
+
 ### 2.8.6
 
 _2024-10-18_
