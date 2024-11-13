@@ -78,7 +78,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, unref, watch } from 'vue'
+import { computed, inject, nextTick, onMounted, ref, unref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import { vRepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -97,6 +97,8 @@ import type { TimeUnit } from '../constants'
 import type { TimeList } from '../utils'
 
 const props = defineProps(basicTimeSpinnerProps)
+const pickerBase = inject('EP_PICKER_BASE') as any
+const { isRange } = pickerBase.props
 const emit = defineEmits(['change', 'select-range', 'set-option'])
 
 const ns = useNamespace('time')
@@ -135,10 +137,12 @@ const timePartials = computed<Record<TimeUnit, number>>(() => {
 
 const timeList = computed(() => {
   const { hours, minutes } = unref(timePartials)
+  const { role, spinnerDate } = props
+  const compare = !isRange ? spinnerDate : undefined
   return {
-    hours: getHoursList(props.role),
-    minutes: getMinutesList(hours, props.role),
-    seconds: getSecondsList(hours, minutes, props.role),
+    hours: getHoursList(role, compare),
+    minutes: getMinutesList(hours, role, compare),
+    seconds: getSecondsList(hours, minutes, role, compare),
   }
 })
 
