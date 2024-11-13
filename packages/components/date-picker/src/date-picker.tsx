@@ -45,8 +45,11 @@ export default defineComponent({
 
     const commonPicker = ref<InstanceType<typeof CommonPicker>>()
     const refProps: DatePickerExpose = {
-      focus: (focusStartInput = true) => {
-        commonPicker.value?.focus(focusStartInput)
+      focus: () => {
+        commonPicker.value?.focus()
+      },
+      blur: () => {
+        commonPicker.value?.blur()
       },
       handleOpen: () => {
         commonPicker.value?.handleOpen()

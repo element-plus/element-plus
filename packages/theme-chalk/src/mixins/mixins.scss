@@ -5,12 +5,17 @@
 @forward 'function';
 @forward '_var';
 @use 'config' as *;
+@use 'sass:string';
+@use 'sass:map';
+
+$B: null;
+$E: null;
 
 // Break-points
 @mixin res($key, $map: $breakpoints) {
   // loop breakpoint Map, return if present
-  @if map-has-key($map, $key) {
-    @media only screen and #{unquote(map-get($map, $key))} {
+  @if map.has-key($map, $key) {
+    @media only screen and #{string.unquote(map.get($map, $key))} {
       @content;
     }
   } @else {

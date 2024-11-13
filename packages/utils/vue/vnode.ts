@@ -97,7 +97,7 @@ export const getFirstValidNode = (
   nodes: VNodeNormalizedChildren,
   maxDepth = 3
 ) => {
-  if (Array.isArray(nodes)) {
+  if (isArray(nodes)) {
     return getChildren(nodes[0], maxDepth)
   } else {
     return getChildren(nodes, maxDepth)
@@ -156,13 +156,12 @@ export const flattedChildren = (
   vNodes.forEach((child) => {
     if (isArray(child)) {
       result.push(...flattedChildren(child))
+    } else if (isVNode(child) && child.component?.subTree) {
+      result.push(child, ...flattedChildren(child.component.subTree))
     } else if (isVNode(child) && isArray(child.children)) {
       result.push(...flattedChildren(child.children))
     } else {
       result.push(child)
-      if (isVNode(child) && child.component?.subTree) {
-        result.push(...flattedChildren(child.component.subTree))
-      }
     }
   })
   return result

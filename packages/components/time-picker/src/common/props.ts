@@ -44,7 +44,6 @@ export const timePickerDefaultProps = buildProps({
    */
   name: {
     type: definePropType<SingleOrRange<string>>([Array, String]),
-    default: '',
   },
   /**
    * @description custom class name for TimePicker's dropdown
@@ -227,6 +226,13 @@ export const timePickerDefaultProps = buildProps({
   },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
+  /**
+   * @description whether to show the now button
+   */
+  showNow: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<
@@ -244,3 +250,17 @@ export interface PickerOptions {
   handleClear: () => void
   handleFocusPicker?: () => void
 }
+
+export const timePickerRngeTriggerProps = buildProps({
+  id: {
+    type: definePropType<string[]>(Array),
+  },
+  name: {
+    type: definePropType<string[]>(Array),
+  },
+  modelValue: {
+    type: definePropType<UserInput>([Array, String]),
+  },
+  startPlaceholder: String,
+  endPlaceholder: String,
+} as const)
