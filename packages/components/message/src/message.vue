@@ -129,6 +129,7 @@ watch(
   () => {
     clearTimer()
     startTimer()
+    nextZIndex()
   }
 )
 
