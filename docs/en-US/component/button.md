@@ -75,6 +75,8 @@ button/icon
 
 Displayed as a button group, can be used to group a series of similar operations.
 
+Use the `vertical` attribute to add vertical direction.
+
 :::demo Use tag `<el-button-group>` to group your buttons.
 
 button/group
@@ -157,6 +159,7 @@ button/custom
 | color             | custom button color, automatically calculate `hover` and `active` color | ^[string]                                                                                 | —       |
 | dark              | dark mode, which automatically converts `color` to dark mode colors     | ^[boolean]                                                                                | false   |
 | tag ^(2.3.4)      | custom element tag                                                      | ^[string] / ^[Component]                                                                  | button  |
+| vertical ^(2.8.8) | set vertical direction (otherwise horizontal)                           | ^[boolean]                                                                                | false   |
 
 ### Button Slots
 

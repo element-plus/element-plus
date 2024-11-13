@@ -1,5 +1,13 @@
 <template>
-  <div :class="ns.b('group')">
+  <div
+    :class="[
+      ns.b('group'),
+      {
+        [ns.bm('group', 'horizontal')]: !props.vertical,
+        [ns.bm('group', 'vertical')]: props.vertical,
+      },
+    ]"
+  >
     <slot />
   </div>
 </template>
