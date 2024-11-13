@@ -247,7 +247,6 @@ function setShowPicker(value: boolean) {
   showPicker.value = value
 }
 
-// const debounceSetShowPicker = debounce(setShowPicker, 100, { leading: true })
 const debounceSetShowPicker = debounce(setShowPicker, 100, { leading: true })
 function show() {
   if (colorDisabled.value) return
