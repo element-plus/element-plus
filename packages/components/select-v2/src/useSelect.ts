@@ -814,7 +814,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   watch(
     () => props.modelValue,
     (val, oldVal) => {
-      const isValEmpty = !val || (Array.isArray(val) && val.length === 0)
+      const isValEmpty = !val || (isArray(val) && val.length === 0)
 
       if (
         isValEmpty ||
