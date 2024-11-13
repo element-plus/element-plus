@@ -11,7 +11,7 @@ import {
   withCtx,
   withDirectives,
 } from 'vue'
-import { removeClass } from '@element-plus/utils'
+import { getStyle, removeClass } from '@element-plus/utils'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
 import type { UseNamespaceReturn } from '@element-plus/hooks'
@@ -108,6 +108,8 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
           ? h('p', { class: ns.b('text') }, [data.text])
           : undefined
 
+        const borderRadiusValue = getStyle(options.target, 'border-radius')
+
         return h(
           Transition,
           {
@@ -122,6 +124,10 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
                   {
                     style: {
                       backgroundColor: data.background || '',
+                      borderRadius:
+                        borderRadiusValue === '0px'
+                          ? undefined
+                          : borderRadiusValue,
                     },
                     class: [
                       ns.b('mask'),
