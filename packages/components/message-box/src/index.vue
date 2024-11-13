@@ -347,24 +347,19 @@ export default defineComponent({
       (val) => {
         if (val) {
           if (props.boxType !== 'prompt') {
-            if (state.autofocus) {
-              focusStartRef.value = confirmRef.value?.$el ?? rootRef.value
-            } else {
-              focusStartRef.value = rootRef.value
-            }
+            focusStartRef.value = state.autofocus
+              ? confirmRef.value?.$el ?? rootRef.value
+              : rootRef.value
           }
           state.zIndex = nextZIndex()
         }
         if (props.boxType !== 'prompt') return
         if (val) {
           nextTick().then(() => {
-            if (inputRef.value && inputRef.value.$el) {
-              if (state.autofocus) {
-                focusStartRef.value = getInputElement() ?? rootRef.value
-              } else {
-                focusStartRef.value = rootRef.value
-              }
-            }
+            if (!inputRef.value || !inputRef.value.$el) return
+            focusStartRef.value = state.autofocus
+              ? getInputElement() ?? rootRef.value
+              : rootRef.value
           })
         } else {
           state.editorErrorMessage = ''
@@ -414,9 +409,8 @@ export default defineComponent({
     }
 
     const handleAction = (action: Action) => {
-      if (props.boxType === 'prompt' && action === 'confirm' && !validate()) {
+      if (props.boxType === 'prompt' && action === 'confirm' && !validate())
         return
-      }
 
       state.action = action
 
