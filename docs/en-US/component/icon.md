@@ -17,16 +17,21 @@ Element Plus provides a set of common icons.
 
 ### Using packaging manager
 
-```shell
-# Choose a package manager you like.
+Choose a package manager you like.
 
-# NPM
+::: code-group
+```shell [npm]
 $ npm install @element-plus/icons-vue
-# Yarn
+```
+
+```shell [yarn]
 $ yarn add @element-plus/icons-vue
-# pnpm
+```
+
+```shell [pnpm]
 $ pnpm install @element-plus/icons-vue
 ```
+:::
 
 ### Register All Icons
 

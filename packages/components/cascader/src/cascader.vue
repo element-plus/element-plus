@@ -547,6 +547,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
 
   switch (e.code) {
     case EVENT_CODE.enter:
+    case EVENT_CODE.numpadEnter:
       togglePopperVisible()
       break
     case EVENT_CODE.down:
@@ -611,6 +612,7 @@ const handleSuggestionKeyDown = (e: KeyboardEvent) => {
       break
     }
     case EVENT_CODE.enter:
+    case EVENT_CODE.numpadEnter:
       target.click()
       break
   }
