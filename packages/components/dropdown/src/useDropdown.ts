@@ -46,7 +46,7 @@ export const initDropdownDomEvent = (
       menuItems.value[0].focus()
       ev.preventDefault()
       ev.stopPropagation()
-    } else if (code === EVENT_CODE.enter) {
+    } else if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(code)) {
       _instance.handleClick()
     } else if ([EVENT_CODE.tab, EVENT_CODE.esc].includes(code)) {
       _instance.hide()
