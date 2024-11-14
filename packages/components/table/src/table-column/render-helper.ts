@@ -9,7 +9,7 @@ import {
   unref,
   watchEffect,
 } from 'vue'
-import { debugWarn } from '@element-plus/utils'
+import { debugWarn, isArray } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   cellForced,
@@ -98,7 +98,7 @@ function useRender<T>(
   }
 
   const checkSubColumn = (children: TableColumn<T> | TableColumn<T>[]) => {
-    if (Array.isArray(children)) {
+    if (isArray(children)) {
       children.forEach((child) => check(child))
     } else {
       check(children)
@@ -186,7 +186,7 @@ function useRender<T>(
   }
   const getPropsData = (...propsKey: unknown[]) => {
     return propsKey.reduce((prev, cur) => {
-      if (Array.isArray(cur)) {
+      if (isArray(cur)) {
         cur.forEach((key) => {
           prev[key] = props[key]
         })

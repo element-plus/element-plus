@@ -34,9 +34,9 @@ css: {
 
 ### Version
 
-Element Plus is currently in a rapid development iteration.
+Element Plus is currently in a rapid development iteration. [![ElementPlus version badge](https://img.shields.io/npm/v/element-plus.svg?style=flat-square)](https://www.npmjs.org/package/element-plus)
 
-[![ElementPlus version badge](https://img.shields.io/npm/v/element-plus.svg?style=flat-square)](https://www.npmjs.org/package/element-plus)
+In addition, every commit and PR on the dev branch will be published to [pkg.pr.new](https://github.com/stackblitz-labs/pkg.pr.new), if you want to use some unpublished content, you can refer to [here](https://github.com/element-plus/element-plus/issues/18433#issuecomment-2392618431).
 
 ## Using Package Manager
 
@@ -44,20 +44,29 @@ Element Plus is currently in a rapid development iteration.
 so that you can utilize bundlers like [Vite](https://vitejs.dev) and
 [webpack](https://webpack.js.org/).
 
-```shell
-# Choose a package manager you like.
 
-# NPM
+Choose a package manager you like.
+
+::: code-group
+
+```shell [npm]
 $ npm install element-plus --save
-
-# Yarn
+```
+```shell [yarn]
 $ yarn add element-plus
+```
 
-# pnpm
+```shell [pnpm]
 $ pnpm install element-plus
 ```
 
-If your network environment is not good, it is recommended to use a mirror registry [cnpm](https://github.com/cnpm/cnpm) or [Alibaba](https://registry.npmmirror.com/).
+:::
+
+If your network environment is not good, it is recommended to use a mirror registry [cnpm](https://github.com/cnpm/cnpm) or [npmmirror](https://npmmirror.com/).
+
+```shell
+npm config set registry https://registry.npmmirror.com
+```
 
 ## Import in Browser
 
