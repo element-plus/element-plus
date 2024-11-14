@@ -11,5 +11,12 @@ export const buttonGroupProps = {
    * @description control the type of buttons in this button-group
    */
   type: buttonProps.type,
+  /**
+   * @description set vertical direction of buttons (otherwise horizontal)
+   */
+  vertical: {
+    type: Boolean,
+    default: false,
+  },
 } as const
 export type ButtonGroupProps = ExtractPropTypes<typeof buttonGroupProps>
