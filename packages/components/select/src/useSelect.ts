@@ -445,23 +445,10 @@ export const useSelect = (props: ISelectProps, emit) => {
       }
     }
     if (option) return option
-
-    let currentLabel
-    if (value && states.selected.length === 1) {
-      const selected = states.selected[0]
-
-      if (
-        selected.value === value &&
-        selected.currentLabel === states.selectedLabel
-      ) {
-        currentLabel = states.selectedLabel
-      }
-    }
-
     const label = isObjectValue
       ? value.label
       : !isNull && !isUndefined
-      ? currentLabel || value
+      ? value
       : ''
     const newOption = {
       value,
