@@ -1,6 +1,6 @@
 <template>
   <transition :name="transitionName">
-    <div v-if="actualVisible || visible" :class="ns.b('panel')">
+    <div v-if="actualVisible" :class="ns.b('panel')">
       <div :class="[ns.be('panel', 'content'), { 'has-seconds': showSeconds }]">
         <time-spinner
           ref="spinner"
@@ -101,12 +101,8 @@ const handleConfirm = (visible = false, first = false) => {
   emit('pick', props.parsedValue, visible)
 }
 const handleChange = (_date: Dayjs) => {
-  // visible avoids edge cases, when use scrolls during panel closing animation
-  if (!props.visible) {
-    return
-  }
   const result = getRangeAvailableTime(_date).millisecond(0)
-  emit('pick', result, true)
+  emit('pick', result, props.visible)
 }
 
 const setSelectionRange = (start: number, end: number) => {
