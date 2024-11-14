@@ -154,7 +154,7 @@ const isValidValue = (_date: Dayjs[]) => {
 
 const handleChange = (start: Dayjs, end: Dayjs) => {
   // todo getRangeAvailableTime(_date).millisecond(0)
-  emit('pick', [start, end], true)
+  emit('pick', [start, end], props.visible)
 }
 const btnConfirmDisabled = computed(() => {
   return startTime.value > endTime.value
