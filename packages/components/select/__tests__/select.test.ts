@@ -2993,6 +2993,7 @@ describe('Select', () => {
     await trigger.trigger('mouseenter')
     await trigger.trigger('click')
     vm.handleSearch('bb')
+
     await nextTick()
     expect(wrapper.vm.options.length).toBe(1)
     expect(selectVm.selectedLabel).toBe('label aa')
