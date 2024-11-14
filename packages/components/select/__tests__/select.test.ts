@@ -2945,7 +2945,7 @@ describe('Select', () => {
     })
   })
 
-  it('not options keep the selected label', async () => {
+  it('should keep the selected label after filtering options', async () => {
     const initials = [
       {
         value: 'aa',
