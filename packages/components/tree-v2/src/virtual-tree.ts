@@ -32,6 +32,7 @@ export enum TreeOptionsEnum {
   LABEL = 'label',
   CHILDREN = 'children',
   DISABLED = 'disabled',
+  CLASS = '',
 }
 
 export const enum SetOperationEnum {
@@ -65,6 +66,7 @@ export const treeProps = buildProps({
         label: TreeOptionsEnum.LABEL,
         disabled: TreeOptionsEnum.DISABLED,
         value: TreeOptionsEnum.KEY,
+        class: TreeOptionsEnum.CLASS,
       } as const),
   },
   highlightCurrent: {
