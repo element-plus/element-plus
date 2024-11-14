@@ -2975,7 +2975,6 @@ describe('Select', () => {
       {
         methods: {
           handleSearch(val) {
-            console.log(val)
             this.options = initials.filter((item) => item.label.includes(val))
           },
         },
