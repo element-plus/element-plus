@@ -118,6 +118,7 @@ const updateSelect = () => {
   ) as HTMLElement
   if (!selectedItem || !selectedItemInput) {
     state.width = 0
+    state.height = 0
     state.translateX = 0
     state.translateY = 0
     state.focusVisible = false

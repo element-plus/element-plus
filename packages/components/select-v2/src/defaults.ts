@@ -238,6 +238,20 @@ export const SelectProps = buildProps({
     default: true,
   },
   /**
+   * @description offset of the dropdown
+   */
+  offset: {
+    type: Number,
+    default: 12,
+  },
+  /**
+   * @description Determines whether the arrow is displayed
+   */
+  showArrow: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description position of dropdown
    */
   placement: {
@@ -260,6 +274,10 @@ export const SelectProps = buildProps({
    * @description tag effect
    */
   tagEffect: { ...tagProps.effect, default: 'light' },
+  /**
+   * @description which element the select dropdown appends to
+   */
+  appendTo: String,
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 } as const)

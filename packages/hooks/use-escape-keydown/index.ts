@@ -4,9 +4,8 @@ import { EVENT_CODE } from '@element-plus/constants'
 
 let registeredEscapeHandlers: ((e: KeyboardEvent) => void)[] = []
 
-const cachedHandler = (e: Event) => {
-  const event = e as KeyboardEvent
-  if (event.key === EVENT_CODE.esc) {
+const cachedHandler = (event: KeyboardEvent) => {
+  if (event.code === EVENT_CODE.esc) {
     registeredEscapeHandlers.forEach((registeredHandler) =>
       registeredHandler(event)
     )

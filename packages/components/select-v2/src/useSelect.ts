@@ -135,6 +135,8 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
 
   const selectDisabled = computed(() => props.disabled || elForm?.disabled)
 
+  const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
+
   const popupHeight = computed(() => {
     const totalHeight = filteredOptions.value.length * props.itemHeight
     return totalHeight > props.height ? props.height : totalHeight
@@ -812,9 +814,11 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   watch(
     () => props.modelValue,
     (val, oldVal) => {
+      const isValEmpty = !val || (isArray(val) && val.length === 0)
+
       if (
-        !val ||
-        (props.multiple && val.toString() !== states.previousValue) ||
+        isValEmpty ||
+        (props.multiple && !isEqual(val.toString(), states.previousValue)) ||
         (!props.multiple &&
           getValueKey(val) !== getValueKey(states.previousValue))
       ) {
@@ -913,6 +917,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     shouldShowPlaceholder,
     selectDisabled,
     selectSize,
+    needStatusIcon,
     showClearBtn,
     states,
     isFocused,
