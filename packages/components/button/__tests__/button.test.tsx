@@ -332,7 +332,7 @@ describe('Button Group', () => {
     expect(wrapper.emitted('click')).toHaveLength(1)
   })
 
-  it('vertical prop', async () => {
+  it('direction prop', async () => {
     const wrapper = mount({
       setup: () => () =>
         (
@@ -346,7 +346,7 @@ describe('Button Group', () => {
     expect(wrapper.classes()).toContain(ns.bm('group', 'horizontal'))
     expect(wrapper.classes()).not.toContain(ns.bm('group', 'vertical'))
 
-    await wrapper.setProps({ vertical: true })
+    await wrapper.setProps({ direction: 'vertical' })
 
     expect(wrapper.classes()).toContain(ns.bm('group', 'vertical'))
     expect(wrapper.classes()).not.toContain(ns.bm('group', 'horizontal'))
