@@ -26,7 +26,7 @@
     :data-prefix="ns.namespace.value"
     @mouseleave="handleMouseLeave"
   >
-    <div :class="ns.e('inner-wrapper')" :style="tableInnerStyle">
+    <div :class="ns.e('inner-wrapper')">
       <div ref="hiddenColumns" class="hidden-columns">
         <slot />
       </div>
@@ -280,7 +280,6 @@ export default defineComponent({
       tableBodyStyles,
       tableLayout,
       scrollbarViewStyle,
-      tableInnerStyle,
       scrollbarStyle,
     } = useStyle<Row>(props, layout, store, table)
 
@@ -386,7 +385,6 @@ export default defineComponent({
       computedEmptyText,
       tableLayout,
       scrollbarViewStyle,
-      tableInnerStyle,
       scrollbarStyle,
       scrollBarRef,
       /**
