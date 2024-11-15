@@ -13,6 +13,8 @@ import {
   CommonPicker,
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_DATEPICKER,
+  type DateModelType,
+  type SingleOrRange,
 } from '@element-plus/components/time-picker'
 import { ROOT_PICKER_INJECTION_KEY } from './constants'
 
@@ -61,7 +63,7 @@ export default defineComponent({
 
     expose(refProps)
 
-    const onModelValueUpdated = (val: any) => {
+    const onModelValueUpdated = (val: SingleOrRange<DateModelType> | null) => {
       emit('update:modelValue', val)
     }
 
