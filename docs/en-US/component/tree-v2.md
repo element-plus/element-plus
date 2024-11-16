@@ -57,6 +57,16 @@ tree-v2/custom-node
 
 :::
 
+## Custom node class
+
+The class of tree nodes can be customized
+
+:::demo
+
+tree-v2/custom-node-class
+
+:::
+
 ## Tree node filtering
 
 Tree nodes can be filtered
