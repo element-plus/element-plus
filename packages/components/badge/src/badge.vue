@@ -3,24 +3,33 @@
     <slot />
     <transition :name="`${ns.namespace.value}-zoom-in-center`">
       <sup
-        v-show="!hidden && (content || isDot)"
+        v-show="!hidden && (content || isDot || icon || $slots.icon)"
         :class="[
           ns.e('content'),
           ns.em('content', type),
           ns.is('fixed', !!$slots.default),
           ns.is('dot', isDot),
           ns.is('hide-zero', !showZero && props.value === 0),
+          ns.is('icon', !!(icon || $slots.icon)),
           badgeClass,
         ]"
         :style="style"
-        v-text="content"
-      />
+      >
+        <el-icon v-if="icon || $slots.icon">
+          <component :is="icon" v-if="icon" />
+          <slot v-else name="icon" />
+        </el-icon>
+        <span v-else>
+          {{ content }}
+        </span>
+      </sup>
     </transition>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { addUnit, isNumber } from '@element-plus/utils'
 import { badgeProps } from './badge'

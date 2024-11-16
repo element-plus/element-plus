@@ -55,6 +55,14 @@ badge/offset
 
 :::
 
+## Icon
+
+:::demo Use icons to add more meaning to Badge. Use the `icon` attribute to add icon. You can find the icon list in Element Plus icon component.
+
+badge/icon
+
+:::
+
 ## API
 
 ### Attributes
@@ -71,9 +79,11 @@ badge/offset
 | offset ^(2.7.0)      | offset of badge                                                               | [ `number` , `number` ]                                            | —       |
 | badge-style ^(2.7.1) | custom style of badge                                                         | ^[object]`CSSProperties`                                           | —       |
 | badge-class ^(2.7.1) | custom class of badge                                                         | ^[string]                                                          | —       |
+| icon                 | icon component                                                                | ^[string] / ^[Component]                                           | —       |
 
 ### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
 | default | customize default content |
+| icon    | icon component            |
