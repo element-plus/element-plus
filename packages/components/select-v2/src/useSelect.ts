@@ -20,6 +20,7 @@ import {
   escapeStringRegexp,
   isArray,
   isFunction,
+  isNumber,
   isObject,
 } from '@element-plus/utils'
 import {
@@ -352,8 +353,9 @@ const useSelect: useSelectReturnType = (
     'small' === selectSize.value ? 'small' : 'default'
   )
 
+  const optionsChanged = ref(true)
   const calculatePopperSize = () => {
-    if (typeof props.fitInputWidth === 'number') {
+    if (isNumber(props.fitInputWidth)) {
       popperSize.value = props.fitInputWidth
       return
     }
@@ -362,20 +364,22 @@ const useSelect: useSelectReturnType = (
     const width = selectRef.value?.offsetWidth || 200
     if (!props.fitInputWidth && allOptions.value.length > 0 && ctx) {
       nextTick(() => {
+        if (!optionsChanged.value) return
         const selector = nsSelect.be('dropdown', 'item')
-        const dropdownItemEl = document.querySelector(`.${selector}`)
+        const dom = menuRef.value?.listRef?.innerRef || document
+        const dropdownItemEl = dom.querySelector(`.${selector}`)
         if (dropdownItemEl === null) return
         const style = getComputedStyle(dropdownItemEl)
         const padding =
           Number.parseFloat(style.paddingLeft) +
           Number.parseFloat(style.paddingRight)
         ctx.font = style.font
-        let maxWidth = 0
-        allOptions.value.forEach((option) => {
+        const maxWidth = allOptions.value.reduce((max, option) => {
           const metrics = ctx.measureText(getLabel(option))
-          maxWidth = Math.max(metrics.width, maxWidth)
-        })
+          return Math.max(metrics.width, max)
+        }, 0)
         popperSize.value = Math.max(width, maxWidth + padding)
+        optionsChanged.value = false
       })
     } else {
       popperSize.value = width
@@ -912,6 +916,9 @@ const useSelect: useSelectReturnType = (
 
   watch(expanded, (val) => {
     if (val) {
+      if (!props.persistent) {
+        calculatePopperSize()
+      }
       handleQueryChange('')
     } else {
       states.inputValue = ''
@@ -948,6 +955,7 @@ const useSelect: useSelectReturnType = (
     () => props.options,
     () => {
       const input = inputRef.value
+      optionsChanged.value = true
       // filter or remote-search scenarios are not initialized
       if (!input || (input && document.activeElement !== input)) {
         initStates()

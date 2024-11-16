@@ -161,7 +161,7 @@ export const SelectProps = buildProps({
     default: 1,
   },
   /**
-   * @description is teleported, if `true` it will be teleported to where `append-to` sets
+   * @description whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets
    */
   teleported: useTooltipContentProps.teleported,
   /**
