@@ -107,7 +107,7 @@ input-number/with-prefix-suffix
 | step                        | incremental step                                 | ^[number]                                                                                          | 1         |
 | step-strictly               | whether input value can only be multiple of step | ^[boolean]                                                                                         | false     |
 | precision                   | precision of input value                         | ^[number]                                                                                          | —         |
-| overflow ^(2.8.8)           | how to handle decimals that exceed precision     | ^[enum]`'round' \| 'ceil' \| 'floor'` / ^[Function]`(number: number, precision: number) => number` | round     |
+| overflow ^(2.8.9)           | how to handle decimals that exceed precision     | ^[enum]`'round' \| 'ceil' \| 'floor'` / ^[Function]`(number: number, precision: number) => number` | round     |
 | size                        | size of the component                            | ^[enum]`'large' \| 'default' \| 'small'`                                                           | default   |
 | readonly ^(2.2.16)          | same as `readonly` in native input               | ^[boolean]                                                                                         | false     |
 | disabled                    | whether the component is disabled                | ^[boolean]                                                                                         | false     |
