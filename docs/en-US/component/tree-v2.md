@@ -57,7 +57,7 @@ tree-v2/custom-node
 
 :::
 
-## Custom node class
+## Custom node class ^(2.9.0)
 
 The class of tree nodes can be customized
 
@@ -99,13 +99,13 @@ tree-v2/filter
 
 ## props
 
-| Attribute | Description                                                                          | Type                                             | Default  |
-| --------- | ------------------------------------------------------------------------------------ | ------------------------------------------------ | -------- |
-| value     | unique identity key name for nodes, its value should be unique across the whole tree | string,number                                    | id       |
-| label     | specify which key of node object is used as the node's label                         | string                                           | label    |
-| children  | specify which node object is used as the node's subtree                              | string                                           | children |
-| disabled  | specify which key of node object represents if node's checkbox is disabled           | string                                           | disabled |
-| class     | custom node class name                                                               | ^[string] \| ^[Function]`(data, node) => string` | —        |
+| Attribute      | Description                                                                          | Type                                             | Default  |
+| -------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------ | -------- |
+| value          | unique identity key name for nodes, its value should be unique across the whole tree | string,number                                    | id       |
+| label          | specify which key of node object is used as the node's label                         | string                                           | label    |
+| children       | specify which node object is used as the node's subtree                              | string                                           | children |
+| disabled       | specify which key of node object represents if node's checkbox is disabled           | string                                           | disabled |
+| class ^(2.9.0) | custom node class name                                                               | ^[string] \| ^[Function]`(data, node) => string` | —        |
 
 ## TreeV2 Method
 

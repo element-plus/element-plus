@@ -100,11 +100,18 @@ const getNodeClass = (node: TreeNode) => {
   return isString(className) ? { [className]: true } : className
 }
 
-const handleClick = (e: MouseEvent) => emit('click', props.node, e)
-const handleDrop = (e: DragEvent) => emit('drop', props.node, e)
-const handleExpandIconClick = () => emit('toggle', props.node)
-const handleCheckChange = (value: CheckboxValueType) =>
+const handleClick = (e: MouseEvent) => {
+  emit('click', props.node, e)
+}
+const handleDrop = (e: DragEvent) => {
+  emit('drop', props.node, e)
+}
+const handleExpandIconClick = () => {
+  emit('toggle', props.node)
+}
+const handleCheckChange = (value: CheckboxValueType) => {
   emit('check', props.node, value)
+}
 
 const handleContextMenu = (event: Event) => {
   if (tree?.instance?.vnode?.props?.['onNodeContextmenu']) {
