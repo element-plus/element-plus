@@ -9,7 +9,10 @@
 </template>
 
 <script lang="ts" setup>
-import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
+import type {
+  TreeNode,
+  TreeNodeData,
+} from 'element-plus/es/components/tree-v2/src/types'
 
 interface Tree {
   id?: string
@@ -19,7 +22,7 @@ interface Tree {
   children?: Tree[]
 }
 
-const customNodeClass = ({ isPenultimate }: Tree, node: TreeNode) =>
+const customNodeClass = ({ isPenultimate }: TreeNodeData, node: TreeNode) =>
   isPenultimate ? 'is-penultimate' : ''
 
 const data: Tree[] = [
