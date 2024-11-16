@@ -21,6 +21,9 @@
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
       :persistent="persistent"
+      :append-to="appendTo"
+      :show-arrow="showArrow"
+      :offset="offset"
       @before-show="handleMenuEnter"
       @hide="states.isBeforeHide = false"
     >
@@ -226,7 +229,7 @@
               <component :is="clearIcon" />
             </el-icon>
             <el-icon
-              v-if="validateState && validateIcon"
+              v-if="validateState && validateIcon && needStatusIcon"
               :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
             >
               <component :is="validateIcon" />
@@ -368,9 +371,17 @@ export default defineComponent({
       }) as unknown as SelectContext
     )
 
+    const selectedLabel = computed(() => {
+      if (!props.multiple) {
+        return API.states.selectedLabel
+      }
+      return API.states.selected.map((i) => i.currentLabel as string)
+    })
+
     return {
       ...API,
       modelValue,
+      selectedLabel,
     }
   },
 })

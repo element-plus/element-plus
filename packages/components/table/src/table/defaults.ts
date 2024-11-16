@@ -149,6 +149,7 @@ interface TableProps<T> {
   scrollbarAlwaysOn?: boolean
   flexible?: boolean
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
+  appendFilterPanelTo?: string
   scrollbarTabindex?: number | string
 }
 
@@ -389,6 +390,7 @@ export default {
   showOverflowTooltip: [Boolean, Object] as PropType<
     TableProps<DefaultRow>['showOverflowTooltip']
   >,
+  appendFilterPanelTo: String,
   scrollbarTabindex: {
     type: [Number, String],
     default: undefined,

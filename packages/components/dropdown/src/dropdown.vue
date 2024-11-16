@@ -148,7 +148,12 @@ export default defineComponent({
     const scrollbar = ref(null)
     const currentTabId = ref<string | null>(null)
     const isUsingKeyboard = ref(false)
-    const triggerKeys = [EVENT_CODE.enter, EVENT_CODE.space, EVENT_CODE.down]
+    const triggerKeys = [
+      EVENT_CODE.enter,
+      EVENT_CODE.numpadEnter,
+      EVENT_CODE.space,
+      EVENT_CODE.down,
+    ]
 
     const wrapStyle = computed<CSSProperties>(() => ({
       maxHeight: addUnit(props.maxHeight),

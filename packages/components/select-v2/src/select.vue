@@ -21,6 +21,9 @@
       :transition="`${nsSelect.namespace.value}-zoom-in-top`"
       trigger="click"
       :persistent="persistent"
+      :append-to="appendTo"
+      :show-arrow="showArrow"
+      :offset="offset"
       @before-show="handleMenuEnter"
       @hide="states.isBeforeHide = false"
     >
@@ -226,7 +229,7 @@
               <component :is="clearIcon" />
             </el-icon>
             <el-icon
-              v-if="validateState && validateIcon"
+              v-if="validateState && validateIcon && needStatusIcon"
               :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
             >
               <component :is="validateIcon" />
@@ -329,9 +332,17 @@ export default defineComponent({
       onKeyboardSelect: API.onKeyboardSelect,
     })
 
+    const selectedLabel = computed(() => {
+      if (!props.multiple) {
+        return API.states.selectedLabel
+      }
+      return API.states.cachedOptions.map((i) => i.label as string)
+    })
+
     return {
       ...API,
       modelValue,
+      selectedLabel,
     }
   },
 })

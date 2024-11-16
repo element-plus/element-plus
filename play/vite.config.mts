@@ -17,7 +17,6 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import type { Plugin } from 'vite'
-import './vite.init'
 
 const esbuildPlugin = (): Plugin => ({
   ...esbuild({
@@ -33,20 +32,19 @@ export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   let { dependencies } = getPackageDependencies(epPackage)
   dependencies = dependencies.filter((dep) => !dep.startsWith('@types/')) // exclude dts deps
-  const optimizeDeps = (
-    await glob(['dayjs/(locale|plugin)/*.js'], {
-      cwd: path.resolve(projRoot, 'node_modules'),
-    })
-  ).map((dep) => dep.replace(/\.js$/, ''))
+  const optimizeDeps = await glob(['dayjs/(locale|plugin)/*.js'], {
+    cwd: path.resolve(projRoot, 'node_modules'),
+  })
 
   return {
-    // css: {
-    //   preprocessorOptions: {
-    //     scss: {
-    //       additionalData: `@use "/styles/custom.scss" as *;`,
-    //     },
-    //   },
-    // },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          // additionalData: `@use "/styles/custom.scss" as *;`,
+          silenceDeprecations: ['legacy-js-api'],
+        },
+      },
+    },
     resolve: {
       alias: [
         {
@@ -60,8 +58,9 @@ export default defineConfig(async ({ mode }) => {
       ],
     },
     server: {
+      port: 3000,
       host: true,
-      https: !!env.HTTPS,
+      https: !!env.HTTPS ? {} : false,
     },
     build: {
       sourcemap: true,
@@ -78,7 +77,10 @@ export default defineConfig(async ({ mode }) => {
       esbuildPlugin(),
       Components({
         include: `${__dirname}/**`,
-        resolvers: ElementPlusResolver({ importStyle: 'sass' }),
+        resolvers: ElementPlusResolver({
+          version: '2.0.0-dev.1',
+          importStyle: 'sass',
+        }),
         dts: false,
       }),
       mkcert(),

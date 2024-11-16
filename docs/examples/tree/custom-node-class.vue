@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import type Node from 'element-plus/es/components/tree/src/model/node'
-
+import type { TreeNodeData } from 'element-plus/es/components/tree/src/tree.type'
 interface Tree {
   id: number
   label: string
@@ -22,12 +22,8 @@ interface Tree {
   children?: Tree[]
 }
 
-const customNodeClass = (data: Tree, node: Node) => {
-  if (data.isPenultimate) {
-    return 'is-penultimate'
-  }
-  return null
-}
+const customNodeClass = ({ isPenultimate }: TreeNodeData, node: Node) =>
+  isPenultimate ? 'is-penultimate' : ''
 
 const data: Tree[] = [
   {

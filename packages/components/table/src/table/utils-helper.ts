@@ -34,6 +34,9 @@ function useUtils<T>(store: Store<T>) {
   const sort = (prop: string, order: string) => {
     store.commit('sort', { prop, order })
   }
+  const updateKeyChildren = (key: string, data: T[]) => {
+    store.updateKeyChildren(key, data)
+  }
 
   return {
     setCurrentRow,
@@ -45,6 +48,7 @@ function useUtils<T>(store: Store<T>) {
     toggleRowExpansion,
     clearSort,
     sort,
+    updateKeyChildren,
   }
 }
 
