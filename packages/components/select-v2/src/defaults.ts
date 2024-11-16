@@ -8,6 +8,7 @@ import {
   buildProps,
   definePropType,
   iconPropType,
+  isBoolean,
   isNumber,
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -180,7 +181,7 @@ export const SelectProps = buildProps({
     type: String,
   },
   /**
-   * @description is teleported, if `true` it will be teleported to where `append-to` sets
+   * @description whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets
    */
   teleported: useTooltipContentProps.teleported,
   /**
@@ -287,10 +288,16 @@ export const SelectProps = buildProps({
   appendTo: String,
   /**
    * @description if it is `true`, the width of the dropdown panel is the same as the input box.
-   * if it is `false`, the length is automatically calculated based on the value of `label`,
-   * or it can be set to a number to make it a fixed length
+   * if it is `false`, the width is automatically calculated based on the value of `label`,
+   * or it can be set to a number to make it a fixed width
    */
-  fitInputWidth: { type: [Boolean, Number], default: false },
+  fitInputWidth: {
+    type: [Boolean, Number],
+    default: false,
+    validator(val) {
+      return isBoolean(val) || isNumber(val)
+    },
+  },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 } as const)
