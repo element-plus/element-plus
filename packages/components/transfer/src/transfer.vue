@@ -11,8 +11,12 @@
       :filter-method="filterMethod"
       :default-checked="leftDefaultChecked"
       :props="props.props"
+      :remain-panel-body="remainLeftPanelBody"
       @checked-change="onSourceCheckedChange"
     >
+      <template #body="bodyProps">
+        <slot name="left-panel-body" v-bind="bodyProps" />
+      </template>
       <slot name="left-footer" />
     </transfer-panel>
     <div :class="ns.e('buttons')">
@@ -46,8 +50,12 @@
       :title="rightPanelTitle"
       :default-checked="rightDefaultChecked"
       :props="props.props"
+      :remain-panel-body="remainRightPanelBody"
       @checked-change="onTargetCheckedChange"
     >
+      <template #body="bodyProps">
+        <slot name="right-panel-body" v-bind="bodyProps" />
+      </template>
       <slot name="right-footer" />
     </transfer-panel>
   </div>
