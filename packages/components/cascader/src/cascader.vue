@@ -294,9 +294,7 @@ const presentTags: Ref<Tag[]> = ref([])
 const allPresentTags: Ref<Tag[]> = ref([])
 const suggestions: Ref<CascaderNode[]> = ref([])
 
-const cascaderStyle = computed<StyleValue>(() => {
-  return attrs.style as StyleValue
-})
+const cascaderStyle = computed<StyleValue>(() => attrs.style as StyleValue)
 
 const isDisabled = computed(() => props.disabled || form?.disabled)
 const inputPlaceholder = computed(
@@ -309,7 +307,7 @@ const currentPlaceholder = computed(() =>
 )
 const realSize = useFormSize()
 const tagSize = computed(() =>
-  ['small'].includes(realSize.value) ? 'small' : 'default'
+  realSize.value === 'small' ? 'small' : 'default'
 )
 const multiple = computed(() => !!props.props.multiple)
 const readonly = computed(() => !props.filterable || multiple.value)
@@ -357,30 +355,24 @@ const checkedValue = computed<CascaderValue>({
   },
 })
 
-const cascaderKls = computed(() => {
-  return [
-    nsCascader.b(),
-    nsCascader.m(realSize.value),
-    nsCascader.is('disabled', isDisabled.value),
-    attrs.class,
-  ]
-})
+const cascaderKls = computed(() => [
+  nsCascader.b(),
+  nsCascader.m(realSize.value),
+  nsCascader.is('disabled', isDisabled.value),
+  attrs.class,
+])
 
-const cascaderIconKls = computed(() => {
-  return [
-    nsInput.e('icon'),
-    'icon-arrow-down',
-    nsCascader.is('reverse', popperVisible.value),
-  ]
-})
+const cascaderIconKls = computed(() => [
+  nsInput.e('icon'),
+  'icon-arrow-down',
+  nsCascader.is('reverse', popperVisible.value),
+])
 
-const inputClass = computed(() => {
-  return nsCascader.is('focus', popperVisible.value || filterFocus.value)
-})
+const inputClass = computed(() =>
+  nsCascader.is('focus', popperVisible.value || filterFocus.value)
+)
 
-const contentRef = computed(() => {
-  return tooltipRef.value?.popperRef?.contentRef
-})
+const contentRef = computed(() => tooltipRef.value?.popperRef?.contentRef)
 
 const togglePopperVisible = (visible?: boolean) => {
   if (isDisabled.value) return
@@ -402,10 +394,9 @@ const togglePopperVisible = (visible?: boolean) => {
   }
 }
 
-const updatePopperPosition = () => {
-  nextTick(() => {
-    tooltipRef.value?.updatePopper()
-  })
+const updatePopperPosition = async () => {
+  await nextTick()
+  tooltipRef.value?.updatePopper()
 }
 
 const hideSuggestionPanel = () => {
@@ -524,18 +515,18 @@ const updateStyle = () => {
 
   if (tagWrapperEl) {
     const { offsetHeight } = tagWrapperEl
+    // 2 is el-input__wrapper padding
     const height =
       presentTags.value.length > 0
-        ? `${Math.max(offsetHeight + 6, inputInitialHeight)}px`
+        ? `${Math.max(offsetHeight, inputInitialHeight) - 2}px`
         : `${inputInitialHeight}px`
     inputInner.style.height = height
     updatePopperPosition()
   }
 }
 
-const getCheckedNodes = (leafOnly: boolean) => {
-  return cascaderPanelRef.value?.getCheckedNodes(leafOnly)
-}
+const getCheckedNodes = (leafOnly: boolean) =>
+  cascaderPanelRef.value?.getCheckedNodes(leafOnly)
 
 const handleExpandChange = (value: CascaderValue) => {
   updatePopperPosition()
@@ -686,7 +677,7 @@ watch(
 )
 
 watch(presentTags, () => {
-  nextTick(() => updateStyle())
+  nextTick(updateStyle)
 })
 
 watch(realSize, async () => {

@@ -112,6 +112,12 @@
     @include m($size) {
       font-size: map.get($input-font-size, $size);
       line-height: map.get($input-height, $size);
+
+      @include e(tags) {
+        gap: map.get($cascader-item-gap, $size);
+        margin-left: map.get($cascader-near-margin-left, $size);
+        padding: map.get($cascader-wrapper-padding, $size);
+      }
     }
   }
 
@@ -149,8 +155,9 @@
     transform: translateY(-50%);
     display: flex;
     flex-wrap: wrap;
-    margin-left: 4px;
-    gap: 6px;
+    padding: map.get($cascader-wrapper-padding, 'default');
+    margin-left: map.get($cascader-near-margin-left, 'default');
+    gap: map.get($cascader-item-gap, 'default');
     line-height: normal;
     text-align: left;
     box-sizing: border-box;
