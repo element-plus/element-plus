@@ -294,7 +294,9 @@ const presentTags: Ref<Tag[]> = ref([])
 const allPresentTags: Ref<Tag[]> = ref([])
 const suggestions: Ref<CascaderNode[]> = ref([])
 
-const cascaderStyle = computed<StyleValue>(() => attrs.style as StyleValue)
+const cascaderStyle = computed<StyleValue>(() => {
+  return attrs.style as StyleValue
+})
 
 const isDisabled = computed(() => props.disabled || form?.disabled)
 const inputPlaceholder = computed(
@@ -355,24 +357,30 @@ const checkedValue = computed<CascaderValue>({
   },
 })
 
-const cascaderKls = computed(() => [
-  nsCascader.b(),
-  nsCascader.m(realSize.value),
-  nsCascader.is('disabled', isDisabled.value),
-  attrs.class,
-])
+const cascaderKls = computed(() => {
+  return [
+    nsCascader.b(),
+    nsCascader.m(realSize.value),
+    nsCascader.is('disabled', isDisabled.value),
+    attrs.class,
+  ]
+})
 
-const cascaderIconKls = computed(() => [
-  nsInput.e('icon'),
-  'icon-arrow-down',
-  nsCascader.is('reverse', popperVisible.value),
-])
+const cascaderIconKls = computed(() => {
+  return [
+    nsInput.e('icon'),
+    'icon-arrow-down',
+    nsCascader.is('reverse', popperVisible.value),
+  ]
+})
 
-const inputClass = computed(() =>
-  nsCascader.is('focus', popperVisible.value || filterFocus.value)
-)
+const inputClass = computed(() => {
+  return nsCascader.is('focus', popperVisible.value || filterFocus.value)
+})
 
-const contentRef = computed(() => tooltipRef.value?.popperRef?.contentRef)
+const contentRef = computed(() => {
+  return tooltipRef.value?.popperRef?.contentRef
+})
 
 const togglePopperVisible = (visible?: boolean) => {
   if (isDisabled.value) return
@@ -394,11 +402,11 @@ const togglePopperVisible = (visible?: boolean) => {
   }
 }
 
-const updatePopperPosition = async () => {
-  await nextTick()
-  tooltipRef.value?.updatePopper()
+const updatePopperPosition = () => {
+  nextTick(() => {
+    tooltipRef.value?.updatePopper()
+  })
 }
-
 const hideSuggestionPanel = () => {
   filtering.value = false
 }
@@ -525,8 +533,9 @@ const updateStyle = () => {
   }
 }
 
-const getCheckedNodes = (leafOnly: boolean) =>
-  cascaderPanelRef.value?.getCheckedNodes(leafOnly)
+const getCheckedNodes = (leafOnly: boolean) => {
+  return cascaderPanelRef.value?.getCheckedNodes(leafOnly)
+}
 
 const handleExpandChange = (value: CascaderValue) => {
   updatePopperPosition()
@@ -677,7 +686,7 @@ watch(
 )
 
 watch(presentTags, () => {
-  nextTick(updateStyle)
+  nextTick(() => updateStyle())
 })
 
 watch(realSize, async () => {
