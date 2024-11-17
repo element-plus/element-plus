@@ -125,11 +125,11 @@ input-tag/prefix-suffix
 
 ### Slots
 
-| Name   | Description                | Type                         |
-| ------ | -------------------------- | ---------------------------- |
-| tag    | content as tag             | ^[object]`{ value: string }` |
-| prefix | content as InputTag prefix | —                            |
-| suffix | content as InputTag suffix | —                            |
+| Name   | Description                | Type                                        |
+| ------ | -------------------------- | ------------------------------------------- |
+| tag    | content as tag             | ^[object]`{ value: string, index: number }` |
+| prefix | content as InputTag prefix | —                                           |
+| suffix | content as InputTag suffix | —                                           |
 
 ### Exposes
 

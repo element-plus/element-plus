@@ -20,7 +20,7 @@
         disable-transitions
         @close="handleTagRemove(index)"
       >
-        <slot name="tag" :value="item">
+        <slot name="tag" :value="item" :index="index">
           {{ item }}
         </slot>
       </el-tag>
@@ -96,7 +96,12 @@ import {
   useFocusController,
   useNamespace,
 } from '@element-plus/hooks'
-import { EVENT_CODE } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import ElIcon from '@element-plus/components/icon'
 import ElTag from '@element-plus/components/tag'
 import {
@@ -147,7 +152,7 @@ const containerKls = computed(() => [
   ns.is('focused', isFocused.value),
   ns.is('hovering', hovering.value),
   ns.m(size.value),
-  nsInput.e('wrapper'),
+  ns.e('wrapper'),
   rawAttrs.class,
 ])
 const containerStyle = computed<StyleValue>(() => [
@@ -195,7 +200,7 @@ const handleInput = (event: Event) => {
   }
 
   if (isComposing.value) return
-  emit('input', (event.target as HTMLInputElement).value)
+  emit(INPUT_EVENT, (event.target as HTMLInputElement).value)
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
@@ -227,9 +232,9 @@ const handleTagAdd = () => {
   if (!value || inputLimit.value) return
   const list = [...(props.modelValue ?? []), value]
 
+  emit(UPDATE_MODEL_EVENT, list)
+  emit(CHANGE_EVENT, list)
   emit('tagAdd', value)
-  emit('change', list)
-  emit('update:modelValue', list)
   inputValue.value = undefined
 }
 
@@ -237,15 +242,15 @@ const handleTagRemove = (index: number) => {
   const value = (props.modelValue ?? []).slice()
   const [item] = value.splice(index, 1)
 
-  emit('change', value)
-  emit('update:modelValue', value)
+  emit(UPDATE_MODEL_EVENT, value)
+  emit(CHANGE_EVENT, value)
   emit('tagRemove', item)
 }
 
 const handleClear = () => {
   inputValue.value = undefined
-  emit('change', undefined)
-  emit('update:modelValue', undefined)
+  emit(UPDATE_MODEL_EVENT, undefined)
+  emit(CHANGE_EVENT, undefined)
   emit('clear')
 }
 
@@ -295,7 +300,7 @@ watch(
   () => props.modelValue,
   () => {
     if (props.validateEvent) {
-      elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+      elFormItem?.validate?.(CHANGE_EVENT).catch((err) => debugWarn(err))
     }
   }
 )

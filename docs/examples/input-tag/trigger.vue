@@ -1,9 +1,6 @@
 <template>
   <div>
-    <el-radio-group v-model="trigger" aria-label="trigger control">
-      <el-radio-button label="Enter" value="Enter" />
-      <el-radio-button label="Space" value="Space" />
-    </el-radio-group>
+    <el-segmented v-model="trigger" :options="options" />
   </div>
   <br />
   <el-input-tag v-model="input" :trigger="trigger" placeholder="Please input" />
@@ -11,7 +8,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { EVENT_CODE } from 'element-plus'
 
-const trigger = ref<'Enter' | 'Space'>('Enter')
+const trigger = ref<'Enter' | 'Space'>('Space')
 const input = ref<string[]>()
+const options = [EVENT_CODE.enter, EVENT_CODE.space]
 </script>

@@ -1,21 +1,7 @@
 <template>
   <div>
-    <el-radio-group v-model="tagType" aria-label="type control" class="mr-5">
-      <el-radio-button
-        v-for="item in type"
-        :key="item"
-        :label="item"
-        :value="item"
-      />
-    </el-radio-group>
-    <el-radio-group v-model="tagEffect" aria-label="effect control">
-      <el-radio-button
-        v-for="item in effect"
-        :key="item"
-        :label="item"
-        :value="item"
-      />
-    </el-radio-group>
+    <el-segmented v-model="tagType" :options="type" class="mr-5" />
+    <el-segmented v-model="tagEffect" :options="effect" />
   </div>
   <br />
   <el-input-tag

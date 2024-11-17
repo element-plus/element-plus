@@ -21,7 +21,7 @@ export const inputTagProps = buildProps({
    * @description binding value
    */
   modelValue: {
-    type: definePropType<string[]>([Array]),
+    type: definePropType<string[]>(Array),
   },
   /**
    * @description the key to trigger input tag
