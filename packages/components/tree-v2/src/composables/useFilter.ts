@@ -25,9 +25,14 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
     const nodes = tree.value?.treeNodes || []
     const filter = props.filterMethod
     hiddenKeys.clear()
+
+    if (!query.length) {
+      return expandKeySet
+    }
     function traverse(nodes: TreeNode[]) {
       nodes.forEach((node) => {
         family.push(node)
+
         if (filter?.(query, node.data)) {
           family.forEach((member) => {
             expandKeySet.add(member.key)
