@@ -85,9 +85,9 @@ radio/with-borders
 
 | Name                  | Description                                                            | Type                                     | Default |
 | --------------------- | ---------------------------------------------------------------------- | ---------------------------------------- | ------- |
-| model-value / v-model | binding value                                                          | ^[string] / ^[number] / ^[boolean]       | —       |
-| value ^(2.6.0)        | the value of Radio                                                     | ^[string] / ^[number] / ^[boolean]       | —       |
-| label                 | the label of Radio. If there's no `value`, `label` will act as `value` | ^[string] / ^[number] / ^[boolean]       | —       |
+| model-value / v-model | binding value                                                          | ^[string] \| ^[number] \| ^[boolean]       | —       |
+| value ^(2.6.0)        | the value of Radio                                                     | ^[string] \| ^[number] \| ^[boolean]       | —       |
+| label                 | the label of Radio. If there's no `value`, `label` will act as `value` | ^[string] \| ^[number] \| ^[boolean]       | —       |
 | disabled              | whether Radio is disabled                                              | ^[boolean]                               | false   |
 | border                | whether to add a border around Radio                                   | ^[boolean]                               | false   |
 | size                  | size of the Radio                                                      | ^[enum]`'large' \| 'default' \| 'small'` | —       |
@@ -111,7 +111,7 @@ radio/with-borders
 
 | Name                        | Description                                       | Type                               | Default |
 | --------------------------- | ------------------------------------------------- | ---------------------------------- | ------- |
-| model-value / v-model       | binding value                                     | ^[string] / ^[number] / ^[boolean] | —       |
+| model-value / v-model       | binding value                                     | ^[string] \| ^[number] \| ^[boolean] | —       |
 | size                        | the size of radio buttons or bordered radios      | ^[string]                          | default |
 | disabled                    | whether the nesting radios are disabled           | ^[boolean]                         | false   |
 | text-color                  | font color when button is active                  | ^[string]                          | #ffffff |
@@ -140,8 +140,8 @@ radio/with-borders
 
 | Name           | Description                                                            | Type                               | Default |
 | -------------- | ---------------------------------------------------------------------- | ---------------------------------- | ------- |
-| value ^(2.6.0) | the value of Radio                                                     | ^[string] / ^[number] / ^[boolean] | —       |
-| label          | the label of Radio. If there's no `value`, `label` will act as `value` | ^[string] / ^[number] / ^[boolean] | —       |
+| value ^(2.6.0) | the value of Radio                                                     | ^[string] \| ^[number] \| ^[boolean] | —       |
+| label          | the label of Radio. If there's no `value`, `label` will act as `value` | ^[string] \| ^[number] \| ^[boolean] | —       |
 | disabled       | whether Radio is disabled                                              | ^[boolean]                         | false   |
 | name           | native 'name' attribute                                                | ^[string]                          | —       |
 

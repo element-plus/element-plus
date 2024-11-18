@@ -120,10 +120,10 @@ carousel/vertical
 
 ### Carousel-Item Attributes
 
-| Name  | Description                                      | Type                  | Default |
-| ----- | ------------------------------------------------ | --------------------- | ------- |
-| name  | name of the item, can be used in `setActiveItem` | ^[string]             | ''      |
-| label | text content for the corresponding indicator     | ^[string] / ^[number] | ''      |
+| Name  | Description                                      | Type                   | Default |
+| ----- | ------------------------------------------------ | ---------------------- | ------- |
+| name  | name of the item, can be used in `setActiveItem` | ^[string]              | ''      |
+| label | text content for the corresponding indicator     | ^[string] \| ^[number] | ''      |
 
 ### Carousel-Item Slots
 

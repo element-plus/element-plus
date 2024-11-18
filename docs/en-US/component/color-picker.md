@@ -53,7 +53,7 @@ color-picker/sizes
 | popper-class                | custom class name for ColorPicker's dropdown          | ^[string]                                                                                                        | —       |
 | predefine                   | predefined color options                              | ^[object]`string[]`                                                                                              | —       |
 | validate-event              | whether to trigger form validation                    | ^[boolean]                                                                                                       | true    |
-| tabindex                    | ColorPicker tabindex                                  | ^[string] / ^[number]                                                                                            | 0       |
+| tabindex                    | ColorPicker tabindex                                  | ^[string] \| ^[number]                                                                                           | 0       |
 | aria-label ^(a11y) ^(2.7.2) | ColorPicker aria-label                                | ^[string]                                                                                                        | —       |
 | id                          | ColorPicker id                                        | ^[string]                                                                                                        | —       |
 | teleported ^(2.7.2)         | whether color-picker popper is teleported to the body | ^[boolean]                                                                                                       | true    |

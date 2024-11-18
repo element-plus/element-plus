@@ -83,7 +83,7 @@ steps/simple
 
 | Name           | Description                                                                   | Type                                                             | Default    |
 | -------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------- | ---------- |
-| space          | the spacing of each step, will be responsive if omitted. Supports percentage. | ^[number] / ^[string]                                            | ''         |
+| space          | the spacing of each step, will be responsive if omitted. Supports percentage. | ^[number] \| ^[string]                                            | ''         |
 | direction      | display direction                                                             | ^[enum]`'vertical' \| 'horizontal'`                              | horizontal |
 | active         | current activation step                                                       | ^[number]                                                        | 0          |
 | process-status | status of current step                                                        | ^[enum]`'wait' \| 'process' \| 'finish' \| 'error' \| 'success'` | process    |
@@ -105,7 +105,7 @@ steps/simple
 | ----------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------- | ------- |
 | title       | step title                                                               | ^[string]                                                              | ''      |
 | description | step description                                                         | ^[string]                                                              | ''      |
-| icon        | step custom icon. Icons can be passed via named slot as well             | ^[string] / ^[Component]                                               | —       |
+| icon        | step custom icon. Icons can be passed via named slot as well             | ^[string] \| ^[Component]                                               | —       |
 | status      | current status. It will be automatically set by Steps if not configured. | ^[enum]`'' \| 'wait' \| 'process' \| 'finish' \| 'error' \| 'success'` | ''      |
 
 ### Step Slots

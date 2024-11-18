@@ -85,7 +85,7 @@ If Element Plus is imported entirely, a globally method `$loading` will be regis
 
 | Name                 | Description                                                                                                                                                              | Type                       | Default       |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- | ------------- |
-| target               | the DOM node Loading needs to cover. Accepts a DOM object or a string. If it's a string, it will be passed to `document.querySelector` to get the corresponding DOM node | ^[string] / ^[HTMLElement] | document.body |
+| target               | the DOM node Loading needs to cover. Accepts a DOM object or a string. If it's a string, it will be passed to `document.querySelector` to get the corresponding DOM node | ^[string] \| ^[HTMLElement] | document.body |
 | body                 | same as the `body` modifier of `v-loading`                                                                                                                               | ^[boolean]                 | false         |
 | fullscreen           | same as the `fullscreen` modifier of `v-loading`                                                                                                                         | ^[boolean]                 | true          |
 | lock                 | same as the `lock` modifier of `v-loading`                                                                                                                               | ^[boolean]                 | false         |
@@ -102,7 +102,7 @@ If Element Plus is imported entirely, a globally method `$loading` will be regis
 
 | Name                         | Description                                                  | Type                           |
 | ---------------------------- | ------------------------------------------------------------ | ------------------------------ |
-| v-loading                    | show animation while loading data                            | ^[boolean] / ^[LoadingOptions] |
+| v-loading                    | show animation while loading data                            | ^[boolean] \| ^[LoadingOptions] |
 | element-loading-text         | loading text that displays under the spinner                 | ^[string]                      |
 | element-loading-spinner      | icon of the custom spinner                                   | ^[string]                      |
 | element-loading-svg          | icon of the custom spinner (same as element-loading-spinner) | ^[string]                      |

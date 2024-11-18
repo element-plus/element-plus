@@ -68,7 +68,7 @@ timeline/center
 | type           | node type                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | ''      |
 | color          | background color of node    | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb'`                          | ''      |
 | size           | node size                   | ^[enum]`'normal' \| 'large'`                                       | normal  |
-| icon           | icon component              | ^[string] / ^[Component]                                           | —       |
+| icon           | icon component              | ^[string] \| ^[Component]                                           | —       |
 | hollow         | icon is hollow              | ^[boolean]                                                         | false   |
 
 ### Timeline-Item Slots

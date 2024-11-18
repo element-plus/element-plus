@@ -224,7 +224,7 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
 | Name  | Description                | Type                  | Default                |
 | ----- | -------------------------- | --------------------- | ---------------------- |
 | color | SVG tag's fill attribute   | ^[string]             | inherit from color     |
-| size  | SVG icon size, size x size | ^[number] / ^[string] | inherit from font size |
+| size  | SVG icon size, size x size | ^[number] \| ^[string] | inherit from font size |
 
 ### Slots
 

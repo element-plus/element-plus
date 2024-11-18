@@ -49,7 +49,7 @@ statistic/card
 | prefix            | Sets the prefix of a number    | ^[string]                                                           | —       |
 | suffix            | Sets the suffix of a number    | ^[string]                                                           | —       |
 | title             | Numeric titles                 | ^[string]                                                           | —       |
-| value-style       | Styles numeric values          | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
+| value-style       | Styles numeric values          | ^[string] \| ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
 
 ### Statistic Slots
 
@@ -71,12 +71,12 @@ statistic/card
 
 | Attribute   | Description                      | Type                                                                | Default  |
 | ----------- | -------------------------------- | ------------------------------------------------------------------- | -------- |
-| value       | target time                      | ^[number] / ^[Dayjs]                                                | —        |
+| value       | target time                      | ^[number] \| ^[Dayjs]                                                | —        |
 | format      | Formatting the countdown display | ^[string]                                                           | HH:mm:ss |
 | prefix      | Sets the prefix of a countdown   | ^[string]                                                           | —        |
 | suffix      | Sets the suffix of a countdown   | ^[string]                                                           | —        |
 | title       | countdown titles                 | ^[string]                                                           | —        |
-| value-style | Styles countdown values          | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —        |
+| value-style | Styles countdown values          | ^[string] \| ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —        |
 
 ### Countdown Events
 

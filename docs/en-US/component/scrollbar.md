@@ -45,12 +45,12 @@ scrollbar/manual-scroll
 
 | Name                              | Description                                                                                                                     | Type                                                                | Default |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ------- |
-| height                            | height of scrollbar                                                                                                             | ^[string] / ^[number]                                               | —       |
-| max-height                        | max height of scrollbar                                                                                                         | ^[string] / ^[number]                                               | —       |
+| height                            | height of scrollbar                                                                                                             | ^[string] \| ^[number]                                               | —       |
+| max-height                        | max height of scrollbar                                                                                                         | ^[string] \| ^[number]                                               | —       |
 | native                            | whether to use the native scrollbar style                                                                                       | ^[boolean]                                                          | false   |
-| wrap-style                        | style of wrap container                                                                                                         | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
+| wrap-style                        | style of wrap container                                                                                                         | ^[string] \| ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
 | wrap-class                        | class of wrap container                                                                                                         | ^[string]                                                           | —       |
-| view-style                        | style of view                                                                                                                   | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
+| view-style                        | style of view                                                                                                                   | ^[string] \| ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
 | view-class                        | class of view                                                                                                                   | ^[string]                                                           | —       |
 | noresize                          | do not respond to container size changes, if the container size does not change, it is better to set it to optimize performance | ^[boolean]                                                          | false   |
 | tag                               | element tag of the view                                                                                                         | ^[string]                                                           | div     |
@@ -60,7 +60,7 @@ scrollbar/manual-scroll
 | role ^(2.4.0) ^(a11y)             | role of view                                                                                                                    | ^[string]                                                           | —       |
 | aria-label ^(2.4.0) ^(a11y)       | aria-label of view                                                                                                              | ^[string]                                                           | —       |
 | aria-orientation ^(2.4.0) ^(a11y) | aria-orientation of view                                                                                                        | ^[enum]`'horizontal' \| 'vertical'`                                 | —       |
-| tabindex ^(2.8.3)                 | tabindex of wrap container                                                                                                      | ^[number] / ^[string]                                               | —       |
+| tabindex ^(2.8.3)                 | tabindex of wrap container                                                                                                      | ^[number] \| ^[string]                                               | —       |
 
 ### Events
 

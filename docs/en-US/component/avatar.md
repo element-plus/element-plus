@@ -53,8 +53,8 @@ avatar/fit
 
 | Name    | Description                                               | Type                                                              | Default |
 | ------- | --------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
-| icon    | representation type to icon, more info on icon component. | ^[string] / ^[Component]                                          | —       |
-| size    | avatar size.                                              | ^[number] / ^[enum]`'large' \| 'default' \| 'small'`              | default |
+| icon    | representation type to icon, more info on icon component. | ^[string] \| ^[Component]                                         | —       |
+| size    | avatar size.                                              | ^[number] \| ^[enum]`'large' \| 'default' \| 'small'`             | default |
 | shape   | avatar shape.                                             | ^[enum]`'circle' \| 'square'`                                     | circle  |
 | src     | the source of the image for an image avatar.              | `string`                                                          | —       |
 | src-set | native attribute `srcset` of image avatar.                | `string`                                                          | —       |
