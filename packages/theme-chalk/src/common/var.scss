@@ -693,6 +693,16 @@ $cascader-wrapper-padding: map.merge(
   $cascader-wrapper-padding
 );
 
+$cascader-item-height: () !default;
+$cascader-item-height: map.merge(
+  (
+    'large': 24px,
+    'default': 24px,
+    'small': 20px,
+  ),
+  $cascader-item-height
+);
+
 //statistic
 // css3 var in packages/theme-chalk/src/statistic.scss
 $statistic: () !default;

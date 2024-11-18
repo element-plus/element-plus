@@ -118,6 +118,10 @@
         margin-left: map.get($cascader-near-margin-left, $size);
         padding: map.get($cascader-wrapper-padding, $size);
       }
+
+      @include e(search-input) {
+        height: map.get($cascader-item-height, $size);
+      }
     }
   }
 
@@ -221,7 +225,7 @@
     flex: 1;
     height: 24px;
     min-width: 60px;
-    margin: 2px 0 2px map.get($input-padding-horizontal, 'default')-$border-width;
+    margin-left: map.get($input-padding-horizontal, 'default')-$border-width;
     padding: 0;
     color: getCssVar('cascader', 'menu-text-color');
     border: none;
