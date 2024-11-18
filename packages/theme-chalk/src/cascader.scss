@@ -223,7 +223,7 @@
 
   @include e(search-input) {
     flex: 1;
-    height: 24px;
+    height: map.get($cascader-item-height, 'default');
     min-width: 60px;
     margin-left: map.get($input-padding-horizontal, 'default')-$border-width;
     padding: 0;
@@ -231,7 +231,6 @@
     border: none;
     outline: none;
     box-sizing: border-box;
-
     background: transparent;
 
     &::placeholder {
