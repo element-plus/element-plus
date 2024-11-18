@@ -312,15 +312,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     () => {
       if (!isClient) return
       // tooltipRef.value?.updatePopper?.()
-      const inputs = selectRef.value?.querySelectorAll('input') || []
-      if (
-        (!props.filterable &&
-          !props.defaultFirstOption &&
-          !isUndefined(props.modelValue)) ||
-        !Array.from(inputs).includes(document.activeElement as HTMLInputElement)
-      ) {
-        setSelected()
-      }
+      setSelected()
       if (
         props.defaultFirstOption &&
         (props.filterable || props.remote) &&
