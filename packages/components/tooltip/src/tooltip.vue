@@ -70,6 +70,7 @@ import { TOOLTIP_INJECTION_KEY } from './constants'
 import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
+import type { TooltipContentInstance } from './content'
 import type { PopperInstance } from '@element-plus/components/popper'
 
 defineOptions({
@@ -83,8 +84,7 @@ usePopperContainer()
 
 const id = useId()
 const popperRef = ref<PopperInstance>()
-// TODO any is temporary, replace with `TooltipContentInstance` later
-const contentRef = ref<any>()
+const contentRef = ref<TooltipContentInstance>()
 
 const updatePopper = () => {
   const popperComponent = unref(popperRef)

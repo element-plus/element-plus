@@ -85,10 +85,10 @@ export default defineComponent({
       if (!props.loop && !props.trapped) return
       if (focusLayer.paused) return
 
-      const { key, altKey, ctrlKey, metaKey, currentTarget, shiftKey } = e
+      const { code, altKey, ctrlKey, metaKey, currentTarget, shiftKey } = e
       const { loop } = props
       const isTabbing =
-        key === EVENT_CODE.tab && !altKey && !ctrlKey && !metaKey
+        code === EVENT_CODE.tab && !altKey && !ctrlKey && !metaKey
 
       const currentFocusingEl = document.activeElement
       if (isTabbing && currentFocusingEl) {
