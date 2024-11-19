@@ -1,6 +1,6 @@
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, VNode } from 'vue'
+import type { AppContext, ExtractPropTypes, VNode } from 'vue'
 import type Notification from './notification.vue'
 
 export const notificationTypes = [
@@ -137,7 +137,8 @@ export type NotificationParamsTyped =
   | VNode
 
 export type NotifyFn = ((
-  options?: NotificationParams
+  options?: NotificationParams,
+  appContext?: null | AppContext
 ) => NotificationHandle) & { closeAll: () => void }
 
 export type NotifyTypedFn = (
