@@ -8,8 +8,6 @@
     :aria-labelledby="
       range && isLabeledByFormItem ? elFormItem?.labelId : undefined
     "
-    @touchstart="onSliderWrapperPrevent"
-    @touchmove="onSliderWrapperPrevent"
   >
     <div
       ref="slider"
@@ -20,7 +18,7 @@
       ]"
       :style="runwayStyle"
       @mousedown="onSliderDown"
-      @touchstart="onSliderDown"
+      @touchstart.passive="onSliderDown"
     >
       <div :class="ns.e('bar')" :style="barStyle" />
       <slider-button
@@ -85,6 +83,7 @@
             :key="key"
             :mark="item.mark"
             :style="getStopStyle(item.position)"
+            @mousedown.stop="onSliderMarkerDown(item.position)"
           />
         </div>
       </template>
@@ -99,6 +98,7 @@
       :controls="showInputControls"
       :min="min"
       :max="max"
+      :precision="precision"
       :debounce="debounce"
       :size="sliderInputSize"
       @update:model-value="setFirstValue"
@@ -109,6 +109,7 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, toRefs } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import ElInputNumber from '@element-plus/components/input-number'
 import { useFormItemInputId, useFormSize } from '@element-plus/components/form'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -158,6 +159,7 @@ const {
   onSliderWrapperPrevent,
   onSliderClick,
   onSliderDown,
+  onSliderMarkerDown,
   setFirstValue,
   setSecondValue,
 } = useSlide(props, initData, emit)
@@ -175,7 +177,7 @@ const sliderInputSize = computed(
 
 const groupLabel = computed<string>(() => {
   return (
-    props.label ||
+    props.ariaLabel ||
     t('el.slider.defaultLabel', {
       min: props.min,
       max: props.max,
@@ -233,6 +235,13 @@ const { firstValue, secondValue, sliderSize } = toRefs(initData)
 const updateDragging = (val: boolean) => {
   initData.dragging = val
 }
+
+useEventListener(sliderWrapper, 'touchstart', onSliderWrapperPrevent, {
+  passive: false,
+})
+useEventListener(sliderWrapper, 'touchmove', onSliderWrapperPrevent, {
+  passive: false,
+})
 
 provide(sliderContextKey, {
   ...toRefs(props),

@@ -214,4 +214,122 @@ describe('Transfer', () => {
       expect(app.rightPanel.query).toBeFalsy()
     })
   })
+
+  describe('render default slot', () => {
+    it('single comment node', () => {
+      const wrapper = mount(Transfer, {
+        props: {
+          data: getTestData(),
+        },
+        slots: {
+          default: '<!--  -->',
+        },
+      })
+
+      const leftPanel = wrapper.find('.el-transfer-panel')
+      const labels = leftPanel.findAll(
+        '.el-transfer-panel__body .el-checkbox__label'
+      )
+
+      expect(labels.map((l) => l.text())).toMatchInlineSnapshot(`
+        [
+          "备选项 1",
+          "备选项 2",
+          "备选项 3",
+          "备选项 4",
+          "备选项 5",
+          "备选项 6",
+          "备选项 7",
+          "备选项 8",
+          "备选项 9",
+          "备选项 10",
+          "备选项 11",
+          "备选项 12",
+          "备选项 13",
+          "备选项 14",
+          "备选项 15",
+        ]
+      `)
+    })
+
+    it('multiple comment nodes', () => {
+      const wrapper = mount(Transfer, {
+        props: {
+          data: getTestData(),
+        },
+        slots: {
+          default: `
+<!--  -->
+<!--  -->
+`,
+        },
+      })
+
+      const leftPanel = wrapper.find('.el-transfer-panel')
+      const labels = leftPanel.findAll(
+        '.el-transfer-panel__body .el-checkbox__label'
+      )
+
+      expect(labels.map((l) => l.text())).toMatchInlineSnapshot(`
+        [
+          "备选项 1",
+          "备选项 2",
+          "备选项 3",
+          "备选项 4",
+          "备选项 5",
+          "备选项 6",
+          "备选项 7",
+          "备选项 8",
+          "备选项 9",
+          "备选项 10",
+          "备选项 11",
+          "备选项 12",
+          "备选项 13",
+          "备选项 14",
+          "备选项 15",
+        ]
+      `)
+    })
+
+    it('contents with multiple comment nodes', () => {
+      const wrapper = mount(Transfer, {
+        props: {
+          data: getTestData(),
+        },
+        slots: {
+          default: `
+<!--  -->
+1
+<!--  -->
+2
+`,
+        },
+      })
+
+      const leftPanel = wrapper.find('.el-transfer-panel')
+      const labels = leftPanel.findAll(
+        '.el-transfer-panel__body .el-checkbox__label'
+      )
+
+      expect(labels.map((l) => l.text())).toMatchInlineSnapshot(`
+        [
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+        ]
+      `)
+    })
+  })
 })

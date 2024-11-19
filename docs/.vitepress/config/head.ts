@@ -52,6 +52,34 @@ export const head: HeadConfig[] = [
     },
   ],
   [
+    'meta',
+    {
+      property: 'og:image',
+      content: '/images/element-plus-og-image.png',
+    },
+  ],
+  [
+    'meta',
+    {
+      property: 'og:image:width',
+      content: '1200',
+    },
+  ],
+  [
+    'meta',
+    {
+      property: 'og:image:height',
+      content: '630',
+    },
+  ],
+  [
+    'meta',
+    {
+      property: 'og:description',
+      content: 'A Vue 3 based component library for designers and developers',
+    },
+  ],
+  [
     'script',
     {},
     `;(() => {
@@ -111,34 +139,16 @@ gtag('config', 'UA-175337989-1');`,
   ],
   [
     'script',
-    {},
-    `(function(h,o,t,j,a,r){
-      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-      h._hjSettings={hjid:2894908,hjsv:6};
-      a=o.getElementsByTagName('head')[0];
-      r=o.createElement('script');r.async=1;
-      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-      a.appendChild(r);
-  })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`,
-  ],
-  [
-    'script',
     {
       async: 'true',
     },
     `
   var resource = document.createElement('link');
   resource.setAttribute("rel", "stylesheet");
-  resource.setAttribute("href","//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap");
+  resource.setAttribute("href","https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800|Open+Sans:400,600;display=swap");
   resource.setAttribute("type","text/css");
   var head = document.querySelector('head');
   head.appendChild(resource);
     `,
   ],
 ]
-
-head.push([
-  'script',
-  {},
-  fs.readFileSync(path.resolve(vpRoot, 'dark-mode.js'), 'utf-8'),
-])

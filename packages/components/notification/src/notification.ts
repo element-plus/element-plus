@@ -21,10 +21,7 @@ export const notificationProps = buildProps({
   /**
    * @description whether `message` is treated as HTML string
    */
-  dangerouslyUseHTMLString: {
-    type: Boolean,
-    default: false,
-  },
+  dangerouslyUseHTMLString: Boolean,
   /**
    * @description duration before close. It will not automatically close if set 0
    */
@@ -106,10 +103,7 @@ export const notificationProps = buildProps({
   /**
    * @description initial zIndex
    */
-  zIndex: {
-    type: Number,
-    default: 0,
-  },
+  zIndex: Number,
 } as const)
 export type NotificationProps = ExtractPropTypes<typeof notificationProps>
 

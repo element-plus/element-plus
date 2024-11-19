@@ -3,7 +3,7 @@ import { h } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowRight, Loading } from '@element-plus/icons-vue'
-import { getProp } from '@element-plus/utils'
+import { getProp, isBoolean, isFunction, isNumber } from '@element-plus/utils'
 
 import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
@@ -46,7 +46,7 @@ export const getDefaultClassName = (type) => {
 // 这些选项不应该被覆盖
 export const cellForced = {
   selection: {
-    renderHeader<T>({ store }: { store: Store<T> }) {
+    renderHeader<T>({ store, column }: { store: Store<T> }) {
       function isDisabled() {
         return store.states.data.value && store.states.data.value.length === 0
       }
@@ -58,6 +58,7 @@ export const cellForced = {
           !store.states.isAllSelected.value,
         'onUpdate:modelValue': store.toggleAllSelection,
         modelValue: store.states.isAllSelected.value,
+        ariaLabel: column.label,
       })
     },
     renderCell<T>({
@@ -81,6 +82,7 @@ export const cellForced = {
         },
         onClick: (event: Event) => event.stopPropagation(),
         modelValue: store.isSelected(row),
+        ariaLabel: column.label,
       })
     },
     sortable: false,
@@ -100,9 +102,9 @@ export const cellForced = {
       let i = $index + 1
       const index = column.index
 
-      if (typeof index === 'number') {
+      if (isNumber(index)) {
         i = $index + index
-      } else if (typeof index === 'function') {
+      } else if (isFunction(index)) {
         i = index($index)
       }
       return h('div', {}, [i])
@@ -211,7 +213,7 @@ export function treeCellPrefix<T>(
       })
     )
   }
-  if (typeof treeNode.expanded === 'boolean' && !treeNode.noLazyChildren) {
+  if (isBoolean(treeNode.expanded) && !treeNode.noLazyChildren) {
     const expandClasses = [
       ns.e('expand-icon'),
       treeNode.expanded ? ns.em('expand-icon', 'expanded') : '',

@@ -1,5 +1,5 @@
 import { config, mount } from '@vue/test-utils'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { ID_INJECTION_KEY, useId, useIdInjection } from '../use-id'
 
 describe('no injection value', () => {
@@ -16,7 +16,7 @@ describe('no injection value', () => {
       template: '<div></div>',
     })
 
-    expect(wrapper.vm.prefix).toMatch(/^\d{0,4}$/)
+    expect(String(wrapper.vm.prefix)).toMatch(/^\d{0,4}$/)
     expect(wrapper.vm.current).toBe(0)
   })
 
@@ -26,6 +26,7 @@ describe('no injection value', () => {
         const id = useId()
         return { id }
       },
+      render: () => undefined,
     })
 
     expect(wrapper.vm.id).toMatch(/^el-id-\d{0,4}-\d+$/)
@@ -53,6 +54,7 @@ describe('with injection value', () => {
         const idInjection = useIdInjection()
         return idInjection
       },
+      render: () => undefined,
     })
 
     expect(wrapper.vm.prefix).toBe(1024)
@@ -65,8 +67,41 @@ describe('with injection value', () => {
         const id = useId()
         return { id }
       },
+      render: () => undefined,
     })
 
     expect(wrapper.vm.id).toBe('el-id-1024-0')
+  })
+})
+
+describe('useId warns in non-client environment with default idInjection', async () => {
+  const mockGetCurrentInstance = vi.fn(() => false)
+  const mockWarn = vi.fn()
+  const mockIsClient = false
+
+  beforeEach(() => {
+    vi.resetModules()
+    vi.doMock('vue', () => ({
+      getCurrentInstance: mockGetCurrentInstance,
+      ref: vi.fn(),
+      computed: vi.fn(),
+    }))
+    vi.doMock('@vueuse/core', () => ({
+      computedEager: vi.fn(),
+    }))
+    vi.doMock('@element-plus/utils', () => ({
+      debugWarn: mockWarn,
+      isClient: mockIsClient,
+    }))
+  })
+  afterEach(() => {
+    vi.doUnmock('@element-plus/utils')
+    vi.doUnmock('vue')
+  })
+
+  it('should warn', async () => {
+    const { useId: mockUseId } = await import('../use-id')
+    mockUseId()
+    expect(mockWarn).toHaveBeenCalled()
   })
 })

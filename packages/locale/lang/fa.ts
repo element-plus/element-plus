@@ -1,16 +1,30 @@
 export default {
   name: 'fa',
   el: {
+    breadcrumb: {
+      label: 'مسیر راهنما',
+    },
     colorpicker: {
-      confirm: 'باشد',
-      clear: 'حذف',
+      confirm: 'تأیید',
+      clear: 'پاک کردن',
+      defaultLabel: 'انتخاب‌گر رنگ',
+      description:
+        'رنگ فعلی {color} است. برای انتخاب رنگ جدید، اینتر را فشار دهید.',
+      alphaLabel: 'مقدار آلفا را انتخاب کنید',
     },
     datepicker: {
       now: 'اکنون',
       today: 'امروز',
       cancel: 'لغو',
-      clear: 'حذف',
-      confirm: 'باشه',
+      clear: 'پاک کردن',
+      confirm: 'تأیید',
+      dateTablePrompt:
+        'از کلیدهای جهت‌دار و اینتر برای انتخاب روز ماه استفاده کنید',
+      monthTablePrompt:
+        'از کلیدهای جهت‌دار و اینتر برای انتخاب ماه استفاده کنید',
+      yearTablePrompt:
+        'از کلیدهای جهت‌دار و اینتر برای انتخاب سال استفاده کنید',
+      selectedDate: 'تاریخ انتخاب‌شده',
       selectDate: 'انتخاب تاریخ',
       selectTime: 'انتخاب زمان',
       startDate: 'تاریخ شروع',
@@ -21,37 +35,46 @@ export default {
       nextYear: 'سال بعد',
       prevMonth: 'ماه قبل',
       nextMonth: 'ماه بعد',
-      year: 'سال',
+      year: '',
       month1: 'ژانویه',
       month2: 'فوریه',
       month3: 'مارس',
       month4: 'آوریل',
       month5: 'مه',
       month6: 'ژوئن',
-      month7: 'جولای',
+      month7: 'ژوئیه',
       month8: 'اوت',
       month9: 'سپتامبر',
       month10: 'اکتبر',
       month11: 'نوامبر',
       month12: 'دسامبر',
-      // week: 'week',
+      week: 'هفته',
       weeks: {
-        sun: 'یکشنبه',
+        sun: 'یک‌شنبه',
         mon: 'دوشنبه',
-        tue: 'سه​شنبه',
+        tue: 'سه‌شنبه',
         wed: 'چهارشنبه',
-        thu: 'پنج​شنبه',
+        thu: 'پنج‌شنبه',
+        fri: 'جمعه',
+        sat: 'شنبه',
+      },
+      weeksFull: {
+        sun: 'یک‌شنبه',
+        mon: 'دوشنبه',
+        tue: 'سه‌شنبه',
+        wed: 'چهارشنبه',
+        thu: 'پنج‌شنبه',
         fri: 'جمعه',
         sat: 'شنبه',
       },
       months: {
         jan: 'ژانویه',
         feb: 'فوریه',
-        mar: 'مارس',
+        mar: 'مارچ',
         apr: 'آوریل',
         may: 'مه',
         jun: 'ژوئن',
-        jul: 'جولای',
+        jul: 'ژوئیه',
         aug: 'اوت',
         sep: 'سپتامبر',
         oct: 'اکتبر',
@@ -59,69 +82,103 @@ export default {
         dec: 'دسامبر',
       },
     },
+    inputNumber: {
+      decrease: 'کاهش عدد',
+      increase: 'افزایش عدد',
+    },
     select: {
-      loading: 'بارگیری',
-      noMatch: 'هیچ داده‌ای پیدا نشد',
-      noData: 'اطلاعاتی وجود ندارد',
+      loading: 'در حال بارگذاری',
+      noMatch: 'هیچ داده منطبقی وجود ندارد',
+      noData: 'داده‌ای موجود نیست',
       placeholder: 'انتخاب کنید',
     },
+    mention: {
+      loading: 'در حال بارگذاری',
+    },
+    dropdown: {
+      toggleDropdown: 'باز و بسته کردن منوی کشویی',
+    },
     cascader: {
-      noMatch: 'هیچ داده‌ای پیدا نشد',
-      loading: 'بارگیری',
+      noMatch: 'هیچ داده منطبقی وجود ندارد',
+      loading: 'در حال بارگذاری',
       placeholder: 'انتخاب کنید',
-      noData: 'اطلاعاتی وجود ندارد',
+      noData: 'داده‌ای موجود نیست',
     },
     pagination: {
       goto: 'برو به',
       pagesize: '/صفحه',
       total: 'مجموع {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'صفحه',
+      prev: 'برو به صفحه قبلی',
+      next: 'برو به صفحه بعدی',
+      currentPage: 'صفحه {pager}',
+      prevPages: '{pager} صفحات قبلی',
+      nextPages: '{pager} صفحات بعدی',
+      deprecationWarning:
+        'استفاده‌های منسوخ شناسایی شد، لطفاً به مستندات el-pagination مراجعه کنید',
+    },
+    dialog: {
+      close: 'بستن این دیالوگ',
+    },
+    drawer: {
+      close: 'بستن این دیالوگ',
     },
     messagebox: {
       title: 'پیام',
-      confirm: 'باشه',
+      confirm: 'تأیید',
       cancel: 'لغو',
-      error: 'ورودی غیر مجاز',
+      error: 'ورودی نامعتبر',
+      close: 'بستن این دیالوگ',
     },
     upload: {
-      deleteTip: 'برای پاک کردن حذف را فشار دهید',
+      deleteTip: 'برای حذف، کلید delete را فشار دهید',
       delete: 'حذف',
       preview: 'پیش‌نمایش',
       continue: 'ادامه',
     },
+    slider: {
+      defaultLabel: 'لغزنده بین {min} و {max}',
+      defaultRangeStartLabel: 'انتخاب مقدار شروع',
+      defaultRangeEndLabel: 'انتخاب مقدار پایان',
+    },
     table: {
-      emptyText: 'اطلاعاتی وجود ندارد',
-      confirmFilter: 'تایید',
-      resetFilter: 'حذف',
+      emptyText: 'داده‌ای موجود نیست',
+      confirmFilter: 'تأیید',
+      resetFilter: 'بازنشانی',
       clearFilter: 'همه',
-      sumText: 'جمع',
+      sumText: 'مجموع',
+    },
+    tour: {
+      next: 'بعدی',
+      previous: 'قبلی',
+      finish: 'پایان',
     },
     tree: {
-      emptyText: 'اطلاعاتی وجود ندارد',
+      emptyText: 'داده‌ای موجود نیست',
     },
     transfer: {
-      noMatch: 'هیچ داده‌ای پیدا نشد',
-      noData: 'اطلاعاتی وجود ندارد',
-      titles: ['لیست 1', 'لیست 2'],
-      filterPlaceholder: 'کلید واژه هارو وارد کن',
-      noCheckedFormat: '{total} مورد',
-      hasCheckedFormat: '{checked} مورد از {total} مورد انتخاب شده است',
+      noMatch: 'داده‌ای مطابقت ندارد',
+      noData: 'داده‌ای موجود نیست',
+      titles: ['فهرست ۱', 'فهرست ۲'],
+      filterPlaceholder: 'کلمه کلیدی را وارد کنید',
+      noCheckedFormat: '{total} آیتم',
+      hasCheckedFormat: '{checked}/{total} انتخاب‌شده',
     },
     image: {
-      error: 'خطا در بارگیری تصویر',
+      error: 'ناموفق',
     },
     pageHeader: {
       title: 'بازگشت',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'بله',
+      cancelButtonText: 'خیر',
+    },
+    carousel: {
+      leftArrow: 'پیکان به جهت چپ',
+      rightArrow: 'پیکان چرخان به جهت راست',
+      indicator: 'سوئیچ چرخان به شاخص {index}',
     },
   },
 }

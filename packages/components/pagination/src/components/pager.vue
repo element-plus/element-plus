@@ -15,12 +15,7 @@
     </li>
     <li
       v-if="showPrevMore"
-      :class="[
-        'more',
-        'btn-quickprev',
-        nsIcon.b(),
-        nsPager.is('disabled', disabled),
-      ]"
+      :class="prevMoreKls"
       :tabindex="tabindex"
       :aria-label="t('el.pagination.prevPages', { pager: pagerCount - 2 })"
       @mouseenter="onMouseEnter(true)"
@@ -47,12 +42,7 @@
     </li>
     <li
       v-if="showNextMore"
-      :class="[
-        'more',
-        'btn-quicknext',
-        nsIcon.b(),
-        nsPager.is('disabled', disabled),
-      ]"
+      :class="nextMoreKls"
       :tabindex="tabindex"
       :aria-label="t('el.pagination.nextPages', { pager: pagerCount - 2 })"
       @mouseenter="onMouseEnter()"
@@ -135,6 +125,20 @@ const pagers = computed(() => {
   }
   return array
 })
+
+const prevMoreKls = computed(() => [
+  'more',
+  'btn-quickprev',
+  nsIcon.b(),
+  nsPager.is('disabled', props.disabled),
+])
+const nextMoreKls = computed(() => [
+  'more',
+  'btn-quicknext',
+  nsIcon.b(),
+  nsPager.is('disabled', props.disabled),
+])
+
 const tabindex = computed(() => (props.disabled ? -1 : 0))
 watchEffect(() => {
   const halfPagerCount = (props.pagerCount - 1) / 2

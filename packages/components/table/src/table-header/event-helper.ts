@@ -1,6 +1,12 @@
 // @ts-nocheck
 import { getCurrentInstance, inject, ref } from 'vue'
-import { addClass, hasClass, isClient, removeClass } from '@element-plus/utils'
+import {
+  addClass,
+  hasClass,
+  isClient,
+  isElement,
+  removeClass,
+} from '@element-plus/utils'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableHeaderProps } from '.'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -109,16 +115,20 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
 
   const handleMouseMove = (event: MouseEvent, column: TableColumnCtx<T>) => {
     if (column.children && column.children.length > 0) return
+    const el = event.target as HTMLElement
+    if (!isElement(el)) {
+      return
+    }
+    const target = el?.closest('th')
 
-    const target = (event.target as HTMLElement)?.closest('th')
-
-    if (!column || !column.resizable) return
+    if (!column || !column.resizable || !target) return
 
     if (!dragging.value && props.border) {
       const rect = target.getBoundingClientRect()
 
       const bodyStyle = document.body.style
-      if (rect.width > 12 && rect.right - event.pageX < 8) {
+      const isLastTh = target.parentNode?.lastElementChild === target
+      if (rect.width > 12 && rect.right - event.pageX < 8 && !isLastTh) {
         bodyStyle.cursor = 'col-resize'
         if (hasClass(target, 'is-sortable')) {
           target.style.cursor = 'col-resize'
@@ -151,7 +161,6 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
     event.stopPropagation()
     const order =
       column.order === givenOrder ? null : givenOrder || toggleOrder(column)
-
     const target = (event.target as HTMLElement)?.closest('th')
 
     if (target) {
@@ -162,6 +171,16 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
     }
 
     if (!column.sortable) return
+
+    const clickTarget = event.currentTarget
+
+    if (
+      ['ascending', 'descending'].some(
+        (str) => hasClass(clickTarget, str) && !column.sortOrders.includes(str)
+      )
+    ) {
+      return
+    }
 
     const states = props.store.states
     let sortProp = states.sortProp.value

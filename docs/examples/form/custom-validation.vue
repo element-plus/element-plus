@@ -1,10 +1,11 @@
 <template>
   <el-form
     ref="ruleFormRef"
+    style="max-width: 600px"
     :model="ruleForm"
     status-icon
     :rules="rules"
-    label-width="120px"
+    label-width="auto"
     class="demo-ruleForm"
   >
     <el-form-item label="Password" prop="pass">
@@ -21,9 +22,9 @@
       <el-input v-model.number="ruleForm.age" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm(ruleFormRef)"
-        >Submit</el-button
-      >
+      <el-button type="primary" @click="submitForm(ruleFormRef)">
+        Submit
+      </el-button>
       <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
     </el-form-item>
   </el-form>
@@ -58,7 +59,7 @@ const validatePass = (rule: any, value: any, callback: any) => {
   } else {
     if (ruleForm.checkPass !== '') {
       if (!ruleFormRef.value) return
-      ruleFormRef.value.validateField('checkPass', () => null)
+      ruleFormRef.value.validateField('checkPass')
     }
     callback()
   }
@@ -79,7 +80,7 @@ const ruleForm = reactive({
   age: '',
 })
 
-const rules = reactive<FormRules>({
+const rules = reactive<FormRules<typeof ruleForm>>({
   pass: [{ validator: validatePass, trigger: 'blur' }],
   checkPass: [{ validator: validatePass2, trigger: 'blur' }],
   age: [{ validator: checkAge, trigger: 'blur' }],
@@ -92,7 +93,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
       console.log('submit!')
     } else {
       console.log('error submit!')
-      return false
     }
   })
 }

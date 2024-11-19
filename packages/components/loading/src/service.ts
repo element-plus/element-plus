@@ -89,6 +89,8 @@ const resolveOptions = (options: LoadingOptions): LoadingOptionsResolved => {
     lock: options.lock ?? false,
     customClass: options.customClass || '',
     visible: options.visible ?? true,
+    beforeClose: options.beforeClose,
+    closed: options.closed,
     target,
   }
 }
@@ -98,7 +100,10 @@ const addStyle = async (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
-  const { nextZIndex } = (instance.vm as any).zIndex as UseZIndexReturn
+  // Compatible with the instance data format of vue@3.2.12 and earlier versions #12351
+  const { nextZIndex } =
+    ((instance.vm as any).zIndex as UseZIndexReturn) ||
+    (instance.vm as any)._.exposed.zIndex
 
   const maskStyle: CSSProperties = {}
   if (options.fullscreen) {
@@ -140,7 +145,10 @@ const addClassList = (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
-  const ns = (instance.vm as any).ns as UseNamespaceReturn
+  // Compatible with the instance data format of vue@3.2.12 and earlier versions #12351
+  const ns =
+    ((instance.vm as any).ns as UseNamespaceReturn) ||
+    (instance.vm as any)._.exposed.ns
 
   if (
     !['absolute', 'fixed', 'sticky'].includes(instance.originalPosition.value)

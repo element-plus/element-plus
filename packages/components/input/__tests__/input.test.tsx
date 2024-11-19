@@ -5,7 +5,8 @@ import defineGetter from '@element-plus/test-utils/define-getter'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Input from '../src/input.vue'
 import type { CSSProperties } from 'vue'
-import type { InputAutoSize, InputInstance, InputProps } from '../src/input'
+import type { InputAutoSize, InputProps } from '../src/input'
+import type { InputInstance } from '../src/instance'
 
 describe('Input.vue', () => {
   afterEach(() => {
@@ -47,10 +48,15 @@ describe('Input.vue', () => {
     expect(inputElm.element.value).toBe('')
   })
 
-  test('disabled', () => {
+  test('disabled', async () => {
     const wrapper = mount(() => <Input disabled />)
     const inputElm = wrapper.find('input')
     expect(inputElm.element.disabled).not.toBeNull()
+
+    // trigger click should not focus #18012
+    inputElm.trigger('click')
+    await nextTick()
+    expect(inputElm.element.className.includes('is-focus')).toBe(false)
   })
 
   describe('test emoji', () => {
@@ -146,7 +152,9 @@ describe('Input.vue', () => {
   })
 
   test('rows', () => {
-    const wrapper = mount(() => <Input type="textarea" rows={3} />)
+    const wrapper = mount(() => {
+      return <Input type="textarea" rows={3} />
+    })
     expect(wrapper.find('textarea').element.rows).toEqual(3)
   })
 
@@ -266,8 +274,12 @@ describe('Input.vue', () => {
     ))
 
     const vm = wrapper.vm
-    expect(vm.$el.querySelector('input').value).toEqual('10000')
+    const event = new Event('input', { bubbles: true })
+    expect(vm.$el.querySelector('input').value).toEqual('10,000')
     expect(vm.$el.querySelector('input').value).not.toEqual('1000')
+    vm.$el.querySelector('input').value = '1,000,000'
+    vm.$el.querySelector('input').dispatchEvent(event)
+    expect(val.value).toEqual('1000000')
   })
 
   describe('Input Methods', () => {
@@ -325,21 +337,67 @@ describe('Input.vue', () => {
     const handleFocus = vi.fn()
     const handleBlur = vi.fn()
 
-    test('event:focus & blur', async () => {
+    test('event:focus', async () => {
       const content = ref('')
       const wrapper = mount(() => (
         <Input
           placeholder="请输入内容"
           modelValue={content.value}
           onFocus={handleFocus}
-          onBlur={handleBlur}
         />
       ))
 
       const input = wrapper.find('input')
 
       await input.trigger('focus')
-      expect(handleFocus).toBeCalled()
+      expect(handleFocus).toHaveBeenCalledOnce()
+    })
+
+    test('event:blur', async () => {
+      const content = ref('')
+      const wrapper = mount(() => (
+        <Input
+          placeholder="请输入内容"
+          modelValue={content.value}
+          onBlur={handleBlur}
+        />
+      ))
+
+      const input = wrapper.find('input')
+
+      await input.trigger('blur')
+      expect(handleBlur).toHaveBeenCalledOnce()
+    })
+
+    test('textarea & event:focus', async () => {
+      const content = ref('')
+      const wrapper = mount(() => (
+        <Input
+          type="textarea"
+          placeholder="请输入内容"
+          modelValue={content.value}
+          onFocus={handleFocus}
+        />
+      ))
+
+      const input = wrapper.find('textarea')
+
+      await input.trigger('focus')
+      expect(handleFocus).toHaveBeenCalledOnce()
+    })
+
+    test('textarea & event:blur', async () => {
+      const content = ref('')
+      const wrapper = mount(() => (
+        <Input
+          type="textarea"
+          placeholder="请输入内容"
+          modelValue={content.value}
+          onBlur={handleBlur}
+        />
+      ))
+
+      const input = wrapper.find('textarea')
 
       await input.trigger('blur')
       expect(handleBlur).toBeCalled()

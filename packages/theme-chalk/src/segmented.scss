@@ -1,0 +1,183 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+$segmented-border-radius: () !default;
+$segmented-border-radius: map.merge(
+  (
+    'large': map.get($button-border-radius, 'large'),
+    'default': map.get($button-border-radius, 'default'),
+    'small': map.get($button-border-radius, 'small'),
+  ),
+  $segmented-border-radius
+);
+
+$segmented-font-size: () !default;
+$segmented-font-size: map.merge(
+  (
+    'large': 16px,
+    'default': 14px,
+    'small': 14px,
+  ),
+  $segmented-font-size
+);
+
+$segmented-item-padding: () !default;
+$segmented-item-padding: map.merge(
+  (
+    'large': 0 11px,
+    'default': 0 11px,
+    'small': 0 7px,
+  ),
+  $segmented-item-padding
+);
+
+$segmented-item-padding-vertical: () !default;
+$segmented-item-padding-vertical: map.merge(
+  (
+    'large': 11px 11px,
+    'default':11px 11px,
+    'small': 7px 7px,
+  ),
+  $segmented-item-padding-vertical
+);
+
+.#{$namespace}-segmented--vertical {
+  flex-direction: column;
+  .#{$namespace}-segmented__item {
+    padding: map.get($segmented-item-padding-vertical, 'default');
+  }
+}
+
+@include b(segmented) {
+  @include set-component-css-var('segmented', $segmented);
+}
+
+@include b(segmented) {
+  display: inline-flex;
+  align-items: stretch;
+  min-height: map.get($input-height, 'default');
+  background: getCssVar('segmented-bg-color');
+  padding: getCssVar('segmented-padding');
+  border-radius: map.get($segmented-border-radius, 'default');
+  font-size: map.get($segmented-font-size, 'default');
+  color: getCssVar('segmented-color');
+  box-sizing: border-box;
+
+  @include e(group) {
+    display: flex;
+    align-items: stretch;
+    position: relative;
+    width: 100%;
+  }
+
+  @include e(item-selected) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: getCssVar('segmented-item-selected-bg-color');
+    height: 100%;
+    width: 10px;
+    border-radius: calc(#{map.get($segmented-border-radius, 'default')} - 2px);
+    transition: all 0.3s;
+    pointer-events: none;
+
+    @include when(disabled) {
+      background: getCssVar('segmented-item-selected-disabled-bg-color');
+    }
+
+    @include when(focus-visible) {
+      &:before {
+        position: absolute;
+        content: '';
+        inset: 0;
+        border-radius: inherit;
+        outline: 2px solid getCssVar('segmented-item-selected-bg-color');
+        outline-offset: 1px;
+      }
+    }
+  }
+
+  @include e(item) {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    cursor: pointer;
+    border-radius: calc(#{map.get($segmented-border-radius, 'default')} - 2px);
+    padding: map.get($segmented-item-padding, 'default');
+
+    &:not(.is-disabled):not(.is-selected):hover {
+      color: getCssVar('segmented-item-hover-color');
+      background: getCssVar('segmented-item-hover-bg-color');
+    }
+
+    &:not(.is-disabled):not(.is-selected):active {
+      background: getCssVar('segmented-item-active-bg-color');
+    }
+
+    @include when(selected) {
+      color: getCssVar('segmented-item-selected-color');
+
+      &.is-disabled {
+        color: getCssVar('segmented-item-selected-color');
+      }
+    }
+
+    @include when(disabled) {
+      cursor: not-allowed;
+      color: getCssVar('segmented-item-disabled-color');
+    }
+  }
+
+  @include e(item-input) {
+    position: absolute;
+    margin: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @include e(item-label) {
+    flex: 1;
+    text-align: center;
+    line-height: normal;
+    @include utils-ellipsis;
+    transition: color 0.3s;
+    z-index: 1;
+  }
+
+  @include when(block) {
+    display: flex;
+
+    .#{$namespace}-segmented__item {
+      min-width: 0;
+    }
+  }
+
+  @each $size in (large, small) {
+    @include m($size) {
+      min-height: map.get($input-height, $size);
+      border-radius: map.get($segmented-border-radius, $size);
+      font-size: map.get($segmented-font-size, $size);
+
+      @include e(item-selected) {
+        border-radius: calc(#{map.get($segmented-border-radius, $size)} - 2px);
+      }
+
+      .#{$namespace}-segmented--vertical {
+        @include e(item) {
+          padding: map.get($segmented-item-padding-vertical, $size);
+        }
+      }
+
+      @include e(item) {
+        border-radius: calc(#{map.get($segmented-border-radius, $size)} - 2px);
+        padding: map.get($segmented-item-padding, $size);
+      }
+    }
+  }
+}

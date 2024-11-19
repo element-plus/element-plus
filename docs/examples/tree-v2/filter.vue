@@ -1,11 +1,13 @@
 <template>
   <el-input
     v-model="query"
+    style="width: 240px"
     placeholder="Please enter keyword"
     @input="onQueryChanged"
   />
   <el-tree-v2
     ref="treeRef"
+    style="max-width: 600px"
     :data="data"
     :props="props"
     :filter-method="filterMethod"
@@ -15,7 +17,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElTreeV2 } from 'element-plus'
-import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
+import type { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types'
 
 interface Tree {
   id: string
@@ -66,7 +68,6 @@ const onQueryChanged = (query: string) => {
   // @ts-expect-error
   treeRef.value!.filter(query)
 }
-const filterMethod = (query: string, node: TreeNode) => {
-  return node.label!.includes(query)
-}
+const filterMethod = (query: string, node: TreeNodeData) =>
+  node.label!.includes(query)
 </script>

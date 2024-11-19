@@ -8,12 +8,6 @@ lang: en-US
 The tree selector of the dropdown menu,
 it combines the functions of components `el-tree` and `el-select`.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Selector for tree structures.
@@ -95,7 +89,9 @@ tree-select/lazy
 
 :::
 
-## Attributes
+## API
+
+### Attributes
 
 Since this component combines the functions of components `el-tree` and `el-select`,
 the original properties have not been changed, so no repetition here,
@@ -106,8 +102,23 @@ and please go to the original component to view the documentation.
 | [tree](./tree.md#attributes)            | [tree](./tree.md#method)      | [tree](./tree.md#events)            | [tree](./tree.md#slots)            |
 | [select](./select.md#select-attributes) | [select](./select.md#methods) | [select](./select.md#select-events) | [select](./select.md#select-slots) |
 
-### Own Attributes
+#### Own Attributes
 
-| Name                      | Description                                                                                                         | Type  | Accepted Values | Default |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------- | ----- | --------------- | ------- |
-| cacheData **(\> 2.2.26)** | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | array | —               | —       |
+| Name                | Description                                                                                                         | Type                     | Default |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------ | ------- |
+| cacheData ^(2.2.26) | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | ^[object]`CacheOption[]` | []      |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type CacheOption = {
+  value: string | number | boolean | object
+  currentLabel: string | number
+  isDisabled: boolean
+}
+```
+
+</details>

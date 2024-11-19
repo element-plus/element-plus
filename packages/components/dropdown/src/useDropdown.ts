@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { computed, inject, ref } from 'vue'
-import { addClass, generateId } from '@element-plus/utils'
+import { addClass } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
-import { useNamespace } from '@element-plus/hooks'
+import { useId, useNamespace } from '@element-plus/hooks'
 import type { Nullable } from '@element-plus/utils'
 import type { IElDropdownInstance } from './dropdown'
 
@@ -25,14 +25,12 @@ export const initDropdownDomEvent = (
   const menuItems = ref<Nullable<HTMLButtonElement[]>>(null)
   const menuItemsArray = ref<Nullable<HTMLElement[]>>(null)
   const dropdownElm = ref<Nullable<HTMLElement>>(null)
-  const listId = ref(`dropdown-menu-${generateId()}`)
+  const listId = useId()
   dropdownElm.value = dropdownChildren?.subTree.el
 
   function removeTabindex() {
     triggerElm.setAttribute('tabindex', '-1')
-    menuItemsArray.value?.forEach((item) => {
-      item.setAttribute('tabindex', '-1')
-    })
+    menuItemsArray.value?.forEach((item) => item.setAttribute('tabindex', '-1'))
   }
 
   function resetTabindex(ele) {
@@ -48,7 +46,7 @@ export const initDropdownDomEvent = (
       menuItems.value[0].focus()
       ev.preventDefault()
       ev.stopPropagation()
-    } else if (code === EVENT_CODE.enter) {
+    } else if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(code)) {
       _instance.handleClick()
     } else if ([EVENT_CODE.tab, EVENT_CODE.esc].includes(code)) {
       _instance.hide()

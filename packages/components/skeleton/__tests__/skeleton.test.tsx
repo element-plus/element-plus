@@ -83,4 +83,22 @@ describe('Skeleton.vue', () => {
 
     expect((wrapper.vm as SkeletonInstance).uiLoading).toBe(true)
   })
+
+  it('should throttle object rendering', async () => {
+    const wrapper = mount(
+      <Skeleton throttle={{ trailing: 500, initVal: true }} loading={true} />
+    )
+
+    expect((wrapper.vm as SkeletonInstance).uiLoading).toBe(true)
+
+    await wrapper.setProps({
+      loading: false,
+    })
+
+    vi.runAllTimers()
+
+    await nextTick()
+
+    expect((wrapper.vm as SkeletonInstance).uiLoading).toBe(false)
+  })
 })
