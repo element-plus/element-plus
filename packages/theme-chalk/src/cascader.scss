@@ -41,6 +41,9 @@
         background-color: getCssVar('text-color', 'secondary');
       }
     }
+    & + input {
+      margin-left: 0;
+    }
   }
 }
 
@@ -115,12 +118,12 @@
 
       @include e(tags) {
         gap: map.get($cascader-item-gap, $size);
-        margin-left: map.get($cascader-near-margin-left, $size);
         padding: map.get($cascader-wrapper-padding, $size);
       }
 
       @include e(search-input) {
         height: map.get($cascader-item-height, $size);
+        margin-left: map.get($cascader-search-input-margin-left, $size);
       }
     }
   }
@@ -160,7 +163,6 @@
     display: flex;
     flex-wrap: wrap;
     padding: map.get($cascader-wrapper-padding, 'default');
-    margin-left: map.get($cascader-near-margin-left, 'default');
     gap: map.get($cascader-item-gap, 'default');
     line-height: normal;
     text-align: left;
@@ -225,7 +227,7 @@
     flex: 1;
     height: map.get($cascader-item-height, 'default');
     min-width: 60px;
-    margin-left: map.get($input-padding-horizontal, 'default')-$border-width;
+    margin-left: map.get($cascader-search-input-margin-left, 'default');
     padding: 0;
     color: getCssVar('cascader', 'menu-text-color');
     border: none;

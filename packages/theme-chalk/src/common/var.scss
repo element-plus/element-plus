@@ -673,22 +673,12 @@ $cascader-item-gap: map.merge(
   $cascader-item-gap
 );
 
-$cascader-near-margin-left: () !default;
-$cascader-near-margin-left: map.merge(
+$cascader-wrapper-padding: () !default;
+$cascader-wrapper-padding: map.merge(
   (
     'large': 8px,
     'default': 4px,
     'small': 2px,
-  ),
-  $cascader-near-margin-left
-);
-
-$cascader-wrapper-padding: () !default;
-$cascader-wrapper-padding: map.merge(
-  (
-    'large': 8px 0,
-    'default': 4px 0,
-    'small': 2px 0,
   ),
   $cascader-wrapper-padding
 );
@@ -701,6 +691,16 @@ $cascader-item-height: map.merge(
     'small': 20px,
   ),
   $cascader-item-height
+);
+
+$cascader-search-input-margin-left: () !default;
+$cascader-search-input-margin-left: map.merge(
+  (
+    'large': 7px,
+    'default': 7px,
+    'small': 5px,
+  ),
+  $cascader-search-input-margin-left
 );
 
 //statistic
