@@ -170,7 +170,7 @@
     </div>
     <div v-show="footerVisible" :class="ppNs.e('footer')">
       <el-button
-        v-show="!isMultipleType"
+        v-show="!isMultipleType && showNow"
         text
         size="small"
         :class="ppNs.e('link-btn')"
@@ -224,6 +224,7 @@ import {
 } from '@element-plus/icons-vue'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
+import { getValidDateOfMonth, getValidDateOfYear } from '../utils'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -429,12 +430,22 @@ const handleMonthPick = async (
   keepOpen?: boolean
 ) => {
   if (selectionMode.value === 'month') {
-    innerDate.value = innerDate.value.startOf('month').month(month as number)
+    innerDate.value = getValidDateOfMonth(
+      innerDate.value.year(),
+      month as number,
+      lang.value,
+      disabledDate
+    )
     emit(innerDate.value, false)
   } else if (selectionMode.value === 'months') {
     emit(month as MonthsPickerEmits, keepOpen ?? true)
   } else {
-    innerDate.value = innerDate.value.startOf('month').month(month as number)
+    innerDate.value = getValidDateOfMonth(
+      innerDate.value.year(),
+      month as number,
+      lang.value,
+      disabledDate
+    )
     currentView.value = 'date'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
       emit(innerDate.value, true)
@@ -450,12 +461,14 @@ const handleYearPick = async (
   keepOpen?: boolean
 ) => {
   if (selectionMode.value === 'year') {
-    innerDate.value = innerDate.value.startOf('year').year(year as number)
+    const data = innerDate.value.startOf('year').year(year as number)
+    innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
     emit(innerDate.value, false)
   } else if (selectionMode.value === 'years') {
     emit(year as YearsPickerEmits, keepOpen ?? true)
   } else {
-    innerDate.value = innerDate.value.year(year as number)
+    const data = innerDate.value.year(year as number)
+    innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
     currentView.value = 'month'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
       emit(innerDate.value, true)
@@ -802,7 +815,7 @@ watch(
   (val) => {
     if (val) {
       if (isMultipleType.value) return
-      if (Array.isArray(val)) return
+      if (isArray(val)) return
       innerDate.value = val
     } else {
       innerDate.value = getDefaultValue()

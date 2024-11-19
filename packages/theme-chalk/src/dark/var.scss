@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use 'sass:math';
+@use 'sass:color';
 
 @use '../common/var.scss' as common;
 @use '../mixins/mixins.scss' as *;
@@ -30,7 +31,7 @@ $colors: () !default;
     (
       $type: (
         '#{$mode}-#{$number}':
-          mix(
+          color.mix(
             $mix-color,
             map.get($colors, $type, 'base'),
             math.percentage(math.div($number, 10))

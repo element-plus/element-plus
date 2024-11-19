@@ -1,4 +1,4 @@
-import { hasOwn } from '@element-plus/utils'
+import { hasOwn, isString } from '@element-plus/utils'
 
 const hsv2hsl = function (hue: number, sat: number, val: number) {
   return [
@@ -11,11 +11,11 @@ const hsv2hsl = function (hue: number, sat: number, val: number) {
 // Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
 // <http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0>
 const isOnePointZero = function (n: unknown) {
-  return typeof n === 'string' && n.includes('.') && Number.parseFloat(n) === 1
+  return isString(n) && n.includes('.') && Number.parseFloat(n) === 1
 }
 
 const isPercentage = function (n: unknown) {
-  return typeof n === 'string' && n.includes('%')
+  return isString(n) && n.includes('%')
 }
 
 // Take input from [0, n] and return it as [0, 1]

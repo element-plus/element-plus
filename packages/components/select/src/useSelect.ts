@@ -5,11 +5,9 @@ import {
   onMounted,
   reactive,
   ref,
-  toRaw,
   watch,
   watchEffect,
 } from 'vue'
-import { isArray, isObject, toRawType } from '@vue/shared'
 import {
   findLastIndex,
   get,
@@ -18,21 +16,24 @@ import {
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import {
-  CHANGE_EVENT,
-  EVENT_CODE,
-  UPDATE_MODEL_EVENT,
-} from '@element-plus/constants'
-import {
   ValidateComponentsMap,
   debugWarn,
   ensureArray,
+  isArray,
   isClient,
   isFunction,
   isIOS,
   isNumber,
+  isObject,
+  isPlainObject,
   isUndefined,
   scrollIntoView,
 } from '@element-plus/utils'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import {
   useComposition,
   useEmptyValues,
@@ -62,9 +63,8 @@ export const useSelect = (props: ISelectProps, emit) => {
     inputValue: '',
     options: new Map(),
     cachedOptions: new Map(),
-    disabledOptions: new Map(),
     optionValues: [] as any[], // sorted value of options
-    selected: props.multiple ? [] : ({} as any),
+    selected: [] as any[],
     selectionWidth: 0,
     calculatorWidth: 0,
     collapseItemWidth: 0,
@@ -102,6 +102,9 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
+    beforeFocus() {
+      return selectDisabled.value
+    },
     afterFocus() {
       if (props.automaticDropdown && !expanded.value) {
         expanded.value = true
@@ -137,6 +140,8 @@ export const useSelect = (props: ISelectProps, emit) => {
       ? props.modelValue.length > 0
       : !isEmptyValue(props.modelValue)
   })
+
+  const needStatusIcon = computed(() => form?.statusIcon ?? false)
 
   const showClose = computed(() => {
     return (
@@ -391,8 +396,9 @@ export const useSelect = (props: ISelectProps, emit) => {
     )
     const userCreatedOption = optionsInDropdown.find((n) => n.created)
     const firstOriginOption = optionsInDropdown[0]
+    const valueList = optionsArray.value.map((item) => item.value)
     states.hoveringIndex = getValueIndex(
-      optionsArray.value,
+      valueList,
       userCreatedOption || firstOriginOption
     )
   }
@@ -404,7 +410,7 @@ export const useSelect = (props: ISelectProps, emit) => {
         : props.modelValue
       const option = getOption(value)
       states.selectedLabel = option.currentLabel
-      states.selected = option
+      states.selected = [option]
       return
     } else {
       states.selectedLabel = ''
@@ -420,9 +426,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const getOption = (value) => {
     let option
-    const isObjectValue = toRawType(value).toLowerCase() === 'object'
-    const isNull = toRawType(value).toLowerCase() === 'null'
-    const isUndefined = toRawType(value).toLowerCase() === 'undefined'
+    const isObjectValue = isPlainObject(value)
 
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
@@ -441,11 +445,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       }
     }
     if (option) return option
-    const label = isObjectValue
-      ? value.label
-      : !isNull && !isUndefined
-      ? value
-      : ''
+    const label = isObjectValue ? value.label : value ?? ''
     const newOption = {
       value,
       currentLabel: label,
@@ -454,17 +454,11 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const updateHoveringIndex = () => {
-    if (!props.multiple) {
-      states.hoveringIndex = optionsArray.value.findIndex((item) => {
-        return getValueKey(item) === getValueKey(states.selected)
-      })
-    } else {
-      states.hoveringIndex = optionsArray.value.findIndex((item) =>
-        states.selected.some(
-          (selected) => getValueKey(selected) === getValueKey(item)
-        )
+    states.hoveringIndex = optionsArray.value.findIndex((item) =>
+      states.selected.some(
+        (selected) => getValueKey(selected) === getValueKey(item)
       )
-    }
+    )
   }
 
   const resetSelectionWidth = () => {
@@ -515,7 +509,10 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const getLastNotDisabledIndex = (value) =>
-    findLastIndex(value, (it) => !states.disabledOptions.has(it))
+    findLastIndex(value, (it) => {
+      const option = states.cachedOptions.get(it)
+      return option && !option.disabled && !option.states.groupDisabled
+    })
 
   const deletePrevTag = (e) => {
     if (!props.multiple) return
@@ -564,7 +561,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const handleOptionSelect = (option) => {
     if (props.multiple) {
       const value = ensureArray(props.modelValue ?? []).slice()
-      const optionIndex = getValueIndex(value, option.value)
+      const optionIndex = getValueIndex(value, option)
       if (optionIndex > -1) {
         value.splice(optionIndex, 1)
       } else if (
@@ -593,19 +590,13 @@ export const useSelect = (props: ISelectProps, emit) => {
     })
   }
 
-  const getValueIndex = (arr: any[] = [], value) => {
-    if (!isObject(value)) return arr.indexOf(value)
+  const getValueIndex = (arr: any[] = [], option) => {
+    if (isUndefined(option)) return -1
+    if (!isObject(option.value)) return arr.indexOf(option.value)
 
-    const valueKey = props.valueKey
-    let index = -1
-    arr.some((item, i) => {
-      if (toRaw(get(item, valueKey)) === get(value, valueKey)) {
-        index = i
-        return true
-      }
-      return false
+    return arr.findIndex((item) => {
+      return isEqual(get(item, props.valueKey), getValueKey(option))
     })
-    return index
   }
 
   const scrollToOption = (option) => {
@@ -635,7 +626,6 @@ export const useSelect = (props: ISelectProps, emit) => {
   const onOptionCreate = (vm: SelectOptionProxy) => {
     states.options.set(vm.value, vm)
     states.cachedOptions.set(vm.value, vm)
-    vm.disabled && states.disabledOptions.set(vm.value, vm)
   }
 
   const onOptionDestroy = (key, vm: SelectOptionProxy) => {
@@ -658,7 +648,12 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const blur = () => {
-    handleClickOutside()
+    if (expanded.value) {
+      expanded.value = false
+      nextTick(() => inputRef.value?.blur())
+      return
+    }
+    inputRef.value?.blur()
   }
 
   const handleClearClick = (event: Event) => {
@@ -701,8 +696,9 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (!expanded.value) {
       toggleMenu()
     } else {
-      if (optionsArray.value[states.hoveringIndex]) {
-        handleOptionSelect(optionsArray.value[states.hoveringIndex])
+      const option = optionsArray.value[states.hoveringIndex]
+      if (option && !option.disabled && !option.states.groupDisabled) {
+        handleOptionSelect(option)
       }
     }
   }
@@ -832,6 +828,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     shouldShowPlaceholder,
     currentPlaceholder,
     mouseEnterEventName,
+    needStatusIcon,
     showClose,
     iconComponent,
     iconReverse,

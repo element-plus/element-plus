@@ -4,6 +4,14 @@
       v-bind="mergeProps(passInputProps, $attrs)"
       ref="elInputRef"
       :model-value="modelValue"
+      :disabled="disabled"
+      :role="dropdownVisible ? 'combobox' : undefined"
+      :aria-activedescendant="dropdownVisible ? hoveringId || '' : undefined"
+      :aria-controls="dropdownVisible ? contentId : undefined"
+      :aria-expanded="dropdownVisible || undefined"
+      :aria-label="ariaLabel"
+      :aria-autocomplete="dropdownVisible ? 'none' : undefined"
+      :aria-haspopup="dropdownVisible ? 'listbox' : undefined"
       @input="handleInputChange"
       @keydown="handleInputKeyDown"
       @mousedown="handleInputMouseDown"
@@ -14,7 +22,7 @@
     </el-input>
     <el-tooltip
       ref="tooltipRef"
-      :visible="visible && (!!filteredOptions.length || loading)"
+      :visible="dropdownVisible"
       :popper-class="[ns.e('popper'), popperClass]"
       :popper-options="popperOptions"
       :placement="computedPlacement"
@@ -33,6 +41,8 @@
           :options="filteredOptions"
           :disabled="disabled"
           :loading="loading"
+          :content-id="contentId"
+          :aria-label="ariaLabel"
           @select="handleSelect"
           @click.stop="elInputRef?.focus"
         >
@@ -48,10 +58,11 @@
 <script lang="ts" setup>
 import { computed, mergeProps, nextTick, ref } from 'vue'
 import { pick } from 'lodash-unified'
-import { useFocusController, useNamespace } from '@element-plus/hooks'
+import { useFocusController, useId, useNamespace } from '@element-plus/hooks'
 import ElInput, { inputProps } from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { useFormDisabled } from '@element-plus/components/form'
 import { isFunction } from '@element-plus/utils'
 import { mentionEmits, mentionProps } from './mention'
 import { getCursorPosition, getMentionCtx } from './helper'
@@ -65,6 +76,7 @@ import type { MentionCtx, MentionOption } from './types'
 
 defineOptions({
   name: 'ElMention',
+  inheritAttrs: false,
 })
 
 const props = defineProps(mentionProps)
@@ -73,6 +85,8 @@ const emit = defineEmits(mentionEmits)
 const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
 
 const ns = useNamespace('mention')
+const disabled = useFormDisabled()
+const contentId = useId()
 
 const elInputRef = ref<InputInstance>()
 const tooltipRef = ref<TooltipInstance>()
@@ -98,59 +112,83 @@ const filteredOptions = computed(() => {
   )
 })
 
+const dropdownVisible = computed(() => {
+  return visible.value && (!!filteredOptions.value.length || props.loading)
+})
+
+const hoveringId = computed(() => {
+  return `${contentId.value}-${dropdownRef.value?.hoveringIndex}`
+})
+
 const handleInputChange = (value: string) => {
   emit('update:modelValue', value)
   syncAfterCursorMove()
 }
 
-const handleInputKeyDown = (e: KeyboardEvent | Event) => {
-  if (!('key' in e)) return
-  if (elInputRef.value?.isComposing) return
-  if (['ArrowLeft', 'ArrowRight'].includes(e.key)) {
-    syncAfterCursorMove()
-  } else if (['ArrowUp', 'ArrowDown'].includes(e.key)) {
-    if (!visible.value) return
-    e.preventDefault()
-    const direction = e.key === 'ArrowUp' ? 'prev' : 'next'
-    dropdownRef.value?.navigateOptions(direction)
-  } else if (['Enter'].includes(e.key)) {
-    if (!visible.value) return
-    e.preventDefault()
-    if (dropdownRef.value?.hoverOption) {
-      dropdownRef.value?.selectHoverOption()
-    } else {
-      visible.value = false
-    }
-  } else if (['Backspace'].includes(e.key)) {
-    if (props.whole && mentionCtx.value) {
-      const { splitIndex, selectionEnd, pattern, prefixIndex, prefix } =
-        mentionCtx.value
-      const inputEl = getInputEl()
-      if (!inputEl) return
-      const inputValue = inputEl.value
-      const matchOption = props.options.find((item) => item.value === pattern)
-      const isWhole = isFunction(props.checkIsWhole)
-        ? props.checkIsWhole(pattern, prefix)
-        : matchOption
-      if (isWhole && splitIndex !== -1 && splitIndex + 1 === selectionEnd) {
-        e.preventDefault()
-        const newValue =
-          inputValue.slice(0, prefixIndex) + inputValue.slice(splitIndex + 1)
-        emit(UPDATE_MODEL_EVENT, newValue)
+const handleInputKeyDown = (event: KeyboardEvent | Event) => {
+  if (!('code' in event) || elInputRef.value?.isComposing) return
 
-        const newSelectionEnd = prefixIndex
-        nextTick(() => {
-          // input value is updated
-          inputEl.selectionStart = newSelectionEnd
-          inputEl.selectionEnd = newSelectionEnd
-          syncDropdownVisible()
-        })
+  switch (event.code) {
+    case EVENT_CODE.left:
+    case EVENT_CODE.right:
+      syncAfterCursorMove()
+      break
+    case EVENT_CODE.up:
+    case EVENT_CODE.down:
+      if (!visible.value) return
+      event.preventDefault()
+      dropdownRef.value?.navigateOptions(
+        event.code === EVENT_CODE.up ? 'prev' : 'next'
+      )
+      break
+    case EVENT_CODE.enter:
+    case EVENT_CODE.numpadEnter:
+      if (!visible.value) return
+      event.preventDefault()
+      if (dropdownRef.value?.hoverOption) {
+        dropdownRef.value?.selectHoverOption()
+      } else {
+        visible.value = false
       }
-    }
+      break
+    case EVENT_CODE.esc:
+      if (!visible.value) return
+      event.preventDefault()
+      visible.value = false
+      break
+    case EVENT_CODE.backspace:
+      if (props.whole && mentionCtx.value) {
+        const { splitIndex, selectionEnd, pattern, prefixIndex, prefix } =
+          mentionCtx.value
+        const inputEl = getInputEl()
+        if (!inputEl) return
+        const inputValue = inputEl.value
+        const matchOption = props.options.find((item) => item.value === pattern)
+        const isWhole = isFunction(props.checkIsWhole)
+          ? props.checkIsWhole(pattern, prefix)
+          : matchOption
+        if (isWhole && splitIndex !== -1 && splitIndex + 1 === selectionEnd) {
+          event.preventDefault()
+          const newValue =
+            inputValue.slice(0, prefixIndex) + inputValue.slice(splitIndex + 1)
+          emit(UPDATE_MODEL_EVENT, newValue)
+
+          const newSelectionEnd = prefixIndex
+          nextTick(() => {
+            // input value is updated
+            inputEl.selectionStart = newSelectionEnd
+            inputEl.selectionEnd = newSelectionEnd
+            syncDropdownVisible()
+          })
+        }
+      }
   }
 }
 
 const { wrapperRef } = useFocusController(elInputRef, {
+  beforeFocus() {
+    return disabled.value
+  },
   afterFocus() {
     syncAfterCursorMove()
   },
@@ -245,5 +283,6 @@ const syncDropdownVisible = () => {
 defineExpose({
   input: elInputRef,
   tooltip: tooltipRef,
+  dropdownVisible,
 })
 </script>

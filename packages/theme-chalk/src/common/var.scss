@@ -1,6 +1,7 @@
 /* Element Chalk Variables */
 @use 'sass:math';
 @use 'sass:map';
+@use 'sass:color';
 
 @use '../mixins/function.scss' as *;
 
@@ -60,7 +61,7 @@ $color-info: map.get($colors, 'info', 'base') !default;
     (
       $type: (
         '#{$mode}-#{$number}':
-          mix(
+          color.mix(
             $mix-color,
             map.get($colors, $type, 'base'),
             math.percentage(math.div($number, 10))
@@ -791,7 +792,7 @@ $dialog: map.merge(
     'content-font-size': 14px,
     'font-line-height': getCssVar('font-line-height-primary'),
     'padding-primary': 16px,
-    'border-radius': getCssVar('border-radius-small'),
+    'border-radius': getCssVar('border-radius-base'),
   ),
   $dialog
 );

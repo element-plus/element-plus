@@ -16,6 +16,10 @@ export interface TreeOptionProps {
   label?: string
   value?: string
   disabled?: string
+  class?: (
+    data: TreeNodeData,
+    node: TreeNode
+  ) => string | { [key: string]: boolean }
 }
 
 export type TreeProps = ExtractPropTypes<typeof treeProps>

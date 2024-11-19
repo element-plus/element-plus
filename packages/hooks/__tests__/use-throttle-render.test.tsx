@@ -47,4 +47,29 @@ describe.concurrent('useThrottleRender', () => {
     loading.value = true
     expect(throttled.value).toBe(false) // should still be false after throttle time
   })
+
+  it('should use `initVal` as initial value when pass `{ initVal: true/false }`', async () => {
+    const loading = ref(false)
+    const throttled = useThrottleRender(loading, { initVal: true })
+    expect(throttled.value).toBe(true)
+    const throttled2 = useThrottleRender(loading, { initVal: false })
+    expect(throttled2.value).toBe(false)
+  })
+
+  it('should throttle on display and disappear when pass `{ leading: xxx, trailing: xxx }`', async () => {
+    const loading = ref(false)
+    const throttled = useThrottleRender(loading, {
+      leading: 200,
+      trailing: 200,
+    })
+    expect(throttled.value).toBe(false) // initially false when not pass initVal
+    loading.value = true
+    expect(throttled.value).toBe(false) // should remain false until throttle time
+    await sleep(250) // Here, the delay time cannot be set to 200, setTimeout is not so precise, you can set it a little larger.
+    expect(throttled.value).toBe(true) // should be true after throttle time
+    loading.value = false
+    expect(throttled.value).toBe(true) // should remain true until throttle time
+    await sleep(250) // Here, the delay time cannot be set to 200, setTimeout is not so precise, you can set it a little larger.
+    expect(throttled.value).toBe(false) // should be false after throttle time
+  })
 })
