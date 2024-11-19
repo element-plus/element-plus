@@ -142,7 +142,8 @@ export type NotifyFn = ((
 ) => NotificationHandle) & { closeAll: () => void }
 
 export type NotifyTypedFn = (
-  options?: NotificationParamsTyped
+  options?: NotificationParamsTyped,
+  appContext?: null | AppContext
 ) => NotificationHandle
 
 export interface Notify extends NotifyFn {

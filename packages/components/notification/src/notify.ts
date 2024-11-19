@@ -106,16 +106,13 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
     }
   }
 notificationTypes.forEach((type) => {
-  notify[type] = (options = {}) => {
+  notify[type] = (options = {}, appContext) => {
     if (isString(options) || isVNode(options)) {
       options = {
         message: options,
       }
     }
-    return notify({
-      ...options,
-      type,
-    })
+    return notify({ ...options, type }, appContext)
   }
 })
 
