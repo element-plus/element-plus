@@ -2,7 +2,7 @@ export default {
   name: 'ms',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'Breadcrumb',
     },
     colorpicker: {
       confirm: 'OK',
@@ -50,7 +50,7 @@ export default {
       month12: 'Disember',
       week: 'minggu',
       weeks: {
-        sun: 'Sun', // to be translated
+        sun: 'Sun',
         mon: 'Mon',
         tue: 'Tue',
         wed: 'Wed',
@@ -144,8 +144,8 @@ export default {
     },
     table: {
       emptyText: 'Tiada Data',
-      confirmFilter: 'OK', // to be translated
-      resetFilter: 'Reset', // to be translated
+      confirmFilter: 'OK',
+      resetFilter: 'Reset',
       clearFilter: 'Semua',
       sumText: 'Jumlah',
     },
@@ -162,14 +162,14 @@ export default {
       noData: 'Tiada Data',
       titles: ['Senarai 1', 'Senarai 2'],
       filterPlaceholder: 'Masukkan kata kunci',
-      noCheckedFormat: '{total} item', // to be translated
+      noCheckedFormat: '{total} barang',
       hasCheckedFormat: '{checked}/{total} diperiksa',
     },
     image: {
       error: 'FAILED',
     },
     pageHeader: {
-      title: 'Belakang', // to be translated
+      title: 'Belakang',
     },
     popconfirm: {
       confirmButtonText: 'Ya',
