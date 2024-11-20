@@ -303,6 +303,8 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   )
 
+  let optionDestoryOnWatch = false
+
   watch(
     // fix `Array.prototype.push/splice/..` cannot trigger non-deep watcher
     // https://github.com/vuejs/vue-next/issues/2116
@@ -317,6 +319,7 @@ export const useSelect = (props: ISelectProps, emit) => {
           !isUndefined(props.modelValue)) ||
         !Array.from(inputs).includes(document.activeElement as HTMLInputElement)
       ) {
+        optionDestoryOnWatch = true
         setSelected()
       }
       if (
@@ -432,9 +435,28 @@ export const useSelect = (props: ISelectProps, emit) => {
         ? get(cachedOption.value, props.valueKey) === get(value, props.valueKey)
         : cachedOption.value === value
       if (isEqualValue) {
+        let currentLabel = cachedOption.currentLabel
+        if (optionDestoryOnWatch) {
+          if (cachedOption.created && states.options.get(cachedOption.value)) {
+            states.cachedOptions.delete(value)
+            states.cachedOptions.set(value, states.options.get(value))
+          }
+          optionDestoryOnWatch = false
+        } else {
+          const selectItem = states.selected.find(
+            (select) => select.value === cachedOption.value
+          )
+          if (selectItem) {
+            currentLabel =
+              selectItem.currentLabel === currentLabel
+                ? currentLabel
+                : selectItem.currentLabel
+          }
+        }
+
         option = {
           value,
-          currentLabel: cachedOption.currentLabel,
+          currentLabel,
           get isDisabled() {
             return cachedOption.isDisabled
           },
@@ -527,10 +549,18 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   }
 
+  const resetAllowCreateCachedOptions = (option) => {
+    const cacheOption = states.cachedOptions.get(option.value)
+    if (cacheOption && cacheOption.created) {
+      states.cachedOptions.set(option.value, states.options.get(option.value))
+    }
+  }
+
   const deleteTag = (event, tag) => {
     const index = states.selected.indexOf(tag)
     if (index > -1 && !selectDisabled.value) {
       const value = ensureArray(props.modelValue).slice()
+      resetAllowCreateCachedOptions(tag)
       value.splice(index, 1)
       emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
@@ -562,6 +592,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       const optionIndex = getValueIndex(value, option)
       if (optionIndex > -1) {
         value.splice(optionIndex, 1)
+        resetAllowCreateCachedOptions(option)
       } else if (
         props.multipleLimit <= 0 ||
         value.length < props.multipleLimit
@@ -620,11 +651,11 @@ export const useSelect = (props: ISelectProps, emit) => {
     scrollbarRef.value?.handleScroll()
   }
 
-  const prevSameOptionValues = ref<SelectOptionProxy[]>([])
+  const prevSameValueOptions = ref<SelectOptionProxy[]>([])
 
   const onOptionCreate = (vm: SelectOptionProxy) => {
-    if (states.options.has(vm.value)) {
-      prevSameOptionValues.value.push(states.options.get(vm.value))
+    if (states.options.has(vm.value) && vm.created) {
+      prevSameValueOptions.value.push(states.options.get(vm.value))
     }
     states.options.set(vm.value, vm)
     states.cachedOptions.set(vm.value, vm)
@@ -634,11 +665,15 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (states.options.get(key) === vm) {
       states.options.delete(key)
     }
-    if (prevSameOptionValues.value.length) {
-      prevSameOptionValues.value.forEach((item) => {
+    if (prevSameValueOptions.value.length) {
+      prevSameValueOptions.value.forEach((item) => {
+        item.visible = true
         states.options.set(item.value, item)
+        if (!vm.itemSelected) {
+          states.cachedOptions.set(item.value, item)
+        }
       })
-      prevSameOptionValues.value = []
+      prevSameValueOptions.value = []
     }
   }
 
