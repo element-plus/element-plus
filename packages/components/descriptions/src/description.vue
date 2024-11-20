@@ -70,7 +70,6 @@ const filledNode = (
   }
   return node
 }
-
 const getRows = () => {
   if (!slots.default) return []
 
@@ -78,49 +77,59 @@ const getRows = () => {
     (node): node is DescriptionItemVNode =>
       (node as any)?.type?.name === 'ElDescriptionsItem'
   )
+
   const rows: DescriptionItemVNode[][] = []
   let temp: DescriptionItemVNode[] = []
   let count = props.column
-  let totalSpan = 0 // all spans number of item
-  const rowspanTemp: number[] = [] // the number of row spans
+  const rowspanMap: number[] = Array.from({ length: props.column }, () => 0) // 记录每列的跨行剩余行数
 
   children.forEach((node, index) => {
     const span = node.props?.span || 1
     const rowspan = node.props?.rowspan || 1
-    const rowNo = rows.length
-    rowspanTemp[rowNo] ||= 0
 
-    if (rowspan > 1) {
-      for (let i = 1; i < rowspan; i++) {
-        rowspanTemp[rowNo + i] ||= 0
-        rowspanTemp[rowNo + i]++
-        totalSpan++
+    // 动态计算当前行的可用列数
+    let availableCount = count
+    for (let i = 0; i < props.column; i++) {
+      if (rowspanMap[i] > 0) {
+        availableCount--
+        rowspanMap[i]-- // 减少跨行占用的行数
       }
     }
-    if (rowspanTemp[rowNo] > 0) {
-      count -= rowspanTemp[rowNo]
-      rowspanTemp[rowNo] = 0
-    }
-    if (index < children.length - 1) {
-      totalSpan += span > count ? count : span
-    }
 
-    if (index === children.length - 1) {
-      // calculate the last item span
-      const lastSpan = props.column - (totalSpan % props.column)
-      temp.push(filledNode(node, lastSpan, count, true))
+    // 当前单元格需要的列数超过可用列数，换行处理
+    if (span > availableCount) {
+      const adjustedSpan = Math.min(span, availableCount)
+      temp.push(filledNode(node, adjustedSpan, availableCount))
       rows.push(temp)
-      return
-    }
-
-    if (span < count) {
-      count -= span
-      temp.push(node)
-    } else {
-      temp.push(filledNode(node, span, count))
-      rows.push(temp)
-      count = props.column
       temp = []
+      count = props.column
+      availableCount = props.column
+
+      // 更新下一行的跨行占用情况
+      for (let i = 0; i < props.column; i++) {
+        if (rowspanMap[i] > 0) {
+          availableCount--
+        }
+      }
+    } else {
+      temp.push(node)
+    }
+
+    // 更新跨行信息
+    if (rowspan > 1) {
+      const startColumn = props.column - availableCount
+      for (let i = 0; i < span; i++) {
+        rowspanMap[startColumn + i] += rowspan - 1
+      }
+    }
+
+    count -= span
+
+    // 当前行已填满，保存并初始化下一行
+    if (count <= 0 || index === children.length - 1) {
+      rows.push(temp)
+      temp = []
+      count = props.column
     }
   })
 
