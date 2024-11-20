@@ -7,67 +7,76 @@
         :class="ns.e('wrapper')"
         :style="{ zIndex }"
       >
-        <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
+        <el-focus-trap
+          loop
+          trapped
+          :focus-trap-el="wrapper"
+          focus-start-el="container"
+          @focusout-prevented="onFocusoutPrevented"
+          @release-requested="onCloseRequested"
+        >
+          <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
-        <!-- CLOSE -->
-        <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
-          <el-icon>
-            <Close />
-          </el-icon>
-        </span>
-
-        <!-- ARROW -->
-        <template v-if="!isSingle">
-          <span :class="arrowPrevKls" @click="prev">
+          <!-- CLOSE -->
+          <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
             <el-icon>
-              <ArrowLeft />
+              <Close />
             </el-icon>
           </span>
-          <span :class="arrowNextKls" @click="next">
-            <el-icon>
-              <ArrowRight />
-            </el-icon>
-          </span>
-        </template>
-        <!-- ACTIONS -->
-        <div :class="[ns.e('btn'), ns.e('actions')]">
-          <div :class="ns.e('actions__inner')">
-            <el-icon @click="handleActions('zoomOut')">
-              <ZoomOut />
-            </el-icon>
-            <el-icon @click="handleActions('zoomIn')">
-              <ZoomIn />
-            </el-icon>
-            <i :class="ns.e('actions__divider')" />
-            <el-icon @click="toggleMode">
-              <component :is="mode.icon" />
-            </el-icon>
-            <i :class="ns.e('actions__divider')" />
-            <el-icon @click="handleActions('anticlockwise')">
-              <RefreshLeft />
-            </el-icon>
-            <el-icon @click="handleActions('clockwise')">
-              <RefreshRight />
-            </el-icon>
+
+          <!-- ARROW -->
+          <template v-if="!isSingle">
+            <span :class="arrowPrevKls" @click="prev">
+              <el-icon>
+                <ArrowLeft />
+              </el-icon>
+            </span>
+            <span :class="arrowNextKls" @click="next">
+              <el-icon>
+                <ArrowRight />
+              </el-icon>
+            </span>
+          </template>
+          <!-- ACTIONS -->
+          <div :class="[ns.e('btn'), ns.e('actions')]">
+            <div :class="ns.e('actions__inner')">
+              <el-icon @click="handleActions('zoomOut')">
+                <ZoomOut />
+              </el-icon>
+              <el-icon @click="handleActions('zoomIn')">
+                <ZoomIn />
+              </el-icon>
+              <i :class="ns.e('actions__divider')" />
+              <el-icon @click="toggleMode">
+                <component :is="mode.icon" />
+              </el-icon>
+              <i :class="ns.e('actions__divider')" />
+              <el-icon @click="handleActions('anticlockwise')">
+                <RefreshLeft />
+              </el-icon>
+              <el-icon @click="handleActions('clockwise')">
+                <RefreshRight />
+              </el-icon>
+            </div>
           </div>
-        </div>
-        <!-- CANVAS -->
-        <div :class="ns.e('canvas')">
-          <img
-            v-for="(url, i) in urlList"
-            v-show="i === activeIndex"
-            :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
-            :key="url"
-            :src="url"
-            :style="imgStyle"
-            :class="ns.e('img')"
-            :crossorigin="crossorigin"
-            @load="handleImgLoad"
-            @error="handleImgError"
-            @mousedown="handleMouseDown"
-          />
-        </div>
-        <slot />
+          <!-- CANVAS -->
+          <div :class="ns.e('canvas')">
+            <img
+              v-for="(url, i) in urlList"
+              v-show="i === activeIndex"
+              :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
+              :key="url"
+              :src="url"
+              :style="imgStyle"
+              :class="ns.e('img')"
+              :crossorigin="crossorigin"
+              @load="handleImgLoad"
+              @error="handleImgError"
+              @mousedown="handleMouseDown"
+            />
+          </div>
+          <slot />
+        </el-focus-trap>
       </div>
     </transition>
   </el-teleport>
@@ -89,6 +98,7 @@ import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import { keysOf } from '@element-plus/utils'
+import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
 import ElIcon from '@element-plus/components/icon'
 import {
@@ -352,6 +362,18 @@ function handleActions(action: ImageViewerAction, options = {}) {
   transform.value.enableTransition = enableTransition
 }
 
+function onFocusoutPrevented(event: CustomEvent) {
+  if (event.detail?.focusReason === 'pointer') {
+    event.preventDefault()
+  }
+}
+
+function onCloseRequested() {
+  if (props.closeOnPressEscape) {
+    hide()
+  }
+}
+
 watch(currentImg, () => {
   nextTick(() => {
     const $img = imgRefs.value[0]
@@ -368,9 +390,6 @@ watch(activeIndex, (val) => {
 
 onMounted(() => {
   registerEventListener()
-  // add tabindex then wrapper can be focusable via Javascript
-  // focus wrapper so arrow key can't cause inner scroll behavior underneath
-  wrapper.value?.focus?.()
 })
 
 defineExpose({

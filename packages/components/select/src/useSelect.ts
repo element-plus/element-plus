@@ -141,6 +141,8 @@ export const useSelect = (props: ISelectProps, emit) => {
       : !isEmptyValue(props.modelValue)
   })
 
+  const needStatusIcon = computed(() => form?.statusIcon ?? false)
+
   const showClose = computed(() => {
     return (
       props.clearable &&
@@ -620,7 +622,8 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const getValueIndex = (arr: any[] = [], option) => {
-    if (!isObject(option?.value)) return arr.indexOf(option.value)
+    if (isUndefined(option)) return -1
+    if (!isObject(option.value)) return arr.indexOf(option.value)
 
     return arr.findIndex((item) => {
       return isEqual(get(item, props.valueKey), getValueKey(option))
@@ -871,6 +874,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     shouldShowPlaceholder,
     currentPlaceholder,
     mouseEnterEventName,
+    needStatusIcon,
     showClose,
     iconComponent,
     iconReverse,

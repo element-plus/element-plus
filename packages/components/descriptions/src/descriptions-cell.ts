@@ -52,8 +52,13 @@ export default defineComponent({
     const labelAlign = item.labelAlign ? `is-${item.labelAlign}` : align
     const className = item.className
     const labelClassName = item.labelClassName
+    const width =
+      this.type === 'label'
+        ? item.labelWidth || this.descriptions.labelWidth || item.width
+        : item.width
+
     const style = {
-      width: addUnit(item.width),
+      width: addUnit(width),
       minWidth: addUnit(item.minWidth),
     }
     const ns = useNamespace('descriptions')

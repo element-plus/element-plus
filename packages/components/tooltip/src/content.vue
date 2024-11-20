@@ -51,6 +51,7 @@ import { ElPopperContent } from '@element-plus/components/popper'
 import ElTeleport from '@element-plus/components/teleport'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipContentProps } from './content'
+import type { PopperContentInstance } from '@element-plus/components/popper'
 
 defineOptions({
   name: 'ElTooltipContent',
@@ -61,8 +62,8 @@ const props = defineProps(useTooltipContentProps)
 
 const { selector } = usePopperContainerId()
 const ns = useNamespace('tooltip')
-// TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
-const contentRef = ref<any>(null)
+
+const contentRef = ref<PopperContentInstance>()
 let stopHandle: ReturnType<typeof onClickOutside>
 const {
   controlled,
