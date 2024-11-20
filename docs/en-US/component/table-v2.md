@@ -300,7 +300,7 @@ table-v2/manual-scroll
 | cache                     | Number of rows rendered in advance to boost the performance                                                                | `number`                                               | 2         |
 | estimated-row-height      | The estimated row height for rendering dynamic height rows                                                                 | `number`                                               | —         |
 | header-class              | Customized class name passed to header wrapper                                                                             | `string` / Function<[HeaderClassGetter](#typings)>     | —         |
-| header-props              | Customized props name passed to header component                                                                           | `object` / Function<[HeaderPropsGetter](#typings)>    | —         |
+| header-props              | Customized props name passed to header component                                                                           | `object` / Function<[HeaderPropsGetter](#typings)>     | —         |
 | header-cell-props         | Customized props name passed to header cell component                                                                      | `object` / Function<[HeaderCellPropsGetter](#typings)> | —         |
 | header-height             | The height of the header is set by `height`. If given an array, it renders header rows equal to its length                 | `number`/ `number[]`                                   | 50        |
 | footer-height             | The height of the footer element, when provided, will be part to the calculation of the table's height.                    | `number`                                               | 0         |
@@ -311,7 +311,7 @@ table-v2/manual-scroll
 | cell-props                | extra props passed to each cell (except header cells)                                                                      | `object` / Function<[CellPropsGetter](#typings)>       | —         |
 | columns                   | An array of column definitions.                                                                                            | [Column[]](#column-attribute)                          | —         |
 | data                      | An array of data to be rendered in the table.                                                                              | [Data[]](#typings)                                     | []        |
-| data-getter               | A method to customize data fetch from the data source.                                                                     | Function                                               | —         |
+| data-getter               | A method to customize data fetch from the data source.                                                                     | Function<[DataGetter\<T\>](#typings)>                  | —         |
 | fixed-data                | Data for rendering rows above the main content and below the header                                                        | `object`\<[Data](#typings)\>                           | —         |
 | expand-column-key         | The column key indicates which row is expandable                                                                           | `string`                                               | —         |
 | expanded-row-keys         | An array of keys for expanded rows, can be used with `v-model`                                                             | [KeyType[]](#typings)                                  | —         |
@@ -379,7 +379,7 @@ Note that these are `JavaScript` Objects, so you **CANNOT USE** kebab-case for t
 | flexShrink         | CSSProperties flex shrink, Only useful when this is not a fixed table | `number`                                                                                                                                                             | 1       |
 | headerClass        | Used for customizing header column class                              | `string`                                                                                                                                                             | —       |
 | hidden             | Whether the column is invisible                                       | `boolean`                                                                                                                                                            | —       |
-| style              | Customized style for column cell, will be merged with grid cell       | `CSSProperties`                                                                                                                                                      | —       |
+| style              | Customized style for column cell, will be merged with grid cell       | ^[object]`CSSProperties`                                                                                                                                             | —       |
 | sortable           | Indicates whether the column is sortable                              | `boolean`                                                                                                                                                            | —       |
 | title              | The default text rendered in header cell                              | `string`                                                                                                                                                             | —       |
 | maxWidth           | Maximum width for the column                                          | `number`                                                                                                                                                             | —       |
@@ -432,6 +432,14 @@ type CellPropsGetter = (param: {
   rowData: any
   rowIndex: number
 }) => void
+
+type DataGetterParams<T> = {
+  columns: Column<T>[]
+  column: Column<T>
+  columnIndex: number
+} & RowCommonParams
+
+type DataGetter<T> = (params: DataGetterParams<T>) => T
 
 type CellRenderProps<T> = {
   cellData: T
