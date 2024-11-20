@@ -12,7 +12,7 @@
     <el-button type="primary" :icon="Delete" />
   </el-button-group>
 
-  <el-button-group class="ml-4" :vertical="true">
+  <el-button-group class="ml-4" direction="vertical">
     <el-button type="primary" :icon="House" />
     <el-button type="primary" :icon="Operation" />
     <el-button type="primary" :icon="Notification" />
