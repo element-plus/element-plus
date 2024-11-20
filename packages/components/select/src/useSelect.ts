@@ -427,10 +427,10 @@ export const useSelect = (props: ISelectProps, emit) => {
     states.selected = result
   }
 
+  const prevDeletedCreatedOptions = new Map()
   const getOption = (value) => {
     let option
     const isObjectValue = isPlainObject(value)
-
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
       const isEqualValue = isObjectValue
@@ -440,7 +440,7 @@ export const useSelect = (props: ISelectProps, emit) => {
         let currentLabel = cachedOption.currentLabel
         if (optionDestoryOnWatch) {
           if (cachedOption.created && states.options.get(cachedOption.value)) {
-            states.cachedOptions.delete(value)
+            prevDeletedCreatedOptions.set(cachedOption.value, cachedOption)
             states.cachedOptions.set(value, states.options.get(value))
           }
           optionDestoryOnWatch = false
@@ -449,10 +449,13 @@ export const useSelect = (props: ISelectProps, emit) => {
             (select) => select.value === cachedOption.value
           )
           if (selectItem) {
-            currentLabel =
-              selectItem.currentLabel === currentLabel
-                ? currentLabel
-                : selectItem.currentLabel
+            const isPrevCreate = prevDeletedCreatedOptions.get(selectItem.value)
+            if (
+              selectItem.currentLabel !== currentLabel &&
+              isPrevCreate?.created
+            ) {
+              currentLabel = selectItem.currentLabel
+            }
           }
         }
 
@@ -555,6 +558,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     const cacheOption = states.cachedOptions.get(option.value)
     if (cacheOption && cacheOption.created) {
       states.cachedOptions.set(option.value, states.options.get(option.value))
+      prevDeletedCreatedOptions.delete(option.value)
     }
   }
 
