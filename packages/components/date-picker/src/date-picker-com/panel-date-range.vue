@@ -167,7 +167,7 @@
             :range-state="rangeState"
             :disabled-date="disabledDate"
             :cell-class-name="cellClassName"
-            @changerange="handleChangeRange"
+            @change-range="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
           />
@@ -235,7 +235,7 @@
             :range-state="rangeState"
             :disabled-date="disabledDate"
             :cell-class-name="cellClassName"
-            @changerange="handleChangeRange"
+            @change-range="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
           />
