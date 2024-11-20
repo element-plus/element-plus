@@ -1,46 +1,46 @@
 <template>
-  <div class="custom-tree-node-container">
-    <el-tree
-      style="max-width: 600px"
-      :data="data"
-      show-checkbox
-      node-key="id"
-      default-expand-all
-      :expand-on-click-node="false"
-      :props="{ class: customNodeClass }"
-    />
-  </div>
+  <el-tree-v2
+    style="max-width: 600px"
+    :data="data"
+    show-checkbox
+    :expand-on-click-node="false"
+    :props="{ class: customNodeClass }"
+  />
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/es/components/tree/src/model/node'
-import type { TreeNodeData } from 'element-plus/es/components/tree/src/tree.type'
+import type {
+  TreeNode,
+  TreeNodeData,
+} from 'element-plus/es/components/tree-v2/src/types'
+
 interface Tree {
-  id: number
-  label: string
+  id?: string
+  value?: string
+  label?: string
   isPenultimate?: boolean
   children?: Tree[]
 }
 
-const customNodeClass = ({ isPenultimate }: TreeNodeData, node: Node) =>
+const customNodeClass = ({ isPenultimate }: TreeNodeData, node: TreeNode) =>
   isPenultimate ? 'is-penultimate' : ''
 
 const data: Tree[] = [
   {
-    id: 1,
+    id: '1',
     label: 'Level one 1',
     children: [
       {
-        id: 4,
+        id: '4',
         label: 'Level two 1-1',
         isPenultimate: true,
         children: [
           {
-            id: 9,
+            id: '9',
             label: 'Level three 1-1-1',
           },
           {
-            id: 10,
+            id: '10',
             label: 'Level three 1-1-2',
           },
         ],
@@ -48,31 +48,31 @@ const data: Tree[] = [
     ],
   },
   {
-    id: 2,
+    id: '2',
     label: 'Level one 2',
     isPenultimate: true,
     children: [
       {
-        id: 5,
+        id: '5',
         label: 'Level two 2-1',
       },
       {
-        id: 6,
+        id: '6',
         label: 'Level two 2-2',
       },
     ],
   },
   {
-    id: 3,
+    id: '3',
     label: 'Level one 3',
     isPenultimate: true,
     children: [
       {
-        id: 7,
+        id: '7',
         label: 'Level two 3-1',
       },
       {
-        id: 8,
+        id: '8',
         label: 'Level two 3-2',
       },
     ],
@@ -82,14 +82,6 @@ const data: Tree[] = [
 
 <style>
 .is-penultimate > .el-tree-node__content {
-  color: #626aef;
-}
-
-.el-tree .el-tree-node.is-penultimate > .el-tree-node__children {
-  display: flex;
-  flex-direction: row;
-}
-.is-penultimate > .el-tree-node__children > div {
-  width: 25%;
+  color: var(--el-color-primary);
 }
 </style>
