@@ -118,11 +118,15 @@ export type NotificationEmits = typeof notificationEmits
 
 export type NotificationInstance = InstanceType<typeof Notification>
 
-export type NotificationOptions = Omit<NotificationProps, 'id'> & {
+export type NotificationOptions = Omit<NotificationProps, 'id' | 'onClose'> & {
   /**
    * @description set the root element for the notification, default to `document.body`
    */
   appendTo?: HTMLElement | string
+  /**
+   * @description callback function when closed
+   */
+  onClose?(vm: VNode): void
 }
 export type NotificationOptionsTyped = Omit<NotificationOptions, 'type'>
 
@@ -136,10 +140,14 @@ export type NotificationParamsTyped =
   | string
   | VNode
 
-export type NotifyFn = ((
-  options?: NotificationParams,
-  appContext?: null | AppContext
-) => NotificationHandle) & { closeAll: () => void }
+export interface NotifyFn {
+  (
+    options?: NotificationParams,
+    appContext?: null | AppContext
+  ): NotificationHandle
+  closeAll(): void
+  _context: AppContext | null
+}
 
 export type NotifyTypedFn = (
   options?: NotificationParamsTyped,
