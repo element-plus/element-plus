@@ -35,6 +35,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
+  useFormDisabled,
   useFormItem,
   useFormItemInputId,
   useFormSize,
@@ -133,7 +134,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   // the controller of the expanded popup
   const expanded = ref(false)
 
-  const selectDisabled = computed(() => props.disabled || elForm?.disabled)
+  const selectDisabled = useFormDisabled()
 
   const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
 
