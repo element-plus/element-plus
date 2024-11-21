@@ -2923,6 +2923,7 @@ describe('Select', () => {
               name: '蚵仔煎',
             },
           ],
+          value: null,
         })
       )
 
