@@ -114,6 +114,8 @@ export const mentionEmits = {
     isString(option.value) && isString(prefix),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
+  delete: (option: MentionOption, prefix: string) =>
+    isString(option.value) && isString(prefix),
 }
 
 export type MentionEmits = typeof mentionEmits

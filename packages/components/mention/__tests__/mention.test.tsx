@@ -1,8 +1,12 @@
+import { h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test } from 'vitest'
 import sleep from '@element-plus/test-utils/sleep'
 import Form from '@element-plus/components/form'
+import { EVENT_CODE } from '@element-plus/constants'
 import Mention from '../src/mention.vue'
+import MentionDropdown from '../src/mention-dropdown.vue'
+import { MentionOption } from '../src/types'
 
 describe('Mention.vue', () => {
   afterEach(() => {
@@ -136,5 +140,91 @@ describe('Mention.vue', () => {
     expect(wrapper.find('input').attributes()).toHaveProperty('disabled')
     expect(option.attributes('aria-disabled')).toBe('true')
     expect(option.classes()).toContain('is-disabled')
+  })
+
+  test('should work with some event', async () => {
+    const atList: MentionOption[] = []
+    const html = ref('')
+
+    const wrapper = mount(
+      {
+        setup: () => {
+          const mentionRef = ref()
+
+          const handleDelete = (option: MentionOption) => {
+            const index = atList.findIndex(
+              (item: MentionOption) => item.value === option.value
+            )
+            if (index !== -1) {
+              atList.splice(index, 1)
+            }
+          }
+
+          const handleSelect = (option: MentionOption) => {
+            const item = options.find(
+              (item: MentionOption) => item.value === option.value
+            )
+            if (item) {
+              atList.push(item)
+            }
+          }
+
+          const handleKeyDown = (evt: KeyboardEvent) => {
+            if (
+              evt.key === 'Enter' &&
+              !evt.shiftKey &&
+              !mentionRef.value.dropdownVisible
+            ) {
+              // send
+            }
+          }
+
+          return () =>
+            h(
+              Mention,
+              {
+                options,
+                whole: true,
+                ref: mentionRef,
+                style: { width: '320px' },
+                placeholder: 'Please input',
+                onDelete: handleDelete,
+                onSelect: handleSelect,
+                onKeyDown: handleKeyDown,
+                modelValue: html.value,
+                'onUpdate:modelValue': (value) => {
+                  html.value = value
+                },
+              },
+              {}
+            )
+        },
+      },
+      {
+        attachTo: document.body,
+      }
+    )
+
+    const inputWrapper = wrapper.find('input')
+    const input = inputWrapper.element as HTMLInputElement
+    const dropdownWrapper = wrapper.findComponent(MentionDropdown)
+
+    input.focus()
+    inputWrapper.element.value = '@'
+    inputWrapper.trigger('input')
+    await sleep(150)
+
+    dropdownWrapper.vm.$emit('select', options[0])
+    expect(atList[0]).toBe(options[0])
+    await nextTick()
+
+    input.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        code: EVENT_CODE.backspace,
+        bubbles: true,
+        cancelable: false,
+      })
+    )
+    expect(atList.length).toBe(0)
   })
 })
