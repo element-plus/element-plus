@@ -44,18 +44,23 @@ In addition, every commit and PR on the dev branch will be published to [pkg.pr.
 so that you can utilize bundlers like [Vite](https://vitejs.dev) and
 [webpack](https://webpack.js.org/).
 
-```shell
-# Choose a package manager you like.
 
-# NPM
+Choose a package manager you like.
+
+::: code-group
+
+```shell [npm]
 $ npm install element-plus --save
-
-# Yarn
+```
+```shell [yarn]
 $ yarn add element-plus
+```
 
-# pnpm
+```shell [pnpm]
 $ pnpm install element-plus
 ```
+
+:::
 
 If your network environment is not good, it is recommended to use a mirror registry [cnpm](https://github.com/cnpm/cnpm) or [npmmirror](https://npmmirror.com/).
 
