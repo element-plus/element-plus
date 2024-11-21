@@ -106,8 +106,17 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     const [draggedItem] = value.splice(draggedIndex, 1)
     value.splice(index, 0, draggedItem)
 
+    focus()
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
+  }
+
+  const focus = () => {
+    inputRef.value?.focus()
+  }
+
+  const blur = () => {
+    inputRef.value?.blur()
   }
 
   const { wrapperRef, isFocused } = useFocusController(inputRef, {
@@ -159,5 +168,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     handleCompositionStart,
     handleCompositionUpdate,
     handleCompositionEnd,
+    focus,
+    blur,
   }
 }

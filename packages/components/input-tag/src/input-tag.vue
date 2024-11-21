@@ -137,6 +137,8 @@ const {
   handleCompositionStart,
   handleCompositionUpdate,
   handleCompositionEnd,
+  focus,
+  blur,
 } = useInputTag({ props, emit, formItem })
 const { hovering, handleMouseEnter, handleMouseLeave } = useHovering()
 const { calculatorRef, calculatorWidth } = useCalcInputWidth()
@@ -164,14 +166,6 @@ const {
   validateIcon,
   needStatusIcon,
 })
-
-const focus = () => {
-  inputRef.value?.focus()
-}
-
-const blur = () => {
-  inputRef.value?.blur()
-}
 
 defineExpose({
   focus,
