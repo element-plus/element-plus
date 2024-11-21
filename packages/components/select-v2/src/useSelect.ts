@@ -353,37 +353,43 @@ const useSelect: useSelectReturnType = (
     'small' === selectSize.value ? 'small' : 'default'
   )
 
-  const optionsChanged = ref(true)
   const calculatePopperSize = () => {
     if (isNumber(props.fitInputWidth)) {
       popperSize.value = props.fitInputWidth
       return
     }
-    const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d')
     const width = selectRef.value?.offsetWidth || 200
-    if (!props.fitInputWidth && allOptions.value.length > 0 && ctx) {
+    if (!props.fitInputWidth && allOptions.value.length > 0) {
       nextTick(() => {
-        if (!optionsChanged.value) return
-        const selector = nsSelect.be('dropdown', 'item')
-        const dom = menuRef.value?.listRef?.innerRef || document
-        const dropdownItemEl = dom.querySelector(`.${selector}`)
-        if (dropdownItemEl === null) return
-        const style = getComputedStyle(dropdownItemEl)
-        const padding =
-          Number.parseFloat(style.paddingLeft) +
-          Number.parseFloat(style.paddingRight)
-        ctx.font = style.font
-        const maxWidth = allOptions.value.reduce((max, option) => {
-          const metrics = ctx.measureText(getLabel(option))
-          return Math.max(metrics.width, max)
-        }, 0)
-        popperSize.value = Math.max(width, maxWidth + padding)
-        optionsChanged.value = false
+        popperSize.value = Math.max(width, calculateLabelMaxWidth())
       })
     } else {
       popperSize.value = width
     }
+  }
+
+  const optionsChanged = ref(true)
+  const lastLabelCalculationCache = ref(0)
+
+  const calculateLabelMaxWidth = () => {
+    if (!optionsChanged.value) return lastLabelCalculationCache.value
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+    const selector = nsSelect.be('dropdown', 'item')
+    const dom = menuRef.value?.listRef?.innerRef || document
+    const dropdownItemEl = dom.querySelector(`.${selector}`)
+    if (dropdownItemEl === null || ctx === null) return 0
+    const style = getComputedStyle(dropdownItemEl)
+    const padding =
+      Number.parseFloat(style.paddingLeft) +
+      Number.parseFloat(style.paddingRight)
+    ctx.font = style.font
+    const maxWidth = allOptions.value.reduce((max, option) => {
+      const metrics = ctx.measureText(getLabel(option))
+      return Math.max(metrics.width, max)
+    }, 0)
+    optionsChanged.value = false
+    return (lastLabelCalculationCache.value = maxWidth + padding)
   }
 
   const getGapWidth = () => {
@@ -909,6 +915,13 @@ const useSelect: useSelectReturnType = (
     clearAllNewOption()
     calculatePopperSize()
   }
+
+  watch(
+    () => props.fitInputWidth,
+    () => {
+      calculatePopperSize()
+    }
+  )
 
   // in order to track these individually, we need to turn them into refs instead of watching the entire
   // reactive object which could cause perf penalty when unnecessary field gets changed the watch method will
