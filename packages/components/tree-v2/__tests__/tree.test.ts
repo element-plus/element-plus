@@ -20,9 +20,7 @@ const TREE_NODE_CLASS_NAME = '.el-tree-node'
 const TREE_NODE_CONTENT_CLASS_NAME = '.el-tree-node__content'
 const TREE_NODE_EXPAND_ICON_CLASS_NAME = '.el-tree-node__expand-icon'
 
-const getUniqueId = () => {
-  return id++
-}
+const getUniqueId = () => id++
 
 const createData = (
   maxDeep,
@@ -821,6 +819,36 @@ describe('Virtual Tree', () => {
     await nextTick()
     const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
     expect(nodes[1].classes()).toContain('is-current')
+  })
+
+  test('customNodeClass', async () => {
+    const { wrapper } = createTree({
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+            },
+            {
+              id: '2',
+              label: 'node-2',
+            },
+          ],
+          props: {
+            value: 'id',
+            label: 'label',
+            children: 'children',
+            class: (data) => (data.id === '1' ? 'is-test' : ''),
+          },
+        }
+      },
+    })
+    await nextTick()
+    const currentNodeLabelWrapper = wrapper.find(
+      '.is-test .el-tree-node__label'
+    )
+    expect(currentNodeLabelWrapper.text()).toEqual('node-1')
   })
 
   test('custom node content', async () => {
