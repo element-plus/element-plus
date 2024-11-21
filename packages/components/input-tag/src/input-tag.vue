@@ -55,7 +55,7 @@
         />
       </div>
     </div>
-    <div :class="ns.e('suffix')">
+    <div v-if="showSuffix" :class="ns.e('suffix')">
       <slot name="suffix" />
       <el-icon
         v-if="showClear"
@@ -160,7 +160,8 @@ const containerStyle = computed<StyleValue>(() => [
 ])
 const innerKls = computed(() => [
   ns.e('inner'),
-  ns.is('space', !slots.prefix && !props.modelValue?.length),
+  ns.is('left-space', !props.modelValue?.length && !slots.prefix),
+  ns.is('right-space', !props.modelValue?.length && !showSuffix.value),
 ])
 const inputStyle = computed(() => ({
   minWidth: `${Math.max(calculatorWidth.value, MINIMUM_INPUT_WIDTH)}px`,
@@ -179,6 +180,13 @@ const showClear = computed(() => {
     !props.readonly &&
     (props.modelValue?.length || inputValue.value) &&
     (isFocused.value || hovering.value)
+  )
+})
+const showSuffix = computed(() => {
+  return (
+    slots.suffix ||
+    showClear.value ||
+    (validateState.value && validateIcon.value && needStatusIcon.value)
   )
 })
 const needStatusIcon = computed(() => elForm?.statusIcon ?? false)

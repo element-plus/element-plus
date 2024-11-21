@@ -897,21 +897,21 @@ $input-tag: map.merge(
 $input-tag-padding: () !default;
 $input-tag-padding: map.merge(
   (
-    'large': 8px 16px 8px 8px,
-    'default': 4px 12px 4px 4px,
-    'small': 2px 8px 2px 2px,
+    'large': 8px,
+    'default': 4px,
+    'small': 2px,
   ),
   $input-tag-padding
 );
 
-$input-tag-padding-left: () !default;
-$input-tag-padding-left: map.merge(
+$input-tag-inner-padding: () !default;
+$input-tag-inner-padding: map.merge(
   (
     'large': 8px,
     'default': 8px,
     'small': 6px,
   ),
-  $input-tag-padding-left
+  $input-tag-inner-padding
 );
 
 $input-tag-gap: () !default;

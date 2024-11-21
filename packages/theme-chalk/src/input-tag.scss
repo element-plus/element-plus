@@ -21,8 +21,8 @@
     map.get($input-tag-padding, default)
   );
   @include set-css-var-value(
-    ('input-tag', 'padding-left'),
-    map.get($input-tag-padding-left, default)
+    ('input-tag', 'inner-padding'),
+    map.get($input-tag-inner-padding, default)
   );
   @include set-css-var-value(
     ('input-tag', 'line-height'),
@@ -31,14 +31,12 @@
 }
 
 @include b(input-tag) {
-  position: relative;
   display: flex;
   align-items: center;
   box-sizing: border-box;
   cursor: pointer;
   font-size: getCssVar('input-tag-font-size');
   padding: getCssVar('input-tag-padding');
-  gap: getCssVar('input-tag-gap');
   width: getCssVar('input-tag-width');
   min-height: getCssVar('input-tag-mini-height');
   line-height: getCssVar('input-tag-line-height');
@@ -60,7 +58,6 @@
 
   @include when(disabled) {
     cursor: not-allowed;
-
     background-color: getCssVar('fill-color', 'light');
     @include mixed-input-border(#{getCssVar('input-tag-disabled-border')});
 
@@ -81,7 +78,7 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    padding-left: getCssVar('input-tag-padding-left');
+    padding: 0 getCssVar('input-tag-inner-padding');
     color: var(
       #{getCssVarName('input-icon-color')},
       map.get($input, 'icon-color')
@@ -92,6 +89,7 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
+    padding: 0 getCssVar('input-tag-inner-padding');
     gap: 8px;
     color: var(
       #{getCssVarName('input-icon-color')},
@@ -100,18 +98,25 @@
   }
 
   @include e(inner) {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     flex: 1;
+    max-width: 100%;
     min-width: 0;
     gap: getCssVar('input-tag-gap');
 
-    &.is-space {
-      padding-left: getCssVar('input-tag-padding-left');
+    @include when(left-space) {
+      margin-left: getCssVar('input-tag-inner-padding');
+    }
+
+    @include when(right-space) {
+      margin-right: getCssVar('input-tag-inner-padding');
     }
 
     .#{$namespace}-tag {
+      max-width: 100%;
       cursor: pointer;
       border-color: transparent;
 
@@ -121,6 +126,10 @@
 
       .#{$namespace}-tag__content {
         min-width: 0;
+        line-height: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }
@@ -168,7 +177,7 @@
       );
       @include set-css-var-value(
         ('input-tag', 'padding-left'),
-        map.get($input-tag-padding-left, $size)
+        map.get($input-tag-inner-padding, $size)
       );
       @include set-css-var-value(
         ('input-tag', 'font-size'),
