@@ -24,6 +24,18 @@ export const inputTagProps = buildProps({
     type: definePropType<string[]>(Array),
   },
   /**
+   * @description max number tags that can be enter
+   */
+  max: Number,
+  /**
+   * @description tag type
+   */
+  tagType: { ...tagProps.type, default: 'info' },
+  /**
+   * @description tag effect
+   */
+  tagEffect: tagProps.effect,
+  /**
    * @description the key to trigger input tag
    */
   trigger: {
@@ -31,26 +43,55 @@ export const inputTagProps = buildProps({
     default: EVENT_CODE.enter,
   },
   /**
-   * @description max number tags that can be enter
+   * @description whether tags can be dragged
    */
-  max: Number,
-  /**
-   * @description native input id
-   */
-  id: {
-    type: String,
-    default: undefined,
+  draggable: {
+    type: Boolean,
+    default: false,
   },
   /**
    * @description input box size
    */
   size: useSizeProp,
   /**
-   * @description whether to disable
+   * @description whether to show clear button
+   */
+  clearable: Boolean,
+  /**
+   * @description whether to disable input-tag
    */
   disabled: {
     type: Boolean,
     default: undefined,
+  },
+  /**
+   * @description whether to trigger form validation
+   */
+  validateEvent: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description native input readonly
+   */
+  readonly: Boolean,
+  /**
+   * @description native input autofocus
+   */
+  autofocus: Boolean,
+  /**
+   * @description same as `id` in native input
+   */
+  id: {
+    type: String,
+    default: undefined,
+  },
+  /**
+   * @description same as `tabindex` in native input
+   */
+  tabindex: {
+    type: [String, Number],
+    default: 0,
   },
   /**
    * @description same as `maxlength` in native input
@@ -65,50 +106,16 @@ export const inputTagProps = buildProps({
     type: [String, Number],
   },
   /**
+   * @description placeholder of input
+   */
+  placeholder: String,
+  /**
    * @description native input autocomplete
    */
   autocomplete: {
     type: String,
     default: 'off',
   },
-  /**
-   * @description placeholder
-   */
-  placeholder: String,
-  /**
-   * @description native input readonly
-   */
-  readonly: Boolean,
-  /**
-   * @description native input readonly
-   */
-  clearable: Boolean,
-  /**
-   * @description input tabindex
-   */
-  tabindex: {
-    type: [String, Number],
-    default: 0,
-  },
-  /**
-   * @description whether to trigger form validation
-   */
-  validateEvent: {
-    type: Boolean,
-    default: true,
-  },
-  /**
-   * @description native input autofocus
-   */
-  autofocus: Boolean,
-  /**
-   * @description tag type
-   */
-  tagType: { ...tagProps.type, default: 'info' },
-  /**
-   * @description tag effect
-   */
-  tagEffect: tagProps.effect,
 } as const)
 export type InputTagProps = ExtractPropTypes<typeof inputTagProps>
 
