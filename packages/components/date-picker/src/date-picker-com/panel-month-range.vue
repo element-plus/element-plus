@@ -58,7 +58,7 @@
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
-            @changerange="handleChangeRange"
+            @change-range="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
           />
@@ -96,7 +96,7 @@
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
-            @changerange="handleChangeRange"
+            @change-range="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
           />

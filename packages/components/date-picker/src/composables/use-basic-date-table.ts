@@ -254,7 +254,7 @@ export const useBasicDateTable = (
     if (row !== unref(lastRow) || column !== unref(lastColumn)) {
       lastRow.value = row
       lastColumn.value = column
-      emit('changerange', {
+      emit('change-range', {
         selecting: true,
         endDate: getDateOfCell(row, column),
       })

@@ -52,7 +52,7 @@ type MonthCell = {
 }
 
 const props = defineProps(basicMonthTableProps)
-const emit = defineEmits(['changerange', 'pick', 'select'])
+const emit = defineEmits(['change-range', 'pick', 'select'])
 
 const ns = useNamespace('month-table')
 
@@ -203,7 +203,7 @@ const handleMouseMove = (event: MouseEvent) => {
   if (row !== lastRow.value || column !== lastColumn.value) {
     lastRow.value = row
     lastColumn.value = column
-    emit('changerange', {
+    emit('change-range', {
       selecting: true,
       endDate: props.date.startOf('year').month(row * 4 + column),
     })
