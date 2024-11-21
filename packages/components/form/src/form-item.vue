@@ -47,7 +47,6 @@ import {
   reactive,
   ref,
   toRefs,
-  useSlots,
   watch,
 } from 'vue'
 import AsyncValidator from 'async-validator'
@@ -63,7 +62,7 @@ import {
   isString,
 } from '@element-plus/utils'
 import { useId, useNamespace } from '@element-plus/hooks'
-import { useFormSize } from './hooks'
+import { useFormSize, useFormSlots } from './hooks'
 import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
 import { formContextKey, formItemContextKey } from './constants'
@@ -82,7 +81,7 @@ defineOptions({
   name: 'ElFormItem',
 })
 const props = defineProps(formItemProps)
-const slots = useSlots()
+const slots = useFormSlots()
 
 const formContext = inject(formContextKey, undefined)
 const parentFormItemContext = inject(formItemContextKey, undefined)
