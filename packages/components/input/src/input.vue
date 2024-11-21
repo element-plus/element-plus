@@ -277,7 +277,11 @@ const textareaStyle = computed<StyleValue>(() => [
   { resize: props.resize },
 ])
 const nativeInputValue = computed(() =>
-  isNil(props.modelValue) ? '' : String(props.modelValue)
+  isNil(props.modelValue)
+    ? ''
+    : props.formatter && props.modelValue
+    ? props.formatter(String(props.modelValue))
+    : String(props.modelValue)
 )
 const showClear = computed(
   () =>
@@ -406,8 +410,8 @@ const handleInput = async (event: Event) => {
     return
   }
 
-  emit(UPDATE_MODEL_EVENT, value)
-  emit('input', value)
+  emit(UPDATE_MODEL_EVENT, props.parser ? props.parser(value) : value)
+  emit('input', props.parser ? props.parser(value) : value)
 
   // ensure native input value is controlled
   // see: https://github.com/ElemeFE/element/issues/12850
