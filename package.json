@@ -74,7 +74,7 @@
     "@element-plus/build-utils": "workspace:^0.0.1",
     "@element-plus/eslint-config": "workspace:*",
     "@esbuild-kit/cjs-loader": "^2.2.1",
-    "@pnpm/find-workspace-packages": "^4.0.16",
+    "@pnpm/find-workspace-packages": "^6.0.9",
     "@pnpm/logger": "^4.0.0",
     "@pnpm/types": "^8.4.0",
     "@types/fs-extra": "^9.0.13",
