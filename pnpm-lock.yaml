@@ -114,8 +114,8 @@ importers:
         specifier: ^4.0.9
         version: 4.0.9
       '@types/jsdom':
-        specifier: ^16.2.14
-        version: 16.2.14
+        specifier: ^21.1.7
+        version: 21.1.7
       '@types/node':
         specifier: ^22.9.0
         version: 22.9.0
@@ -2391,8 +2391,8 @@ packages:
   '@types/istanbul-lib-coverage@2.0.4':
     resolution: {integrity: sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g==}
 
-  '@types/jsdom@16.2.14':
-    resolution: {integrity: sha512-6BAy1xXEmMuHeAJ4Fv4yXKwBDTGTOseExKE3OaHiNycdHdZw59KfYzrt0DkDluvwmik1HRt6QS7bImxUmpSy+w==}
+  '@types/jsdom@21.1.7':
+    resolution: {integrity: sha512-yOriVnggzrnQ3a9OKOCxaVuSug3w3/SbOj5i7VwXWZEyUNl3bLF9V3MfxGbZKuwqJOQyRfqXyROBB1CoZLFWzA==}
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
@@ -2444,9 +2444,6 @@ packages:
 
   '@types/normalize-package-data@2.4.1':
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
-
-  '@types/parse5@6.0.3':
-    resolution: {integrity: sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==}
 
   '@types/prop-types@15.7.13':
     resolution: {integrity: sha512-hCZTSvwbzWGvhqxp/RqVqwU999pBf2vp7hzIjiYOsl8wqOmUxkQ6ddw1cV3l8811+kdUFus/q4d1Y3E3SyEifA==}
@@ -6288,6 +6285,9 @@ packages:
 
   parse5@5.1.1:
     resolution: {integrity: sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug==}
+
+  parse5@7.2.1:
+    resolution: {integrity: sha512-BuBYQYlv1ckiPdQi/ohiivi9Sagc9JG+Ozs0r7b/0iK3sKmrb0b9FdWdBbOdx6hBCM/F9Ir82ofnBhtZOjCRPQ==}
 
   pascalcase@0.1.1:
     resolution: {integrity: sha512-XHXfu/yOQRy9vYOtUDVMN60OEJjW013GoObG1o+xwQTpB9eYJX/BjXMsdW13ZDPruFhYYn0AG22w0xgQMwl3Nw==}
@@ -10344,11 +10344,11 @@ snapshots:
 
   '@types/istanbul-lib-coverage@2.0.4': {}
 
-  '@types/jsdom@16.2.14':
+  '@types/jsdom@21.1.7':
     dependencies:
       '@types/node': 22.9.0
-      '@types/parse5': 6.0.3
       '@types/tough-cookie': 4.0.2
+      parse5: 7.2.1
 
   '@types/json5@0.0.29': {}
 
@@ -10398,8 +10398,6 @@ snapshots:
       undici-types: 6.19.8
 
   '@types/normalize-package-data@2.4.1': {}
-
-  '@types/parse5@6.0.3': {}
 
   '@types/prop-types@15.7.13': {}
 
@@ -15031,6 +15029,10 @@ snapshots:
   parse-passwd@1.0.0: {}
 
   parse5@5.1.1: {}
+
+  parse5@7.2.1:
+    dependencies:
+      entities: 4.5.0
 
   pascalcase@0.1.1: {}
 
