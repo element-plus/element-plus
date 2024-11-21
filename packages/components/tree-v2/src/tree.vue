@@ -35,9 +35,9 @@
     </fixed-size-list>
     <div v-else :class="ns.e('empty-block')">
       <slot name="empty">
-        <span :class="ns.e('empty-text')">{{
-          emptyText ?? t('el.tree.emptyText')
-        }}</span>
+        <span :class="ns.e('empty-text')">
+           {{ emptyText ?? t('el.tree.emptyText') }}
+        </span>
       </slot>
     </div>
   </div>
