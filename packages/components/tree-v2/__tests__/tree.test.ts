@@ -98,6 +98,7 @@ const createTree = (
     methods?: TreeEvents
     slots?: {
       default?: string
+      empty?: string
     }
   } = {}
 ) => {
@@ -105,6 +106,11 @@ const createTree = (
     (options.slots &&
       options.slots.default &&
       `<template #default="{node}">${options.slots.default}</template>`) ||
+    ''
+  const emptySlot =
+    (options.slots &&
+      options.slots.empty &&
+      `<template #empty>${options.slots.empty}</template>`) ||
     ''
   const wrapper = _mount(
     `
@@ -132,7 +138,7 @@ const createTree = (
         @check="onNodeCheck"
         @current-change="onCurrentChange"
         @node-contextmenu="onNodeContextMenu"
-      >${defaultSlot}</el-tree>
+      >${defaultSlot}${emptySlot}</el-tree>
     `,
     {
       data() {
@@ -232,6 +238,21 @@ describe('Virtual Tree', () => {
     })
     await nextTick()
     expect(wrapper.find('.el-tree__empty-text').text()).toBe(emptyText)
+  })
+
+  test('render slot empty', async () => {
+    const { wrapper } = createTree({
+      data() {
+        return {
+          data: [],
+        }
+      },
+      slots: {
+        empty: `<div class="empty-slot-wrapper">empty</div>`,
+      },
+    })
+    await nextTick()
+    expect(wrapper.find('.empty-slot-wrapper').exists()).toBeTruthy()
   })
 
   test('height', async () => {
