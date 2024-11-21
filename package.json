@@ -76,7 +76,7 @@
     "@esbuild-kit/cjs-loader": "^2.2.1",
     "@pnpm/find-workspace-packages": "^4.0.16",
     "@pnpm/logger": "^4.0.0",
-    "@pnpm/types": "^8.4.0",
+    "@pnpm/types": "^12.2.0",
     "@types/fs-extra": "^9.0.13",
     "@types/gulp": "^4.0.9",
     "@types/jsdom": "^16.2.14",
