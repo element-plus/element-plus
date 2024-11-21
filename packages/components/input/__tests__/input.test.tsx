@@ -521,6 +521,24 @@ describe('Input.vue', () => {
     expect(textarea.element.style.color === 'red').toBeTruthy()
   })
 
+  test('textarea-count-style', async () => {
+    const wrapper = mount(() => (
+      <>
+        <Input
+          placeholder="请输入内容"
+          type="textarea"
+          maxlength="300"
+          show-word-limit
+          textarea-count-style={{ color: 'red' }}
+        />
+      </>
+    ))
+
+    const textareaCount = wrapper.find('.el-input__count')
+    await nextTick()
+    expect(textareaCount.element.style.color === 'red').toBeTruthy()
+  })
+
   describe('Textarea Events', () => {
     test('event:keydown', async () => {
       const handleKeydown = vi.fn()
