@@ -115,6 +115,13 @@
       margin-right: getCssVar('input-tag-inner-padding');
     }
 
+    @include when(draggable) {
+      .#{$namespace}-tag {
+        cursor: move;
+        user-select: none;
+      }
+    }
+
     .#{$namespace}-tag {
       max-width: 100%;
       cursor: pointer;

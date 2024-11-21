@@ -26,6 +26,7 @@ export function useDragTag({ afterDragged }: UseDragTagOptions) {
   }
 
   return {
+    draggedIndex,
     handleDragStart,
     handleDragOver,
     handleDrop,

@@ -106,7 +106,6 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     const [draggedItem] = value.splice(draggedIndex, 1)
     value.splice(index, 0, draggedItem)
 
-    focus()
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
   }

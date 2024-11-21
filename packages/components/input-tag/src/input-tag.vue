@@ -23,6 +23,7 @@
         @dragstart="(event: DragEvent) => handleDragStart(event, index)"
         @dragover="handleDragOver"
         @drop="(event: DragEvent) => handleDrop(event, index)"
+        @dragend="focus"
       >
         <slot name="tag" :value="item" :index="index">
           {{ item }}

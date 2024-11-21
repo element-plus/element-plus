@@ -47,6 +47,7 @@ export function useInputTagDom({
   const containerStyle = computed<StyleValue>(() => [attrs.style as StyleValue])
   const innerKls = computed(() => [
     ns.e('inner'),
+    ns.is('draggable', props.draggable),
     ns.is('left-space', !props.modelValue?.length && !slots.prefix),
     ns.is('right-space', !props.modelValue?.length && !showSuffix.value),
   ])
