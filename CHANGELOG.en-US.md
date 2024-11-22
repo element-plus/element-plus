@@ -1,5 +1,24 @@
 ## Changelog
 
+### 2.9.0
+
+_2024-11-22_
+
+#### Features
+
+- Components [tree-v2] add `props.class` prop (#18911 by @zzjiaxiang)
+- Components [notification] add support for message as a Function (#18558 by @DDDDD12138)
+- I18n add Malay(ms) translation (#18932 by @hcw2175)
+- Components [table] expose scroll event (#12524 by @blesstosam)
+- Components [tree-v2] add slot `empty` (#18980 by @zhixiaotong)
+
+#### Bug fixes
+
+- Components [select] keep the selected label (#18549 by @warmthsea)
+- Types improve styles type by CSSProperties (#18942 by @thinkasany)
+- Components [image-viewer] unable to capture focus (#17919 by @tolking)
+- Components [tag] make stubbed Transition work in tests (#18928 by @purepear)
+
 ### 2.8.8
 
 _2024-11-15_
