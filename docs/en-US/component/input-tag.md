@@ -128,8 +128,8 @@ input-tag/prefix-suffix
 | ---------- | --------------------------------------- | ---------------------------------------- |
 | change     | triggers when the modelValue change     | ^[Function]`(value: string[]) => void`   |
 | input      | triggers when the input value change    | ^[Function]`(value: string) => void`     |
-| tag-add    | triggers when a tag is added            | ^[Function]`(value: string) => void`     |
-| tag-remove | triggers when a tag is removed          | ^[Function]`(value: string) => void`     |
+| add-tag    | triggers when a tag is added            | ^[Function]`(value: string) => void`     |
+| remove-tag | triggers when a tag is removed          | ^[Function]`(value: string) => void`     |
 | focus      | triggers when InputTag focuses          | ^[Function]`(event: FocusEvent) => void` |
 | blur       | triggers when InputTag blurs            | ^[Function]`(event: FocusEvent) => void` |
 | clear      | triggers when the clear icon is clicked | ^[Function]`() => void`                  |

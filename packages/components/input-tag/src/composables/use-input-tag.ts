@@ -55,43 +55,43 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       case props.trigger:
         event.preventDefault()
         event.stopPropagation()
-        handleTagAdd()
+        handleAddTag()
         break
       case EVENT_CODE.numpadEnter:
         if (props.trigger === EVENT_CODE.enter) {
           event.preventDefault()
           event.stopPropagation()
-          handleTagAdd()
+          handleAddTag()
         }
         break
       case EVENT_CODE.backspace:
         if (!inputValue.value && props.modelValue?.length) {
           event.preventDefault()
           event.stopPropagation()
-          handleTagRemove(props.modelValue.length - 1)
+          handleRemoveTag(props.modelValue.length - 1)
         }
         break
     }
   }
 
-  const handleTagAdd = () => {
+  const handleAddTag = () => {
     const value = inputValue.value?.trim()
     if (!value || inputLimit.value) return
     const list = [...(props.modelValue ?? []), value]
 
     emit(UPDATE_MODEL_EVENT, list)
     emit(CHANGE_EVENT, list)
-    emit('tagAdd', value)
+    emit('add-tag', value)
     inputValue.value = undefined
   }
 
-  const handleTagRemove = (index: number) => {
+  const handleRemoveTag = (index: number) => {
     const value = (props.modelValue ?? []).slice()
     const [item] = value.splice(index, 1)
 
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
-    emit('tagRemove', item)
+    emit('remove-tag', item)
   }
 
   const handleClear = () => {
@@ -133,7 +133,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       return disabled.value
     },
     afterBlur() {
-      handleTagAdd()
+      handleAddTag()
       if (props.validateEvent) {
         formItem?.validate?.('blur').catch((err) => debugWarn(err))
       }
@@ -171,8 +171,8 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     handleDragged,
     handleInput,
     handleKeydown,
-    handleTagAdd,
-    handleTagRemove,
+    handleAddTag,
+    handleRemoveTag,
     handleClear,
     handleCompositionStart,
     handleCompositionUpdate,

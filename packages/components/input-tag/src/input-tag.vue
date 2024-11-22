@@ -19,7 +19,7 @@
         :effect="tagEffect"
         :draggable="closable && draggable"
         disable-transitions
-        @close="handleTagRemove(index)"
+        @close="handleRemoveTag(index)"
         @dragstart="(event: DragEvent) => handleDragStart(event, index)"
         @dragover="(event: DragEvent) => handleDragOver(event, index)"
         @dragend="handleDragEnd"
@@ -138,7 +138,7 @@ const {
   handleDragged,
   handleInput,
   handleKeydown,
-  handleTagRemove,
+  handleRemoveTag,
   handleClear,
   handleCompositionStart,
   handleCompositionUpdate,

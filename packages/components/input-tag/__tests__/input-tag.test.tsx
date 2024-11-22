@@ -297,11 +297,11 @@ describe('InputTag.vue', () => {
       expect(handleInput).toHaveBeenCalledWith(AXIOM)
     })
 
-    test('tagAdd', async () => {
+    test('add-tag', async () => {
       const handleTagAdd = vi.fn()
       const inputValue = ref<string[]>()
       const wrapper = mount(() => (
-        <InputTag v-model={inputValue.value} onTagAdd={handleTagAdd} />
+        <InputTag v-model={inputValue.value} onAdd-tag={handleTagAdd} />
       ))
 
       await wrapper.find('input').setValue(AXIOM)
@@ -310,11 +310,11 @@ describe('InputTag.vue', () => {
       expect(handleTagAdd).toHaveBeenCalledWith(AXIOM)
     })
 
-    test('tagRemove', async () => {
+    test('remove-tag', async () => {
       const handleTagRemove = vi.fn()
       const inputValue = ref<string[]>([AXIOM, AXIOM])
       const wrapper = mount(() => (
-        <InputTag v-model={inputValue.value} onTagRemove={handleTagRemove} />
+        <InputTag v-model={inputValue.value} onRemove-tag={handleTagRemove} />
       ))
 
       await wrapper.find('.el-tag__close').trigger('click')
