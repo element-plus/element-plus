@@ -662,6 +662,47 @@ $cascader: map.merge(
   ),
   $cascader
 );
+
+$cascader-item-gap: () !default;
+$cascader-item-gap: map.merge(
+  (
+    'large': 6px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $cascader-item-gap
+);
+
+$cascader-wrapper-padding: () !default;
+$cascader-wrapper-padding: map.merge(
+  (
+    'large': 8px,
+    'default': 4px,
+    'small': 2px,
+  ),
+  $cascader-wrapper-padding
+);
+
+$cascader-item-height: () !default;
+$cascader-item-height: map.merge(
+  (
+    'large': 24px,
+    'default': 24px,
+    'small': 20px,
+  ),
+  $cascader-item-height
+);
+
+$cascader-search-input-margin-left: () !default;
+$cascader-search-input-margin-left: map.merge(
+  (
+    'large': 7px,
+    'default': 7px,
+    'small': 5px,
+  ),
+  $cascader-search-input-margin-left
+);
+
 //statistic
 // css3 var in packages/theme-chalk/src/statistic.scss
 $statistic: () !default;
