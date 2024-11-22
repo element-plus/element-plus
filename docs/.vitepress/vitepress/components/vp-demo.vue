@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, ref, toRef } from 'vue'
 import { isClient, useClipboard, useToggle } from '@vueuse/core'
+import { EVENT_CODE } from 'element-plus'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useLang } from '../composables/lang'
 import { useSourceCode } from '../composables/source-code'
@@ -38,7 +39,11 @@ const onPlaygroundClick = () => {
 }
 
 const onSourceVisibleKeydown = (e: KeyboardEvent) => {
-  if (['Enter', 'Space'].includes(e.code)) {
+  if (
+    [EVENT_CODE.enter, EVENT_CODE.numpadEnter, EVENT_CODE.space].includes(
+      e.code
+    )
+  ) {
     e.preventDefault()
     toggleSourceVisible(false)
     sourceCodeRef.value?.focus()

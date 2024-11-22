@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { isRef, nextTick, ref } from 'vue'
-import { hasOwn, isClient } from '@element-plus/utils'
+import { hasOwn, isClient, isNumber, isString } from '@element-plus/utils'
 import { parseHeight } from './util'
 import type { Ref } from 'vue'
 
@@ -86,10 +86,10 @@ class TableLayout<T> {
     if (!el && (value || value === 0))
       return nextTick(() => this.setHeight(value, prop))
 
-    if (typeof value === 'number') {
+    if (isNumber(value)) {
       el.style[prop] = `${value}px`
       this.updateElsHeight()
-    } else if (typeof value === 'string') {
+    } else if (isString(value)) {
       el.style[prop] = value
       this.updateElsHeight()
     }
@@ -139,12 +139,11 @@ class TableLayout<T> {
 
     const flattenColumns = this.getFlattenColumns()
     const flexColumns = flattenColumns.filter(
-      (column) => typeof column.width !== 'number'
+      (column) => !isNumber(column.width)
     )
     flattenColumns.forEach((column) => {
       // Clean those columns whose width changed from flex to unflex
-      if (typeof column.width === 'number' && column.realWidth)
-        column.realWidth = null
+      if (isNumber(column.width) && column.realWidth) column.realWidth = null
     })
     if (flexColumns.length > 0 && fit) {
       flattenColumns.forEach((column) => {

@@ -210,6 +210,20 @@ export const SelectProps = buildProps({
    */
   remoteShowSuffix: Boolean,
   /**
+   * @description determines whether the arrow is displayed
+   */
+  showArrow: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description offset of the dropdown
+   */
+  offset: {
+    type: Number,
+    default: 12,
+  },
+  /**
    * @description position of dropdown
    */
   placement: {
