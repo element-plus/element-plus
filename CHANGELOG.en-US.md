@@ -1,5 +1,71 @@
 ## Changelog
 
+### 2.8.8
+
+_2024-11-15_
+
+#### Features
+
+- Components [select-v2] add `append-to` prop (#18798 by @btea)
+- Components [skeleton] `throttle` supports values ​​as object (#17041 by @chenweiyi)
+- Components [select] add `offset` and `show-arrow` prop (#18837 by @DDDDD12138)
+- Components [description-item] add labelWidth prop (#18673 by @Lakphy)
+
+#### Bug fixes
+
+- Utils[vue] ensure `flattedChildren` traverse component's subTree (#18649 by @ddeerdevil)
+- Components [select] prevent keyboard from deleting disabled option (#18752 by @cszhjh)
+- Theme-chalk  sass `!global assignments` deprecation warning (#18711 by @warmthsea)
+- Components [picker] fix popup not opening when editable is false (#18767 by @DDDDD12138)
+- Components [mention] keyboard control options not work as expected (#18751 by @btea)
+- Components [segmented] invisible active indicator after clearing selection (#18818 by @DDDDD12138)
+- Components [mention] ref dom array order error when list changes (#18787 by @warmthsea)
+- Components [table] `table-layout:auto` fixed column misalignment (#18736 by @btea)
+- Components [table] failed to insert tooltip when show-overflow-tooltip is enabled (#18317 by @xingyixiang)
+- Components [select] getValueIndex empty error (#18867 by @warmthsea)
+- Components [select & select-v2] status-icon is invalid (#18101 by @WangYJEE)
+- Components [pagination] input style loss (#18878 by @ToyCat93)
+- Components time-picker disabled-[hours/minutes/seconds] (#13364 by @StephenKe) (#14216)
+- Components numpadEnter does not work like the Enter (#18855 by @tolking)
+- Components [select-v2] resolve overlap of tags and placeholder (#18388 by @tuskermanshu)
+- Components [table] repeat setting the height style (#16054 by @betavs)
+
+#### Refactors
+
+- Improvement: [select] optimize the effect of keyboard switching options (#18773 by @btea)
+- Components [select] simplify code (#18810 by @makedopamine)
+
+### 2.8.7
+
+_2024-11-01_
+
+#### Features
+
+- Components [date-picker] add `show-now` prop (#18625 by @btea)
+- Components [date-picker] accessibility enhancement (#18109 by @tolking)
+- Components segmented support vertical direction (#18653 by @thinkasany)
+
+#### Bug fixes
+
+- Components [table-v2] header rendering is misplaced (#18628 by @btea)
+- Components [tree] highlight the corresponding node after data reset (#18578 by @momei-LJM)
+- Components [slider] no render popper dom when showTooltip is false (#18667 by @zzjiaxiang)
+- Hooks [useId] SSR hydration error caused by id in vue@3.5+ (#18647 by @tolking)
+- Components [select-v2] group label overflow hidden (#18551 by @zzjiaxiang)
+- Components [select] error parameters of getValueIndex (#14173 by @tolking)
+- Downgrade vue-tsc to 2.0.28 (#18737 by @makedopamine)
+
+#### Refactors
+
+- Theme-chalk update Sass functions to prep for 3.0.0 (#18579 by @wjp980108)
+- Replace Array.isArray with the built-in isArray (#18671 by @zzjiaxiang)
+- Replace typeof fn with the built-in isFunction (#18705 by @zzjiaxiang)
+- Replace typeof number with the built-in isNumber (#18706 by @zzjiaxiang)
+- Replace type checking with built-in functions (#18720 by @zzjiaxiang)
+- Style(components): [popper] popper border error (#18635 by @Liao-js)
+- Chore(components): [tour] remove redundant check for 'open' variable (#18668 by @cszhjh)
+- Chore(components): [descriptions] optimize the labelAlign (#18644 by @zzjiaxiang)
+
 ### 2.8.6
 
 _2024-10-18_

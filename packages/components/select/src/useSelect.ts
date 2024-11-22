@@ -25,9 +25,9 @@ import {
   isIOS,
   isNumber,
   isObject,
+  isPlainObject,
   isUndefined,
   scrollIntoView,
-  toRawType,
 } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -63,7 +63,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     inputValue: '',
     options: new Map(),
     cachedOptions: new Map(),
-    disabledOptions: new Map(),
     optionValues: [] as any[], // sorted value of options
     selected: [] as any[],
     selectionWidth: 0,
@@ -141,6 +140,8 @@ export const useSelect = (props: ISelectProps, emit) => {
       ? props.modelValue.length > 0
       : !isEmptyValue(props.modelValue)
   })
+
+  const needStatusIcon = computed(() => form?.statusIcon ?? false)
 
   const showClose = computed(() => {
     return (
@@ -425,9 +426,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const getOption = (value) => {
     let option
-    const isObjectValue = toRawType(value).toLowerCase() === 'object'
-    const isNull = toRawType(value).toLowerCase() === 'null'
-    const isUndefined = toRawType(value).toLowerCase() === 'undefined'
+    const isObjectValue = isPlainObject(value)
 
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
@@ -446,11 +445,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       }
     }
     if (option) return option
-    const label = isObjectValue
-      ? value.label
-      : !isNull && !isUndefined
-      ? value
-      : ''
+    const label = isObjectValue ? value.label : value ?? ''
     const newOption = {
       value,
       currentLabel: label,
@@ -514,7 +509,10 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const getLastNotDisabledIndex = (value) =>
-    findLastIndex(value, (it) => !states.disabledOptions.has(it))
+    findLastIndex(value, (it) => {
+      const option = states.cachedOptions.get(it)
+      return option && !option.disabled && !option.states.groupDisabled
+    })
 
   const deletePrevTag = (e) => {
     if (!props.multiple) return
@@ -593,7 +591,8 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const getValueIndex = (arr: any[] = [], option) => {
-    if (!isObject(option?.value)) return arr.indexOf(option.value)
+    if (isUndefined(option)) return -1
+    if (!isObject(option.value)) return arr.indexOf(option.value)
 
     return arr.findIndex((item) => {
       return isEqual(get(item, props.valueKey), getValueKey(option))
@@ -627,7 +626,6 @@ export const useSelect = (props: ISelectProps, emit) => {
   const onOptionCreate = (vm: SelectOptionProxy) => {
     states.options.set(vm.value, vm)
     states.cachedOptions.set(vm.value, vm)
-    vm.disabled && states.disabledOptions.set(vm.value, vm)
   }
 
   const onOptionDestroy = (key, vm: SelectOptionProxy) => {
@@ -698,8 +696,9 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (!expanded.value) {
       toggleMenu()
     } else {
-      if (optionsArray.value[states.hoveringIndex]) {
-        handleOptionSelect(optionsArray.value[states.hoveringIndex])
+      const option = optionsArray.value[states.hoveringIndex]
+      if (option && !option.disabled && !option.states.groupDisabled) {
+        handleOptionSelect(option)
       }
     }
   }
@@ -829,6 +828,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     shouldShowPlaceholder,
     currentPlaceholder,
     mouseEnterEventName,
+    needStatusIcon,
     showClose,
     iconComponent,
     iconReverse,

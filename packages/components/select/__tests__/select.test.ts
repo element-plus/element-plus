@@ -2721,6 +2721,19 @@ describe('Select', () => {
     const iconClear = wrapper.findComponent(CircleClose)
     await iconClear.trigger('click')
     expect(wrapper.findAll('.el-tag').length).toBe(1)
+    const selectInput = wrapper.find('.el-select__input')
+    await selectInput.trigger('keydown', {
+      code: EVENT_CODE.backspace,
+      key: EVENT_CODE.backspace,
+    })
+    await nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    await selectInput.trigger('keydown', {
+      code: EVENT_CODE.enter,
+      key: EVENT_CODE.enter,
+    })
+    await nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
   it('It should generate accessible attributes', async () => {
     wrapper = _mount(
@@ -2910,6 +2923,7 @@ describe('Select', () => {
               name: '蚵仔煎',
             },
           ],
+          value: null,
         })
       )
 
@@ -2930,5 +2944,71 @@ describe('Select', () => {
 
       vi.useRealTimers()
     })
+  })
+
+  it('should keep the selected label after filtering options', async () => {
+    const initials = [
+      {
+        value: 'aa',
+        label: 'label aa',
+      },
+      {
+        value: 'bb',
+        label: 'label bb',
+      },
+    ]
+
+    const wrapper = _mount(
+      `
+        <el-select v-model="value">
+          <el-option
+            v-for="option in options"
+            :key="option.value"
+            :value="option.value"
+            :label="option.label"
+          />
+        </el-select>
+      `,
+      () => ({
+        value: 'aa',
+        options: initials,
+      }),
+      {
+        methods: {
+          handleSearch(val) {
+            this.options = initials.filter((item) => item.label.includes(val))
+          },
+        },
+      }
+    )
+
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const vm = wrapper.vm as any
+
+    expect(selectVm.selectedLabel).toBe('label aa')
+
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
+    vm.handleSearch('bb')
+
+    await nextTick()
+    expect(wrapper.vm.options.length).toBe(1)
+    expect(selectVm.selectedLabel).toBe('label aa')
+    vm.handleSearch('bbb')
+
+    await nextTick()
+    expect(wrapper.vm.options.length).toBe(0)
+    expect(selectVm.selectedLabel).toBe('label aa')
+
+    vm.value = 'bb'
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('bb')
+
+    vm.value = ''
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('')
   })
 })
