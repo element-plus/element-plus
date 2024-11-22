@@ -67,6 +67,7 @@ const TableV2 = defineComponent({
       scrollToRow,
 
       getRowHeight,
+      getTableHeight,
       onColumnSorted,
       onRowHeightChange,
       onRowHovered,
@@ -153,6 +154,7 @@ const TableV2 = defineComponent({
         scrollbarEndGap: vScrollbarSize,
         useIsScrolling,
         width,
+        getTableHeight,
         getRowHeight,
         onRowsRendered,
         onScroll,
@@ -179,6 +181,7 @@ const TableV2 = defineComponent({
         scrollbarEndGap: vScrollbarSize,
         useIsScrolling,
         width: leftColumnsWidth,
+        getTableHeight,
         getRowHeight,
         onScroll: onVerticalScroll,
       }
@@ -207,6 +210,7 @@ const TableV2 = defineComponent({
           ns.namespace
         )}-table-scrollbar-size: ${vScrollbarSize}px`,
         useIsScrolling,
+        getTableHeight,
         getRowHeight,
         onScroll: onVerticalScroll,
       }

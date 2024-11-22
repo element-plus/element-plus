@@ -77,8 +77,8 @@ describe('TableV2.vue', () => {
         height={400}
         v-slots={{
           'header-cell': ({
-            columnIndex,
-          }: TableV2HeaderRowCellRendererParams) =>
+                            columnIndex,
+                          }: TableV2HeaderRowCellRendererParams) =>
             columnIndex === 0 ? <span>{customText}</span> : null,
         }}
       />
@@ -216,5 +216,67 @@ describe('TableV2.vue', () => {
     const cell = wrapper.find('.el-table-v2__row-cell')
     expect(cell.exists()).toBe(true)
     expect(cell.find('div [style^=margin-inline-star]').exists()).toBe(false)
+  })
+
+  test('should have the same scrollHeight for fixed and main tables when row height is dynamic', async () => {
+    const longText =
+      'Quaerat ipsam necessitatibus eum quibusdam est id voluptatem cumque mollitia.'
+    const midText = 'Corrupti doloremque a quos vero delectus consequatur.'
+    const shortText = 'Eius optio fugiat.'
+
+    const textList = [shortText, midText, longText]
+    let id = 0
+
+    const dataGenerator = () => ({
+      id: `random-${++id}`,
+      name: 'Tom',
+      date: '2016-05-03',
+      description: textList[Math.floor(Math.random() * 3)],
+    })
+
+    const columns = [
+      {
+        key: 'id',
+        title: 'Id',
+        dataKey: 'id',
+        width: 150,
+        sortable: true,
+        fixed: 'left',
+      },
+      {
+        key: 'name',
+        title: 'Name',
+        dataKey: 'name',
+        width: 150,
+        align: 'center',
+        cellRenderer: ({ cellData: name }) => h('span', null, name),
+      },
+      {
+        key: 'description',
+        title: 'Description',
+        dataKey: 'description',
+        width: 150,
+        cellRenderer: ({ cellData: description }) =>
+          h('div', { style: 'padding: 10px 0;' }, description),
+      },
+    ]
+    const data = ref(
+      Array.from({ length: 20 })
+        .map(dataGenerator)
+        .sort((a, b) => (a.name > b.name ? 1 : -1))
+    )
+    const wrapper = mount(() => (
+      <TableV2
+        columns={columns}
+        data={data.value}
+        width={700}
+        height={400}
+        estimatedRowHeight={40}
+        fixed
+      />
+    ))
+    const leftTable = wrapper.find('.el-table-v2__left')
+    const mainTable = wrapper.find('.el-table-v2__main')
+    expect(leftTable.scrollHeight).toBe(mainTable.scrollHeight)
   })
 })

@@ -7,7 +7,7 @@ import {
   unref,
   watch,
 } from 'vue'
-import { isArray } from '@element-plus/utils'
+import { isArray, isNumber } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   useColumns,
@@ -125,6 +125,12 @@ function useTable(props: TableV2Props) {
     )
   }
 
+  function getTableHeight() {
+    const { estimatedRowHeight, height } = props
+    if (!isNumber(estimatedRowHeight)) return height
+    return Object.values(unref(rowHeights)).reduce((acc, curr) => acc + curr, 0)
+  }
+
   function onMaybeEndReached() {
     const { onEndReached } = props
     if (!onEndReached) return
@@ -191,6 +197,7 @@ function useTable(props: TableV2Props) {
 
     // methods
     getRowHeight,
+    getTableHeight,
 
     // event handlers
     onColumnSorted,

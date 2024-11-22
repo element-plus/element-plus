@@ -48,8 +48,12 @@ const useTableGrid = (props: TableV2GridProps) => {
   const headerHeight = computed(() => sum(props.headerHeight))
 
   const gridHeight = computed(() => {
-    const { height } = props
-    return Math.max(0, height - unref(headerHeight) - unref(fixedRowHeight))
+    const { height, getTableHeight } = props
+    const _height = getTableHeight()
+    return Math.min(
+      _height,
+      height - unref(headerHeight) - unref(fixedRowHeight)
+    )
   })
 
   const hasHeader = computed(() => {

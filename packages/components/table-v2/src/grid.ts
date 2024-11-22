@@ -62,6 +62,9 @@ export const tableV2GridProps = buildProps({
     type: definePropType<ItemSize>(Function),
     required: true,
   },
+  getTableHeight: {
+    type: definePropType<ItemSize>(Function),
+  },
   rowKey: tableV2RowProps.rowKey,
 
   /**

@@ -32,16 +32,10 @@ export const useStyles = (
   const headerWidth = computed(() => unref(bodyWidth) + props.vScrollbarSize)
 
   const mainTableHeight = computed(() => {
-    const { height = 0, maxHeight = 0, footerHeight, hScrollbarSize } = props
+    const { height = 0, maxHeight = 0, footerHeight } = props
 
     if (maxHeight > 0) {
-      const _fixedRowsHeight = unref(fixedRowsHeight)
-      const _rowsHeight = unref(rowsHeight)
-      const _headerHeight = unref(headerHeight)
-      const total =
-        _headerHeight + _fixedRowsHeight + _rowsHeight + hScrollbarSize
-
-      return Math.min(total, maxHeight - footerHeight)
+      return maxHeight - footerHeight
     }
 
     return height - footerHeight
@@ -58,14 +52,7 @@ export const useStyles = (
   })
 
   const fixedTableHeight = computed(() => {
-    const { maxHeight } = props
-    const tableHeight = unref(mainTableHeight)
-    if (isNumber(maxHeight) && maxHeight > 0) return tableHeight
-
-    const totalHeight =
-      unref(rowsHeight) + unref(headerHeight) + unref(fixedRowsHeight)
-
-    return Math.min(tableHeight, totalHeight)
+    return unref(mainTableHeight)
   })
 
   const mapColumn = (column: TableV2Props['columns'][number]) => column.width
