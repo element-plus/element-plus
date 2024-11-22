@@ -40,6 +40,7 @@ export function useInputTagDom({
     ns.b(),
     ns.is('focused', isFocused.value),
     ns.is('hovering', hovering.value),
+    ns.is('disabled', disabled.value),
     ns.m(size.value),
     ns.e('wrapper'),
     attrs.class,

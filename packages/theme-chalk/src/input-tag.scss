@@ -69,8 +69,13 @@
       @include mixed-input-border(#{getCssVar('input-focus-border-color')});
     }
 
-    .#{$namespace}-tag {
-      cursor: not-allowed;
+    @include e(inner) {
+      @include e(input) {
+        cursor: not-allowed;
+      }
+      .#{$namespace}-tag {
+        cursor: not-allowed;
+      }
     }
   }
 
@@ -164,10 +169,6 @@
     appearance: none;
     width: 100%;
     background-color: transparent;
-
-    @include when(disabled) {
-      cursor: not-allowed;
-    }
   }
 
   @include e(input-calculator) {

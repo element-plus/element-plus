@@ -83,10 +83,14 @@ export function useDragTag({
     let indicatorLeft = -9999
 
     if (dropType === 'before') {
-      indicatorLeft =
-        dropPosition.left - innerPosition.left - (!index ? 0 : gap)
+      indicatorLeft = Math.max(
+        dropPosition.left - innerPosition.left - gap,
+        Math.floor(-gap / 2)
+      )
     } else if (dropType === 'after') {
-      indicatorLeft = dropPosition.right - innerPosition.left + gap
+      const left = dropPosition.right - innerPosition.left
+      indicatorLeft =
+        left + (innerPosition.width === left ? Math.floor(gap / 2) : gap)
     }
 
     setStyle(dropIndicatorRef.value!, {
@@ -103,7 +107,12 @@ export function useDragTag({
       draggingTag.style.opacity = ''
     }
 
-    if (dropType && !isUndefined(draggingIndex) && !isUndefined(dropIndex)) {
+    if (
+      dropType &&
+      !isUndefined(draggingIndex) &&
+      !isUndefined(dropIndex) &&
+      draggingIndex !== dropIndex
+    ) {
       handleDragged(draggingIndex, dropIndex, dropType)
     }
 
