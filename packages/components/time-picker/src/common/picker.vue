@@ -325,7 +325,7 @@ const refInput = computed<HTMLInputElement[]>(() => {
   return []
 })
 
-// @ts-expect-error
+// @ts-ignore
 const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
   const _inputs = refInput.value
   if (!_inputs.length) return
@@ -688,7 +688,7 @@ const handleEndChange = () => {
 }
 
 const pickerOptions = ref<Partial<PickerOptions>>({})
-// @ts-expect-error
+// @ts-ignore
 const onSetPickerOption = <T extends keyof PickerOptions>(
   e: [T, PickerOptions[T]]
 ) => {
@@ -696,12 +696,12 @@ const onSetPickerOption = <T extends keyof PickerOptions>(
   pickerOptions.value.panelReady = true
 }
 
-// @ts-expect-error
+// @ts-ignore
 const onCalendarChange = (e: [Date, null | Date]) => {
   emit('calendar-change', e)
 }
 
-// @ts-expect-error
+// @ts-ignore
 const onPanelChange = (
   value: [Dayjs, Dayjs],
   mode: 'month' | 'year',
