@@ -101,11 +101,21 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     emit('clear')
   }
 
-  const afterDragged = (draggedIndex: number, index: number) => {
+  const handleDragged = (
+    draggingIndex: number,
+    dropIndex: number,
+    type: 'before' | 'after'
+  ) => {
     const value = (props.modelValue ?? []).slice()
-    const [draggedItem] = value.splice(draggedIndex, 1)
-    value.splice(index, 0, draggedItem)
+    const [draggedItem] = value.splice(draggingIndex, 1)
+    const step =
+      dropIndex > draggingIndex && type === 'before'
+        ? -1
+        : dropIndex < draggingIndex && type === 'after'
+        ? 1
+        : 0
 
+    value.splice(dropIndex + step, 0, draggedItem)
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
   }
@@ -158,7 +168,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     closable,
     disabled,
     inputLimit,
-    afterDragged,
+    handleDragged,
     handleInput,
     handleKeydown,
     handleTagAdd,

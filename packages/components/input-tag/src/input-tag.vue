@@ -17,13 +17,13 @@
         :closable="closable"
         :type="tagType"
         :effect="tagEffect"
-        :draggable="draggable"
+        :draggable="closable && draggable"
         disable-transitions
         @close="handleTagRemove(index)"
         @dragstart="(event: DragEvent) => handleDragStart(event, index)"
-        @dragover="handleDragOver"
-        @drop="(event: DragEvent) => handleDrop(event, index)"
-        @dragend="focus"
+        @dragover="(event: DragEvent) => handleDragOver(event, index)"
+        @dragend="handleDragEnd"
+        @drop.stop
       >
         <slot name="tag" :value="item" :index="index">
           {{ item }}
@@ -59,6 +59,11 @@
           v-text="inputValue"
         />
       </div>
+      <div
+        v-show="showDropIndicator"
+        ref="dropIndicatorRef"
+        :class="ns.e('drop-indicator')"
+      />
     </div>
     <div v-if="showSuffix" :class="ns.e('suffix')">
       <slot name="suffix" />
@@ -130,7 +135,7 @@ const {
   placeholder,
   closable,
   disabled,
-  afterDragged,
+  handleDragged,
   handleInput,
   handleKeydown,
   handleTagRemove,
@@ -143,9 +148,13 @@ const {
 } = useInputTag({ props, emit, formItem })
 const { hovering, handleMouseEnter, handleMouseLeave } = useHovering()
 const { calculatorRef, calculatorWidth } = useCalcInputWidth()
-const { handleDragStart, handleDragOver, handleDrop } = useDragTag({
-  afterDragged,
-})
+const {
+  dropIndicatorRef,
+  showDropIndicator,
+  handleDragStart,
+  handleDragOver,
+  handleDragEnd,
+} = useDragTag({ wrapperRef, handleDragged, afterDragged: focus })
 const {
   ns,
   nsInput,

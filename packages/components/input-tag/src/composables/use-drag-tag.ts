@@ -1,34 +1,125 @@
-import { ref } from 'vue'
-import { isUndefined } from '@element-plus/utils'
+import { type ShallowRef, ref, shallowRef } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
+import { getStyle, isUndefined, setStyle } from '@element-plus/utils'
+
+type DropType = 'before' | 'after'
 
 interface UseDragTagOptions {
-  afterDragged: (draggedIndex: number, index: number) => void
+  wrapperRef: ShallowRef<HTMLElement | undefined>
+  handleDragged: (
+    draggingIndex: number,
+    dropIndex: number,
+    type: DropType
+  ) => void
+  afterDragged?: () => void
 }
 
-export function useDragTag({ afterDragged }: UseDragTagOptions) {
-  const draggedIndex = ref<number>()
+export function useDragTag({
+  wrapperRef,
+  handleDragged,
+  afterDragged,
+}: UseDragTagOptions) {
+  const ns = useNamespace('input-tag')
+  const dropIndicatorRef = shallowRef<HTMLElement>()
+  const showDropIndicator = ref(false)
+
+  let draggingIndex: number | undefined
+  let draggingTag: HTMLElement | null
+  let dropIndex: number | undefined
+  let dropType: DropType | undefined
+
+  function getTagClassName(index: number) {
+    return `.${ns.e('inner')} .${ns.namespace.value}-tag:nth-child(${
+      index + 1
+    })`
+  }
 
   function handleDragStart(event: DragEvent, index: number) {
-    draggedIndex.value = index
+    draggingIndex = index
+    draggingTag = wrapperRef.value!.querySelector<HTMLElement>(
+      getTagClassName(index)
+    )
+
+    if (draggingTag) {
+      draggingTag.style.opacity = '0.5'
+    }
     event.dataTransfer!.effectAllowed = 'move'
   }
 
-  function handleDragOver(event: DragEvent) {
+  function handleDragOver(event: DragEvent, index: number) {
+    dropIndex = index
     event.preventDefault()
     event.dataTransfer!.dropEffect = 'move'
+
+    if (isUndefined(draggingIndex) || draggingIndex === index) {
+      showDropIndicator.value = false
+      return
+    }
+
+    const dropPosition = wrapperRef
+      .value!.querySelector<HTMLElement>(getTagClassName(index))!
+      .getBoundingClientRect()
+    const dropPrev = !(draggingIndex + 1 === index)
+    const dropNext = !(draggingIndex - 1 === index)
+    const distance = event.clientX - dropPosition.left
+    const prevPercent = dropPrev ? (dropNext ? 0.5 : 1) : -1
+    const nextPercent = dropNext ? (dropPrev ? 0.5 : 0) : 1
+
+    if (distance <= dropPosition.width * prevPercent) {
+      dropType = 'before'
+    } else if (distance > dropPosition.width * nextPercent) {
+      dropType = 'after'
+    } else {
+      dropType = undefined
+    }
+
+    const innerEl = wrapperRef.value!.querySelector<HTMLElement>(
+      `.${ns.e('inner')}`
+    )!
+    const innerPosition = innerEl.getBoundingClientRect()
+    const gap = Number.parseFloat(getStyle(innerEl, 'gap')) / 2
+
+    const indicatorTop = dropPosition.top - innerPosition.top
+    let indicatorLeft = -9999
+
+    if (dropType === 'before') {
+      indicatorLeft =
+        dropPosition.left - innerPosition.left - (!index ? 0 : gap)
+    } else if (dropType === 'after') {
+      indicatorLeft = dropPosition.right - innerPosition.left + gap
+    }
+
+    setStyle(dropIndicatorRef.value!, {
+      top: `${indicatorTop}px`,
+      left: `${indicatorLeft}px`,
+    })
+    showDropIndicator.value = !!dropType
   }
 
-  function handleDrop(event: DragEvent, index: number) {
-    if (isUndefined(draggedIndex.value)) return
+  function handleDragEnd(event: DragEvent) {
     event.preventDefault()
-    afterDragged(draggedIndex.value, index)
-    draggedIndex.value = undefined
+
+    if (draggingTag) {
+      draggingTag.style.opacity = ''
+    }
+
+    if (dropType && !isUndefined(draggingIndex) && !isUndefined(dropIndex)) {
+      handleDragged(draggingIndex, dropIndex, dropType)
+    }
+
+    showDropIndicator.value = false
+    draggingIndex = undefined
+    draggingTag = null
+    dropIndex = undefined
+    dropType = undefined
+    afterDragged?.()
   }
 
   return {
-    draggedIndex,
+    dropIndicatorRef,
+    showDropIndicator,
     handleDragStart,
     handleDragOver,
-    handleDrop,
+    handleDragEnd,
   }
 }
