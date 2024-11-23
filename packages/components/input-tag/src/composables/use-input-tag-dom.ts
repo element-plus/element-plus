@@ -8,7 +8,6 @@ interface UseInputTagDomOptions {
   props: InputTagProps
   isFocused: Ref<boolean>
   hovering: Ref<boolean>
-  calculatorWidth: Ref<number>
   disabled: ComputedRef<boolean>
   inputValue: Ref<string | undefined>
   size: ComputedRef<ComponentSize>
@@ -21,7 +20,6 @@ export function useInputTagDom({
   props,
   isFocused,
   hovering,
-  calculatorWidth,
   disabled,
   inputValue,
   size,
@@ -29,8 +27,6 @@ export function useInputTagDom({
   validateIcon,
   needStatusIcon,
 }: UseInputTagDomOptions) {
-  const MINIMUM_INPUT_WIDTH = 11
-
   const attrs = useAttrs()
   const slots = useSlots()
   const ns = useNamespace('input-tag')
@@ -52,9 +48,6 @@ export function useInputTagDom({
     ns.is('left-space', !props.modelValue?.length && !slots.prefix),
     ns.is('right-space', !props.modelValue?.length && !showSuffix.value),
   ])
-  const inputStyle = computed(() => ({
-    minWidth: `${Math.max(calculatorWidth.value, MINIMUM_INPUT_WIDTH)}px`,
-  }))
   const showClear = computed(() => {
     return (
       props.clearable &&
@@ -78,7 +71,6 @@ export function useInputTagDom({
     containerKls,
     containerStyle,
     innerKls,
-    inputStyle,
     showClear,
     showSuffix,
   }

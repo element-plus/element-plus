@@ -92,14 +92,13 @@
 <script lang="ts" setup>
 import { computed, useSlots } from 'vue'
 import { CircleClose } from '@element-plus/icons-vue'
-import { useAttrs } from '@element-plus/hooks'
+import { useAttrs, useCalcInputWidth } from '@element-plus/hooks'
 import { NOOP, ValidateComponentsMap } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import ElTag from '@element-plus/components/tag'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import { inputTagEmits, inputTagProps } from './input-tag'
 import {
-  useCalcInputWidth,
   useDragTag,
   useHovering,
   useInputTag,
@@ -147,7 +146,7 @@ const {
   blur,
 } = useInputTag({ props, emit, formItem })
 const { hovering, handleMouseEnter, handleMouseLeave } = useHovering()
-const { calculatorRef, calculatorWidth } = useCalcInputWidth()
+const { calculatorRef, inputStyle } = useCalcInputWidth()
 const {
   dropIndicatorRef,
   showDropIndicator,
@@ -161,7 +160,6 @@ const {
   containerKls,
   containerStyle,
   innerKls,
-  inputStyle,
   showClear,
   showSuffix,
 } = useInputTagDom({
@@ -169,7 +167,6 @@ const {
   hovering,
   isFocused,
   inputValue,
-  calculatorWidth,
   disabled,
   size,
   validateState,

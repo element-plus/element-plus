@@ -1,4 +1,3 @@
-export * from './use-calc-input-width'
 export * from './use-drag-tag'
 export * from './use-hovering'
 export * from './use-input-tag'

@@ -1,9 +1,14 @@
-import { ref } from 'vue'
+import { computed, ref, shallowRef } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 
 export function useCalcInputWidth() {
-  const calculatorRef = ref<HTMLElement>()
+  const calculatorRef = shallowRef<HTMLElement>()
   const calculatorWidth = ref(0)
+  const MINIMUM_INPUT_WIDTH = 11
+
+  const inputStyle = computed(() => ({
+    minWidth: `${Math.max(calculatorWidth.value, MINIMUM_INPUT_WIDTH)}px`,
+  }))
 
   const resetCalculatorWidth = () => {
     calculatorWidth.value =
@@ -15,5 +20,6 @@ export function useCalcInputWidth() {
   return {
     calculatorRef,
     calculatorWidth,
+    inputStyle,
   }
 }
