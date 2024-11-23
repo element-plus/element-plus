@@ -6,20 +6,10 @@
 
   @include respond-to('xxl') {
     display: block;
-    padding-right: 32px;
-  }
-
-  @include respond-to('max') {
-    padding-right: 48px;
   }
 
   @include respond-to('xxl') {
     display: block;
-    padding-right: 32px;
-  }
-
-  @include respond-to('max') {
-    padding-right: 48px;
   }
 
   .toc-content {

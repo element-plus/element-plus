@@ -21,14 +21,14 @@
     padding: 48px 32px;
   }
   @include respond-to('lg') {
-    padding: 48px 32px;
+    padding: 0 32px 48px 32px;
   }
   @include respond-to('xxl') {
-    padding: 64px 0 48px 64px;
+    padding: 0 0 48px 64px;
     display: flex;
   }
   @include respond-to('max') {
-    padding: 64px 0 48px 64px;
+    padding: 0 0 48px 64px;
     display: flex;
   }
 }
