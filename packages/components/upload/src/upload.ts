@@ -28,20 +28,20 @@ export interface UploadRequestOptions {
   onSuccess: (response: any) => void
   withCredentials: boolean
 }
-export interface UploadFile {
+export interface UploadFile<T = any> {
   name: string
   percentage?: number
   status: UploadStatus
   size?: number
-  response?: unknown
+  response?: T
   uid: number
   url?: string
   raw?: UploadRawFile
 }
-export type UploadUserFile = Omit<UploadFile, 'status' | 'uid'> &
+export type UploadUserFile<T = any> = Omit<UploadFile<T>, 'status' | 'uid'> &
   Partial<Pick<UploadFile, 'status' | 'uid'>>
 
-export type UploadFiles = UploadFile[]
+export type UploadFiles<T = any> = UploadFile<T>[]
 export interface UploadRawFile extends File {
   uid: number
 }
