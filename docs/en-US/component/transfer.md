@@ -84,13 +84,13 @@ transfer/prop-alias
 
 ### Transfer Slots
 
-| Name         | Description                                                          |
-| ------------ | -------------------------------------------------------------------- |
-| default      | Custom content for data items. The scope parameter is `{ option }`   |
-| left-footer  | content of left list footer                                          |
-| right-footer | content of right list footer                                         |
-| left-empty   | content when left panel is empty or when no data matches the filter  |
-| right-empty  | content when right panel is empty or when no data matches the filter |
+| Name                 | Description                                                          |
+| -------------------- | -------------------------------------------------------------------- |
+| default              | Custom content for data items. The scope parameter is `{ option }`   |
+| left-footer          | content of left list footer                                          |
+| right-footer         | content of right list footer                                         |
+| left-empty ^(2.9.0)  | content when left panel is empty or when no data matches the filter  |
+| right-empty ^(2.9.0) | content when right panel is empty or when no data matches the filter |
 
 ### Transfer Exposes
 
