@@ -33,6 +33,16 @@ transfer/customizable
 
 :::
 
+## Custom empty content ^(2.9.0)
+
+You can customize the content when the list is empty or when no filtering results are found.
+
+:::demo Use `left-empty` and `right-empty` slots to customize the empty content for each panel.
+
+transfer/empty-content
+
+:::
+
 ## Prop aliases
 
 By default, Transfer looks for `key`, `label` and `disabled` in a data item. If your data items have different key names, you can use the `props` attribute to define aliases.
@@ -74,11 +84,13 @@ transfer/prop-alias
 
 ### Transfer Slots
 
-| Name         | Description                                                        |
-| ------------ | ------------------------------------------------------------------ |
-| default      | Custom content for data items. The scope parameter is `{ option }` |
-| left-footer  | content of left list footer                                        |
-| right-footer | content of right list footer                                       |
+| Name                 | Description                                                          |
+| -------------------- | -------------------------------------------------------------------- |
+| default              | Custom content for data items. The scope parameter is `{ option }`   |
+| left-footer          | content of left list footer                                          |
+| right-footer         | content of right list footer                                         |
+| left-empty ^(2.9.0)  | content when left panel is empty or when no data matches the filter  |
+| right-empty ^(2.9.0) | content when right panel is empty or when no data matches the filter |
 
 ### Transfer Exposes
 
