@@ -33,7 +33,7 @@ transfer/customizable
 
 :::
 
-## Custom empty content
+## Custom empty content ^(2.9.0)
 
 You can customize the content when the list is empty or when no filtering results are found.
 
