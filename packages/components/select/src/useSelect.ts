@@ -627,12 +627,14 @@ export const useSelect = (props: ISelectProps, emit) => {
         if (item.isDisabled) value.push(item.value)
       }
     }
+    states.createdSelected = []
     emit(UPDATE_MODEL_EVENT, value)
     emitChange(value)
     states.hoveringIndex = -1
     expanded.value = false
     emit('clear')
     focus()
+    console.log(states)
   }
 
   const updateCreatedSelected = (value) => {
