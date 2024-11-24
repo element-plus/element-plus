@@ -385,6 +385,41 @@ describe('TimePicker', () => {
     expect(value.value).toEqual('2000-01-01 09:00:00')
   })
 
+  it('when a time is input, the type of modelValue should be Date by default', async () => {
+    const value = ref('2024-11-18 12:00:00')
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+
+    await input.setValue('10:00:00')
+
+    input.trigger('blur')
+    expect(value.value).toBeInstanceOf(Date)
+  })
+
+  it('when a time is input, the type of modelValue should be Date by default (is-range)', async () => {
+    const value = ref([
+      new Date('2024-11-18 10:00:00'),
+      new Date('2024-11-18 12:00:00'),
+    ])
+    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
+
+    const [startTimeInput, endTimeInput] = wrapper.findAll('input')
+
+    // Input start time
+    startTimeInput.trigger('focus')
+    await startTimeInput.setValue('10:00:10')
+    startTimeInput.trigger('blur')
+    expect(value.value[0]).toBeInstanceOf(Date)
+
+    // Input end time
+    endTimeInput.trigger('focus')
+    await endTimeInput.setValue('12:00:10')
+    endTimeInput.trigger('blur')
+    expect(value.value[1]).toBeInstanceOf(Date)
+  })
+
   it('picker-panel should not pop up when readonly', async () => {
     const wrapper = mount(() => <TimePicker readonly />)
 
