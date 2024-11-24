@@ -63,6 +63,8 @@ export const useSelect = (props: ISelectProps, emit) => {
     inputValue: '',
     options: new Map(),
     cachedOptions: new Map(),
+    createdOptions: new Map(),
+    createdSelected: [],
     optionValues: [] as any[], // sorted value of options
     selected: [] as any[],
     selectionWidth: 0,
@@ -192,6 +194,10 @@ export const useSelect = (props: ISelectProps, emit) => {
     () => optionsArray.value.filter((option) => option.visible).length
   )
 
+  const showEmpty = computed(() => {
+    return filteredOptionsCount.value === 0 && states.createdOptions.size === 0
+  })
+
   const optionsArray = computed(() => {
     const list = Array.from(states.options.values())
     const newList = []
@@ -305,8 +311,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   )
 
-  let optionDestoryOnWatch = false
-
   watch(
     // fix `Array.prototype.push/splice/..` cannot trigger non-deep watcher
     // https://github.com/vuejs/vue-next/issues/2116
@@ -321,7 +325,6 @@ export const useSelect = (props: ISelectProps, emit) => {
           !isUndefined(props.modelValue)) ||
         !Array.from(inputs).includes(document.activeElement as HTMLInputElement)
       ) {
-        optionDestoryOnWatch = true
         setSelected()
       }
       if (
@@ -358,7 +361,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     updateOptions()
   })
 
-  const handleQueryChange = (val: string) => {
+  const handleQueryChange = (val: string, created = false) => {
     if (states.previousQuery === val || isComposing.value) {
       return
     }
@@ -375,11 +378,12 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (
       props.defaultFirstOption &&
       (props.filterable || props.remote) &&
-      filteredOptionsCount.value
+      (filteredOptionsCount.value || states.createdOptions.size !== 0)
     ) {
+      if (val === '') states.hoveringIndex = -1
       nextTick(checkDefaultFirstOption)
     } else {
-      nextTick(updateHoveringIndex)
+      created ? (states.hoveringIndex = -1) : nextTick(updateHoveringIndex)
     }
   }
 
@@ -394,16 +398,20 @@ export const useSelect = (props: ISelectProps, emit) => {
    *   (NOTE: exclude options that are disabled or in disabled-group)
    */
   const checkDefaultFirstOption = () => {
-    const optionsInDropdown = optionsArray.value.filter(
+    const optionsInDropdown = optionsArray.value.find(
       (n) => n.visible && !n.disabled && !n.states.groupDisabled
     )
-    const userCreatedOption = optionsInDropdown.find((n) => n.created)
-    const firstOriginOption = optionsInDropdown[0]
-    const valueList = optionsArray.value.map((item) => item.value)
-    states.hoveringIndex = getValueIndex(
-      valueList,
-      userCreatedOption || firstOriginOption
-    )
+
+    const userCreatedOption = states.createdOptions.values().next().value
+    if (userCreatedOption) {
+      userCreatedOption.hover = true
+      states.hoveringIndex = 0
+      if (optionsInDropdown) optionsInDropdown.hover = false
+    } else {
+      const firstOriginOption = optionsInDropdown
+      const valueList = optionsArray.value.map((item) => item.value)
+      states.hoveringIndex = getValueIndex(valueList, firstOriginOption)
+    }
   }
 
   const setSelected = () => {
@@ -420,17 +428,17 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
     const result: any[] = []
     if (!isUndefined(props.modelValue)) {
-      ensureArray(props.modelValue).forEach((value) => {
-        result.push(getOption(value))
+      ensureArray(props.modelValue).forEach((value, index) => {
+        result.push(getOption(value, index))
       })
     }
     states.selected = result
   }
 
-  const prevDeletedCreatedOptions = new Map()
-  const getOption = (value) => {
+  const getOption = (value, index = -1) => {
     let option
     const isObjectValue = isPlainObject(value)
+
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
       const isEqualValue = isObjectValue
@@ -438,23 +446,28 @@ export const useSelect = (props: ISelectProps, emit) => {
         : cachedOption.value === value
       if (isEqualValue) {
         let currentLabel = cachedOption.currentLabel
-        if (optionDestoryOnWatch) {
-          if (cachedOption.created && states.options.get(cachedOption.value)) {
-            prevDeletedCreatedOptions.set(cachedOption.value, cachedOption)
-            states.cachedOptions.set(value, states.options.get(value))
-          }
-          optionDestoryOnWatch = false
+        let created = false
+        const selectedItem =
+          states.selected[index]?.value === value
+            ? states.selected?.[index]
+            : states.selected?.[index + 1]
+        if (states.createdOptions.size === 0) {
+          currentLabel = props.multiple
+            ? selectedItem?.currentLabel || cachedOption.currentLabel
+            : cachedOption.currentLabel
+          created = selectedItem?.created || false
         } else {
-          const selectItem = states.selected.find(
-            (select) => select.value === cachedOption.value
-          )
-          if (selectItem) {
-            const isPrevCreate = prevDeletedCreatedOptions.get(selectItem.value)
-            if (
-              selectItem.currentLabel !== currentLabel &&
-              isPrevCreate?.created
-            ) {
-              currentLabel = selectItem.currentLabel
+          if (selectedItem) {
+            created = selectedItem.created
+            currentLabel = selectedItem.currentLabel
+          } else {
+            const createOptions = Array.from(states.createdOptions.values())
+            const hoveringCreateOption = createOptions.find(
+              (item) => item.hover
+            )
+            if (hoveringCreateOption) {
+              created = true
+              currentLabel = hoveringCreateOption.currentLabel
             }
           }
         }
@@ -465,20 +478,54 @@ export const useSelect = (props: ISelectProps, emit) => {
           get isDisabled() {
             return cachedOption.isDisabled
           },
+          created,
         }
         break
       }
     }
     if (option) return option
-    const label = isObjectValue ? value.label : value ?? ''
-    const newOption = {
-      value,
-      currentLabel: label,
+
+    let newOption
+
+    if (states.createdSelected.length) {
+      const createdSelectedItem = states.createdSelected.find(
+        (item) => item.value === value
+      )
+      if (createdSelectedItem) {
+        newOption = {
+          value: createdSelectedItem.value,
+          currentLabel: createdSelectedItem.currentLabel,
+          created: createdSelectedItem.created,
+          get isDisabled() {
+            return false
+          },
+        }
+        return newOption
+      }
+    }
+
+    if (states.createdOptions.size !== 0) {
+      const lastCreateOption = Array.from(states.createdOptions.values()).pop()
+      newOption = {
+        value: lastCreateOption.value,
+        currentLabel: lastCreateOption.currentLabel,
+        created: true,
+        get isDisabled() {
+          return false
+        },
+      }
+    } else {
+      const label = isObjectValue ? value.label : value ?? ''
+      newOption = {
+        value,
+        currentLabel: label,
+      }
     }
     return newOption
   }
 
   const updateHoveringIndex = () => {
+    if (states.createdOptions.size !== 0) return -1
     states.hoveringIndex = optionsArray.value.findIndex((item) =>
       states.selected.some(
         (selected) => getValueKey(selected) === getValueKey(item)
@@ -536,6 +583,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const getLastNotDisabledIndex = (value) =>
     findLastIndex(value, (it) => {
       const option = states.cachedOptions.get(it)
+      if (!option) return true
       return option && !option.disabled && !option.states.groupDisabled
     })
 
@@ -543,6 +591,9 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (!props.multiple) return
     if (e.code === EVENT_CODE.delete) return
     if (e.target.value.length <= 0) {
+      const lastSelected = states.selected[states.selected.length - 1]
+      if (lastSelected && lastSelected.created)
+        updateCreatedSelected(lastSelected.value)
       const value = ensureArray(props.modelValue).slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(value)
       if (lastNotDisabledIndex < 0) return
@@ -554,19 +605,11 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   }
 
-  const resetAllowCreateCachedOptions = (option) => {
-    const cacheOption = states.cachedOptions.get(option.value)
-    if (cacheOption && cacheOption.created) {
-      states.cachedOptions.set(option.value, states.options.get(option.value))
-      prevDeletedCreatedOptions.delete(option.value)
-    }
-  }
-
   const deleteTag = (event, tag) => {
     const index = states.selected.indexOf(tag)
     if (index > -1 && !selectDisabled.value) {
+      if (tag.created) updateCreatedSelected(tag.value)
       const value = ensureArray(props.modelValue).slice()
-      resetAllowCreateCachedOptions(tag)
       value.splice(index, 1)
       emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
@@ -592,23 +635,37 @@ export const useSelect = (props: ISelectProps, emit) => {
     focus()
   }
 
+  const updateCreatedSelected = (value) => {
+    states.createdSelected = states.createdSelected.filter(
+      (item) => item.value !== value
+    )
+  }
+
   const handleOptionSelect = (option) => {
     if (props.multiple) {
       const value = ensureArray(props.modelValue ?? []).slice()
       const optionIndex = getValueIndex(value, option)
       if (optionIndex > -1) {
         value.splice(optionIndex, 1)
-        resetAllowCreateCachedOptions(option)
+        if (option.created) updateCreatedSelected(option.value)
       } else if (
         props.multipleLimit <= 0 ||
         value.length < props.multipleLimit
       ) {
+        if (option.created) {
+          states.createdSelected.push({
+            value: option.value,
+            created: true,
+            hover: option.hover,
+            currentLabel: option.currentLabel,
+          })
+        }
         value.push(option.value)
       }
       emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
       if (option.created) {
-        handleQueryChange('')
+        handleQueryChange('', true)
       }
       if (props.filterable && !props.reserveKeyword) {
         states.inputValue = ''
@@ -627,10 +684,49 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const getValueIndex = (arr: any[] = [], option) => {
     if (isUndefined(option)) return -1
-    if (!isObject(option.value)) return arr.indexOf(option.value)
+
+    if (option.created) {
+      const searchArr = states.createdSelected.map((item) => item.value)
+
+      if (!isObject(option.value)) {
+        const selectedIndex = states.selected.findIndex(
+          (item) => item.created && item.value === option.value
+        )
+        if (selectedIndex > -1) return selectedIndex
+
+        return selectedIndex > -1
+          ? selectedIndex
+          : searchArr.indexOf(option.value)
+      }
+
+      const objectSelectIndex = states.selected.findIndex((item) => {
+        return isEqual(get(item, props.valueKey), getValueKey(option))
+      })
+      if (objectSelectIndex > -1) return objectSelectIndex
+
+      return searchArr.findIndex((item) => {
+        return isEqual(get(item, props.valueKey), getValueKey(option))
+      })
+    }
+
+    if (!isObject(option.value)) {
+      const selectedIndex = states.selected.findIndex(
+        (item) => !item.created && item.value === option.value
+      )
+      return selectedIndex > -1 ? selectedIndex : arr.indexOf(option.value)
+    }
+
+    const objectSelectedIndex = states.selected.findIndex((item) => {
+      return (
+        !item.created && isEqual(get(item, props.valueKey), getValueKey(option))
+      )
+    })
+    if (objectSelectedIndex > -1) return objectSelectedIndex
 
     return arr.findIndex((item) => {
-      return isEqual(get(item, props.valueKey), getValueKey(option))
+      return (
+        !item.created && isEqual(get(item, props.valueKey), getValueKey(option))
+      )
     })
   }
 
@@ -658,29 +754,21 @@ export const useSelect = (props: ISelectProps, emit) => {
     scrollbarRef.value?.handleScroll()
   }
 
-  const prevSameValueOptions = ref<SelectOptionProxy[]>([])
-
   const onOptionCreate = (vm: SelectOptionProxy) => {
-    if (states.options.has(vm.value) && vm.created) {
-      prevSameValueOptions.value.push(states.options.get(vm.value))
+    if (vm.created) {
+      states.createdOptions.set(vm.value, vm)
+    } else {
+      states.options.set(vm.value, vm)
+      states.cachedOptions.set(vm.value, vm)
     }
-    states.options.set(vm.value, vm)
-    states.cachedOptions.set(vm.value, vm)
   }
 
   const onOptionDestroy = (key, vm: SelectOptionProxy) => {
     if (states.options.get(key) === vm) {
       states.options.delete(key)
     }
-    if (prevSameValueOptions.value.length) {
-      prevSameValueOptions.value.forEach((item) => {
-        item.visible = true
-        states.options.set(item.value, item)
-        if (!vm.itemSelected) {
-          states.cachedOptions.set(item.value, item)
-        }
-      })
-      prevSameValueOptions.value = []
+    if (vm.created) {
+      states.createdOptions.delete(key)
     }
   }
 
@@ -746,7 +834,21 @@ export const useSelect = (props: ISelectProps, emit) => {
     if (!expanded.value) {
       toggleMenu()
     } else {
-      const option = optionsArray.value[states.hoveringIndex]
+      const createdOptionsArray = Array.from(states.createdOptions.values())
+      const hoveringIndex = states.hoveringIndex
+      const option = createdOptionsArray.length
+        ? createdOptionsArray[hoveringIndex]
+        : optionsArray.value[hoveringIndex]
+      if (!option) {
+        const hoveringCreatedOption = createdOptionsArray.find(
+          (item) => item.hover
+        )
+        if (hoveringCreatedOption) {
+          handleOptionSelect(hoveringCreatedOption)
+        } else {
+          handleOptionSelect(optionsArray.value[hoveringIndex])
+        }
+      }
       if (option && !option.disabled && !option.states.groupDisabled) {
         handleOptionSelect(option)
       }
@@ -803,6 +905,24 @@ export const useSelect = (props: ISelectProps, emit) => {
         states.hoveringIndex--
         if (states.hoveringIndex < 0) {
           states.hoveringIndex = states.options.size - 1
+          const createdOption = states.createdOptions.values().next().value
+          if (createdOption) createdOption.hover = false
+        }
+      }
+      const createdOptionsArray = Array.from(states.createdOptions.values())
+      if (createdOptionsArray.length) {
+        const createdOption = createdOptionsArray[states.hoveringIndex]
+
+        if (createdOption) {
+          if (createdOption.hover) {
+            return navigateOptions(direction)
+          }
+          createdOption.hover = true
+          return
+        } else {
+          const prevCreatedOption =
+            createdOptionsArray[states.hoveringIndex - 1]
+          if (prevCreatedOption) prevCreatedOption.hover = false
         }
       }
       const option = optionsArray.value[states.hoveringIndex]
@@ -814,9 +934,14 @@ export const useSelect = (props: ISelectProps, emit) => {
         navigateOptions(direction)
       }
       nextTick(() => scrollToOption(hoverOption.value))
+    } else {
+      const nowCreatedOption = Array.from(states.createdOptions.values()).pop()
+      if (nowCreatedOption && direction === 'next') {
+        nowCreatedOption.hover = true
+        states.hoveringIndex = -1
+      }
     }
   }
-
   const getGapWidth = () => {
     if (!selectionRef.value) return 0
     const style = window.getComputedStyle(selectionRef.value)
@@ -908,6 +1033,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     dropdownMenuVisible,
     showTagList,
     collapseTagList,
+    showEmpty,
 
     // computed style
     tagStyle,

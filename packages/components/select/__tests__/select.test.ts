@@ -2763,6 +2763,8 @@ describe('Select', () => {
     expect(list.attributes('role')).toBe('listbox')
     expect(list.attributes('aria-orientation')).toBe('vertical')
 
+    await nextTick()
+
     expect(option.attributes('id')).toBeTruthy()
     expect(option.attributes('role')).toBe('option')
     expect(option.attributes('aria-disabled')).toBe(undefined)
