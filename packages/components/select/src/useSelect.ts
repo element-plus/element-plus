@@ -634,7 +634,6 @@ export const useSelect = (props: ISelectProps, emit) => {
     expanded.value = false
     emit('clear')
     focus()
-    console.log(states)
   }
 
   const updateCreatedSelected = (value) => {
