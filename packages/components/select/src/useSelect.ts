@@ -714,7 +714,12 @@ export const useSelect = (props: ISelectProps, emit) => {
       const selectedIndex = states.selected.findIndex(
         (item) => !item.created && item.value === option.value
       )
-      return selectedIndex > -1 ? selectedIndex : arr.indexOf(option.value)
+      const arrIndex = arr.indexOf(option.value)
+      return selectedIndex > -1
+        ? selectedIndex
+        : states.selected[arrIndex]?.created
+        ? -1
+        : arrIndex
     }
 
     const objectSelectedIndex = states.selected.findIndex((item) => {
