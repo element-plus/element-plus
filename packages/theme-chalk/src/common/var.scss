@@ -905,7 +905,7 @@ $table-font-size: map.merge(
   (
     'large': getCssVar('font-size', 'base'),
     'default': getCssVar('font-size', 'base'),
-    'small': 12px,
+    'small': getCssVar('font-size', 'extra-small'),
   ),
   $table-font-size
 );
