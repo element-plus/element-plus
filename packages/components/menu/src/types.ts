@@ -31,6 +31,9 @@ export interface MenuProvider {
 
   handleMenuItemClick: (item: MenuItemClicked) => void
   handleSubMenuClick: (subMenu: MenuItemRegistered) => void
+
+  addFocusMenuItemsTask: (func: () => void, index: string) => void
+  invokeFocusMenuItemsTask: () => void
 }
 
 export interface SubMenuProvider {

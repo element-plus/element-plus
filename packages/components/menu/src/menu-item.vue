@@ -83,15 +83,26 @@ export default defineComponent({
       active,
     })
 
-    const handleClick = () => {
-      if (!props.disabled) {
-        rootMenu.handleMenuItemClick({
-          index: props.index,
-          indexPath: indexPath.value,
-          route: props.route,
-        })
-        emit('click', item)
+    const handleClick = (event: MouseEvent) => {
+      if (props.disabled) return
+
+      rootMenu.handleMenuItemClick({
+        index: props.index,
+        indexPath: indexPath.value,
+        route: props.route,
+      })
+
+      if (event.target.tabIndex === 0) {
+        rootMenu.addFocusMenuItemsTask(() => {
+          requestAnimationFrame(() => {
+            event.target.blur()
+          })
+        }, props.index)
+      } else {
+        rootMenu.invokeFocusMenuItemsTask()
       }
+
+      emit('click', item)
     }
 
     onMounted(() => {
