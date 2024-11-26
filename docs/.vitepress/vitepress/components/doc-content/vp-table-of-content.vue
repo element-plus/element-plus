@@ -19,8 +19,8 @@ const removeTag = (str: string) => str.replace(/<span.*<\/span>/g, '')
 <template>
   <aside ref="container" class="toc-wrapper">
     <nav class="toc-content">
-      <h3 class="toc-content__heading">Contents</h3>
-      <el-scrollbar max-height="calc(100vh - 110px)">
+      <el-scrollbar max-height="calc(100vh - var(--header-height) - 55px)">
+        <h3 class="toc-content__heading">Contents</h3>
         <el-anchor :offset="70" :bound="120" type="underline">
           <el-anchor-link
             v-for="{ link, text, children } in headers"
@@ -64,5 +64,8 @@ const removeTag = (str: string) => str.replace(/<span.*<\/span>/g, '')
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+:deep(.el-scrollbar__bar.is-vertical) {
+  display: none;
 }
 </style>
