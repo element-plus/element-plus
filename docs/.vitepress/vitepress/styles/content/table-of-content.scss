@@ -10,10 +10,7 @@
   }
 
   @include respond-to('max') {
-    padding-right: 32px;
-  }
-
-  @include respond-to('max') {
+    display: block;
     padding-right: 48px;
   }
 
