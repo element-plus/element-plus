@@ -738,7 +738,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
     if (
       states.options.size === 0 ||
-      states.filteredOptionsCount === 0 ||
+      filteredOptionsCount.value === 0 ||
       isComposing.value
     )
       return

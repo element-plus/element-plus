@@ -161,15 +161,21 @@ describe('InputNumber.vue', () => {
   })
   //fix: #12690
   test('maximum is less than the minimum', async () => {
-    try {
-      const num = ref(6)
-      mount(() => <InputNumber v-model={num.value} min={10} max={8} />)
-    } catch (e: any) {
-      expect(e).to.be.an('error')
-      expect(e.message).to.equal(
-        '[InputNumber] min should not be greater than max.'
-      )
-    }
+    const num = ref(6)
+    const errorHandler = vi.fn()
+
+    mount(() => <InputNumber v-model={num.value} min={10} max={8} />, {
+      global: {
+        config: {
+          errorHandler,
+        },
+      },
+    })
+    expect(errorHandler).toHaveBeenCalled()
+    const [error] = errorHandler.mock.calls[0]
+    expect(error.message).toEqual(
+      '[InputNumber] min should not be greater than max.'
+    )
   })
 
   describe('precision accuracy 2', () => {
