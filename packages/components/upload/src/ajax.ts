@@ -1,4 +1,4 @@
-import { isNil } from 'lodash-unified'
+import { isNil } from 'lodash-es'
 import { isArray, throwError } from '@element-plus/utils'
 import type {
   UploadProgressEvent,

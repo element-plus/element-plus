@@ -79,7 +79,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, inject, nextTick, onMounted, ref, unref, watch } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce } from 'lodash-es'
 import { vRepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'

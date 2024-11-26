@@ -7,7 +7,7 @@ import {
   unref,
   watch,
 } from 'vue'
-import { get } from 'lodash-unified'
+import { get } from 'lodash-es'
 import { isObject, isUndefined } from '@element-plus/utils'
 import {
   DynamicSizeList,

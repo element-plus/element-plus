@@ -1,5 +1,5 @@
 import { defineComponent, h, inject, withDirectives } from 'vue'
-import { isNil } from 'lodash-unified'
+import { isNil } from 'lodash-es'
 import { addUnit, getNormalizedProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { descriptionsKey } from './token'

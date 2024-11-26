@@ -51,7 +51,7 @@ import {
   watch,
 } from 'vue'
 import AsyncValidator from 'async-validator'
-import { clone } from 'lodash-unified'
+import { clone } from 'lodash-es'
 import { refDebounced } from '@vueuse/core'
 import {
   addUnit,

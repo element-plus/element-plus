@@ -5,9 +5,9 @@ import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
 import { doubleWait, getTestData, mount } from './table-test-common'
 
-vi.mock('lodash-unified', async () => {
+vi.mock('lodash-es', async () => {
   return {
-    ...((await vi.importActual('lodash-unified')) as Record<string, any>),
+    ...((await vi.importActual('lodash-es')) as Record<string, any>),
     debounce: vi.fn((fn) => {
       fn.cancel = vi.fn()
       fn.flush = vi.fn()

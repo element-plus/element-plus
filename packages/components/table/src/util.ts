@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createVNode, render } from 'vue'
-import { flatMap, get, merge } from 'lodash-unified'
+import { flatMap, get, merge } from 'lodash-es'
 import {
   hasOwn,
   isArray,

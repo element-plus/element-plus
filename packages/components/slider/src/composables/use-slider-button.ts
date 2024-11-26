@@ -1,5 +1,5 @@
 import { computed, inject, nextTick, ref, watch } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce } from 'lodash-es'
 import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { sliderContextKey } from '../constants'

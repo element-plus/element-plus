@@ -165,7 +165,7 @@ import {
   useAttrs,
   watch,
 } from 'vue'
-import { isEqual } from 'lodash-unified'
+import { isEqual } from 'lodash-es'
 import { onClickOutside, unrefElement } from '@vueuse/core'
 import {
   useEmptyValues,

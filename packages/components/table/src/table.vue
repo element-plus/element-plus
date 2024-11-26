@@ -177,7 +177,7 @@ import {
   onBeforeUnmount,
   provide,
 } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce } from 'lodash-es'
 import { Mousewheel } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElScrollbar from '@element-plus/components/scrollbar'

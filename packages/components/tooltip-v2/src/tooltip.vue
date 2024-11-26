@@ -41,7 +41,7 @@
 <script setup lang="ts">
 // @ts-nocheck
 import { reactive, toRefs } from 'vue'
-import { pick } from 'lodash-unified'
+import { pick } from 'lodash-es'
 import ElTeleport from '@element-plus/components/teleport'
 import { tooltipV2ArrowProps } from './arrow'
 import { tooltipV2ContentProps } from './content'

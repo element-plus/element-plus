@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { nextTick } from 'vue'
-import { throttle } from 'lodash-unified'
+import { throttle } from 'lodash-es'
 import {
   getOffsetTopDistance,
   getScrollContainer,

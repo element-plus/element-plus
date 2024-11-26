@@ -9,7 +9,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild'
 import { parallel } from 'gulp'
 import glob from 'fast-glob'
-import { camelCase, upperFirst } from 'lodash-unified'
+import { camelCase, upperFirst } from 'lodash-es'
 import {
   PKG_BRAND_NAME,
   PKG_CAMELCASE_LOCAL_NAME,

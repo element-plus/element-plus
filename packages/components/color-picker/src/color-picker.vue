@@ -116,7 +116,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce } from 'lodash-es'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'

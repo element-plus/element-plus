@@ -1,4 +1,4 @@
-import { pick } from 'lodash-unified'
+import { pick } from 'lodash-es'
 import { buildProps } from '@element-plus/utils'
 
 export const ariaProps = buildProps({

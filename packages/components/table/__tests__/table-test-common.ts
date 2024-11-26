@@ -2,9 +2,9 @@ import { nextTick } from 'vue'
 import { mount as _mount } from '@vue/test-utils'
 import { vi } from 'vitest'
 
-vi.mock('lodash-unified', async () => {
+vi.mock('lodash-es', async () => {
   return {
-    ...((await vi.importActual('lodash-unified')) as Record<string, any>),
+    ...((await vi.importActual('lodash-es')) as Record<string, any>),
     debounce: vi.fn((fn) => {
       fn.cancel = vi.fn()
       fn.flush = vi.fn()

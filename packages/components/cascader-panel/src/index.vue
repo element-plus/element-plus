@@ -30,7 +30,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
+import { cloneDeep, flattenDeep, isEqual } from 'lodash-es'
 import {
   castArray,
   focusNode,

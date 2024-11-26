@@ -1,6 +1,6 @@
 import { isRef, onMounted, ref, unref, watchEffect } from 'vue'
 import { unrefElement } from '@vueuse/core'
-import { isNil } from 'lodash-unified'
+import { isNil } from 'lodash-es'
 import { arrow as arrowCore, computePosition } from '@floating-ui/dom'
 import { buildProps, isClient, keysOf } from '@element-plus/utils'
 

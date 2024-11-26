@@ -13,7 +13,7 @@ import {
   get,
   isEqual,
   debounce as lodashDebounce,
-} from 'lodash-unified'
+} from 'lodash-es'
 import { useResizeObserver } from '@vueuse/core'
 import {
   ValidateComponentsMap,

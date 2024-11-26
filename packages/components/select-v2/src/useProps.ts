@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { get } from 'lodash-unified'
+import { get } from 'lodash-es'
 
 import type { ISelectV2Props } from './token'
 import type { Option } from './select.types'

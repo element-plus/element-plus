@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { computed, getCurrentInstance, inject, toRaw, watch } from 'vue'
-import { get } from 'lodash-unified'
+import { get } from 'lodash-es'
 import { ensureArray, escapeStringRegexp, isObject } from '@element-plus/utils'
 import { selectGroupKey, selectKey } from './token'
 

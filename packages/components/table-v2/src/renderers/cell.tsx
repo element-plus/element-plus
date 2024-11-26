@@ -1,5 +1,5 @@
 import { renderSlot } from 'vue'
-import { get } from 'lodash-unified'
+import { get } from 'lodash-es'
 import { isFunction, isObject } from '@element-plus/utils'
 import { ExpandIcon, TableCell } from '../components'
 import { Alignment } from '../constants'

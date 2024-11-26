@@ -1,7 +1,7 @@
 <script lang="ts">
 // @ts-nocheck
 import { computed, defineComponent, h, onMounted, reactive, ref } from 'vue'
-import { pick } from 'lodash-unified'
+import { pick } from 'lodash-es'
 import ElSelect from '@element-plus/components/select'
 import ElTree from '@element-plus/components/tree'
 import { useSelect } from './select'

@@ -57,7 +57,7 @@ import {
   watch,
 } from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
-import { fromPairs } from 'lodash-unified'
+import { fromPairs } from 'lodash-es'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {

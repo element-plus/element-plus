@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { computed, h, inject } from 'vue'
-import { merge } from 'lodash-unified'
+import { merge } from 'lodash-es'
 import { useNamespace } from '@element-plus/hooks'
 import { isBoolean } from '@element-plus/utils'
 import { getRowIdentity } from '../util'

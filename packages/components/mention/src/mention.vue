@@ -57,7 +57,7 @@
 
 <script lang="ts" setup>
 import { computed, mergeProps, nextTick, ref } from 'vue'
-import { pick } from 'lodash-unified'
+import { pick } from 'lodash-es'
 import { useFocusController, useId, useNamespace } from '@element-plus/hooks'
 import ElInput, { inputProps } from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'

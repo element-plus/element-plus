@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { computed, nextTick, toRefs, watch } from 'vue'
-import { pick } from 'lodash-unified'
+import { pick } from 'lodash-es'
 import ElSelect from '@element-plus/components/select'
 import { useNamespace } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'

@@ -111,7 +111,7 @@ import {
   ref,
   useAttrs as useRawAttrs,
 } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce } from 'lodash-es'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
 import { useAttrs, useId, useNamespace } from '@element-plus/hooks'

@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance } from 'vue'
-import { fromPairs } from 'lodash-unified'
+import { fromPairs } from 'lodash-es'
 import { debugWarn } from '@element-plus/utils'
 
 import type { ComputedRef } from 'vue'

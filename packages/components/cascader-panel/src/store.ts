@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash-unified'
+import { isEqual } from 'lodash-es'
 import Node from './node'
 
 import type { Nullable } from '@element-plus/utils'

@@ -195,7 +195,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
-import { cloneDeep, debounce } from 'lodash-unified'
+import { cloneDeep, debounce } from 'lodash-es'
 import { useCssVar, useResizeObserver } from '@vueuse/core'
 import {
   debugWarn,

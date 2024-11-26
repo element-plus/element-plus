@@ -1,5 +1,5 @@
 import { computed, inject, ref, toRaw } from 'vue'
-import { isEqual } from 'lodash-unified'
+import { isEqual } from 'lodash-es'
 import { useFormSize } from '@element-plus/components/form'
 import { isArray, isBoolean, isObject, isPropAbsent } from '@element-plus/utils'
 import { checkboxGroupContextKey } from '../constants'

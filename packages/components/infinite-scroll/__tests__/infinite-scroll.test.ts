@@ -15,9 +15,9 @@ import makeScroll from '@element-plus/test-utils/make-scroll'
 import tick from '@element-plus/test-utils/tick'
 import InfiniteScroll, { DEFAULT_DELAY, SCOPE } from '../src'
 
-vi.mock('lodash-unified', async () => {
+vi.mock('lodash-es', async () => {
   return {
-    ...((await vi.importActual('lodash-unified')) as Record<string, any>),
+    ...((await vi.importActual('lodash-es')) as Record<string, any>),
     throttle: vi.fn((fn) => {
       fn.cancel = vi.fn()
       fn.flush = vi.fn()

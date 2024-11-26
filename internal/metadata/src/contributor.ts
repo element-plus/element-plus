@@ -4,7 +4,7 @@ import glob from 'fast-glob'
 import { Octokit } from 'octokit'
 import consola from 'consola'
 import chalk from 'chalk'
-import { chunk, mapValues, uniqBy } from 'lodash-unified'
+import { chunk, mapValues, uniqBy } from 'lodash-es'
 import {
   ensureDir,
   errorAndExit,

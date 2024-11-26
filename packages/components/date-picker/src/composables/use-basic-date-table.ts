@@ -1,6 +1,6 @@
 import { computed, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { flatten } from 'lodash-unified'
+import { flatten } from 'lodash-es'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray, isArray } from '@element-plus/utils'
 import { buildPickerTable } from '../utils'

@@ -8,7 +8,7 @@ import {
 } from 'vue'
 import { useTimeoutFn } from '@vueuse/core'
 
-import { isUndefined } from 'lodash-unified'
+import { isUndefined } from 'lodash-es'
 import {
   defaultNamespace,
   useId,

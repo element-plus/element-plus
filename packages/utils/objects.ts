@@ -1,4 +1,4 @@
-import { get, set } from 'lodash-unified'
+import { get, set } from 'lodash-es'
 import type { Entries } from 'type-fest'
 import type { Arrayable } from '.'
 

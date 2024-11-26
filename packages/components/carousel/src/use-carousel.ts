@@ -11,7 +11,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { throttle } from 'lodash-unified'
+import { throttle } from 'lodash-es'
 import { useResizeObserver } from '@vueuse/core'
 import { debugWarn, flattedChildren, isString } from '@element-plus/utils'
 import { useOrderedChildren } from '@element-plus/hooks'

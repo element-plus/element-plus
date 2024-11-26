@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { watch } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce } from 'lodash-es'
 import useStore from '.'
 
 import type { Store } from '.'
