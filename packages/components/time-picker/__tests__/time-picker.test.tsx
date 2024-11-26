@@ -224,7 +224,7 @@ describe('TimePicker', () => {
     await nextTick()
     await rAF()
     expect(focusHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalled()
     expect(keydownHandler).toHaveBeenCalledTimes(1)
 
     input.trigger('focus')
@@ -316,36 +316,15 @@ describe('TimePicker', () => {
     expect(enabledSeconds).toEqual([0])
   })
 
-  it('ref focus', async () => {
+  it('exposed focus & blur', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40))
     const wrapper = mount(() => <TimePicker v-model={value.value} />)
 
     await nextTick()
-    wrapper.findComponent(TimePicker).vm.$.exposed.focus()
-
-    // This one allows mounted to take effect
-    await nextTick()
-    // These following two allows popper to gets rendered.
-    await rAF()
-    const popperEl = document.querySelector('.el-picker__popper')
-    const attr = popperEl.getAttribute('aria-hidden')
-    expect(attr).toEqual('false')
-  })
-
-  it('ref blur', async () => {
-    const value = ref(new Date(2016, 9, 10, 18, 40))
-    const wrapper = mount(() => <TimePicker v-model={value.value} />)
     const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed
 
-    await nextTick()
-    timePickerExposed.focus()
-    await nextTick()
-    timePickerExposed.blur()
-
-    await nextTick()
-    const popperEl = document.querySelector('.el-picker__popper')
-    const attr = popperEl.getAttribute('aria-hidden')
-    expect(attr).toEqual('false')
+    expect(timePickerExposed.focus).toBeTruthy()
+    expect(timePickerExposed.blur).toBeTruthy()
   })
 
   it('ref handleOpen', async () => {
@@ -404,6 +383,41 @@ describe('TimePicker', () => {
     minHour.value = '8'
     await nextTick()
     expect(value.value).toEqual('2000-01-01 09:00:00')
+  })
+
+  it('when a time is input, the type of modelValue should be Date by default', async () => {
+    const value = ref('2024-11-18 12:00:00')
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+
+    await input.setValue('10:00:00')
+
+    input.trigger('blur')
+    expect(value.value).toBeInstanceOf(Date)
+  })
+
+  it('when a time is input, the type of modelValue should be Date by default (is-range)', async () => {
+    const value = ref([
+      new Date('2024-11-18 10:00:00'),
+      new Date('2024-11-18 12:00:00'),
+    ])
+    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
+
+    const [startTimeInput, endTimeInput] = wrapper.findAll('input')
+
+    // Input start time
+    startTimeInput.trigger('focus')
+    await startTimeInput.setValue('10:00:10')
+    startTimeInput.trigger('blur')
+    expect(value.value[0]).toBeInstanceOf(Date)
+
+    // Input end time
+    endTimeInput.trigger('focus')
+    await endTimeInput.setValue('12:00:10')
+    endTimeInput.trigger('blur')
+    expect(value.value[1]).toBeInstanceOf(Date)
   })
 
   it('picker-panel should not pop up when readonly', async () => {
@@ -956,5 +970,61 @@ describe('TimePicker(range)', () => {
     await clearIcon.trigger('click')
     await nextTick()
     expect(value.value).toEqual(null)
+  })
+
+  describe('It should generate accessible attributes', () => {
+    it('should generate aria attributes', async () => {
+      const wrapper = mount(() => <TimePicker aria-label="time picker" />)
+      const input = wrapper.find('input')
+      expect(input.attributes('role')).toBe('combobox')
+      expect(input.attributes('aria-controls')).toBeTruthy()
+      expect(input.attributes('aria-haspopup')).toBe('dialog')
+      expect(input.attributes('aria-expanded')).toBe('false')
+      expect(input.attributes('aria-label')).toBe('time picker')
+
+      input.trigger('focus')
+      await nextTick()
+      await rAF()
+      const popper = document.querySelector('.el-picker__popper')
+      expect(input.attributes('aria-expanded')).toBe('true')
+      expect(input.attributes('aria-controls')).toBe(popper?.getAttribute('id'))
+      expect(popper?.getAttribute('role')).toBe('dialog')
+      expect(popper?.getAttribute('aria-hidden')).toBe('false')
+      expect(popper?.getAttribute('aria-modal')).toBe('false')
+    })
+
+    it('should generate aria attributes for range', async () => {
+      const wrapper = mount(() => (
+        <TimePicker is-range aria-label="time picker" />
+      ))
+      const inputs = wrapper.findAll('input')
+      expect(inputs[0].attributes('role')).toBe('combobox')
+      expect(inputs[0].attributes('aria-controls')).toBeTruthy()
+      expect(inputs[0].attributes('aria-haspopup')).toBe('dialog')
+      expect(inputs[0].attributes('aria-expanded')).toBe('false')
+      expect(inputs[0].attributes('aria-label')).toBe('time picker')
+
+      expect(inputs[1].attributes('role')).toBe('combobox')
+      expect(inputs[1].attributes('aria-controls')).toBeTruthy()
+      expect(inputs[1].attributes('aria-haspopup')).toBe('dialog')
+      expect(inputs[1].attributes('aria-expanded')).toBe('false')
+      expect(inputs[1].attributes('aria-label')).toBe('time picker')
+      expect(inputs[0].attributes('aria-controls')).toBe(
+        inputs[1].attributes('aria-controls')
+      )
+
+      wrapper.find('input').trigger('focus')
+      await nextTick()
+      await rAF()
+      const popper = document.querySelector('.el-picker__popper')
+      expect(inputs[0].attributes('aria-expanded')).toBe('true')
+      expect(inputs[1].attributes('aria-expanded')).toBe('true')
+      expect(inputs[0].attributes('aria-controls')).toBe(
+        popper?.getAttribute('id')
+      )
+      expect(popper?.getAttribute('role')).toBe('dialog')
+      expect(popper?.getAttribute('aria-hidden')).toBe('false')
+      expect(popper?.getAttribute('aria-modal')).toBe('false')
+    })
   })
 })

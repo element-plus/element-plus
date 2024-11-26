@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
 import { isEqual } from 'lodash-unified'
-import { hasOwn, isUndefined } from '@element-plus/utils'
+import { hasOwn, isArray, isString, isUndefined } from '@element-plus/utils'
 import {
   getColumnById,
   getColumnByKey,
@@ -21,7 +21,7 @@ import type { StoreFilter } from '.'
 
 const sortData = (data, states) => {
   const sortingColumn = states.sortingColumn
-  if (!sortingColumn || typeof sortingColumn.sortable === 'string') {
+  if (!sortingColumn || isString(sortingColumn.sortable)) {
     return data
   }
   return orderBy(
@@ -77,9 +77,21 @@ function useWatcher<T>() {
   const sortOrder = ref(null)
   const hoverRow = ref(null)
 
-  watch(data, () => instance.state && scheduleLayout(false), {
-    deep: true,
-  })
+  watch(
+    data,
+    () => {
+      if (instance.state) {
+        scheduleLayout(false)
+        const needUpdateFixed = instance.props.tableLayout === 'auto'
+        if (needUpdateFixed) {
+          instance.refs.tableHeaderRef?.updateFixedColumnStyle()
+        }
+      }
+    },
+    {
+      deep: true,
+    }
+  )
 
   // 检查 rowKey 是否存在
   const assertRowKey = () => {
@@ -359,7 +371,7 @@ function useWatcher<T>() {
 
   // 过滤与排序
   const updateFilters = (columns, values) => {
-    if (!Array.isArray(columns)) {
+    if (!isArray(columns)) {
       columns = [columns]
     }
     const filters_ = {}
@@ -426,11 +438,11 @@ function useWatcher<T>() {
     const keys = Object.keys(panels)
     if (!keys.length) return
 
-    if (typeof columnKeys === 'string') {
+    if (isString(columnKeys)) {
       columnKeys = [columnKeys]
     }
 
-    if (Array.isArray(columnKeys)) {
+    if (isArray(columnKeys)) {
       const columns_ = columnKeys.map((key) =>
         getColumnByKey(
           {

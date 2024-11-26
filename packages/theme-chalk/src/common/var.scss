@@ -1,6 +1,7 @@
 /* Element Chalk Variables */
 @use 'sass:math';
 @use 'sass:map';
+@use 'sass:color';
 
 @use '../mixins/function.scss' as *;
 
@@ -60,7 +61,7 @@ $color-info: map.get($colors, 'info', 'base') !default;
     (
       $type: (
         '#{$mode}-#{$number}':
-          mix(
+          color.mix(
             $mix-color,
             map.get($colors, $type, 'base'),
             math.percentage(math.div($number, 10))
@@ -661,6 +662,47 @@ $cascader: map.merge(
   ),
   $cascader
 );
+
+$cascader-item-gap: () !default;
+$cascader-item-gap: map.merge(
+  (
+    'large': 6px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $cascader-item-gap
+);
+
+$cascader-wrapper-padding: () !default;
+$cascader-wrapper-padding: map.merge(
+  (
+    'large': 8px,
+    'default': 4px,
+    'small': 2px,
+  ),
+  $cascader-wrapper-padding
+);
+
+$cascader-item-height: () !default;
+$cascader-item-height: map.merge(
+  (
+    'large': 24px,
+    'default': 24px,
+    'small': 20px,
+  ),
+  $cascader-item-height
+);
+
+$cascader-search-input-margin-left: () !default;
+$cascader-search-input-margin-left: map.merge(
+  (
+    'large': 7px,
+    'default': 7px,
+    'small': 5px,
+  ),
+  $cascader-search-input-margin-left
+);
+
 //statistic
 // css3 var in packages/theme-chalk/src/statistic.scss
 $statistic: () !default;
@@ -695,7 +737,7 @@ $button: map.merge(
     'active-border-color': getCssVar('color-primary'),
     'active-bg-color': getCssVar('button', 'hover-bg-color'),
     'outline-color': getCssVar('color-primary', 'light-5'),
-    'hover-link-text-color': getCssVar('color-info'),
+    'hover-link-text-color': getCssVar('text-color', 'secondary'),
     'active-color': getCssVar('text-color', 'primary'),
   ),
   $button

@@ -9,7 +9,7 @@
       ns.is('created', created),
       ns.is('hovering', hovering),
     ]"
-    @mouseenter="hoverItem"
+    @mousemove="hoverItem"
     @click.stop="selectOptionClick"
   >
     <slot :item="item" :index="index" :disabled="disabled">
