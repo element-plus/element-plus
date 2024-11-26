@@ -165,18 +165,15 @@ const displayValue = computed(() => {
 })
 const toPrecision = (num: number, pre?: number) => {
   if (isUndefined(pre)) pre = numPrecision.value
-  if (pre === 0) return Math.round(num)
-  let snum = String(num)
+  const snum = String(num)
   const pointPos = snum.indexOf('.')
-  if (pointPos === -1) return num
-  const nums = snum.replace('.', '').split('')
-  const datum = nums[pointPos + pre]
-  if (!datum) return num
-  const length = snum.length
-  if (snum.charAt(length - 1) === '5') {
-    snum = `${snum.slice(0, Math.max(0, length - 1))}6`
-  }
-  return Number.parseFloat(Number(snum).toFixed(pre))
+  return Number(
+    pre === 0
+      ? pointPos === -1
+        ? snum
+        : snum.slice(0, pointPos)
+      : snum.slice(0, pointPos + pre + 1)
+  )
 }
 const getPrecision = (value: number | null | undefined) => {
   if (isNil(value)) return 0
