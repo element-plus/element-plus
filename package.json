@@ -81,7 +81,7 @@
     "@types/gulp": "^4.0.9",
     "@types/jsdom": "^16.2.14",
     "@types/node": "^22.9.0",
-    "@vitejs/plugin-vue": "^2.3.3",
+    "@vitejs/plugin-vue": "^5.2.1",
     "@vitejs/plugin-vue-jsx": "^1.3.10",
     "@vitest/coverage-v8": "^2.0.5",
     "@vitest/ui": "^2.0.5",
