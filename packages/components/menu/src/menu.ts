@@ -196,7 +196,6 @@ export default defineComponent({
   setup(props, { emit, slots, expose }) {
     const focusMenuItemsTasks: Array<() => void> = []
     let isFocusLocked = false
-    let hasIndex: string[] = []
     const instance = getCurrentInstance()!
     const router = instance.appContext.config.globalProperties.$router as Router
     const menu = ref<HTMLUListElement>()
@@ -350,14 +349,10 @@ export default defineComponent({
       return sliceIndex === items.length ? -1 : sliceIndex
     }
 
-    const addFocusMenuItemsTask = (func: () => void, index: string) => {
+    const addFocusMenuItemsTask = (func: () => void) => {
       if (props.mode === 'horizontal' && !isFocusLocked) {
-        if (hasIndex.includes(index)) {
-          return
-        } else {
-          hasIndex.push(index)
-        }
         if (!focusMenuItemsTasks.includes(func)) {
+          focusMenuItemsTasks.shift()
           focusMenuItemsTasks.push(func)
         }
       }
@@ -368,13 +363,10 @@ export default defineComponent({
 
       if (focusMenuItemsTasks.length > 0) {
         isFocusLocked = true
-        while (focusMenuItemsTasks.length) {
-          const func = focusMenuItemsTasks.shift()
-          if (func) func()
-        }
+        const func = focusMenuItemsTasks.shift()
+        if (func) func()
         isFocusLocked = false
       }
-      hasIndex = []
     }
 
     const getIndexPath = (index: string) => subMenus.value[index].indexPath

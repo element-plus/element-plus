@@ -97,7 +97,7 @@ export default defineComponent({
           requestAnimationFrame(() => {
             event.target.blur()
           })
-        }, props.index)
+        })
       } else {
         rootMenu.invokeFocusMenuItemsTask()
       }
