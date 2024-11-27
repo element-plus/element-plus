@@ -149,7 +149,9 @@ describe('Badge', () => {
   })
 
   test('icon', () => {
-    const wrapper = mount(() => <Badge icon={InfoFilled} />)
+    const wrapper = mount(() => (
+      <Badge v-slots={{ icon: () => <InfoFilled /> }} />
+    ))
     expect(wrapper.find('.el-badge__content.is-icon').exists()).toBe(true)
   })
 })
