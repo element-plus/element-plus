@@ -109,7 +109,7 @@ and please go to the original component to view the documentation.
 | --------------------------------- | ----------------------------------- | ------------------------------------------------------------ |
 | search                            | trigger when prefix hit             | ^[Function]`(pattern: string, prefix: string) => void`       |
 | select                            | trigger when user select the option | ^[Function]`(option: MentionOption, prefix: string) => void` |
-| remove                            | trigger when user remove the option | ^[Function]`(option: MentionOption, prefix: string) => void` |
+| remove ^(2.9.0)                   | trigger when user remove the option | ^[Function]`(option: MentionOption, prefix: string) => void` |
 | [input events](./input.md#events) | —                                   | —                                                            |
 
 ### Slots
