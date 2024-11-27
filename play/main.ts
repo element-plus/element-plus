@@ -8,9 +8,12 @@ import '@element-plus/theme-chalk/src/message.scss'
     true,
     string,
     () => Promise<{ default: Component }>
-  >('./src/*.vue')
+  >(['./src/*.jsx', './src/*.tsx', './src/*.vue'])
   const name = location.pathname.replace(/^\//, '') || 'App'
-  const file = apps[`./src/${name}.vue`]
+  const file =
+    apps[`./src/${name}.jsx`] ??
+    apps[`./src/${name}.tsx`] ??
+    apps[`./src/${name}.vue`]
   if (!file) {
     location.pathname = 'App'
     return
