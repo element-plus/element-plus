@@ -1,4 +1,4 @@
-import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
 import type { ExtractPropTypes, StyleValue } from 'vue'
 
 export const badgeProps = buildProps({
@@ -61,12 +61,6 @@ export const badgeProps = buildProps({
    */
   badgeClass: {
     type: String,
-  },
-  /**
-   * @description icon component
-   */
-  icon: {
-    type: iconPropType,
   },
 } as const)
 export type BadgeProps = ExtractPropTypes<typeof badgeProps>

@@ -1,10 +1,15 @@
 <template>
-  <el-badge :icon="InfoFilled" class="item">detail info</el-badge>
-  <el-badge is-dot class="item">
+  <el-badge class="item">
+    <template #icon>
+      <InfoFilled />
+    </template>
+    <el-button> detail info</el-button>
+  </el-badge>
+  <el-badge class="item" type="primary">
     <template #icon>
       <Share />
     </template>
-    <el-button class="share-button" type="primary">share</el-button>
+    <el-button>share</el-button>
   </el-badge>
 </template>
 
