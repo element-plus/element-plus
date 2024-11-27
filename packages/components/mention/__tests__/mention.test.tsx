@@ -151,7 +151,7 @@ describe('Mention.vue', () => {
         setup: () => {
           const mentionRef = ref()
 
-          const handleDelete = (option: MentionOption) => {
+          const handleRemove = (option: MentionOption) => {
             const index = atList.findIndex(
               (item: MentionOption) => item.value === option.value
             )
@@ -188,7 +188,7 @@ describe('Mention.vue', () => {
                 ref: mentionRef,
                 style: { width: '320px' },
                 placeholder: 'Please input',
-                onDelete: handleDelete,
+                onRemove: handleRemove,
                 onSelect: handleSelect,
                 onKeyDown: handleKeyDown,
                 modelValue: html.value,
