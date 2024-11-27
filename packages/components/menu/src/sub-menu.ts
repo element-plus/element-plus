@@ -231,15 +231,18 @@ export default defineComponent({
       }
     }
 
+    const isTouchDevice =
+      'ontouchstart' in window || navigator.maxTouchPoints > 0
     const handleClick = () => {
       if (
         (rootMenu.props.menuTrigger === 'hover' &&
           rootMenu.props.mode === 'horizontal') ||
-        (rootMenu.props.collapse && rootMenu.props.mode === 'vertical') ||
+        (rootMenu.props.collapse &&
+          rootMenu.props.mode === 'vertical' &&
+          !isTouchDevice) ||
         props.disabled
       )
         return
-
       rootMenu.handleSubMenuClick({
         index: props.index,
         indexPath: indexPath.value,
@@ -258,6 +261,9 @@ export default defineComponent({
         (rootMenu.props.menuTrigger === 'click' &&
           rootMenu.props.mode === 'horizontal') ||
         (!rootMenu.props.collapse && rootMenu.props.mode === 'vertical') ||
+        (rootMenu.props.collapse &&
+          rootMenu.props.mode === 'vertical' &&
+          isTouchDevice) ||
         props.disabled
       ) {
         subMenu.mouseInChild.value = true
@@ -284,14 +290,22 @@ export default defineComponent({
         subMenu.mouseInChild.value = false
         return
       }
-      timeout?.()
-      subMenu.mouseInChild.value = false
-      ;({ stop: timeout } = useTimeoutFn(
-        () =>
-          !mouseInChild.value &&
-          rootMenu.closeMenu(props.index, indexPath.value),
-        subMenuHideTimeout.value
-      ))
+      if (
+        rootMenu.props.collapse &&
+        rootMenu.props.mode === 'vertical' &&
+        isTouchDevice
+      ) {
+        rootMenu.closeMenu(props.index, indexPath.value)
+      } else {
+        timeout?.()
+        subMenu.mouseInChild.value = false
+        ;({ stop: timeout } = useTimeoutFn(
+          () =>
+            !mouseInChild.value &&
+            rootMenu.closeMenu(props.index, indexPath.value),
+          subMenuHideTimeout.value
+        ))
+      }
 
       if (appendToBody.value && deepDispatch) {
         subMenu.handleMouseleave?.(true)
