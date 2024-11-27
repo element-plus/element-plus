@@ -130,7 +130,6 @@
   @include when(controls-right) {
     .#{$namespace}-input__wrapper {
       padding-left: 15px;
-      padding-right: #{map.get($input-height, 'default') + 10};
     }
 
     @include e((increase, decrease)) {
