@@ -332,4 +332,52 @@ describe('Transfer', () => {
       `)
     })
   })
+
+  describe('empty slots', () => {
+    it('render left-empty and right-empty slots', () => {
+      const wrapper = mount(() => (
+        <Transfer
+          data={[]}
+          v-slots={{
+            'left-empty': () => <span>No data</span>,
+            'right-empty': () => <span>No data</span>,
+          }}
+        />
+      ))
+
+      const panels = wrapper.findAll('.el-transfer-panel__empty')
+      expect(panels).toHaveLength(2)
+      expect(panels[0].text()).toBe('No data')
+      expect(panels[1].text()).toBe('No data')
+    })
+
+    it('render default empty content when slots not provided', () => {
+      const wrapper = mount(() => <Transfer data={[]} />)
+
+      const panels = wrapper.findAll('.el-transfer-panel__empty')
+      expect(panels).toHaveLength(2)
+      expect(panels[0].text()).toBe('No data')
+      expect(panels[1].text()).toBe('No data')
+    })
+
+    it('show no match content when filtering', async () => {
+      const wrapper = mount(() => (
+        <Transfer
+          data={getTestData()}
+          filterable={true}
+          v-slots={{
+            'left-empty': () => <span>No data</span>,
+          }}
+        />
+      ))
+
+      const leftPanel: any = wrapper.findComponent({ name: 'ElTransferPanel' })
+      leftPanel.vm.query = 'non-existing-data'
+      await nextTick()
+
+      const emptyContent = wrapper.find('.el-transfer-panel__empty')
+      expect(emptyContent.exists()).toBe(true)
+      expect(emptyContent.text()).toBe('No data')
+    })
+  })
 })
