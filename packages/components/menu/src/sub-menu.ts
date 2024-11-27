@@ -232,7 +232,8 @@ export default defineComponent({
     }
 
     const isTouchDevice =
-      'ontouchstart' in window || navigator.maxTouchPoints > 0
+      typeof window !== 'undefined' &&
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0)
     const handleClick = () => {
       if (
         (rootMenu.props.menuTrigger === 'hover' &&
