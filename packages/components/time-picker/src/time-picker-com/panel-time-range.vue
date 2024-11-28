@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="actualVisible || visible"
+    v-if="actualVisible"
     :class="[nsTime.b('range-picker'), nsPicker.b('panel')]"
   >
     <div :class="nsTime.be('range-picker', 'content')">
