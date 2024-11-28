@@ -155,6 +155,7 @@
                 v-model="states.inputValue"
                 :style="inputStyle"
                 :autocomplete="autocomplete"
+                :tabindex="tabindex"
                 aria-autocomplete="list"
                 aria-haspopup="listbox"
                 autocapitalize="off"

@@ -275,6 +275,13 @@ export const SelectProps = buildProps({
    */
   tagEffect: { ...tagProps.effect, default: 'light' },
   /**
+   * @description tabindex for input
+   */
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
+  /**
    * @description which element the select dropdown appends to
    */
   appendTo: String,
