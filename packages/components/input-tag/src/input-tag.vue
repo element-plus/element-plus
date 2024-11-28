@@ -44,6 +44,7 @@
           :tabindex="tabindex"
           :placeholder="placeholder"
           :autofocus="autofocus"
+          :ariaLabel="ariaLabel"
           :class="ns.e('input')"
           :style="inputStyle"
           @compositionstart="handleCompositionStart"

@@ -121,6 +121,7 @@ input-tag/prefix-suffix
 | minlength             | same as `minlength` in native input    | ^[string] / ^[number]                                       | —       |
 | placeholder           | placeholder of input                   | ^[string]                                                   | —       |
 | autocomplete          | same as `autocomplete` in native input | ^[string]                                                   | off     |
+| aria-label ^(a11y)    | native `aria-label` attribute          | ^[string]                                                   | —       |
 
 ### Events
 
