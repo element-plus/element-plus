@@ -159,6 +159,7 @@
                 :disabled="selectDisabled"
                 :autocomplete="autocomplete"
                 :style="inputStyle"
+                :tabindex="tabindex"
                 role="combobox"
                 :readonly="!filterable"
                 spellcheck="false"
