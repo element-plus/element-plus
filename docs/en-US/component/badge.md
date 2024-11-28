@@ -55,7 +55,7 @@ badge/offset
 
 :::
 
-## Icon
+## Icon ^(2.9.0)
 
 :::demo Use the `icon` slot to add more meaning to Badge.  You can find the icon list in Element Plus icon component.
 
