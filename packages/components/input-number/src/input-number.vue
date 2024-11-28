@@ -293,13 +293,11 @@ const handleFocus = (event: MouseEvent | FocusEvent) => {
 
 const handleBlur = (event: MouseEvent | FocusEvent) => {
   data.userInput = null
-  if (isFirefox()) {
-    // This is a Firefox-specific problem. When non-numeric content is entered into a numeric input box,
-    // the content displayed on the page is not cleared after the value is cleared. #18533
-    // https://bugzilla.mozilla.org/show_bug.cgi?id=1398528
-    if (data.currentValue === null && input.value?.input) {
-      input.value.input.value = ''
-    }
+  // This is a Firefox-specific problem. When non-numeric content is entered into a numeric input box,
+  // the content displayed on the page is not cleared after the value is cleared. #18533
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=1398528
+  if (isFirefox() && data.currentValue === null && input.value?.input) {
+    input.value.input.value = ''
   }
   emit('blur', event)
   if (props.validateEvent) {
