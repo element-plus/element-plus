@@ -123,10 +123,11 @@ and please go to the original component to view the documentation.
 
 ### Exposes
 
-| Name    | Description                   | Type                                    |
-| ------- | ----------------------------- | --------------------------------------- |
-| input   | el-input component instance   | ^[object]`Ref<InputInstance \| null>`   |
-| tooltip | el-tooltip component instance | ^[object]`Ref<TooltipInstance \| null>` |
+| Name                     | Description                   | Type                                    |
+| ------------------------ | ----------------------------- | --------------------------------------- |
+| input                    | el-input component instance   | ^[object]`Ref<InputInstance \| null>`   |
+| tooltip                  | el-tooltip component instance | ^[object]`Ref<TooltipInstance \| null>` |
+| dropdownVisible ^(2.8.5) | tooltip display status        | ^[object]`ComputedRef<boolean>`         |
 
 ## Type Declarations
 

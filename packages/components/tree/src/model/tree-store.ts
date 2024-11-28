@@ -106,6 +106,7 @@ export default class TreeStore {
       this.nodesMap = {}
       this.root.setData(newVal)
       this._initDefaultCheckedNodes()
+      this.setCurrentNodeKey(this.currentNodeKey)
     } else {
       this.root.updateChildren()
     }
@@ -406,6 +407,7 @@ export default class TreeStore {
   }
 
   setCurrentNodeKey(key?: TreeKey, shouldAutoExpandParent = true): void {
+    this.currentNodeKey = key
     if (key === null || key === undefined) {
       this.currentNode && (this.currentNode.isCurrent = false)
       this.currentNode = null

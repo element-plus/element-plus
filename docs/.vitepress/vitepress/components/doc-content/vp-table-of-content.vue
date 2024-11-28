@@ -13,6 +13,7 @@ import SponsorRightLogoSmallList from '../sponsors/right-logo-small-list.vue'
 const headers = useToc()
 const lang = useLang()
 const sponsor = computed(() => sponsorLocale[lang.value])
+const removeTag = (str: string) => str.replace(/<span.*<\/span>/g, '')
 </script>
 
 <template>
@@ -26,7 +27,7 @@ const sponsor = computed(() => sponsorLocale[lang.value])
           :href="link"
           :title="text"
         >
-          <div v-html="text" />
+          <div :title="removeTag(text)" v-html="text" />
           <template v-if="children" #sub-link>
             <el-anchor-link
               v-for="{ link: childLink, text: childText } in children"
@@ -34,7 +35,7 @@ const sponsor = computed(() => sponsorLocale[lang.value])
               :href="childLink"
               :title="text"
             >
-              <div v-html="childText" />
+              <div :title="removeTag(childText)" v-html="childText" />
             </el-anchor-link>
           </template>
         </el-anchor-link>
@@ -57,6 +58,13 @@ const sponsor = computed(() => sponsorLocale[lang.value])
 .sponsors-button {
   :deep(button) {
     width: 100%;
+  }
+}
+.el-anchor__item {
+  .el-anchor__link > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 </style>
