@@ -117,6 +117,7 @@ const createSelect = (
         :reserve-keyword="reserveKeyword"
         :scrollbar-always-on="scrollbarAlwaysOn"
         :teleported="teleported"
+        :tabindex="tabindex"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -165,6 +166,7 @@ const createSelect = (
           scrollbarAlwaysOn: false,
           popperAppendToBody: undefined,
           teleported: undefined,
+          tabindex: undefined,
           ...(options.data && options.data()),
         }
       },
@@ -1972,5 +1974,29 @@ describe('Select', () => {
 
     await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
     expect(handleClick).toHaveBeenCalledOnce()
+  })
+
+  describe('It should generate accessible attributes', () => {
+    it('create', async () => {
+      const wrapper = createSelect()
+
+      const input = wrapper.find('input')
+      expect(input.attributes('role')).toBe('combobox')
+      expect(input.attributes('tabindex')).toBe('0')
+      expect(input.attributes('aria-autocomplete')).toBe('list')
+      expect(input.attributes('aria-expanded')).toBe('false')
+      expect(input.attributes('aria-haspopup')).toBe('listbox')
+    })
+
+    it('tabindex', () => {
+      const wrapper = createSelect({
+        data: () => ({
+          tabindex: 1,
+        }),
+      })
+
+      const input = wrapper.find('input')
+      expect(input.attributes('tabindex')).toBe('1')
+    })
   })
 })
