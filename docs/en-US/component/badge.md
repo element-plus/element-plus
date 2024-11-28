@@ -85,4 +85,4 @@ badge/icon
 | Name    | Description               |
 | ------- | ------------------------- |
 | default | customize default content |
-| icon    | icon component            |
+| icon ^(2.9.0) | icon component            |
