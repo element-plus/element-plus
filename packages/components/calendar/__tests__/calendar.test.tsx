@@ -1,9 +1,25 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import updateLocale from 'dayjs/plugin/updateLocale'
 import dayjs from 'dayjs'
 import Calendar from '../src/calendar.vue'
+
+const _mount = (template: string, data = () => ({}), otherObj?) =>
+  mount(
+    {
+      components: {
+        'el-calendar': Calendar,
+      },
+      template,
+      data,
+      ...otherObj,
+    },
+    {
+      attachTo: 'body',
+    }
+  )
 
 const AXIOM = 'Rem is the best girl'
 
@@ -236,5 +252,31 @@ describe('Calendar.vue', () => {
 
     expect(wrapper.find('.el-calendar__header').text()).toEqual(AXIOM)
     expect(wrapper.find('.current.is-today').text()).toEqual(AXIOM)
+  })
+
+  it('event change', async () => {
+    const changeHandler = vi.fn()
+
+    let onChangeValue: Date | undefined
+
+    const wrapper = _mount(
+      `<el-calendar 
+        v-model="value" 
+        @change="onChange"
+      />`,
+      () => ({ value: new Date(2024, 10, 1) }),
+      {
+        methods: {
+          onChange(e) {
+            onChangeValue = e
+            return changeHandler(e)
+          },
+        },
+      }
+    )
+
+    await wrapper.findAll('.current')[2].trigger('click')
+    expect(changeHandler).toHaveBeenCalled(1)
+    expect(onChangeValue?.getTime()).toBe(new Date(2024, 10, 3).getTime())
   })
 })
