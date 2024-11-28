@@ -6,7 +6,9 @@ import {
   inject,
   nextTick,
   onMounted,
+  reactive,
   ref,
+  watch,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
@@ -69,7 +71,7 @@ export default defineComponent({
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
 
     const isTableLayoutAuto = parent?.props.tableLayout === 'auto'
-    const saveIndexSelection = new Map()
+    const saveIndexSelection = reactive(new Map())
     const theadRef = ref()
 
     const updateFixedColumnStyle = () => {
@@ -88,6 +90,8 @@ export default defineComponent({
         }
       })
     }
+
+    watch(saveIndexSelection, updateFixedColumnStyle)
 
     onMounted(async () => {
       // Need double await, because updateColumns is executed after nextTick for now

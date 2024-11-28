@@ -239,6 +239,13 @@ export const SelectProps = buildProps({
     default: ['bottom-start', 'top-start', 'right', 'left'],
   },
   /**
+   * @description tabindex for input
+   */
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
+  /**
    * @description which element the selection dropdown appends to
    */
   appendTo: String,
