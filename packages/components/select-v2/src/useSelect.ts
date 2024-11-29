@@ -368,11 +368,10 @@ const useSelect: useSelectReturnType = (
     }
   }
 
-  const optionsChanged = ref(true)
-  const lastLabelCalculationCache = ref(0)
-
+  // TODO Caching implementation
+  // 1. There is no need to calculate options that have already been calculated
+  // 2. Repeatedly expand and close when persistent is set to false, no need for repeated calculations
   const calculateLabelMaxWidth = () => {
-    if (!optionsChanged.value) return lastLabelCalculationCache.value
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
     const selector = nsSelect.be('dropdown', 'item')
@@ -384,12 +383,11 @@ const useSelect: useSelectReturnType = (
       Number.parseFloat(style.paddingLeft) +
       Number.parseFloat(style.paddingRight)
     ctx.font = style.font
-    const maxWidth = allOptions.value.reduce((max, option) => {
+    const maxWidth = filteredOptions.value.reduce((max, option) => {
       const metrics = ctx.measureText(getLabel(option))
       return Math.max(metrics.width, max)
     }, 0)
-    optionsChanged.value = false
-    return (lastLabelCalculationCache.value = maxWidth + padding)
+    return maxWidth + padding
   }
 
   const getGapWidth = () => {
@@ -968,7 +966,6 @@ const useSelect: useSelectReturnType = (
     () => props.options,
     () => {
       const input = inputRef.value
-      optionsChanged.value = true
       // filter or remote-search scenarios are not initialized
       if (!input || (input && document.activeElement !== input)) {
         initStates()
@@ -984,6 +981,7 @@ const useSelect: useSelectReturnType = (
   watch(
     () => filteredOptions.value,
     () => {
+      calculatePopperSize()
       return menuRef.value && nextTick(menuRef.value.resetScrollTop)
     }
   )
