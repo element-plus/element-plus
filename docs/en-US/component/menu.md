@@ -147,7 +147,7 @@ menu/popper-offset
 
 | Name     | Description                          | Type                  | Default |
 | -------- | ------------------------------------ | --------------------- | ------- |
-| index    | unique identification                | ^[string]             | —       |
+| index ^(required) | unique identification                | ^[string]             | —       |
 | route    | Vue Router Route Location Parameters | ^[string] / ^[object] | —       |
 | disabled | whether disabled                     | ^[boolean]            | false   |
 
