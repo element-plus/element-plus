@@ -46,7 +46,7 @@ import {
   toRef,
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
-import { throwError } from '@element-plus/utils'
+import { debugWarn, isPropAbsent, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import useMenu from './use-menu'
 import { menuItemEmits, menuItemProps } from './menu-item'
@@ -59,6 +59,12 @@ defineOptions({
 })
 const props = defineProps(menuItemProps)
 const emit = defineEmits(menuItemEmits)
+
+isPropAbsent(props.index) &&
+  debugWarn(
+    COMPONENT_NAME,
+    "The 'index' prop will be required in the next major version"
+  )
 
 const instance = getCurrentInstance()!
 const rootMenu = inject<MenuProvider>('rootMenu')
