@@ -143,7 +143,6 @@
               </el-tooltip>
             </slot>
             <div
-              v-if="!selectDisabled"
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
@@ -160,6 +159,7 @@
                 :disabled="selectDisabled"
                 :autocomplete="autocomplete"
                 :style="inputStyle"
+                :tabindex="tabindex"
                 role="combobox"
                 :readonly="!filterable"
                 spellcheck="false"

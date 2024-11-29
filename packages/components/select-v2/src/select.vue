@@ -143,7 +143,6 @@
               </el-tooltip>
             </slot>
             <div
-              v-if="!selectDisabled"
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
@@ -156,6 +155,7 @@
                 v-model="states.inputValue"
                 :style="inputStyle"
                 :autocomplete="autocomplete"
+                :tabindex="tabindex"
                 aria-autocomplete="list"
                 aria-haspopup="listbox"
                 autocapitalize="off"

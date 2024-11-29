@@ -2753,6 +2753,7 @@ describe('Select', () => {
     )
 
     expect(input.attributes('role')).toBe('combobox')
+    expect(input.attributes('tabindex')).toBe('0')
     expect(input.attributes('aria-autocomplete')).toBe('none')
     expect(input.attributes('aria-controls')).toBe(list.attributes('id'))
     expect(input.attributes('aria-expanded')).toBe('false')
@@ -2768,6 +2769,19 @@ describe('Select', () => {
     expect(option.attributes('aria-disabled')).toBe(undefined)
     expect(option.attributes('aria-selected')).toBe('true')
     expect(disabledOption.attributes('aria-disabled')).toBe('true')
+  })
+
+  it('tabindex', async () => {
+    wrapper = _mount(
+      `<el-select v-model="value" tabindex="1">
+        <el-option label="label" value="1" />
+        <el-option label="disabled" value="2" disabled />
+      </el-select>`,
+      () => ({ value: '1' })
+    )
+
+    const input = wrapper.find('input')
+    expect(input.attributes('tabindex')).toBe('1')
   })
 
   it('should be trigger the click event', async () => {
@@ -2923,6 +2937,7 @@ describe('Select', () => {
               name: '蚵仔煎',
             },
           ],
+          value: null,
         })
       )
 
@@ -2943,5 +2958,71 @@ describe('Select', () => {
 
       vi.useRealTimers()
     })
+  })
+
+  it('should keep the selected label after filtering options', async () => {
+    const initials = [
+      {
+        value: 'aa',
+        label: 'label aa',
+      },
+      {
+        value: 'bb',
+        label: 'label bb',
+      },
+    ]
+
+    const wrapper = _mount(
+      `
+        <el-select v-model="value">
+          <el-option
+            v-for="option in options"
+            :key="option.value"
+            :value="option.value"
+            :label="option.label"
+          />
+        </el-select>
+      `,
+      () => ({
+        value: 'aa',
+        options: initials,
+      }),
+      {
+        methods: {
+          handleSearch(val) {
+            this.options = initials.filter((item) => item.label.includes(val))
+          },
+        },
+      }
+    )
+
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const vm = wrapper.vm as any
+
+    expect(selectVm.selectedLabel).toBe('label aa')
+
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
+    vm.handleSearch('bb')
+
+    await nextTick()
+    expect(wrapper.vm.options.length).toBe(1)
+    expect(selectVm.selectedLabel).toBe('label aa')
+    vm.handleSearch('bbb')
+
+    await nextTick()
+    expect(wrapper.vm.options.length).toBe(0)
+    expect(selectVm.selectedLabel).toBe('label aa')
+
+    vm.value = 'bb'
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('bb')
+
+    vm.value = ''
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('')
   })
 })

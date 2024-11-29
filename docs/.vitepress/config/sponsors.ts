@@ -3,8 +3,8 @@ export const rightRichTextSponsors = []
 export const rightBigLogoSponsors = [
   {
     name: 'CRMEB',
-    img: '/images/sponsors/CRMEB.png',
-    imgL: '/images/sponsors/CRMEB-l.png',
+    img: '/images/CRMEB.png',
+    imgL: '/images/CRMEB-l.png',
     url: 'http://github.crmeb.net/u/Elementyouce',
     slogan: 'High-quality open source mall system',
     slogan_cn: '高品质开源商城系统 累计服务40W+开发者',
@@ -15,27 +15,19 @@ export const rightBigLogoSponsors = [
 export const rightLogoSmallSponsors = [
   {
     name: 'BuildAdmin',
-    img: '/images/sponsors/buildadmin.png',
-    imgL: '/images/sponsors/buildadmin-l.png',
+    img: '/images/buildadmin.png',
+    imgL: '/images/buildadmin-l.png',
     url: 'https://doc.buildadmin.com/?from=element-plus',
     slogan: 'Vue3 open source admin system',
     slogan_cn: 'Vue3企业级开源后台管理系统',
   },
   {
     name: '百搭云',
-    img: '/images/sponsors/baidayun-logo.png',
-    imgL: '/images/sponsors/baidayun.png',
+    img: '/images/baidayun-logo.png',
+    imgL: '/images/baidayun.png',
     url: 'http://www.i-renderer.love/home/index',
     slogan: 'Fast and elegant low-code dev platform',
     slogan_cn: '快速且优雅的低代码平台',
-  },
-  {
-    name: 'Fantastic-admin',
-    img: '/images/sponsors/fantastic-admin.png',
-    imgL: '/images/sponsors/fantastic-admin-l.png',
-    url: 'https://fantastic-admin.github.io/',
-    slogan: 'Out-of-the-box Vue3 management system framework',
-    slogan_cn: '一款开箱即用的 Vue3 中后台管理系统框架',
   },
   {
     name: 'bit',
@@ -50,11 +42,11 @@ export const rightLogoSmallSponsors = [
 export const leftCustomImgSponsors = [
   {
     name: '美乐',
-    img: '/images/sponsors/mele.png',
+    img: '/images/mele.png',
     url: 'https://melecode.com/',
     slogan: 'Enterprise-level low-code development platform',
     slogan_cn: '企业级全栈低代码开发平台',
-    banner_img: '/images/sponsors/mele-banner.png',
+    banner_img: '/images/mele-banner.png',
   },
   {
     name: 'VForm',
@@ -62,7 +54,7 @@ export const leftCustomImgSponsors = [
     url: 'https://vform666.com/',
     slogan: 'Vue 2/3 Visual/Low-Code Forms',
     slogan_cn: 'Vue 2/3 可视化低代码表单',
-    banner_img: '/images/sponsors/vform-banner.png',
+    banner_img: '/images/vform-banner.png',
   },
   {
     name: 'JNPF',
@@ -71,7 +63,7 @@ export const leftCustomImgSponsors = [
     slogan: 'JNPF low code development platform to develop simple!',
     slogan_cn: 'JNPF 低代码开发平台，让开发变得简单！',
     className: 'jnpf',
-    banner_img: '/images/sponsors/jnpfsoft.jpg',
+    banner_img: '/images/jnpfsoft.png',
   },
 ]
 

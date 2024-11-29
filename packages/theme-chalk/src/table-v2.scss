@@ -52,7 +52,7 @@
 }
 
 @include b('table-v2') {
-  font-size: 14px;
+  font-size: getCssVar('font-size', 'base');
 
   * {
     box-sizing: border-box;
