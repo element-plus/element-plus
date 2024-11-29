@@ -293,7 +293,7 @@ export const SelectProps = buildProps({
    */
   fitInputWidth: {
     type: [Boolean, Number],
-    default: false,
+    default: true,
     validator(val) {
       return isBoolean(val) || isNumber(val)
     },

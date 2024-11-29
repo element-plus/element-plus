@@ -5,6 +5,7 @@
       :options="options"
       placeholder="Please select"
       style="width: 240px"
+      :fit-input-width="false"
     />
 
     <el-select-v2
