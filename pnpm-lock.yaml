@@ -105,8 +105,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       '@pnpm/types':
-        specifier: ^8.4.0
-        version: 8.4.0
+        specifier: ^1000.0.0
+        version: 1000.0.0
       '@types/fs-extra':
         specifier: ^9.0.13
         version: 9.0.13
@@ -377,8 +377,8 @@ importers:
         specifier: ^2.2.1
         version: 2.2.1
       '@pnpm/types':
-        specifier: ^8.4.0
-        version: 8.4.0
+        specifier: ^1000.0.0
+        version: 1000.0.0
       unbuild:
         specifier: ^2.0.0
         version: 2.0.0(sass@1.79.3)(typescript@5.5.4)(vue-tsc@2.1.6(typescript@5.5.4))
@@ -2056,6 +2056,10 @@ packages:
   '@pnpm/render-peer-issues@2.0.5':
     resolution: {integrity: sha512-J2FOgp7HheHWE+0WwaQkR2Ab+osg0yVO8H750+7MBw2PTvUyeNMVAdgy3ddIRYRaogT90jjpJFiywxSt9kd/4g==}
     engines: {node: '>=14.6'}
+
+  '@pnpm/types@1000.0.0':
+    resolution: {integrity: sha512-txl+XYCa0tuZ+J55hp3M3g8PGmKbf371GDDWlKjDBEXmVRn484LBLx10lPfQAK8/BsMjr42CfpJpfaJrUipQVg==}
+    engines: {node: '>=18.12'}
 
   '@pnpm/types@8.4.0':
     resolution: {integrity: sha512-sq/UdSq/jWCpYglw9SFmvR8qzUEi0p2oZIO0AHjkWWQg4Qrolf6DgD0WWmLiEP2WxHjbYeyD3ZzWzQor1+6cvw==}
@@ -10075,6 +10079,8 @@ snapshots:
       archy: 1.0.0
       chalk: 4.1.2
       cli-columns: 4.0.0
+
+  '@pnpm/types@1000.0.0': {}
 
   '@pnpm/types@8.4.0': {}
 
