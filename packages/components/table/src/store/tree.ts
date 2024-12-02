@@ -3,7 +3,7 @@ import { computed, getCurrentInstance, ref, unref, watch } from 'vue'
 import { isArray, isUndefined } from '@element-plus/utils'
 import { getRowIdentity, walkTreeNode } from '../util'
 
-import type { WatcherPropsData } from '.'
+import type { Store, WatcherPropsData } from '.'
 import type { Table, TableProps } from '../table/defaults'
 
 function useTree<T>(watcherData: WatcherPropsData<T>) {
@@ -179,19 +179,19 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     }
   }
 
-  const loadOrToggle = (row) => {
+  const loadOrToggle = (row, store) => {
     instance.store.assertRowKey()
     const rowKey = watcherData.rowKey.value
     const id = getRowIdentity(row, rowKey)
     const data = treeData.value[id]
     if (lazy.value && data && 'loaded' in data && !data.loaded) {
-      loadData(row, id, data)
+      loadData(row, id, data, store)
     } else {
       toggleTreeExpansion(row, undefined)
     }
   }
 
-  const loadData = (row: T, key: string, treeNode) => {
+  const loadData = (row: T, key: string, treeNode, store: Store<T>) => {
     const { load } = instance.props as unknown as TableProps<T>
     if (load && !treeData.value[key].loaded) {
       treeData.value[key].loading = true
@@ -203,6 +203,14 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         treeData.value[key].loaded = true
         treeData.value[key].expanded = true
         if (data.length) {
+          const included = store.states.selection.value.includes(row)
+          row.children = [...data]
+          if (included) {
+            data.forEach((item, index) => {
+              const isLastChild = index === data.length - 1
+              store.commit('rowSelectedChanged', item, isLastChild, isLastChild)
+            })
+          }
           lazyTreeNodeMap.value[key] = data
         }
         instance.emit('expand-change', row, true)

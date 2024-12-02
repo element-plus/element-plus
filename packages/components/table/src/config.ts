@@ -203,7 +203,7 @@ export function treeCellPrefix<T>(
     if (treeNode.loading) {
       return
     }
-    store.loadOrToggle(row)
+    store.loadOrToggle(row, store)
   }
   if (treeNode.indent) {
     ele.push(
