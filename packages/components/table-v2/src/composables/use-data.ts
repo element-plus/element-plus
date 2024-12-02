@@ -1,6 +1,7 @@
 import { computed, ref, unref, watch } from 'vue'
 import { isArray } from '@element-plus/utils'
 
+import { isArray } from '@element-plus/utils'
 import type { TableV2Props } from '../table'
 import type { KeyType } from '../types'
 import type { UseRowReturn } from './use-row'
@@ -31,7 +32,7 @@ export const useData = (
 
     let copy: any[] = data.slice()
     copy.forEach((x) => (depths[x[rowKey]] = 0))
-    while (copy.length > 0) {
+    while (copy.length) {
       const item = copy.shift()!
 
       array.push(item)
