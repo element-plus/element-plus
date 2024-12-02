@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@pnpm/find-workspace-packages": "^4.0.16",
-    "@pnpm/logger": "^4.0.0",
+    "@pnpm/logger": "^1000.0.0",
     "consola": "^2.15.3"
   },
   "devDependencies": {
