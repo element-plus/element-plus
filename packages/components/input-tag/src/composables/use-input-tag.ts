@@ -51,6 +51,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   }
 
   const handleKeydown = (event: KeyboardEvent) => {
+    if (isComposing.value) return
     switch (event.code) {
       case props.trigger:
         event.preventDefault()
