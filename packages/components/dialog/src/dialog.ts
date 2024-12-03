@@ -88,6 +88,18 @@ export const dialogProps = buildProps({
    */
   modalClass: String,
   /**
+   * @description custom class names for header slot
+   */
+  headerClassName: String,
+  /**
+   * @description custom class names for body slot
+   */
+  bodyClassName: String,
+  /**
+   * @description custom class names for footer slot
+   */
+  footerClassName: String,
+  /**
    * @description width of Dialog, default is 50%
    */
   width: {
