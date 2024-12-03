@@ -47,6 +47,9 @@
               :draggable="draggable"
               :overflow="overflow"
               :fullscreen="fullscreen"
+              :header-class-name="headerClassName"
+              :body-class-name="bodyClassName"
+              :footer-class-name="footerClassName"
               :show-close="showClose"
               :title="title"
               :aria-level="headerAriaLevel"
@@ -60,7 +63,9 @@
                   :title-id="titleId"
                   :title-class="ns.e('title')"
                 />
-                <slot v-else name="title" />
+                <slot v-else name="title">
+                  <!-- DEPRECATED SLOT -->
+                </slot>
               </template>
               <slot />
               <template v-if="$slots.footer" #footer>
