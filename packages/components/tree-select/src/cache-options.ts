@@ -27,6 +27,9 @@ export default defineComponent({
       () => {
         props.data.forEach((item) => {
           if (!select.states.cachedOptions.has(item.value)) {
+            // TODO: the type of 'item' is not compatible with the type of 'cachedOptions',
+            // which may indicate potential runtime issues.
+            // @ts-expect-error
             select.states.cachedOptions.set(item.value, item)
           }
         })

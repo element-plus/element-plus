@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   computed,
   nextTick,
@@ -48,23 +47,29 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 
-import type ElTooltip from '@element-plus/components/tooltip'
-import type { ISelectProps, SelectOptionProxy } from './token'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type {
+  OptionPublicInstance,
+  OptionValue,
+  SelectEmitFn,
+  SelectProps,
+  SelectStates,
+} from './type'
 
 const MINIMUM_INPUT_WIDTH = 11
 
-export const useSelect = (props: ISelectProps, emit) => {
+export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
   const { t } = useLocale()
   const contentId = useId()
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
 
-  const states = reactive({
+  const states: SelectStates = reactive({
     inputValue: '',
     options: new Map(),
     cachedOptions: new Map(),
-    optionValues: [] as any[], // sorted value of options
-    selected: [] as any[],
+    optionValues: [], // sorted value of options
+    selected: [],
     selectionWidth: 0,
     calculatorWidth: 0,
     collapseItemWidth: 0,
@@ -77,20 +82,20 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   // template refs
-  const selectRef = ref<HTMLElement>(null)
-  const selectionRef = ref<HTMLElement>(null)
-  const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
-  const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
-  const inputRef = ref<HTMLInputElement | null>(null)
-  const calculatorRef = ref<HTMLElement>(null)
-  const prefixRef = ref<HTMLElement>(null)
-  const suffixRef = ref<HTMLElement>(null)
-  const menuRef = ref<HTMLElement>(null)
-  const tagMenuRef = ref<HTMLElement>(null)
-  const collapseItemRef = ref<HTMLElement>(null)
+  const selectRef = ref<HTMLElement>()
+  const selectionRef = ref<HTMLElement>()
+  const tooltipRef = ref<TooltipInstance>()
+  const tagTooltipRef = ref<TooltipInstance>()
+  const inputRef = ref<HTMLInputElement>()
+  const calculatorRef = ref<HTMLElement>()
+  const prefixRef = ref<HTMLElement>()
+  const suffixRef = ref<HTMLElement>()
+  const menuRef = ref<HTMLElement>()
+  const tagMenuRef = ref<HTMLElement>()
+  const collapseItemRef = ref<HTMLElement>()
   const scrollbarRef = ref<{
     handleScroll: () => void
-  } | null>(null)
+  }>()
 
   const {
     isComposing,
@@ -162,7 +167,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const validateState = computed(() => formItem?.validateState || '')
   const validateIcon = computed(
-    () => ValidateComponentsMap[validateState.value]
+    () => validateState.value && ValidateComponentsMap[validateState.value]
   )
 
   const debounce = computed(() => (props.remote ? 300 : 0))
@@ -194,7 +199,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const optionsArray = computed(() => {
     const list = Array.from(states.options.values())
-    const newList = []
+    const newList: OptionPublicInstance[] = []
     states.optionValues.forEach((item) => {
       const index = list.findIndex((i) => i.value === item)
       if (index > -1) {
@@ -415,7 +420,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     } else {
       states.selectedLabel = ''
     }
-    const result: any[] = []
+    const result: SelectStates['selected'] = []
     if (!isUndefined(props.modelValue)) {
       ensureArray(props.modelValue).forEach((value) => {
         result.push(getOption(value))
@@ -424,7 +429,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     states.selected = result
   }
 
-  const getOption = (value) => {
+  const getOption = (value: OptionValue) => {
     let option
     const isObjectValue = isPlainObject(value)
 
@@ -462,16 +467,16 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const resetSelectionWidth = () => {
-    states.selectionWidth = selectionRef.value.getBoundingClientRect().width
+    states.selectionWidth = selectionRef.value!.getBoundingClientRect().width
   }
 
   const resetCalculatorWidth = () => {
-    states.calculatorWidth = calculatorRef.value.getBoundingClientRect().width
+    states.calculatorWidth = calculatorRef.value!.getBoundingClientRect().width
   }
 
   const resetCollapseItemWidth = () => {
     states.collapseItemWidth =
-      collapseItemRef.value.getBoundingClientRect().width
+      collapseItemRef.value!.getBoundingClientRect().width
   }
 
   const updateTooltip = () => {
@@ -489,8 +494,8 @@ export const useSelect = (props: ISelectProps, emit) => {
     handleQueryChange(states.inputValue)
   }
 
-  const onInput = (event) => {
-    states.inputValue = event.target.value
+  const onInput = (event: Event) => {
+    states.inputValue = (event.target as HTMLInputElement).value
     if (props.remote) {
       debouncedOnInputChange()
     } else {
@@ -502,22 +507,22 @@ export const useSelect = (props: ISelectProps, emit) => {
     onInputChange()
   }, debounce.value)
 
-  const emitChange = (val) => {
+  const emitChange = (val: OptionValue | OptionValue[]) => {
     if (!isEqual(props.modelValue, val)) {
       emit(CHANGE_EVENT, val)
     }
   }
 
-  const getLastNotDisabledIndex = (value) =>
+  const getLastNotDisabledIndex = (value: OptionValue[]) =>
     findLastIndex(value, (it) => {
       const option = states.cachedOptions.get(it)
       return option && !option.disabled && !option.states.groupDisabled
     })
 
-  const deletePrevTag = (e) => {
+  const deletePrevTag = (e: KeyboardEvent) => {
     if (!props.multiple) return
     if (e.code === EVENT_CODE.delete) return
-    if (e.target.value.length <= 0) {
+    if ((e.target as HTMLInputElement).value.length <= 0) {
       const value = ensureArray(props.modelValue).slice()
       const lastNotDisabledIndex = getLastNotDisabledIndex(value)
       if (lastNotDisabledIndex < 0) return
@@ -529,7 +534,10 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   }
 
-  const deleteTag = (event, tag) => {
+  const deleteTag = (
+    event: MouseEvent,
+    tag: OptionPublicInstance | SelectStates['selected'][0]
+  ) => {
     const index = states.selected.indexOf(tag)
     if (index > -1 && !selectDisabled.value) {
       const value = ensureArray(props.modelValue).slice()
@@ -542,9 +550,9 @@ export const useSelect = (props: ISelectProps, emit) => {
     focus()
   }
 
-  const deleteSelected = (event) => {
+  const deleteSelected = (event: Event) => {
     event.stopPropagation()
-    const value: string | any[] = props.multiple ? [] : valueOnClear.value
+    const value = props.multiple ? [] : valueOnClear.value
     if (props.multiple) {
       for (const item of states.selected) {
         if (item.isDisabled) value.push(item.value)
@@ -558,7 +566,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     focus()
   }
 
-  const handleOptionSelect = (option) => {
+  const handleOptionSelect = (option: OptionPublicInstance) => {
     if (props.multiple) {
       const value = ensureArray(props.modelValue ?? []).slice()
       const optionIndex = getValueIndex(value, option)
@@ -590,7 +598,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     })
   }
 
-  const getValueIndex = (arr: any[] = [], option) => {
+  const getValueIndex = (arr: OptionValue[], option: OptionPublicInstance) => {
     if (isUndefined(option)) return -1
     if (!isObject(option.value)) return arr.indexOf(option.value)
 
@@ -599,7 +607,12 @@ export const useSelect = (props: ISelectProps, emit) => {
     })
   }
 
-  const scrollToOption = (option) => {
+  const scrollToOption = (
+    option:
+      | OptionPublicInstance
+      | OptionPublicInstance[]
+      | SelectStates['selected']
+  ) => {
     const targetOption = isArray(option) ? option[0] : option
     let target = null
 
@@ -623,12 +636,12 @@ export const useSelect = (props: ISelectProps, emit) => {
     scrollbarRef.value?.handleScroll()
   }
 
-  const onOptionCreate = (vm: SelectOptionProxy) => {
+  const onOptionCreate = (vm: OptionPublicInstance) => {
     states.options.set(vm.value, vm)
     states.cachedOptions.set(vm.value, vm)
   }
 
-  const onOptionDestroy = (key, vm: SelectOptionProxy) => {
+  const onOptionDestroy = (key: OptionValue, vm: OptionPublicInstance) => {
     if (states.options.get(key) === vm) {
       states.options.delete(key)
     }
@@ -703,7 +716,9 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   }
 
-  const getValueKey = (item) => {
+  const getValueKey = (
+    item: OptionPublicInstance | SelectStates['selected'][0]
+  ) => {
     return isObject(item.value) ? get(item.value, props.valueKey) : item.value
   }
 
@@ -731,7 +746,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       : []
   })
 
-  const navigateOptions = (direction) => {
+  const navigateOptions = (direction: 'prev' | 'next') => {
     if (!expanded.value) {
       expanded.value = true
       return
