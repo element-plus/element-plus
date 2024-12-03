@@ -433,6 +433,51 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
 
+  it('should update the colorFormat and selected color when the colorFormat prop changes', async () => {
+    const color = ref('#00FF00')
+    const colorFormat = ref('hex')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value} color-format={colorFormat.value} />
+    ))
+
+    colorFormat.value = 'rgb'
+    await nextTick()
+    const colorPickerWrapper = wrapper.findComponent(ColorPicker)
+    const customInput = colorPickerWrapper.findComponent({
+      ref: 'inputRef',
+    })
+    expect(colorPickerWrapper.vm.color.format).toBe('rgb')
+    expect(color.value).toBe('rgb(0, 255, 0)')
+    expect(
+      customInput.find<HTMLInputElement>('.el-input__inner').element.value
+    ).toBe('rgb(0, 255, 0)')
+    wrapper.unmount()
+  })
+  it('should update the selected color when the showAlpha prop changes', async () => {
+    const color = ref('#00FF00AA')
+    const showAlpha = ref(true)
+    const wrapper = mount(() => (
+      <ColorPicker
+        v-model={color.value}
+        color-format="hex"
+        showAlpha={showAlpha.value}
+      />
+    ))
+
+    showAlpha.value = false
+    await nextTick()
+    const colorPickerWrapper = wrapper.findComponent(ColorPicker)
+    const customInput = colorPickerWrapper.findComponent({
+      ref: 'inputRef',
+    })
+    expect(colorPickerWrapper.vm.color.enableAlpha).toBe(false)
+    expect(color.value).toBe('#00FF00')
+    expect(
+      customInput.find<HTMLInputElement>('.el-input__inner').element.value
+    ).toBe('#00FF00')
+    wrapper.unmount()
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (

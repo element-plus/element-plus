@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test } from 'vitest'
 import sleep from '@element-plus/test-utils/sleep'
+import Form from '@element-plus/components/form'
 import Mention from '../src/mention.vue'
 
 describe('Mention.vue', () => {
@@ -85,5 +86,55 @@ describe('Mention.vue', () => {
     expect(document.querySelectorAll('.el-mention-dropdown__item').length).toBe(
       4
     )
+  })
+
+  test('It should generate accessible attributes', async () => {
+    const wrapper = mount(Mention, {
+      attachTo: document.body,
+      props: { options },
+    })
+
+    const input = wrapper.find('input')
+    expect(input.attributes('role')).toBe(undefined)
+    expect(input.attributes('aria-autocomplete')).toBe(undefined)
+    expect(input.attributes('aria-controls')).toBe(undefined)
+    expect(input.attributes('aria-expanded')).toBe(undefined)
+    expect(input.attributes('aria-haspopup')).toBe(undefined)
+    expect(input.attributes('aria-activedescendant')).toBe(undefined)
+
+    wrapper.find('input').trigger('focus')
+    input.element.value = '@'
+    wrapper.find('input').trigger('input')
+    await sleep(150)
+    const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
+    const list = dropdown.find('.el-mention-dropdown__list')
+    const option = dropdown.find('.el-mention-dropdown__item')
+
+    expect(list.attributes('id')).toBeTruthy()
+    expect(list.attributes('role')).toBe('listbox')
+    expect(list.attributes('aria-orientation')).toBe('vertical')
+    expect(option.attributes('id')).toBeTruthy()
+    expect(option.attributes('role')).toBe('option')
+    expect(option.attributes('aria-disabled')).toBe(undefined)
+    expect(option.attributes('aria-selected')).toBe('true')
+  })
+
+  test('should use props of form', async () => {
+    const wrapper = mount({
+      setup: () => () =>
+        (
+          <Form disabled>
+            <Mention options={options} />
+          </Form>
+        ),
+    })
+
+    const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
+    const option = dropdown.find('.el-mention-dropdown__item')
+
+    expect(wrapper.find('.el-input').classes()).toContain('is-disabled')
+    expect(wrapper.find('input').attributes()).toHaveProperty('disabled')
+    expect(option.attributes('aria-disabled')).toBe('true')
+    expect(option.classes()).toContain('is-disabled')
   })
 })

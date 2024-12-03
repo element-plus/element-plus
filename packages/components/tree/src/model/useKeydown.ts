@@ -99,7 +99,12 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     const hasInput = currentItem.querySelector(
       '[type="checkbox"]'
     ) as Nullable<HTMLInputElement>
-    if ([EVENT_CODE.enter, EVENT_CODE.space].includes(code) && hasInput) {
+    if (
+      [EVENT_CODE.enter, EVENT_CODE.numpadEnter, EVENT_CODE.space].includes(
+        code
+      ) &&
+      hasInput
+    ) {
       ev.preventDefault()
       hasInput.click()
     }

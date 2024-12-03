@@ -3,6 +3,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { dialogContentProps } from './dialog-content'
 
 import type { ExtractPropTypes } from 'vue'
+import type Dialog from './dialog.vue'
 
 type DoneFn = (cancel?: boolean) => void
 export type DialogBeforeCloseFn = (done: DoneFn) => void
@@ -120,3 +121,4 @@ export const dialogEmits = {
   closeAutoFocus: () => true,
 }
 export type DialogEmits = typeof dialogEmits
+export type DialogInstance = InstanceType<typeof Dialog>

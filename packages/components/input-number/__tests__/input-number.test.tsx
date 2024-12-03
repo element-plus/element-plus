@@ -161,15 +161,21 @@ describe('InputNumber.vue', () => {
   })
   //fix: #12690
   test('maximum is less than the minimum', async () => {
-    try {
-      const num = ref(6)
-      mount(() => <InputNumber v-model={num.value} min={10} max={8} />)
-    } catch (e: any) {
-      expect(e).to.be.an('error')
-      expect(e.message).to.equal(
-        '[InputNumber] min should not be greater than max.'
-      )
-    }
+    const num = ref(6)
+    const errorHandler = vi.fn()
+
+    mount(() => <InputNumber v-model={num.value} min={10} max={8} />, {
+      global: {
+        config: {
+          errorHandler,
+        },
+      },
+    })
+    expect(errorHandler).toHaveBeenCalled()
+    const [error] = errorHandler.mock.calls[0]
+    expect(error.message).toEqual(
+      '[InputNumber] min should not be greater than max.'
+    )
   })
 
   describe('precision accuracy 2', () => {
@@ -593,5 +599,15 @@ describe('InputNumber.vue', () => {
     expect(decrease.exists()).toBe(true)
     expect(increase.classes()).toContain('el-icon')
     expect(decrease.classes()).toContain('el-icon')
+  })
+
+  // fix: #18275
+  test('step-strictly is true and should keep the initial value and step matching', () => {
+    const num = ref(2.6)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} stepStrictly step={0.5} />
+    ))
+    expect(wrapper.find('input').element.value).toBe(num.value.toString())
+    wrapper.unmount()
   })
 })

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
-import { hasOwn } from '@element-plus/utils'
+import { isEqual } from 'lodash-unified'
+import { hasOwn, isArray, isString, isUndefined } from '@element-plus/utils'
 import {
   getColumnById,
   getColumnByKey,
@@ -20,7 +21,7 @@ import type { StoreFilter } from '.'
 
 const sortData = (data, states) => {
   const sortingColumn = states.sortingColumn
-  if (!sortingColumn || typeof sortingColumn.sortable === 'string') {
+  if (!sortingColumn || isString(sortingColumn.sortable)) {
     return data
   }
   return orderBy(
@@ -76,9 +77,21 @@ function useWatcher<T>() {
   const sortOrder = ref(null)
   const hoverRow = ref(null)
 
-  watch(data, () => instance.state && scheduleLayout(false), {
-    deep: true,
-  })
+  watch(
+    data,
+    () => {
+      if (instance.state) {
+        scheduleLayout(false)
+        const needUpdateFixed = instance.props.tableLayout === 'auto'
+        if (needUpdateFixed) {
+          instance.refs.tableHeaderRef?.updateFixedColumnStyle()
+        }
+      }
+    },
+    {
+      deep: true,
+    }
+  )
 
   // 检查 rowKey 是否存在
   const assertRowKey = () => {
@@ -93,6 +106,8 @@ function useWatcher<T>() {
     })
   }
 
+  let selectionInitialFixed = undefined
+
   // 更新列
   const updateColumns = () => {
     _columns.value.forEach((column) => {
@@ -104,14 +119,35 @@ function useWatcher<T>() {
     rightFixedColumns.value = _columns.value.filter(
       (column) => column.fixed === 'right'
     )
+
+    if (
+      isUndefined(selectionInitialFixed) &&
+      _columns.value[0] &&
+      _columns.value[0].type === 'selection'
+    ) {
+      selectionInitialFixed = Boolean(_columns.value[0].fixed)
+    }
+
     if (
       fixedColumns.value.length > 0 &&
       _columns.value[0] &&
-      _columns.value[0].type === 'selection' &&
-      !_columns.value[0].fixed
+      _columns.value[0].type === 'selection'
     ) {
-      _columns.value[0].fixed = true
-      fixedColumns.value.unshift(_columns.value[0])
+      if (!_columns.value[0].fixed) {
+        _columns.value[0].fixed = true
+        fixedColumns.value.unshift(_columns.value[0])
+      } else {
+        const hasNotSelectionColumns = fixedColumns.value.some(
+          (column) => column.type !== 'selection'
+        )
+
+        if (!hasNotSelectionColumns) {
+          _columns.value[0].fixed = selectionInitialFixed
+          if (!selectionInitialFixed) fixedColumns.value.shift()
+        } else {
+          selectionInitialFixed = undefined
+        }
+      }
     }
 
     const notFixedColumns = _columns.value.filter((column) => !column.fixed)
@@ -149,7 +185,7 @@ function useWatcher<T>() {
 
   // 选择
   const isSelected = (row) => {
-    return selection.value.includes(row)
+    return selection.value.some((item) => isEqual(item, row))
   }
 
   const clearSelection = () => {
@@ -191,7 +227,8 @@ function useWatcher<T>() {
   const toggleRowSelection = (
     row: T,
     selected?: boolean,
-    emitChange = true
+    emitChange = true,
+    ignoreSelectable = false
   ) => {
     const treeProps = {
       children: instance?.store?.states?.childrenColumnName.value,
@@ -202,7 +239,7 @@ function useWatcher<T>() {
       row,
       selected,
       treeProps,
-      selectable.value
+      ignoreSelectable ? undefined : selectable.value
     )
     if (changed) {
       const newSelection = (selection.value || []).slice()
@@ -334,7 +371,7 @@ function useWatcher<T>() {
 
   // 过滤与排序
   const updateFilters = (columns, values) => {
-    if (!Array.isArray(columns)) {
+    if (!isArray(columns)) {
       columns = [columns]
     }
     const filters_ = {}
@@ -401,11 +438,11 @@ function useWatcher<T>() {
     const keys = Object.keys(panels)
     if (!keys.length) return
 
-    if (typeof columnKeys === 'string') {
+    if (isString(columnKeys)) {
       columnKeys = [columnKeys]
     }
 
-    if (Array.isArray(columnKeys)) {
+    if (isArray(columnKeys)) {
       const columns_ = columnKeys.map((key) =>
         getColumnByKey(
           {
@@ -465,6 +502,7 @@ function useWatcher<T>() {
     updateTreeExpandKeys,
     toggleTreeExpansion,
     updateTreeData,
+    updateKeyChildren,
     loadOrToggle,
     states: treeStates,
   } = useTree({
@@ -527,6 +565,7 @@ function useWatcher<T>() {
     updateCurrentRowData,
     loadOrToggle,
     updateTreeData,
+    updateKeyChildren,
     states: {
       tableSize,
       rowKey,

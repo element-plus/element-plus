@@ -57,6 +57,16 @@ tree-v2/custom-node
 
 :::
 
+## Custom node class ^(2.9.0)
+
+The class of tree nodes can be customized
+
+:::demo
+
+tree-v2/custom-node-class
+
+:::
+
 ## Tree node filtering
 
 Tree nodes can be filtered
@@ -89,12 +99,13 @@ tree-v2/filter
 
 ## props
 
-| Attribute | Description                                                                          | Type           | Default  |
-| --------- | ------------------------------------------------------------------------------------ | -------------- | -------- |
-| value     | unique identity key name for nodes, its value should be unique across the whole tree | string, number | id       |
-| label     | specify which key of node object is used as the node's label                         | string         | label    |
-| children  | specify which node object is used as the node's subtree                              | string         | children |
-| disabled  | specify which key of node object represents if node's checkbox is disabled           | string         | disabled |
+| Attribute      | Description                                                                          | Type                                            | Default  |
+| -------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------- | -------- |
+| value          | unique identity key name for nodes, its value should be unique across the whole tree | string                                          | id       |
+| label          | specify which key of node object is used as the node's label                         | string                                          | label    |
+| children       | specify which node object is used as the node's subtree                              | string                                          | children |
+| disabled       | specify which key of node object represents if node's checkbox is disabled           | string                                          | disabled |
+| class ^(2.9.0) | custom node class name                                                               | ^[string] / ^[Function]`(data, node) => string` | —        |
 
 ## TreeV2 Method
 
@@ -116,23 +127,25 @@ tree-v2/filter
 | expandNode | expand specified node | `(node: TreeNode)` |
 | collapseNode | collapse specified node | `(node: TreeNode)` |
 | setData | When the data is very large, using reactive data will cause the poor performance, so we provide a way to avoid this situation | `(data: TreeData)` |
-| scrollTo ^(2.8.0)  | scroll to a given position | `(offset: number)` |
-| scrollToNode ^(2.8.0)  | scroll to a given tree key with specified scroll strategy | `(key: TreeKey, strategy?: auto \| smart \| center \| start \| end)` |
+| scrollTo ^(2.8.0) | scroll to a given position | `(offset: number)` |
+| scrollToNode ^(2.8.0) | scroll to a given tree key with specified scroll strategy | `(key: TreeKey, strategy?: auto \| smart \| center \| start \| end)` |
 
 ## TreeV2 Events
 
-| Name             | Description                                          | Parameters                                                                                                                              |
-| ---------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| node-click       | triggers when a node is clicked                      | `(data: TreeNodeData, node: TreeNode, e: MouseEvent)`                                                                                   |
-| node-contextmenu | triggers when a node is clicked by right button      | `(e: Event, data: TreeNodeData, node: TreeNode)`                                                                                        |
-| check-change     | triggers when the selected state of the node changes | `(data: TreeNodeData, checked: boolean)`                                                                                                |
-| check            | triggers after clicking the checkbox of a node       | `(data: TreeNodeData, info: { checkedKeys: TreeKey[],checkedNodes: TreeData, halfCheckedKeys: TreeKey[], halfCheckedNodes: TreeData,})` |
-| current-change   | triggers when current node changes                   | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
-| node-expand      | triggers when current node open                      | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
-| node-collapse    | triggers when current node close                     | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
+| Name               | Description                                          | Parameters                                                                                                                              |
+| ------------------ | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| node-click         | triggers when a node is clicked                      | `(data: TreeNodeData, node: TreeNode, e: MouseEvent)`                                                                                   |
+| node-drop ^(2.8.3) | triggers when drag someting and drop on a node       | `(data: TreeNodeData, node: TreeNode, e: DragEvent)`                                                                                    |
+| node-contextmenu   | triggers when a node is clicked by right button      | `(e: Event, data: TreeNodeData, node: TreeNode)`                                                                                        |
+| check-change       | triggers when the selected state of the node changes | `(data: TreeNodeData, checked: boolean)`                                                                                                |
+| check              | triggers after clicking the checkbox of a node       | `(data: TreeNodeData, info: { checkedKeys: TreeKey[],checkedNodes: TreeData, halfCheckedKeys: TreeKey[], halfCheckedNodes: TreeData,})` |
+| current-change     | triggers when current node changes                   | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
+| node-expand        | triggers when current node open                      | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
+| node-collapse      | triggers when current node close                     | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
 
 ## TreeV2 Slots
 
-| Name | Description                                                                                    |
-| ---- | ---------------------------------------------------------------------------------------------- |
-| -    | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
+| Name           | Description                                                                                    |
+| -------------- | ---------------------------------------------------------------------------------------------- |
+| -              | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
+| empty ^(2.9.0) | empty you can customize content when data is empty.                                            |

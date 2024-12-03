@@ -325,6 +325,7 @@ function handleEsc(event: KeyboardEvent) {
 function handleKeyDown(event: KeyboardEvent) {
   switch (event.code) {
     case EVENT_CODE.enter:
+    case EVENT_CODE.numpadEnter:
     case EVENT_CODE.space:
       event.preventDefault()
       event.stopPropagation()
@@ -360,6 +361,16 @@ watch(
       shouldActiveChange = false
       color.fromString(newVal)
     }
+  }
+)
+
+watch(
+  () => [props.colorFormat, props.showAlpha],
+  () => {
+    color.enableAlpha = props.showAlpha
+    color.format = props.colorFormat || color.format
+    color.doOnChange()
+    emit(UPDATE_MODEL_EVENT, color.value)
   }
 )
 

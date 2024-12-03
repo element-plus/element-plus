@@ -19,7 +19,7 @@
       :stop-popper-mouse-event="false"
       :popper-class="tooltipClass"
       :disabled="!showTooltip"
-      persistent
+      :persistent="showTooltip"
     >
       <template #content>
         <span>{{ formatValue }}</span>

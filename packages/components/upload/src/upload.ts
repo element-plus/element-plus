@@ -1,5 +1,4 @@
-import { NOOP } from '@vue/shared'
-import { buildProps, definePropType, mutable } from '@element-plus/utils'
+import { NOOP, buildProps, definePropType, mutable } from '@element-plus/utils'
 import { ajaxUpload } from './ajax'
 import type { Awaitable, Mutable } from '@element-plus/utils'
 
@@ -20,7 +19,7 @@ export interface UploadProgressEvent extends ProgressEvent {
 export interface UploadRequestOptions {
   action: string
   method: string
-  data: Record<string, string | Blob | [string | Blob, string]>
+  data: Record<string, string | Blob | [Blob, string]>
   filename: string
   file: UploadRawFile
   headers: Headers | Record<string, string | number | null | undefined>
