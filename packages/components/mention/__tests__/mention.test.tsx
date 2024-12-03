@@ -1,5 +1,6 @@
+import { h, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, test } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import sleep from '@element-plus/test-utils/sleep'
 import Form from '@element-plus/components/form'
 import Mention from '../src/mention.vue'
@@ -136,5 +137,46 @@ describe('Mention.vue', () => {
     expect(wrapper.find('input').attributes()).toHaveProperty('disabled')
     expect(option.attributes('aria-disabled')).toBe('true')
     expect(option.classes()).toContain('is-disabled')
+  })
+
+  test('should work with `checkVisible` prop', async () => {
+    const html = ref('')
+    const handleCheckVisible = vi.fn()
+
+    const wrapper = mount(
+      {
+        setup: () => {
+          return () =>
+            h(
+              Mention,
+              {
+                options,
+                whole: true,
+                style: { width: '320px' },
+                placeholder: 'Please input',
+                checkVisible: handleCheckVisible,
+                modelValue: html.value,
+                'onUpdate:modelValue': (value) => {
+                  html.value = value
+                },
+              },
+              {}
+            )
+        },
+      },
+      {
+        attachTo: document.body,
+      }
+    )
+
+    const inputWrapper = wrapper.find('input')
+    const input = inputWrapper.element as HTMLInputElement
+
+    input.focus()
+    inputWrapper.element.value = '@'
+    inputWrapper.trigger('input')
+    await sleep(150)
+
+    expect(handleCheckVisible).toHaveBeenCalled()
   })
 })
