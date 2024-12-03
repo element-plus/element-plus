@@ -66,10 +66,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     isPropAbsent(props.index) &&
-      debugWarn(
-        COMPONENT_NAME,
-        "The 'index' prop will be required in the next major version"
-      )
+      debugWarn(COMPONENT_NAME, 'Missing required prop: "index"')
 
     const instance = getCurrentInstance()!
     const rootMenu = inject<MenuProvider>('rootMenu')
