@@ -110,9 +110,8 @@ import ElIcon from '@element-plus/components/icon'
 import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useFormSize } from '@element-plus/components/form'
-import { addUnit, ensureArray } from '@element-plus/utils'
+import { addUnit, ensureArray, isArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
-import { EVENT_CODE } from '@element-plus/constants'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
@@ -148,12 +147,9 @@ export default defineComponent({
     const scrollbar = ref(null)
     const currentTabId = ref<string | null>(null)
     const isUsingKeyboard = ref(false)
-    const triggerKeys = [
-      EVENT_CODE.enter,
-      EVENT_CODE.numpadEnter,
-      EVENT_CODE.space,
-      EVENT_CODE.down,
-    ]
+    const triggerKeys = computed(() =>
+      isArray(props.triggerKeys) ? props.triggerKeys : []
+    )
 
     const wrapStyle = computed<CSSProperties>(() => ({
       maxHeight: addUnit(props.maxHeight),
