@@ -140,9 +140,7 @@ export const menuProps = buildProps({
    * @description Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed
    */
   popperEffect: {
-    type: definePropType<PopperEffect | (string & NonNullable<unknown>)>(
-      String
-    ),
+    type: definePropType<PopperEffect>(String),
     default: 'dark',
   },
   /**
