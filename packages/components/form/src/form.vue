@@ -160,7 +160,7 @@ watch(
       validate().catch((err) => debugWarn(err))
     }
   },
-  { deep: true }
+  { deep: true, flush: 'post' }
 )
 
 provide(
