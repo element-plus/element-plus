@@ -50,12 +50,21 @@ export default class Store {
 
     if (!parentNode) this.nodes.push(node)
 
-    this.allNodes.push(node)
-    node.isLeaf && this.leafNodes.push(node)
+    this.append2AllNodesAndLeafNodes(node)
   }
 
   appendNodes(nodeDataList: CascaderOption[], parentNode: Node) {
     nodeDataList.forEach((nodeData) => this.appendNode(nodeData, parentNode))
+  }
+
+  append2AllNodesAndLeafNodes(node: Node) {
+    this.allNodes.push(node)
+    node.isLeaf && this.leafNodes.push(node)
+    if (node.children) {
+      node.children.forEach((subNode) => {
+        this.append2AllNodesAndLeafNodes(subNode)
+      })
+    }
   }
 
   // when checkStrictly, leaf node first
