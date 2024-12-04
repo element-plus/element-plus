@@ -158,12 +158,12 @@ export const inputProps = buildProps({
     type: definePropType<StyleValue>([Object, Array, String]),
     default: () => mutable({} as const),
   },
-    /**
-   * @description  style of textarea count.
+  /**
+   * @description Style of textarea count.
    */
   textareaCountStyle: {
     type: definePropType<StyleValue>([Object, Array, String]),
-    default: () => mutable({} as const),
+    default: () => ({}), 
   },
   /**
    * @description native input autofocus
