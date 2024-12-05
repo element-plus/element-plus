@@ -40,6 +40,18 @@ describe('Notification on command', () => {
     close()
   })
 
+  it('it should be able to render function that return vnode', async () => {
+    const testClassName = 'test-classname'
+    const { close } = Notification({
+      duration: 0,
+      message: () => <div class={testClassName}>test-content</div>,
+    })
+
+    await rAF()
+    expect(document.querySelector(`.${testClassName}`)).toBeTruthy()
+    close()
+  })
+
   it('it should be able to close notification by manually close', async () => {
     const { close } = Notification({
       duration: 0,
