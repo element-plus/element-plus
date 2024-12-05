@@ -905,6 +905,23 @@ describe('Select', () => {
     expect(selectVm.states.hoveringIndex).toBe(4)
   })
 
+  // #19136
+  test('keyboard operations when options are disabled due to multiple-limit', async () => {
+    wrapper = getSelectVm({ multiple: true, multipleLimit: 2 })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    await wrapper.setProps({
+      modelValue: ['选项1', '选项2'],
+    })
+    const selectVm = select.vm as any
+    const input = select.find('input')
+    await input.trigger('click')
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(1)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(0)
+  })
+
   test('clearable', async () => {
     wrapper = getSelectVm({ clearable: true })
     const select = wrapper.findComponent({ name: 'ElSelect' })
