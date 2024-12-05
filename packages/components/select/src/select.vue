@@ -253,7 +253,7 @@
             tag="ul"
             :wrap-class="nsSelect.be('dropdown', 'wrap')"
             :view-class="nsSelect.be('dropdown', 'list')"
-            :class="[nsSelect.is('empty', filteredOptionsCount === 0)]"
+            :class="[nsSelect.is('empty', showEmpty)]"
             role="listbox"
             :aria-label="ariaLabel"
             aria-orientation="vertical"
@@ -274,7 +274,7 @@
             <slot name="loading" />
           </div>
           <div
-            v-else-if="loading || filteredOptionsCount === 0"
+            v-else-if="loading || showEmpty"
             :class="nsSelect.be('dropdown', 'empty')"
           >
             <slot name="empty">

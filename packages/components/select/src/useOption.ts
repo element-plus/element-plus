@@ -11,7 +11,30 @@ export function useOption(props, states) {
 
   // computed
   const itemSelected = computed(() => {
-    return contains(ensureArray(select.props.modelValue), props.value)
+    const { createdSelected, selected } = select?.states || {}
+
+    if (props.created) {
+      return createdSelected.some((item) => item.value === props.value)
+    }
+
+    const notCreatedSelected = selected.filter((item) => !item.created)
+    if (!notCreatedSelected.length) {
+      return false
+    }
+
+    const modelValueArray = ensureArray(select.props.modelValue)
+    return (
+      notCreatedSelected.some((item) => {
+        if (isObject(item.value)) {
+          return (
+            item.value[select?.props.valueKey] ===
+            props.value[select?.props.valueKey]
+          )
+        } else {
+          return item.value === props.value
+        }
+      }) && contains(modelValueArray, props.value)
+    )
   })
 
   const limitReached = computed(() => {
@@ -56,9 +79,14 @@ export function useOption(props, states) {
   }
 
   const hoverItem = () => {
-    if (!props.disabled && !selectGroup.disabled) {
-      select.states.hoveringIndex = select.optionsArray.indexOf(instance.proxy)
+    if (props.disabled || selectGroup.disabled) return
+
+    const optionIndex = select.optionsArray.indexOf(instance.proxy)
+    if (optionIndex === -1) {
+      states.hover = select?.states.createdOptions.has(instance?.proxy.value)
+      return
     }
+    select.states.hoveringIndex = optionIndex
   }
 
   const updateOption = (query: string) => {
