@@ -11,7 +11,6 @@ export {
   isSymbol,
   isPlainObject,
 } from '@vue/shared'
-export { isVNode } from 'vue'
 
 export const isUndefined = (val: any): val is undefined => val === undefined
 export const isBoolean = (val: any): val is boolean => typeof val === 'boolean'

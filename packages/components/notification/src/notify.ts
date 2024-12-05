@@ -1,4 +1,4 @@
-import { createVNode, render } from 'vue'
+import { createVNode, isVNode, render } from 'vue'
 import {
   debugWarn,
   isClient,
@@ -6,7 +6,6 @@ import {
   isFunction,
   isString,
   isUndefined,
-  isVNode,
 } from '@element-plus/utils'
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'

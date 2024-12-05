@@ -1,4 +1,4 @@
-import { createVNode, render } from 'vue'
+import { createVNode, isVNode, render } from 'vue'
 import {
   debugWarn,
   hasOwn,
@@ -8,7 +8,6 @@ import {
   isObject,
   isString,
   isUndefined,
-  isVNode,
 } from '@element-plus/utils'
 import MessageBoxConstructor from './index.vue'
 
