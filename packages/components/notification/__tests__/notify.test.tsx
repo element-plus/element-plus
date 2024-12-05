@@ -40,6 +40,18 @@ describe('Notification on command', () => {
     close()
   })
 
+  it('it should be able to render function that return vnode', async () => {
+    const testClassName = 'test-classname'
+    const { close } = Notification({
+      duration: 0,
+      message: () => <div class={testClassName}>test-content</div>,
+    })
+
+    await rAF()
+    expect(document.querySelector(`.${testClassName}`)).toBeTruthy()
+    close()
+  })
+
   it('it should be able to close notification by manually close', async () => {
     const { close } = Notification({
       duration: 0,
@@ -136,5 +148,32 @@ describe('Notification on command', () => {
     await nextTick()
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(onClose).toHaveLastReturnedWith(localContext)
+  })
+
+  it('set dangerouslyUseHTMLString should render html string', async () => {
+    const htmlString = '<div class="test-html-string">test-html-string</div>'
+    const { close } = Notification({
+      duration: 0,
+      message: htmlString,
+      dangerouslyUseHTMLString: true,
+    })
+
+    await rAF()
+    expect(document.querySelector('.test-html-string')).toBeDefined()
+    close()
+  })
+
+  it('not set dangerouslyUseHTMLString should render text', async () => {
+    const text = '<div class="test-html-string">test-html-string</div>'
+    const { close } = Notification({
+      duration: 0,
+      message: text,
+    })
+
+    await rAF()
+    expect(
+      document.querySelector('.el-notification__content')!.textContent
+    ).toBe(text)
+    close()
   })
 })
