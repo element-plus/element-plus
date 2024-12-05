@@ -13,7 +13,7 @@
       :popper-class="[ns.e('popper'), popperClass]"
       :reference-element="referenceElementRef?.$el"
       :trigger="trigger"
-      :trigger-keys="triggerKeys"
+      :trigger-keys="dropdownTriggerKeys"
       :trigger-target-el="contentRef"
       :show-after="trigger === 'hover' ? showTimeout : 0"
       :stop-popper-mouse-event="false"
@@ -147,7 +147,7 @@ export default defineComponent({
     const scrollbar = ref(null)
     const currentTabId = ref<string | null>(null)
     const isUsingKeyboard = ref(false)
-    const triggerKeys = computed(() =>
+    const dropdownTriggerKeys = computed(() =>
       isArray(props.triggerKeys) ? props.triggerKeys : []
     )
 
@@ -296,7 +296,7 @@ export default defineComponent({
       dropdownTriggerKls,
       dropdownSize,
       triggerId,
-      triggerKeys,
+      dropdownTriggerKeys,
       currentTabId,
       handleCurrentTabIdChange,
       handlerMainButtonClick,
