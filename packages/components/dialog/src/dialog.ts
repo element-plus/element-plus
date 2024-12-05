@@ -92,7 +92,7 @@ export const dialogProps = buildProps({
    */
   headerClassName: String,
   /**
-   * @description custom class names for body slot
+   * @description custom class names for default slot
    */
   bodyClassName: String,
   /**
