@@ -55,7 +55,6 @@ const TableV2 = defineComponent({
       bodyWidth,
       emptyStyle,
       rootStyle,
-      headerWidth,
       footerHeight,
 
       showEmpty,
@@ -141,9 +140,9 @@ const TableV2 = defineComponent({
         data: _data,
         fixedData,
         estimatedRowHeight,
-        bodyWidth: unref(bodyWidth) + vScrollbarSize,
+        bodyWidth: unref(bodyWidth),
         headerHeight,
-        headerWidth: unref(headerWidth),
+        headerWidth: unref(bodyWidth),
         height: unref(mainTableHeight),
         mainTableRef,
         rowKey,
@@ -184,7 +183,6 @@ const TableV2 = defineComponent({
       }
 
       const rightColumnsWidth = unref(rightTableWidth)
-      const rightColumnsWidthWithScrollbar = rightColumnsWidth + vScrollbarSize
 
       const rightTableProps = {
         cache,
@@ -194,15 +192,15 @@ const TableV2 = defineComponent({
         estimatedRowHeight,
         rightTableRef,
         rowHeight,
-        bodyWidth: rightColumnsWidthWithScrollbar,
-        headerWidth: rightColumnsWidthWithScrollbar,
+        bodyWidth: rightColumnsWidth,
+        headerWidth: rightColumnsWidth,
         headerHeight,
         height: _fixedTableHeight,
         rowKey,
         scrollbarAlwaysOn,
         scrollbarStartGap: 2,
         scrollbarEndGap: vScrollbarSize,
-        width: rightColumnsWidthWithScrollbar,
+        width: rightColumnsWidth,
         style: `--${unref(
           ns.namespace
         )}-table-scrollbar-size: ${vScrollbarSize}px`,
