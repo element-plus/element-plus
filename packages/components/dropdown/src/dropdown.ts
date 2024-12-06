@@ -31,7 +31,7 @@ export const dropdownProps = buildProps({
    */
   trigger: useTooltipTriggerProps.trigger,
   triggerKeys: {
-    type: definePropType<'Enter' | 'Space' | 'ArrowDown' | 'NumpadEnter'[]>(
+    type: definePropType<string[]>(
       Array
     ),
     default: () => [
