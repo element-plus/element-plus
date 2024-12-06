@@ -123,6 +123,7 @@ export default defineComponent({
     const mouseInChild = ref(false)
     const verticalTitleRef = ref<HTMLDivElement>()
     const vPopper = ref<InstanceType<typeof ElTooltip> | null>(null)
+    const subMenuRef = ref<HTMLDivElement>()
 
     // computed
     const currentPlacement = computed<Placement>(() =>
@@ -264,6 +265,14 @@ export default defineComponent({
         return
       }
       subMenu.mouseInChild.value = true
+
+      if (
+        rootMenu.isMenuPopup &&
+        event.type === 'mouseenter' &&
+        rootMenu.props.menuTrigger === 'hover'
+      ) {
+        subMenuRef.value?.focus()
+      }
 
       timeout?.()
       ;({ stop: timeout } = useTimeoutFn(() => {
@@ -459,6 +468,7 @@ export default defineComponent({
       return h(
         'li',
         {
+          ref: subMenuRef,
           class: [
             nsSubMenu.b(),
             nsSubMenu.is('active', active.value),
