@@ -1385,12 +1385,11 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    const select = wrapper.findComponent(Select)
     await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
     const optionsDoms = Array.from(
       document.querySelectorAll(`.${OPTION_ITEM_CLASS_NAME}`)
     )
-    const result = optionsDoms.some((option, index) => {
+    const result = optionsDoms.some((option) => {
       const text = option.textContent
       return text === 'options 0'
     })
