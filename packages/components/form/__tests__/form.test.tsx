@@ -303,7 +303,6 @@ describe('Form', () => {
     vi.useFakeTimers()
     const form = reactive({
       name: '',
-      address: '',
       type: new Array<string>(),
     })
 
@@ -364,7 +363,7 @@ describe('Form', () => {
     // after timer fired, we should wait for the UI to be updated.
     await nextTick()
     expect(form.name).toBe('')
-    expect(form.address).toBe('')
+    expect('address' in form).toBeFalsy()
     expect(form.type.length).toBe(0)
     expect(wrapper.findAll('.el-form-item__error')).toHaveLength(0)
     vi.useRealTimers()
