@@ -643,6 +643,26 @@ describe('CascaderPanel.vue', () => {
     vi.useRealTimers()
   })
 
+  test('inline props should not be lazy loaded after select value', async () => {
+    vi.useFakeTimers()
+    const value = ref([])
+    const wrapper = mount(() => (
+      <CascaderPanel
+        v-model={value.value}
+        props={{ checkStrictly: true, lazy: true, lazyLoad }}
+      />
+    ))
+
+    vi.runAllTimers()
+    await nextTick()
+    const firstMenu = wrapper.findAll(MENU)[0]
+    await firstMenu.find(RADIO).trigger('click')
+    expect(firstMenu.findComponent(Loading).exists()).toBe(false)
+    expect(firstMenu.find(RADIO).classes('is-checked')).toBe(true)
+
+    vi.useRealTimers()
+  })
+
   test('getCheckedNodes and clearCheckedNodes', () => {
     const props = { multiple: true }
     const wrapper = mount(() => (
