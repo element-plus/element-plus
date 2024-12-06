@@ -302,11 +302,16 @@ const isDisabled = computed(() => props.disabled || form?.disabled)
 const inputPlaceholder = computed(
   () => props.placeholder || t('el.cascader.placeholder')
 )
-const currentPlaceholder = computed(() =>
-  searchInputValue.value || presentTags.value.length > 0 || isComposing.value
+const currentPlaceholder = computed(() => {
+  if (popperVisible.value && !multiple.value) {
+    return searchInputValue.value || inputPlaceholder.value
+  }
+  return searchInputValue.value ||
+    presentTags.value.length > 0 ||
+    isComposing.value
     ? ''
     : inputPlaceholder.value
-)
+})
 const realSize = useFormSize()
 const tagSize = computed(() =>
   realSize.value === 'small' ? 'small' : 'default'
@@ -382,7 +387,7 @@ const contentRef = computed(() => {
   return tooltipRef.value?.popperRef?.contentRef
 })
 
-const togglePopperVisible = (visible?: boolean) => {
+const togglePopperVisible = (visible?: boolean, clearInput = true) => {
   if (isDisabled.value) return
 
   visible = visible ?? !popperVisible.value
@@ -392,6 +397,11 @@ const togglePopperVisible = (visible?: boolean) => {
     input.value?.input?.setAttribute('aria-expanded', `${visible}`)
 
     if (visible) {
+      // when the popper is not triggered to display by an input, clear inputValue and make the placeholder visible
+      clearInput &&
+        props.filterable &&
+        !multiple.value &&
+        (inputValue.value = '')
       updatePopperPosition()
       nextTick(cascaderPanelRef.value?.scrollToExpandingNode)
     } else if (props.filterable) {
@@ -666,7 +676,7 @@ const handleFilter = debounce(() => {
 }, props.debounce)
 
 const handleInput = (val: string, e?: KeyboardEvent) => {
-  !popperVisible.value && togglePopperVisible(true)
+  !popperVisible.value && togglePopperVisible(true, false)
 
   if (e?.isComposing) return
 
