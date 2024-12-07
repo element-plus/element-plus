@@ -35,10 +35,6 @@
       @include when(dot) {
         right: 5px;
       }
-
-      @include when(icon) {
-        right: 8px;
-      }
     }
 
     @include when(dot) {
