@@ -29,9 +29,9 @@ badge/max
 
 ## Customizations
 
-Displays text content other than numbers. Or you can use the `content` slot to customize content
+Displays text content other than numbers. Or you can use the `content` slot to customize content.
 
-:::demo When value is a String, it can display customized text. Or use the `content` slot
+:::demo When value is a String, it can display customized text. Or use the `content` slot.
 
 badge/customize
 
