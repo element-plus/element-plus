@@ -29,9 +29,9 @@ badge/max
 
 ## Customizations
 
-Displays text content other than numbers.
+Displays text content other than numbers. Or you can use the `content` slot to customize content
 
-:::demo When value is a String, it can display customized text.
+:::demo When value is a String, it can display customized text. Or use the `content` slot
 
 badge/customize
 
@@ -55,14 +55,6 @@ badge/offset
 
 :::
 
-## Icon ^(2.9.0)
-
-:::demo Use the `icon` slot to add more meaning to Badge.  You can find the icon list in Element Plus icon component.
-
-badge/icon
-
-:::
-
 ## API
 
 ### Attributes
@@ -82,7 +74,7 @@ badge/icon
 
 ### Slots
 
-| Name    | Description               |
-| ------- | ------------------------- |
-| default | customize default content |
-| icon ^(2.9.0) | icon component            |
+| Name             | Description               |
+| ---------------- | ------------------------- |
+| default          | customize default content |
+| content ^(2.9.1) | customize barge content   |
