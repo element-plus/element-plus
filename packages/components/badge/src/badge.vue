@@ -3,7 +3,7 @@
     <slot />
     <transition :name="`${ns.namespace.value}-zoom-in-center`">
       <sup
-        v-show="!hidden && (content || isDot)"
+        v-show="!hidden && (content || isDot || $slots.content)"
         :class="[
           ns.e('content'),
           ns.em('content', type),
@@ -13,8 +13,11 @@
           badgeClass,
         ]"
         :style="style"
-        v-text="content"
-      />
+      >
+        <slot name="content" :value="content">
+          {{ content }}
+        </slot>
+      </sup>
     </transition>
   </div>
 </template>
