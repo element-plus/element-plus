@@ -13,7 +13,7 @@
       :popper-class="[ns.e('popper'), popperClass]"
       :reference-element="referenceElementRef?.$el"
       :trigger="trigger"
-      :trigger-keys="dropdownTriggerKeys"
+      :trigger-keys="triggerKeys"
       :trigger-target-el="contentRef"
       :show-after="trigger === 'hover' ? showTimeout : 0"
       :stop-popper-mouse-event="false"
@@ -110,7 +110,7 @@ import ElIcon from '@element-plus/components/icon'
 import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useFormSize } from '@element-plus/components/form'
-import { addUnit, ensureArray, isArray } from '@element-plus/utils'
+import { addUnit, ensureArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
@@ -147,9 +147,6 @@ export default defineComponent({
     const scrollbar = ref(null)
     const currentTabId = ref<string | null>(null)
     const isUsingKeyboard = ref(false)
-    const dropdownTriggerKeys = computed(() =>
-      isArray(props.triggerKeys) ? props.triggerKeys : []
-    )
 
     const wrapStyle = computed<CSSProperties>(() => ({
       maxHeight: addUnit(props.maxHeight),
@@ -296,7 +293,6 @@ export default defineComponent({
       dropdownTriggerKls,
       dropdownSize,
       triggerId,
-      dropdownTriggerKeys,
       currentTabId,
       handleCurrentTabIdChange,
       handlerMainButtonClick,

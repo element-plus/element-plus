@@ -31,9 +31,7 @@ export const dropdownProps = buildProps({
    */
   trigger: useTooltipTriggerProps.trigger,
   triggerKeys: {
-    type: definePropType<string[]>(
-      Array
-    ),
+    type: definePropType<string[]>(Array),
     default: () => [
       EVENT_CODE.enter,
       EVENT_CODE.numpadEnter,
