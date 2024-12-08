@@ -128,7 +128,7 @@ export const autocompleteProps = buildProps({
    */
   disabled: {
     type: Boolean,
-    default: false,
+    default: undefined,
   },
   /**
    * @description same as `name` in native input
