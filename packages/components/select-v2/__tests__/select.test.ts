@@ -1371,6 +1371,31 @@ describe('Select', () => {
     expect(placeholder.text()).toBe('option_a')
   })
 
+  it('the scroll position of the dropdown should be correct when value is 0', async () => {
+    const options = Array.from({ length: 1000 }).map((_, idx) => ({
+      value: 999 - idx,
+      label: `options ${999 - idx}`,
+    }))
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: 0,
+          options,
+        }
+      },
+    })
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const optionsDoms = Array.from(
+      document.querySelectorAll(`.${OPTION_ITEM_CLASS_NAME}`)
+    )
+    const result = optionsDoms.some((option) => {
+      const text = option.textContent
+      return text === 'options 0'
+    })
+    expect(result).toBeTruthy()
+  })
+
   it('emptyText error show', async () => {
     const wrapper = createSelect({
       data() {

@@ -330,7 +330,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       }
     } else {
       if (
-        props.modelValue &&
+        !isEmptyValue(props.modelValue) &&
         filteredOptionsValueMap.value.has(props.modelValue)
       ) {
         const { index } = filteredOptionsValueMap.value.get(props.modelValue)
