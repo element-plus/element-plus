@@ -14,7 +14,7 @@
         ]"
         :style="style"
       >
-        <slot name="content">
+        <slot name="content" :value="content">
           {{ content }}
         </slot>
       </sup>

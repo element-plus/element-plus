@@ -1,4 +1,4 @@
-import { h, nextTick, ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { InfoFilled } from '@element-plus/icons-vue'
@@ -152,11 +152,19 @@ describe('Badge', () => {
   test('content slot', () => {
     const wrapper = mount(() => (
       <Badge
+        value={99}
         v-slots={{
-          content: () => h(ElIcon, null, { default: () => h(InfoFilled) }),
+          content: ({ value }: { value: string | number }) => (
+            <div class="custom">
+              <ElIcon>
+                <InfoFilled />
+              </ElIcon>
+              <span>{value}</span>
+            </div>
+          ),
         }}
       />
     ))
-    expect(wrapper.find('.el-badge__content .el-icon').exists()).toBe(true)
+    expect(wrapper.find('.el-badge__content .custom').exists()).toBe(true)
   })
 })

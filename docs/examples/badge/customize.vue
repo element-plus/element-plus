@@ -5,20 +5,20 @@
   <el-badge value="hot" class="item">
     <el-button>replies</el-button>
   </el-badge>
-  <el-badge class="item">
+  <el-badge value="99" class="item">
     <el-button>share</el-button>
-    <template #content>
+    <template #content="{ value }">
       <div class="custom-content">
         <el-icon>
-          <Share />
+          <Message />
         </el-icon>
-        <span>share it</span>
+        <span>{{ value }}</span>
       </div>
     </template>
   </el-badge>
 </template>
 <script setup lang="ts">
-import { Share } from '@element-plus/icons-vue'
+import { Message } from '@element-plus/icons-vue'
 </script>
 <style scoped>
 .item {
