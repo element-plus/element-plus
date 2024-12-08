@@ -69,6 +69,9 @@ tree-v2/custom-node-class
 
 ## Tree node filtering
 
+::: ^(2.9.1)
+The `filter-method` method can only accept the third parameter after version 2.9.1.
+:::
 Tree nodes can be filtered
 
 :::demo Invoke the `filter` method of the Tree instance to filter tree nodes. Its parameter is the filtering keyword. Note that for it to work, `filter-method` is required, and its value is the filtering method.
@@ -79,23 +82,23 @@ tree-v2/filter
 
 ## TreeV2 Attributes
 
-| Name                  | Description                                                                                                                                  | Type                  | Default |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
-| data                  | tree data                                                                                                                                    | array                 | —       |
-| empty-text            | text displayed when data is void                                                                                                             | string                | —       |
-| props                 | configuration options, see the following table                                                                                               | object                | —       |
-| highlight-current     | whether current node is highlighted                                                                                                          | boolean               | false   |
-| expand-on-click-node  | whether to expand or collapse node when clicking on the node, if false, then expand or collapse node only when clicking on the arrow icon.   | boolean               | true    |
-| check-on-click-node   | whether to check or uncheck node when clicking on the node, if false, the node can only be checked or unchecked by clicking on the checkbox. | boolean               | false   |
-| default-expanded-keys | array of keys of initially expanded nodes                                                                                                    | array                 | —       |
-| show-checkbox         | whether node is selectable                                                                                                                   | boolean               | false   |
-| check-strictly        | whether checked state of a node not affects its father and child nodes when `show-checkbox` is `true`                                        | boolean               | false   |
-| default-checked-keys  | array of keys of initially checked nodes                                                                                                     | array                 | —       |
-| current-node-key      | key of initially selected node                                                                                                               | string / number       | —       |
-| filter-method         | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | Function(value, data) | —       |
-| indent                | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | number                | 16      |
-| icon                  | custom tree node icon                                                                                                                        | `string \| Component` | —       |
-| item-size ^(2.2.33)   | custom tree node height                                                                                                                      | number                | 26      |
+| Name                  | Description                                                                                                                                  | Type                        | Default |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ------- |
+| data                  | tree data                                                                                                                                    | array                       | —       |
+| empty-text            | text displayed when data is void                                                                                                             | string                      | —       |
+| props                 | configuration options, see the following table                                                                                               | object                      | —       |
+| highlight-current     | whether current node is highlighted                                                                                                          | boolean                     | false   |
+| expand-on-click-node  | whether to expand or collapse node when clicking on the node, if false, then expand or collapse node only when clicking on the arrow icon.   | boolean                     | true    |
+| check-on-click-node   | whether to check or uncheck node when clicking on the node, if false, the node can only be checked or unchecked by clicking on the checkbox. | boolean                     | false   |
+| default-expanded-keys | array of keys of initially expanded nodes                                                                                                    | array                       | —       |
+| show-checkbox         | whether node is selectable                                                                                                                   | boolean                     | false   |
+| check-strictly        | whether checked state of a node not affects its father and child nodes when `show-checkbox` is `true`                                        | boolean                     | false   |
+| default-checked-keys  | array of keys of initially checked nodes                                                                                                     | array                       | —       |
+| current-node-key      | key of initially selected node                                                                                                               | string / number             | —       |
+| filter-method         | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | Function(value, data, node) | —       |
+| indent                | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | number                      | 16      |
+| icon                  | custom tree node icon                                                                                                                        | `string \| Component`       | —       |
+| item-size ^(2.2.33)   | custom tree node height                                                                                                                      | number                      | 26      |
 
 ## props
 
