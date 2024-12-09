@@ -1,5 +1,45 @@
 ## Changelog
 
+### 2.9.0
+
+_2024-11-29_
+
+#### Breaking changes
+
+- See #15834
+
+#### Features
+
+- Components [tree-v2] add `props.class` prop (#18911 by @zzjiaxiang)
+- Components [notification] add support for message as a Function (#18558 by @DDDDD12138)
+- I18n add Malay(ms) translation (#18932 by @hcw2175)
+- Components [table] expose scroll event (#12524 by @blesstosam)
+- Components [tree-v2] add slot `empty` (#18980 by @zhixiaotong)
+- Components [transfer] add custom empty slot for transfer panels (#18929 by @piskesocute)
+- Components [select] add tabindex attribute (#19034 by @tolking)
+- Components [input-tag] new component (#18885 by @tolking)
+
+#### Bug fixes
+
+- Components [select] keep the selected label (#18549 by @warmthsea)
+- Types improve styles type by CSSProperties (#18942 by @thinkasany)
+- Components [image-viewer] unable to capture focus (#17919 by @tolking)
+- Components [tag] make stubbed Transition work in tests (#18928 by @purepear)
+- Components [tree-select] expose `selectedLabel` (#18981 by @zhixiaotong)
+- Components [cascader] multiple selection mode tag causes height change (#18285 by @zzjiaxiang)
+- Components [calendar] respect table semantics (#18552 by @Jungzl)
+- Components [select] the disabled state should render the input tag (#18443 by @btea)
+- Components [date-picker] resolve  v-model type inconsistency (#18888 by @DDDDD12138)
+- Components [input] the cursor error when click show-password (#19003 by @tolking)
+- Components [select] change states.filtertedOptionsCount to filteredOptionsCount.value (#19010 by @makedopamine)
+- Components [table] fixed column style when lazyload title (#19020 by @btea)
+- Components [input-number] Chinese can be displayed in the numeric input box (#19018 by @yuxi-ovo)
+- Components [time-picker] add passive modifier on touchstart event (#19046 by @Dsaquel)
+- Components [notification] type declaration error and four types of methods are missing context parameters (#18951 by @YiMo1)
+- Components [time-picker] click the Cancel button twice to close time picker (#18938 by @thinkasany)
+- Style(components): [button] keep default hover color of link unchanged (#17050 by @btea)
+- Style(components): [table] use `--font-size-base` for default font size (#18725 by @DDDDD12138)
+
 ### 2.8.8
 
 _2024-11-15_
@@ -1482,7 +1522,7 @@ _2022-11-25_
 
 _2022-11-25_
 
-#### Fix 
+#### Fix
 - Revert "fix(components): [menu] menus that are not in the expanded path do not open" (#10769 by @holazz)
 
 ### 2.2.23
@@ -3610,7 +3650,7 @@ _2021-11-05_
 - Components [el-image] initialIndex (#4235 by @Alanscut)
 - Components [el-message] merge the same content messages(#3836 by @zhazhanitian) (#3988)
 - Docs add support for copying svg content (#4169 by @adaex)
-- 
+-
 #### Bug fixes
 
 - Components [el-tree-v2] indent can not set zero (#3881 by @btea)

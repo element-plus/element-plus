@@ -233,6 +233,7 @@ select/custom-label
 | empty-values ^(2.7.0)           | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[array]                                                                                                                                                                    | —                                              |
 | value-on-clear ^(2.7.0)         | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)               | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
 | suffix-transition ^(deprecated) | animation when dropdown appears/disappears icon                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
+| tabindex ^(2.9.0)               | tabindex for input                                                                                                    | ^[string] / ^[number]                                                                                                                                                       | —                                              |
 
 :::warning
 

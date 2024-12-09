@@ -6,7 +6,7 @@
     @click="handleClick"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
-    @touchstart="handleTouchStart"
+    @touchstart.passive="handleTouchStart"
   >
     <slot name="prefix" />
     <input
