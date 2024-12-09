@@ -41,10 +41,7 @@
             @click.stop
           >
             <span ref="focusStartRef" :class="ns.e('sr-focus')" tabindex="-1" />
-            <header
-              v-if="withHeader"
-              :class="[ns.e('header'), headerClassName]"
-            >
+            <header v-if="withHeader" :class="[ns.e('header'), headerClass]">
               <slot
                 v-if="!$slots.title"
                 name="header"
@@ -78,14 +75,11 @@
               </button>
             </header>
             <template v-if="rendered">
-              <div :id="bodyId" :class="[ns.e('body'), bodyClassName]">
+              <div :id="bodyId" :class="[ns.e('body'), bodyClass]">
                 <slot />
               </div>
             </template>
-            <div
-              v-if="$slots.footer"
-              :class="[ns.e('footer'), footerClassName]"
-            >
+            <div v-if="$slots.footer" :class="[ns.e('footer'), footerClass]">
               <slot name="footer" />
             </div>
           </div>
