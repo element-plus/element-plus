@@ -74,7 +74,7 @@ badge/offset
 
 ### Slots
 
-| Name             | Description               | Type                                       |
-| ---------------- | ------------------------- | ------------------------------------------ |
-| default          | customize default content | -                                          |
-| content ^(2.9.1) | customize barge content   | ^[object]`{ value: 'string' \| 'number' }` |
+| Name             | Description               | Type                         |
+| ---------------- | ------------------------- | ---------------------------- |
+| default          | customize default content | -                            |
+| content ^(2.9.1) | customize barge content   | ^[object]`{ value: string }` |

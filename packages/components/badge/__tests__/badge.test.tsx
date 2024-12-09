@@ -154,7 +154,7 @@ describe('Badge', () => {
       <Badge
         value={99}
         v-slots={{
-          content: ({ value }: { value: string | number }) => (
+          content: ({ value }: { value: string }) => (
             <div class="custom">
               <ElIcon>
                 <InfoFilled />
