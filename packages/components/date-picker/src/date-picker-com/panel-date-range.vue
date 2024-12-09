@@ -628,6 +628,7 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
         .hour(parsedValueD.hour())
         .minute(parsedValueD.minute())
         .second(parsedValueD.second())
+      leftDate.value = minDate.value
     } else {
       maxTimePickerVisible.value = true
       maxDate.value = (maxDate.value || rightDate.value)
