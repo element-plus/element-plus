@@ -1,22 +1,33 @@
-export const rightRichTextSponsors = [
+export const rightRichTextSponsors = []
+
+export const rightBigLogoSponsors = [
   {
-    name: 'MISBoot',
-    img: '/images/sponsors/MISBoot.png',
-    url: 'https://www.misboot.com/?from=element-plus',
-    slogan: 'Low-code platform for rapid development',
-    slogan_cn: '低代码开发平台，应用可视化快速开发',
-    slogan_index: '低代码开发平台，应用快速开发',
+    name: 'CRMEB',
+    img: '/images/CRMEB.png',
+    imgL: '/images/CRMEB-l.png',
+    url: 'http://github.crmeb.net/u/Elementyouce',
+    slogan: 'High-quality open source mall system',
+    slogan_cn: '高品质开源商城系统 累计服务40W+开发者',
+    slogan_index: '高品质开源商城系统累计服务40W+开发者',
   },
 ]
 
 export const rightLogoSmallSponsors = [
   {
     name: 'BuildAdmin',
-    img: '/images/sponsors/buildadmin.png',
-    imgL: '/images/sponsors/buildadmin-l.png',
-    url: 'https://wonderful-code.gitee.io/?from=element-plus',
-    slogan: 'Vue3 opensource admin system',
+    img: '/images/buildadmin.png',
+    imgL: '/images/buildadmin-l.png',
+    url: 'https://doc.buildadmin.com/?from=element-plus',
+    slogan: 'Vue3 open source admin system',
     slogan_cn: 'Vue3企业级开源后台管理系统',
+  },
+  {
+    name: '百搭云',
+    img: '/images/baidayun-logo.png',
+    imgL: '/images/baidayun.png',
+    url: 'http://www.i-renderer.love/home/index',
+    slogan: 'Fast and elegant low-code dev platform',
+    slogan_cn: '快速且优雅的低代码平台',
   },
   {
     name: 'bit',
@@ -30,13 +41,12 @@ export const rightLogoSmallSponsors = [
 
 export const leftCustomImgSponsors = [
   {
-    name: 'JSDesign',
-    name_cn: '即时设计',
-    img: '/images/js-design.png',
-    url: 'https://js.design/?source=element-plus&plan=sy',
-    slogan: 'Professional online UI design tool',
-    slogan_cn: '专业在线UI设计工具',
-    banner_img: '/images/js-design-banner.jpg',
+    name: '美乐',
+    img: '/images/mele.png',
+    url: 'https://melecode.com/',
+    slogan: 'Enterprise-level low-code development platform',
+    slogan_cn: '企业级全栈低代码开发平台',
+    banner_img: '/images/mele-banner.png',
   },
   {
     name: 'VForm',
@@ -53,12 +63,13 @@ export const leftCustomImgSponsors = [
     slogan: 'JNPF low code development platform to develop simple!',
     slogan_cn: 'JNPF 低代码开发平台，让开发变得简单！',
     className: 'jnpf',
-    banner_img: '/images/sponsors/jnpfsoft.jpg',
+    banner_img: '/images/jnpfsoft.png',
   },
 ]
 
 export const platinumSponsors = [
   ...leftCustomImgSponsors,
+  ...rightBigLogoSponsors,
   ...rightRichTextSponsors,
 ]
 

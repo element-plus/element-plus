@@ -7,7 +7,6 @@
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
     @mousedown="onButtonDown"
-    @touchstart="onButtonDown"
     @focus="handleMouseEnter"
     @blur="handleMouseLeave"
     @keydown="onKeyDown"
@@ -20,7 +19,7 @@
       :stop-popper-mouse-event="false"
       :popper-class="tooltipClass"
       :disabled="!showTooltip"
-      persistent
+      :persistent="showTooltip"
     >
       <template #content>
         <span>{{ formatValue }}</span>

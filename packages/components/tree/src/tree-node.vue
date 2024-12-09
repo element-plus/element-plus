@@ -93,12 +93,11 @@ import {
   ref,
   watch,
 } from 'vue'
-import { isFunction, isString } from '@vue/shared'
+import { debugWarn, isFunction, isString } from '@element-plus/utils'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { CaretRight, Loading } from '@element-plus/icons-vue'
-import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import NodeContent from './tree-node-content.vue'
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
@@ -159,7 +158,7 @@ export default defineComponent({
       childNodeRendered.value = true
     }
 
-    const childrenKey = tree.props['children'] || 'children'
+    const childrenKey = tree.props.props['children'] || 'children'
     watch(
       () => {
         const children = props.node.data[childrenKey]
@@ -182,6 +181,11 @@ export default defineComponent({
       (val) => {
         handleSelectChange(val, props.node.indeterminate)
       }
+    )
+
+    watch(
+      () => props.node.childNodes.length,
+      () => props.node.reInitChecked()
     )
 
     watch(
@@ -230,9 +234,15 @@ export default defineComponent({
     }
 
     const handleClick = (e: MouseEvent) => {
-      handleCurrentChange(tree.store, tree.ctx.emit, () =>
-        tree.store.value.setCurrentNode(props.node)
-      )
+      handleCurrentChange(tree.store, tree.ctx.emit, () => {
+        const nodeKeyProp = tree?.props?.nodeKey
+        if (nodeKeyProp) {
+          const curNodeKey = getNodeKey(props.node)
+          tree.store.value.setCurrentNodeKey(curNodeKey)
+        } else {
+          tree.store.value.setCurrentNode(props.node)
+        }
+      })
       tree.currentNode.value = props.node
 
       if (tree.props.expandOnClickNode) {
@@ -267,8 +277,9 @@ export default defineComponent({
         tree.ctx.emit('node-collapse', props.node.data, props.node, instance)
         props.node.collapse()
       } else {
-        props.node.expand()
-        ctx.emit('node-expand', props.node.data, props.node, instance)
+        props.node.expand(() => {
+          ctx.emit('node-expand', props.node.data, props.node, instance)
+        })
       }
     }
 

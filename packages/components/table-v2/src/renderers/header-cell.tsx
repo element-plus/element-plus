@@ -1,3 +1,4 @@
+import { renderSlot } from 'vue'
 import { HeaderCell, SortIcon } from '../components'
 // import ColumnResizer from '../table-column-resizer'
 import { Alignment, SortOrder, oppositeOrderMap } from '../constants'
@@ -9,7 +10,6 @@ import type { UseNamespaceReturn } from '@element-plus/hooks'
 import type { TableV2HeaderRowCellRendererParams } from '../components'
 import type { UseTableReturn } from '../use-table'
 import type { TableV2Props } from '../table'
-import type { TableV2HeaderCell } from '../header-cell'
 
 export type HeaderCellRendererProps = TableV2HeaderRowCellRendererParams &
   UnwrapNestedRefs<Pick<UseTableReturn, 'onColumnSorted'>> &
@@ -42,12 +42,14 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
     class: ns.e('header-cell-text'),
   }
 
-  const cellRenderer =
-    componentToSlot<typeof cellProps>(headerCellRenderer) ||
-    slots.default ||
-    ((props: TableV2HeaderCell) => <HeaderCell {...props} />)
+  const columnCellRenderer =
+    componentToSlot<typeof cellProps>(headerCellRenderer)
 
-  const Cell = cellRenderer(cellProps)
+  const Cell = columnCellRenderer
+    ? columnCellRenderer(cellProps)
+    : renderSlot(slots, 'default', cellProps, () => [
+        <HeaderCell {...cellProps} />,
+      ])
 
   /**
    * Render cell container and sort indicator
@@ -56,7 +58,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
 
   let sorting: boolean, sortOrder: SortOrder
   if (sortState) {
-    const order = sortState[column.key]
+    const order = sortState[column.key!]
     sorting = Boolean(oppositeOrderMap[order])
     sortOrder = sorting ? order : SortOrder.ASC
   } else {

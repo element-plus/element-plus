@@ -1,22 +1,19 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, ref, toRef } from 'vue'
 import { isClient, useClipboard, useToggle } from '@vueuse/core'
+import { EVENT_CODE } from 'element-plus'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useLang } from '../composables/lang'
 import { useSourceCode } from '../composables/source-code'
 import { usePlayground } from '../composables/use-playground'
-
 import demoBlockLocale from '../../i18n/component/demo-block.json'
-
-import Example from './demo/vp-example.vue'
 import SourceCode from './demo/vp-source-code.vue'
 
 const props = defineProps<{
-  demos: object
   source: string
   path: string
   rawSource: string
-  description?: string
+  description: string
 }>()
 
 const vm = getCurrentInstance()!
@@ -31,21 +28,9 @@ const lang = useLang()
 const demoSourceUrl = useSourceCode(toRef(props, 'path'))
 
 const sourceCodeRef = ref<HTMLButtonElement>()
-const formatPathDemos = computed(() => {
-  const demos = {}
-
-  Object.keys(props.demos).forEach((key) => {
-    demos[key.replace('../../examples/', '').replace('.vue', '')] =
-      props.demos[key].default
-  })
-
-  return demos
-})
 
 const locale = computed(() => demoBlockLocale[lang.value])
-const decodedDescription = computed(() =>
-  decodeURIComponent(props.description!)
-)
+const decodedDescription = computed(() => decodeURIComponent(props.description))
 
 const onPlaygroundClick = () => {
   const { link } = usePlayground(props.rawSource)
@@ -54,7 +39,11 @@ const onPlaygroundClick = () => {
 }
 
 const onSourceVisibleKeydown = (e: KeyboardEvent) => {
-  if (['Enter', 'Space'].includes(e.code)) {
+  if (
+    [EVENT_CODE.enter, EVENT_CODE.numpadEnter, EVENT_CODE.space].includes(
+      e.code
+    )
+  ) {
     e.preventDefault()
     toggleSourceVisible(false)
     sourceCodeRef.value?.focus()
@@ -76,123 +65,129 @@ const copyCode = async () => {
 </script>
 
 <template>
-  <ClientOnly>
-    <!-- danger here DO NOT USE INLINE SCRIPT TAG -->
-    <p text="sm" v-html="decodedDescription" />
+  <!-- danger here DO NOT USE INLINE SCRIPT TAG -->
+  <div text="sm" m="y-4" v-html="decodedDescription" />
 
-    <div class="example">
-      <Example :file="path" :demo="formatPathDemos[path]" />
+  <div class="example">
+    <div class="example-showcase">
+      <slot name="source" />
+    </div>
 
-      <ElDivider class="m-0" />
+    <ElDivider class="m-0" />
 
-      <div class="op-btns">
-        <ElTooltip
-          :content="locale['edit-in-editor']"
-          :show-arrow="false"
-          :trigger="['hover', 'focus']"
-          :trigger-keys="[]"
+    <div class="op-btns">
+      <ElTooltip
+        :content="locale['edit-in-editor']"
+        :show-arrow="false"
+        :trigger="['hover', 'focus']"
+        :trigger-keys="[]"
+      >
+        <ElIcon
+          :size="16"
+          :aria-label="locale['edit-in-editor']"
+          tabindex="0"
+          role="link"
+          class="op-btn"
+          @click="onPlaygroundClick"
+          @keydown.prevent.enter="onPlaygroundClick"
+          @keydown.prevent.space="onPlaygroundClick"
         >
-          <ElIcon
-            :size="16"
-            :aria-label="locale['edit-in-editor']"
-            tabindex="0"
-            role="link"
-            class="op-btn"
-            @click="onPlaygroundClick"
-            @keydown.prevent.enter="onPlaygroundClick"
-            @keydown.prevent.space="onPlaygroundClick"
-          >
-            <i-ri-flask-line />
-          </ElIcon>
-        </ElTooltip>
-        <ElTooltip
-          :content="locale['edit-on-github']"
-          :show-arrow="false"
-          :trigger="['hover', 'focus']"
-          :trigger-keys="[]"
+          <i-ri-flask-line />
+        </ElIcon>
+      </ElTooltip>
+      <ElTooltip
+        :content="locale['edit-on-github']"
+        :show-arrow="false"
+        :trigger="['hover', 'focus']"
+        :trigger-keys="[]"
+      >
+        <ElIcon
+          :size="16"
+          class="op-btn github"
+          style="color: var(--text-color-light)"
         >
-          <ElIcon
-            :size="16"
-            class="op-btn github"
-            style="color: var(--text-color-light)"
+          <a
+            :href="demoSourceUrl"
+            :aria-label="locale['edit-on-github']"
+            rel="noreferrer noopener"
+            target="_blank"
           >
-            <a
-              :href="demoSourceUrl"
-              :aria-label="locale['edit-on-github']"
-              rel="noreferrer noopener"
-              target="_blank"
-            >
-              <i-ri-github-line />
-            </a>
-          </ElIcon>
-        </ElTooltip>
-        <ElTooltip
-          :content="locale['copy-code']"
-          :show-arrow="false"
-          :trigger="['hover', 'focus']"
-          :trigger-keys="[]"
-        >
-          <ElIcon
-            :size="16"
-            :aria-label="locale['copy-code']"
-            class="op-btn"
-            tabindex="0"
-            role="button"
-            @click="copyCode"
-            @keydown.prevent.enter="copyCode"
-            @keydown.prevent.space="copyCode"
-          >
-            <i-ri-file-copy-line />
-          </ElIcon>
-        </ElTooltip>
-        <ElTooltip
-          :content="locale['view-source']"
-          :show-arrow="false"
-          :trigger="['hover', 'focus']"
-          :trigger-keys="[]"
-        >
-          <button
-            ref="sourceCodeRef"
-            :aria-label="
-              sourceVisible ? locale['hide-source'] : locale['view-source']
-            "
-            class="reset-btn el-icon op-btn"
-            @click="toggleSourceVisible()"
-          >
-            <ElIcon :size="16">
-              <i-ri-code-line />
-            </ElIcon>
-          </button>
-        </ElTooltip>
-      </div>
-
-      <ElCollapseTransition>
-        <SourceCode v-show="sourceVisible" :source="source" />
-      </ElCollapseTransition>
-
-      <Transition name="el-fade-in-linear">
-        <div
-          v-show="sourceVisible"
-          class="example-float-control"
+            <i-ri-github-line />
+          </a>
+        </ElIcon>
+      </ElTooltip>
+      <ElTooltip
+        :content="locale['copy-code']"
+        :show-arrow="false"
+        :trigger="['hover', 'focus']"
+        :trigger-keys="[]"
+      >
+        <ElIcon
+          :size="16"
+          :aria-label="locale['copy-code']"
+          class="op-btn"
           tabindex="0"
           role="button"
-          @click="toggleSourceVisible(false)"
-          @keydown="onSourceVisibleKeydown"
+          @click="copyCode"
+          @keydown.prevent.enter="copyCode"
+          @keydown.prevent.space="copyCode"
+        >
+          <i-ri-file-copy-line />
+        </ElIcon>
+      </ElTooltip>
+      <ElTooltip
+        :content="locale['view-source']"
+        :show-arrow="false"
+        :trigger="['hover', 'focus']"
+        :trigger-keys="[]"
+      >
+        <button
+          ref="sourceCodeRef"
+          :aria-label="
+            sourceVisible ? locale['hide-source'] : locale['view-source']
+          "
+          class="reset-btn el-icon op-btn"
+          @click="toggleSourceVisible()"
         >
           <ElIcon :size="16">
-            <CaretTop />
+            <i-ri-code-line />
           </ElIcon>
-          <span>{{ locale['hide-source'] }}</span>
-        </div>
-      </Transition>
+        </button>
+      </ElTooltip>
     </div>
-  </ClientOnly>
+
+    <ElCollapseTransition>
+      <SourceCode :visible="sourceVisible" :source="source" />
+    </ElCollapseTransition>
+
+    <Transition name="el-fade-in-linear">
+      <div
+        v-show="sourceVisible"
+        class="example-float-control"
+        tabindex="0"
+        role="button"
+        @click="toggleSourceVisible(false)"
+        @keydown="onSourceVisibleKeydown"
+      >
+        <ElIcon :size="16">
+          <CaretTop />
+        </ElIcon>
+        <span>{{ locale['hide-source'] }}</span>
+      </div>
+    </Transition>
+  </div>
 </template>
 
 <style scoped lang="scss">
 .example {
   border: 1px solid var(--border-color);
   border-radius: var(--el-border-radius-base);
+
+  .example-showcase {
+    padding: 1.5rem;
+    margin: 0.5px;
+    background-color: var(--bg-color);
+  }
 
   .op-btns {
     padding: 0.5rem;

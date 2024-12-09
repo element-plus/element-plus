@@ -17,6 +17,10 @@
     right: 0;
     bottom: 0;
     left: 0;
+
+    &:focus {
+      outline: none !important;
+    }
   }
 
   @include e(btn) {
@@ -69,7 +73,6 @@
     @include e(actions__inner) {
       width: 100%;
       height: 100%;
-      text-align: justify;
       cursor: default;
       font-size: 23px;
       color: #fff;

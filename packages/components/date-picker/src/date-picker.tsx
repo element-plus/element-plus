@@ -13,11 +13,14 @@ import {
   CommonPicker,
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_DATEPICKER,
+  type DateModelType,
+  type SingleOrRange,
 } from '@element-plus/components/time-picker'
 import { ROOT_PICKER_INJECTION_KEY } from './constants'
 
 import { datePickerProps } from './props/date-picker'
 import { getPanel } from './panel-utils'
+import type { DatePickerExpose } from './instance'
 
 dayjs.extend(localeData)
 dayjs.extend(advancedFormat)
@@ -43,9 +46,12 @@ export default defineComponent({
     })
 
     const commonPicker = ref<InstanceType<typeof CommonPicker>>()
-    const refProps = {
-      focus: (focusStartInput = true) => {
-        commonPicker.value?.focus(focusStartInput)
+    const refProps: DatePickerExpose = {
+      focus: () => {
+        commonPicker.value?.focus()
+      },
+      blur: () => {
+        commonPicker.value?.blur()
       },
       handleOpen: () => {
         commonPicker.value?.handleOpen()
@@ -57,7 +63,7 @@ export default defineComponent({
 
     expose(refProps)
 
-    const onModelValueUpdated = (val: any) => {
+    const onModelValueUpdated = (val: SingleOrRange<DateModelType> | null) => {
       emit('update:modelValue', val)
     }
 
@@ -80,7 +86,14 @@ export default defineComponent({
         >
           {{
             default: (scopedProps: /**FIXME: remove any type */ any) => (
-              <Component {...scopedProps} />
+              <Component {...scopedProps}>
+                {{
+                  'prev-month': slots['prev-month'],
+                  'next-month': slots['next-month'],
+                  'prev-year': slots['prev-year'],
+                  'next-year': slots['next-year'],
+                }}
+              </Component>
             ),
             'range-separator': slots['range-separator'],
           }}

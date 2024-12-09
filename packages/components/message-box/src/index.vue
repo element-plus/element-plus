@@ -38,7 +38,7 @@
             <div
               v-if="title !== null && title !== undefined"
               ref="headerRef"
-              :class="ns.e('header')"
+              :class="[ns.e('header'), { 'show-close': showClose }]"
             >
               <div :class="ns.e('title')">
                 <el-icon
@@ -117,6 +117,7 @@
               <el-button
                 v-if="showCancelButton"
                 :loading="cancelButtonLoading"
+                :loading-icon="cancelButtonLoadingIcon"
                 :class="[cancelButtonClass]"
                 :round="roundButton"
                 :size="btnSize"
@@ -130,6 +131,7 @@
                 ref="confirmRef"
                 type="primary"
                 :loading="confirmButtonLoading"
+                :loading-icon="confirmButtonLoadingIcon"
                 :class="[confirmButtonClasses]"
                 :round="roundButton"
                 :disabled="confirmButtonDisabled"
@@ -151,6 +153,7 @@
 import {
   computed,
   defineComponent,
+  markRaw,
   nextTick,
   onBeforeUnmount,
   onMounted,
@@ -172,13 +175,16 @@ import { ElOverlay } from '@element-plus/components/overlay'
 import {
   TypeComponents,
   TypeComponentsMap,
+  isFunction,
+  isString,
   isValidComponentSize,
 } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
+import { Loading } from '@element-plus/icons-vue'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
-import type { ComponentPublicInstance, DefineComponent, PropType } from 'vue'
+import type { ComponentPublicInstance, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type {
   Action,
@@ -231,6 +237,7 @@ export default defineComponent({
     },
     center: Boolean,
     draggable: Boolean,
+    overflow: Boolean,
     roundButton: {
       default: false,
       type: Boolean,
@@ -293,6 +300,8 @@ export default defineComponent({
       action: '' as Action,
       confirmButtonLoading: false,
       cancelButtonLoading: false,
+      confirmButtonLoadingIcon: markRaw(Loading),
+      cancelButtonLoadingIcon: markRaw(Loading),
       confirmButtonDisabled: false,
       editorErrorMessage: '',
       // refer to: https://github.com/ElemeFE/element/commit/2999279ae34ef10c373ca795c87b020ed6753eed
@@ -365,7 +374,8 @@ export default defineComponent({
     )
 
     const draggable = computed(() => props.draggable)
-    useDraggable(rootRef, headerRef, draggable)
+    const overflow = computed(() => props.overflow)
+    useDraggable(rootRef, headerRef, draggable, overflow)
 
     onMounted(async () => {
       await nextTick()
@@ -427,7 +437,7 @@ export default defineComponent({
           return false
         }
         const inputValidator = state.inputValidator
-        if (typeof inputValidator === 'function') {
+        if (isFunction(inputValidator)) {
           const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
             state.editorErrorMessage =
@@ -435,7 +445,7 @@ export default defineComponent({
             state.validateError = true
             return false
           }
-          if (typeof validateResult === 'string') {
+          if (isString(validateResult)) {
             state.editorErrorMessage = validateResult
             state.validateError = true
             return false
@@ -499,5 +509,5 @@ export default defineComponent({
       t,
     }
   },
-}) as DefineComponent
+})
 </script>

@@ -1,23 +1,27 @@
 // @ts-nocheck
-import { createPopper } from '@popperjs/core'
+import { createVNode, render } from 'vue'
 import { flatMap, get, merge } from 'lodash-unified'
-import escapeHtml from 'escape-html'
 import {
   hasOwn,
   isArray,
   isBoolean,
+  isFunction,
+  isNumber,
   isObject,
+  isString,
   throwError,
 } from '@element-plus/utils'
-import { useDelayedToggle } from '@element-plus/hooks'
-import type { PopperInstance } from '@element-plus/components/popper'
-import type { Nullable } from '@element-plus/utils'
+import ElTooltip, {
+  type ElTooltipProps,
+} from '@element-plus/components/tooltip'
+import type { Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
-import type { ElTooltipProps } from '@element-plus/components/tooltip'
+import type { VNode } from 'vue'
 
 export type TableOverflowTooltipOptions = Partial<
   Pick<
     ElTooltipProps,
+    | 'appendTo'
     | 'effect'
     | 'enterable'
     | 'hideAfter'
@@ -27,9 +31,14 @@ export type TableOverflowTooltipOptions = Partial<
     | 'popperOptions'
     | 'showAfter'
     | 'showArrow'
-    // | 'transition'
+    | 'transition'
   >
 >
+
+type RemovePopperFn = (() => void) & {
+  trigger?: HTMLElement
+  vm?: VNode
+}
 
 export const getCell = function (event: Event) {
   return (event.target as HTMLElement)?.closest('td')
@@ -45,11 +54,11 @@ export const orderBy = function <T>(
   if (
     !sortKey &&
     !sortMethod &&
-    (!sortBy || (Array.isArray(sortBy) && !sortBy.length))
+    (!sortBy || (isArray(sortBy) && !sortBy.length))
   ) {
     return array
   }
-  if (typeof reverse === 'string') {
+  if (isString(reverse)) {
     reverse = reverse === 'descending' ? -1 : 1
   } else {
     reverse = reverse && reverse < 0 ? -1 : 1
@@ -58,11 +67,11 @@ export const orderBy = function <T>(
     ? null
     : function (value, index) {
         if (sortBy) {
-          if (!Array.isArray(sortBy)) {
+          if (!isArray(sortBy)) {
             sortBy = [sortBy]
           }
           return sortBy.map((by) => {
-            if (typeof by === 'string') {
+            if (isString(by)) {
               return get(value, by)
             } else {
               return by(value, index, array)
@@ -162,7 +171,7 @@ export const getRowIdentity = <T>(
   rowKey: string | ((row: T) => any)
 ): string => {
   if (!row) throw new Error('Row is required when get row identity')
-  if (typeof rowKey === 'string') {
+  if (isString(rowKey)) {
     if (!rowKey.includes('.')) {
       return `${row[rowKey]}`
     }
@@ -172,7 +181,7 @@ export const getRowIdentity = <T>(
       current = current[element]
     }
     return `${current}`
-  } else if (typeof rowKey === 'function') {
+  } else if (isFunction(rowKey)) {
     return rowKey.call(null, row)
   }
 }
@@ -228,10 +237,10 @@ export function parseMinWidth(minWidth: number | string): number | string {
 }
 
 export function parseHeight(height: number | string) {
-  if (typeof height === 'number') {
+  if (isNumber(height)) {
     return height
   }
-  if (typeof height === 'string') {
+  if (isString(height)) {
     if (/^\d+(?:px)?$/.test(height)) {
       return Number.parseInt(height, 10)
     } else {
@@ -259,11 +268,16 @@ export function compose(...funcs) {
 export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
-  newVal: boolean
+  newVal?: boolean,
+  tableTreeProps?: TreeProps,
+  selectable?: (row: T, index?: number) => boolean,
+  rowIndex?: number
 ): boolean {
+  let _rowIndex = rowIndex ?? 0
   let changed = false
   const index = statusArr.indexOf(row)
   const included = index !== -1
+  const isRowSelectable = selectable?.call(null, row, rowIndex)
 
   const toggleStatus = (type: 'add' | 'remove') => {
     if (type === 'add') {
@@ -272,21 +286,47 @@ export function toggleRowStatus<T>(
       statusArr.splice(index, 1)
     }
     changed = true
-    if (isArray(row.children)) {
-      row.children.forEach((item) => {
-        toggleRowStatus(statusArr, item, newVal ?? !included)
+  }
+  const getChildrenCount = (row: T) => {
+    let count = 0
+    const children = tableTreeProps?.children && row[tableTreeProps.children]
+    if (children && isArray(children)) {
+      count += children.length
+      children.forEach((item) => {
+        count += getChildrenCount(item)
       })
+    }
+    return count
+  }
+
+  if (!selectable || isRowSelectable) {
+    if (isBoolean(newVal)) {
+      if (newVal && !included) {
+        toggleStatus('add')
+      } else if (!newVal && included) {
+        toggleStatus('remove')
+      }
+    } else {
+      included ? toggleStatus('remove') : toggleStatus('add')
     }
   }
 
-  if (isBoolean(newVal)) {
-    if (newVal && !included) {
-      toggleStatus('add')
-    } else if (!newVal && included) {
-      toggleStatus('remove')
-    }
-  } else {
-    included ? toggleStatus('remove') : toggleStatus('add')
+  if (
+    !tableTreeProps?.checkStrictly &&
+    tableTreeProps?.children &&
+    isArray(row[tableTreeProps.children])
+  ) {
+    row[tableTreeProps.children].forEach((item) => {
+      toggleRowStatus(
+        statusArr,
+        item,
+        newVal ?? !included,
+        tableTreeProps,
+        selectable,
+        _rowIndex + 1
+      )
+      _rowIndex += getChildrenCount(item) + 1
+    })
   }
   return changed
 }
@@ -297,7 +337,7 @@ export function walkTreeNode(
   childrenKey = 'children',
   lazyKey = 'hasChildren'
 ) {
-  const isNil = (array) => !(Array.isArray(array) && array.length)
+  const isNil = (array) => !(isArray(array) && array.length)
 
   function _walker(parent, children, level) {
     cb(parent, children, level)
@@ -325,105 +365,61 @@ export function walkTreeNode(
   })
 }
 
-export let removePopper
+const getTableOverflowTooltipProps = (
+  props: TableOverflowTooltipOptions,
+  content: string
+) => {
+  return {
+    content,
+    ...props,
+    popperOptions: {
+      strategy: 'fixed',
+      ...props.popperOptions,
+    },
+  }
+}
+
+export let removePopper: RemovePopperFn | null = null
 
 export function createTablePopper(
-  parentNode: HTMLElement | undefined,
-  trigger: HTMLElement,
+  props: TableOverflowTooltipOptions,
   popperContent: string,
-  nextZIndex: () => number,
-  tooltipOptions?: TableOverflowTooltipOptions
+  trigger: HTMLElement,
+  table: Table<[]>
 ) {
-  // TODO transition
-  tooltipOptions = merge(
-    {
-      enterable: true,
-      showArrow: true,
-    } as TableOverflowTooltipOptions,
-    tooltipOptions
-  )
-  const ns = parentNode?.dataset.prefix
-  const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
-  function renderContent(): HTMLDivElement {
-    const isLight = tooltipOptions.effect === 'light'
-    const content = document.createElement('div')
-    content.className = [
-      `${ns}-popper`,
-      isLight ? 'is-light' : 'is-dark',
-      tooltipOptions.popperClass || '',
-    ].join(' ')
-    popperContent = escapeHtml(popperContent)
-    content.innerHTML = popperContent
-    content.style.zIndex = String(nextZIndex())
-    // Avoid side effects caused by append to body
-    parentNode?.appendChild(content)
-    return content
-  }
-  function renderArrow(): HTMLDivElement {
-    const arrow = document.createElement('div')
-    arrow.className = `${ns}-popper__arrow`
-    return arrow
-  }
-  function showPopper() {
-    popperInstance && popperInstance.update()
+  if (removePopper?.trigger === trigger) {
+    merge(
+      removePopper!.vm.component.props,
+      getTableOverflowTooltipProps(props, popperContent)
+    )
+    return
   }
   removePopper?.()
-  removePopper = () => {
-    try {
-      popperInstance && popperInstance.destroy()
-      content && parentNode?.removeChild(content)
-      trigger.removeEventListener('mouseenter', onOpen)
-      trigger.removeEventListener('mouseleave', onClose)
-      scrollContainer?.removeEventListener('scroll', removePopper)
-      removePopper = undefined
-    } catch {}
-  }
-  let popperInstance: Nullable<PopperInstance> = null
-  let onOpen = showPopper
-  let onClose = removePopper
-  if (tooltipOptions.enterable) {
-    ;({ onOpen, onClose } = useDelayedToggle({
-      showAfter: tooltipOptions.showAfter,
-      hideAfter: tooltipOptions.hideAfter,
-      open: showPopper,
-      close: removePopper,
-    }))
-  }
-  const content = renderContent()
-  content.onmouseenter = onOpen
-  content.onmouseleave = onClose
-  const modifiers = []
-  if (tooltipOptions.offset) {
-    modifiers.push({
-      name: 'offset',
-      options: {
-        offset: [0, tooltipOptions.offset],
-      },
-    })
-  }
-  if (tooltipOptions.showArrow) {
-    const arrow = content.appendChild(renderArrow())
-    modifiers.push({
-      name: 'arrow',
-      options: {
-        element: arrow,
-        padding: 10,
-      },
-    })
-  }
-  const popperOptions = tooltipOptions.popperOptions || {}
-  popperInstance = createPopper(trigger, content, {
-    placement: tooltipOptions.placement || 'top',
-    strategy: 'fixed',
-    ...popperOptions,
-    modifiers: popperOptions.modifiers
-      ? modifiers.concat(popperOptions.modifiers)
-      : modifiers,
+  const parentNode = table?.refs.tableWrapper
+  const ns = parentNode?.dataset.prefix
+  const vm = createVNode(ElTooltip, {
+    virtualTriggering: true,
+    virtualRef: trigger,
+    appendTo: parentNode,
+    placement: 'top',
+    transition: 'none', // Default does not require transition
+    offset: 0,
+    hideAfter: 0,
+    ...getTableOverflowTooltipProps(props, popperContent),
   })
-  trigger.addEventListener('mouseenter', onOpen)
-  trigger.addEventListener('mouseleave', onClose)
+  vm.appContext = { ...table.appContext, ...table }
+  const container = document.createElement('div')
+  render(vm, container)
+  vm.component!.exposed!.onOpen()
+  const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
+  removePopper = () => {
+    render(null, container)
+    scrollContainer?.removeEventListener('scroll', removePopper!)
+    removePopper = null
+  }
+  removePopper.trigger = trigger
+  removePopper.vm = vm
   scrollContainer?.addEventListener('scroll', removePopper)
-  return popperInstance
 }
 
 function getCurrentColumns<T>(column: TableColumnCtx<T>): TableColumnCtx<T>[] {

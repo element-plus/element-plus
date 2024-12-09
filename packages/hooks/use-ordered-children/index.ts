@@ -1,5 +1,5 @@
-import { shallowRef } from 'vue'
-import { flattedChildren, isVNode } from '@element-plus/utils'
+import { isVNode, shallowRef } from 'vue'
+import { flattedChildren } from '@element-plus/utils'
 
 import type { ComponentInternalInstance, VNode } from 'vue'
 
@@ -25,6 +25,7 @@ export const useOrderedChildren = <T extends { uid: number }>(
   const children: Record<number, T> = {}
   const orderedChildren = shallowRef<T[]>([])
 
+  // TODO: split into two functions: addChild and sortChildren
   const addChild = (child: T) => {
     children[child.uid] = child
     orderedChildren.value = getOrderedChildren(vm, childComponentName, children)

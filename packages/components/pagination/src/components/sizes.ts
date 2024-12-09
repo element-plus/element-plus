@@ -16,10 +16,12 @@ export const paginationSizesProps = buildProps({
     type: String,
   },
   disabled: Boolean,
+  teleported: Boolean,
   size: {
     type: String,
     values: componentSizes,
   },
+  appendSizeTo: String,
 } as const)
 
 export type PaginationSizesProps = ExtractPropTypes<typeof paginationSizesProps>

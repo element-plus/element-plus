@@ -1,6 +1,6 @@
 <template>
-  <el-row class="demo-autocomplete">
-    <el-col :span="12">
+  <div class="flex gap-4">
+    <div>
       <div class="sub-title my-2 text-sm text-gray-600">
         list suggestions when activated
       </div>
@@ -12,8 +12,8 @@
         placeholder="Please Input"
         @select="handleSelect"
       />
-    </el-col>
-    <el-col :span="12">
+    </div>
+    <div>
       <div class="sub-title my-2 text-sm text-gray-600">
         list suggestions on input
       </div>
@@ -26,8 +26,8 @@
         placeholder="Please Input"
         @select="handleSelect"
       />
-    </el-col>
-  </el-row>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -68,7 +68,7 @@ const loadAll = () => {
   ]
 }
 
-const handleSelect = (item: RestaurantItem) => {
+const handleSelect = (item: Record<string, any>) => {
   console.log(item)
 }
 

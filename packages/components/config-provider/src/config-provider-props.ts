@@ -1,11 +1,12 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 
 import type { ExtractPropTypes } from 'vue'
 import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
 import type { MessageConfigContext } from '@element-plus/components/message'
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type ExperimentalFeatures = {
   // TO BE Defined
 }
@@ -64,5 +65,6 @@ export const configProviderProps = buildProps({
     type: String,
     default: 'el',
   },
+  ...useEmptyValuesProps,
 } as const)
 export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>

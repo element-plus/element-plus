@@ -5,18 +5,21 @@
       :class="[ns.b(), ns.m(type), ns.is('center', center), ns.is(effect)]"
       role="alert"
     >
-      <el-icon v-if="showIcon && iconComponent" :class="iconClass">
+      <el-icon
+        v-if="showIcon && iconComponent"
+        :class="[ns.e('icon'), { [ns.is('big')]: hasDesc }]"
+      >
         <component :is="iconComponent" />
       </el-icon>
 
       <div :class="ns.e('content')">
         <span
           v-if="title || $slots.title"
-          :class="[ns.e('title'), isBoldTitle]"
+          :class="[ns.e('title'), { 'with-description': hasDesc }]"
         >
           <slot name="title">{{ title }}</slot>
         </span>
-        <p v-if="$slots.default || description" :class="ns.e('description')">
+        <p v-if="hasDesc" :class="ns.e('description')">
           <slot>
             {{ description }}
           </slot>
@@ -60,14 +63,7 @@ const visible = ref(true)
 
 const iconComponent = computed(() => TypeComponentsMap[props.type])
 
-const iconClass = computed(() => [
-  ns.e('icon'),
-  { [ns.is('big')]: !!props.description || !!slots.default },
-])
-
-const isBoldTitle = computed(() => {
-  return { [ns.is('bold')]: props.description || slots.default }
-})
+const hasDesc = computed(() => !!(props.description || slots.default))
 
 const close = (evt: MouseEvent) => {
   visible.value = false

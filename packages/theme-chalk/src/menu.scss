@@ -73,10 +73,22 @@
     }
   }
 
+  &:not(.#{$namespace}-menu--collapse) .#{$namespace}-sub-menu__title {
+    padding-right: calc(
+      #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
+    );
+  }
+
   @include m(horizontal) {
     display: flex;
     flex-wrap: nowrap;
     border-right: none;
+
+    height: getCssVar('menu-horizontal-height');
+    // reset menu-item popup height
+    &.#{$namespace}-menu--popup-container {
+      height: unset;
+    }
 
     &.#{$namespace}-menu {
       border-bottom: solid 1px getCssVar('menu-border-color');
@@ -122,7 +134,7 @@
         color: getCssVar('menu-text-color');
 
         &:hover {
-          background-color: getCssVar('bg-color', 'overlay');
+          background-color: getCssVar('menu-bg-color');
         }
       }
     }
@@ -197,6 +209,12 @@
     .#{$namespace}-menu .#{$namespace}-sub-menu {
       min-width: 200px;
     }
+
+    .#{$namespace}-sub-menu {
+      &.is-active .#{$namespace}-sub-menu__title {
+        color: getCssVar('menu-active-color');
+      }
+    }
   }
   @include m(popup) {
     z-index: 100;
@@ -248,9 +266,6 @@
 
   @include e(title) {
     @include menu-item;
-    padding-right: calc(
-      #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
-    );
 
     &:hover {
       background-color: getCssVar('menu-hover-bg-color');

@@ -21,6 +21,7 @@
   @include set-component-css-var('input', $input);
   position: relative;
   text-align: left;
+  vertical-align: middle;
 
   &.#{$namespace}-input__wrapper {
     @include inset-input-border(
@@ -121,7 +122,7 @@
     padding: 0 5px;
     margin: 0;
     font-size: 14px;
-    word-break: keep-all;
+    overflow-wrap: break-word;
     color: getCssVar('text-color', 'primary');
   }
 
@@ -152,6 +153,7 @@
     display: inline-flex;
     align-items: center;
     padding: 0 10px;
+    vertical-align: middle;
   }
 
   @include when(active) {
