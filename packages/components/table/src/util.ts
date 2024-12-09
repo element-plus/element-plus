@@ -335,14 +335,15 @@ export function walkTreeNode(
   root,
   cb,
   childrenKey = 'children',
-  lazyKey = 'hasChildren'
+  lazyKey = 'hasChildren',
+  lazy = false
 ) {
   const isNil = (array) => !(isArray(array) && array.length)
 
   function _walker(parent, children, level) {
     cb(parent, children, level)
     children.forEach((item) => {
-      if (item[lazyKey]) {
+      if (item[lazyKey] && lazy) {
         cb(item, null, level + 1)
         return
       }
@@ -354,7 +355,7 @@ export function walkTreeNode(
   }
 
   root.forEach((item) => {
-    if (item[lazyKey]) {
+    if (item[lazyKey] && lazy) {
       cb(item, null, 0)
       return
     }
