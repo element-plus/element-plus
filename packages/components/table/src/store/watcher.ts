@@ -228,7 +228,8 @@ function useWatcher<T>() {
     row: T,
     selected?: boolean,
     emitChange = true,
-    ignoreSelectable = false
+    ignoreSelectable = false,
+    emitSelectChange = true
   ) => {
     const treeProps = {
       children: instance?.store?.states?.childrenColumnName.value,
@@ -247,7 +248,9 @@ function useWatcher<T>() {
       if (emitChange) {
         instance.emit('select', newSelection, row)
       }
-      instance.emit('selection-change', newSelection)
+      if (emitSelectChange) {
+        instance.emit('selection-change', newSelection)
+      }
     }
   }
 
