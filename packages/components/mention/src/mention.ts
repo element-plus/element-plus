@@ -10,7 +10,7 @@ import { filterOption } from './helper'
 
 import type { ExtractPropTypes } from 'vue'
 import type Mention from './mention.vue'
-import type { MentionOption } from './types'
+import type { MentionCtx, MentionOption } from './types'
 import type { Options } from '@element-plus/components/popper'
 
 export const mentionProps = buildProps({
@@ -103,6 +103,18 @@ export const mentionProps = buildProps({
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
     default: () => ({} as Partial<Options>),
+  },
+  /**
+   * @description check whether to call up the pop-up window
+   */
+  checkVisible: {
+    type: definePropType<
+      (
+        visible: boolean,
+        filteredOptions: MentionOption[],
+        mentionCtx: MentionCtx | undefined
+      ) => boolean
+    >(Function),
   },
 })
 
