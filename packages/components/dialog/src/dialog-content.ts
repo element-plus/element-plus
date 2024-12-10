@@ -28,6 +28,18 @@ export const dialogContentProps = buildProps({
    */
   fullscreen: Boolean,
   /**
+   * @description custom class names for header slot
+   */
+  headerClass: String,
+  /**
+   * @description custom class names for default slot
+   */
+  bodyClass: String,
+  /**
+   * @description custom class names for footer slot
+   */
+  footerClass: String,
+  /**
    * @description whether to show a close button
    */
   showClose: {
