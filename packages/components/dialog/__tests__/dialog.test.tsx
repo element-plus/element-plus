@@ -145,6 +145,40 @@ describe('Dialog.vue', () => {
     expect(wrapper.vm.visible).toBe(false)
   })
 
+  test('should render header-class, body-class and footer-class if setted', async () => {
+    const headerCls = 'test-header-class'
+    const bodyCls = 'test-body-class'
+    const footerCls = 'test-footer-class'
+    const wrapper = mount(
+      <Dialog
+        modelValue={true}
+        headerClass={headerCls}
+        bodyClass={bodyCls}
+        footerClass={footerCls}
+        v-slots={{
+          default: () => AXIOM,
+          header: () => 'header desu',
+          footer: () => 'footer desu',
+        }}
+      />
+    )
+
+    await nextTick()
+    expect(wrapper.find('.test-header-class').exists()).toBe(true)
+    expect(wrapper.find('.test-body-class').exists()).toBe(true)
+    expect(wrapper.find('.test-footer-class').exists()).toBe(true)
+
+    await wrapper.setProps({
+      headerClass: undefined,
+      bodyClass: undefined,
+      footerClass: undefined,
+    })
+
+    expect(wrapper.find('.test-header-class').exists()).toBe(false)
+    expect(wrapper.find('.test-body-class').exists()).toBe(false)
+    expect(wrapper.find('.test-footer-class').exists()).toBe(false)
+  })
+
   describe('mask related', () => {
     test('should not have overlay mask when mask is false', async () => {
       const wrapper = mount(
