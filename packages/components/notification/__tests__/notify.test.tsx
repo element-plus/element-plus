@@ -149,4 +149,31 @@ describe('Notification on command', () => {
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(onClose).toHaveLastReturnedWith(localContext)
   })
+
+  it('set dangerouslyUseHTMLString should render html string', async () => {
+    const htmlString = '<div class="test-html-string">test-html-string</div>'
+    const { close } = Notification({
+      duration: 0,
+      message: htmlString,
+      dangerouslyUseHTMLString: true,
+    })
+
+    await rAF()
+    expect(document.querySelector('.test-html-string')).toBeDefined()
+    close()
+  })
+
+  it('not set dangerouslyUseHTMLString should render text', async () => {
+    const text = '<div class="test-html-string">test-html-string</div>'
+    const { close } = Notification({
+      duration: 0,
+      message: text,
+    })
+
+    await rAF()
+    expect(
+      document.querySelector('.el-notification__content')!.textContent
+    ).toBe(text)
+    close()
+  })
 })
