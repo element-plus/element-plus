@@ -55,6 +55,7 @@
                 multiple && !$slots.prefix && !!states.selected.length
               ),
             ]"
+            @click.stop="openMenu"
           >
             <slot v-if="multiple" name="tag">
               <div
@@ -178,7 +179,7 @@
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
                 @input="onInput"
-                @click.stop="toggleMenu"
+                @click.stop="openMenu"
               />
               <span
                 v-if="filterable"
