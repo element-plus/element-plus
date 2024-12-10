@@ -180,7 +180,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import { NOOP, debugWarn, isArray } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
-import { formatter, parseDate, valueEquals } from '../utils'
+import { dayOrDaysToDate, formatter, parseDate, valueEquals } from '../utils'
 import { timePickerDefaultProps } from './props'
 import PickerRangeTrigger from './picker-range-trigger.vue'
 import type { InputInstance } from '@element-plus/components/input'
@@ -190,7 +190,6 @@ import type { ComponentPublicInstance, Ref } from 'vue'
 import type { Options } from '@popperjs/core'
 import type {
   DateModelType,
-  DateOrDates,
   DayOrDays,
   PickerOptions,
   SingleOrRange,
@@ -198,8 +197,6 @@ import type {
   UserInput,
 } from './props'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
-
-// Date object and string
 
 defineOptions({
   name: 'Picker',
@@ -299,7 +296,7 @@ const emitChange = (
       formItem?.validate('change').catch((err) => debugWarn(err))
   }
 }
-const emitInput = (input: SingleOrRange<DateModelType | Dayjs> | null) => {
+const emitInput = (input: SingleOrRange<DateModelType> | null) => {
   if (!valueEquals(props.modelValue, input)) {
     let formatted
     if (isArray(input)) {
@@ -325,7 +322,7 @@ const refInput = computed<HTMLInputElement[]>(() => {
   return []
 })
 
-// @ts-expect-error
+// @ts-ignore
 const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
   const _inputs = refInput.value
   if (!_inputs.length) return
@@ -402,11 +399,7 @@ const parsedValue = computed(() => {
 
       // The result is corrected only when model-value exists
       if (!valueIsEmpty.value) {
-        emitInput(
-          (isArray(dayOrDays)
-            ? dayOrDays.map((_) => _.toDate())
-            : dayOrDays.toDate()) as SingleOrRange<Date>
-        )
+        emitInput(dayOrDaysToDate(dayOrDays))
       }
     }
   }
@@ -540,11 +533,7 @@ const handleChange = () => {
     const value = parseUserInputToDayjs(displayValue.value)
     if (value) {
       if (isValidValue(value)) {
-        emitInput(
-          (isArray(value)
-            ? value.map((_) => _.toDate())
-            : value.toDate()) as DateOrDates
-        )
+        emitInput(dayOrDaysToDate(value))
         userInput.value = null
       }
     }
@@ -664,7 +653,7 @@ const handleStartChange = () => {
     ]
     const newValue = [value, parsedVal && (parsedVal[1] || null)] as DayOrDays
     if (isValidValue(newValue)) {
-      emitInput(newValue)
+      emitInput(dayOrDaysToDate(newValue))
       userInput.value = null
     }
   }
@@ -681,14 +670,14 @@ const handleEndChange = () => {
     ]
     const newValue = [parsedVal && parsedVal[0], value] as DayOrDays
     if (isValidValue(newValue)) {
-      emitInput(newValue)
+      emitInput(dayOrDaysToDate(newValue))
       userInput.value = null
     }
   }
 }
 
 const pickerOptions = ref<Partial<PickerOptions>>({})
-// @ts-expect-error
+// @ts-ignore
 const onSetPickerOption = <T extends keyof PickerOptions>(
   e: [T, PickerOptions[T]]
 ) => {
@@ -696,12 +685,12 @@ const onSetPickerOption = <T extends keyof PickerOptions>(
   pickerOptions.value.panelReady = true
 }
 
-// @ts-expect-error
+// @ts-ignore
 const onCalendarChange = (e: [Date, null | Date]) => {
   emit('calendar-change', e)
 }
 
-// @ts-expect-error
+// @ts-ignore
 const onPanelChange = (
   value: [Dayjs, Dayjs],
   mode: 'month' | 'year',

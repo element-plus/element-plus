@@ -210,7 +210,8 @@ $form-item-label-top-margin-bottom: map.merge(
   @include when(error) {
     .#{$namespace}-input__wrapper,
     .#{$namespace}-textarea__inner,
-    .#{$namespace}-select__wrapper {
+    .#{$namespace}-select__wrapper,
+    .#{$namespace}-input-tag__wrapper {
       &,
       &:hover,
       &:focus,

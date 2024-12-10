@@ -18,7 +18,7 @@
         v-for="(item, index) in options"
         :id="`${contentId}-${index}`"
         ref="optionRefs"
-        :key="item.value"
+        :key="index"
         :class="optionkls(item, index)"
         role="option"
         :aria-disabled="item.disabled || disabled || undefined"

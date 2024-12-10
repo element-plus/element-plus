@@ -9,7 +9,6 @@
     display: inline-flex;
     align-items: center;
     max-width: 100%;
-    margin: 2px 0 2px 6px;
     text-overflow: ellipsis;
     background: $background-color;
 
@@ -41,6 +40,10 @@
       &:hover {
         background-color: getCssVar('text-color', 'secondary');
       }
+    }
+
+    & + input {
+      margin-left: 0;
     }
   }
 }
@@ -113,6 +116,16 @@
     @include m($size) {
       font-size: map.get($input-font-size, $size);
       line-height: map.get($input-height, $size);
+
+      @include e(tags) {
+        gap: map.get($cascader-item-gap, $size);
+        padding: map.get($cascader-wrapper-padding, $size);
+      }
+
+      @include e(search-input) {
+        height: map.get($cascader-item-height, $size);
+        margin-left: map.get($cascader-search-input-margin-left, $size);
+      }
     }
   }
 
@@ -150,6 +163,8 @@
     transform: translateY(-50%);
     display: flex;
     flex-wrap: wrap;
+    padding: map.get($cascader-wrapper-padding, 'default');
+    gap: map.get($cascader-item-gap, 'default');
     line-height: normal;
     text-align: left;
     box-sizing: border-box;
@@ -211,15 +226,14 @@
 
   @include e(search-input) {
     flex: 1;
-    height: 24px;
+    height: map.get($cascader-item-height, 'default');
     min-width: 60px;
-    margin: 2px 0 2px map.get($input-padding-horizontal, 'default')-$border-width;
+    margin-left: map.get($cascader-search-input-margin-left, 'default');
     padding: 0;
     color: getCssVar('cascader', 'menu-text-color');
     border: none;
     outline: none;
     box-sizing: border-box;
-
     background: transparent;
 
     &::placeholder {

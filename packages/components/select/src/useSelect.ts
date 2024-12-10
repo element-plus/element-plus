@@ -25,9 +25,9 @@ import {
   isIOS,
   isNumber,
   isObject,
+  isPlainObject,
   isUndefined,
   scrollIntoView,
-  toRawType,
 } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -140,6 +140,8 @@ export const useSelect = (props: ISelectProps, emit) => {
       ? props.modelValue.length > 0
       : !isEmptyValue(props.modelValue)
   })
+
+  const needStatusIcon = computed(() => form?.statusIcon ?? false)
 
   const showClose = computed(() => {
     return (
@@ -310,15 +312,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     () => {
       if (!isClient) return
       // tooltipRef.value?.updatePopper?.()
-      const inputs = selectRef.value?.querySelectorAll('input') || []
-      if (
-        (!props.filterable &&
-          !props.defaultFirstOption &&
-          !isUndefined(props.modelValue)) ||
-        !Array.from(inputs).includes(document.activeElement as HTMLInputElement)
-      ) {
-        setSelected()
-      }
+      setSelected()
       if (
         props.defaultFirstOption &&
         (props.filterable || props.remote) &&
@@ -424,9 +418,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const getOption = (value) => {
     let option
-    const isObjectValue = toRawType(value).toLowerCase() === 'object'
-    const isNull = toRawType(value).toLowerCase() === 'null'
-    const isUndefined = toRawType(value).toLowerCase() === 'undefined'
+    const isObjectValue = isPlainObject(value)
 
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
@@ -445,11 +437,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       }
     }
     if (option) return option
-    const label = isObjectValue
-      ? value.label
-      : !isNull && !isUndefined
-      ? value
-      : ''
+    const label = isObjectValue ? value.label : value ?? ''
     const newOption = {
       value,
       currentLabel: label,
@@ -595,7 +583,8 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const getValueIndex = (arr: any[] = [], option) => {
-    if (!isObject(option?.value)) return arr.indexOf(option.value)
+    if (isUndefined(option)) return -1
+    if (!isObject(option.value)) return arr.indexOf(option.value)
 
     return arr.findIndex((item) => {
       return isEqual(get(item, props.valueKey), getValueKey(option))
@@ -700,7 +689,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       toggleMenu()
     } else {
       const option = optionsArray.value[states.hoveringIndex]
-      if (option && !option.disabled && !option.states.groupDisabled) {
+      if (option && !option.isDisabled) {
         handleOptionSelect(option)
       }
     }
@@ -713,7 +702,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const optionsAllDisabled = computed(() =>
     optionsArray.value
       .filter((option) => option.visible)
-      .every((option) => option.disabled)
+      .every((option) => option.isDisabled)
   )
 
   const showTagList = computed(() => {
@@ -741,7 +730,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
     if (
       states.options.size === 0 ||
-      states.filteredOptionsCount === 0 ||
+      filteredOptionsCount.value === 0 ||
       isComposing.value
     )
       return
@@ -759,11 +748,7 @@ export const useSelect = (props: ISelectProps, emit) => {
         }
       }
       const option = optionsArray.value[states.hoveringIndex]
-      if (
-        option.disabled === true ||
-        option.states.groupDisabled === true ||
-        !option.visible
-      ) {
+      if (option.isDisabled || !option.visible) {
         navigateOptions(direction)
       }
       nextTick(() => scrollToOption(hoverOption.value))
@@ -831,6 +816,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     shouldShowPlaceholder,
     currentPlaceholder,
     mouseEnterEventName,
+    needStatusIcon,
     showClose,
     iconComponent,
     iconReverse,

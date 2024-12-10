@@ -2,11 +2,11 @@
   <div
     ref="wrapperRef"
     :class="[nsDate.is('active', isFocused), $attrs.class]"
-    :style="($attrs.style as any)"
+    :style="($attrs.style as CSSProperties)"
     @click="handleClick"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
-    @touchstart="handleTouchStart"
+    @touchstart.passive="handleTouchStart"
   >
     <slot name="prefix" />
     <input
@@ -40,6 +40,7 @@
 import { ref } from 'vue'
 import { useAttrs, useFocusController, useNamespace } from '@element-plus/hooks'
 import { timePickerRngeTriggerProps } from './props'
+import type { CSSProperties } from 'vue'
 
 defineOptions({
   name: 'PickerRangeTrigger',
