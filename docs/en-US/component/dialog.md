@@ -116,7 +116,7 @@ dialog/fullscreen
 
 :::tip
 
-If `fullscreen` = true, `width` `top` `draggable` attributes don't work.
+If `fullscreen` is true, `width` `top` `draggable` attributes don't work.
 
 :::
 
