@@ -451,6 +451,7 @@ const handleMonthPick = async (
       emit(innerDate.value, true)
       await nextTick()
       handleFocusPicker()
+      handlePanelChange(view)
     }
   }
   handlePanelChange('month')
