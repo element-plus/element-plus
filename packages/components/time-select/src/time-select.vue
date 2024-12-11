@@ -94,18 +94,24 @@ const items = computed(() => {
     let current = start.value
     let currentTime: string
     while (current && end.value && compareTime(current, end.value) <= 0) {
-      currentTime = dayjs(current, 'HH:mm')
-        .locale(lang.value)
-        .format(props.format)
+      const rawTime = dayjs(current, 'HH:mm').locale(lang.value)
+      currentTime = rawTime.format(props.format)
       result.push({
         value: currentTime,
         disabled:
           compareTime(current, minTime.value || '-1:-1') <= 0 ||
           compareTime(current, maxTime.value || '100:100') >= 0,
       })
-      current = nextTime(current, step.value!)
+      const next = nextTime(current, step.value!)
+      current =
+        props.includeEndTime &&
+        compareTime(next, end.value) > 0 &&
+        rawTime.format('HH:mm') !== end.value
+          ? end.value
+          : next
     }
   }
+  console.log(result.length)
   return result
 })
 
