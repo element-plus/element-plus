@@ -57,7 +57,7 @@ export const SelectProps = buildProps({
    * @description tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
-    type: definePropType<PopperEffect | string>(String),
+    type: definePropType<PopperEffect>(String),
     default: 'light',
   },
   /**
@@ -274,6 +274,13 @@ export const SelectProps = buildProps({
    * @description tag effect
    */
   tagEffect: { ...tagProps.effect, default: 'light' },
+  /**
+   * @description tabindex for input
+   */
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
   /**
    * @description which element the select dropdown appends to
    */

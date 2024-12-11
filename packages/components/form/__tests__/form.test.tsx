@@ -19,7 +19,7 @@ import {
 import Input from '@element-plus/components/input'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
-import DynamicDomainForm, { formatDomainError } from '../mocks/mock-data'
+import DynamicDomainForm, { formatDomainError } from './mock-data'
 
 import type { VueWrapper } from '@vue/test-utils'
 import type { FormRules } from '@element-plus/components/form'
