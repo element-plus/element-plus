@@ -80,6 +80,13 @@ export const timeSelectProps = buildProps({
    */
   maxTime: String,
   /**
+   * @description whether "end" is included in options
+   */
+  includeEndTime: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description same as `name` in native input
    */
   name: String,
