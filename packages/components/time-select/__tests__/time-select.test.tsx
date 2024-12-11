@@ -132,6 +132,29 @@ describe('TimeSelect', () => {
     expect(select.props().filterable).toBe(true)
   })
 
+  it('should include end time', async () => {
+    const value = ref('10:00')
+    const wrapper = mount(() => (
+      <TimeSelect v-model={value.value} end="18:43" step="00:02" />
+    ))
+    const select = wrapper.findComponent({ name: 'ElTimeSelect' })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await nextTick()
+    expect(document.querySelectorAll('.el-select-dropdown__item')).toHaveLength(
+      226
+    )
+    expect(
+      wrapper
+        .findAll('.el-select-dropdown__item')
+        .find((el) => el.text().match('18:43'))
+        ?.exists()
+    ).toBe(true)
+    console.log(wrapper.props())
+    expect(select.props().includeEndTime).toBe(true)
+  })
+
   it('ref focus', async () => {
     const wrapper = mount(() => <TimeSelect />, {
       attachTo: document.body,
