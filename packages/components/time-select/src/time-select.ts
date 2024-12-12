@@ -80,7 +80,7 @@ export const timeSelectProps = buildProps({
    */
   maxTime: String,
   /**
-   * @description whether "end" is included in options
+   * @description whether `end` is included in options
    */
   includeEndTime: {
     type: Boolean,

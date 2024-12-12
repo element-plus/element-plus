@@ -111,7 +111,6 @@ const items = computed(() => {
           : next
     }
   }
-  console.log(result.length)
   return result
 })
 
