@@ -92,12 +92,12 @@ const items = computed(() => {
   const result: { value: string; disabled: boolean }[] = []
   if (props.start && props.end && props.step) {
     let current = start.value
-    let currentTime: string
+    let optionValue: string
     while (current && end.value && compareTime(current, end.value) <= 0) {
-      const rawTime = dayjs(current, 'HH:mm').locale(lang.value)
-      currentTime = rawTime.format(props.format)
+      const currentTime = dayjs(current, 'HH:mm')
+      optionValue = currentTime.locale(lang.value).format(props.format)
       result.push({
-        value: currentTime,
+        value: optionValue,
         disabled:
           compareTime(current, minTime.value || '-1:-1') <= 0 ||
           compareTime(current, maxTime.value || '100:100') >= 0,
@@ -106,7 +106,7 @@ const items = computed(() => {
       current =
         props.includeEndTime &&
         compareTime(next, end.value) > 0 &&
-        rawTime.format('HH:mm') !== end.value
+        currentTime.format('HH:mm') !== end.value
           ? end.value
           : next
     }
