@@ -133,26 +133,55 @@ describe('TimeSelect', () => {
   })
 
   it('should include end time', async () => {
-    const value = ref('10:00')
     const wrapper = mount(() => (
-      <TimeSelect v-model={value.value} end="18:43" step="00:02" />
+      <TimeSelect start="00:00" step="00:05" end="23:59" />
     ))
     const select = wrapper.findComponent({ name: 'ElTimeSelect' })
-
     const input = wrapper.find('input')
     await input.trigger('click')
-    await nextTick()
-    expect(document.querySelectorAll('.el-select-dropdown__item')).toHaveLength(
-      226
-    )
-    expect(
-      wrapper
-        .findAll('.el-select-dropdown__item')
-        .find((el) => el.text().match('18:43'))
-        ?.exists()
-    ).toBe(true)
-    console.log(wrapper.props())
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+
     expect(select.props().includeEndTime).toBe(true)
+    expect(items).toHaveLength(289)
+    expect([...items].at(-1)?.textContent).toBe('23:59')
+  })
+
+  it('should not include end time', async () => {
+    const wrapper = mount(() => (
+      <TimeSelect
+        start="00:00"
+        step="00:05"
+        end="23:59"
+        includeEndTime={false}
+      />
+    ))
+    const select = wrapper.findComponent({ name: 'ElTimeSelect' })
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+
+    expect(select.props().includeEndTime).toBe(false)
+    expect(items).toHaveLength(288)
+    expect([...items].at(-1)?.textContent).toBe('23:55')
+  })
+
+  it('should include end whenever includeEndTime is false', async () => {
+    const wrapper = mount(() => (
+      <TimeSelect
+        start="00:10"
+        end="00:20"
+        step="00:02"
+        includeEndTime={false}
+      />
+    ))
+    const select = wrapper.findComponent({ name: 'ElTimeSelect' })
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+
+    expect(select.props().includeEndTime).toBe(false)
+    expect(items).toHaveLength(6)
+    expect([...items].at(-1)?.textContent).toBe('00:20')
   })
 
   it('ref focus', async () => {
