@@ -652,7 +652,7 @@ describe('Tree.vue', () => {
     const list = flattenTree(nodes).filter((item) => !item.disabled)
 
     treeVm.setCheckedNodes(list)
-    expect(treeVm.getCheckedNodes().length).toEqual(8)
+    expect(treeVm.getCheckedNodes().length).toEqual(9)
   })
 
   test('setCheckedKeys', async () => {
