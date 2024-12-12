@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <div
     v-show="node.visible"
@@ -44,7 +45,7 @@
       </el-icon>
       <el-checkbox
         v-if="showCheckbox"
-        :model-value="node.checked"
+        v-model="node.checked"
         :indeterminate="node.indeterminate"
         :disabled="!!node.disabled"
         @click.stop
