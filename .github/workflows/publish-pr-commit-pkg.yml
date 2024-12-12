@@ -47,4 +47,4 @@ jobs:
       - name: Publish
         run: |
           cd dist/element-plus
-          API_URL=https://d1ef5c84.stackblitz-cr.pages.dev pnpx pkg-pr-new publish
+          pnpx pkg-pr-new publish
