@@ -60,8 +60,7 @@
     </div>
     <el-collapse-transition>
       <div
-        v-if="!renderAfterExpand || childNodeRendered"
-        v-show="expanded"
+        v-if="(!renderAfterExpand || childNodeRendered) && expanded"
         :class="ns.be('node', 'children')"
         role="group"
         :aria-expanded="expanded"
