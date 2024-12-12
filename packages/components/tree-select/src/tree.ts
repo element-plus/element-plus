@@ -6,6 +6,7 @@ import { escapeStringRegexp, isEmpty, isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
 import {
+  getValueKey,
   isValidArray,
   isValidValue,
   toValidArray,
@@ -45,7 +46,11 @@ export const useTree = (
               toValidArray(props.modelValue)
             )
           ) {
-            treeInstance.setCheckedKeys(toValidArray(props.modelValue))
+            treeInstance.setCheckedKeys(
+              toValidArray(props.modelValue).map((item) =>
+                getValueKey(item, key.value)
+              )
+            )
           }
         })
       }
@@ -57,7 +62,7 @@ export const useTree = (
   )
 
   const propsMap = computed(() => ({
-    value: key.value,
+    value: 'value',
     label: 'label',
     children: 'children',
     disabled: 'disabled',
@@ -114,10 +119,15 @@ export const useTree = (
   })
 
   const getChildCheckedKeys = () => {
-    return tree.value?.getCheckedKeys().filter((checkedKey) => {
-      const node = tree.value?.getNode(checkedKey) as Node
-      return !isNil(node) && isEmpty(node.childNodes)
-    })
+    return tree.value
+      ?.getCheckedNodes()
+      .filter((checkedKey) => {
+        const node = tree.value?.getNode(
+          getValueKey(checkedKey, key.value)
+        ) as Node
+        return !isNil(node) && isEmpty(node.childNodes)
+      })
+      .map((item) => getNodeValByProp('value', item))
   }
 
   return {
@@ -193,13 +203,21 @@ export const useTree = (
       )
 
       // fix: checkedKeys has not cached keys
-      const uncachedCheckedKeys = params.checkedKeys
+      const uncachedCheckedKeys = params.checkedNodes
       const cachedKeys = props.multiple
         ? toValidArray(props.modelValue).filter(
-            (item) => !(item in dataMap) && !uncachedCheckedKeys.includes(item)
+            (item) =>
+              !(getValueKey(item, key.value) in dataMap) &&
+              !uncachedCheckedKeys.some(
+                (node) =>
+                  getValueKey(node, key.value) === getValueKey(item, key.value)
+              )
           )
         : []
-      const checkedKeys = cachedKeys.concat(uncachedCheckedKeys)
+
+      const checkedKeys = cachedKeys.concat(
+        uncachedCheckedKeys.map((item) => getNodeValByProp('value', item))
+      )
 
       if (props.checkStrictly) {
         emit(
@@ -207,7 +225,11 @@ export const useTree = (
           // Checking for changes may come from `check-on-node-click`
           props.multiple
             ? checkedKeys
-            : checkedKeys.includes(dataValue)
+            : checkedKeys.some(
+                (item) =>
+                  getValueKey(item, key.value) ===
+                  getValueKey(dataValue, key.value)
+              )
             ? dataValue
             : undefined
         )
@@ -236,13 +258,16 @@ export const useTree = (
             isValidValue(props.modelValue) &&
             !!treeFind(
               [data],
-              (data) => getNodeValByProp('value', data) === props.modelValue,
+              (data) =>
+                getValueKey(getNodeValByProp('value', data), key.value) ===
+                getValueKey(props.modelValue, key.value),
               (data) => getNodeValByProp('children', data)
             )
 
           emit(
             UPDATE_MODEL_EVENT,
-            firstLeafKey === props.modelValue || hasCheckedChild
+            getValueKey(firstLeafKey, key.value) ===
+              getValueKey(props.modelValue, key.value) || hasCheckedChild
               ? undefined
               : firstLeafKey
           )
@@ -251,7 +276,9 @@ export const useTree = (
 
       nextTick(() => {
         const checkedKeys = toValidArray(props.modelValue)
-        tree.value.setCheckedKeys(checkedKeys)
+        tree.value.setCheckedKeys(
+          checkedKeys.map((item) => getValueKey(item, key.value))
+        )
 
         attrs.onCheck?.(data, {
           checkedKeys: tree.value.getCheckedKeys(),
