@@ -1,4 +1,5 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { isElement, isFocusable } from '@element-plus/utils'
 import { FOCUSOUT_PREVENTED, FOCUSOUT_PREVENTED_OPTS } from './tokens'
 
 const focusReason = ref<'pointer' | 'keyboard'>()
@@ -81,6 +82,18 @@ export const tryFocus = (
 ) => {
   if (element && element.focus) {
     const prevFocusedElement = document.activeElement
+    let cleanup: boolean = false
+    let tabindex: string | null = null
+
+    if (
+      isElement(element) &&
+      !isFocusable(element) &&
+      !element.getAttribute('tabindex')
+    ) {
+      tabindex = element.getAttribute('tabindex')
+      element.setAttribute('tabindex', '-1')
+      cleanup = true
+    }
     element.focus({ preventScroll: true })
     lastAutomatedFocusTimestamp.value = window.performance.now()
     if (
@@ -89,6 +102,14 @@ export const tryFocus = (
       shouldSelect
     ) {
       element.select()
+    }
+
+    if (isElement(element) && cleanup) {
+      if (tabindex) {
+        element.setAttribute('tabindex', tabindex)
+      } else {
+        element.removeAttribute('tabindex')
+      }
     }
   }
 }
