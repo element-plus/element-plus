@@ -1,4 +1,4 @@
-import { createVNode, render } from 'vue'
+import { createVNode, isVNode, render } from 'vue'
 import {
   debugWarn,
   isBoolean,
@@ -7,7 +7,6 @@ import {
   isFunction,
   isNumber,
   isString,
-  isVNode,
 } from '@element-plus/utils'
 import { messageConfig } from '@element-plus/components/config-provider'
 import MessageConstructor from './message.vue'
