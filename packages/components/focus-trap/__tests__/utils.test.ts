@@ -75,6 +75,9 @@ describe('focus-trap utils', () => {
     })
 
     it('should be focus the document body', () => {
+      const input = document.querySelector('.focusable-input') as HTMLElement
+      tryFocus(input)
+      expect(document.activeElement).not.toBe(document.body)
       tryFocus(document.body)
       expect(document.activeElement).toBe(document.body)
     })
