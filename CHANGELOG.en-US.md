@@ -1,5 +1,30 @@
 ## Changelog
 
+
+### 2.9.1
+
+_2024-12-13_
+
+#### Features
+
+- Components [dropdown] add triggerKeys attribute (#19124 by @hanchao-c0ldwave)
+- Components [tree-v2] `filter-method` support third parameter (#19177 by @btea)
+- Components [badge] add content slot (#18922 by @xing403)
+
+#### Bug fixes
+
+- Components [input-tag] trigger the add of tag when Chinese is Composing (#19079 by @tolking)
+- Components [notification] display html as string (#19068 by @Dsaquel)
+- Components [select] use option.isDisabled as the source of truth (#19137 by @makedopamine)
+- Components [input] disabled state wrapper cursor style (#19176 by @btea)
+- Components [select-v2] empty value check error in inputRef (#19140 by @Liao-js)
+- Components [select] modify the logic of update the watch option (#18931 by @YiMo1)
+- Components [table-v2] dynamic height causes overall calculation errors (#19082 by @hanchao-c0ldwave)
+- Revert pkg pr new to main version (#19254 by @Aslemammad)
+
+#### Refactors
+
+- Components [alert] introduce hasDesc helper (#19085 by @zhangenming)
 ### 2.9.0
 
 _2024-11-29_
