@@ -83,19 +83,19 @@ export const tryFocus = (
   if (element && element.focus) {
     const prevFocusedElement = document.activeElement
     let cleanup: boolean = false
-    let tabindex: string | null = null
 
     if (
       isElement(element) &&
       !isFocusable(element) &&
       !element.getAttribute('tabindex')
     ) {
-      tabindex = element.getAttribute('tabindex')
       element.setAttribute('tabindex', '-1')
       cleanup = true
     }
+
     element.focus({ preventScroll: true })
     lastAutomatedFocusTimestamp.value = window.performance.now()
+
     if (
       element !== prevFocusedElement &&
       isSelectable(element) &&
@@ -103,13 +103,8 @@ export const tryFocus = (
     ) {
       element.select()
     }
-
     if (isElement(element) && cleanup) {
-      if (tabindex) {
-        element.setAttribute('tabindex', tabindex)
-      } else {
-        element.removeAttribute('tabindex')
-      }
+      element.removeAttribute('tabindex')
     }
   }
 }
