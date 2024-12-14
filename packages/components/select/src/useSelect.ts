@@ -167,12 +167,14 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const debounce = computed(() => (props.remote ? 300 : 0))
 
+  const isRemoteSearchEmpty = computed(
+    () => props.remote && !states.inputValue && states.options.size === 0
+  )
+
   const emptyText = computed(() => {
     if (props.loading) {
       return props.loadingText || t('el.select.loading')
     } else {
-      if (props.remote && !states.inputValue && states.options.size === 0)
-        return false
       if (
         props.filterable &&
         states.inputValue &&
@@ -241,7 +243,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const dropdownMenuVisible = computed({
     get() {
-      return expanded.value && emptyText.value !== false
+      return expanded.value && !isRemoteSearchEmpty.value
     },
     set(val: boolean) {
       expanded.value = val
