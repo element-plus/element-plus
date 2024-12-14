@@ -22,14 +22,6 @@ export const rightLogoSmallSponsors = [
     slogan_cn: 'Vue3企业级开源后台管理系统',
   },
   {
-    name: '百搭云',
-    img: '/images/baidayun-logo.png',
-    imgL: '/images/baidayun.png',
-    url: 'http://www.i-renderer.love/home/index',
-    slogan: 'Fast and elegant low-code dev platform',
-    slogan_cn: '快速且优雅的低代码平台',
-  },
-  {
     name: 'bit',
     img: '/images/bit.svg',
     imgL: '/images/bit-l.png',
