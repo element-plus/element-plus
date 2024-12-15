@@ -50,8 +50,7 @@
           :class="[
             ns.e('list-item'),
             {
-              [ns.is('active')]:
-                filterValue === undefined || filterValue === null,
+              [ns.is('active')]: isNil(filterValue),
             },
           ]"
           @click="handleSelect(null)"
@@ -92,6 +91,7 @@
 <script lang="ts">
 // @ts-nocheck
 import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue'
+import { isNil } from 'lodash-unified'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
@@ -99,8 +99,8 @@ import { ClickOutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import type { Placement } from '@element-plus/components/popper'
 
+import type { Placement } from '@element-plus/components/popper'
 import type { PropType, WritableComputedRef } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { TableHeader } from './table-header'
@@ -161,7 +161,7 @@ export default defineComponent({
       get: () => (props.column?.filteredValue || [])[0],
       set: (value: string) => {
         if (filteredValue.value) {
-          if (typeof value !== 'undefined' && value !== null) {
+          if (!isNil(value)) {
             filteredValue.value.splice(0, 1, value)
           } else {
             filteredValue.value.splice(0, 1)
@@ -212,7 +212,7 @@ export default defineComponent({
     }
     const handleSelect = (_filterValue?: string) => {
       filterValue.value = _filterValue
-      if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
+      if (!isNil(_filterValue)) {
         confirmFilter(filteredValue.value)
       } else {
         confirmFilter([])

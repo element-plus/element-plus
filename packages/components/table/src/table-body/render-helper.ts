@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { computed, h, inject } from 'vue'
-import { merge } from 'lodash-unified'
+import { isNil, merge } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import { isBoolean } from '@element-plus/utils'
 import { getRowIdentity } from '../util'
@@ -227,7 +227,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
               loading: false,
             }
             const childKey = getRowIdentity(node, rowKey.value)
-            if (childKey === undefined || childKey === null) {
+            if (isNil(childKey)) {
               throw new Error('For nested data item, row-key is required.')
             }
             cur = { ...treeData.value[childKey] }
