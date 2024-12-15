@@ -134,7 +134,12 @@ describe('TimeSelect', () => {
 
   it('should include end time', async () => {
     const wrapper = mount(() => (
-      <TimeSelect start="00:00" step="00:05" end="23:59" />
+      <TimeSelect
+        start="00:00"
+        step="00:05"
+        end="23:59"
+        includeEndTime={true}
+      />
     ))
     const select = wrapper.findComponent({ name: 'ElTimeSelect' })
     const input = wrapper.find('input')
@@ -148,12 +153,7 @@ describe('TimeSelect', () => {
 
   it('should not include end time', async () => {
     const wrapper = mount(() => (
-      <TimeSelect
-        start="00:00"
-        step="00:05"
-        end="23:59"
-        includeEndTime={false}
-      />
+      <TimeSelect start="00:00" step="00:05" end="23:59" />
     ))
     const select = wrapper.findComponent({ name: 'ElTimeSelect' })
     const input = wrapper.find('input')
@@ -167,12 +167,7 @@ describe('TimeSelect', () => {
 
   it('should include end whenever includeEndTime is false', async () => {
     const wrapper = mount(() => (
-      <TimeSelect
-        start="00:10"
-        end="00:20"
-        step="00:02"
-        includeEndTime={false}
-      />
+      <TimeSelect start="00:10" end="00:20" step="00:02" />
     ))
     const select = wrapper.findComponent({ name: 'ElTimeSelect' })
     const input = wrapper.find('input')
