@@ -48,6 +48,9 @@ dayjs.extend(customParseFormat)
 
 const { Option: ElOption } = ElSelect
 
+const MIN_TIME = '-1:-1'
+const MAX_TIME = '100:100'
+
 defineOptions({
   name: 'ElTimeSelect',
 })
@@ -90,25 +93,35 @@ const maxTime = computed(() => {
 
 const items = computed(() => {
   const result: { value: string; disabled: boolean }[] = []
+  const push = (formattedValue: string, rawValue: string) => {
+    result.push({
+      value: formattedValue,
+      disabled:
+        compareTime(rawValue, minTime.value || MIN_TIME) <= 0 ||
+        compareTime(rawValue, maxTime.value || MAX_TIME) >= 0,
+    })
+  }
+
   if (props.start && props.end && props.step) {
     let current = start.value
     let optionValue: string
     while (current && end.value && compareTime(current, end.value) <= 0) {
       const currentTime = dayjs(current, 'HH:mm')
       optionValue = currentTime.locale(lang.value).format(props.format)
-      result.push({
-        value: optionValue,
-        disabled:
-          compareTime(current, minTime.value || '-1:-1') <= 0 ||
-          compareTime(current, maxTime.value || '100:100') >= 0,
-      })
-      const next = nextTime(current, step.value!)
-      current =
-        props.includeEndTime &&
-        compareTime(next, end.value) > 0 &&
-        currentTime.format('HH:mm') !== end.value
-          ? end.value
-          : next
+      push(optionValue, current)
+      current = nextTime(current, step.value!)
+    }
+    const lastVal = result[result.length - 1]?.value
+    const lastTime = dayjs(lastVal, 'HH:mm')
+    if (
+      props.includeEndTime &&
+      end.value &&
+      lastTime.format('HH:mm') !== end.value
+    ) {
+      const formattedValue = dayjs(end.value, 'HH:mm')
+        .locale(lang.value)
+        .format(props.format)
+      push(formattedValue, end.value)
     }
   }
   return result
