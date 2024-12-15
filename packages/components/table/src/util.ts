@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createVNode, render } from 'vue'
-import { flatMap, get, merge } from 'lodash-unified'
+import { flatMap, get, isNull, merge } from 'lodash-unified'
 import {
   hasOwn,
   isArray,
@@ -526,7 +526,7 @@ export const getFixedColumnsClass = <T>(
 function getOffset<T>(offset: number, column: TableColumnCtx<T>) {
   return (
     offset +
-    (column.realWidth === null || Number.isNaN(column.realWidth)
+    (isNull(column.realWidth) || Number.isNaN(column.realWidth)
       ? Number(column.width)
       : column.realWidth)
   )
