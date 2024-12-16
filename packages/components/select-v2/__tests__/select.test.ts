@@ -117,6 +117,7 @@ const createSelect = (
         :reserve-keyword="reserveKeyword"
         :scrollbar-always-on="scrollbarAlwaysOn"
         :teleported="teleported"
+        :tabindex="tabindex"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -165,6 +166,7 @@ const createSelect = (
           scrollbarAlwaysOn: false,
           popperAppendToBody: undefined,
           teleported: undefined,
+          tabindex: undefined,
           ...(options.data && options.data()),
         }
       },
@@ -1268,6 +1270,65 @@ describe('Select', () => {
     expect(placeholder.text()).toBe('option 2')
   })
 
+  it('not options keep the selected label', async () => {
+    const initial = [
+      {
+        value: '1',
+        label: 'option 1',
+      },
+      {
+        value: '2',
+        label: 'option 2',
+      },
+    ]
+
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: '1',
+          options: [...initial],
+        }
+      },
+
+      methods: {
+        handleSearch(value) {
+          this.options = initial.filter((item) => item.label.includes(value))
+        },
+      },
+    })
+
+    await nextTick()
+
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const vm = wrapper.vm as any
+
+    expect(selectVm.selectedLabel).toBe('option 1')
+
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
+
+    vm.handleSearch('2')
+    await nextTick()
+    expect(wrapper.vm.options.length).toBe(1)
+    expect(selectVm.selectedLabel).toBe('option 1')
+
+    vm.handleSearch('3')
+    await nextTick()
+    expect(wrapper.vm.options.length).toBe(0)
+    expect(selectVm.selectedLabel).toBe('option 1')
+
+    vm.value = '3'
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('3')
+
+    vm.value = ''
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('')
+  })
+
   it('default value is null or undefined', async () => {
     const wrapper = createSelect({
       data() {
@@ -1308,6 +1369,31 @@ describe('Select', () => {
     await nextTick()
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     expect(placeholder.text()).toBe('option_a')
+  })
+
+  it('the scroll position of the dropdown should be correct when value is 0', async () => {
+    const options = Array.from({ length: 1000 }).map((_, idx) => ({
+      value: 999 - idx,
+      label: `options ${999 - idx}`,
+    }))
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: 0,
+          options,
+        }
+      },
+    })
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const optionsDoms = Array.from(
+      document.querySelectorAll(`.${OPTION_ITEM_CLASS_NAME}`)
+    )
+    const result = optionsDoms.some((option) => {
+      const text = option.textContent
+      return text === 'options 0'
+    })
+    expect(result).toBeTruthy()
   })
 
   it('emptyText error show', async () => {
@@ -1913,5 +1999,29 @@ describe('Select', () => {
 
     await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
     expect(handleClick).toHaveBeenCalledOnce()
+  })
+
+  describe('It should generate accessible attributes', () => {
+    it('create', async () => {
+      const wrapper = createSelect()
+
+      const input = wrapper.find('input')
+      expect(input.attributes('role')).toBe('combobox')
+      expect(input.attributes('tabindex')).toBe('0')
+      expect(input.attributes('aria-autocomplete')).toBe('list')
+      expect(input.attributes('aria-expanded')).toBe('false')
+      expect(input.attributes('aria-haspopup')).toBe('listbox')
+    })
+
+    it('tabindex', () => {
+      const wrapper = createSelect({
+        data: () => ({
+          tabindex: 1,
+        }),
+      })
+
+      const input = wrapper.find('input')
+      expect(input.attributes('tabindex')).toBe('1')
+    })
   })
 })

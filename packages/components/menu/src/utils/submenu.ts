@@ -47,6 +47,7 @@ class SubMenu {
             break
           }
           case EVENT_CODE.enter:
+          case EVENT_CODE.numpadEnter:
           case EVENT_CODE.space: {
             prevDef = true
             ;(event.currentTarget as HTMLElement).click()

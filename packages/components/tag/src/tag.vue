@@ -75,6 +75,9 @@ const handleClick = (event: MouseEvent) => {
 
 const handleVNodeMounted = (vnode: VNode) => {
   // @ts-ignore
-  vnode.component.subTree.component.bum = null
+  if (vnode?.component?.subTree?.component?.bum) {
+    // @ts-ignore
+    vnode.component.subTree.component.bum = null
+  }
 }
 </script>

@@ -1,4 +1,4 @@
-import { createVNode, render } from 'vue'
+import { createVNode, isVNode, render } from 'vue'
 import {
   debugWarn,
   hasOwn,
@@ -8,7 +8,6 @@ import {
   isObject,
   isString,
   isUndefined,
-  isVNode,
 } from '@element-plus/utils'
 import MessageBoxConstructor from './index.vue'
 
@@ -121,7 +120,7 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
 
   const instance = initInstance(options, container, appContext)!
 
-  // This is how we use message box programmably.
+  // This is how we use message box programmatically.
   // Maybe consider releasing a template version?
   // get component instance like v2.
   const vm = instance.proxy as ComponentPublicInstance<
