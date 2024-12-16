@@ -50,8 +50,6 @@ import type { SelectEmitFn } from './defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectDropdownInstance } from './select-dropdown'
 
-const MINIMUM_INPUT_WIDTH = 11
-
 const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   // inject
   const { t } = useLocale()
@@ -72,7 +70,6 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     hoveringIndex: -1,
     inputHovering: false,
     selectionWidth: 0,
-    calculatorWidth: 0,
     collapseItemWidth: 0,
     previousQuery: null,
     previousValue: undefined,
@@ -90,7 +87,6 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   const tooltipRef = ref<TooltipInstance>()
   const tagTooltipRef = ref<TooltipInstance>()
   const inputRef = ref<HTMLElement>()
-  const calculatorRef = ref<HTMLElement>()
   const prefixRef = ref<HTMLElement>()
   const suffixRef = ref<HTMLElement>()
   const menuRef = ref<SelectDropdownInstance>()
@@ -291,10 +287,6 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
 
-  const inputStyle = computed(() => ({
-    width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
-  }))
-
   const shouldShowPlaceholder = computed(() => {
     if (isArray(props.modelValue)) {
       return props.modelValue.length === 0 && !states.inputValue
@@ -482,10 +474,6 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
 
   const resetSelectionWidth = () => {
     states.selectionWidth = selectionRef.value!.getBoundingClientRect().width
-  }
-
-  const resetCalculatorWidth = () => {
-    states.calculatorWidth = calculatorRef.value!.getBoundingClientRect().width
   }
 
   const resetCollapseItemWidth = () => {
@@ -889,7 +877,6 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   })
   useResizeObserver(selectRef, handleResize)
   useResizeObserver(selectionRef, resetSelectionWidth)
-  useResizeObserver(calculatorRef, resetCalculatorWidth)
   useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
@@ -910,7 +897,6 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     iconReverse,
     tagStyle,
     collapseTagStyle,
-    inputStyle,
     popperSize,
     dropdownMenuVisible,
     hasModelValue,
@@ -925,7 +911,6 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     nsInput,
 
     // refs items exports
-    calculatorRef,
     inputRef,
     menuRef,
     tagMenuRef,
@@ -961,7 +946,6 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     handleMenuEnter,
     handleResize,
     resetSelectionWidth,
-    resetCalculatorWidth,
     updateTooltip,
     updateTagTooltip,
     updateOptions,
