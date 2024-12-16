@@ -79,6 +79,11 @@
     );
   }
 
+  &:not(.#{$namespace}-menu--collapse) .#{$namespace}-sub-menu__hide-arrow .#{$namespace}-sub-menu__title {
+    padding-right:  #{getCssVar('menu-base-level-padding')};
+  }
+
+
   @include m(horizontal) {
     display: flex;
     flex-wrap: nowrap;
