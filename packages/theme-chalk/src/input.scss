@@ -319,6 +319,7 @@
 
     .#{$namespace}-input__wrapper {
       background-color: map.get($input-disabled, 'fill');
+      cursor: not-allowed;
       @include mixed-input-border(map.get($input-disabled, 'border'));
     }
 

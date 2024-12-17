@@ -1,5 +1,5 @@
-import { shallowRef } from 'vue'
-import { flattedChildren, isVNode } from '@element-plus/utils'
+import { isVNode, shallowRef } from 'vue'
+import { flattedChildren } from '@element-plus/utils'
 
 import type { ComponentInternalInstance, VNode } from 'vue'
 

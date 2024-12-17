@@ -167,12 +167,14 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const debounce = computed(() => (props.remote ? 300 : 0))
 
+  const isRemoteSearchEmpty = computed(
+    () => props.remote && !states.inputValue && states.options.size === 0
+  )
+
   const emptyText = computed(() => {
     if (props.loading) {
       return props.loadingText || t('el.select.loading')
     } else {
-      if (props.remote && !states.inputValue && states.options.size === 0)
-        return false
       if (
         props.filterable &&
         states.inputValue &&
@@ -241,7 +243,7 @@ export const useSelect = (props: ISelectProps, emit) => {
 
   const dropdownMenuVisible = computed({
     get() {
-      return expanded.value && emptyText.value !== false
+      return expanded.value && !isRemoteSearchEmpty.value
     },
     set(val: boolean) {
       expanded.value = val
@@ -312,15 +314,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     () => {
       if (!isClient) return
       // tooltipRef.value?.updatePopper?.()
-      const inputs = selectRef.value?.querySelectorAll('input') || []
-      if (
-        (!props.filterable &&
-          !props.defaultFirstOption &&
-          !isUndefined(props.modelValue)) ||
-        !Array.from(inputs).includes(document.activeElement as HTMLInputElement)
-      ) {
-        setSelected()
-      }
+      setSelected()
       if (
         props.defaultFirstOption &&
         (props.filterable || props.remote) &&
@@ -697,7 +691,7 @@ export const useSelect = (props: ISelectProps, emit) => {
       toggleMenu()
     } else {
       const option = optionsArray.value[states.hoveringIndex]
-      if (option && !option.disabled && !option.states.groupDisabled) {
+      if (option && !option.isDisabled) {
         handleOptionSelect(option)
       }
     }
@@ -710,7 +704,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const optionsAllDisabled = computed(() =>
     optionsArray.value
       .filter((option) => option.visible)
-      .every((option) => option.disabled)
+      .every((option) => option.isDisabled)
   )
 
   const showTagList = computed(() => {
@@ -756,11 +750,7 @@ export const useSelect = (props: ISelectProps, emit) => {
         }
       }
       const option = optionsArray.value[states.hoveringIndex]
-      if (
-        option.disabled === true ||
-        option.states.groupDisabled === true ||
-        !option.visible
-      ) {
+      if (option.isDisabled || !option.visible) {
         navigateOptions(direction)
       }
       nextTick(() => scrollToOption(hoverOption.value))
