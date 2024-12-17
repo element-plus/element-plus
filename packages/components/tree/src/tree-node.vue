@@ -324,7 +324,10 @@ export default defineComponent({
 
     const handleDragEnd = (event: DragEvent) => {
       if (!tree.props.draggable) return
-      dragEvents.treeNodeDragEnd(event)
+      dragEvents.treeNodeDragEnd({
+        event,
+        tree,
+      })
     }
 
     return {
