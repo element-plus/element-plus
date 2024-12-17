@@ -17,7 +17,7 @@ export type MessageBoxInputValidator =
 
 export declare interface MessageBoxState {
   autofocus: boolean
-  title: string
+  title: string | undefined
   message: string
   type: MessageType
   icon: string | Component
