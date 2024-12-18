@@ -458,7 +458,7 @@ export default defineComponent({
     }
 
     const getInputElement = () => {
-      const inputRefs = inputRef?.value?.$refs
+      const inputRefs = inputRef.value?.$refs
       return (inputRefs?.input ?? inputRefs?.textarea) as HTMLElement
     }
 
