@@ -13,7 +13,7 @@ export const basicDateTableProps = buildProps({
   selectionMode: selectionModeWithDefault('date'),
 } as const)
 
-export const basicDateTableEmits = ['changerange', 'pick', 'select']
+export const basicDateTableEmits = ['change-range', 'pick', 'select']
 
 export type BasicDateTableProps = ExtractPropTypes<typeof basicDateTableProps>
 export type BasicDateTableEmits = typeof basicDateTableEmits
