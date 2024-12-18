@@ -194,6 +194,8 @@ export default defineComponent({
   emits: menuEmits,
 
   setup(props, { emit, slots, expose }) {
+    const focusMenuItemsTasks: Array<() => void> = []
+    let isFocusLocked = false
     const instance = getCurrentInstance()!
     const router = instance.appContext.config.globalProperties.$router as Router
     const menu = ref<HTMLUListElement>()
@@ -345,6 +347,26 @@ export default defineComponent({
       return sliceIndex === items.length ? -1 : sliceIndex
     }
 
+    const addFocusMenuItemsTask = (func: () => void) => {
+      if (props.mode === 'horizontal' && !isFocusLocked) {
+        if (!focusMenuItemsTasks.includes(func)) {
+          focusMenuItemsTasks.shift()
+          focusMenuItemsTasks.push(func)
+        }
+      }
+    }
+
+    const invokeFocusMenuItemsTask = () => {
+      if (props.mode !== 'horizontal') return
+
+      if (focusMenuItemsTasks.length > 0) {
+        isFocusLocked = true
+        const func = focusMenuItemsTasks.shift()
+        if (func) func()
+        isFocusLocked = false
+      }
+    }
+
     const getIndexPath = (index: string) => subMenus.value[index].indexPath
 
     // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms, In order to avoid a certain chance of repeated triggering when `resize`, set wait to 16.67 * 2 = 33.34
@@ -435,6 +457,8 @@ export default defineComponent({
           closeMenu,
           handleMenuItemClick,
           handleSubMenuClick,
+          addFocusMenuItemsTask,
+          invokeFocusMenuItemsTask,
         })
       )
       provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
