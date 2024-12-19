@@ -50,7 +50,7 @@
           :class="[
             ns.e('list-item'),
             {
-              [ns.is('active')]: isNil(filterValue),
+              [ns.is('active')]: isPropAbsent(filterValue),
             },
           ]"
           @click="handleSelect(null)"
@@ -91,7 +91,6 @@
 <script lang="ts">
 // @ts-nocheck
 import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue'
-import { isNil } from 'lodash-unified'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
@@ -99,6 +98,7 @@ import { ClickOutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
+import { isPropAbsent } from '@element-plus/utils'
 
 import type { Placement } from '@element-plus/components/popper'
 import type { PropType, WritableComputedRef } from 'vue'
@@ -161,7 +161,7 @@ export default defineComponent({
       get: () => (props.column?.filteredValue || [])[0],
       set: (value: string) => {
         if (filteredValue.value) {
-          if (!isNil(value)) {
+          if (!isPropAbsent(value)) {
             filteredValue.value.splice(0, 1, value)
           } else {
             filteredValue.value.splice(0, 1)
@@ -212,7 +212,7 @@ export default defineComponent({
     }
     const handleSelect = (_filterValue?: string) => {
       filterValue.value = _filterValue
-      if (!isNil(_filterValue)) {
+      if (!isPropAbsent(_filterValue)) {
         confirmFilter(filteredValue.value)
       } else {
         confirmFilter([])
@@ -253,6 +253,7 @@ export default defineComponent({
       handleConfirm,
       handleReset,
       handleSelect,
+      isPropAbsent,
       isActive,
       t,
       ns,
