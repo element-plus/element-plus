@@ -35,6 +35,23 @@ $segmented-item-padding: map.merge(
   $segmented-item-padding
 );
 
+$segmented-item-padding-vertical: () !default;
+$segmented-item-padding-vertical: map.merge(
+  (
+    'large': 11px 11px,
+    'default': 11px 11px,
+    'small': 7px 7px,
+  ),
+  $segmented-item-padding-vertical
+);
+
+.#{$namespace}-segmented--vertical {
+  flex-direction: column;
+  .#{$namespace}-segmented__item {
+    padding: map.get($segmented-item-padding-vertical, 'default');
+  }
+}
+
 @include b(segmented) {
   @include set-component-css-var('segmented', $segmented);
 }
@@ -149,6 +166,12 @@ $segmented-item-padding: map.merge(
 
       @include e(item-selected) {
         border-radius: calc(#{map.get($segmented-border-radius, $size)} - 2px);
+      }
+
+      .#{$namespace}-segmented--vertical {
+        @include e(item) {
+          padding: map.get($segmented-item-padding-vertical, $size);
+        }
       }
 
       @include e(item) {

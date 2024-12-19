@@ -21,9 +21,11 @@ export type RangeState = {
   selecting: boolean
 }
 
+export type DisabledDateType = (date: Date) => boolean
+
 export const datePickerSharedProps = buildProps({
   disabledDate: {
-    type: definePropType<(date: Date) => boolean>(Function),
+    type: definePropType<DisabledDateType>(Function),
   },
   date: {
     type: definePropType<Dayjs>(Object),
@@ -55,6 +57,10 @@ export const panelSharedProps = buildProps({
   },
   dateFormat: String,
   timeFormat: String,
+  showNow: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 export const panelRangeSharedProps = buildProps({

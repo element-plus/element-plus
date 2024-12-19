@@ -1,13 +1,20 @@
 <template>
   <div
     ref="barRef"
-    :class="[ns.e('active-bar'), ns.is(rootTabs.props.tabPosition)]"
+    :class="[ns.e('active-bar'), ns.is(rootTabs!.props.tabPosition)]"
     :style="barStyle"
   />
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
+import {
+  getCurrentInstance,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  ref,
+  watch,
+} from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { capitalize, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -71,15 +78,39 @@ const getBarStyle = (): CSSProperties => {
 
 const update = () => (barStyle.value = getBarStyle())
 
+const saveObserver = [] as ReturnType<typeof useResizeObserver>[]
+const observerTabs = () => {
+  saveObserver.forEach((observer) => observer.stop())
+  saveObserver.length = 0
+  const list = instance.parent?.refs as Record<string, HTMLElement>
+  if (!list) return
+  for (const key in list) {
+    if (key.startsWith('tab-')) {
+      const _el = list[key]
+      if (_el) {
+        saveObserver.push(useResizeObserver(_el, update))
+      }
+    }
+  }
+}
+
 watch(
   () => props.tabs,
   async () => {
     await nextTick()
     update()
+
+    observerTabs()
   },
   { immediate: true }
 )
-useResizeObserver(barRef, () => update())
+const barObserever = useResizeObserver(barRef, () => update())
+
+onBeforeUnmount(() => {
+  saveObserver.forEach((observer) => observer.stop())
+  saveObserver.length = 0
+  barObserever.stop()
+})
 
 defineExpose({
   /** @description tab root html element */

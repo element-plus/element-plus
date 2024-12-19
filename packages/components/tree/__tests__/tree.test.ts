@@ -22,6 +22,7 @@ const getTreeVm = (props = '', options = {}) => {
     `,
         data() {
           return {
+            currentId: null,
             currentNode: null,
             nodeExpended: false,
             defaultExpandedKeys: [],
@@ -256,6 +257,30 @@ describe('Tree.vue', () => {
     )
 
     expect(currentNodeLabelWrapper.text()).toEqual('二级 1-1')
+    expect(wrapper.find('.el-tree--highlight-current').exists()).toBe(true)
+  })
+
+  test('update tree-data after current-node-key', async () => {
+    const { wrapper, vm } = getTreeVm(
+      `:props="defaultProps" :expand-on-click-node="false" default-expand-all highlight-current node-key="id" :current-node-key="currentId"`
+    )
+
+    vm.currentId = 22
+    await nextTick()
+    const currentNodeLabelWrapper = wrapper.find(
+      '.is-current .el-tree-node__label'
+    )
+    expect(wrapper.find('.el-tree--highlight-current').exists()).toBe(true)
+    expect(currentNodeLabelWrapper.text()).toEqual('二级 2-2')
+    const _data = [...vm.data]
+    await nextTick()
+    vm.data = [..._data]
+    await nextTick()
+    const currentNodeLabelWrapper2 = wrapper.find(
+      '.is-current .el-tree-node__label'
+    )
+    expect(currentNodeLabelWrapper2.exists()).toBe(true)
+    expect(currentNodeLabelWrapper2.text()).toEqual('二级 2-2')
     expect(wrapper.find('.el-tree--highlight-current').exists()).toBe(true)
   })
 

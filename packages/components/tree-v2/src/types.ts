@@ -16,6 +16,10 @@ export interface TreeOptionProps {
   label?: string
   value?: string
   disabled?: string
+  class?: (
+    data: TreeNodeData,
+    node: TreeNode
+  ) => string | { [key: string]: boolean }
 }
 
 export type TreeProps = ExtractPropTypes<typeof treeProps>
@@ -44,7 +48,11 @@ export interface Tree {
   maxLevel: number
 }
 
-export type FilterMethod = (query: string, node: TreeNodeData) => boolean
+export type FilterMethod = (
+  query: string,
+  data: TreeNodeData,
+  node: TreeNode
+) => boolean
 
 export interface CheckedInfo {
   checkedKeys: TreeKey[]

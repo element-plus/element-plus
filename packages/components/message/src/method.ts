@@ -1,12 +1,12 @@
-import { createVNode, render } from 'vue'
+import { createVNode, isVNode, render } from 'vue'
 import {
   debugWarn,
+  isBoolean,
   isClient,
   isElement,
   isFunction,
   isNumber,
   isString,
-  isVNode,
 } from '@element-plus/utils'
 import { messageConfig } from '@element-plus/components/config-provider'
 import MessageConstructor from './message.vue'
@@ -55,6 +55,22 @@ const normalizeOptions = (params?: MessageParams) => {
     }
 
     normalized.appendTo = appendTo
+  }
+
+  // When grouping is configured globally,
+  // if grouping is manually set when calling message individually and it is not equal to the default value,
+  // the global configuration cannot override the current setting. default => false
+  if (isBoolean(messageConfig.grouping) && !normalized.grouping) {
+    normalized.grouping = messageConfig.grouping
+  }
+  if (isNumber(messageConfig.duration) && normalized.duration === 3000) {
+    normalized.duration = messageConfig.duration
+  }
+  if (isNumber(messageConfig.offset) && normalized.offset === 16) {
+    normalized.offset = messageConfig.offset
+  }
+  if (isBoolean(messageConfig.showClose) && !normalized.showClose) {
+    normalized.showClose = messageConfig.showClose
   }
 
   return normalized as MessageParamsNormalized
@@ -141,10 +157,6 @@ const message: MessageFn &
 ) => {
   if (!isClient) return { close: () => undefined }
 
-  if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
-    return { close: () => undefined }
-  }
-
   const normalized = normalizeOptions(options)
 
   if (normalized.grouping && instances.length) {
@@ -156,6 +168,10 @@ const message: MessageFn &
       instance.props.type = normalized.type
       return instance.handler
     }
+  }
+
+  if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
+    return { close: () => undefined }
   }
 
   const instance = createMessage(normalized, context)

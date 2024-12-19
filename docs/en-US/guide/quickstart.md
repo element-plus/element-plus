@@ -152,19 +152,6 @@ export default defineConfig({
 })
 ```
 
-:::warning
-
-You need to manually import the styles if you're using `unplugin-element-plus` and only used the component API.
-
-Example:
-
-```ts
-import 'element-plus/es/components/message/style/css'
-import { ElMessage } from 'element-plus'
-```
-
-:::
-
 ## Starter Template
 
 We provide a [Vite Template](https://github.com/element-plus/element-plus-vite-starter).
