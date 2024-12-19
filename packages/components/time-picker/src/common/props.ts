@@ -15,7 +15,7 @@ import type { Placement } from '@element-plus/components/popper'
 
 export type SingleOrRange<T> = T | [T, T]
 export type DateModelType = number | string | Date
-export type ModelValueType = SingleOrRange<DateModelType> | string[]
+export type ModelValueType = SingleOrRange<DateModelType> | DateModelType[]
 export type DayOrDays = SingleOrRange<Dayjs>
 export type DateOrDates = SingleOrRange<Date>
 export type UserInput = SingleOrRange<string | null>
