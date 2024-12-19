@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { getCurrentInstance, nextTick, unref } from 'vue'
+import { isNull } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import useWatcher from './watcher'
 
@@ -169,7 +170,7 @@ function useStore<T>() {
       const columnValue = unref(sortingColumn),
         propValue = unref(sortProp),
         orderValue = unref(sortOrder)
-      if (orderValue === null) {
+      if (isNull(orderValue)) {
         states.sortingColumn.value = null
         states.sortProp.value = null
       }

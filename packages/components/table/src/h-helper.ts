@@ -1,10 +1,12 @@
 // @ts-nocheck
 import { h } from 'vue'
+import { isUndefined } from '@element-plus/utils'
+
 export function hColgroup(props) {
   const isAuto = props.tableLayout === 'auto'
   let columns = props.columns || []
   if (isAuto) {
-    if (columns.every((column) => column.width === undefined)) {
+    if (columns.every(({ width }) => isUndefined(width))) {
       columns = []
     }
   }

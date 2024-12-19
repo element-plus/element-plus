@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { getCurrentInstance, inject, ref } from 'vue'
+import { isNull } from 'lodash-unified'
 import {
   addClass,
   hasClass,
@@ -189,7 +190,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
 
     if (
       sortingColumn !== column ||
-      (sortingColumn === column && sortingColumn.order === null)
+      (sortingColumn === column && isNull(sortingColumn.order))
     ) {
       if (sortingColumn) {
         sortingColumn.order = null

@@ -2,7 +2,7 @@
 import { computed, h, inject } from 'vue'
 import { merge } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
-import { isBoolean } from '@element-plus/utils'
+import { isBoolean, isPropAbsent } from '@element-plus/utils'
 import { getRowIdentity } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import useEvents from './events-helper'
@@ -227,7 +227,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
               loading: false,
             }
             const childKey = getRowIdentity(node, rowKey.value)
-            if (childKey === undefined || childKey === null) {
+            if (isPropAbsent(childKey)) {
               throw new Error('For nested data item, row-key is required.')
             }
             cur = { ...treeData.value[childKey] }
