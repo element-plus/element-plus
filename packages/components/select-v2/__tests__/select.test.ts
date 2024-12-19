@@ -982,6 +982,7 @@ describe('Select', () => {
       const select = wrapper.findComponent(Select)
       const input = select.find('input')
       expect(input.exists()).toBe(true)
+      await input.trigger('focus')
       await input.trigger('blur')
       expect(onBlur).toHaveBeenCalledTimes(1)
     })

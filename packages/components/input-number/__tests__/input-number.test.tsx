@@ -344,7 +344,9 @@ describe('InputNumber.vue', () => {
   test('blur-event', async () => {
     const num = ref(0)
     const wrapper = mount(() => <InputNumber v-model={num.value} />)
-    await wrapper.find('input').trigger('blur')
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    await input.trigger('blur')
     expect(wrapper.getComponent(InputNumber).emitted('blur')).toHaveLength(1)
   })
 

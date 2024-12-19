@@ -364,7 +364,7 @@ describe('Input.vue', () => {
       ))
 
       const input = wrapper.find('input')
-
+      await input.trigger('focus')
       await input.trigger('blur')
       expect(handleBlur).toHaveBeenCalledOnce()
     })
@@ -399,6 +399,7 @@ describe('Input.vue', () => {
 
       const input = wrapper.find('textarea')
 
+      await input.trigger('focus')
       await input.trigger('blur')
       expect(handleBlur).toBeCalled()
     })
