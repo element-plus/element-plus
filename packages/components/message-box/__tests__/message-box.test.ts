@@ -373,4 +373,112 @@ describe('MessageBox', () => {
       expect(label.textContent).toBe(message)
     })
   })
+
+  describe('not closed by the user', async () => {
+    async function _closeTestRunner(reason, expectAction) {
+      let callbackAction = ''
+      let promiseAction = ''
+      MessageBox.confirm('这是一段内容', {
+        title: '消息',
+        type: 'success',
+        callback: (action) => {
+          callbackAction = action
+        },
+      })
+      await rAF()
+      const callbackMsgbox: HTMLElement = document.querySelector(selector)
+      MessageBox.close(reason)
+      await rAF()
+
+      expect(callbackAction).toEqual(expectAction)
+      expect(callbackMsgbox.style.display).toEqual('none')
+
+      MessageBox.confirm('这是一段内容', {
+        title: '消息',
+        type: 'success',
+      })
+        .then((action) => (promiseAction = action))
+        .catch((action) => (promiseAction = action))
+      await rAF()
+      const promiseMsgbox: HTMLElement = document.querySelector(selector)
+      MessageBox.close(reason)
+      await rAF()
+      expect(promiseAction).toEqual(expectAction)
+      expect(promiseMsgbox.style.display).toEqual('none')
+    }
+
+    test('default close callback', async () => {
+      // support for the old usage
+      const fn = vi.fn((action) => {
+        callbackAction = action
+      })
+      let callbackAction = ''
+      MessageBox.confirm('这是一段内容', {
+        title: '消息',
+        type: 'success',
+        callback: fn,
+      })
+      await rAF()
+      const msgbox: HTMLElement = document.querySelector(selector)
+      MessageBox.close()
+      await rAF()
+      expect(fn).not.toBeCalled()
+      expect(callbackAction).toBe('')
+      expect(msgbox.style.display).toEqual('none')
+    })
+
+    test('default close promise', async () => {
+      // support for the old usage
+      let promiseAction = ''
+      const rslvMockFn = vi.fn((action) => (promiseAction = action))
+      const rejectMockFn = vi.fn((action) => (promiseAction = action))
+      MessageBox.confirm('这是一段内容', '消息').then(rslvMockFn).catch()
+      await rAF(rejectMockFn)
+      const msgbox: HTMLElement = document.querySelector(selector)
+      MessageBox.close()
+      await rAF()
+      expect(rslvMockFn).not.toBeCalled()
+      expect(rejectMockFn).not.toBeCalled()
+      expect(promiseAction).toBe('')
+      expect(msgbox.style.display).toEqual('none')
+    })
+
+    test('close: reason is cancel', async () => {
+      await _closeTestRunner('cancel', 'cancel')
+    })
+
+    test('close: reason is close', async () => {
+      await _closeTestRunner('close', 'close')
+    })
+
+    test('close: reason is confirm', async () => {
+      await _closeTestRunner('confirm', 'confirm')
+    })
+
+    test('close: custom reason', async () => {
+      const action = {
+        type: 'success',
+        data: {
+          uid: 0,
+          name: 'Jame',
+        },
+      }
+      /**
+       * [reason, expect]
+       */
+      const examples = [
+        ['stop', 'stop'],
+        [action, action],
+        ['', 'cancel'],
+        [0, 'cancel'],
+        [false, 'cancel'],
+        [' ', ' '],
+        [null, 'cancel'],
+        [undefined, ''],
+      ]
+      for (const it of examples) {
+        await _closeTestRunner(it[0], it[1])
+      }
+    })
+  })
 })
