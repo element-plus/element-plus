@@ -1435,6 +1435,7 @@ describe('Select', () => {
     const input = select.find('input')
 
     expect(input.exists()).toBe(true)
+    await input.trigger('focus')
     await input.trigger('blur')
     expect(handleBlur).toHaveBeenCalledTimes(1)
   })

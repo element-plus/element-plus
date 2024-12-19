@@ -243,7 +243,9 @@ describe('InputTag.vue', () => {
       const handleBlur = vi.fn()
       const wrapper = mount(() => <InputTag onBlur={handleBlur} />)
 
-      await wrapper.find('input').trigger('blur')
+      const input = wrapper.find('input')
+      await input.trigger('focus')
+      await input.trigger('blur')
       expect(handleBlur).toHaveBeenCalledOnce()
     })
 
