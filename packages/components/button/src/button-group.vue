@@ -1,5 +1,5 @@
 <template>
-  <div :class="ns.b('group')">
+  <div :class="[ns.b('group'), ns.bm('group', props.direction)]">
     <slot />
   </div>
 </template>
