@@ -89,7 +89,7 @@ export default defineComponent({
     let manualChecked = false
 
     const ns = useNamespace('cascader')
-    const config = useCascaderConfig(props)
+    const config = useCascaderConfig(props.props)
 
     let store: Nullable<Store> = null
     const initialLoaded = ref(true)
