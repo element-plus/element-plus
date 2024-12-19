@@ -49,6 +49,7 @@ import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
 import { composeEventHandlers } from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
 import ElTeleport from '@element-plus/components/teleport'
+import { tryFocus } from '@element-plus/components/focus-trap'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipContentProps } from './content'
 import type { PopperContentInstance } from '@element-plus/components/popper'
@@ -111,6 +112,7 @@ const ariaHidden = ref(true)
 
 const onTransitionLeave = () => {
   onHide()
+  isFocusInsideContent() && tryFocus(document.body)
   ariaHidden.value = true
 }
 
@@ -161,6 +163,14 @@ const onBlur = () => {
   }
 }
 
+const isFocusInsideContent = (event?: FocusEvent) => {
+  const popperContent: HTMLElement | undefined =
+    contentRef.value?.popperContentRef
+  const activeElement = (event?.relatedTarget as Node) || document.activeElement
+
+  return popperContent?.contains(activeElement)
+}
+
 watch(
   () => unref(open),
   (val) => {
@@ -187,5 +197,9 @@ defineExpose({
    * @description el-popper-content component instance
    */
   contentRef,
+  /**
+   * @description validate current focus event is trigger inside el-popper-content
+   */
+  isFocusInsideContent,
 })
 </script>

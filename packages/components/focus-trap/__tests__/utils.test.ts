@@ -3,6 +3,7 @@ import {
   focusFirstDescendant,
   getEdges,
   obtainAllFocusableElements,
+  tryFocus,
 } from '../src/utils'
 
 describe('focus-trap utils', () => {
@@ -52,5 +53,39 @@ describe('focus-trap utils', () => {
     const focusable = obtainAllFocusableElements(document.body)
     focusFirstDescendant(focusable)
     expect(document.activeElement).toBe(focusable[0])
+  })
+
+  describe('tryFocus', () => {
+    it('should be focus the input element', () => {
+      const input = document.querySelector('.focusable-input') as HTMLElement
+      tryFocus(input)
+      expect(document.activeElement).toBe(input)
+    })
+
+    it('should be focus the span element', () => {
+      const span = document.querySelector('.focusable-span') as HTMLElement
+      tryFocus(span)
+      expect(document.activeElement).toBe(span)
+    })
+
+    it('should be focus the disabled input element', () => {
+      const input = document.querySelector('[disabled]') as HTMLElement
+      tryFocus(input)
+      expect(document.activeElement).toBe(input)
+    })
+
+    it('should be focus the document body', () => {
+      const input = document.querySelector('.focusable-input') as HTMLElement
+      tryFocus(input)
+      expect(document.activeElement).not.toBe(document.body)
+      tryFocus(document.body)
+      expect(document.activeElement).toBe(document.body)
+    })
+
+    it('should be focus the null element', () => {
+      const activeElement = document.activeElement
+      tryFocus(null)
+      expect(document.activeElement).toBe(activeElement)
+    })
   })
 })
