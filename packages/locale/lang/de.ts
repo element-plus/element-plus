@@ -2,7 +2,7 @@ export default {
   name: 'de',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'Brotkrümel',
     },
     colorpicker: {
       confirm: 'OK',
@@ -84,12 +84,12 @@ export default {
       pagesize: ' pro Seite',
       total: 'Gesamt {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Seite',
+      prev: 'Zur vorherigen Seite gehen',
+      next: 'Zur nächsten Seite gehen',
+      currentPage: 'Seite {pager}',
+      prevPages: 'Vorherige {pager} Seiten',
+      nextPages: 'Nächste {pager} Seiten',
     },
     messagebox: {
       confirm: 'OK',
@@ -136,9 +136,9 @@ export default {
       cancelButtonText: 'Nein',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: 'Karussell-Pfeil links',
+      rightArrow: 'Karussell-Pfeil rechts',
+      indicator: 'Karussell zu Index {index} wechseln',
     },
   },
 }

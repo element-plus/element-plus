@@ -380,6 +380,51 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
   })
 
+  test('expose select label', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :multiple="multiple">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          { value: '选项1', label: '黄金糕' },
+          { value: '选项2', label: '双皮奶' },
+        ],
+        value: '选项2',
+        multiple: false,
+      })
+    )
+    await nextTick()
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const vm = wrapper.vm as any
+    const selectVm = select.vm as any
+
+    expect(selectVm.selectedLabel).toBe('双皮奶')
+
+    const options = getOptions()
+    options[0].click()
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('黄金糕')
+    vm.value = ''
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('')
+
+    vm.value = []
+    vm.multiple = true
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual([])
+    vm.value = ['选项1', '选项2']
+    await nextTick()
+    expect(selectVm.selectedLabel).toStrictEqual(['黄金糕', '双皮奶'])
+  })
+
   test('set default value to object', async () => {
     wrapper = _mount(
       `
@@ -858,6 +903,23 @@ describe('Select', () => {
     expect(selectVm.states.hoveringIndex).toBe(3)
     selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(4)
+  })
+
+  // #19136
+  test('keyboard operations when options are disabled due to multiple-limit', async () => {
+    wrapper = getSelectVm({ multiple: true, multipleLimit: 2 })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    await wrapper.setProps({
+      modelValue: ['选项1', '选项2'],
+    })
+    const selectVm = select.vm as any
+    const input = select.find('input')
+    await input.trigger('click')
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(1)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(0)
   })
 
   test('clearable', async () => {
@@ -1525,6 +1587,32 @@ describe('Select', () => {
     expect(handleBlur).not.toHaveBeenCalled()
     await input.trigger('blur')
     expect(handleBlur).toHaveBeenCalled()
+  })
+
+  it('should be target blur event when click outside', async () => {
+    const handleBlur = vi.fn()
+    wrapper = _mount(
+      `
+      <el-select @blur="handleBlur" />
+      <button>button</button>
+      `,
+      () => ({ handleBlur })
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const input = select.find('input')
+    await input.trigger('focus')
+
+    expect(wrapper.find(`.${WRAPPER_CLASS_NAME}`).classes()).toContain(
+      'is-focused'
+    )
+
+    await wrapper.find('button').trigger('mousedown')
+    await wrapper.find('button').trigger('mouseup')
+
+    expect(wrapper.find(`.${WRAPPER_CLASS_NAME}`).classes()).not.toContain(
+      'is-focused'
+    )
+    expect(handleBlur).toHaveBeenCalledTimes(1)
   })
 
   test('should not open popper when automatic-dropdown not set', async () => {
@@ -2650,6 +2738,19 @@ describe('Select', () => {
     const iconClear = wrapper.findComponent(CircleClose)
     await iconClear.trigger('click')
     expect(wrapper.findAll('.el-tag').length).toBe(1)
+    const selectInput = wrapper.find('.el-select__input')
+    await selectInput.trigger('keydown', {
+      code: EVENT_CODE.backspace,
+      key: EVENT_CODE.backspace,
+    })
+    await nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    await selectInput.trigger('keydown', {
+      code: EVENT_CODE.enter,
+      key: EVENT_CODE.enter,
+    })
+    await nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
   it('It should generate accessible attributes', async () => {
     wrapper = _mount(
@@ -2669,6 +2770,7 @@ describe('Select', () => {
     )
 
     expect(input.attributes('role')).toBe('combobox')
+    expect(input.attributes('tabindex')).toBe('0')
     expect(input.attributes('aria-autocomplete')).toBe('none')
     expect(input.attributes('aria-controls')).toBe(list.attributes('id'))
     expect(input.attributes('aria-expanded')).toBe('false')
@@ -2686,49 +2788,258 @@ describe('Select', () => {
     expect(disabledOption.attributes('aria-disabled')).toBe('true')
   })
 
-  describe('It will convert the initial model-value to the desired type after selection', () => {
-    it('array to string', async () => {
-      const wrapper = _mount(
-        `<el-select v-model="modelValue">
-            <el-option label="1" value="1" />
-          </el-select>`,
+  it('tabindex', async () => {
+    wrapper = _mount(
+      `<el-select v-model="value" tabindex="1">
+        <el-option label="label" value="1" />
+        <el-option label="disabled" value="2" disabled />
+      </el-select>`,
+      () => ({ value: '1' })
+    )
+
+    const input = wrapper.find('input')
+    expect(input.attributes('tabindex')).toBe('1')
+  })
+
+  it('should be trigger the click event', async () => {
+    const handleClick = vi.fn()
+    const wrapper = _mount(`<el-select @click="handleClick" />`, () => ({
+      handleClick,
+    }))
+
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    expect(handleClick).toHaveBeenCalledOnce()
+  })
+
+  test('should be run normally when switching multiple', async () => {
+    wrapper = getSelectVm({ multiple: false })
+    const vm = wrapper.vm as any
+
+    await (vm.value = undefined)
+    await (vm.multiple = true)
+    await (vm.multiple = false)
+    expect(vm.value).toBe(undefined)
+  })
+
+  // case #18022
+  it('should be do not expend options when select is disabled', async () => {
+    const value = null
+    const wrapper = _mount(
+      `
+        <el-select v-model="value"
+          filterable
+          automatic-dropdown
+          disabled
+        >
+          <el-option value="1">1</el-option>
+          <el-option value="2">2</el-option>
+        </el-select>
+      `,
+      () => ({
+        value,
+      })
+    )
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('focus')
+    await nextTick()
+    expect(
+      (document.querySelector('.el-select__popper') as HTMLElement).style
+        .display
+    ).toBe('none')
+  })
+
+  describe('check default first option after input', () => {
+    it('defalut', async () => {
+      vi.useFakeTimers()
+      wrapper = getSelectVm({
+        filterable: true,
+        defaultFirstOption: true,
+      })
+
+      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const selectVm = select.vm as any
+      const input = wrapper.find('input')
+      input.element.focus()
+
+      selectVm.onInput({
+        target: {
+          value: '蚵仔煎',
+        },
+      })
+
+      vi.runAllTimers()
+      await nextTick()
+      expect(selectVm.states.hoveringIndex).toBe(2)
+
+      vi.useRealTimers()
+    })
+
+    it('with multiple', async () => {
+      vi.useFakeTimers()
+      wrapper = getSelectVm({
+        multiple: true,
+        filterable: true,
+        defaultFirstOption: true,
+      })
+
+      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const selectVm = select.vm as any
+      const input = wrapper.find('input')
+      input.element.focus()
+
+      selectVm.onInput({
+        target: {
+          value: '蚵仔煎',
+        },
+      })
+
+      vi.runAllTimers()
+      await nextTick()
+      expect(selectVm.states.hoveringIndex).toBe(2)
+
+      vi.useRealTimers()
+    })
+
+    it('the value is string with value-key', async () => {
+      vi.useFakeTimers()
+      wrapper = getSelectVm({
+        filterable: true,
+        defaultFirstOption: true,
+        valueKey: 'label',
+      })
+
+      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const selectVm = select.vm as any
+      const input = wrapper.find('input')
+      input.element.focus()
+
+      selectVm.onInput({
+        target: {
+          value: '蚵仔煎',
+        },
+      })
+
+      vi.runAllTimers()
+      await nextTick()
+      expect(selectVm.states.hoveringIndex).toBe(2)
+
+      vi.useRealTimers()
+    })
+
+    it('the value is object with value-key', async () => {
+      vi.useFakeTimers()
+      wrapper = _mount(
+        `
+        <el-select v-model="value" value-key="id" filterable default-first-option>
+          <el-option
+            v-for="item in options"
+            :label="item.name"
+            :key="item.id"
+            :value="item">
+          </el-option>
+        </el-select>
+      `,
         () => ({
-          modelValue: ['initial'],
+          options: [
+            {
+              id: 1,
+              name: '黄金糕',
+            },
+            {
+              id: 2,
+              name: '双皮奶',
+            },
+            {
+              id: 3,
+              name: '蚵仔煎',
+            },
+          ],
+          value: null,
         })
       )
 
+      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const selectVm = select.vm as any
+      const input = wrapper.find('input')
+      input.element.focus()
+
+      selectVm.onInput({
+        target: {
+          value: '蚵仔煎',
+        },
+      })
+
+      vi.runAllTimers()
       await nextTick()
-      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('initial')
-      const vm = wrapper.vm as any
-      const options = getOptions()
-      options[0].click()
-      await nextTick()
-      expect(vm.modelValue).toEqual('1')
-      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('1')
+      expect(selectVm.states.hoveringIndex).toBe(2)
+
+      vi.useRealTimers()
     })
+  })
 
-    it('string to array', async () => {
-      const wrapper = _mount(
-        `<el-select v-model="modelValue" multiple>
-            <el-option label="1" value="1" />
-          </el-select>`,
-        () => ({
-          modelValue: 'initial',
-        })
-      )
+  it('should keep the selected label after filtering options', async () => {
+    const initials = [
+      {
+        value: 'aa',
+        label: 'label aa',
+      },
+      {
+        value: 'bb',
+        label: 'label bb',
+      },
+    ]
 
-      await nextTick()
-      expect(wrapper.findAll('.el-tag').length).toBe(1)
-      expect(wrapper.findAll('.el-tag')[0].text()).toBe('initial')
+    const wrapper = _mount(
+      `
+        <el-select v-model="value">
+          <el-option
+            v-for="option in options"
+            :key="option.value"
+            :value="option.value"
+            :label="option.label"
+          />
+        </el-select>
+      `,
+      () => ({
+        value: 'aa',
+        options: initials,
+      }),
+      {
+        methods: {
+          handleSearch(val) {
+            this.options = initials.filter((item) => item.label.includes(val))
+          },
+        },
+      }
+    )
 
-      const vm = wrapper.vm as any
-      const options = getOptions()
-      options[0].click()
-      await nextTick()
-      expect(vm.modelValue).toEqual(['initial', '1'])
-      expect(wrapper.findAll('.el-tag').length).toBe(2)
-      expect(wrapper.findAll('.el-tag')[0].text()).toBe('initial')
-      expect(wrapper.findAll('.el-tag')[1].text()).toBe('1')
-    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const vm = wrapper.vm as any
+
+    expect(selectVm.selectedLabel).toBe('label aa')
+
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('mouseenter')
+    await trigger.trigger('click')
+    vm.handleSearch('bb')
+
+    await nextTick()
+    expect(wrapper.vm.options.length).toBe(1)
+    expect(selectVm.selectedLabel).toBe('label aa')
+    vm.handleSearch('bbb')
+
+    await nextTick()
+    expect(wrapper.vm.options.length).toBe(0)
+    expect(selectVm.selectedLabel).toBe('label aa')
+
+    vm.value = 'bb'
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('bb')
+
+    vm.value = ''
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('')
   })
 })

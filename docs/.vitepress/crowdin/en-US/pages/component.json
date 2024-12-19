@@ -107,6 +107,11 @@
         "text": "Input Number"
       },
       {
+        "link": "/input-tag",
+        "text": "Input Tag",
+        "promotion": "2.9.0"
+      },
+      {
         "link": "/mention",
         "text": "Mention",
         "promotion": "2.8.0"

@@ -24,7 +24,7 @@
     background: getCssVar('text-color', 'primary');
     border: 1px solid getCssVar('text-color', 'primary');
 
-    #{$arrow-selector}::before {
+    > #{$arrow-selector}::before {
       border: 1px solid getCssVar('text-color', 'primary');
       background: getCssVar('text-color', 'primary');
       right: 0;
@@ -35,7 +35,7 @@
     background: getCssVar('bg-color', 'overlay');
     border: 1px solid getCssVar('border-color', 'light');
 
-    #{$arrow-selector}::before {
+    > #{$arrow-selector}::before {
       border: 1px solid getCssVar('border-color', 'light');
       background: getCssVar('bg-color', 'overlay');
       right: 0;
@@ -96,7 +96,7 @@
     $adjacency
       in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top')
   {
-    &[data-popper-placement^='#{$placement}'] {
+    &[data-popper-placement^='#{$placement}'] > {
       #{$arrow-selector}::before {
         border-#{$placement}-color: transparent !important;
         border-#{$adjacency}-color: transparent !important;

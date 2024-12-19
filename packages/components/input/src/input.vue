@@ -1,6 +1,5 @@
 <template>
   <div
-    v-bind="containerAttrs"
     :class="[
       containerKls,
       {
@@ -9,7 +8,6 @@
       },
     ]"
     :style="containerStyle"
-    :role="containerRole"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
@@ -48,6 +46,7 @@
           :style="inputStyle"
           :form="form"
           :autofocus="autofocus"
+          :role="containerRole"
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
@@ -126,6 +125,7 @@
         :form="form"
         :autofocus="autofocus"
         :rows="rows"
+        :role="containerRole"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -201,17 +201,8 @@ const props = defineProps(inputProps)
 const emit = defineEmits(inputEmits)
 
 const rawAttrs = useRawAttrs()
+const attrs = useAttrs()
 const slots = useSlots()
-
-const containerAttrs = computed(() => {
-  const comboBoxAttrs: Record<string, unknown> = {}
-  if (props.containerRole === 'combobox') {
-    comboBoxAttrs['aria-haspopup'] = rawAttrs['aria-haspopup']
-    comboBoxAttrs['aria-owns'] = rawAttrs['aria-owns']
-    comboBoxAttrs['aria-expanded'] = rawAttrs['aria-expanded']
-  }
-  return comboBoxAttrs
-})
 
 const containerKls = computed(() => [
   props.type === 'textarea' ? nsTextarea.b() : nsInput.b(),
@@ -235,11 +226,6 @@ const wrapperKls = computed(() => [
   nsInput.is('focus', isFocused.value),
 ])
 
-const attrs = useAttrs({
-  excludeKeys: computed<string[]>(() => {
-    return Object.keys(containerAttrs.value)
-  }),
-})
 const { form: elForm, formItem: elFormItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, {
   formItemContext: elFormItem,
@@ -263,6 +249,9 @@ const _ref = computed(() => input.value || textarea.value)
 const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   _ref,
   {
+    beforeFocus() {
+      return inputDisabled.value
+    },
     afterBlur() {
       if (props.validateEvent) {
         elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
@@ -302,7 +291,6 @@ const showPwdVisible = computed(
   () =>
     props.showPassword &&
     !inputDisabled.value &&
-    !props.readonly &&
     !!nativeInputValue.value &&
     (!!nativeInputValue.value || isFocused.value)
 )
@@ -440,15 +428,13 @@ const {
 } = useComposition({ emit, afterComposition: handleInput })
 
 const handlePasswordVisible = () => {
+  recordCursor()
   passwordVisible.value = !passwordVisible.value
-  focus()
+  // The native input needs a little time to regain focus
+  setTimeout(setCursor)
 }
 
-const focus = async () => {
-  // see: https://github.com/ElemeFE/element/issues/18573
-  await nextTick()
-  _ref.value?.focus()
-}
+const focus = () => _ref.value?.focus()
 
 const blur = () => _ref.value?.blur()
 
