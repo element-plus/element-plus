@@ -34,6 +34,8 @@
   }
 
   @include e(group) {
+    flex: 1;
+    min-width: 0;
     margin-left: getCssVar('notification-group-margin-left');
     margin-right: getCssVar('notification-group-margin-right');
   }
@@ -58,6 +60,7 @@
   }
 
   & .#{$namespace}-notification__icon {
+    flex-shrink: 0;
     height: getCssVar('notification-icon-size');
     width: getCssVar('notification-icon-size');
     font-size: getCssVar('notification-icon-size');
