@@ -9,7 +9,7 @@ import {
   unref,
   watchEffect,
 } from 'vue'
-import { debugWarn, isArray } from '@element-plus/utils'
+import { debugWarn, isArray, isUndefined } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   cellForced,
@@ -73,7 +73,7 @@ function useRender<T>(
       column.minWidth = 80
     }
     column.realWidth = Number(
-      column.width === undefined ? column.minWidth : column.width
+      isUndefined(column.width) ? column.minWidth : column.width
     )
     return column
   }
@@ -83,7 +83,7 @@ function useRender<T>(
     const source = cellForced[type] || {}
     Object.keys(source).forEach((prop) => {
       const value = source[prop]
-      if (prop !== 'className' && value !== undefined) {
+      if (prop !== 'className' && !isUndefined(value)) {
         column[prop] = value
       }
     })
