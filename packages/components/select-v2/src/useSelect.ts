@@ -57,7 +57,7 @@ type useSelectReturnType = (
   props: ISelectV2Props,
   emit: SelectEmitFn
 ) => {
-  inputId: Ref<string | undefined, string | undefined>
+  inputId: Ref<string | undefined>
   collapseTagSize: ComputedRef<'default' | 'small'>
   currentPlaceholder: ComputedRef<string>
   expanded: Ref<boolean>
