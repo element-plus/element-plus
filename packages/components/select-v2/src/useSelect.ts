@@ -49,7 +49,7 @@ import type { ISelectV2Props } from './token'
 import type { SelectEmitFn } from './defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectDropdownInstance } from './select-dropdown'
-import type { Component, ComputedRef, Ref } from 'vue'
+import type { Component, ComputedRef, Ref, WritableComputedRef } from 'vue'
 
 const MINIMUM_INPUT_WIDTH = 11
 
@@ -72,7 +72,7 @@ type useSelectReturnType = (
   collapseTagStyle: ComputedRef<{ maxWidth: string }>
   inputStyle: ComputedRef<{ width: string }>
   popperSize: Ref<number>
-  dropdownMenuVisible: ComputedRef<boolean>
+  dropdownMenuVisible: WritableComputedRef<boolean>
   hasModelValue: ComputedRef<boolean>
   shouldShowPlaceholder: ComputedRef<boolean>
   selectDisabled: ComputedRef<boolean | undefined>
