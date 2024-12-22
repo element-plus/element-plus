@@ -101,11 +101,12 @@ const items = computed(() => {
 
   if (props.start && props.end && props.step) {
     let current = start.value
-    let optionValue: string
+    let currentTime: string
     while (current && end.value && compareTime(current, end.value) <= 0) {
-      const currentTime = dayjs(current, 'HH:mm')
-      optionValue = currentTime.locale(lang.value).format(props.format)
-      push(optionValue, current)
+      currentTime = dayjs(current, 'HH:mm')
+        .locale(lang.value)
+        .format(props.format)
+      push(currentTime, current)
       current = nextTime(current, step.value!)
     }
     if (
