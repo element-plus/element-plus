@@ -48,9 +48,6 @@ dayjs.extend(customParseFormat)
 
 const { Option: ElOption } = ElSelect
 
-const MIN_TIME = '-1:-1'
-const MAX_TIME = '100:100'
-
 defineOptions({
   name: 'ElTimeSelect',
 })
@@ -97,8 +94,8 @@ const items = computed(() => {
     result.push({
       value: formattedValue,
       disabled:
-        compareTime(rawValue, minTime.value || MIN_TIME) <= 0 ||
-        compareTime(rawValue, maxTime.value || MAX_TIME) >= 0,
+        compareTime(rawValue, minTime.value || '-1:-1') <= 0 ||
+        compareTime(rawValue, maxTime.value || '100:100') >= 0,
     })
   }
 
@@ -111,12 +108,10 @@ const items = computed(() => {
       push(optionValue, current)
       current = nextTime(current, step.value!)
     }
-    const lastVal = result[result.length - 1]?.value
-    const lastTime = dayjs(lastVal, 'HH:mm')
     if (
       props.includeEndTime &&
       end.value &&
-      lastTime.format('HH:mm') !== end.value
+      result[result.length - 1]?.value !== end.value
     ) {
       const formattedValue = dayjs(end.value, 'HH:mm')
         .locale(lang.value)
