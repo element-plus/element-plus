@@ -1,5 +1,8 @@
 <template>
-  <el-config-provider :value-on-clear="null" :empty-values="[undefined, null]">
+  <el-config-provider
+    :value-on-clear="() => null"
+    :empty-values="[undefined, null]"
+  >
     <div class="flex flex-wrap gap-4 items-center">
       <el-select
         v-model="value1"
