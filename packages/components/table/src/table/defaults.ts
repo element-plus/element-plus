@@ -395,6 +395,13 @@ export default {
     type: [Number, String],
     default: undefined,
   },
+  /**
+   * @description whether to allow drag the last column
+   */
+  allowDragLastColumn: {
+    type: Boolean,
+    default: true,
+  },
 }
 export type {
   SummaryMethod,
