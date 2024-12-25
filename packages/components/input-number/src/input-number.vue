@@ -191,6 +191,20 @@ const getPrecision = (value: number | null | undefined) => {
 }
 const ensurePrecision = (val: number, coefficient: 1 | -1 = 1) => {
   if (!isNumber(val)) return data.currentValue
+  if (val >= Number.MAX_SAFE_INTEGER && coefficient === 1) {
+    debugWarn(
+      'InputNumber',
+      'The value has reached the maximum safe integer limit.'
+    )
+    return val
+  } else if (val <= Number.MIN_SAFE_INTEGER && coefficient === -1) {
+    debugWarn(
+      'InputNumber',
+      'The value has reached the minimum safe integer limit.'
+    )
+    return val
+  }
+
   // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
   return toPrecision(val + props.step * coefficient)
 }
