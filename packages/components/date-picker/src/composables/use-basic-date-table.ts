@@ -136,7 +136,7 @@ export const useBasicDateTable = (
     cell.selected = _selectedDate.find((d) => d.isSame(cell.dayjs, 'day'))
     cell.isSelected = !!cell.selected
     cell.isCurrent = isCurrent(cell)
-    cell.disabled = disabledDate?.(cellDate)
+    cell.disabled = disabledDate?.(cellDate) || false
     cell.customClass = cellClassName?.(cellDate)
     return shouldIncrement
   }
@@ -164,6 +164,7 @@ export const useBasicDateTable = (
       for (let rowIndex = 0; rowIndex < 6; rowIndex++) {
         if (!rows_[rowIndex][0]) {
           rows_[rowIndex][0] = {
+            //...rows_[rowIndex][0],
             type: 'week',
             text: unref(startDate)
               .add(rowIndex * 7 + 1, dateUnit)

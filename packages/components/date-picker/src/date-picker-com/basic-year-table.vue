@@ -39,19 +39,6 @@ import ElDatePickerCell from './basic-cell-render'
 
 import type { DateCell } from '../date-picker.type'
 
-type YearCell = {
-  customClass?: string
-  isSelected?: boolean
-  column: number
-  row: number
-  disabled: boolean
-  start: boolean
-  end: boolean
-  text: number
-  type: 'normal' | 'today'
-  inRange: boolean
-}
-
 const datesInYear = (year: number, lang: string) => {
   const firstDay = dayjs(String(year)).locale(lang).startOf('year')
   const lastDay = firstDay.endOf('year')
@@ -71,7 +58,7 @@ const startYear = computed(() => {
   return Math.floor(props.date.year() / 10) * 10
 })
 
-const tableRows = ref<YearCell[][]>([[], [], []])
+const tableRows = ref<DateCell[][]>([[], [], []])
 const lastRow = ref<number>()
 const lastColumn = ref<number>()
 const rows = computed(() => {
@@ -84,7 +71,7 @@ const rows = computed(() => {
       if (i * 4 + j >= 10) {
         break
       }
-      const cell: DateCell = (row[j] ||= {
+      const cell = (row[j] ||= {
         row: i,
         column: j,
         type: 'normal',
@@ -93,7 +80,7 @@ const rows = computed(() => {
         end: false,
         text: -1,
         disabled: false,
-      })
+      } as DateCell)
 
       cell.type = 'normal'
 
@@ -150,7 +137,7 @@ const focus = () => {
   currentCellRef.value?.focus()
 }
 
-const getCellKls = (cell: YearCell) => {
+const getCellKls = (cell: DateCell) => {
   const kls: Record<string, boolean> = {}
   const today = dayjs().locale(lang.value)
   const year = cell.text

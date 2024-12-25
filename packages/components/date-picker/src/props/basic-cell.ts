@@ -1,11 +1,11 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
-import type { DateCell } from '../date-picker.type'
+import type { DateCellRender } from '../date-picker.type'
 
 export const basicCellProps = buildProps({
   cell: {
-    type: definePropType<DateCell>(Object),
+    type: definePropType<DateCellRender>(Object),
   },
 } as const)
 

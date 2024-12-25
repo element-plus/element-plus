@@ -42,19 +42,6 @@ import ElDatePickerCell from './basic-cell-render'
 
 import type { DateCell } from '../date-picker.type'
 
-type MonthCell = {
-  customClass?: string
-  isSelected?: boolean
-  column: number
-  row: number
-  disabled: boolean
-  start: boolean
-  end: boolean
-  text: number
-  type: 'normal' | 'today'
-  inRange: boolean
-}
-
 const props = defineProps(basicMonthTableProps)
 const emit = defineEmits(['changerange', 'pick', 'select'])
 
@@ -70,10 +57,10 @@ const months = ref(
     .monthsShort()
     .map((_) => _.toLowerCase())
 )
-const tableRows = ref<MonthCell[][]>([[], [], []])
+const tableRows = ref<DateCell[][]>([[], [], []])
 const lastRow = ref<number>()
 const lastColumn = ref<number>()
-const rows = computed<MonthCell[][]>(() => {
+const rows = computed<DateCell[][]>(() => {
   const rows = tableRows.value
 
   const now = dayjs().locale(lang.value).startOf('month')
@@ -81,7 +68,7 @@ const rows = computed<MonthCell[][]>(() => {
   for (let i = 0; i < 3; i++) {
     const row = rows[i]
     for (let j = 0; j < 4; j++) {
-      const cell: DateCell = (row[j] ||= {
+      const cell = (row[j] ||= {
         row: i,
         column: j,
         type: 'normal',
@@ -90,7 +77,7 @@ const rows = computed<MonthCell[][]>(() => {
         end: false,
         text: -1,
         disabled: false,
-      })
+      } as DateCell)
 
       cell.type = 'normal'
 
@@ -148,7 +135,7 @@ const focus = () => {
   currentCellRef.value?.focus()
 }
 
-const getCellStyle = (cell: MonthCell) => {
+const getCellStyle = (cell: DateCell) => {
   const style = {} as any
   const year = props.date.year()
   const today = new Date()
