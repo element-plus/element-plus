@@ -26,7 +26,7 @@ export interface TableHeader extends ComponentInternalInstance {
     onColumnsChange
     onScrollableChange
   }
-  filterPanels: Ref<unknown>
+  filterPanels: Ref<Record<string, ComponentInternalInstance>>
 }
 export interface TableHeaderProps<T> {
   fixed: string

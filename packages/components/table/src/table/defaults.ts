@@ -8,7 +8,6 @@ import type {
   VNode,
 } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
-import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
@@ -43,20 +42,17 @@ interface TreeProps {
   checkStrictly?: boolean
 }
 
-type HoverState<T> = Nullable<{
-  cell: HTMLElement
-  column: TableColumnCtx<T>
-  row: T
-}>
+type HoverState<T> =
+  | {
+      cell: HTMLElement
+      column: TableColumnCtx<T>
+      row: T
+    }
+  | undefined
 
 type RIS<T> = { row: T; $index: number; store: Store<T>; expanded: boolean }
 
-type RenderExpanded<T> = ({
-  row,
-  $index,
-  store,
-  expanded: boolean,
-}: RIS<T>) => VNode
+type RenderExpanded<T> = ({ row, $index, store, expanded }: RIS<T>) => VNode
 
 type SummaryMethod<T> = (data: {
   columns: TableColumnCtx<T>[]
@@ -183,6 +179,11 @@ interface RenderRowData<T> {
   $index: number
   treeNode?: TreeNode
   expanded: boolean
+}
+
+interface hColgroupProps {
+  tableLayout: Layout
+  columns: TableColumnCtx<T>[]
 }
 
 export default {
@@ -411,4 +412,81 @@ export type {
   Filter,
   TableColumnCtx,
   TreeProps,
+  hColgroupProps,
+}
+
+// emits
+export const SELECT = 'select'
+export const SELECT_ALL = 'select-all'
+export const SELECTION_CHANGE = 'selection-change'
+export const CELL_MOUSE_ENTER = 'cell-mouse-enter'
+export const CELL_MOUSE_LEAVE = 'cell-mouse-leave'
+export const CELL_CLICK = 'cell-click'
+export const CELL_DBLCLICK = 'cell-dblclick'
+export const CELL_CONTEXTMENU = 'cell-contextmenu'
+export const ROW_CLICK = 'row-click'
+export const ROW_CONTEXTMENU = 'row-contextmenu'
+export const ROW_DBLCLICK = 'row-dblclick'
+export const HEADER_CLICK = 'header-click'
+export const HEADER_CONTEXTMENU = 'header-contextmenu'
+export const SORT_CHANGE = 'sort-change'
+export const FILTER_CHANGE = 'filter-change'
+export const CURRENT_CHANGE = 'current-change'
+export const HEADER_DRAGEND = 'header-dragend'
+export const EXPAND_CHANGE = 'expand-change'
+export const SCROLL = 'scroll'
+
+export const tableEmits = {
+  [SELECT]: <T = any>(selection: T[], row: T) => selection && row,
+  [SELECT_ALL]: (selection: any[]) => selection,
+  [SELECTION_CHANGE]: (newSelection: any[]) => newSelection,
+  [CELL_MOUSE_ENTER]: (
+    row: any,
+    column: any,
+    cell: HTMLTableCellElement,
+    event: Event
+  ) => row && column && cell && event,
+  [CELL_MOUSE_LEAVE]: (
+    row: any,
+    column: any,
+    cell: HTMLTableCellElement,
+    event: Event
+  ) => row && column && cell && event,
+  [CELL_CLICK]: (
+    row: any,
+    column: any,
+    cell: HTMLTableCellElement,
+    event: Event
+  ) => row && column && cell && event,
+  [CELL_DBLCLICK]: (
+    row: any,
+    column: any,
+    cell: HTMLTableCellElement,
+    event: Event
+  ) => row && column && cell && event,
+  [CELL_CONTEXTMENU]: (
+    row: any,
+    column: any,
+    cell: HTMLTableCellElement,
+    event: Event
+  ) => event && row && cell && column,
+  [ROW_CLICK]: (row: any, column: any, event: Event) => row && column && event,
+  [ROW_CONTEXTMENU]: (row: any, column: any, event: Event) =>
+    row && column && event,
+  [ROW_DBLCLICK]: (row: any, event: Event) => [row, event],
+  [HEADER_CLICK]: (row: any, column: any, event: Event) =>
+    row && column && event,
+  [HEADER_CONTEXTMENU]: (column: any, event: Event) => column && event,
+  [SORT_CHANGE]: (data: { column: any; prop: string; order: any }) => data,
+  [FILTER_CHANGE]: (newFilters: any) => newFilters,
+  [CURRENT_CHANGE]: (currentRow: any, oldCurrentRow: any) =>
+    currentRow && oldCurrentRow,
+  [HEADER_DRAGEND]: (
+    newWidth: number,
+    oldWidth: number,
+    column: any,
+    event: MouseEvent
+  ) => newWidth && oldWidth && column && event,
+  [EXPAND_CHANGE]: (row: any, expand: any[] | boolean) => row && expand,
+  [SCROLL]: (data: { scrollLeft: number; scrollTop: number }) => data,
 }

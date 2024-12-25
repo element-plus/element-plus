@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { computed, inject } from 'vue'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -24,7 +23,10 @@ export const convertToRows = <T>(
   originColumns: TableColumnCtx<T>[]
 ): TableColumnCtx<T>[] => {
   let maxLevel = 1
-  const traverse = (column: TableColumnCtx<T>, parent: TableColumnCtx<T>) => {
+  const traverse = (
+    column: TableColumnCtx<T>,
+    parent: TableColumnCtx<T> | undefined
+  ) => {
     if (parent) {
       column.level = parent.level + 1
       if (maxLevel < column.level) {
@@ -48,7 +50,7 @@ export const convertToRows = <T>(
     traverse(column, undefined)
   })
 
-  const rows = []
+  const rows: any[] = []
   for (let i = 0; i < maxLevel; i++) {
     rows.push([])
   }
