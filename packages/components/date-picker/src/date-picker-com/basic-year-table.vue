@@ -11,12 +11,12 @@
         <td
           v-for="(cell, cellKey) in row"
           :key="`${rowKey}_${cellKey}`"
-          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
+          :ref="(el) => cell.isSelected && (currentCellRef = el as HTMLElement)"
           class="available"
           :class="getCellKls(cell)"
-          :aria-selected="isSelectedCell(cell)"
+          :aria-selected="!!cell.isSelected"
           :aria-label="String(cell.text)"
-          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          :tabindex="cell.isSelected ? 0 : -1"
           @keydown.space.prevent.stop="handleYearTableClick"
           @keydown.enter.prevent.stop="handleYearTableClick"
         >
@@ -37,7 +37,11 @@ import { basicYearTableProps } from '../props/basic-year-table'
 import { getValidDateOfYear } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
 
+import type { DateCell } from '../date-picker.type'
+
 type YearCell = {
+  customClass?: string
+  isSelected?: boolean
   column: number
   row: number
   disabled: boolean
@@ -80,22 +84,21 @@ const rows = computed(() => {
       if (i * 4 + j >= 10) {
         break
       }
-      let cell = row[j]
-      if (!cell) {
-        cell = {
-          row: i,
-          column: j,
-          type: 'normal',
-          inRange: false,
-          start: false,
-          end: false,
-          text: -1,
-          disabled: false,
-        }
-      }
+      const cell: DateCell = (row[j] ||= {
+        row: i,
+        column: j,
+        type: 'normal',
+        inRange: false,
+        start: false,
+        end: false,
+        text: -1,
+        disabled: false,
+      })
+
       cell.type = 'normal'
+
       const index = i * 4 + j + startYear.value
-      const calTime = dayjs().year(index)
+      const calTime = dayjs().startOf('year').year(index)
 
       const calEndDate =
         props.rangeState.endDate ||
@@ -129,11 +132,15 @@ const rows = computed(() => {
       if (isToday) {
         cell.type = 'today'
       }
-      cell.text = index
       const cellDate = calTime.toDate()
-      cell.disabled =
-        (props.disabledDate && props.disabledDate(cellDate)) || false
-      row[j] = cell
+      cell.text = index
+      cell.date = cellDate
+      cell.customClass = props.cellClassName?.(cellDate)
+      cell.dayjs = calTime
+      cell.timestamp = calTime.valueOf()
+      cell.isCurrent = isCurrent(cell)
+      cell.isSelected = isSelectedCell(cell)
+      cell.disabled = props.disabledDate?.(cellDate) || false
     }
   }
   return rows
@@ -153,8 +160,11 @@ const getCellKls = (cell: YearCell) => {
     : false
 
   kls.today = today.year() === year
-  kls.current =
-    castArray(props.parsedValue).findIndex((d) => d!.year() === year) >= 0
+  kls.current = isCurrent(cell)
+
+  if (cell.customClass) {
+    kls[cell.customClass] = true
+  }
 
   if (cell.inRange) {
     kls['in-range'] = true
@@ -170,7 +180,12 @@ const getCellKls = (cell: YearCell) => {
   return kls
 }
 
-const isSelectedCell = (cell: YearCell) => {
+const isCurrent = (cell: DateCell) => {
+  const year = cell.text
+  return castArray(props.parsedValue).findIndex((d) => d!.year() === year) >= 0
+}
+
+const isSelectedCell = (cell: DateCell) => {
   const year = cell.text
   return castArray(props.date).findIndex((date) => date.year() === year) >= 0
 }

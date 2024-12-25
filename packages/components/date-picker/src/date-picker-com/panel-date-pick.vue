@@ -163,6 +163,7 @@
             :date="innerDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
+            :cell-class-name="cellClassName"
             @pick="handleMonthPick"
           />
         </div>
