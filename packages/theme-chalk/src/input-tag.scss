@@ -169,6 +169,10 @@
     appearance: none;
     width: 100%;
     background-color: transparent;
+
+    &::placeholder {
+      color: getCssVar('input-tag-placeholder-color');
+    }
   }
 
   @include e(input-calculator) {
