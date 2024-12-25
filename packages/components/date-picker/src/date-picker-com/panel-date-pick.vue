@@ -44,6 +44,7 @@
               size="small"
               :validate-event="false"
               @focus="onTimePickerInputFocus"
+              @blur="handleTimePickClose"
               @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"
             />
