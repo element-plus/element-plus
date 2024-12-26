@@ -183,7 +183,7 @@ import useUtils from './table/utils-helper'
 import { convertToRows } from './table-header/utils-helper'
 import useStyle from './table/style-helper'
 import useKeyRender from './table/key-render-helper'
-import defaultProps, { tableEmits } from './table/defaults'
+import { tableEmits, tableProps } from './table/defaults'
 import { TABLE_INJECTION_KEY } from './tokens'
 import { hColgroup } from './h-helper'
 import { useScrollbar } from './composables/use-scrollbar'
@@ -197,7 +197,7 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps(defaultProps)
+const props = defineProps(tableProps)
 defineEmits(tableEmits)
 
 type Row = typeof props.data[number]
