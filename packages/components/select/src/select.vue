@@ -375,7 +375,7 @@ export default defineComponent({
       if (!props.multiple) {
         return API.states.selectedLabel
       }
-      return API.states.selected.map((i) => i.currentLabel as string)
+      return API.states.selected.map((i: any) => i.currentLabel as string)
     })
 
     return {
