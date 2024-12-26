@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { computed, unref } from 'vue'
 import { isObject } from '@element-plus/utils'
 import { SortOrder, oppositeOrderMap } from '../constants'
@@ -21,22 +20,22 @@ function useColumns(
     }))
   )
 
-  const visibleColumns = computed(() => {
-    return unref(_columns).filter((column) => !column.hidden)
-  })
+  const visibleColumns = computed(() =>
+    unref(_columns).filter(({ hidden }) => !hidden)
+  )
 
   const fixedColumnsOnLeft = computed(() =>
     unref(visibleColumns).filter(
-      (column) => column.fixed === 'left' || column.fixed === true
+      ({ fixed }) => fixed === 'left' || fixed === true
     )
   )
 
   const fixedColumnsOnRight = computed(() =>
-    unref(visibleColumns).filter((column) => column.fixed === 'right')
+    unref(visibleColumns).filter(({ fixed }) => fixed === 'right')
   )
 
   const normalColumns = computed(() =>
-    unref(visibleColumns).filter((column) => !column.fixed)
+    unref(visibleColumns).filter(({ fixed }) => !fixed)
   )
 
   const mainColumns = computed(() => {
@@ -63,34 +62,25 @@ function useColumns(
     return ret
   })
 
-  const hasFixedColumns = computed(() => {
-    return unref(fixedColumnsOnLeft).length || unref(fixedColumnsOnRight).length
-  })
+  const hasFixedColumns = computed(
+    () => unref(fixedColumnsOnLeft).length || unref(fixedColumnsOnRight).length
+  )
 
-  const columnsStyles = computed(() => {
-    return unref(_columns).reduce<Record<Column<any>['key'], CSSProperties>>(
-      (style, column) => {
-        style[column.key] = calcColumnStyle(column, unref(fixed), props.fixed)
-        return style
-      },
-      {}
-    )
-  })
+  const columnsStyles = computed(() =>
+    unref(_columns).reduce<Record<KeyType, CSSProperties>>((style, column) => {
+      style[column.key] = calcColumnStyle(column, unref(fixed), props.fixed)
+      return style
+    }, {})
+  )
 
-  const columnsTotalWidth = computed(() => {
-    return unref(visibleColumns).reduce(
-      (width, column) => width + column.width,
-      0
-    )
-  })
+  const columnsTotalWidth = computed(() =>
+    unref(visibleColumns).reduce((width, column) => width + column.width, 0)
+  )
 
-  const getColumn = (key: KeyType) => {
-    return unref(_columns).find((column) => column.key === key)
-  }
+  const getColumn = (key: KeyType) =>
+    unref(_columns).find((column) => column.key === key)
 
-  const getColumnStyle = (key: KeyType) => {
-    return unref(columnsStyles)[key]
-  }
+  const getColumnStyle = (key: KeyType) => unref(columnsStyles)[key]
 
   const updateColumnWidth = (column: Column<any>, width: number) => {
     column.width = width
