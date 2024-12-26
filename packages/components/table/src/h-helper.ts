@@ -5,7 +5,7 @@ import type { VNode } from 'vue'
 import type { hColgroupProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
 
-export function hColgroup(props: hColgroupProps): VNode {
+export function hColgroup(props: hColgroupProps<unknown>): VNode {
   const isAuto = props.tableLayout === 'auto'
   let columns = props.columns || []
   if (isAuto) {
