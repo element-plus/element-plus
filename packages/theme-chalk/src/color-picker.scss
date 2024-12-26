@@ -251,6 +251,8 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   line-height: normal;
   outline: none;
   transition: all getCssVar('transition-duration');
+  height: map.get($color-picker-size, 'default');
+  width: map.get($color-picker-size, 'default');
 
   &:hover:not(.is-disabled, .is-focused) {
     .#{$namespace}-color-picker__trigger {
@@ -286,11 +288,7 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   @each $size in (large, small) {
     @include m($size) {
       height: map.get($color-picker-size, $size);
-
-      .#{$namespace}-color-picker__trigger {
-        height: map.get($color-picker-size, $size);
-        width: map.get($color-picker-size, $size);
-      }
+      width: map.get($color-picker-size, $size);
     }
   }
 
@@ -307,8 +305,8 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     align-items: center;
 
     box-sizing: border-box;
-    height: map.get($color-picker-size, 'default');
-    width: map.get($color-picker-size, 'default');
+    height: 100%;
+    width: 100%;
     padding: 4px;
     border: 1px solid getCssVar('border-color');
     border-radius: 4px;
