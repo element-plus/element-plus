@@ -181,7 +181,7 @@ interface RenderRowData<T> {
   expanded: boolean
 }
 
-interface hColgroupProps {
+interface hColgroupProps<T> {
   tableLayout: Layout
   columns: TableColumnCtx<T>[]
 }
