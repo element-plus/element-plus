@@ -147,6 +147,7 @@ interface TableProps<T> {
   style?: CSSProperties
   tableLayout?: Layout
   scrollbarAlwaysOn?: boolean
+  scrollbarNative?: boolean
   flexible?: boolean
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
   appendFilterPanelTo?: string
@@ -380,6 +381,10 @@ export default {
    * @description always show scrollbar
    */
   scrollbarAlwaysOn: Boolean,
+  /**
+   * @description whether to use the native scrollbar
+   */
+  scrollbarNative: Boolean,
   /**
    * @description ensure main axis minimum-size doesn't follow the content
    */
