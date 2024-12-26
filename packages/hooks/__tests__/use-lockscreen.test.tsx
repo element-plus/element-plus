@@ -53,6 +53,29 @@ describe('useLockscreen', () => {
     expect(hasClass(document.body, kls)).toBe(false)
   })
 
+  it('should not cleanup when not all unmounted', async () => {
+    const wrapper1 = mount({
+      setup: () => () => <Comp />,
+    })
+    await nextTick()
+    expect(hasClass(document.body, kls)).toBe(true)
+
+    const wrapper2 = mount({
+      setup: () => () => <Comp />,
+    })
+    await nextTick()
+
+    wrapper2.unmount()
+    await nextTick()
+    await sleep(250)
+    expect(hasClass(document.body, kls)).toBe(true)
+
+    wrapper1.unmount()
+    await nextTick()
+    await sleep(250)
+    expect(hasClass(document.body, kls)).toBe(false)
+  })
+
   it('should render a different namespace than the given one', async () => {
     const namespace = 'test'
     const wrapper = mount({
