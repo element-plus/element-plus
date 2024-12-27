@@ -34,19 +34,16 @@
               @change="handleVisibleDateChange"
             />
           </span>
-          <span
-            v-click-outside="handleTimePickClose"
-            :class="dpNs.e('editor-wrap')"
-          >
+          <span ref="wrapperRef" :class="dpNs.e('editor-wrap')">
             <el-input
+              ref="inputTimeRef"
               :placeholder="t('el.datepicker.selectTime')"
               :model-value="visibleTime"
               size="small"
               :validate-event="false"
-              @focus="onTimePickerInputFocus"
-              @blur="handleTimePickClose"
               @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"
+              @keydown="handleKeydownInput"
             />
             <time-pick-panel
               :visible="timePickerVisible"
@@ -206,8 +203,11 @@ import {
 } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
-import { ClickOutside as vClickOutside } from '@element-plus/directives'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useFocusController,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import {
   TimePickPanel,
@@ -229,6 +229,7 @@ import { getValidDateOfMonth, getValidDateOfYear } from '../utils'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
+import type { InputInstance } from '@element-plus/components/input'
 
 import type { SetupContext } from 'vue'
 import type { ConfigType, Dayjs } from 'dayjs'
@@ -246,7 +247,13 @@ type DatePickType = PanelDatePickProps['type']
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const timeWithinRange = (_: ConfigType, __: any, ___: string) => true
 const props = defineProps(panelDatePickProps)
-const contextEmit = defineEmits(['pick', 'set-picker-option', 'panel-change'])
+const contextEmit = defineEmits([
+  'pick',
+  'set-picker-option',
+  'panel-change',
+  'focus',
+  'blur',
+])
 const ppNs = useNamespace('picker-panel')
 const dpNs = useNamespace('date-picker')
 const attrs = useAttrs()
@@ -575,11 +582,24 @@ const visibleDate = computed(() => {
 })
 
 const timePickerVisible = ref(false)
-const onTimePickerInputFocus = () => {
-  timePickerVisible.value = true
-}
-const handleTimePickClose = () => {
-  timePickerVisible.value = false
+
+const inputTimeRef = ref<InputInstance>()
+
+const { wrapperRef } = useFocusController(inputTimeRef, {
+  afterFocus() {
+    timePickerVisible.value = true
+  },
+  afterBlur() {
+    timePickerVisible.value = false
+  },
+})
+
+const handleKeydownInput = (event: Event | KeyboardEvent) => {
+  const { code } = event as KeyboardEvent
+  if (code === EVENT_CODE.tab) {
+    timePickerVisible.value = false
+    return
+  }
 }
 
 const getUnits = (date: Dayjs) => {
