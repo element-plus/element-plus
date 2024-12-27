@@ -23,7 +23,7 @@ export const useData = (
 
     const _expandedRowKeys = unref(expandedRowKeys)
 
-    if (!_expandedRowKeys || !_expandedRowKeys.length) return data
+    if (!_expandedRowKeys?.length) return data
 
     const array: any[] = []
     const keysSet = new Set()

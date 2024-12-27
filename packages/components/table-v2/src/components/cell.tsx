@@ -7,7 +7,7 @@ const TableV2Cell: FunctionalComponent<TableV2CellProps> = (
   { slots }
 ) => {
   const { cellData, style } = props
-  const displayText = cellData?.toString?.() || ''
+  const displayText = cellData?.toString?.() ?? ''
   const defaultSlot = renderSlot(slots, 'default', props, () => [displayText])
   return (
     <div class={props.class} title={displayText} style={style}>
