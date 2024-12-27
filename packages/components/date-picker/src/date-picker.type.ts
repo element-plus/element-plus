@@ -16,22 +16,39 @@ export declare type IDatePickerType =
 
 type DateCellType = 'normal' | 'today' | 'week' | 'next-month' | 'prev-month'
 export interface DateCell {
-  column: number
+  column?: number
   customClass?: string
-  disabled: boolean
-  end: boolean
-  inRange: boolean
-  row: number
-  selected?: Dayjs
-  isCurrent: boolean
-  isSelected: boolean
-  start: boolean
-  text: number
-  timestamp: number
-  date: Date
-  dayjs: Dayjs
-  type: DateCellType
+  disabled?: boolean
+  end?: boolean
+  inRange?: boolean
+  row?: number
+  //selected?: Dayjs
+  //isCurrent?: boolean
+  isSelected?: boolean
+  start?: boolean
+  text?: number | string
+  timestamp?: number
+  date?: Date
+  dayjs?: Dayjs
+  type?: DateCellType
 }
-export type DateCellRender = Omit<DateCell, 'text'> & {
-  text: number | string
-}
+//export interface DateCell {
+//  column: number
+//  customClass?: string
+//  disabled: boolean
+//  end: boolean
+//  inRange: boolean
+//  row: number
+//  selected?: Dayjs
+//  isCurrent: boolean
+//  isSelected: boolean
+//  start: boolean
+//  text: number
+//  timestamp: number
+//  date: Date
+//  dayjs: Dayjs
+//  type: DateCellType
+//}
+//export type DateCellRender = Omit<DateCell, 'text'> & {
+//  text: number | string
+//}

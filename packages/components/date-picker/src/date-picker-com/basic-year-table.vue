@@ -36,8 +36,23 @@ import { castArray, hasClass } from '@element-plus/utils'
 import { basicYearTableProps } from '../props/basic-year-table'
 import { getValidDateOfYear } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
+import type { Dayjs } from 'dayjs'
 
-import type { DateCell } from '../date-picker.type'
+type YearCell = {
+  column: number
+  row: number
+  disabled: boolean
+  start: boolean
+  end: boolean
+  text: number
+  type: 'normal' | 'today'
+  inRange: boolean
+  isSelected: boolean
+  date?: Date
+  dayjs?: Dayjs
+  timestamp?: number
+  customClass?: string
+}
 
 const datesInYear = (year: number, lang: string) => {
   const firstDay = dayjs(String(year)).locale(lang).startOf('year')
@@ -58,7 +73,7 @@ const startYear = computed(() => {
   return Math.floor(props.date.year() / 10) * 10
 })
 
-const tableRows = ref<DateCell[][]>([[], [], []])
+const tableRows = ref<YearCell[][]>([[], [], []])
 const lastRow = ref<number>()
 const lastColumn = ref<number>()
 const rows = computed(() => {
@@ -80,7 +95,8 @@ const rows = computed(() => {
         end: false,
         text: -1,
         disabled: false,
-      } as DateCell)
+        isSelected: false,
+      })
 
       cell.type = 'normal'
 
@@ -125,7 +141,6 @@ const rows = computed(() => {
       cell.customClass = props.cellClassName?.(cellDate)
       cell.dayjs = calTime
       cell.timestamp = calTime.valueOf()
-      cell.isCurrent = isCurrent(cell)
       cell.isSelected = isSelectedCell(cell)
       cell.disabled = props.disabledDate?.(cellDate) || false
     }
@@ -137,7 +152,7 @@ const focus = () => {
   currentCellRef.value?.focus()
 }
 
-const getCellKls = (cell: DateCell) => {
+const getCellKls = (cell: YearCell) => {
   const kls: Record<string, boolean> = {}
   const today = dayjs().locale(lang.value)
   const year = cell.text
@@ -147,7 +162,7 @@ const getCellKls = (cell: DateCell) => {
     : false
 
   kls.today = today.year() === year
-  kls.current = isCurrent(cell)
+  kls.current = isSelectedCell(cell)
 
   if (cell.customClass) {
     kls[cell.customClass] = true
@@ -167,12 +182,7 @@ const getCellKls = (cell: DateCell) => {
   return kls
 }
 
-const isCurrent = (cell: DateCell) => {
-  const year = cell.text
-  return castArray(props.parsedValue).findIndex((d) => d!.year() === year) >= 0
-}
-
-const isSelectedCell = (cell: DateCell) => {
+const isSelectedCell = (cell: YearCell) => {
   const year = cell.text
   return castArray(props.date).findIndex((date) => date.year() === year) >= 0
 }

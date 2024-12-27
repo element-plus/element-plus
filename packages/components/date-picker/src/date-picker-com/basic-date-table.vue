@@ -32,8 +32,8 @@
           :key="`${rowKey}.${columnKey}`"
           :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
           :class="getCellClasses(cell)"
-          :aria-current="cell.isCurrent ? 'date' : undefined"
-          :aria-selected="cell.isCurrent"
+          :aria-current="cell.isSelected ? 'date' : undefined"
+          :aria-selected="cell.isSelected"
           :tabindex="isSelectedCell(cell) ? 0 : -1"
           @focus="handleFocus"
         >

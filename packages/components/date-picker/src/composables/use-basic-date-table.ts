@@ -58,7 +58,7 @@ export const useBasicDateTable = (
 
   const hasCurrent = computed<boolean>(() => {
     return flatten(unref(rows)).some((row) => {
-      return row.isCurrent
+      return row.isSelected
     })
   })
 
@@ -76,20 +76,18 @@ export const useBasicDateTable = (
     }
   })
 
-  const selectedDate = computed(() => {
-    return props.selectionMode === 'dates'
-      ? (castArray(props.parsedValue) as Dayjs[])
-      : ([] as Dayjs[])
-  })
+  //const selectedDate = computed(() => {
+  //  return props.selectionMode === 'dates'
+  //    ? (castArray(props.parsedValue) as Dayjs[])
+  //    : ([] as Dayjs[])
+  //})
 
   // Return value indicates should the counter be incremented
   type CellCoordinate = { columnIndex: number; rowIndex: number }
-  type CellMeta = CellCoordinate & {
-    count: number
-  }
   const setDateText = (
     cell: DateCell,
-    { count, rowIndex, columnIndex }: CellMeta
+    { rowIndex, columnIndex }: CellCoordinate,
+    count: number
   ): boolean => {
     const { startOfMonthDay, dateCountOfMonth, dateCountOfLastMonth } =
       unref(days)
@@ -123,22 +121,16 @@ export const useBasicDateTable = (
     return false
   }
 
-  const setCellMetadata = (
-    cell: DateCell,
-    { columnIndex, rowIndex }: CellCoordinate,
-    count: number
-  ) => {
+  const setCellMetadata = (cell: DateCell) => {
     const { disabledDate, cellClassName } = props
-    const _selectedDate = unref(selectedDate)
-    const shouldIncrement = setDateText(cell, { count, rowIndex, columnIndex })
+    //const _selectedDate = unref(selectedDate)
 
     const cellDate = cell.dayjs!.toDate()
-    cell.selected = _selectedDate.find((d) => d.isSame(cell.dayjs, 'day'))
-    cell.isSelected = !!cell.selected
-    cell.isCurrent = isCurrent(cell)
+    cell.isSelected = isCurrent(cell)
+    //cell.selected = _selectedDate.find((d) => d.isSame(cell.dayjs, 'day'))
+    //cell.isCurrent =
     cell.disabled = disabledDate?.(cellDate) || false
     cell.customClass = cellClassName?.(cellDate)
-    return shouldIncrement
   }
 
   const setRowMetadata = (row: DateCell[]) => {
@@ -187,7 +179,10 @@ export const useBasicDateTable = (
       relativeDateGetter: (idx: number) =>
         unref(startDate).add(idx - offset, dateUnit),
       setCellMetadata: (...args) => {
-        if (setCellMetadata(...args, count)) {
+        const [cell] = args
+        const shouldincrement = setDateText(...args, count)
+        setCellMetadata(cell)
+        if (shouldincrement) {
           count += 1
         }
       },
@@ -213,7 +208,8 @@ export const useBasicDateTable = (
 
   const isCurrent = (cell: DateCell): boolean => {
     return (
-      props.selectionMode === 'date' &&
+      //NOTE:dates & date
+      //props.selectionMode === 'date' &&
       isNormalDay(cell.type) &&
       cellMatchesDate(cell, props.parsedValue as Dayjs)
     )
@@ -265,7 +261,7 @@ export const useBasicDateTable = (
   const isSelectedCell = (cell: DateCell) => {
     return (
       (!unref(hasCurrent) && cell?.text === 1 && cell.type === 'normal') ||
-      cell.isCurrent
+      cell.isSelected
     )
   }
 
@@ -351,7 +347,7 @@ export const useBasicDateTable = (
         break
       }
       case 'dates': {
-        handleDatesPick(newDate, !!cell.selected)
+        handleDatesPick(newDate, !!cell.isSelected)
         break
       }
       default: {
@@ -455,7 +451,7 @@ export const useBasicDateTableDOM = (
       classes.push('disabled')
     }
 
-    if (cell.selected) {
+    if (cell.isSelected) {
       classes.push('selected')
     }
 

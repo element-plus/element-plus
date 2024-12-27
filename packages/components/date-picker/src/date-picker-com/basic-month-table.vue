@@ -14,7 +14,7 @@
           :ref="(el) => cell.isSelected && (currentCellRef = el as HTMLElement)"
           :class="getCellStyle(cell)"
           :aria-selected="!!cell.isSelected"
-          :aria-label="t(`el.datepicker.month${+cell.text + 1}`)"
+          :aria-label="t(`el.datepicker.month${+cell.text! + 1}`)"
           :tabindex="cell.isSelected ? 0 : -1"
           @keydown.space.prevent.stop="handleMonthTableClick"
           @keydown.enter.prevent.stop="handleMonthTableClick"
@@ -22,7 +22,7 @@
           <el-date-picker-cell
             :cell="{
               ...cell,
-              text: t('el.datepicker.months.' + months[cell.text]),
+              text: t('el.datepicker.months.' + months[cell.text as number]),
             }"
           />
         </td>
@@ -39,8 +39,23 @@ import { castArray, hasClass } from '@element-plus/utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
 import { datesInMonth, getValidDateOfMonth } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
+import type { Dayjs } from 'dayjs'
 
-import type { DateCell } from '../date-picker.type'
+type MonthCell = {
+  column: number
+  row: number
+  disabled: boolean
+  start: boolean
+  end: boolean
+  text: number
+  type: 'normal' | 'today'
+  inRange: boolean
+  isSelected: boolean
+  date?: Date
+  dayjs?: Dayjs
+  timestamp?: number
+  customClass?: string
+}
 
 const props = defineProps(basicMonthTableProps)
 const emit = defineEmits(['changerange', 'pick', 'select'])
@@ -57,10 +72,10 @@ const months = ref(
     .monthsShort()
     .map((_) => _.toLowerCase())
 )
-const tableRows = ref<DateCell[][]>([[], [], []])
+const tableRows = ref<MonthCell[][]>([[], [], []])
 const lastRow = ref<number>()
 const lastColumn = ref<number>()
-const rows = computed<DateCell[][]>(() => {
+const rows = computed<MonthCell[][]>(() => {
   const rows = tableRows.value
 
   const now = dayjs().locale(lang.value).startOf('month')
@@ -77,7 +92,8 @@ const rows = computed<DateCell[][]>(() => {
         end: false,
         text: -1,
         disabled: false,
-      } as DateCell)
+        isSelected: false,
+      })
 
       cell.type = 'normal'
 
@@ -123,7 +139,7 @@ const rows = computed<DateCell[][]>(() => {
       cell.customClass = props.cellClassName?.(cellDate)
       cell.dayjs = calTime
       cell.timestamp = calTime.valueOf()
-      cell.isCurrent = isCurrent(cell)
+      //cell.isCurrent = isCurrent(cell)
       cell.isSelected = isSelectedCell(cell)
       cell.disabled = props.disabledDate?.(cellDate) || false
     }
@@ -135,11 +151,11 @@ const focus = () => {
   currentCellRef.value?.focus()
 }
 
-const getCellStyle = (cell: DateCell) => {
+const getCellStyle = (cell: MonthCell) => {
   const style = {} as any
   const year = props.date.year()
   const today = new Date()
-  const month = cell.text
+  const month = cell.text as number
 
   style.disabled = props.disabledDate
     ? datesInMonth(year, month, lang.value).every(props.disabledDate)
@@ -169,7 +185,7 @@ const getCellStyle = (cell: DateCell) => {
   return style
 }
 
-const isSelectedCell = (cell: DateCell) => {
+const isSelectedCell = (cell: MonthCell) => {
   const year = cell.dayjs?.year()
   const month = cell.text
   return (
@@ -179,16 +195,16 @@ const isSelectedCell = (cell: DateCell) => {
   )
 }
 
-const isCurrent = (cell: DateCell) => {
-  const year = props.date.year()
-  const month = cell.text
-  return (
-    castArray(props.parsedValue).findIndex(
-      (date) =>
-        dayjs.isDayjs(date) && date.year() === year && date.month() === month
-    ) >= 0
-  )
-}
+//const isCurrent = (cell: DateCell) => {
+//  const year = cell.dayjs?.year()
+//  const month = cell.text
+//  return (
+//    castArray(props.parsedValue).findIndex(
+//      (date) =>
+//        dayjs.isDayjs(date) && date.year() === year && date.month() === month
+//    ) >= 0
+//  )
+//}
 
 const handleMouseMove = (event: MouseEvent) => {
   if (!props.rangeState.selecting) return

@@ -92,7 +92,7 @@ export const buildPickerTable = (
           inRange: false,
           start: false,
           end: false,
-        }
+        } as DateCell
       }
       const index = rowIndex * dimension.column + columnIndex
       const nextStartDate = relativeDateGetter(index)
