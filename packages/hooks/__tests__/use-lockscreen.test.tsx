@@ -66,12 +66,10 @@ describe('useLockscreen', () => {
     await nextTick()
 
     wrapper2.unmount()
-    await nextTick()
     await sleep(250)
     expect(hasClass(document.body, kls)).toBe(true)
 
     wrapper1.unmount()
-    await nextTick()
     await sleep(250)
     expect(hasClass(document.body, kls)).toBe(false)
   })
