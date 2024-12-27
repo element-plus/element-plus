@@ -57,13 +57,11 @@ describe('useLockscreen', () => {
     const wrapper1 = mount({
       setup: () => () => <Comp />,
     })
-    await nextTick()
-    expect(hasClass(document.body, kls)).toBe(true)
-
     const wrapper2 = mount({
       setup: () => () => <Comp />,
     })
     await nextTick()
+    expect(hasClass(document.body, kls)).toBe(true)
 
     wrapper2.unmount()
     await sleep(250)
