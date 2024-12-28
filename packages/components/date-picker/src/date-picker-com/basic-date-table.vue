@@ -30,11 +30,11 @@
         <td
           v-for="(cell, columnKey) in row"
           :key="`${rowKey}.${columnKey}`"
-          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
+          :ref="(el) => cell.isSelected && (currentCellRef = el as HTMLElement)"
           :class="getCellClasses(cell)"
           :aria-current="cell.isSelected ? 'date' : undefined"
           :aria-selected="cell.isSelected"
-          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          :tabindex="cell.isSelected ? 0 : -1"
           @focus="handleFocus"
         >
           <el-date-picker-cell :cell="cell" />
@@ -65,9 +65,7 @@ const {
   currentCellRef,
 
   focus,
-  isCurrent,
   isWeekActive,
-  isSelectedCell,
 
   handlePickDate,
   handleMouseUp,
@@ -77,7 +75,6 @@ const {
 } = useBasicDateTable(props, emit)
 const { tableLabel, tableKls, weekLabel, getCellClasses, getRowKls, t } =
   useBasicDateTableDOM(props, {
-    isCurrent,
     isWeekActive,
   })
 

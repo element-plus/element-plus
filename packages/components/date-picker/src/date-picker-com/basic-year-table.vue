@@ -34,7 +34,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicYearTableProps } from '../props/basic-year-table'
-import { getValidDateOfYear } from '../utils'
+import { getValidDateOfYear, setCellMetadata } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
 import type { Dayjs } from 'dayjs'
 
@@ -135,14 +135,9 @@ const rows = computed(() => {
       if (isToday) {
         cell.type = 'today'
       }
-      const cellDate = calTime.toDate()
       cell.text = index
-      cell.date = cellDate
-      cell.customClass = props.cellClassName?.(cellDate)
-      cell.dayjs = calTime
-      cell.timestamp = calTime.valueOf()
       cell.isSelected = isSelectedCell(cell)
-      cell.disabled = props.disabledDate?.(cellDate) || false
+      setCellMetadata(cell, calTime, props)
     }
   }
   return rows

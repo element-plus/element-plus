@@ -524,8 +524,8 @@ describe('DatePicker', () => {
       `<el-date-picker
         v-model="value"
         ref="input">
-        <template #default="{ isCurrent, text }">
-          <div class="el-date-table-cell__text" :class="{ current: isCurrent }">
+        <template #default="{ isSelected, text }">
+          <div class="el-date-table-cell__text" :class="{ current: isSelected }">
             <div>{{ text }}</div>
           </div>
         </template>

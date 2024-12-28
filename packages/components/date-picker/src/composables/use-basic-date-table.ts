@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import { flatten } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray, isArray } from '@element-plus/utils'
-import { buildPickerTable } from '../utils'
+import { buildPickerTable, setCellMetadata } from '../utils'
 
 import type { SetupContext } from 'vue'
 import type { Dayjs } from 'dayjs'
@@ -76,12 +76,6 @@ export const useBasicDateTable = (
     }
   })
 
-  //const selectedDate = computed(() => {
-  //  return props.selectionMode === 'dates'
-  //    ? (castArray(props.parsedValue) as Dayjs[])
-  //    : ([] as Dayjs[])
-  //})
-
   // Return value indicates should the counter be incremented
   type CellCoordinate = { columnIndex: number; rowIndex: number }
   const setDateText = (
@@ -119,18 +113,6 @@ export const useBasicDateTable = (
       return true
     }
     return false
-  }
-
-  const setCellMetadata = (cell: DateCell) => {
-    const { disabledDate, cellClassName } = props
-    //const _selectedDate = unref(selectedDate)
-
-    const cellDate = cell.dayjs!.toDate()
-    cell.isSelected = isCurrent(cell)
-    //cell.selected = _selectedDate.find((d) => d.isSame(cell.dayjs, 'day'))
-    //cell.isCurrent =
-    cell.disabled = disabledDate?.(cellDate) || false
-    cell.customClass = cellClassName?.(cellDate)
   }
 
   const setRowMetadata = (row: DateCell[]) => {
@@ -179,9 +161,10 @@ export const useBasicDateTable = (
       relativeDateGetter: (idx: number) =>
         unref(startDate).add(idx - offset, dateUnit),
       setCellMetadata: (...args) => {
-        const [cell] = args
-        const shouldincrement = setDateText(...args, count)
-        setCellMetadata(cell)
+        const [cell, celTime, cellCoordinate] = args
+        const shouldincrement = setDateText(cell, cellCoordinate, count)
+        cell.isSelected = isCurrent(cell)
+        setCellMetadata(cell, celTime, props)
         if (shouldincrement) {
           count += 1
         }
@@ -207,12 +190,10 @@ export const useBasicDateTable = (
   const focus = async () => unref(currentCellRef)?.focus()
 
   const isCurrent = (cell: DateCell): boolean => {
-    return (
-      //NOTE:dates & date
-      //props.selectionMode === 'date' &&
-      isNormalDay(cell.type) &&
-      cellMatchesDate(cell, props.parsedValue as Dayjs)
+    const selected = castArray(props.parsedValue ?? []).some((date) =>
+      cellMatchesDate(cell, date)
     )
+    return isNormalDay(cell.type) && selected
   }
 
   const cellMatchesDate = (cell: DateCell, date: Dayjs) => {
@@ -256,13 +237,6 @@ export const useBasicDateTable = (
         endDate: getDateOfCell(row, column),
       })
     }
-  }
-
-  const isSelectedCell = (cell: DateCell) => {
-    return (
-      (!unref(hasCurrent) && cell?.text === 1 && cell.type === 'normal') ||
-      cell.isSelected
-    )
   }
 
   const handleFocus = (event: FocusEvent) => {
@@ -389,7 +363,6 @@ export const useBasicDateTable = (
     focus,
     isCurrent,
     isWeekActive,
-    isSelectedCell,
 
     handlePickDate,
     handleMouseUp,
@@ -401,10 +374,7 @@ export const useBasicDateTable = (
 
 export const useBasicDateTableDOM = (
   props: BasicDateTableProps,
-  {
-    isCurrent,
-    isWeekActive,
-  }: Pick<ReturnType<typeof useBasicDateTable>, 'isCurrent' | 'isWeekActive'>
+  { isWeekActive }: Pick<ReturnType<typeof useBasicDateTable>, 'isWeekActive'>
 ) => {
   const ns = useNamespace('date-table')
   const { t } = useLocale()
@@ -428,7 +398,7 @@ export const useBasicDateTableDOM = (
       classes.push(cell.type!)
     }
 
-    if (isCurrent(cell)) {
+    if (props.selectionMode === 'date' && cell.isSelected) {
       classes.push('current')
     }
 
@@ -451,7 +421,8 @@ export const useBasicDateTableDOM = (
       classes.push('disabled')
     }
 
-    if (cell.isSelected) {
+    console.log(props.selectionMode === 'dates')
+    if (props.selectionMode === 'dates' && cell.isSelected) {
       classes.push('selected')
     }
 

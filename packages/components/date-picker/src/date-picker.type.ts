@@ -22,8 +22,6 @@ export interface DateCell {
   end?: boolean
   inRange?: boolean
   row?: number
-  //selected?: Dayjs
-  //isCurrent?: boolean
   isSelected?: boolean
   start?: boolean
   text?: number | string
@@ -32,23 +30,3 @@ export interface DateCell {
   dayjs?: Dayjs
   type?: DateCellType
 }
-//export interface DateCell {
-//  column: number
-//  customClass?: string
-//  disabled: boolean
-//  end: boolean
-//  inRange: boolean
-//  row: number
-//  selected?: Dayjs
-//  isCurrent: boolean
-//  isSelected: boolean
-//  start: boolean
-//  text: number
-//  timestamp: number
-//  date: Date
-//  dayjs: Dayjs
-//  type: DateCellType
-//}
-//export type DateCellRender = Omit<DateCell, 'text'> & {
-//  text: number | string
-//}
