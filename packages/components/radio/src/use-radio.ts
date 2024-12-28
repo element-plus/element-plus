@@ -7,7 +7,7 @@ import { radioGroupKey } from './constants'
 
 import type { RadioButtonProps } from './radio-button'
 import type { SetupContext } from 'vue'
-import type { RadioEmits, RadioProps } from './radio'
+import type { RadioEmits, RadioProps, RadioValueType } from './radio'
 export const useRadio = (
   props: RadioProps | RadioButtonProps,
   emit?: SetupContext<RadioEmits>['emit']
@@ -23,15 +23,15 @@ export const useRadio = (
     }
     return props.label
   })
-  const modelValue = computed<RadioProps['modelValue']>({
+  const modelValue = computed<RadioValueType>({
     get() {
-      return isGroup.value ? radioGroup!.modelValue : props.modelValue!
+      return isGroup.value ? radioGroup!.modelValue! : props.modelValue!
     },
     set(val) {
       if (isGroup.value) {
         radioGroup!.changeEvent(val)
       } else {
-        emit && emit(UPDATE_MODEL_EVENT, val)
+        emit?.(UPDATE_MODEL_EVENT, val)
       }
       radioRef.value!.checked = props.modelValue === actualValue.value
     },
