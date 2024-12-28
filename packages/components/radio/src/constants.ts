@@ -1,8 +1,8 @@
 import type { InjectionKey } from 'vue'
-import type { RadioGroupProps } from './radio-group'
+import type { RadioGroupProps, RadioGroupValueType } from './radio-group'
 
 export interface RadioGroupContext extends RadioGroupProps {
-  changeEvent: (val: RadioGroupProps['modelValue']) => void
+  changeEvent: (val: RadioGroupValueType) => void
 }
 
 export const radioGroupKey: InjectionKey<RadioGroupContext> =
