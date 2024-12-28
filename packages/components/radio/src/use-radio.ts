@@ -15,14 +15,11 @@ export const useRadio = (
   const radioRef = ref<HTMLInputElement>()
   const radioGroup = inject(radioGroupKey, undefined)
   const isGroup = computed(() => !!radioGroup)
-  const actualValue = computed(() => {
-    // In version 2.x, if there's no props.value, props.label will act as props.value
-    // In version 3.x, remove this computed value, use props.value instead.
-    if (!isPropAbsent(props.value)) {
-      return props.value
-    }
-    return props.label
-  })
+  // In version 2.x, if there's no props.value, props.label will act as props.value
+  // In version 3.x, remove this computed value, use props.value instead.
+  const actualValue = computed(() =>
+    !isPropAbsent(props.value) ? props.value : props.label
+  )
   const modelValue = computed<RadioValueType>({
     get() {
       return isGroup.value ? radioGroup!.modelValue! : props.modelValue!
@@ -40,12 +37,11 @@ export const useRadio = (
   const size = useFormSize(computed(() => radioGroup?.size))
   const disabled = useFormDisabled(computed(() => radioGroup?.disabled))
   const focus = ref(false)
-  const tabIndex = computed(() => {
-    return disabled.value ||
-      (isGroup.value && modelValue.value !== actualValue.value)
+  const tabIndex = computed(() =>
+    disabled.value || (isGroup.value && modelValue.value !== actualValue.value)
       ? -1
       : 0
-  })
+  )
 
   useDeprecated(
     {
