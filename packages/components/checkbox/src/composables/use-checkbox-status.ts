@@ -28,7 +28,7 @@ export const useCheckboxStatus = (
       if (isObject(actualValue.value)) {
         return value.map(toRaw).some((o) => isEqual(o, actualValue.value))
       } else {
-        return value.map(toRaw).includes(actualValue.value)
+        return value.map(toRaw).includes(actualValue.value as string | number)
       }
     } else if (!isPropAbsent(value)) {
       return value === props.trueValue || value === props.trueLabel

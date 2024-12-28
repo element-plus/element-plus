@@ -1,6 +1,6 @@
 import { computed, inject } from 'vue'
 import { useFormDisabled } from '@element-plus/components/form'
-import { isUndefined } from '@element-plus/utils'
+import { isArray, isUndefined } from '@element-plus/utils'
 import { checkboxGroupContextKey } from '../constants'
 
 import type { CheckboxModel, CheckboxStatus } from '../composables'
@@ -14,9 +14,10 @@ export const useCheckboxDisabled = ({
   const isLimitDisabled = computed(() => {
     const max = checkboxGroup?.max?.value
     const min = checkboxGroup?.min?.value
+    const modelLength = isArray(model.value) ? model.value.length : 0
     return (
-      (!isUndefined(max) && model.value.length >= max && !isChecked.value) ||
-      (!isUndefined(min) && model.value.length <= min && isChecked.value)
+      (!isUndefined(max) && modelLength >= max && !isChecked.value) ||
+      (!isUndefined(min) && modelLength <= min && isChecked.value)
     )
   })
 

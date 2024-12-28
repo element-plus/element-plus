@@ -58,7 +58,9 @@ export const useCheckboxEvent = (
       )
       if (!hasLabel) {
         model.value = getLabeledValue(
-          [false, props.falseValue, props.falseLabel].includes(model.value)
+          [false, props.falseValue, props.falseLabel].includes(
+            model.value as CheckboxProps['modelValue']
+          )
         )
         await nextTick()
         emitChangeEvent(model.value, e)

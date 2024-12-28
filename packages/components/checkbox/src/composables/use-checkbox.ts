@@ -40,8 +40,9 @@ export const useCheckbox = (
 
   const setStoreValue = () => {
     function addToStore() {
-      if (isArray(model.value) && !model.value.includes(actualValue.value)) {
-        model.value.push(actualValue.value)
+      const _actualValue = actualValue.value as string | number
+      if (isArray(model.value) && !model.value.includes(_actualValue)) {
+        model.value.push(_actualValue)
       } else {
         model.value = props.trueValue ?? props.trueLabel ?? true
       }
