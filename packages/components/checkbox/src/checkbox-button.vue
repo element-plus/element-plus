@@ -79,13 +79,11 @@ const activeStyle = computed<CSSProperties>(() => {
   }
 })
 
-const labelKls = computed(() => {
-  return [
-    ns.b('button'),
-    ns.bm('button', checkboxButtonSize.value),
-    ns.is('disabled', isDisabled.value),
-    ns.is('checked', isChecked.value),
-    ns.is('focus', isFocused.value),
-  ]
-})
+const labelKls = computed(() => [
+  ns.b('button'),
+  ns.bm('button', checkboxButtonSize.value),
+  ns.is('disabled', isDisabled.value),
+  ns.is('checked', isChecked.value),
+  ns.is('focus', isFocused.value),
+])
 </script>

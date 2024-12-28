@@ -28,11 +28,10 @@ export const useCheckboxEvent = (
   const { formItem } = useFormItem()
   const { emit } = getCurrentInstance()!
 
-  function getLabeledValue(value: string | number | boolean) {
-    return [true, props.trueValue, props.trueLabel].includes(value)
+  const getLabeledValue = (value: string | number | boolean) =>
+    [true, props.trueValue, props.trueLabel].includes(value)
       ? props.trueValue ?? props.trueLabel ?? true
       : props.falseValue ?? props.falseLabel ?? false
-  }
 
   function emitChangeEvent(
     checked: string | number | boolean,
@@ -68,7 +67,7 @@ export const useCheckboxEvent = (
   }
 
   const validateEvent = computed(
-    () => checkboxGroup?.validateEvent || props.validateEvent
+    () => checkboxGroup?.validateEvent ?? props.validateEvent
   )
 
   watch(
