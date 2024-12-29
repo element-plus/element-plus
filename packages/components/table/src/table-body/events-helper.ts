@@ -2,7 +2,12 @@
 import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
 import { addClass, hasClass, removeClass } from '@element-plus/utils'
-import { createTablePopper, getCell, getColumnByCell } from '../util'
+import {
+  createTablePopper,
+  getCell,
+  getColumnByCell,
+  removePopper,
+} from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
@@ -156,6 +161,8 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
         cell,
         table
       )
+    } else if (removePopper?.trigger === cell) {
+      removePopper?.()
     }
   }
   const handleCellMouseLeave = (event) => {

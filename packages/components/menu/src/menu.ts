@@ -140,7 +140,7 @@ export const menuProps = buildProps({
    * @description Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed
    */
   popperEffect: {
-    type: definePropType<PopperEffect | string>(String),
+    type: definePropType<PopperEffect>(String),
     default: 'dark',
   },
   /**
@@ -326,10 +326,7 @@ export default defineComponent({
     const calcSliceIndex = () => {
       if (!menu.value) return -1
       const items = Array.from(menu.value?.childNodes ?? []).filter(
-        (item) =>
-          // remove comment type node #12634
-          item.nodeName !== '#comment' &&
-          (item.nodeName !== '#text' || item.nodeValue)
+        (item) => item.nodeName !== '#text' || item.nodeValue
       ) as HTMLElement[]
       const moreItemWidth = 64
       const computedMenuStyle = getComputedStyle(menu.value!)
@@ -339,6 +336,7 @@ export default defineComponent({
       let calcWidth = 0
       let sliceIndex = 0
       items.forEach((item, index) => {
+        if (item.nodeName === '#comment') return
         calcWidth += calcMenuItemWidth(item)
         if (calcWidth <= menuWidth - moreItemWidth) {
           sliceIndex = index + 1

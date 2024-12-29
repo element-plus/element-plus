@@ -1,5 +1,105 @@
 ## Changelog
 
+
+### 2.9.1
+
+_2024-12-13_
+
+#### Features
+
+- Components [dropdown] add triggerKeys attribute (#19124 by @hanchao-c0ldwave)
+- Components [tree-v2] `filter-method` support third parameter (#19177 by @btea)
+- Components [badge] add content slot (#18922 by @xing403)
+
+#### Bug fixes
+
+- Components [input-tag] trigger the add of tag when Chinese is Composing (#19079 by @tolking)
+- Components [notification] display html as string (#19068 by @Dsaquel)
+- Components [select] use option.isDisabled as the source of truth (#19137 by @makedopamine)
+- Components [input] disabled state wrapper cursor style (#19176 by @btea)
+- Components [select-v2] empty value check error in inputRef (#19140 by @Liao-js)
+- Components [select] modify the logic of update the watch option (#18931 by @YiMo1)
+- Components [table-v2] dynamic height causes overall calculation errors (#19082 by @hanchao-c0ldwave)
+- Revert pkg pr new to main version (#19254 by @Aslemammad)
+
+#### Refactors
+
+- Components [alert] introduce hasDesc helper (#19085 by @zhangenming)
+### 2.9.0
+
+_2024-11-29_
+
+#### Breaking changes
+
+- See #15834
+
+#### Features
+
+- Components [tree-v2] add `props.class` prop (#18911 by @zzjiaxiang)
+- Components [notification] add support for message as a Function (#18558 by @DDDDD12138)
+- I18n add Malay(ms) translation (#18932 by @hcw2175)
+- Components [table] expose scroll event (#12524 by @blesstosam)
+- Components [tree-v2] add slot `empty` (#18980 by @zhixiaotong)
+- Components [transfer] add custom empty slot for transfer panels (#18929 by @piskesocute)
+- Components [select] add tabindex attribute (#19034 by @tolking)
+- Components [input-tag] new component (#18885 by @tolking)
+
+#### Bug fixes
+
+- Components [select] keep the selected label (#18549 by @warmthsea)
+- Types improve styles type by CSSProperties (#18942 by @thinkasany)
+- Components [image-viewer] unable to capture focus (#17919 by @tolking)
+- Components [tag] make stubbed Transition work in tests (#18928 by @purepear)
+- Components [tree-select] expose `selectedLabel` (#18981 by @zhixiaotong)
+- Components [cascader] multiple selection mode tag causes height change (#18285 by @zzjiaxiang)
+- Components [calendar] respect table semantics (#18552 by @Jungzl)
+- Components [select] the disabled state should render the input tag (#18443 by @btea)
+- Components [date-picker] resolve  v-model type inconsistency (#18888 by @DDDDD12138)
+- Components [input] the cursor error when click show-password (#19003 by @tolking)
+- Components [select] change states.filtertedOptionsCount to filteredOptionsCount.value (#19010 by @makedopamine)
+- Components [table] fixed column style when lazyload title (#19020 by @btea)
+- Components [input-number] Chinese can be displayed in the numeric input box (#19018 by @yuxi-ovo)
+- Components [time-picker] add passive modifier on touchstart event (#19046 by @Dsaquel)
+- Components [notification] type declaration error and four types of methods are missing context parameters (#18951 by @YiMo1)
+- Components [time-picker] click the Cancel button twice to close time picker (#18938 by @thinkasany)
+- Style(components): [button] keep default hover color of link unchanged (#17050 by @btea)
+- Style(components): [table] use `--font-size-base` for default font size (#18725 by @DDDDD12138)
+
+### 2.8.8
+
+_2024-11-15_
+
+#### Features
+
+- Components [select-v2] add `append-to` prop (#18798 by @btea)
+- Components [skeleton] `throttle` supports values ​​as object (#17041 by @chenweiyi)
+- Components [select] add `offset` and `show-arrow` prop (#18837 by @DDDDD12138)
+- Components [description-item] add labelWidth prop (#18673 by @Lakphy)
+
+#### Bug fixes
+
+- Utils[vue] ensure `flattedChildren` traverse component's subTree (#18649 by @ddeerdevil)
+- Components [select] prevent keyboard from deleting disabled option (#18752 by @cszhjh)
+- Theme-chalk  sass `!global assignments` deprecation warning (#18711 by @warmthsea)
+- Components [picker] fix popup not opening when editable is false (#18767 by @DDDDD12138)
+- Components [mention] keyboard control options not work as expected (#18751 by @btea)
+- Components [segmented] invisible active indicator after clearing selection (#18818 by @DDDDD12138)
+- Components [mention] ref dom array order error when list changes (#18787 by @warmthsea)
+- Components [table] `table-layout:auto` fixed column misalignment (#18736 by @btea)
+- Components [table] failed to insert tooltip when show-overflow-tooltip is enabled (#18317 by @xingyixiang)
+- Components [select] getValueIndex empty error (#18867 by @warmthsea)
+- Components [select & select-v2] status-icon is invalid (#18101 by @WangYJEE)
+- Components [pagination] input style loss (#18878 by @ToyCat93)
+- Components time-picker disabled-[hours/minutes/seconds] (#13364 by @StephenKe) (#14216)
+- Components numpadEnter does not work like the Enter (#18855 by @tolking)
+- Components [select-v2] resolve overlap of tags and placeholder (#18388 by @tuskermanshu)
+- Components [table] repeat setting the height style (#16054 by @betavs)
+
+#### Refactors
+
+- Improvement: [select] optimize the effect of keyboard switching options (#18773 by @btea)
+- Components [select] simplify code (#18810 by @makedopamine)
+
 ### 2.8.7
 
 _2024-11-01_
@@ -1447,7 +1547,7 @@ _2022-11-25_
 
 _2022-11-25_
 
-#### Fix 
+#### Fix
 - Revert "fix(components): [menu] menus that are not in the expanded path do not open" (#10769 by @holazz)
 
 ### 2.2.23
@@ -3575,7 +3675,7 @@ _2021-11-05_
 - Components [el-image] initialIndex (#4235 by @Alanscut)
 - Components [el-message] merge the same content messages(#3836 by @zhazhanitian) (#3988)
 - Docs add support for copying svg content (#4169 by @adaex)
-- 
+-
 #### Bug fixes
 
 - Components [el-tree-v2] indent can not set zero (#3881 by @btea)

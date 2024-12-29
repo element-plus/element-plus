@@ -8,6 +8,7 @@ import {
   buildProps,
   definePropType,
   iconPropType,
+  isBoolean,
   isNumber,
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -57,7 +58,7 @@ export const SelectProps = buildProps({
    * @description tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
-    type: definePropType<PopperEffect | string>(String),
+    type: definePropType<PopperEffect>(String),
     default: 'light',
   },
   /**
@@ -180,7 +181,7 @@ export const SelectProps = buildProps({
     type: String,
   },
   /**
-   * @description whether select dropdown is teleported to the body
+   * @description whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets
    */
   teleported: useTooltipContentProps.teleported,
   /**
@@ -238,6 +239,20 @@ export const SelectProps = buildProps({
     default: true,
   },
   /**
+   * @description offset of the dropdown
+   */
+  offset: {
+    type: Number,
+    default: 12,
+  },
+  /**
+   * @description Determines whether the arrow is displayed
+   */
+  showArrow: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description position of dropdown
    */
   placement: {
@@ -260,6 +275,29 @@ export const SelectProps = buildProps({
    * @description tag effect
    */
   tagEffect: { ...tagProps.effect, default: 'light' },
+  /**
+   * @description tabindex for input
+   */
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
+  /**
+   * @description which element the select dropdown appends to
+   */
+  appendTo: String,
+  /**
+   * @description if it is `true`, the width of the dropdown panel is the same as the input box.
+   * if it is `false`, the width is automatically calculated based on the value of `label`,
+   * or it can be set to a number to make it a fixed width
+   */
+  fitInputWidth: {
+    type: [Boolean, Number],
+    default: true,
+    validator(val) {
+      return isBoolean(val) || isNumber(val)
+    },
+  },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 } as const)

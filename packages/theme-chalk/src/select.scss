@@ -56,6 +56,7 @@
 
     @include when(disabled) {
       cursor: not-allowed;
+      pointer-events: none;
 
       background-color: getCssVar('fill-color', 'light');
       color: getCssVar('text-color', 'placeholder');

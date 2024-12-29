@@ -199,7 +199,8 @@ const Tabs = defineComponent({
             tabindex="0"
             onClick={handleTabAdd}
             onKeydown={(ev: KeyboardEvent) => {
-              if (ev.code === EVENT_CODE.enter) handleTabAdd()
+              if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(ev.code))
+                handleTabAdd()
             }}
           >
             {addSlot ? (

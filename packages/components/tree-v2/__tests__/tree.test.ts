@@ -20,9 +20,7 @@ const TREE_NODE_CLASS_NAME = '.el-tree-node'
 const TREE_NODE_CONTENT_CLASS_NAME = '.el-tree-node__content'
 const TREE_NODE_EXPAND_ICON_CLASS_NAME = '.el-tree-node__expand-icon'
 
-const getUniqueId = () => {
-  return id++
-}
+const getUniqueId = () => id++
 
 const createData = (
   maxDeep,
@@ -100,6 +98,7 @@ const createTree = (
     methods?: TreeEvents
     slots?: {
       default?: string
+      empty?: string
     }
   } = {}
 ) => {
@@ -107,6 +106,11 @@ const createTree = (
     (options.slots &&
       options.slots.default &&
       `<template #default="{node}">${options.slots.default}</template>`) ||
+    ''
+  const emptySlot =
+    (options.slots &&
+      options.slots.empty &&
+      `<template #empty>${options.slots.empty}</template>`) ||
     ''
   const wrapper = _mount(
     `
@@ -134,7 +138,7 @@ const createTree = (
         @check="onNodeCheck"
         @current-change="onCurrentChange"
         @node-contextmenu="onNodeContextMenu"
-      >${defaultSlot}</el-tree>
+      >${defaultSlot}${emptySlot}</el-tree>
     `,
     {
       data() {
@@ -234,6 +238,21 @@ describe('Virtual Tree', () => {
     })
     await nextTick()
     expect(wrapper.find('.el-tree__empty-text').text()).toBe(emptyText)
+  })
+
+  test('render slot empty', async () => {
+    const { wrapper } = createTree({
+      data() {
+        return {
+          data: [],
+        }
+      },
+      slots: {
+        empty: `<div class="empty-slot-wrapper">empty</div>`,
+      },
+    })
+    await nextTick()
+    expect(wrapper.find('.empty-slot-wrapper').exists()).toBeTruthy()
   })
 
   test('height', async () => {
@@ -821,6 +840,36 @@ describe('Virtual Tree', () => {
     await nextTick()
     const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
     expect(nodes[1].classes()).toContain('is-current')
+  })
+
+  test('customNodeClass', async () => {
+    const { wrapper } = createTree({
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+            },
+            {
+              id: '2',
+              label: 'node-2',
+            },
+          ],
+          props: {
+            value: 'id',
+            label: 'label',
+            children: 'children',
+            class: (data) => (data.id === '1' ? 'is-test' : ''),
+          },
+        }
+      },
+    })
+    await nextTick()
+    const currentNodeLabelWrapper = wrapper.find(
+      '.is-test .el-tree-node__label'
+    )
+    expect(currentNodeLabelWrapper.text()).toEqual('node-1')
   })
 
   test('custom node content', async () => {

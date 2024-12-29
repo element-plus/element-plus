@@ -26,7 +26,7 @@
     :data-prefix="ns.namespace.value"
     @mouseleave="handleMouseLeave"
   >
-    <div :class="ns.e('inner-wrapper')" :style="tableInnerStyle">
+    <div :class="ns.e('inner-wrapper')">
       <div ref="hiddenColumns" class="hidden-columns">
         <slot />
       </div>
@@ -65,6 +65,7 @@
           :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
           :tabindex="scrollbarTabindex"
+          @scroll="$emit('scroll', $event)"
         >
           <table
             ref="tableBody"
@@ -229,6 +230,7 @@ export default defineComponent({
     'current-change',
     'header-dragend',
     'expand-change',
+    'scroll',
   ],
   setup(props) {
     type Row = typeof props.data[number]
@@ -280,7 +282,6 @@ export default defineComponent({
       tableBodyStyles,
       tableLayout,
       scrollbarViewStyle,
-      tableInnerStyle,
       scrollbarStyle,
     } = useStyle<Row>(props, layout, store, table)
 
@@ -386,7 +387,6 @@ export default defineComponent({
       computedEmptyText,
       tableLayout,
       scrollbarViewStyle,
-      tableInnerStyle,
       scrollbarStyle,
       scrollBarRef,
       /**

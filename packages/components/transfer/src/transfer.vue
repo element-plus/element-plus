@@ -13,6 +13,9 @@
       :props="props.props"
       @checked-change="onSourceCheckedChange"
     >
+      <template #empty>
+        <slot name="left-empty" />
+      </template>
       <slot name="left-footer" />
     </transfer-panel>
     <div :class="ns.e('buttons')">
@@ -48,6 +51,9 @@
       :props="props.props"
       @checked-change="onTargetCheckedChange"
     >
+      <template #empty>
+        <slot name="right-empty" />
+      </template>
       <slot name="right-footer" />
     </transfer-panel>
   </div>
@@ -76,6 +82,7 @@ import type {
   TransferDirection,
 } from './transfer'
 import type { TransferPanelInstance } from './transfer-panel'
+import type { Ref } from 'vue'
 
 defineOptions({
   name: 'ElTransfer',
@@ -158,7 +165,11 @@ const optionRender = computed(() => (option: TransferDataItem) => {
   )
 })
 
-defineExpose({
+defineExpose<{
+  clearQuery: (which: TransferDirection) => void
+  leftPanel: Ref<TransferPanelInstance | undefined>
+  rightPanel: Ref<TransferPanelInstance | undefined>
+}>({
   /** @description clear the filter keyword of a certain panel */
   clearQuery,
   /** @description left panel ref */
