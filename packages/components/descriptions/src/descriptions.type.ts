@@ -7,6 +7,7 @@ export interface IDescriptionsInject {
   size: ComponentSize
   title: string
   extra: string
+  labelWidth: string | number
 }
 
 export interface IDescriptionsItemInject {
@@ -15,6 +16,7 @@ export interface IDescriptionsItemInject {
   rowspan: number
   width: string | number
   minWidth: string | number
+  labelWidth: string | number
   align: string
   labelAlign: string
   className: string

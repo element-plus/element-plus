@@ -52,6 +52,7 @@ import { ElImage } from '@element-plus/components/image'
 import { ElImageViewer } from '@element-plus/components/image-viewer'
 import { ElInput } from '@element-plus/components/input'
 import { ElInputNumber } from '@element-plus/components/input-number'
+import { ElInputTag } from '@element-plus/components/input-tag'
 import { ElLink } from '@element-plus/components/link'
 import {
   ElMenu,
@@ -160,6 +161,7 @@ export default [
   ElImageViewer,
   ElInput,
   ElInputNumber,
+  ElInputTag,
   ElLink,
   ElMenu,
   ElMenuItem,

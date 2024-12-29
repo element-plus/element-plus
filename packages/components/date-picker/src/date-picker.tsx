@@ -13,6 +13,8 @@ import {
   CommonPicker,
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_DATEPICKER,
+  type DateModelType,
+  type SingleOrRange,
 } from '@element-plus/components/time-picker'
 import { ROOT_PICKER_INJECTION_KEY } from './constants'
 
@@ -45,8 +47,11 @@ export default defineComponent({
 
     const commonPicker = ref<InstanceType<typeof CommonPicker>>()
     const refProps: DatePickerExpose = {
-      focus: (focusStartInput = true) => {
-        commonPicker.value?.focus(focusStartInput)
+      focus: () => {
+        commonPicker.value?.focus()
+      },
+      blur: () => {
+        commonPicker.value?.blur()
       },
       handleOpen: () => {
         commonPicker.value?.handleOpen()
@@ -58,7 +63,7 @@ export default defineComponent({
 
     expose(refProps)
 
-    const onModelValueUpdated = (val: any) => {
+    const onModelValueUpdated = (val: SingleOrRange<DateModelType> | null) => {
       emit('update:modelValue', val)
     }
 

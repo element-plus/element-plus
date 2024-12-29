@@ -1,11 +1,11 @@
 name: Publish PR Commit Pkg
 
 on:
-  push:
-    branches:
-      - dev
-    tags:
-      - '!**'
+  # push:
+  #   branches:
+  #     - dev
+  #   tags:
+  #     - '!**'
   pull_request:
     branches:
       - dev
@@ -21,7 +21,7 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
 
       - name: Setup pnpm

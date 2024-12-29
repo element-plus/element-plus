@@ -19,6 +19,8 @@ You should be having:
 
 NodeJS >= 18
 
+Pnpm >= 9.5
+
 Git > v2.20
 
 Some of our compiling code used syntax that introduced in NodeJS>18 so you will be need to install that in advance.

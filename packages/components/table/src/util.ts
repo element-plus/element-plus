@@ -1,11 +1,15 @@
 // @ts-nocheck
 import { createVNode, render } from 'vue'
-import { flatMap, get } from 'lodash-unified'
+import { flatMap, get, isNull, merge } from 'lodash-unified'
 import {
   hasOwn,
   isArray,
   isBoolean,
+  isFunction,
+  isNumber,
   isObject,
+  isString,
+  isUndefined,
   throwError,
 } from '@element-plus/utils'
 import ElTooltip, {
@@ -13,6 +17,7 @@ import ElTooltip, {
 } from '@element-plus/components/tooltip'
 import type { Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
+import type { VNode } from 'vue'
 
 export type TableOverflowTooltipOptions = Partial<
   Pick<
@@ -33,6 +38,7 @@ export type TableOverflowTooltipOptions = Partial<
 
 type RemovePopperFn = (() => void) & {
   trigger?: HTMLElement
+  vm?: VNode
 }
 
 export const getCell = function (event: Event) {
@@ -49,11 +55,11 @@ export const orderBy = function <T>(
   if (
     !sortKey &&
     !sortMethod &&
-    (!sortBy || (Array.isArray(sortBy) && !sortBy.length))
+    (!sortBy || (isArray(sortBy) && !sortBy.length))
   ) {
     return array
   }
-  if (typeof reverse === 'string') {
+  if (isString(reverse)) {
     reverse = reverse === 'descending' ? -1 : 1
   } else {
     reverse = reverse && reverse < 0 ? -1 : 1
@@ -62,11 +68,11 @@ export const orderBy = function <T>(
     ? null
     : function (value, index) {
         if (sortBy) {
-          if (!Array.isArray(sortBy)) {
+          if (!isArray(sortBy)) {
             sortBy = [sortBy]
           }
           return sortBy.map((by) => {
-            if (typeof by === 'string') {
+            if (isString(by)) {
               return get(value, by)
             } else {
               return by(value, index, array)
@@ -166,7 +172,7 @@ export const getRowIdentity = <T>(
   rowKey: string | ((row: T) => any)
 ): string => {
   if (!row) throw new Error('Row is required when get row identity')
-  if (typeof rowKey === 'string') {
+  if (isString(rowKey)) {
     if (!rowKey.includes('.')) {
       return `${row[rowKey]}`
     }
@@ -176,7 +182,7 @@ export const getRowIdentity = <T>(
       current = current[element]
     }
     return `${current}`
-  } else if (typeof rowKey === 'function') {
+  } else if (isFunction(rowKey)) {
     return rowKey.call(null, row)
   }
 }
@@ -201,7 +207,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
   for (key in config) {
     if (hasOwn(config as unknown as Record<string, any>, key)) {
       const value = config[key]
-      if (typeof value !== 'undefined') {
+      if (!isUndefined(value)) {
         options[key] = value
       }
     }
@@ -211,7 +217,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
 
 export function parseWidth(width: number | string): number | string {
   if (width === '') return width
-  if (width !== undefined) {
+  if (!isUndefined(width)) {
     width = Number.parseInt(width as string, 10)
     if (Number.isNaN(width)) {
       width = ''
@@ -222,7 +228,7 @@ export function parseWidth(width: number | string): number | string {
 
 export function parseMinWidth(minWidth: number | string): number | string {
   if (minWidth === '') return minWidth
-  if (minWidth !== undefined) {
+  if (!isUndefined(minWidth)) {
     minWidth = parseWidth(minWidth)
     if (Number.isNaN(minWidth)) {
       minWidth = 80
@@ -232,10 +238,10 @@ export function parseMinWidth(minWidth: number | string): number | string {
 }
 
 export function parseHeight(height: number | string) {
-  if (typeof height === 'number') {
+  if (isNumber(height)) {
     return height
   }
-  if (typeof height === 'string') {
+  if (isString(height)) {
     if (/^\d+(?:px)?$/.test(height)) {
       return Number.parseInt(height, 10)
     } else {
@@ -332,7 +338,7 @@ export function walkTreeNode(
   childrenKey = 'children',
   lazyKey = 'hasChildren'
 ) {
-  const isNil = (array) => !(Array.isArray(array) && array.length)
+  const isNil = (array) => !(isArray(array) && array.length)
 
   function _walker(parent, children, level) {
     cb(parent, children, level)
@@ -360,6 +366,20 @@ export function walkTreeNode(
   })
 }
 
+const getTableOverflowTooltipProps = (
+  props: TableOverflowTooltipOptions,
+  content: string
+) => {
+  return {
+    content,
+    ...props,
+    popperOptions: {
+      strategy: 'fixed',
+      ...props.popperOptions,
+    },
+  }
+}
+
 export let removePopper: RemovePopperFn | null = null
 
 export function createTablePopper(
@@ -369,17 +389,16 @@ export function createTablePopper(
   table: Table<[]>
 ) {
   if (removePopper?.trigger === trigger) {
+    merge(
+      removePopper!.vm.component.props,
+      getTableOverflowTooltipProps(props, popperContent)
+    )
     return
   }
   removePopper?.()
   const parentNode = table?.refs.tableWrapper
   const ns = parentNode?.dataset.prefix
-  const popperOptions = {
-    strategy: 'fixed',
-    ...props.popperOptions,
-  }
   const vm = createVNode(ElTooltip, {
-    content: popperContent,
     virtualTriggering: true,
     virtualRef: trigger,
     appendTo: parentNode,
@@ -387,11 +406,7 @@ export function createTablePopper(
     transition: 'none', // Default does not require transition
     offset: 0,
     hideAfter: 0,
-    ...props,
-    popperOptions,
-    onHide: () => {
-      removePopper?.()
-    },
+    ...getTableOverflowTooltipProps(props, popperContent),
   })
   vm.appContext = { ...table.appContext, ...table }
   const container = document.createElement('div')
@@ -404,6 +419,7 @@ export function createTablePopper(
     removePopper = null
   }
   removePopper.trigger = trigger
+  removePopper.vm = vm
   scrollContainer?.addEventListener('scroll', removePopper)
 }
 
@@ -510,7 +526,7 @@ export const getFixedColumnsClass = <T>(
 function getOffset<T>(offset: number, column: TableColumnCtx<T>) {
   return (
     offset +
-    (column.realWidth === null || Number.isNaN(column.realWidth)
+    (isNull(column.realWidth) || Number.isNaN(column.realWidth)
       ? Number(column.width)
       : column.realWidth)
   )

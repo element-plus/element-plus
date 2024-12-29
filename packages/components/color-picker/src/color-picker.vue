@@ -16,7 +16,10 @@
     @hide="setShowPicker(false)"
   >
     <template #content>
-      <div v-click-outside="handleClickOutside" @keydown.esc="handleEsc">
+      <div
+        v-click-outside:[triggerRef]="handleClickOutside"
+        @keydown.esc="handleEsc"
+      >
         <div :class="ns.be('dropdown', 'main-wrapper')">
           <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
           <sv-panel ref="sv" :color="color" />
@@ -245,7 +248,6 @@ function setShowPicker(value: boolean) {
 }
 
 const debounceSetShowPicker = debounce(setShowPicker, 100, { leading: true })
-
 function show() {
   if (colorDisabled.value) return
   setShowPicker(true)
@@ -271,6 +273,9 @@ function resetColor() {
 
 function handleTrigger() {
   if (colorDisabled.value) return
+  if (showPicker.value) {
+    resetColor()
+  }
   debounceSetShowPicker(!showPicker.value)
 }
 
@@ -325,6 +330,7 @@ function handleEsc(event: KeyboardEvent) {
 function handleKeyDown(event: KeyboardEvent) {
   switch (event.code) {
     case EVENT_CODE.enter:
+    case EVENT_CODE.numpadEnter:
     case EVENT_CODE.space:
       event.preventDefault()
       event.stopPropagation()
@@ -364,13 +370,12 @@ watch(
 )
 
 watch(
-  () => props.colorFormat,
+  () => [props.colorFormat, props.showAlpha],
   () => {
-    if (props.colorFormat) {
-      color.format = props.colorFormat
-      color.doOnChange()
-      emit(UPDATE_MODEL_EVENT, color.value)
-    }
+    color.enableAlpha = props.showAlpha
+    color.format = props.colorFormat || color.format
+    color.doOnChange()
+    emit(UPDATE_MODEL_EVENT, color.value)
   }
 )
 
