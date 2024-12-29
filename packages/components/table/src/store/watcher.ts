@@ -217,6 +217,13 @@ function useWatcher<T>() {
       )
       selection.value = newSelection
       instance.emit('selection-change', newSelection.slice())
+    } else {
+      const hasSortChanged = selection.value.some(
+        (item, index) => item !== data.value[index]
+      )
+      if (hasSortChanged) {
+        selection.value = data.value.slice()
+      }
     }
   }
 
