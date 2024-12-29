@@ -50,9 +50,9 @@ const { radioRef, focus, size, disabled, modelValue, radioGroup, actualValue } =
   useRadio(props)
 
 const activeStyle = computed<CSSProperties>(() => ({
-  backgroundColor: radioGroup?.fill ?? '',
-  borderColor: radioGroup?.fill ?? '',
+  backgroundColor: radioGroup?.fill || '',
+  borderColor: radioGroup?.fill || '',
   boxShadow: radioGroup?.fill ? `-1px 0 0 0 ${radioGroup.fill}` : '',
-  color: radioGroup?.textColor ?? '',
+  color: radioGroup?.textColor || '',
 }))
 </script>
