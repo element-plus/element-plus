@@ -4,6 +4,6 @@
     "composite": true,
     "types": ["node"]
   },
-  "include": ["**/vite.config.*", "**/vitest.config.*", "**/vite.init.*"],
+  "include": ["**/vite.config.*", "**/vitest.config.*"],
   "exclude": ["docs"]
 }

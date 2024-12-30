@@ -11,7 +11,7 @@ import {
   ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
-import { isString, isUndefined } from '@element-plus/utils'
+import { isArray, isString, isUndefined } from '@element-plus/utils'
 import { cellStarts } from '../config'
 import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
@@ -151,7 +151,8 @@ export default defineComponent({
         )
     })
     onBeforeUnmount(() => {
-      const columnIndex = columnConfig.value.getColumnIndex()
+      const getColumnIndex = columnConfig.value.getColumnIndex
+      const columnIndex = getColumnIndex ? getColumnIndex() : -1
       columnIndex > -1 &&
         owner.value.store.commit(
           'removeColumn',
@@ -173,7 +174,7 @@ export default defineComponent({
         $index: -1,
       })
       const children = []
-      if (Array.isArray(renderDefault)) {
+      if (isArray(renderDefault)) {
         for (const childNode of renderDefault) {
           if (
             childNode.type?.name === 'ElTableColumn' ||
@@ -182,7 +183,7 @@ export default defineComponent({
             children.push(childNode)
           } else if (
             childNode.type === Fragment &&
-            Array.isArray(childNode.children)
+            isArray(childNode.children)
           ) {
             childNode.children.forEach((vnode) => {
               // No rendering when vnode is dynamic slot or text

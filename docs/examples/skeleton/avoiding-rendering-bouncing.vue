@@ -11,7 +11,7 @@
       :throttle="500"
     >
       <template #template>
-        <el-skeleton-item variant="image" style="width: 240px; height: 240px" />
+        <el-skeleton-item variant="image" style="width: 240px; height: 265px" />
         <div style="padding: 14px">
           <el-skeleton-item variant="h3" style="width: 50%" />
           <div

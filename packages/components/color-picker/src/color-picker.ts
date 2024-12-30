@@ -40,13 +40,6 @@ export const colorPickerProps = buildProps({
     default: '',
   },
   /**
-   * @deprecated ColorPicker aria-label
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description ColorPicker tabindex
    */
   tabindex: {
@@ -76,8 +69,8 @@ export const colorPickerEmits = {
   [UPDATE_MODEL_EVENT]: (val: string | null) => isString(val) || isNil(val),
   [CHANGE_EVENT]: (val: string | null) => isString(val) || isNil(val),
   activeChange: (val: string | null) => isString(val) || isNil(val),
-  focus: (event: FocusEvent) => event instanceof FocusEvent,
-  blur: (event: FocusEvent) => event instanceof FocusEvent,
+  focus: (evt: FocusEvent) => evt instanceof FocusEvent,
+  blur: (evt: FocusEvent) => evt instanceof FocusEvent,
 }
 
 export type ColorPickerProps = ExtractPropTypes<typeof colorPickerProps>

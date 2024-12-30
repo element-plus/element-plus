@@ -37,11 +37,8 @@
     border-radius: getCssVar('border-radius-base');
     background-color: getCssVar('fill-color', 'blank');
     transition: getCssVar('transition', 'duration');
+    transform: translate3d(0, 0, 0);
     @include mixed-input-border(#{getCssVar('border-color')});
-
-    &:hover {
-      @include mixed-input-border(#{getCssVar('text-color')});
-    }
 
     @include when(filterable) {
       cursor: text;
@@ -59,6 +56,7 @@
 
     @include when(disabled) {
       cursor: not-allowed;
+      pointer-events: none;
 
       background-color: getCssVar('fill-color', 'light');
       color: getCssVar('text-color', 'placeholder');
@@ -136,6 +134,10 @@
     .#{$namespace}-tag {
       cursor: pointer;
       border-color: transparent;
+
+      &.#{$namespace}-tag--plain {
+        border-color: getCssVar('tag', 'border-color');
+      }
 
       .#{$namespace}-tag__content {
         min-width: 0;

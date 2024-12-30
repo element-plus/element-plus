@@ -16,7 +16,10 @@
     @hide="setShowPicker(false)"
   >
     <template #content>
-      <div v-click-outside="handleClickOutside" @keydown.esc="handleEsc">
+      <div
+        v-click-outside:[triggerRef]="handleClickOutside"
+        @keydown.esc="handleEsc"
+      >
         <div :class="ns.be('dropdown', 'main-wrapper')">
           <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
           <sv-panel ref="sv" :color="color" />
@@ -25,6 +28,7 @@
         <predefine
           v-if="predefine"
           ref="predefine"
+          :enable-alpha="showAlpha"
           :color="color"
           :colors="predefine"
         />
@@ -128,7 +132,6 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 import {
-  useDeprecated,
   useFocusController,
   useLocale,
   useNamespace,
@@ -171,11 +174,10 @@ const popper = ref<TooltipInstance>()
 const triggerRef = ref()
 const inputRef = ref()
 
-const {
-  isFocused,
-  handleFocus: _handleFocus,
-  handleBlur,
-} = useFocusController(triggerRef, {
+const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
+  beforeFocus() {
+    return colorDisabled.value
+  },
   beforeBlur(event) {
     return popper.value?.isFocusInsideContent(event)
   },
@@ -184,11 +186,6 @@ const {
     resetColor()
   },
 })
-
-const handleFocus = (event: FocusEvent) => {
-  if (colorDisabled.value) return blur()
-  _handleFocus(event)
-}
 
 // active-change is used to prevent modelValue changes from triggering.
 let shouldActiveChange = true
@@ -218,20 +215,9 @@ const currentColor = computed(() => {
 
 const buttonAriaLabel = computed<string | undefined>(() => {
   return !isLabeledByFormItem.value
-    ? props.label || props.ariaLabel || t('el.colorpicker.defaultLabel')
+    ? props.ariaLabel || t('el.colorpicker.defaultLabel')
     : undefined
 })
-
-useDeprecated(
-  {
-    from: 'label',
-    replacement: 'aria-label',
-    version: '2.8.0',
-    scope: 'el-color-picker',
-    ref: 'https://element-plus.org/en-US/component/color-picker.html',
-  },
-  computed(() => !!props.label)
-)
 
 const buttonAriaLabelledby = computed<string | undefined>(() => {
   return isLabeledByFormItem.value ? formItem?.labelId : undefined
@@ -262,7 +248,6 @@ function setShowPicker(value: boolean) {
 }
 
 const debounceSetShowPicker = debounce(setShowPicker, 100, { leading: true })
-
 function show() {
   if (colorDisabled.value) return
   setShowPicker(true)
@@ -288,6 +273,9 @@ function resetColor() {
 
 function handleTrigger() {
   if (colorDisabled.value) return
+  if (showPicker.value) {
+    resetColor()
+  }
   debounceSetShowPicker(!showPicker.value)
 }
 
@@ -326,14 +314,10 @@ function clear() {
   resetColor()
 }
 
-function handleClickOutside(event: Event) {
+function handleClickOutside() {
   if (!showPicker.value) return
   hide()
-
-  if (isFocused.value) {
-    const _event = new FocusEvent('focus', event)
-    handleBlur(_event)
-  }
+  isFocused.value && focus()
 }
 
 function handleEsc(event: KeyboardEvent) {
@@ -346,6 +330,7 @@ function handleEsc(event: KeyboardEvent) {
 function handleKeyDown(event: KeyboardEvent) {
   switch (event.code) {
     case EVENT_CODE.enter:
+    case EVENT_CODE.numpadEnter:
     case EVENT_CODE.space:
       event.preventDefault()
       event.stopPropagation()
@@ -381,6 +366,16 @@ watch(
       shouldActiveChange = false
       color.fromString(newVal)
     }
+  }
+)
+
+watch(
+  () => [props.colorFormat, props.showAlpha],
+  () => {
+    color.enableAlpha = props.showAlpha
+    color.format = props.colorFormat || color.format
+    color.doOnChange()
+    emit(UPDATE_MODEL_EVENT, color.value)
   }
 )
 

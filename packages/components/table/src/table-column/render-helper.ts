@@ -9,7 +9,7 @@ import {
   unref,
   watchEffect,
 } from 'vue'
-import { debugWarn } from '@element-plus/utils'
+import { debugWarn, isArray, isUndefined } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   cellForced,
@@ -73,7 +73,7 @@ function useRender<T>(
       column.minWidth = 80
     }
     column.realWidth = Number(
-      column.width === undefined ? column.minWidth : column.width
+      isUndefined(column.width) ? column.minWidth : column.width
     )
     return column
   }
@@ -83,7 +83,7 @@ function useRender<T>(
     const source = cellForced[type] || {}
     Object.keys(source).forEach((prop) => {
       const value = source[prop]
-      if (prop !== 'className' && value !== undefined) {
+      if (prop !== 'className' && !isUndefined(value)) {
         column[prop] = value
       }
     })
@@ -98,7 +98,7 @@ function useRender<T>(
   }
 
   const checkSubColumn = (children: TableColumn<T> | TableColumn<T>[]) => {
-    if (Array.isArray(children)) {
+    if (isArray(children)) {
       children.forEach((child) => check(child))
     } else {
       check(children)
@@ -121,6 +121,12 @@ function useRender<T>(
         // help render
         instance.columnConfig.value['label']
         return renderSlot(slots, 'header', scope, () => [column.label])
+      }
+    }
+
+    if (slots['filter-icon']) {
+      column.renderFilterIcon = (scope) => {
+        return renderSlot(slots, 'filter-icon', scope)
       }
     }
 
@@ -180,7 +186,7 @@ function useRender<T>(
   }
   const getPropsData = (...propsKey: unknown[]) => {
     return propsKey.reduce((prev, cur) => {
-      if (Array.isArray(cur)) {
+      if (isArray(cur)) {
         cur.forEach((key) => {
           prev[key] = props[key]
         })

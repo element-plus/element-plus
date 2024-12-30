@@ -29,9 +29,9 @@ badge/max
 
 ## Customizations
 
-Displays text content other than numbers.
+Displays text content other than numbers. Or you can use the `content` slot to customize content.
 
-:::demo When value is a String, it can display customized text.
+:::demo When value is a String, it can display customized text. Or use the `content` slot.
 
 badge/customize
 
@@ -60,7 +60,7 @@ badge/offset
 ### Attributes
 
 | Name                 | Description                                                                   | Type                                                               | Default |
-|----------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------|---------|
+| -------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------- |
 | value                | display value.                                                                | ^[string] / ^[number]                                              | ''      |
 | max                  | maximum value, shows `{max}+` when exceeded. Only works if value is a number. | ^[number]                                                          | 99      |
 | is-dot               | if a little dot is displayed.                                                 | ^[boolean]                                                         | false   |
@@ -74,6 +74,7 @@ badge/offset
 
 ### Slots
 
-| Name    | Description               |
-|---------|---------------------------|
-| default | customize default content |
+| Name             | Description               | Type                         |
+| ---------------- | ------------------------- | ---------------------------- |
+| default          | customize default content | -                            |
+| content ^(2.9.1) | customize barge content   | ^[object]`{ value: string }` |

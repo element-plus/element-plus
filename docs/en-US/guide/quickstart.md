@@ -13,7 +13,7 @@ This section describes how to use Element Plus in your project.
 
 If you don’t care about the bundle size so much, it’s more convenient to use full import.
 
-```typescript
+```ts
 // main.ts
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
@@ -151,19 +151,6 @@ export default defineConfig({
   plugins: [ElementPlus()],
 })
 ```
-
-:::warning
-
-You need to manually import the styles if you're using `unplugin-element-plus` and only used the component API.
-
-Example:
-
-```ts
-import 'element-plus/es/components/message/style/css'
-import { ElMessage } from 'element-plus'
-```
-
-:::
 
 ## Starter Template
 

@@ -24,10 +24,7 @@ export const useTooltipContentProps = buildProps({
   /**
    * @description whether `content` is treated as HTML string
    */
-  rawContent: {
-    type: Boolean,
-    default: false,
-  },
+  rawContent: Boolean,
   /**
    * @description when tooltip inactive and `persistent` is `false` , popconfirm will be destroyed
    */

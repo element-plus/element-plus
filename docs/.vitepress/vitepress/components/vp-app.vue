@@ -4,6 +4,7 @@ import { onMounted } from 'vue'
 import nprogress from 'nprogress'
 // import dayjs from 'dayjs'
 import { isClient, useEventListener, useToggle } from '@vueuse/core'
+import { EVENT_CODE } from 'element-plus'
 import { useSidebar } from '../composables/sidebar'
 import { useToggleWidgets } from '../composables/toggle-widgets'
 // import { useLang } from '../composables/lang'
@@ -36,7 +37,7 @@ useToggleWidgets(isSidebarOpen, () => {
 
 useEventListener('keydown', (e) => {
   if (!isClient) return
-  if (e.key === 'Escape' && isSidebarOpen.value) {
+  if (e.code === EVENT_CODE.esc && isSidebarOpen.value) {
     toggleSidebar(false)
     document.querySelector<HTMLButtonElement>('.sidebar-button')?.focus()
   }
@@ -153,6 +154,5 @@ onMounted(async () => {
         <slot name="aside-bottom" />
       </template>
     </VPContent>
-    <Debug />
   </div>
 </template>

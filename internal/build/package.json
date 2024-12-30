@@ -33,13 +33,12 @@
     "lodash": "^4.17.21",
     "rollup": "^2.75.7",
     "rollup-plugin-esbuild": "^4.9.1",
-    "ts-morph": "^14.0.0",
     "unplugin-vue-macros": "^0.11.2"
   },
   "devDependencies": {
     "@esbuild-kit/cjs-loader": "^2.2.1",
     "@pnpm/types": "^8.4.0",
-    "unbuild": "^0.7.4",
+    "unbuild": "^2.0.0",
     "vue": "^3.2.37"
   }
 }
