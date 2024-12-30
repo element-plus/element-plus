@@ -122,10 +122,11 @@ export const SelectProps = buildProps({
     default: 0,
   },
   /**
-   * @description placeholder, default is 'Select'
+   * @description placeholder, shows when nothing selected
    */
   placeholder: {
     type: String,
+    default: 'Select',
   },
   /**
    * @description select first matching option on enter key. Use with `filterable` or `remote`
