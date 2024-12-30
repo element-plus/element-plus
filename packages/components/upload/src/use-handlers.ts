@@ -52,12 +52,9 @@ export const useHandlers = (
   }
 
   function removeFile(file: UploadFile) {
-    const index = uploadFiles.value.findIndex(
-      (f) => JSON.stringify(f) === JSON.stringify(file)
+    uploadFiles.value = uploadFiles.value.filter(
+      (f) => JSON.stringify(f) !== JSON.stringify(file)
     )
-    if (index !== -1) {
-      uploadFiles.value.splice(index, 1)
-    }
   }
 
   const handleError: UploadContentProps['onError'] = (err, rawFile) => {
