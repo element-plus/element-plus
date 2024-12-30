@@ -152,7 +152,10 @@ function useTable(props: TableV2Props) {
 
     if (
       unref(lastRenderedRowIndex) >= 0 &&
-      Math.abs(_totalHeight - (scrollTop + unref(mainTableHeight) - unref(headerHeight))) < 0.001
+      Math.abs(
+        _totalHeight -
+        (scrollTop + unref(mainTableHeight) - unref(headerHeight))
+      ) < 0.001
     ) {
       onEndReached(heightUntilEnd)
     }
