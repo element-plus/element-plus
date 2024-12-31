@@ -1,6 +1,5 @@
 // @ts-nocheck
 import { computed, getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
-import { isEqual } from 'lodash-unified'
 import { hasOwn, isArray, isString, isUndefined } from '@element-plus/utils'
 import {
   getColumnById,
@@ -192,7 +191,7 @@ function useWatcher<T>() {
     if (selectedMap.value) {
       return !!selectedMap.value[getRowIdentity(row, rowKey.value)]
     } else {
-      return selection.value.some((item) => isEqual(item, row))
+      return selection.value.includes(row)
     }
   }
 
