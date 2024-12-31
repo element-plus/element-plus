@@ -263,4 +263,5 @@ export const timePickerRngeTriggerProps = buildProps({
   },
   startPlaceholder: String,
   endPlaceholder: String,
+  disabled: Boolean,
 } as const)

@@ -1,5 +1,5 @@
 <template>
-  <div ref="wrapperRef" :class="[ns.b(), ns.is('disabled', disabled)]">
+  <div ref="wrapperRef" :class="[ns.b()]">
     <el-input
       v-bind="mergeProps(passInputProps, $attrs)"
       ref="elInputRef"

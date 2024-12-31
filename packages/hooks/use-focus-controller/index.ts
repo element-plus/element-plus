@@ -67,11 +67,17 @@ export function useFocusController<T extends { focus: () => void }>(
     target.value?.focus()
   }
 
-  watch(wrapperRef, (el) => {
-    if (el) {
-      el.setAttribute('tabindex', '-1')
+  watch(
+    () => ({ el: wrapperRef.value, disabled: disabled.value }),
+    ({ el, disabled }) => {
+      if (!el) return
+      if (disabled) {
+        el.removeAttribute('tabindex')
+      } else {
+        el.setAttribute('tabindex', '-1')
+      }
     }
-  })
+  )
 
   useEventListener(wrapperRef, 'focus', handleFocus, true)
   useEventListener(wrapperRef, 'blur', handleBlur, true)
