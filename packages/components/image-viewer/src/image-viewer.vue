@@ -160,17 +160,11 @@ const isSingle = computed(() => {
   return urlList.length <= 1
 })
 
-const isFirst = computed(() => {
-  return activeIndex.value === 0
-})
+const isFirst = computed(() => activeIndex.value === 0)
 
-const isLast = computed(() => {
-  return activeIndex.value === props.urlList.length - 1
-})
+const isLast = computed(() => activeIndex.value === props.urlList.length - 1)
 
-const currentImg = computed(() => {
-  return props.urlList[activeIndex.value]
-})
+const currentImg = computed(() => props.urlList[activeIndex.value])
 
 const arrowPrevKls = computed(() => [
   ns.e('btn'),
