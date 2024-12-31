@@ -271,7 +271,6 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   }
 
   @include when(disabled) {
-    pointer-events: none;
     .#{$namespace}-color-picker__trigger {
       cursor: not-allowed;
     }
