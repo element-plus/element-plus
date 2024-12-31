@@ -1,14 +1,14 @@
 name: Publish PR Commit Pkg
 
 on:
-  # push:
-  #   branches:
-  #     - dev
-  #   tags:
-  #     - '!**'
+  push:
+    branches:
+      - test-pr.new
+    tags:
+      - '!**'
   pull_request:
     branches:
-      - dev
+      - test-pr.new
 
 jobs:
   build:
