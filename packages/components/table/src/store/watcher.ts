@@ -216,9 +216,7 @@ function useWatcher<T>() {
         }
       }
     } else {
-      deleted = selection.value.filter((item) => {
-        return !data.value.some((row) => isEqual(row, item))
-      })
+      deleted = selection.value.filter((item) => !data.value.includes(item))
     }
     if (deleted.length) {
       const newSelection = selection.value.filter(
