@@ -788,7 +788,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const inputStyle = computed(() => ({
-    width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
+    width: `${Math.max(states.selectionWidth, MINIMUM_INPUT_WIDTH)}px`,
   }))
 
   useResizeObserver(selectionRef, resetSelectionWidth)
