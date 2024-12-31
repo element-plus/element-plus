@@ -69,7 +69,6 @@ type useSelectReturnType = (
   iconReverse: ComputedRef<any>
   tagStyle: ComputedRef<{ maxWidth: string }>
   collapseTagStyle: ComputedRef<{ maxWidth: string }>
-  inputStyle: ComputedRef<{ width: string }>
   popperSize: Ref<number>
   dropdownMenuVisible: WritableComputedRef<boolean>
   hasModelValue: ComputedRef<boolean>
@@ -82,7 +81,6 @@ type useSelectReturnType = (
   isFocused: Ref<boolean>
   nsSelect: ReturnType<typeof useNamespace>
   nsInput: ReturnType<typeof useNamespace>
-  calculatorRef: Ref<HTMLElement | undefined>
   inputRef: Ref<HTMLElement | undefined>
   menuRef: Ref<SelectDropdownInstance | undefined>
   tagMenuRef: Ref<HTMLElement | undefined>
@@ -114,7 +112,6 @@ type useSelectReturnType = (
   handleMenuEnter: () => void
   handleResize: () => void
   resetSelectionWidth: () => void
-  resetCalculatorWidth: () => void
   updateTooltip: () => void
   updateTagTooltip: () => void
   updateOptions: () => void
