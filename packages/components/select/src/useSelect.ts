@@ -52,6 +52,7 @@ import type ElTooltip from '@element-plus/components/tooltip'
 import type { ISelectProps, SelectOptionProxy } from './token'
 
 const MINIMUM_INPUT_WIDTH = 11
+const CURSOR_WIDTH_OFFSET = 2
 
 type useSelectType = (
   props: ISelectProps,
@@ -859,7 +860,10 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
   })
 
   const inputStyle = computed(() => ({
-    width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
+    width: `${
+      Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH) +
+      CURSOR_WIDTH_OFFSET
+    }px`,
   }))
 
   useResizeObserver(selectionRef, resetSelectionWidth)
