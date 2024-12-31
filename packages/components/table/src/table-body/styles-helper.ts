@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { isArray, isFunction, isString } from '@element-plus/utils'
+import { isArray, isFunction, isObject, isString } from '@element-plus/utils'
 import {
   ensurePosition,
   getFixedColumnOffset,
@@ -129,7 +129,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
       if (isArray(result)) {
         rowspan = result[0]
         colspan = result[1]
-      } else if (typeof result === 'object') {
+      } else if (isObject(result)) {
         rowspan = result.rowspan
         colspan = result.colspan
       }

@@ -18,7 +18,7 @@
       :direction="direction"
       :size="size"
     >
-      <template #default="{ item }">
+      <template #default="scope">
         <div
           :class="[
             'flex',
@@ -29,9 +29,9 @@
           ]"
         >
           <el-icon size="20">
-            <component :is="item.icon" />
+            <component :is="scope.item.icon" />
           </el-icon>
-          <div>{{ item.label }}</div>
+          <div>{{ scope.item.label }}</div>
         </div>
       </template>
     </el-segmented>

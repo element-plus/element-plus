@@ -110,6 +110,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 Set the `fullscreen` attribute to open fullscreen dialog.
 
 :::demo
+
 dialog/fullscreen
 
 :::
@@ -125,6 +126,7 @@ If `fullscreen` is true, `width` `top` `draggable` attributes don't work.
 Setting `modal` to `false` will hide modal (overlay) of dialog.
 
 :::demo
+
 dialog/modal
 
 :::
@@ -134,6 +136,7 @@ dialog/modal
 Open developer console (ctrl + shift + J), to see order of events.
 
 :::demo
+
 dialog/events
 
 :::

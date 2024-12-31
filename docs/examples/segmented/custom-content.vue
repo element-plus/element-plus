@@ -1,12 +1,12 @@
 <template>
   <div>
     <el-segmented v-model="value" :options="options">
-      <template #default="{ item }">
+      <template #default="scope">
         <div class="flex flex-col items-center gap-2 p-2">
           <el-icon size="20">
-            <component :is="item.icon" />
+            <component :is="scope.item.icon" />
           </el-icon>
-          <div>{{ item.label }}</div>
+          <div>{{ scope.item.label }}</div>
         </div>
       </template>
     </el-segmented>
