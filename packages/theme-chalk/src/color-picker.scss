@@ -274,9 +274,8 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   }
 
   @include when(disabled) {
-    cursor: not-allowed;
     .#{$namespace}-color-picker__trigger {
-      pointer-events: none;
+      cursor: not-allowed;
       background-color: getCssVar('fill-color', 'light');
     }
 
