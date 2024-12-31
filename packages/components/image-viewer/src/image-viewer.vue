@@ -38,7 +38,8 @@
             </span>
           </template>
           <!-- ACTIONS -->
-          <div :class="[ns.e('btn'), ns.e('actions')]">
+          <div :class="ns.e('actions')">
+            <span :class="ns.e('actions__progress')">{{ progress }}</span>
             <div :class="ns.e('actions__inner')">
               <el-icon @click="handleActions('zoomOut')">
                 <ZoomOut />
@@ -198,6 +199,9 @@ const imgStyle = computed(() => {
   }
   return style
 })
+const progress = computed(
+  () => `${activeIndex.value + 1} / ${props.urlList.length}`
+)
 
 function hide() {
   unregisterEventListener()

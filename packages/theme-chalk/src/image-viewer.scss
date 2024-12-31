@@ -63,22 +63,32 @@
     left: 50%;
     bottom: 30px;
     transform: translateX(-50%);
-    width: 282px;
-    height: 44px;
-    padding: 0 23px;
-    background-color: getCssVar('text-color', 'regular');
-    border-color: #fff;
-    border-radius: 22px;
+    color: #fff;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0.8;
+    box-sizing: border-box;
+    user-select: none;
 
     @include e(actions__inner) {
-      width: 100%;
-      height: 100%;
-      cursor: default;
+      width: 282px;
+      height: 44px;
+      padding: 0 23px;
+      cursor: pointer;
+      background-color: getCssVar('text-color', 'regular');
+      border-color: #fff;
+      border-radius: 22px;
       font-size: 23px;
-      color: #fff;
       display: flex;
       align-items: center;
       justify-content: space-around;
+    }
+
+    @include e(actions__progress) {
+      margin-bottom: 16px;
     }
   }
 

@@ -58,4 +58,25 @@ describe('<image-viewer />', () => {
     expect(imgList[1].attributes('style')).not.contains('display: none;')
     wrapper.unmount()
   })
+
+  test('image activeIndex total', async () => {
+    const wrapper = mount(
+      <ImageViewer urlList={[IMAGE_SUCCESS, IMAGE_SUCCESS]} initial-index={1} />
+    )
+
+    await doubleWait()
+    const viewer = wrapper.find('.el-image-viewer__wrapper')
+    expect(viewer.exists()).toBe(true)
+    const innerText1 = wrapper
+      .find('.el-image-viewer__actions__progress')
+      .text()
+    console.log(innerText1)
+    await wrapper.find('.el-image-viewer__next').trigger('click')
+    await doubleWait()
+    const innerText = wrapper.find('.el-image-viewer__actions__progress').text()
+    console.log(innerText)
+
+    expect(innerText).toBe('1 / 2')
+    wrapper.unmount()
+  })
 })
