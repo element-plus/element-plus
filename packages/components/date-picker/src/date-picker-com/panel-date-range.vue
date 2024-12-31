@@ -243,24 +243,26 @@
       </div>
     </div>
     <div v-if="showTime" :class="ppNs.e('footer')">
-      <el-button
-        v-if="clearable"
-        text
-        size="small"
-        :class="ppNs.e('link-btn')"
-        @click="handleClear"
-      >
-        {{ t('el.datepicker.clear') }}
-      </el-button>
-      <el-button
-        plain
-        size="small"
-        :class="ppNs.e('link-btn')"
-        :disabled="btnDisabled"
-        @click="handleRangeConfirm(false)"
-      >
-        {{ t('el.datepicker.confirm') }}
-      </el-button>
+      <slot name="footer" :confirm="onConfirm" :clear="handleClear">
+        <el-button
+          v-if="clearable"
+          text
+          size="small"
+          :class="ppNs.e('link-btn')"
+          @click="handleClear"
+        >
+          {{ t('el.datepicker.clear') }}
+        </el-button>
+        <el-button
+          plain
+          size="small"
+          :class="ppNs.e('link-btn')"
+          :disabled="btnDisabled"
+          @click="onConfirm"
+        >
+          {{ t('el.datepicker.confirm') }}
+        </el-button>
+      </slot>
     </div>
   </div>
 </template>
@@ -746,6 +748,8 @@ function onParsedValueChanged(
     }
   }
 }
+
+const onConfirm = () => handleRangeConfirm(false)
 
 emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
