@@ -13,6 +13,7 @@ import 'dayjs/locale/zh-cn'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
+import { DateCell, IDatePickerType } from '../src/date-picker.type'
 
 const _mount = (template: string, data = () => ({}), otherObj?) =>
   mount(
@@ -682,6 +683,74 @@ describe('DatePicker', () => {
     const el = document.querySelector('td .el-date-table-cell')
     const text = el.textContent
     expect(text.includes('csw')).toBeFalsy()
+  })
+
+  it('should have always the same propreties for default slot', async () => {
+    const testCell = (cell: DateCell) => {
+      const arr: (keyof DateCell)[] = [
+        'column',
+        'type',
+        'text',
+        'start',
+        'timestamp',
+        'dayjs',
+        'date',
+        'isSelected',
+        'inRange',
+        'row',
+        'disabled',
+        'customClass',
+        'end',
+      ].sort()
+      expect(Object.keys(cell).sort()).toStrictEqual(arr)
+      for (const value of Object.values(cell)) {
+        expect(value).toBeDefined()
+      }
+    }
+    const wrapper = _mount(
+      `<el-date-picker
+        :model-value="value"
+        :type="type"
+        :cellClassName="() => 'hello'"
+        ref="input">
+        <template #default="cell">
+          <div class="el-date-table-cell" @click="testCell(cell)">
+            <div class="el-date-table-cell__text">click me</div>
+          </div>
+        </template>
+      </el-date-picker>`,
+      () => ({ value: '', type: 'date', testCell })
+    )
+    await nextTick()
+    const dateTypes: IDatePickerType[] = [
+      'year',
+      'years',
+      'month',
+      'months',
+      'date',
+      'dates',
+      'week',
+      'datetime',
+      'datetimerange',
+      'daterange',
+      //'monthrange',
+      'yearrange',
+    ]
+    for (const type of dateTypes) {
+      const input = wrapper.find('input')
+      input.trigger('blur')
+      input.trigger('focus')
+      await nextTick()
+      {
+        ;(
+          document.querySelector('td .el-date-table-cell') as HTMLElement
+        ).click()
+      }
+
+      input.trigger('focus')
+      await nextTick()
+      await wrapper.setProps({ value: '', type })
+    }
   })
 
   it('custom content for type is year', async () => {

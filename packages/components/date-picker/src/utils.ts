@@ -84,17 +84,14 @@ export const buildPickerTable = (
   for (let rowIndex = 0; rowIndex < dimension.row; rowIndex++) {
     const row = rows[rowIndex]
     for (let columnIndex = 0; columnIndex < dimension.column; columnIndex++) {
-      let cell = row[columnIndex + columnIndexOffset]
-      if (!cell) {
-        cell = {
-          row: rowIndex,
-          column: columnIndex,
-          type: 'normal',
-          inRange: false,
-          start: false,
-          end: false,
-        } as DateCell
-      }
+      const cell = (row[columnIndex + columnIndexOffset] ||= {
+        row: rowIndex,
+        column: columnIndex,
+        type: 'normal',
+        inRange: false,
+        start: false,
+        end: false,
+      })
       const index = rowIndex * dimension.column + columnIndex
       const nextStartDate = relativeDateGetter(index)
       cell.type = 'normal'

@@ -421,7 +421,6 @@ export const useBasicDateTableDOM = (
       classes.push('disabled')
     }
 
-    console.log(props.selectionMode === 'dates')
     if (props.selectionMode === 'dates' && cell.isSelected) {
       classes.push('selected')
     }

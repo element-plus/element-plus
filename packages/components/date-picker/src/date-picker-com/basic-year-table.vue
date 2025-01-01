@@ -12,7 +12,6 @@
           v-for="(cell, cellKey) in row"
           :key="`${rowKey}_${cellKey}`"
           :ref="(el) => cell.isSelected && (currentCellRef = el as HTMLElement)"
-          class="available"
           :class="getCellKls(cell)"
           :aria-selected="!!cell.isSelected"
           :aria-label="String(cell.text)"
@@ -149,15 +148,14 @@ const focus = () => {
 
 const getCellKls = (cell: YearCell) => {
   const kls: Record<string, boolean> = {}
-  const today = dayjs().locale(lang.value)
   const year = cell.text
 
   kls.disabled = props.disabledDate
     ? datesInYear(year, lang.value).every(props.disabledDate)
     : false
-
-  kls.today = today.year() === year
-  kls.current = isSelectedCell(cell)
+  kls.available = !cell.disabled
+  kls.today = cell.type === 'today' && !cell.disabled
+  kls.current = cell.isSelected
 
   if (cell.customClass) {
     kls[cell.customClass] = true
@@ -178,7 +176,7 @@ const getCellKls = (cell: YearCell) => {
 }
 
 const isSelectedCell = (cell: YearCell) => {
-  const year = cell.text
+  const year = cell.dayjs?.year()
   return castArray(props.date).findIndex((date) => date.year() === year) >= 0
 }
 
