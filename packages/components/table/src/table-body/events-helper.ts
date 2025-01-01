@@ -116,6 +116,9 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     if (!tooltipOptions) {
       return
     }
+    if (!(cell.innerText || cell.textContent)) {
+      return
+    }
 
     // 判断是否text-overflow, 如果是就显示tooltip
     const cellChild = (event.target as HTMLElement).querySelector(
@@ -148,6 +151,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     const { top, left, right, bottom } = getPadding(cellChild)
     const horizontalPadding = left + right
     const verticalPadding = top + bottom
+
     if (
       isGreaterThan(rangeWidth + horizontalPadding, cellChildWidth) ||
       isGreaterThan(rangeHeight + verticalPadding, cellChildHeight) ||
