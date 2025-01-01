@@ -13,7 +13,8 @@ import 'dayjs/locale/zh-cn'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
-import { DateCell, IDatePickerType } from '../src/date-picker.type'
+
+import type { DateCell, IDatePickerType } from '../src/date-picker.type'
 
 const _mount = (template: string, data = () => ({}), otherObj?) =>
   mount(
@@ -686,8 +687,8 @@ describe('DatePicker', () => {
   })
 
   it('should have always the same propreties for default slot', async () => {
-    const testCell = (cell: DateCell) => {
-      const arr: (keyof DateCell)[] = [
+    const testCellData = (cell: DateCell) => {
+      const cellProperties: (keyof DateCell)[] = [
         'column',
         'type',
         'text',
@@ -702,7 +703,7 @@ describe('DatePicker', () => {
         'customClass',
         'end',
       ].sort()
-      expect(Object.keys(cell).sort()).toStrictEqual(arr)
+      expect(Object.keys(cell).sort()).toStrictEqual(cellProperties)
       for (const value of Object.values(cell)) {
         expect(value).toBeDefined()
       }
@@ -714,15 +715,14 @@ describe('DatePicker', () => {
         :cellClassName="() => 'hello'"
         ref="input">
         <template #default="cell">
-          <div class="el-date-table-cell" @click="testCell(cell)">
+          <div class="el-date-table-cell" @click="testCellData(cell)">
             <div class="el-date-table-cell__text">click me</div>
           </div>
         </template>
       </el-date-picker>`,
-      () => ({ value: '', type: 'date', testCell })
+      () => ({ value: '', testCellData })
     )
-    await nextTick()
-    const dateTypes: IDatePickerType[] = [
+    const types: IDatePickerType[] = [
       'year',
       'years',
       'month',
@@ -733,23 +733,16 @@ describe('DatePicker', () => {
       'datetime',
       'datetimerange',
       'daterange',
-      //'monthrange',
+      'monthrange',
       'yearrange',
     ]
-    for (const type of dateTypes) {
-      const input = wrapper.find('input')
-      input.trigger('blur')
-      input.trigger('focus')
-      await nextTick()
+    for (const type of types) {
+      await wrapper.setProps({ type })
       {
         ;(
           document.querySelector('td .el-date-table-cell') as HTMLElement
         ).click()
       }
-
-      input.trigger('focus')
-      await nextTick()
-      await wrapper.setProps({ value: '', type })
     }
   })
 
