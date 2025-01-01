@@ -67,15 +67,9 @@ describe('<image-viewer />', () => {
     await doubleWait()
     const viewer = wrapper.find('.el-image-viewer__wrapper')
     expect(viewer.exists()).toBe(true)
-    const innerText1 = wrapper
-      .find('.el-image-viewer__actions__progress')
-      .text()
-    console.log(innerText1)
     await wrapper.find('.el-image-viewer__next').trigger('click')
     await doubleWait()
     const innerText = wrapper.find('.el-image-viewer__actions__progress').text()
-    console.log(innerText)
-
     expect(innerText).toBe('1 / 2')
     wrapper.unmount()
   })
