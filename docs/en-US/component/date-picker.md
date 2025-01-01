@@ -131,25 +131,57 @@ date-picker/custom-icon
 
 For data details, please refer:
 
+<details>
+  <summary>before <version-tag version="2.9.2" /></summary>
+
 ```ts
 interface DateCell {
   column: number
-  customClass: string
+  customClass?: string
   disabled: boolean
   end: boolean
   inRange: boolean
+  renderText?: string
   row: number
   selected: Dayjs
-  isCurrent: boolean
+  isCurrent?: boolean
+  isSelected?: boolean
+  start: boolean
+  text?: number
+  timestamp: number
+  date?: Date
+  dayjs?: Dayjs
+  type: 'normal' | 'today' | 'week' | 'next-month' | 'prev-month'
+}
+```
+
+</details>
+
+<details>
+  <summary>after <version-tag version="2.9.2" /></summary>
+
+```ts
+interface DateCell {
+  column: number
+  customClass?: string
+  disabled: boolean
+  end: boolean
+  inRange: boolean
+  //renderText?: string // merged into text
+  row: number
+  //selected: Dayjs // duplicate with dayjs
+  //isCurrent: boolean // duplicate with isSelected
   isSelected: boolean
   start: boolean
-  text: number
+  text: number | string
   timestamp: number
   date: Date
   dayjs: Dayjs
   type: 'normal' | 'today' | 'week' | 'next-month' | 'prev-month'
 }
 ```
+
+</details>
 
 ## Localization
 
