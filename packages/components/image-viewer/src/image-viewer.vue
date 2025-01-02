@@ -37,9 +37,9 @@
               </el-icon>
             </span>
           </template>
+          <span :class="[ns.e('btn'), ns.e('progress')]">{{ progress }}</span>
           <!-- ACTIONS -->
-          <div :class="ns.e('actions')">
-            <span :class="ns.e('actions__progress')">{{ progress }}</span>
+          <div :class="[ns.e('btn'), ns.e('actions')]">
             <div :class="ns.e('actions__inner')">
               <el-icon @click="handleActions('zoomOut')">
                 <ZoomOut />

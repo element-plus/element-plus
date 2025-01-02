@@ -63,33 +63,31 @@
     left: 50%;
     bottom: 30px;
     transform: translateX(-50%);
-    color: #fff;
-    position: absolute;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    opacity: 0.8;
-    box-sizing: border-box;
-    user-select: none;
+    width: 282px;
+    height: 44px;
+    padding: 0 23px;
+    background-color: getCssVar('text-color', 'regular');
+    border-color: #fff;
+    border-radius: 22px;
 
     @include e(actions__inner) {
-      width: 282px;
-      height: 44px;
-      padding: 0 23px;
-      cursor: pointer;
-      background-color: getCssVar('text-color', 'regular');
-      border-color: #fff;
-      border-radius: 22px;
+      width: 100%;
+      height: 100%;
+      cursor: default;
       font-size: 23px;
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: space-around;
     }
+  }
 
-    @include e(actions__progress) {
-      margin-bottom: 16px;
-    }
+  @include e(progress) {
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: default;
+    color: #fff;
+    bottom: 90px;
   }
 
   @include e(prev) {
