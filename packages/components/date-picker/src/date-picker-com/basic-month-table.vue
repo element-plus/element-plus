@@ -155,7 +155,7 @@ const getCellStyle = (cell: MonthCell) => {
     ? datesInMonth(year, month, lang.value).every(props.disabledDate)
     : false
   style.available = !cell.disabled
-  style.current = isSelectedCell(cell)
+  style.current = cell.isSelected
   style.today = today.getFullYear() === year && today.getMonth() === month
 
   if (cell.customClass) {
@@ -177,7 +177,7 @@ const getCellStyle = (cell: MonthCell) => {
 }
 
 const isSelectedCell = (cell: MonthCell) => {
-  const year = cell.dayjs?.year()
+  const year = props.date.year()
   const month = cell.text
   return (
     castArray(props.parsedValue).findIndex(

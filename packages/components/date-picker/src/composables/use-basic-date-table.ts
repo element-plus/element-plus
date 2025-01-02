@@ -138,7 +138,6 @@ export const useBasicDateTable = (
       for (let rowIndex = 0; rowIndex < 6; rowIndex++) {
         if (!rows_[rowIndex][0]) {
           rows_[rowIndex][0] = {
-            //...rows_[rowIndex][0],
             type: 'week',
             text: unref(startDate)
               .add(rowIndex * 7 + 1, dateUnit)

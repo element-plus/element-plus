@@ -176,8 +176,10 @@ const getCellKls = (cell: YearCell) => {
 }
 
 const isSelectedCell = (cell: YearCell) => {
-  const year = cell.dayjs?.year()
-  return castArray(props.date).findIndex((date) => date.year() === year) >= 0
+  const year = cell.text
+  return (
+    castArray(props.parsedValue).findIndex((date) => date?.year() === year) >= 0
+  )
 }
 
 const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {

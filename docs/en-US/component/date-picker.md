@@ -147,7 +147,7 @@ interface DateCell {
   isCurrent?: boolean
   isSelected?: boolean
   start: boolean
-  text?: number
+  text: number
   timestamp: number
   date?: Date
   dayjs?: Dayjs
