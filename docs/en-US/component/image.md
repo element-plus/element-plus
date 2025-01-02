@@ -92,12 +92,12 @@ image/image-preview
 
 ### Image Slots
 
-| Name        | Description                                              |
-| ----------- | -------------------------------------------------------- |
-| placeholder | custom placeholder content when image hasn't loaded yet. |
-| error       | custom image load failed content.                        |
-| viewer      | custom content when image preview.                       |
-| progress    | custom progress content when image preview.              |
+| Name              | Description                                              |
+| ----------------- | -------------------------------------------------------- |
+| placeholder       | custom placeholder content when image hasn't loaded yet. |
+| error             | custom image load failed content.                        |
+| viewer            | custom content when image preview.                       |
+| progress ^(2.9.2) | custom progress content when image preview.              |
 
 ## Image Viewer API
 
