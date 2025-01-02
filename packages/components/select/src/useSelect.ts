@@ -51,8 +51,6 @@ import {
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { ISelectProps, SelectOptionProxy } from './token'
 
-const MINIMUM_INPUT_WIDTH = 11
-
 type useSelectType = (
   props: ISelectProps,
   emit: any
@@ -147,7 +145,6 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     optionValues: [] as any[], // sorted value of options
     selected: [] as any[],
     selectionWidth: 0,
-    calculatorWidth: 0,
     collapseItemWidth: 0,
     selectedLabel: '',
     hoveringIndex: -1,
@@ -163,7 +160,6 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
   const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const inputRef = ref<HTMLInputElement | null>(null)
-  const calculatorRef = ref<HTMLElement>(null)
   const prefixRef = ref<HTMLElement>(null)
   const suffixRef = ref<HTMLElement>(null)
   const menuRef = ref<HTMLElement>(null)
@@ -540,10 +536,6 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     states.selectionWidth = selectionRef.value.getBoundingClientRect().width
   }
 
-  const resetCalculatorWidth = () => {
-    states.calculatorWidth = calculatorRef.value.getBoundingClientRect().width
-  }
-
   const resetCollapseItemWidth = () => {
     states.collapseItemWidth =
       collapseItemRef.value.getBoundingClientRect().width
@@ -858,12 +850,7 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
 
-  const inputStyle = computed(() => ({
-    width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
-  }))
-
   useResizeObserver(selectionRef, resetSelectionWidth)
-  useResizeObserver(calculatorRef, resetCalculatorWidth)
   useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
@@ -885,7 +872,6 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     hoverOption,
     selectSize,
     filteredOptionsCount,
-    resetCalculatorWidth,
     updateTooltip,
     updateTagTooltip,
     debouncedOnInputChange,
@@ -933,14 +919,12 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     // computed style
     tagStyle,
     collapseTagStyle,
-    inputStyle,
 
     // DOM ref
     popperRef,
     inputRef,
     tooltipRef,
     tagTooltipRef,
-    calculatorRef,
     prefixRef,
     suffixRef,
     selectRef,
