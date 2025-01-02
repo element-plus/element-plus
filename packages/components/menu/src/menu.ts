@@ -144,6 +144,13 @@ export const menuProps = buildProps({
     default: 'dark',
   },
   /**
+   * @description Disabled tooltip when menu is collapsed
+   */
+  popperDisabled: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * @description custom class name for all popup menus
    */
   popperClass: String,

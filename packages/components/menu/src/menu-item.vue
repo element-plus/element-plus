@@ -15,6 +15,7 @@
         rootMenu.props.collapse &&
         $slots.title
       "
+      :disabled="rootMenu.props.popperDisabled"
       :effect="rootMenu.props.popperEffect"
       placement="right"
       :fallback-placements="['left']"
