@@ -42,6 +42,9 @@
         <div v-if="$slots.viewer">
           <slot name="viewer" />
         </div>
+        <template #progress="{ activeIndex, total }">
+          <slot name="progress" :active-index="activeIndex" :total="total" />
+        </template>
       </image-viewer>
     </template>
   </div>

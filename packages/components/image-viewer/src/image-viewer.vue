@@ -37,7 +37,15 @@
               </el-icon>
             </span>
           </template>
-          <span :class="[ns.e('btn'), ns.e('progress')]">{{ progress }}</span>
+          <span :class="[ns.e('btn'), ns.e('progress')]">
+            <slot
+              name="progress"
+              :active-index="activeIndex"
+              :total="urlList.length"
+            >
+              {{ progress }}
+            </slot>
+          </span>
           <!-- ACTIONS -->
           <div :class="[ns.e('btn'), ns.e('actions')]">
             <div :class="ns.e('actions__inner')">
