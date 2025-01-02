@@ -59,7 +59,7 @@ describe('<image-viewer />', () => {
     wrapper.unmount()
   })
 
-  test('image activeIndex total', async () => {
+  test('image progress render', async () => {
     const wrapper = mount(
       <ImageViewer urlList={[IMAGE_SUCCESS, IMAGE_SUCCESS]} initial-index={1} />
     )
