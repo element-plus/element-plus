@@ -47,7 +47,7 @@ import {
   toRef,
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
-import { throwError } from '@element-plus/utils'
+import { debugWarn, isPropAbsent, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import useMenu from './use-menu'
 import { menuItemEmits, menuItemProps } from './menu-item'
@@ -65,6 +65,9 @@ export default defineComponent({
   emits: menuItemEmits,
 
   setup(props, { emit }) {
+    isPropAbsent(props.index) &&
+      debugWarn(COMPONENT_NAME, 'Missing required prop: "index"')
+
     const instance = getCurrentInstance()!
     const rootMenu = inject<MenuProvider>('rootMenu')
     const nsMenu = useNamespace('menu')
