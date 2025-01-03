@@ -80,7 +80,6 @@
         @focus="handleFocus"
         @blur="handleBlur"
       >
-        <div v-if="colorDisabled" :class="ns.be('picker', 'mask')" />
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
           <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
             <span
