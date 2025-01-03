@@ -42,6 +42,9 @@
         <div v-if="$slots.viewer">
           <slot name="viewer" />
         </div>
+        <template #toolbar="toolbar">
+          <slot name="toolbar" v-bind="toolbar" />
+        </template>
       </image-viewer>
     </template>
   </div>
