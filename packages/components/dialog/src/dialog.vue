@@ -17,7 +17,7 @@
         :z-index="zIndex"
       >
         <div
-          ref="dialogRef"
+          ref="overlayRef"
           role="dialog"
           aria-modal="true"
           :aria-label="title || undefined"
@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, ref, useSlots } from 'vue'
+import { computed, nextTick, provide, ref, useSlots, watchEffect } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import { useDeprecated, useNamespace, useSameTarget } from '@element-plus/hooks'
 import ElFocusTrap from '@element-plus/components/focus-trap'
@@ -107,9 +107,20 @@ useDeprecated(
 )
 
 const ns = useNamespace('dialog')
+const overlayRef = ref<HTMLElement>()
 const dialogRef = ref<HTMLElement>()
 const headerRef = ref<HTMLElement>()
 const dialogContentRef = ref()
+
+watchEffect(() => {
+  if (props.modelValue) {
+    nextTick(() => {
+      if (overlayRef.value) {
+        overlayRef.value.scrollTop = 0
+      }
+    })
+  }
+})
 
 const {
   visible,
