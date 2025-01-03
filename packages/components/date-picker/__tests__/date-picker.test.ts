@@ -14,6 +14,8 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
 
+import type { DateCell, IDatePickerType } from '../src/date-picker.type'
+
 const _mount = (template: string, data = () => ({}), otherObj?) =>
   mount(
     {
@@ -524,8 +526,8 @@ describe('DatePicker', () => {
       `<el-date-picker
         v-model="value"
         ref="input">
-        <template #default="{ isCurrent, text }">
-          <div class="el-date-table-cell__text" :class="{ current: isCurrent }">
+        <template #default="{ isSelected, text }">
+          <div class="el-date-table-cell__text" :class="{ current: isSelected }">
             <div>{{ text }}</div>
           </div>
         </template>
@@ -682,6 +684,66 @@ describe('DatePicker', () => {
     const el = document.querySelector('td .el-date-table-cell')
     const text = el.textContent
     expect(text.includes('csw')).toBeFalsy()
+  })
+
+  it('should have always the same propreties for default slot', async () => {
+    const testCellData = (cell: DateCell) => {
+      const cellProperties: (keyof DateCell)[] = [
+        'column',
+        'type',
+        'text',
+        'start',
+        'timestamp',
+        'dayjs',
+        'date',
+        'isSelected',
+        'inRange',
+        'row',
+        'disabled',
+        'customClass',
+        'end',
+      ].sort()
+      expect(Object.keys(cell).sort()).toStrictEqual(cellProperties)
+      for (const value of Object.values(cell)) {
+        expect(value).toBeDefined()
+      }
+    }
+    const wrapper = _mount(
+      `<el-date-picker
+        :model-value="value"
+        :type="type"
+        :cellClassName="() => 'hello'"
+        ref="input">
+        <template #default="cell">
+          <div class="el-date-table-cell" @click="testCellData(cell)">
+            <div class="el-date-table-cell__text">click me</div>
+          </div>
+        </template>
+      </el-date-picker>`,
+      () => ({ value: '', testCellData })
+    )
+    const types: IDatePickerType[] = [
+      'year',
+      'years',
+      'month',
+      'months',
+      'date',
+      'dates',
+      'week',
+      'datetime',
+      'datetimerange',
+      'daterange',
+      'monthrange',
+      'yearrange',
+    ]
+    for (const type of types) {
+      await wrapper.setProps({ type })
+      {
+        ;(
+          document.querySelector('td .el-date-table-cell') as HTMLElement
+        ).click()
+      }
+    }
   })
 
   it('custom content for type is year', async () => {

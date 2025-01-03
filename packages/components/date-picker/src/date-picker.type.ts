@@ -22,12 +22,9 @@ export interface DateCell {
   end?: boolean
   inRange?: boolean
   row?: number
-  selected?: Dayjs
-  isCurrent?: boolean
   isSelected?: boolean
   start?: boolean
-  text?: number
-  renderText?: string
+  text?: number | string
   timestamp?: number
   date?: Date
   dayjs?: Dayjs

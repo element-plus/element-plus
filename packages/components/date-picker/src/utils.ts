@@ -4,7 +4,7 @@ import { rangeArr } from '@element-plus/components/time-picker'
 
 import type { Dayjs } from 'dayjs'
 import type { DateCell } from './date-picker.type'
-import type { DisabledDateType } from './props/shared'
+import type { CellClassNameType, DisabledDateType } from './props/shared'
 
 type DayRange = [Dayjs | undefined, Dayjs | undefined]
 
@@ -61,6 +61,7 @@ type BuildPickerTableMetadata = {
   relativeDateGetter: (index: number) => Dayjs
   setCellMetadata?: (
     cell: DateCell,
+    calTime: Dayjs,
     dimension: { rowIndex: number; columnIndex: number }
   ) => void
   setRowMetadata?: (row: DateCell[]) => void
@@ -83,22 +84,16 @@ export const buildPickerTable = (
   for (let rowIndex = 0; rowIndex < dimension.row; rowIndex++) {
     const row = rows[rowIndex]
     for (let columnIndex = 0; columnIndex < dimension.column; columnIndex++) {
-      let cell = row[columnIndex + columnIndexOffset]
-      if (!cell) {
-        cell = {
-          row: rowIndex,
-          column: columnIndex,
-          type: 'normal',
-          inRange: false,
-          start: false,
-          end: false,
-        }
-      }
+      const cell = (row[columnIndex + columnIndexOffset] ||= {
+        row: rowIndex,
+        column: columnIndex,
+        type: 'normal',
+        inRange: false,
+        start: false,
+        end: false,
+      })
       const index = rowIndex * dimension.column + columnIndex
       const nextStartDate = relativeDateGetter(index)
-      cell.dayjs = nextStartDate
-      cell.date = nextStartDate.toDate()
-      cell.timestamp = nextStartDate.valueOf()
       cell.type = 'normal'
 
       cell.inRange =
@@ -128,7 +123,7 @@ export const buildPickerTable = (
       if (isToday) {
         cell.type = 'today'
       }
-      setCellMetadata?.(cell, { rowIndex, columnIndex })
+      setCellMetadata?.(cell, nextStartDate, { rowIndex, columnIndex })
       row[columnIndex + columnIndexOffset] = cell
     }
     setRowMetadata?.(row)
@@ -176,4 +171,21 @@ export const getValidDateOfYear = (
     }
   }
   return value
+}
+
+export const setCellMetadata = (
+  cell: DateCell,
+  calTime: Dayjs,
+  tableProps: {
+    cellClassName?: CellClassNameType
+    disabledDate?: DisabledDateType
+  }
+) => {
+  const { disabledDate, cellClassName } = tableProps
+  const cellDate = calTime.toDate()
+  cell.date = cellDate
+  cell.customClass = cellClassName?.(cellDate)
+  cell.dayjs = calTime
+  cell.timestamp = calTime.valueOf()
+  cell.disabled = disabledDate?.(cellDate) || false
 }

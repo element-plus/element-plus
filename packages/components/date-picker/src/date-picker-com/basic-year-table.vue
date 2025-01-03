@@ -11,12 +11,11 @@
         <td
           v-for="(cell, cellKey) in row"
           :key="`${rowKey}_${cellKey}`"
-          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
-          class="available"
+          :ref="(el) => cell.isSelected && (currentCellRef = el as HTMLElement)"
           :class="getCellKls(cell)"
-          :aria-selected="isSelectedCell(cell)"
+          :aria-selected="!!cell.isSelected"
           :aria-label="String(cell.text)"
-          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          :tabindex="cell.isSelected ? 0 : -1"
           @keydown.space.prevent.stop="handleYearTableClick"
           @keydown.enter.prevent.stop="handleYearTableClick"
         >
@@ -34,8 +33,9 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicYearTableProps } from '../props/basic-year-table'
-import { getValidDateOfYear } from '../utils'
+import { getValidDateOfYear, setCellMetadata } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
+import type { Dayjs } from 'dayjs'
 
 type YearCell = {
   column: number
@@ -46,6 +46,11 @@ type YearCell = {
   text: number
   type: 'normal' | 'today'
   inRange: boolean
+  isSelected: boolean
+  date?: Date
+  dayjs?: Dayjs
+  timestamp?: number
+  customClass?: string
 }
 
 const datesInYear = (year: number, lang: string) => {
@@ -80,22 +85,22 @@ const rows = computed(() => {
       if (i * 4 + j >= 10) {
         break
       }
-      let cell = row[j]
-      if (!cell) {
-        cell = {
-          row: i,
-          column: j,
-          type: 'normal',
-          inRange: false,
-          start: false,
-          end: false,
-          text: -1,
-          disabled: false,
-        }
-      }
+      const cell = (row[j] ||= {
+        row: i,
+        column: j,
+        type: 'normal',
+        inRange: false,
+        start: false,
+        end: false,
+        text: -1,
+        disabled: false,
+        isSelected: false,
+      })
+
       cell.type = 'normal'
+
       const index = i * 4 + j + startYear.value
-      const calTime = dayjs().year(index)
+      const calTime = dayjs().startOf('year').year(index)
 
       const calEndDate =
         props.rangeState.endDate ||
@@ -130,10 +135,8 @@ const rows = computed(() => {
         cell.type = 'today'
       }
       cell.text = index
-      const cellDate = calTime.toDate()
-      cell.disabled =
-        (props.disabledDate && props.disabledDate(cellDate)) || false
-      row[j] = cell
+      cell.isSelected = isSelectedCell(cell)
+      setCellMetadata(cell, calTime, props)
     }
   }
   return rows
@@ -145,16 +148,18 @@ const focus = () => {
 
 const getCellKls = (cell: YearCell) => {
   const kls: Record<string, boolean> = {}
-  const today = dayjs().locale(lang.value)
   const year = cell.text
 
   kls.disabled = props.disabledDate
     ? datesInYear(year, lang.value).every(props.disabledDate)
     : false
+  kls.available = !cell.disabled
+  kls.today = cell.type === 'today' && !cell.disabled
+  kls.current = cell.isSelected
 
-  kls.today = today.year() === year
-  kls.current =
-    castArray(props.parsedValue).findIndex((d) => d!.year() === year) >= 0
+  if (cell.customClass) {
+    kls[cell.customClass] = true
+  }
 
   if (cell.inRange) {
     kls['in-range'] = true
@@ -172,7 +177,9 @@ const getCellKls = (cell: YearCell) => {
 
 const isSelectedCell = (cell: YearCell) => {
   const year = cell.text
-  return castArray(props.date).findIndex((date) => date.year() === year) >= 0
+  return (
+    castArray(props.parsedValue).findIndex((date) => date?.year() === year) >= 0
+  )
 }
 
 const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
