@@ -1,5 +1,5 @@
 import { defineComponent, nextTick, ref } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import Tabs from '../src/tabs'
@@ -776,5 +776,65 @@ describe('Tabs.vue', () => {
     await nextTick()
 
     expect(panesWrapper.length).toBe(1)
+  })
+
+  test('set modelValue synchronously', async () => {
+    const handleTabClick = vi.fn()
+
+    const activeName = ref('tab1')
+    const wrapper = mount(() => (
+      <Tabs v-model={activeName.value} onTabClick={handleTabClick}>
+        <TabPane name="tab1" label="tab1">
+          Tab 1 content
+        </TabPane>
+        <TabPane name="tab2" label="tab2">
+          Tab 2 content
+        </TabPane>
+      </Tabs>
+    ))
+
+    await nextTick()
+
+    const navWrapper = wrapper.findComponent(TabNav)
+    const navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+
+    navItemsWrapper[1].trigger('click')
+
+    expect(activeName.value).toBe('tab2')
+    expect(handleTabClick).toHaveBeenCalledTimes(1)
+  })
+
+  test('set modelValue asynchronously using beforeLeave', async () => {
+    const handleTabClick = vi.fn()
+
+    const activeName = ref('tab1')
+    const beforeLeave = () => Promise.resolve(true)
+    const wrapper = mount(() => (
+      <Tabs
+        v-model={activeName.value}
+        onTabClick={handleTabClick}
+        beforeLeave={beforeLeave}
+      >
+        <TabPane name="tab1" label="tab1">
+          Tab 1 content
+        </TabPane>
+        <TabPane name="tab2" label="tab2">
+          Tab 2 content
+        </TabPane>
+      </Tabs>
+    ))
+
+    await nextTick()
+
+    const navWrapper = wrapper.findComponent(TabNav)
+    const navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+
+    navItemsWrapper[1].trigger('click')
+
+    expect(activeName.value).toBe('tab1')
+    expect(handleTabClick).toHaveBeenCalledTimes(1)
+
+    await flushPromises()
+    expect(activeName.value).toBe('tab2')
   })
 })
