@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getCurrentInstance, ref } from 'vue'
 import { getKeysMap, getRowIdentity, toggleRowStatus } from '../util'
 

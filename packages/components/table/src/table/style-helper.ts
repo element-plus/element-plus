@@ -274,7 +274,7 @@ function useStyle<T>(
   })
 
   const emptyBlockStyle = computed(() => {
-    if (props.data && props.data.length) return null
+    if (props?.data?.length) return undefined
     let height = '100%'
     if (props.height && bodyScrollHeight.value) {
       height = `${bodyScrollHeight.value}px`

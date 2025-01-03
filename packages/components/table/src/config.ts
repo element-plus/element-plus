@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { h } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
@@ -13,7 +12,7 @@ import type { TreeNode } from './table/defaults'
 const defaultClassNames = {
   selection: 'table-column--selection',
   expand: 'table__expand-column',
-}
+} as const
 
 export const cellStarts = {
   default: {
@@ -38,15 +37,21 @@ export const cellStarts = {
     order: '',
   },
 }
-
-export const getDefaultClassName = (type) => {
-  return defaultClassNames[type] || ''
-}
+type classNames = typeof defaultClassNames
+export const getDefaultClassName = (
+  type: keyof classNames
+): classNames[keyof classNames] | '' => defaultClassNames[type] ?? ''
 
 // 这些选项不应该被覆盖
 export const cellForced = {
   selection: {
-    renderHeader<T>({ store, column }: { store: Store<T> }) {
+    renderHeader<T>({
+      store,
+      column,
+    }: {
+      store: Store<T>
+      column: TableColumnCtx<T>
+    }) {
       function isDisabled() {
         return store.states.data.value && store.states.data.value.length === 0
       }
@@ -70,7 +75,7 @@ export const cellForced = {
       row: T
       column: TableColumnCtx<T>
       store: Store<T>
-      $index: string
+      $index: number
     }) {
       return h(ElCheckbox, {
         disabled: column.selectable
@@ -157,7 +162,7 @@ export const cellForced = {
   },
 }
 
-export function defaultRenderCell<T>({
+export function defaultRenderCell<T extends Record<string, any>>({
   row,
   column,
   $index,
@@ -168,10 +173,10 @@ export function defaultRenderCell<T>({
 }) {
   const property = column.property
   const value = property && getProp(row, property).value
-  if (column && column.formatter) {
+  if (column?.formatter) {
     return column.formatter(row, column, value, $index)
   }
-  return value?.toString?.() || ''
+  return value?.toString?.() ?? ''
 }
 
 export function treeCellPrefix<T>(
@@ -198,7 +203,7 @@ export function treeCellPrefix<T>(
     return null
   }
   const ele: VNode[] = []
-  const callback = function (e) {
+  const callback = (e: Event) => {
     e.stopPropagation()
     if (treeNode.loading) {
       return
