@@ -105,6 +105,42 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 :::
 
+## Fullscreen
+
+Set the `fullscreen` attribute to open fullscreen dialog.
+
+:::demo
+
+dialog/fullscreen
+
+:::
+
+:::tip
+
+If `fullscreen` is true, `width` `top` `draggable` attributes don't work.
+
+:::
+
+## Modal
+
+Setting `modal` to `false` will hide modal (overlay) of dialog.
+
+:::demo
+
+dialog/modal
+
+:::
+
+## Events
+
+Open developer console (ctrl + shift + J), to see order of events.
+
+:::demo
+
+dialog/events
+
+:::
+
 ## API
 
 ### Attributes
@@ -147,7 +183,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 | Name                | Description                                                                                           |
 | ------------------- | ----------------------------------------------------------------------------------------------------- |
-| —                   | content of Dialog                                                                                     |
+| default             | default content of Dialog                                                                             |
 | header              | content of the Dialog header; Replacing this removes the title, but does not remove the close button. |
 | footer              | content of the Dialog footer                                                                          |
 | title ^(deprecated) | works the same as the header slot. Use that instead.                                                  |

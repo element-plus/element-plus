@@ -1,11 +1,11 @@
 name: Publish PR Commit Pkg
 
 on:
-  push:
-    branches:
-      - dev
-    tags:
-      - '!**'
+  # push:
+  #   branches:
+  #     - dev
+  #   tags:
+  #     - '!**'
   pull_request:
     branches:
       - dev
@@ -13,6 +13,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.repository == 'element-plus/element-plus' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
