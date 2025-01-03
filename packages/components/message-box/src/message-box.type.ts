@@ -11,13 +11,13 @@ export interface MessageBoxInputData {
   action: Action
 }
 
-export interface MessageBoxInputValidator {
-  (value: string): boolean | string
-}
+export type MessageBoxInputValidator =
+  | ((value: string) => boolean | string)
+  | undefined
 
 export declare interface MessageBoxState {
   autofocus: boolean
-  title: string
+  title: string | undefined
   message: string
   type: MessageType
   icon: string | Component
@@ -27,7 +27,7 @@ export declare interface MessageBoxState {
   inputValue: string
   inputPlaceholder: string
   inputType: string
-  inputPattern: RegExp
+  inputPattern: RegExp | null
   inputValidator: MessageBoxInputValidator
   inputErrorMessage: string
   showConfirmButton: boolean
