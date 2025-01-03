@@ -1822,7 +1822,7 @@ describe('Table.vue', () => {
           ElTableColumn,
         },
         template: `
-              <el-table :data="testData" :tree-props="treeProps" @selection-change="change">
+              <el-table :data="testData" :tree-props="treeProps" row-key="id" @selection-change="change">
                 <el-table-column type="selection" />
                 <el-table-column prop="name" label="name" />
                 <el-table-column prop="release" label="release" />
