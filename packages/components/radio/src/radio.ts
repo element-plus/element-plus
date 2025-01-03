@@ -4,6 +4,8 @@ import { useSizeProp } from '@element-plus/hooks'
 import type { ExtractPropTypes } from 'vue'
 import type Radio from './radio.vue'
 
+export type RadioValueType = string | number | boolean
+
 export const radioPropsBase = buildProps({
   /**
    * @description binding value
@@ -52,9 +54,9 @@ export const radioProps = buildProps({
 } as const)
 
 export const radioEmits = {
-  [UPDATE_MODEL_EVENT]: (val: string | number | boolean | undefined) =>
+  [UPDATE_MODEL_EVENT]: (val: RadioValueType) =>
     isString(val) || isNumber(val) || isBoolean(val),
-  [CHANGE_EVENT]: (val: string | number | boolean | undefined) =>
+  [CHANGE_EVENT]: (val: RadioValueType) =>
     isString(val) || isNumber(val) || isBoolean(val),
 }
 
