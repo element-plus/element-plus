@@ -82,6 +82,14 @@
     }
   }
 
+  @include e(progress) {
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: default;
+    color: #fff;
+    bottom: 90px;
+  }
+
   @include e(prev) {
     top: 50%;
     transform: translateY(-50%);

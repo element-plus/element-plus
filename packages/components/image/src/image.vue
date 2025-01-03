@@ -42,6 +42,9 @@
         <div v-if="$slots.viewer">
           <slot name="viewer" />
         </div>
+        <template #progress="scoped">
+          <slot name="progress" v-bind="scoped" />
+        </template>
       </image-viewer>
     </template>
   </div>
