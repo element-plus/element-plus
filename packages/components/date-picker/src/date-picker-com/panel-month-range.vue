@@ -107,7 +107,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, unref } from 'vue'
+import { computed, inject, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { isArray } from '@element-plus/utils'
@@ -151,6 +151,7 @@ const {
   handleRangeConfirm,
   handleShortcutClick,
   onSelect,
+  onReset,
 } = useRangePicker(props, {
   defaultValue,
   leftDate,
@@ -238,6 +239,16 @@ function onParsedValueChanged(
     rightDate.value = leftDate.value.add(1, unit)
   }
 }
+
+watch(
+  () => props.visible,
+  (visible) => {
+    if (!visible && rangeState.value.selecting) {
+      onReset(props.parsedValue)
+      onSelect(false)
+    }
+  }
+)
 
 emit('set-picker-option', ['isValidValue', isValidRange])
 emit('set-picker-option', ['formatToString', formatToString])
