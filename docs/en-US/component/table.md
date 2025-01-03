@@ -414,6 +414,8 @@ interface TreeNode {
 
 #### How to use image preview in the table?
 
+After version ^(2.9.3), teleported by default and does not need to be set manually.
+
 ```vue{4}
 <template>
   <el-table-column width="180">
