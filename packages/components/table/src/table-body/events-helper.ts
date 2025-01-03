@@ -153,7 +153,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
       isGreaterThan(rangeHeight + verticalPadding, cellChildHeight) ||
       // When using a high-resolution screen, it is possible that a returns cellChild.scrollWidth value of 1921 and
       // cellChildWidth returns a value of 1920.994140625. #16856 #16673
-      isGreaterThan(cellChild.scrollWidth, cellChildWidth)
+      isGreaterThan(cellChild.scrollWidth, cellChild.offsetWidth)
     ) {
       createTablePopper(
         tooltipOptions,
