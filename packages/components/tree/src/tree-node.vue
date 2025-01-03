@@ -249,7 +249,10 @@ export default defineComponent({
         handleExpandIconClick()
       }
 
-      if (tree.props.checkOnClickNode && !props.node.disabled) {
+      if (
+        (tree.props.checkOnClickNode || props.node.isLeaf) &&
+        !props.node.disabled
+      ) {
         handleCheckChange(!props.node.checked)
       }
       tree.ctx.emit('node-click', props.node.data, props.node, instance, e)
