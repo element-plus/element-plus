@@ -15,10 +15,6 @@
       map.get($mention, 'shadow')
     );
   }
-
-  @include when(disabled) {
-    pointer-events: none;
-  }
 }
 
 @include b(mention-dropdown) {
