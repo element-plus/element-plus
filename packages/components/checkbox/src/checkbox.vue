@@ -78,23 +78,19 @@ const {
 
 const ns = useNamespace('checkbox')
 
-const compKls = computed(() => {
-  return [
-    ns.b(),
-    ns.m(checkboxSize.value),
-    ns.is('disabled', isDisabled.value),
-    ns.is('bordered', props.border),
-    ns.is('checked', isChecked.value),
-  ]
-})
+const compKls = computed(() => [
+  ns.b(),
+  ns.m(checkboxSize.value),
+  ns.is('disabled', isDisabled.value),
+  ns.is('bordered', props.border),
+  ns.is('checked', isChecked.value),
+])
 
-const spanKls = computed(() => {
-  return [
-    ns.e('input'),
-    ns.is('disabled', isDisabled.value),
-    ns.is('checked', isChecked.value),
-    ns.is('indeterminate', props.indeterminate),
-    ns.is('focus', isFocused.value),
-  ]
-})
+const spanKls = computed(() => [
+  ns.e('input'),
+  ns.is('disabled', isDisabled.value),
+  ns.is('checked', isChecked.value),
+  ns.is('indeterminate', props.indeterminate),
+  ns.is('focus', isFocused.value),
+])
 </script>

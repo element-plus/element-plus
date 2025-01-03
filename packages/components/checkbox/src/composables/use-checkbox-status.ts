@@ -15,14 +15,11 @@ export const useCheckboxStatus = (
 ) => {
   const checkboxGroup = inject(checkboxGroupContextKey, undefined)
   const isFocused = ref(false)
-  const actualValue = computed(() => {
-    // In version 2.x, if there's no props.value, props.label will act as props.value
-    // In version 3.x, remove this computed value, use props.value instead.
-    if (!isPropAbsent(props.value)) {
-      return props.value
-    }
-    return props.label
-  })
+  // In version 2.x, if there's no props.value, props.label will act as props.value
+  // In version 3.x, remove this computed value, use props.value instead.
+  const actualValue = computed(() =>
+    !isPropAbsent(props.value) ? props.value : props.label
+  )
   const isChecked = computed<boolean>(() => {
     const value = model.value
     if (isBoolean(value)) {
@@ -31,9 +28,9 @@ export const useCheckboxStatus = (
       if (isObject(actualValue.value)) {
         return value.map(toRaw).some((o) => isEqual(o, actualValue.value))
       } else {
-        return value.map(toRaw).includes(actualValue.value)
+        return value.map(toRaw).includes(actualValue.value as string | number)
       }
-    } else if (value !== null && value !== undefined) {
+    } else if (!isPropAbsent(value)) {
       return value === props.trueValue || value === props.trueLabel
     } else {
       return !!value
@@ -48,9 +45,9 @@ export const useCheckboxStatus = (
   )
   const checkboxSize = useFormSize(computed(() => checkboxGroup?.size?.value))
 
-  const hasOwnLabel = computed<boolean>(() => {
-    return !!slots.default || !isPropAbsent(actualValue.value)
-  })
+  const hasOwnLabel = computed<boolean>(
+    () => !!slots.default || !isPropAbsent(actualValue.value)
+  )
 
   return {
     checkboxButtonSize,

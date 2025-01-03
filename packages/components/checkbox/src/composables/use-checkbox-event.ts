@@ -28,11 +28,10 @@ export const useCheckboxEvent = (
   const { formItem } = useFormItem()
   const { emit } = getCurrentInstance()!
 
-  function getLabeledValue(value: string | number | boolean) {
-    return [true, props.trueValue, props.trueLabel].includes(value)
+  const getLabeledValue = (value: string | number | boolean) =>
+    [true, props.trueValue, props.trueLabel].includes(value)
       ? props.trueValue ?? props.trueLabel ?? true
       : props.falseValue ?? props.falseLabel ?? false
-  }
 
   function emitChangeEvent(
     checked: string | number | boolean,
@@ -59,7 +58,9 @@ export const useCheckboxEvent = (
       )
       if (!hasLabel) {
         model.value = getLabeledValue(
-          [false, props.falseValue, props.falseLabel].includes(model.value)
+          [false, props.falseValue, props.falseLabel].includes(
+            model.value as CheckboxProps['modelValue']
+          )
         )
         await nextTick()
         emitChangeEvent(model.value, e)
@@ -68,7 +69,7 @@ export const useCheckboxEvent = (
   }
 
   const validateEvent = computed(
-    () => checkboxGroup?.validateEvent || props.validateEvent
+    () => checkboxGroup?.validateEvent ?? props.validateEvent
   )
 
   watch(
