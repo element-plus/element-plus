@@ -248,7 +248,10 @@ export default defineComponent({
         handleExpandIconClick()
       }
 
-      if (tree.props.checkOnClickNode && !props.node.disabled) {
+      if (
+        (tree.props.checkOnClickNode || props.node.isLeaf) &&
+        !props.node.disabled
+      ) {
         handleCheckChange(null, {
           target: { checked: !props.node.checked },
         })
