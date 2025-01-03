@@ -89,6 +89,23 @@ tree-select/lazy
 
 :::
 
+:::tip
+
+**Note**: `value-key` and `node-key` serve the same purpose, but `node-key` has a higher priority. However,
+it is recommended to use `value-key` to maintain consistency with `el-select`.
+
+:::
+
+## Use value-key attribute ^(2.8.9)
+
+If the binding value of `el-tree-select` is an object, please ensure to specify `value-key` as the unique identifier key name for both the binding value and each data item.
+
+:::demo
+
+tree-select/value-key
+
+:::
+
 ## API
 
 ### Attributes
@@ -98,15 +115,28 @@ the original properties have not been changed, so no repetition here,
 and please go to the original component to view the documentation.
 
 | Attributes                              | Methods                       | Events                              | Slots                              |
-| --------------------------------------- | ----------------------------- | ----------------------------------- | ---------------------------------- |
+|-----------------------------------------|-------------------------------|-------------------------------------|------------------------------------|
 | [tree](./tree.md#attributes)            | [tree](./tree.md#method)      | [tree](./tree.md#events)            | [tree](./tree.md#slots)            |
 | [select](./select.md#select-attributes) | [select](./select.md#methods) | [select](./select.md#select-events) | [select](./select.md#select-slots) |
 
-#### Own Attributes
+### Own Attributes
 
 | Name                | Description                                                                                                         | Type                     | Default |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------ | ------- |
+|---------------------|---------------------------------------------------------------------------------------------------------------------|--------------------------|---------|
 | cacheData ^(2.2.26) | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | ^[object]`CacheOption[]` | []      |
+| props               | configuration options, see the following table                                                                      | [props](#props)          | —       |
+
+## props
+
+| Attribute        | Description                                                                   | Type                                             | Default  |
+|------------------|-------------------------------------------------------------------------------|--------------------------------------------------|----------|
+| label            | specify which key of node object is used as the node's label                  | ^[string] / ^[Function]`(data, node) => string`  | label    |
+| value  ^(2.8.9)  | specify which key of the node object is used as the value of the node.        | ^[string]                                        | value    |
+| children         | specify which node object is used as the node's subtree                       | ^[string]                                        | children |
+| disabled         | specify which key of node object represents if node's checkbox is disabled    | ^[string] / ^[Function]`(data, node) => boolean` | disabled |
+| isLeaf           | specify whether the node is a leaf node, only works when lazy load is enabled | ^[string] / ^[Function]`(data, node) => boolean` | isLeaf   |
+| class            | custom node class name                                                        | ^[string] / ^[Function]`(data, node) => string`  | —        |
+
 
 ## Type Declarations
 
