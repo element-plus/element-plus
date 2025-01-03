@@ -45,10 +45,7 @@ const TableV2Header = defineComponent({
     const scrollToLeft = (left?: number) => {
       const headerEl = unref(headerRef)
       nextTick(() => {
-        headerEl?.scroll &&
-          headerEl.scroll({
-            left,
-          })
+        headerEl?.scroll?.({ left })
       })
     }
 

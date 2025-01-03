@@ -38,9 +38,9 @@ const useTableRow = (props: TableV2RowProps) => {
 
   const measured = ref(false)
   const rowRef = ref<HTMLElement>()
-  const measurable = computed(() => {
-    return isNumber(props.estimatedRowHeight) && props.rowIndex >= 0
-  })
+  const measurable = computed(
+    () => isNumber(props.estimatedRowHeight) && props.rowIndex >= 0
+  )
 
   const doMeasure = (isInit = false) => {
     const $rowRef = unref(rowRef)

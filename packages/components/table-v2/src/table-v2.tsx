@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { defineComponent, provide, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useTable } from './use-table'
@@ -16,6 +15,7 @@ import Footer from './renderers/footer'
 import Empty from './renderers/empty'
 import Overlay from './renderers/overlay'
 
+import type { CSSProperties } from 'vue'
 import type { TableGridRowSlotParams } from './table-grid'
 import type { ScrollStrategy } from './composables/use-scrollbar'
 import type {
@@ -205,7 +205,7 @@ const TableV2 = defineComponent({
         width: rightColumnsWidthWithScrollbar,
         style: `--${unref(
           ns.namespace
-        )}-table-scrollbar-size: ${vScrollbarSize}px`,
+        )}-table-scrollbar-size: ${vScrollbarSize}px` as unknown as CSSProperties,
         useIsScrolling,
         getRowHeight,
         onScroll: onVerticalScroll,
@@ -248,7 +248,6 @@ const TableV2 = defineComponent({
 
       const tableHeaderCellProps = {
         ns,
-
         sortBy,
         sortState,
         headerCellProps,
@@ -265,7 +264,7 @@ const TableV2 = defineComponent({
                   <Cell
                     {...props}
                     {...tableCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key!]}
                   >
                     {slots.cell(props)}
                   </Cell>
@@ -273,7 +272,7 @@ const TableV2 = defineComponent({
                   <Cell
                     {...props}
                     {...tableCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key!]}
                   />
                 ),
             }}
@@ -288,7 +287,7 @@ const TableV2 = defineComponent({
                   <HeaderCell
                     {...props}
                     {...tableHeaderCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key!]}
                   >
                     {slots['header-cell'](props)}
                   </HeaderCell>
@@ -296,7 +295,7 @@ const TableV2 = defineComponent({
                   <HeaderCell
                     {...props}
                     {...tableHeaderCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key!]}
                   />
                 ),
             }}

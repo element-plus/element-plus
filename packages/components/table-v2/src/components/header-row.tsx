@@ -12,15 +12,15 @@ const TableV2HeaderRow = defineComponent({
   setup(props, { slots }) {
     return () => {
       const { columns, columnsStyles, headerIndex, style } = props
-      let Cells: ColumnCellsType = columns.map((column, columnIndex) => {
-        return slots.cell!({
+      let Cells: ColumnCellsType = columns.map((column, columnIndex) =>
+        slots.cell!({
           columns,
           column,
           columnIndex,
           headerIndex,
           style: columnsStyles[column.key!],
         })
-      })
+      )
 
       if (slots.header) {
         Cells = slots.header({

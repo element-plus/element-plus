@@ -42,7 +42,7 @@ const useTableGrid = (props: TableV2GridProps) => {
   const fixedRowHeight = computed(() => {
     const { fixedData, rowHeight } = props
 
-    return (fixedData?.length || 0) * (rowHeight as number)
+    return (fixedData?.length ?? 0) * (rowHeight as number)
   })
 
   const headerHeight = computed(() => sum(props.headerHeight))
@@ -52,9 +52,9 @@ const useTableGrid = (props: TableV2GridProps) => {
     return Math.max(0, height - unref(headerHeight) - unref(fixedRowHeight))
   })
 
-  const hasHeader = computed(() => {
-    return unref(headerHeight) + unref(fixedRowHeight) > 0
-  })
+  const hasHeader = computed(
+    () => unref(headerHeight) + unref(fixedRowHeight) > 0
+  )
 
   const itemKey: GridItemKeyGetter = ({ data, rowIndex }) =>
     data[rowIndex][props.rowKey]

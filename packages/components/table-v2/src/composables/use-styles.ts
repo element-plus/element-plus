@@ -69,13 +69,13 @@ export const useStyles = (
 
   const headerHeight = computed(() => sum(props.headerHeight))
 
-  const fixedRowsHeight = computed(() => {
-    return (props.fixedData?.length || 0) * props.rowHeight
-  })
+  const fixedRowsHeight = computed(
+    () => (props.fixedData?.length || 0) * props.rowHeight
+  )
 
-  const windowHeight = computed(() => {
-    return unref(mainTableHeight) - unref(headerHeight) - unref(fixedRowsHeight)
-  })
+  const windowHeight = computed(
+    () => unref(mainTableHeight) - unref(headerHeight) - unref(fixedRowsHeight)
+  )
 
   const rootStyle = computed<CSSProperties>(() => {
     const { style = {}, height, width } = props
