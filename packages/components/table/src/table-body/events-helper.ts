@@ -58,15 +58,18 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   }, 30)
   const getPadding = (el: HTMLElement) => {
     const style = window.getComputedStyle(el, null)
+    const { width, height } = el.getBoundingClientRect()
+    const scaleX = width / el.offsetWidth
+    const scaleY = height / el.offsetHeight
     const paddingLeft = Number.parseInt(style.paddingLeft, 10) || 0
     const paddingRight = Number.parseInt(style.paddingRight, 10) || 0
     const paddingTop = Number.parseInt(style.paddingTop, 10) || 0
     const paddingBottom = Number.parseInt(style.paddingBottom, 10) || 0
     return {
-      left: paddingLeft,
-      right: paddingRight,
-      top: paddingTop,
-      bottom: paddingBottom,
+      left: paddingLeft * scaleX,
+      right: paddingRight * scaleX,
+      top: paddingTop * scaleY,
+      bottom: paddingBottom * scaleY,
     }
   }
 
@@ -153,7 +156,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
       isGreaterThan(rangeHeight + verticalPadding, cellChildHeight) ||
       // When using a high-resolution screen, it is possible that a returns cellChild.scrollWidth value of 1921 and
       // cellChildWidth returns a value of 1920.994140625. #16856 #16673
-      isGreaterThan(cellChild.scrollWidth, cellChildWidth)
+      isGreaterThan(cellChild.scrollWidth, cellChild.offsetWidth)
     ) {
       createTablePopper(
         tooltipOptions,
