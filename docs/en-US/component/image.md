@@ -55,6 +55,14 @@ image/image-preview
 
 :::
 
+## Custom Toolbar
+
+:::demo Custom toolbar content by `slot = toolbar`
+
+image/custom-toolbar
+
+:::
+
 ## Image API
 
 ### Image Attributes
@@ -92,11 +100,12 @@ image/image-preview
 
 ### Image Slots
 
-| Name        | Description                                              |
-| ----------- | -------------------------------------------------------- |
-| placeholder | custom placeholder content when image hasn't loaded yet. |
-| error       | custom image load failed content.                        |
-| viewer      | custom content when image preview.                       |
+| Name        | Description                                              | Type                                                                                                                              |
+| ----------- | -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| placeholder | custom placeholder content when image hasn't loaded yet. | -                                                                                                                                 |
+| error       | custom image load failed content.                        | -                                                                                                                                 |
+| viewer      | custom content when image preview.                       | -                                                                                                                                 |
+| toolbar     | custom toolbar content when image preview.               | ^[object]`{actions: (action: Action, options?: ActionOptions ) => void, prev: ()=> void, next: () => void, activeIndex: number }` |
 
 ## Image Viewer API
 
@@ -128,3 +137,19 @@ image/image-preview
 | Name          | Description           | Type                                 |
 | ------------- | --------------------- | ------------------------------------ |
 | setActiveItem | manually switch image | ^[Function]`(index: number) => void` |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type Action = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise'
+type ActionOptions = {
+  enableTransition?: boolean
+  zoomRate?: number
+  rotateDeg?: number
+}
+```
+
+</details>
