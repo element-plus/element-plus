@@ -82,6 +82,7 @@ import type {
   TransferDirection,
 } from './transfer'
 import type { TransferPanelInstance } from './transfer-panel'
+import type { Ref } from 'vue'
 
 defineOptions({
   name: 'ElTransfer',
@@ -164,7 +165,11 @@ const optionRender = computed(() => (option: TransferDataItem) => {
   )
 })
 
-defineExpose({
+defineExpose<{
+  clearQuery: (which: TransferDirection) => void
+  leftPanel: Ref<TransferPanelInstance | undefined>
+  rightPanel: Ref<TransferPanelInstance | undefined>
+}>({
   /** @description clear the filter keyword of a certain panel */
   clearQuery,
   /** @description left panel ref */

@@ -139,7 +139,7 @@ const getCurrentHref = () => {
     const next = anchorTopList[i + 1]
 
     if (i === 0 && scrollTop === 0) {
-      return props.scrollTop ? item.href : ''
+      return props.selectScrollTop ? item.href : ''
     }
     if (item.top <= scrollTop && (!next || next.top > scrollTop)) {
       return item.href
