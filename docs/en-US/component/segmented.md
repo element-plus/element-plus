@@ -17,6 +17,16 @@ segmented/basic
 
 :::
 
+## Direction Usage ^(2.8.7)
+
+Set `vertical` to change direction.
+
+:::demo
+
+segmented/custom-direction
+
+:::
+
 ## Disabled
 
 Set `disabled` of segmented or option to `true` to disable it.
@@ -49,7 +59,7 @@ segmented/custom-content
 
 ## Custom Style
 
-Set default slot to render custom content.
+Set custom styles using CSS varibles.
 
 :::demo
 
@@ -61,17 +71,18 @@ segmented/custom-style
 
 ### Attributes
 
-| Name                  | Description                        | Type                                           | Default |
-| --------------------- | ---------------------------------- | ---------------------------------------------- | ------- |
-| model-value / v-model | binding value                      | ^[string] / ^[number] / ^[boolean]             | —       |
-| options               | data of the options                | ^[array]`Option[]`                             | []      |
-| size                  | size of component                  | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''      |
-| block                 | fit width of parent content        | ^[boolean]                                     | —       |
-| disabled              | whether segmented is disabled      | ^[boolean]                                     | false   |
-| validate-event        | whether to trigger form validation | ^[boolean]                                     | true    |
-| name                  | native `name` attribute            | ^[string]                                      | —       |
-| id                    | native `id` attribute              | ^[string]                                      | —       |
-| aria-label ^(a11y)    | native `aria-label` attribute      | ^[string]                                      | —       |
+| Name                  | Description                        | Type                                           | Default    |
+| --------------------- | ---------------------------------- | ---------------------------------------------- | ---------- |
+| model-value / v-model | binding value                      | ^[string] / ^[number] / ^[boolean]             | —          |
+| options               | data of the options                | ^[array]`Option[]`                             | []         |
+| size                  | size of component                  | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''         |
+| block                 | fit width of parent content        | ^[boolean]                                     | —          |
+| disabled              | whether segmented is disabled      | ^[boolean]                                     | false      |
+| validate-event        | whether to trigger form validation | ^[boolean]                                     | true       |
+| name                  | native `name` attribute            | ^[string]                                      | —          |
+| id                    | native `id` attribute              | ^[string]                                      | —          |
+| aria-label ^(a11y)    | native `aria-label` attribute      | ^[string]                                      | —          |
+| direction ^(2.8.7)    | display direction                  | ^[enum]`'horizontal' \| 'vertical'`            | horizontal |
 
 ### Events
 
@@ -81,9 +92,9 @@ segmented/custom-style
 
 ### Slots
 
-| Name    | Description     |
-| ------- | --------------- |
-| default | option renderer |
+| Name    | Description     | Type                        |
+| ------- | --------------- | --------------------------- |
+| default | option renderer | ^[object]`{ item: Option }` |
 
 ## Type Declarations
 
@@ -101,7 +112,6 @@ type Option =
   | string
   | number
   | boolean
-  | undefined
 ```
 
 </details>

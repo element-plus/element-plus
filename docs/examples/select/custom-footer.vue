@@ -81,7 +81,7 @@ const clear = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style>
 .option-input {
   width: 100%;
   margin-bottom: 8px;

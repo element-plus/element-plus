@@ -132,7 +132,13 @@ tooltip/controlled
 
 ## Animations
 
-Tooltip can be customized animated, you can set the desired animation function as you desired.
+Tooltip can be customized animated, you can set the desired animation use `transition`.
+
+:::tip
+
+Transition Classes, more information can be found at [Vue Transition](https://vuejs.org/guide/built-ins/transition.html#css-based-transitions).
+
+:::
 
 :::demo
 
@@ -180,12 +186,12 @@ tooltip/animations
 
 ### Exposes
 
-| Name                 | Description                                                       | Type                                              |
-| -------------------- | ----------------------------------------------------------------- | ------------------------------------------------- |
-| popperRef            | el-popper component instance                                      | ^[object]`Ref<PopperInstance \| null>`            |
-| contentRef           | el-tooltip-content component instance                             | ^[object]`Ref<TooltipContentInstance \| null>`    |
-| isFocusInsideContent | validate current focus event is trigger inside el-tooltip-content | ^[Function]`() => boolean \| undefined`           |
-| updatePopper         | update el-popper component instance                               | ^[Function]`() => void`                           |
-| onOpen               | expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void` |
-| onClose              | expose onClose function to mange el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void` |
-| hide                 | expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void` |
+| Name                 | Description                                                       | Type                                                |
+| -------------------- | ----------------------------------------------------------------- | --------------------------------------------------- |
+| popperRef            | el-popper component instance                                      | ^[object]`Ref<PopperInstance \| undefined>`         |
+| contentRef           | el-tooltip-content component instance                             | ^[object]`Ref<TooltipContentInstance \| undefined>` |
+| isFocusInsideContent | validate current focus event is trigger inside el-tooltip-content | ^[Function]`() => boolean \| undefined`             |
+| updatePopper         | update el-popper component instance                               | ^[Function]`() => void`                             |
+| onOpen               | expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void`   |
+| onClose              | expose onClose function to mange el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void`   |
+| hide                 | expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void`   |

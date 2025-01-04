@@ -3,17 +3,21 @@
     <slot />
     <transition :name="`${ns.namespace.value}-zoom-in-center`">
       <sup
-        v-show="!hidden && (content || isDot)"
+        v-show="!hidden && (content || isDot || $slots.content)"
         :class="[
           ns.e('content'),
           ns.em('content', type),
           ns.is('fixed', !!$slots.default),
           ns.is('dot', isDot),
+          ns.is('hide-zero', !showZero && props.value === 0),
           badgeClass,
         ]"
         :style="style"
-        v-text="content"
-      />
+      >
+        <slot name="content" :value="content">
+          {{ content }}
+        </slot>
+      </sup>
     </transition>
   </div>
 </template>
@@ -36,13 +40,11 @@ const ns = useNamespace('badge')
 const content = computed<string>(() => {
   if (props.isDot) return ''
   if (isNumber(props.value) && isNumber(props.max)) {
-    if (props.max < props.value) {
-      return `${props.max}+`
-    }
-    return props.value === 0 && !props.showZero ? '' : `${props.value}`
+    return props.max < props.value ? `${props.max}+` : `${props.value}`
   }
   return `${props.value}`
 })
+
 const style = computed<StyleValue>(() => {
   return [
     {

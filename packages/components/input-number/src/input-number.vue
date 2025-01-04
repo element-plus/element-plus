@@ -60,7 +60,14 @@
       @focus="handleFocus"
       @input="handleInput"
       @change="handleInputChange"
-    />
+    >
+      <template v-if="$slots.prefix" #prefix>
+        <slot name="prefix" />
+      </template>
+      <template v-if="$slots.suffix" #suffix>
+        <slot name="suffix" />
+      </template>
+    </el-input>
   </div>
 </template>
 <script lang="ts" setup>
@@ -77,6 +84,7 @@ import { vRepeatClick } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import {
   debugWarn,
+  isFirefox,
   isNumber,
   isString,
   isUndefined,
@@ -222,6 +230,9 @@ const verifyValue = (
   }
   if (stepStrictly) {
     newVal = toPrecision(Math.round(newVal / step) * step, precision)
+    if (newVal !== value) {
+      update && emit(UPDATE_MODEL_EVENT, newVal)
+    }
   }
   if (!isUndefined(precision)) {
     newVal = toPrecision(newVal, precision)
@@ -282,6 +293,12 @@ const handleFocus = (event: MouseEvent | FocusEvent) => {
 
 const handleBlur = (event: MouseEvent | FocusEvent) => {
   data.userInput = null
+  // This is a Firefox-specific problem. When non-numeric content is entered into a numeric input box,
+  // the content displayed on the page is not cleared after the value is cleared. #18533
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=1398528
+  if (isFirefox() && data.currentValue === null && input.value?.input) {
+    input.value.input.value = ''
+  }
   emit('blur', event)
   if (props.validateEvent) {
     formItem?.validate?.('blur').catch((err) => debugWarn(err))

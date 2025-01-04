@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onUpdated, ref, watch } from 'vue'
+import { computed, nextTick, watch } from 'vue'
 import nprogress from 'nprogress'
 import { useData, useRoute } from 'vitepress'
 import { useSidebar } from '../composables/sidebar'
@@ -16,23 +16,26 @@ const { hasSidebar } = useSidebar()
 
 const props = defineProps<{ isSidebarOpen: boolean }>()
 
-const shouldUpdateProgress = ref(true)
+let shouldUpdateProgress = true
 
 watch(
   () => props.isSidebarOpen,
   (val) => {
     // delay the flag update since watch is called before onUpdated
     nextTick(() => {
-      shouldUpdateProgress.value = !val
+      shouldUpdateProgress = !val
     })
   }
 )
-
-onUpdated(() => {
-  if (shouldUpdateProgress.value) {
-    nprogress.done()
+watch(
+  () => route.path,
+  () => {
+    if (shouldUpdateProgress) nprogress.done()
+  },
+  {
+    flush: 'post',
   }
-})
+)
 </script>
 
 <template>

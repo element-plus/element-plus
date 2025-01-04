@@ -1,4 +1,4 @@
-import { createVNode, render } from 'vue'
+import { createVNode, isVNode, render } from 'vue'
 import {
   debugWarn,
   isBoolean,
@@ -7,7 +7,6 @@ import {
   isFunction,
   isNumber,
   isString,
-  isVNode,
 } from '@element-plus/utils'
 import { messageConfig } from '@element-plus/components/config-provider'
 import MessageConstructor from './message.vue'
@@ -158,10 +157,6 @@ const message: MessageFn &
 ) => {
   if (!isClient) return { close: () => undefined }
 
-  if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
-    return { close: () => undefined }
-  }
-
   const normalized = normalizeOptions(options)
 
   if (normalized.grouping && instances.length) {
@@ -173,6 +168,10 @@ const message: MessageFn &
       instance.props.type = normalized.type
       return instance.handler
     }
+  }
+
+  if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
+    return { close: () => undefined }
   }
 
   const instance = createMessage(normalized, context)

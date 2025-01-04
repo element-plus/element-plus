@@ -21,6 +21,9 @@
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
       :persistent="persistent"
+      :append-to="appendTo"
+      :show-arrow="showArrow"
+      :offset="offset"
       @before-show="handleMenuEnter"
       @hide="states.isBeforeHide = false"
     >
@@ -140,7 +143,6 @@
               </el-tooltip>
             </slot>
             <div
-              v-if="!selectDisabled"
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
@@ -157,6 +159,7 @@
                 :disabled="selectDisabled"
                 :autocomplete="autocomplete"
                 :style="inputStyle"
+                :tabindex="tabindex"
                 role="combobox"
                 :readonly="!filterable"
                 spellcheck="false"
@@ -226,8 +229,12 @@
               <component :is="clearIcon" />
             </el-icon>
             <el-icon
-              v-if="validateState && validateIcon"
-              :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
+              v-if="validateState && validateIcon && needStatusIcon"
+              :class="[
+                nsInput.e('icon'),
+                nsInput.e('validateIcon'),
+                nsInput.is('loading', validateState === 'validating'),
+              ]"
             >
               <component :is="validateIcon" />
             </el-icon>
@@ -300,6 +307,7 @@ import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { isArray } from '@element-plus/utils'
+import { useCalcInputWidth } from '@element-plus/hooks'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
@@ -353,6 +361,7 @@ export default defineComponent({
     })
 
     const API = useSelect(_props, emit)
+    const { calculatorRef, inputStyle } = useCalcInputWidth()
 
     provide(
       selectKey,
@@ -368,9 +377,19 @@ export default defineComponent({
       }) as unknown as SelectContext
     )
 
+    const selectedLabel = computed(() => {
+      if (!props.multiple) {
+        return API.states.selectedLabel
+      }
+      return API.states.selected.map((i: any) => i.currentLabel as string)
+    })
+
     return {
       ...API,
       modelValue,
+      selectedLabel,
+      calculatorRef,
+      inputStyle,
     }
   },
 })

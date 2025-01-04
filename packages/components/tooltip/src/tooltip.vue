@@ -70,7 +70,9 @@ import { TOOLTIP_INJECTION_KEY } from './constants'
 import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
+import type { TooltipContentInstance } from './content'
 import type { PopperInstance } from '@element-plus/components/popper'
+import type { Ref } from 'vue'
 
 defineOptions({
   name: 'ElTooltip',
@@ -83,8 +85,7 @@ usePopperContainer()
 
 const id = useId()
 const popperRef = ref<PopperInstance>()
-// TODO any is temporary, replace with `TooltipContentInstance` later
-const contentRef = ref<any>()
+const contentRef = ref<TooltipContentInstance>()
 
 const updatePopper = () => {
   const popperComponent = unref(popperRef)
@@ -155,16 +156,20 @@ watch(
 )
 
 const isFocusInsideContent = (event?: FocusEvent) => {
-  const popperContent: HTMLElement | undefined =
-    contentRef.value?.contentRef?.popperContentRef
-  const activeElement = (event?.relatedTarget as Node) || document.activeElement
-
-  return popperContent && popperContent.contains(activeElement)
+  return contentRef.value?.isFocusInsideContent(event)
 }
 
 onDeactivated(() => open.value && hide())
 
-defineExpose({
+defineExpose<{
+  popperRef: Ref<PopperInstance | undefined>
+  contentRef: Ref<TooltipContentInstance | undefined>
+  isFocusInsideContent: (event?: FocusEvent) => boolean | undefined
+  updatePopper: () => void
+  onOpen: (event?: Event) => void
+  onClose: (event?: Event) => void
+  hide: () => void
+}>({
   /**
    * @description el-popper component instance
    */
