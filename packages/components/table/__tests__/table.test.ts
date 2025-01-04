@@ -5,6 +5,8 @@ import ElCheckbox from '@element-plus/components/checkbox'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { CaretBottom, CaretTop } from '@element-plus/icons-vue'
+import ElImage from '@element-plus/components/image'
+import { IMAGE_FAIL, IMAGE_SUCCESS } from '@element-plus/test-utils/mock'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
 import {
@@ -1438,6 +1440,47 @@ describe('Table.vue', () => {
     await doubleWait()
     const emptyBlockEl = wrapper.find('.el-table__empty-block')
     expect(emptyBlockEl.attributes('style')).toContain('height: 100%')
+    wrapper.unmount()
+  })
+
+  it('table use image-preview auto teleported', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+        ElImage,
+      },
+      template: `
+      <el-table :data="testData" height="100%">
+        <el-table-column prop="name" label="片名" />
+        <el-table-column prop="release" label="发行日期" />
+        <el-table-column prop="director" label="导演" />
+        <el-table-column prop="runtime" label="时长（分）" />
+        <template #append>
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="url"
+            :preview-src-list="srcList"
+            :initial-index="1"
+            fit="cover"
+          />
+        </template>
+      </el-table>
+      `,
+      data() {
+        return {
+          testData: getTestData(),
+          url: IMAGE_SUCCESS,
+          srcList: Array.from<string>({ length: 3 }).fill(IMAGE_FAIL),
+        }
+      },
+    })
+    await doubleWait()
+    await wrapper.find('.el-image__inner').trigger('click')
+    expect(wrapper.findAll('.el-image-viewer__img')).toEqual([])
+    const viewerWrapperExists =
+      document.body.querySelector('.el-image-viewer__wrapper') !== null
+    expect(viewerWrapperExists).toBe(true)
     wrapper.unmount()
   })
 
