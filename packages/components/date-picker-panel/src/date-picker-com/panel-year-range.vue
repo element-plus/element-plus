@@ -1,5 +1,14 @@
 <template>
-  <div :class="panelKls">
+  <div
+    :class="[
+      ppNs.b(),
+      drpNs.b(),
+      {
+        'has-sidebar': Boolean($slots.sidebar) || hasShortcuts,
+        'single-panel': singlePanel,
+      },
+    ]"
+  >
     <div :class="ppNs.e('body-wrapper')">
       <slot name="sidebar" :class="ppNs.e('sidebar')" />
       <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
@@ -28,7 +37,7 @@
               </slot>
             </button>
             <button
-              v-if="unlinkPanels"
+              v-if="unlinkPanels || singlePanel"
               type="button"
               :disabled="!enableYearArrow || yearRangeDisabled"
               :class="leftPanelKls.arrowRightBtn"
@@ -54,7 +63,7 @@
             @select="onSelect"
           />
         </div>
-        <div :class="rightPanelKls.content">
+        <div v-if="!singlePanel" :class="rightPanelKls.content">
           <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
@@ -162,6 +171,20 @@ const {
   step,
   unit,
   sortDates,
+const leftPanelKls = computed(() => {
+  return {
+    content: [
+      ppNs.e('content'),
+      drpNs.e('content'),
+      { 'is-left': !props.singlePanel },
+    ],
+    arrowLeftBtn: [ppNs.e('icon-btn'), 'd-arrow-left'],
+    arrowRightBtn: [
+      ppNs.e('icon-btn'),
+      { [ppNs.is('disabled')]: !enableYearArrow.value },
+      'd-arrow-right',
+    ],
+  }
 })
 
 const {
@@ -218,7 +241,10 @@ const rightPanelKls = computed(() => {
 })
 
 const enableYearArrow = computed(() => {
-  return props.unlinkPanels && rightYear.value > leftYear.value + 1
+  return (
+    props.singlePanel ||
+    (props.unlinkPanels && rightYear.value > leftYear.value + 1)
+  )
 })
 
 type RangePickValue = {
