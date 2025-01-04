@@ -233,6 +233,8 @@ export const timePickerDefaultProps = buildProps({
     type: Boolean,
     default: true,
   },
+
+  singlePanel: Boolean,
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<

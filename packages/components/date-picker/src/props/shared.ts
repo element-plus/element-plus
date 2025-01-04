@@ -40,6 +40,10 @@ export const datePickerSharedProps = buildProps({
   parsedValue: {
     type: definePropType<Dayjs | Dayjs[]>([Object, Array]),
   },
+  singlePanel: {
+    type: Boolean,
+    default: false,
+  },
   rangeState: {
     type: definePropType<RangeState>(Object),
     default: () => ({
@@ -67,6 +71,10 @@ export const panelRangeSharedProps = buildProps({
   unlinkPanels: Boolean,
   parsedValue: {
     type: definePropType<Dayjs[]>(Array),
+  },
+  singlePanel: {
+    type: Boolean,
+    default: false,
   },
 } as const)
 

@@ -30,6 +30,16 @@
     margin: 0;
   }
 
+  &.single-panel {
+    width: auto;
+    .#{$namespace}-picker-panel__body {
+      min-width: auto;
+    }
+    .#{$namespace}-picker-panel__content {
+      width: 292px;
+    }
+  }
+
   @include e(header) {
     position: relative;
     text-align: center;
