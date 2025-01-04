@@ -63,9 +63,7 @@
                   :title-id="titleId"
                   :title-class="ns.e('title')"
                 />
-                <slot v-else name="title">
-                  <!-- DEPRECATED SLOT -->
-                </slot>
+                <slot v-else name="title" />
               </template>
               <slot />
               <template v-if="$slots.footer" #footer>
