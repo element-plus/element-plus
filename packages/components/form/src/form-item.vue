@@ -307,7 +307,6 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
 
   const hasCallback = isFunction(callback)
   if (!validateEnabled.value) {
-    resetField()
     callback?.(false)
     return false
   }
