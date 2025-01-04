@@ -108,7 +108,12 @@ export default defineComponent({
         )
       default: {
         const label = renderLabel()
-
+        const labelStyle: Record<string, any> = {}
+        const width = addUnit(item.labelWidth || this.descriptions.labelWidth)
+        if (width) {
+          labelStyle.width = width
+          labelStyle.display = 'inline-block'
+        }
         return withDirectives(
           h(
             'td',
@@ -123,6 +128,7 @@ export default defineComponent({
                 ? h(
                     'span',
                     {
+                      style: labelStyle,
                       class: [ns.e('label'), labelClassName],
                     },
                     label
