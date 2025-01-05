@@ -105,7 +105,7 @@ image/custom-toolbar
 | placeholder      | custom placeholder content when image hasn't loaded yet. | -                                                                                                                                                   |
 | error            | custom image load failed content.                        | -                                                                                                                                                   |
 | viewer           | custom content when image preview.                       | -                                                                                                                                                   |
-| toolbar ^(2.9.3) | custom toolbar content when image preview.               | ^[object]`{actions: (action: Action, options?: ActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }` |
+| toolbar ^(2.9.3) | custom toolbar content when image preview.               | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }` |
 
 ## Image Viewer API
 
@@ -144,8 +144,8 @@ image/custom-toolbar
   <summary>Show declarations</summary>
 
 ```ts
-type Action = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise'
-type ActionOptions = {
+type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise'
+type ImageViewerActionOptions = {
   enableTransition?: boolean
   zoomRate?: number
   rotateDeg?: number
