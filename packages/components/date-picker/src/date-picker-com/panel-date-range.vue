@@ -143,11 +143,8 @@
             <button
               v-if="unlinkPanels || singlePanel"
               type="button"
-              :disabled="!enableYearArrow && !singlePanel"
-              :class="[
-                ppNs.e('icon-btn'),
-                { 'is-disabled': !enableYearArrow && !singlePanel },
-              ]"
+              :disabled="!enableYearArrow"
+              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
               :aria-label="t(`el.datepicker.nextYear`)"
               class="d-arrow-right"
               @click="leftNextYear"
@@ -161,10 +158,10 @@
             <button
               v-if="unlinkPanels && leftCurrentView === 'date' || singlePanel"
               type="button"
-              :disabled="!enableMonthArrow && !singlePanel"
+              :disabled="!enableMonthArrow"
               :class="[
                 ppNs.e('icon-btn'),
-                { 'is-disabled': !enableMonthArrow && !singlePanel },
+                { 'is-disabled': !enableMonthArrow },
               ]"
               :aria-label="t(`el.datepicker.nextMonth`)"
               class="arrow-right"
@@ -634,19 +631,21 @@ const enableMonthArrow = computed(() => {
   const nextMonth = (leftMonth.value + 1) % 12
   const yearOffset = leftMonth.value + 1 >= 12 ? 1 : 0
   return (
-    props.unlinkPanels &&
-    new Date(leftYear.value + yearOffset, nextMonth) <
-      new Date(rightYear.value, rightMonth.value)
+    props.singlePanel ||
+    (props.unlinkPanels &&
+      new Date(leftYear.value + yearOffset, nextMonth) <
+        new Date(rightYear.value, rightMonth.value))
   )
 })
 
 const enableYearArrow = computed(() => {
   return (
-    props.unlinkPanels &&
-    rightYear.value * 12 +
-      rightMonth.value -
-      (leftYear.value * 12 + leftMonth.value + 1) >=
-      12
+    props.singlePanel ||
+    (props.unlinkPanels &&
+      rightYear.value * 12 +
+        rightMonth.value -
+        (leftYear.value * 12 + leftMonth.value + 1) >=
+        12)
   )
 })
 

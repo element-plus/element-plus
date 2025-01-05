@@ -7,10 +7,15 @@
 }
 
 @include b(date-range-picker) {
-  width: 646px;
+  &:not(.single-panel) {
+    width: 646px;
 
-  &.has-sidebar {
-    width: 756px;
+    &.has-sidebar {
+      width: 756px;
+    }
+    .#{$namespace}-picker-panel__body {
+      min-width: 513px;
+    }
   }
 
   &.has-time .#{$namespace}-picker-panel__body-wrapper {
@@ -22,21 +27,29 @@
     width: 100%;
   }
 
-  .#{$namespace}-picker-panel__body {
-    min-width: 513px;
-  }
-
   .#{$namespace}-picker-panel__content {
     margin: 0;
   }
 
   &.single-panel {
-    width: auto;
+    width: 322px;
     .#{$namespace}-picker-panel__body {
-      min-width: auto;
+      width: 322px;
     }
+
+    &.has-sidebar.has-time {
+      width: 434px;
+    }
+
+    &.has-sidebar {
+      width: 438px;
+    }
+
     .#{$namespace}-picker-panel__content {
+      position: relative;
+      margin: 15px;
       width: 292px;
+      padding: 0;
     }
   }
 
