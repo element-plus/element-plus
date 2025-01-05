@@ -57,6 +57,14 @@ date-picker/year-range
 
 :::
 
+## Single Panel ^(2.9.3)
+
+:::demo By default date picker ranges have two panels. If you want one panel set `single-panel` attribute.
+
+date-picker/single-panel
+
+:::
+
 ## Default Value
 
 If user hasn't picked a date, shows today's calendar by default. You can use `default-value` to set another date. Its value should be parsable by `new Date()`.
@@ -183,6 +191,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | id                           | same as `id` in native input                                                                                                 | ^[string] / ^[object]`[string, string]`                                                                                                                        | —             |
 | name                         | same as `name` in native input                                                                                               | ^[string] / ^[object]`[string, string]`                                                                                                                        | ''            |
 | unlink-panels                | unlink two date-panels in range-picker                                                                                       | ^[boolean]                                                                                                                                                     | false         |
+| single-panel ^(2.9.3)        | show only one panel in range-picker                                                                                          | ^[boolean]                                                                                                                                                     | false         |
 | prefix-icon                  | custom prefix icon component. By default, if the value of `type` is `TimeLikeType`, the value is `Clock`, else is `Calendar` | ^[string] / ^[object]`Component`                                                                                                                               | ''            |
 | clear-icon                   | custom clear icon component                                                                                                  | ^[string] / ^[object]`Component`                                                                                                                               | `CircleClose` |
 | validate-event               | whether to trigger form validation                                                                                           | ^[boolean]                                                                                                                                                     | true          |
