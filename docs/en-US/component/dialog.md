@@ -154,6 +154,9 @@ dialog/events
 | top                        | value for `margin-top` of Dialog CSS, default is 15vh                                                | ^[string]                           | ''      |
 | modal                      | whether a mask is displayed                                                                          | ^[boolean]                          | true    |
 | modal-class                | custom class names for mask                                                                          | ^[string]                           | —       |
+| header-class ^(2.9.3)      | custom class names for header wrapper                                                                | ^[string]                           | —       |
+| body-class ^(2.9.3)        | custom class names for body wrapper                                                                  | ^[string]                           | —       |
+| footer-class ^(2.9.3)      | custom class names for footer wrapper                                                                | ^[string]                           | —       |
 | append-to-body             | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`    | ^[boolean]                          | false   |
 | append-to ^(2.4.3)         | which element the Dialog appends to. Will override `append-to-body`                                  | ^[string] / ^[HTMLElement]          | body    |
 | lock-scroll                | whether scroll of body is disabled while Dialog is displayed                                         | ^[boolean]                          | true    |
