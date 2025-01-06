@@ -27,7 +27,7 @@ export const SelectProps = buildProps({
    * @description binding value
    */
   modelValue: {
-    type: [Array, String, Number, Boolean, Object],
+    type: [Array, String, Number, Boolean, Object, null],
     default: undefined,
   },
   /**
