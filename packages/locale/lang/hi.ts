@@ -1,11 +1,15 @@
 export default {
   name: 'hi',
   el: {
+    breadcrumb: {
+      label: 'ब्रेडक्रंब',
+    },
     colorpicker: {
       confirm: 'ठीक है',
       clear: 'हटाएँ',
       defaultLabel: 'कलर पिकर',
       description: 'मौजूदा रंग {color} है. कोई नया रंग चुनने के लिए एंटर दबाएँ.',
+      alphaLabel: 'अल्फा मान चुनें',
     },
     datepicker: {
       now: 'अभी',
@@ -83,6 +87,9 @@ export default {
       noMatch: 'कोई मैचिंग डेटा नहीं है',
       noData: 'कोई डेटा नहीं है',
       placeholder: 'चुनें',
+    },
+    mention: {
+      loading: 'लोड हो रहा है',
     },
     dropdown: {
       toggleDropdown: 'ड्रॉपडाउन को टॉगल करें',
@@ -162,6 +169,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'हाँ',
       cancelButtonText: 'नहीं',
+    },
+    carousel: {
+      leftArrow: 'कैरोसेल तीर बाएँ',
+      rightArrow: 'कैरोसेल तीर दाएँ',
+      indicator: 'कैरोसेल इंडेक्स {index} पर स्विच करें',
     },
   },
 }
