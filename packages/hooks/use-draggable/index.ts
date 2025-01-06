@@ -17,30 +17,46 @@ export const useDraggable = (
     const downX = e.clientX
     const downY = e.clientY
     const { offsetX, offsetY } = transform
-
-    const targetRect = targetRef.value!.getBoundingClientRect()
-    const targetLeft = targetRect.left
-    const targetTop = targetRect.top
-    const targetWidth = targetRect.width
-    const targetHeight = targetRect.height
-
     const clientWidth = document.documentElement.clientWidth
     const clientHeight = document.documentElement.clientHeight
 
-    const minLeft = -targetLeft + offsetX
-    const minTop = -targetTop + offsetY
-    const maxLeft = clientWidth - targetLeft - targetWidth + offsetX
-    const maxTop = clientHeight - targetTop - targetHeight + offsetY
+    let minTop = 0
+    let maxTop = 0
+    let minLeft = 0
+    let maxLeft = 0
+
+    if (!overflow?.value) {
+      const targetRect = targetRef.value!.getBoundingClientRect()
+      const targetLeft = targetRect.left
+      const targetTop = targetRect.top
+      const targetWidth = targetRect.width
+      const targetHeight = targetRect.height
+
+      minLeft = -targetLeft + offsetX
+      minTop = -targetTop + offsetY
+      maxLeft = clientWidth - targetLeft - targetWidth + offsetX
+      maxTop = clientHeight - targetTop - targetHeight + offsetY
+    } else {
+      const dragRect = dragRef.value!.getBoundingClientRect()
+      const {
+        left: dragLeft,
+        top: dragTop,
+        width: dragWidth,
+        height: dragHeight,
+      } = dragRect
+
+      const dragPx = 20
+      minLeft = offsetX - dragLeft - dragWidth + dragPx
+      maxLeft = clientWidth - dragLeft + offsetX - dragPx
+      minTop = offsetY - dragTop - dragHeight + dragPx
+      maxTop = clientHeight - dragTop + offsetY - dragPx
+    }
 
     const onMousemove = (e: MouseEvent) => {
       let moveX = offsetX + e.clientX - downX
       let moveY = offsetY + e.clientY - downY
-
-      if (!overflow?.value) {
-        moveX = Math.min(Math.max(moveX, minLeft), maxLeft)
-        moveY = Math.min(Math.max(moveY, minTop), maxTop)
-      }
-
+      moveX = Math.min(Math.max(moveX, minLeft), maxLeft)
+      moveY = Math.min(Math.max(moveY, minTop), maxTop)
       transform = {
         offsetX: moveX,
         offsetY: moveY,
