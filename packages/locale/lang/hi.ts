@@ -8,7 +8,8 @@ export default {
       confirm: 'ठीक है',
       clear: 'हटाएँ',
       defaultLabel: 'कलर पिकर',
-      description: 'मौजूदा रंग {color} है. कोई नया रंग चुनने के लिए एंटर दबाएँ.',
+      description:
+        'मौजूदा रंग {color} है. कोई नया रंग चुनने के लिए एंटर दबाएँ.',
       alphaLabel: 'अल्फा मान चुनें',
     },
     datepicker: {
@@ -17,9 +18,12 @@ export default {
       cancel: 'कैंसिल करें',
       clear: 'हटाएँ',
       confirm: 'ठीक है',
-      dateTablePrompt: 'महीने का दिन चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
-      monthTablePrompt: 'महीने चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें ',
-      yearTablePrompt: 'साल चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
+      dateTablePrompt:
+        'महीने का दिन चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
+      monthTablePrompt:
+        'महीने चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें ',
+      yearTablePrompt:
+        'साल चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
       selectedDate: 'चुनी गई तारीख',
       selectDate: 'तारीख चुनें',
       selectTime: 'समय चुनें',
@@ -111,7 +115,8 @@ export default {
       currentPage: 'पेज {pager}',
       prevPages: 'पिछले {pager} पेज',
       nextPages: 'अगले {pager} पेज',
-      deprecationWarning: 'पुरानी पद्धति के उपयोग का पता चला, अधिक जानकारी के लिए एल-पेजिनेशन का डॉक्यूमेंटेशन देखें',
+      deprecationWarning:
+        'पुरानी पद्धति के उपयोग का पता चला, अधिक जानकारी के लिए एल-पेजिनेशन का डॉक्यूमेंटेशन देखें',
     },
     dialog: {
       close: 'यह डायलॉग बंद करें',
