@@ -1,6 +1,35 @@
 ## Changelog
 
 
+### 2.9.2
+
+_2025-01-03_
+
+#### Features
+
+- Components [select-v2] add `fit-input-width` prop (#18834 by @YiMo1)
+- Components [select, select-v2] add loading class to validateIcon (#19379 by @LoTwT)
+- Components [table] add allow-drag-last-column prop (#19374 by @btea)
+
+#### Bug fixes
+
+- Components [select] resolve 'false' display issue when dropdown hides on search clear (#19244 by @DDDDD12138)
+- Components [date-picker] model-value unexpected changes when type is week (#16795 by @FrontEndDog)
+- Components [menu] fix `sliceIndex` calculation error (#19164 by @wen-lun)
+- Components [anchor] scroll whether link is selected at the top (#18047 by @k983551019)
+- Components [focus-trap] tryFocus is invalid for document.body (#19272 by @tolking)
+- Components [inputnumber, input] resolve styling issues caused by using `prefix` and `suffix` (#19042 by @DDDDD12138)
+- Components [color-picker] optimize the flickering issue (#18872 by @momei-LJM)
+- Theme-chalk [input-tag] correct input-tag placeholder color (#19386 by @DDDDD12138)
+- Components prevent blur event when is disabled (#19320 by @DDDDD12138)
+- Types packing unexpected types (#19419 by @btea)
+- Components [table] the overflowTooltip cannot be refreshed (#19440 by @xingyixiang)
+- Components [upload] unable to delete files in removeFile (#19437 by @ly-yewu)
+- Components [page-header] use `$slots` instead of `useSlots` (#19455 by @Dsaquel)
+- Components [select] input width fills the remaining width (#19292 by @tolking)
+- Style(components): [notification] word wrap (#17052 by @Liao-js)
+- Perf(components): [table] prioritize use rowKey to determine whether it is selected (#19451 by @tolking)
+
 ### 2.9.1
 
 _2024-12-13_
