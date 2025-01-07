@@ -91,8 +91,8 @@ const tableData3 = [
   },
 ]
 
-const withVNode = (_row: string, _column: any, url: string, index: number) => {
-  return h(ElLink, { type: 'primary', href: url }, `${index}：${url}`)
+const withVNode = (_row: string, _column: any, url: string) => {
+  return h(ElLink, { type: 'primary', href: url }, url)
 }
 </script>
 
