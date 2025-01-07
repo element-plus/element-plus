@@ -243,6 +243,16 @@ table/table-layout
 
 :::
 
+## Tooltip formatter ^(2.9.3)
+
+You can use `tooltip-formatter` to customize the tooltip content.
+
+:::demo Use `tooltip-formatter` in `el-table-column` to format the tooltip content.
+
+table/tooltip-formatter
+
+:::
+
 ## Table API
 
 ### Table Attributes
@@ -377,6 +387,7 @@ table/table-layout
 | filter-multiple            | whether data filtering supports multiple options                                                                                                                                                                   | ^[boolean]                                                                                                                                                                  | true                              |
 | filter-method              | data filtering method. If `filter-multiple` is on, this method will be called multiple times for each row, and a row will display if one of the calls returns `true`                                               | ^[function]`(value: any, row: any, column: any) => void`                                                                                                                    | —                                 |
 | filtered-value             | filter value for selected data, might be useful when table header is rendered with `render-header`                                                                                                                 | ^[object]`string[]`                                                                                                                                                         | —                                 |
+| tooltip-formatter ^(2.9.3) | customize tooltip content when using `show-overflow-tooltip`                                                                                                                                                       | ^[function]`(row: any, column: any, cellValue: any) => VNode \| string`                                                                                                     | —                                 |
 
 ### Table-column Slots
 
