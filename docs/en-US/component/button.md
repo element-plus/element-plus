@@ -140,7 +140,7 @@ button/custom
 | Name              | Description                                                             | Type                                                                                      | Default |
 | ----------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------- |
 | size              | button size                                                             | ^[enum]`'large' \| 'default' \| 'small'`                                                  | —       |
-| type              | button type                                                             | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text' (deprecated)` | —       |
+| type              | button type, when setting `color`, the latter prevails                  | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'text' (deprecated)` | —       |
 | plain             | determine whether it's a plain button                                   | ^[boolean]                                                                                | false   |
 | text ^(2.2.0)     | determine whether it's a text button                                    | ^[boolean]                                                                                | false   |
 | bg ^(2.2.0)       | determine whether the text button background color is always on         | ^[boolean]                                                                                | false   |
