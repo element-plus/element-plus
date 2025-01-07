@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { createVNode, render } from 'vue'
+import { createVNode, isVNode, render } from 'vue'
 import { flatMap, get, isNull, merge } from 'lodash-unified'
 import {
   hasOwn,
@@ -368,9 +368,32 @@ export function walkTreeNode(
 
 const getTableOverflowTooltipProps = (
   props: TableOverflowTooltipOptions,
-  content: string
+  innerText: string,
+  row: T,
+  column: TableColumnCtx<T>
 ) => {
+  let content = innerText
+  if (isFunction(column.tooltipFormatter)) {
+    const tooltipFormatterContent = column.tooltipFormatter(
+      row,
+      column,
+      row[column.property]
+    )
+    if (isVNode(tooltipFormatterContent)) {
+      return {
+        slotContent: tooltipFormatterContent,
+        content: null,
+        ...props,
+        popperOptions: {
+          strategy: 'fixed',
+          ...props.popperOptions,
+        },
+      }
+    }
+    content = tooltipFormatterContent
+  }
   return {
+    slotContent: null,
     content,
     ...props,
     popperOptions: {
@@ -385,29 +408,45 @@ export let removePopper: RemovePopperFn | null = null
 export function createTablePopper(
   props: TableOverflowTooltipOptions,
   popperContent: string,
+  row: T,
+  column: TableColumnCtx<T>,
   trigger: HTMLElement,
   table: Table<[]>
 ) {
   if (removePopper?.trigger === trigger) {
     merge(
       removePopper!.vm.component.props,
-      getTableOverflowTooltipProps(props, popperContent)
+      getTableOverflowTooltipProps(props, popperContent, row, column)
     )
     return
   }
   removePopper?.()
   const parentNode = table?.refs.tableWrapper
   const ns = parentNode?.dataset.prefix
-  const vm = createVNode(ElTooltip, {
-    virtualTriggering: true,
-    virtualRef: trigger,
-    appendTo: parentNode,
-    placement: 'top',
-    transition: 'none', // Default does not require transition
-    offset: 0,
-    hideAfter: 0,
-    ...getTableOverflowTooltipProps(props, popperContent),
-  })
+  const tableOverflowTooltipProps = getTableOverflowTooltipProps(
+    props,
+    popperContent,
+    row,
+    column
+  )
+  const vm = createVNode(
+    ElTooltip,
+    {
+      virtualTriggering: true,
+      virtualRef: trigger,
+      appendTo: parentNode,
+      placement: 'top',
+      transition: 'none', // Default does not require transition
+      offset: 0,
+      hideAfter: 0,
+      ...tableOverflowTooltipProps,
+    },
+    tableOverflowTooltipProps.slotContent
+      ? {
+          content: () => tableOverflowTooltipProps.slotContent,
+        }
+      : undefined
+  )
   vm.appContext = { ...table.appContext, ...table }
   const container = document.createElement('div')
   render(vm, container)

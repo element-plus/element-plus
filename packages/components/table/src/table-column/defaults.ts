@@ -35,6 +35,11 @@ interface TableColumnCtx<T> {
   align: string
   headerAlign: string
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
+  tooltipFormatter: (
+    row: T,
+    column: TableColumnCtx<T>,
+    cellValue
+  ) => VNode | string
   fixed: boolean | string
   formatter: (
     row: T,
@@ -171,6 +176,12 @@ export default {
     >,
     default: undefined,
   },
+  /**
+   * @description function that formats cell tooltip content, works when `show-overflow-tooltip` is `true`
+   */
+  tooltipFormatter: Function as PropType<
+    TableColumnCtx<DefaultRow>['tooltipFormatter']
+  >,
   /**
    * @description whether column is fixed at left / right. Will be fixed at left if `true`
    */

@@ -102,6 +102,7 @@ export default defineComponent({
         'type',
         'renderHeader',
         'formatter',
+        'tooltipFormatter',
         'fixed',
         'resizable',
       ]
