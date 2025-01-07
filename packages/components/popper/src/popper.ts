@@ -5,12 +5,13 @@ import { buildProps } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type Popper from './popper.vue'
 
-const effects = ['light', 'dark'] as const
+const effects = ['light', 'dark', 'customized'] as const
 const triggers = ['click', 'contextmenu', 'hover', 'focus'] as const
 
 export const Effect = {
   LIGHT: 'light',
   DARK: 'dark',
+  CUSTOMIZED: 'customized',
 } as const
 
 export const roleTypes = [
