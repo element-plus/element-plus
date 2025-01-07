@@ -13,12 +13,16 @@
       @focus="handleFocus"
       @blur="focusing = false"
     >
-      <slot name="title">{{ title }}</slot>
-      <slot name="icon" :is-active="isActive">
-        <el-icon :class="arrowKls">
-          <component :is="icon" />
-        </el-icon>
-      </slot>
+      <div :class="itemTitleKls">
+        <slot name="title">{{ title }}</slot>
+      </div>
+      <div :class="expandKls">
+        <slot name="icon" :is-active="isActive">
+          <el-icon :class="arrowIconKls">
+            <component :is="icon" />
+          </el-icon>
+        </slot>
+      </div>
     </button>
 
     <el-collapse-transition>
@@ -59,9 +63,11 @@ const {
 } = useCollapseItem(props)
 
 const {
-  arrowKls,
+  expandKls,
+  arrowIconKls,
   headKls,
   rootKls,
+  itemTitleKls,
   itemWrapperKls,
   itemContentKls,
   scopedContentId,

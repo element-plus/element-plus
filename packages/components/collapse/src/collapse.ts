@@ -13,6 +13,9 @@ import type { Arrayable } from '@element-plus/utils'
 export type CollapseActiveName = string | number
 export type CollapseModelValue = Arrayable<CollapseActiveName>
 
+export const IconPosition = ['start', 'end'] as const
+export type IconPositionType = typeof IconPosition[number]
+
 export const emitChangeFn = (value: CollapseModelValue) =>
   isNumber(value) || isString(value) || isArray(value)
 
@@ -27,6 +30,14 @@ export const collapseProps = buildProps({
   modelValue: {
     type: definePropType<CollapseModelValue>([Array, String, Number]),
     default: () => mutable([] as const),
+  },
+  /**
+   * @description set expand icon position
+   */
+  expandIconPosition: {
+    type: definePropType<IconPositionType>,
+    values: IconPosition,
+    default: IconPosition[1],
   },
 } as const)
 export type CollapseProps = ExtractPropTypes<typeof collapseProps>
