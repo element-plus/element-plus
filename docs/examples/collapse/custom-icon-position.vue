@@ -52,15 +52,15 @@
 import { ref } from 'vue'
 import type { IconPositionType } from 'element-plus'
 
-const position = ref<IconPositionType>('end')
+const position = ref<IconPositionType>('right')
 const positionOptions = [
   {
-    value: 'start',
-    label: 'start',
+    value: 'left',
+    label: 'left',
   },
   {
-    value: 'end',
-    label: 'end',
+    value: 'right',
+    label: 'right',
   },
 ]
 </script>
