@@ -109,6 +109,7 @@ const doValidateField = async (
   for (const field of fields) {
     try {
       await field.validate('')
+      if (field.validateState === 'error') field.resetField()
     } catch (fields) {
       validationErrors = {
         ...validationErrors,
@@ -160,7 +161,7 @@ watch(
       validate().catch((err) => debugWarn(err))
     }
   },
-  { deep: true }
+  { deep: true, flush: 'post' }
 )
 
 provide(
