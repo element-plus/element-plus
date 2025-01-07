@@ -13,7 +13,7 @@ import type { Arrayable } from '@element-plus/utils'
 export type CollapseActiveName = string | number
 export type CollapseModelValue = Arrayable<CollapseActiveName>
 
-export const IconPosition = ['start', 'end'] as const
+export const IconPosition = ['left', 'right'] as const
 export type IconPositionType = typeof IconPosition[number]
 
 export const emitChangeFn = (value: CollapseModelValue) =>

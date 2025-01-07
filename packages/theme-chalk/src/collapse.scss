@@ -45,11 +45,7 @@
       text-align: left;
       flex: auto;
     }
-    @include e(expand) {
-      display: flex;
-      align-items: center;
-      padding-inline-end: 8px;
-    }
+
     &.focusing:focus:not(:hover) {
       color: getCssVar('color-primary');
     }
@@ -78,8 +74,21 @@
   }
 }
 
-.#{$namespace}-collapse-icon-position-start {
-  .#{$namespace}-collapse-item__title {
-    order: 1;
+.#{$namespace}-collapse-icon-position {
+  &-left {
+    .#{$namespace}-collapse-item__ {
+      &header {
+        gap: 8px;
+      }
+      &title {
+        order: 1;
+      }
+    }
+  }
+
+  &-right {
+    .#{$namespace}-collapse-item__header {
+      padding-right: 8px;
+    }
   }
 }

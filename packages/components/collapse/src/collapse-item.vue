@@ -16,13 +16,11 @@
       <div :class="itemTitleKls">
         <slot name="title">{{ title }}</slot>
       </div>
-      <div :class="expandKls">
-        <slot name="icon" :is-active="isActive">
-          <el-icon :class="arrowIconKls">
-            <component :is="icon" />
-          </el-icon>
-        </slot>
-      </div>
+      <slot name="icon" :is-active="isActive">
+        <el-icon :class="arrowIconKls">
+          <component :is="icon" />
+        </el-icon>
+      </slot>
     </button>
 
     <el-collapse-transition>
@@ -63,7 +61,6 @@ const {
 } = useCollapseItem(props)
 
 const {
-  expandKls,
   arrowIconKls,
   headKls,
   rootKls,
