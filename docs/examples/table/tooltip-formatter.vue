@@ -60,7 +60,7 @@ const tableData = [
 ]
 
 const withVNode = (_row: string, _column: any, url: string) => {
-  return h(ElLink, { type: 'primary', href: url }, url)
+  return h(ElLink, { type: 'primary', href: url }, () => h('span', null, url))
 }
 </script>
 
