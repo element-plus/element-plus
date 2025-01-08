@@ -372,34 +372,30 @@ const getTableOverflowTooltipProps = (
   row: T,
   column: TableColumnCtx<T>
 ) => {
-  let content = innerText
-  if (isFunction(column.tooltipFormatter)) {
-    const tooltipFormatterContent = column.tooltipFormatter(
-      row,
-      column,
-      row[column.property]
-    )
-    if (isVNode(tooltipFormatterContent)) {
-      return {
-        slotContent: tooltipFormatterContent,
-        content: null,
-        ...props,
-        popperOptions: {
-          strategy: 'fixed',
-          ...props.popperOptions,
-        },
-      }
-    }
-    content = tooltipFormatterContent
+  // merge popperOptions
+  const popperOptions = {
+    strategy: 'fixed',
+    ...props.popperOptions,
   }
+
+  const tooltipFormatterContent = isFunction(column.tooltipFormatter)
+    ? column.tooltipFormatter(row, column, row[column.property])
+    : undefined
+
+  if (isVNode(tooltipFormatterContent)) {
+    return {
+      slotContent: tooltipFormatterContent,
+      content: null,
+      ...props,
+      popperOptions,
+    }
+  }
+
   return {
     slotContent: null,
-    content,
+    content: tooltipFormatterContent ?? innerText,
     ...props,
-    popperOptions: {
-      strategy: 'fixed',
-      ...props.popperOptions,
-    },
+    popperOptions,
   }
 }
 
@@ -443,7 +439,7 @@ export function createTablePopper(
     },
     tableOverflowTooltipProps.slotContent
       ? {
-          content: () => tableOverflowTooltipProps.slotContent,
+          content: tableOverflowTooltipProps.slotContent,
         }
       : undefined
   )
