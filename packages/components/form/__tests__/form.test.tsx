@@ -756,6 +756,50 @@ describe('Form', () => {
     expect(wrapper.find('.el-form-item__error').text()).toBe('age is: 1')
   })
 
+  it('validate abnormal callback', async () => {
+    const form = reactive({
+      age: '20',
+    })
+
+    const wrapper = mount({
+      setup() {
+        const rules = ref({
+          age: [
+            {
+              required: true,
+              message: 'Please input age',
+              trigger: 'change',
+            },
+          ],
+        })
+        return () => (
+          <Form ref="formRef" model={form} rules={rules.value}>
+            <FormItem ref="age" prop="age" label="age">
+              <Input v-model={form.age} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    const fn = vi.fn()
+
+    await (wrapper.vm.$refs.formRef as FormInstance).validate(() => {
+      fn()
+      throw {
+        age: [
+          {
+            field: 'age',
+            fieldValue: '',
+            message: 'Please input age',
+          },
+        ],
+      }
+    })
+
+    expect(fn).toHaveBeenCalledTimes(1)
+  })
+
   describe('FormItem', () => {
     const onSuccess = vi.fn()
     const onError = vi.fn()
