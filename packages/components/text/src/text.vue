@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, useAttrs, watchEffect } from 'vue'
+import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
 import { isUndefined } from '@element-plus/utils'
@@ -36,30 +36,30 @@ const textKls = computed(() => [
 
 const inheritTitle = useAttrs().title
 
-watchEffect(
-  () => {
-    if (inheritTitle) return
-    let shouldAddTitle = false
-    const text = textRef.value?.textContent || ''
-    if (props.truncated) {
-      const width = textRef.value?.offsetWidth
-      const scrollWidth = textRef.value?.scrollWidth
-      if (width && scrollWidth && scrollWidth > width) {
-        shouldAddTitle = true
-      }
-    } else if (!isUndefined(props.lineClamp)) {
-      const height = textRef.value?.offsetHeight
-      const scrollHeight = textRef.value?.scrollHeight
-      if (height && scrollHeight && scrollHeight > height) {
-        shouldAddTitle = true
-      }
+const bindTitle = () => {
+  if (inheritTitle) return
+  let shouldAddTitle = false
+  const text = textRef.value?.textContent || ''
+  if (props.truncated) {
+    const width = textRef.value?.offsetWidth
+    const scrollWidth = textRef.value?.scrollWidth
+    if (width && scrollWidth && scrollWidth > width) {
+      shouldAddTitle = true
     }
-    if (shouldAddTitle) {
-      textRef.value!.setAttribute('title', text)
-    } else {
-      textRef.value!.removeAttribute('title')
+  } else if (!isUndefined(props.lineClamp)) {
+    const height = textRef.value?.offsetHeight
+    const scrollHeight = textRef.value?.scrollHeight
+    if (height && scrollHeight && scrollHeight > height) {
+      shouldAddTitle = true
     }
-  },
-  { flush: 'post' }
-)
+  }
+  if (shouldAddTitle) {
+    textRef.value!.setAttribute('title', text)
+  } else {
+    textRef.value!.removeAttribute('title')
+  }
+}
+
+onMounted(bindTitle)
+onUpdated(bindTitle)
 </script>
