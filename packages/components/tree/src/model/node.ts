@@ -102,7 +102,7 @@ class Node {
   loading: boolean
 
   constructor(options: TreeNodeOptions) {
-    this.id = nodeIdSeed++
+    this.id = options.data[NODE_KEY] || nodeIdSeed++
     this.text = null
     this.checked = false
     this.indeterminate = false
