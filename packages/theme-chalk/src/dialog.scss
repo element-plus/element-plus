@@ -34,6 +34,7 @@
     margin-bottom: 0;
     height: 100%;
     overflow: auto;
+    border-radius: 0px;
   }
 
   @include e(wrapper) {
