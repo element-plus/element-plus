@@ -2091,9 +2091,7 @@ describe('Table.vue', () => {
         height: 30,
       } as DOMRect)
     await tr[1].trigger('mouseenter')
-    await doubleWait()
     await rAF()
-    await doubleWait()
     expect(document.querySelector('.el-popper span')?.innerHTML).toContain(
       testData[0].name
     )
@@ -2113,9 +2111,7 @@ describe('Table.vue', () => {
 
     // Enter the cell again
     await tr[1].trigger('mouseenter')
-    await doubleWait()
     await rAF()
-    await doubleWait()
     expect(
       document.querySelector('.el-popper')?.getAttribute('aria-hidden')
     ).toEqual('false')
@@ -2126,9 +2122,7 @@ describe('Table.vue', () => {
       height: 30,
     } as DOMRect)
     await tr[1].trigger('mouseenter')
-    await doubleWait()
     await rAF()
-    await doubleWait()
     expect(document.querySelector('.el-popper')).toEqual(null)
 
     // From cell1 to cell2
@@ -2143,16 +2137,12 @@ describe('Table.vue', () => {
         height: 30,
       } as DOMRect)
     await tr[1].trigger('mouseenter')
-    await doubleWait()
     await rAF()
-    await doubleWait()
     expect(document.querySelector('.el-popper span')?.innerHTML).toContain(
       testData[0].name
     )
     await tr[2].trigger('mouseenter')
-    await doubleWait()
     await rAF()
-    await doubleWait()
     expect(document.querySelector('.el-popper span')?.innerHTML).toContain(
       testData[1].name
     )
