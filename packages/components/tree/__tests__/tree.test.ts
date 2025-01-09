@@ -6,6 +6,7 @@ import defineGetter from '@element-plus/test-utils/define-getter'
 import sleep from '@element-plus/test-utils/sleep'
 import Tree from '../src/tree.vue'
 import Button from '../../button/src/button.vue'
+import { NODE_KEY } from '../src/model/util.js'
 import type Node from '../src/model/node'
 
 const ALL_NODE_COUNT = 9
@@ -1778,5 +1779,53 @@ describe('Tree.vue', () => {
     )
     expect(nodeLabelWrapper1.text()).toEqual('customize: Level one 1')
     expect(nodeLabelWrapper2.text()).toEqual('Level one 2')
+  })
+
+  test('The data Node_KEY and Node instance ID should be consistent', async () => {
+    const { wrapper, vm } = getTreeVm(`:props="defaultProps"`)
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    const init = () => {
+      const nodes: Node[] = []
+      const nodeIds = []
+      const nodeKeys = []
+
+      const pushNode = (node: Node) => {
+        nodes.push(node)
+        node.childNodes.forEach((node) => pushNode(node))
+      }
+
+      tree.root.childNodes.forEach((node) => pushNode(node))
+      nodes.forEach((node) => {
+        nodeIds.push(node.id)
+        nodeKeys.push(node.data[NODE_KEY])
+      })
+
+      return { nodeIds, nodeKeys }
+    }
+
+    let { nodeIds, nodeKeys } = init()
+    expect(nodeIds).toEqual(nodeKeys)
+
+    vm.data = [...vm.data]
+    await nextTick()
+    ;({ nodeIds, nodeKeys } = init())
+    expect(nodeIds).toEqual(nodeKeys)
+  })
+
+  // #19562
+  test('The order of nodes should be consistent with the data', async () => {
+    const { wrapper, vm } = getTreeVm(`:props="defaultProps"`)
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    let data = tree.root.childNodes.map((node) => node.data)
+    expect(data).toEqual(vm.data)
+
+    vm.data.reverse()
+    await nextTick()
+    data = tree.root.childNodes.map((node) => node.data)
+    expect(data).toEqual(vm.data)
   })
 })
