@@ -264,3 +264,8 @@ export const timePickerRangeTriggerProps = buildProps({
   startPlaceholder: String,
   endPlaceholder: String,
 } as const)
+
+/**
+ * @deprecated Use `timePickerRangeTriggerProps` instead. This will be removed in future versions.
+ */
+export const timePickerRngeTriggerProps = timePickerRangeTriggerProps
