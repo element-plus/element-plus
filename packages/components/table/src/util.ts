@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { createVNode, isVNode, mergeProps, render } from 'vue'
-import { flatMap, get, isNull } from 'lodash-unified'
+import { createVNode, isVNode, render } from 'vue'
+import { flatMap, get, isNull, merge } from 'lodash-unified'
 import {
   hasOwn,
   isArray,
@@ -35,6 +35,12 @@ export type TableOverflowTooltipOptions = Partial<
     | 'transition'
   >
 >
+
+export type TableOverflowTooltipFormatterOptions = (
+  row: T,
+  column: TableColumnCtx<T>,
+  cellValue
+) => VNode | string
 
 type RemovePopperFn = (() => void) & {
   trigger?: HTMLElement
@@ -415,11 +421,16 @@ export function createTablePopper(
     row,
     column
   )
-  if (
-    removePopper?.trigger === trigger &&
-    !tableOverflowTooltipProps.slotContent
-  ) {
-    mergeProps(removePopper!.vm.component.props, tableOverflowTooltipProps)
+  if (removePopper?.trigger === trigger) {
+    const comp = removePopper!.vm.component
+    const mergedProps = {
+      ...tableOverflowTooltipProps,
+      slotContent: undefined,
+    }
+    merge(comp.props, mergedProps)
+    if (tableOverflowTooltipProps.slotContent) {
+      comp.slots.content = () => [tableOverflowTooltipProps.slotContent]
+    }
     return
   }
   removePopper?.()

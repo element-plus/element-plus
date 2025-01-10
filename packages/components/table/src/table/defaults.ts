@@ -12,7 +12,10 @@ import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
-import type { TableOverflowTooltipOptions } from '../util'
+import type {
+  TableOverflowTooltipFormatterOptions,
+  TableOverflowTooltipOptions,
+} from '../util'
 
 export type DefaultRow = any
 
@@ -149,6 +152,7 @@ interface TableProps<T> {
   scrollbarAlwaysOn?: boolean
   flexible?: boolean
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
+  tooltipFormatter?: TableOverflowTooltipFormatterOptions
   appendFilterPanelTo?: string
   scrollbarTabindex?: number | string
 }
@@ -389,6 +393,12 @@ export default {
    */
   showOverflowTooltip: [Boolean, Object] as PropType<
     TableProps<DefaultRow>['showOverflowTooltip']
+  >,
+  /**
+   * @description function that formats cell tooltip content, works when `show-overflow-tooltip` is `true`
+   */
+  tooltipFormatter: Function as PropType<
+    TableProps<DefaultRow>['tooltipFormatter']
   >,
   appendFilterPanelTo: String,
   scrollbarTabindex: {
