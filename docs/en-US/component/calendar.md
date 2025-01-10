@@ -65,7 +65,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 | Name                        | Description                                                            | Type                                                                                          |
 | --------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------- |
-| selectedDay                 | currently selected date                                                | ^[object]`ComputedRef<Dayjs                                                                   | undefined>` |
+| selectedDay                 | currently selected date                                                | ^[object]`ComputedRef<Dayjs                                                                   \| undefined>` |
 | pickDay                     | select a specific date                                                 | ^[Function]`(day: dayjs.Dayjs) => void`                                                       |
 | selectDate                  | select date                                                            | ^[Function]`(type: CalendarDateType) => void`                                                 |
 | calculateValidatedDateRange | Calculate the validate date range according to the start and end dates | ^[Function]`(startDayjs: dayjs.Dayjs, endDayjs: dayjs.Dayjs) => [dayjs.Dayjs, dayjs.Dayjs][]` |
