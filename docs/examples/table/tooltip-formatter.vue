@@ -1,10 +1,14 @@
 <template>
-  <el-table :data="tableData" show-overflow-tooltip style="width: 100%">
+  <el-table
+    :data="tableData"
+    show-overflow-tooltip
+    :tooltip-formatter="tableRowFormatter"
+    style="width: 100%"
+  >
     <el-table-column
       property="address"
-      label="simple formatter"
+      label="extends table formatter"
       width="240"
-      :tooltip-formatter="(row) => `${row.address}: formatter`"
     />
     <el-table-column
       property="tags"
@@ -59,7 +63,11 @@ const tableData = [
   },
 ]
 
-const withVNode = (_row: string, _column: any, url: string) => {
+const tableRowFormatter = (_row: any, _column: any, value: any) => {
+  return `${value}: table formatter`
+}
+
+const withVNode = (_row: any, _column: any, url: string) => {
   return h(ElLink, { type: 'primary', href: url }, () => h('span', null, url))
 }
 </script>
