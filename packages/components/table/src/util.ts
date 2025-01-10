@@ -421,12 +421,12 @@ export function createTablePopper(
     row,
     column
   )
+  const mergedProps = {
+    ...tableOverflowTooltipProps,
+    slotContent: undefined,
+  }
   if (removePopper?.trigger === trigger) {
     const comp = removePopper!.vm.component
-    const mergedProps = {
-      ...tableOverflowTooltipProps,
-      slotContent: undefined,
-    }
     merge(comp.props, mergedProps)
     if (tableOverflowTooltipProps.slotContent) {
       comp.slots.content = () => [tableOverflowTooltipProps.slotContent]
@@ -446,7 +446,7 @@ export function createTablePopper(
       transition: 'none', // Default does not require transition
       offset: 0,
       hideAfter: 0,
-      ...tableOverflowTooltipProps,
+      ...mergedProps,
     },
     tableOverflowTooltipProps.slotContent
       ? {
