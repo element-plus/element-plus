@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, test, vi } from 'vitest'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
@@ -260,9 +260,8 @@ describe('table column', () => {
       }
 
       describe('= selection', () => {
-        const wrapper = createTable('selection')
-
         it('render', async () => {
+          const wrapper = createTable('selection')
           await doubleWait()
           expect(wrapper.findAll('.el-checkbox').length).toEqual(
             getTestData().length + 1
@@ -270,6 +269,8 @@ describe('table column', () => {
         })
 
         it('select all', async () => {
+          const wrapper = createTable('selection')
+          await doubleWait()
           wrapper.find('.el-checkbox').trigger('click')
           await doubleWait()
           expect(wrapper.vm.selected.length).toEqual(5)
@@ -277,15 +278,75 @@ describe('table column', () => {
         })
 
         it('select one', async () => {
-          const wrapper2 = createTable('selection')
+          const wrapper = createTable('selection')
 
           await doubleWait()
-          wrapper2.findAll('.el-checkbox')[1].trigger('click')
+          wrapper.findAll('.el-checkbox')[1].trigger('click')
 
           await doubleWait()
-          expect(wrapper2.vm.selected.length).toEqual(1)
-          expect(wrapper2.vm.selected[0].name).toEqual(getTestData()[0].name)
-          wrapper2.unmount()
+          expect(wrapper.vm.selected.length).toEqual(1)
+          expect(wrapper.vm.selected[0].name).toEqual(getTestData()[0].name)
+          wrapper.unmount()
+        })
+
+        // #19581
+        describe('only one is not disabled', () => {
+          const createTable = (idx: number) => {
+            return mount({
+              components: {
+                ElTable,
+                ElTableColumn,
+              },
+              template: `
+            <el-table :data="testData" @selection-change="change">
+              <el-table-column type="selection" :selectable="selectableFn" />
+              <el-table-column prop="desc" />
+            </el-table>`,
+
+              data() {
+                return {
+                  selected: [],
+                  testData: [
+                    { id: 0, desc: 'record 1' },
+                    { id: 1, desc: 'record 2' },
+                    { id: 2, desc: 'record 3' },
+                  ],
+                }
+              },
+
+              methods: {
+                change(rows) {
+                  this.selected = rows
+                },
+                selectableFn(_, index) {
+                  return index === idx
+                },
+              },
+            })
+          }
+
+          test.each([0, 1, 2])('index %d is not disabled', async (index) => {
+            const wrapper = createTable(index)
+            await doubleWait()
+
+            const allRowCheckbox = wrapper.findAll(
+              '.el-table__row .el-checkbox'
+            )
+
+            const notDisabledCount = allRowCheckbox.filter(
+              (wrapper) => !wrapper.classes('is-disabled')
+            ).length
+            expect(notDisabledCount).toBe(1)
+
+            const notDisabledIndex = allRowCheckbox.findIndex(
+              (wrapper) => !wrapper.classes('is-disabled')
+            )
+            expect(notDisabledIndex).toBe(index)
+
+            allRowCheckbox[notDisabledIndex].trigger('click')
+            await doubleWait()
+            expect(wrapper.vm.selected.length).toEqual(1)
+          })
         })
       })
 
