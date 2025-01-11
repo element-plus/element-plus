@@ -97,7 +97,7 @@ image/image-preview
 | placeholder       | custom placeholder content when image hasn't loaded yet. | -                                                 |
 | error             | custom image load failed content.                        | -                                                 |
 | viewer            | custom content when image preview.                       | -                                                 |
-| progress ^(2.9.3) | custom progress content when image preview.              | ^[object]`{ activeIndex: number, total: number }` |
+| progress ^(2.9.4) | custom progress content when image preview.              | ^[object]`{ activeIndex: number, total: number }` |
 
 ## Image Viewer API
 
