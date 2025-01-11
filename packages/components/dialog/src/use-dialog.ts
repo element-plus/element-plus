@@ -167,6 +167,8 @@ export const useDialog = (
         nextTick(() => {
           emit('open')
           if (targetRef.value) {
+            targetRef.value.parentElement!.scrollTop = 0
+            targetRef.value.parentElement!.scrollLeft = 0
             targetRef.value.scrollTop = 0
           }
         })
