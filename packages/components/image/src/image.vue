@@ -270,4 +270,9 @@ onMounted(() => {
     loadImage()
   }
 })
+
+defineExpose({
+  /** @description manually open preview */
+  showPreview: clickHandler,
+})
 </script>
