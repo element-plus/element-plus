@@ -55,7 +55,7 @@ image/image-preview
 
 :::
 
-## Manually Open Preview ^(2.9.2)
+## Manually Open Preview ^(2.9.4)
 
 :::demo allow big image preview by call `showPreview` method.
 
@@ -136,4 +136,4 @@ image/manually-preview
 | Name                 | Description                     | Type                                 |
 | -------------------- | ------------------------------- | ------------------------------------ |
 | setActiveItem        | manually switch image           | ^[Function]`(index: number) => void` |
-| showPreview ^(2.9.2) | manually open preview big image | ^[Function]`() => void`              |
+| showPreview ^(2.9.4) | manually open preview big image | ^[Function]`() => void`              |
