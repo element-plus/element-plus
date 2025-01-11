@@ -55,7 +55,7 @@ image/image-preview
 
 :::
 
-## Custom Toolbar ^(2.9.3)
+## Custom Toolbar ^(2.9.4)
 
 :::demo Custom toolbar content by `slot = toolbar`
 
@@ -105,7 +105,7 @@ image/custom-toolbar
 | placeholder      | custom placeholder content when image hasn't loaded yet. | -                                                                                                                                                   |
 | error            | custom image load failed content.                        | -                                                                                                                                                   |
 | viewer           | custom content when image preview.                       | -                                                                                                                                                   |
-| toolbar ^(2.9.3) | custom toolbar content when image preview.               | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }` |
+| toolbar ^(2.9.4) | custom toolbar content when image preview.               | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }` |
 
 ## Image Viewer API
 
