@@ -170,7 +170,7 @@
     </div>
     <div v-show="footerVisible" :class="ppNs.e('footer')">
       <el-button
-        v-show="!isMultipleType"
+        v-show="!isMultipleType && showNow"
         text
         size="small"
         :class="ppNs.e('link-btn')"
@@ -659,12 +659,17 @@ const getDefaultValue = () => {
   return parseDate
 }
 
-const handleFocusPicker = async () => {
+const handleFocusPicker = () => {
   if (['week', 'month', 'year', 'date'].includes(selectionMode.value)) {
     currentViewRef.value?.focus()
-    if (selectionMode.value === 'week') {
-      handleKeyControl(EVENT_CODE.down)
-    }
+  }
+}
+
+const _handleFocusPicker = () => {
+  handleFocusPicker()
+  // TODO: After focus the date input, the first time you use the ArrowDown keys, you cannot focus on the date cell
+  if (selectionMode.value === 'week') {
+    handleKeyControl(EVENT_CODE.down)
   }
 }
 
@@ -815,7 +820,7 @@ watch(
   (val) => {
     if (val) {
       if (isMultipleType.value) return
-      if (Array.isArray(val)) return
+      if (isArray(val)) return
       innerDate.value = val
     } else {
       innerDate.value = getDefaultValue()
@@ -827,5 +832,5 @@ watch(
 contextEmit('set-picker-option', ['isValidValue', isValidValue])
 contextEmit('set-picker-option', ['formatToString', formatToString])
 contextEmit('set-picker-option', ['parseUserInput', parseUserInput])
-contextEmit('set-picker-option', ['handleFocusPicker', handleFocusPicker])
+contextEmit('set-picker-option', ['handleFocusPicker', _handleFocusPicker])
 </script>

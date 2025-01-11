@@ -1,6 +1,6 @@
 import { isClient } from '../browser'
 import { easeInOutCubic } from '../easings'
-import { isWindow } from '../types'
+import { isFunction, isWindow } from '../types'
 import { cAF, rAF } from '../raf'
 import { getStyle } from './style'
 
@@ -130,7 +130,7 @@ export function animateScrollTo(
     }
     if (time < duration) {
       handle = rAF(scroll)
-    } else if (typeof callback === 'function') {
+    } else if (isFunction(callback)) {
       callback()
     }
   }

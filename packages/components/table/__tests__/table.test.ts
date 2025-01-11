@@ -29,6 +29,16 @@ vi.mock('lodash-unified', async () => {
   }
 })
 
+// https://github.com/jsdom/jsdom/issues/3002
+Range.prototype.getBoundingClientRect = () => ({
+  bottom: 0,
+  height: 0,
+  left: 0,
+  right: 0,
+  top: 0,
+  width: 0,
+})
+
 describe('Table.vue', () => {
   describe('rendering data is correct', () => {
     const wrapper = mount({
@@ -839,6 +849,19 @@ describe('Table.vue', () => {
       expect(vm.fireCount).toEqual(2)
       expect(vm.selection.length).toEqual(0)
 
+      vm.$refs.table.toggleRowSelection(vm.testData[0], undefined, false)
+      expect(vm.selection.length).toEqual(0)
+      expect(vm.fireCount).toEqual(2)
+
+      // test use second parameter
+      vm.$refs.table.toggleRowSelection(vm.testData[1], undefined, false)
+      expect(vm.selection.length).toEqual(1)
+      expect(vm.fireCount).toEqual(3)
+
+      vm.$refs.table.toggleRowSelection(vm.testData[1], false, false)
+      expect(vm.selection.length).toEqual(0)
+      expect(vm.fireCount).toEqual(4)
+
       wrapper.unmount()
     })
 
@@ -1560,14 +1583,14 @@ describe('Table.vue', () => {
       })
     })
 
-    it('load substree row data', async () => {
+    it('load substree row data & updateKeyChildren', async () => {
       wrapper = mount({
         components: {
           ElTable,
           ElTableColumn,
         },
         template: `
-          <el-table :data="testData" row-key="release" lazy :load="load">
+          <el-table :data="testData" row-key="release" lazy :load="load" ref="table">
             <el-table-column prop="name" label="片名" />
             <el-table-column prop="release" label="发行日期" />
             <el-table-column prop="director" label="导演" />
@@ -1606,6 +1629,16 @@ describe('Table.vue', () => {
               },
             ])
           },
+          updateKeyChildren() {
+            this.$refs.table.updateKeyChildren(this.testData[1].release, [
+              {
+                name: 'Update children data',
+                release: '2024-7-30-10',
+                director: 'John Lasseter',
+                runtime: 95,
+              },
+            ])
+          },
         },
       })
       await doubleWait()
@@ -1615,6 +1648,10 @@ describe('Table.vue', () => {
       await doubleWait()
       expect(expandIcon.classes()).toContain('el-table__expand-icon--expanded')
       expect(wrapper.findAll('.el-table__row').length).toEqual(8)
+
+      wrapper.vm.updateKeyChildren()
+      await doubleWait()
+      expect(wrapper.findAll('.el-table__row').length).toEqual(7)
     })
 
     it('tree-props & default-expand-all & expand-change', async () => {
@@ -1795,7 +1832,7 @@ describe('Table.vue', () => {
           ElTableColumn,
         },
         template: `
-              <el-table :data="testData" :tree-props="treeProps" @selection-change="change">
+              <el-table :data="testData" :tree-props="treeProps" row-key="id" @selection-change="change">
                 <el-table-column type="selection" />
                 <el-table-column prop="name" label="name" />
                 <el-table-column prop="release" label="release" />
@@ -2014,5 +2051,104 @@ describe('Table.vue', () => {
     await doubleWait()
     const findTooltipEl = wrapper.findAll('.el-tooltip').length
     expect(findTooltipEl).toEqual(5)
+  })
+
+  it('test show-overflow-tooltip trigger', async () => {
+    const testData = getTestData() as any
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 150,
+        height: 30,
+      } as DOMRect)
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+
+      template: `
+    <el-table :data="testData" show-overflow-tooltip>
+      <el-table-column class-name="overflow_tooltip" prop="name" label="name"/>
+    </el-table>
+  `,
+
+      data() {
+        const testData = getTestData() as any
+        return {
+          testData,
+        }
+      },
+    })
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    // Enter the cell
+    const mockCellRect = vi
+      .spyOn(tr[1].find('.cell').element, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 100,
+        height: 30,
+      } as DOMRect)
+    await tr[1].trigger('mouseenter')
+    await rAF()
+    expect(document.querySelector('.el-popper span')?.innerHTML).toContain(
+      testData[0].name
+    )
+    expect(
+      document.querySelector('.el-popper')?.getAttribute('aria-hidden')
+    ).toEqual('false')
+
+    // Leave the cell
+    vi.useFakeTimers()
+    await tr[1].trigger('mouseleave')
+    vi.runAllTimers()
+    vi.useRealTimers()
+    await rAF()
+    expect(
+      document.querySelector('.el-popper')?.getAttribute('aria-hidden')
+    ).toEqual('true')
+
+    // Enter the cell again
+    await tr[1].trigger('mouseenter')
+    await rAF()
+    expect(
+      document.querySelector('.el-popper')?.getAttribute('aria-hidden')
+    ).toEqual('false')
+
+    // When the width of the cell content decreases, enter
+    mockRangeRect.mockReturnValue({
+      width: 80,
+      height: 30,
+    } as DOMRect)
+    await tr[1].trigger('mouseenter')
+    await rAF()
+    expect(document.querySelector('.el-popper')).toEqual(null)
+
+    // From cell1 to cell2
+    mockRangeRect.mockReturnValue({
+      width: 150,
+      height: 30,
+    } as DOMRect)
+    const mockCellRect2 = vi
+      .spyOn(tr[2].find('.cell').element, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 100,
+        height: 30,
+      } as DOMRect)
+    await tr[1].trigger('mouseenter')
+    await rAF()
+    expect(document.querySelector('.el-popper span')?.innerHTML).toContain(
+      testData[0].name
+    )
+    await tr[2].trigger('mouseenter')
+    await rAF()
+    expect(document.querySelector('.el-popper span')?.innerHTML).toContain(
+      testData[1].name
+    )
+
+    mockRangeRect.mockRestore()
+    mockCellRect.mockRestore()
+    mockCellRect2.mockRestore()
   })
 })

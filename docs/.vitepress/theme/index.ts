@@ -7,6 +7,7 @@ import VPApp, { NotFound, globals } from '../vitepress'
 import { define } from '../utils/types'
 import 'uno.css'
 import './style.css'
+import 'vitepress/dist/client/theme-default/styles/components/vp-code-group.css'
 import type { Theme } from 'vitepress'
 
 export default define<Theme>({

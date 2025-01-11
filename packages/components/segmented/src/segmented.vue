@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="options.length"
     :id="inputId"
     ref="segmentedRef"
     :class="segmentedCls"
@@ -7,7 +8,7 @@
     :aria-label="!isLabeledByFormItem ? ariaLabel || 'segmented' : undefined"
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
   >
-    <div :class="ns.e('group')">
+    <div :class="[ns.e('group'), ns.m(props.direction)]">
       <div :style="selectedStyle" :class="selectedCls" />
       <label
         v-for="(item, index) in options"
@@ -67,7 +68,9 @@ const activeElement = useActiveElement()
 const state = reactive({
   isInit: false,
   width: 0,
+  height: 0,
   translateX: 0,
+  translateY: 0,
   focusVisible: false,
 })
 
@@ -85,7 +88,7 @@ const getLabel = (item: Option) => {
   return isObject(item) ? item.label : item
 }
 
-const getDisabled = (item: Option) => {
+const getDisabled = (item: Option | undefined) => {
   return !!(_disabled.value || (isObject(item) ? item.disabled : false))
 }
 
@@ -115,14 +118,21 @@ const updateSelect = () => {
   ) as HTMLElement
   if (!selectedItem || !selectedItemInput) {
     state.width = 0
+    state.height = 0
     state.translateX = 0
+    state.translateY = 0
     state.focusVisible = false
     return
   }
   const rect = selectedItem.getBoundingClientRect()
   state.isInit = true
-  state.width = rect.width
-  state.translateX = selectedItem.offsetLeft
+  if (props.direction === 'vertical') {
+    state.height = rect.height
+    state.translateY = selectedItem.offsetTop
+  } else {
+    state.width = rect.width
+    state.translateX = selectedItem.offsetLeft
+  }
   try {
     // This will failed in test
     state.focusVisible = selectedItemInput.matches(':focus-visible')
@@ -136,8 +146,12 @@ const segmentedCls = computed(() => [
 ])
 
 const selectedStyle = computed(() => ({
-  width: `${state.width}px`,
-  transform: `translateX(${state.translateX}px)`,
+  width: props.direction === 'vertical' ? '100%' : `${state.width}px`,
+  height: props.direction === 'vertical' ? `${state.height}px` : '100%',
+  transform:
+    props.direction === 'vertical'
+      ? `translateY(${state.translateY}px)`
+      : `translateX(${state.translateX}px)`,
   display: state.isInit ? 'block' : 'none',
 }))
 

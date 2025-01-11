@@ -83,7 +83,7 @@ You can also try Element Plus out with the components built-in playground.
       </td>
       <td align="center" valign="middle">
         <a href="http://github.crmeb.net/u/Element?from=element-plus" target="_blank">
-          <img width="150px" src="https://github.com/element-plus/element-plus/assets/17680888/7abd3c5a-04fb-4eae-9540-0d21c5ed71ed">
+          <img width="150px" src="https://github.com/user-attachments/assets/18079452-986c-4c6e-84ec-fb6175c26567">
         </a>
       </td>
     </tr>
@@ -98,11 +98,6 @@ You can also try Element Plus out with the components built-in playground.
       <td align="center" valign="middle">
         <a href="https://doc.buildadmin.com/?from=element-plus" target="_blank">
           <img width="130px" src="https://user-images.githubusercontent.com/17680888/173179536-30e35fd1-cd5a-482a-bc41-9d5f0aa66fd4.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="http://www.i-renderer.love/home/index" target="_blank">
-          <img width="130px" src="https://github.com/element-plus/element-plus/assets/82012629/0004917d-71ad-48f9-b3ce-9299f0ff78c6">
         </a>
       </td>
       <td align="center" valign="middle">
