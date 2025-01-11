@@ -251,7 +251,7 @@ select/custom-label
 | clear                 | triggers when the clear icon is clicked in a clearable Select | ^[Function]`() => void`                                             |
 | blur                  | triggers when Input blurs                                     | ^[Function]`(event: FocusEvent) => void`                            |
 | focus                 | triggers when Input focuses                                   | ^[Function]`(event: FocusEvent) => void`                            |
-| popup-scroll ^(2.9.3) | triggers when dropdown scrolls                                | ^[Function]`(data:{scrollTop: number, scrollLeft: number}) => void` |
+| popup-scroll ^(2.9.4) | triggers when dropdown scrolls                                | ^[Function]`(data:{scrollTop: number, scrollLeft: number}) => void` |
 
 ### Select Slots
 
