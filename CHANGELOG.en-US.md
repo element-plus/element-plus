@@ -1,6 +1,29 @@
 ## Changelog
 
 
+### 2.9.3
+
+_2025-01-10_
+
+#### Features
+
+- Components [dialog/drawer] add custom sub classes (#19099 by @Dsaquel)
+- I18n add Hindi language (#19483 by @steveWang13)
+- I18n add Norsk(no) language (#19523 by @changehu)
+- Component [time-select] add include end time attribute (#19253 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [description] `labelWidth` is invalid when no border (#19162 by @btea)
+- Hooks [use-lockscreen] remove hiddenCls (#19429 by @Liao-js)
+- Components [form] on post rules update reset field (#19129 by @Dsaquel)
+- Components [tabs] set modelValue synchronously if beforeLeave is not set or is synchronous (#19387 by @DDDDD12138)
+- Components [select] make sure the e-tag is not obstructed(#19529 by @baiwusanyu-c) (#19534)
+- Components [dialog] fix scroll bar not resetting to top on reopen (#19471 by @wjp980108)
+- Improvement(components): [text] add the title attribute (#19496 by @btea)
+- Improvement(components): [text] keep the inherited title attribute (#19551 by @btea)
+- Style(components): [dialog] no rounded when in fullscreen (#19583 by @warmthsea)
+
 ### 2.9.2
 
 _2025-01-03_

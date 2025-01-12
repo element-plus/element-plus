@@ -6,6 +6,7 @@ import {
 } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
+import type Image from './image.vue'
 
 export const imageProps = buildProps({
   /**
@@ -120,3 +121,4 @@ export const imageEmits = {
   show: () => true,
 }
 export type ImageEmits = typeof imageEmits
+export type ImageInstance = InstanceType<typeof Image>
