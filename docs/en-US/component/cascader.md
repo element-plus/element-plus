@@ -179,7 +179,6 @@ cascader/panel
 | ------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
 | default | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
 | empty   | content when there is no matched options.                                                      | —                                   |
-| prefix  | content as Input prefix                                                                        | —                                   |
 
 ### Cascader Exposes
 
