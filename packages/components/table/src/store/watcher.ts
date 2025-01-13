@@ -1,6 +1,5 @@
 // @ts-nocheck
-import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
-import { isEqual } from 'lodash-unified'
+import { computed, getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
 import { hasOwn, isArray, isString, isUndefined } from '@element-plus/utils'
 import {
   getColumnById,
@@ -76,6 +75,10 @@ function useWatcher<T>() {
   const sortProp = ref(null)
   const sortOrder = ref(null)
   const hoverRow = ref(null)
+
+  const selectedMap = computed(() => {
+    return rowKey.value ? getKeysMap(selection.value, rowKey.value) : undefined
+  })
 
   watch(
     data,
@@ -184,8 +187,12 @@ function useWatcher<T>() {
   }
 
   // 选择
-  const isSelected = (row) => {
-    return selection.value.some((item) => isEqual(item, row))
+  const isSelected = (row: DefaultRow) => {
+    if (selectedMap.value) {
+      return !!selectedMap.value[getRowIdentity(row, rowKey.value)]
+    } else {
+      return selection.value.includes(row)
+    }
   }
 
   const clearSelection = () => {
@@ -201,11 +208,10 @@ function useWatcher<T>() {
     let deleted
     if (rowKey.value) {
       deleted = []
-      const selectedMap = getKeysMap(selection.value, rowKey.value)
       const dataMap = getKeysMap(data.value, rowKey.value)
-      for (const key in selectedMap) {
-        if (hasOwn(selectedMap, key) && !dataMap[key]) {
-          deleted.push(selectedMap[key].row)
+      for (const key in selectedMap.value) {
+        if (hasOwn(selectedMap.value, key) && !dataMap[key]) {
+          deleted.push(selectedMap.value[key].row)
         }
       }
     } else {
@@ -295,10 +301,9 @@ function useWatcher<T>() {
   }
 
   const updateSelectionByRowKey = () => {
-    const selectedMap = getKeysMap(selection.value, rowKey.value)
     data.value.forEach((row) => {
       const rowId = getRowIdentity(row, rowKey.value)
-      const rowInfo = selectedMap[rowId]
+      const rowInfo = selectedMap.value![rowId]
       if (rowInfo) {
         selection.value[rowInfo.index] = row
       }
@@ -313,20 +318,9 @@ function useWatcher<T>() {
     }
 
     const { childrenColumnName } = instance.store.states
-    const selectedMap = rowKey.value
-      ? getKeysMap(selection.value, rowKey.value)
-      : undefined
-
     let rowIndex = 0
     let selectedCount = 0
 
-    const isSelected = (row: DefaultRow) => {
-      if (selectedMap) {
-        return !!selectedMap[getRowIdentity(row, rowKey.value)]
-      } else {
-        return selection.value.includes(row)
-      }
-    }
     const checkSelectedStatus = (data: DefaultRow[]) => {
       for (const row of data) {
         const isRowSelectable =

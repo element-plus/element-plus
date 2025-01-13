@@ -250,4 +250,50 @@ describe('Descriptions.vue', () => {
       wrapper.findAll('.el-descriptions__label')[1].attributes('style')
     ).toContain('width: 150px')
   })
+
+  test('should render labelWidth prop of DescriptionsItem with no border', () => {
+    const wrapper = mount(() => (
+      <ElDescriptions>
+        {Array.from({ length: 3 }).map(() => (
+          <ElDescriptionsItem label="测试标签" labelWidth="150px" />
+        ))}
+      </ElDescriptions>
+    ))
+
+    expect(
+      wrapper.find('.el-descriptions__label').attributes('style')
+    ).toContain('width: 150px')
+  })
+
+  test('should render labelWidth prop of Descriptions with no border', () => {
+    const wrapper = mount(() => (
+      <ElDescriptions label-width="150px">
+        {Array.from({ length: 3 }).map(() => (
+          <ElDescriptionsItem label="测试标签" />
+        ))}
+      </ElDescriptions>
+    ))
+
+    expect(
+      wrapper.find('.el-descriptions__label').attributes('style')
+    ).toContain('width: 150px')
+  })
+
+  test('should render labelWidth prop of Descriptions and DescriptionsItem with higher priority with no border', () => {
+    const wrapper = mount(() => (
+      <ElDescriptions label-width="100px">
+        <ElDescriptionsItem label="测试标签" />
+        {Array.from({ length: 2 }).map(() => (
+          <ElDescriptionsItem label="测试标签" label-width="150px" />
+        ))}
+      </ElDescriptions>
+    ))
+
+    expect(
+      wrapper.findAll('.el-descriptions__label')[0].attributes('style')
+    ).toContain('width: 100px')
+    expect(
+      wrapper.findAll('.el-descriptions__label')[1].attributes('style')
+    ).toContain('width: 150px')
+  })
 })

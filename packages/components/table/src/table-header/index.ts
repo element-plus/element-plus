@@ -33,6 +33,7 @@ export interface TableHeaderProps<T> {
   store: Store<T>
   border: boolean
   defaultSort: Sort
+  allowDragLastColumn: boolean
 }
 
 export default defineComponent({
@@ -61,6 +62,9 @@ export default defineComponent({
     },
     appendFilterPanelTo: {
       type: String,
+    },
+    allowDragLastColumn: {
+      type: Boolean,
     },
   },
   setup(props, { emit }) {
