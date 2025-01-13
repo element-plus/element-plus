@@ -75,6 +75,7 @@ export * from './tour'
 export * from './anchor'
 export * from './segmented'
 export * from './mention'
+export * from './captcha'
 
 // plugins
 export * from './infinite-scroll'

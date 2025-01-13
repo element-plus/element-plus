@@ -1,0 +1,104 @@
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
+$block-name: 'captcha';
+
+@include b($block-name) {
+  @include set-component-css-var($block-name, $captcha);
+  @include set-component-css-var('captcha-height', $captcha-height);
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: getCssVar('captcha-height');
+
+  border: getCssVar($block-name, 'border');
+  border-radius: getCssVar($block-name, 'border-radius');
+  overflow: hidden;
+  background: getCssVar($block-name, 'background');
+
+  @include m('animated') {
+    .#{$namespace}-#{$block-name}#{$element-separator}btn,
+    .#{$namespace}-#{$block-name}#{$element-separator}active-bar {
+      transition-duration: getCssVar('transition-duration');
+    }
+  }
+
+  @include m('passed') {
+    .#{$namespace}-#{$block-name}#{$element-separator}content {
+      color: getCssVar($block-name, 'passed-content-color');
+      animation-iteration-count: 0;
+    }
+
+    .#{$namespace}-#{$block-name}#{$element-separator}btn {
+      pointer-events: none;
+      color: getCssVar($block-name, 'color-success');
+    }
+  }
+
+  &#{$element-separator}btn {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    height: 100%;
+    width: 60px;
+
+    transition-duration: 0s;
+    background: getCssVar($block-name, 'btn-background');
+    border-radius: 0;
+    border: none;
+
+    &:hover {
+      cursor: grab;
+      user-select: none;
+    }
+  }
+
+  &#{$element-separator}content {
+    position: relative;
+
+    font-size: getCssVar($block-name, 'content-font-size');
+    background-repeat: no-repeat;
+    background-color: getCssVar($block-name, 'content-color');
+    background-image: radial-gradient(
+      circle at center,
+      getCssVar($block-name, 'blink-color') 0,
+      transparent 100%
+    );
+    background-position: -40px 50%;
+    background-size: 40px 100%;
+    background-clip: text;
+    color: transparent;
+    animation-name: shine;
+    animation-duration: 2.5s;
+    animation-iteration-count: infinite;
+  }
+
+  &#{$element-separator}active-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 0;
+    height: 100%;
+
+    background-color: getCssVar($block-name, 'color-success');
+  }
+
+  @each $size in (small, large) {
+    @include m($size) {
+      height: getCssVar('captcha-height', $size);
+    }
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position-x: -40px;
+  }
+  100% {
+    background-position-x: calc(100% + 40px);
+  }
+}

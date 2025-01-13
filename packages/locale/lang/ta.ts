@@ -133,5 +133,9 @@ export default {
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
     },
+    captcha: {
+      helpText: 'Slide to complete', // to be translated
+      completed: 'Passed', // to be translated
+    },
   },
 }

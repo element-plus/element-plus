@@ -178,5 +178,9 @@ export default {
       rightArrow: 'Carousel arrow right',
       indicator: 'Carousel switch to index {index}',
     },
+    captcha: {
+      helpText: 'Slide to complete',
+      completed: 'Passed',
+    },
   },
 }
