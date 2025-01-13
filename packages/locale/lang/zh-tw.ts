@@ -9,6 +9,7 @@ export default {
       clear: '清空',
       defaultLabel: '色彩選擇器',
       description: '目前色彩為 {color}。按一下 Enter 以選擇新色彩。',
+      alphaLabel: '選擇透明度的值',
     },
     datepicker: {
       now: '現在',
@@ -86,6 +87,9 @@ export default {
       noMatch: '無相符資料',
       noData: '無資料',
       placeholder: '請選擇',
+    },
+    mention: {
+      loading: '載入中',
     },
     dropdown: {
       toggleDropdown: '切換下拉選單',

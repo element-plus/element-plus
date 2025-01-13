@@ -57,6 +57,7 @@ import {
   addUnit,
   ensureArray,
   getProp,
+  isArray,
   isBoolean,
   isFunction,
   isString,
@@ -100,8 +101,12 @@ const formItemRef = ref<HTMLDivElement>()
 let initialValue: any = undefined
 let isResettingField = false
 
+const labelPosition = computed(
+  () => props.labelPosition || formContext?.labelPosition
+)
+
 const labelStyle = computed<CSSProperties>(() => {
-  if (formContext?.labelPosition === 'top') {
+  if (labelPosition.value === 'top') {
     return {}
   }
 
@@ -111,7 +116,7 @@ const labelStyle = computed<CSSProperties>(() => {
 })
 
 const contentStyle = computed<CSSProperties>(() => {
-  if (formContext?.labelPosition === 'top' || formContext?.inline) {
+  if (labelPosition.value === 'top' || formContext?.inline) {
     return {}
   }
   if (!props.label && !props.labelWidth && isNested) {
@@ -135,7 +140,10 @@ const formItemClasses = computed(() => [
   formContext?.requireAsteriskPosition === 'right'
     ? 'asterisk-right'
     : 'asterisk-left',
-  { [ns.m('feedback')]: formContext?.statusIcon },
+  {
+    [ns.m('feedback')]: formContext?.statusIcon,
+    [ns.m(`label-${labelPosition.value}`)]: labelPosition.value,
+  },
 ])
 
 const _inlineMessage = computed(() =>
@@ -224,7 +232,7 @@ const getFilteredRule = (trigger: string) => {
     rules
       .filter((rule) => {
         if (!rule.trigger || !trigger) return true
-        if (Array.isArray(rule.trigger)) {
+        if (isArray(rule.trigger)) {
           return rule.trigger.includes(trigger)
         } else {
           return rule.trigger === trigger

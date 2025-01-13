@@ -9,7 +9,11 @@
       :ref="(item) => (menuList[index] = item)"
       :index="index"
       :nodes="[...menu]"
-    />
+    >
+      <template #empty>
+        <slot name="empty" />
+      </template>
+    </el-cascader-menu>
   </div>
 </template>
 
@@ -320,6 +324,7 @@ export default defineComponent({
           break
         }
         case EVENT_CODE.enter:
+        case EVENT_CODE.numpadEnter:
           checkNode(target)
           break
       }

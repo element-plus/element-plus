@@ -4,6 +4,7 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "antfu.unocss",
-    "lokalise.i18n-ally"
+    "lokalise.i18n-ally",
+    "vitest.explorer"
   ]
 }

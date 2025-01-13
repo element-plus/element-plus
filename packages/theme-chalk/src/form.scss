@@ -58,24 +58,6 @@ $form-item-label-top-margin-bottom: map.merge(
 @include b(form) {
   @include set-component-css-var('form', $form);
 
-  @include m(label-left) {
-    .#{$namespace}-form-item__label {
-      justify-content: flex-start;
-    }
-  }
-  @include m(label-top) {
-    .#{$namespace}-form-item {
-      display: block;
-
-      .#{$namespace}-form-item__label {
-        display: block;
-        height: auto;
-        text-align: left;
-        margin-bottom: #{map.get($form-item-label-top-margin-bottom, 'default')};
-        line-height: #{map.get($form-item-label-top-line-height, 'default')};
-      }
-    }
-  }
   @include m(inline) {
     .#{$namespace}-form-item {
       display: inline-flex;
@@ -89,19 +71,6 @@ $form-item-label-top-margin-bottom: map.merge(
 
       .#{$namespace}-form-item {
         display: block;
-      }
-    }
-  }
-
-  @each $size in (large, default, small) {
-    @include m($size) {
-      &.#{$namespace}-form--label-top {
-        .#{$namespace}-form-item {
-          .#{$namespace}-form-item__label {
-            margin-bottom: #{map.get($form-item-label-top-margin-bottom, $size)};
-            line-height: #{map.get($form-item-label-top-line-height, $size)};
-          }
-        }
       }
     }
   }
@@ -131,12 +100,33 @@ $form-item-label-top-margin-bottom: map.merge(
         height: #{map.get($form-item-line-height, $size)};
         line-height: #{map.get($form-item-line-height, $size)};
       }
+
       @include e(content) {
         line-height: #{map.get($form-item-line-height, $size)};
       }
+
       @include e(error) {
         padding-top: #{map.get($form-item-error-padding-top, $size)};
       }
+    }
+  }
+
+  @include m(label-left) {
+    .#{$namespace}-form-item__label {
+      justify-content: flex-start;
+    }
+  }
+
+  @include m(label-top) {
+    display: block;
+
+    .#{$namespace}-form-item__label {
+      display: inline-block;
+      vertical-align: middle;
+      height: auto;
+      text-align: left;
+      margin-bottom: #{map.get($form-item-label-top-margin-bottom, 'default')};
+      line-height: #{map.get($form-item-label-top-line-height, 'default')};
     }
   }
 
@@ -159,6 +149,7 @@ $form-item-label-top-margin-bottom: map.merge(
     padding: 0 12px 0 0;
     box-sizing: border-box;
   }
+
   @include e(content) {
     display: flex;
     flex-wrap: wrap;
@@ -173,6 +164,7 @@ $form-item-label-top-margin-bottom: map.merge(
       vertical-align: top;
     }
   }
+
   @include e(error) {
     color: getCssVar('color-danger');
     font-size: 12px;
@@ -202,6 +194,7 @@ $form-item-label-top-margin-bottom: map.merge(
           margin-right: 4px;
         }
       }
+
       &.asterisk-right {
         > .#{$namespace}-form-item__label:after,
         > .#{$namespace}-form-item__label-wrap
@@ -217,7 +210,8 @@ $form-item-label-top-margin-bottom: map.merge(
   @include when(error) {
     .#{$namespace}-input__wrapper,
     .#{$namespace}-textarea__inner,
-    .#{$namespace}-select__wrapper {
+    .#{$namespace}-select__wrapper,
+    .#{$namespace}-input-tag__wrapper {
       &,
       &:hover,
       &:focus,
@@ -231,7 +225,12 @@ $form-item-label-top-margin-bottom: map.merge(
       .#{$namespace}-input__wrapper {
         box-shadow: 0 0 0 1px transparent inset;
       }
+
+      .#{$namespace}-input__validateIcon {
+        display: none;
+      }
     }
+
     .#{$namespace}-input__validateIcon {
       color: getCssVar('color-danger');
     }

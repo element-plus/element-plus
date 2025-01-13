@@ -5,7 +5,9 @@
     cellpadding="0"
   >
     <thead v-if="!hideHeader">
-      <th v-for="day in weekDays" :key="day">{{ day }}</th>
+      <tr>
+        <th v-for="day in weekDays" :key="day" scope="col">{{ day }}</th>
+      </tr>
     </thead>
 
     <tbody>
