@@ -55,6 +55,14 @@ image/image-preview
 
 :::
 
+## Manually Open Preview ^(2.9.4)
+
+:::demo allow big image preview by call `showPreview` method.
+
+image/manually-preview
+
+:::
+
 ## Image API
 
 ### Image Attributes
@@ -125,6 +133,7 @@ image/image-preview
 
 ### Image Viewer Exposes
 
-| Name          | Description           | Type                                 |
-| ------------- | --------------------- | ------------------------------------ |
-| setActiveItem | manually switch image | ^[Function]`(index: number) => void` |
+| Name                 | Description                     | Type                                 |
+| -------------------- | ------------------------------- | ------------------------------------ |
+| setActiveItem        | manually switch image           | ^[Function]`(index: number) => void` |
+| showPreview ^(2.9.4) | manually open preview big image | ^[Function]`() => void`              |
