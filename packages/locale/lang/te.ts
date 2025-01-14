@@ -6,16 +6,25 @@ export default {
         },
         colorpicker: {
             confirm: 'సరే',
-            clear: 'తుడిచివేయి',
+            clear: 'తొలగించు',
+            defaultLabel: 'రంగు ఎంచుకోండి',
+            description:
+                'ప్రస్తుత రంగు {color}. కొత్త రంగును ఎంచుకోవడానికి ఎంటర్ నొక్కండి.',
+            alphaLabel: 'అల్ఫా విలువను ఎంచుకోండి',
         },
         datepicker: {
-            now: 'ఇప్పుడే',
+            now: 'ఇప్పుడు',
             today: 'ఈ రోజు',
             cancel: 'రద్దు',
-            clear: 'తుడిచివేయి',
+            clear: 'తొలగించు',
             confirm: 'సరే',
-            selectDate: 'తేదీని ఎంచుకోండి',
-            selectTime: 'సమయాన్ని ఎంచుకోండి',
+            dateTablePrompt:
+                'నెలలోని రోజును ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
+            monthTablePrompt: 'నెలను ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
+            yearTablePrompt: 'సంవత్సరాన్ని ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
+            selectedDate: 'ఎంచుకున్న తేదీ',
+            selectDate: 'తేదీ ఎంచుకోండి',
+            selectTime: 'సమయం ఎంచుకోండి',
             startDate: 'ప్రారంభ తేదీ',
             startTime: 'ప్రారంభ సమయం',
             endDate: 'ముగింపు తేదీ',
@@ -37,6 +46,7 @@ export default {
             month10: 'అక్టోబర్',
             month11: 'నవంబర్',
             month12: 'డిసెంబర్',
+            week: 'వారం',
             weeks: {
                 sun: 'ఆది',
                 mon: 'సోమ',
@@ -45,6 +55,15 @@ export default {
                 thu: 'గురు',
                 fri: 'శుక్ర',
                 sat: 'శని',
+            },
+            weeksFull: {
+                sun: 'ఆదివారం',
+                mon: 'సోమవారం',
+                tue: 'మంగళవారం',
+                wed: 'బుధవారం',
+                thu: 'గురువారం',
+                fri: 'శుక్రవారం',
+                sat: 'శనివారం',
             },
             months: {
                 jan: 'జన',
@@ -55,11 +74,15 @@ export default {
                 jun: 'జూన్',
                 jul: 'జూలై',
                 aug: 'ఆగ',
-                sep: 'సెప్టె',
+                sep: 'సెప్',
                 oct: 'అక్టో',
                 nov: 'నవం',
-                dec: 'డిసె',
+                dec: 'డిసెం',
             },
+        },
+        inputNumber: {
+            decrease: 'సంఖ్య తగ్గించు',
+            increase: 'సంఖ్య పెంచు',
         },
         select: {
             loading: 'లోడ్ అవుతోంది',
@@ -70,6 +93,9 @@ export default {
         mention: {
             loading: 'లోడ్ అవుతోంది',
         },
+        dropdown: {
+            toggleDropdown: 'డ్రాప్‌డౌన్ మార్చు',
+        },
         cascader: {
             noMatch: 'ఫలితాలు కనబడలేదు',
             loading: 'లోడ్ అవుతోంది',
@@ -77,22 +103,31 @@ export default {
             noData: 'డేటా లేదు',
         },
         pagination: {
-            goto: 'వెళ్లండి',
+            goto: 'వెళ్ళండి',
             pagesize: '/పేజీ',
             total: 'మొత్తం {total}',
             pageClassifier: '',
             page: 'పేజీ',
-            prev: 'మునుపటి పేజీ',
-            next: 'తదుపరి పేజీ',
+            prev: 'మునుపటి పేజీకి వెళ్ళండి',
+            next: 'తదుపరి పేజీకి వెళ్ళండి',
             currentPage: 'పేజీ {pager}',
             prevPages: 'మునుపటి {pager} పేజీలు',
             nextPages: 'తదుపరి {pager} పేజీలు',
+            deprecationWarning:
+                'పాత పద్ధతులు గుర్తించబడ్డాయి, మరిన్ని వివరాల కోసం el-pagination డాక్యుమెంటేషన్ చూడండి',
+        },
+        dialog: {
+            close: 'ఈ డైలాగ్ మూసివేయి',
+        },
+        drawer: {
+            close: 'ఈ డైలాగ్ మూసివేయి',
         },
         messagebox: {
             title: 'సందేశం',
             confirm: 'సరే',
             cancel: 'రద్దు',
-            error: 'చెల్లని ఇన్పుట్',
+            error: 'చెల్లని ఇన్‌పుట్',
+            close: 'ఈ డైలాగ్ మూసివేయి',
         },
         upload: {
             deleteTip: 'తొలగించడానికి డిలీట్ నొక్కండి',
@@ -100,12 +135,22 @@ export default {
             preview: 'ప్రివ్యూ',
             continue: 'కొనసాగించు',
         },
+        slider: {
+            defaultLabel: '{min} మరియు {max} మధ్య స్లైడర్',
+            defaultRangeStartLabel: 'ప్రారంభ విలువ ఎంచుకోండి',
+            defaultRangeEndLabel: 'ముగింపు విలువ ఎంచుకోండి',
+        },
         table: {
             emptyText: 'డేటా లేదు',
             confirmFilter: 'నిర్ధారించు',
-            resetFilter: 'రీసెట్ చేయి',
+            resetFilter: 'రీసెట్',
             clearFilter: 'తొలగించు',
             sumText: 'మొత్తం',
+        },
+        tour: {
+            next: 'తదుపరి',
+            previous: 'గత',
+            finish: 'ముగించు',
         },
         tree: {
             emptyText: 'డేటా లేదు',
@@ -114,7 +159,7 @@ export default {
             noMatch: 'ఫలితాలు కనబడలేదు',
             noData: 'డేటా లేదు',
             titles: ['జాబితా 1', 'జాబితా 2'],
-            filterPlaceholder: 'వెతకండి',
+            filterPlaceholder: 'కీవర్డ్ నమోదు చేయండి',
             noCheckedFormat: '{total} అంశాలు',
             hasCheckedFormat: '{checked}/{total} ఎంపిక చేయబడ్డాయి',
         },
@@ -126,12 +171,13 @@ export default {
         },
         popconfirm: {
             confirmButtonText: 'అవును',
-            cancelButtonText: 'లేదు',
+            cancelButtonText: 'కాదు',
         },
         carousel: {
-            leftArrow: 'కార్సెల్ ఎడమ బాణం',
-            rightArrow: 'కార్సెల్ కుడి బాణం',
-            indicator: 'కార్సెల్ స్విచ్ చేసి {index}కి వెళ్ళండి',
+            leftArrow: 'క్యారసెల్ ఎడమ బాణం',
+            rightArrow: 'క్యారసెల్ కుడి బాణం',
+            indicator: 'క్యారసెల్ సూచిక {index} కి మార్చు',
         },
     },
 }
+  
