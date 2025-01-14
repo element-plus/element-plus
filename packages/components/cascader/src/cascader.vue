@@ -42,7 +42,7 @@
           @blur="handleBlur"
           @input="handleInput"
         >
-          <template #prefix>
+          <template v-if="$slots.prefix" #prefix>
             <slot name="prefix" />
           </template>
           <template #suffix>
