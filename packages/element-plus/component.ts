@@ -108,6 +108,7 @@ import { ElTour, ElTourStep } from '@element-plus/components/tour'
 import { ElAnchor, ElAnchorLink } from '@element-plus/components/anchor'
 import { ElSegmented } from '@element-plus/components/segmented'
 import { ElMention } from '@element-plus/components/mention'
+import { ElVirtualScroll } from '@element-plus/components/virtual-scroll'
 
 import type { Plugin } from 'vue'
 
@@ -218,4 +219,5 @@ export default [
   ElAnchorLink,
   ElSegmented,
   ElMention,
+  ElVirtualScroll,
 ] as Plugin[]
