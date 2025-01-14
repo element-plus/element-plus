@@ -850,9 +850,11 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
   const collapseTagStyle = computed(() => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
+
   const popupScroll = (data: { scrollTop: number; scrollLeft: number }) => {
     emit('popup-scroll', data)
   }
+
   useResizeObserver(selectionRef, resetSelectionWidth)
   useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(wrapperRef, updateTooltip)
