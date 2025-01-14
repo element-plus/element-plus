@@ -101,11 +101,7 @@ export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
       UnoCSS(),
       MarkdownTransform(),
       Inspect(),
-      groupIconVitePlugin({
-        customIcon: {
-          '.scss': 'vscode-icons:file-type-scss',
-        },
-      }),
+      groupIconVitePlugin(),
       env.HTTPS ? (mkcert() as Plugin) : undefined,
     ],
     optimizeDeps: {
