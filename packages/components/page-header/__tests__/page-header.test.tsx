@@ -94,6 +94,44 @@ describe('PageHeader.vue', () => {
     expect(wrapper.find('.el-page-header__title').text()).toEqual(AXIOM)
   })
 
+  test('conditional slots rendering', async () => {
+    const wrapper = mount(
+      (props: {
+        showDefault: boolean
+        showBreadcrumb: boolean
+        showExtra: boolean
+      }) => (
+        <PageHeader
+          v-slots={{
+            default: props.showDefault ? () => AXIOM : undefined,
+            breadcrumb: props.showBreadcrumb ? () => AXIOM : undefined,
+            extra: props.showExtra ? () => AXIOM : undefined,
+          }}
+        />
+      ),
+      {
+        props: {
+          showDefault: false,
+          showBreadcrumb: false,
+          showExtra: false,
+        },
+      }
+    )
+    expect(wrapper.classes()).not.toContain('is-contentful')
+    expect(wrapper.classes()).not.toContain('el-page-header--has-breadcrumb')
+    expect(wrapper.classes()).not.toContain('el-page-header--has-extra')
+
+    await wrapper.setProps({
+      showDefault: true,
+      showBreadcrumb: true,
+      showExtra: true,
+    })
+
+    expect(wrapper.classes()).toContain('is-contentful')
+    expect(wrapper.classes()).toContain('el-page-header--has-breadcrumb')
+    expect(wrapper.classes()).toContain('el-page-header--has-extra')
+  })
+
   test('event back', async () => {
     const wrapper = mount(() => <PageHeader content={AXIOM} />)
     const pageHeader = wrapper.findComponent(PageHeader)

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createVNode, render } from 'vue'
-import { flatMap, get, merge } from 'lodash-unified'
+import { flatMap, get, isNull, merge } from 'lodash-unified'
 import {
   hasOwn,
   isArray,
@@ -9,6 +9,7 @@ import {
   isNumber,
   isObject,
   isString,
+  isUndefined,
   throwError,
 } from '@element-plus/utils'
 import ElTooltip, {
@@ -206,7 +207,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
   for (key in config) {
     if (hasOwn(config as unknown as Record<string, any>, key)) {
       const value = config[key]
-      if (typeof value !== 'undefined') {
+      if (!isUndefined(value)) {
         options[key] = value
       }
     }
@@ -216,7 +217,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
 
 export function parseWidth(width: number | string): number | string {
   if (width === '') return width
-  if (width !== undefined) {
+  if (!isUndefined(width)) {
     width = Number.parseInt(width as string, 10)
     if (Number.isNaN(width)) {
       width = ''
@@ -227,7 +228,7 @@ export function parseWidth(width: number | string): number | string {
 
 export function parseMinWidth(minWidth: number | string): number | string {
   if (minWidth === '') return minWidth
-  if (minWidth !== undefined) {
+  if (!isUndefined(minWidth)) {
     minWidth = parseWidth(minWidth)
     if (Number.isNaN(minWidth)) {
       minWidth = 80
@@ -525,7 +526,7 @@ export const getFixedColumnsClass = <T>(
 function getOffset<T>(offset: number, column: TableColumnCtx<T>) {
   return (
     offset +
-    (column.realWidth === null || Number.isNaN(column.realWidth)
+    (isNull(column.realWidth) || Number.isNaN(column.realWidth)
       ? Number(column.width)
       : column.realWidth)
   )

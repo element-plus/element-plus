@@ -63,7 +63,7 @@ export const anchorProps = buildProps({
   /**
    * @description Scroll whether link is selected at the top
    */
-  scrollTop: {
+  selectScrollTop: {
     type: Boolean,
     default: false,
   },
