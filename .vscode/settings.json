@@ -38,8 +38,12 @@
   "i18n-ally.keystyle": "nested",
   "iconify.includes": ["ep"],
   "unocss.root": "./docs",
+  "explorer.fileNesting.expand": false,
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
+    ".gitignore": ".gitattributes",
+    ".eslintrc.json": ".eslintignore",
+    ".prettierrc": ".prettierignore",
     "package.json": "pnpm-lock.yaml, pnpm-workspace.yaml",
     "tsconfig.json": "tsconfig.*.json",
     "vitest.config.mts": "vitest.setup.ts, vitest.workspace.ts"
