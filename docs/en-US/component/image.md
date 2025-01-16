@@ -103,19 +103,19 @@ image/image-preview
 
 ### Image Viewer Attributes
 
-| Name                  | Description                                                                                                                   | Type                  | Default |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
-| url-list              | preview link list.                                                                                                            | ^[object]`string[]`   | []      |
-| z-index               | preview backdrop z-index.                                                                                                     | ^[number] / ^[string] | —       |
-| initial-index         | the initial preview image index, less than or equal to the length of `url-list`.                                              | ^[number]             | 0       |
-| infinite              | whether preview is infinite.                                                                                                  | ^[boolean]            | true    |
-| hide-on-click-modal   | whether user can emit close event when clicking backdrop.                                                                     | ^[boolean]            | false   |
-| teleported            | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true`. | ^[boolean]            | false   |
-| zoom-rate ^(2.2.27)   | the zoom rate of the image viewer zoom event.                                                                                 | ^[number]             | 1.2     |
-| min-scale ^(2.4.0)    | the min scale of the image viewer zoom event.                                                                                 | ^[number]             | 0.2     |
-| max-scale ^(2.4.0)    | the max scale of the image viewer zoom event.                                                                                 | ^[number]             | 7       |
-| close-on-press-escape | whether the image-viewer can be closed by pressing ESC.                                                                       | ^[boolean]            | true    |
-| show-progress         | show preview image progress content                                                                                                 | ^[boolean]            | false   |
+| Name                   | Description                                                                                                                   | Type                  | Default |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
+| url-list               | preview link list.                                                                                                            | ^[object]`string[]`   | []      |
+| z-index                | preview backdrop z-index.                                                                                                     | ^[number] / ^[string] | —       |
+| initial-index          | the initial preview image index, less than or equal to the length of `url-list`.                                              | ^[number]             | 0       |
+| infinite               | whether preview is infinite.                                                                                                  | ^[boolean]            | true    |
+| hide-on-click-modal    | whether user can emit close event when clicking backdrop.                                                                     | ^[boolean]            | false   |
+| teleported             | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true`. | ^[boolean]            | false   |
+| zoom-rate ^(2.2.27)    | the zoom rate of the image viewer zoom event.                                                                                 | ^[number]             | 1.2     |
+| min-scale ^(2.4.0)     | the min scale of the image viewer zoom event.                                                                                 | ^[number]             | 0.2     |
+| max-scale ^(2.4.0)     | the max scale of the image viewer zoom event.                                                                                 | ^[number]             | 7       |
+| close-on-press-escape  | whether the image-viewer can be closed by pressing ESC.                                                                       | ^[boolean]            | true    |
+| show-progress ^(2.9.4) | show preview image progress content                                                                                           | ^[boolean]            | false   |
 
 ### Image Viewer Events
 
