@@ -207,6 +207,7 @@ const imgStyle = computed(() => {
   }
   return style
 })
+
 const progress = computed(
   () => `${activeIndex.value + 1} / ${props.urlList.length}`
 )
