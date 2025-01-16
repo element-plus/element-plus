@@ -31,6 +31,7 @@
         :zoom-rate="zoomRate"
         :min-scale="minScale"
         :max-scale="maxScale"
+        :show-progress="showProgress"
         :url-list="previewSrcList"
         :crossorigin="crossorigin"
         :hide-on-click-modal="hideOnClickModal"
@@ -42,6 +43,9 @@
         <div v-if="$slots.viewer">
           <slot name="viewer" />
         </div>
+        <template #progress="scoped">
+          <slot name="progress" v-bind="scoped" />
+        </template>
       </image-viewer>
     </template>
   </div>
