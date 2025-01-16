@@ -70,7 +70,7 @@ jobs:
 
       - name: Move bundle to docs dist
         if: matrix.os == 'ubuntu-latest'
-        run: mkdir docs/.vitepress/dist/bundle && mv dist/element-plus/*.* docs/.vitepress/dist/bundle
+        run: mkdir docs/.vitepress/dist/bundle && mv dist/element-plus/* docs/.vitepress/dist/bundle
 
       # share website dist
       - name: Upload artifact
