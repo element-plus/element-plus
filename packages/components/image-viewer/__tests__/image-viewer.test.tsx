@@ -61,7 +61,11 @@ describe('<image-viewer />', () => {
 
   test('image progress render', async () => {
     const wrapper = mount(
-      <ImageViewer urlList={[IMAGE_SUCCESS, IMAGE_SUCCESS]} initial-index={1} />
+      <ImageViewer
+        showProgress
+        urlList={[IMAGE_SUCCESS, IMAGE_SUCCESS]}
+        initial-index={1}
+      />
     )
 
     await doubleWait()

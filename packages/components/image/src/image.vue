@@ -31,6 +31,7 @@
         :zoom-rate="zoomRate"
         :min-scale="minScale"
         :max-scale="maxScale"
+        :show-progress="showProgress"
         :url-list="previewSrcList"
         :crossorigin="crossorigin"
         :hide-on-click-modal="hideOnClickModal"
