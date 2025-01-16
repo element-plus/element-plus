@@ -17,14 +17,12 @@
         >
           <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
-          <!-- CLOSE -->
           <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
             <el-icon>
               <Close />
             </el-icon>
           </span>
 
-          <!-- ARROW -->
           <template v-if="!isSingle">
             <span :class="arrowPrevKls" @click="prev">
               <el-icon>
@@ -46,7 +44,7 @@
               {{ progress }}
             </slot>
           </div>
-          <!-- ACTIONS -->
+
           <div :class="[ns.e('btn'), ns.e('actions')]">
             <div :class="ns.e('actions__inner')">
               <el-icon @click="handleActions('zoomOut')">
@@ -68,14 +66,12 @@
               </el-icon>
             </div>
           </div>
-          <!-- CANVAS -->
+
           <div :class="ns.e('canvas')">
             <img
-              v-for="(url, i) in urlList"
-              v-show="i === activeIndex"
-              :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
-              :key="url"
-              :src="url"
+              :ref="(el) => (imgRefs[activeIndex] = el as HTMLImageElement)"
+              :key="urlList[activeIndex]"
+              :src="urlList[activeIndex]"
               :style="imgStyle"
               :class="ns.e('img')"
               :crossorigin="crossorigin"
@@ -302,7 +298,7 @@ function reset() {
     deg: 0,
     offsetX: 0,
     offsetY: 0,
-    enableTransition: false,
+    enableTransition: true,
   }
 }
 
