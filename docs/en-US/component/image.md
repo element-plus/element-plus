@@ -115,7 +115,7 @@ image/image-preview
 | min-scale ^(2.4.0)     | the min scale of the image viewer zoom event.                                                                                 | ^[number]             | 0.2     |
 | max-scale ^(2.4.0)     | the max scale of the image viewer zoom event.                                                                                 | ^[number]             | 7       |
 | close-on-press-escape  | whether the image-viewer can be closed by pressing ESC.                                                                       | ^[boolean]            | true    |
-| show-progress ^(2.9.4) | show preview image progress content                                                                                           | ^[boolean]            | false   |
+| show-progress ^(2.9.4) | whether to display the preview image progress content                                                                                           | ^[boolean]            | false   |
 
 ### Image Viewer Events
 
