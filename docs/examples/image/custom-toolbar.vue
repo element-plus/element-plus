@@ -9,13 +9,12 @@
       <template #toolbar="{ actions, prev, next, reset, activeIndex }">
         <el-icon @click="prev"><DArrowLeft /></el-icon>
         <el-icon @click="next"><DArrowRight /></el-icon>
-        <el-icon @click="download(activeIndex)"><Download /></el-icon>
+        <el-icon @click="actions('zoomOut')"><ZoomOut /></el-icon>
         <el-icon
           @click="actions('zoomIn', { enableTransition: false, zoomRate: 2 })"
         >
           <ZoomIn />
         </el-icon>
-        <el-icon @click="actions('zoomOut')"><ZoomOut /></el-icon>
         <el-icon
           @click="
             actions('clockwise', { rotateDeg: 180, enableTransition: false })
@@ -25,6 +24,7 @@
         </el-icon>
         <el-icon @click="actions('anticlockwise')"><RefreshLeft /></el-icon>
         <el-icon @click="reset"><Refresh /></el-icon>
+        <el-icon @click="download(activeIndex)"><Download /></el-icon>
       </template>
     </el-image>
   </div>
