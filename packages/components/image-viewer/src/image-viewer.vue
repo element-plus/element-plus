@@ -54,9 +54,11 @@
                 <el-icon @click="handleActions('zoomIn')">
                   <ZoomIn />
                 </el-icon>
+                <i :class="ns.e('actions__divider')" />
                 <el-icon @click="toggleMode">
                   <component :is="mode.icon" />
                 </el-icon>
+                <i :class="ns.e('actions__divider')" />
                 <el-icon @click="handleActions('anticlockwise')">
                   <RefreshLeft />
                 </el-icon>

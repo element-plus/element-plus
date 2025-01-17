@@ -78,6 +78,11 @@
       align-items: center;
       justify-content: space-around;
       gap: 22px;
+      padding: 0 6px;
+
+      @include e(actions__divider) {
+        margin: 0 -6px;
+      }
     }
   }
 
