@@ -63,6 +63,14 @@ image/manually-preview
 
 :::
 
+## Custom Toolbar ^(2.9.4)
+
+:::demo Custom toolbar content by `slot = toolbar`
+
+image/custom-toolbar
+
+:::
+
 ## Image API
 
 ### Image Attributes
@@ -100,12 +108,13 @@ image/manually-preview
 
 ### Image Slots
 
-| Name              | Description                                              | Type                                              |
-| ----------------- | -------------------------------------------------------- | ------------------------------------------------- |
-| placeholder       | custom placeholder content when image hasn't loaded yet. | -                                                 |
-| error             | custom image load failed content.                        | -                                                 |
-| viewer            | custom content when image preview.                       | -                                                 |
-| progress ^(2.9.4) | custom progress content when image preview.              | ^[object]`{ activeIndex: number, total: number }` |
+| Name              | Description                                              | Type                                                                                                                                                                      |
+| ----------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| placeholder       | custom placeholder content when image hasn't loaded yet. | -                                                                                                                                                                         |
+| error             | custom image load failed content.                        | -                                                                                                                                                                         |
+| viewer            | custom content when image preview.                       | -                                                                                                                                                                         |
+| progress ^(2.9.4) | custom progress content when image preview.              | ^[object]`{ activeIndex: number, total: number }`                                                                                                                         |
+| toolbar ^(2.9.4)  | custom toolbar content when image preview.               | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }` |
 
 ## Image Viewer API
 
@@ -123,7 +132,7 @@ image/manually-preview
 | min-scale ^(2.4.0)     | the min scale of the image viewer zoom event.                                                                                 | ^[number]             | 0.2     |
 | max-scale ^(2.4.0)     | the max scale of the image viewer zoom event.                                                                                 | ^[number]             | 7       |
 | close-on-press-escape  | whether the image-viewer can be closed by pressing ESC.                                                                       | ^[boolean]            | true    |
-| show-progress ^(2.9.4) | whether to display the preview image progress content                                                                                           | ^[boolean]            | false   |
+| show-progress ^(2.9.4) | whether to display the preview image progress content                                                                         | ^[boolean]            | false   |
 
 ### Image Viewer Events
 
@@ -139,3 +148,19 @@ image/manually-preview
 | -------------------- | ------------------------------- | ------------------------------------ |
 | setActiveItem        | manually switch image           | ^[Function]`(index: number) => void` |
 | showPreview ^(2.9.4) | manually open preview big image | ^[Function]`() => void`              |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise'
+type ImageViewerActionOptions = {
+  enableTransition?: boolean
+  zoomRate?: number
+  rotateDeg?: number
+}
+```
+
+</details>
