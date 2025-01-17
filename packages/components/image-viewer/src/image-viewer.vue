@@ -69,9 +69,9 @@
 
           <div :class="ns.e('canvas')">
             <img
-              :ref="(el) => (imgRefs[activeIndex] = el as HTMLImageElement)"
-              :key="urlList[activeIndex]"
-              :src="urlList[activeIndex]"
+              ref="imgRef"
+              :key="currentImg"
+              :src="currentImg"
               :style="imgStyle"
               :class="ns.e('img')"
               :crossorigin="crossorigin"
@@ -144,7 +144,7 @@ const { t } = useLocale()
 const ns = useNamespace('image-viewer')
 const { nextZIndex } = useZIndex()
 const wrapper = ref<HTMLDivElement>()
-const imgRefs = ref<HTMLImageElement[]>([])
+const imgRef = ref<HTMLImageElement>()
 
 const scopeEventListener = effectScope()
 
@@ -379,7 +379,7 @@ function onCloseRequested() {
 
 watch(currentImg, () => {
   nextTick(() => {
-    const $img = imgRefs.value[0]
+    const $img = imgRef.value
     if (!$img?.complete) {
       loading.value = true
     }
