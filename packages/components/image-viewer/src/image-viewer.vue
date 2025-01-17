@@ -37,6 +37,15 @@
               </el-icon>
             </span>
           </template>
+          <div v-if="showProgress" :class="[ns.e('btn'), ns.e('progress')]">
+            <slot
+              name="progress"
+              :active-index="activeIndex"
+              :total="urlList.length"
+            >
+              {{ progress }}
+            </slot>
+          </div>
           <!-- ACTIONS -->
           <div :class="[ns.e('btn'), ns.e('actions')]">
             <div :class="ns.e('actions__inner')">
@@ -169,17 +178,11 @@ const isSingle = computed(() => {
   return urlList.length <= 1
 })
 
-const isFirst = computed(() => {
-  return activeIndex.value === 0
-})
+const isFirst = computed(() => activeIndex.value === 0)
 
-const isLast = computed(() => {
-  return activeIndex.value === props.urlList.length - 1
-})
+const isLast = computed(() => activeIndex.value === props.urlList.length - 1)
 
-const currentImg = computed(() => {
-  return props.urlList[activeIndex.value]
-})
+const currentImg = computed(() => props.urlList[activeIndex.value])
 
 const arrowPrevKls = computed(() => [
   ns.e('btn'),
@@ -213,6 +216,10 @@ const imgStyle = computed(() => {
   }
   return style
 })
+
+const progress = computed(
+  () => `${activeIndex.value + 1} / ${props.urlList.length}`
+)
 
 function hide() {
   unregisterEventListener()
