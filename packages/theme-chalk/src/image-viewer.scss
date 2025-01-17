@@ -50,7 +50,7 @@
   }
 
   @include e(img) {
-    cursor: pointer;
+    cursor: grab;
   }
 
   @include e(canvas) {
