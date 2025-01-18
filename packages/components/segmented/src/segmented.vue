@@ -74,10 +74,31 @@ const state = reactive({
   focusVisible: false,
 })
 
+function resetChecked() {
+  if (!segmentedRef.value) return
+  const selectedItemInput = segmentedRef.value.querySelector(
+    '.is-selected input'
+  ) as HTMLInputElement
+  if (selectedItemInput) {
+    if (!selectedItemInput.checked) {
+      selectedItemInput.checked = true
+      return
+    }
+  } else {
+    const checkedItemInput = segmentedRef.value.querySelector(
+      `input.${ns.e('item-input')}:checked`
+    ) as HTMLInputElement
+    if (checkedItemInput) {
+      checkedItemInput.checked = false
+    }
+  }
+}
+
 const handleChange = (item: Option) => {
   const value = getValue(item)
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
+  resetChecked()
 }
 
 const getValue = (item: Option) => {
