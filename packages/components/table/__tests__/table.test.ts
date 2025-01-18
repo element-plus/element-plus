@@ -1848,12 +1848,14 @@ describe('Table.vue', () => {
           const testData = getTestData() as any
           testData[1].childrenTest = [
             {
+              id: 21,
               name: "A Bug's Life copy 1",
               release: '1998-11-25-1',
               director: 'John Lasseter',
               runtime: 95,
             },
             {
+              id: 22,
               name: "A Bug's Life copy 2",
               release: '1998-11-25-2',
               director: 'John Lasseter',
@@ -1892,6 +1894,19 @@ describe('Table.vue', () => {
       await doubleWait()
       expect(wrapper.vm.selected.length).toEqual(2)
       expect(wrapper.findAll('.el-checkbox')[3].classes()).include('is-checked')
+
+      await (wrapper.vm.treeProps.checkStrictly = false)
+      wrapper.findAll('.el-checkbox')[0].trigger('click')
+      wrapper.findAll('.el-checkbox')[0].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(0)
+      wrapper.findAll('.el-checkbox')[0].trigger('click')
+      await doubleWait()
+      wrapper.findAll('.el-checkbox')[3].trigger('click')
+      await doubleWait()
+      wrapper.findAll('.el-checkbox')[0].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(getTestData().length + 2)
     })
   })
 
