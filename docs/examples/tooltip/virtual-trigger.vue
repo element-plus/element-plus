@@ -22,8 +22,6 @@ const position = ref(DOMRect.fromRect())
 
 const mousemoveHandler = (e: MouseEvent) => {
   position.value = DOMRect.fromRect({
-    width: 0,
-    height: 0,
     x: e.clientX,
     y: e.clientY,
   })
