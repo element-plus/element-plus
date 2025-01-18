@@ -20,12 +20,13 @@ const triggerRef = ref({
 })
 const position = ref(DOMRect.fromRect())
 
-const mousemoveHandler = (e: MouseEvent) => {
+const mousemoveHandler = ({ clientX, clientY }: MouseEvent) => {
   position.value = DOMRect.fromRect({
-    x: e.clientX,
-    y: e.clientY,
+    x: clientX,
+    y: clientY,
   })
 }
+
 onMounted(() => {
   document.addEventListener('mousemove', mousemoveHandler)
 })
