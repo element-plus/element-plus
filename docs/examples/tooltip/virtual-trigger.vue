@@ -16,19 +16,11 @@ import { onMounted, onUnmounted, ref } from 'vue'
 
 const visible = ref(false)
 const triggerRef = ref({
-  getBoundingClientRect() {
-    return position.value
-  },
+  getBoundingClientRect: () => position.value,
 })
+const position = ref(DOMRect.fromRect())
 
-const position = ref({
-  top: 0,
-  left: 0,
-  bottom: 0,
-  right: 0,
-})
-
-const mousemoveHandler = (e) => {
+const mousemoveHandler = (e: MouseEvent) => {
   position.value = DOMRect.fromRect({
     width: 0,
     height: 0,
