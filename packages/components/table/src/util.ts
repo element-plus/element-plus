@@ -36,11 +36,11 @@ export type TableOverflowTooltipOptions = Partial<
   >
 >
 
-export type TableOverflowTooltipFormatterOptions = (
-  row: T,
-  column: TableColumnCtx<T>,
+export type TableOverflowTooltipFormatterOptions = (data: {
+  row: T
+  column: TableColumnCtx<T>
   cellValue
-) => VNode | string
+}) => VNode | string
 
 type RemovePopperFn = (() => void) & {
   trigger?: HTMLElement
@@ -385,7 +385,7 @@ const getTableOverflowTooltipProps = (
   }
 
   const tooltipFormatterContent = isFunction(column.tooltipFormatter)
-    ? column.tooltipFormatter(row, column, row[column.property])
+    ? column.tooltipFormatter({ row, column, cellValue: row[column.property] })
     : undefined
 
   if (isVNode(tooltipFormatterContent)) {

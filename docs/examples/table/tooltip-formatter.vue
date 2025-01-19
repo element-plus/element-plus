@@ -14,7 +14,7 @@
       property="tags"
       label="formatter object"
       width="240"
-      :tooltip-formatter="(row) => row.tags.join(', ')"
+      :tooltip-formatter="({ row }) => row.tags.join(', ')"
     >
       <template #default="{ row }">
         <el-tag
@@ -63,12 +63,14 @@ const tableData = [
   },
 ]
 
-const tableRowFormatter = (_row: any, _column: any, value: any) => {
-  return `${value}: table formatter`
+const tableRowFormatter = (data: any) => {
+  return `${data.cellValue}: table formatter`
 }
 
-const withVNode = (_row: any, _column: any, url: string) => {
-  return h(ElLink, { type: 'primary', href: url }, () => h('span', null, url))
+const withVNode = (data: any) => {
+  return h(ElLink, { type: 'primary', href: data.cellValue }, () =>
+    h('span', null, data.cellValue)
+  )
 }
 </script>
 

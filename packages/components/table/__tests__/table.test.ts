@@ -2181,17 +2181,17 @@ describe('Table.vue', () => {
         }
       },
       methods: {
-        tooltipFormatter(row) {
+        tooltipFormatter({ row }) {
           return `${row.name}:formattered`
         },
-        cellTooltipFormatter(_row, _column, value) {
-          return `${value}:hello world`
+        cellTooltipFormatter({ cellValue }) {
+          return `${cellValue}:hello world`
         },
-        vnodeFormmatter(_row, _column, value) {
+        vnodeFormmatter({ cellValue }) {
           return h(
             'a',
-            { type: 'primary', href: `http://www.baidu.com?q=${value}` },
-            () => h('span', null, value)
+            { type: 'primary', href: `http://www.baidu.com?q=${cellValue}` },
+            () => h('span', null, cellValue)
           )
         },
       },
