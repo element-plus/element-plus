@@ -19,7 +19,7 @@
 import { MoreFilled } from '@element-plus/icons-vue'
 import type { TimelineItemProps } from 'element-plus'
 
-interface activityType extends Partial<TimelineItemProps> {
+interface ActivityType extends Partial<TimelineItemProps> {
   content: string
 }
 
