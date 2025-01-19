@@ -23,7 +23,7 @@ interface ActivityType extends Partial<TimelineItemProps> {
   content: string
 }
 
-const activities: activityType[] = [
+const activities: ActivityType[] = [
   {
     content: 'Custom icon',
     timestamp: '2018-04-12 20:46',
