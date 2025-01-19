@@ -17,26 +17,26 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { ElScrollbar } from 'element-plus'
+import { isNumber } from 'lodash-unified'
+import type { ScrollbarInstance } from 'element-plus'
+import type { Arrayable } from '@element-plus/utils'
 
 const max = ref(0)
 const value = ref(0)
 const innerRef = ref<HTMLDivElement>()
-const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>()
+const scrollbarRef = ref<ScrollbarInstance>()
 
 onMounted(() => {
   max.value = innerRef.value!.clientHeight - 380
 })
 
-const inputSlider = (value: number) => {
-  scrollbarRef.value!.setScrollTop(value)
+const inputSlider = (value: Arrayable<number>) => {
+  if (isNumber(value)) scrollbarRef.value!.setScrollTop(value)
 }
 const scroll = ({ scrollTop }) => {
   value.value = scrollTop
 }
-const formatTooltip = (value: number) => {
-  return `${value} px`
-}
+const formatTooltip = (value: number) => `${value} px`
 </script>
 
 <style scoped>
