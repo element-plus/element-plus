@@ -175,10 +175,11 @@ cascader/panel
 
 ### Cascader Slots
 
-| Name    | Description                                                                                    | Scope                               |
-| ------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
-| default | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
-| empty   | content when there is no matched options.                                                      | —                                   |
+| Name            | Description                                                                                    | Scope                               |
+| --------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
+| default         | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
+| empty           | content when there is no matched options.                                                      | —                                   |
+| prefix ^(2.9.4) | content as Input prefix                                                                        | —                                   |
 
 ### Cascader Exposes
 

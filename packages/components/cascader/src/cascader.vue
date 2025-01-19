@@ -42,6 +42,9 @@
           @blur="handleBlur"
           @input="handleInput"
         >
+          <template v-if="$slots.prefix" #prefix>
+            <slot name="prefix" />
+          </template>
           <template #suffix>
             <el-icon
               v-if="clearBtnVisible"
