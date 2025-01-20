@@ -120,9 +120,10 @@ describe('Image.vue', () => {
     const wrapper = mount(() => <Image {...props} />)
     await doubleWait()
     await wrapper.find('.el-image__inner').trigger('click')
-    expect(
-      wrapper.findAll('.el-image-viewer__img')[1].attributes('style')
-    ).not.toContain('display: none')
+    expect(wrapper.findAll('.el-image-viewer__img')[0].exists()).toBe(true)
+    expect(wrapper.findAll('.el-image-viewer__img')[1]?.exists()).toBe(
+      undefined
+    )
   })
 
   test('native loading attributes', async () => {
@@ -199,9 +200,10 @@ describe('Image.vue', () => {
     await doubleWait()
     wrapper.vm.$refs.imageRef.showPreview()
     await doubleWait()
-    expect(
-      wrapper.findAll('.el-image-viewer__img')[1].attributes('style')
-    ).not.toContain('display: none')
+    expect(wrapper.findAll('.el-image-viewer__img')[0].exists()).toBe(true)
+    expect(wrapper.findAll('.el-image-viewer__img')[1]?.exists()).toBe(
+      undefined
+    )
   })
   //@todo lazy image test
 })
