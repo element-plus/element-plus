@@ -14,12 +14,10 @@ import type {
 type CurrentView = 'date' | 'year' | 'month'
 type CurrentViewRef = { focus: () => void }
 
-export type Emits = {
-  (e: 'pick', value: any): void
-  (e: 'set-picker-option', value: any): void
-  (e: 'calendar-change', value: any): void
-  (e: 'panel-change', value: any, mode: string): void
-}
+export type Emits = (
+  event: 'pick' | 'set-picker-option' | 'calendar-change' | 'panel-change',
+  ...args: any[]
+) => void
 
 export const usePanelDateRange = (
   props: PanelDateRangeProps,

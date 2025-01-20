@@ -375,14 +375,13 @@ import {
   DArrowLeft,
   DArrowRight,
 } from '@element-plus/icons-vue'
-import YearTable from '@element-plus/components/date-picker/src/date-picker-com/basic-year-table.vue'
-import MonthTable from '@element-plus/components/date-picker/src/date-picker-com/basic-month-table.vue'
-import { usePanelDateRange } from '@element-plus/components/date-picker/src/date-picker-com/panel-date-range'
 import { panelDateRangeProps } from '../props/panel-date-range'
 import { useRangePicker } from '../composables/use-range-picker'
 import { getDefaultValue, isValidRange } from '../utils'
+import YearTable from './basic-year-table.vue'
+import MonthTable from './basic-month-table.vue'
+import { usePanelDateRange } from './panel-date-range'
 import DateTable from './basic-date-table.vue'
-import type { Emits } from '@element-plus/components/date-picker/src/date-picker-com/panel-date-range'
 
 import type { Dayjs } from 'dayjs'
 
@@ -393,7 +392,12 @@ type UserInput = {
 }
 
 const props = defineProps(panelDateRangeProps)
-const emit = defineEmits<Emits>()
+const emit = defineEmits([
+  'pick',
+  'set-picker-option',
+  'calendar-change',
+  'panel-change',
+])
 
 const unit = 'month'
 // FIXME: fix the type for ep picker
