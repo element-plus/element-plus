@@ -157,9 +157,36 @@
                 <el-icon><arrow-right /></el-icon>
               </slot>
             </button>
-            <div>{{ leftLabel }}</div>
+            <div>
+              <span
+                role="button"
+                :class="drpNs.e('header-label')"
+                aria-live="polite"
+                tabindex="0"
+                @keydown.enter="showLeftPicker('year')"
+                @click="showLeftPicker('year')"
+              >
+                {{ leftYearLabel }}
+              </span>
+              <span
+                v-show="leftCurrentView === 'date'"
+                role="button"
+                aria-live="polite"
+                tabindex="0"
+                :class="[
+                  drpNs.e('header-label'),
+                  { active: leftCurrentView === 'month' },
+                ]"
+                @keydown.enter="showLeftPicker('month')"
+                @click="showLeftPicker('month')"
+              >
+                {{ t(`el.datepicker.month${leftDate.month() + 1}`) }}
+              </span>
+            </div>
           </div>
           <date-table
+            v-if="leftCurrentView === 'date'"
+            ref="leftCurrentViewRef"
             selection-mode="range"
             :date="leftDate"
             :min-date="minDate"
@@ -170,6 +197,24 @@
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
+          />
+          <year-table
+            v-if="leftCurrentView === 'year'"
+            ref="leftCurrentViewRef"
+            selection-mode="year"
+            :date="leftDate"
+            :disabled-date="disabledDate"
+            :parsed-value="parsedValue"
+            @pick="handleLeftYearPick"
+          />
+          <month-table
+            v-if="leftCurrentView === 'month'"
+            ref="leftCurrentViewRef"
+            selection-mode="month"
+            :date="leftDate"
+            :parsed-value="parsedValue"
+            :disabled-date="disabledDate"
+            @pick="handleLeftMonthPick"
           />
         </div>
         <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
@@ -225,9 +270,36 @@
                 <el-icon><arrow-right /></el-icon>
               </slot>
             </button>
-            <div>{{ rightLabel }}</div>
+            <div>
+              <span
+                role="button"
+                :class="drpNs.e('header-label')"
+                aria-live="polite"
+                tabindex="0"
+                @keydown.enter="showRightPicker('year')"
+                @click="showRightPicker('year')"
+              >
+                {{ rightYearLabel }}
+              </span>
+              <span
+                v-show="rightCurrentView === 'date'"
+                role="button"
+                aria-live="polite"
+                tabindex="0"
+                :class="[
+                  drpNs.e('header-label'),
+                  { active: rightCurrentView === 'month' },
+                ]"
+                @keydown.enter="showRightPicker('month')"
+                @click="showRightPicker('month')"
+              >
+                {{ t(`el.datepicker.month${rightDate.month() + 1}`) }}
+              </span>
+            </div>
           </div>
           <date-table
+            v-if="rightCurrentView === 'date'"
+            ref="rightCurrentViewRef"
             selection-mode="range"
             :date="rightDate"
             :min-date="minDate"
@@ -238,6 +310,24 @@
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
+          />
+          <year-table
+            v-if="rightCurrentView === 'year'"
+            ref="rightCurrentViewRef"
+            selection-mode="year"
+            :date="rightDate"
+            :disabled-date="disabledDate"
+            :parsed-value="parsedValue"
+            @pick="handleRightYearPick"
+          />
+          <month-table
+            v-if="rightCurrentView === 'month'"
+            ref="rightCurrentViewRef"
+            selection-mode="month"
+            :date="rightDate"
+            :parsed-value="parsedValue"
+            :disabled-date="disabledDate"
+            @pick="handleRightMonthPick"
           />
         </div>
       </div>
@@ -285,10 +375,14 @@ import {
   DArrowLeft,
   DArrowRight,
 } from '@element-plus/icons-vue'
+import YearTable from '@element-plus/components/date-picker/src/date-picker-com/basic-year-table.vue'
+import MonthTable from '@element-plus/components/date-picker/src/date-picker-com/basic-month-table.vue'
+import { usePanelDateRange } from '@element-plus/components/date-picker/src/date-picker-com/panel-date-range'
 import { panelDateRangeProps } from '../props/panel-date-range'
 import { useRangePicker } from '../composables/use-range-picker'
 import { getDefaultValue, isValidRange } from '../utils'
 import DateTable from './basic-date-table.vue'
+import type { Emits } from '@element-plus/components/date-picker/src/date-picker-com/panel-date-range'
 
 import type { Dayjs } from 'dayjs'
 
@@ -299,12 +393,7 @@ type UserInput = {
 }
 
 const props = defineProps(panelDateRangeProps)
-const emit = defineEmits([
-  'pick',
-  'set-picker-option',
-  'calendar-change',
-  'panel-change',
-])
+const emit = defineEmits<Emits>()
 
 const unit = 'month'
 // FIXME: fix the type for ep picker
@@ -323,7 +412,6 @@ const {
   rangeState,
   ppNs,
   drpNs,
-
   handleChangeRange,
   handleRangeConfirm,
   handleShortcutClick,
@@ -358,33 +446,25 @@ const timeUserInput = ref<UserInput>({
   max: null,
 })
 
-const leftLabel = computed(() => {
-  return `${leftDate.value.year()} ${t('el.datepicker.year')} ${t(
-    `el.datepicker.month${leftDate.value.month() + 1}`
-  )}`
-})
-
-const rightLabel = computed(() => {
-  return `${rightDate.value.year()} ${t('el.datepicker.year')} ${t(
-    `el.datepicker.month${rightDate.value.month() + 1}`
-  )}`
-})
-
-const leftYear = computed(() => {
-  return leftDate.value.year()
-})
-
-const leftMonth = computed(() => {
-  return leftDate.value.month()
-})
-
-const rightYear = computed(() => {
-  return rightDate.value.year()
-})
-
-const rightMonth = computed(() => {
-  return rightDate.value.month()
-})
+const {
+  leftCurrentView,
+  rightCurrentView,
+  leftCurrentViewRef,
+  rightCurrentViewRef,
+  leftYear,
+  rightYear,
+  leftMonth,
+  rightMonth,
+  leftYearLabel,
+  rightYearLabel,
+  showLeftPicker,
+  showRightPicker,
+  handleLeftYearPick,
+  handleRightYearPick,
+  handleLeftMonthPick,
+  handleRightMonthPick,
+  handlePanelChange,
+} = usePanelDateRange(props, emit, leftDate, rightDate, t)
 
 const hasShortcuts = computed(() => !!shortcuts.value.length)
 
@@ -485,14 +565,6 @@ const rightPrevYear = () => {
 const rightPrevMonth = () => {
   rightDate.value = rightDate.value.subtract(1, 'month')
   handlePanelChange('month')
-}
-
-const handlePanelChange = (mode: 'month' | 'year') => {
-  emit(
-    'panel-change',
-    [leftDate.value.toDate(), rightDate.value.toDate()],
-    mode
-  )
 }
 
 const enableMonthArrow = computed(() => {
@@ -639,7 +711,7 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
   }
 }
 
-const handleTimeChange = (value: string | null, type: ChangeType) => {
+const handleTimeChange = (_value: string | null, type: ChangeType) => {
   timeUserInput.value[type] = null
   if (type === 'min') {
     leftDate.value = minDate.value!
