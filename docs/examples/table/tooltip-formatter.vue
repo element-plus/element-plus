@@ -38,11 +38,7 @@
 
 <script lang="ts" setup>
 import { h } from 'vue'
-import {
-  ElLink,
-  ElTable,
-  type TableOverflowTooltipFormatterData,
-} from 'element-plus'
+import { ElLink, ElTable, type TableTooltipData } from 'element-plus'
 
 type TableData = {
   address: string
@@ -73,13 +69,11 @@ const tableData: TableData[] = [
   },
 ]
 
-const tableRowFormatter = (
-  data: TableOverflowTooltipFormatterData<TableData>
-) => {
+const tableRowFormatter = (data: TableTooltipData<TableData>) => {
   return `${data.cellValue}: table formatter`
 }
 
-const withVNode = (data: TableOverflowTooltipFormatterData<TableData>) => {
+const withVNode = (data: TableTooltipData<TableData>) => {
   return h(ElLink, { type: 'primary', href: data.cellValue }, () =>
     h('span', null, data.cellValue)
   )

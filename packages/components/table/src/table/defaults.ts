@@ -157,7 +157,7 @@ interface TableProps<T> {
   scrollbarTabindex?: number | string
 }
 
-type TableOverflowTooltipFormatterData<T = any> = Parameters<
+type TableTooltipData<T = any> = Parameters<
   TableOverflowTooltipFormatterOptions<T>
 >[0]
 
@@ -432,5 +432,5 @@ export type {
   Filter,
   TableColumnCtx,
   TreeProps,
-  TableOverflowTooltipFormatterData,
+  TableTooltipData,
 }

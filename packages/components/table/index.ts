@@ -30,5 +30,5 @@ export type {
   Sort,
   Filter,
   TableColumnCtx,
-  TableOverflowTooltipFormatterData,
+  TableTooltipData,
 } from './src/table/defaults'
