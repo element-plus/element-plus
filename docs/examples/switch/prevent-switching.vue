@@ -20,7 +20,7 @@ const value2 = ref(false)
 const loading1 = ref(false)
 const loading2 = ref(false)
 
-const beforeChange1 = () => {
+const beforeChange1 = (): Promise<boolean> => {
   loading1.value = true
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -31,7 +31,7 @@ const beforeChange1 = () => {
   })
 }
 
-const beforeChange2 = () => {
+const beforeChange2 = (): Promise<boolean> => {
   loading2.value = true
   return new Promise((_, reject) => {
     setTimeout(() => {
