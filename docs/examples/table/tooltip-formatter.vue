@@ -6,12 +6,12 @@
     style="width: 100%"
   >
     <el-table-column
-      property="address"
+      prop="address"
       label="extends table formatter"
       width="240"
     />
     <el-table-column
-      property="tags"
+      prop="tags"
       label="formatter object"
       width="240"
       :tooltip-formatter="({ row }) => row.tags.join(', ')"
@@ -28,7 +28,7 @@
       </template>
     </el-table-column>
     <el-table-column
-      property="url"
+      prop="url"
       label="with vnode"
       width="240"
       :tooltip-formatter="withVNode"
