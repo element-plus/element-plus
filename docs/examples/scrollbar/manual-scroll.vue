@@ -18,6 +18,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { isNumber } from 'lodash-unified'
+
 import type { ScrollbarInstance } from 'element-plus'
 import type { Arrayable } from '@element-plus/utils'
 
