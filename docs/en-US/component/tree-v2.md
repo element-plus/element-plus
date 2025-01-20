@@ -67,11 +67,9 @@ tree-v2/custom-node-class
 
 :::
 
-## Tree node filtering
+## Tree node filtering ^(2.9.1)
 
-::: ^(2.9.1)
-The `filter-method` method can only accept the third parameter after version 2.9.1.
-:::
+The `filter-method` method can only accept the third parameter after version `2.9.1`.
 Tree nodes can be filtered
 
 :::demo Invoke the `filter` method of the Tree instance to filter tree nodes. Its parameter is the filtering keyword. Note that for it to work, `filter-method` is required, and its value is the filtering method.

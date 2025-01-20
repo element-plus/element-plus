@@ -324,7 +324,7 @@ export function toggleRowStatus<T>(
     isArray(row[tableTreeProps.children])
   ) {
     row[tableTreeProps.children].forEach((item) => {
-      toggleRowStatus(
+      const childChanged = toggleRowStatus(
         statusArr,
         item,
         newVal ?? !included,
@@ -333,6 +333,9 @@ export function toggleRowStatus<T>(
         _rowIndex + 1
       )
       _rowIndex += getChildrenCount(item) + 1
+      if (childChanged) {
+        changed = childChanged
+      }
     })
   }
   return changed
