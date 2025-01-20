@@ -36,7 +36,7 @@ export type TableOverflowTooltipOptions = Partial<
   >
 >
 
-export type TableOverflowTooltipFormatterOptions = (data: {
+export type TableOverflowTooltipFormatterOptions<T = any> = (data: {
   row: T
   column: TableColumnCtx<T>
   cellValue

@@ -38,7 +38,7 @@ interface TableColumnCtx<T> {
   align: string
   headerAlign: string
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
-  tooltipFormatter?: TableOverflowTooltipFormatterOptions
+  tooltipFormatter?: TableOverflowTooltipFormatterOptions<T>
   fixed: boolean | string
   formatter: (
     row: T,

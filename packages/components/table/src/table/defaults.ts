@@ -152,10 +152,14 @@ interface TableProps<T> {
   scrollbarAlwaysOn?: boolean
   flexible?: boolean
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
-  tooltipFormatter?: TableOverflowTooltipFormatterOptions
+  tooltipFormatter?: TableOverflowTooltipFormatterOptions<T>
   appendFilterPanelTo?: string
   scrollbarTabindex?: number | string
 }
+
+type TableOverflowTooltipFormatterData<T = any> = Parameters<
+  TableOverflowTooltipFormatterOptions<T>
+>[0]
 
 interface Sort {
   prop: string
@@ -428,4 +432,5 @@ export type {
   Filter,
   TableColumnCtx,
   TreeProps,
+  TableOverflowTooltipFormatterData,
 }
