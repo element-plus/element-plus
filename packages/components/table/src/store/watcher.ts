@@ -134,11 +134,10 @@ function useWatcher<T>() {
       (column) => column.fixed === 'right'
     )
 
-    const notFixedColumns = _columns.value.filter((column) => {
-      return (
+    const notFixedColumns = _columns.value.filter(
+      (column) =>
         (selectColFixLeft ? column.type !== 'selection' : true) && !column.fixed
-      )
-    })
+    )
 
     originColumns.value = []
       .concat(fixedColumns.value)
