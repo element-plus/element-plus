@@ -284,7 +284,7 @@ export function toggleRowStatus<T>(
   let changed = false
   const index = statusArr.indexOf(row)
   const included = index !== -1
-  const isRowSelectable = selectable?.call(null, row, rowIndex)
+  const isRowSelectable = selectable?.call(null, row, _rowIndex)
 
   const toggleStatus = (type: 'add' | 'remove') => {
     if (type === 'add') {

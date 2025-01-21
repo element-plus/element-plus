@@ -245,7 +245,8 @@ function useWatcher<T>() {
       row,
       selected,
       treeProps,
-      ignoreSelectable ? undefined : selectable.value
+      ignoreSelectable ? undefined : selectable.value,
+      data.value.indexOf(row)
     )
     if (changed) {
       const newSelection = (selection.value || []).slice()
