@@ -21,7 +21,7 @@
           :name="name"
           :disabled="getDisabled(item)"
           :checked="getSelected(item)"
-          @change="handleChange(item)"
+          @change="handleChange(item, $event)"
         />
         <div :class="ns.e('item-label')">
           <slot :item="intoAny(item)">{{ getLabel(item) }}</slot>
@@ -75,10 +75,21 @@ const state = reactive({
   focusVisible: false,
 })
 
-const handleChange = (item: Option) => {
+const handleChange = (item: Option, evt: Event) => {
   const value = getValue(item)
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
+
+  if (!getSelected(item)) {
+    evt.target && ((evt.target as HTMLInputElement).checked = false)
+    if (!segmentedRef.value) return
+    const selectedItemInput = segmentedRef.value.querySelector(
+      '.is-selected input'
+    ) as HTMLInputElement
+    if (selectedItemInput) {
+      selectedItemInput.checked = true
+    }
+  }
 }
 
 const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
