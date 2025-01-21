@@ -17,7 +17,6 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { isNumber } from 'lodash-unified'
 
 import type { ScrollbarInstance } from 'element-plus'
 type Arrayable<T> = T | T[]
@@ -32,7 +31,7 @@ onMounted(() => {
 })
 
 const inputSlider = (value: Arrayable<number>) => {
-  if (isNumber(value)) scrollbarRef.value!.setScrollTop(value)
+  typeof value === 'number' && scrollbarRef.value!.setScrollTop(value)
 }
 const scroll = ({ scrollTop }) => {
   value.value = scrollTop
