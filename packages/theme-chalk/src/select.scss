@@ -191,6 +191,7 @@
       // Out of the document flow
       position: absolute;
       opacity: 0;
+      z-index: -1;
     }
   }
 
