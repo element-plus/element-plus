@@ -67,7 +67,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vitepress'
 import { Search } from '@element-plus/icons-vue'
 import overviewLocale from '../../../i18n/component/overview.json'
@@ -109,8 +109,7 @@ const getIcon = (link: string) => {
   return name ? overviewIcons[name] : null
 }
 
-onMounted(async () => {
-  await nextTick()
+onMounted(() => {
   $search.value?.focus()
 })
 </script>
