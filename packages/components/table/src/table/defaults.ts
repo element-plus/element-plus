@@ -13,7 +13,7 @@ import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
 import type {
-  TableOverflowTooltipFormatterOptions,
+  TableOverflowTooltipFormatter,
   TableOverflowTooltipOptions,
 } from '../util'
 
@@ -152,14 +152,12 @@ interface TableProps<T> {
   scrollbarAlwaysOn?: boolean
   flexible?: boolean
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
-  tooltipFormatter?: TableOverflowTooltipFormatterOptions<T>
+  tooltipFormatter?: TableOverflowTooltipFormatter<T>
   appendFilterPanelTo?: string
   scrollbarTabindex?: number | string
 }
 
-type TableTooltipData<T = any> = Parameters<
-  TableOverflowTooltipFormatterOptions<T>
->[0]
+type TableTooltipData<T = any> = Parameters<TableOverflowTooltipFormatter<T>>[0]
 
 interface Sort {
   prop: string

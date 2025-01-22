@@ -2,6 +2,7 @@
 import { createVNode, isVNode, render } from 'vue'
 import { flatMap, get, isNull, merge } from 'lodash-unified'
 import {
+  getProp,
   hasOwn,
   isArray,
   isBoolean,
@@ -36,7 +37,7 @@ export type TableOverflowTooltipOptions = Partial<
   >
 >
 
-export type TableOverflowTooltipFormatterOptions<T = any> = (data: {
+export type TableOverflowTooltipFormatter<T = any> = (data: {
   row: T
   column: TableColumnCtx<T>
   cellValue
@@ -388,7 +389,11 @@ const getTableOverflowTooltipProps = (
   }
 
   const tooltipFormatterContent = isFunction(column.tooltipFormatter)
-    ? column.tooltipFormatter({ row, column, cellValue: row[column.property] })
+    ? column.tooltipFormatter({
+        row,
+        column,
+        cellValue: getProp(row, column.property).value,
+      })
     : undefined
 
   if (isVNode(tooltipFormatterContent)) {

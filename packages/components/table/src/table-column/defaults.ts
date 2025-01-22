@@ -2,7 +2,7 @@
 import type { ComponentInternalInstance, PropType, Ref, VNode } from 'vue'
 import type { DefaultRow, Table } from '../table/defaults'
 import type {
-  TableOverflowTooltipFormatterOptions,
+  TableOverflowTooltipFormatter,
   TableOverflowTooltipOptions,
 } from '../util'
 
@@ -38,7 +38,7 @@ interface TableColumnCtx<T> {
   align: string
   headerAlign: string
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
-  tooltipFormatter?: TableOverflowTooltipFormatterOptions<T>
+  tooltipFormatter?: TableOverflowTooltipFormatter<T>
   fixed: boolean | string
   formatter: (
     row: T,
