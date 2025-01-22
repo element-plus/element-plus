@@ -1,27 +1,12 @@
 import { warn } from 'vue'
-import { fromPairs, isUndefined } from 'lodash-unified'
-import { isArray, isFunction, isObject } from '../../types'
-import { hasOwn } from '../../objects'
+import { fromPairs } from 'lodash-unified'
+import { isArray, isFunction } from '../../types'
 
-import type { Prop, PropType } from 'vue'
-import type {
-  EpProp,
-  EpPropConvert,
-  EpPropFinalized,
-  EpPropInput,
-  EpPropMergeType,
-  EpPropOptions,
-  IfEpProp,
-  IfNativePropType,
-  NativeProp,
-} from './types'
-
-export const epPropKey = '__epPropKey'
+import type { PropType } from 'vue'
+import type { EpProp } from './types'
 
 export const definePropType = <T>(val: any): PropType<T> => val
-
-export const isEpProp = (val: unknown): val is EpProp<any, any, any> =>
-  isObject(val) && !!(val as any)[epPropKey]
+export const defineEpProp = <T, V>(prop: EpProp<T, V>) => prop
 
 /**
  * @description Build prop. It can better optimize prop types
@@ -43,12 +28,8 @@ export const isEpProp = (val: unknown): val is EpProp<any, any, any> =>
   } as const)
   @link see more: https://github.com/element-plus/element-plus/pull/3341
  */
-export const buildProp = <P extends EpProp>(
-  prop: P,
-  key: string
-): EpPropFinalized<P> => {
-  if (!('values' in prop) || isUndefined(prop.values) || isArray(prop))
-    return prop
+export const buildProp = <P extends EpProp>(prop: P, key: string) => {
+  if (isFunction(prop) || isArray(prop) || !prop.values) return prop
 
   const { values, validator } = prop
   const _validator = (val: unknown) => {
@@ -63,8 +44,7 @@ export const buildProp = <P extends EpProp>(
 
     if (!valid && allowValuesText) {
       warn(
-        `Invalid prop: validation failed${
-          key ? ` for prop "${key}"` : ''
+        `Invalid prop: validation failed${key ? ` for prop "${key}"` : ''
         }. Expected one of [${allowValuesText}], got value ${JSON.stringify(
           val
         )}.`
@@ -79,12 +59,7 @@ export const buildProp = <P extends EpProp>(
   }
 }
 
-export const buildProps = <P extends Record<string, unknown>>(
-  props: P
-): {
-  [K in keyof P]: P[K]
-} => {
-  Object.entries(props).map(([key, option]) => [key, buildProp(option, key)])
+export const buildProps = <P extends Record<string, EpProp>>(props: P) => {
   return fromPairs(
     Object.entries(props).map(([key, option]) => [key, buildProp(option, key)])
   )
