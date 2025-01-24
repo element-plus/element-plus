@@ -275,9 +275,7 @@ watch(pickerVisible, (val) => {
   if (!val) {
     userInput.value = null
     nextTick(() => {
-      if (!valueIsEmpty.value && !showClose.value) {
-        emitChange(props.modelValue)
-      }
+      emitChange(props.modelValue)
     })
   } else {
     nextTick(() => {
