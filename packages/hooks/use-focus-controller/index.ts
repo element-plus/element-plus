@@ -55,13 +55,12 @@ export function useFocusController<T extends { focus: () => void }>(
   }
 
   const handleClick = (event: MouseEvent) => {
-    if ((event.target as Element)?.closest('.clear-icon')) return
+    const shouldSkipFocus =
+      (event.target as Element)?.closest('.clear-icon') ||
+      (wrapperRef.value?.contains(document.activeElement) &&
+        wrapperRef.value !== document.activeElement)
 
-    if (
-      wrapperRef.value?.contains(document.activeElement) &&
-      wrapperRef.value !== document.activeElement
-    )
-      return
+    if (shouldSkipFocus) return
 
     target.value?.focus()
   }
