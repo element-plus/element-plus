@@ -2,7 +2,7 @@
   <div class="overview-container">
     <div class="search-content">
       <el-input
-        ref="$search"
+        ref="searchRef"
         v-model="query"
         :prefix-icon="Search"
         size="large"
