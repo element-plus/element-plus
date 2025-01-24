@@ -1172,9 +1172,9 @@ describe('table column', () => {
         },
         template: `
           <el-table :data="testData">
-            <el-table-column type="selection" />
+            <el-table-column :fixed="selectFixed" type="selection" />
             <el-table-column :fixed="fixed" prop="name" />
-            <el-table-column prop="release" />
+            <el-table-column :fixed="fixed" prop="release" />
             <el-table-column prop="director" />
             <el-table-column prop="runtime" />
           </el-table>
@@ -1182,6 +1182,7 @@ describe('table column', () => {
 
         data() {
           return {
+            selectFixed: false,
             fixed: false,
           }
         },
@@ -1191,14 +1192,56 @@ describe('table column', () => {
         },
       })
 
-      await doubleWait()
-      expect(wrapper.find('.el-table-fixed-column--left').exists()).toBeFalsy()
+      const rowLength = wrapper.vm.testData.length + 1 // include header
+      const dynamicFixCols = 2
+
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
       wrapper.vm.fixed = true
       await doubleWait()
-      expect(wrapper.find('.el-table-fixed-column--left').exists()).toBeTruthy()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+        rowLength * (dynamicFixCols + 1)
+      )
       wrapper.vm.fixed = false
       await doubleWait()
-      expect(wrapper.find('.el-table-fixed-column--left').exists()).toBeFalsy()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
+
+      wrapper.vm.selectFixed = true
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+        rowLength
+      )
+      wrapper.vm.fixed = true
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+        rowLength * (dynamicFixCols + 1)
+      )
+      wrapper.vm.fixed = false
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+        rowLength
+      )
+
+      wrapper.vm.selectFixed = 'right'
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
+      expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
+        rowLength
+      )
+      wrapper.vm.fixed = true
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+        rowLength * dynamicFixCols
+      )
+      expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
+        rowLength
+      )
+      wrapper.vm.fixed = false
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
+      expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
+        rowLength
+      )
+
       wrapper.unmount()
     })
 
