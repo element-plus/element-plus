@@ -67,7 +67,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vitepress'
 import { Search } from '@element-plus/icons-vue'
 import overviewLocale from '../../../i18n/component/overview.json'
@@ -81,7 +81,7 @@ const router = useRouter()
 const { sidebars } = useSidebar()
 
 const query = ref('')
-const $search = ref<InputInstance>()
+const searchRef = ref<InputInstance>()
 const locale = computed(() => overviewLocale[lang.value])
 const filteredSidebars = computed(() =>
   sidebars.value
