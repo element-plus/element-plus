@@ -110,7 +110,9 @@ const getIcon = (link: string) => {
 }
 
 onMounted(() => {
-  $search.value?.focus()
+  nextTick(() => {
+    searchRef.value?.focus()
+  })
 })
 </script>
 
