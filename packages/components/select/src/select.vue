@@ -143,7 +143,6 @@
               </el-tooltip>
             </slot>
             <div
-              v-if="!selectDisabled"
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
@@ -160,6 +159,7 @@
                 :disabled="selectDisabled"
                 :autocomplete="autocomplete"
                 :style="inputStyle"
+                :tabindex="tabindex"
                 role="combobox"
                 :readonly="!filterable"
                 spellcheck="false"
@@ -230,7 +230,11 @@
             </el-icon>
             <el-icon
               v-if="validateState && validateIcon && needStatusIcon"
-              :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
+              :class="[
+                nsInput.e('icon'),
+                nsInput.e('validateIcon'),
+                nsInput.is('loading', validateState === 'validating'),
+              ]"
             >
               <component :is="validateIcon" />
             </el-icon>
@@ -257,6 +261,7 @@
             role="listbox"
             :aria-label="ariaLabel"
             aria-orientation="vertical"
+            @scroll="popupScroll"
           >
             <el-option
               v-if="showNewOption"
@@ -303,6 +308,7 @@ import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { isArray } from '@element-plus/utils'
+import { useCalcInputWidth } from '@element-plus/hooks'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
@@ -335,6 +341,7 @@ export default defineComponent({
     'visible-change',
     'focus',
     'blur',
+    'popup-scroll',
   ],
 
   setup(props, { emit }) {
@@ -356,6 +363,7 @@ export default defineComponent({
     })
 
     const API = useSelect(_props, emit)
+    const { calculatorRef, inputStyle } = useCalcInputWidth()
 
     provide(
       selectKey,
@@ -375,13 +383,15 @@ export default defineComponent({
       if (!props.multiple) {
         return API.states.selectedLabel
       }
-      return API.states.selected.map((i) => i.currentLabel as string)
+      return API.states.selected.map((i: any) => i.currentLabel as string)
     })
 
     return {
       ...API,
       modelValue,
       selectedLabel,
+      calculatorRef,
+      inputStyle,
     }
   },
 })

@@ -143,11 +143,11 @@ menu/popper-offset
 
 ### Menu-Item Attributes
 
-| Name     | Description           | Type                | Default |
-| -------- | --------------------- | ------------------- | ------- |
-| index    | unique identification | ^[string] / ^[null] | null    |
-| route    | Vue Router object     | ^[object]           | —       |
-| disabled | whether disabled      | ^[boolean]          | false   |
+| Name     | Description                          | Type                  | Default |
+| -------- | ------------------------------------ | --------------------- | ------- |
+| index    | unique identification                | ^[string] / ^[null]   | null    |
+| route    | Vue Router Route Location Parameters | ^[string] / ^[object] | —       |
+| disabled | whether disabled                     | ^[boolean]            | false   |
 
 ### Menu-Item Events
 

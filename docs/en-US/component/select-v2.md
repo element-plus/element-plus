@@ -213,6 +213,16 @@ select-v2/custom-label
 
 :::
 
+## Custom Width ^(2.9.2)
+
+The width of dropdown box is calculated by default based on the value of `label`. If you customize the dropdown box options through the `default slot`, it is likely that the text displayed in the options is not equal to the value of `label`, resulting in calculation errors. In this case, you can set the `fit-input-width` attribute to a number to fix its width.
+
+:::demo
+
+select-v2/custom-width
+
+:::
+
 ## API
 
 ### Attributes
@@ -248,6 +258,7 @@ select-v2/custom-label
 | persistent                          | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | ^[boolean]                                                                                                                                                                  | true                                           |
 | popper-options                      | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                   | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                             |
 | automatic-dropdown                  | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                                        | ^[boolean]                                                                                                                                                                  | false                                          |
+| fit-input-width ^(2.9.2)            | whether the width of the dropdown is the same as the input, if the value is `number`, then the width is fixed                            | ^[boolean] / ^[number]                                                                                                                                                      | true                                           |
 | height                              | The height of the dropdown panel, 34px for each item                                                                                     | ^[number]                                                                                                                                                                   | 274                                            |
 | item-height                         | The height of the dropdown item                                                                                                          | ^[number]                                                                                                                                                                   | 34                                             |
 | scrollbar-always-on                 | Controls whether the scrollbar is always displayed                                                                                       | ^[boolean]                                                                                                                                                                  | false                                          |
@@ -266,6 +277,7 @@ select-v2/custom-label
 | empty-values ^(2.7.0)               | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                           | ^[array]                                                                                                                                                                    | —                                              |
 | value-on-clear ^(2.7.0)             | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                  | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
 | popper-append-to-body ^(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false              | ^[boolean]                                                                                                                                                                  | false                                          |
+| tabindex ^(2.9.0)                   | tabindex for input                                                                                                                       | ^[string] / ^[number]                                                                                                                                                       | —                                              |
 
 ### props
 

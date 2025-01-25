@@ -1,5 +1,5 @@
 <template>
-  <div ref="wrapperRef" :class="ns.b()">
+  <div ref="wrapperRef" :class="[ns.b(), ns.is('disabled', disabled)]">
     <el-input
       v-bind="mergeProps(passInputProps, $attrs)"
       ref="elInputRef"
@@ -69,7 +69,7 @@ import { getCursorPosition, getMentionCtx } from './helper'
 import ElMentionDropdown from './mention-dropdown.vue'
 
 import type { Placement } from '@popperjs/core'
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, ComputedRef, Ref } from 'vue'
 import type { InputInstance } from '@element-plus/components/input'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { MentionCtx, MentionOption } from './types'
@@ -280,7 +280,11 @@ const syncDropdownVisible = () => {
   visible.value = false
 }
 
-defineExpose({
+defineExpose<{
+  input: Ref<InputInstance | undefined>
+  tooltip: Ref<TooltipInstance | undefined>
+  dropdownVisible: ComputedRef<boolean>
+}>({
   input: elInputRef,
   tooltip: tooltipRef,
   dropdownVisible,

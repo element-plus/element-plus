@@ -233,6 +233,7 @@ select/custom-label
 | empty-values ^(2.7.0)           | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[array]                                                                                                                                                                    | —                                              |
 | value-on-clear ^(2.7.0)         | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)               | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
 | suffix-transition ^(deprecated) | animation when dropdown appears/disappears icon                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
+| tabindex ^(2.9.0)               | tabindex for input                                                                                                    | ^[string] / ^[number]                                                                                                                                                       | —                                              |
 
 :::warning
 
@@ -242,14 +243,15 @@ select/custom-label
 
 ### Select Events
 
-| Name           | Description                                                   | Type                                     |
-| -------------- | ------------------------------------------------------------- | ---------------------------------------- |
-| change         | triggers when the selected value changes                      | ^[Function]`(value: any) => void`        |
-| visible-change | triggers when the dropdown appears/disappears                 | ^[Function]`(visible: boolean) => void`  |
-| remove-tag     | triggers when a tag is removed in multiple mode               | ^[Function]`(tagValue: any) => void`     |
-| clear          | triggers when the clear icon is clicked in a clearable Select | ^[Function]`() => void`                  |
-| blur           | triggers when Input blurs                                     | ^[Function]`(event: FocusEvent) => void` |
-| focus          | triggers when Input focuses                                   | ^[Function]`(event: FocusEvent) => void` |
+| Name                  | Description                                                   | Type                                                                |
+| --------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------- |
+| change                | triggers when the selected value changes                      | ^[Function]`(value: any) => void`                                   |
+| visible-change        | triggers when the dropdown appears/disappears                 | ^[Function]`(visible: boolean) => void`                             |
+| remove-tag            | triggers when a tag is removed in multiple mode               | ^[Function]`(tagValue: any) => void`                                |
+| clear                 | triggers when the clear icon is clicked in a clearable Select | ^[Function]`() => void`                                             |
+| blur                  | triggers when Input blurs                                     | ^[Function]`(event: FocusEvent) => void`                            |
+| focus                 | triggers when Input focuses                                   | ^[Function]`(event: FocusEvent) => void`                            |
+| popup-scroll ^(2.9.4) | triggers when dropdown scrolls                                | ^[Function]`(data:{scrollTop: number, scrollLeft: number}) => void` |
 
 ### Select Slots
 

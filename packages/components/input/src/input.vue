@@ -428,15 +428,13 @@ const {
 } = useComposition({ emit, afterComposition: handleInput })
 
 const handlePasswordVisible = () => {
+  recordCursor()
   passwordVisible.value = !passwordVisible.value
-  focus()
+  // The native input needs a little time to regain focus
+  setTimeout(setCursor)
 }
 
-const focus = async () => {
-  // see: https://github.com/ElemeFE/element/issues/18573
-  await nextTick()
-  _ref.value?.focus()
-}
+const focus = () => _ref.value?.focus()
 
 const blur = () => _ref.value?.blur()
 
