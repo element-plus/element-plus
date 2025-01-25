@@ -1908,6 +1908,83 @@ describe('Table.vue', () => {
       await doubleWait()
       expect(wrapper.vm.selected.length).toEqual(getTestData().length + 2)
     })
+
+    it('selectable tree with lazy load substree row data', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" row-key="release" lazy :load="load" ref="table" @selection-change="change">
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+        data() {
+          const testData = getTestData() as any
+          testData[1].hasChildren = true
+          return {
+            testData,
+            selected: [],
+          }
+        },
+        methods: {
+          change(rows) {
+            this.selected = rows
+          },
+          load(row, treeNode, resolve) {
+            resolve([
+              {
+                name: "A Bug's Life copy 1",
+                release: '1998-11-25-1',
+                director: 'John Lasseter',
+                runtime: 95,
+              },
+              {
+                name: "A Bug's Life copy 2",
+                release: '1998-11-25-2',
+                director: 'John Lasseter',
+                runtime: 95,
+              },
+            ])
+          },
+          updateKeyChildren() {
+            this.$refs.table.updateKeyChildren(this.testData[1].release, [
+              {
+                name: 'Update children data',
+                release: '2024-7-30-10',
+                director: 'John Lasseter',
+                runtime: 95,
+              },
+            ])
+          },
+        },
+      })
+      await doubleWait()
+      wrapper.vm.updateKeyChildren()
+      await doubleWait()
+      const expandIcon = wrapper.find('.el-table__expand-icon')
+      expandIcon.trigger('click')
+      await doubleWait()
+      const parentRowCheckbox = wrapper.findAll('.el-checkbox')[2]
+      parentRowCheckbox.trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(3)
+      parentRowCheckbox.trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(0)
+      const checkAllBtn = wrapper.findAll('.el-checkbox')[0]
+      checkAllBtn.trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(7)
+      checkAllBtn.trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(0)
+    })
   })
 
   it('when tableLayout is auto', async () => {
