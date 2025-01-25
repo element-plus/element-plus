@@ -79,6 +79,7 @@ declare module 'vue' {
     OvInfiniteScroll: typeof import('./.vitepress/vitepress/components/overview-icons/ov-infinite-scroll.vue')['default']
     OvInput: typeof import('./.vitepress/vitepress/components/overview-icons/ov-input.vue')['default']
     OvInputNumber: typeof import('./.vitepress/vitepress/components/overview-icons/ov-input-number.vue')['default']
+    OvInputTag: typeof import('./.vitepress/vitepress/components/overview-icons/ov-input-tag.vue')['default']
     OvLayout: typeof import('./.vitepress/vitepress/components/overview-icons/ov-layout.vue')['default']
     OvLink: typeof import('./.vitepress/vitepress/components/overview-icons/ov-link.vue')['default']
     OvLoading: typeof import('./.vitepress/vitepress/components/overview-icons/ov-loading.vue')['default']
