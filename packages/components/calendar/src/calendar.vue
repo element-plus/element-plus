@@ -18,14 +18,14 @@
         </div>
       </slot>
     </div>
-    <div v-if="validatedRange.length === 0" :class="ns.e('body')">
+    <div v-if="validatedRange.length === 0" :class="bodyCls">
       <date-table :date="date" :selected-day="realSelectedDay" @pick="pickDay">
         <template v-if="$slots['date-cell']" #date-cell="data">
           <slot name="date-cell" v-bind="data" />
         </template>
       </date-table>
     </div>
-    <div v-else :class="ns.e('body')">
+    <div v-else :class="bodyCls">
       <date-table
         v-for="(range_, index) in validatedRange"
         :key="index"
@@ -77,6 +77,13 @@ const i18nDate = computed(() => {
   const pickedMonth = `el.datepicker.month${date.value.format('M')}`
   return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
 })
+
+const bodyCls = computed(() => [
+  ns.e('body'),
+  {
+    [ns.m('border')]: props.border,
+  },
+])
 
 defineExpose({
   /** @description currently selected date */

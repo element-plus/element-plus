@@ -32,6 +32,13 @@ export const calendarProps = buildProps({
     type: definePropType<[Date, Date]>(Array),
     validator: isValidRange,
   },
+  /**
+   * @description show border
+   */
+  border: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type CalendarProps = ExtractPropTypes<typeof calendarProps>
 
