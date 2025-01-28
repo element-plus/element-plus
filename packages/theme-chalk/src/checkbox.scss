@@ -46,7 +46,7 @@ $checkbox-bordered-input-width: map.merge(
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  white-space: nowrap;
+  // white-space: nowrap;
   user-select: none;
   margin-right: 30px;
   height: getCssVarWithDefault(
@@ -257,7 +257,7 @@ $checkbox-bordered-input-width: map.merge(
   @include e(label) {
     display: inline-block;
     padding-left: 8px;
-    line-height: 1;
+    // line-height: 1;
     font-size: getCssVar('checkbox-font-size');
   }
 
