@@ -1,3 +1,4 @@
+import { type TimePickerDefaultProps } from '..'
 import type { Dayjs } from 'dayjs'
 
 export type GetDisabledHoursState = (
@@ -17,3 +18,7 @@ export type GetDisabledSecondsState = (
   role: string,
   comparingDate?: Dayjs
 ) => number[]
+
+export interface TimePickerContext {
+  props: TimePickerDefaultProps
+}

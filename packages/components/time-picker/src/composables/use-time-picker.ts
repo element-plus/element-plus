@@ -29,13 +29,13 @@ export const getTimeLists = (
   disabledSeconds?: GetDisabledSeconds
 ) => {
   const getHoursList = (role: string, compare?: Dayjs) => {
-    return makeList(24, disabledHours && (() => disabledHours?.(role, compare)))
+    return makeList(24, disabledHours && (() => disabledHours!(role, compare)))
   }
 
   const getMinutesList = (hour: number, role: string, compare?: Dayjs) => {
     return makeList(
       60,
-      disabledMinutes && (() => disabledMinutes?.(hour, role, compare))
+      disabledMinutes && (() => disabledMinutes!(hour, role, compare))
     )
   }
 
@@ -47,7 +47,7 @@ export const getTimeLists = (
   ) => {
     return makeList(
       60,
-      disabledSeconds && (() => disabledSeconds?.(hour, minute, role, compare))
+      disabledSeconds && (() => disabledSeconds!(hour, minute, role, compare))
     )
   }
 
@@ -59,9 +59,9 @@ export const getTimeLists = (
 }
 
 export const buildAvailableTimeSlotGetter = (
-  disabledHours: GetDisabledHours,
-  disabledMinutes: GetDisabledMinutes,
-  disabledSeconds: GetDisabledSeconds
+  disabledHours?: GetDisabledHours,
+  disabledMinutes?: GetDisabledMinutes,
+  disabledSeconds?: GetDisabledSeconds
 ) => {
   const { getHoursList, getMinutesList, getSecondsList } = getTimeLists(
     disabledHours,
