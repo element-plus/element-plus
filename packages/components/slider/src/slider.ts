@@ -162,6 +162,13 @@ export const sliderProps = buildProps({
     type: definePropType<SliderMarks>(Object),
   },
   /**
+   * @description snap to mark if value within this percentage (default to zero)
+   */
+  markSnapPercentage: {
+    type: Number,
+    default: 0,
+  },
+  /**
    * @description whether to trigger form validation
    */
   validateEvent: {
