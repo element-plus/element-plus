@@ -14,7 +14,7 @@ import {
   isEqual,
   debounce as lodashDebounce,
 } from 'lodash-unified'
-import { useResizeObserver } from '@vueuse/core'
+import { useElementSize, useResizeObserver } from '@vueuse/core'
 import {
   ValidateComponentsMap,
   debugWarn,
@@ -534,7 +534,8 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
   }
 
   const resetSelectionWidth = () => {
-    states.selectionWidth = selectionRef.value.getBoundingClientRect().width
+    const { width } = useElementSize(selectionRef.value)
+    states.selectionWidth = width
   }
 
   const resetCollapseItemWidth = () => {
