@@ -80,6 +80,7 @@
 
       .#{$namespace}-tag {
         cursor: not-allowed;
+        border-color: getCssVar('tag-border-color');
       }
     }
   }
