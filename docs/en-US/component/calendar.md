@@ -39,6 +39,14 @@ calendar/header
 
 :::
 
+## Lunar Calendar
+
+:::demo
+
+calendar/lunar
+
+:::
+
 ## Localization
 
 The default locale of is English, if you need to use other languages, please check [Internationalization](/en-US/guide/i18n)
