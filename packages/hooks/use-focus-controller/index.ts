@@ -72,7 +72,9 @@ export function useFocusController<T extends { focus: () => void }>(
 
   useEventListener(wrapperRef, 'focus', handleFocus, true)
   useEventListener(wrapperRef, 'blur', handleBlur, true)
-  useEventListener(wrapperRef, 'click', handleClick, true)
+  useEventListener(wrapperRef, 'click', handleClick, {
+    capture: false,
+  })
 
   // only for test
   if (process.env.NODE_ENV === 'test') {
