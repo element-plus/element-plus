@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { computed, getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
-import { hasOwn, isArray, isString, isUndefined } from '@element-plus/utils'
+import { hasOwn, isArray, isString } from '@element-plus/utils'
 import {
   getColumnById,
   getColumnByKey,
@@ -109,51 +109,36 @@ function useWatcher<T>() {
     })
   }
 
-  let selectionInitialFixed = undefined
-
   // 更新列
   const updateColumns = () => {
     _columns.value.forEach((column) => {
       updateChildFixed(column)
     })
     fixedColumns.value = _columns.value.filter(
-      (column) => column.fixed === true || column.fixed === 'left'
+      (column) =>
+        column.type !== 'selection' && [true, 'left'].includes(column.fixed)
     )
+
+    let selectColFixLeft
+    if (_columns.value?.[0]?.type === 'selection') {
+      const selectColumn = _columns.value[0]
+      selectColFixLeft =
+        [true, 'left'].includes(selectColumn.fixed) ||
+        (fixedColumns.value.length && selectColumn.fixed !== 'right')
+      if (selectColFixLeft) {
+        fixedColumns.value.unshift(selectColumn)
+      }
+    }
+
     rightFixedColumns.value = _columns.value.filter(
       (column) => column.fixed === 'right'
     )
 
-    if (
-      isUndefined(selectionInitialFixed) &&
-      _columns.value[0] &&
-      _columns.value[0].type === 'selection'
-    ) {
-      selectionInitialFixed = Boolean(_columns.value[0].fixed)
-    }
+    const notFixedColumns = _columns.value.filter(
+      (column) =>
+        (selectColFixLeft ? column.type !== 'selection' : true) && !column.fixed
+    )
 
-    if (
-      fixedColumns.value.length > 0 &&
-      _columns.value[0] &&
-      _columns.value[0].type === 'selection'
-    ) {
-      if (!_columns.value[0].fixed) {
-        _columns.value[0].fixed = true
-        fixedColumns.value.unshift(_columns.value[0])
-      } else {
-        const hasNotSelectionColumns = fixedColumns.value.some(
-          (column) => column.type !== 'selection'
-        )
-
-        if (!hasNotSelectionColumns) {
-          _columns.value[0].fixed = selectionInitialFixed
-          if (!selectionInitialFixed) fixedColumns.value.shift()
-        } else {
-          selectionInitialFixed = undefined
-        }
-      }
-    }
-
-    const notFixedColumns = _columns.value.filter((column) => !column.fixed)
     originColumns.value = []
       .concat(fixedColumns.value)
       .concat(notFixedColumns)
@@ -245,7 +230,8 @@ function useWatcher<T>() {
       row,
       selected,
       treeProps,
-      ignoreSelectable ? undefined : selectable.value
+      ignoreSelectable ? undefined : selectable.value,
+      data.value.indexOf(row)
     )
     if (changed) {
       const newSelection = (selection.value || []).slice()

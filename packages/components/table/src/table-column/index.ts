@@ -70,6 +70,9 @@ export default defineComponent({
       const showOverflowTooltip = isUndefined(props.showOverflowTooltip)
         ? parent.props.showOverflowTooltip
         : props.showOverflowTooltip
+      const tooltipFormatter = isUndefined(props.tooltipFormatter)
+        ? parent.props.tooltipFormatter
+        : props.tooltipFormatter
       const defaults = {
         ...cellStarts[type],
         id: columnId.value,
@@ -78,6 +81,7 @@ export default defineComponent({
         align: realAlign,
         headerAlign: realHeaderAlign,
         showOverflowTooltip,
+        tooltipFormatter,
         // filter 相关属性
         filterable: props.filters || props.filterMethod,
         filteredValue: [],

@@ -2,15 +2,15 @@ import { isFirefox, isNumber } from '@element-plus/utils'
 
 let hiddenTextarea: HTMLTextAreaElement | undefined = undefined
 
-const HIDDEN_STYLE = `
-  height:0 !important;
-  visibility:hidden !important;
-  ${isFirefox() ? '' : 'overflow:hidden !important;'}
-  position:absolute !important;
-  z-index:-1000 !important;
-  top:0 !important;
-  right:0 !important;
-`
+const HIDDEN_STYLE = {
+  height: '0',
+  visibility: 'hidden',
+  overflow: isFirefox() ? '' : 'hidden',
+  position: 'absolute',
+  'z-index': '-1000',
+  top: '0',
+  right: '0',
+}
 
 const CONTEXT_STYLE = [
   'letter-spacing',
@@ -31,7 +31,7 @@ const CONTEXT_STYLE = [
 ]
 
 type NodeStyle = {
-  contextStyle: string
+  contextStyle: string[][]
   boxSizing: string
   paddingSize: number
   borderSize: number
@@ -55,9 +55,10 @@ function calculateNodeStyling(targetElement: Element): NodeStyle {
     Number.parseFloat(style.getPropertyValue('border-bottom-width')) +
     Number.parseFloat(style.getPropertyValue('border-top-width'))
 
-  const contextStyle = CONTEXT_STYLE.map(
-    (name) => `${name}:${style.getPropertyValue(name)}`
-  ).join(';')
+  const contextStyle = CONTEXT_STYLE.map((name) => [
+    name,
+    style.getPropertyValue(name),
+  ])
 
   return { contextStyle, paddingSize, borderSize, boxSizing }
 }
@@ -75,7 +76,14 @@ export function calcTextareaHeight(
   const { paddingSize, borderSize, boxSizing, contextStyle } =
     calculateNodeStyling(targetElement)
 
-  hiddenTextarea.setAttribute('style', `${contextStyle};${HIDDEN_STYLE}`)
+  contextStyle.forEach(([key, value]) =>
+    hiddenTextarea?.style.setProperty(key, value)
+  )
+
+  Object.entries(HIDDEN_STYLE).forEach(([key, value]) =>
+    hiddenTextarea?.style.setProperty(key, value, 'important')
+  )
+
   hiddenTextarea.value = targetElement.value || targetElement.placeholder || ''
 
   let height = hiddenTextarea.scrollHeight
