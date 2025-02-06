@@ -15,8 +15,8 @@ export const markNodeData = function (node: Node, data: TreeNodeData): void {
 }
 
 export const getNodeKey = function (key: TreeKey, data: TreeNodeData): any {
-  if (!key) return data[NODE_KEY]
-  return data[key]
+  if (!key) return data?.[NODE_KEY]
+  return data?.[key]
 }
 
 export const handleCurrentChange = (
