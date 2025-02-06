@@ -456,6 +456,7 @@ const onClearIconClick = (event: MouseEvent) => {
       pickerOptions.value.handleClear()
     } else {
       emitInput(valueOnClear.value)
+      inputRef.value?.input?.focus()
     }
     emitChange(valueOnClear.value, true)
     showClose.value = false
