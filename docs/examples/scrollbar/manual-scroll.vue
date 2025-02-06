@@ -31,7 +31,7 @@ onMounted(() => {
 })
 
 const inputSlider = (value: Arrayable<number>) => {
-  typeof value === 'number' && scrollbarRef.value!.setScrollTop(value)
+  scrollbarRef.value!.setScrollTop(value as number)
 }
 const scroll = ({ scrollTop }) => {
   value.value = scrollTop
