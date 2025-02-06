@@ -4,8 +4,8 @@
     <el-radio-button value="default">default</el-radio-button>
     <el-radio-button value="small">small</el-radio-button>
   </el-radio-group>
-  <div class="demo-date-picker">
-    <div class="block">
+  <div >
+    <div">
       <span class="demonstration">Default</span>
       <el-date-picker
         v-model="value1"
@@ -16,7 +16,7 @@
         :size="size"
       />
     </div>
-    <div class="block">
+    <div>
       <span class="demonstration">With quick options</span>
       <el-date-picker
         v-model="value2"
