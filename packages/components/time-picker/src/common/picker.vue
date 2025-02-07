@@ -228,6 +228,7 @@ const { valueOnClear } = useEmptyValues(props, null)
 
 const refPopper = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
+const inputFocusMark = ref(false)
 const pickerVisible = ref(false)
 const pickerActualVisible = ref(false)
 const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
@@ -238,6 +239,7 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
     return props.readonly || pickerDisabled.value
   },
   afterFocus() {
+    if (inputFocusMark.value) return
     pickerVisible.value = true
   },
   beforeBlur(event) {
@@ -456,7 +458,9 @@ const onClearIconClick = (event: MouseEvent) => {
       pickerOptions.value.handleClear()
     } else {
       emitInput(valueOnClear.value)
+      inputFocusMark.value = true
       inputRef.value?.input?.focus()
+      inputFocusMark.value = false
     }
     emitChange(valueOnClear.value, true)
     showClose.value = false
