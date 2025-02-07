@@ -38,7 +38,7 @@ breadcrumb/icon
 | ------- | ------------------------- | --------------- |
 | default | customize default content | Breadcrumb Item |
 
-## BreadcrumbItem API
+## Breadcrumb-Item API
 
 ### Attributes
 
