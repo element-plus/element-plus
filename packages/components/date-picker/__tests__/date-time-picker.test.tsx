@@ -405,6 +405,63 @@ describe('Datetime Picker', () => {
     await nextTick()
     expect(dayjs(value.value).format('D')).toBe(dayText)
   })
+
+  it('footer slot should override default footer', async () => {
+    // today
+    const DISABLED_DATE = new Date(dayjs().format('YYYY-MM-DD')) // today
+    const COMFIRM_TEXT = 'Click Me'
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetime"
+        disabledDate={(date: Date) => date === DISABLED_DATE}
+      >
+        {{
+          footer: ({
+            confirm,
+            changeToNow,
+            disabledConfirm,
+            disabledNow,
+          }: any) => (
+            <>
+              <button disabled={disabledNow} onClick={changeToNow}>
+                Now
+              </button>
+              <button
+                class="confirm"
+                disabled={disabledConfirm}
+                onClick={confirm}
+              >
+                {COMFIRM_TEXT}
+              </button>
+            </>
+          ),
+        }}
+      </DatePicker>
+    ))
+
+    // Expect CONFIRM_TEXT to be included in the panel, and default text "Confirm" does not
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const footer = document.querySelector('.el-picker-panel__footer')!
+    expect(footer.textContent).toContain(COMFIRM_TEXT)
+    expect(footer.textContent).not.toContain('Confirm')
+
+    // Try to select DISABLED_DATE, expect the confirm button to be disabled
+    const dayItems = document.querySelectorAll('.el-date-table-cell__text')
+    const targetDay = Array.from(dayItems).find(
+      (el) => el.textContent === dayjs(DISABLED_DATE).format('D')
+    ) as HTMLElement
+    targetDay.click()
+    await nextTick()
+    const confirmBtn = document.querySelector(
+      '.el-picker-panel__footer button.confirm'
+    )!
+    expect(confirmBtn.getAttribute('disabled')).not.toBeUndefined() // invalid input disables button
+  })
 })
 
 describe('Datetimerange', () => {
