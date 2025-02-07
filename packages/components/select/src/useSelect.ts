@@ -688,6 +688,7 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
         scrollIntoView(menu as HTMLElement, target)
       }
     }
+    scrollbarRef.value?.update()
     scrollbarRef.value?.handleScroll()
   }
 
