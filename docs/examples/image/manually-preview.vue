@@ -1,20 +1,20 @@
 <template>
-  <div class="demo-image__preview">
+  <div class="demo-image__manually-preview">
+    <el-button @click="handleClick">show image preview</el-button>
     <el-image
+      ref="imageRef"
       style="width: 100px; height: 100px"
       :src="url"
-      :zoom-rate="1.2"
-      :max-scale="7"
-      :min-scale="0.2"
       :preview-src-list="srcList"
-      show-progress
-      :initial-index="4"
       fit="cover"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
+import type { ImageInstance } from 'element-plus'
+
 const url =
   'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg'
 const srcList = [
@@ -26,17 +26,19 @@ const srcList = [
   'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
   'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
 ]
+
+const imageRef = ref<ImageInstance>()
+const handleClick = () => {
+  imageRef.value!.showPreview()
+}
 </script>
 
 <style scoped>
-.demo-image__error .image-slot {
-  font-size: 30px;
+.demo-image__manually-preview {
+  display: grid;
+  gap: 10px;
 }
-.demo-image__error .image-slot .el-icon {
-  font-size: 30px;
-}
-.demo-image__error .el-image {
-  width: 100%;
-  height: 200px;
+.demo-image__manually-preview .el-button {
+  width: fit-content;
 }
 </style>

@@ -92,8 +92,9 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     const table = parent
     const cell = getCell(event)
     const namespace = table?.vnode.el?.dataset.prefix
+    let column: TableColumnCtx<T>
     if (cell) {
-      const column = getColumnByCell(
+      column = getColumnByCell(
         {
           columns: props.store.states.columns.value,
         },
@@ -158,6 +159,8 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
       createTablePopper(
         tooltipOptions,
         cell.innerText || cell.textContent,
+        row,
+        column,
         cell,
         table
       )

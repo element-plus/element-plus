@@ -107,6 +107,7 @@ import Node from './model/node'
 import type { ComponentInternalInstance, PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type { RootTreeType, TreeNodeData, TreeOptionProps } from './tree.type'
+import type { CheckboxValueType } from '@element-plus/components/checkbox'
 
 export default defineComponent({
   name: 'ElTreeNode',
@@ -249,9 +250,7 @@ export default defineComponent({
       }
 
       if (tree.props.checkOnClickNode && !props.node.disabled) {
-        handleCheckChange(null, {
-          target: { checked: !props.node.checked },
-        })
+        handleCheckChange(!props.node.checked)
       }
       tree.ctx.emit('node-click', props.node.data, props.node, instance, e)
     }
@@ -282,8 +281,8 @@ export default defineComponent({
       }
     }
 
-    const handleCheckChange = (value, ev) => {
-      props.node.setChecked(ev.target.checked, !tree.props.checkStrictly)
+    const handleCheckChange = (value: CheckboxValueType) => {
+      props.node.setChecked(value as boolean, !tree?.props.checkStrictly)
       nextTick(() => {
         const store = tree.store.value
         tree.ctx.emit('check', props.node.data, {
