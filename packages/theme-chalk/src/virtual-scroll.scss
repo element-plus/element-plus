@@ -1,0 +1,45 @@
+// 虚拟滚动组件样式
+
+@use 'mixins/mixins' as *;
+
+@include b(virtual-scroll) {
+  position: relative;
+  box-sizing: border-box;
+  height: 100%;
+  overflow-y: auto;
+  width: 100%;
+  min-height: 10px;
+
+  @include e(wrapper) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  @include when(horizontal) {
+    overflow-x: auto;
+    min-height: 10px;
+
+    @include e(wrapper) {
+      display: flex;
+      flex-flow: row nowrap;
+      width: auto;
+    }
+
+    @include e(item) {
+      flex: 0 0 auto;
+      min-width: 0;
+    }
+  }
+  
+  @include e(track) {
+    width: 0;
+  }
+
+  @include e(item) {
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+  }
+}
