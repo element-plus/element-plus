@@ -276,9 +276,7 @@ const clearIconKls = computed(() => [
 watch(pickerVisible, (val) => {
   if (!val) {
     userInput.value = null
-    nextTick(() => {
-      emitChange(props.modelValue)
-    })
+    !inputFocusMark.value && nextTick(() => emitChange(props.modelValue))
   } else {
     nextTick(() => {
       if (val) {
@@ -460,7 +458,7 @@ const onClearIconClick = (event: MouseEvent) => {
       emitInput(valueOnClear.value)
       inputFocusMark.value = true
       inputRef.value?.input?.focus()
-      inputFocusMark.value = false
+      nextTick(() => (inputFocusMark.value = false))
     }
     emitChange(valueOnClear.value, true)
     showClose.value = false
