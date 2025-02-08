@@ -26,7 +26,7 @@
     :data-prefix="ns.namespace.value"
     @mouseleave="handleMouseLeave"
   >
-    <div :class="ns.e('inner-wrapper')">
+    <div ref="tableInnerWrapper" :class="ns.e('inner-wrapper')">
       <div ref="hiddenColumns" class="hidden-columns">
         <slot />
       </div>
