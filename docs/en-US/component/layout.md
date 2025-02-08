@@ -105,7 +105,7 @@ The classes are:
 
 ## Row API
 
-### Row Attributes
+### Attributes
 
 | Name    | Description                         | Type                                                                                         | Default |
 | ------- | ----------------------------------- | -------------------------------------------------------------------------------------------- | ------- |
@@ -114,7 +114,7 @@ The classes are:
 | align   | vertical alignment of flex layout   | ^[enum]`'top' \| 'middle' \| 'bottom'`                                                       | —       |
 | tag     | custom element tag                  | ^[string]                                                                                    | div     |
 
-### Row Slots
+### Slots
 
 | Name    | Description               | Subtags |
 | ------- | ------------------------- | ------- |
@@ -122,7 +122,7 @@ The classes are:
 
 ## Col API
 
-### Col Attributes
+### Attributes
 
 | Name   | Description                                         | Type                                                                                  | Default |
 | ------ | --------------------------------------------------- | ------------------------------------------------------------------------------------- | ------- |
@@ -137,7 +137,7 @@ The classes are:
 | xl     | `≥1920px` Responsive columns or column props object | ^[number] / ^[object]`{span?: number, offset?: number, pull?: number, push?: number}` | —       |
 | tag    | custom element tag                                  | ^[string]                                                                             | div     |
 
-### Col Slots
+### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
