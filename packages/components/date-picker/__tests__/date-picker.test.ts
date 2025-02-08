@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
@@ -219,6 +219,42 @@ describe('DatePicker', () => {
     expect(vm.value.getFullYear()).toBe(2031)
     expect(vm.value.getMonth()).toBe(5)
     expect(vm.value.getDate()).toBe(1)
+  })
+
+  it('clear value event change two', async () => {
+    const count = ref(0)
+    const changeHandler = () => {
+      count.value++
+    }
+
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        @change="onChange"
+      />`,
+      () => ({ value: new Date(2016, 9, 10, 18, 40) }),
+      {
+        methods: {
+          onChange(e) {
+            return changeHandler(e)
+          },
+        },
+      }
+    )
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+
+    const vm = wrapper.vm as any
+    expect(vm.value).toBeDefined()
+    const picker = wrapper.findComponent(CommonPicker)
+    ;(picker.vm as any).showClose = true
+    await nextTick()
+    ;(document.querySelector('.clear-icon') as HTMLElement).click()
+    expect(vm.value).toBe(null)
+    await nextTick()
+    await nextTick()
+    expect(count.value).toBe(1)
   })
 
   it('event change, focus, blur, keydown', async () => {
