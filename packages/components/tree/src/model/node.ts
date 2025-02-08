@@ -102,7 +102,7 @@ class Node {
   loading: boolean
 
   constructor(options: TreeNodeOptions) {
-    this.id = nodeIdSeed++
+    this.id = options.data[NODE_KEY] || nodeIdSeed++
     this.text = null
     this.checked = false
     this.indeterminate = false
@@ -533,6 +533,24 @@ class Node {
     })
 
     this.updateLeafState()
+    this.updateChildNodeIndex()
+  }
+
+  updateChildNodeIndex() {
+    const newData = (this.getChildren() || []) as TreeNodeData[]
+    const oldChildNodes = this.childNodes
+    const newChildNodes: Node[] = Array.from({ length: oldChildNodes.length })
+
+    const indexMap = {}
+    newData.forEach((data, index) => {
+      indexMap[data[NODE_KEY]] = index
+    })
+
+    oldChildNodes.forEach((node) => {
+      newChildNodes[indexMap[node.id]] = node
+    })
+
+    this.childNodes = newChildNodes
   }
 
   loadData(
