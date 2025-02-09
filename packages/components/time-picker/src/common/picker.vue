@@ -292,6 +292,7 @@ const emitChange = (
   // determine user real change only
   if (isClear || !valueEquals(val, valueOnOpen.value)) {
     emit('change', val)
+    isClear && (valueOnOpen.value = val)
     props.validateEvent &&
       formItem?.validate('change').catch((err) => debugWarn(err))
   }
