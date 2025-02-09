@@ -365,6 +365,7 @@ export default defineComponent({
         ),
       ]
 
+      // this render function is only used for bypass `Vue`'s compiler caused patching issue.
       const child = rootMenu.isMenuPopup
         ? h(
             ElTooltip,
