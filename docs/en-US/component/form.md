@@ -125,7 +125,7 @@ form/accessibility
 
 ## Form API
 
-### Form Attributes
+### Attributes
 
 | Name                              | Description                                                                                                                                                                              | Type                                           | Default |
 | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------- |
@@ -146,19 +146,19 @@ form/accessibility
 | scroll-to-error                   | When validation fails, scroll to the first error form entry.                                                                                                                             | ^[boolean]                                     | false   |
 | scroll-into-view-options ^(2.3.2) | When validation fails, it scrolls to the first error item based on the scrollIntoView option. [scrollIntoView](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView). | ^[object]`Record<string, any>` / ^[boolean]    | —       |
 
-### Form Events
+### Events
 
 | Name     | Description                             | Type                                                                         |
 | -------- | --------------------------------------- | ---------------------------------------------------------------------------- |
 | validate | triggers after a form item is validated | ^[Function]`(prop: FormItemProp, isValid: boolean, message: string) => void` |
 
-### Form Slots
+### Slots
 
 | Name    | Description               | Subtags  |
 | ------- | ------------------------- | -------- |
 | default | customize default content | FormItem |
 
-### Form Exposes
+### Exposes
 
 | Name            | Description                                                        | Type                                                                                                                              |
 | --------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -171,7 +171,7 @@ form/accessibility
 
 ## FormItem API
 
-### FormItem Attributes
+### Attributes
 
 | Name                    | Description                                                                                                                                                            | Type                                                | Default |
 | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------- |
@@ -200,7 +200,7 @@ If you don't want to trigger the validator based on input events, set the `valid
 
 :::
 
-### FormItem Slots
+### Slots
 
 | Name    | Description                                   | Type                         |
 | ------- | --------------------------------------------- | ---------------------------- |
@@ -208,7 +208,7 @@ If you don't want to trigger the validator based on input events, set the `valid
 | label   | Custom content to display on label.           | ^[object]`{ label: string }` |
 | error   | Custom content to display validation message. | ^[object]`{ error: string }` |
 
-### FormItem Exposes
+### Exposes
 
 | Name            | Description                                       | Type                                                                                                 |
 | --------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |

@@ -293,7 +293,9 @@ table-v2/manual-scroll
 
 :::
 
-## TableV2 Attributes
+## TableV2 API
+
+### Attributes
 
 | Name                      | Description                                                                                                                | Type                                                   | Default   |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | --------- |
@@ -328,7 +330,7 @@ table-v2/manual-scroll
 | sort-by                   | Sort indicator                                                                                                             | `object`\<[SortBy](#typings)\>                         | {}        |
 | sort-state                | Multiple sort indicator                                                                                                    | `object`\<[SortState](#typings)\>                      | undefined |
 
-## TableV2 Slots
+### Slots
 
 | Name        | Params                                      |
 | ----------- | ------------------------------------------- |
@@ -340,7 +342,7 @@ table-v2/manual-scroll
 | empty       | —                                           |
 | overlay     | —                                           |
 
-## TableV2 Events
+### Events
 
 | Name                 | Description                                                           | Parameters                                 |
 | -------------------- | --------------------------------------------------------------------- | ------------------------------------------ |
@@ -352,7 +354,7 @@ table-v2/manual-scroll
 | row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon | `object`\<[RowExpandParams](#typings)\>    |
 | row-event-handlers   | A collection of handlers attached to each row                         | `object`\<[RowEventHandlers](#typings)\>   |
 
-## TableV2 Methods
+### Methods
 
 | Event Name   | Description                                          | Parameters                                                                             |
 | ------------ | ---------------------------------------------------- | -------------------------------------------------------------------------------------- |
@@ -367,7 +369,9 @@ Note that these are `JavaScript` Objects, so you **CANNOT USE** kebab-case for t
 
 :::
 
-## Column Attribute
+## Column API
+
+### Attribute
 
 | Name               | Description                                                           | Type                                                                                                                                                                 | Default |
 | ------------------ | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
@@ -389,7 +393,7 @@ Note that these are `JavaScript` Objects, so you **CANNOT USE** kebab-case for t
 | cellRenderer       | Customized Cell renderer                                              | `VueComponent` / (props: [CellRenderProps](#typings)) => VNode                                                                                                       | —       |
 | headerCellRenderer | Customized Header renderer                                            | `VueComponent` / (props: [HeaderRenderProps](#typings)) => VNode                                                                                                     | —       |
 
-## Typings{#typings}
+## Type Declarations
 
 <details>
 <summary>Show Type Declarations</summary>

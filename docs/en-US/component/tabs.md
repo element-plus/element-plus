@@ -85,7 +85,7 @@ tabs/customized-trigger
 
 ## Tabs API
 
-### Tabs Attributes
+### Attributes
 
 | Name                  | Description                                                                                                                             | Type                                                                                             | Default    |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
@@ -98,7 +98,7 @@ tabs/customized-trigger
 | stretch               | whether width of tab automatically fits its container                                                                                   | ^[boolean]                                                                                       | false      |
 | before-leave          | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | ^[Function]`(activeName: TabPaneName, oldActiveName: TabPaneName) => Awaitable<void \| boolean>` | () => true |
 
-### Tabs Events
+### Events
 
 | Name       | Description                                           | Parameters                                                                           |
 | ---------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------ |
@@ -108,7 +108,7 @@ tabs/customized-trigger
 | tab-add    | triggers when tab-add button is clicked               | ^[Function]`() => void`                                                              |
 | edit       | triggers when tab-add button or tab-remove is clicked | ^[Function]`(paneName: TabPaneName \| undefined, action: 'remove' \| 'add') => void` |
 
-### Tabs Slots
+### Slots
 
 | Name                           | Description               | Subtags  |
 | ------------------------------ | ------------------------- | -------- |
@@ -118,7 +118,7 @@ tabs/customized-trigger
 
 ## Tab-pane API
 
-### Tab-pane Attributes
+### Attributes
 
 | Name     | Description                                                                                                                                                                         | Type                  | Default |
 | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
@@ -128,7 +128,7 @@ tabs/customized-trigger
 | closable | whether Tab is closable                                                                                                                                                             | ^[boolean]            | false   |
 | lazy     | whether Tab is lazily rendered                                                                                                                                                      | ^[boolean]            | false   |
 
-### Tab-pane Slots
+### Slots
 
 | Name    | Description        |
 | ------- | ------------------ |
