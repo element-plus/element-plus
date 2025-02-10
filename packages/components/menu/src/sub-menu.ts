@@ -30,7 +30,6 @@ import useMenu from './use-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 
 import type { Placement } from '@element-plus/components/popper'
-
 import type { ExtractPropTypes, VNodeArrayChildren } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
 
