@@ -352,6 +352,27 @@ describe('Cascader.vue', () => {
     expect(value.value).toEqual(['zhejiang', 'hangzhou'])
   })
 
+  test('filterable(Single selection) will clear inputValue when reopen cascader panel', async () => {
+    const value = ref([])
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} filterable options={OPTIONS} />
+    ))
+
+    const input = wrapper.find('input')
+    const dropdown = document.querySelector(DROPDOWN)!
+    input.element.value = 'h'
+    await input.trigger('input')
+    const suggestions = dropdown.querySelectorAll(
+      SUGGESTION_ITEM
+    ) as NodeListOf<HTMLElement>
+    const hzSuggestion = suggestions[0]
+    await hzSuggestion.click()
+    await input.trigger('click')
+    expect(value.value).toEqual(['zhejiang', 'hangzhou'])
+    expect(input.element.value).toBe('')
+    expect(input.element.placeholder).toBe('Zhejiang / Hangzhou')
+  })
+
   test('filterable in multiple mode', async () => {
     const value = ref([])
     const props = { multiple: true }
