@@ -93,7 +93,7 @@ export const subMenuProps = buildProps({
     type: iconPropType,
   },
   /**
-   * @description when subMenu inactive and `persistent` is `false` , popconfirm will be destroyed
+   * @description when subMenu inactive and `persistent` is `false` , dropdown menu will be destroyed
    */
   persistent: {
     type: Boolean,
