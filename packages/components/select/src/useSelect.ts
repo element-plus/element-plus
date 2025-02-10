@@ -406,19 +406,17 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     }
   )
 
-  watch(
-    () => states.hoveringIndex,
-    (val) => {
-      if (isNumber(val) && val > -1) {
-        hoverOption.value = optionsArray.value[val] || {}
-      } else {
-        hoverOption.value = {}
-      }
-      optionsArray.value.forEach((option) => {
-        option.hover = hoverOption.value === option
-      })
+  watch([() => states.hoveringIndex, () => optionsArray.value], (val) => {
+    const hoveringIndex = val[0]
+    if (isNumber(hoveringIndex) && hoveringIndex > -1) {
+      hoverOption.value = optionsArray.value[hoveringIndex] || {}
+    } else {
+      hoverOption.value = {}
     }
-  )
+    optionsArray.value.forEach((option) => {
+      option.hover = hoverOption.value === option
+    })
+  })
 
   watchEffect(() => {
     // Anything could cause options changed, then update options
