@@ -30,7 +30,6 @@ import useMenu from './use-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 
 import type { Placement } from '@element-plus/components/popper'
-import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 import type { ExtractPropTypes, VNodeArrayChildren } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
@@ -131,7 +130,7 @@ export default defineComponent({
     let timeout: (() => void) | undefined
     const mouseInChild = ref(false)
     const verticalTitleRef = ref<HTMLDivElement>()
-    const vPopper = ref<TooltipInstance>()
+    const vPopper = ref<InstanceType<typeof ElTooltip> | null>(null)
 
     // computed
     const currentPlacement = computed<Placement>(() =>
@@ -153,7 +152,9 @@ export default defineComponent({
           : props.collapseCloseIcon
         : ArrowRight
     })
-    const isFirstLevel = computed(() => subMenu.level === 0)
+    const isFirstLevel = computed(() => {
+      return subMenu.level === 0
+    })
     const appendToBody = computed(() => {
       const value = props.teleported
       return value === undefined ? isFirstLevel.value : value
@@ -212,27 +213,31 @@ export default defineComponent({
 
     const ulStyle = useMenuCssVar(rootMenu.props, subMenu.level + 1)
 
-    const subMenuPopperOffset = computed(
-      () => props.popperOffset ?? rootMenu.props.popperOffset
-    )
+    const subMenuPopperOffset = computed(() => {
+      return props.popperOffset ?? rootMenu.props.popperOffset
+    })
 
-    const subMenuPopperClass = computed(
-      () => props.popperClass ?? rootMenu.props.popperClass
-    )
+    const subMenuPopperClass = computed(() => {
+      return props.popperClass ?? rootMenu.props.popperClass
+    })
 
-    const subMenuShowTimeout = computed(
-      () => props.showTimeout ?? rootMenu.props.showTimeout
-    )
+    const subMenuShowTimeout = computed(() => {
+      return props.showTimeout ?? rootMenu.props.showTimeout
+    })
 
-    const subMenuHideTimeout = computed(
-      () => props.hideTimeout ?? rootMenu.props.hideTimeout
-    )
+    const subMenuHideTimeout = computed(() => {
+      return props.hideTimeout ?? rootMenu.props.hideTimeout
+    })
 
     // methods
     const doDestroy = () =>
       vPopper.value?.popperRef?.popperInstanceRef?.destroy()
 
-    const handleCollapseToggle = (value: boolean) => !value && doDestroy()
+    const handleCollapseToggle = (value: boolean) => {
+      if (!value) {
+        doDestroy()
+      }
+    }
 
     const handleClick = () => {
       if (
@@ -254,8 +259,9 @@ export default defineComponent({
       event: MouseEvent | FocusEvent,
       showTimeout = subMenuShowTimeout.value
     ) => {
-      if (event.type === 'focus') return
-
+      if (event.type === 'focus') {
+        return
+      }
       if (
         (rootMenu.props.menuTrigger === 'click' &&
           rootMenu.props.mode === 'horizontal') ||
@@ -366,9 +372,11 @@ export default defineComponent({
       ]
 
       // this render function is only used for bypass `Vue`'s compiler caused patching issue.
+      // temporarily mark ElPopper as any due to type inconsistency.
       const child = rootMenu.isMenuPopup
         ? h(
-            ElTooltip,
+            // TODO: correct popper's type.
+            ElTooltip as any,
             {
               ref: vPopper,
               visible: opened.value,
