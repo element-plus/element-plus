@@ -3,6 +3,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
+import { rAF } from '@element-plus/test-utils/tick'
 import Menu from '../src/menu'
 import MenuGroup from '../src/menu-item-group.vue'
 import MenuItem from '../src/menu-item.vue'
@@ -192,6 +193,55 @@ describe('menu', () => {
 
   test('menu-overflow', async () => {
     // TODO: jsdom not support `offsetWidth` and `ResizeObserver`.
+  })
+
+  test('popper-disabled', async () => {
+    const wrapper = _mount(
+      `<el-menu :popper-disabled="popperDisabled" :collapse="collapse">
+        <el-menu-item index="1" ref="item1">
+          <template #title>通用设置</template>
+        </el-menu-item>
+        <el-menu-item index="2" ref="item2">
+          <template #title>通知设置</template>
+        </el-menu-item>
+      </el-menu>`,
+      {
+        data() {
+          return {
+            popperDisabled: false,
+            collapse: true,
+          }
+        },
+      }
+    )
+    await nextTick()
+    const item1 = await wrapper.findComponent({ ref: 'item1' })
+    const tooltip = item1.find('.el-tooltip__trigger')
+
+    vi.useFakeTimers()
+    await tooltip.trigger('mouseenter')
+    vi.runAllTimers()
+    vi.useRealTimers()
+    await rAF()
+    let poppers = document.body.querySelectorAll('.el-popper')
+    expect(poppers.length).toBeGreaterThan(0)
+    expect(poppers[0].style.display).not.toBe('none')
+
+    await wrapper.setProps({ popperDisabled: true })
+    await nextTick()
+    vi.useFakeTimers()
+    await tooltip.trigger('mouseenter')
+    vi.runAllTimers()
+    vi.useRealTimers()
+    await rAF()
+    poppers = document.body.querySelectorAll('.el-popper')
+    expect(poppers.length).toBeGreaterThan(0)
+    expect(poppers[0].style.display).toBe('none')
+
+    await wrapper.setProps({ collapse: false })
+    await nextTick()
+    poppers = document.body.querySelectorAll('.el-popper')
+    expect(poppers.length).not.toBeGreaterThan(0)
   })
 })
 
