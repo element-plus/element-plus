@@ -210,6 +210,10 @@ export const timePickerDefaultProps = buildProps({
    */
   unlinkPanels: Boolean,
   /**
+   * @description show only one panel in range-picker
+   */
+  singlePanel: Boolean,
+  /**
    * @description position of dropdown
    */
   placement: {
