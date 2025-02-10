@@ -92,6 +92,13 @@ export const subMenuProps = buildProps({
   collapseOpenIcon: {
     type: iconPropType,
   },
+  /**
+   * @description when subMenu inactive and `persistent` is `false` , dropdown menu will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>
 
@@ -376,7 +383,7 @@ export default defineComponent({
               pure: true,
               offset: subMenuPopperOffset.value,
               showArrow: false,
-              persistent: true,
+              persistent: props.persistent,
               popperClass: subMenuPopperClass.value,
               placement: currentPlacement.value,
               teleported: appendToBody.value,
