@@ -153,6 +153,9 @@ defineOptions({
 const props = defineProps(imageViewerProps)
 const emit = defineEmits(imageViewerEmits)
 
+let stopWheelListener: (() => void) | undefined
+let prevOverflow = ''
+
 const { t } = useLocale()
 const ns = useNamespace('image-viewer')
 const { nextZIndex } = useZIndex()
@@ -223,6 +226,8 @@ const progress = computed(
 
 function hide() {
   unregisterEventListener()
+  stopWheelListener?.()
+  document.body.style.overflow = prevOverflow
   emit('close')
 }
 
@@ -390,6 +395,18 @@ function onCloseRequested() {
   }
 }
 
+function wheelHandler(e: WheelEvent) {
+  if (!e.ctrlKey) return
+
+  if (e.deltaY < 0) {
+    e.preventDefault()
+    return false
+  } else if (e.deltaY > 0) {
+    e.preventDefault()
+    return false
+  }
+}
+
 watch(currentImg, () => {
   nextTick(() => {
     const $img = imgRefs.value[0]
@@ -406,6 +423,14 @@ watch(activeIndex, (val) => {
 
 onMounted(() => {
   registerEventListener()
+
+  stopWheelListener = useEventListener('wheel', wheelHandler, {
+    passive: false,
+  })
+
+  // prevent body scroll
+  prevOverflow = document.body.style.overflow
+  document.body.style.overflow = 'hidden'
 })
 
 defineExpose({

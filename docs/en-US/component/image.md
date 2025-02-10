@@ -57,7 +57,7 @@ image/image-preview
 
 ## Manually Open Preview ^(2.9.4)
 
-:::demo allow big image preview by call `showPreview` method.
+:::demo
 
 image/manually-preview
 
