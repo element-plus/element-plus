@@ -380,6 +380,7 @@ export default defineComponent({
       menuList,
       menus,
       checkedNodes,
+      expandNode,
       handleKeyDown,
       handleCheckChange,
       getFlattedNodes,

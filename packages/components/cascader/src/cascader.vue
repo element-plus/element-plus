@@ -588,6 +588,9 @@ const syncPresentTextValue = () => {
 
 const handleSuggestionClick = (node: CascaderNode) => {
   const { checked } = node
+  node.pathNodes.forEach((pathNode) => {
+    cascaderPanelRef.value?.expandNode(pathNode)
+  })
 
   if (multiple.value) {
     cascaderPanelRef.value?.handleCheckChange(node, !checked, false)
