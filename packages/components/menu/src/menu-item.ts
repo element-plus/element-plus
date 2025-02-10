@@ -27,7 +27,15 @@ export const menuItemProps = buildProps({
    * @description whether disabled
    */
   disabled: Boolean,
+  /**
+   * @description when menuItem inactive and `persistent` is `false` , dropdown menuItem will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
+
 export type MenuItemProps = ExtractPropTypes<typeof menuItemProps>
 
 export const menuItemEmits = {

@@ -148,6 +148,7 @@ menu/popper-offset
 | index    | unique identification                | ^[string] / ^[null]   | null    |
 | route    | Vue Router Route Location Parameters | ^[string] / ^[object] | —       |
 | disabled | whether disabled                     | ^[boolean]            | false   |
+| persistent ^(2.9.5) | when menuItem inactive and `persistent` is `false` , dropdown menuItem will be destroyed | ^[boolean] | true |
 
 ### Events
 
