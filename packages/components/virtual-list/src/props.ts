@@ -15,11 +15,11 @@ const itemSize = defineEpProp({
   required: true,
 })
 
-const estimatedItemSize = defineEpProp(Number)
+const estimatedItemSize = defineEpProp([Number, String])
 
 const cache = defineEpProp({
   type: Number,
-  default: 2,
+  default: 1,
 })
 
 const direction = defineEpProp({
@@ -57,7 +57,7 @@ export const virtualizedProps = buildProps({
 
   data: {
     type: definePropType<any[]>(Array),
-    default: () => mutable([] as const),
+    default: () => [],
   },
 
   /**
@@ -97,7 +97,7 @@ export const virtualizedProps = buildProps({
     type: Boolean,
     default: false,
   },
-} as const)
+})
 
 export const virtualizedListProps = buildProps({
   /**
@@ -122,7 +122,7 @@ export const virtualizedListProps = buildProps({
 
   itemSize,
   ...virtualizedProps,
-} as const)
+})
 
 const scrollbarSize = defineEpProp({
   type: Number,
@@ -159,7 +159,7 @@ export const virtualizedGridProps = buildProps({
   scrollbarEndGap: endGap,
   role: String,
   ...virtualizedProps,
-} as const)
+})
 
 export const virtualizedScrollbarProps = buildProps({
   alwaysOn: Boolean,

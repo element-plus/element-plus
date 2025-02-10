@@ -5,8 +5,21 @@ import { isArray, isFunction } from '../../types'
 import type { PropType } from 'vue'
 import type { EpProp } from './types'
 
+type NormalizeProp<T extends EpProp> = T extends PropType<infer A>
+  ? PropType<A>
+  : {
+      [K in Exclude<keyof T, 'validator' | 'values'>]: K extends 'type'
+        ? T[K] extends PropType<infer B>
+          ? 'values' extends keyof T ? PropType<Exclude<B, string> | T['values']> : PropType<B>
+          : never
+        : T[K]
+    }
 export const definePropType = <T>(val: any): PropType<T> => val
-export const defineEpProp = <T, V>(prop: EpProp<T, V>) => prop
+export const defineEpProp = <T, const V extends string[], P>(
+  prop: EpProp<T, V>
+) => {
+  return prop 
+}
 
 /**
  * @description Build prop. It can better optimize prop types
@@ -44,7 +57,8 @@ export const buildProp = <P extends EpProp>(prop: P, key: string) => {
 
     if (!valid && allowValuesText) {
       warn(
-        `Invalid prop: validation failed${key ? ` for prop "${key}"` : ''
+        `Invalid prop: validation failed${
+          key ? ` for prop "${key}"` : ''
         }. Expected one of [${allowValuesText}], got value ${JSON.stringify(
           val
         )}.`
@@ -59,8 +73,10 @@ export const buildProp = <P extends EpProp>(prop: P, key: string) => {
   }
 }
 
-export const buildProps = <P extends Record<string, EpProp>>(props: P) => {
+export const buildProps = <PP extends Record<string, P>, P extends EpProp<T, V>, T, const V extends string[]>(props: PP) => {
   return fromPairs(
     Object.entries(props).map(([key, option]) => [key, buildProp(option, key)])
-  )
+  ) as {
+    [K in keyof PP]: NormalizeProp<PP[K]>
+  }
 }

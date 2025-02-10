@@ -1,13 +1,16 @@
 import type { PropType } from 'vue'
 import type { IfNever } from './util'
 
-export type EpProp<T = unknown, V = string> = PropType<T> | EpPropOptions<T, V>
-export type EpPropOptions<T = unknown, V = string, D = T> = {
+export type EpProp<T = unknown, V = string[]> =
+  | PropType<T>
+  | EpPropOptions<T, V>
+
+export type EpPropOptions<T = unknown, V = string[], D = T> = {
   type: PropType<T>
   required?: boolean
   default?: D | DefaultFactory<D> | null | undefined
   validator?(value: unknown): boolean
-  values?: V[]
+  values?: V
 }
 type DefaultFactory<T> = (
   props: Record<string, unknown>
