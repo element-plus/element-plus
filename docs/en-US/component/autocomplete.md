@@ -74,14 +74,14 @@ autocomplete/custom-loading
 
 ### Events
 
-| Name   | Description                                                     | Type                                                  |
-| ------ | --------------------------------------------------------------- | ----------------------------------------------------- |
-| blur   | triggers when Input blurs                                       | ^[Function]`(event: FocusEvent) => void`              |
-| focus  | triggers when Input focuses                                     | ^[Function]`(event: FocusEvent) => void`              |
-| input  | triggers when the Input value change                            | ^[Function]`(value: string \| number) => void`        |
-| clear  | triggers when the Input is cleared by clicking the clear button | ^[Function]`() => void`                               |
-| select | triggers when a suggestion is clicked                           | ^[Function]`(item: typeof modelValue \| any) => void` |
-| change | triggers when the icon inside Input value change                | ^[Function]`(value: string \| number) => void`        |
+| Name   | Description                                                     | Type                                             |
+| ------ | --------------------------------------------------------------- | ------------------------------------------------ |
+| blur   | triggers when Input blurs                                       | ^[Function]`(event: FocusEvent) => void`         |
+| focus  | triggers when Input focuses                                     | ^[Function]`(event: FocusEvent) => void`         |
+| input  | triggers when the Input value change                            | ^[Function]`(value: string \| number) => void`   |
+| clear  | triggers when the Input is cleared by clicking the clear button | ^[Function]`() => void`                          |
+| select | triggers when a suggestion is clicked                           | ^[Function]`(item: Record<string, any>) => void` |
+| change | triggers when the icon inside Input value change                | ^[Function]`(value: string \| number) => void`   |
 
 ### Slots
 
