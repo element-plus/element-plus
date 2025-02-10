@@ -147,7 +147,6 @@ export default defineComponent({
       default: 'ltr',
       values: ['ltr', 'rtl'],
     },
-    
   },
   emits: [
     'check-change',

@@ -13,7 +13,7 @@
     ]"
     role="treeitem"
     tabindex="-1"
-     :dir="node.direction"
+    :dir="node.direction"
     :aria-expanded="expanded"
     :aria-disabled="node.disabled"
     :aria-checked="node.checked"
