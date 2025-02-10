@@ -68,7 +68,7 @@
     @include when(text) {
       border-radius: 50%;
       border: 2px solid;
-      border-color: inherit;
+      border-color: currentColor;
     }
 
     @include when(icon) {
@@ -97,7 +97,7 @@
 
   @include e(line) {
     position: absolute;
-    border-color: inherit;
+    border-color: currentColor;
     background-color: getCssVar('text-color', 'placeholder');
   }
 
@@ -105,7 +105,7 @@
     display: block;
     border-width: 1px;
     border-style: solid;
-    border-color: inherit;
+    border-color: currentColor;
     transition: 0.15s ease-out;
     box-sizing: border-box;
     width: 0;
