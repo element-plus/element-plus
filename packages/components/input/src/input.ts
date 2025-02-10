@@ -26,7 +26,10 @@ export const inputProps = buildProps({
   /**
    * @description whether to disable
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description binding value
    */

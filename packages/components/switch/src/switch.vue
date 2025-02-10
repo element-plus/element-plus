@@ -113,7 +113,14 @@ const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
 
-const switchDisabled = useFormDisabled(computed(() => props.loading))
+const switchDisabled = useFormDisabled(
+  computed(() => {
+    if (props.loading) {
+      return true
+    }
+    return undefined
+  })
+)
 const isControlled = ref(props.modelValue !== false)
 const input = ref<HTMLInputElement>()
 const core = ref<HTMLSpanElement>()
