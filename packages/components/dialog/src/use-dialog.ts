@@ -8,7 +8,6 @@ import {
 } from 'vue'
 import { useTimeoutFn } from '@vueuse/core'
 
-import { isUndefined } from 'lodash-unified'
 import {
   defaultNamespace,
   useId,
@@ -29,6 +28,7 @@ export const useDialog = (
   const instance = getCurrentInstance()!
   const emit = instance.emit as SetupContext<DialogEmits>['emit']
   const { nextZIndex } = useZIndex()
+  const nowZIndex = nextZIndex()
 
   let lastPosition = ''
   const titleId = useId()
@@ -36,7 +36,7 @@ export const useDialog = (
   const visible = ref(false)
   const closed = ref(false)
   const rendered = ref(false) // when desctroyOnClose is true, we initialize it as false vise versa
-  const zIndex = ref(props.zIndex ?? nextZIndex())
+  const zIndex = computed(() => props.zIndex ?? nowZIndex)
 
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
@@ -162,7 +162,6 @@ export const useDialog = (
         closed.value = false
         open()
         rendered.value = true // enables lazy rendering
-        zIndex.value = isUndefined(props.zIndex) ? nextZIndex() : zIndex.value++
         // this.$el.addEventListener('scroll', this.updatePopper)
         nextTick(() => {
           emit('open')
