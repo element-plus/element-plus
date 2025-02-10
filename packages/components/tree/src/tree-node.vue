@@ -13,6 +13,7 @@
     ]"
     role="treeitem"
     tabindex="-1"
+     :dir="node.direction"
     :aria-expanded="expanded"
     :aria-disabled="node.disabled"
     :aria-checked="node.checked"
@@ -27,7 +28,10 @@
   >
     <div
       :class="ns.be('node', 'content')"
-      :style="{ paddingLeft: (node.level - 1) * tree.props.indent + 'px' }"
+      :style="{
+        [tree?.props.direction === 'rtl' ? 'margin-right' : 'margin-left']:
+          (node.level - 1) * tree.props.indent + 'px',
+      }"
     >
       <el-icon
         v-if="tree.props.icon || CaretRight"
