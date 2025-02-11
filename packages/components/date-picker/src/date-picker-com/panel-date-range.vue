@@ -118,6 +118,7 @@
               </slot>
             </button>
             <button
+              v-show="leftCurrentView === 'date'"
               type="button"
               :class="ppNs.e('icon-btn')"
               :aria-label="t(`el.datepicker.prevMonth`)"
@@ -128,35 +129,39 @@
                 <el-icon><arrow-left /></el-icon>
               </slot>
             </button>
-            <button
-              v-if="unlinkPanels"
-              type="button"
-              :disabled="!enableYearArrow"
-              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
-              :aria-label="t(`el.datepicker.nextYear`)"
-              class="d-arrow-right"
-              @click="leftNextYear"
-            >
-              <slot name="next-year">
-                <el-icon><d-arrow-right /></el-icon>
-              </slot>
-            </button>
-            <button
-              v-if="unlinkPanels"
-              type="button"
-              :disabled="!enableMonthArrow"
-              :class="[
-                ppNs.e('icon-btn'),
-                { 'is-disabled': !enableMonthArrow },
-              ]"
-              :aria-label="t(`el.datepicker.nextMonth`)"
-              class="arrow-right"
-              @click="leftNextMonth"
-            >
-              <slot name="next-month">
-                <el-icon><arrow-right /></el-icon>
-              </slot>
-            </button>
+            <template v-if="unlinkPanels">
+              <button
+                type="button"
+                :disabled="!enableYearArrow"
+                :class="[
+                  ppNs.e('icon-btn'),
+                  { 'is-disabled': !enableYearArrow },
+                ]"
+                :aria-label="t(`el.datepicker.nextYear`)"
+                class="d-arrow-right"
+                @click="leftNextYear"
+              >
+                <slot name="next-year">
+                  <el-icon><d-arrow-right /></el-icon>
+                </slot>
+              </button>
+              <button
+                v-show="leftCurrentView === 'date'"
+                type="button"
+                :disabled="!enableMonthArrow"
+                :class="[
+                  ppNs.e('icon-btn'),
+                  { 'is-disabled': !enableMonthArrow },
+                ]"
+                :aria-label="t(`el.datepicker.nextMonth`)"
+                class="arrow-right"
+                @click="leftNextMonth"
+              >
+                <slot name="next-month">
+                  <el-icon><arrow-right /></el-icon>
+                </slot>
+              </button>
+            </template>
             <div>
               <span
                 role="button"
@@ -219,35 +224,39 @@
         </div>
         <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
           <div :class="drpNs.e('header')">
-            <button
-              v-if="unlinkPanels"
-              type="button"
-              :disabled="!enableYearArrow"
-              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
-              :aria-label="t(`el.datepicker.prevYear`)"
-              class="d-arrow-left"
-              @click="rightPrevYear"
-            >
-              <slot name="prev-year">
-                <el-icon><d-arrow-left /></el-icon>
-              </slot>
-            </button>
-            <button
-              v-if="unlinkPanels"
-              type="button"
-              :disabled="!enableMonthArrow"
-              :class="[
-                ppNs.e('icon-btn'),
-                { 'is-disabled': !enableMonthArrow },
-              ]"
-              :aria-label="t(`el.datepicker.prevMonth`)"
-              class="arrow-left"
-              @click="rightPrevMonth"
-            >
-              <slot name="prev-month">
-                <el-icon><arrow-left /></el-icon>
-              </slot>
-            </button>
+            <template v-if="unlinkPanels">
+              <button
+                type="button"
+                :disabled="!enableYearArrow"
+                :class="[
+                  ppNs.e('icon-btn'),
+                  { 'is-disabled': !enableYearArrow },
+                ]"
+                :aria-label="t(`el.datepicker.prevYear`)"
+                class="d-arrow-left"
+                @click="rightPrevYear"
+              >
+                <slot name="prev-year">
+                  <el-icon><d-arrow-left /></el-icon>
+                </slot>
+              </button>
+              <button
+                v-show="rightCurrentView === 'date'"
+                type="button"
+                :disabled="!enableMonthArrow"
+                :class="[
+                  ppNs.e('icon-btn'),
+                  { 'is-disabled': !enableMonthArrow },
+                ]"
+                :aria-label="t(`el.datepicker.prevMonth`)"
+                class="arrow-left"
+                @click="rightPrevMonth"
+              >
+                <slot name="prev-month">
+                  <el-icon><arrow-left /></el-icon>
+                </slot>
+              </button>
+            </template>
             <button
               type="button"
               :aria-label="t(`el.datepicker.nextYear`)"
@@ -260,6 +269,7 @@
               </slot>
             </button>
             <button
+              v-show="rightCurrentView === 'date'"
               type="button"
               :class="ppNs.e('icon-btn')"
               :aria-label="t(`el.datepicker.nextMonth`)"
@@ -516,7 +526,11 @@ const isValidValue = (date: [Dayjs, Dayjs]) => {
 }
 
 const leftPrevYear = () => {
-  leftDate.value = leftDate.value.subtract(1, 'year')
+  leftDate.value =
+    leftCurrentView.value === 'year'
+      ? leftDate.value.subtract(10, 'year')
+      : leftDate.value.subtract(1, 'year')
+
   if (!props.unlinkPanels) {
     rightDate.value = leftDate.value.add(1, 'month')
   }
@@ -533,10 +547,16 @@ const leftPrevMonth = () => {
 
 const rightNextYear = () => {
   if (!props.unlinkPanels) {
-    leftDate.value = leftDate.value.add(1, 'year')
+    leftDate.value =
+      rightCurrentView.value === 'year'
+        ? leftDate.value.add(10, 'year')
+        : leftDate.value.add(1, 'year')
     rightDate.value = leftDate.value.add(1, 'month')
   } else {
-    rightDate.value = rightDate.value.add(1, 'year')
+    rightDate.value =
+      rightCurrentView.value === 'year'
+        ? rightDate.value.add(10, 'year')
+        : rightDate.value.add(1, 'year')
   }
   handlePanelChange('year')
 }
@@ -552,7 +572,11 @@ const rightNextMonth = () => {
 }
 
 const leftNextYear = () => {
-  leftDate.value = leftDate.value.add(1, 'year')
+  leftDate.value =
+    leftCurrentView.value === 'year'
+      ? leftDate.value.add(10, 'year')
+      : leftDate.value.add(1, 'year')
+
   handlePanelChange('year')
 }
 
@@ -562,7 +586,10 @@ const leftNextMonth = () => {
 }
 
 const rightPrevYear = () => {
-  rightDate.value = rightDate.value.subtract(1, 'year')
+  rightDate.value =
+    rightCurrentView.value === 'year'
+      ? rightDate.value.subtract(10, 'year')
+      : rightDate.value.subtract(1, 'year')
   handlePanelChange('year')
 }
 
