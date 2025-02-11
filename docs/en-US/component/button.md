@@ -186,7 +186,7 @@ button/custom
 | ------------------ | ------------------------------------------------ | ------------------------------------------------------------------ | ---------- |
 | size               | control the size of buttons in this button-group | ^[enum]`'large' \| 'default' \| 'small'`                           | —          |
 | type               | control the type of buttons in this button-group | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —          |
-| direction ^(2.9.0) | display direction                                | ^[enum]`'horizontal' \| 'vertical'`                                | horizontal |
+| direction ^(2.9.4) | display direction                                | ^[enum]`'horizontal' \| 'vertical'`                                | horizontal |
 
 ### ButtonGroup Slots
 
