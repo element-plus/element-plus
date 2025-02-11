@@ -177,23 +177,11 @@ export default defineComponent({
           ]
     )
     const opened = computed(() => rootMenu.openedMenus.includes(props.index))
-    const active = computed(() => {
-      let isActive = false
-
-      Object.values(items.value).forEach((item) => {
-        if (item.active) {
-          isActive = true
-        }
-      })
-
-      Object.values(subMenus.value).forEach((subItem) => {
-        if (subItem.active) {
-          isActive = true
-        }
-      })
-
-      return isActive
-    })
+    const active = computed(
+      () =>
+        Object.values(items.value).some(({ active }) => active) ||
+        Object.values(subMenus.value).some(({ active }) => active)
+    )
 
     const mode = computed(() => rootMenu.props.mode)
     const item = reactive({
