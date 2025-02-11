@@ -24,7 +24,7 @@ export declare interface MessageBoxState {
   customClass: string
   customStyle: CSSProperties
   showInput: boolean
-  inputValue: string
+  inputValue: string | null
   inputPlaceholder: string
   inputType: string
   inputPattern: RegExp | null

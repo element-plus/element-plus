@@ -285,7 +285,7 @@ export default defineComponent({
       inputPattern: null,
       inputPlaceholder: '',
       inputType: 'text',
-      inputValue: '',
+      inputValue: null,
       inputValidator: undefined,
       inputErrorMessage: '',
       message: '',
@@ -438,7 +438,7 @@ export default defineComponent({
         }
         const inputValidator = state.inputValidator
         if (isFunction(inputValidator)) {
-          const validateResult = inputValidator(state.inputValue)
+          const validateResult = inputValidator(state.inputValue || '')
           if (validateResult === false) {
             state.editorErrorMessage =
               state.inputErrorMessage || t('el.messagebox.error')
