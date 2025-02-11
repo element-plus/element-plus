@@ -125,6 +125,42 @@ describe('Autocomplete.vue', () => {
     expect(fetchSuggestions).toHaveBeenCalledTimes(1)
   })
 
+  test('triggerOnEnter', async () => {
+    const fetchSuggestions = vi.fn()
+    const wrapper = _mount({
+      debounce: 0,
+      fetchSuggestions,
+    })
+    await nextTick()
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+    target.handleKeyEnter()
+    vi.runAllTimers()
+
+    await nextTick()
+    expect(fetchSuggestions).toHaveBeenCalledTimes(1)
+  })
+
+  test('focus triggerOnEnter', async () => {
+    const fetchSuggestions = vi.fn()
+    const wrapper = _mount({
+      debounce: 0,
+      fetchSuggestions,
+    })
+    await nextTick()
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+    await wrapper.find('input').trigger('focus')
+    await nextTick()
+    target.handleKeyEnter()
+    vi.runAllTimers()
+
+    await nextTick()
+    expect(fetchSuggestions).toHaveBeenCalledTimes(1)
+  })
+
   test('popperClass', async () => {
     const wrapper = _mount()
     await nextTick()

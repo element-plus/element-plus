@@ -286,10 +286,16 @@ const handleKeyEnter = async () => {
     highlightedIndex.value < suggestions.value.length
   ) {
     handleSelect(suggestions.value[highlightedIndex.value])
-  } else if (props.selectWhenUnmatched) {
-    emit('select', { value: props.modelValue })
-    suggestions.value = []
-    highlightedIndex.value = -1
+  } else {
+    if (props.selectWhenUnmatched) {
+      emit('select', { value: props.modelValue })
+      suggestions.value = []
+      highlightedIndex.value = -1
+    }
+    if (props.triggerOnEnter) {
+      activated.value = true
+      debouncedGetData(String(props.modelValue))
+    }
   }
 }
 
