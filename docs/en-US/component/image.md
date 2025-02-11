@@ -55,9 +55,25 @@ image/image-preview
 
 :::
 
+## Manually Open Preview ^(2.9.4)
+
+:::demo allow big image preview by call `showPreview` method.
+
+image/manually-preview
+
+:::
+
+## Custom Toolbar ^(2.9.4)
+
+:::demo Custom toolbar content by `slot = toolbar`
+
+image/custom-toolbar
+
+:::
+
 ## Image API
 
-### Image Attributes
+### Attributes
 
 | Name                  | Description                                                                                                                                       | Type                                                                    | Default |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------- |
@@ -80,7 +96,7 @@ image/image-preview
 | min-scale ^(2.4.0)    | the min scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 0.2     |
 | max-scale ^(2.4.0)    | the max scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 7       |
 
-### Image Events
+### Events
 
 | Name   | Description                                                                                       | Type                                 |
 | ------ | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
@@ -90,32 +106,41 @@ image/image-preview
 | close  | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | ^[Function]`() => void`              |
 | show   | trigger when the viewer displays                                                                  | ^[Function]`() => void`              |
 
-### Image Slots
+### Slots
 
-| Name        | Description                                              |
-| ----------- | -------------------------------------------------------- |
-| placeholder | custom placeholder content when image hasn't loaded yet. |
-| error       | custom image load failed content.                        |
-| viewer      | custom content when image preview.                       |
+| Name              | Description                                              | Type                                                                                                                                                                      |
+| ----------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| placeholder       | custom placeholder content when image hasn't loaded yet. | -                                                                                                                                                                         |
+| error             | custom image load failed content.                        | -                                                                                                                                                                         |
+| viewer            | custom content when image preview.                       | -                                                                                                                                                                         |
+| progress ^(2.9.4) | custom progress content when image preview.              | ^[object]`{ activeIndex: number, total: number }`                                                                                                                         |
+| toolbar ^(2.9.4)  | custom toolbar content when image preview.               | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }` |
+
+### Exposes
+
+| Name                 | Description                     | Type                    |
+| -------------------- | ------------------------------- | ----------------------- |
+| showPreview ^(2.9.4) | manually open preview big image | ^[Function]`() => void` |
 
 ## Image Viewer API
 
-### Image Viewer Attributes
+### Attributes
 
-| Name                  | Description                                                                                                                   | Type                  | Default |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
-| url-list              | preview link list.                                                                                                            | ^[object]`string[]`   | []      |
-| z-index               | preview backdrop z-index.                                                                                                     | ^[number] / ^[string] | —       |
-| initial-index         | the initial preview image index, less than or equal to the length of `url-list`.                                              | ^[number]             | 0       |
-| infinite              | whether preview is infinite.                                                                                                  | ^[boolean]            | true    |
-| hide-on-click-modal   | whether user can emit close event when clicking backdrop.                                                                     | ^[boolean]            | false   |
-| teleported            | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true`. | ^[boolean]            | false   |
-| zoom-rate ^(2.2.27)   | the zoom rate of the image viewer zoom event.                                                                                 | ^[number]             | 1.2     |
-| min-scale ^(2.4.0)    | the min scale of the image viewer zoom event.                                                                                 | ^[number]             | 0.2     |
-| max-scale ^(2.4.0)    | the max scale of the image viewer zoom event.                                                                                 | ^[number]             | 7       |
-| close-on-press-escape | whether the image-viewer can be closed by pressing ESC.                                                                       | ^[boolean]            | true    |
+| Name                   | Description                                                                                                                   | Type                  | Default |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
+| url-list               | preview link list.                                                                                                            | ^[object]`string[]`   | []      |
+| z-index                | preview backdrop z-index.                                                                                                     | ^[number] / ^[string] | —       |
+| initial-index          | the initial preview image index, less than or equal to the length of `url-list`.                                              | ^[number]             | 0       |
+| infinite               | whether preview is infinite.                                                                                                  | ^[boolean]            | true    |
+| hide-on-click-modal    | whether user can emit close event when clicking backdrop.                                                                     | ^[boolean]            | false   |
+| teleported             | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true`. | ^[boolean]            | false   |
+| zoom-rate ^(2.2.27)    | the zoom rate of the image viewer zoom event.                                                                                 | ^[number]             | 1.2     |
+| min-scale ^(2.4.0)     | the min scale of the image viewer zoom event.                                                                                 | ^[number]             | 0.2     |
+| max-scale ^(2.4.0)     | the max scale of the image viewer zoom event.                                                                                 | ^[number]             | 7       |
+| close-on-press-escape  | whether the image-viewer can be closed by pressing ESC.                                                                       | ^[boolean]            | true    |
+| show-progress ^(2.9.4) | whether to display the preview image progress content                                                                         | ^[boolean]            | false   |
 
-### Image Viewer Events
+### Events
 
 | Name             | Description                                                                                       | Type                                 |
 | ---------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
@@ -123,8 +148,24 @@ image/image-preview
 | switch           | trigger when switching images.                                                                    | ^[Function]`(index: number) => void` |
 | rotate ^(2.3.13) | trigger when rotating images.                                                                     | ^[Function]`(deg: number) => void`   |
 
-### Image Viewer Exposes
+### Exposes
 
 | Name          | Description           | Type                                 |
 | ------------- | --------------------- | ------------------------------------ |
 | setActiveItem | manually switch image | ^[Function]`(index: number) => void` |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise'
+type ImageViewerActionOptions = {
+  enableTransition?: boolean
+  zoomRate?: number
+  rotateDeg?: number
+}
+```
+
+</details>

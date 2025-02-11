@@ -72,6 +72,7 @@ import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
 import type { TooltipContentInstance } from './content'
 import type { PopperInstance } from '@element-plus/components/popper'
+import type { Ref } from 'vue'
 
 defineOptions({
   name: 'ElTooltip',
@@ -160,7 +161,15 @@ const isFocusInsideContent = (event?: FocusEvent) => {
 
 onDeactivated(() => open.value && hide())
 
-defineExpose({
+defineExpose<{
+  popperRef: Ref<PopperInstance | undefined>
+  contentRef: Ref<TooltipContentInstance | undefined>
+  isFocusInsideContent: (event?: FocusEvent) => boolean | undefined
+  updatePopper: () => void
+  onOpen: (event?: Event) => void
+  onClose: (event?: Event) => void
+  hide: () => void
+}>({
   /**
    * @description el-popper component instance
    */

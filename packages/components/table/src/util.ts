@@ -1,7 +1,8 @@
 // @ts-nocheck
-import { createVNode, render } from 'vue'
+import { createVNode, isVNode, render } from 'vue'
 import { flatMap, get, isNull, merge } from 'lodash-unified'
 import {
+  getProp,
   hasOwn,
   isArray,
   isBoolean,
@@ -35,6 +36,12 @@ export type TableOverflowTooltipOptions = Partial<
     | 'transition'
   >
 >
+
+export type TableOverflowTooltipFormatter<T = any> = (data: {
+  row: T
+  column: TableColumnCtx<T>
+  cellValue
+}) => VNode | string
 
 type RemovePopperFn = (() => void) & {
   trigger?: HTMLElement
@@ -278,7 +285,7 @@ export function toggleRowStatus<T>(
   let changed = false
   const index = statusArr.indexOf(row)
   const included = index !== -1
-  const isRowSelectable = selectable?.call(null, row, rowIndex)
+  const isRowSelectable = selectable?.call(null, row, _rowIndex)
 
   const toggleStatus = (type: 'add' | 'remove') => {
     if (type === 'add') {
@@ -318,7 +325,7 @@ export function toggleRowStatus<T>(
     isArray(row[tableTreeProps.children])
   ) {
     row[tableTreeProps.children].forEach((item) => {
-      toggleRowStatus(
+      const childChanged = toggleRowStatus(
         statusArr,
         item,
         newVal ?? !included,
@@ -327,6 +334,9 @@ export function toggleRowStatus<T>(
         _rowIndex + 1
       )
       _rowIndex += getChildrenCount(item) + 1
+      if (childChanged) {
+        changed = childChanged
+      }
     })
   }
   return changed
@@ -368,15 +378,38 @@ export function walkTreeNode(
 
 const getTableOverflowTooltipProps = (
   props: TableOverflowTooltipOptions,
-  content: string
+  innerText: string,
+  row: T,
+  column: TableColumnCtx<T>
 ) => {
+  // merge popperOptions
+  const popperOptions = {
+    strategy: 'fixed',
+    ...props.popperOptions,
+  }
+
+  const tooltipFormatterContent = isFunction(column.tooltipFormatter)
+    ? column.tooltipFormatter({
+        row,
+        column,
+        cellValue: getProp(row, column.property).value,
+      })
+    : undefined
+
+  if (isVNode(tooltipFormatterContent)) {
+    return {
+      slotContent: tooltipFormatterContent,
+      content: null,
+      ...props,
+      popperOptions,
+    }
+  }
+
   return {
-    content,
+    slotContent: null,
+    content: tooltipFormatterContent ?? innerText,
     ...props,
-    popperOptions: {
-      strategy: 'fixed',
-      ...props.popperOptions,
-    },
+    popperOptions,
   }
 }
 
@@ -385,29 +418,50 @@ export let removePopper: RemovePopperFn | null = null
 export function createTablePopper(
   props: TableOverflowTooltipOptions,
   popperContent: string,
+  row: T,
+  column: TableColumnCtx<T>,
   trigger: HTMLElement,
   table: Table<[]>
 ) {
+  const tableOverflowTooltipProps = getTableOverflowTooltipProps(
+    props,
+    popperContent,
+    row,
+    column
+  )
+  const mergedProps = {
+    ...tableOverflowTooltipProps,
+    slotContent: undefined,
+  }
   if (removePopper?.trigger === trigger) {
-    merge(
-      removePopper!.vm.component.props,
-      getTableOverflowTooltipProps(props, popperContent)
-    )
+    const comp = removePopper!.vm.component
+    merge(comp.props, mergedProps)
+    if (tableOverflowTooltipProps.slotContent) {
+      comp.slots.content = () => [tableOverflowTooltipProps.slotContent]
+    }
     return
   }
   removePopper?.()
   const parentNode = table?.refs.tableWrapper
   const ns = parentNode?.dataset.prefix
-  const vm = createVNode(ElTooltip, {
-    virtualTriggering: true,
-    virtualRef: trigger,
-    appendTo: parentNode,
-    placement: 'top',
-    transition: 'none', // Default does not require transition
-    offset: 0,
-    hideAfter: 0,
-    ...getTableOverflowTooltipProps(props, popperContent),
-  })
+  const vm = createVNode(
+    ElTooltip,
+    {
+      virtualTriggering: true,
+      virtualRef: trigger,
+      appendTo: parentNode,
+      placement: 'top',
+      transition: 'none', // Default does not require transition
+      offset: 0,
+      hideAfter: 0,
+      ...mergedProps,
+    },
+    tableOverflowTooltipProps.slotContent
+      ? {
+          content: () => tableOverflowTooltipProps.slotContent,
+        }
+      : undefined
+  )
   vm.appContext = { ...table.appContext, ...table }
   const container = document.createElement('div')
   render(vm, container)

@@ -132,7 +132,7 @@ switch/custom-action-slot
 | ------ | --------------------------- | ------------------------------------------------------- |
 | change | triggers when value changes | ^[Function]`(val: boolean \| string \| number) => void` |
 
-### Switch Slots
+### Slots
 
 | Name                     | Description               |
 | ------------------------ | ------------------------- |
