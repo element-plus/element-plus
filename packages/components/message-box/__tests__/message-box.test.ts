@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { markRaw } from 'vue'
+import { markRaw, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -375,10 +375,12 @@ describe('MessageBox', () => {
 
     test('prompt inputValidator error message', async () => {
       const message = '这是一段内容'
+      const isTriggerValidator = ref(false)
 
       MessageBox.prompt(message, {
         type: 'success',
         inputValidator: () => {
+          isTriggerValidator.value = true
           return 'error message'
         },
       })
@@ -387,11 +389,13 @@ describe('MessageBox', () => {
       const confirmBtn = msgbox.querySelector('.el-button--primary')!
       const error = msgbox.querySelector('.el-message-box__errormsg')!
 
+      expect(isTriggerValidator.value).toBe(false)
       expect(error.textContent).toBe('')
       confirmBtn.click()
       await rAF()
 
       expect(error.textContent).toBe('error message')
+      expect(isTriggerValidator.value).toBe(true)
     })
   })
 })
