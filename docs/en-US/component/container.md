@@ -81,13 +81,13 @@ container/example
 
 ## Container API
 
-### Container Attributes
+### Attributes
 
 | Name      | Description                         | Type                                | Default                                                                    |
 | --------- | ----------------------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
 | direction | layout direction for child elements | ^[enum]`'horizontal' \| 'vertical'` | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
 
-### Container Slots
+### Slots
 
 | Name    | Description               | Subtags                                    |
 | ------- | ------------------------- | ------------------------------------------ |
@@ -95,13 +95,13 @@ container/example
 
 ## Header API
 
-### Header Attributes
+### Attributes
 
 | Name   | Description          | Type      | Default |
 | ------ | -------------------- | --------- | ------- |
 | height | height of the header | ^[string] | 60px    |
 
-### Header Slots
+### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
@@ -109,13 +109,13 @@ container/example
 
 ## Aside API
 
-### Aside Attributes
+### Attributes
 
 | Name  | Description               | Type      | Default |
 | ----- | ------------------------- | --------- | ------- |
 | width | width of the side section | ^[string] | 300px   |
 
-### Aside Slots
+### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
@@ -123,7 +123,7 @@ container/example
 
 ## Main API
 
-### Main Slots
+### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
@@ -131,13 +131,13 @@ container/example
 
 ## Footer API
 
-### Footer Attributes
+### Attributes
 
 | Name   | Description          | Type      | Default |
 | ------ | -------------------- | --------- | ------- |
 | height | height of the footer | ^[string] | 60px    |
 
-### Footer Slots
+### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |

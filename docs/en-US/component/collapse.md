@@ -49,20 +49,20 @@ collapse/custom-icon
 
 ## Collapse API
 
-### Collapse Attributes
+### Attributes
 
 | Name                  | Description                                                                             | Type                 | Default |
 | --------------------- | --------------------------------------------------------------------------------------- | -------------------- | ------- |
 | model-value / v-model | currently active panel, the type is `string` in accordion mode, otherwise it is `array` | ^[string] / ^[array] | []      |
 | accordion             | whether to activate accordion mode                                                      | ^[boolean]           | false   |
 
-### Collapse Events
+### Events
 
 | Name   | Description                                                                                                   | Type                                                |
 | ------ | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
 | change | triggers when active panels change, the parameter type is `string` in accordion mode, otherwise it is `array` | ^[Function]`(activeNames: array \| string) => void` |
 
-### Collapse Slots
+### Slots
 
 | Name    | Description               | Subtags       |
 | ------- | ------------------------- | ------------- |
@@ -70,7 +70,7 @@ collapse/custom-icon
 
 ## Collapse Item API
 
-### Collapse Item Attributes
+### Attributes
 
 | Name          | Description                        | Type                     | Default    |
 | ------------- | ---------------------------------- | ------------------------ | ---------- |
@@ -79,7 +79,7 @@ collapse/custom-icon
 | icon ^(2.8.3) | icon of the collapse item          | ^[string] / ^[Component] | ArrowRight |
 | disabled      | disable the collapse item          | ^[boolean]               | false      |
 
-### Collapse Item Slot
+### Slot
 
 | Name          | Description                    | Type                             |
 | ------------- | ------------------------------ | -------------------------------- |

@@ -49,7 +49,7 @@ descriptions/customized-style
 
 ## Descriptions API
 
-### Descriptions Attributes
+### Attributes
 
 | Name                 | Description                                | Type                                           | Default    |
 | -------------------- | ------------------------------------------ | ---------------------------------------------- | ---------- |
@@ -61,7 +61,7 @@ descriptions/customized-style
 | extra                | extra text, display on the top right       | ^[string]                                      | ''         |
 | label-width ^(2.8.8) | label width of every column                | ^[string] / ^[number]                          | ''         |
 
-### Descriptions Slots
+### Slots
 
 | Name    | Description                                 | Subtags           |
 | ------- | ------------------------------------------- | ----------------- |
@@ -71,7 +71,7 @@ descriptions/customized-style
 
 ## DescriptionsItem API
 
-### DescriptionsItem Attributes
+### Attributes
 
 | Name                 | Description                                                                                                                                                                                  | Type                                   | Default |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ------- |
@@ -86,7 +86,7 @@ descriptions/customized-style
 | class-name           | column content custom class name                                                                                                                                                             | ^[string]                              | ''      |
 | label-class-name     | column label custom class name                                                                                                                                                               | ^[string]                              | ''      |
 
-### DescriptionsItem Slots
+### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |

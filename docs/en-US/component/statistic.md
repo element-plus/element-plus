@@ -37,7 +37,7 @@ statistic/card
 
 ## Statistic API
 
-### Statistic Attributes
+### Attributes
 
 | Attribute         | Description                    | Type                                                                | Default |
 | ----------------- | ------------------------------ | ------------------------------------------------------------------- | ------- |
@@ -51,7 +51,7 @@ statistic/card
 | title             | Numeric titles                 | ^[string]                                                           | —       |
 | value-style       | Styles numeric values          | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
 
-### Statistic Slots
+### Slots
 
 | Name   | Description                 |
 | ------ | --------------------------- |
@@ -59,7 +59,7 @@ statistic/card
 | suffix | Suffixes for numeric values |
 | title  | Numeric titles              |
 
-### Statistic Exposes
+### Exposes
 
 | Name         | Description           | Type                             |
 | ------------ | --------------------- | -------------------------------- |
@@ -67,7 +67,7 @@ statistic/card
 
 ## Countdown API
 
-### Countdown Attributes
+### Attributes
 
 | Attribute   | Description                      | Type                                                                | Default  |
 | ----------- | -------------------------------- | ------------------------------------------------------------------- | -------- |
@@ -78,14 +78,14 @@ statistic/card
 | title       | countdown titles                 | ^[string]                                                           | —        |
 | value-style | Styles countdown values          | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —        |
 
-### Countdown Events
+### Events
 
 | Method | Description                  | Type                                 |
 | ------ | ---------------------------- | ------------------------------------ |
 | change | Time difference change event | ^[Function]`(value: number) => void` |
 | finish | countdown end event          | ^[Function]`() => void`              |
 
-### Countdown Slots
+### Slots
 
 | Name   | Description            |
 | ------ | ---------------------- |
@@ -93,7 +93,7 @@ statistic/card
 | suffix | countdown value suffix |
 | title  | countdown title        |
 
-### Countdown Exposes
+### Exposes
 
 | Name         | Description           | Type                   |
 | ------------ | --------------------- | ---------------------- |
