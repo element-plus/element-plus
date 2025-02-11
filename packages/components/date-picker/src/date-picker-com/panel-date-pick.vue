@@ -155,6 +155,7 @@
             :date="innerDate"
             :disabled-date="disabledDate"
             :parsed-value="parsedValue"
+            :cell-class-name="cellClassName"
             @pick="handleYearPick"
           />
           <month-table
@@ -164,6 +165,7 @@
             :date="innerDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
+            :cell-class-name="cellClassName"
             @pick="handleMonthPick"
           />
         </div>
