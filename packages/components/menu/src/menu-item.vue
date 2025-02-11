@@ -35,7 +35,6 @@
 </template>
 
 <script lang="ts" setup>
-// @ts-nocheck
 import {
   computed,
   getCurrentInstance,
@@ -81,7 +80,7 @@ const item: MenuItemRegistered = reactive({
 const handleClick = () => {
   if (!props.disabled) {
     rootMenu.handleMenuItemClick({
-      index: props.index!,
+      index: props.index,
       indexPath: indexPath.value,
       route: props.route,
     })
