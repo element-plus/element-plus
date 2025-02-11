@@ -98,4 +98,6 @@ onBeforeUnmount(() => {
   subMenu.removeSubMenu(item)
   rootMenu.removeMenuItem(item)
 })
+
+defineExpose({ parentMenu, rootMenu, active, nsMenu, nsMenuItem, handleClick })
 </script>
