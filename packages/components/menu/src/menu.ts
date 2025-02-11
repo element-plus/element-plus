@@ -249,7 +249,9 @@ export default defineComponent({
 
     const close = (index: string) => {
       const i = openedMenus.value.indexOf(index)
-      if (i !== -1) openedMenus.value.splice(i, 1)
+      if (i !== -1) {
+        openedMenus.value.splice(i, 1)
+      }
     }
 
     const closeMenu: MenuProvider['closeMenu'] = (index, indexPath) => {
@@ -269,8 +271,9 @@ export default defineComponent({
     const handleMenuItemClick: MenuProvider['handleMenuItemClick'] = (
       menuItem
     ) => {
-      if (props.mode === 'horizontal' || props.collapse) openedMenus.value = []
-
+      if (props.mode === 'horizontal' || props.collapse) {
+        openedMenus.value = []
+      }
       const { index, indexPath } = menuItem
       if (isNil(index) || isNil(indexPath)) return
 
@@ -362,7 +365,9 @@ export default defineComponent({
     watch(
       () => props.defaultActive,
       (currentActive) => {
-        if (!items.value[currentActive]) activeIndex.value = ''
+        if (!items.value[currentActive]) {
+          activeIndex.value = ''
+        }
         updateActiveIndex(currentActive)
       }
     )
