@@ -377,25 +377,29 @@ describe('MessageBox', () => {
       const message = '这是一段内容'
       const isTriggerValidator = ref(false)
 
+      const inputValidator = vi.fn(() => {
+        isTriggerValidator.value = true
+        return 'error message'
+      })
+
       MessageBox.prompt(message, {
         type: 'success',
-        inputValidator: () => {
-          isTriggerValidator.value = true
-          return 'error message'
-        },
+        inputValidator,
       })
       await rAF()
       const msgbox: HTMLElement = document.querySelector(selector)!
       const confirmBtn = msgbox.querySelector('.el-button--primary')!
       const error = msgbox.querySelector('.el-message-box__errormsg')!
 
+      expect(inputValidator).toHaveBeenCalledTimes(0)
       expect(isTriggerValidator.value).toBe(false)
       expect(error.textContent).toBe('')
       confirmBtn.click()
       await rAF()
 
-      expect(error.textContent).toBe('error message')
+      expect(inputValidator).toHaveBeenCalledTimes(1)
       expect(isTriggerValidator.value).toBe(true)
+      expect(error.textContent).toBe('error message')
     })
   })
 })
