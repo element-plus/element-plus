@@ -135,9 +135,17 @@ describe('Autocomplete.vue', () => {
     const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
       typeof Autocomplete
     >
+
+    await wrapper.setProps({ triggerOnEnter: false })
     target.handleKeyEnter()
     vi.runAllTimers()
 
+    await nextTick()
+    expect(fetchSuggestions).toHaveBeenCalledTimes(0)
+
+    await wrapper.setProps({ triggerOnEnter: true })
+    target.handleKeyEnter()
+    vi.runAllTimers()
     await nextTick()
     expect(fetchSuggestions).toHaveBeenCalledTimes(1)
   })
