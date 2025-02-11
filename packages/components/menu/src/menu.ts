@@ -213,12 +213,11 @@ export default defineComponent({
     const subMenus = ref<MenuProvider['subMenus']>({})
 
     // computed
-    const isMenuPopup = computed<MenuProvider['isMenuPopup']>(() => {
-      return (
+    const isMenuPopup = computed<MenuProvider['isMenuPopup']>(
+      () =>
         props.mode === 'horizontal' ||
         (props.mode === 'vertical' && props.collapse)
-      )
-    })
+    )
 
     // methods
     const initMenu = () => {
@@ -250,9 +249,7 @@ export default defineComponent({
 
     const close = (index: string) => {
       const i = openedMenus.value.indexOf(index)
-      if (i !== -1) {
-        openedMenus.value.splice(i, 1)
-      }
+      if (i !== -1) openedMenus.value.splice(i, 1)
     }
 
     const closeMenu: MenuProvider['closeMenu'] = (index, indexPath) => {
@@ -266,19 +263,13 @@ export default defineComponent({
     }) => {
       const isOpened = openedMenus.value.includes(index)
 
-      if (isOpened) {
-        closeMenu(index, indexPath)
-      } else {
-        openMenu(index, indexPath)
-      }
+      isOpened ? closeMenu(index, indexPath) : openMenu(index, indexPath)
     }
 
     const handleMenuItemClick: MenuProvider['handleMenuItemClick'] = (
       menuItem
     ) => {
-      if (props.mode === 'horizontal' || props.collapse) {
-        openedMenus.value = []
-      }
+      if (props.mode === 'horizontal' || props.collapse) openedMenus.value = []
 
       const { index, indexPath } = menuItem
       if (isNil(index) || isNil(indexPath)) return
@@ -309,11 +300,7 @@ export default defineComponent({
         (activeIndex.value && itemsInData[activeIndex.value]) ||
         itemsInData[props.defaultActive]
 
-      if (item) {
-        activeIndex.value = item.index
-      } else {
-        activeIndex.value = val
-      }
+      activeIndex.value = item?.index ?? val
     }
 
     const calcMenuItemWidth = (menuItem: HTMLElement) => {
@@ -375,9 +362,7 @@ export default defineComponent({
     watch(
       () => props.defaultActive,
       (currentActive) => {
-        if (!items.value[currentActive]) {
-          activeIndex.value = ''
-        }
+        if (!items.value[currentActive]) activeIndex.value = ''
         updateActiveIndex(currentActive)
       }
     )
