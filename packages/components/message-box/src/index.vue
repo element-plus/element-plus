@@ -285,7 +285,7 @@ export default defineComponent({
       inputPattern: null,
       inputPlaceholder: '',
       inputType: 'text',
-      inputValue: null,
+      inputValue: '',
       inputValidator: undefined,
       inputErrorMessage: '',
       message: '',
@@ -335,7 +335,7 @@ export default defineComponent({
       () => state.inputValue,
       async (val) => {
         await nextTick()
-        if (props.boxType === 'prompt' && val !== null) {
+        if (props.boxType === 'prompt' && val) {
           validate()
         }
       },
@@ -430,7 +430,7 @@ export default defineComponent({
     const validate = () => {
       if (props.boxType === 'prompt') {
         const inputPattern = state.inputPattern
-        if (inputPattern && !inputPattern.test(state.inputValue || '')) {
+        if (inputPattern && !inputPattern.test(state.inputValue)) {
           state.editorErrorMessage =
             state.inputErrorMessage || t('el.messagebox.error')
           state.validateError = true

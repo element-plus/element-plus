@@ -372,5 +372,26 @@ describe('MessageBox', () => {
       expect(label.getAttribute('for')).toBe(input.getAttribute('id'))
       expect(label.textContent).toBe(message)
     })
+
+    test('prompt inputValidator error message', async () => {
+      const message = '这是一段内容'
+
+      MessageBox.prompt(message, {
+        type: 'success',
+        inputValidator: () => {
+          return 'error message'
+        },
+      })
+      await rAF()
+      const msgbox: HTMLElement = document.querySelector(selector)!
+      const confirmBtn = msgbox.querySelector('.el-button--primary')!
+      const error = msgbox.querySelector('.el-message-box__errormsg')!
+
+      expect(error.textContent).toBe('')
+      confirmBtn.click()
+      await rAF()
+
+      expect(error.textContent).toBe('error message')
+    })
   })
 })
