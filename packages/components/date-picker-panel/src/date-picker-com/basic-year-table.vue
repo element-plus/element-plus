@@ -11,12 +11,12 @@
         <td
           v-for="(cell, cellKey) in row"
           :key="`${rowKey}_${cellKey}`"
-          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
+          :ref="(el) => cell.isSelected && (currentCellRef = el as HTMLElement)"
           class="available"
           :class="getCellKls(cell)"
-          :aria-selected="isSelectedCell(cell)"
+          :aria-selected="cell.isSelected"
           :aria-label="String(cell.text)"
-          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          :tabindex="cell.isSelected ? 0 : -1"
           @keydown.space.prevent.stop="handleYearTableClick"
           @keydown.enter.prevent.stop="handleYearTableClick"
         >
@@ -37,6 +37,8 @@ import { basicYearTableProps } from '../props/basic-year-table'
 import { getValidDateOfYear } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
 
+import type { Dayjs } from 'dayjs'
+
 type YearCell = {
   column: number
   row: number
@@ -46,6 +48,11 @@ type YearCell = {
   text: number
   type: 'normal' | 'today'
   inRange: boolean
+  isSelected: boolean
+  date?: Date
+  dayjs?: Dayjs
+  timestamp?: number
+  customClass?: string
 }
 
 const datesInYear = (year: number, lang: string) => {
@@ -91,6 +98,7 @@ const rows = computed(() => {
           end: false,
           text: -1,
           disabled: false,
+          isSelected: false,
         }
       }
       cell.type = 'normal'
@@ -131,8 +139,12 @@ const rows = computed(() => {
       }
       cell.text = index
       const cellDate = calTime.toDate()
-      cell.disabled =
-        (props.disabledDate && props.disabledDate(cellDate)) || false
+      cell.disabled = props.disabledDate?.(cellDate) || false
+      cell.date = cellDate
+      cell.customClass = props.cellClassName?.(cellDate)
+      cell.dayjs = calTime
+      cell.timestamp = calTime.valueOf()
+      cell.isSelected = isSelectedCell(cell)
       row[j] = cell
     }
   }
@@ -158,6 +170,9 @@ const getCellKls = (cell: YearCell) => {
   kls.current =
     castArray(props.parsedValue).findIndex((d) => d!.year() === year) >= 0
 
+  if (cell.customClass) {
+    kls[cell.customClass] = true
+  }
   if (cell.inRange) {
     kls['in-range'] = true
 

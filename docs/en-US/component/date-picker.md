@@ -134,14 +134,15 @@ For data details, please refer:
 ```ts
 interface DateCell {
   column: number
-  customClass: string
+  customClass?: string
   disabled: boolean
   end: boolean
   inRange: boolean
   row: number
-  selected: Dayjs
-  isCurrent: boolean
+  selected?: Dayjs
+  isCurrent?: boolean
   isSelected: boolean
+  renderText?: string
   start: boolean
   text: number
   timestamp: number

@@ -166,6 +166,7 @@
             :disabled-date="disabledDate"
             :disabled="disabled"
             :parsed-value="parsedValue"
+            :cell-class-name="cellClassName"
             @pick="handleYearPick"
           />
           <month-table
@@ -176,6 +177,7 @@
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
             :disabled="disabled"
+            :cell-class-name="cellClassName"
             @pick="handleMonthPick"
           />
         </div>
