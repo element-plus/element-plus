@@ -430,7 +430,7 @@ export default defineComponent({
     const validate = () => {
       if (props.boxType === 'prompt') {
         const inputPattern = state.inputPattern
-        if (inputPattern && !inputPattern.test(state.inputValue)) {
+        if (inputPattern && !inputPattern.test(state.inputValue || '')) {
           state.editorErrorMessage =
             state.inputErrorMessage || t('el.messagebox.error')
           state.validateError = true
@@ -438,7 +438,7 @@ export default defineComponent({
         }
         const inputValidator = state.inputValidator
         if (isFunction(inputValidator)) {
-          const validateResult = inputValidator(state.inputValue || '')
+          const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
             state.editorErrorMessage =
               state.inputErrorMessage || t('el.messagebox.error')
