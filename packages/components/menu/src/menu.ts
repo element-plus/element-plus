@@ -269,7 +269,9 @@ export default defineComponent({
       if (isOpened) {
         closeMenu(index, indexPath)
       } else {
-        openMenu(index, indexPath)
+        activeIndex.value?.startsWith(index)
+          ? initMenu()
+          : openMenu(index, indexPath)
       }
     }
 

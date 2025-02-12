@@ -391,6 +391,38 @@ describe('other', () => {
     const submenu1 = await wrapper.findComponent({ ref: 'submenu1' })
     expect(submenu1.classes().includes('is-opened')).toBeFalsy()
   })
+  test('unique-opened', async () => {
+    const wrapper = _mount(
+      `<el-menu unique-opened default-active="2-4-1">
+        <el-menu-item index="1">处理中心</el-menu-item>
+        <el-sub-menu index="2" ref="submenu1">
+          <template slot="title">我的工作台</template>
+          <el-menu-item index="2-1">选项1</el-menu-item>
+          <el-menu-item index="2-2" ref="submenu1Item2">选项2</el-menu-item>
+          <el-menu-item index="2-3">选项3</el-menu-item>
+          <el-sub-menu index="2-4" ref="submenu_inner">
+            <template #title>item four</template>
+            <el-menu-item index="2-4-1">item one</el-menu-item>
+          </el-sub-menu>
+        </el-sub-menu>
+        <el-sub-menu index="3" ref="submenu2">
+          <template slot="title">订单管理</template>
+          <el-menu-item index="3-1">选项1</el-menu-item>
+          <el-menu-item index="3-2" ref="submenu2Item2">选项2</el-menu-item>
+          <el-menu-item index="3-3">选项3</el-menu-item>
+        </el-sub-menu>
+      </el-menu>`
+    )
+    const submenu2 = await wrapper.findComponent({ ref: 'submenu2' })
+    submenu2.vm.$el.querySelector('.el-sub-menu__title').click()
+    await nextTick()
+    const submenu1 = await wrapper.findComponent({ ref: 'submenu1' })
+    submenu1.vm.$el.querySelector('.el-sub-menu__title').click()
+    await nextTick()
+    const submenuInner = await wrapper.findComponent({ ref: 'submenu_inner' })
+    expect(submenu2.classes().includes('is-opened')).toBeFalsy()
+    expect(submenuInner.classes().includes('is-opened')).toBeTruthy()
+  })
   test('horizontal mode', async () => {
     const onOpen = vi.fn()
     const wrapper = _mount(
