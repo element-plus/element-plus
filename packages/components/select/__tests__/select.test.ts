@@ -2976,12 +2976,13 @@ describe('Select', () => {
       vi.useRealTimers()
     })
 
+    // fix: 11930
     it('should work when options changed', async () => {
       vi.useFakeTimers()
 
       const wrapper = _mount(
         `
-        <el-select v-model="value" filterable default-first-option :filterMethod="filterMethod">
+        <el-select v-model="value" filterable remote default-first-option :remoteMethod="remoteMethod">
           <el-option
             v-for="option in options"
             :key="option.value"
@@ -3001,7 +3002,7 @@ describe('Select', () => {
         }),
         {
           methods: {
-            filterMethod() {
+            remoteMethod() {
               setTimeout(() => {
                 this.options = [
                   {
