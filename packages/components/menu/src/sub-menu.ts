@@ -177,10 +177,10 @@ export default defineComponent({
           ]
     )
     const opened = computed(() => rootMenu.openedMenus.includes(props.index))
-    const active = computed(
-      () =>
-        Object.values(items.value).some(({ active }) => active) ||
-        Object.values(subMenus.value).some(({ active }) => active)
+    const active = computed(() =>
+      [...Object.values(items.value), ...Object.values(subMenus.value)].some(
+        ({ active }) => active
+      )
     )
 
     const mode = computed(() => rootMenu.props.mode)
@@ -212,7 +212,11 @@ export default defineComponent({
     const doDestroy = () =>
       vPopper.value?.popperRef?.popperInstanceRef?.destroy()
 
-    const handleCollapseToggle = (value: boolean) => !value && doDestroy()
+    const handleCollapseToggle = (value: boolean) => {
+      if (!value) {
+        doDestroy()
+      }
+    }
 
     const handleClick = () => {
       if (
