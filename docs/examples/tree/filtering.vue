@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
 import { ElTree } from 'element-plus'
-
+import type { FilterNodeMethodFunction } from 'element-plus'
 interface Tree {
   [key: string]: any
 }
@@ -36,7 +36,7 @@ watch(filterText, (val) => {
   treeRef.value!.filter(val)
 })
 
-const filterNode = (value: string, data: Tree) => {
+const filterNode: FilterNodeMethodFunction = (value, data) => {
   if (!value) return true
   return data.label.includes(value)
 }

@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/es/components/tree/src/model/node'
+import type { LoadFunction } from 'element-plus'
 
 interface Tree {
   name: string
@@ -17,11 +17,7 @@ const props = {
 }
 
 let time = 0
-const loadNode = (
-  node: Node,
-  resolve: (data: Tree[]) => void,
-  reject: () => void
-) => {
+const loadNode: LoadFunction = (node, resolve, reject) => {
   if (node.level === 0) {
     return resolve([{ name: 'region' }])
   }

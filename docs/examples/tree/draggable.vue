@@ -19,10 +19,7 @@
 <script lang="ts" setup>
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode'
-import type {
-  AllowDropType,
-  NodeDropType,
-} from 'element-plus/es/components/tree/src/tree.type'
+import type { AllowDropType, NodeDropType } from 'element-plus'
 
 const handleDragStart = (node: Node, ev: DragEvents) => {
   console.log('drag start', node)
