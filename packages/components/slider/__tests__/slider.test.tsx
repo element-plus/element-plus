@@ -5,6 +5,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
 import Slider from '../src/slider.vue'
 import type { SliderProps } from '../src/slider'
+import type { VueWrapper } from '@vue/test-utils'
 
 vi.mock('lodash-unified', async () => {
   return {
@@ -16,6 +17,60 @@ vi.mock('lodash-unified', async () => {
     }),
   }
 })
+
+type DragState = { x: number; y: number; ctrlKey: boolean }
+
+class MouseDragger {
+  state: DragState = { x: 0, y: 0, ctrlKey: false }
+
+  async down(triggerComponent: VueWrapper<any>, state: Partial<DragState>) {
+    Object.assign(this.state, { ctrlKey: false }, state)
+    triggerComponent.trigger('mousedown', {
+      clientX: this.state.x,
+      clientY: this.state.y,
+      ctrlKey: this.state.ctrlKey,
+    })
+    await nextTick()
+  }
+
+  async dragTo(state: Partial<DragState>) {
+    Object.assign(this.state, { ctrlKey: false }, state)
+    window.dispatchEvent(
+      new MouseEvent('mousemove', {
+        screenX: this.state.x,
+        screenY: this.state.y,
+        clientX: this.state.x,
+        clientY: this.state.y,
+        ctrlKey: this.state.ctrlKey,
+      })
+    )
+    await nextTick()
+  }
+
+  async done() {
+    window.dispatchEvent(
+      new MouseEvent('mouseup', {
+        screenX: this.state.x,
+        screenY: this.state.y,
+        clientX: this.state.x,
+        clientY: this.state.y,
+        ctrlKey: this.state.ctrlKey,
+      })
+    )
+    await nextTick()
+  }
+}
+
+async function mouseDrag(
+  triggerComponent: VueWrapper<any>,
+  from: Partial<DragState>,
+  to: Partial<DragState>
+) {
+  const dragger = new MouseDragger()
+  await dragger.down(triggerComponent, from)
+  await dragger.dragTo(to)
+  await dragger.done()
+}
 
 describe('Slider', () => {
   beforeEach(() => {
@@ -125,25 +180,8 @@ describe('Slider', () => {
         'clientWidth',
         'get'
       ).mockImplementation(() => 200)
-      slider.trigger('mousedown', { clientX: 0 })
 
-      const mousemove = new MouseEvent('mousemove', {
-        screenX: 100,
-        screenY: 0,
-        clientX: 100,
-        clientY: 0,
-      })
-      window.dispatchEvent(mousemove)
-
-      const mouseup = new MouseEvent('mouseup', {
-        screenX: 100,
-        screenY: 0,
-        clientX: 100,
-        clientY: 0,
-      })
-      window.dispatchEvent(mouseup)
-
-      await nextTick()
+      await mouseDrag(slider, { x: 0 }, { x: 100 })
       expect(value.value === 50).toBeTruthy()
     })
 
@@ -167,26 +205,118 @@ describe('Slider', () => {
         'clientHeight',
         'get'
       ).mockImplementation(() => 200)
-      slider.trigger('mousedown', { clientY: 0 })
 
-      const mousemove = new MouseEvent('mousemove', {
-        screenX: 0,
-        screenY: -100,
-        clientX: 0,
-        clientY: -100,
-      })
-      window.dispatchEvent(mousemove)
-
-      const mouseup = new MouseEvent('mouseup', {
-        screenX: 0,
-        screenY: -100,
-        clientX: 0,
-        clientY: -100,
-      })
-      window.dispatchEvent(mouseup)
-      await nextTick()
+      await mouseDrag(slider, { y: 0 }, { y: -100 })
       expect(value.value).toBe(50)
     })
+  })
+
+  it('marks percentage snapping (horizontal + vertical)', async () => {
+    vi.useRealTimers()
+    const value = ref(0)
+    const marks = ref({
+      40: '40',
+      70: '70',
+    })
+    const vertical = ref(false)
+    const markSnapPercentage = ref(0)
+    const wrapper = mount(
+      () => (
+        <div style="width: 200px;">
+          <Slider
+            v-model={value.value}
+            vertical={vertical.value}
+            marks={marks.value}
+            mark-snap-percentage={markSnapPercentage.value}
+          />
+        </div>
+      ),
+      {
+        attachTo: document.body,
+      }
+    )
+
+    const slider = wrapper.findComponent({ name: 'ElSliderButton' })
+
+    vi.spyOn(
+      wrapper.find('.el-slider__runway').element,
+      'clientWidth',
+      'get'
+    ).mockImplementation(() => 200)
+    vi.spyOn(
+      wrapper.find('.el-slider__runway').element,
+      'clientHeight',
+      'get'
+    ).mockImplementation(() => 200)
+
+    const directions: Array<[string, number, boolean]> = [
+      ['x', 2, false],
+      ['y', -2, true],
+    ]
+    for (const [axis, mul, vert] of directions) {
+      vertical.value = vert
+      await nextTick()
+
+      // no snap
+      const dragger = new MouseDragger()
+      await dragger.down(slider, { [axis]: 0 })
+      expect(value.value).toBe(0)
+      await dragger.dragTo({ [axis]: mul * 39 })
+      expect(value.value).toBe(39)
+
+      // snap to 5%
+      markSnapPercentage.value = 5
+      await nextTick()
+
+      await dragger.dragTo({ [axis]: mul * 36 })
+      expect(value.value).toBe(40)
+      await dragger.dragTo({ [axis]: mul * 35 })
+      expect(value.value).toBe(40)
+      await dragger.dragTo({ [axis]: mul * 34 })
+      expect(value.value).toBe(34)
+      await dragger.dragTo({ [axis]: mul * 44 })
+      expect(value.value).toBe(40)
+
+      // ctrlKey disables snap
+      await dragger.dragTo({ [axis]: mul * 41, ctrlKey: true })
+      expect(value.value).toBe(41)
+      await dragger.dragTo({ [axis]: mul * 37, ctrlKey: true })
+      expect(value.value).toBe(37)
+
+      // snap to 2%
+      markSnapPercentage.value = 2
+      await nextTick()
+
+      await dragger.dragTo({ [axis]: mul * 64 })
+      expect(value.value).toBe(64)
+      await dragger.dragTo({ [axis]: mul * 65 })
+      expect(value.value).toBe(65)
+      await dragger.dragTo({ [axis]: mul * 68 })
+      expect(value.value).toBe(70)
+      await dragger.dragTo({ [axis]: mul * 69 })
+      expect(value.value).toBe(70)
+      await dragger.dragTo({ [axis]: mul * 72 })
+      expect(value.value).toBe(70)
+      await dragger.dragTo({ [axis]: mul * 73 })
+      expect(value.value).toBe(73)
+      await dragger.dragTo({ [axis]: mul * 75 })
+      expect(value.value).toBe(75)
+      await dragger.dragTo({ [axis]: mul * 71 })
+      expect(value.value).toBe(70)
+
+      // snap to negative = no snap
+      markSnapPercentage.value = -99
+      await nextTick()
+
+      await dragger.dragTo({ [axis]: mul * 39 })
+      expect(value.value).toBe(39)
+
+      // reset to zero
+      await dragger.dragTo({ [axis]: mul * 0 })
+      expect(value.value).toBe(0)
+      await dragger.done()
+      expect(value.value).toBe(0)
+    }
   })
 
   describe('accessibility', () => {
@@ -287,25 +417,7 @@ describe('Slider', () => {
     const slider = wrapper.findComponent({ name: 'ElSliderButton' })
     await nextTick()
 
-    slider.trigger('mousedown', { clientX: 0 })
-
-    const mousemove = new MouseEvent('mousemove', {
-      screenX: 100,
-      screenY: 0,
-      clientX: 100,
-      clientY: 0,
-    })
-    window.dispatchEvent(mousemove)
-
-    const mouseup = new MouseEvent('mouseup', {
-      screenX: 100,
-      screenY: 0,
-      clientX: 100,
-      clientY: 0,
-    })
-    await nextTick()
-    window.dispatchEvent(mouseup)
-    await nextTick()
+    await mouseDrag(slider, { x: 0 }, { x: 100 })
     expect(value.value === 0.5).toBeTruthy()
     mockClientWidth.mockRestore()
   })
@@ -401,24 +513,8 @@ describe('Slider', () => {
       .spyOn(wrapper.find('.el-slider__runway').element, 'clientWidth', 'get')
       .mockImplementation(() => 200)
     const slider = wrapper.findComponent({ name: 'ElSliderButton' })
-    slider.vm.onButtonDown({ clientX: 0 })
 
-    const mousemove = new MouseEvent('mousemove', {
-      screenX: 50,
-      screenY: 0,
-      clientX: 50,
-      clientY: 0,
-    })
-    window.dispatchEvent(mousemove)
-
-    const mouseup = new MouseEvent('mouseup', {
-      screenX: 50,
-      screenY: 0,
-      clientX: 50,
-      clientY: 0,
-    })
-    window.dispatchEvent(mouseup)
-    await nextTick()
+    await mouseDrag(slider, { x: 0 }, { x: 50 })
     expect(value.value).toBe(0)
     mockClientWidth.mockRestore()
   })
