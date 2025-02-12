@@ -2976,7 +2976,7 @@ describe('Select', () => {
       vi.useRealTimers()
     })
 
-    it.only('should work when options changed', async () => {
+    it('should work when options changed', async () => {
       vi.useFakeTimers()
 
       const wrapper = _mount(
