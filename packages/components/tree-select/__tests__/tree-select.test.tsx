@@ -99,6 +99,25 @@ describe('TreeSelect.vue', () => {
     expect(tree.findAll('.el-tree .el-tree-node').length).toBe(1)
   })
 
+  test('render tree-select with dynamic class', async () => {
+    const isClass = ref(false)
+    const { wrapper } = createComponent({
+      props: {
+        class: {
+          'dynamic-class': isClass,
+        },
+      },
+    })
+
+    expect(wrapper.find('.el-select')).toBeTruthy()
+
+    isClass.value = true
+    await nextTick()
+    const select = wrapper.find('.el-select')
+    const classes = select.classes()
+    expect(classes).toContain('dynamic-class')
+  })
+
   test('modelValue', async () => {
     const value = ref(1)
     const { getWrapperRef, select, tree } = createComponent({
