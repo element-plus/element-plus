@@ -26,7 +26,7 @@ export const useSelect = (
   watch(
     () => props.data,
     () => {
-      if (props.filterable) {
+      if (props.filterable && !props.funnel) {
         nextTick(() => {
           // let tree node expand only, same with tree filter
           tree.value?.filter(select.value?.states.inputValue)
