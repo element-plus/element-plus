@@ -11,7 +11,6 @@
 
 <script lang="ts" setup>
 import type Node from 'element-plus/es/components/tree/src/model/node'
-
 let count = 1
 
 interface Tree {
