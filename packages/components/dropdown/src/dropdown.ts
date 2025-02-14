@@ -140,7 +140,7 @@ export const dropdownProps = buildProps({
    */
   teleported: useTooltipContentProps.teleported,
   /**
-   * @description when dropdown inactive and `persistent` is `false` , popconfirm will be destroyed
+   * @description when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed
    */
   persistent: {
     type: Boolean,
