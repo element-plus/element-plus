@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { LoadFunction } from 'element-plus'
+import type Node from 'element-plus/es/components/tree/src/model/node'
 interface Tree {
   name: string
   leaf?: boolean
@@ -21,7 +21,7 @@ const props = {
   isLeaf: 'leaf',
 }
 
-const loadNode: LoadFunction = (node, resolve) => {
+const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
   if (node.level === 0) {
     return resolve([{ name: 'region' }])
   }

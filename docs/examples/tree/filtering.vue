@@ -36,7 +36,7 @@ watch(filterText, (val) => {
   treeRef.value!.filter(val)
 })
 
-const filterNode: FilterNodeMethodFunction = (value, data) => {
+const filterNode = (value: string, data: Tree) => {
   if (!value) return true
   return data.label.includes(value)
 }
