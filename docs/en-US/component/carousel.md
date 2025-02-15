@@ -77,7 +77,7 @@ carousel/vertical
 
 ## Carousel API
 
-### Carousel Attributes
+### Attributes
 
 | Name                 | Description                                           | Type                                    | Default    |
 | -------------------- | ----------------------------------------------------- | --------------------------------------- | ---------- |
@@ -95,19 +95,19 @@ carousel/vertical
 | pause-on-hover       | pause autoplay when hover                             | ^[boolean]                              | true       |
 | motion-blur ^(2.6.0) | infuse dynamism and smoothness into the carousel      | ^[boolean]                              | false      |
 
-### Carousel Events
+### Events
 
 | Name   | Description                                                                                                                                              | Type                                                    |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
 | change | triggers when the active slide switches, it has two parameters, the one is the index of the new active slide, and other is index of the old active slide | ^[Function]`(current: number, prev: number) => boolean` |
 
-### Carousel Slots
+### Slots
 
 | Name    | Description               | Subtags       |
 | ------- | ------------------------- | ------------- |
 | default | customize default content | Carousel-Item |
 
-### Carousel Exposes
+### Exposes
 
 | Method               | Description                                                                                                                     | Type                                           |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
@@ -118,14 +118,14 @@ carousel/vertical
 
 ## Carousel-Item API
 
-### Carousel-Item Attributes
+### Attributes
 
 | Name  | Description                                      | Type                  | Default |
 | ----- | ------------------------------------------------ | --------------------- | ------- |
 | name  | name of the item, can be used in `setActiveItem` | ^[string]             | ''      |
 | label | text content for the corresponding indicator     | ^[string] / ^[number] | ''      |
 
-### Carousel-Item Slots
+### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |

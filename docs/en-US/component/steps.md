@@ -79,7 +79,7 @@ steps/simple
 
 ## Steps API
 
-### Steps Attributes
+### Attributes
 
 | Name           | Description                                                                   | Type                                                             | Default    |
 | -------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------- | ---------- |
@@ -91,7 +91,7 @@ steps/simple
 | align-center   | center title and description                                                  | ^[boolean]                                                       | —          |
 | simple         | whether to apply simple theme                                                 | ^[boolean]                                                       | —          |
 
-### Steps Slots
+### Slots
 
 | Name    | Description               | Subtags |
 | ------- | ------------------------- | ------- |
@@ -99,7 +99,7 @@ steps/simple
 
 ## Step API
 
-### Step Attributes
+### Attributes
 
 | Name        | Description                                                              | Type                                                                   | Default |
 | ----------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------- | ------- |
@@ -108,7 +108,7 @@ steps/simple
 | icon        | step custom icon. Icons can be passed via named slot as well             | ^[string] / ^[Component]                                               | —       |
 | status      | current status. It will be automatically set by Steps if not configured. | ^[enum]`'' \| 'wait' \| 'process' \| 'finish' \| 'error' \| 'success'` | ''      |
 
-### Step Slots
+### Slots
 
 | Name        | Description      |
 | ----------- | ---------------- |
