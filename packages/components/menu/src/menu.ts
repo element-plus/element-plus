@@ -161,6 +161,13 @@ export const menuProps = buildProps({
     type: Number,
     default: 300,
   },
+  /**
+   * @description when menu inactive and `persistent` is `false` , dropdown menu will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
