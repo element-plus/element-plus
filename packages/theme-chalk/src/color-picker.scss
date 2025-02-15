@@ -323,7 +323,6 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     width: 100%;
     height: 100%;
     text-align: center;
-    transition: all getCssVar('transition-duration');
 
     @include when(alpha) {
       @include alpha-bg;
