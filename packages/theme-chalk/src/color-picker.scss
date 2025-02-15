@@ -250,7 +250,6 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   position: relative;
   line-height: normal;
   outline: none;
-  transition: all getCssVar('transition-duration');
   height: map.get($color-picker-size, 'default');
   width: map.get($color-picker-size, 'default');
 
