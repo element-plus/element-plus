@@ -296,4 +296,23 @@ describe('Descriptions.vue', () => {
       wrapper.findAll('.el-descriptions__label')[1].attributes('style')
     ).toContain('width: 150px')
   })
+
+  test('render customize functional components', () => {
+    // @ts-expect-error
+    const customComponent = () => {
+      return <ElDescriptionsItem label="label">123</ElDescriptionsItem>
+    }
+    const wrapper = mount(() => (
+      <ElDescriptions title="title" extra="extra">
+        <customComponent />
+        <customComponent />
+        <ElDescriptionsItem label="label">123</ElDescriptionsItem>
+      </ElDescriptions>
+    ))
+
+    expect(wrapper.find('.el-descriptions__title').text()).toEqual('title')
+    expect(wrapper.find('.el-descriptions__extra').text()).toEqual('extra')
+    expect(wrapper.findAll('.el-descriptions__label').length).toEqual(3)
+    expect(wrapper.findAll('.el-descriptions__content').length).toEqual(3)
+  })
 })
