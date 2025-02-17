@@ -212,4 +212,75 @@ describe('Steps.vue', () => {
       expect(domWrapper.element.textContent).toEqual((index + 1).toString())
     })
   })
+
+  test('step style', async () => {
+    const active = ref(1)
+    const wrapper = _mount(() => (
+      <Steps active={active.value} finish-status="success">
+        <Step />
+        <Step />
+        <Step />
+        <Step />
+        <Step />
+      </Steps>
+    ))
+    await nextTick()
+    expect(
+      wrapper.findAll('.el-step')[0].find('.el-step__head').classes()
+    ).toContain('is-success')
+
+    wrapper.findAll('.el-step__line-inner').forEach((domWrapper, index) => {
+      if (index < 4) {
+        const element = domWrapper.element as HTMLElement
+        expect(element.style.transitionDelay).toBe('0ms')
+      }
+    })
+
+    active.value = 5
+    await nextTick()
+
+    wrapper.findAll('.el-step__line-inner').forEach((domWrapper, index) => {
+      if (index < 4) {
+        const element = domWrapper.element as HTMLElement
+        expect(element.style.transitionDelay).toBe(`${index * 150}ms`)
+      }
+    })
+
+    active.value = 1
+    await nextTick()
+    wrapper.findAll('.el-step__line-inner').forEach((domWrapper, index) => {
+      if (index < 4) {
+        const element = domWrapper.element as HTMLElement
+        expect(element.style.transitionDelay).toBe(`${-index * 150}ms`)
+      }
+    })
+
+    active.value = 2
+    await nextTick()
+    wrapper.findAll('.el-step__line-inner').forEach((domWrapper, index) => {
+      if (index < 4) {
+        const element = domWrapper.element as HTMLElement
+        expect(element.style.transitionDelay).toBe(`0ms`)
+      }
+    })
+
+    active.value = 5
+    await nextTick()
+
+    wrapper.findAll('.el-step__line-inner').forEach((domWrapper, index) => {
+      if (index > 0 && index < 4) {
+        const element = domWrapper.element as HTMLElement
+        expect(element.style.transitionDelay).toBe(`${(index - 1) * 150}ms`)
+      }
+    })
+
+    active.value = 2
+    await nextTick()
+    wrapper.findAll('.el-step__line-inner').forEach((domWrapper, index) => {
+      if (index > 0 && index < 4) {
+        const element = domWrapper.element as HTMLElement
+        expect(element.style.transitionDelay).toBe(`${-(index - 1) * 150}ms`)
+      }
+    })
+  })
 })
