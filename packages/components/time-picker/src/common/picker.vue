@@ -313,14 +313,11 @@ const emitKeydown = (e: KeyboardEvent) => {
   emit('keydown', e)
 }
 
-const refInput = computed<HTMLInputElement[]>(() => {
-  if (inputRef.value) {
-    return Array.from<HTMLInputElement>(
-      inputRef.value.$el.querySelectorAll('input')
-    )
-  }
-  return []
-})
+const refInput = computed<HTMLInputElement[]>(() =>
+  inputRef.value
+    ? Array.from<HTMLInputElement>(inputRef.value.$el.querySelectorAll('input'))
+    : []
+)
 
 // @ts-ignore
 const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
@@ -370,9 +367,7 @@ const handleClose = () => {
   pickerVisible.value = false
 }
 
-const pickerDisabled = computed(() => {
-  return props.disabled || form?.disabled
-})
+const pickerDisabled = computed(() => props.disabled || form?.disabled)
 
 const parsedValue = computed(() => {
   let dayOrDays: DayOrDays
@@ -497,9 +492,7 @@ const onTouchStartInput = (event: TouchEvent) => {
   }
 }
 
-const isRangeInput = computed(() => {
-  return props.type.includes('range')
-})
+const isRangeInput = computed(() => props.type.includes('range'))
 
 const pickerSize = useFormSize()
 
@@ -531,11 +524,9 @@ const userInput = ref<UserInput>(null)
 const handleChange = () => {
   if (userInput.value) {
     const value = parseUserInputToDayjs(displayValue.value)
-    if (value) {
-      if (isValidValue(value)) {
-        emitInput(dayOrDaysToDate(value))
-        userInput.value = null
-      }
+    if (value && isValidValue(value)) {
+      emitInput(dayOrDaysToDate(value))
+      userInput.value = null
     }
   }
   if (userInput.value === '') {
@@ -545,19 +536,14 @@ const handleChange = () => {
   }
 }
 
-const parseUserInputToDayjs = (value: UserInput) => {
-  if (!value) return null
-  return pickerOptions.value.parseUserInput!(value)
-}
+const parseUserInputToDayjs = (value: UserInput) =>
+  value ? pickerOptions.value.parseUserInput!(value) : null
 
-const formatDayjsToString = (value: DayOrDays) => {
-  if (!value) return null
-  return pickerOptions.value.formatToString!(value)
-}
+const formatDayjsToString = (value: DayOrDays) =>
+  value ? pickerOptions.value.formatToString!(value) : null
 
-const isValidValue = (value: DayOrDays) => {
-  return pickerOptions.value.isValidValue!(value)
-}
+const isValidValue = (value: DayOrDays) =>
+  pickerOptions.value.isValidValue!(value)
 
 const handleKeydownInput = async (event: Event | KeyboardEvent) => {
   if (props.readonly || pickerDisabled.value) return
@@ -626,20 +612,12 @@ const onUserInput = (e: string) => {
 
 const handleStartInput = (event: Event) => {
   const target = event.target as HTMLInputElement
-  if (userInput.value) {
-    userInput.value = [target.value, userInput.value[1]]
-  } else {
-    userInput.value = [target.value, null]
-  }
+  userInput.value = [target.value, userInput.value?.[1] ?? null]
 }
 
 const handleEndInput = (event: Event) => {
   const target = event.target as HTMLInputElement
-  if (userInput.value) {
-    userInput.value = [userInput.value[0], target.value]
-  } else {
-    userInput.value = [null, target.value]
-  }
+  userInput.value = [userInput.value?.[0] ?? null, target.value]
 }
 
 const handleStartChange = () => {
@@ -663,7 +641,7 @@ const handleEndChange = () => {
   const values = unref(userInput) as string[]
   const value = parseUserInputToDayjs(values && values[1]) as Dayjs
   const parsedVal = unref(parsedValue) as [Dayjs, Dayjs]
-  if (value && value.isValid()) {
+  if (value?.isValid()) {
     userInput.value = [
       unref(displayValue)?.[0] || null,
       formatDayjsToString(value) as string,

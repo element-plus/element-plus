@@ -74,14 +74,10 @@ const { t, lang } = useLocale()
 const selectionRange = ref([0, 2])
 const oldValue = useOldValue(props)
 // computed
-const transitionName = computed(() => {
-  return isUndefined(props.actualVisible)
-    ? `${ns.namespace.value}-zoom-in-top`
-    : ''
-})
-const showSeconds = computed(() => {
-  return props.format.includes('ss')
-})
+const transitionName = computed(() =>
+  isUndefined(props.actualVisible) ? `${ns.namespace.value}-zoom-in-top` : ''
+)
+const showSeconds = computed(() => props.format.includes('ss'))
 const amPmMode = computed(() => {
   if (props.format.includes('A')) return 'A'
   if (props.format.includes('a')) return 'a'
@@ -102,9 +98,8 @@ const handleConfirm = (visible = false, first = false) => {
 }
 const handleChange = (_date: Dayjs) => {
   // visible avoids edge cases, when use scrolls during panel closing animation
-  if (!props.visible) {
-    return
-  }
+  if (!props.visible) return
+
   const result = getRangeAvailableTime(_date).millisecond(0)
   emit('pick', result, true)
 }
@@ -150,23 +145,15 @@ const { timePickerOptions, onSetOption, getAvailableTime } = useTimePanel({
   getAvailableSeconds,
 })
 
-const getRangeAvailableTime = (date: Dayjs) => {
-  return getAvailableTime(date, props.datetimeRole || '', true)
-}
+const getRangeAvailableTime = (date: Dayjs) =>
+  getAvailableTime(date, props.datetimeRole || '', true)
 
-const parseUserInput = (value: Dayjs) => {
-  if (!value) return null
-  return dayjs(value, props.format).locale(lang.value)
-}
+const parseUserInput = (value: Dayjs) =>
+  value ? dayjs(value, props.format).locale(lang.value) : null
 
-const formatToString = (value: Dayjs) => {
-  if (!value) return null
-  return value.format(props.format)
-}
+const formatToString = (value: Dayjs) => value?.format(props.format) ?? null
 
-const getDefaultValue = () => {
-  return dayjs(defaultValue).locale(lang.value)
-}
+const getDefaultValue = () => dayjs(defaultValue).locale(lang.value)
 
 emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['formatToString', formatToString])

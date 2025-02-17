@@ -123,9 +123,9 @@ const listRefsMap: Record<TimeUnit, Ref<ScrollbarInstance | undefined>> = {
 }
 
 // computed
-const spinnerItems = computed(() => {
-  return props.showSeconds ? timeUnits : timeUnits.slice(0, 2)
-})
+const spinnerItems = computed(() =>
+  props.showSeconds ? timeUnits : timeUnits.slice(0, 2)
+)
 
 const timePartials = computed<Record<TimeUnit, number>>(() => {
   const { spinnerDate } = props
@@ -207,7 +207,7 @@ const getScrollbarElement = (el: HTMLElement) =>
 const adjustSpinner = (type: TimeUnit, value: number) => {
   if (props.arrowControl) return
   const scrollbar = unref(listRefsMap[type])
-  if (scrollbar && scrollbar.$el) {
+  if (scrollbar?.$el) {
     getScrollbarElement(scrollbar.$el).scrollTop = Math.max(
       0,
       value * typeItemHeight(type)
@@ -312,14 +312,13 @@ const handleScroll = (type: TimeUnit) => {
   modifyDateField(type, value)
 }
 
-const scrollBarHeight = (type: TimeUnit) => {
-  return unref(listRefsMap[type])!.$el.offsetHeight
-}
+const scrollBarHeight = (type: TimeUnit) =>
+  unref(listRefsMap[type])!.$el.offsetHeight
 
 const bindScrollEvent = () => {
   const bindFunction = (type: TimeUnit) => {
     const scrollbar = unref(listRefsMap[type])
-    if (scrollbar && scrollbar.$el) {
+    if (scrollbar?.$el) {
       getScrollbarElement(scrollbar.$el).onscroll = () => {
         // TODO: scroll is emitted when set scrollTop programmatically
         // should find better solutions in the future!

@@ -35,7 +35,7 @@ export const useTimePanel = ({
         const method = availableTimeGetters[type]
         switch (type) {
           case 'minute': {
-            availableTimeSlots = (method as typeof getAvailableMinutes)(
+            availableTimeSlots = (method as GetDisabledMinutes)(
               result.hour(),
               role,
               compareDate
@@ -43,7 +43,7 @@ export const useTimePanel = ({
             break
           }
           case 'second': {
-            availableTimeSlots = (method as typeof getAvailableSeconds)(
+            availableTimeSlots = (method as GetDisabledSeconds)(
               result.hour(),
               result.minute(),
               role,
@@ -52,10 +52,7 @@ export const useTimePanel = ({
             break
           }
           default: {
-            availableTimeSlots = (method as typeof getAvailableHours)(
-              role,
-              compareDate
-            )
+            availableTimeSlots = (method as GetDisabledHours)(role, compareDate)
             break
           }
         }
@@ -80,7 +77,6 @@ export const useTimePanel = ({
 
   return {
     timePickerOptions,
-
     getAvailableTime,
     onSetOption,
   }

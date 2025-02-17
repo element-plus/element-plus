@@ -87,13 +87,8 @@ import type { Dayjs } from 'dayjs'
 const props = defineProps(panelTimeRangeProps)
 const emit = defineEmits(['pick', 'select-range', 'set-picker-option'])
 
-const makeSelectRange = (start: number, end: number) => {
-  const result: number[] = []
-  for (let i = start; i <= end; i++) {
-    result.push(i)
-  }
-  return result
-}
+const makeSelectRange = (start: number, end: number) =>
+  Array.from({ length: end - start + 1 }, (_, i) => start + i)
 
 const { t, lang } = useLocale()
 const nsTime = useNamespace('time')
@@ -126,9 +121,7 @@ const oldValue = useOldValue(props)
 const handleCancel = () => {
   emit('pick', oldValue.value, false)
 }
-const showSeconds = computed(() => {
-  return props.format.includes('ss')
-})
+const showSeconds = computed(() => props.format.includes('ss'))
 const amPmMode = computed(() => {
   if (props.format.includes('A')) return 'A'
   if (props.format.includes('a')) return 'a'
@@ -153,15 +146,12 @@ const isValidValue = (_date: Dayjs[]) => {
 }
 
 const handleChange = (start: Dayjs, end: Dayjs) => {
-  if (!props.visible) {
-    return
-  }
+  if (!props.visible) return
+
   // todo getRangeAvailableTime(_date).millisecond(0)
   emit('pick', [start, end], true)
 }
-const btnConfirmDisabled = computed(() => {
-  return startTime.value > endTime.value
-})
+const btnConfirmDisabled = computed(() => startTime.value > endTime.value)
 
 const selectionRange = ref([0, 2])
 const setMinSelectionRange = (start: number, end: number) => {
@@ -259,12 +249,10 @@ const disabledSeconds_ = (
   return union(defaultDisable, nextDisable)
 }
 
-const getRangeAvailableTime = ([start, end]: Array<Dayjs>) => {
-  return [
-    getAvailableTime(start, 'start', true, end),
-    getAvailableTime(end, 'end', false, start),
-  ] as const
-}
+const getRangeAvailableTime = ([start, end]: Array<Dayjs>) => [
+  getAvailableTime(start, 'start', true, end),
+  getAvailableTime(end, 'end', false, start),
+]
 
 const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
   buildAvailableTimeSlotGetter(
@@ -273,12 +261,7 @@ const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
     disabledSeconds_
   )
 
-const {
-  timePickerOptions,
-
-  getAvailableTime,
-  onSetOption,
-} = useTimePanel({
+const { timePickerOptions, getAvailableTime, onSetOption } = useTimePanel({
   getAvailableHours,
   getAvailableMinutes,
   getAvailableSeconds,
@@ -286,18 +269,16 @@ const {
 
 const parseUserInput = (days: Dayjs[] | Dayjs) => {
   if (!days) return null
-  if (isArray(days)) {
-    return days.map((d) => dayjs(d, props.format).locale(lang.value))
-  }
-  return dayjs(days, props.format).locale(lang.value)
+  return isArray(days)
+    ? days.map((d) => dayjs(d, props.format).locale(lang.value))
+    : dayjs(days, props.format).locale(lang.value)
 }
 
 const formatToString = (days: Dayjs[] | Dayjs) => {
   if (!days) return null
-  if (isArray(days)) {
-    return days.map((d) => d.format(props.format))
-  }
-  return days.format(props.format)
+  return isArray(days)
+    ? days.map((d) => d.format(props.format))
+    : days.format(props.format)
 }
 
 const getDefaultValue = () => {
