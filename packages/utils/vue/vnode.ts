@@ -160,9 +160,10 @@ export const flattedChildren = (
       result.push(child, ...flattedChildren(child.component.subTree))
     } else if (isVNode(child) && isArray(child.children)) {
       result.push(...flattedChildren(child.children))
-    } else if (isFunction(child)) {
       // @ts-ignore
-      result.push(...flattedChildren(child()))
+    } else if (isFunction(child?.type)) {
+      // @ts-ignore
+      result.push(...flattedChildren(child.type()))
     } else {
       result.push(child)
     }
