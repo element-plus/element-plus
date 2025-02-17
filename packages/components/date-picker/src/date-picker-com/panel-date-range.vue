@@ -478,6 +478,7 @@ const {
   handleLeftMonthPick,
   handleRightMonthPick,
   handlePanelChange,
+  adjustDateByView,
 } = usePanelDateRange(props, emit, leftDate, rightDate, t)
 
 const hasShortcuts = computed(() => !!shortcuts.value.length)
@@ -526,10 +527,11 @@ const isValidValue = (date: [Dayjs, Dayjs]) => {
 }
 
 const leftPrevYear = () => {
-  leftDate.value =
-    leftCurrentView.value === 'year'
-      ? leftDate.value.subtract(10, 'year')
-      : leftDate.value.subtract(1, 'year')
+  leftDate.value = adjustDateByView(
+    leftCurrentView.value,
+    leftDate.value,
+    false
+  )
 
   if (!props.unlinkPanels) {
     rightDate.value = leftDate.value.add(1, 'month')
@@ -547,16 +549,19 @@ const leftPrevMonth = () => {
 
 const rightNextYear = () => {
   if (!props.unlinkPanels) {
-    leftDate.value =
-      rightCurrentView.value === 'year'
-        ? leftDate.value.add(10, 'year')
-        : leftDate.value.add(1, 'year')
+    leftDate.value = adjustDateByView(
+      rightCurrentView.value,
+      leftDate.value,
+      true
+    )
+
     rightDate.value = leftDate.value.add(1, 'month')
   } else {
-    rightDate.value =
-      rightCurrentView.value === 'year'
-        ? rightDate.value.add(10, 'year')
-        : rightDate.value.add(1, 'year')
+    rightDate.value = adjustDateByView(
+      rightCurrentView.value,
+      rightDate.value,
+      true
+    )
   }
   handlePanelChange('year')
 }
@@ -572,10 +577,7 @@ const rightNextMonth = () => {
 }
 
 const leftNextYear = () => {
-  leftDate.value =
-    leftCurrentView.value === 'year'
-      ? leftDate.value.add(10, 'year')
-      : leftDate.value.add(1, 'year')
+  leftDate.value = adjustDateByView(leftCurrentView.value, leftDate.value, true)
 
   handlePanelChange('year')
 }
@@ -586,10 +588,12 @@ const leftNextMonth = () => {
 }
 
 const rightPrevYear = () => {
-  rightDate.value =
-    rightCurrentView.value === 'year'
-      ? rightDate.value.subtract(10, 'year')
-      : rightDate.value.subtract(1, 'year')
+  rightDate.value = adjustDateByView(
+    rightCurrentView.value,
+    rightDate.value,
+    false
+  )
+
   handlePanelChange('year')
 }
 

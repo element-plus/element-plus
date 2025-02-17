@@ -1,15 +1,18 @@
-import { ComputedRef, Ref, computed, inject, nextTick, ref } from 'vue'
+import { computed, inject, nextTick, ref } from 'vue'
+import { useLocale } from '@element-plus/hooks'
 import {
   getValidDateOfMonth,
   getValidDateOfYear,
 } from '@element-plus/components/date-picker/src/utils'
-import { PanelDateRangeProps } from '@element-plus/components/date-picker/src/props/panel-date-range'
-import { Translator, useLocale } from '@element-plus/hooks'
-import type { Dayjs } from 'dayjs'
+
 import type {
   MonthsPickerEmits,
   YearsPickerEmits,
 } from '@element-plus/components/date-picker/src/props/basic-date-table'
+import type { PanelDateRangeProps } from '@element-plus/components/date-picker/src/props/panel-date-range'
+import type { Translator } from '@element-plus/hooks'
+import type { Dayjs } from 'dayjs'
+import type { ComputedRef, Ref } from 'vue'
 
 type CurrentView = 'date' | 'year' | 'month'
 type CurrentViewRef = { focus: () => void }
@@ -147,6 +150,17 @@ export const usePanelDateRange = (
     )
   }
 
+  function adjustDateByView(
+    currentView: CurrentView,
+    date: Dayjs,
+    forward: boolean
+  ) {
+    const action = forward ? 'add' : 'subtract'
+    return currentView === 'year'
+      ? date[action](10, 'year')
+      : date[action](1, 'year')
+  }
+
   return {
     leftCurrentView,
     rightCurrentView,
@@ -171,5 +185,6 @@ export const usePanelDateRange = (
     handleRightMonthPick: (month: number | MonthsPickerEmits) =>
       monthPick('right', month),
     handlePanelChange,
+    adjustDateByView,
   }
 }
