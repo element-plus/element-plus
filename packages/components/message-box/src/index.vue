@@ -335,7 +335,7 @@ export default defineComponent({
       () => state.inputValue,
       async (val) => {
         await nextTick()
-        if (props.boxType === 'prompt' && val !== null) {
+        if (props.boxType === 'prompt' && val) {
           validate()
         }
       },

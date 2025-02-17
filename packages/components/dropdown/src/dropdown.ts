@@ -139,6 +139,13 @@ export const dropdownProps = buildProps({
    * @description whether the dropdown popup is teleported to the body
    */
   teleported: useTooltipContentProps.teleported,
+  /**
+   * @description when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 export const dropdownItemProps = buildProps({
