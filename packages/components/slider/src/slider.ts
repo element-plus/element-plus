@@ -168,6 +168,13 @@ export const sliderProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description when slider inactive and `persistent` is `false` , popconfirm will be destroyed. `persistent` always be `false` when `show-tooltip ` is `false`
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type SliderProps = ExtractPropTypes<typeof sliderProps>

@@ -19,7 +19,7 @@
       :stop-popper-mouse-event="false"
       :popper-class="tooltipClass"
       :disabled="!showTooltip"
-      :persistent="showTooltip"
+      :persistent="persistent"
     >
       <template #content>
         <span>{{ formatValue }}</span>
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, toRefs } from 'vue'
+import { computed, reactive, toRefs } from 'vue'
 import { ElTooltip } from '@element-plus/components/tooltip'
 import { useNamespace } from '@element-plus/hooks'
 import { useSliderButton } from './composables'
@@ -58,6 +58,10 @@ const initData = reactive<SliderButtonInitData>({
   newPosition: 0,
   oldValue: props.modelValue,
 })
+
+const persistent = computed(() =>
+  !showTooltip.value ? false : props.persistent
+)
 
 const {
   disabled,

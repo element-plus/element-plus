@@ -28,6 +28,7 @@
         :vertical="vertical"
         :tooltip-class="tooltipClass"
         :placement="placement"
+        :persistent="persistent"
         role="slider"
         :aria-label="
           range || !isLabeledByFormItem ? firstButtonLabel : undefined
@@ -50,6 +51,7 @@
         :vertical="vertical"
         :tooltip-class="tooltipClass"
         :placement="placement"
+        :persistent="persistent"
         role="slider"
         :aria-label="secondButtonLabel"
         :aria-valuemin="firstValue"

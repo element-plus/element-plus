@@ -16,6 +16,7 @@ export const sliderButtonProps = buildProps({
     values: placements,
     default: 'top',
   },
+  persistent: Boolean,
 } as const)
 export type SliderButtonProps = ExtractPropTypes<typeof sliderButtonProps>
 
