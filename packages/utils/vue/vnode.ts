@@ -8,7 +8,7 @@ import {
   openBlock,
 } from 'vue'
 import { camelize } from '../strings'
-import { isArray, isFunction } from '../types'
+import { isArray } from '../types'
 import { hasOwn } from '../objects'
 import { debugWarn } from '../error'
 import type {
@@ -160,8 +160,7 @@ export const flattedChildren = (
       result.push(child, ...flattedChildren(child.component.subTree))
     } else if (isVNode(child) && isArray(child.children)) {
       result.push(...flattedChildren(child.children))
-      // @ts-ignore
-    } else if (isFunction(child?.type)) {
+    } else if (isVNode(child) && child.shapeFlag === 2) {
       // @ts-ignore
       result.push(...flattedChildren(child.type()))
     } else {
