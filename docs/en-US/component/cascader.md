@@ -117,7 +117,7 @@ cascader/custom-content
 
 :::
 
-## Custom suggestion item
+## Custom suggestion item ^(2.9.5)
 
 You can customize the filter suggestion item by `suggestion-item` slot. You'll have access to `item` in the scope, standing for the suggestion item.
 
