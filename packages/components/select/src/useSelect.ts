@@ -688,7 +688,6 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
         scrollIntoView(menu as HTMLElement, target)
       }
     }
-    scrollbarRef.value?.update()
     scrollbarRef.value?.handleScroll()
   }
 
@@ -709,7 +708,10 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
 
   const handleMenuEnter = () => {
     states.isBeforeHide = false
-    nextTick(() => scrollToOption(states.selected))
+    nextTick(() => {
+      scrollbarRef.value?.update()
+      scrollToOption(states.selected)
+    })
   }
 
   const focus = () => {
