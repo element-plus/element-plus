@@ -64,6 +64,34 @@ const requests = shallowRef<Record<string, XMLHttpRequest | Promise<unknown>>>(
 )
 const inputRef = shallowRef<HTMLInputElement>()
 
+const checkFileType = (rawFile: File) => {
+  const accept = props.accept
+  if (accept === '*') {
+    return true
+  }
+
+  const acceptList = accept.split(',').map((type: string) => type.trim())
+
+  const isAccepted = acceptList.some((type: string) => {
+    if (type === '*') {
+      return true
+    } else if (type.startsWith('.')) {
+      return rawFile.name.endsWith(type)
+    } else if (type.endsWith('/*')) {
+      const prefix = type.slice(0, -1)
+      return rawFile.type.startsWith(prefix)
+    } else {
+      return rawFile.type === type
+    }
+  })
+
+  if (!isAccepted) {
+    return false
+  }
+
+  return true
+}
+
 const uploadFiles = (files: File[]) => {
   if (files.length === 0) return
 
@@ -167,7 +195,11 @@ const doUpload = async (
     props.onRemove(rawFile)
     return
   }
-
+  const isValidFileType = checkFileType(rawFile)
+  if (!isValidFileType) {
+    props.onRemove(rawFile)
+    return
+  }
   const { uid } = rawFile
   const options: UploadRequestOptions = {
     headers: headers || {},
