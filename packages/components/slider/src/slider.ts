@@ -169,7 +169,7 @@ export const sliderProps = buildProps({
     default: true,
   },
   /**
-   * @description when slider inactive and `persistent` is `false` , popconfirm will be destroyed. `persistent` always be `false` when `show-tooltip ` is `false`
+   * @description when slider tooltip inactive and `persistent` is `false` , popconfirm will be destroyed. `persistent` always be `false` when `show-tooltip ` is `false`
    */
   persistent: {
     type: Boolean,
