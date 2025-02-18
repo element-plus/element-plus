@@ -19,7 +19,7 @@
       :stop-popper-mouse-event="false"
       :popper-class="tooltipClass"
       :disabled="!showTooltip"
-      :persistent="btnPersistent"
+      :persistent="tooltipPersistent"
     >
       <template #content>
         <span>{{ formatValue }}</span>
@@ -59,7 +59,7 @@ const initData = reactive<SliderButtonInitData>({
   oldValue: props.modelValue,
 })
 
-const btnPersistent = computed(() =>
+const tooltipPersistent = computed(() =>
   !showTooltip.value ? false : persistent.value
 )
 
