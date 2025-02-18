@@ -246,10 +246,9 @@ describe('TreeSelect.vue', () => {
     expect(tree.findAll('.el-tree-node:not(.is-hidden)').length).toBe(1)
     expect(document.querySelector('.el-select-dropdown__empty')).toBeFalsy()
     tree.vm.filter('no match')
-    await nextTick()
-    await nextTick()
-    await nextTick()
-    expect(document.querySelector('.el-select-dropdown__empty')).toBeTruthy()
+    await vi.waitFor(() => {
+      expect(document.querySelector('.el-select-dropdown__empty')).toBeTruthy()
+    })
   })
 
   test('props', async () => {
