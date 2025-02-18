@@ -184,6 +184,7 @@ export default defineComponent({
     )
 
     const mode = computed(() => rootMenu.props.mode)
+    const persistent = computed(() => rootMenu.props.persistent)
     const item = reactive({
       index: props.index,
       indexPath,
@@ -360,7 +361,7 @@ export default defineComponent({
               pure: true,
               offset: subMenuPopperOffset.value,
               showArrow: false,
-              persistent: true,
+              persistent: persistent.value,
               popperClass: subMenuPopperClass.value,
               placement: currentPlacement.value,
               teleported: appendToBody.value,

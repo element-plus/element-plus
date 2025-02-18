@@ -92,6 +92,7 @@ menu/popper-offset
 | background-color ^(deprecated)  | background color of Menu (hex format) (use `--el-menu-bg-color` in a style class instead)                                                                             | ^[string]                              | #ffffff  |
 | text-color ^(deprecated)        | text color of Menu (hex format) ( use `--el-menu-text-color` in a style class instead)                                                                                | ^[string]                              | #303133  |
 | active-text-color ^(deprecated) | text color of currently active menu item (hex format) ( use `--el-menu-active-color` in a style class instead)                                                        | ^[string]                              | #409eff  |
+| persistent ^(2.9.5)             | when menu inactive and `persistent` is `false` , dropdown menu will be destroyed                                                                                   | ^[boolean]                             | true     |
 
 ### Events
 
