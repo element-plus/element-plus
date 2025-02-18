@@ -32,6 +32,9 @@ const component = defineComponent({
         nextTick(() => {
           result.states.visible = val
         })
+      },
+      {
+        immediate: true,
       }
     )
 
