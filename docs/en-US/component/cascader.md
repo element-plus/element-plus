@@ -190,7 +190,7 @@ cascader/panel
 | default                  | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
 | empty                    | content when there is no matched options.                                                      | —                                   |
 | prefix ^(2.9.4)          | content as Input prefix                                                                        | —                                   |
-| suggestion-item ^(2.9.5) | custom content for suggestions when searching                                                  | ^[object]`{ item: CascaderNode }`   |
+| suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                             | ^[object]`{ item: CascaderNode }`   |
 
 ### Exposes
 
