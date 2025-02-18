@@ -606,6 +606,7 @@ const handleSuggestionKeyDown = (e: KeyboardEvent) => {
   switch (code) {
     case EVENT_CODE.up:
     case EVENT_CODE.down: {
+      e.preventDefault()
       const distance = code === EVENT_CODE.up ? -1 : 1
       focusNode(
         getSibling(
