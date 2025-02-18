@@ -247,6 +247,8 @@ describe('TreeSelect.vue', () => {
     expect(document.querySelector('.el-select-dropdown__empty')).toBeFalsy()
     tree.vm.filter('no match')
     await nextTick()
+    await nextTick()
+    await nextTick()
     expect(document.querySelector('.el-select-dropdown__empty')).toBeTruthy()
   })
 
