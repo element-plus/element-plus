@@ -29,10 +29,9 @@ const component = defineComponent({
     watch(
       () => ctx.attrs.visible,
       (val) => {
-        result.states.visible = val
-      },
-      {
-        immediate: true,
+        nextTick(() => {
+          result.states.visible = val
+        })
       }
     )
 
