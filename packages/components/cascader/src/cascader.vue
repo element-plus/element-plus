@@ -180,10 +180,12 @@
             :tabindex="-1"
             @click="handleSuggestionClick(item)"
           >
-            <span>{{ item.text }}</span>
-            <el-icon v-if="item.checked">
-              <check />
-            </el-icon>
+            <slot name="suggestion-item" :item="item">
+              <span>{{ item.text }}</span>
+              <el-icon v-if="item.checked">
+                <check />
+              </el-icon>
+            </slot>
           </li>
         </template>
         <slot v-else name="empty">
