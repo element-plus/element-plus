@@ -61,8 +61,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { VNode, VNodeProps } from 'vue'
-
+import type {
+  TransferDirection,
+  TransferKey,
+  renderContent,
+} from 'element-plus'
 interface Option {
   key: number
   label: string
@@ -85,16 +88,12 @@ const data = ref(generateData())
 const rightValue = ref([1])
 const leftValue = ref([1])
 
-const renderFunc = (
-  h: (type: string, props: VNodeProps | null, children?: string) => VNode,
-  option: Option
-) => {
-  return h('span', null, option.label)
-}
+const renderFunc: renderContent = (h, option) => h('span', null, option.label)
+
 const handleChange = (
-  value: number[] | string[],
-  direction: 'left' | 'right',
-  movedKeys: string[] | number[]
+  value: TransferKey[],
+  direction: TransferDirection,
+  movedKeys: TransferKey[]
 ) => {
   console.log(value, direction, movedKeys)
 }

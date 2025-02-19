@@ -35,19 +35,3 @@ import { ref } from 'vue'
 
 const dialogVisible = ref(false)
 </script>
-
-<style lang="scss">
-.dialog-fade-enter-active {
-  animation: modal-fade-in 2s;
-  .el-overlay-dialog {
-    animation: dialog-fade-in 2s;
-  }
-}
-
-.dialog-fade-leave-active {
-  animation: modal-fade-out 2s;
-  .el-overlay-dialog {
-    animation: dialog-fade-out 2s;
-  }
-}
-</style>

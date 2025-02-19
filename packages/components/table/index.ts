@@ -30,4 +30,5 @@ export type {
   Sort,
   Filter,
   TableColumnCtx,
+  TableTooltipData,
 } from './src/table/defaults'

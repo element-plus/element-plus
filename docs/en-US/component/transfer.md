@@ -55,7 +55,7 @@ transfer/prop-alias
 
 ## Transfer API
 
-### Transfer Attributes
+### Attributes
 
 | Name                  | Description                                                                                                                                                                                                                                                                        | Type                                                               | Default  |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | -------- |
@@ -74,7 +74,7 @@ transfer/prop-alias
 | right-default-checked | key array of initially checked data items of the right list                                                                                                                                                                                                                        | ^[object]`Array<string \| number>`                                 | []       |
 | validate-event        | whether to trigger form validation                                                                                                                                                                                                                                                 | ^[boolean]                                                         | true     |
 
-### Transfer Events
+### Events
 
 | Name               | Description                                                                         | Type                                                                                                |
 | ------------------ | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
@@ -82,7 +82,7 @@ transfer/prop-alias
 | left-check-change  | triggers when end user changes the checked state of any data item in the left list  | ^[Function]`(value: TransferKey[], movedKeys?: TransferKey[]) => void`                              |
 | right-check-change | triggers when end user changes the checked state of any data item in the right list | ^[Function]`(value: TransferKey[], movedKeys?: TransferKey[]) => void`                              |
 
-### Transfer Slots
+### Slots
 
 | Name                 | Description                                                          |
 | -------------------- | -------------------------------------------------------------------- |
@@ -92,7 +92,7 @@ transfer/prop-alias
 | left-empty ^(2.9.0)  | content when left panel is empty or when no data matches the filter  |
 | right-empty ^(2.9.0) | content when right panel is empty or when no data matches the filter |
 
-### Transfer Exposes
+### Exposes
 
 | Name       | Description                                 | Type                                            |
 | ---------- | ------------------------------------------- | ----------------------------------------------- |
@@ -102,7 +102,7 @@ transfer/prop-alias
 
 ## Transfer Panel API
 
-### Transfer Panel Exposes
+### Exposes
 
 | Name  | Description    | Type      |
 | ----- | -------------- | --------- |

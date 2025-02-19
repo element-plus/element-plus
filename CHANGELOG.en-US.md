@@ -1,6 +1,92 @@
 ## Changelog
 
 
+### 2.9.4
+
+_2025-02-07_
+
+#### Features
+
+- Components [image-viewer] add showPreview method (#19466 by @zzjiaxiang)
+- Locale add language Chinese Hongkong and Chinese Macau (#19608 by @markpro-code)
+- Components [select] add popup-scroll event (#19589 by @zzjiaxiang)
+- I18n add Telugu language (#19624 by @moulibheemaneti)
+- Components [image-viewer] add `progress` slot and `show-progress` props (#19465 by @zzjiaxiang)
+- Components [image-viewer] add toolbar slot (#19497 by @zzjiaxiang)
+- Components [cascader] add `prefix` slot (#19631 by @DavidKitano)
+- Components [table] add tooltip-formatter table & table-column prop (#19524 by @zhixiaotong)
+- Locale export zhHk/zhMo (#19762 by @btea)
+- Locale export Norsk(no) (#19747 by @changehu)
+- Locale export missing language (#19790 by @btea)
+
+#### Bug fixes
+
+- Components [table-footer] update cols width on layout change (#19064 by @Dsaquel)
+- Ci types & dark theme sync with pr (#19668 by @Dsaquel)
+- Ci move all bundle to docs dist (#19671 by @Dsaquel)
+- Components [table] selection-change event emit incorrectly (#19618 by @wNing50)
+- Components [table] The index parameter of the selectable function is undefined (#19587 by @YiMo1)
+- Components [autocomplete] prevent closing if focus is inside popper content (#19522 by @DDDDD12138)
+- Components [input] refused to apply inline style because it violates csp (#19541 by @markpro-code)
+- Components [table-v2] make the fixed columns scroll like mainTable (#19104 by @hanchao-c0ldwave)
+- Components [cascader-panel] lazy return children can't get value (#19100 by @coderchang0105)
+- Components [table] fix the logic of `selection` column when `fixed` state changes dynamically (#19703 by @wNing50)
+- Components [table] the toggleTreeExpansion failed to trigger load function (#18728 by @webvs2)
+- Components [table-v2] reset `lastVisitedColumnIdx` if width change (#19757 by @Dsaquel)
+- Chore: [time-picker] correct typo in `timePickerRangeTriggerProps` (#19487 by @DDDDD12138)
+
+### 2.9.3
+
+_2025-01-10_
+
+#### Features
+
+- Components [dialog/drawer] add custom sub classes (#19099 by @Dsaquel)
+- I18n add Hindi language (#19483 by @steveWang13)
+- I18n add Norsk(no) language (#19523 by @changehu)
+- Component [time-select] add include end time attribute (#19253 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [description] `labelWidth` is invalid when no border (#19162 by @btea)
+- Hooks [use-lockscreen] remove hiddenCls (#19429 by @Liao-js)
+- Components [form] on post rules update reset field (#19129 by @Dsaquel)
+- Components [tabs] set modelValue synchronously if beforeLeave is not set or is synchronous (#19387 by @DDDDD12138)
+- Components [select] make sure the e-tag is not obstructed(#19529 by @baiwusanyu-c) (#19534)
+- Components [dialog] fix scroll bar not resetting to top on reopen (#19471 by @wjp980108)
+- Improvement(components): [text] add the title attribute (#19496 by @btea)
+- Improvement(components): [text] keep the inherited title attribute (#19551 by @btea)
+- Style(components): [dialog] no rounded when in fullscreen (#19583 by @warmthsea)
+
+### 2.9.2
+
+_2025-01-03_
+
+#### Features
+
+- Components [select-v2] add `fit-input-width` prop (#18834 by @YiMo1)
+- Components [select, select-v2] add loading class to validateIcon (#19379 by @LoTwT)
+- Components [table] add allow-drag-last-column prop (#19374 by @btea)
+
+#### Bug fixes
+
+- Components [select] resolve 'false' display issue when dropdown hides on search clear (#19244 by @DDDDD12138)
+- Components [date-picker] model-value unexpected changes when type is week (#16795 by @FrontEndDog)
+- Components [menu] fix `sliceIndex` calculation error (#19164 by @wen-lun)
+- Components [anchor] scroll whether link is selected at the top (#18047 by @k983551019)
+- Components [focus-trap] tryFocus is invalid for document.body (#19272 by @tolking)
+- Components [inputnumber, input] resolve styling issues caused by using `prefix` and `suffix` (#19042 by @DDDDD12138)
+- Components [color-picker] optimize the flickering issue (#18872 by @momei-LJM)
+- Theme-chalk [input-tag] correct input-tag placeholder color (#19386 by @DDDDD12138)
+- Components prevent blur event when is disabled (#19320 by @DDDDD12138)
+- Types packing unexpected types (#19419 by @btea)
+- Components [table] the overflowTooltip cannot be refreshed (#19440 by @xingyixiang)
+- Components [upload] unable to delete files in removeFile (#19437 by @ly-yewu)
+- Components [page-header] use `$slots` instead of `useSlots` (#19455 by @Dsaquel)
+- Components [select] input width fills the remaining width (#19292 by @tolking)
+- Style(components): [notification] word wrap (#17052 by @Liao-js)
+- Perf(components): [table] prioritize use rowKey to determine whether it is selected (#19451 by @tolking)
+
 ### 2.9.1
 
 _2024-12-13_

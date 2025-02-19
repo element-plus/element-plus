@@ -31,6 +31,7 @@
         :zoom-rate="zoomRate"
         :min-scale="minScale"
         :max-scale="maxScale"
+        :show-progress="showProgress"
         :url-list="previewSrcList"
         :crossorigin="crossorigin"
         :hide-on-click-modal="hideOnClickModal"
@@ -42,6 +43,12 @@
         <div v-if="$slots.viewer">
           <slot name="viewer" />
         </div>
+        <template #progress="progress">
+          <slot name="progress" v-bind="progress" />
+        </template>
+        <template #toolbar="toolbar">
+          <slot name="toolbar" v-bind="toolbar" />
+        </template>
       </image-viewer>
     </template>
   </div>
@@ -266,5 +273,10 @@ onMounted(() => {
   } else {
     loadImage()
   }
+})
+
+defineExpose({
+  /** @description manually open preview */
+  showPreview: clickHandler,
 })
 </script>

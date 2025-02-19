@@ -25,9 +25,7 @@ interface Tree {
   children?: Tree[]
 }
 
-const getKey = (prefix: string, id: number) => {
-  return `${prefix}-${id}`
-}
+const getKey = (prefix: string, id: number) => `${prefix}-${id}`
 
 const createData = (
   maxDeep: number,
@@ -63,9 +61,6 @@ const props = {
 }
 
 const onQueryChanged = (query: string) => {
-  // TODO: fix typing when refactor tree-v2
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
   treeRef.value!.filter(query)
 }
 const filterMethod = (query: string, node: TreeNodeData) =>
