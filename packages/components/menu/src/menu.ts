@@ -161,6 +161,13 @@ export const menuProps = buildProps({
     type: Number,
     default: 300,
   },
+  /**
+   * @description when menu inactive and `persistent` is `false` , dropdown menu will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
@@ -213,12 +220,11 @@ export default defineComponent({
     const subMenus = ref<MenuProvider['subMenus']>({})
 
     // computed
-    const isMenuPopup = computed<MenuProvider['isMenuPopup']>(() => {
-      return (
+    const isMenuPopup = computed<MenuProvider['isMenuPopup']>(
+      () =>
         props.mode === 'horizontal' ||
         (props.mode === 'vertical' && props.collapse)
-      )
-    })
+    )
 
     // methods
     const initMenu = () => {
@@ -266,11 +272,7 @@ export default defineComponent({
     }) => {
       const isOpened = openedMenus.value.includes(index)
 
-      if (isOpened) {
-        closeMenu(index, indexPath)
-      } else {
-        openMenu(index, indexPath)
-      }
+      isOpened ? closeMenu(index, indexPath) : openMenu(index, indexPath)
     }
 
     const handleMenuItemClick: MenuProvider['handleMenuItemClick'] = (
@@ -279,7 +281,6 @@ export default defineComponent({
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = []
       }
-
       const { index, indexPath } = menuItem
       if (isNil(index) || isNil(indexPath)) return
 
@@ -309,11 +310,7 @@ export default defineComponent({
         (activeIndex.value && itemsInData[activeIndex.value]) ||
         itemsInData[props.defaultActive]
 
-      if (item) {
-        activeIndex.value = item.index
-      } else {
-        activeIndex.value = val
-      }
+      activeIndex.value = item?.index ?? val
     }
 
     const calcMenuItemWidth = (menuItem: HTMLElement) => {
@@ -326,10 +323,7 @@ export default defineComponent({
     const calcSliceIndex = () => {
       if (!menu.value) return -1
       const items = Array.from(menu.value?.childNodes ?? []).filter(
-        (item) =>
-          // remove comment type node #12634
-          item.nodeName !== '#comment' &&
-          (item.nodeName !== '#text' || item.nodeValue)
+        (item) => item.nodeName !== '#text' || item.nodeValue
       ) as HTMLElement[]
       const moreItemWidth = 64
       const computedMenuStyle = getComputedStyle(menu.value!)
@@ -339,6 +333,7 @@ export default defineComponent({
       let calcWidth = 0
       let sliceIndex = 0
       items.forEach((item, index) => {
+        if (item.nodeName === '#comment') return
         calcWidth += calcMenuItemWidth(item)
         if (calcWidth <= menuWidth - moreItemWidth) {
           sliceIndex = index + 1

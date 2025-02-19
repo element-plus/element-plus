@@ -60,7 +60,7 @@ const handleCheckAll = (val: CheckboxValueType) => {
 }
 </script>
 
-<style lang="scss">
+<style>
 .custom-header {
   .el-checkbox {
     display: flex;
