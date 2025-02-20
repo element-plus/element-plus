@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { createCollectionWithScope } from '@element-plus/components/collection'
@@ -7,9 +6,9 @@ import {
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
 
+import { type Placement, roleTypes } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
-import type { Placement } from '@element-plus/components/popper'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 
@@ -17,7 +16,7 @@ export interface IElDropdownInstance {
   instance?: ComponentInternalInstance
   dropdownSize?: ComputedRef<string>
   handleClick?: () => void
-  commandHandler?: (...arg) => void
+  commandHandler?: (...arg: any[]) => void
   show?: () => void
   hide?: () => void
   trigger?: ComputedRef<string>
@@ -130,6 +129,7 @@ export const dropdownProps = buildProps({
    */
   role: {
     type: String,
+    values: roleTypes,
     default: 'menu',
   },
   buttonProps: {
