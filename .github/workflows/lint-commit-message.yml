@@ -1,4 +1,4 @@
-name: Lint PR Title
+name: Lint Commit Message
 
 on:
   pull_request:
@@ -44,24 +44,28 @@ jobs:
         id: lint_commit
         run: echo "${{ github.event.pull_request.title }}" | pnpm run lint:commit || echo "failed=true" >> $GITHUB_OUTPUT
 
-      - name: Set success result Remove Labels
+      - name: Set success result
         if: ${{ steps.lint_commit.outputs.failed != 'true' }}
-        uses: actions-awesome/pr-helper@1.1.1
-        with:
-          actions: 'remove-labels, add-labels, maintain-comment'
-          labels-to-remove: 'CommitMessage::Unqualified'
-          token: ${{ github.token }}
+        run: echo 'true' > ./lint-result.txt
 
-      - name: Set failed result Add Labels
+      - name: Set failed result
         if: ${{ steps.lint_commit.outputs.failed == 'true' }}
-        uses: actions-awesome/pr-helper@1.1.1
-        with:
-          actions: 'remove-labels, add-labels, maintain-comment'
-          labels-to-add: 'CommitMessage::Unqualified'
-          token: ${{ github.token }}
-          comment-body: |
-            Hello, @${{ github.event.pull_request.user.login }}, your PR title does not meet the standards, please [refer to here](https://github.com/element-plus/element-plus/commits/dev/).
-            你好，@${{ github.event.pull_request.user.login }}，你的 PR 标题不符合规范，[请参考这里](https://github.com/element-plus/element-plus/commits/dev/)。
+        run: echo 'false' > ./lint-result.txt
 
-            <!-- ELEMENT_PLUS_COMMIT_LINT -->
-          body-filter: '<!-- ELEMENT_PLUS_COMMIT_LINT -->'
+      - name: Set PR number
+        run: echo $PULL_REQUEST_NUMBER > pr.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: commit-lint-report
+          path: ./commit-lint.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: commit-lint-result
+          path: ./lint-result.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pr-number
+          path: ./pr.txt

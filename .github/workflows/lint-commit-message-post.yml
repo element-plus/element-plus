@@ -1,0 +1,65 @@
+name: 📮 Lint Commit Message Post
+
+on:
+  workflow_run:
+    workflows: ['Lint Commit Message']
+    types: [completed]
+
+jobs:
+  result:
+    runs-on: ubuntu-latest
+
+    outputs:
+      succeeded: ${{ steps.assert.outputs.succeeded }}
+      pr: ${{ steps.pr.outputs.pr }}
+
+    steps:
+      - name: Download result
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
+          name: commit-lint-result
+
+      - name: Derive PR number
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
+          name: pr-number
+
+      - name: Assert result
+        id: assert
+        run: echo "succeeded=$(<lint-result.txt)" >> $GITHUB_OUTPUT
+      - name: Get PR number
+        id: pr
+        run: echo "pr=$(<pr.txt)" >> $GITHUB_OUTPUT
+
+  on-success:
+    runs-on: ubuntu-latest
+    needs: result
+    name: Lint
+    steps:
+      - name: successfully
+        if: ${{ needs.result.outputs.succeeded == 'true' }}
+        uses: actions-awesome/pr-helper@1.1.1
+        with:
+          actions: 'maintain-comment, add-labels, remove-labels'
+          token: ${{ github.token }}
+          labels-to-remove: 'CommitMessage::Unqualified'
+          body-filter: '<!-- ELEMENT_PLUS_COMMIT_LINT -->'
+          pr-number: ${{ needs.result.outputs.pr }}
+
+      - name: failed
+        if: ${{ needs.result.outputs.succeeded != 'true' }}
+        uses: actions-awesome/pr-helper@1.1.1
+        with:
+          actions: 'remove-labels, add-labels, maintain-comment'
+          labels-to-add: 'CommitMessage::Unqualified'
+          token: ${{ github.token }}
+          pr-number: ${{ needs.result.outputs.pr }}
+          comment-body: |
+            Hello, @${{ github.event.pull_request.user.login }}, your PR title does not meet the standards, please [refer to here](https://github.com/element-plus/element-plus/commits/dev/).
+            你好，@${{ github.event.pull_request.user.login }}，你的 PR 标题不符合规范，[请参考这里](https://github.com/element-plus/element-plus/commits/dev/)。
+            <!-- ELEMENT_PLUS_COMMIT_LINT -->
+          body-filter: '<!-- ELEMENT_PLUS_COMMIT_LINT -->'
