@@ -73,7 +73,7 @@ image/custom-toolbar
 
 ## Image API
 
-### Image Attributes
+### Attributes
 
 | Name                  | Description                                                                                                                                       | Type                                                                    | Default |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------- |
@@ -96,7 +96,7 @@ image/custom-toolbar
 | min-scale ^(2.4.0)    | the min scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 0.2     |
 | max-scale ^(2.4.0)    | the max scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 7       |
 
-### Image Events
+### Events
 
 | Name   | Description                                                                                       | Type                                 |
 | ------ | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
@@ -106,7 +106,7 @@ image/custom-toolbar
 | close  | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | ^[Function]`() => void`              |
 | show   | trigger when the viewer displays                                                                  | ^[Function]`() => void`              |
 
-### Image Slots
+### Slots
 
 | Name              | Description                                              | Type                                                                                                                                                                      |
 | ----------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -116,9 +116,15 @@ image/custom-toolbar
 | progress ^(2.9.4) | custom progress content when image preview.              | ^[object]`{ activeIndex: number, total: number }`                                                                                                                         |
 | toolbar ^(2.9.4)  | custom toolbar content when image preview.               | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }` |
 
+### Exposes
+
+| Name                 | Description                     | Type                    |
+| -------------------- | ------------------------------- | ----------------------- |
+| showPreview ^(2.9.4) | manually open preview big image | ^[Function]`() => void` |
+
 ## Image Viewer API
 
-### Image Viewer Attributes
+### Attributes
 
 | Name                   | Description                                                                                                                   | Type                  | Default |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
@@ -134,7 +140,7 @@ image/custom-toolbar
 | close-on-press-escape  | whether the image-viewer can be closed by pressing ESC.                                                                       | ^[boolean]            | true    |
 | show-progress ^(2.9.4) | whether to display the preview image progress content                                                                         | ^[boolean]            | false   |
 
-### Image Viewer Events
+### Events
 
 | Name             | Description                                                                                       | Type                                 |
 | ---------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
@@ -142,12 +148,11 @@ image/custom-toolbar
 | switch           | trigger when switching images.                                                                    | ^[Function]`(index: number) => void` |
 | rotate ^(2.3.13) | trigger when rotating images.                                                                     | ^[Function]`(deg: number) => void`   |
 
-### Image Viewer Exposes
+### Exposes
 
-| Name                 | Description                     | Type                                 |
-| -------------------- | ------------------------------- | ------------------------------------ |
-| setActiveItem        | manually switch image           | ^[Function]`(index: number) => void` |
-| showPreview ^(2.9.4) | manually open preview big image | ^[Function]`() => void`              |
+| Name          | Description           | Type                                 |
+| ------------- | --------------------- | ------------------------------------ |
+| setActiveItem | manually switch image | ^[Function]`(index: number) => void` |
 
 ## Type Declarations
 

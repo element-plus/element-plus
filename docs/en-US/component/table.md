@@ -243,6 +243,16 @@ table/table-layout
 
 :::
 
+## Tooltip formatter ^(2.9.4)
+
+You can use `tooltip-formatter` to customize the tooltip content.
+
+:::demo
+
+table/tooltip-formatter
+
+:::
+
 ## Table API
 
 ### Table Attributes
@@ -290,6 +300,7 @@ table/table-layout
 | flexible ^(2.2.1)               | ensure main axis minimum-size doesn't follow the content                                                                                                                                                                                                                   | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
 | scrollbar-tabindex ^(2.8.3)     | body scrollbar's wrap container tabindex                                                                                                                                                                                                                                   | ^[string] / ^[number]                                                                                                                                                | —                                                                                                                       |
 | allow-drag-last-column ^(2.9.2) | whether to allow drag the last column                                                                                                                                                                                                                                      | ^[boolean]                                                                                                                                                           | true                                                                                                                    |
+| tooltip-formatter ^(2.9.4)      | customize tooltip content when using `show-overflow-tooltip`                                                                                                                                                                                                               | ^[Function]`(data: { row: any, column: any, cellValue: any }) => VNode \| string`                                                                                    | —                                                                                                                       |
 
 ### Table Events
 
@@ -377,6 +388,7 @@ table/table-layout
 | filter-multiple            | whether data filtering supports multiple options                                                                                                                                                                   | ^[boolean]                                                                                                                                                                  | true                              |
 | filter-method              | data filtering method. If `filter-multiple` is on, this method will be called multiple times for each row, and a row will display if one of the calls returns `true`                                               | ^[function]`(value: any, row: any, column: any) => void`                                                                                                                    | —                                 |
 | filtered-value             | filter value for selected data, might be useful when table header is rendered with `render-header`                                                                                                                 | ^[object]`string[]`                                                                                                                                                         | —                                 |
+| tooltip-formatter ^(2.9.4) | customize tooltip content when using `show-overflow-tooltip`                                                                                                                                                       | ^[Function]`(data: { row: any, column: any, cellValue: any }) => VNode \| string`                                                                                           | —                                 |
 
 ### Table-column Slots
 

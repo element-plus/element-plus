@@ -183,7 +183,7 @@ select/custom-label
 
 ## Select API
 
-### Select Attributes
+### Attributes
 
 | Name                            | Description                                                                                                           | Type                                                                                                                                                                        | Default                                        |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
@@ -241,7 +241,7 @@ select/custom-label
 
 :::
 
-### Select Events
+### Events
 
 | Name                  | Description                                                   | Type                                                                |
 | --------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------- |
@@ -253,7 +253,7 @@ select/custom-label
 | focus                 | triggers when Input focuses                                   | ^[Function]`(event: FocusEvent) => void`                            |
 | popup-scroll ^(2.9.4) | triggers when dropdown scrolls                                | ^[Function]`(data:{scrollTop: number, scrollLeft: number}) => void` |
 
-### Select Slots
+### Slots
 
 | Name             | Description                           | Subtags               |
 | ---------------- | ------------------------------------- | --------------------- |
@@ -266,7 +266,7 @@ select/custom-label
 | loading ^(2.5.2) | content as Select loading             | —                     |
 | label ^(2.7.4)   | content as Select label               | —                     |
 
-### Select Exposes
+### Exposes
 
 | Name                   | Description                                     | Type                                       |
 | ---------------------- | ----------------------------------------------- | ------------------------------------------ |
@@ -276,14 +276,14 @@ select/custom-label
 
 ## Option Group API
 
-### Option Group Attributes
+### Attributes
 
 | Name     | Description                                  | Type       | Default |
 | -------- | -------------------------------------------- | ---------- | ------- |
 | label    | name of the group                            | ^[string]  | —       |
 | disabled | whether to disable all options in this group | ^[boolean] | false   |
 
-### Option Group Slots
+### Slots
 
 | Name    | Description               | Subtags |
 | ------- | ------------------------- | ------- |
@@ -291,7 +291,7 @@ select/custom-label
 
 ## Option API
 
-### Option Attributes
+### Attributes
 
 | Name     | Description                                 | Type                                           | Default |
 | -------- | ------------------------------------------- | ---------------------------------------------- | ------- |
@@ -299,7 +299,7 @@ select/custom-label
 | label    | label of option, same as `value` if omitted | ^[string] / ^[number]                          | —       |
 | disabled | whether option is disabled                  | ^[boolean]                                     | false   |
 
-### Option Slots
+### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
