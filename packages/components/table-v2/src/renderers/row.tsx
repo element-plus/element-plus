@@ -101,9 +101,10 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
 
   for (const key in additionalProps) {
     if (typeof additionalProps[key] === 'object') {
-      _rowProps[key] = {
-        ...(_rowProps[key] ?? (Array.isArray(additionalProps[key]) ? [] : {})),
-        ...additionalProps[key],
+      if (Array.isArray(additionalProps[key])) {
+        _rowProps[key] = (_rowProps[key] ?? []).concat(additionalProps[key])
+      } else {
+        _rowProps[key] = { ...(_rowProps[key] ?? {}), ...additionalProps[key] }
       }
     } else {
       _rowProps[key] = additionalProps[key]
