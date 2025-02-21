@@ -100,7 +100,14 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
   }
 
   for (const key in additionalProps) {
-    _rowProps[key] = { ...(_rowProps[key] ?? {}), ...additionalProps[key] }
+    if (typeof additionalProps[key] === 'object') {
+      _rowProps[key] = {
+        ...(_rowProps[key] ?? (Array.isArray(additionalProps[key]) ? [] : {})),
+        ...additionalProps[key],
+      }
+    } else {
+      _rowProps[key] = additionalProps[key]
+    }
   }
   const handlerMosueEnter = (e: MouseEvent) => {
     onRowHover?.({
