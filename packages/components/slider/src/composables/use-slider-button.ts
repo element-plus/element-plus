@@ -61,6 +61,7 @@ type useSliderButtonType = (
   tooltip: Ref<TooltipInstance | undefined>
   tooltipVisible: Ref<boolean>
   showTooltip: Ref<SliderProps['showTooltip']>
+  persistent: Ref<SliderProps['persistent']>
   wrapperStyle: ComputedRef<CSSProperties>
   formatValue: ComputedRef<number | string>
   handleMouseEnter: () => void
@@ -81,6 +82,7 @@ export const useSliderButton: useSliderButtonType = (
     max,
     step,
     showTooltip,
+    persistent,
     precision,
     sliderSize,
     formatTooltip,
@@ -312,6 +314,7 @@ export const useSliderButton: useSliderButtonType = (
     tooltip,
     tooltipVisible,
     showTooltip,
+    persistent,
     wrapperStyle,
     formatValue,
     handleMouseEnter,
