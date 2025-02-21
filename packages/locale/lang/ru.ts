@@ -139,5 +139,9 @@ export default {
       rightArrow: 'Слайдер стрелка вправо',
       indicator: 'Слайдер перейти на страницу под номером {index}',
     },
+    captcha: {
+      helpText: 'Проведите до конца',
+      completed: 'Пройдено',
+    },
   },
 }

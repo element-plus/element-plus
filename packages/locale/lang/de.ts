@@ -140,5 +140,9 @@ export default {
       rightArrow: 'Karussell-Pfeil rechts',
       indicator: 'Karussell zu Index {index} wechseln',
     },
+    captcha: {
+      helpText: 'Slide to complete', // to be translated
+      completed: 'Passed', // to be translated
+    },
   },
 }
