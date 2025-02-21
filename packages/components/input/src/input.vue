@@ -137,7 +137,7 @@
       />
       <span
         v-if="isWordLimitVisible"
-        :style="countStyle"
+        :style="textareaCountStyle ? textareaCountStyle : countStyle"
         :class="nsInput.e('count')"
       >
         {{ textLength }} / {{ maxlength }}
