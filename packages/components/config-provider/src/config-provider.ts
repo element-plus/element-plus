@@ -1,4 +1,5 @@
-import { defineComponent, renderSlot, watch } from 'vue'
+import { defineComponent, onMounted, renderSlot, watch, watchEffect } from 'vue'
+import { isClient } from '@vueuse/core'
 import { provideGlobalConfig } from './hooks/use-global-config'
 import { configProviderProps } from './config-provider-props'
 
@@ -18,6 +19,20 @@ const ConfigProvider = defineComponent({
       },
       { immediate: true, deep: true }
     )
+    const setBaseTheme = (theme: Record<string, string>) => {
+      if (isClient) {
+        Object.keys(theme).forEach((key) => {
+          document.documentElement.style.setProperty(key, theme[key])
+        })
+      }
+    }
+    watchEffect(() => {
+      setBaseTheme(props.themeOverride?.common || {})
+    })
+    onMounted(() => {
+      setBaseTheme(props.themeOverride?.common || {})
+    })
+
     const config = provideGlobalConfig(props)
     return () => renderSlot(slots, 'default', { config: config?.value })
   },
