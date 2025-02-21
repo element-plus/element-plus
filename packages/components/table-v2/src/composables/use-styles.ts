@@ -25,7 +25,8 @@ export const useStyles = (
   const bodyWidth = computed(() => {
     const { fixed, width, vScrollbarSize } = props
     const ret = width - vScrollbarSize
-    return fixed ? Math.max(Math.round(unref(columnsTotalWidth)), ret) : ret
+    const _columnsTotalWidth = Math.round(unref(columnsTotalWidth))
+    return fixed ? _columnsTotalWidth : Math.max(_columnsTotalWidth, ret)
   })
 
   const headerWidth = computed(() => unref(bodyWidth) + props.vScrollbarSize)
