@@ -1,4 +1,5 @@
 @use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
 @use 'common/var' as *;
 
 @include b(radio-group) {
@@ -6,4 +7,20 @@
   align-items: center;
   flex-wrap: wrap;
   font-size: 0;
+  @include when(vertical) {
+    border: getCssVar('border');
+    border-radius: getCssVar('border-radius-base');
+    padding: 15px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    .el-radio-button {
+      width: 100%;
+      .el-radio-button__inner {
+        text-align: left;
+        border: none;
+        width: 100%;
+        border-radius: getCssVar('border-radius-base');
+      }
+    }
+  }
 }
