@@ -12,6 +12,7 @@
 import { onMounted, ref } from 'vue'
 
 const targetElement = ref<string>('')
+
 onMounted(() => {
   targetElement.value = '.target'
 })
