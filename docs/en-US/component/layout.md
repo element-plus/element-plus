@@ -14,6 +14,8 @@ The component uses flex layout by default, no need to set `type="flex"` manually
 Please note that the parent container should avoid using `inline` related styles,
 which will cause the component to not fill up its width.
 
+The basic unit of a column is 1, with a maximum of 24 and a minimum of 0.
+
 :::
 
 ## Basic layout
@@ -103,7 +105,7 @@ The classes are:
 
 ## Row API
 
-### Row Attributes
+### Attributes
 
 | Name    | Description                         | Type                                                                                         | Default |
 | ------- | ----------------------------------- | -------------------------------------------------------------------------------------------- | ------- |
@@ -112,7 +114,7 @@ The classes are:
 | align   | vertical alignment of flex layout   | ^[enum]`'top' \| 'middle' \| 'bottom'`                                                       | —       |
 | tag     | custom element tag                  | ^[string]                                                                                    | div     |
 
-### Row Slots
+### Slots
 
 | Name    | Description               | Subtags |
 | ------- | ------------------------- | ------- |
@@ -120,7 +122,7 @@ The classes are:
 
 ## Col API
 
-### Col Attributes
+### Attributes
 
 | Name   | Description                                         | Type                                                                                  | Default |
 | ------ | --------------------------------------------------- | ------------------------------------------------------------------------------------- | ------- |
@@ -135,7 +137,7 @@ The classes are:
 | xl     | `≥1920px` Responsive columns or column props object | ^[number] / ^[object]`{span?: number, offset?: number, pull?: number, push?: number}` | —       |
 | tag    | custom element tag                                  | ^[string]                                                                             | div     |
 
-### Col Slots
+### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |

@@ -39,6 +39,8 @@ export const useSelect = (
   const result = {
     ...pick(toRefs(props), Object.keys(ElSelect.props)),
     ...attrs,
+    class: computed(() => attrs.class),
+    style: computed(() => attrs.style),
     // attrs is not reactive, when v-model binding source changes,
     // this listener is still old, see the bug(or test 'v-model source change'):
     // https://github.com/element-plus/element-plus/issues/14204

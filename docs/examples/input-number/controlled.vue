@@ -28,7 +28,7 @@
 import { ref } from 'vue'
 
 const num = ref(1)
-const handleChange = (value: number) => {
+const handleChange = (value: number | undefined) => {
   console.log(value)
 }
 </script>

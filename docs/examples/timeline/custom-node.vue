@@ -17,8 +17,13 @@
 
 <script lang="ts" setup>
 import { MoreFilled } from '@element-plus/icons-vue'
+import type { TimelineItemProps } from 'element-plus'
 
-const activities = [
+interface ActivityType extends Partial<TimelineItemProps> {
+  content: string
+}
+
+const activities: ActivityType[] = [
   {
     content: 'Custom icon',
     timestamp: '2018-04-12 20:46',

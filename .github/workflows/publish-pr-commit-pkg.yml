@@ -1,4 +1,4 @@
-name: Publish PR Commit Pkg1
+name: Publish PR Commit Pkg
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - run: corepack enable
+      - run: npm i -g --force corepack && corepack enable
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -48,4 +48,4 @@ jobs:
       - name: Publish
         run: |
           cd dist/element-plus
-          pnpx pkg-pr-new publish
+          pnpx pkg-pr-new publish --comment=off

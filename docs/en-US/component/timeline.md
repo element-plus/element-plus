@@ -49,7 +49,7 @@ timeline/center
 
 ## Timeline API
 
-### Timeline Slots
+### Slots
 
 | Name    | Description                            | Subtags       |
 | ------- | -------------------------------------- | ------------- |
@@ -57,7 +57,7 @@ timeline/center
 
 ## Timeline-Item API
 
-### Timeline-Item Attributes
+### Attributes
 
 | Name           | Description                 | Type                                                               | Default |
 | -------------- | --------------------------- | ------------------------------------------------------------------ | ------- |
@@ -71,7 +71,7 @@ timeline/center
 | icon           | icon component              | ^[string] / ^[Component]                                           | —       |
 | hollow         | icon is hollow              | ^[boolean]                                                         | false   |
 
-### Timeline-Item Slots
+### Slots
 
 | Name    | Description                                 |
 | ------- | ------------------------------------------- |
