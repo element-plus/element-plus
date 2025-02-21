@@ -11,23 +11,24 @@ export interface MessageBoxInputData {
   action: Action
 }
 
-export interface MessageBoxInputValidator {
-  (value: string): boolean | string
-}
+export type MessageBoxInputValidator =
+  | ((value: string) => boolean | string)
+  | undefined
 
 export declare interface MessageBoxState {
   autofocus: boolean
-  title: string
+  title: string | undefined
   message: string
   type: MessageType
   icon: string | Component
+  closeIcon: string | Component
   customClass: string
   customStyle: CSSProperties
   showInput: boolean
   inputValue: string
   inputPlaceholder: string
   inputType: string
-  inputPattern: RegExp
+  inputPattern: RegExp | null
   inputValidator: MessageBoxInputValidator
   inputErrorMessage: string
   showConfirmButton: boolean
@@ -127,6 +128,9 @@ export interface ElMessageBoxOptions {
 
   /** Custom icon component */
   icon?: string | Component
+
+  /** Custom close icon component */
+  closeIcon?: string | Component
 
   /** Whether message is treated as HTML string */
   dangerouslyUseHTMLString?: boolean

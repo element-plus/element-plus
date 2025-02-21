@@ -52,8 +52,6 @@ import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectDropdownInstance } from './select-dropdown'
 import type { Component, ComputedRef, Ref, WritableComputedRef } from 'vue'
 
-const MINIMUM_INPUT_WIDTH = 11
-
 type useSelectReturnType = (
   props: ISelectV2Props,
   emit: SelectEmitFn
@@ -71,7 +69,6 @@ type useSelectReturnType = (
   iconReverse: ComputedRef<any>
   tagStyle: ComputedRef<{ maxWidth: string }>
   collapseTagStyle: ComputedRef<{ maxWidth: string }>
-  inputStyle: ComputedRef<{ width: string }>
   popperSize: Ref<number>
   dropdownMenuVisible: WritableComputedRef<boolean>
   hasModelValue: ComputedRef<boolean>
@@ -84,7 +81,6 @@ type useSelectReturnType = (
   isFocused: Ref<boolean>
   nsSelect: ReturnType<typeof useNamespace>
   nsInput: ReturnType<typeof useNamespace>
-  calculatorRef: Ref<HTMLElement | undefined>
   inputRef: Ref<HTMLElement | undefined>
   menuRef: Ref<SelectDropdownInstance | undefined>
   tagMenuRef: Ref<HTMLElement | undefined>
@@ -116,7 +112,6 @@ type useSelectReturnType = (
   handleMenuEnter: () => void
   handleResize: () => void
   resetSelectionWidth: () => void
-  resetCalculatorWidth: () => void
   updateTooltip: () => void
   updateTagTooltip: () => void
   updateOptions: () => void
@@ -158,7 +153,6 @@ const useSelect: useSelectReturnType = (
     hoveringIndex: -1,
     inputHovering: false,
     selectionWidth: 0,
-    calculatorWidth: 0,
     collapseItemWidth: 0,
     previousQuery: null,
     previousValue: undefined,
@@ -176,7 +170,6 @@ const useSelect: useSelectReturnType = (
   const tooltipRef = ref<TooltipInstance>()
   const tagTooltipRef = ref<TooltipInstance>()
   const inputRef = ref<HTMLElement>()
-  const calculatorRef = ref<HTMLElement>()
   const prefixRef = ref<HTMLElement>()
   const suffixRef = ref<HTMLElement>()
   const menuRef = ref<SelectDropdownInstance>()
@@ -410,10 +403,6 @@ const useSelect: useSelectReturnType = (
     return { maxWidth: `${states.selectionWidth}px` }
   })
 
-  const inputStyle = computed(() => ({
-    width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
-  }))
-
   const shouldShowPlaceholder = computed(() => {
     if (isArray(props.modelValue)) {
       return props.modelValue.length === 0 && !states.inputValue
@@ -601,10 +590,6 @@ const useSelect: useSelectReturnType = (
 
   const resetSelectionWidth = () => {
     states.selectionWidth = selectionRef.value!.getBoundingClientRect().width
-  }
-
-  const resetCalculatorWidth = () => {
-    states.calculatorWidth = calculatorRef.value!.getBoundingClientRect().width
   }
 
   const resetCollapseItemWidth = () => {
@@ -1019,7 +1004,6 @@ const useSelect: useSelectReturnType = (
   })
   useResizeObserver(selectRef, handleResize)
   useResizeObserver(selectionRef, resetSelectionWidth)
-  useResizeObserver(calculatorRef, resetCalculatorWidth)
   useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
@@ -1040,7 +1024,6 @@ const useSelect: useSelectReturnType = (
     iconReverse,
     tagStyle,
     collapseTagStyle,
-    inputStyle,
     popperSize,
     dropdownMenuVisible,
     hasModelValue,
@@ -1055,7 +1038,6 @@ const useSelect: useSelectReturnType = (
     nsInput,
 
     // refs items exports
-    calculatorRef,
     inputRef,
     menuRef,
     tagMenuRef,
@@ -1091,7 +1073,6 @@ const useSelect: useSelectReturnType = (
     handleMenuEnter,
     handleResize,
     resetSelectionWidth,
-    resetCalculatorWidth,
     updateTooltip,
     updateTagTooltip,
     updateOptions,

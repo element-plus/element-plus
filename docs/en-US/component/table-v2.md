@@ -293,7 +293,9 @@ table-v2/manual-scroll
 
 :::
 
-## TableV2 Attributes
+## TableV2 API
+
+### Attributes
 
 | Name                      | Description                                                                                                                | Type                                                   | Default   |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | --------- |
@@ -321,13 +323,14 @@ table-v2/manual-scroll
 | width ^(required)         | Width of the table                                                                                                         | `number`                                               | —         |
 | height ^(required)        | Height of the table                                                                                                        | `number`                                               | —         |
 | max-height                | Maximum height of the table                                                                                                | `number`                                               | —         |
+| indent-size               | horizontal indentation of tree table                                                                                       | `number`                                               | 12        |
 | h-scrollbar-size          | Indicates the horizontal scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse | `number`                                               | 6         |
 | v-scrollbar-size          | Indicates the vertical scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse   | `number`                                               | 6         |
 | scrollbar-always-on       | If true, the scrollbar will always be shown instead of when mouse is placed above the table                                | `boolean`                                              | false     |
 | sort-by                   | Sort indicator                                                                                                             | `object`\<[SortBy](#typings)\>                         | {}        |
 | sort-state                | Multiple sort indicator                                                                                                    | `object`\<[SortState](#typings)\>                      | undefined |
 
-## TableV2 Slots
+### Slots
 
 | Name        | Params                                      |
 | ----------- | ------------------------------------------- |
@@ -339,7 +342,7 @@ table-v2/manual-scroll
 | empty       | —                                           |
 | overlay     | —                                           |
 
-## TableV2 Events
+### Events
 
 | Name                 | Description                                                           | Parameters                                 |
 | -------------------- | --------------------------------------------------------------------- | ------------------------------------------ |
@@ -351,7 +354,7 @@ table-v2/manual-scroll
 | row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon | `object`\<[RowExpandParams](#typings)\>    |
 | row-event-handlers   | A collection of handlers attached to each row                         | `object`\<[RowEventHandlers](#typings)\>   |
 
-## TableV2 Methods
+### Methods
 
 | Event Name   | Description                                          | Parameters                                                                             |
 | ------------ | ---------------------------------------------------- | -------------------------------------------------------------------------------------- |
@@ -366,7 +369,9 @@ Note that these are `JavaScript` Objects, so you **CANNOT USE** kebab-case for t
 
 :::
 
-## Column Attribute
+## Column API
+
+### Attribute
 
 | Name               | Description                                                           | Type                                                                                                                                                                 | Default |
 | ------------------ | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
@@ -388,7 +393,7 @@ Note that these are `JavaScript` Objects, so you **CANNOT USE** kebab-case for t
 | cellRenderer       | Customized Cell renderer                                              | `VueComponent` / (props: [CellRenderProps](#typings)) => VNode                                                                                                       | —       |
 | headerCellRenderer | Customized Header renderer                                            | `VueComponent` / (props: [HeaderRenderProps](#typings)) => VNode                                                                                                     | —       |
 
-## Typings{#typings}
+## Type Declarations
 
 <details>
 <summary>Show Type Declarations</summary>
