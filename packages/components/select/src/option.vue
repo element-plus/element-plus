@@ -40,8 +40,8 @@ export default defineComponent({
      * @description value of option
      */
     value: {
-      required: true,
-      type: [String, Number, Boolean, Object],
+      required: false,
+      validator: (value) => value !== undefined,
     },
     /**
      * @description label of option, same as `value` if omitted
