@@ -31,7 +31,7 @@ dropdown/placements
 
 Use the button to trigger the dropdown list.
 
-:::demo Use `split-button` to split the triggering element into a button group with the left button being a normal button and right one the actual triggering target. If you wanna insert a separator line between item three and item four, just add a class `divider` to item four.
+:::demo Use `split-button` to split the triggering element into a button group with the left button being a normal button and right one the actual triggering target. If you wanna insert a separator line between item three and item four, just add the `divided` attribute to item four.
 
 dropdown/triggering-element
 
@@ -89,7 +89,7 @@ dropdown/sizes
 
 ## Dropdown API
 
-### Dropdown Attributes
+### Attributes
 
 | Name                 | Description                                                                                                           | Type                                                                                                         | Default                                                                    |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
@@ -110,15 +110,16 @@ dropdown/sizes
 | popper-class         | custom class name for Dropdown's dropdown                                                                             | ^[string]                                                                                                    | ''                                                                         |
 | popper-options       | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]                                                                                                    | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
 | teleported ^(2.2.20) | whether the dropdown popup is teleported to the body                                                                  | ^[boolean]                                                                                                   | true                                                                       |
+| persistent ^(2.9.5)  | when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed                                     | ^[boolean]                                                                                                   | true                                                                       |
 
-### Dropdown Slots
+### Slots
 
 | Name     | Description                                                                                                                                   | Subtags       |
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | default  | content of Dropdown. Notice: Must be a valid html dom element (ex. `<span>, <button> etc.`) or `el-component`, to attach the trigger listener | —             |
 | dropdown | content of the Dropdown Menu, usually a `<el-dropdown-menu>` element                                                                          | Dropdown-Menu |
 
-### Dropdown Events
+### Events
 
 | Name           | Description                                                                                               | Type                                  |
 | -------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------- |
@@ -126,7 +127,7 @@ dropdown/sizes
 | command        | triggers when a dropdown item is clicked, the parameters is the command dispatched from the dropdown item | ^[Function]`(...args: any[]) => void` |
 | visible-change | triggers when the dropdown appears/disappears, the param is true when it appears, and false otherwise     | ^[Function]`(val: boolean) => void`   |
 
-### Dropdown Exposes
+### Exposes
 
 | Method      | Description             | Type                    |
 | ----------- | ----------------------- | ----------------------- |
@@ -135,7 +136,7 @@ dropdown/sizes
 
 ## Dropdown-Menu API
 
-### Dropdown-Menu Slots
+### Slots
 
 | Name    | Description              | Subtags       |
 | ------- | ------------------------ | ------------- |
@@ -143,7 +144,7 @@ dropdown/sizes
 
 ## Dropdown-Item API
 
-### Dropdown-Item Attributes
+### Attributes
 
 | Name     | Description                                                 | Type                              | Default |
 | -------- | ----------------------------------------------------------- | --------------------------------- | ------- |
@@ -152,7 +153,7 @@ dropdown/sizes
 | divided  | whether a divider is displayed                              | ^[boolean]                        | false   |
 | icon     | custom icon                                                 | ^[string] / ^[Component]          | —       |
 
-### Dropdown-Item Slots
+### Slots
 
 | Name    | Description                |
 | ------- | -------------------------- |

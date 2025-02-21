@@ -135,7 +135,7 @@ button/custom
 
 ## Button API
 
-### Button Attributes
+### Attributes
 
 | Name              | Description                                                             | Type                                                                                      | Default |
 | ----------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------- |
@@ -153,12 +153,12 @@ button/custom
 | icon              | icon component                                                          | ^[string] / ^[Component]                                                                  | —       |
 | autofocus         | same as native button's `autofocus`                                     | ^[boolean]                                                                                | false   |
 | native-type       | same as native button's `type`                                          | ^[enum]`'button' \| 'submit' \| 'reset'`                                                  | button  |
-| auto-insert-space | automatically insert a space between two chinese characters             | ^[boolean]                                                                                | —       |
+| auto-insert-space | automatically insert a space between two chinese characters(this will only take effect when the text length is 2 and all characters are in Chinese.)             | ^[boolean]                                                                                | false      |
 | color             | custom button color, automatically calculate `hover` and `active` color | ^[string]                                                                                 | —       |
 | dark              | dark mode, which automatically converts `color` to dark mode colors     | ^[boolean]                                                                                | false   |
 | tag ^(2.3.4)      | custom element tag                                                      | ^[string] / ^[Component]                                                                  | button  |
 
-### Button Slots
+### Slots
 
 | Name    | Description                 |
 | ------- | --------------------------- |
@@ -166,7 +166,7 @@ button/custom
 | loading | customize loading component |
 | icon    | customize icon component    |
 
-### Button Exposes
+### Exposes
 
 | Name           | Description          | Type                                                                                                           |
 | -------------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
@@ -178,14 +178,14 @@ button/custom
 
 ## ButtonGroup API
 
-### ButtonGroup Attributes
+### Attributes
 
 | Name | Description                                      | Type                                                               | Default |
 | ---- | ------------------------------------------------ | ------------------------------------------------------------------ | ------- |
 | size | control the size of buttons in this button-group | ^[enum]`'large' \| 'default' \| 'small'`                           | —       |
 | type | control the type of buttons in this button-group | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —       |
 
-### ButtonGroup Slots
+### Slots
 
 | Name    | Description                    | Subtags |
 | ------- | ------------------------------ | ------- |
