@@ -103,6 +103,7 @@ export default defineComponent({
     const isHoverMenu = computed(() => panel.isHoverMenu)
     const multiple = computed(() => panel.config.multiple)
     const checkStrictly = computed(() => panel.config.checkStrictly)
+    const checkOnClickNode = computed(() => panel.config.checkOnClickNode)
     const checkedNodeId = computed(() => panel.checkedNodes[0]?.uid)
     const isDisabled = computed(() => props.node.isDisabled)
     const isLeaf = computed(() => props.node.isLeaf)
@@ -162,6 +163,7 @@ export default defineComponent({
         handleCheck(true)
       } else {
         handleExpand()
+        if (checkOnClickNode.value) doCheck(true)
       }
     }
 
