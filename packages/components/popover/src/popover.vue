@@ -60,47 +60,35 @@ const emit = defineEmits(popoverEmits)
 
 const updateEventKeyRaw = `onUpdate:visible` as const
 
-const onUpdateVisible = computed(() => {
-  return props[updateEventKeyRaw]
-})
+const onUpdateVisible = computed(() => props[updateEventKeyRaw])
 
 const ns = useNamespace('popover')
 const tooltipRef = ref<TooltipInstance>()
-const popperRef = computed(() => {
-  return unref(tooltipRef)?.popperRef
-})
+const popperRef = computed(() => unref(tooltipRef)?.popperRef)
 
-const style = computed(() => {
-  return [
-    {
-      width: addUnit(props.width),
-    },
-    props.popperStyle!,
-  ]
-})
+const style = computed(() => [
+  {
+    width: addUnit(props.width),
+  },
+  props.popperStyle!,
+])
 
-const kls = computed(() => {
-  return [ns.b(), props.popperClass!, { [ns.m('plain')]: !!props.content }]
-})
+const kls = computed(() => [
+  ns.b(),
+  props.popperClass!,
+  { [ns.m('plain')]: !!props.content },
+])
 
-const gpuAcceleration = computed(() => {
-  return props.transition === `${ns.namespace.value}-fade-in-linear`
-})
+const gpuAcceleration = computed(
+  () => props.transition === `${ns.namespace.value}-fade-in-linear`
+)
 
-const hide = () => {
-  tooltipRef.value?.hide()
-}
+const hide = () => tooltipRef.value?.hide()
 
-const beforeEnter = () => {
-  emit('before-enter')
-}
-const beforeLeave = () => {
-  emit('before-leave')
-}
+const beforeEnter = () => emit('before-enter')
+const beforeLeave = () => emit('before-leave')
 
-const afterEnter = () => {
-  emit('after-enter')
-}
+const afterEnter = () => emit('after-enter')
 
 const afterLeave = () => {
   emit('update:visible', false)
