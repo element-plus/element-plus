@@ -34,6 +34,7 @@
           :validate-event="false"
           :size="realSize"
           :class="inputClass"
+          :clearable="false"
           :tabindex="multiple && filterable && !isDisabled ? -1 : undefined"
           @compositionstart="handleComposition"
           @compositionupdate="handleComposition"
