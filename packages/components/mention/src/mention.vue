@@ -113,7 +113,18 @@ const filteredOptions = computed(() => {
 })
 
 const dropdownVisible = computed(() => {
-  return visible.value && (!!filteredOptions.value.length || props.loading)
+  const checked: boolean = props.checkVisible
+    ? props.checkVisible?.(
+        visible.value,
+        filteredOptions.value,
+        mentionCtx.value
+      )
+    : true
+  return (
+    checked &&
+    visible.value &&
+    (!!filteredOptions.value.length || props.loading)
+  )
 })
 
 const hoveringId = computed(() => {
