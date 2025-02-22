@@ -26,7 +26,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import { computed, defineComponent, inject } from 'vue'
 import {
   ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY,
