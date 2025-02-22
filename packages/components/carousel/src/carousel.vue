@@ -2,6 +2,7 @@
   <div
     ref="root"
     :class="carouselClasses"
+    :style="{ height: props.height }"
     @mouseenter.stop="handleMouseEnter"
     @mouseleave.stop="handleMouseLeave"
   >
