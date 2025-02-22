@@ -1,7 +1,6 @@
 <template>
   <div
     ref="root"
-    class="test-carousel"
     :class="carouselClasses"
     :style="{ height: props.height }"
     @mouseenter.stop="handleMouseEnter"
