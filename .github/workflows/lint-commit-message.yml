@@ -2,7 +2,7 @@ name: Lint Commit Message
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, edited, reopened]
 
 jobs:
   lint:
@@ -42,7 +42,7 @@ jobs:
 
       - name: Lint commit
         id: lint_commit
-        run: pnpm lint:commit || echo "failed=true" >> $GITHUB_OUTPUT
+        run: echo "${{ github.event.pull_request.title }}" | pnpm run lint:commit || echo "failed=true" >> $GITHUB_OUTPUT
 
       - name: Set success result
         if: ${{ steps.lint_commit.outputs.failed != 'true' }}
