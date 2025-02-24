@@ -5,10 +5,6 @@ import {
   getValidDateOfYear,
 } from '@element-plus/components/date-picker/src/utils'
 
-import type {
-  MonthsPickerEmits,
-  YearsPickerEmits,
-} from '@element-plus/components/date-picker/src/props/basic-date-table'
 import type { PanelDateRangeProps } from '@element-plus/components/date-picker/src/props/panel-date-range'
 import type { Translator } from '@element-plus/hooks'
 import type { Dayjs } from 'dayjs'
@@ -51,10 +47,10 @@ export const usePanelDateRange = (
     return rightDate.value.month()
   })
 
-  const computedYearLabel = (
+  function computedYearLabel(
     currentView: Ref<CurrentView>,
     yearValue: ComputedRef<number>
-  ) => {
+  ) {
     const yearTranslation = t('el.datepicker.year')
     if (currentView.value === 'year') {
       const startYear = Math.floor(yearValue.value! / 10) * 10
@@ -67,14 +63,14 @@ export const usePanelDateRange = (
     return `${yearValue.value} ${yearTranslation}`
   }
 
-  const focusPicker = (currentViewRef?: CurrentViewRef) => {
+  function focusPicker(currentViewRef?: CurrentViewRef) {
     currentViewRef?.focus()
   }
 
-  const showPicker = async (
+  async function showPicker(
     pickerType: 'left' | 'right',
     view: 'month' | 'year'
-  ) => {
+  ) {
     const currentView =
       pickerType === 'left' ? leftCurrentView : rightCurrentView
     const currentViewRef =
@@ -84,62 +80,44 @@ export const usePanelDateRange = (
     focusPicker(currentViewRef.value)
   }
 
-  const adjustDate = (
-    type: 'left' | 'right',
-    startDate: Ref<Dayjs>,
-    endDate: Ref<Dayjs>
-  ) => {
+  async function handlePick(
+    mode: 'month' | 'year',
+    pickerType: 'left' | 'right',
+    value: number
+  ) {
+    const isLeftPicker = pickerType === 'left'
+    const startDate = isLeftPicker ? leftDate : rightDate
+    const endDate = isLeftPicker ? rightDate : leftDate
+    const currentView = isLeftPicker ? leftCurrentView : rightCurrentView
+    const currentViewRef = isLeftPicker
+      ? leftCurrentViewRef
+      : rightCurrentViewRef
+
+    if (mode === 'year') {
+      const data = startDate.value.year(value)
+      startDate.value = getValidDateOfYear(data, lang.value, disabledDate)
+    }
+
+    if (mode === 'month') {
+      startDate.value = getValidDateOfMonth(
+        startDate.value.year(),
+        value,
+        lang.value,
+        disabledDate
+      )
+    }
+
     if (!props.unlinkPanels) {
       endDate.value =
-        type === 'left'
+        pickerType === 'left'
           ? startDate.value.add(1, 'month')
           : startDate.value.subtract(1, 'month')
     }
-  }
 
-  const yearPick = async (
-    pickerType: 'left' | 'right',
-    year: number | YearsPickerEmits
-  ) => {
-    const startDate = pickerType === 'left' ? leftDate : rightDate
-    const endDate = pickerType === 'left' ? rightDate : leftDate
-    const currentView =
-      pickerType === 'left' ? leftCurrentView : rightCurrentView
-    const currentViewRef =
-      pickerType === 'left' ? leftCurrentViewRef : rightCurrentViewRef
-
-    const data = startDate.value.year(year as number)
-    startDate.value = getValidDateOfYear(data, lang.value, disabledDate)
-    adjustDate(pickerType, startDate, endDate)
-
-    currentView.value = 'month'
+    currentView.value = mode === 'year' ? 'month' : 'date'
     await nextTick()
     focusPicker(currentViewRef.value)
-    handlePanelChange('year')
-  }
-
-  const monthPick = async (
-    pickerType: 'left' | 'right',
-    month: number | MonthsPickerEmits
-  ) => {
-    const startDate = pickerType === 'left' ? leftDate : rightDate
-    const endDate = pickerType === 'left' ? rightDate : leftDate
-    const currentView =
-      pickerType === 'left' ? leftCurrentView : rightCurrentView
-    const currentViewRef =
-      pickerType === 'left' ? leftCurrentViewRef : rightCurrentViewRef
-    startDate.value = getValidDateOfMonth(
-      startDate.value.year(),
-      month as number,
-      lang.value,
-      disabledDate
-    )
-    adjustDate(pickerType, startDate, endDate)
-
-    currentView.value = 'date'
-    await nextTick()
-    focusPicker(currentViewRef.value)
-    handlePanelChange('year')
+    handlePanelChange(mode)
   }
 
   function handlePanelChange(mode: 'month' | 'year') {
@@ -176,14 +154,11 @@ export const usePanelDateRange = (
     ),
     showLeftPicker: (view: 'month' | 'year') => showPicker('left', view),
     showRightPicker: (view: 'month' | 'year') => showPicker('right', view),
-    handleLeftYearPick: (year: number | YearsPickerEmits) =>
-      yearPick('left', year),
-    handleRightYearPick: (year: number | YearsPickerEmits) =>
-      yearPick('right', year),
-    handleLeftMonthPick: (month: number | MonthsPickerEmits) =>
-      monthPick('left', month),
-    handleRightMonthPick: (month: number | MonthsPickerEmits) =>
-      monthPick('right', month),
+    handleLeftYearPick: (year: number) => handlePick('year', 'left', year),
+    handleRightYearPick: (year: number) => handlePick('year', 'right', year),
+    handleLeftMonthPick: (month: number) => handlePick('month', 'left', month),
+    handleRightMonthPick: (month: number) =>
+      handlePick('month', 'right', month),
     handlePanelChange,
     adjustDateByView,
   }
