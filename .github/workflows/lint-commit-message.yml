@@ -64,6 +64,6 @@ jobs:
           pr-number: ${{ github.event.number }}
           comment-body: |
             Hello, @${{ github.event.pull_request.user.login }}, your PR title does not meet the standards, please refer to [commit-history](https://github.com/element-plus/element-plus/commits/dev/) or [docs-examples](https://element-plus.org/en-US/guide/commit-examples.html) make changes.
-            你好，@${{ github.event.pull_request.user.login }}，你的 PR 标题不符合规范，请参考 [提交历史](https://github.com/element-plus/element-plus/commits/dev/) 或者 [文档示例](https://element-plus.org/en-US/guide/commit-examples.html) 进行更改。
+            你好，@${{ github.event.pull_request.user.login }}，你的 PR 标题不符合规范，请参考 [提交历史](https://github.com/element-plus/element-plus/commits/dev/) 或者 [文档示例](https://element-plus.org/en-US/guide/commit-examples.html) 进行修改。
             <!-- ELEMENT_PLUS_COMMIT_LINT -->
           body-filter: '<!-- ELEMENT_PLUS_COMMIT_LINT -->'
