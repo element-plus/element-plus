@@ -748,7 +748,7 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     }
   }
 
-  const toggleMenu = () => {
+  const toggleMenu = (event?, allowClose = true) => {
     if (selectDisabled.value) return
 
     // We only set the inputHovering state to true on mouseenter event on iOS devices
@@ -759,8 +759,15 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
       // controlled by automaticDropdown
       states.menuVisibleOnFocus = false
     } else {
+      if (expanded.value && !allowClose) {
+        return
+      }
       expanded.value = !expanded.value
     }
+  }
+
+  const openMenu = (event?) => {
+    toggleMenu(event, false)
   }
 
   const selectOption = () => {
@@ -917,6 +924,7 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     handleClickOutside,
     handleEsc,
     toggleMenu,
+    openMenu,
     selectOption,
     getValueKey,
     navigateOptions,
