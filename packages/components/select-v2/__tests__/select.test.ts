@@ -1587,6 +1587,87 @@ describe('Select', () => {
       const options = getOptions()
       expect(options.length).toBe(3)
     })
+
+    it('should not update filteredOptions.value when options do not change', async () => {
+      const filterMethod = vi.fn((val) => {
+        // 模拟 filterMethod 的逻辑
+        return val ? [options[0]] : options
+      })
+
+      const wrapper = createSelect({
+        data() {
+          return {
+            filterable: true,
+            options: [
+              { value: 1, label: 'option 1' },
+              { value: 2, label: 'option 2' },
+              { value: 3, label: 'option 3' },
+            ],
+          }
+        },
+        methods: {
+          filterMethod,
+        },
+      })
+
+      // 模拟输入查询
+      const input = wrapper.find('input')
+      input.element.value = 'query'
+      await input.trigger('input')
+
+      // 验证 filterMethod 被调用
+      expect(filterMethod).toHaveBeenCalled()
+
+      // 获取当前的 filteredOptions
+      const initialFilteredOptions = wrapper.vm.filteredOptions
+
+      // 模拟选中一个选项
+      await wrapper.find('.select-dropdown-item').trigger('click')
+
+      // 验证 filteredOptions 没有变化
+      expect(wrapper.vm.filteredOptions).toEqual(initialFilteredOptions)
+    })
+
+    it('should not reset scroll position when selecting an option', async () => {
+      const options = Array.from({ length: 100 }).map((_, idx) => ({
+        value: idx,
+        label: `option ${idx}`,
+      }))
+
+      const wrapper = createSelect({
+        data() {
+          return {
+            filterable: true,
+            options,
+          }
+        },
+        methods: {
+          filterMethod: (val) => {
+            // 模拟 filterMethod 的逻辑
+            return val ? [options[0]] : options
+          },
+        },
+      })
+
+      // 打开下拉框
+      await wrapper.find('.select-input').trigger('click')
+
+      // 模拟滚动到最底部
+      const dropdown = document.querySelector('.select-dropdown')
+      dropdown.scrollTop = dropdown.scrollHeight
+
+      // 记录当前的滚动位置
+      const initialScrollTop = dropdown.scrollTop
+
+      // 模拟选中最后一个选项
+      const lastOption = document
+        .querySelectorAll('.select-dropdown-item')
+        .item(99)
+      await lastOption.trigger('click')
+
+      // 验证滚动位置没有重置
+      expect(dropdown.scrollTop).toBe(initialScrollTop)
+    })
   })
 
   describe('remote search', () => {

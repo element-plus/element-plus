@@ -314,8 +314,17 @@ const useSelect: useSelectReturnType = (
   }
 
   const updateOptions = () => {
-    allOptions.value = filterOptions('')
-    filteredOptions.value = filterOptions(states.inputValue)
+    const newAllOptions = filterOptions('')
+    const newFilteredOptions = filterOptions(states.inputValue)
+    if (JSON.stringify(allOptions.value) !== JSON.stringify(newAllOptions)) {
+      allOptions.value = newAllOptions
+    }
+    if (
+      JSON.stringify(filteredOptions.value) !==
+      JSON.stringify(newFilteredOptions)
+    ) {
+      filteredOptions.value = newFilteredOptions
+    }
   }
 
   const allOptionsValueMap = computed(() => {
