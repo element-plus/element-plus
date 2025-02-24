@@ -90,6 +90,7 @@ tree-v2/filter
 | highlight-current     | whether current node is highlighted                                                                                                          | boolean                     | false   |
 | expand-on-click-node  | whether to expand or collapse node when clicking on the node, if false, then expand or collapse node only when clicking on the arrow icon.   | boolean                     | true    |
 | check-on-click-node   | whether to check or uncheck node when clicking on the node, if false, the node can only be checked or unchecked by clicking on the checkbox. | boolean                     | false   |
+| check-on-click-leaf   | whether to check or uncheck node when clicking on leaf node (last children).                                                                 | ^[boolean]                  | true    |
 | default-expanded-keys | array of keys of initially expanded nodes                                                                                                    | array                       | —       |
 | show-checkbox         | whether node is selectable                                                                                                                   | boolean                     | false   |
 | check-strictly        | whether checked state of a node not affects its father and child nodes when `show-checkbox` is `true`                                        | boolean                     | false   |

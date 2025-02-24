@@ -248,7 +248,8 @@ export default defineComponent({
       }
 
       if (
-        (tree.props.checkOnClickNode || props.node.isLeaf) &&
+        (tree.props.checkOnClickNode ||
+          (props.node.isLeaf && tree.props.checkOnClickLeaf)) &&
         !props.node.disabled
       ) {
         handleCheckChange(!props.node.checked)

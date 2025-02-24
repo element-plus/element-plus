@@ -559,6 +559,25 @@ describe('Tree.vue', () => {
     expect(treeVm.getCheckedNodes().length).toEqual(1)
   })
 
+  test('show-checkbox :check-on-click-leaf="false"', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox :check-on-click-leaf="false"`
+    )
+    const treeVm = wrapper.findComponent(Tree).vm
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    const secondTreeNodeWrapper = wrapper.findAll('.el-tree-node')[2]
+    await secondTreeNodeWrapper.trigger('click')
+
+    const secondNodeContentWrapper = secondTreeNodeWrapper.findAll(
+      '.el-tree-node__content'
+    )[1]
+    await secondNodeContentWrapper.trigger('click')
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+  })
+
   test('setCheckedNodes', async () => {
     const { wrapper } = getTreeVm(
       `:props="defaultProps" show-checkbox node-key="id"`

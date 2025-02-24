@@ -821,6 +821,26 @@ describe('TreeSelect.vue', () => {
     expect(treeVm.getCheckedNodes(true).length).toEqual(1)
   })
 
+  test('show-checkbox :check-on-click-leaf="false"', async () => {
+    const { tree, select } = createComponent({
+      props: {
+        showCheckbox: true,
+        checkOnClickLeaf: false,
+      },
+    })
+
+    const treeVm = tree.vm
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    await tree.findAll('.el-tree-node__content')[0].trigger('click')
+    await tree.findAll('.el-tree-node__content')[1].trigger('click')
+    await tree.findAll('.el-tree-node__content')[2].trigger('click')
+
+    expect(select.vm.modelValue).toBeUndefined()
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+    expect(treeVm.getCheckedNodes(true).length).toEqual(0)
+  })
+
   test('no checkbox and check on click node', async () => {
     const { select, tree } = createComponent({
       props: {
