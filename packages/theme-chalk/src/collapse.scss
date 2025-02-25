@@ -34,13 +34,18 @@
     transition: border-bottom-color getCssVar('transition-duration');
     outline: none;
     @include e(arrow) {
-      margin: 0 8px 0 auto;
       transition: transform getCssVar('transition-duration');
       font-weight: 300;
       @include when(active) {
         transform: rotate(90deg);
       }
     }
+
+    @include e(title) {
+      text-align: left;
+      flex: auto;
+    }
+
     &.focusing:focus:not(:hover) {
       color: getCssVar('color-primary');
     }
@@ -66,5 +71,24 @@
 
   &:last-child {
     margin-bottom: -1px;
+  }
+}
+
+.#{$namespace}-collapse-icon-position {
+  &-left {
+    .#{$namespace}-collapse-item__ {
+      &header {
+        gap: 8px;
+      }
+      &title {
+        order: 1;
+      }
+    }
+  }
+
+  &-right {
+    .#{$namespace}-collapse-item__header {
+      padding-right: 8px;
+    }
   }
 }
