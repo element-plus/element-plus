@@ -1,8 +1,8 @@
 <template>
-  <el-row>
-    <el-col :span="12" class="demo-image__showPreview-method">
-      <el-button @click="handleClick"
-        >openPreview with showPreview method
+  <div class="flex gap-12">
+    <div class="grid gap-3">
+      <el-button @click="handleClick">
+        openPreview with showPreview method
       </el-button>
       <el-image
         ref="imageRef"
@@ -12,8 +12,8 @@
         :preview-src-list="srcList"
         fit="cover"
       />
-    </el-col>
-    <el-col :span="12">
+    </div>
+    <div>
       <el-button @click="showPreview = true"> preview controlled </el-button>
       <el-image-viewer
         v-if="showPreview"
@@ -22,8 +22,8 @@
         :initial-index="4"
         @close="showPreview = false"
       />
-    </el-col>
-  </el-row>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -49,13 +49,3 @@ const handleClick = () => {
   imageRef.value!.showPreview()
 }
 </script>
-
-<style scoped>
-.demo-image__showPreview-method {
-  display: grid;
-  gap: 10px;
-}
-.demo-image__showPreview-method .el-button {
-  width: fit-content;
-}
-</style>
