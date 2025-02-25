@@ -59,7 +59,6 @@ import { useKeydown } from './model/useKeydown'
 import type Node from './model/node'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils'
 import type {
   TreeComponentProps,
   TreeData,
@@ -183,9 +182,9 @@ export default defineComponent({
     store.value.initialize()
 
     const root = ref<Node>(store.value.root)
-    const currentNode = ref<Node>(null)
-    const el$ = ref<Nullable<HTMLElement>>(null)
-    const dropIndicator$ = ref<Nullable<HTMLElement>>(null)
+    const currentNode = ref<Node>()
+    const el$ = ref<HTMLElement>()
+    const dropIndicator$ = ref<HTMLElement>()
 
     const { broadcastExpanded } = useNodeExpandEventBroadcast(props)
 
@@ -254,9 +253,7 @@ export default defineComponent({
       store.value.filter(value)
     }
 
-    const getNodeKey = (node: Node) => {
-      return getNodeKeyUtil(props.nodeKey, node.data)
-    }
+    const getNodeKey = (node: Node) => getNodeKeyUtil(props.nodeKey, node.data)
 
     const getNodePath = (data: TreeKey | TreeNodeData) => {
       if (!props.nodeKey)
@@ -279,9 +276,8 @@ export default defineComponent({
       return store.value.getCheckedNodes(leafOnly, includeHalfChecked)
     }
 
-    const getCheckedKeys = (leafOnly?: boolean): TreeKey[] => {
-      return store.value.getCheckedKeys(leafOnly)
-    }
+    const getCheckedKeys = (leafOnly?: boolean): TreeKey[] =>
+      store.value.getCheckedKeys(leafOnly)
 
     const getCurrentNode = (): TreeNodeData => {
       const currentNode = store.value.getCurrentNode()
@@ -315,13 +311,10 @@ export default defineComponent({
       store.value.setChecked(data, checked, deep)
     }
 
-    const getHalfCheckedNodes = (): TreeNodeData[] => {
-      return store.value.getHalfCheckedNodes()
-    }
+    const getHalfCheckedNodes = (): TreeNodeData[] =>
+      store.value.getHalfCheckedNodes()
 
-    const getHalfCheckedKeys = (): TreeKey[] => {
-      return store.value.getHalfCheckedKeys()
-    }
+    const getHalfCheckedKeys = (): TreeKey[] => store.value.getHalfCheckedKeys()
 
     const setCurrentNode = (node: Node, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
@@ -343,9 +336,8 @@ export default defineComponent({
       })
     }
 
-    const getNode = (data: TreeKey | TreeNodeData): Node => {
-      return store.value.getNode(data)
-    }
+    const getNode = (data: TreeKey | TreeNodeData): Node =>
+      store.value.getNode(data)
 
     const remove = (data: TreeNodeData | Node) => {
       store.value.remove(data)
