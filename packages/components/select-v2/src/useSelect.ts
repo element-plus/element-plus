@@ -63,7 +63,7 @@ type useSelectReturnType = (
   emptyText: ComputedRef<string | false | null>
   popupHeight: ComputedRef<number>
   debounce: ComputedRef<0 | 300>
-  allOptions: Ref<OptionType[]>
+  allOptions: ComputedRef<OptionType[]>
   filteredOptions: Ref<OptionType[]>
   iconComponent: ComputedRef<any>
   iconReverse: ComputedRef<any>
