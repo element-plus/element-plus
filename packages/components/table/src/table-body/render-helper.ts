@@ -157,38 +157,38 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
       const expanded = isRowExpanded(row)
       const tr = rowRender(row, $index, undefined, expanded)
       const renderExpanded = parent.renderExpanded
-      if (expanded) {
-        if (!renderExpanded) {
-          console.error('[Element Error]renderExpanded is required.')
-          return tr
-        }
+      if (!renderExpanded) {
+        console.error('[Element Error]renderExpanded is required.')
+        return tr
+      }
+
+      // 创建展开行内容
+      const expandedRow = h(
+        'tr',
+        {
+          key: `expanded-row__${tr.key as string}`,
+          style: { display: expanded ? '' : 'none' },
+        },
+        [
+          h(
+            'td',
+            {
+              colspan: columns.length,
+              class: `${ns.e('cell')} ${ns.e('expanded-cell')}`,
+            },
+            [renderExpanded({ row, $index, store, expanded })]
+          ),
+        ]
+      )
+
+      // 总是返回展开行，通过style.display控制显示隐藏
+      if (parent.props.preserveExpandedContent) {
         // 使用二维数组，避免修改 $index
         // Use a matrix to avoid modifying $index
-        return [
-          [
-            tr,
-            h(
-              'tr',
-              {
-                key: `expanded-row__${tr.key as string}`,
-              },
-              [
-                h(
-                  'td',
-                  {
-                    colspan: columns.length,
-                    class: `${ns.e('cell')} ${ns.e('expanded-cell')}`,
-                  },
-                  [renderExpanded({ row, $index, store, expanded })]
-                ),
-              ]
-            ),
-          ],
-        ]
+        return [[tr, expandedRow]]
       } else {
-        // 使用二维数组，避免修改 $index
-        // Use a two dimensional array avoid modifying $index
-        return [[tr]]
+        // 非保留模式：仅在展开状态时渲染展开行
+        return expanded ? [[tr, expandedRow]] : [[tr]]
       }
     } else if (Object.keys(treeData.value).length) {
       assertRowKey()
