@@ -59,7 +59,7 @@ export const useLockscreen = (
   }
   watch(trigger, (val) => {
     if (!val) {
-      cleanup()
+      withoutHiddenClass && cleanup()
       return
     }
 
@@ -80,5 +80,5 @@ export const useLockscreen = (
       document.body.style.width = `calc(100% - ${scrollBarWidth}px)`
     }
   })
-  onScopeDispose(() => cleanup())
+  onScopeDispose(() => withoutHiddenClass && cleanup())
 }

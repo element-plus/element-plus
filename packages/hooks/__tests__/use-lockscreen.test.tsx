@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 import sleep from '@element-plus/test-utils/sleep'
 import { hasClass } from '@element-plus/utils'
 
+import sleep from '@element-plus/test-utils/sleep'
 import { useLockscreen } from '../use-lockscreen'
 import { useNamespace } from '../use-namespace'
 
@@ -95,5 +96,31 @@ describe('useLockscreen', () => {
     )
 
     wrapper.unmount()
+  })
+
+  it('should not remove class name when another trigger is true', async () => {
+    // await the previous test remove class name
+    await sleep(250)
+    const trigger = mount({
+      setup: () => () => <Comp />,
+    })
+    const anotherTrigger = mount({
+      setup: () => () => <Comp />,
+    })
+    await nextTick()
+
+    expect(hasClass(document.body, kls)).toBe(true)
+
+    anotherTrigger.unmount()
+    await nextTick()
+    await sleep(250)
+
+    expect(hasClass(document.body, kls)).toBe(true)
+
+    trigger.unmount()
+    await nextTick()
+
+    await sleep(250)
+    expect(hasClass(document.body, kls)).toBe(false)
   })
 })
