@@ -91,24 +91,22 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, useSlots, watch } from 'vue'
+import { computed, inject, ref, toRef, unref, useSlots, watch } from 'vue'
 import dayjs from 'dayjs'
 import { isArray } from '@element-plus/utils'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import {
   panelYearRangeEmits,
   panelYearRangeProps,
 } from '../props/panel-year-range'
-import { useShortcut } from '../composables/use-shortcut'
 import { useYearRangeHeader } from '../composables/use-year-range-header'
-import { isValidRange } from '../utils'
-import { ROOT_PICKER_INJECTION_KEY } from '../constants'
+import { useRangePicker } from '../composables/use-range-picker'
+import { getDefaultValue, isValidRange } from '../utils'
 import YearTable from './basic-year-table.vue'
 
 import type { Dayjs } from 'dayjs'
-import type { RangeState } from '../props/shared'
 
 defineOptions({
   name: 'DatePickerYearRange',
@@ -116,12 +114,52 @@ defineOptions({
 
 const props = defineProps(panelYearRangeProps)
 const emit = defineEmits(panelYearRangeEmits)
+const step = 10
+const unit = 'year'
 
 const { lang } = useLocale()
+const pickerBase = inject('EP_PICKER_BASE') as any
+const { shortcuts, disabledDate } = pickerBase.props
+const format = toRef(pickerBase.props, 'format')
+const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const leftDate = ref(dayjs().locale(lang.value))
-const rightDate = ref(leftDate.value.add(10, 'year'))
-const { pickerNs: ppNs } = inject(ROOT_PICKER_INJECTION_KEY)!
-const drpNs = useNamespace('date-range-picker')
+const rightDate = ref(dayjs().locale(lang.value).add(step, unit))
+
+const {
+  minDate,
+  maxDate,
+  rangeState,
+  ppNs,
+  drpNs,
+
+  handleChangeRange,
+  handleRangeConfirm,
+  handleShortcutClick,
+  onSelect,
+  onReset,
+} = useRangePicker(props, {
+  defaultValue,
+  leftDate,
+  rightDate,
+  step,
+  unit,
+  onParsedValueChanged,
+})
+
+const {
+  leftPrevYear,
+  rightNextYear,
+  leftNextYear,
+  rightPrevYear,
+  leftLabel,
+  rightLabel,
+  leftYear,
+  rightYear,
+} = useYearRangeHeader({
+  unlinkPanels: toRef(props, 'unlinkPanels'),
+  leftDate,
+  rightDate,
+})
 
 const hasShortcuts = computed(() => !!shortcuts.length)
 
@@ -157,38 +195,9 @@ const rightPanelKls = computed(() => {
   }
 })
 
-const handleShortcutClick = useShortcut(lang)
-
-const {
-  leftPrevYear,
-  rightNextYear,
-  leftNextYear,
-  rightPrevYear,
-  leftLabel,
-  rightLabel,
-  leftYear,
-  rightYear,
-} = useYearRangeHeader({
-  unlinkPanels: toRef(props, 'unlinkPanels'),
-  leftDate,
-  rightDate,
-})
-
 const enableYearArrow = computed(() => {
   return props.unlinkPanels && rightYear.value > leftYear.value + 1
 })
-
-const minDate = ref<Dayjs>()
-const maxDate = ref<Dayjs>()
-
-const rangeState = ref<RangeState>({
-  endDate: null,
-  selecting: false,
-})
-
-const handleChangeRange = (val: RangeState) => {
-  rangeState.value = val
-}
 
 type RangePickValue = {
   minDate: Dayjs
@@ -205,85 +214,8 @@ const handleRangePick = (val: RangePickValue, close = true) => {
   minDate.value = minDate_
 
   if (!close) return
-  handleConfirm()
+  handleRangeConfirm()
 }
-
-const handleConfirm = (visible = false) => {
-  if (isValidRange([minDate.value, maxDate.value])) {
-    emit('pick', [minDate.value, maxDate.value], visible)
-  }
-}
-
-const onSelect = (selecting: boolean) => {
-  rangeState.value.selecting = selecting
-  if (!selecting) {
-    rangeState.value.endDate = null
-  }
-}
-
-const pickerBase = inject('EP_PICKER_BASE') as any
-const { shortcuts, disabledDate } = pickerBase.props
-const format = toRef(pickerBase.props, 'format')
-const defaultValue = toRef(pickerBase.props, 'defaultValue')
-const unit = 'year'
-
-const getDefaultValue = () => {
-  let start: Dayjs
-  if (isArray(defaultValue.value)) {
-    const left = dayjs(defaultValue.value[0])
-    let right = dayjs(defaultValue.value[1])
-    if (!props.unlinkPanels) {
-      right = left.add(10, unit)
-    }
-    return [left, right]
-  } else if (defaultValue.value) {
-    start = dayjs(defaultValue.value)
-  } else {
-    start = dayjs()
-  }
-  start = start.locale(lang.value)
-  return [start, start.add(10, unit)]
-}
-
-watch(
-  () => defaultValue.value,
-  (val) => {
-    if (val) {
-      const defaultArr = getDefaultValue()
-      leftDate.value = defaultArr[0]
-      rightDate.value = defaultArr[1]
-    }
-  },
-  { immediate: true }
-)
-
-watch(
-  () => props.parsedValue,
-  (newVal) => {
-    if (newVal && newVal.length === 2) {
-      minDate.value = newVal[0]
-      maxDate.value = newVal[1]
-      leftDate.value = minDate.value
-      if (props.unlinkPanels && maxDate.value) {
-        const minDateYear = minDate.value.year()
-        const maxDateYear = maxDate.value.year()
-        rightDate.value =
-          minDateYear === maxDateYear
-            ? maxDate.value.add(10, 'year')
-            : maxDate.value
-      } else {
-        rightDate.value = leftDate.value.add(10, 'year')
-      }
-    } else {
-      const defaultArr = getDefaultValue()
-      minDate.value = undefined
-      maxDate.value = undefined
-      leftDate.value = defaultArr[0]
-      rightDate.value = defaultArr[1]
-    }
-  },
-  { immediate: true }
-)
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
   return isArray(value)
@@ -307,13 +239,41 @@ const isValidValue = (date: [Dayjs, Dayjs]) => {
 }
 
 const handleClear = () => {
-  const defaultArr = getDefaultValue()
+  const defaultArr = getDefaultValue(unref(defaultValue), {
+    lang: unref(lang),
+    step,
+    unit,
+    unlinkPanels: props.unlinkPanels,
+  })
   leftDate.value = defaultArr[0]
   rightDate.value = defaultArr[1]
-  maxDate.value = undefined
-  minDate.value = undefined
   emit('pick', null)
 }
+
+function onParsedValueChanged(
+  minDate: Dayjs | undefined,
+  maxDate: Dayjs | undefined
+) {
+  if (props.unlinkPanels && maxDate) {
+    const minDateYear = minDate?.year() || 0
+    const maxDateYear = maxDate.year()
+
+    rightDate.value =
+      minDateYear + step > maxDateYear ? maxDate.add(step, unit) : maxDate
+  } else {
+    rightDate.value = leftDate.value.add(step, unit)
+  }
+}
+
+watch(
+  () => props.visible,
+  (visible) => {
+    if (!visible && rangeState.value.selecting) {
+      onReset(props.parsedValue)
+      onSelect(false)
+    }
+  }
+)
 
 emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
