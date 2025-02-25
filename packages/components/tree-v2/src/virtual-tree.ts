@@ -107,6 +107,10 @@ export const treeProps = buildProps({
     type: Boolean,
     default: false,
   },
+  checkOnClickLeaf: {
+    type: Boolean,
+    default: true,
+  },
   currentNodeKey: {
     type: definePropType<TreeKey>([String, Number]),
   },

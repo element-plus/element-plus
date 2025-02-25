@@ -216,7 +216,11 @@ export function useTree(
     if (props.expandOnClickNode) {
       toggleExpand(node)
     }
-    if (props.showCheckbox && props.checkOnClickNode && !node.disabled) {
+    if (
+      props.showCheckbox &&
+      (props.checkOnClickNode || (node.isLeaf && props.checkOnClickLeaf)) &&
+      !node.disabled
+    ) {
       toggleCheckbox(node, !isChecked(node), true)
     }
   }
