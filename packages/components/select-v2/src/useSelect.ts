@@ -63,7 +63,7 @@ type useSelectReturnType = (
   emptyText: ComputedRef<string | false | null>
   popupHeight: ComputedRef<number>
   debounce: ComputedRef<0 | 300>
-  allOptions: Ref<OptionType[]>
+  allOptions: ComputedRef<OptionType[]>
   filteredOptions: Ref<OptionType[]>
   iconComponent: ComputedRef<any>
   iconReverse: ComputedRef<any>
@@ -207,7 +207,13 @@ const useSelect: useSelectReturnType = (
     },
   })
 
-  const allOptions = ref<OptionType[]>([])
+  const allOptions = computed(() => filterOptions(''))
+
+  const hasOptions = computed(() => {
+    if (props.loading) return false
+    return props.options.length > 0 || states.createdOptions.length > 0
+  })
+
   const filteredOptions = ref<OptionType[]>([])
   // the controller of the expanded popup
   const expanded = ref(false)
@@ -260,17 +266,16 @@ const useSelect: useSelectReturnType = (
     if (props.loading) {
       return props.loadingText || t('el.select.loading')
     } else {
-      if (props.remote && !states.inputValue && allOptions.value.length === 0)
-        return false
+      if (props.remote && !states.inputValue && !hasOptions.value) return false
       if (
         props.filterable &&
         states.inputValue &&
-        allOptions.value.length > 0 &&
+        hasOptions.value &&
         filteredOptions.value.length === 0
       ) {
         return props.noMatchText || t('el.select.noMatch')
       }
-      if (allOptions.value.length === 0) {
+      if (!hasOptions.value) {
         return props.noDataText || t('el.select.noData')
       }
     }
@@ -278,12 +283,14 @@ const useSelect: useSelectReturnType = (
   })
 
   const filterOptions = (query: string) => {
+    const regexp = new RegExp(escapeStringRegexp(query), 'i')
+    const isFilterMethodValid =
+      props.filterable && isFunction(props.filterMethod)
+    const isRemoteMethodValid =
+      props.filterable && props.remote && isFunction(props.remoteMethod)
     const isValidOption = (o: Option): boolean => {
-      if (props.filterable && isFunction(props.filterMethod)) return true
-      if (props.filterable && props.remote && isFunction(props.remoteMethod))
-        return true
+      if (isFilterMethodValid || isRemoteMethodValid) return true
       // when query was given, we should test on the label see whether the label contains the given query
-      const regexp = new RegExp(escapeStringRegexp(query), 'i')
       return query ? regexp.test(getLabel(o) || '') : true
     }
     if (props.loading) {
@@ -314,7 +321,6 @@ const useSelect: useSelectReturnType = (
   }
 
   const updateOptions = () => {
-    allOptions.value = filterOptions('')
     filteredOptions.value = filterOptions(states.inputValue)
   }
 
@@ -352,7 +358,7 @@ const useSelect: useSelectReturnType = (
       return
     }
     const width = selectRef.value?.offsetWidth || 200
-    if (!props.fitInputWidth && allOptions.value.length > 0) {
+    if (!props.fitInputWidth && hasOptions.value) {
       nextTick(() => {
         popperSize.value = Math.max(width, calculateLabelMaxWidth())
       })
