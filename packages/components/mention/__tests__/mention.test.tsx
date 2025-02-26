@@ -1,11 +1,16 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, test } from 'vitest'
-import sleep from '@element-plus/test-utils/sleep'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest' // 引入 vi
 import Form from '@element-plus/components/form'
 import Mention from '../src/mention.vue'
 
 describe('Mention.vue', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
   afterEach(() => {
+    vi.useRealTimers()
     document.body.innerHTML = ''
   })
 
@@ -37,7 +42,8 @@ describe('Mention.vue', () => {
     wrapper.find('input').element.focus()
     wrapper.find('input').setValue('@')
 
-    await sleep(150)
+    vi.advanceTimersByTime(150)
+    await nextTick()
     expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
     expect(document.querySelectorAll('.el-mention-dropdown__item').length).toBe(
       4
@@ -67,7 +73,8 @@ describe('Mention.vue', () => {
 
     wrapper.find('input').element.focus()
     await wrapper.find('input').setValue('@')
-    await sleep(150)
+    vi.advanceTimersByTime(150)
+    await nextTick()
     expect(document.querySelector('.el-mention-dropdown__loading')).not.toEqual(
       null
     )
@@ -81,7 +88,8 @@ describe('Mention.vue', () => {
 
     wrapper.find('input').element.focus()
     await wrapper.find('input').setValue('#')
-    await sleep(150)
+    vi.advanceTimersByTime(150)
+    await nextTick()
     expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
     expect(document.querySelectorAll('.el-mention-dropdown__item').length).toBe(
       4
@@ -105,7 +113,8 @@ describe('Mention.vue', () => {
     wrapper.find('input').trigger('focus')
     input.element.value = '@'
     wrapper.find('input').trigger('input')
-    await sleep(150)
+    vi.advanceTimersByTime(150)
+    await nextTick()
     const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
     const list = dropdown.find('.el-mention-dropdown__list')
     const option = dropdown.find('.el-mention-dropdown__item')
