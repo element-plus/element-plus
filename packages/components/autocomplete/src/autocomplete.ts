@@ -88,13 +88,6 @@ export const autocompleteProps = buildProps({
     default: true,
   },
   /**
-   * @description whether show suggestions when input enter
-   */
-  triggerOnEnter: {
-    type: Boolean,
-    default: true,
-  },
-  /**
    * @description whether to emit a `select` event on enter when there is no autocomplete match
    */
   selectWhenUnmatched: {

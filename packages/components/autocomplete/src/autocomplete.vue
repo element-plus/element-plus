@@ -292,10 +292,8 @@ const handleKeyEnter = async () => {
       suggestions.value = []
       highlightedIndex.value = -1
     }
-    if (props.triggerOnEnter) {
-      activated.value = true
-      debouncedGetData(String(props.modelValue))
-    }
+    activated.value = true
+    debouncedGetData(String(props.modelValue))
   }
 }
 
