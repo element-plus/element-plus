@@ -1,11 +1,11 @@
 name: Publish PR Commit Pkg
 
 on:
-  # push:
-  #   branches:
-  #     - dev
-  #   tags:
-  #     - '!**'
+  push:
+    branches:
+      - dev
+    tags:
+      - '!**'
   pull_request:
     branches:
       - dev
@@ -45,7 +45,14 @@ jobs:
           ls -la
           jq --arg newVersion "$LATEST_VERSION" '.version = $newVersion' package.json > tmp.json && mv tmp.json package.json
 
-      - name: Publish
+      - name: Publish for PR
+        if: ${{ github.event_name == 'pull_request' }}
         run: |
           cd dist/element-plus
           pnpx pkg-pr-new publish
+
+      - name: Publish for Commit Push
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          cd dist/element-plus
+          pnpx pkg-pr-new publish --comment=off
