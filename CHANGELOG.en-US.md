@@ -1,6 +1,37 @@
 ## Changelog
 
 
+### 2.9.5
+
+_2025-02-21_
+
+#### Features
+
+- Components [dropdown] add `persistent` prop (#19797 by @zzjiaxiang)
+- Components [menu] add `persistent` prop (#19874 by @zzjiaxiang)
+- Components [cascader] add suggestion slot (#19866 by @DiamondYuan)
+- Components [message-box] support custom close icon in message-box (#18168 by @xionkq)
+- Components [slider] add `persistent` prop (#19889 by @zzjiaxiang)
+
+#### Bug fixes
+
+- Components [message-box] init validator (#19832 by @warmthsea)
+- Components [tree-select] dynamic bind class invalid (#19803 by @btea)
+- Components [table] compatible with window non-existence (#19837 by @purepear)
+- Components [select] solve memory leak (#19709 by @dddssw)
+- Components [steps] update border-color to support safari (#19726 by @LoTwT)
+- Components [description] tsx rendering functional component error (#19879 by @btea)
+- Components [cascader] prevent default behavior when pressing a key to toggle suggestion list (#19897 by @warmthsea)
+- Components [message-box] vue warning when closeIcon is component (#19901 by @btea)
+- Components [select] ensure scrollbar syncs when scrolling to selected option (#19636 by @DDDDD12138)
+- Components [tree-select] search solve memory leak (#19895 by @warmthsea)
+
+#### Refactors
+
+- Components [menu] change to `script setup` writing  and optimizing code (#19816 by @zzjiaxiang)
+- [menu] add necessary braces (#19840 by @btea)
+- [time-picker] optimize type declaration (#19875 by @zzjiaxiang)
+
 ### 2.9.4
 
 _2025-02-07_
