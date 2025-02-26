@@ -23,7 +23,7 @@
       :transition="`${ns.namespace.value}-zoom-in-top`"
       :teleported="teleported"
       pure
-      persistent
+      :persistent="persistent"
       @before-show="handleBeforeShowTooltip"
       @show="handleShowTooltip"
       @before-hide="handleBeforeHideTooltip"
@@ -91,7 +91,6 @@
   </div>
 </template>
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -116,6 +115,7 @@ import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { CSSProperties } from 'vue'
 
 const { ButtonGroup: ElButtonGroup } = ElButton
@@ -142,8 +142,8 @@ export default defineComponent({
 
     const triggeringElementRef = ref()
     const referenceElementRef = ref()
-    const popperRef = ref<InstanceType<typeof ElTooltip> | null>(null)
-    const contentRef = ref<HTMLElement | null>(null)
+    const popperRef = ref<TooltipInstance>()
+    const contentRef = ref<HTMLElement>()
     const scrollbar = ref(null)
     const currentTabId = ref<string | null>(null)
     const isUsingKeyboard = ref(false)
@@ -248,7 +248,7 @@ export default defineComponent({
 
     function handleShowTooltip(event?: Event) {
       if (event?.type === 'keydown') {
-        contentRef.value.focus()
+        contentRef.value?.focus()
       }
     }
 
