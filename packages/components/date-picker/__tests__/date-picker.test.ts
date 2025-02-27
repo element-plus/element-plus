@@ -2164,3 +2164,39 @@ describe('YearRange', () => {
     ).toEqual(ElPopperOptions)
   })
 })
+
+describe('Trigger the change event when clearing the date picker', async () => {
+  it('click the button to clear the date', async () => {
+    const changeHandler = vi.fn()
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        @change="changeHandler"
+      />`,
+      () => ({ value: new Date(), changeHandler })
+    )
+
+    await wrapper.find('input').trigger('focus')
+    await wrapper.find('.el-input').trigger('mouseenter')
+    await wrapper.find('.clear-icon').trigger('click')
+    expect(changeHandler).toHaveBeenCalledTimes(1)
+  })
+
+  it('manually clear date', async () => {
+    const changeHandler = vi.fn()
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        @change="changeHandler"
+      />`,
+      () => ({ value: new Date(), changeHandler })
+    )
+
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    const picker = wrapper.findComponent(CommonPicker)
+    picker.vm.userInput = ''
+    await input.trigger('blur')
+    expect(changeHandler).toHaveBeenCalledTimes(1)
+  })
+})
