@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
+import { EVENT_CODE } from '@element-plus/constants'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 
@@ -129,6 +130,34 @@ describe('TimePicker', () => {
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
 
     expect(value.value).toBeInstanceOf(Date)
+  })
+
+  it('trigger on enter visible change', async () => {
+    vi.useFakeTimers()
+    const handleVisibleChange = vi.fn()
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} onVisibleChange={handleVisibleChange} />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    vi.runAllTimers()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+
+    input.trigger('keydown', { code: EVENT_CODE.esc })
+    await nextTick()
+    vi.runAllTimers()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+
+    input.trigger('keydown', { code: EVENT_CODE.enter })
+    await nextTick()
+    vi.runAllTimers()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(3)
+
+    vi.useRealTimers()
   })
 
   it('should update oldValue when visible change', async () => {

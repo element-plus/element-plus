@@ -594,6 +594,10 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
   }
 
   if (code === EVENT_CODE.enter || code === EVENT_CODE.numpadEnter) {
+    if (!pickerVisible.value) {
+      pickerVisible.value = true
+      return
+    }
     if (
       userInput.value === null ||
       userInput.value === '' ||

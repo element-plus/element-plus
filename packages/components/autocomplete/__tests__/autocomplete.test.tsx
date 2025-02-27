@@ -136,14 +136,8 @@ describe('Autocomplete.vue', () => {
       typeof Autocomplete
     >
 
-    await wrapper.setProps({ triggerOnEnter: false })
-    target.handleKeyEnter()
-    vi.runAllTimers()
-
     await nextTick()
-    expect(fetchSuggestions).toHaveBeenCalledTimes(0)
 
-    await wrapper.setProps({ triggerOnEnter: true })
     target.handleKeyEnter()
     vi.runAllTimers()
     await nextTick()

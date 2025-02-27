@@ -144,7 +144,7 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
     case EVENT_CODE.enter:
     case EVENT_CODE.numpadEnter:
       if (!visible.value) {
-        syncAfterCursorMove()
+        props.type !== 'textarea' && syncAfterCursorMove()
         return
       }
       event.preventDefault()
