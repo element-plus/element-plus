@@ -132,34 +132,6 @@ describe('TimePicker', () => {
     expect(value.value).toBeInstanceOf(Date)
   })
 
-  it('trigger on enter visible change', async () => {
-    vi.useFakeTimers()
-    const handleVisibleChange = vi.fn()
-    const value = ref(new Date(2016, 9, 10, 18, 40))
-
-    const wrapper = mount(() => (
-      <TimePicker v-model={value.value} onVisibleChange={handleVisibleChange} />
-    ))
-
-    const input = wrapper.find('input')
-    input.trigger('focus')
-    await nextTick()
-    vi.runAllTimers()
-    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
-
-    input.trigger('keydown', { code: EVENT_CODE.esc })
-    await nextTick()
-    vi.runAllTimers()
-    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
-
-    input.trigger('keydown', { code: EVENT_CODE.enter })
-    await nextTick()
-    vi.runAllTimers()
-    expect(handleVisibleChange).toHaveBeenCalledTimes(3)
-
-    vi.useRealTimers()
-  })
-
   it('should update oldValue when visible change', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40))
     const wrapper = mount(() => <TimePicker v-model={value.value} />)
@@ -268,6 +240,31 @@ describe('TimePicker', () => {
     await nextTick()
     await nextTick() // onchange is triggered by props.modelValue update
     expect(changeHandler).toHaveBeenCalledTimes(1)
+  })
+
+  it('trigger on enter visible change', async () => {
+    const handleVisibleChange = vi.fn()
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} onVisibleChange={handleVisibleChange} />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+
+    input.trigger('keydown', { code: EVENT_CODE.esc })
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+
+    input.trigger('keydown', { code: EVENT_CODE.enter })
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(3)
   })
 
   it('selectableRange ', async () => {
