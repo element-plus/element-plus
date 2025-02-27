@@ -88,6 +88,8 @@ popover/directive-usage
 | tabindex                  | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover                                                                      | ^[number] / ^[string]                                                                                                                                                       | 0                                                                          |
 | teleported                | whether popover dropdown is teleported to the body                                                                                                                       | ^[boolean]                                                                                                                                                                  | true                                                                       |
 | persistent                | when popover inactive and `persistent` is `false` , popover will be destroyed                                                                                            | ^[boolean]                                                                                                                                                                  | true                                                                       |
+| virtual-triggering        | Indicates whether virtual triggering is enabled                                                                                                         | ^[boolean]                                                                                                                                                                  | —                 |
+
 
 ### Slots
 
