@@ -11,6 +11,7 @@ import { computed, onMounted, ref, shallowRef, watch, watchEffect } from 'vue'
 import {
   useElementBounding,
   useEventListener,
+  useThrottleFn,
   useWindowSize,
 } from '@vueuse/core'
 import { addUnit, getScrollContainer, throwError } from '@element-plus/utils'
@@ -97,13 +98,13 @@ const update = () => {
   }
 }
 
-const handleScroll = () => {
+const handleScroll = useThrottleFn(() => {
   updateRoot()
   emit('scroll', {
     scrollTop: scrollTop.value,
     fixed: fixed.value,
   })
-}
+}, 16)
 
 watch(fixed, (val) => emit('change', val))
 
