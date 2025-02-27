@@ -41,7 +41,7 @@ export default defineComponent({
      */
     value: {
       required: true,
-      type: [String, Number, Boolean, Object],
+      type: [String, Number, Boolean, Object, null],
     },
     /**
      * @description label of option, same as `value` if omitted
