@@ -25,29 +25,29 @@ breadcrumb/icon
 
 ## Breadcrumb API
 
-### Breadcrumb Attributes
+### Attributes
 
 | Name           | Description                      | Type                     | Default |
 | -------------- | -------------------------------- | ------------------------ | ------- |
 | separator      | separator character              | ^[string]                | /       |
 | separator-icon | icon component of icon separator | ^[string] / ^[Component] | —       |
 
-### Breadcrumb Slots
+### Slots
 
 | Name    | Description               | Subtags         |
 | ------- | ------------------------- | --------------- |
 | default | customize default content | Breadcrumb Item |
 
-## BreadcrumbItem API
+## Breadcrumb-Item API
 
-### BreadcrumbItem Attributes
+### Attributes
 
 | Name    | Description                                               | Type                                    | Default |
 | ------- | --------------------------------------------------------- | --------------------------------------- | ------- |
 | to      | target route of the link, same as `to` of `vue-router`    | ^[string] / ^[object]`RouteLocationRaw` | ''      |
 | replace | if `true`, the navigation will not leave a history record | ^[boolean]                              | false   |
 
-### BreadcrumbItem Slots
+### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
