@@ -227,7 +227,7 @@ export default defineComponent({
     const onKeydown = (e: KeyboardEvent) => {
       const { code } = e
       const { tab, esc, down, up, enter, numpadEnter } = EVENT_CODE
-      if (code !== tab) {
+      if ([esc, down, up, enter, numpadEnter].includes(code)) {
         e.preventDefault()
         e.stopPropagation()
       }
