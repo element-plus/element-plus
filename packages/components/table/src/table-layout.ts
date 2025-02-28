@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { isRef, nextTick, ref, toRaw } from 'vue'
+import { isRef, nextTick, ref } from 'vue'
 import { isNull } from 'lodash-unified'
 import { hasOwn, isClient, isNumber, isString } from '@element-plus/utils'
 import { parseHeight } from './util'
@@ -68,9 +68,8 @@ class TableLayout<T> {
     if (isNull(height)) return false
     const scrollBarRef = this.table.refs.scrollBarRef
     if (this.table.vnode.el && scrollBarRef?.wrapRef) {
-      let scrollY = true
       const prevScrollY = this.scrollY.value
-      scrollY =
+      const scrollY =
         scrollBarRef.wrapRef.scrollHeight > scrollBarRef.wrapRef.clientHeight
       this.scrollY.value = scrollY
       return prevScrollY !== scrollY
@@ -102,7 +101,7 @@ class TableLayout<T> {
 
   getFlattenColumns(): TableColumnCtx<T>[] {
     const flattenColumns = []
-    const columns = toRaw(this.table.store.states.columns.value)
+    const columns = this.table.store.states.columns.value
     columns.forEach((column) => {
       if (column.isColumnGroup) {
         // eslint-disable-next-line prefer-spread
@@ -142,12 +141,10 @@ class TableLayout<T> {
     const flexColumns = flattenColumns.filter(
       (column) => !isNumber(column.width)
     )
-    flattenColumns.forEach((column) => {
-      // Clean those columns whose width changed from flex to unflex
-      if (isNumber(column.width) && column.realWidth) column.realWidth = null
-    })
     if (flexColumns.length > 0 && fit) {
       flattenColumns.forEach((column) => {
+        // Clean those columns whose width changed from flex to unflex
+        if (isNumber(column.width) && column.realWidth) column.realWidth = null
         bodyMinWidth += Number(column.width || column.minWidth || 80)
       })
       if (bodyMinWidth <= bodyWidth) {
