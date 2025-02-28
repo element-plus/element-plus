@@ -2165,7 +2165,7 @@ describe('YearRange', () => {
   })
 })
 
-describe('Trigger the change event when clearing the date picker', async () => {
+describe('Trigger the change event when clearing the date picker', () => {
   it('click the button to clear the date', async () => {
     const changeHandler = vi.fn()
     const wrapper = _mount(
@@ -2194,8 +2194,7 @@ describe('Trigger the change event when clearing the date picker', async () => {
 
     const input = wrapper.find('input')
     await input.trigger('focus')
-    const picker = wrapper.findComponent(CommonPicker)
-    picker.vm.userInput = ''
+    input.setValue('')
     await input.trigger('blur')
     expect(changeHandler).toHaveBeenCalledTimes(1)
   })
