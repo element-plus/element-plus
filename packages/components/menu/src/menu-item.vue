@@ -16,6 +16,7 @@
         $slots.title
       "
       :effect="rootMenu.props.popperEffect"
+      :disabled="rootMenu.props.popperDisabled"
       placement="right"
       :fallback-placements="['left']"
       :persistent="rootMenu.props.persistent"
