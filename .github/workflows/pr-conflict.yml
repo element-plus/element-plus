@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Check for specific label
         if: contains(github.event.pull_request.labels.*.name, 'conflict pending')
-        uses: actions-cool/maintain-one-comment@v3.1.1
+        uses: actions-cool/maintain-one-comment@v3.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
