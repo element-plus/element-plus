@@ -905,9 +905,9 @@ describe('DatePicker', () => {
       const changeHandler = vi.fn()
       const wrapper = _mount(
         `<el-date-picker
-      v-model="value"
-      @change="changeHandler"
-      />`,
+          v-model="value"
+          @change="changeHandler"
+        />`,
         () => ({ value: new Date(), changeHandler })
       )
 
@@ -921,15 +921,15 @@ describe('DatePicker', () => {
       const changeHandler = vi.fn()
       const wrapper = _mount(
         `<el-date-picker
-      v-model="value"
-      @change="changeHandler"
-      />`,
+          v-model="value"
+          @change="changeHandler"
+        />`,
         () => ({ value: new Date(), changeHandler })
       )
 
       const input = wrapper.find('input')
       await input.trigger('focus')
-      input.setValue('')
+      await input.setValue('')
       await input.trigger('blur')
       expect(changeHandler).toHaveBeenCalledTimes(1)
     })
