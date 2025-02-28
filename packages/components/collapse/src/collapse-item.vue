@@ -13,9 +13,11 @@
       @focus="handleFocus"
       @blur="focusing = false"
     >
-      <slot name="title">{{ title }}</slot>
+      <div :class="itemTitleKls">
+        <slot name="title">{{ title }}</slot>
+      </div>
       <slot name="icon" :is-active="isActive">
-        <el-icon :class="arrowKls">
+        <el-icon :class="arrowIconKls">
           <component :is="icon" />
         </el-icon>
       </slot>
@@ -59,9 +61,10 @@ const {
 } = useCollapseItem(props)
 
 const {
-  arrowKls,
+  arrowIconKls,
   headKls,
   rootKls,
+  itemTitleKls,
   itemWrapperKls,
   itemContentKls,
   scopedContentId,
