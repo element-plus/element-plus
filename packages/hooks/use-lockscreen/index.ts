@@ -38,7 +38,7 @@ export const useLockscreen = (
 
   const hiddenCls = computed(() => ns.bm('parent', 'hidden'))
 
-  if (!isClient || hasClass(document.body, hiddenCls.value)) {
+  if (!isClient) {
     return
   }
 
