@@ -8,15 +8,17 @@
     <el-button class="target">Click to open tooltip</el-button>
   </el-tooltip>
 </template>
-<script setup lang="ts">
+
+<script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 
-const targetElement = ref<string>('')
+const targetElement = ref('')
 
 onMounted(() => {
   targetElement.value = '.target'
 })
 </script>
+
 <style scoped>
 .target {
   position: relative;
