@@ -549,8 +549,9 @@ const handleExpandChange = (value: CascaderValue) => {
 
 const handleKeyDown = (e: KeyboardEvent) => {
   if (isComposing.value) return
+  const { code } = e
 
-  switch (e.code) {
+  switch (code) {
     case EVENT_CODE.enter:
     case EVENT_CODE.numpadEnter:
       togglePopperVisible()
@@ -620,6 +621,13 @@ const handleSuggestionKeyDown = (e: KeyboardEvent) => {
     case EVENT_CODE.enter:
     case EVENT_CODE.numpadEnter:
       target.click()
+      break
+    case EVENT_CODE.esc:
+      if (popperVisible.value === true) {
+        e.preventDefault()
+        e.stopPropagation()
+        togglePopperVisible(false)
+      }
       break
   }
 }
