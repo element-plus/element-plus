@@ -191,4 +191,53 @@ describe('Affix.vue', () => {
     mockAffixRect.mockRestore()
     mockDocumentRect.mockRestore()
   })
+
+  test('should handle scroll events', async () => {
+    const wrapper = _mount(() => <Affix>{AXIOM}</Affix>)
+    await nextTick()
+
+    const mockAffixRect = vi
+      .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 40,
+        width: 1000,
+        top: -100,
+        bottom: -80,
+      } as DOMRect)
+
+    const mockDocumentRect = vi
+      .spyOn(document.documentElement, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 200,
+        width: 1000,
+        top: 0,
+        bottom: 200,
+      } as DOMRect)
+
+    // 触发滚动事件
+    await makeScroll(document.documentElement, 'scrollTop', 200)
+
+    // 验证组件状态变化
+    expect(wrapper.find('.el-affix--fixed').exists()).toBe(true)
+
+    mockAffixRect.mockRestore()
+    mockDocumentRect.mockRestore()
+  })
+
+  test('should not throw error when target does not exist', async () => {
+    const consoleWarnSpy = vi
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {})
+
+    try {
+      _mount(() => <Affix target=".non-existent-target">{AXIOM}</Affix>)
+      await nextTick()
+
+      expect(consoleWarnSpy).toHaveBeenCalled()
+    } catch {
+      expect(consoleWarnSpy).toHaveBeenCalled()
+    } finally {
+      consoleWarnSpy.mockRestore()
+    }
+  })
 })

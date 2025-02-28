@@ -13,5 +13,8 @@
   "sideEffects": [
     "*/style/*"
   ],
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd",
+  "dependencies": {
+    "@ctrl/tinycolor": "^3.4.1"
+  }
 }
