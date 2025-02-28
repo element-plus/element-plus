@@ -21,7 +21,6 @@ export const tourProps = buildProps({
    */
   current: {
     type: Number,
-    default: 0,
   },
   /**
    * @description whether to show the arrow
