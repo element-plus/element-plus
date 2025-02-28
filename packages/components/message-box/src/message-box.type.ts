@@ -21,6 +21,7 @@ export declare interface MessageBoxState {
   message: string
   type: MessageType
   icon: string | Component
+  closeIcon: string | Component
   customClass: string
   customStyle: CSSProperties
   showInput: boolean
@@ -127,6 +128,9 @@ export interface ElMessageBoxOptions {
 
   /** Custom icon component */
   icon?: string | Component
+
+  /** Custom close icon component */
+  closeIcon?: string | Component
 
   /** Whether message is treated as HTML string */
   dangerouslyUseHTMLString?: boolean

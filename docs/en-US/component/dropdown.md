@@ -31,7 +31,7 @@ dropdown/placements
 
 Use the button to trigger the dropdown list.
 
-:::demo Use `split-button` to split the triggering element into a button group with the left button being a normal button and right one the actual triggering target. If you wanna insert a separator line between item three and item four, just add a class `divider` to item four.
+:::demo Use `split-button` to split the triggering element into a button group with the left button being a normal button and right one the actual triggering target. If you wanna insert a separator line between item three and item four, just add the `divided` attribute to item four.
 
 dropdown/triggering-element
 
@@ -105,11 +105,12 @@ dropdown/sizes
 | hide-on-click        | whether to hide menu after clicking menu-item                                                                         | ^[boolean]                                                                                                   | true                                                                       |
 | show-timeout         | delay time before show a dropdown (only works when trigger is `hover`)                                                | ^[number]                                                                                                    | 150                                                                        |
 | hide-timeout         | delay time before hide a dropdown (only works when trigger is `hover`)                                                | ^[number]                                                                                                    | 150                                                                        |
-| role                 | the ARIA role attribute for the dropdown menu. Depending on the use case, you may want to change this to 'navigation' | ^[string]                                                                                                    | menu                                                                       |
+| role                 | the ARIA role attribute for the dropdown menu. Depending on the use case, you may want to change this to 'navigation' | ^[enum]`'dialog' \| 'grid' \| 'group' \| 'listbox' \| 'menu' \| 'navigation' \| 'tooltip' \| 'tree'`         | menu                                                                       |
 | tabindex             | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Dropdown                  | ^[number] / ^[string]                                                                                        | 0                                                                          |
 | popper-class         | custom class name for Dropdown's dropdown                                                                             | ^[string]                                                                                                    | ''                                                                         |
 | popper-options       | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]                                                                                                    | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
 | teleported ^(2.2.20) | whether the dropdown popup is teleported to the body                                                                  | ^[boolean]                                                                                                   | true                                                                       |
+| persistent ^(2.9.5)  | when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed                                  | ^[boolean]                                                                                                   | true                                                                       |
 
 ### Slots
 
