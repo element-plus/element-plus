@@ -45,6 +45,7 @@
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
+            :cell-class-name="cellClassName"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -81,6 +82,7 @@
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
+            :cell-class-name="cellClassName"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -222,7 +224,7 @@ const onSelect = (selecting: boolean) => {
 }
 
 const pickerBase = inject('EP_PICKER_BASE') as any
-const { shortcuts, disabledDate } = pickerBase.props
+const { shortcuts, disabledDate, cellClassName } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const unit = 'year'
