@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { isRef, nextTick, ref } from 'vue'
+import { isRef, nextTick, ref, toRaw } from 'vue'
 import { isNull } from 'lodash-unified'
 import { hasOwn, isClient, isNumber, isString } from '@element-plus/utils'
 import { parseHeight } from './util'
@@ -102,7 +102,7 @@ class TableLayout<T> {
 
   getFlattenColumns(): TableColumnCtx<T>[] {
     const flattenColumns = []
-    const columns = this.table.store.states.columns.value
+    const columns = toRaw(this.table.store.states.columns.value)
     columns.forEach((column) => {
       if (column.isColumnGroup) {
         // eslint-disable-next-line prefer-spread

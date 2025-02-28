@@ -1,5 +1,13 @@
 // @ts-nocheck
-import { computed, getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  ref,
+  toRaw,
+  toRefs,
+  unref,
+  watch,
+} from 'vue'
 import { hasOwn, isArray, isString } from '@element-plus/utils'
 import {
   getColumnById,
@@ -39,7 +47,7 @@ const doFlattenColumns = (columns) => {
       // eslint-disable-next-line prefer-spread
       result.push.apply(result, doFlattenColumns(column.children))
     } else {
-      result.push(column)
+      result.push(toRaw(column))
     }
   })
   return result
