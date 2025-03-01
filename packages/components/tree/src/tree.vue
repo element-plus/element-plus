@@ -19,6 +19,7 @@
       :render-after-expand="renderAfterExpand"
       :show-checkbox="showCheckbox"
       :render-content="renderContent"
+      :select-focus="selectFocus"
       @node-expand="handleNodeExpand"
     />
     <div v-if="isEmpty" :class="ns.e('empty-block')">
@@ -144,6 +145,11 @@ export default defineComponent({
     },
     icon: {
       type: iconPropType,
+    },
+    // Handles loss of focus under the tree-select component
+    selectFocus: {
+      type: Function,
+      default: null,
     },
   },
   emits: [

@@ -75,6 +75,9 @@
     &:hover {
       background-color: getCssVar('tree-node-hover-bg-color');
     }
+    &:has(.#{$state-prefix}hovering) {
+      background-color: getCssVar('tree-node-hover-bg-color');
+    }
 
     .#{$namespace}-tree.is-dragging & {
       cursor: move;

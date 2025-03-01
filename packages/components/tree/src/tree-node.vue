@@ -75,6 +75,7 @@
           :node="child"
           :accordion="accordion"
           :props="props"
+          :select-focus="selectFocus"
           @node-expand="handleChildNodeExpand"
         />
       </div>
@@ -131,6 +132,10 @@ export default defineComponent({
     showCheckbox: {
       type: Boolean,
       default: false,
+    },
+    selectFocus: {
+      type: Function,
+      default: null,
     },
   },
   emits: ['node-expand'],
@@ -272,6 +277,9 @@ export default defineComponent({
     }
 
     const handleExpandIconClick = () => {
+      if (props.selectFocus) {
+        props.selectFocus().focus()
+      }
       if (props.node.isLeaf) return
       if (expanded.value) {
         tree.ctx.emit('node-collapse', props.node.data, props.node, instance)
