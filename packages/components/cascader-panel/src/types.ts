@@ -1,6 +1,4 @@
-// @ts-nocheck
 import type { InjectionKey, VNode } from 'vue'
-import type { Nullable } from '@element-plus/utils'
 import type {
   default as CascaderNode,
   CascaderOption,
@@ -21,10 +19,11 @@ export type isDisabled = (data: CascaderOption, node: CascaderNode) => boolean
 export type isLeaf = (data: CascaderOption, node: CascaderNode) => boolean
 export type Resolve = (dataList?: CascaderOption[]) => void
 export type LazyLoad = (node: CascaderNode, resolve: Resolve) => void
-export type RenderLabel = ({
-  node: CascaderNode,
-  data: CascaderOption,
-}) => VNode | VNode[]
+export interface RenderLabelProps {
+  node: CascaderNode
+  data: CascaderOption
+}
+export type RenderLabel = (props: RenderLabelProps) => VNode | VNode[]
 
 export interface Tag {
   node?: CascaderNode
@@ -37,7 +36,7 @@ export interface Tag {
 
 export interface ElCascaderPanelContext {
   config: CascaderConfig
-  expandingNode: Nullable<CascaderNode>
+  expandingNode: CascaderNode | undefined
   checkedNodes: CascaderNode[]
   isHoverMenu: boolean
   initialLoaded: boolean

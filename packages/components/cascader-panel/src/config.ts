@@ -81,9 +81,8 @@ export const DefaultProps: CascaderConfig = {
   hoverThreshold: 500,
 }
 
-export const useCascaderConfig = (props: { props: CascaderProps }) => {
-  return computed(() => ({
+export const useCascaderConfig = (props: { props: CascaderProps }) =>
+  computed(() => ({
     ...DefaultProps,
     ...props.props,
   }))
-}

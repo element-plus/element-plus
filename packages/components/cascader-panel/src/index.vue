@@ -18,7 +18,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -55,7 +54,6 @@ import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils'
 import type {
   default as CascaderNode,
   CascaderNodeValue,
@@ -91,12 +89,12 @@ export default defineComponent({
     const ns = useNamespace('cascader')
     const config = useCascaderConfig(props)
 
-    let store: Nullable<Store> = null
+    let store: Store
     const initialLoaded = ref(true)
     const menuList = ref<any[]>([])
-    const checkedValue = ref<Nullable<CascaderValue>>(null)
+    const checkedValue = ref<CascaderValue>()
     const menus = ref<CascaderNode[][]>([])
-    const expandingNode = ref<Nullable<CascaderNode>>(null)
+    const expandingNode = ref<CascaderNode>()
     const checkedNodes = ref<CascaderNode[]>([])
 
     const isHoverMenu = computed(() => config.value.expandTrigger === 'hover')
@@ -133,11 +131,11 @@ export default defineComponent({
       const resolve = (dataList: CascaderOption[]) => {
         const _node = node as Node
         const parent = _node.root ? null : _node
-        dataList && store?.appendNodes(dataList, parent as any)
+        dataList && store?.appendNodes(dataList, parent as Node)
         _node.loading = false
         _node.loaded = true
         _node.childrenData = _node.childrenData || []
-        cb && cb(dataList)
+        cb?.(dataList)
       }
 
       cfg.lazyLoad(node, resolve as any)
@@ -146,7 +144,7 @@ export default defineComponent({
     const expandNode: ElCascaderPanelContext['expandNode'] = (node, silent) => {
       const { level } = node
       const newMenus = menus.value.slice(0, level)
-      let newExpandingNode: Nullable<CascaderNode>
+      let newExpandingNode: CascaderNode
 
       if (node.isLeaf) {
         newExpandingNode = node.pathNodes[level - 2]
@@ -178,26 +176,24 @@ export default defineComponent({
       !emitClose && !multiple && !checkStrictly && expandParentNode(node)
     }
 
-    const expandParentNode = (node) => {
+    const expandParentNode = (node: Node | undefined) => {
       if (!node) return
       node = node.parent
       expandParentNode(node)
       node && expandNode(node)
     }
 
-    const getFlattedNodes = (leafOnly: boolean) => {
-      return store?.getFlattedNodes(leafOnly)
-    }
+    const getFlattedNodes = (leafOnly: boolean) =>
+      store?.getFlattedNodes(leafOnly)
 
-    const getCheckedNodes = (leafOnly: boolean) => {
-      return getFlattedNodes(leafOnly)?.filter((node) => node.checked !== false)
-    }
+    const getCheckedNodes = (leafOnly: boolean) =>
+      getFlattedNodes(leafOnly)?.filter(({ checked }) => checked)
 
     const clearCheckedNodes = () => {
       checkedNodes.value.forEach((node) => node.doCheck(false))
       calculateCheckedValue()
       menus.value = menus.value.slice(0, 1)
-      expandingNode.value = null
+      expandingNode.value = undefined
       emit('expand-change', [])
     }
 
@@ -207,7 +203,7 @@ export default defineComponent({
       const newNodes = getCheckedNodes(!checkStrictly)!
       // ensure the original order
       const nodes = sortByOriginalOrder(oldNodes, newNodes)
-      const values = nodes.map((node) => node.valueByOption)
+      const values = nodes.map(({ valueByOption }) => valueByOption)
       checkedNodes.value = nodes
       checkedValue.value = multiple ? values : values[0] ?? null
     }
@@ -226,7 +222,7 @@ export default defineComponent({
 
       if (lazy && !loaded) {
         const values: CascaderNodeValue[] = unique(
-          flattenDeep(castArray(modelValue))
+          flattenDeep(castArray(modelValue as CascaderNodeValue[]))
         )
         const nodes = values
           .map((val) => store?.getNodeByValue(val))
@@ -242,7 +238,9 @@ export default defineComponent({
       } else {
         const values = multiple ? castArray(modelValue) : [modelValue]
         const nodes = unique(
-          values.map((val) => store?.getNodeByValue(val, leafOnly))
+          values.map((val) =>
+            store?.getNodeByValue(val as CascaderNodeValue, leafOnly)
+          )
         ) as Node[]
         syncMenuState(nodes, forced)
         checkedValue.value = cloneDeep(modelValue)
@@ -265,7 +263,7 @@ export default defineComponent({
       if (newExpandingNode) {
         newExpandingNode.pathNodes.forEach((node) => expandNode(node, true))
       } else {
-        expandingNode.value = null
+        expandingNode.value = undefined
       }
 
       oldNodes.forEach((node) => node.doCheck(false))
@@ -301,7 +299,11 @@ export default defineComponent({
           e.preventDefault()
           const distance = code === EVENT_CODE.up ? -1 : 1
           focusNode(
-            getSibling(target, distance, `.${ns.b('node')}[tabindex="-1"]`)
+            getSibling(
+              target,
+              distance,
+              `.${ns.b('node')}[tabindex="-1"]`
+            ) as HTMLElement
           )
           break
         }
