@@ -114,7 +114,7 @@ $radio-font-size: map.merge(
         }
       }
       & + span.#{$namespace}-radio__label {
-        color: getCssVar('text-color', 'placeholder');
+        color: getCssVar('disabled-text-color');
         cursor: not-allowed;
       }
     }
