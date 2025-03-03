@@ -183,11 +183,13 @@ export default defineComponent({
       node && expandNode(node)
     }
 
-    const getFlattedNodes = (leafOnly: boolean) =>
-      store?.getFlattedNodes(leafOnly)
+    const getFlattedNodes = (leafOnly: boolean) => {
+      return store?.getFlattedNodes(leafOnly)
+    }
 
-    const getCheckedNodes = (leafOnly: boolean) =>
-      getFlattedNodes(leafOnly)?.filter(({ checked }) => checked)
+    const getCheckedNodes = (leafOnly: boolean) => {
+      return getFlattedNodes(leafOnly)?.filter(({ checked }) => checked)
+    }
 
     const clearCheckedNodes = () => {
       checkedNodes.value.forEach((node) => node.doCheck(false))
