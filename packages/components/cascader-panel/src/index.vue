@@ -206,7 +206,7 @@ export default defineComponent({
       const newNodes = getCheckedNodes(!checkStrictly)!
       // ensure the original order
       const nodes = sortByOriginalOrder(oldNodes, newNodes)
-      const values = nodes.map(({ valueByOption }) => valueByOption)
+      const values = nodes.map((node) => node.valueByOption)
       checkedNodes.value = nodes
       checkedValue.value = multiple ? values : values[0] ?? null
     }
