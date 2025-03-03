@@ -213,12 +213,12 @@ describe('Affix.vue', () => {
         bottom: 200,
       } as DOMRect)
 
-    // 快速连续滚动
+    // Rapid continuous scrolling
     await makeScroll(document.documentElement, 'scrollTop', 100)
     await makeScroll(document.documentElement, 'scrollTop', 150)
     await makeScroll(document.documentElement, 'scrollTop', 200)
 
-    // 等待防抖
+    // Wait for debounce
     await new Promise((resolve) => setTimeout(resolve, 20))
     expect(wrapper.find('.el-affix--fixed').exists()).toBe(true)
 
@@ -251,10 +251,10 @@ describe('Affix.vue', () => {
         bottom: 200,
       } as DOMRect)
 
-    // 触发一次滚动
+    // Trigger a scroll event
     await makeScroll(document.documentElement, 'scrollTop', 0)
 
-    // 等待一帧动画
+    // Wait for one animation frame
     await new Promise((resolve) => requestAnimationFrame(resolve))
     expect(wrapper.find('.el-affix--fixed').exists()).toBe(true)
     expect(wrapper.find('.el-affix--fixed').attributes('style')).toContain(

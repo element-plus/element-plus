@@ -29,7 +29,7 @@ const emit = defineEmits(affixEmits)
 
 const ns = useNamespace('affix')
 
-// 在测试环境使用 ref，在生产环境使用 shallowRef
+// Use ref in the test environment, use shallowRef in the production environment
 const isTest = process.env.NODE_ENV === 'test'
 const createRef = (val: any) => (isTest ? ref(val) : shallowRef(val))
 
@@ -108,7 +108,7 @@ const updatePosition = () => {
   }
 }
 
-// 在测试环境使用同步更新，在生产环境使用 RAF
+// Use synchronous updates in the test environment, use RAF in the production environment
 const update = () => {
   if (isTest) {
     updatePosition()
@@ -117,7 +117,7 @@ const update = () => {
   }
 }
 
-// 在测试环境不使用防抖，在生产环境使用防抖
+// No debounce in test environment, debounce in production environment
 const handleScroll = isTest
   ? () => {
       updateRoot()
