@@ -188,9 +188,9 @@ class Node {
 
   onChildCheck() {
     const { children } = this
-    const validChildren = children.filter(({ isDisabled }) => !isDisabled)
+    const validChildren = children.filter((child) => !child.isDisabled)
     const checked = validChildren.length
-      ? validChildren.every(({ checked }) => checked)
+      ? validChildren.every((child) => child.checked)
       : false
 
     this.setCheckState(checked)
@@ -206,8 +206,8 @@ class Node {
     this.checked =
       this.loaded &&
       this.children
-        .filter(({ isDisabled }) => !isDisabled)
-        .every(({ loaded, checked }) => loaded && checked) &&
+        .filter((child) => !child.isDisabled)
+        .every((child) => child.loaded && child.checked) &&
       checked
     this.indeterminate =
       this.loaded && checkedNum !== totalNum && checkedNum > 0
