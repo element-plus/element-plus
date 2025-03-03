@@ -6,7 +6,7 @@
     <el-cascader-menu
       v-for="(menu, index) in menus"
       :key="index"
-      :ref="(item) => (menuList[index] = item)"
+      :ref="(item) => (menuList[index] = item as CascaderMenuInstance)"
       :index="index"
       :nodes="[...menu]"
     >
@@ -63,6 +63,7 @@ import type {
 } from './node'
 
 import type { ElCascaderPanelContext } from './types'
+import type { CascaderMenuInstance } from './instance'
 
 export default defineComponent({
   name: 'ElCascaderPanel',
@@ -91,7 +92,7 @@ export default defineComponent({
 
     let store: Store
     const initialLoaded = ref(true)
-    const menuList = ref<any[]>([])
+    const menuList = ref<CascaderMenuInstance[]>([])
     const checkedValue = ref<CascaderValue>()
     const menus = ref<CascaderNode[][]>([])
     const expandingNode = ref<CascaderNode>()
