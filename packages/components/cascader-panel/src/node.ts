@@ -167,7 +167,7 @@ class Node {
       if (child) {
         // bottom up
         child.broadcast(checked)
-        child?.onParentCheck(checked)
+        child.onParentCheck?.(checked)
       }
     })
   }
@@ -175,7 +175,7 @@ class Node {
   emit() {
     const { parent } = this
     if (parent) {
-      parent?.onChildCheck()
+      parent.onChildCheck?.()
       parent.emit()
     }
   }
