@@ -44,10 +44,10 @@ const onDrop = (e: DragEvent) => {
   e.stopPropagation()
 
   const files = Array.from(e.dataTransfer!.files)
-  const items = e.dataTransfer!.items
+  const items = e.dataTransfer!.items || []
   files.forEach((file, index) => {
     const item = items[index]
-    const entry = item.webkitGetAsEntry?.()
+    const entry = item?.webkitGetAsEntry?.()
     if (entry) {
       // @ts-expect-error isDirectory is not defined in File
       file.isDirectory = entry.isDirectory
