@@ -1,6 +1,7 @@
-// @ts-nocheck
 import { defineComponent, h } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import type { CascaderNodeInstance } from './instance'
+
 export default defineComponent({
   name: 'NodeContent',
   setup() {
@@ -11,7 +12,7 @@ export default defineComponent({
   },
   render() {
     const { ns } = this
-    const { node, panel } = this.$parent
+    const { node, panel } = this.$parent as CascaderNodeInstance
     const { data, label } = node
     const { renderLabelFn } = panel
     return h(
