@@ -49,6 +49,7 @@ import type { PropType } from 'vue'
 defineOptions({
   name: 'ElCascaderMenu',
 })
+
 const props = defineProps({
   nodes: {
     type: Array as PropType<CascaderNode[]>,

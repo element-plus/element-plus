@@ -99,6 +99,7 @@ const expandable = computed(
   () => (checkStrictly.value && !isLeaf.value) || !isDisabled.value
 )
 const inExpandingPath = computed(() => isInPath(panel.expandingNode!))
+
 // only useful in check-strictly mode
 const inCheckedPath = computed(
   () => checkStrictly.value && panel.checkedNodes.some(isInPath)
