@@ -232,7 +232,10 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
     )
     const newValue = hasClass(target, 'current')
       ? castArray(props.parsedValue).filter(
-          (d) => d?.month() !== newMonth.month()
+          (d) =>
+            // Filter out the selected month only when both year and month match
+            // This allows selecting same months from different years #20019
+            d?.year() !== newMonth.year() || d?.month() !== newMonth.month()
         )
       : castArray(props.parsedValue).concat([dayjs(newMonth)])
     emit('pick', newValue)
