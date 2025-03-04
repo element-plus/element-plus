@@ -216,7 +216,7 @@ cascader/panel
 
 | Name          | Description                                                             | Type                                                |
 | ------------- | ----------------------------------------------------------------------- | --------------------------------------------------- |
-| change        | triggers when the binding value changes                                 | ^[Function]`(value: CascaderValue) => void`         |
+| change        | triggers when the binding value changes                                 | ^[Function]`(value: CascaderValue \| undefined) => void`         |
 | expand-change | triggers when expand option changes                                     | ^[Function]`(value: CascaderNodePathValue) => void` |
 | close         | close panel event, provided to Cascader to put away the panel judgment. | ^[Function]`() => void`                             |
 

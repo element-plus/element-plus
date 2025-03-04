@@ -1,13 +1,17 @@
 import { computed } from 'vue'
 import { NOOP, buildProps, definePropType } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+
+import type { PropType } from 'vue'
 import type {
   CascaderConfig,
   CascaderNodePathValue,
   CascaderOption,
   CascaderProps,
   CascaderValue,
+  RenderLabel,
 } from './node'
+
 export const CommonProps = buildProps({
   /**
    * @description specify which key of node object is used as the node's value
@@ -81,6 +85,17 @@ export const DefaultProps: CascaderConfig = {
    */
   hoverThreshold: 500,
 }
+
+export const cascaderPanelProps = buildProps({
+  ...CommonProps,
+  border: {
+    type: Boolean,
+    default: true,
+  },
+  renderLabel: {
+    type: Function as PropType<RenderLabel>,
+  },
+})
 
 export const cascaderPanelEmits = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

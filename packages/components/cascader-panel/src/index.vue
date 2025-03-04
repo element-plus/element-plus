@@ -49,17 +49,19 @@ import { useNamespace } from '@element-plus/hooks'
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
 import Node from './node'
-import { CommonProps, cascaderPanelEmits, useCascaderConfig } from './config'
+import {
+  cascaderPanelEmits,
+  cascaderPanelProps,
+  useCascaderConfig,
+} from './config'
 import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
-import type { PropType } from 'vue'
 import type {
   default as CascaderNode,
   CascaderNodeValue,
   CascaderOption,
   CascaderValue,
-  RenderLabel,
 } from './node'
 import type { ElCascaderPanelContext } from './types'
 import type { CascaderMenuInstance } from './instance'
@@ -69,15 +71,7 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps({
-  ...CommonProps,
-  border: {
-    type: Boolean,
-    default: true,
-  },
-  renderLabel: Function as PropType<RenderLabel>,
-})
-
+const props = defineProps(cascaderPanelProps)
 const emit = defineEmits(cascaderPanelEmits)
 
 // for interrupt sync check status in lazy mode
@@ -203,7 +197,7 @@ const calculateCheckedValue = () => {
   const nodes = sortByOriginalOrder(oldNodes, newNodes)
   const values = nodes.map((node) => node.valueByOption)
   checkedNodes.value = nodes
-  checkedValue.value = multiple ? values : values[0] ?? undefined
+  checkedValue.value = multiple ? values : values[0]
 }
 
 const syncCheckedValue = (loaded = false, forced = false) => {
@@ -376,9 +370,12 @@ onBeforeUpdate(() => (menuList.value = []))
 onMounted(() => !isEmpty(props.modelValue) && syncCheckedValue())
 
 defineExpose({
+  menuList,
+  menus,
   checkedNodes,
-  getFlattedNodes,
+  handleKeyDown,
   handleCheckChange,
+  getFlattedNodes,
   /**
    * @description get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false`
    */
