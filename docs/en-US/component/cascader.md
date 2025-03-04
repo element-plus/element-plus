@@ -337,8 +337,8 @@ class Node {
   // method
   appendChild(childData: CascaderOption): Node
   calcText(allLevels: boolean, separator: string): string
-  broadcast(event: string, ...args: unknown[]): void
-  emit(event: string, ...args: unknown[]): void
+  broadcast(): void
+  emit(): void
   onParentCheck(checked: boolean): void
   onChildCheck(): void
   setCheckState(checked: boolean): void

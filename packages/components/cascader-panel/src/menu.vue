@@ -34,8 +34,8 @@
   </el-scrollbar>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue'
+<script lang="ts" setup>
+import { computed, getCurrentInstance, inject, ref } from 'vue'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { Loading } from '@element-plus/icons-vue'
@@ -45,98 +45,72 @@ import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { default as CascaderNode } from './node'
 import type { PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils'
 
-export default defineComponent({
+defineOptions({
   name: 'ElCascaderMenu',
-
-  components: {
-    Loading,
-    ElIcon,
-    ElScrollbar,
-    ElCascaderNode,
+})
+const props = defineProps({
+  nodes: {
+    type: Array as PropType<CascaderNode[]>,
+    required: true,
   },
-
-  props: {
-    nodes: {
-      type: Array as PropType<CascaderNode[]>,
-      required: true,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
+  index: {
+    type: Number,
+    required: true,
   },
+})
 
-  setup(props) {
-    const instance = getCurrentInstance()!
-    const ns = useNamespace('cascader-menu')
+const instance = getCurrentInstance()!
+const ns = useNamespace('cascader-menu')
 
-    const { t } = useLocale()
-    const id = useId()
-    let activeNode: Nullable<HTMLElement> = null
-    let hoverTimer: Nullable<number> = null
+const { t } = useLocale()
+const id = useId()
+let activeNode: HTMLElement
+let hoverTimer: number | undefined
 
-    const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
+const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
 
-    const hoverZone = ref<null | SVGSVGElement>(null)
+const hoverZone = ref<SVGSVGElement>()
 
-    const isEmpty = computed(() => !props.nodes.length)
-    const isLoading = computed(() => !panel.initialLoaded)
-    const menuId = computed(() => `${id.value}-${props.index}`)
+const isEmpty = computed(() => !props.nodes.length)
+const isLoading = computed(() => !panel.initialLoaded)
+const menuId = computed(() => `${id.value}-${props.index}`)
 
-    const handleExpand = (e: MouseEvent) => {
-      activeNode = e.target as HTMLElement
-    }
+const handleExpand = (e: MouseEvent) => {
+  activeNode = e.target as HTMLElement
+}
 
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!panel.isHoverMenu || !activeNode || !hoverZone.value) return
+const handleMouseMove = (e: MouseEvent) => {
+  if (!panel.isHoverMenu || !activeNode || !hoverZone.value) return
 
-      if (activeNode.contains(e.target as HTMLElement)) {
-        clearHoverTimer()
+  if (activeNode.contains(e.target as HTMLElement)) {
+    clearHoverTimer()
 
-        const el = instance.vnode.el as HTMLElement
-        const { left } = el.getBoundingClientRect()
-        const { offsetWidth, offsetHeight } = el
-        const startX = e.clientX - left
-        const top = activeNode.offsetTop
-        const bottom = top + activeNode.offsetHeight
+    const el = instance.vnode.el as HTMLElement
+    const { left } = el.getBoundingClientRect()
+    const { offsetWidth, offsetHeight } = el
+    const startX = e.clientX - left
+    const top = activeNode.offsetTop
+    const bottom = top + activeNode.offsetHeight
 
-        hoverZone.value.innerHTML = `
+    hoverZone.value.innerHTML = `
           <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${top} L${offsetWidth} 0 V${top} Z" />
           <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${bottom} L${offsetWidth} ${offsetHeight} V${bottom} Z" />
         `
-      } else if (!hoverTimer) {
-        hoverTimer = window.setTimeout(
-          clearHoverZone,
-          panel.config.hoverThreshold
-        )
-      }
-    }
+  } else if (!hoverTimer) {
+    hoverTimer = window.setTimeout(clearHoverZone, panel.config.hoverThreshold)
+  }
+}
 
-    const clearHoverTimer = () => {
-      if (!hoverTimer) return
-      clearTimeout(hoverTimer)
-      hoverTimer = null
-    }
+const clearHoverTimer = () => {
+  if (!hoverTimer) return
+  clearTimeout(hoverTimer)
+  hoverTimer = undefined
+}
 
-    const clearHoverZone = () => {
-      if (!hoverZone.value) return
-      hoverZone.value.innerHTML = ''
-      clearHoverTimer()
-    }
-    return {
-      ns,
-      panel,
-      hoverZone,
-      isEmpty,
-      isLoading,
-      menuId,
-      t,
-      handleExpand,
-      handleMouseMove,
-      clearHoverZone,
-    }
-  },
-})
+const clearHoverZone = () => {
+  if (!hoverZone.value) return
+  hoverZone.value.innerHTML = ''
+  clearHoverTimer()
+}
 </script>

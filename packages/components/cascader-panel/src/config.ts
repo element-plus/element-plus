@@ -1,12 +1,13 @@
 import { computed } from 'vue'
 import { NOOP, buildProps, definePropType } from '@element-plus/utils'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type {
   CascaderConfig,
+  CascaderNodePathValue,
   CascaderOption,
   CascaderProps,
   CascaderValue,
 } from './node'
-
 export const CommonProps = buildProps({
   /**
    * @description specify which key of node object is used as the node's value
@@ -81,6 +82,14 @@ export const DefaultProps: CascaderConfig = {
   hoverThreshold: 500,
 }
 
+export const cascaderEmits = {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  [UPDATE_MODEL_EVENT]: (_: CascaderValue | undefined) => true,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  [CHANGE_EVENT]: (_: CascaderValue | undefined) => true,
+  close: () => true,
+  'expand-change': (value: CascaderNodePathValue) => value,
+}
 export const useCascaderConfig = (props: { props: CascaderProps }) => {
   return computed(() => ({
     ...DefaultProps,
