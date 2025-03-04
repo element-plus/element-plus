@@ -14,7 +14,11 @@ export const isValidRange = (range: DayRange): boolean => {
   const [left, right] = range
 
   return (
-    dayjs.isDayjs(left) && dayjs.isDayjs(right) && left.isSameOrBefore(right)
+    dayjs.isDayjs(left) &&
+    dayjs.isDayjs(right) &&
+    dayjs(left).isValid() &&
+    dayjs(right).isValid() &&
+    left.isSameOrBefore(right)
   )
 }
 
@@ -176,4 +180,22 @@ export const getValidDateOfYear = (
     }
   }
   return value
+}
+
+export const checkUserInput = (
+  value: string | Dayjs | Dayjs[],
+  format: string,
+  lang: string
+): Dayjs | Dayjs[] => {
+  if (isArray(value)) {
+    return value.map((v) => checkUserInput(v, format, lang) as Dayjs)
+  }
+  if (typeof value === 'string') {
+    const dayjsValue = dayjs(value)
+    if (!dayjsValue.isValid()) {
+      // return directly if not valid
+      return dayjsValue
+    }
+  }
+  return dayjs(value, format).locale(lang)
 }

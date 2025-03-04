@@ -451,6 +451,33 @@ describe('DatePicker', () => {
     expect(dayjs(wrapper.vm.value[1]).toDate()).toEqual(new Date(2001, 9))
   })
 
+  it('validate user input', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        />`,
+      () => ({
+        value: '',
+      })
+    )
+    const input = wrapper.find('input')
+    input.element.value = '999999-10-01'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(wrapper.vm.value).toBe('')
+
+    input.element.value = '2023-10-01'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-01')
+
+    // invalid user input not work
+    input.element.value = '999999-10-01'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-01')
+  })
+
   it('ref focus', async () => {
     _mount(
       `<el-date-picker
@@ -1889,6 +1916,11 @@ describe('MonthRange', () => {
     const vm = wrapper.vm
     expect(vm.value[0]).toBe('2015-01')
     expect(vm.value[1]).toBe('2017-01')
+
+    // invalid user input not work
+    await startInput.setValue('9999999-01')
+    await nextTick()
+    expect(vm.value[0]).toBe('2015-01')
   })
 
   describe('form item accessibility integration', () => {

@@ -224,7 +224,11 @@ import {
 } from '@element-plus/icons-vue'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
-import { getValidDateOfMonth, getValidDateOfYear } from '../utils'
+import {
+  checkUserInput,
+  getValidDateOfMonth,
+  getValidDateOfYear,
+} from '../utils'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -616,7 +620,7 @@ const handleVisibleTimeChange = (value: string) => {
 }
 
 const handleVisibleDateChange = (value: string) => {
-  const newDate = dayjs(value, dateFormat.value).locale(lang.value)
+  const newDate = checkUserInput(value, dateFormat.value, lang.value) as Dayjs
   if (newDate.isValid()) {
     if (disabledDate && disabledDate(newDate.toDate())) {
       return
@@ -643,7 +647,7 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 }
 
 const parseUserInput = (value: Dayjs) => {
-  return dayjs(value, props.format).locale(lang.value)
+  return checkUserInput(value, props.format, lang.value)
 }
 
 const getDefaultValue = () => {
