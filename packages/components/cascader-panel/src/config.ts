@@ -82,7 +82,7 @@ export const DefaultProps: CascaderConfig = {
   hoverThreshold: 500,
 }
 
-export const cascaderEmits = {
+export const cascaderPanelEmits = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [UPDATE_MODEL_EVENT]: (_: CascaderValue | undefined) => true,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

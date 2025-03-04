@@ -49,7 +49,7 @@ import { useNamespace } from '@element-plus/hooks'
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
 import Node from './node'
-import { CommonProps, cascaderEmits, useCascaderConfig } from './config'
+import { CommonProps, cascaderPanelEmits, useCascaderConfig } from './config'
 import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
@@ -78,7 +78,7 @@ const props = defineProps({
   renderLabel: Function as PropType<RenderLabel>,
 })
 
-const emit = defineEmits(cascaderEmits)
+const emit = defineEmits(cascaderPanelEmits)
 
 // for interrupt sync check status in lazy mode
 let manualChecked = false
