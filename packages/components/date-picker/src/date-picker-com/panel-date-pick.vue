@@ -225,7 +225,7 @@ import {
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
 import {
-  checkUserInput,
+  correctlyParseUserInput,
   getValidDateOfMonth,
   getValidDateOfYear,
 } from '../utils'
@@ -620,7 +620,11 @@ const handleVisibleTimeChange = (value: string) => {
 }
 
 const handleVisibleDateChange = (value: string) => {
-  const newDate = checkUserInput(value, dateFormat.value, lang.value) as Dayjs
+  const newDate = correctlyParseUserInput(
+    value,
+    dateFormat.value,
+    lang.value
+  ) as Dayjs
   if (newDate.isValid()) {
     if (disabledDate && disabledDate(newDate.toDate())) {
       return
@@ -647,7 +651,7 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 }
 
 const parseUserInput = (value: Dayjs) => {
-  return checkUserInput(value, props.format, lang.value)
+  return correctlyParseUserInput(value, props.format, lang.value)
 }
 
 const getDefaultValue = () => {

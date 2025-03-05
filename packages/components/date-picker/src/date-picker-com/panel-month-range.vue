@@ -113,7 +113,11 @@ import ElIcon from '@element-plus/components/icon'
 import { isArray } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
-import { checkUserInput, getDefaultValue, isValidRange } from '../utils'
+import {
+  correctlyParseUserInput,
+  getDefaultValue,
+  isValidRange,
+} from '../utils'
 import {
   panelMonthRangeEmits,
   panelMonthRangeProps,
@@ -220,7 +224,7 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return checkUserInput(value, format.value, lang.value)
+  return correctlyParseUserInput(value, format.value, lang.value)
 }
 
 function onParsedValueChanged(

@@ -182,13 +182,13 @@ export const getValidDateOfYear = (
   return value
 }
 
-export const checkUserInput = (
+export const correctlyParseUserInput = (
   value: string | Dayjs | Dayjs[],
   format: string,
   lang: string
 ): Dayjs | Dayjs[] => {
   if (isArray(value)) {
-    return value.map((v) => checkUserInput(v, format, lang) as Dayjs)
+    return value.map((v) => correctlyParseUserInput(v, format, lang) as Dayjs)
   }
   if (typeof value === 'string') {
     const dayjsValue = dayjs(value)
