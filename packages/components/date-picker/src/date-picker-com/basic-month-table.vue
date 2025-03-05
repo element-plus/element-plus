@@ -234,7 +234,7 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
       ? castArray(props.parsedValue).filter(
           (d) =>
             // Filter out the selected month only when both year and month match
-            // This allows selecting same months from different years #20019
+            // This allows remove same months from different years #20019
             d?.year() !== newMonth.year() || d?.month() !== newMonth.month()
         )
       : castArray(props.parsedValue).concat([dayjs(newMonth)])
