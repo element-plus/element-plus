@@ -97,11 +97,12 @@ export const cascaderPanelProps = buildProps({
   },
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const emitChangeFn = (value: CascaderValue | undefined) => true
+
 export const cascaderPanelEmits = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [UPDATE_MODEL_EVENT]: (_: CascaderValue | undefined) => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [CHANGE_EVENT]: (_: CascaderValue | undefined) => true,
+  [UPDATE_MODEL_EVENT]: emitChangeFn,
+  [CHANGE_EVENT]: emitChangeFn,
   close: () => true,
   'expand-change': (value: CascaderNodePathValue) => value,
 }
