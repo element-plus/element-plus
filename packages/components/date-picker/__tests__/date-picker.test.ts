@@ -1375,6 +1375,35 @@ describe('DatePicker months', () => {
       document.querySelectorAll('.el-month-table tr .current').length
     ).toBe(1)
   })
+
+  it('remove same months from different years', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type="months"
+        v-model="value"
+      />`,
+      () => ({ value: [new Date('2025-03-05'), new Date('2024-03-05')] })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+
+    const prevYearButton: HTMLElement = document.querySelector('.d-arrow-left')
+    prevYearButton.click()
+    await nextTick()
+
+    const currentMonth: HTMLElement = document.querySelector(
+      '.el-month-table tr .current'
+    )
+    currentMonth.click()
+    await nextTick()
+
+    const vm = wrapper.vm
+    expect(vm.value.length).toBe(1)
+    expect(vm.value[0].getFullYear()).toBe(2025)
+    expect(vm.value[0].getMonth()).toBe(2) // March is month 2 (0-indexed)
+  })
 })
 
 describe('DatePicker keyboard events', () => {
