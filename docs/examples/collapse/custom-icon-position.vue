@@ -50,9 +50,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { IconPositionType } from 'element-plus'
+import type { CollapseIconPositionType } from 'element-plus'
 
-const position = ref<IconPositionType>('right')
+const position = ref<CollapseIconPositionType>('right')
 const positionOptions = [
   {
     value: 'left',
