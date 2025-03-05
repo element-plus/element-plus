@@ -84,8 +84,7 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
 
   const onRowHover = hasFixedColumns ? onRowHovered : undefined
 
-  const _rowProps = {
-    ...additionalProps,
+  const _rowProps: any = {
     columns,
     columnsStyles,
     class: kls,
@@ -100,6 +99,17 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
     style,
   }
 
+  for (const key in additionalProps) {
+    if (typeof additionalProps[key] === 'object') {
+      if (Array.isArray(additionalProps[key])) {
+        _rowProps[key] = (_rowProps[key] ?? []).concat(additionalProps[key])
+      } else {
+        _rowProps[key] = { ...(_rowProps[key] ?? {}), ...additionalProps[key] }
+      }
+    } else {
+      _rowProps[key] = additionalProps[key]
+    }
+  }
   const handlerMosueEnter = (e: MouseEvent) => {
     onRowHover?.({
       hovered: true,
