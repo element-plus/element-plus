@@ -142,8 +142,10 @@ export const cascaderProps = buildProps({
 })
 
 export const cascaderEmits = {
-  [UPDATE_MODEL_EVENT]: (value: CascaderValue) => value,
-  [CHANGE_EVENT]: (value: CascaderValue) => value,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  [UPDATE_MODEL_EVENT]: (_: CascaderValue) => true,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  [CHANGE_EVENT]: (_: CascaderValue) => true,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,
