@@ -47,6 +47,14 @@ collapse/custom-icon
 
 :::
 
+## Customize the icon position
+
+icon position can be set using `icon-position`
+
+:::demo
+collapse/custom-icon-position
+:::
+
 ## Collapse API
 
 ### Attributes
@@ -72,12 +80,13 @@ collapse/custom-icon
 
 ### Attributes
 
-| Name          | Description                        | Type                     | Default    |
-| ------------- | ---------------------------------- | ------------------------ | ---------- |
-| name          | unique identification of the panel | ^[string] / ^[number]    | —          |
-| title         | title of the panel                 | ^[string]                | ''         |
-| icon ^(2.8.3) | icon of the collapse item          | ^[string] / ^[Component] | ArrowRight |
-| disabled      | disable the collapse item          | ^[boolean]               | false      |
+| Name          | Description                        | Type                       | Default    |
+| ------------- | ---------------------------------- | -------------------------- | ---------- |
+| name          | unique identification of the panel | ^[string] / ^[number]      | —          |
+| title         | title of the panel                 | ^[string]                  | ''         |
+| icon ^(2.8.3) | icon of the collapse item          | ^[string] / ^[Component]   | ArrowRight |
+| disabled      | disable the collapse item          | ^[boolean]                 | false      |
+| icon-position | set icon position                  | ^[enum]`('left'\|'right')` | right      |
 
 ### Slot
 

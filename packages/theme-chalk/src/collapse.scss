@@ -23,6 +23,7 @@
     border: none;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     height: getCssVar('collapse-header-height');
     line-height: getCssVar('collapse-header-height');
     background-color: getCssVar('collapse-header-bg-color');
@@ -33,8 +34,14 @@
     font-weight: 500;
     transition: border-bottom-color getCssVar('transition-duration');
     outline: none;
+    @include e(arrow-left) {
+      display: flex;
+      align-items: center;
+      @include e(arrow) {
+        margin-right: 8px;
+      }
+    }
     @include e(arrow) {
-      margin: 0 8px 0 auto;
       transition: transform getCssVar('transition-duration');
       font-weight: 300;
       @include when(active) {

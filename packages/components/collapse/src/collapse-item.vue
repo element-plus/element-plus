@@ -13,12 +13,31 @@
       @focus="handleFocus"
       @blur="focusing = false"
     >
-      <slot name="title">{{ title }}</slot>
+      <!-- <slot name="title">{{ title }}</slot>
       <slot name="icon" :is-active="isActive">
         <el-icon :class="arrowKls">
           <component :is="icon" />
         </el-icon>
-      </slot>
+      </slot> -->
+
+      <template v-if="iconPosition === 'left'">
+        <div :class="arrowLeftKls">
+          <slot name="icon" :is-active="isActive">
+            <el-icon :class="arrowKls">
+              <component :is="icon" />
+            </el-icon>
+          </slot>
+          <slot name="title">{{ title }}</slot>
+        </div>
+      </template>
+      <template v-if="iconPosition === 'right'">
+        <slot name="title">{{ title }}</slot>
+        <slot name="icon" :is-active="isActive">
+          <el-icon :class="arrowKls">
+            <component :is="icon" />
+          </el-icon>
+        </slot>
+      </template>
     </button>
 
     <el-collapse-transition>
@@ -60,6 +79,7 @@ const {
 
 const {
   arrowKls,
+  arrowLeftKls,
   headKls,
   rootKls,
   itemWrapperKls,

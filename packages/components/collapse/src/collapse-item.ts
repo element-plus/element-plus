@@ -29,5 +29,12 @@ export const collapseItemProps = buildProps({
    * @description disable the collapse item
    */
   disabled: Boolean,
+  /**
+   * @description set icon position
+   */
+  iconPosition: {
+    type: definePropType<'left' | 'right'>(String),
+    default: 'right',
+  },
 } as const)
 export type CollapseItemProps = ExtractPropTypes<typeof collapseItemProps>
