@@ -17,7 +17,7 @@
         <slot name="title">{{ title }}</slot>
       </div>
       <slot name="icon" :is-active="isActive">
-        <el-icon :class="arrowIconKls">
+        <el-icon :class="arrowKls">
           <component :is="icon" />
         </el-icon>
       </slot>
@@ -61,7 +61,7 @@ const {
 } = useCollapseItem(props)
 
 const {
-  arrowIconKls,
+  arrowKls,
   headKls,
   rootKls,
   itemTitleKls,

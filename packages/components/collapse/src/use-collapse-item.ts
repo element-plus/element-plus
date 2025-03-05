@@ -69,7 +69,7 @@ export const useCollapseItemDOM = (
     ns.is('active', unref(isActive)),
     { focusing: unref(focusing) && !props.disabled },
   ])
-  const arrowIconKls = computed(() => [
+  const arrowKls = computed(() => [
     ns.be('item', 'arrow'),
     ns.is('active', unref(isActive)),
   ])
@@ -81,7 +81,7 @@ export const useCollapseItemDOM = (
 
   return {
     itemTitleKls,
-    arrowIconKls,
+    arrowKls,
     headKls,
     rootKls,
     itemWrapperKls,
