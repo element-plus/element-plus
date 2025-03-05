@@ -292,6 +292,12 @@ export const useTree = (
           emit(UPDATE_MODEL_EVENT, cachedKeys.concat(childKeys))
         }
       })
+      select.value?.focus()
+    },
+
+    onNodeCollapse: (data, node, e) => {
+      attrs.onNodeCollapse?.(data, node, e)
+      select.value?.focus()
     },
     // else
     cacheOptions,

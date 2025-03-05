@@ -88,7 +88,6 @@ export default defineComponent({
               ElTree,
               reactive({
                 ...treeProps,
-                selectFocus: () => pick(select.value, ['focus']), // ElSelect focus method passed as a parameter
                 ref: (ref) => (tree.value = ref),
               })
             ),

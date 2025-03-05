@@ -768,7 +768,26 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
       toggleMenu()
     } else {
       const option = optionsArray.value[states.hoveringIndex]
-      if (option && !option.isDisabled) {
+      // Check whether it is a select-tree component
+      // Skip if the checkStrictly attribute exists
+      if (
+        option.$parent &&
+        option.$parent.node &&
+        !option.$parent.node.store.checkStrictly
+      ) {
+        // Check whether it is a leaf node or the last child node
+        if (
+          (!option.$parent.node.childNodes.length &&
+            !option.$parent.node.store.lazy) ||
+          (option.$parent.node.store.lazy && option.$parent.node.isLeaf)
+        ) {
+          handleOptionSelect(option)
+        }
+        // Press the Enter key to expand the node
+        else {
+          option.$parent.node.expand()
+        }
+      } else if (option && !option.isDisabled) {
         handleOptionSelect(option)
       }
     }
@@ -826,10 +845,26 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
           states.hoveringIndex = states.options.size - 1
         }
       }
+
       const option = optionsArray.value[states.hoveringIndex]
+
+      // Use the left and right keys to expand and collapse the Tree.
+      if (
+        option.$parent &&
+        option.$parent.node &&
+        (direction === 'left' || direction === 'right')
+      ) {
+        if (option.$parent.node.expanded) {
+          option.$parent.node.collapse()
+        } else {
+          option.$parent.node.expand()
+        }
+      }
+
       if (option.isDisabled || !option.visible) {
         navigateOptions(direction)
       }
+
       nextTick(() => scrollToOption(hoverOption.value))
     }
   }

@@ -38,4 +38,12 @@
       line-height: 20px;
     }
   }
+
+  @include b(tree-node){
+    @include e(content) {
+      &:has(.#{$state-prefix}hovering) {
+        background-color: getCssVar('tree-node-hover-bg-color');
+      }
+    }
+  }
 }
