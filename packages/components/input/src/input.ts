@@ -166,6 +166,8 @@ export const inputProps = buildProps({
     type: Number,
     default: 2,
   },
+  borderless: Boolean,
+  underlined: Boolean,
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>

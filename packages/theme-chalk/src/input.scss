@@ -197,6 +197,17 @@
     @include when(focus) {
       @include inset-input-border(#{getCssVar('input', 'focus-border-color')});
     }
+
+    @include when(borderless) {
+      box-shadow: 0 0 0 0;
+    }
+    @include when(underlined) {
+      box-shadow: 0 1px 0 0 var(
+        #{getCssVarName('input-border-color')},
+        map.get($input, 'border-color')
+      );
+      border-radius: 0;
+    }
   }
 
   & {
