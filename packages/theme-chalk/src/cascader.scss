@@ -76,8 +76,6 @@
 
     .#{$namespace}-input__suffix-inner {
       .#{$namespace}-icon {
-        height: calc(100% - 2px);
-
         svg {
           vertical-align: middle;
         }
