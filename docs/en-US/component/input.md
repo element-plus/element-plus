@@ -25,7 +25,7 @@ input/basic
 
 :::
 
-## Borderless
+## Borderless ^(2.9.6)
 
 :::demo Use the `borderless` attribute to set a borderless input box.
 
@@ -33,7 +33,7 @@ input/borderless
 
 :::
 
-## Underlined
+## Underlined ^(2.9.6)
 
 :::demo Use the `underlined` attribute to set an underlined input box.
 
