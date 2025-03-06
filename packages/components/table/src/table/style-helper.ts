@@ -41,6 +41,7 @@ function useStyle<T>(
   const scrollbarViewStyle = {
     display: 'inline-block',
     verticalAlign: 'middle',
+    height: '100%',
   }
   const tableWidth = ref()
   const tableScrollHeight = ref(0)
