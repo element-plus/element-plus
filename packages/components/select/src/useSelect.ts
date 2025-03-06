@@ -412,9 +412,10 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     } else {
       hoverOption.value = {}
     }
-    optionsArray.value.forEach((option) => {
-      option.hover = hoverOption.value === option
-    })
+    props.defaultFirstOption &&
+      optionsArray.value.forEach((option) => {
+        option.hover = hoverOption.value === option
+      })
   })
 
   watchEffect(() => {
