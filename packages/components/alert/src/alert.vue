@@ -6,10 +6,11 @@
       role="alert"
     >
       <el-icon
-        v-if="showIcon && iconComponent"
+        v-if="showIcon && ($slots.icon || iconComponent)"
         :class="[ns.e('icon'), { [ns.is('big')]: hasDesc }]"
       >
-        <component :is="iconComponent" />
+        <slot v-if="$slots.icon" name="icon" />
+        <component :is="iconComponent" v-else />
       </el-icon>
 
       <div :class="ns.e('content')">

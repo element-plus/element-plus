@@ -41,7 +41,7 @@ alert/close-button
 
 Displaying an icon improves readability.
 
-:::demo Setting the `show-icon` attribute displays an icon that corresponds with the current Alert type.
+:::demo Setting the `show-icon` attribute displays an icon that corresponds with the current Alert type. Or use the `icon` slot to customize icon.
 
 alert/icon
 
@@ -102,3 +102,4 @@ alert/icon-description
 | ------- | --------------------------------- |
 | default | content of the alert description. |
 | title   | content of the alert title.       |
+| icon    | content of the alert icon.        |
