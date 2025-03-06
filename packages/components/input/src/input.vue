@@ -417,7 +417,12 @@ const handleInput = async (event: Event) => {
 }
 
 const handleChange = (event: Event) => {
-  emit('change', (event.target as TargetElement).value)
+  let { value } = event.target as TargetElement
+
+  if (props.formatter && props.parser) {
+    value = props.parser(value)
+  }
+  emit('change', value)
 }
 
 const {
