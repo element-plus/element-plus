@@ -98,6 +98,8 @@ const lineStyle = ref({})
 const internalStatus = ref('')
 const parent = inject('ElSteps') as IStepsInject
 const currentInstance = getCurrentInstance()
+const stepDiff = ref(0)
+const beforeActive = ref(0)
 
 onMounted(() => {
   watch(
@@ -106,7 +108,10 @@ onMounted(() => {
       () => parent.props.processStatus,
       () => parent.props.finishStatus,
     ],
-    ([active]) => {
+    ([active], [oldActive]) => {
+      beforeActive.value = oldActive || 0
+      stepDiff.value = active - beforeActive.value
+
       updateStatus(active)
     },
     { immediate: true }
@@ -180,8 +185,15 @@ const setIndex = (val: number) => {
 
 const calcProgress = (status: string) => {
   const isWait = status === 'wait'
+  const delayTimer =
+    Math.abs(stepDiff.value) === 1
+      ? 0
+      : stepDiff.value > 0
+      ? (index.value + 1 - beforeActive.value) * 150
+      : -(index.value + 1 - parent.props.active) * 150
+
   const style: CSSProperties = {
-    transitionDelay: `${isWait ? '-' : ''}${150 * index.value}ms`,
+    transitionDelay: `${delayTimer}ms`,
   }
   const step = status === parent.props.processStatus || isWait ? 0 : 100
 
