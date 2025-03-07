@@ -1,6 +1,32 @@
 ## Changelog
 
 
+### 2.9.6
+
+_2025-03-07_
+
+#### Features
+
+- Components [tree/tree-select] add `check-on-click-leaf` attribute (#19494 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [select-v2] allow propagation of non-control key events in custom options (#19984 by @DDDDD12138)
+- Components [table] replace pageX with clientX (#19881 by @chengang4505)
+- Components [date-picker] change triggers twice when clearing (#19804 by @xingyixiang)
+- Components [input] `@change` event value formatter (#20000 by @qq1037305420)
+- Components [date-picker] add user input validation (#20021 by @zhixiaotong)
+- Components [dropdown] `button-props` as a `Partial` type (#20035 by @Dsaquel)
+- Components [date-picker] support remove same months from different years (#20020 by @DDDDD12138)
+- Components [select-v2] option need double click in IOS (#20041 by @warmthsea)
+- Style(theme-chalk): [tabs] update tabs style (#19975 by @kooriookami)
+- Perf(components): [select-v2] optimize to avoid unnecessary computations (#19970 by @DDDDD12138)
+- Style(components): [cascader] content display is incomplete (#20015 by @warmthsea)
+- Style(components): [cascader] delete icon height (#20036 by @warmthsea)
+#### Refactors
+
+- Components [image] image-viewer standalone use (#19715 by @zzjiaxiang)
+
 ### 2.9.5
 
 _2025-02-21_
