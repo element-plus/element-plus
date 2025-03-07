@@ -139,7 +139,7 @@ cascader/panel
 
 ## Cascader API
 
-### Attributes
+### Cascader Attributes
 
 | Name                                | Description                                                                                                                                                                      | Type                                                                                                                                                                        | Default      |
 | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
@@ -171,7 +171,7 @@ cascader/panel
 | placement ^(2.8.1)                  | position of dropdown                                                                                                                                                             | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start |
 | popper-append-to-body ^(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                                                                                                                                  | true         |
 
-### Events
+### Cascader Events
 
 | Name           | Description                                                   | Type                                                        |
 | -------------- | ------------------------------------------------------------- | ----------------------------------------------------------- |
@@ -183,7 +183,7 @@ cascader/panel
 | visible-change | triggers when the dropdown appears/disappears                 | ^[Function]`(value: boolean) => void`                       |
 | remove-tag     | triggers when remove tag in multiple selection mode           | ^[Function]`(value: CascaderNode['valueByOption']) => void` |
 
-### Slots
+### Cascader Slots
 
 | Name                     | Description                                                                                    | Scope                               |
 | ------------------------ | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
@@ -192,7 +192,7 @@ cascader/panel
 | prefix ^(2.9.4)          | content as Input prefix                                                                        | —                                   |
 | suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                              | ^[object]`{ item: CascaderNode }`   |
 
-### Exposes
+### Cascader Exposes
 
 | Name                          | Description                                                                                                       | Type                                                            |
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
@@ -204,7 +204,7 @@ cascader/panel
 
 ## CascaderPanel API
 
-### Attributes
+### CascaderPanel Attributes
 
 | Name                  | Description                                                                              | Type                                                       | Default |
 | --------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------- |
@@ -212,7 +212,7 @@ cascader/panel
 | options               | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`Record<string, unknown>[]`                       | —       |
 | props                 | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                   | —       |
 
-### Events
+### CascaderPanel Events
 
 | Name          | Description                                                             | Type                                                |
 | ------------- | ----------------------------------------------------------------------- | --------------------------------------------------- |
@@ -220,14 +220,14 @@ cascader/panel
 | expand-change | triggers when expand option changes                                     | ^[Function]`(value: CascaderNodePathValue) => void` |
 | close         | close panel event, provided to Cascader to put away the panel judgment. | ^[Function]`() => void`                             |
 
-### Slots
+### CascaderPanel Slots
 
 | Name           | Description                                                                                    | Scope                               |
 | -------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
 | default        | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
 | empty ^(2.8.3) | the content of the panel when there is no data.                                                | —                                   |
 
-### Exposes
+### CascaderPanel Exposes
 
 | Name              | Description                                                                                                       | Type                                                            |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
