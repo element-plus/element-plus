@@ -185,6 +185,7 @@ tree/draggable
 | append | append a child node to a given node in the tree | (data, parentNode) 1. child node's data to be appended 2. parent node's data, key or node |
 | insertBefore | insert a node before a given node in the tree | (data, refNode) 1. node's data to be inserted 2. reference node's data, key or node |
 | insertAfter | insert a node after a given node in the tree | (data, refNode) 1. node's data to be inserted 2. reference node's data, key or node |
+| reloadLazyChildren | effective under lazy loading, reloading the child nodes of the specified node | reference node's data, key or node |
 
 ## Events
 
