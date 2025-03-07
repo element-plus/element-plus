@@ -35,18 +35,10 @@ export const leftCustomImgSponsors = [
   {
     name: '美乐',
     img: '/images/mele.png',
-    url: 'https://melecode.com/',
+    url: 'https://melecode.com/prom.html',
     slogan: 'Enterprise-level low-code development platform',
     slogan_cn: '企业级全栈低代码开发平台',
     banner_img: '/images/mele-banner.png',
-  },
-  {
-    name: 'VForm',
-    img: '/images/vform.png',
-    url: 'https://vform666.com/',
-    slogan: 'Vue 2/3 Visual/Low-Code Forms',
-    slogan_cn: 'Vue 2/3 可视化低代码表单',
-    banner_img: '/images/vform-banner.png',
   },
   {
     name: 'JNPF',
