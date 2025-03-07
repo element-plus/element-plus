@@ -81,13 +81,13 @@ container/example
 
 ## Container API
 
-### Attributes
+### Container Attributes
 
 | Name      | Description                         | Type                                | Default                                                                    |
 | --------- | ----------------------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
 | direction | layout direction for child elements | ^[enum]`'horizontal' \| 'vertical'` | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
 
-### Slots
+### Container Slots
 
 | Name    | Description               | Subtags                                    |
 | ------- | ------------------------- | ------------------------------------------ |
@@ -95,13 +95,13 @@ container/example
 
 ## Header API
 
-### Attributes
+### Header Attributes
 
 | Name   | Description          | Type      | Default |
 | ------ | -------------------- | --------- | ------- |
 | height | height of the header | ^[string] | 60px    |
 
-### Slots
+### Header Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
@@ -109,13 +109,13 @@ container/example
 
 ## Aside API
 
-### Attributes
+### Aside Attributes
 
 | Name  | Description               | Type      | Default |
 | ----- | ------------------------- | --------- | ------- |
 | width | width of the side section | ^[string] | 300px   |
 
-### Slots
+### Aside Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
@@ -123,7 +123,7 @@ container/example
 
 ## Main API
 
-### Slots
+### Main Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
@@ -131,13 +131,13 @@ container/example
 
 ## Footer API
 
-### Attributes
+### Footer Attributes
 
 | Name   | Description          | Type      | Default |
 | ------ | -------------------- | --------- | ------- |
 | height | height of the footer | ^[string] | 60px    |
 
-### Slots
+### Footer Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |

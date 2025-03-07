@@ -89,7 +89,7 @@ dropdown/sizes
 
 ## Dropdown API
 
-### Attributes
+### Dropdown Attributes
 
 | Name                 | Description                                                                                                           | Type                                                                                                         | Default                                                                    |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
@@ -112,14 +112,14 @@ dropdown/sizes
 | teleported ^(2.2.20) | whether the dropdown popup is teleported to the body                                                                  | ^[boolean]                                                                                                   | true                                                                       |
 | persistent ^(2.9.5)  | when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed                                  | ^[boolean]                                                                                                   | true                                                                       |
 
-### Slots
+### Dropdown Slots
 
 | Name     | Description                                                                                                                                   | Subtags       |
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | default  | content of Dropdown. Notice: Must be a valid html dom element (ex. `<span>, <button> etc.`) or `el-component`, to attach the trigger listener | —             |
 | dropdown | content of the Dropdown Menu, usually a `<el-dropdown-menu>` element                                                                          | Dropdown-Menu |
 
-### Events
+### Dropdown Events
 
 | Name           | Description                                                                                               | Type                                  |
 | -------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------- |
@@ -127,7 +127,7 @@ dropdown/sizes
 | command        | triggers when a dropdown item is clicked, the parameters is the command dispatched from the dropdown item | ^[Function]`(...args: any[]) => void` |
 | visible-change | triggers when the dropdown appears/disappears, the param is true when it appears, and false otherwise     | ^[Function]`(val: boolean) => void`   |
 
-### Exposes
+### Dropdown Exposes
 
 | Method      | Description             | Type                    |
 | ----------- | ----------------------- | ----------------------- |
@@ -136,7 +136,7 @@ dropdown/sizes
 
 ## Dropdown-Menu API
 
-### Slots
+### Dropdown-Menu Slots
 
 | Name    | Description              | Subtags       |
 | ------- | ------------------------ | ------------- |
@@ -144,7 +144,7 @@ dropdown/sizes
 
 ## Dropdown-Item API
 
-### Attributes
+### Dropdown-Item Attributes
 
 | Name     | Description                                                 | Type                              | Default |
 | -------- | ----------------------------------------------------------- | --------------------------------- | ------- |
@@ -153,7 +153,7 @@ dropdown/sizes
 | divided  | whether a divider is displayed                              | ^[boolean]                        | false   |
 | icon     | custom icon                                                 | ^[string] / ^[Component]          | —       |
 
-### Slots
+### Dropdown-Item Slots
 
 | Name    | Description                |
 | ------- | -------------------------- |
