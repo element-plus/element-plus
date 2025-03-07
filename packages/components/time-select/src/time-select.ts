@@ -1,8 +1,9 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
+import type { PopperEffect } from '@element-plus/components/popper'
 import type TimeSelect from './time-select.vue'
-import type { Component, ExtractPropTypes, PropType } from 'vue'
+import type { Component, ExtractPropTypes } from 'vue'
 
 export const timeSelectProps = buildProps({
   /**
@@ -31,7 +32,7 @@ export const timeSelectProps = buildProps({
    * @description Tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
-    type: String as PropType<'light' | 'dark' | string>,
+    type: definePropType<PopperEffect>(String),
     default: 'light',
   },
   /**
@@ -78,6 +79,13 @@ export const timeSelectProps = buildProps({
    * @description maximum time, any time after this time will be disabled
    */
   maxTime: String,
+  /**
+   * @description whether `end` is included in options
+   */
+  includeEndTime: {
+    type: Boolean,
+    default: false,
+  },
   /**
    * @description same as `name` in native input
    */

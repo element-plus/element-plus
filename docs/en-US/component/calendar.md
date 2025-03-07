@@ -60,3 +60,28 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | date-cell | `type` indicates which month the date belongs, optional values are prev-month, current-month, next-month; `isSelected` indicates whether the date is selected; `day` is the formatted date in the format `YYYY-MM-DD`; `date` is date the cell represents | ^[object]`{ data: { type: 'prev-month' \| 'current-month' \| 'next-month', isSelected: boolean, day: string, date: Date } }` |
 | header    | content of the Calendar header                                                                                                                                                                                                                            | ^[object]`{ date: string }`                                                                                                  |
+
+### Exposes
+
+| Name                        | Description                                                            | Type                                                                                          |
+| --------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| selectedDay                 | currently selected date                                                | ^[object]`ComputedRef<Dayjs \| undefined>`                                                    |
+| pickDay                     | select a specific date                                                 | ^[Function]`(day: dayjs.Dayjs) => void`                                                       |
+| selectDate                  | select date                                                            | ^[Function]`(type: CalendarDateType) => void`                                                 |
+| calculateValidatedDateRange | Calculate the validate date range according to the start and end dates | ^[Function]`(startDayjs: dayjs.Dayjs, endDayjs: dayjs.Dayjs) => [dayjs.Dayjs, dayjs.Dayjs][]` |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type CalendarDateType =
+  | 'prev-month'
+  | 'next-month'
+  | 'prev-year'
+  | 'next-year'
+  | 'today'
+```
+
+</details>

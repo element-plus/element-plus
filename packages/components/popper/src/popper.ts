@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { buildProps } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
@@ -22,7 +24,9 @@ export const roleTypes = [
   'tree',
 ] as const
 
-export type PopperEffect = typeof effects[number]
+export type PopperEffect =
+  | typeof effects[number]
+  | (string & NonNullable<unknown>)
 export type PopperTrigger = typeof triggers[number]
 
 export const popperProps = buildProps({

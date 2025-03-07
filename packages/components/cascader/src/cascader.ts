@@ -1,3 +1,4 @@
+import { placements } from '@popperjs/core'
 import { CommonProps } from '@element-plus/components/cascader-panel'
 import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
 import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
@@ -8,6 +9,7 @@ import type {
   CascaderNode,
   CascaderValue,
 } from '@element-plus/components/cascader-panel'
+import type { Placement } from '@element-plus/components/popper'
 
 export const cascaderProps = buildProps({
   ...CommonProps,
@@ -88,6 +90,21 @@ export const cascaderProps = buildProps({
     default: () => true,
   },
   /**
+   * @description position of dropdown
+   */
+  placement: {
+    type: definePropType<Placement>(String),
+    values: placements,
+    default: 'bottom-start',
+  },
+  /**
+   * @description list of possible positions for dropdown
+   */
+  fallbackPlacements: {
+    type: definePropType<Placement[]>(Array),
+    default: ['bottom-start', 'bottom', 'top-start', 'top', 'right', 'left'],
+  },
+  /**
    * @description custom class name for Cascader's dropdown
    */
   popperClass: {
@@ -104,9 +121,20 @@ export const cascaderProps = buildProps({
   // eslint-disable-next-line vue/require-prop-types
   tagType: { ...tagProps.type, default: 'info' },
   /**
+   * @description tag effect
+   */
+  tagEffect: { ...tagProps.effect, default: 'light' },
+  /**
    * @description whether to trigger form validation
    */
   validateEvent: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description when dropdown is inactive and `persistent` is `false`, dropdown will be destroyed
+   */
+  persistent: {
     type: Boolean,
     default: true,
   },
@@ -120,6 +148,7 @@ export const cascaderEmits = {
   [CHANGE_EVENT]: (_: CascaderValue) => true,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
+  clear: () => true,
   visibleChange: (val: boolean) => isBoolean(val),
   expandChange: (val: CascaderValue) => !!val,
   removeTag: (val: CascaderNode['valueByOption']) => !!val,

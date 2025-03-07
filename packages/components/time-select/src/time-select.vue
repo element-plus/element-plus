@@ -16,6 +16,7 @@
     @change="(event) => $emit('change', event)"
     @blur="(event) => $emit('blur', event)"
     @focus="(event) => $emit('focus', event)"
+    @clear="() => $emit('clear')"
   >
     <el-option
       v-for="item in items"
@@ -51,7 +52,7 @@ defineOptions({
   name: 'ElTimeSelect',
 })
 
-defineEmits(['change', 'blur', 'focus', 'update:modelValue'])
+defineEmits(['change', 'blur', 'focus', 'clear', 'update:modelValue'])
 
 const props = defineProps(timeSelectProps)
 
@@ -89,6 +90,15 @@ const maxTime = computed(() => {
 
 const items = computed(() => {
   const result: { value: string; disabled: boolean }[] = []
+  const push = (formattedValue: string, rawValue: string) => {
+    result.push({
+      value: formattedValue,
+      disabled:
+        compareTime(rawValue, minTime.value || '-1:-1') <= 0 ||
+        compareTime(rawValue, maxTime.value || '100:100') >= 0,
+    })
+  }
+
   if (props.start && props.end && props.step) {
     let current = start.value
     let currentTime: string
@@ -96,13 +106,18 @@ const items = computed(() => {
       currentTime = dayjs(current, 'HH:mm')
         .locale(lang.value)
         .format(props.format)
-      result.push({
-        value: currentTime,
-        disabled:
-          compareTime(current, minTime.value || '-1:-1') <= 0 ||
-          compareTime(current, maxTime.value || '100:100') >= 0,
-      })
+      push(currentTime, current)
       current = nextTime(current, step.value!)
+    }
+    if (
+      props.includeEndTime &&
+      end.value &&
+      result[result.length - 1]?.value !== end.value
+    ) {
+      const formattedValue = dayjs(end.value, 'HH:mm')
+        .locale(lang.value)
+        .format(props.format)
+      push(formattedValue, end.value)
     }
   }
   return result

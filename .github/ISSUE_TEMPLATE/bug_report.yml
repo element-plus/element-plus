@@ -1,0 +1,17 @@
+name: 'Blank Issue'
+description: Please use https://issue.element-plus.org/ to create a new issue.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Notice:**
+        Do not create issues through this page, please use https://issue.element-plus.org to create new issues.
+        Issues created without this link will be closed directly.
+
+        **注意:**
+        不要通过此页面创建问题, 请使用 https://issue.element-plus.org 创建新的问题.
+        如果不是通过此链接创建的问题, 将会被直接关闭.
+  - type: textarea
+    id: add-a-description
+    attributes:
+      label: Add a description

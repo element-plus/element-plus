@@ -6,7 +6,7 @@
     role="option"
     :aria-disabled="isDisabled || undefined"
     :aria-selected="itemSelected"
-    @mouseenter="hoverItem"
+    @mousemove="hoverItem"
     @click.stop="selectOptionClick"
   >
     <slot>
@@ -89,8 +89,7 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       const key = vm.value
-      const { selected } = select.states
-      const selectedOptions = select.props.multiple ? selected : [selected]
+      const { selected: selectedOptions } = select.states
       const doesSelected = selectedOptions.some((item) => {
         return item.value === vm.value
       })
@@ -104,7 +103,7 @@ export default defineComponent({
     })
 
     function selectOptionClick() {
-      if (props.disabled !== true && states.groupDisabled !== true) {
+      if (!isDisabled.value) {
         select.handleOptionSelect(vm)
       }
     }

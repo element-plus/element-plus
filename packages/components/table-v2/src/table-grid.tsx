@@ -1,4 +1,12 @@
-import { computed, defineComponent, inject, ref, unref } from 'vue'
+import {
+  computed,
+  defineComponent,
+  inject,
+  provide,
+  ref,
+  unref,
+  watch,
+} from 'vue'
 import {
   DynamicSizeGrid,
   FixedSizeGrid,
@@ -27,6 +35,7 @@ const COMPONENT_NAME = 'ElTableV2Grid'
 const useTableGrid = (props: TableV2GridProps) => {
   const headerRef = ref<TableV2HeaderInstance>()
   const bodyRef = ref<DynamicSizeGridInstance>()
+  const scrollLeft = ref(0)
 
   const totalHeight = computed(() => {
     const { data, rowHeight, estimatedRowHeight } = props
@@ -84,9 +93,11 @@ const useTableGrid = (props: TableV2GridProps) => {
 
     if (isObject(leftOrOptions)) {
       header$?.scrollToLeft(leftOrOptions.scrollLeft)
+      scrollLeft.value = leftOrOptions.scrollLeft!
       body$?.scrollTo(leftOrOptions)
     } else {
       header$?.scrollToLeft(leftOrOptions)
+      scrollLeft.value = leftOrOptions
       body$?.scrollTo({
         scrollLeft: leftOrOptions,
         scrollTop: top,
@@ -109,6 +120,14 @@ const useTableGrid = (props: TableV2GridProps) => {
     unref(headerRef)?.$forceUpdate()
   }
 
+  watch(
+    () => props.bodyWidth,
+    () => {
+      if (isNumber(props.estimatedRowHeight))
+        bodyRef.value?.resetAfter({ columnIndex: 0 }, false)
+    }
+  )
+
   return {
     bodyRef,
     forceUpdate,
@@ -125,6 +144,7 @@ const useTableGrid = (props: TableV2GridProps) => {
     scrollTo,
     scrollToTop,
     scrollToRow,
+    scrollLeft,
   }
 }
 
@@ -150,7 +170,10 @@ const TableGrid = defineComponent({
       scrollTo,
       scrollToTop,
       scrollToRow,
+      scrollLeft,
     } = useTableGrid(props)
+
+    provide('tableV2GridScrollLeft', scrollLeft)
 
     expose({
       forceUpdate,

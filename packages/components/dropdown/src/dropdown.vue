@@ -23,7 +23,7 @@
       :transition="`${ns.namespace.value}-zoom-in-top`"
       :teleported="teleported"
       pure
-      persistent
+      :persistent="persistent"
       @before-show="handleBeforeShowTooltip"
       @show="handleShowTooltip"
       @before-hide="handleBeforeHideTooltip"
@@ -91,7 +91,6 @@
   </div>
 </template>
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -112,11 +111,11 @@ import { ElOnlyChild } from '@element-plus/components/slot'
 import { useFormSize } from '@element-plus/components/form'
 import { addUnit, ensureArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
-import { EVENT_CODE } from '@element-plus/constants'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { CSSProperties } from 'vue'
 
 const { ButtonGroup: ElButtonGroup } = ElButton
@@ -143,12 +142,11 @@ export default defineComponent({
 
     const triggeringElementRef = ref()
     const referenceElementRef = ref()
-    const popperRef = ref<InstanceType<typeof ElTooltip> | null>(null)
-    const contentRef = ref<HTMLElement | null>(null)
+    const popperRef = ref<TooltipInstance>()
+    const contentRef = ref<HTMLElement>()
     const scrollbar = ref(null)
     const currentTabId = ref<string | null>(null)
     const isUsingKeyboard = ref(false)
-    const triggerKeys = [EVENT_CODE.enter, EVENT_CODE.space, EVENT_CODE.down]
 
     const wrapStyle = computed<CSSProperties>(() => ({
       maxHeight: addUnit(props.maxHeight),
@@ -157,9 +155,7 @@ export default defineComponent({
     const trigger = computed(() => ensureArray(props.trigger))
 
     const defaultTriggerId = useId().value
-    const triggerId = computed<string>(() => {
-      return props.id || defaultTriggerId
-    })
+    const triggerId = computed<string>(() => props.id || defaultTriggerId)
 
     // The goal of this code is to focus on the tooltip triggering element when it is hovered.
     // This is a temporary fix for where closing the dropdown through pointerleave event focuses on a
@@ -252,7 +248,7 @@ export default defineComponent({
 
     function handleShowTooltip(event?: Event) {
       if (event?.type === 'keydown') {
-        contentRef.value.focus()
+        contentRef.value?.focus()
       }
     }
 
@@ -297,7 +293,6 @@ export default defineComponent({
       dropdownTriggerKls,
       dropdownSize,
       triggerId,
-      triggerKeys,
       currentTabId,
       handleCurrentTabIdChange,
       handlerMainButtonClick,

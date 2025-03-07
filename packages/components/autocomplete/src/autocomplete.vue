@@ -104,7 +104,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, useAttrs as useRawAttrs } from 'vue'
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  useAttrs as useRawAttrs,
+} from 'vue'
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
@@ -123,7 +129,7 @@ import { useFormDisabled } from '@element-plus/components/form'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
 import type { AutocompleteData } from './autocomplete'
 
-import type { StyleValue } from 'vue'
+import type { Ref, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 
@@ -350,8 +356,14 @@ const highlight = (index: number) => {
   )
 }
 
-onClickOutside(listboxRef, () => {
+const stopHandle = onClickOutside(listboxRef, () => {
+  // Prevent closing if focus is inside popper content
+  if (popperRef.value?.isFocusInsideContent()) return
   suggestionVisible.value && close()
+})
+
+onBeforeUnmount(() => {
+  stopHandle?.()
 })
 
 onMounted(() => {
@@ -367,7 +379,21 @@ onMounted(() => {
   readonly = (inputRef.value as any).ref!.hasAttribute('readonly')
 })
 
-defineExpose({
+defineExpose<{
+  highlightedIndex: Ref<number>
+  activated: Ref<boolean>
+  loading: Ref<boolean>
+  inputRef: Ref<InputInstance | undefined>
+  popperRef: Ref<TooltipInstance | undefined>
+  suggestions: Ref<AutocompleteData>
+  handleSelect: (item: any) => void
+  handleKeyEnter: () => void
+  focus: () => void
+  blur: () => void
+  close: () => void
+  highlight: (index: number) => void
+  getData: (queryString: string) => void
+}>({
   /** @description the index of the currently highlighted item */
   highlightedIndex,
   /** @description autocomplete whether activated */
@@ -392,5 +418,7 @@ defineExpose({
   close,
   /** @description highlight an item in a suggestion */
   highlight,
+  /** @description loading suggestion list */
+  getData,
 })
 </script>

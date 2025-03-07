@@ -15,7 +15,7 @@ import { throttle } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import { debugWarn, flattedChildren, isString } from '@element-plus/utils'
 import { useOrderedChildren } from '@element-plus/hooks'
-import { carouselContextKey } from './constants'
+import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
 import type { SetupContext } from 'vue'
 import type { CarouselItemContext } from './constants'
@@ -34,7 +34,7 @@ export const useCarousel = (
     removeChild: removeItem,
   } = useOrderedChildren<CarouselItemContext>(
     getCurrentInstance()!,
-    'ElCarouselItem'
+    CAROUSEL_ITEM_NAME
   )
 
   const slots = useSlots()
@@ -113,6 +113,8 @@ export const useCarousel = (
       activeIndex.value = activeIndex.value + 1
     } else if (props.loop) {
       activeIndex.value = 0
+    } else {
+      isTransitioning.value = false
     }
   }
 
@@ -251,10 +253,8 @@ export const useCarousel = (
 
     const flatSlots = flattedChildren(defaultSlots)
 
-    const carouselItemsName = 'ElCarouselItem'
-
     const normalizeSlots = flatSlots.filter((slot) => {
-      return isVNode(slot) && (slot.type as any).name === carouselItemsName
+      return isVNode(slot) && (slot.type as any).name === CAROUSEL_ITEM_NAME
     })
 
     if (normalizeSlots?.length === 2 && props.loop && !isCardType.value) {
@@ -330,6 +330,7 @@ export const useCarousel = (
     isVertical,
     items,
     loop: props.loop,
+    cardScale: props.cardScale,
     addItem,
     removeItem,
     setActiveItem,

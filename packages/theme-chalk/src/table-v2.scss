@@ -20,6 +20,7 @@
     justify-content: center;
     text-align: center;
   }
+
   @include when('align-right') {
     justify-content: flex-end;
     text-align: right;
@@ -39,6 +40,7 @@
   .#{$namespace}-virtual-scrollbar {
     opacity: 0;
   }
+
   .#{$namespace}-vl__vertical,
   .#{$namespace}-vl__horizontal {
     z-index: -1;
@@ -50,7 +52,8 @@
 }
 
 @include b('table-v2') {
-  font-size: 14px;
+  font-size: getCssVar('font-size', 'base');
+
   * {
     box-sizing: border-box;
   }
@@ -107,6 +110,10 @@
   @include e('header') {
     position: relative;
     overflow: hidden;
+
+    .#{$namespace}-checkbox {
+      z-index: 0;
+    }
   }
 
   @include e('footer') {
@@ -136,15 +143,15 @@
     border-bottom: getCssVar('table', 'border');
 
     @include e('header-cell') {
-      @include center-flex;
-      @include cell-padding;
-      @include cell-alignment;
       height: 100%;
       user-select: none;
       overflow: hidden;
       background-color: getCssVar('table-header', 'bg-color');
       color: getCssVar('table-header', 'text-color');
       font-weight: bold;
+      @include center-flex;
+      @include cell-padding;
+      @include cell-alignment;
 
       @include when(sortable) {
         cursor: pointer;
@@ -220,6 +227,7 @@
     @include e('row') {
       overflow: hidden;
       align-items: stretch;
+
       @include e('row-cell') {
         overflow-wrap: break-word;
       }

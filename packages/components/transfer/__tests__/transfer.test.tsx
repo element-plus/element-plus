@@ -214,4 +214,170 @@ describe('Transfer', () => {
       expect(app.rightPanel.query).toBeFalsy()
     })
   })
+
+  describe('render default slot', () => {
+    it('single comment node', () => {
+      const wrapper = mount(Transfer, {
+        props: {
+          data: getTestData(),
+        },
+        slots: {
+          default: '<!--  -->',
+        },
+      })
+
+      const leftPanel = wrapper.find('.el-transfer-panel')
+      const labels = leftPanel.findAll(
+        '.el-transfer-panel__body .el-checkbox__label'
+      )
+
+      expect(labels.map((l) => l.text())).toMatchInlineSnapshot(`
+        [
+          "备选项 1",
+          "备选项 2",
+          "备选项 3",
+          "备选项 4",
+          "备选项 5",
+          "备选项 6",
+          "备选项 7",
+          "备选项 8",
+          "备选项 9",
+          "备选项 10",
+          "备选项 11",
+          "备选项 12",
+          "备选项 13",
+          "备选项 14",
+          "备选项 15",
+        ]
+      `)
+    })
+
+    it('multiple comment nodes', () => {
+      const wrapper = mount(Transfer, {
+        props: {
+          data: getTestData(),
+        },
+        slots: {
+          default: `
+<!--  -->
+<!--  -->
+`,
+        },
+      })
+
+      const leftPanel = wrapper.find('.el-transfer-panel')
+      const labels = leftPanel.findAll(
+        '.el-transfer-panel__body .el-checkbox__label'
+      )
+
+      expect(labels.map((l) => l.text())).toMatchInlineSnapshot(`
+        [
+          "备选项 1",
+          "备选项 2",
+          "备选项 3",
+          "备选项 4",
+          "备选项 5",
+          "备选项 6",
+          "备选项 7",
+          "备选项 8",
+          "备选项 9",
+          "备选项 10",
+          "备选项 11",
+          "备选项 12",
+          "备选项 13",
+          "备选项 14",
+          "备选项 15",
+        ]
+      `)
+    })
+
+    it('contents with multiple comment nodes', () => {
+      const wrapper = mount(Transfer, {
+        props: {
+          data: getTestData(),
+        },
+        slots: {
+          default: `
+<!--  -->
+1
+<!--  -->
+2
+`,
+        },
+      })
+
+      const leftPanel = wrapper.find('.el-transfer-panel')
+      const labels = leftPanel.findAll(
+        '.el-transfer-panel__body .el-checkbox__label'
+      )
+
+      expect(labels.map((l) => l.text())).toMatchInlineSnapshot(`
+        [
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+        ]
+      `)
+    })
+  })
+
+  describe('empty slots', () => {
+    it('render left-empty and right-empty slots', () => {
+      const wrapper = mount(() => (
+        <Transfer
+          data={[]}
+          v-slots={{
+            'left-empty': () => <span>No data</span>,
+            'right-empty': () => <span>No data</span>,
+          }}
+        />
+      ))
+
+      const panels = wrapper.findAll('.el-transfer-panel__empty')
+      expect(panels).toHaveLength(2)
+      expect(panels[0].text()).toBe('No data')
+      expect(panels[1].text()).toBe('No data')
+    })
+
+    it('render default empty content when slots not provided', () => {
+      const wrapper = mount(() => <Transfer data={[]} />)
+
+      const panels = wrapper.findAll('.el-transfer-panel__empty')
+      expect(panels).toHaveLength(2)
+      expect(panels[0].text()).toBe('No data')
+      expect(panels[1].text()).toBe('No data')
+    })
+
+    it('show no match content when filtering', async () => {
+      const wrapper = mount(() => (
+        <Transfer
+          data={getTestData()}
+          filterable={true}
+          v-slots={{
+            'left-empty': () => <span>No data</span>,
+          }}
+        />
+      ))
+
+      const leftPanel: any = wrapper.findComponent({ name: 'ElTransferPanel' })
+      leftPanel.vm.query = 'non-existing-data'
+      await nextTick()
+
+      const emptyContent = wrapper.find('.el-transfer-panel__empty')
+      expect(emptyContent.exists()).toBe(true)
+      expect(emptyContent.text()).toBe('No data')
+    })
+  })
 })

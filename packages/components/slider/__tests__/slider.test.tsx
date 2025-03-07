@@ -197,13 +197,13 @@ describe('Slider', () => {
       const slider = wrapper.findComponent({ name: 'ElSliderButton' })
 
       slider.vm.onKeyDown(
-        new KeyboardEvent('keydown', { key: EVENT_CODE.right })
+        new KeyboardEvent('keydown', { code: EVENT_CODE.right })
       )
       await nextTick()
       expect(value.value).toBe(1)
 
       slider.vm.onKeyDown(
-        new KeyboardEvent('keydown', { key: EVENT_CODE.left })
+        new KeyboardEvent('keydown', { code: EVENT_CODE.left })
       )
       await nextTick()
       expect(value.value).toBe(0)
@@ -215,12 +215,12 @@ describe('Slider', () => {
 
       const slider = wrapper.findComponent({ name: 'ElSliderButton' })
 
-      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: EVENT_CODE.up }))
+      slider.vm.onKeyDown(new KeyboardEvent('keydown', { code: EVENT_CODE.up }))
       await nextTick()
       expect(value.value).toBe(1)
 
       slider.vm.onKeyDown(
-        new KeyboardEvent('keydown', { key: EVENT_CODE.down })
+        new KeyboardEvent('keydown', { code: EVENT_CODE.down })
       )
       await nextTick()
       expect(value.value).toBe(0)
@@ -234,13 +234,13 @@ describe('Slider', () => {
 
       const slider = wrapper.findComponent({ name: 'ElSliderButton' })
       slider.vm.onKeyDown(
-        new KeyboardEvent('keydown', { key: EVENT_CODE.pageUp })
+        new KeyboardEvent('keydown', { code: EVENT_CODE.pageUp })
       )
       await nextTick()
       expect(value.value).toBe(3)
 
       slider.vm.onKeyDown(
-        new KeyboardEvent('keydown', { key: EVENT_CODE.pageDown })
+        new KeyboardEvent('keydown', { code: EVENT_CODE.pageDown })
       )
       await nextTick()
       expect(value.value).toBe(-1)
@@ -254,12 +254,14 @@ describe('Slider', () => {
 
       const slider = wrapper.findComponent({ name: 'ElSliderButton' })
       slider.vm.onKeyDown(
-        new KeyboardEvent('keydown', { key: EVENT_CODE.home })
+        new KeyboardEvent('keydown', { code: EVENT_CODE.home })
       )
       await nextTick()
       expect(value.value).toBe(-5)
 
-      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: EVENT_CODE.end }))
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { code: EVENT_CODE.end })
+      )
       await nextTick()
       expect(value.value).toBe(10)
     })
@@ -429,6 +431,31 @@ describe('Slider', () => {
     await increaseButton.trigger('mousedown')
     vi.advanceTimersByTime(200)
     expect(value.value > 0).toBeTruthy()
+  })
+
+  describe('precision accuracy 3', () => {
+    const value = ref(0)
+    const wrapper = mount(() => (
+      <Slider showInput min={1} max={20} step={0.001} v-model={value.value} />
+    ))
+
+    it.each([
+      [1.1111111111, '1.111'],
+      [17.275, '17.275'],
+      [17.2745, '17.275'],
+      [1.09, '1.090'],
+      [10.999, '10.999'],
+      [10.9999, '11.000'],
+      [15.555, '15.555'],
+      [1.3335, '1.334'],
+    ])(
+      'each precision accuracy test: $input $output',
+      async (input, output) => {
+        await wrapper.find('input').setValue(input)
+
+        expect(wrapper.find('input').element.value).toEqual(`${output}`)
+      }
+    )
   })
 
   it('show stops', () => {

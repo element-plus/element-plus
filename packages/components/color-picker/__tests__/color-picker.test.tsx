@@ -2,6 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { ElFormItem } from '@element-plus/components/form'
+import { EVENT_CODE } from '@element-plus/constants'
 import ColorPicker from '../src/color-picker.vue'
 import type { ComponentPublicInstance } from 'vue'
 
@@ -68,6 +69,34 @@ describe('Color-picker', () => {
       '.el-color-dropdown__value input'
     )
     expect(input!.value.trim().toUpperCase()).toEqual('#20A0FFEE')
+    wrapper.unmount()
+  })
+  it('control alpha changes through keyboard', async () => {
+    const color = ref('rgba(19, 206, 102, 0.18)')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value} show-alpha />
+    ))
+
+    await wrapper.find('.el-color-picker__trigger').trigger('click')
+    const alphaSlider = wrapper.findComponent('.el-color-alpha-slider')
+    await alphaSlider.find('.el-color-alpha-slider__thumb').trigger('keydown', {
+      key: EVENT_CODE.down,
+      code: EVENT_CODE.down,
+    })
+    await alphaSlider.find('.el-color-alpha-slider__thumb').trigger('keydown', {
+      key: EVENT_CODE.left,
+      code: EVENT_CODE.left,
+    })
+    const input = document.querySelector<HTMLInputElement>(
+      '.el-color-dropdown__value input'
+    )
+    expect(input!.value).toEqual('rgba(19, 206, 102, 0.16)')
+
+    await alphaSlider.find('.el-color-alpha-slider__thumb').trigger('keydown', {
+      key: EVENT_CODE.up,
+      code: EVENT_CODE.up,
+    })
+    expect(input!.value).toEqual('rgba(19, 206, 102, 0.17)')
     wrapper.unmount()
   })
   it('should pick a color when confirm button click', async () => {
@@ -404,6 +433,51 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
 
+  it('should update the colorFormat and selected color when the colorFormat prop changes', async () => {
+    const color = ref('#00FF00')
+    const colorFormat = ref('hex')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value} color-format={colorFormat.value} />
+    ))
+
+    colorFormat.value = 'rgb'
+    await nextTick()
+    const colorPickerWrapper = wrapper.findComponent(ColorPicker)
+    const customInput = colorPickerWrapper.findComponent({
+      ref: 'inputRef',
+    })
+    expect(colorPickerWrapper.vm.color.format).toBe('rgb')
+    expect(color.value).toBe('rgb(0, 255, 0)')
+    expect(
+      customInput.find<HTMLInputElement>('.el-input__inner').element.value
+    ).toBe('rgb(0, 255, 0)')
+    wrapper.unmount()
+  })
+  it('should update the selected color when the showAlpha prop changes', async () => {
+    const color = ref('#00FF00AA')
+    const showAlpha = ref(true)
+    const wrapper = mount(() => (
+      <ColorPicker
+        v-model={color.value}
+        color-format="hex"
+        showAlpha={showAlpha.value}
+      />
+    ))
+
+    showAlpha.value = false
+    await nextTick()
+    const colorPickerWrapper = wrapper.findComponent(ColorPicker)
+    const customInput = colorPickerWrapper.findComponent({
+      ref: 'inputRef',
+    })
+    expect(colorPickerWrapper.vm.color.enableAlpha).toBe(false)
+    expect(color.value).toBe('#00FF00')
+    expect(
+      customInput.find<HTMLInputElement>('.el-input__inner').element.value
+    ).toBe('#00FF00')
+    wrapper.unmount()
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (
@@ -466,7 +540,7 @@ describe('Color-picker', () => {
     expect(focusHandler).toHaveBeenCalledTimes(1)
 
     await wrapper.find('.el-color-picker').trigger('blur')
-    expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalled()
     wrapper.unmount()
   })
 })

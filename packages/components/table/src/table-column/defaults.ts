@@ -1,7 +1,10 @@
 // @ts-nocheck
 import type { ComponentInternalInstance, PropType, Ref, VNode } from 'vue'
 import type { DefaultRow, Table } from '../table/defaults'
-import type { TableOverflowTooltipOptions } from '../util'
+import type {
+  TableOverflowTooltipFormatter,
+  TableOverflowTooltipOptions,
+} from '../util'
 
 type CI<T> = { column: TableColumnCtx<T>; $index: number }
 
@@ -35,6 +38,7 @@ interface TableColumnCtx<T> {
   align: string
   headerAlign: string
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
+  tooltipFormatter?: TableOverflowTooltipFormatter<T>
   fixed: boolean | string
   formatter: (
     row: T,
@@ -171,6 +175,12 @@ export default {
     >,
     default: undefined,
   },
+  /**
+   * @description function that formats cell tooltip content, works when `show-overflow-tooltip` is `true`
+   */
+  tooltipFormatter: Function as PropType<
+    TableColumnCtx<DefaultRow>['tooltipFormatter']
+  >,
   /**
    * @description whether column is fixed at left / right. Will be fixed at left if `true`
    */

@@ -120,13 +120,6 @@ export const sliderProps = buildProps({
     default: 300,
   },
   /**
-   * @deprecated label for screen reader
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description when `range` is true, screen reader label for the start of the range
    */
   rangeStartLabel: {
@@ -172,6 +165,13 @@ export const sliderProps = buildProps({
    * @description whether to trigger form validation
    */
   validateEvent: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description when slider tooltip inactive and `persistent` is `false` , popconfirm will be destroyed. `persistent` always be `false` when `show-tooltip ` is `false`
+   */
+  persistent: {
     type: Boolean,
     default: true,
   },

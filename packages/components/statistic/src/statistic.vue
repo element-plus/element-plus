@@ -41,7 +41,8 @@ const displayValue = computed(() => {
 
   if (isFunction(formatter)) return formatter(value)
 
-  if (!isNumber(value)) return value
+  // https://github.com/element-plus/element-plus/issues/17784
+  if (!isNumber(value) || Number.isNaN(value)) return value
 
   let [integer, decimal = ''] = String(value).split('.')
   decimal = decimal

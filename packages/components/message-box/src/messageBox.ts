@@ -1,4 +1,4 @@
-import { createVNode, render } from 'vue'
+import { createVNode, isVNode, markRaw, render } from 'vue'
 import {
   debugWarn,
   hasOwn,
@@ -8,7 +8,6 @@ import {
   isObject,
   isString,
   isUndefined,
-  isVNode,
 } from '@element-plus/utils'
 import MessageBoxConstructor from './index.vue'
 
@@ -121,7 +120,7 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
 
   const instance = initInstance(options, container, appContext)!
 
-  // This is how we use message box programmably.
+  // This is how we use message box programmatically.
   // Maybe consider releasing a template version?
   // get component instance like v2.
   const vm = instance.proxy as ComponentPublicInstance<
@@ -133,7 +132,11 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
 
   for (const prop in options) {
     if (hasOwn(options, prop) && !hasOwn(vm.$props, prop)) {
-      vm[prop as keyof ComponentPublicInstance] = options[prop]
+      if (prop === 'closeIcon' && isObject(options[prop])) {
+        vm[prop as keyof ComponentPublicInstance] = markRaw(options[prop])
+      } else {
+        vm[prop as keyof ComponentPublicInstance] = options[prop]
+      }
     }
   }
 

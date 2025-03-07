@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { computed, getCurrentInstance, inject, toRaw, watch } from 'vue'
 import { get, isEqual } from 'lodash-unified'
-import { escapeStringRegexp, isObject } from '@element-plus/utils'
+import { ensureArray, escapeStringRegexp, isObject } from '@element-plus/utils'
 import { selectGroupKey, selectKey } from './token'
 
 export function useOption(props, states) {
@@ -11,16 +11,12 @@ export function useOption(props, states) {
 
   // computed
   const itemSelected = computed(() => {
-    if (select.props.multiple) {
-      return contains(select.props.modelValue as unknown[], props.value)
-    } else {
-      return contains([select.props.modelValue] as unknown[], props.value)
-    }
+    return contains(ensureArray(select.props.modelValue), props.value)
   })
 
   const limitReached = computed(() => {
     if (select.props.multiple) {
-      const modelValue = (select.props.modelValue || []) as unknown[]
+      const modelValue = ensureArray(select.props.modelValue ?? [])
       return (
         !itemSelected.value &&
         modelValue.length >= select.props.multipleLimit &&
@@ -81,8 +77,8 @@ export function useOption(props, states) {
     () => props.value,
     (val, oldVal) => {
       const { remote, valueKey } = select.props
-
-      if (!isEqual(val, oldVal)) {
+      const shouldUpdate = remote ? val !== oldVal : !isEqual(val, oldVal)
+      if (shouldUpdate) {
         select.onOptionDestroy(oldVal, instance.proxy)
         select.onOptionCreate(instance.proxy)
       }

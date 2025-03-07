@@ -71,6 +71,8 @@ import OvPopover from './ov-popover.vue'
 import OvTooltip from './ov-tooltip.vue'
 import OvDivider from './ov-divider.vue'
 import OvWatermark from './ov-watermark.vue'
+import OvMention from './ov-mention.vue'
+import OvInputTag from './ov-input-tag.vue'
 
 export default {
   button: OvButton,
@@ -94,6 +96,7 @@ export default {
   form: OvForm,
   input: OvInput,
   'input-number': OvInputNumber,
+  'input-tag': OvInputTag,
   radio: OvRadio,
   rate: OvRate,
   select: OvSelect,
@@ -149,4 +152,5 @@ export default {
   tooltip: OvTooltip,
   divider: OvDivider,
   watermark: OvWatermark,
+  mention: OvMention,
 }

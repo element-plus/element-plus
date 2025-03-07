@@ -6,7 +6,9 @@ import {
   inject,
   nextTick,
   onMounted,
+  reactive,
   ref,
+  watch,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
@@ -31,6 +33,7 @@ export interface TableHeaderProps<T> {
   store: Store<T>
   border: boolean
   defaultSort: Sort
+  allowDragLastColumn: boolean
 }
 
 export default defineComponent({
@@ -57,6 +60,12 @@ export default defineComponent({
         }
       },
     },
+    appendFilterPanelTo: {
+      type: String,
+    },
+    allowDragLastColumn: {
+      type: Boolean,
+    },
   },
   setup(props, { emit }) {
     const instance = getCurrentInstance() as TableHeader
@@ -64,13 +73,40 @@ export default defineComponent({
     const ns = useNamespace('table')
     const filterPanels = ref({})
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
+
+    const isTableLayoutAuto = parent?.props.tableLayout === 'auto'
+    const saveIndexSelection = reactive(new Map())
+    const theadRef = ref()
+
+    const updateFixedColumnStyle = () => {
+      setTimeout(() => {
+        if (saveIndexSelection.size > 0) {
+          saveIndexSelection.forEach((column, key) => {
+            const el = theadRef.value.querySelector(
+              `.${key.replace(/\s/g, '.')}`
+            )
+            if (el) {
+              const width = el.getBoundingClientRect().width
+              column.width = width
+            }
+          })
+          saveIndexSelection.clear()
+        }
+      })
+    }
+
+    watch(saveIndexSelection, updateFixedColumnStyle)
+
     onMounted(async () => {
       // Need double await, because updateColumns is executed after nextTick for now
       await nextTick()
       await nextTick()
       const { prop, order } = props.defaultSort
       parent?.store.commit('sort', { prop, order, init: true })
+
+      updateFixedColumnStyle()
     })
+
     const {
       handleHeaderClick,
       handleHeaderContextMenu,
@@ -115,6 +151,10 @@ export default defineComponent({
       handleFilterClick,
       isGroup,
       toggleAllSelection,
+      saveIndexSelection,
+      isTableLayoutAuto,
+      theadRef,
+      updateFixedColumnStyle,
     }
   },
   render() {
@@ -134,11 +174,14 @@ export default defineComponent({
       handleMouseOut,
       store,
       $parent,
+      saveIndexSelection,
+      isTableLayoutAuto,
     } = this
     let rowSpan = 1
     return h(
       'thead',
       {
+        ref: 'theadRef',
         class: { [ns.is('group')]: isGroup },
       },
       columnRows.map((subColumns, rowIndex) =>
@@ -153,15 +196,19 @@ export default defineComponent({
             if (column.rowSpan > rowSpan) {
               rowSpan = column.rowSpan
             }
+            const _class = getHeaderCellClass(
+              rowIndex,
+              cellIndex,
+              subColumns,
+              column
+            )
+            if (isTableLayoutAuto && column.fixed) {
+              saveIndexSelection.set(_class, column)
+            }
             return h(
               'th',
               {
-                class: getHeaderCellClass(
-                  rowIndex,
-                  cellIndex,
-                  subColumns,
-                  column
-                ),
+                class: _class,
                 colspan: column.colSpan,
                 key: `${column.id}-thead`,
                 rowspan: column.rowSpan,
@@ -171,7 +218,12 @@ export default defineComponent({
                   subColumns,
                   column
                 ),
-                onClick: ($event) => handleHeaderClick($event, column),
+                onClick: ($event) => {
+                  if ($event.currentTarget.classList.contains('noclick')) {
+                    return
+                  }
+                  handleHeaderClick($event, column)
+                },
                 onContextmenu: ($event) =>
                   handleHeaderContextMenu($event, column),
                 onMousedown: ($event) => handleMouseDown($event, column),
@@ -219,14 +271,26 @@ export default defineComponent({
                         ]
                       ),
                     column.filterable &&
-                      h(FilterPanel, {
-                        store,
-                        placement: column.filterPlacement || 'bottom-start',
-                        column,
-                        upDataColumn: (key, value) => {
-                          column[key] = value
+                      h(
+                        FilterPanel,
+                        {
+                          store,
+                          placement: column.filterPlacement || 'bottom-start',
+                          appendTo: $parent.appendFilterPanelTo,
+                          column,
+                          upDataColumn: (key, value) => {
+                            column[key] = value
+                          },
                         },
-                      }),
+                        {
+                          'filter-icon': () =>
+                            column.renderFilterIcon
+                              ? column.renderFilterIcon({
+                                  filterOpened: column.filterOpened,
+                                })
+                              : null,
+                        }
+                      ),
                   ]
                 ),
               ]

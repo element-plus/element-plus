@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { isArray, isFunction, isObject, isString } from '@element-plus/utils'
 import {
   ensurePosition,
   getFixedColumnOffset,
@@ -16,7 +17,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
 
   const getRowStyle = (row: T, rowIndex: number) => {
     const rowStyle = parent?.props.rowStyle
-    if (typeof rowStyle === 'function') {
+    if (isFunction(rowStyle)) {
       return rowStyle.call(null, {
         row,
         rowIndex,
@@ -38,9 +39,9 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
       classes.push(ns.em('row', 'striped'))
     }
     const rowClassName = parent?.props.rowClassName
-    if (typeof rowClassName === 'string') {
+    if (isString(rowClassName)) {
       classes.push(rowClassName)
-    } else if (typeof rowClassName === 'function') {
+    } else if (isFunction(rowClassName)) {
       classes.push(
         rowClassName.call(null, {
           row,
@@ -59,7 +60,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
   ) => {
     const cellStyle = parent?.props.cellStyle
     let cellStyles = cellStyle ?? {}
-    if (typeof cellStyle === 'function') {
+    if (isFunction(cellStyle)) {
       cellStyles = cellStyle.call(null, {
         rowIndex,
         columnIndex,
@@ -94,9 +95,9 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     )
     const classes = [column.id, column.align, column.className, ...fixedClasses]
     const cellClassName = parent?.props.cellClassName
-    if (typeof cellClassName === 'string') {
+    if (isString(cellClassName)) {
       classes.push(cellClassName)
-    } else if (typeof cellClassName === 'function') {
+    } else if (isFunction(cellClassName)) {
       classes.push(
         cellClassName.call(null, {
           rowIndex,
@@ -118,17 +119,17 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     let rowspan = 1
     let colspan = 1
     const fn = parent?.props.spanMethod
-    if (typeof fn === 'function') {
+    if (isFunction(fn)) {
       const result = fn({
         row,
         column,
         rowIndex,
         columnIndex,
       })
-      if (Array.isArray(result)) {
+      if (isArray(result)) {
         rowspan = result[0]
         colspan = result[1]
-      } else if (typeof result === 'object') {
+      } else if (isObject(result)) {
         rowspan = result.rowspan
         colspan = result.colspan
       }
