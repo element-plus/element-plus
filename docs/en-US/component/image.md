@@ -57,7 +57,7 @@ image/image-preview
 
 ## Manually Open Preview ^(2.9.4)
 
-:::demo allow big image preview by call `showPreview` method.
+:::demo
 
 image/manually-preview
 
@@ -116,6 +116,12 @@ image/custom-toolbar
 | progress ^(2.9.4) | custom progress content when image preview.              | ^[object]`{ activeIndex: number, total: number }`                                                                                                                         |
 | toolbar ^(2.9.4)  | custom toolbar content when image preview.               | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }` |
 
+### Image Exposes
+
+| Name                 | Description                     | Type                    |
+| -------------------- | ------------------------------- | ----------------------- |
+| showPreview ^(2.9.4) | manually open preview big image | ^[Function]`() => void` |
+
 ## Image Viewer API
 
 ### Image Viewer Attributes
@@ -144,10 +150,9 @@ image/custom-toolbar
 
 ### Image Viewer Exposes
 
-| Name                 | Description                     | Type                                 |
-| -------------------- | ------------------------------- | ------------------------------------ |
-| setActiveItem        | manually switch image           | ^[Function]`(index: number) => void` |
-| showPreview ^(2.9.4) | manually open preview big image | ^[Function]`() => void`              |
+| Name          | Description           | Type                                 |
+| ------------- | --------------------- | ------------------------------------ |
+| setActiveItem | manually switch image | ^[Function]`(index: number) => void` |
 
 ## Type Declarations
 

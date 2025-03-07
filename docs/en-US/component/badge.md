@@ -77,4 +77,4 @@ badge/offset
 | Name             | Description               | Type                         |
 | ---------------- | ------------------------- | ---------------------------- |
 | default          | customize default content | -                            |
-| content ^(2.9.1) | customize barge content   | ^[object]`{ value: string }` |
+| content ^(2.9.1) | customize badge content   | ^[object]`{ value: string }` |

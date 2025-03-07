@@ -1,13 +1,28 @@
 <template>
-  <div class="demo-image__manually-preview">
-    <el-button @click="handleClick">show image preview</el-button>
-    <el-image
-      ref="imageRef"
-      style="width: 100px; height: 100px"
-      :src="url"
-      :preview-src-list="srcList"
-      fit="cover"
-    />
+  <div class="flex gap-12">
+    <div class="grid gap-3">
+      <el-button @click="handleClick">
+        openPreview with showPreview method
+      </el-button>
+      <el-image
+        ref="imageRef"
+        style="width: 100px; height: 100px"
+        :src="url"
+        show-progress
+        :preview-src-list="srcList"
+        fit="cover"
+      />
+    </div>
+    <div>
+      <el-button @click="showPreview = true"> preview controlled </el-button>
+      <el-image-viewer
+        v-if="showPreview"
+        :url-list="srcList"
+        show-progress
+        :initial-index="4"
+        @close="showPreview = false"
+      />
+    </div>
   </div>
 </template>
 
@@ -28,17 +43,9 @@ const srcList = [
 ]
 
 const imageRef = ref<ImageInstance>()
+const showPreview = ref(false)
+
 const handleClick = () => {
   imageRef.value!.showPreview()
 }
 </script>
-
-<style scoped>
-.demo-image__manually-preview {
-  display: grid;
-  gap: 10px;
-}
-.demo-image__manually-preview .el-button {
-  width: fit-content;
-}
-</style>

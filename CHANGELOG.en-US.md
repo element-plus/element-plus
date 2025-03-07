@@ -1,6 +1,71 @@
 ## Changelog
 
 
+### 2.9.5
+
+_2025-02-21_
+
+#### Features
+
+- Components [dropdown] add `persistent` prop (#19797 by @zzjiaxiang)
+- Components [menu] add `persistent` prop (#19874 by @zzjiaxiang)
+- Components [cascader] add suggestion slot (#19866 by @DiamondYuan)
+- Components [message-box] support custom close icon in message-box (#18168 by @xionkq)
+- Components [slider] add `persistent` prop (#19889 by @zzjiaxiang)
+
+#### Bug fixes
+
+- Components [message-box] init validator (#19832 by @warmthsea)
+- Components [tree-select] dynamic bind class invalid (#19803 by @btea)
+- Components [table] compatible with window non-existence (#19837 by @purepear)
+- Components [select] solve memory leak (#19709 by @dddssw)
+- Components [steps] update border-color to support safari (#19726 by @LoTwT)
+- Components [description] tsx rendering functional component error (#19879 by @btea)
+- Components [cascader] prevent default behavior when pressing a key to toggle suggestion list (#19897 by @warmthsea)
+- Components [message-box] vue warning when closeIcon is component (#19901 by @btea)
+- Components [select] ensure scrollbar syncs when scrolling to selected option (#19636 by @DDDDD12138)
+- Components [tree-select] search solve memory leak (#19895 by @warmthsea)
+
+#### Refactors
+
+- Components [menu] change to `script setup` writing  and optimizing code (#19816 by @zzjiaxiang)
+- [menu] add necessary braces (#19840 by @btea)
+- [time-picker] optimize type declaration (#19875 by @zzjiaxiang)
+
+### 2.9.4
+
+_2025-02-07_
+
+#### Features
+
+- Components [image-viewer] add showPreview method (#19466 by @zzjiaxiang)
+- Locale add language Chinese Hongkong and Chinese Macau (#19608 by @markpro-code)
+- Components [select] add popup-scroll event (#19589 by @zzjiaxiang)
+- I18n add Telugu language (#19624 by @moulibheemaneti)
+- Components [image-viewer] add `progress` slot and `show-progress` props (#19465 by @zzjiaxiang)
+- Components [image-viewer] add toolbar slot (#19497 by @zzjiaxiang)
+- Components [cascader] add `prefix` slot (#19631 by @DavidKitano)
+- Components [table] add tooltip-formatter table & table-column prop (#19524 by @zhixiaotong)
+- Locale export zhHk/zhMo (#19762 by @btea)
+- Locale export Norsk(no) (#19747 by @changehu)
+- Locale export missing language (#19790 by @btea)
+
+#### Bug fixes
+
+- Components [table-footer] update cols width on layout change (#19064 by @Dsaquel)
+- Ci types & dark theme sync with pr (#19668 by @Dsaquel)
+- Ci move all bundle to docs dist (#19671 by @Dsaquel)
+- Components [table] selection-change event emit incorrectly (#19618 by @wNing50)
+- Components [table] The index parameter of the selectable function is undefined (#19587 by @YiMo1)
+- Components [autocomplete] prevent closing if focus is inside popper content (#19522 by @DDDDD12138)
+- Components [input] refused to apply inline style because it violates csp (#19541 by @markpro-code)
+- Components [table-v2] make the fixed columns scroll like mainTable (#19104 by @hanchao-c0ldwave)
+- Components [cascader-panel] lazy return children can't get value (#19100 by @coderchang0105)
+- Components [table] fix the logic of `selection` column when `fixed` state changes dynamically (#19703 by @wNing50)
+- Components [table] the toggleTreeExpansion failed to trigger load function (#18728 by @webvs2)
+- Components [table-v2] reset `lastVisitedColumnIdx` if width change (#19757 by @Dsaquel)
+- Chore: [time-picker] correct typo in `timePickerRangeTriggerProps` (#19487 by @DDDDD12138)
+
 ### 2.9.3
 
 _2025-01-10_

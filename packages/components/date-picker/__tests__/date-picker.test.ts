@@ -451,6 +451,33 @@ describe('DatePicker', () => {
     expect(dayjs(wrapper.vm.value[1]).toDate()).toEqual(new Date(2001, 9))
   })
 
+  it('validate user input', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        />`,
+      () => ({
+        value: '',
+      })
+    )
+    const input = wrapper.find('input')
+    input.element.value = '999999-10-01'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(wrapper.vm.value).toBe('')
+
+    input.element.value = '2023-10-01'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-01')
+
+    // invalid user input not work
+    input.element.value = '999999-10-01'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-01')
+  })
+
   it('ref focus', async () => {
     _mount(
       `<el-date-picker
@@ -899,6 +926,41 @@ describe('DatePicker', () => {
       expect(popper.getAttribute('aria-hidden')).toBe('false')
     })
   })
+
+  describe('Trigger the change event when clearing the date picker', () => {
+    it('click the button to clear the date', async () => {
+      const changeHandler = vi.fn()
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          @change="changeHandler"
+        />`,
+        () => ({ value: new Date(), changeHandler })
+      )
+
+      await wrapper.find('input').trigger('focus')
+      await wrapper.find('.el-input').trigger('mouseenter')
+      await wrapper.find('.clear-icon').trigger('click')
+      expect(changeHandler).toHaveBeenCalledTimes(1)
+    })
+
+    it('manually clear date', async () => {
+      const changeHandler = vi.fn()
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          @change="changeHandler"
+        />`,
+        () => ({ value: new Date(), changeHandler })
+      )
+
+      const input = wrapper.find('input')
+      await input.trigger('focus')
+      await input.setValue('')
+      await input.trigger('blur')
+      expect(changeHandler).toHaveBeenCalledTimes(1)
+    })
+  })
 })
 
 describe('DatePicker Navigation', () => {
@@ -1339,6 +1401,35 @@ describe('DatePicker months', () => {
     expect(
       document.querySelectorAll('.el-month-table tr .current').length
     ).toBe(1)
+  })
+
+  it('remove same months from different years', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type="months"
+        v-model="value"
+      />`,
+      () => ({ value: [new Date('2025-03-05'), new Date('2024-03-05')] })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+
+    const prevYearButton: HTMLElement = document.querySelector('.d-arrow-left')
+    prevYearButton.click()
+    await nextTick()
+
+    const currentMonth: HTMLElement = document.querySelector(
+      '.el-month-table tr .current'
+    )
+    currentMonth.click()
+    await nextTick()
+
+    const vm = wrapper.vm
+    expect(vm.value.length).toBe(1)
+    expect(vm.value[0].getFullYear()).toBe(2025)
+    expect(vm.value[0].getMonth()).toBe(2) // March is month 2 (0-indexed)
   })
 })
 
@@ -1982,6 +2073,11 @@ describe('MonthRange', () => {
     const vm = wrapper.vm
     expect(vm.value[0]).toBe('2015-01')
     expect(vm.value[1]).toBe('2017-01')
+
+    // invalid user input not work
+    await startInput.setValue('9999999-01')
+    await nextTick()
+    expect(vm.value[0]).toBe('2015-01')
   })
 
   describe('form item accessibility integration', () => {

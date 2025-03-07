@@ -7,4 +7,5 @@ export const ElTree: SFCWithInstall<typeof Tree> = withInstall(Tree)
 
 export default ElTree
 
-export type { TreeInstance } from './src/instance'
+export * from './src/tree.type'
+export * from './src/instance'
