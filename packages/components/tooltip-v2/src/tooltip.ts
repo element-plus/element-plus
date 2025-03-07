@@ -4,7 +4,7 @@ import { tooltipV2TriggerProps } from './trigger'
 import { tooltipV2ArrowProps } from './arrow'
 import { tooltipV2ContentProps } from './content'
 
-import type { ExtractPropTypes, TeleportProps, TransitionProps } from 'vue'
+import type { ExtractPropTypes, TransitionProps } from 'vue'
 
 export const tooltipV2Props = buildProps({
   ...tooltipV2RootProps,
@@ -19,7 +19,7 @@ export const tooltipV2Props = buildProps({
   },
   teleported: Boolean,
   to: {
-    type: definePropType<TeleportProps['to']>(String),
+    type: definePropType<string | HTMLElement>([String, Object]),
     default: 'body',
   },
 } as const)
