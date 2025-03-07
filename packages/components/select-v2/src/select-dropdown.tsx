@@ -255,8 +255,7 @@ export default defineComponent({
       const { height, multiple, scrollbarAlwaysOn } = select.props
       const isScrollbarAlwaysOn = computed(() => {
         // fix https://github.com/element-plus/element-plus/issues/19127
-        if (isIOS) return true
-        return scrollbarAlwaysOn
+        return isIOS ? true : scrollbarAlwaysOn
       })
 
       const List = unref(isSized) ? FixedSizeList : DynamicSizeList
