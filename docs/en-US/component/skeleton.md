@@ -117,9 +117,11 @@ skeleton/leading-trailing-without-bouncing
 
 :::
 
+##
+
 ## Skeleton API
 
-### Attributes
+### Skeleton Attributes
 
 | Name     | Description                                                                                                                                                                                                                                 | Type                                                                              | Default |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------- |
@@ -129,7 +131,7 @@ skeleton/leading-trailing-without-bouncing
 | rows     | numbers of the row, only useful when no template slot were given                                                                                                                                                                            | ^[number]                                                                         | 3       |
 | throttle | rendering delay in milliseconds. Numbers represent delayed display, and can also be set to delay hide, for example `{ leading: 500, trailing: 500 }`. When needing to control the initial value of loading, you can set `{ initVal: true }` | ^[number] / ^[object]`{ leading?: number, trailing?: number, initVal?: boolean }` | 0       |
 
-### Slots
+### Skeleton Slots
 
 | Name     | Description                            | Scope                      |
 | -------- | -------------------------------------- | -------------------------- |
@@ -138,7 +140,7 @@ skeleton/leading-trailing-without-bouncing
 
 ## SkeletonItem API
 
-### Attributes
+### SkeletonItem Attributes
 
 | Name    | Description                         | Type                                                                                             | Default |
 | ------- | ----------------------------------- | ------------------------------------------------------------------------------------------------ | ------- |

@@ -87,8 +87,6 @@ defineOptions({
 const props = defineProps(imageProps)
 const emit = defineEmits(imageEmits)
 
-let prevOverflow = ''
-
 const { t } = useLocale()
 const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
@@ -117,7 +115,6 @@ const _scrollContainer = ref<HTMLElement | Window>()
 
 const supportLoading = isClient && 'loading' in HTMLImageElement.prototype
 let stopScrollListener: (() => void) | undefined
-let stopWheelListener: (() => void) | undefined
 
 const imageKls = computed(() => [
   ns.e('inner'),
@@ -214,36 +211,14 @@ function removeLazyLoadListener() {
   _scrollContainer.value = undefined
 }
 
-function wheelHandler(e: WheelEvent) {
-  if (!e.ctrlKey) return
-
-  if (e.deltaY < 0) {
-    e.preventDefault()
-    return false
-  } else if (e.deltaY > 0) {
-    e.preventDefault()
-    return false
-  }
-}
-
 function clickHandler() {
   // don't show viewer when preview is false
   if (!preview.value) return
-
-  stopWheelListener = useEventListener('wheel', wheelHandler, {
-    passive: false,
-  })
-
-  // prevent body scroll
-  prevOverflow = document.body.style.overflow
-  document.body.style.overflow = 'hidden'
   showViewer.value = true
   emit('show')
 }
 
 function closeViewer() {
-  stopWheelListener?.()
-  document.body.style.overflow = prevOverflow
   showViewer.value = false
   emit('close')
 }
