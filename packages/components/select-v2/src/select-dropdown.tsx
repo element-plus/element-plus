@@ -8,7 +8,7 @@ import {
   watch,
 } from 'vue'
 import { get } from 'lodash-unified'
-import { isObject, isUndefined } from '@element-plus/utils'
+import { isIOS, isObject, isUndefined } from '@element-plus/utils'
 import {
   DynamicSizeList,
   FixedSizeList,
@@ -253,6 +253,10 @@ export default defineComponent({
     return () => {
       const { data, width } = props
       const { height, multiple, scrollbarAlwaysOn } = select.props
+      const isScrollbarAlwaysOn = computed(() => {
+        // fix https://github.com/element-plus/element-plus/issues/19127
+        return isIOS ? true : scrollbarAlwaysOn
+      })
 
       const List = unref(isSized) ? FixedSizeList : DynamicSizeList
 
@@ -269,7 +273,7 @@ export default defineComponent({
               ref={listRef}
               {...unref(listProps)}
               className={ns.be('dropdown', 'list')}
-              scrollbarAlwaysOn={scrollbarAlwaysOn}
+              scrollbarAlwaysOn={isScrollbarAlwaysOn.value}
               data={data}
               height={height}
               width={width}
