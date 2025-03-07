@@ -3,6 +3,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { dialogContentProps } from './dialog-content'
 
 import type { ExtractPropTypes } from 'vue'
+import type Dialog from './dialog.vue'
 
 type DoneFn = (cancel?: boolean) => void
 export type DialogBeforeCloseFn = (done: DoneFn) => void
@@ -17,7 +18,7 @@ export const dialogProps = buildProps({
    * @description which element the Dialog appends to
    */
   appendTo: {
-    type: definePropType<string>(String),
+    type: definePropType<string | HTMLElement>([String, Object]),
     default: 'body',
   },
   /**
@@ -87,6 +88,18 @@ export const dialogProps = buildProps({
    */
   modalClass: String,
   /**
+   * @description custom class names for header wrapper
+   */
+  headerClass: String,
+  /**
+   * @description custom class names for body wrapper
+   */
+  bodyClass: String,
+  /**
+   * @description custom class names for footer wrapper
+   */
+  footerClass: String,
+  /**
    * @description width of Dialog, default is 50%
    */
   width: {
@@ -98,10 +111,7 @@ export const dialogProps = buildProps({
   zIndex: {
     type: Number,
   },
-  trapFocus: {
-    type: Boolean,
-    default: false,
-  },
+  trapFocus: Boolean,
   /**
    * @description header's aria-level attribute
    */
@@ -123,3 +133,4 @@ export const dialogEmits = {
   closeAutoFocus: () => true,
 }
 export type DialogEmits = typeof dialogEmits
+export type DialogInstance = InstanceType<typeof Dialog>

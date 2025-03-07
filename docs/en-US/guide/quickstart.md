@@ -13,8 +13,7 @@ This section describes how to use Element Plus in your project.
 
 If you don’t care about the bundle size so much, it’s more convenient to use full import.
 
-```typescript
-// main.ts
+```ts [main.ts]
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
@@ -30,8 +29,7 @@ app.mount('#app')
 
 If you use volar, please add the global component type definition to `compilerOptions.types` in `tsconfig.json`.
 
-```json
-// tsconfig.json
+```json [tsconfig.json]
 {
   "compilerOptions": {
     // ...
@@ -56,8 +54,7 @@ Then add the code below into your `Vite` or `Webpack` config file.
 
 ##### Vite
 
-```ts
-// vite.config.ts
+```ts [vite.config.ts]
 import { defineConfig } from 'vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -79,8 +76,7 @@ export default defineConfig({
 
 ##### Webpack
 
-```js
-// webpack.config.js
+```js [webpack.config.js]
 const AutoImport = require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
 const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
@@ -110,8 +106,7 @@ npm install -D @element-plus/nuxt
 
 Then add the code below into your config file.
 
-```ts
-// nuxt.config.ts
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['@element-plus/nuxt'],
 })
@@ -127,22 +122,19 @@ functionalities based on ES Module.
 But you need install [unplugin-element-plus](https://github.com/element-plus/unplugin-element-plus) for style import.
 And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#readme) for how to configure it.
 
-> App.vue
-
-```html
+```vue [App.vue]
 <template>
   <el-button>I am ElButton</el-button>
 </template>
 <script>
-  import { ElButton } from 'element-plus'
-  export default {
-    components: { ElButton },
-  }
+import { ElButton } from 'element-plus'
+export default {
+  components: { ElButton },
+}
 </script>
 ```
 
-```ts
-// vite.config.ts
+```ts [vite.config.ts]
 import { defineConfig } from 'vite'
 import ElementPlus from 'unplugin-element-plus/vite'
 
@@ -151,19 +143,6 @@ export default defineConfig({
   plugins: [ElementPlus()],
 })
 ```
-
-:::warning
-
-You need to manually import the styles if you're using `unplugin-element-plus` and only used the component API.
-
-Example:
-
-```ts
-import 'element-plus/es/components/message/style/css'
-import { ElMessage } from 'element-plus'
-```
-
-:::
 
 ## Starter Template
 
@@ -181,7 +160,7 @@ popup components, the default value for `zIndex` is `2000`.
 
 Full import:
 
-```ts
+```ts [main.ts]
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
 import App from './App.vue'
@@ -192,7 +171,7 @@ app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 
 On-demand:
 
-```vue
+```vue [App.vue]
 <template>
   <el-config-provider :size="size" :z-index="zIndex">
     <app />
@@ -219,10 +198,10 @@ export default defineComponent({
 
 ## Using Nuxt.js
 
-We can also use [Nuxt.js](https://v3.nuxtjs.org/)：
+We can also use [Nuxt.js](https://nuxt.com):
 
 <div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
-  <iframe src="https://glitch.com/edit/#!/nuxt-element-plus?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
+  <iframe src="https://glitch.com/edit/#!/element-plus-nuxt-starter?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
 </div>
 
 ## Let's Get Started

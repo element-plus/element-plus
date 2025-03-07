@@ -14,6 +14,7 @@ afterEach(() => {
   document.documentElement.innerHTML = ''
 })
 
+const WRAPPER_CLASS_NAME = 'el-select__wrapper'
 const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
 
 describe('TimeSelect', () => {
@@ -131,13 +132,61 @@ describe('TimeSelect', () => {
     expect(select.props().filterable).toBe(true)
   })
 
+  it('should include end time', async () => {
+    const wrapper = mount(() => (
+      <TimeSelect
+        start="00:00"
+        step="00:05"
+        end="23:59"
+        includeEndTime={true}
+      />
+    ))
+    const select = wrapper.findComponent({ name: 'ElTimeSelect' })
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+
+    expect(select.props().includeEndTime).toBe(true)
+    expect(items).toHaveLength(289)
+    expect([...items].at(-1)?.textContent).toBe('23:59')
+  })
+
+  it('should not include end time', async () => {
+    const wrapper = mount(() => (
+      <TimeSelect start="00:00" step="00:05" end="23:59" />
+    ))
+    const select = wrapper.findComponent({ name: 'ElTimeSelect' })
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+
+    expect(select.props().includeEndTime).toBe(false)
+    expect(items).toHaveLength(288)
+    expect([...items].at(-1)?.textContent).toBe('23:55')
+  })
+
+  it('should include end whenever includeEndTime is false', async () => {
+    const wrapper = mount(() => (
+      <TimeSelect start="00:10" end="00:20" step="00:02" />
+    ))
+    const select = wrapper.findComponent({ name: 'ElTimeSelect' })
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+
+    expect(select.props().includeEndTime).toBe(false)
+    expect(items).toHaveLength(6)
+    expect([...items].at(-1)?.textContent).toBe('00:20')
+  })
+
   it('ref focus', async () => {
     const wrapper = mount(() => <TimeSelect />, {
       attachTo: document.body,
     })
 
     wrapper.findComponent(TimeSelect).vm.$.exposed!.focus()
-    await wrapper.findComponent(TimeSelect).trigger('click')
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('click')
 
     await nextTick()
     await nextTick()
@@ -205,7 +254,11 @@ describe('TimeSelect', () => {
     it('specified id attachment', async () => {
       const wrapper = mount(() => (
         <ElFormItem label="Foobar" data-test-ref="item">
-          <TimeSelect id="foobar" />
+          <TimeSelect
+            // type checking failed as `id` is a fallthrough attribute
+            // @ts-ignore
+            id="foobar"
+          />
         </ElFormItem>
       ))
 

@@ -1,5 +1,5 @@
 <template>
-  <el-radio-group v-model="size" label="size control">
+  <el-radio-group v-model="size" aria-label="size control">
     <el-radio-button value="large">large</el-radio-button>
     <el-radio-button value="default">default</el-radio-button>
     <el-radio-button value="small">small</el-radio-button>

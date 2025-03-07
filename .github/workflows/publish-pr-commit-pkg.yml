@@ -1,0 +1,58 @@
+name: Publish PR Commit Pkg
+
+on:
+  push:
+    branches:
+      - dev
+    tags:
+      - '!**'
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'element-plus/element-plus' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - run: npm i -g --force corepack && corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
+
+      - name: Get Latest Release Version
+        id: get_release
+        run: |
+          LATEST_VERSION=$(curl -s https://api.github.com/repos/element-plus/element-plus/releases/latest | jq -r '.tag_name')
+          echo "LATEST_VERSION=${LATEST_VERSION}" >> $GITHUB_ENV
+
+      - name: Update package.json version
+        run: |
+          cd dist/element-plus
+          ls -la
+          jq --arg newVersion "$LATEST_VERSION" '.version = $newVersion' package.json > tmp.json && mv tmp.json package.json
+
+      - name: Publish for PR
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          cd dist/element-plus
+          pnpx pkg-pr-new publish
+
+      - name: Publish for Commit Push
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          cd dist/element-plus
+          pnpx pkg-pr-new publish --comment=off

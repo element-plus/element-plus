@@ -74,27 +74,26 @@ const update = () => {
       ? document.documentElement.scrollTop
       : scrollContainer.value.scrollTop || 0
 
-  if (props.position === 'top') {
-    if (props.target) {
-      const difference =
-        targetRect.bottom.value - props.offset - rootHeight.value
-      fixed.value = props.offset > rootTop.value && targetRect.bottom.value > 0
+  const { position, target, offset } = props
+  const rootHeightOffset = offset + rootHeight.value
+
+  if (position === 'top') {
+    if (target) {
+      const difference = targetRect.bottom.value - rootHeightOffset
+      fixed.value = offset > rootTop.value && targetRect.bottom.value > 0
       transform.value = difference < 0 ? difference : 0
     } else {
-      fixed.value = props.offset > rootTop.value
+      fixed.value = offset > rootTop.value
     }
-  } else if (props.target) {
+  } else if (target) {
     const difference =
-      windowHeight.value -
-      targetRect.top.value -
-      props.offset -
-      rootHeight.value
+      windowHeight.value - targetRect.top.value - rootHeightOffset
     fixed.value =
-      windowHeight.value - props.offset < rootBottom.value &&
+      windowHeight.value - offset < rootBottom.value &&
       windowHeight.value > targetRect.top.value
     transform.value = difference < 0 ? -difference : 0
   } else {
-    fixed.value = windowHeight.value - props.offset < rootBottom.value
+    fixed.value = windowHeight.value - offset < rootBottom.value
   }
 }
 
@@ -113,7 +112,7 @@ onMounted(() => {
     target.value =
       document.querySelector<HTMLElement>(props.target) ?? undefined
     if (!target.value)
-      throwError(COMPONENT_NAME, `Target is not existed: ${props.target}`)
+      throwError(COMPONENT_NAME, `Target does not exist: ${props.target}`)
   } else {
     target.value = document.documentElement
   }

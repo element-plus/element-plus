@@ -49,6 +49,7 @@ import OvTour from './ov-tour.vue'
 import OvTree from './ov-tree.vue'
 import OvTreeSelect from './ov-tree-select.vue'
 import OvStatistic from './ov-statistic.vue'
+import OvSegmented from './ov-segmented.vue'
 import OvAffix from './ov-affix.vue'
 import OvAnchor from './ov-anchor.vue'
 import OvBacktop from './ov-backtop.vue'
@@ -70,6 +71,8 @@ import OvPopover from './ov-popover.vue'
 import OvTooltip from './ov-tooltip.vue'
 import OvDivider from './ov-divider.vue'
 import OvWatermark from './ov-watermark.vue'
+import OvMention from './ov-mention.vue'
+import OvInputTag from './ov-input-tag.vue'
 
 export default {
   button: OvButton,
@@ -93,6 +96,7 @@ export default {
   form: OvForm,
   input: OvInput,
   'input-number': OvInputNumber,
+  'input-tag': OvInputTag,
   radio: OvRadio,
   rate: OvRate,
   select: OvSelect,
@@ -126,6 +130,7 @@ export default {
   'tree-select': OvTreeSelect,
   'tree-v2': OvTree,
   statistic: OvStatistic,
+  segmented: OvSegmented,
   affix: OvAffix,
   anchor: OvAnchor,
   backtop: OvBacktop,
@@ -147,4 +152,5 @@ export default {
   tooltip: OvTooltip,
   divider: OvDivider,
   watermark: OvWatermark,
+  mention: OvMention,
 }

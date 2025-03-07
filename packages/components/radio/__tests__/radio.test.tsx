@@ -141,6 +141,7 @@ describe('Radio group', () => {
     expect(radio.value).toEqual(3)
     expect(radio1.classes()).toContain('is-checked')
   })
+
   it('change event', async () => {
     const radio = ref(3)
     const data = ref<RadioProps['modelValue']>(0)
@@ -161,6 +162,7 @@ describe('Radio group', () => {
     await nextTick()
     expect(data.value).toEqual(6)
   })
+
   it('change event only triggers on user input', async () => {
     const radio = ref(3)
     const data = ref<RadioProps['modelValue']>(0)
@@ -181,6 +183,7 @@ describe('Radio group', () => {
     await nextTick()
     expect(data.value).toEqual(0)
   })
+
   it('disabled when children is radio button', async () => {
     const radio = ref(3)
     const wrapper = mount(() => (
@@ -224,6 +227,7 @@ describe('Radio Button', () => {
     expect(radio2.classes()).toContain('is-active')
     expect(radio.value).toEqual(6)
   })
+
   it('custom color', () => {
     const radio = ref(3)
     const wrapper = mount(() => (
@@ -242,6 +246,7 @@ describe('Radio Button', () => {
       'background-color: rgb(0, 0, 0); border-color: #000; box-shadow: -1px 0 0 0 #000; color: rgb(255, 255, 0);'
     )
   })
+
   it('change event', async () => {
     const radio = ref(3)
     const data = ref<RadioProps['modelValue']>(0)
@@ -263,6 +268,7 @@ describe('Radio Button', () => {
     await radio2?.trigger('click')
     expect(radio.value).toEqual(6)
   })
+
   it('change event only triggers on user input', async () => {
     const radio = ref(3)
     const data = ref<RadioProps['modelValue']>(0)
@@ -327,7 +333,7 @@ describe('Radio Button', () => {
     test('single radio group in form item, override label', async () => {
       const wrapper = mount(() => (
         <ElFormItem ref="item" label="Test">
-          <RadioGroup label="Foo" ref="radioGroup">
+          <RadioGroup aria-label="Foo" ref="radioGroup">
             <Radio label="Foo" value="Foo" />
             <Radio label="Bar" value="Bar" />
           </RadioGroup>
@@ -346,11 +352,11 @@ describe('Radio Button', () => {
     test('multiple radio groups in form item', async () => {
       const wrapper = mount(() => (
         <ElFormItem ref="item" label="Test">
-          <RadioGroup label="Foo" ref="radioGroup1">
+          <RadioGroup aria-label="Foo" ref="radioGroup1">
             <Radio label="Foo" value="Foo" />
             <Radio label="Bar" value="Bar" />
           </RadioGroup>
-          <RadioGroup label="Bar" ref="radioGroup2">
+          <RadioGroup aria-label="Bar" ref="radioGroup2">
             <Radio label="Foo" value="Foo" />
             <Radio label="Bar" value="Bar" />
           </RadioGroup>
@@ -372,6 +378,14 @@ describe('Radio Button', () => {
       expect(radioGroup2.attributes().role).toBe('radiogroup')
       expect(radioGroup2.attributes()['aria-label']).toBe('Bar')
       expect(radioGroup2.attributes()['aria-labelledby']).toBeFalsy()
+    })
+
+    test('value is number change event need checked', async () => {
+      const radio = ref(1)
+      const wrapper = mount(() => <Radio v-model={radio.value} label="1" />)
+      expect(wrapper.classes()).not.toContain('is-checked')
+      await wrapper.trigger('click')
+      expect(wrapper.classes()).toContain('is-checked')
     })
   })
 })

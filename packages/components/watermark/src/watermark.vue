@@ -14,6 +14,7 @@ import {
   watch,
 } from 'vue'
 import { useMutationObserver } from '@vueuse/core'
+import { isArray } from '@element-plus/utils'
 import { watermarkProps } from './watermark'
 import { getPixelRatio, getStyleStr, reRendering } from './utils'
 import useClips, { FontGap } from './useClips'
@@ -35,7 +36,7 @@ const fontWeight = computed(() => props.font?.fontWeight ?? 'normal')
 const fontStyle = computed(() => props.font?.fontStyle ?? 'normal')
 const fontFamily = computed(() => props.font?.fontFamily ?? 'sans-serif')
 const textAlign = computed(() => props.font?.textAlign ?? 'center')
-const textBaseline = computed(() => props.font?.textBaseline ?? 'top')
+const textBaseline = computed(() => props.font?.textBaseline ?? 'hanging')
 
 const gapX = computed(() => props.gap[0])
 const gapY = computed(() => props.gap[1])
@@ -116,7 +117,7 @@ const getMarkSize = (ctx: CanvasRenderingContext2D) => {
   const height = props.height
   if (!image && ctx.measureText) {
     ctx.font = `${Number(fontSize.value)}px ${fontFamily.value}`
-    const contents = Array.isArray(content) ? content : [content]
+    const contents = isArray(content) ? content : [content]
     const sizes = contents.map((item) => {
       const metrics = ctx.measureText(item!)
 

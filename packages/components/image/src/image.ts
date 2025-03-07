@@ -6,6 +6,7 @@ import {
 } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
+import type Image from './image.vue'
 
 export const imageProps = buildProps({
   /**
@@ -104,6 +105,13 @@ export const imageProps = buildProps({
     default: 7,
   },
   /**
+   * @description show preview image progress content.
+   */
+  showProgress: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * @description set HTML attribute: crossorigin.
    */
   crossorigin: {
@@ -120,3 +128,4 @@ export const imageEmits = {
   show: () => true,
 }
 export type ImageEmits = typeof imageEmits
+export type ImageInstance = InstanceType<typeof Image>

@@ -1,13 +1,12 @@
-import { isString } from '@vue/shared'
 import {
   buildProps,
   definePropType,
   iconPropType,
+  isString,
   mutable,
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useSizeProp } from '@element-plus/hooks'
-import type Input from './input.vue'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import type { ExtractPropTypes, StyleValue } from 'vue'
 
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
@@ -106,31 +105,19 @@ export const inputProps = buildProps({
   /**
    * @description native input readonly
    */
-  readonly: {
-    type: Boolean,
-    default: false,
-  },
+  readonly: Boolean,
   /**
    * @description native input readonly
    */
-  clearable: {
-    type: Boolean,
-    default: false,
-  },
+  clearable: Boolean,
   /**
    * @description toggleable password input
    */
-  showPassword: {
-    type: Boolean,
-    default: false,
-  },
+  showPassword: Boolean,
   /**
    * @description word count
    */
-  showWordLimit: {
-    type: Boolean,
-    default: false,
-  },
+  showWordLimit: Boolean,
   /**
    * @description suffix icon
    */
@@ -147,13 +134,6 @@ export const inputProps = buildProps({
    * @description container role, internal properties provided for use by the picker component
    */
   containerRole: {
-    type: String,
-    default: undefined,
-  },
-  /**
-   * @description native input aria-label
-   */
-  label: {
     type: String,
     default: undefined,
   },
@@ -181,10 +161,12 @@ export const inputProps = buildProps({
   /**
    * @description native input autofocus
    */
-  autofocus: {
-    type: Boolean,
-    default: false,
+  autofocus: Boolean,
+  rows: {
+    type: Number,
+    default: 2,
   },
+  ...useAriaProps(['ariaLabel']),
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>
 
@@ -205,5 +187,3 @@ export const inputEmits = {
   compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent,
 }
 export type InputEmits = typeof inputEmits
-
-export type InputInstance = InstanceType<typeof Input>

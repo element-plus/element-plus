@@ -19,6 +19,11 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   border: 1px solid getCssVar('border-color', 'lighter');
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
   z-index: 1;
+
+  &:focus-visible {
+    outline: 2px solid getCssVar('color-primary');
+    outline-offset: 1px;
+  }
 }
 
 @mixin bar-background($side: right) {
@@ -266,6 +271,7 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   }
 
   @include when(disabled) {
+    pointer-events: none;
     .#{$namespace}-color-picker__trigger {
       cursor: not-allowed;
     }

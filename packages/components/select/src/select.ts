@@ -1,10 +1,18 @@
 import { placements } from '@popperjs/core'
-import { useSizeProp } from '@element-plus/hooks'
+import {
+  useAriaProps,
+  useEmptyValuesProps,
+  useSizeProp,
+} from '@element-plus/hooks'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
-import type { Options, Placement } from '@element-plus/components/popper'
+import type {
+  Options,
+  Placement,
+  PopperEffect,
+} from '@element-plus/components/popper'
 
 export const SelectProps = buildProps({
   /**
@@ -41,7 +49,7 @@ export const SelectProps = buildProps({
    * @description tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
-    type: definePropType<'light' | 'dark' | string>(String),
+    type: definePropType<PopperEffect>(String),
     default: 'light',
   },
   /**
@@ -153,7 +161,7 @@ export const SelectProps = buildProps({
     default: 1,
   },
   /**
-   * @description whether select dropdown is teleported to the body
+   * @description whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets
    */
   teleported: useTooltipContentProps.teleported,
   /**
@@ -187,6 +195,10 @@ export const SelectProps = buildProps({
   // eslint-disable-next-line vue/require-prop-types
   tagType: { ...tagProps.type, default: 'info' },
   /**
+   * @description tag effect
+   */
+  tagEffect: { ...tagProps.effect, default: 'light' },
+  /**
    * @description whether to trigger form validation
    */
   validateEvent: {
@@ -197,6 +209,20 @@ export const SelectProps = buildProps({
    * @description in remote search method show suffix icon
    */
   remoteShowSuffix: Boolean,
+  /**
+   * @description determines whether the arrow is displayed
+   */
+  showArrow: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description offset of the dropdown
+   */
+  offset: {
+    type: Number,
+    default: 12,
+  },
   /**
    * @description position of dropdown
    */
@@ -213,10 +239,16 @@ export const SelectProps = buildProps({
     default: ['bottom-start', 'top-start', 'right', 'left'],
   },
   /**
-   * @description native input aria-label
+   * @description tabindex for input
    */
-  ariaLabel: {
-    type: String,
-    default: undefined,
+  tabindex: {
+    type: [String, Number],
+    default: 0,
   },
+  /**
+   * @description which element the selection dropdown appends to
+   */
+  appendTo: String,
+  ...useEmptyValuesProps,
+  ...useAriaProps(['ariaLabel']),
 })

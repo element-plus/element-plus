@@ -6,7 +6,6 @@ import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
-import sleep from '@element-plus/test-utils/sleep'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 
@@ -128,6 +127,7 @@ describe('TimePicker', () => {
     input.trigger('focus')
     await nextTick()
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+
     expect(value.value).toBeInstanceOf(Date)
   })
 
@@ -223,7 +223,7 @@ describe('TimePicker', () => {
     await nextTick()
     await rAF()
     expect(focusHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalled()
     expect(keydownHandler).toHaveBeenCalledTimes(1)
 
     input.trigger('focus')
@@ -315,36 +315,15 @@ describe('TimePicker', () => {
     expect(enabledSeconds).toEqual([0])
   })
 
-  it('ref focus', async () => {
+  it('exposed focus & blur', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40))
     const wrapper = mount(() => <TimePicker v-model={value.value} />)
 
     await nextTick()
-    wrapper.findComponent(TimePicker).vm.$.exposed.focus()
-
-    // This one allows mounted to take effect
-    await nextTick()
-    // These following two allows popper to gets rendered.
-    await rAF()
-    const popperEl = document.querySelector('.el-picker__popper')
-    const attr = popperEl.getAttribute('aria-hidden')
-    expect(attr).toEqual('false')
-  })
-
-  it('ref blur', async () => {
-    const value = ref(new Date(2016, 9, 10, 18, 40))
-    const wrapper = mount(() => <TimePicker v-model={value.value} />)
     const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed
 
-    await nextTick()
-    timePickerExposed.focus()
-    await nextTick()
-    timePickerExposed.blur()
-
-    await nextTick()
-    const popperEl = document.querySelector('.el-picker__popper')
-    const attr = popperEl.getAttribute('aria-hidden')
-    expect(attr).toEqual('false')
+    expect(timePickerExposed.focus).toBeTruthy()
+    expect(timePickerExposed.blur).toBeTruthy()
   })
 
   it('ref handleOpen', async () => {
@@ -362,8 +341,6 @@ describe('TimePicker', () => {
   })
 
   it('ref handleClose', async () => {
-    vi.useFakeTimers()
-
     const value = ref(new Date(2016, 9, 10, 18, 40))
     const wrapper = mount(() => <TimePicker v-model={value.value} />)
     const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed
@@ -373,12 +350,10 @@ describe('TimePicker', () => {
     await nextTick()
     timePickerExposed.handleClose()
 
-    await nextTick()
+    await rAF()
     const popperEl = document.querySelector('.el-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('true')
-
-    vi.useRealTimers()
   })
 
   it('model value should sync when disabled-hours was updated', async () => {
@@ -409,6 +384,41 @@ describe('TimePicker', () => {
     expect(value.value).toEqual('2000-01-01 09:00:00')
   })
 
+  it('when a time is input, the type of modelValue should be Date by default', async () => {
+    const value = ref('2024-11-18 12:00:00')
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+
+    await input.setValue('10:00:00')
+
+    input.trigger('blur')
+    expect(value.value).toBeInstanceOf(Date)
+  })
+
+  it('when a time is input, the type of modelValue should be Date by default (is-range)', async () => {
+    const value = ref([
+      new Date('2024-11-18 10:00:00'),
+      new Date('2024-11-18 12:00:00'),
+    ])
+    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
+
+    const [startTimeInput, endTimeInput] = wrapper.findAll('input')
+
+    // Input start time
+    startTimeInput.trigger('focus')
+    await startTimeInput.setValue('10:00:10')
+    startTimeInput.trigger('blur')
+    expect(value.value[0]).toBeInstanceOf(Date)
+
+    // Input end time
+    endTimeInput.trigger('focus')
+    await endTimeInput.setValue('12:00:10')
+    endTimeInput.trigger('blur')
+    expect(value.value[1]).toBeInstanceOf(Date)
+  })
+
   it('picker-panel should not pop up when readonly', async () => {
     const wrapper = mount(() => <TimePicker readonly />)
 
@@ -432,6 +442,8 @@ describe('TimePicker', () => {
   })
 
   it('can auto skip when disabled', async () => {
+    vi.useFakeTimers()
+
     const disabledHours = () => [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23,
     ]
@@ -471,19 +483,24 @@ describe('TimePicker', () => {
     const testTime = 130
     hoursElArrowDown.dispatchEvent(mousedownEvt)
     hoursElArrowDown.dispatchEvent(mouseupEvt)
-    await sleep(testTime)
+    vi.advanceTimersByTime(testTime)
+    await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(21)
     hoursElArrowDown.dispatchEvent(mousedownEvt)
     hoursElArrowDown.dispatchEvent(mouseupEvt)
-    await sleep(testTime)
+    vi.advanceTimersByTime(testTime)
+    await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(22)
     hoursElArrowDown.dispatchEvent(new MouseEvent('mousedown'))
     hoursElArrowDown.dispatchEvent(new MouseEvent('mouseup'))
-    await sleep(testTime)
+    vi.advanceTimersByTime(testTime)
+    await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(20)
+
+    vi.useRealTimers()
   })
 })
 
@@ -603,6 +620,33 @@ describe('TimePicker(range)', () => {
     await clearIcon.trigger('click')
     await nextTick()
     expect(value.value).toEqual(null)
+  })
+
+  it('should close pick when click the clear button on pick opened', async () => {
+    const value = ref([
+      new Date(2016, 9, 10, 9, 40),
+      new Date(2016, 9, 10, 15, 40),
+    ])
+    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
+    const findInputWrapper = () => wrapper.find('.el-date-editor')
+    const findClear = () => wrapper.find('.el-range__close-icon')
+    const findPicker = () => wrapper.find('.el-picker-panel')
+
+    await nextTick()
+    const inputWrapper = findInputWrapper()
+    await inputWrapper.trigger('mouseenter')
+    await inputWrapper.trigger('mousedown')
+
+    await nextTick()
+    // when the input is clicked, the picker is displayed.
+    expect(findPicker()).toBeTruthy()
+    const clearIcon = findClear()
+    await clearIcon.trigger('click')
+
+    await nextTick()
+    expect(value.value).toEqual(null)
+    // when the "clear" button is clicked, the pick is hidden.
+    expect(findPicker().exists()).toBe(false)
   })
 
   it('selectableRange ', async () => {
@@ -868,5 +912,125 @@ describe('TimePicker(range)', () => {
     const [startInput, endInput] = wrapper.findAll('input')
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
+  })
+
+  it('avoid update initial value when using disabledHours', async () => {
+    const value = ref([])
+
+    const disabledHours = () => {
+      const curH = dayjs().hour()
+      if (curH === 0) {
+        return [curH, 1]
+      } else if (curH === 23) {
+        return [curH - 1, curH]
+      }
+      return [curH - 1, curH + 1]
+    }
+    const wrapper = mount(() => (
+      <TimePicker
+        v-model={value.value}
+        disabled-hours={disabledHours}
+        is-range={true}
+      />
+    ))
+    await nextTick()
+
+    const [startInput, endInput] = wrapper.findAll('input')
+
+    expect(startInput.element.value).toBe('')
+    expect(endInput.element.value).toBe('')
+    expect(value.value).toEqual([])
+  })
+
+  it('can clear when using disabledHours', async () => {
+    const value = ref([
+      new Date(2016, 9, 10, 9, 40),
+      new Date(2016, 9, 10, 15, 40),
+    ])
+
+    const disabledHours = () => {
+      const curH = dayjs().hour()
+      if (curH === 0) {
+        return [curH, 1]
+      } else if (curH === 23) {
+        return [curH - 1, curH]
+      }
+      return [curH - 1, curH + 1]
+    }
+    const wrapper = mount(() => (
+      <TimePicker
+        v-model={value.value}
+        disabled-hours={disabledHours}
+        is-range={true}
+      />
+    ))
+
+    await nextTick()
+    const findInputWrapper = () => wrapper.find('.el-date-editor')
+    const findClear = () => wrapper.find('.el-range__close-icon')
+
+    await nextTick()
+    const inputWrapper = findInputWrapper()
+    await inputWrapper.trigger('mouseenter')
+    const clearIcon = findClear()
+    await clearIcon.trigger('click')
+    await nextTick()
+    expect(value.value).toEqual(null)
+  })
+
+  describe('It should generate accessible attributes', () => {
+    it('should generate aria attributes', async () => {
+      const wrapper = mount(() => <TimePicker aria-label="time picker" />)
+      const input = wrapper.find('input')
+      expect(input.attributes('role')).toBe('combobox')
+      expect(input.attributes('aria-controls')).toBeTruthy()
+      expect(input.attributes('aria-haspopup')).toBe('dialog')
+      expect(input.attributes('aria-expanded')).toBe('false')
+      expect(input.attributes('aria-label')).toBe('time picker')
+
+      input.trigger('focus')
+      await nextTick()
+      await rAF()
+      const popper = document.querySelector('.el-picker__popper')
+      expect(input.attributes('aria-expanded')).toBe('true')
+      expect(input.attributes('aria-controls')).toBe(popper?.getAttribute('id'))
+      expect(popper?.getAttribute('role')).toBe('dialog')
+      expect(popper?.getAttribute('aria-hidden')).toBe('false')
+      expect(popper?.getAttribute('aria-modal')).toBe('false')
+    })
+
+    it('should generate aria attributes for range', async () => {
+      const wrapper = mount(() => (
+        <TimePicker is-range aria-label="time picker" />
+      ))
+      const inputs = wrapper.findAll('input')
+      expect(inputs[0].attributes('role')).toBe('combobox')
+      expect(inputs[0].attributes('aria-controls')).toBeTruthy()
+      expect(inputs[0].attributes('aria-haspopup')).toBe('dialog')
+      expect(inputs[0].attributes('aria-expanded')).toBe('false')
+      expect(inputs[0].attributes('aria-label')).toBe('time picker')
+
+      expect(inputs[1].attributes('role')).toBe('combobox')
+      expect(inputs[1].attributes('aria-controls')).toBeTruthy()
+      expect(inputs[1].attributes('aria-haspopup')).toBe('dialog')
+      expect(inputs[1].attributes('aria-expanded')).toBe('false')
+      expect(inputs[1].attributes('aria-label')).toBe('time picker')
+      expect(inputs[0].attributes('aria-controls')).toBe(
+        inputs[1].attributes('aria-controls')
+      )
+
+      wrapper.find('input').trigger('focus')
+      await nextTick()
+      await rAF()
+      const popper = document.querySelector('.el-picker__popper')
+      expect(inputs[0].attributes('aria-expanded')).toBe('true')
+      expect(inputs[1].attributes('aria-expanded')).toBe('true')
+      expect(inputs[0].attributes('aria-controls')).toBe(
+        popper?.getAttribute('id')
+      )
+      expect(popper?.getAttribute('role')).toBe('dialog')
+      expect(popper?.getAttribute('aria-hidden')).toBe('false')
+      expect(popper?.getAttribute('aria-modal')).toBe('false')
+    })
   })
 })

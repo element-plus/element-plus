@@ -3,7 +3,7 @@ import { buildProps } from '@element-plus/utils'
 
 import type { ExtractPropTypes, Slot, VNode } from 'vue'
 
-const descriptionItemProps = buildProps({
+export const descriptionItemProps = buildProps({
   /**
    * @description label text
    */
@@ -19,6 +19,13 @@ const descriptionItemProps = buildProps({
     default: 1,
   },
   /**
+   * @description the number of rows a cell should span
+   */
+  rowspan: {
+    type: Number,
+    default: 1,
+  },
+  /**
    * @description column width, the width of the same column in different rows is set by the max value (If no `border`, width contains label and content)
    */
   width: {
@@ -29,6 +36,13 @@ const descriptionItemProps = buildProps({
    * @description column minimum width, columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion (If no`border`, width contains label and content)
    */
   minWidth: {
+    type: [String, Number],
+    default: '',
+  },
+  /**
+   * @description column label width, if not set, it will be the same as the width of the column. Higher priority than the `label-width` of `Descriptions`
+   */
+  labelWidth: {
     type: [String, Number],
     default: '',
   },
@@ -68,7 +82,7 @@ const DescriptionItem = defineComponent({
 
 export default DescriptionItem
 
-type DescriptionItemProps = ExtractPropTypes<typeof descriptionItemProps>
+export type DescriptionItemProps = ExtractPropTypes<typeof descriptionItemProps>
 export type DescriptionItemVNode = VNode & {
   children: { [name: string]: Slot } | null
   props: Partial<DescriptionItemProps> | null

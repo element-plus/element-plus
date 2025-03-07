@@ -68,6 +68,9 @@ export default {
       noData: 'Nav datu',
       placeholder: 'Izvēlēties',
     },
+    mention: {
+      loading: 'Ielādē',
+    },
     cascader: {
       noMatch: 'Nav atbilstošu datu',
       loading: 'Ielādē',

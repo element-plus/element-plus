@@ -60,6 +60,13 @@ export const anchorProps = buildProps({
     type: definePropType<'vertical' | 'horizontal'>(String),
     default: 'vertical',
   },
+  /**
+   * @description Scroll whether link is selected at the top
+   */
+  selectScrollTop: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 export type AnchorProps = ExtractPropTypes<typeof anchorProps>

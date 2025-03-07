@@ -13,6 +13,9 @@
       :props="props.props"
       @checked-change="onSourceCheckedChange"
     >
+      <template #empty>
+        <slot name="left-empty" />
+      </template>
       <slot name="left-footer" />
     </transfer-panel>
     <div :class="ns.e('buttons')">
@@ -48,13 +51,16 @@
       :props="props.props"
       @checked-change="onTargetCheckedChange"
     >
+      <template #empty>
+        <slot name="right-empty" />
+      </template>
       <slot name="right-footer" />
     </transfer-panel>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, h, reactive, ref, useSlots, watch } from 'vue'
+import { Comment, computed, h, reactive, ref, useSlots, watch } from 'vue'
 import { debugWarn, isEmpty, isUndefined } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElButton } from '@element-plus/components/button'
@@ -76,6 +82,7 @@ import type {
   TransferDirection,
 } from './transfer'
 import type { TransferPanelInstance } from './transfer-panel'
+import type { Ref } from 'vue'
 
 defineOptions({
   name: 'ElTransfer',
@@ -145,7 +152,12 @@ watch(
 const optionRender = computed(() => (option: TransferDataItem) => {
   if (props.renderContent) return props.renderContent(h, option)
 
-  if (slots.default) return slots.default({ option })
+  const defaultSlotVNodes = (slots.default?.({ option }) || []).filter(
+    (node) => node.type !== Comment
+  )
+  if (defaultSlotVNodes.length) {
+    return defaultSlotVNodes
+  }
 
   return h(
     'span',
@@ -153,12 +165,16 @@ const optionRender = computed(() => (option: TransferDataItem) => {
   )
 })
 
-defineExpose({
+defineExpose<{
+  clearQuery: (which: TransferDirection) => void
+  leftPanel: Ref<TransferPanelInstance | undefined>
+  rightPanel: Ref<TransferPanelInstance | undefined>
+}>({
   /** @description clear the filter keyword of a certain panel */
   clearQuery,
   /** @description left panel ref */
   leftPanel,
-  /** @description left panel ref */
+  /** @description right panel ref */
   rightPanel,
 })
 </script>

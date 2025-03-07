@@ -68,6 +68,9 @@ export default {
       noData: 'データなし',
       placeholder: '選択してください',
     },
+    mention: {
+      loading: 'ロード中',
+    },
     cascader: {
       noMatch: 'データなし',
       loading: 'ロード中',

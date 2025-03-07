@@ -10,7 +10,7 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { useSizeProp } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import type { Arrayable } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { SliderMarkerProps } from './marker'
@@ -120,13 +120,6 @@ export const sliderProps = buildProps({
     default: 300,
   },
   /**
-   * @description label for screen reader
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description when `range` is true, screen reader label for the start of the range
    */
   rangeStartLabel: {
@@ -175,6 +168,14 @@ export const sliderProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description when slider tooltip inactive and `persistent` is `false` , popconfirm will be destroyed. `persistent` always be `false` when `show-tooltip ` is `false`
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
+  ...useAriaProps(['ariaLabel']),
 } as const)
 export type SliderProps = ExtractPropTypes<typeof sliderProps>
 

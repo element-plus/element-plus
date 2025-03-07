@@ -7,7 +7,7 @@
     <img src="https://img.shields.io/npm/v/element-plus.svg" />
   </a>
   <a href="https://github.com/element-plus/element-plus">
-    <img src="https://img.shields.io/badge/node-%20%3E%3D%2016-47c219" />
+    <img src="https://img.shields.io/badge/node-%20%3E%3D%2018-47c219" />
   </a>
   <a href="https://npmcharts.com/compare/element-plus?minimal=true">
     <img src="https://img.shields.io/npm/dm/element-plus.svg" />
@@ -28,7 +28,7 @@
 Alright, for you to get started if you are looking for making Element Plus better you should keep reading.
 For developers that uses Element Plus to develop your website you should go ahead visit [Getting Started](https://element-plus.org/).
 
-- 中国大陆[加速镜像站点](https://element-plus.gitee.io/)
+- 中国大陆[加速镜像站点](https://cn.element-plus.org/zh-CN/)
 
 ## Breaking change list
 
@@ -67,8 +67,8 @@ You can also try Element Plus out with the components built-in playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://js.design?source=element-plus" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/17680888/160634485-df0d00af-8633-4ab8-9a72-aac2b65d1d36.png">
+        <a href="https://melecode.com/" target="_blank">
+          <img width="150px" src="https://github.com/element-plus/element-plus/assets/82012629/9ca4269c-7545-4463-9bdc-8e5a1fbd0b08">
         </a>
       </td>
       <td align="center" valign="middle">
@@ -78,12 +78,12 @@ You can also try Element Plus out with the components built-in playground.
       </td>
       <td align="center" valign="middle">
         <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
-          <img width="150px" src="https://github-production-user-asset-6210df.s3.amazonaws.com/82012629/285874192-0d562df0-2ebc-4bb3-bf8f-8674ac07c38a.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231127%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231127T131759Z&X-Amz-Expires=300&X-Amz-Signature=532bfe31066712d205616b9a91002be8a187b7111e692a487356943a19c1772e&X-Amz-SignedHeaders=host&actor_id=82012629&key_id=0&repo_id=281319253">
+          <img width="150px" src="https://github.com/element-plus/element-plus/assets/17680888/6a044d82-c393-48ab-90b8-de0d3aad1624">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="http://github.crmeb.net/u/Element?from=element-plus" target="_blank">
-          <img width="150px" src="https://github-production-user-asset-6210df.s3.amazonaws.com/82012629/286477993-570c3e32-c32c-43ea-997b-2c5fc8df198a.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231129%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231129T043748Z&X-Amz-Expires=300&X-Amz-Signature=b4f0d40ae84855c2c9cdab96e90aaf8fcbbba67240bbe2588c32775b41cc1720&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=281319253">
+          <img width="150px" src="https://github.com/user-attachments/assets/18079452-986c-4c6e-84ec-fb6175c26567">
         </a>
       </td>
     </tr>
@@ -96,7 +96,7 @@ You can also try Element Plus out with the components built-in playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://wonderful-code.gitee.io/?from=element-plus" target="_blank">
+        <a href="https://doc.buildadmin.com/?from=element-plus" target="_blank">
           <img width="130px" src="https://user-images.githubusercontent.com/17680888/173179536-30e35fd1-cd5a-482a-bc41-9d5f0aa66fd4.png">
         </a>
       </td>

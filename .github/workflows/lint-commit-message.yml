@@ -2,7 +2,7 @@ name: Lint Commit Message
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, edited, reopened]
 
 jobs:
   lint:
@@ -14,22 +14,22 @@ jobs:
       PULL_REQUEST_NUMBER: ${{ github.event.number }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
           echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -42,30 +42,28 @@ jobs:
 
       - name: Lint commit
         id: lint_commit
-        run: pnpm lint:commit || echo "failed=true" >> $GITHUB_OUTPUT
+        run: echo "${{ github.event.pull_request.title }}" | pnpm run lint:commit || echo "failed=true" >> $GITHUB_OUTPUT
 
       - name: Set success result
         if: ${{ steps.lint_commit.outputs.failed != 'true' }}
-        run: echo 'true' > ./lint-result.txt
+        uses: actions-awesome/pr-helper@1.1.1
+        with:
+          actions: 'maintain-comment, add-labels, remove-labels'
+          token: ${{ github.token }}
+          labels-to-remove: 'CommitMessage::Unqualified'
+          body-filter: '<!-- ELEMENT_PLUS_COMMIT_LINT -->'
+          pr-number: ${{ github.event.number }}
 
       - name: Set failed result
         if: ${{ steps.lint_commit.outputs.failed == 'true' }}
-        run: echo 'false' > ./lint-result.txt
-
-      - name: Set PR number
-        run: echo $PULL_REQUEST_NUMBER > pr.txt
-
-      - uses: actions/upload-artifact@v3
+        uses: actions-awesome/pr-helper@1.1.1
         with:
-          name: commit-lint-report
-          path: ./commit-lint.txt
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: commit-lint-result
-          path: ./lint-result.txt
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: pr-number
-          path: ./pr.txt
+          actions: 'remove-labels, add-labels, maintain-comment'
+          labels-to-add: 'CommitMessage::Unqualified'
+          token: ${{ github.token }}
+          pr-number: ${{ github.event.number }}
+          comment-body: |
+            Hello, @${{ github.event.pull_request.user.login }}, your PR title does not meet the standards, please refer to [commit-history](https://github.com/element-plus/element-plus/commits/dev/) or [docs-examples](https://element-plus.org/en-US/guide/commit-examples.html) make changes.
+            你好，@${{ github.event.pull_request.user.login }}，你的 PR 标题不符合规范，请参考 [提交历史](https://github.com/element-plus/element-plus/commits/dev/) 或者 [文档示例](https://element-plus.org/en-US/guide/commit-examples.html) 进行修改。
+            <!-- ELEMENT_PLUS_COMMIT_LINT -->
+          body-filter: '<!-- ELEMENT_PLUS_COMMIT_LINT -->'

@@ -21,8 +21,10 @@
     </el-tab-pane>
   </el-tabs>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
+import type { TabPaneName } from 'element-plus'
 
 let tabIndex = 2
 const editableTabsValue = ref('2')
@@ -48,7 +50,7 @@ const addTab = (targetName: string) => {
   })
   editableTabsValue.value = newTabName
 }
-const removeTab = (targetName: string) => {
+const removeTab = (targetName: TabPaneName) => {
   const tabs = editableTabs.value
   let activeName = editableTabsValue.value
   if (activeName === targetName) {
@@ -66,6 +68,7 @@ const removeTab = (targetName: string) => {
   editableTabs.value = tabs.filter((tab) => tab.name !== targetName)
 }
 </script>
+
 <style>
 .demo-tabs > .el-tabs__content {
   padding: 32px;

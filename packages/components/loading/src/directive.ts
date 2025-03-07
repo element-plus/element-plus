@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { isRef, ref } from 'vue'
-import { hyphenate, isObject, isString } from '@vue/shared'
+import { hyphenate, isObject, isString } from '@element-plus/utils'
 import { Loading } from './service'
 import type { Directive, DirectiveBinding, UnwrapRef } from 'vue'
 import type { LoadingOptions } from './types'

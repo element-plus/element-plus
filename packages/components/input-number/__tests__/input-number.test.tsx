@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
+import { ElIcon } from '@element-plus/components/icon'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
@@ -11,7 +12,7 @@ describe('InputNumber.vue', () => {
   test('create', async () => {
     const num = ref(1)
     const wrapper = mount(() => (
-      <InputNumber label="描述文字" v-model={num.value} />
+      <InputNumber aria-label="描述文字" v-model={num.value} />
     ))
     expect(wrapper.find('input').exists()).toBe(true)
   })
@@ -160,15 +161,21 @@ describe('InputNumber.vue', () => {
   })
   //fix: #12690
   test('maximum is less than the minimum', async () => {
-    try {
-      const num = ref(6)
-      mount(() => <InputNumber v-model={num.value} min={10} max={8} />)
-    } catch (e: any) {
-      expect(e).to.be.an('error')
-      expect(e.message).to.equal(
-        '[InputNumber] min should not be greater than max.'
-      )
-    }
+    const num = ref(6)
+    const errorHandler = vi.fn()
+
+    mount(() => <InputNumber v-model={num.value} min={10} max={8} />, {
+      global: {
+        config: {
+          errorHandler,
+        },
+      },
+    })
+    expect(errorHandler).toHaveBeenCalled()
+    const [error] = errorHandler.mock.calls[0]
+    expect(error.message).toEqual(
+      '[InputNumber] min should not be greater than max.'
+    )
   })
 
   describe('precision accuracy 2', () => {
@@ -567,5 +574,40 @@ describe('InputNumber.vue', () => {
     expect(wrapper.getComponent(InputNumber).emitted().change[3]).toEqual([
       1, 2,
     ])
+  })
+
+  test('use slot custom icon', async () => {
+    const wrapper = mount(() => (
+      <InputNumber
+        v-slots={{
+          decreaseIcon: () => (
+            <ElIcon>
+              <ArrowDown />
+            </ElIcon>
+          ),
+          increaseIcon: () => (
+            <ElIcon>
+              <ArrowUp />
+            </ElIcon>
+          ),
+        }}
+      />
+    ))
+    const increase = wrapper.find('.el-input-number__increase i')
+    const decrease = wrapper.find('.el-input-number__decrease i')
+    expect(increase.exists()).toBe(true)
+    expect(decrease.exists()).toBe(true)
+    expect(increase.classes()).toContain('el-icon')
+    expect(decrease.classes()).toContain('el-icon')
+  })
+
+  // fix: #18275
+  test('step-strictly is true and should keep the initial value and step matching', () => {
+    const num = ref(2.6)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} stepStrictly step={0.5} />
+    ))
+    expect(wrapper.find('input').element.value).toBe(num.value.toString())
+    wrapper.unmount()
   })
 })

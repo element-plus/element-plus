@@ -1,8 +1,10 @@
 import dayjs from 'dayjs'
 import { isArray } from '@element-plus/utils'
+import { rangeArr } from '@element-plus/components/time-picker'
 
 import type { Dayjs } from 'dayjs'
 import type { DateCell } from './date-picker.type'
+import type { DisabledDateType } from './props/shared'
 
 type DayRange = [Dayjs | undefined, Dayjs | undefined]
 
@@ -12,7 +14,11 @@ export const isValidRange = (range: DayRange): boolean => {
   const [left, right] = range
 
   return (
-    dayjs.isDayjs(left) && dayjs.isDayjs(right) && left.isSameOrBefore(right)
+    dayjs.isDayjs(left) &&
+    dayjs.isDayjs(right) &&
+    dayjs(left).isValid() &&
+    dayjs(right).isValid() &&
+    left.isSameOrBefore(right)
   )
 }
 
@@ -131,4 +137,65 @@ export const buildPickerTable = (
     }
     setRowMetadata?.(row)
   }
+}
+
+export const datesInMonth = (year: number, month: number, lang: string) => {
+  const firstDay = dayjs().locale(lang).startOf('month').month(month).year(year)
+  const numOfDays = firstDay.daysInMonth()
+  return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())
+}
+
+export const getValidDateOfMonth = (
+  year: number,
+  month: number,
+  lang: string,
+  disabledDate?: DisabledDateType
+) => {
+  const _value = dayjs().year(year).month(month).startOf('month')
+  const _date = datesInMonth(year, month, lang).find((date) => {
+    return !disabledDate?.(date)
+  })
+  if (_date) {
+    return dayjs(_date).locale(lang)
+  }
+  return _value.locale(lang)
+}
+
+export const getValidDateOfYear = (
+  value: Dayjs,
+  lang: string,
+  disabledDate?: DisabledDateType
+) => {
+  const year = value.year()
+  if (!disabledDate?.(value.toDate())) {
+    return value.locale(lang)
+  }
+  const month = value.month()
+  if (!datesInMonth(year, month, lang).every(disabledDate)) {
+    return getValidDateOfMonth(year, month, lang, disabledDate)
+  }
+  for (let i = 0; i < 12; i++) {
+    if (!datesInMonth(year, i, lang).every(disabledDate)) {
+      return getValidDateOfMonth(year, i, lang, disabledDate)
+    }
+  }
+  return value
+}
+
+export const correctlyParseUserInput = (
+  value: string | Dayjs | Dayjs[],
+  format: string,
+  lang: string
+): Dayjs | Dayjs[] => {
+  if (isArray(value)) {
+    return value.map((v) => correctlyParseUserInput(v, format, lang) as Dayjs)
+  }
+  if (typeof value === 'string') {
+    const dayjsValue = dayjs(value)
+    if (!dayjsValue.isValid()) {
+      // return directly if not valid
+      return dayjsValue
+    }
+  }
+  return dayjs(value, format).locale(lang)
 }

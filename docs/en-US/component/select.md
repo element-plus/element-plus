@@ -9,13 +9,7 @@ When there are plenty of options, use a drop-down menu to display and select des
 
 :::tip
 
-After version `2.5.0`, the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width.
-
-:::
-
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+After version ^(2.5.0), the default width of `el-select` changed to `100%`. When used in a inline form, the width will collapse. In order to display the width properly, you need to give `el-select` a specific width (eg: [Example](https://github.com/element-plus/element-plus/issues/15834#issuecomment-1936919229)) .
 
 :::
 
@@ -165,6 +159,28 @@ select/custom-loading
 
 :::
 
+## Empty Values ^(2.7.0)
+
+If you want to support empty string, please set `empty-values` to `[null, undefined]`.
+
+If you want to change the clear value to `null`, please set `value-on-clear` to `null`.
+
+:::demo
+
+select/empty-values
+
+:::
+
+## Custom Label ^(2.7.4)
+
+You can customize label.
+
+:::demo
+
+select/custom-label
+
+:::
+
 ## Select API
 
 ### Select Attributes
@@ -197,20 +213,27 @@ select/custom-loading
 | popper-class                    | custom class name for Select's dropdown                                                                               | ^[string]                                                                                                                                                                   | ''                                             |
 | reserve-keyword                 | when `multiple` and `filterable` is true, whether to reserve current keyword after selecting an option                | ^[boolean]                                                                                                                                                                  | true                                           |
 | default-first-option            | select first matching option on enter key. Use with `filterable` or `remote`                                          | ^[boolean]                                                                                                                                                                  | false                                          |
-| teleported                      | whether select dropdown is teleported to the body                                                                     | ^[boolean]                                                                                                                                                                  | true                                           |
+| teleported                      | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                      | ^[boolean]                                                                                                                                                                  | true                                           |
+| append-to ^(2.8.4)              | which element the select dropdown appends to                                                                          | ^[string]                                                                                                                                                                   | —                                              |
 | persistent                      | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | automatic-dropdown              | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                     | ^[boolean]                                                                                                                                                                  | false                                          |
 | clear-icon                      | custom clear icon component                                                                                           | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose                                    |
 | fit-input-width                 | whether the width of the dropdown is the same as the input                                                            | ^[boolean]                                                                                                                                                                  | false                                          |
 | suffix-icon                     | custom suffix icon component                                                                                          | ^[string] / ^[object]`Component`                                                                                                                                            | ArrowDown                                      |
-| suffix-transition ^(deprecated) | animation when dropdown appears/disappears icon                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | tag-type                        | tag type                                                                                                              | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
+| tag-effect ^(2.7.7)             | tag effect                                                                                                            | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                                                                                                                                 | light                                          |
 | validate-event                  | whether to trigger form validation                                                                                    | ^[boolean]                                                                                                                                                                  | true                                           |
+| offset ^(2.8.8)                 | offset of the dropdown                                                                                                | ^[number]                                                                                                                                                                   | 12                                             |
+| show-arrow ^(2.8.8)             | whether the dropdown has an arrow                                                                                     | ^[boolean]                                                                                                                                                                  | true                                           |
 | placement ^(2.2.17)             | position of dropdown                                                                                                  | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start                                   |
 | fallback-placements ^(2.5.6)    | list of possible positions for dropdown [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements) | ^[array]`Placement[]`                                                                                                                                                       | ['bottom-start', 'top-start', 'right', 'left'] |
 | max-collapse-tags ^(2.3.0)      | the max tags number to be shown. To use this, `collapse-tags` must be true                                            | ^[number]                                                                                                                                                                   | 1                                              |
 | popper-options                  | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                             |
 | aria-label ^(a11y)              | same as `aria-label` in native input                                                                                  | ^[string]                                                                                                                                                                   | —                                              |
+| empty-values ^(2.7.0)           | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[array]                                                                                                                                                                    | —                                              |
+| value-on-clear ^(2.7.0)         | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)               | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
+| suffix-transition ^(deprecated) | animation when dropdown appears/disappears icon                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
+| tabindex ^(2.9.0)               | tabindex for input                                                                                                    | ^[string] / ^[number]                                                                                                                                                       | —                                              |
 
 :::warning
 
@@ -220,14 +243,15 @@ select/custom-loading
 
 ### Select Events
 
-| Name           | Description                                                   | Type                                     |
-| -------------- | ------------------------------------------------------------- | ---------------------------------------- |
-| change         | triggers when the selected value changes                      | ^[Function]`(value: any) => void`        |
-| visible-change | triggers when the dropdown appears/disappears                 | ^[Function]`(visible: boolean) => void`  |
-| remove-tag     | triggers when a tag is removed in multiple mode               | ^[Function]`(tagValue: any) => void`     |
-| clear          | triggers when the clear icon is clicked in a clearable Select | ^[Function]`() => void`                  |
-| blur           | triggers when Input blurs                                     | ^[Function]`(event: FocusEvent) => void` |
-| focus          | triggers when Input focuses                                   | ^[Function]`(event: FocusEvent) => void` |
+| Name                  | Description                                                   | Type                                                                |
+| --------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------- |
+| change                | triggers when the selected value changes                      | ^[Function]`(value: any) => void`                                   |
+| visible-change        | triggers when the dropdown appears/disappears                 | ^[Function]`(visible: boolean) => void`                             |
+| remove-tag            | triggers when a tag is removed in multiple mode               | ^[Function]`(tagValue: any) => void`                                |
+| clear                 | triggers when the clear icon is clicked in a clearable Select | ^[Function]`() => void`                                             |
+| blur                  | triggers when Input blurs                                     | ^[Function]`(event: FocusEvent) => void`                            |
+| focus                 | triggers when Input focuses                                   | ^[Function]`(event: FocusEvent) => void`                            |
+| popup-scroll ^(2.9.4) | triggers when dropdown scrolls                                | ^[Function]`(data:{scrollTop: number, scrollLeft: number}) => void` |
 
 ### Select Slots
 
@@ -240,13 +264,15 @@ select/custom-loading
 | empty            | content when there is no options      | —                     |
 | tag ^(2.5.0)     | content as Select tag                 | —                     |
 | loading ^(2.5.2) | content as Select loading             | —                     |
+| label ^(2.7.4)   | content as Select label               | —                     |
 
 ### Select Exposes
 
-| Method | Description                                     | Type                    |
-| ------ | ----------------------------------------------- | ----------------------- |
-| focus  | focus the Input component                       | ^[Function]`() => void` |
-| blur   | blur the Input component, and hide the dropdown | ^[Function]`() => void` |
+| Name                   | Description                                     | Type                                       |
+| ---------------------- | ----------------------------------------------- | ------------------------------------------ |
+| focus                  | focus the Input component                       | ^[Function]`() => void`                    |
+| blur                   | blur the Input component, and hide the dropdown | ^[Function]`() => void`                    |
+| selectedLabel ^(2.8.5) | get the currently selected label                | ^[object]`ComputedRef<string \| string[]>` |
 
 ## Option Group API
 

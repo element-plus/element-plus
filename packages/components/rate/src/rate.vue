@@ -3,7 +3,7 @@
     :id="inputId"
     :class="[rateClasses, ns.is('disabled', rateDisabled)]"
     role="slider"
-    :aria-label="!isLabeledByFormItem ? label || 'rating' : undefined"
+    :aria-label="!isLabeledByFormItem ? ariaLabel || 'rating' : undefined"
     :aria-labelledby="
       isLabeledByFormItem ? formItemContext?.labelId : undefined
     "

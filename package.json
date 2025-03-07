@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@8.14.1",
+  "packageManager": "pnpm@9.5.0",
   "workspaces": [
     "packages/*",
     "play",
@@ -24,7 +24,7 @@
     "format": "prettier --write --cache .",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 --cache",
     "lint:fix": "pnpm run lint --fix",
-    "lint:commit": "commitlint --from $(git merge-base origin/dev HEAD) --to HEAD > ./commit-lint.txt",
+    "lint:commit": "commitlint",
     "typecheck": "run-p typecheck:web typecheck:play typecheck:node typecheck:vite-config typecheck:vitest",
     "typecheck:web": "vue-tsc -p tsconfig.web.json --composite false --noEmit",
     "typecheck:node": "tsc -p tsconfig.node.json --noEmit",
@@ -59,7 +59,7 @@
     "@types/lodash-es": "^4.17.6",
     "@vueuse/core": "^9.1.0",
     "async-validator": "^4.2.5",
-    "dayjs": "^1.11.3",
+    "dayjs": "^1.11.13",
     "escape-html": "^1.0.3",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
@@ -68,8 +68,8 @@
     "normalize-wheel-es": "^1.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.0.3",
-    "@commitlint/config-conventional": "^17.0.3",
+    "@commitlint/cli": "^18.6.1",
+    "@commitlint/config-conventional": "^18.6.3",
     "@element-plus/build": "workspace:^0.0.1",
     "@element-plus/build-utils": "workspace:^0.0.1",
     "@element-plus/eslint-config": "workspace:*",
@@ -80,11 +80,11 @@
     "@types/fs-extra": "^9.0.13",
     "@types/gulp": "^4.0.9",
     "@types/jsdom": "^16.2.14",
-    "@types/node": "*",
-    "@types/sass": "^1.43.1",
+    "@types/node": "^22.9.0",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vitejs/plugin-vue-jsx": "^1.3.10",
-    "@vitest/ui": "0.16.0",
+    "@vitest/coverage-v8": "^2.0.5",
+    "@vitest/ui": "^2.0.5",
     "@vue/test-utils": "^2.0.0",
     "@vue/tsconfig": "^0.1.3",
     "c8": "^7.11.3",
@@ -94,32 +94,31 @@
     "csstype": "^2.6.20",
     "cz-git": "^1.3.8",
     "czg": "^1.3.8",
-    "eslint": "^8.18.0",
+    "eslint": "^8.57.1",
     "eslint-define-config": "^1.5.1",
     "expect-type": "^0.13.0",
     "fast-glob": "^3.2.11",
+    "happy-dom": "^14.3.3",
     "husky": "^9.0.11",
     "jsdom": "16.4.0",
     "lint-staged": "^13.0.3",
-    "npm-run-all": "^4.1.5",
+    "npm-run-all2": "^5.0.0",
     "prettier": "^2.7.1",
     "puppeteer": "^17.1.3",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^3.0.2",
-    "sass": "^1.53.0",
-    "ts-morph": "^14.0.0",
-    "tsx": "^3.6.0",
+    "sass": "^1.79.3",
+    "tsx": "^4.7.1",
     "type-fest": "^2.14.0",
-    "typescript": "^4.7.4",
-    "unplugin-element-plus": "^0.4.0",
-    "unplugin-vue-macros": "^0.11.2",
-    "vitest": "0.12.6",
+    "typescript": "~5.5.4",
+    "unplugin-vue-macros": "^2.7.11",
+    "vitest": "^2.0.5",
     "vue": "^3.2.37",
     "vue-router": "^4.0.16",
-    "vue-tsc": "^0.38.2"
+    "vue-tsc": "^2.0.28"
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 18"
   },
   "config": {
     "commitizen": {
@@ -133,6 +132,9 @@
         "react",
         "react-dom"
       ]
+    },
+    "patchedDependencies": {
+      "async-validator@4.2.5": "patches/async-validator@4.2.5.patch"
     }
   },
   "lint-staged": {

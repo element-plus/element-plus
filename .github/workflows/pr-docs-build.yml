@@ -13,13 +13,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [20]
         os: [ubuntu-latest, windows-latest]
         include:
-          - node-version: 16
+          - node-version: 20
             node-name: LTS
-          # - node-version: 18
-          #   node-name: Current
 
       fail-fast: false
 
@@ -28,13 +26,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -44,7 +42,7 @@ jobs:
           echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
           echo "pnpm_cache_dir=$(pnpm store path)" >> $env:GITHUB_OUTPUT
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -72,12 +70,12 @@ jobs:
 
       - name: Move bundle to docs dist
         if: matrix.os == 'ubuntu-latest'
-        run: mkdir docs/.vitepress/dist/bundle && mv dist/element-plus/dist/*.* docs/.vitepress/dist/bundle
+        run: mkdir docs/.vitepress/dist/bundle && mv dist/element-plus/* docs/.vitepress/dist/bundle
 
       # share website dist
       - name: Upload artifact
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: docs
           path: docs/.vitepress/dist/
@@ -91,7 +89,7 @@ jobs:
       # share pr number
       - name: Upload pr number
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pr
           path: ./pr.txt

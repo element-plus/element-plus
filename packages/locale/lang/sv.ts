@@ -68,6 +68,9 @@ export default {
       noData: 'Ingen data',
       placeholder: 'Välj',
     },
+    mention: {
+      loading: 'Laddar',
+    },
     cascader: {
       noMatch: 'Hittade inget',
       loading: 'Laddar',

@@ -15,7 +15,6 @@
   </ul>
 </template>
 <script lang="ts">
-// @ts-nocheck
 import { computed, defineComponent, inject, unref } from 'vue'
 import { composeEventHandlers, composeRefs } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -104,8 +103,8 @@ export default defineComponent({
 
         e.preventDefault()
 
-        if (target !== unref(contentRef)) return
-        if (!FIRST_LAST_KEYS.includes(code)) return
+        if (target !== unref(contentRef) || !FIRST_LAST_KEYS.includes(code))
+          return
         const items = getItems<{ disabled: boolean }>().filter(
           (item) => !item.disabled
         )

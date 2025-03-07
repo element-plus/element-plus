@@ -70,8 +70,9 @@ const pane = reactive({
   isClosable,
 })
 
+tabsRoot.registerPane(pane)
 onMounted(() => {
-  tabsRoot.registerPane(pane)
+  tabsRoot.sortPane(pane)
 })
 
 onUnmounted(() => {

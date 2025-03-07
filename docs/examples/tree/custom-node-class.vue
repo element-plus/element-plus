@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import type Node from 'element-plus/es/components/tree/src/model/node'
-
+import type { TreeNodeData } from 'element-plus/es/components/tree/src/tree.type'
 interface Tree {
   id: number
   label: string
@@ -22,12 +22,8 @@ interface Tree {
   children?: Tree[]
 }
 
-const customNodeClass = (data: Tree, node: Node) => {
-  if (data.isPenultimate) {
-    return 'is-penultimate'
-  }
-  return null
-}
+const customNodeClass = ({ isPenultimate }: TreeNodeData, node: Node) =>
+  isPenultimate ? 'is-penultimate' : ''
 
 const data: Tree[] = [
   {
@@ -88,12 +84,15 @@ const data: Tree[] = [
 .is-penultimate > .el-tree-node__content {
   color: #626aef;
 }
-
-.el-tree-node.is-penultimate > .el-tree-node__children {
-  display: flex;
-  flex-direction: row;
-}
 .is-penultimate > .el-tree-node__children > div {
-  width: 25%;
+  display: inline-block;
+  margin-right: 4px;
+
+  &:not(:first-child) .el-tree-node__content {
+    padding-left: 0px !important;
+  }
+  .el-tree-node__content {
+    padding-right: 16px;
+  }
 }
 </style>

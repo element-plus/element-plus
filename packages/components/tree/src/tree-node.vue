@@ -82,7 +82,6 @@
   </div>
 </template>
 <script lang="ts">
-// @ts-nocheck
 import {
   defineComponent,
   getCurrentInstance,
@@ -92,12 +91,11 @@ import {
   ref,
   watch,
 } from 'vue'
-import { isFunction, isString } from '@vue/shared'
+import { debugWarn, isFunction, isString } from '@element-plus/utils'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { CaretRight, Loading } from '@element-plus/icons-vue'
-import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import NodeContent from './tree-node-content.vue'
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
@@ -106,8 +104,8 @@ import { dragEventsKey } from './model/useDragNode'
 import Node from './model/node'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils'
 import type { RootTreeType, TreeNodeData, TreeOptionProps } from './tree.type'
+import type { CheckboxValueType } from '@element-plus/components/checkbox'
 
 export default defineComponent({
   name: 'ElTreeNode',
@@ -139,13 +137,13 @@ export default defineComponent({
   setup(props, ctx) {
     const ns = useNamespace('tree')
     const { broadcastExpanded } = useNodeExpandEventBroadcast(props)
-    const tree = inject<RootTreeType>('RootTree')
+    const tree = inject<RootTreeType>('RootTree')!
     const expanded = ref(false)
     const childNodeRendered = ref(false)
-    const oldChecked = ref<boolean>(null)
-    const oldIndeterminate = ref<boolean>(null)
-    const node$ = ref<Nullable<HTMLElement>>(null)
-    const dragEvents = inject(dragEventsKey)
+    const oldChecked = ref<boolean>()
+    const oldIndeterminate = ref<boolean>()
+    const node$ = ref<HTMLElement>()
+    const dragEvents = inject(dragEventsKey)!
     const instance = getCurrentInstance()
 
     provide('NodeInstance', instance)
@@ -161,7 +159,7 @@ export default defineComponent({
     const childrenKey = tree.props.props['children'] || 'children'
     watch(
       () => {
-        const children = props.node.data[childrenKey]
+        const children = props.node.data?.[childrenKey]
         return children && [...children]
       },
       () => {
@@ -181,6 +179,11 @@ export default defineComponent({
       (val) => {
         handleSelectChange(val, props.node.indeterminate)
       }
+    )
+
+    watch(
+      () => props.node.childNodes.length,
+      () => props.node.reInitChecked()
     )
 
     watch(
@@ -229,25 +232,33 @@ export default defineComponent({
     }
 
     const handleClick = (e: MouseEvent) => {
-      handleCurrentChange(tree.store, tree.ctx.emit, () =>
-        tree.store.value.setCurrentNode(props.node)
-      )
+      handleCurrentChange(tree.store, tree.ctx.emit, () => {
+        const nodeKeyProp = tree?.props?.nodeKey
+        if (nodeKeyProp) {
+          const curNodeKey = getNodeKey(props.node)
+          tree.store.value.setCurrentNodeKey(curNodeKey)
+        } else {
+          tree.store.value.setCurrentNode(props.node)
+        }
+      })
       tree.currentNode.value = props.node
 
       if (tree.props.expandOnClickNode) {
         handleExpandIconClick()
       }
 
-      if (tree.props.checkOnClickNode && !props.node.disabled) {
-        handleCheckChange(null, {
-          target: { checked: !props.node.checked },
-        })
+      if (
+        (tree.props.checkOnClickNode ||
+          (props.node.isLeaf && tree.props.checkOnClickLeaf)) &&
+        !props.node.disabled
+      ) {
+        handleCheckChange(!props.node.checked)
       }
       tree.ctx.emit('node-click', props.node.data, props.node, instance, e)
     }
 
     const handleContextMenu = (event: Event) => {
-      if (tree.instance.vnode.props['onNodeContextmenu']) {
+      if (tree.instance.vnode.props?.['onNodeContextmenu']) {
         event.stopPropagation()
         event.preventDefault()
       }
@@ -266,13 +277,14 @@ export default defineComponent({
         tree.ctx.emit('node-collapse', props.node.data, props.node, instance)
         props.node.collapse()
       } else {
-        props.node.expand()
-        ctx.emit('node-expand', props.node.data, props.node, instance)
+        props.node.expand(() => {
+          ctx.emit('node-expand', props.node.data, props.node, instance)
+        })
       }
     }
 
-    const handleCheckChange = (value, ev) => {
-      props.node.setChecked(ev.target.checked, !tree.props.checkStrictly)
+    const handleCheckChange = (value: CheckboxValueType) => {
+      props.node.setChecked(value as boolean, !tree?.props.checkStrictly)
       nextTick(() => {
         const store = tree.store.value
         tree.ctx.emit('check', props.node.data, {

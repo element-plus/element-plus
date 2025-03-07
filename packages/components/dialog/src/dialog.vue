@@ -1,5 +1,5 @@
 <template>
-  <teleport
+  <el-teleport
     :to="appendTo"
     :disabled="appendTo !== 'body' ? false : !appendToBody"
   >
@@ -47,6 +47,9 @@
               :draggable="draggable"
               :overflow="overflow"
               :fullscreen="fullscreen"
+              :header-class="headerClass"
+              :body-class="bodyClass"
+              :footer-class="footerClass"
               :show-close="showClose"
               :title="title"
               :aria-level="headerAriaLevel"
@@ -71,7 +74,7 @@
         </div>
       </el-overlay>
     </transition>
-  </teleport>
+  </el-teleport>
 </template>
 
 <script lang="ts" setup>
@@ -79,6 +82,7 @@ import { computed, provide, ref, useSlots } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import { useDeprecated, useNamespace, useSameTarget } from '@element-plus/hooks'
 import ElFocusTrap from '@element-plus/components/focus-trap'
+import ElTeleport from '@element-plus/components/teleport'
 import ElDialogContent from './dialog-content.vue'
 import { dialogInjectionKey } from './constants'
 import { dialogEmits, dialogProps } from './dialog'
@@ -141,9 +145,14 @@ const overlayEvent = useSameTarget(onModalClick)
 
 const draggable = computed(() => props.draggable && !props.fullscreen)
 
+const resetPosition = () => {
+  dialogContentRef.value?.resetPosition()
+}
+
 defineExpose({
   /** @description whether the dialog is visible */
   visible,
   dialogContentRef,
+  resetPosition,
 })
 </script>
