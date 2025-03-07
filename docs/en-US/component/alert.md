@@ -98,8 +98,8 @@ alert/icon-description
 
 ### Slots
 
-| Name    | Description                       |
-| ------- | --------------------------------- |
-| default | content of the alert description. |
-| title   | content of the alert title.       |
-| icon    | content of the alert icon.        |
+| Name          | Description                       |
+| ------------- | --------------------------------- |
+| default       | content of the alert description. |
+| title         | content of the alert title.       |
+| icon ^(2.9.6) | content of the alert icon.        |

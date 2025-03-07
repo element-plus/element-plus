@@ -9,8 +9,9 @@
         v-if="showIcon && ($slots.icon || iconComponent)"
         :class="[ns.e('icon'), { [ns.is('big')]: hasDesc }]"
       >
-        <slot v-if="$slots.icon" name="icon" />
-        <component :is="iconComponent" v-else />
+        <slot name="icon">
+          <component :is="iconComponent" />
+        </slot>
       </el-icon>
 
       <div :class="ns.e('content')">
