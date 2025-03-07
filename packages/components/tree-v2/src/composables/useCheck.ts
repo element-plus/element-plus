@@ -101,20 +101,24 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     if (immediateUpdate) {
       updateCheckedKeys()
     }
-    if (nodeClick) {
-      afterNodeCheck(node, isChecked)
-    }
+    afterNodeCheck(node, isChecked, nodeClick)
   }
 
-  const afterNodeCheck = (node: TreeNode, checked: CheckboxValueType) => {
+  const afterNodeCheck = (
+    node: TreeNode,
+    checked: CheckboxValueType,
+    nodeClick: boolean
+  ) => {
     const { checkedNodes, checkedKeys } = getChecked()
     const { halfCheckedNodes, halfCheckedKeys } = getHalfChecked()
-    emit(NODE_CHECK, node.data, {
-      checkedKeys,
-      checkedNodes,
-      halfCheckedKeys,
-      halfCheckedNodes,
-    })
+    if (nodeClick) {
+      emit(NODE_CHECK, node.data, {
+        checkedKeys,
+        checkedNodes,
+        halfCheckedKeys,
+        halfCheckedNodes,
+      })
+    }
     emit(NODE_CHECK_CHANGE, node.data, checked)
   }
 
