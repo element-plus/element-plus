@@ -1,9 +1,9 @@
 import { computed, ref } from 'vue'
 import { useProps } from './useProps'
-import type { ISelectV2Props } from './token'
+import type { SelectV2Props } from './token'
 import type { Option, SelectStates } from './select.types'
 
-export function useAllowCreate(props: ISelectV2Props, states: SelectStates) {
+export function useAllowCreate(props: SelectV2Props, states: SelectStates) {
   const { aliasProps, getLabel, getValue } = useProps(props)
 
   const createOptionCount = ref(0)

@@ -14,7 +14,7 @@ import type {
   PopperEffect,
 } from '@element-plus/components/popper'
 
-export const SelectProps = buildProps({
+export const selectProps = buildProps({
   /**
    * @description the name attribute of select input
    */
