@@ -4,12 +4,13 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
-@mixin cascader-tag-normal() {
+@mixin cascader-tag-normal($background-color) {
   .#{$namespace}-tag {
     display: inline-flex;
     align-items: center;
     max-width: 100%;
     text-overflow: ellipsis;
+    background: $background-color;
 
     &.#{$namespace}-tag--dark,
     &.#{$namespace}-tag--plain {
@@ -167,7 +168,7 @@
     line-height: normal;
     text-align: left;
     box-sizing: border-box;
-    @include cascader-tag-normal();
+    @include cascader-tag-normal(getCssVar('cascader-tag-background'));
 
     &.is-validate {
       right: 55px;
@@ -177,10 +178,12 @@
   @include e(collapse-tags) {
     white-space: normal;
     z-index: getCssVar('index-normal');
-    display: flex;
-    flex-wrap: wrap;
-    gap: map.get($cascader-item-gap, 'default');
-    @include cascader-tag-normal();
+    @include cascader-tag-normal(getCssVar('fill-color'));
+
+    .#{$namespace}-tag {
+      margin: 2px 0 2px 6px;
+    }
+
   }
 
   @include e(suggestion-panel) {
