@@ -2,7 +2,7 @@
   <div
     :id="groupId"
     ref="radioGroupRef"
-    :class="ns.b('group')"
+    :class="[ns.b('group'), ns.bm('group', props.direction)]"
     role="radiogroup"
     :aria-label="!isLabeledByFormItem ? ariaLabel || 'radio-group' : undefined"
     :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
