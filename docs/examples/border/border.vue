@@ -23,6 +23,7 @@
     </tbody>
   </table>
 </template>
+
 <style scoped>
 .demo-border .text {
   width: 15%;
