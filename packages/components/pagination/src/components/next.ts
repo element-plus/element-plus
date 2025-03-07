@@ -22,4 +22,4 @@ export const paginationNextProps = buildProps({
 
 export type PaginationNextProps = ExtractPropTypes<typeof paginationNextProps>
 
-export type NextInstance = InstanceType<typeof Next>
+export type NextInstance = InstanceType<typeof Next> & unknown

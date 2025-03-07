@@ -395,8 +395,9 @@ const TabNav = defineComponent({
   },
 })
 
-export type TabNavInstance = InstanceType<typeof TabNav> & {
-  scrollToActiveTab: () => Promise<void>
-  removeFocus: () => void
-}
+export type TabNavInstance = InstanceType<typeof TabNav> &
+  unknown & {
+    scrollToActiveTab: () => Promise<void>
+    removeFocus: () => void
+  }
 export default TabNav

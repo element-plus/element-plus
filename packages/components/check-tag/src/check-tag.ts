@@ -30,4 +30,4 @@ export const checkTagEmits = {
 }
 export type CheckTagEmits = typeof checkTagEmits
 
-export type CheckTagInstance = InstanceType<typeof CheckTag>
+export type CheckTagInstance = InstanceType<typeof CheckTag> & unknown

@@ -39,7 +39,7 @@ export const popperProps = buildProps({
 
 export type PopperProps = ExtractPropTypes<typeof popperProps>
 
-export type PopperInstance = InstanceType<typeof Popper>
+export type PopperInstance = InstanceType<typeof Popper> & unknown
 
 /** @deprecated use `popperProps` instead, and it will be deprecated in the next major version */
 export const usePopperProps = popperProps

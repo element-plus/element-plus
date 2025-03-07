@@ -14,4 +14,4 @@ export const barProps = buildProps({
 } as const)
 export type BarProps = ExtractPropTypes<typeof barProps>
 
-export type BarInstance = InstanceType<typeof Bar>
+export type BarInstance = InstanceType<typeof Bar> & unknown

@@ -302,6 +302,7 @@ export type TableGridRowSlotParams = {
 } & GridDefaultSlotParams
 
 export type TableGridInstance = InstanceType<typeof TableGrid> &
+  unknown &
   UnwrapRef<{
     forceUpdate: () => void
     /**

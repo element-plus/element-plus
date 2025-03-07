@@ -47,4 +47,4 @@ export const linkEmits = {
 }
 export type LinkEmits = typeof linkEmits
 
-export type LinkInstance = InstanceType<typeof Link>
+export type LinkInstance = InstanceType<typeof Link> & unknown

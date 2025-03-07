@@ -54,4 +54,4 @@ export const uploadContentProps = buildProps({
 
 export type UploadContentProps = ExtractPropTypes<typeof uploadContentProps>
 
-export type UploadContentInstance = InstanceType<typeof UploadContent>
+export type UploadContentInstance = InstanceType<typeof UploadContent> & unknown

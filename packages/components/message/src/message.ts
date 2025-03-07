@@ -159,7 +159,7 @@ export const messageEmits = {
 }
 export type MessageEmits = typeof messageEmits
 
-export type MessageInstance = InstanceType<typeof MessageConstructor>
+export type MessageInstance = InstanceType<typeof MessageConstructor> & unknown
 
 export type MessageOptions = Partial<
   Mutable<

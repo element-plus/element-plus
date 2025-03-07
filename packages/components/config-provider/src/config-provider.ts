@@ -22,6 +22,7 @@ const ConfigProvider = defineComponent({
     return () => renderSlot(slots, 'default', { config: config?.value })
   },
 })
-export type ConfigProviderInstance = InstanceType<typeof ConfigProvider>
+export type ConfigProviderInstance = InstanceType<typeof ConfigProvider> &
+  unknown
 
 export default ConfigProvider

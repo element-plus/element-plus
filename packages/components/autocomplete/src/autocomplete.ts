@@ -149,4 +149,4 @@ export const autocompleteEmits = {
 }
 export type AutocompleteEmits = typeof autocompleteEmits
 
-export type AutocompleteInstance = InstanceType<typeof Autocomplete>
+export type AutocompleteInstance = InstanceType<typeof Autocomplete> & unknown

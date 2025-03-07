@@ -35,4 +35,4 @@ const Timeline = defineComponent({
 })
 
 export default Timeline
-export type TimelineInstance = InstanceType<typeof Timeline>
+export type TimelineInstance = InstanceType<typeof Timeline> & unknown

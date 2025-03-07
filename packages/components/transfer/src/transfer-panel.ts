@@ -36,4 +36,4 @@ export const transferPanelEmits = {
 }
 export type TransferPanelEmits = typeof transferPanelEmits
 
-export type TransferPanelInstance = InstanceType<typeof TransferPanel>
+export type TransferPanelInstance = InstanceType<typeof TransferPanel> & unknown

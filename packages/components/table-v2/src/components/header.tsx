@@ -126,12 +126,13 @@ const TableV2Header = defineComponent({
 
 export default TableV2Header
 
-export type TableV2HeaderInstance = InstanceType<typeof TableV2Header> & {
-  /**
-   * @description scroll to position based on the provided value
-   */
-  scrollToLeft: (left?: number) => void
-}
+export type TableV2HeaderInstance = InstanceType<typeof TableV2Header> &
+  unknown & {
+    /**
+     * @description scroll to position based on the provided value
+     */
+    scrollToLeft: (left?: number) => void
+  }
 
 export type TableV2HeaderRendererParams = {
   class: string

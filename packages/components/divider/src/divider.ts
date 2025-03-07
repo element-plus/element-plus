@@ -31,4 +31,4 @@ export const dividerProps = buildProps({
 } as const)
 export type DividerProps = ExtractPropTypes<typeof dividerProps>
 
-export type DividerInstance = InstanceType<typeof Divider>
+export type DividerInstance = InstanceType<typeof Divider> & unknown

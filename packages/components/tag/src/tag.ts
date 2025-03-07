@@ -57,4 +57,4 @@ export const tagEmits = {
 }
 export type TagEmits = typeof tagEmits
 
-export type TagInstance = InstanceType<typeof Tag>
+export type TagInstance = InstanceType<typeof Tag> & unknown

@@ -122,7 +122,7 @@ export const popperContentEmits = {
 }
 export type PopperContentEmits = typeof popperContentEmits
 
-export type PopperContentInstance = InstanceType<typeof Content>
+export type PopperContentInstance = InstanceType<typeof Content> & unknown
 
 /** @deprecated use `popperCoreConfigProps` instead, and it will be deprecated in the next major version */
 export const usePopperCoreConfigProps = popperCoreConfigProps

@@ -25,6 +25,6 @@ const SpaceItem = defineComponent({
       h('div', { class: classes.value }, renderSlot(slots, 'default'))
   },
 })
-export type SpaceItemInstance = InstanceType<typeof SpaceItem>
+export type SpaceItemInstance = InstanceType<typeof SpaceItem> & unknown
 
 export default SpaceItem

@@ -121,4 +121,4 @@ export const inputNumberEmits = {
 }
 export type InputNumberEmits = typeof inputNumberEmits
 
-export type InputNumberInstance = InstanceType<typeof InputNumber>
+export type InputNumberInstance = InstanceType<typeof InputNumber> & unknown

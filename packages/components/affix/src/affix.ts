@@ -49,4 +49,4 @@ export const affixEmits = {
 }
 export type AffixEmits = typeof affixEmits
 
-export type AffixInstance = InstanceType<typeof Affix>
+export type AffixInstance = InstanceType<typeof Affix> & unknown

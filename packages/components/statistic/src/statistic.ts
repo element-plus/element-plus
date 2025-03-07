@@ -59,4 +59,4 @@ export const statisticProps = buildProps({
 } as const)
 export type StatisticProps = ExtractPropTypes<typeof statisticProps>
 
-export type StatisticInstance = InstanceType<typeof Statistic>
+export type StatisticInstance = InstanceType<typeof Statistic> & unknown

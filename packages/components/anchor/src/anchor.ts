@@ -70,7 +70,7 @@ export const anchorProps = buildProps({
 })
 
 export type AnchorProps = ExtractPropTypes<typeof anchorProps>
-export type AnchorInstance = InstanceType<typeof Anchor>
+export type AnchorInstance = InstanceType<typeof Anchor> & unknown
 
 export const anchorEmits = {
   change: (href: string) => isString(href),

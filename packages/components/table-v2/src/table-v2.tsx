@@ -346,26 +346,27 @@ const TableV2 = defineComponent({
 
 export default TableV2
 
-export type TableV2Instance = InstanceType<typeof TableV2> & {
-  /**
-   * @description scroll to a given position
-   * @params params {{ scrollLeft?: number, scrollTop?: number }} where to scroll to.
-   */
-  scrollTo: (param: { scrollLeft?: number; scrollTop?: number }) => void
-  /**
-   * @description scroll to a given position horizontally
-   * @params scrollLeft {Number} where to scroll to.
-   */
-  scrollToLeft: (scrollLeft: number) => void
-  /**
-   * @description scroll to a given position vertically
-   * @params scrollTop { Number } where to scroll to.
-   */
-  scrollToTop: (scrollTop: number) => void
-  /**
-   * @description scroll to a given row
-   * @params row {Number} which row to scroll to
-   * @params strategy {ScrollStrategy} use what strategy to scroll to
-   */
-  scrollToRow(row: number, strategy?: ScrollStrategy): void
-}
+export type TableV2Instance = InstanceType<typeof TableV2> &
+  unknown & {
+    /**
+     * @description scroll to a given position
+     * @params params {{ scrollLeft?: number, scrollTop?: number }} where to scroll to.
+     */
+    scrollTo: (param: { scrollLeft?: number; scrollTop?: number }) => void
+    /**
+     * @description scroll to a given position horizontally
+     * @params scrollLeft {Number} where to scroll to.
+     */
+    scrollToLeft: (scrollLeft: number) => void
+    /**
+     * @description scroll to a given position vertically
+     * @params scrollTop { Number } where to scroll to.
+     */
+    scrollToTop: (scrollTop: number) => void
+    /**
+     * @description scroll to a given row
+     * @params row {Number} which row to scroll to
+     * @params strategy {ScrollStrategy} use what strategy to scroll to
+     */
+    scrollToRow(row: number, strategy?: ScrollStrategy): void
+  }

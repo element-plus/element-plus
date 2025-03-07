@@ -48,7 +48,7 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 
-import type ElTooltip from '@element-plus/components/tooltip'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { ISelectProps, SelectOptionProxy } from './token'
 
 export const useSelect = (props: ISelectProps, emit) => {
@@ -76,8 +76,8 @@ export const useSelect = (props: ISelectProps, emit) => {
   // template refs
   const selectRef = ref<HTMLElement>(null)
   const selectionRef = ref<HTMLElement>(null)
-  const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
-  const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
+  const tooltipRef = ref<TooltipInstance | null>(null)
+  const tagTooltipRef = ref<TooltipInstance | null>(null)
   const inputRef = ref<HTMLInputElement | null>(null)
   const prefixRef = ref<HTMLElement>(null)
   const suffixRef = ref<HTMLElement>(null)

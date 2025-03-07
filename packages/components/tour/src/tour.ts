@@ -115,7 +115,7 @@ export const tourProps = buildProps({
 })
 
 export type TourProps = ExtractPropTypes<typeof tourProps>
-export type TourInstance = InstanceType<typeof Tour>
+export type TourInstance = InstanceType<typeof Tour> & unknown
 
 export const tourEmits = {
   [UPDATE_MODEL_EVENT]: (value: boolean) => isBoolean(value),

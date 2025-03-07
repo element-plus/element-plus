@@ -52,4 +52,4 @@ export const resultProps = buildProps({
 
 export type ResultProps = ExtractPropTypes<typeof resultProps>
 
-export type ResultInstance = InstanceType<typeof Result>
+export type ResultInstance = InstanceType<typeof Result> & unknown

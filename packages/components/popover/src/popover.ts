@@ -131,4 +131,4 @@ export const popoverEmits = {
 }
 export type PopoverEmits = typeof popoverEmits
 
-export type PopoverInstance = InstanceType<typeof Popover>
+export type PopoverInstance = InstanceType<typeof Popover> & unknown

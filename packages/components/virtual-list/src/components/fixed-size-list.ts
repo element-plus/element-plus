@@ -125,5 +125,5 @@ const FixedSizeList = buildList({
   },
 })
 
-export type FixedSizeListInstance = InstanceType<typeof FixedSizeList>
+export type FixedSizeListInstance = InstanceType<typeof FixedSizeList> & unknown
 export default FixedSizeList
