@@ -83,7 +83,10 @@ export default defineComponent({
         {
           ...slots,
           default: () => [
-            h(CacheOptions, { data: cacheOptions.value }),
+            h(CacheOptions, {
+              data: cacheOptions.value,
+              isUseTreeKeydown: true,
+            }),
             h(
               ElTree,
               reactive({

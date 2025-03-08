@@ -174,8 +174,6 @@
                 @keydown.esc.stop.prevent="handleEsc"
                 @keydown.enter.stop.prevent="selectOption"
                 @keydown.delete.stop="deletePrevTag"
-                @keydown.right.stop="navigateOptions('right')"
-                @keydown.left.stop="navigateOptions('left')"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"

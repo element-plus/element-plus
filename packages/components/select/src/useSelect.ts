@@ -153,6 +153,7 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     inputHovering: false,
     menuVisibleOnFocus: false,
     isBeforeHide: false,
+    isUseTreeKeydown: false, // whether to use tree's keydown event
   })
 
   // template refs
@@ -768,26 +769,7 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
       toggleMenu()
     } else {
       const option = optionsArray.value[states.hoveringIndex]
-      // Check whether it is a select-tree component
-      // Skip if the checkStrictly attribute exists
-      if (
-        option.$parent &&
-        option.$parent.node &&
-        !option.$parent.node.store.checkStrictly
-      ) {
-        // Check whether it is a leaf node or the last child node
-        if (
-          (!option.$parent.node.childNodes.length &&
-            !option.$parent.node.store.lazy) ||
-          (option.$parent.node.store.lazy && option.$parent.node.isLeaf)
-        ) {
-          handleOptionSelect(option)
-        }
-        // Press the Enter key to expand the node
-        else {
-          option.$parent.node.expand()
-        }
-      } else if (option && !option.isDisabled) {
+      if (option && !option.isDisabled) {
         handleOptionSelect(option)
       }
     }
@@ -833,7 +815,9 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     )
       return
 
-    if (!optionsAllDisabled.value) {
+    if (optionsAllDisabled.value) return
+
+    if (states.isUseTreeKeydown === false) {
       if (direction === 'next') {
         states.hoveringIndex++
         if (states.hoveringIndex === states.options.size) {
@@ -845,27 +829,18 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
           states.hoveringIndex = states.options.size - 1
         }
       }
-
       const option = optionsArray.value[states.hoveringIndex]
-
-      // Use the left and right keys to expand and collapse the Tree.
-      if (
-        option.$parent &&
-        option.$parent.node &&
-        (direction === 'left' || direction === 'right')
-      ) {
-        if (option.$parent.node.expanded) {
-          option.$parent.node.collapse()
-        } else {
-          option.$parent.node.expand()
-        }
-      }
-
       if (option.isDisabled || !option.visible) {
         navigateOptions(direction)
       }
-
       nextTick(() => scrollToOption(hoverOption.value))
+    } else if (states.isUseTreeKeydown) {
+      const option = optionsArray.value[0]
+      if (option.$parent.node.disabled) {
+        optionsArray.value[1].$el.parentNode.parentNode.focus()
+      } else {
+        option.$el.parentNode.parentNode.focus()
+      }
     }
   }
 
