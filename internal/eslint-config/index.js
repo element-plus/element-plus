@@ -200,6 +200,7 @@ module.exports = defineConfig({
     'vue/multi-word-component-names': 'off',
     'vue/prefer-import-from-vue': 'off',
     'vue/no-v-text-v-html-on-component': 'off',
+    'vue/padding-line-between-blocks': ['warn', 'always'],
     'vue/html-self-closing': [
       'error',
       {

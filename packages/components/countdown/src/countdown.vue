@@ -12,6 +12,7 @@
     </template>
   </el-statistic>
 </template>
+
 <script lang="ts" setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { ElStatistic } from '@element-plus/components/statistic'
