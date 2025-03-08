@@ -835,12 +835,16 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
       }
       nextTick(() => scrollToOption(hoverOption.value))
     } else if (states.isUseTreeKeydown) {
-      const option = optionsArray.value[0]
-      if (option.$parent.node.disabled) {
-        optionsArray.value[1].$el.parentNode.parentNode.focus()
-      } else {
-        option.$el.parentNode.parentNode.focus()
+      let option = null
+      // find the first enabled option
+      for (const item of optionsArray.value) {
+        if (!item.$parent.node.disabled) {
+          option = item
+          break
+        }
       }
+
+      option && option.$el.parentNode.parentNode.focus()
     }
   }
 
