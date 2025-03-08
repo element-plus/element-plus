@@ -3,6 +3,7 @@
     <el-segmented v-model="value" :options="options" block />
   </div>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 

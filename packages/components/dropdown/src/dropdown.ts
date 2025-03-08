@@ -133,7 +133,7 @@ export const dropdownProps = buildProps({
     default: 'menu',
   },
   buttonProps: {
-    type: definePropType<ButtonProps>(Object),
+    type: definePropType<Partial<ButtonProps>>(Object),
   },
   /**
    * @description whether the dropdown popup is teleported to the body

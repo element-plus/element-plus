@@ -81,7 +81,7 @@ radio/with-borders
 
 ## Radio API
 
-### Attributes
+### Radio Attributes
 
 | Name                  | Description                                                            | Type                                     | Default |
 | --------------------- | ---------------------------------------------------------------------- | ---------------------------------------- | ------- |
@@ -93,13 +93,13 @@ radio/with-borders
 | size                  | size of the Radio                                                      | ^[enum]`'large' \| 'default' \| 'small'` | —       |
 | name                  | native `name` attribute                                                | ^[string]                                | —       |
 
-### Events
+### Radio Events
 
 | Name   | Description                           | Type                                                      |
 | ------ | ------------------------------------- | --------------------------------------------------------- |
 | change | triggers when the bound value changes | ^[Function]`(value: string \| number \| boolean) => void` |
 
-### Slots
+### Radio Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
@@ -107,7 +107,7 @@ radio/with-borders
 
 ## RadioGroup API
 
-### Attributes
+### RadioGroup Attributes
 
 | Name                        | Description                                       | Type                               | Default |
 | --------------------------- | ------------------------------------------------- | ---------------------------------- | ------- |
@@ -122,13 +122,13 @@ radio/with-borders
 | id                          | native `id` attribute                             | ^[string]                          | —       |
 | label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
 
-### Events
+### RadioGroup Events
 
 | Name   | Description                           | Type                                                      |
 | ------ | ------------------------------------- | --------------------------------------------------------- |
 | change | triggers when the bound value changes | ^[Function]`(value: string \| number \| boolean) => void` |
 
-### Slots
+### RadioGroup Slots
 
 | Name    | Description               | Subtags             |
 | ------- | ------------------------- | ------------------- |
@@ -136,7 +136,7 @@ radio/with-borders
 
 ## RadioButton API
 
-### Attributes
+### RadioButton Attributes
 
 | Name           | Description                                                            | Type                               | Default |
 | -------------- | ---------------------------------------------------------------------- | ---------------------------------- | ------- |
@@ -145,7 +145,7 @@ radio/with-borders
 | disabled       | whether Radio is disabled                                              | ^[boolean]                         | false   |
 | name           | native 'name' attribute                                                | ^[string]                          | —       |
 
-### Slots
+### RadioButton Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
