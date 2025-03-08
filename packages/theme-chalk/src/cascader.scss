@@ -178,6 +178,10 @@
     white-space: normal;
     z-index: getCssVar('index-normal');
     @include cascader-tag-normal(getCssVar('fill-color'));
+
+    .#{$namespace}-tag {
+      margin: 2px 0;
+    }
   }
 
   @include e(suggestion-panel) {
