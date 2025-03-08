@@ -63,7 +63,7 @@ radio/radio-button-group
 
 ## Direction ^(2.9.6)
 
-:::demo Radio group direction
+:::demo Radio group direction, not valid for `el-radio-button`
 
 radio/radio-group-direction
 
@@ -117,19 +117,19 @@ radio/with-borders
 
 ### RadioGroup Attributes
 
-| Name                        | Description                                       | Type                                | Default    |
-| --------------------------- | ------------------------------------------------- | ----------------------------------- | ---------- |
-| model-value / v-model       | binding value                                     | ^[string] / ^[number] / ^[boolean]  | —          |
-| size                        | the size of radio buttons or bordered radios      | ^[string]                           | default    |
-| disabled                    | whether the nesting radios are disabled           | ^[boolean]                          | false      |
-| text-color                  | font color when button is active                  | ^[string]                           | #ffffff    |
-| fill                        | border and background color when button is active | ^[string]                           | #409eff    |
-| validate-event              | whether to trigger form validation                | ^[boolean]                          | true       |
-| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup                | ^[string]                           | —          |
-| name                        | native `name` attribute                           | ^[string]                           | —          |
-| id                          | native `id` attribute                             | ^[string]                           | —          |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                | ^[string]                           | —          |
-| direction ^(2.9.6)          | choose the direction                              | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
+| Name                        | Description                                           | Type                                | Default    |
+| --------------------------- | ----------------------------------------------------- | ----------------------------------- | ---------- |
+| model-value / v-model       | binding value                                         | ^[string] / ^[number] / ^[boolean]  | —          |
+| size                        | the size of radio buttons or bordered radios          | ^[string]                           | default    |
+| disabled                    | whether the nesting radios are disabled               | ^[boolean]                          | false      |
+| text-color                  | font color when button is active                      | ^[string]                           | #ffffff    |
+| fill                        | border and background color when button is active     | ^[string]                           | #409eff    |
+| validate-event              | whether to trigger form validation                    | ^[boolean]                          | true       |
+| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup                    | ^[string]                           | —          |
+| name                        | native `name` attribute                               | ^[string]                           | —          |
+| id                          | native `id` attribute                                 | ^[string]                           | —          |
+| label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                    | ^[string]                           | —          |
+| direction ^(2.9.6)          | choose the direction, not valid for `el-radio-button` | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
 
 ### RadioGroup Events
 

@@ -8,8 +8,9 @@
   font-size: 0;
 
   @include m(vertical) {
-    flex-direction: column;
-    align-items: flex-start;
-    flex-wrap: wrap;
+    &:not(:has(.#{$namespace}-radio-button)) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 }
