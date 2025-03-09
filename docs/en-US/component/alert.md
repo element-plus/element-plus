@@ -102,4 +102,4 @@ alert/icon-description
 | ------------- | --------------------------------- |
 | default       | content of the alert description. |
 | title         | content of the alert title.       |
-| icon ^(2.9.6) | content of the alert icon.        |
+| icon ^(2.9.7) | content of the alert icon.        |
