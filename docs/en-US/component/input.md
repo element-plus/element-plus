@@ -25,6 +25,22 @@ input/basic
 
 :::
 
+## Borderless ^(2.9.6)
+
+:::demo Use the `borderless` attribute to set a borderless input box.
+
+input/borderless
+
+:::
+
+## Underlined ^(2.9.6)
+
+:::demo Use the `underlined` attribute to set an underlined input box.
+
+input/underlined
+
+:::
+
 ## Disabled
 
 :::demo Disable the Input with the `disabled` attribute.
@@ -132,6 +148,8 @@ input/length-limiting
 | parser                      | specifies the value extracted from formatter input.(only works when `type` is 'text')                                                  | ^[Function]`(value: string) => string`                                                                                                                                                                                       | —       |
 | show-password               | whether to show toggleable password input                                                                                              | ^[boolean]                                                                                                                                                                                                                   | false   |
 | disabled                    | whether Input is disabled                                                                                                              | ^[boolean]                                                                                                                                                                                                                   | false   |
+| borderless ^(2.9.6)         | whether Input is borderless                                                                                                            | ^[boolean]                                                                                                                                                                                                                   | false   |
+| underlined ^(2.9.6)         | whether Input is underlined                                                                                                            | ^[boolean]                                                                                                                                                                                                                   | false   |
 | size                        | size of Input, works when `type` is not 'textarea'                                                                                     | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                                                                     | —       |
 | prefix-icon                 | prefix icon component                                                                                                                  | ^[string] / ^[Component]                                                                                                                                                                                                     | —       |
 | suffix-icon                 | suffix icon component                                                                                                                  | ^[string] / ^[Component]                                                                                                                                                                                                     | —       |
