@@ -11,6 +11,7 @@
     </el-alert>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { Bell } from '@element-plus/icons-vue'
 </script>
