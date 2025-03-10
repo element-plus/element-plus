@@ -115,39 +115,31 @@ function useWatcher<T>() {
       updateChildFixed(column)
     })
 
-    // 先处理所有列的顺序，确保 selection 在最前
-    const orderedColumns = [..._columns.value].sort((a, b) => {
-      // selection 列始终最前
-      if (a.type === 'selection') return -1
-      if (b.type === 'selection') return 1
-      // index 列次之
-      if (a.type === 'index') return -1
-      if (b.type === 'index') return 1
-      // 保持其他列的原有顺序
-      return 0
-    })
-
-    // 更新 _columns 的顺序
-    _columns.value = orderedColumns
-
-    // 获取固定列（不包括 selection 和 index）
-    fixedColumns.value = orderedColumns.filter(
-      (column) =>
-        column.type !== 'selection' &&
-        column.type !== 'index' &&
-        [true, 'left'].includes(column.fixed)
+    // 重新排序所有列
+    const reorderedColumns = [..._columns.value]
+    // 先找出 selection 和 index 列
+    const selectionColumn = reorderedColumns.find(
+      (col) => col.type === 'selection'
+    )
+    const indexColumn = reorderedColumns.find((col) => col.type === 'index')
+    // 过滤掉 selection 和 index 列
+    const otherColumns = reorderedColumns.filter(
+      (col) => col.type !== 'selection' && col.type !== 'index'
     )
 
-    // 处理特殊列（selection 和 index）
-    const specialColumns = orderedColumns.filter(
-      (column) => column.type === 'selection' || column.type === 'index'
-    )
+    // 按照 selection -> index -> others 的顺序重组列
+    _columns.value = [
+      ...(selectionColumn ? [selectionColumn] : []),
+      ...(indexColumn ? [indexColumn] : []),
+      ...otherColumns,
+    ]
 
-    // 将固定的特殊列添加到固定列的开头
-    specialColumns.forEach((column) => {
-      if ([true, 'left'].includes(column.fixed)) {
-        fixedColumns.value.unshift(column)
+    // 处理固定列
+    fixedColumns.value = _columns.value.filter((column) => {
+      if (column.type === 'selection' || column.type === 'index') {
+        return [true, 'left'].includes(column.fixed)
       }
+      return [true, 'left'].includes(column.fixed)
     })
 
     rightFixedColumns.value = _columns.value.filter(
@@ -155,11 +147,7 @@ function useWatcher<T>() {
     )
 
     // 获取非固定列
-    const notFixedColumns = _columns.value.filter(
-      (column) =>
-        !column.fixed &&
-        !specialColumns.some((sc) => sc.fixed && sc.type === column.type)
-    )
+    const notFixedColumns = _columns.value.filter((column) => !column.fixed)
 
     originColumns.value = []
       .concat(fixedColumns.value)
