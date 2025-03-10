@@ -55,6 +55,9 @@ export const radioGroupProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description direction of radio group
+   */
   direction: {
     type: String,
     values: ['horizontal', 'vertical'],
