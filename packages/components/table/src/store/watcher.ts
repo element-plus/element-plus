@@ -115,27 +115,35 @@ function useWatcher<T>() {
       updateChildFixed(column)
     })
 
-    // 先获取所有固定列（不包括 selection 和 index）
-    fixedColumns.value = _columns.value.filter(
+    // 先处理所有列的顺序，确保 selection 在最前
+    const orderedColumns = [..._columns.value].sort((a, b) => {
+      // selection 列始终最前
+      if (a.type === 'selection') return -1
+      if (b.type === 'selection') return 1
+      // index 列次之
+      if (a.type === 'index') return -1
+      if (b.type === 'index') return 1
+      // 保持其他列的原有顺序
+      return 0
+    })
+
+    // 更新 _columns 的顺序
+    _columns.value = orderedColumns
+
+    // 获取固定列（不包括 selection 和 index）
+    fixedColumns.value = orderedColumns.filter(
       (column) =>
         column.type !== 'selection' &&
         column.type !== 'index' &&
         [true, 'left'].includes(column.fixed)
     )
 
-    // 单独处理 selection 和 index 列的固定
-    const specialColumns = _columns.value
-      .filter(
-        (column) => column.type === 'selection' || column.type === 'index'
-      )
-      .sort((a, b) => {
-        // 确保 index 列在 selection 列前面
-        if (a.type === 'index' && b.type === 'selection') return -1
-        if (a.type === 'selection' && b.type === 'index') return 1
-        return 0
-      })
+    // 处理特殊列（selection 和 index）
+    const specialColumns = orderedColumns.filter(
+      (column) => column.type === 'selection' || column.type === 'index'
+    )
 
-    // 将需要固定的特殊列添加到固定列的开头
+    // 将固定的特殊列添加到固定列的开头
     specialColumns.forEach((column) => {
       if ([true, 'left'].includes(column.fixed)) {
         fixedColumns.value.unshift(column)
@@ -146,7 +154,7 @@ function useWatcher<T>() {
       (column) => column.fixed === 'right'
     )
 
-    // 获取非固定列（需要排除已经固定的特殊列）
+    // 获取非固定列
     const notFixedColumns = _columns.value.filter(
       (column) =>
         !column.fixed &&
