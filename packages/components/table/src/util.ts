@@ -284,8 +284,11 @@ export function toggleRowStatus<T>(
 ) {
   let _rowIndex = rowIndex ?? 0
   let changed = false
+  const rowIdentity = rowKey ? getRowIdentity(row, rowKey) : null
   const index = rowKey
-    ? statusArr.findIndex((item) => row[rowKey] === item[rowKey])
+    ? statusArr.findIndex(
+        (item) => getRowIdentity(item, rowKey) === rowIdentity
+      )
     : statusArr.indexOf(row)
 
   const included = index !== -1
