@@ -153,6 +153,7 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     inputHovering: false,
     menuVisibleOnFocus: false,
     isBeforeHide: false,
+    isUseTreeKeydown: false, // whether to use tree's keydown event
   })
 
   // template refs
@@ -814,7 +815,9 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     )
       return
 
-    if (!optionsAllDisabled.value) {
+    if (optionsAllDisabled.value) return
+
+    if (states.isUseTreeKeydown === false) {
       if (direction === 'next') {
         states.hoveringIndex++
         if (states.hoveringIndex === states.options.size) {
@@ -831,6 +834,17 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
         navigateOptions(direction)
       }
       nextTick(() => scrollToOption(hoverOption.value))
+    } else if (states.isUseTreeKeydown) {
+      let option = null
+      // find the first enabled option
+      for (const item of optionsArray.value) {
+        if (!item.$parent.node.disabled) {
+          option = item
+          break
+        }
+      }
+
+      option && option.$el.parentNode.parentNode.focus()
     }
   }
 
