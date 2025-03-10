@@ -31,9 +31,8 @@
 
 <script lang="ts" setup>
 import { computed, provide, ref, toRef, useSlots, watch } from 'vue'
-import { useVModel } from '@vueuse/core'
 import { useNamespace, useZIndex } from '@element-plus/hooks'
-import { isBoolean } from '@element-plus/utils'
+import { isBoolean, isUndefined } from '@element-plus/utils'
 import ElTeleport from '@element-plus/components/teleport'
 import ElTourMask from './mask.vue'
 import ElTourContent from './content.vue'
@@ -53,8 +52,19 @@ const ns = useNamespace('tour')
 const total = ref(0)
 const currentStep = ref<TourStepProps>()
 
-const current = useVModel(props, 'current', emit, {
-  passive: true,
+const innerCurrent = ref(props.current || 0)
+
+const current = computed({
+  get() {
+    return innerCurrent.value
+  },
+  set(newValue) {
+    if (isUndefined(props.current)) {
+      innerCurrent.value = newValue
+    } else {
+      emit('update:current', newValue)
+    }
+  },
 })
 
 const currentTarget = computed(() => currentStep.value?.target)
@@ -98,6 +108,11 @@ const { mergedPosInfo: pos, triggerTarget } = useTarget(
   toRef(props, 'gap'),
   mergedMask,
   mergedScrollIntoViewOptions
+)
+
+watch(
+  () => props.current,
+  (val) => !isUndefined(val) && (innerCurrent.value = val)
 )
 
 watch(
