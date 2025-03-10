@@ -175,7 +175,10 @@ export const uploadBaseProps = buildProps({
   /**
    * @description whether to disable upload
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description maximum number of uploads allowed
    */
