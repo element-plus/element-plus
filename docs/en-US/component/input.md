@@ -25,7 +25,7 @@ input/basic
 
 :::
 
-## Borderless ^(2.9.6)
+## Borderless ^(2.9.7)
 
 :::demo Use the `borderless` attribute to set a borderless input box.
 
