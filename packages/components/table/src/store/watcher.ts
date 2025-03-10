@@ -114,29 +114,43 @@ function useWatcher<T>() {
     _columns.value.forEach((column) => {
       updateChildFixed(column)
     })
+
+    // 先获取所有固定列（不包括 selection 和 index）
     fixedColumns.value = _columns.value.filter(
       (column) =>
-        column.type !== 'selection' && [true, 'left'].includes(column.fixed)
+        column.type !== 'selection' &&
+        column.type !== 'index' &&
+        [true, 'left'].includes(column.fixed)
     )
 
-    let selectColFixLeft
-    if (_columns.value?.[0]?.type === 'selection') {
-      const selectColumn = _columns.value[0]
-      selectColFixLeft =
-        [true, 'left'].includes(selectColumn.fixed) ||
-        (fixedColumns.value.length && selectColumn.fixed !== 'right')
-      if (selectColFixLeft) {
-        fixedColumns.value.unshift(selectColumn)
+    // 单独处理 selection 和 index 列的固定
+    const specialColumns = _columns.value
+      .filter(
+        (column) => column.type === 'selection' || column.type === 'index'
+      )
+      .sort((a, b) => {
+        // 确保 index 列在 selection 列前面
+        if (a.type === 'index' && b.type === 'selection') return -1
+        if (a.type === 'selection' && b.type === 'index') return 1
+        return 0
+      })
+
+    // 将需要固定的特殊列添加到固定列的开头
+    specialColumns.forEach((column) => {
+      if ([true, 'left'].includes(column.fixed)) {
+        fixedColumns.value.unshift(column)
       }
-    }
+    })
 
     rightFixedColumns.value = _columns.value.filter(
       (column) => column.fixed === 'right'
     )
 
+    // 获取非固定列（需要排除已经固定的特殊列）
     const notFixedColumns = _columns.value.filter(
       (column) =>
-        (selectColFixLeft ? column.type !== 'selection' : true) && !column.fixed
+        !column.fixed &&
+        !specialColumns.some((sc) => sc.fixed && sc.type === column.type)
     )
 
     originColumns.value = []
