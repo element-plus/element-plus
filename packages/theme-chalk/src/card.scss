@@ -25,6 +25,13 @@
     }
   }
 
+  @include when(borderless) {
+    border: none;
+    @include when(never-shadow) {
+      border: none;
+    }
+  }
+
   @include e(header) {
     padding: calc(#{getCssVar('card', 'padding')} - 2px)
       getCssVar('card', 'padding');
