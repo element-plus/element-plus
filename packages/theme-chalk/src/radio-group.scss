@@ -6,4 +6,11 @@
   align-items: center;
   flex-wrap: wrap;
   font-size: 0;
+
+  @include m(vertical) {
+    &:not(:has(.#{$namespace}-radio-button)) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
 }
