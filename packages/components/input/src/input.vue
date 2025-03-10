@@ -224,6 +224,8 @@ const containerKls = computed(() => [
 const wrapperKls = computed(() => [
   nsInput.e('wrapper'),
   nsInput.is('focus', isFocused.value),
+  nsInput.is('borderless', props.borderless),
+  nsInput.is('underlined', props.underlined),
 ])
 
 const { form: elForm, formItem: elFormItem } = useFormItem()
