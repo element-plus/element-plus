@@ -55,6 +55,11 @@ export const radioGroupProps = buildProps({
     type: Boolean,
     default: true,
   },
+  direction: {
+    type: String,
+    values: ['horizontal', 'vertical'],
+    default: 'horizontal',
+  },
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>
