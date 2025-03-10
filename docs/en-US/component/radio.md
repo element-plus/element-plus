@@ -61,7 +61,7 @@ radio/radio-button-group
 
 :::
 
-## Direction ^(2.9.6)
+## Direction ^(2.9.7)
 
 :::demo Radio group direction, not valid for `el-radio-button`
 
@@ -129,7 +129,7 @@ radio/with-borders
 | name                        | native `name` attribute                               | ^[string]                           | —          |
 | id                          | native `id` attribute                                 | ^[string]                           | —          |
 | label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                    | ^[string]                           | —          |
-| direction ^(2.9.6)          | choose the direction, not valid for `el-radio-button` | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
+| direction ^(2.9.7)          | choose the direction, not valid for `el-radio-button` | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
 
 ### RadioGroup Events
 
