@@ -47,7 +47,7 @@ card/shadow
 
 :::
 
-## Borderless ^(2.9.6)
+## Borderless ^(2.9.7)
 
 :::demo A borderless card on a gray background.
 
