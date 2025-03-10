@@ -49,10 +49,10 @@ import {
 } from '@element-plus/components/form'
 
 import type ElTooltip from '@element-plus/components/tooltip'
-import type { ISelectProps, SelectOptionProxy } from './token'
+import type { SelectOptionProxy, SelectProps } from './token'
 
 type useSelectType = (
-  props: ISelectProps,
+  props: SelectProps,
   emit: any
 ) => {
   inputId: Ref<string | undefined>
@@ -133,7 +133,7 @@ type useSelectType = (
   collapseItemRef: Ref<HTMLElement>
 }
 
-export const useSelect: useSelectType = (props: ISelectProps, emit) => {
+export const useSelect: useSelectType = (props: SelectProps, emit) => {
   const { t } = useLocale()
   const contentId = useId()
   const nsSelect = useNamespace('select')
