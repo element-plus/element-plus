@@ -33,7 +33,7 @@ input/borderless
 
 :::
 
-## Underlined ^(2.9.6)
+## Underlined ^(2.9.7)
 
 :::demo Use the `underlined` attribute to set an underlined input box.
 
