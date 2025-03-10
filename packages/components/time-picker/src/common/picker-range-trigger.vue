@@ -17,6 +17,7 @@
       :placeholder="startPlaceholder"
       :value="modelValue && modelValue[0]"
       :class="nsRange.b('input')"
+      :disabled="disabled"
       @input="handleStartInput"
       @change="handleStartChange"
     />
@@ -29,6 +30,7 @@
       :placeholder="endPlaceholder"
       :value="modelValue && modelValue[1]"
       :class="nsRange.b('input')"
+      :disabled="disabled"
       @input="handleEndInput"
       @change="handleEndChange"
     />

@@ -58,7 +58,6 @@
 
   @include when(disabled) {
     cursor: not-allowed;
-    pointer-events: none;
     background-color: getCssVar('fill-color', 'light');
     @include mixed-input-border(#{getCssVar('input-tag-disabled-border')});
 
