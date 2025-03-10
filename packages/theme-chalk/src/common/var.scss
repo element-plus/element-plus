@@ -1461,6 +1461,27 @@ $calendar: map.merge(
   $calendar
 );
 
+// Captcha
+$captcha: () !default;
+$captcha: map.merge(
+  (
+    'border': 1px solid getCssVar('border-color'),
+    'border-radius': getCssVar('border-radius', 'base'),
+    'background': getCssVar('fill-color', 'darker'),
+    'color-success': getCssVar('color-success'),
+    'btn-background': getCssVar('bg-color'),
+    'content-font-size': getCssVar('font-size-medium'),
+    'content-color': getCssVar('text-color-primary'),
+    'blink-color': getCssVar('bg-color'),
+    'passed-content-color': getCssVar('color', 'white'),
+    'transition-duration': getCssVar('transition-duration'),
+  ),
+  $captcha
+);
+
+$captcha-height: () !default;
+$captcha-height: map.merge($common-component-size, $captcha-height);
+
 // Form
 // css3 var in packages/theme-chalk/src/form.scss
 $form: () !default;

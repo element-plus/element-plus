@@ -4,6 +4,7 @@ import { ElAutocomplete } from '@element-plus/components/autocomplete'
 import { ElAvatar } from '@element-plus/components/avatar'
 import { ElBacktop } from '@element-plus/components/backtop'
 import { ElBadge } from '@element-plus/components/badge'
+import { ElCaptcha } from '@element-plus/components/captcha'
 import {
   ElBreadcrumb,
   ElBreadcrumbItem,
@@ -218,4 +219,5 @@ export default [
   ElAnchorLink,
   ElSegmented,
   ElMention,
+  ElCaptcha,
 ] as Plugin[]
