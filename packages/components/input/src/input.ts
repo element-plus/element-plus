@@ -166,7 +166,13 @@ export const inputProps = buildProps({
     type: Number,
     default: 2,
   },
+  /**
+   * @description whether to set no border
+   */
   borderless: Boolean,
+  /**
+   * @description whether to set to underline
+   */
   underlined: Boolean,
   ...useAriaProps(['ariaLabel']),
 } as const)
