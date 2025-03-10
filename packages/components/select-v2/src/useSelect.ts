@@ -46,15 +46,15 @@ import { useAllowCreate } from './useAllowCreate'
 import { useProps } from './useProps'
 
 import type { Option, OptionType, SelectStates } from './select.types'
-import type { ISelectV2Props } from './token'
-import type { SelectEmitFn } from './defaults'
+import type { SelectV2Props } from './token'
+import type { SelectV2EmitFn } from './defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectDropdownInstance } from './select-dropdown'
 import type { Component, ComputedRef, Ref, WritableComputedRef } from 'vue'
 
 type useSelectReturnType = (
-  props: ISelectV2Props,
-  emit: SelectEmitFn
+  props: SelectV2Props,
+  emit: SelectV2EmitFn
 ) => {
   inputId: Ref<string | undefined>
   collapseTagSize: ComputedRef<'default' | 'small'>
@@ -131,8 +131,8 @@ type useSelectReturnType = (
 }
 
 const useSelect: useSelectReturnType = (
-  props: ISelectV2Props,
-  emit: SelectEmitFn
+  props: SelectV2Props,
+  emit: SelectV2EmitFn
 ) => {
   // inject
   const { t } = useLocale()

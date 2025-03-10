@@ -1,9 +1,9 @@
-import type { IOptionV2Props } from './token'
-import type { OptionEmitFn } from './defaults'
+import type { OptionV2Props } from './token'
+import type { OptionV2EmitFn } from './defaults'
 
 export function useOption(
-  props: IOptionV2Props,
-  { emit }: { emit: OptionEmitFn }
+  props: OptionV2Props,
+  { emit }: { emit: OptionV2EmitFn }
 ) {
   return {
     hoverItem: () => {

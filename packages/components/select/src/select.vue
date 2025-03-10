@@ -315,7 +315,7 @@ import { useSelect } from './useSelect'
 import { selectKey } from './token'
 import ElOptions from './options'
 
-import { SelectProps } from './select'
+import { selectProps } from './select'
 import type { SelectContext } from './token'
 
 const COMPONENT_NAME = 'ElSelect'
@@ -332,7 +332,7 @@ export default defineComponent({
     ElIcon,
   },
   directives: { ClickOutside },
-  props: SelectProps,
+  props: selectProps,
   emits: [
     UPDATE_MODEL_EVENT,
     CHANGE_EVENT,

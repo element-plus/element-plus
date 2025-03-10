@@ -1,12 +1,13 @@
+import { selectProps } from './select'
+import type Select from './select.vue'
 import type { ExtractPropTypes, InjectionKey } from 'vue'
-import type { SelectProps } from './select'
 
 interface SelectGroupContext {
   disabled: boolean
 }
 
 export interface SelectContext {
-  props: ExtractPropTypes<typeof SelectProps>
+  props: SelectProps
   states: any
   expanded: boolean
   selectRef: HTMLElement
@@ -42,4 +43,5 @@ export interface SelectOptionProxy {
   selectOptionClick: () => void
 }
 
-export type ISelectProps = ExtractPropTypes<typeof SelectProps>
+export type SelectProps = ExtractPropTypes<typeof selectProps>
+export type SelectInstance = InstanceType<typeof Select>
