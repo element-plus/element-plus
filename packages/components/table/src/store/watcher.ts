@@ -114,30 +114,40 @@ function useWatcher<T>() {
     _columns.value.forEach((column) => {
       updateChildFixed(column)
     })
-    fixedColumns.value = _columns.value.filter(
-      (column) =>
-        column.type !== 'selection' && [true, 'left'].includes(column.fixed)
+
+    // 重新排序所有列
+    const reorderedColumns = [..._columns.value]
+    // 先找出 selection 和 index 列
+    const selectionColumn = reorderedColumns.find(
+      (col) => col.type === 'selection'
+    )
+    const indexColumn = reorderedColumns.find((col) => col.type === 'index')
+    // 过滤掉 selection 和 index 列
+    const otherColumns = reorderedColumns.filter(
+      (col) => col.type !== 'selection' && col.type !== 'index'
     )
 
-    let selectColFixLeft
-    if (_columns.value?.[0]?.type === 'selection') {
-      const selectColumn = _columns.value[0]
-      selectColFixLeft =
-        [true, 'left'].includes(selectColumn.fixed) ||
-        (fixedColumns.value.length && selectColumn.fixed !== 'right')
-      if (selectColFixLeft) {
-        fixedColumns.value.unshift(selectColumn)
+    // 按照 selection -> index -> others 的顺序重组列
+    _columns.value = [
+      ...(selectionColumn ? [selectionColumn] : []),
+      ...(indexColumn ? [indexColumn] : []),
+      ...otherColumns,
+    ]
+
+    // 处理固定列
+    fixedColumns.value = _columns.value.filter((column) => {
+      if (column.type === 'selection' || column.type === 'index') {
+        return [true, 'left'].includes(column.fixed)
       }
-    }
+      return [true, 'left'].includes(column.fixed)
+    })
 
     rightFixedColumns.value = _columns.value.filter(
       (column) => column.fixed === 'right'
     )
 
-    const notFixedColumns = _columns.value.filter(
-      (column) =>
-        (selectColFixLeft ? column.type !== 'selection' : true) && !column.fixed
-    )
+    // 获取非固定列
+    const notFixedColumns = _columns.value.filter((column) => !column.fixed)
 
     originColumns.value = []
       .concat(fixedColumns.value)
