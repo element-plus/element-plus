@@ -49,6 +49,7 @@
     width: 100%;
     font-size: inherit;
     font-family: inherit;
+    scroll-padding-block-end: 5px;
     color: var(
       #{getCssVarName('input-text-color')},
       map.get($input, 'text-color')
