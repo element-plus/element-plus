@@ -2,7 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { ComponentSize, EVENT_CODE } from '@element-plus/constants'
-import { InputTagInstance } from '@element-plus/element-plus'
+import { InputTagInstance } from '@element-plus/components/input-tag'
 import FormItem from '@element-plus/components/form/src/form-item.vue'
 import InputTag from '../src/input-tag.vue'
 
