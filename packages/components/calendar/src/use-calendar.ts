@@ -2,7 +2,11 @@ import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale } from '@element-plus/hooks'
 import { debugWarn, isArray, isDate } from '@element-plus/utils'
-import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 
 import type { ComputedRef, SetupContext } from 'vue'
 import type { Dayjs } from 'dayjs'
@@ -158,8 +162,12 @@ export const useCalendar = (
     }
   }
 
-  const pickDay = (day: Dayjs) => {
+  const pickDay = (day: Dayjs, isDaySelect: boolean = true) => {
     realSelectedDay.value = day
+
+    if (isDaySelect) {
+      emit(CHANGE_EVENT, day.toDate())
+    }
   }
 
   const selectDate = (type: CalendarDateType) => {
@@ -174,7 +182,7 @@ export const useCalendar = (
     const day = dateMap[type]
 
     if (!day.isSame(date.value, 'day')) {
-      pickDay(day)
+      type == 'today' ? pickDay(day) : pickDay(day, false)
     }
   }
 
