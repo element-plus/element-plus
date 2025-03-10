@@ -66,7 +66,7 @@ card/borderless
 | body-style           | CSS style of card body                                         | ^[object]`CSSProperties`          | —       |
 | body-class ^(2.3.10) | custom class name of card body                                 | ^[string]                         | —       |
 | shadow               | when to show card shadows                                      | ^[enum]`always \| never \| hover` | always  |
-| borderless ^(2.9.6)  | set with no border                                             | ^[string]                         | false   |
+| borderless ^(2.9.6)  | set with no border                                             | ^[Boolean]                         | false   |
 
 ### Slots
 
