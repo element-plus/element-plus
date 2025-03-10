@@ -279,14 +279,20 @@ export function toggleRowStatus<T>(
   newVal?: boolean,
   tableTreeProps?: TreeProps,
   selectable?: (row: T, index?: number) => boolean,
-  rowIndex?: number
-): boolean {
+  rowIndex?: number,
+  rowKey?: string
+) {
   let _rowIndex = rowIndex ?? 0
   let changed = false
-  const index = statusArr.indexOf(row)
+  const rowIdentity = rowKey ? getRowIdentity(row, rowKey) : null
+  const index = rowKey
+    ? statusArr.findIndex(
+        (item) => getRowIdentity(item, rowKey) === rowIdentity
+      )
+    : statusArr.indexOf(row)
+
   const included = index !== -1
   const isRowSelectable = selectable?.call(null, row, _rowIndex)
-
   const toggleStatus = (type: 'add' | 'remove') => {
     if (type === 'add') {
       statusArr.push(row)
@@ -331,7 +337,8 @@ export function toggleRowStatus<T>(
         newVal ?? !included,
         tableTreeProps,
         selectable,
-        _rowIndex + 1
+        _rowIndex + 1,
+        rowKey
       )
       _rowIndex += getChildrenCount(item) + 1
       if (childChanged) {
