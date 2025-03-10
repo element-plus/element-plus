@@ -35,9 +35,6 @@ export const cardProps = buildProps({
   /**
    * @description set with no border
    */
-  borderless: {
-    type: Boolean,
-    default: false,
-  },
+  borderless: Boolean,
 } as const)
 export type CardProps = ExtractPropTypes<typeof cardProps>
