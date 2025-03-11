@@ -181,6 +181,8 @@ table/custom-header
 
 When the row content is too long and you do not want to display the horizontal scroll bar, you can use the expandable row feature.
 
+After ^(2.9.7), `preserve-expanded-content` is added to control whether to preserve expanded row content in DOM when collapsed.
+
 :::demo Activate expandable row by adding type="expand" and slot. The template for el-table-column will be rendered as the contents of the expanded row, and you can access the same attributes as when you are using `slot` in custom column templates.
 
 table/expandable-row
@@ -301,6 +303,7 @@ table/tooltip-formatter
 | scrollbar-tabindex ^(2.8.3)     | body scrollbar's wrap container tabindex                                                                                                                                                                                                                                   | ^[string] / ^[number]                                                                                                                                                | —                                                                                                                       |
 | allow-drag-last-column ^(2.9.2) | whether to allow drag the last column                                                                                                                                                                                                                                      | ^[boolean]                                                                                                                                                           | true                                                                                                                    |
 | tooltip-formatter ^(2.9.4)      | customize tooltip content when using `show-overflow-tooltip`                                                                                                                                                                                                               | ^[Function]`(data: { row: any, column: any, cellValue: any }) => VNode \| string`                                                                                    | —                                                                                                                       |
+| preserve-expanded-content ^(2.9.7)      | whether to preserve expanded row content in DOM when collapsed                                                                                                                                                                                                             | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
 
 ### Table Events
 
