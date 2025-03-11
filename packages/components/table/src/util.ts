@@ -2,6 +2,7 @@
 import { createVNode, isVNode, render } from 'vue'
 import { flatMap, get, isNull, merge } from 'lodash-unified'
 import {
+  debugWarn,
   getProp,
   hasOwn,
   isArray,
@@ -178,7 +179,9 @@ export const getRowIdentity = <T>(
   row: T,
   rowKey: string | ((row: T) => any)
 ): string => {
-  if (!row) throw new Error('Row is required when get row identity')
+  if (!row) throwError('ElTable', 'Row is required when get row identity')
+  if (!row[rowKey]) debugWarn('ElTable', `${rowKey} is not in row`)
+
   if (isString(rowKey)) {
     if (!rowKey.includes('.')) {
       return `${row[rowKey]}`
