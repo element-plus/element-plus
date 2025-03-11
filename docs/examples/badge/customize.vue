@@ -17,9 +17,11 @@
     </template>
   </el-badge>
 </template>
+
 <script setup lang="ts">
 import { Message } from '@element-plus/icons-vue'
 </script>
+
 <style scoped>
 .item {
   margin-top: 10px;

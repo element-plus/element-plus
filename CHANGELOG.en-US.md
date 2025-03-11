@@ -1,6 +1,63 @@
 ## Changelog
 
 
+### 2.9.6
+
+_2025-03-07_
+
+#### Features
+
+- Components [tree/tree-select] add `check-on-click-leaf` attribute (#19494 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [select-v2] allow propagation of non-control key events in custom options (#19984 by @DDDDD12138)
+- Components [table] replace pageX with clientX (#19881 by @chengang4505)
+- Components [date-picker] change triggers twice when clearing (#19804 by @xingyixiang)
+- Components [input] `@change` event value formatter (#20000 by @qq1037305420)
+- Components [date-picker] add user input validation (#20021 by @zhixiaotong)
+- Components [dropdown] `button-props` as a `Partial` type (#20035 by @Dsaquel)
+- Components [date-picker] support remove same months from different years (#20020 by @DDDDD12138)
+- Components [select-v2] option need double click in IOS (#20041 by @warmthsea)
+- Style(theme-chalk): [tabs] update tabs style (#19975 by @kooriookami)
+- Perf(components): [select-v2] optimize to avoid unnecessary computations (#19970 by @DDDDD12138)
+- Style(components): [cascader] content display is incomplete (#20015 by @warmthsea)
+- Style(components): [cascader] delete icon height (#20036 by @warmthsea)
+#### Refactors
+
+- Components [image] image-viewer standalone use (#19715 by @zzjiaxiang)
+
+### 2.9.5
+
+_2025-02-21_
+
+#### Features
+
+- Components [dropdown] add `persistent` prop (#19797 by @zzjiaxiang)
+- Components [menu] add `persistent` prop (#19874 by @zzjiaxiang)
+- Components [cascader] add suggestion slot (#19866 by @DiamondYuan)
+- Components [message-box] support custom close icon in message-box (#18168 by @xionkq)
+- Components [slider] add `persistent` prop (#19889 by @zzjiaxiang)
+
+#### Bug fixes
+
+- Components [message-box] init validator (#19832 by @warmthsea)
+- Components [tree-select] dynamic bind class invalid (#19803 by @btea)
+- Components [table] compatible with window non-existence (#19837 by @purepear)
+- Components [select] solve memory leak (#19709 by @dddssw)
+- Components [steps] update border-color to support safari (#19726 by @LoTwT)
+- Components [description] tsx rendering functional component error (#19879 by @btea)
+- Components [cascader] prevent default behavior when pressing a key to toggle suggestion list (#19897 by @warmthsea)
+- Components [message-box] vue warning when closeIcon is component (#19901 by @btea)
+- Components [select] ensure scrollbar syncs when scrolling to selected option (#19636 by @DDDDD12138)
+- Components [tree-select] search solve memory leak (#19895 by @warmthsea)
+
+#### Refactors
+
+- Components [menu] change to `script setup` writing  and optimizing code (#19816 by @zzjiaxiang)
+- [menu] add necessary braces (#19840 by @btea)
+- [time-picker] optimize type declaration (#19875 by @zzjiaxiang)
+
 ### 2.9.4
 
 _2025-02-07_

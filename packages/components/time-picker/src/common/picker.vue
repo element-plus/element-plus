@@ -153,6 +153,7 @@
     </template>
   </el-tooltip>
 </template>
+
 <script lang="ts" setup>
 import {
   computed,
@@ -292,6 +293,8 @@ const emitChange = (
   // determine user real change only
   if (isClear || !valueEquals(val, valueOnOpen.value)) {
     emit('change', val)
+    // Set the value of valueOnOpen when clearing to avoid triggering change events multiple times.
+    isClear && (valueOnOpen.value = val)
     props.validateEvent &&
       formItem?.validate('change').catch((err) => debugWarn(err))
   }
@@ -540,7 +543,7 @@ const handleChange = () => {
   }
   if (userInput.value === '') {
     emitInput(valueOnClear.value)
-    emitChange(valueOnClear.value)
+    emitChange(valueOnClear.value, true)
     userInput.value = null
   }
 }

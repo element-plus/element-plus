@@ -22,7 +22,6 @@ const COMPONENT_NAME = 'ElAffix'
 defineOptions({
   name: COMPONENT_NAME,
 })
-
 const props = defineProps(affixProps)
 const emit = defineEmits(affixEmits)
 

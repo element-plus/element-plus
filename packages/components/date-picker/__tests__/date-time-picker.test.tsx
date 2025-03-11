@@ -405,6 +405,33 @@ describe('Datetime Picker', () => {
     await nextTick()
     expect(dayjs(value.value).format('D')).toBe(dayText)
   })
+
+  it('validate user input', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+    const input = wrapper.find('input')
+    input.element.value = '999999-10-01 12:01:03'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(value.value).toBe('')
+
+    input.element.value = '2023-10-01 12:01:03'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toBe(
+      '2023-10-01 12:01:03'
+    )
+
+    // invalid user input not work
+    input.element.value = '999999-10-01'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toBe(
+      '2023-10-01 12:01:03'
+    )
+  })
 })
 
 describe('Datetimerange', () => {

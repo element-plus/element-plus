@@ -89,7 +89,7 @@ dropdown/sizes
 
 ## Dropdown API
 
-### Attributes
+### Dropdown Attributes
 
 | Name                 | Description                                                                                                           | Type                                                                                                         | Default                                                                    |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
@@ -101,25 +101,25 @@ dropdown/sizes
 | disabled             | whether to disable                                                                                                    | ^[boolean]                                                                                                   | false                                                                      |
 | placement            | placement of pop menu                                                                                                 | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'`                     | bottom                                                                     |
 | trigger              | how to trigger                                                                                                        | ^[enum]`'hover' \| 'click' \| 'contextmenu'`                                                                 | hover                                                                      |
-| triggerKeys ^(2.9.1) | specify whick keys on the keyboard can trigger when pressed                                                           | ^[array]`string[]`                                                                                           | `['Enter', 'Space', 'ArrowDown', 'NumpadEnter']`                           |
+| triggerKeys ^(2.9.1) | specify which keys on the keyboard can trigger when pressed                                                           | ^[array]`string[]`                                                                                           | `['Enter', 'Space', 'ArrowDown', 'NumpadEnter']`                           |
 | hide-on-click        | whether to hide menu after clicking menu-item                                                                         | ^[boolean]                                                                                                   | true                                                                       |
 | show-timeout         | delay time before show a dropdown (only works when trigger is `hover`)                                                | ^[number]                                                                                                    | 150                                                                        |
 | hide-timeout         | delay time before hide a dropdown (only works when trigger is `hover`)                                                | ^[number]                                                                                                    | 150                                                                        |
-| role                 | the ARIA role attribute for the dropdown menu. Depending on the use case, you may want to change this to 'navigation' | ^[string]                                                                                                    | menu                                                                       |
+| role                 | the ARIA role attribute for the dropdown menu. Depending on the use case, you may want to change this to 'navigation' | ^[enum]`'dialog' \| 'grid' \| 'group' \| 'listbox' \| 'menu' \| 'navigation' \| 'tooltip' \| 'tree'`         | menu                                                                       |
 | tabindex             | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Dropdown                  | ^[number] / ^[string]                                                                                        | 0                                                                          |
 | popper-class         | custom class name for Dropdown's dropdown                                                                             | ^[string]                                                                                                    | ''                                                                         |
 | popper-options       | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]                                                                                                    | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
 | teleported ^(2.2.20) | whether the dropdown popup is teleported to the body                                                                  | ^[boolean]                                                                                                   | true                                                                       |
-| persistent ^(2.9.5)  | when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed                                     | ^[boolean]                                                                                                   | true                                                                       |
+| persistent ^(2.9.5)  | when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed                                  | ^[boolean]                                                                                                   | true                                                                       |
 
-### Slots
+### Dropdown Slots
 
 | Name     | Description                                                                                                                                   | Subtags       |
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | default  | content of Dropdown. Notice: Must be a valid html dom element (ex. `<span>, <button> etc.`) or `el-component`, to attach the trigger listener | —             |
 | dropdown | content of the Dropdown Menu, usually a `<el-dropdown-menu>` element                                                                          | Dropdown-Menu |
 
-### Events
+### Dropdown Events
 
 | Name           | Description                                                                                               | Type                                  |
 | -------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------- |
@@ -127,7 +127,7 @@ dropdown/sizes
 | command        | triggers when a dropdown item is clicked, the parameters is the command dispatched from the dropdown item | ^[Function]`(...args: any[]) => void` |
 | visible-change | triggers when the dropdown appears/disappears, the param is true when it appears, and false otherwise     | ^[Function]`(val: boolean) => void`   |
 
-### Exposes
+### Dropdown Exposes
 
 | Method      | Description             | Type                    |
 | ----------- | ----------------------- | ----------------------- |
@@ -136,7 +136,7 @@ dropdown/sizes
 
 ## Dropdown-Menu API
 
-### Slots
+### Dropdown-Menu Slots
 
 | Name    | Description              | Subtags       |
 | ------- | ------------------------ | ------------- |
@@ -144,7 +144,7 @@ dropdown/sizes
 
 ## Dropdown-Item API
 
-### Attributes
+### Dropdown-Item Attributes
 
 | Name     | Description                                                 | Type                              | Default |
 | -------- | ----------------------------------------------------------- | --------------------------------- | ------- |
@@ -153,7 +153,7 @@ dropdown/sizes
 | divided  | whether a divider is displayed                              | ^[boolean]                        | false   |
 | icon     | custom icon                                                 | ^[string] / ^[Component]          | —       |
 
-### Slots
+### Dropdown-Item Slots
 
 | Name    | Description                |
 | ------- | -------------------------- |

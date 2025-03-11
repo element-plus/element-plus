@@ -104,6 +104,7 @@ export interface TreeComponentProps {
   expandOnClickNode: boolean
   defaultExpandAll: boolean
   checkOnClickNode: boolean
+  checkOnClickLeaf: boolean
   checkDescendants: boolean
   autoExpandParent: boolean
   defaultCheckedKeys: TreeKey[]

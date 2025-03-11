@@ -8,6 +8,7 @@
     <slot />
   </div>
 </template>
+
 <script lang="ts" setup>
 import { inject, ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
