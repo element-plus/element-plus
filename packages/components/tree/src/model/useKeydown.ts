@@ -34,6 +34,22 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     })
   })
 
+  const shouldClickCurrentItem = (node, currentItem, code = '') => {
+    // Check whether it is a leaf node or the last child node
+    if (
+      (!node.childNodes.length && !node.store.lazy) ||
+      (node.store.lazy && node.isLeaf) ||
+      (node.store.checkStrictly &&
+        ![EVENT_CODE.left, EVENT_CODE.right].includes(code))
+    ) {
+      currentItem.click()
+    } else if (!node.expanded) {
+      node.expand()
+    } else if (node.expanded) {
+      node.collapse()
+    }
+  }
+
   const handleKeydown = (ev: KeyboardEvent): void => {
     const currentItem = ev.target as HTMLElement
     if (!currentItem.className.includes(ns.b('node'))) return
@@ -97,17 +113,17 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
 
       const node = store.value.getNode(currentItem.dataset.key)
 
-      // Check whether it is a leaf node or the last child node
-      if (
-        (!node.childNodes.length && !node.store.lazy) ||
-        (node.store.lazy && node.isLeaf)
-      ) {
-        currentItem.click()
-      } else if (!node.expanded) {
-        node.expand()
-      } else if (node.expanded) {
-        node.collapse()
-      }
+      shouldClickCurrentItem(node, currentItem, ev.code)
+      // if (
+      //   (!node.childNodes.length && !node.store.lazy) ||
+      //   (node.store.lazy && node.isLeaf)
+      // ) {
+      //   currentItem.click()
+      // } else if (!node.expanded) {
+      //   node.expand()
+      // } else if (node.expanded) {
+      //   node.collapse()
+      // }
     }
     const hasInput = currentItem.querySelector(
       '[type="checkbox"]'
@@ -123,18 +139,19 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     } else if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(code)) {
       ev.preventDefault()
       const node = store.value.getNode(currentItem.dataset.key)
-      // Check whether it is a leaf node or the last child node
-      if (
-        (!node.childNodes.length && !node.store.lazy) ||
-        (node.store.lazy && node.isLeaf) ||
-        node.store.checkStrictly
-      ) {
-        currentItem.click()
-      } else if (!node.expanded) {
-        node.expand()
-      } else if (node.expanded) {
-        node.collapse()
-      }
+      shouldClickCurrentItem(node, currentItem)
+      // // Check whether it is a leaf node or the last child node
+      // if (
+      //   (!node.childNodes.length && !node.store.lazy) ||
+      //   (node.store.lazy && node.isLeaf) ||
+      //   node.store.checkStrictly
+      // ) {
+      //   currentItem.click()
+      // } else if (!node.expanded) {
+      //   node.expand()
+      // } else if (node.expanded) {
+      //   node.collapse()
+      // }
     }
   }
 
