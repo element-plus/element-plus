@@ -61,6 +61,10 @@ const getScrollOptions = (
     value = value === 'false' ? false : value
     value = type(value)
     acm[name] = Number.isNaN(value) ? defaultValue : value
+    // fix scroll bar precision bug, when distance is 0
+    if (name === 'distance') {
+      acm.distance =  acm.distance || 1
+    }
     return acm
   }, {} as ScrollOptions)
 }
