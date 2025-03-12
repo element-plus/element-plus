@@ -62,4 +62,5 @@ export type ElTooltipContentProps = ExtractPropTypes<
   typeof useTooltipContentProps
 >
 
-export type TooltipContentInstance = InstanceType<typeof TooltipContent>
+export type TooltipContentInstance = InstanceType<typeof TooltipContent> &
+  unknown

@@ -40,4 +40,4 @@ export const tooltipEmits = [
 
 export type ElTooltipProps = ExtractPropTypes<typeof useTooltipProps>
 
-export type TooltipInstance = InstanceType<typeof Tooltip>
+export type TooltipInstance = InstanceType<typeof Tooltip> & unknown

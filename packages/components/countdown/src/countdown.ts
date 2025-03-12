@@ -47,4 +47,4 @@ export const countdownEmits = {
 }
 export type CountdownEmits = typeof countdownEmits
 
-export type CountdownInstance = InstanceType<typeof Countdown>
+export type CountdownInstance = InstanceType<typeof Countdown> & unknown
