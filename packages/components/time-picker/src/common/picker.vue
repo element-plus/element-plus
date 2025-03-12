@@ -179,7 +179,11 @@ import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { NOOP, debugWarn, isArray } from '@element-plus/utils'
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
 import { dayOrDaysToDate, formatter, parseDate, valueEquals } from '../utils'
 import { timePickerDefaultProps } from './props'
@@ -206,7 +210,7 @@ defineOptions({
 const props = defineProps(timePickerDefaultProps)
 const emit = defineEmits([
   UPDATE_MODEL_EVENT,
-  'change',
+  CHANGE_EVENT,
   'focus',
   'blur',
   'clear',
@@ -292,7 +296,7 @@ const emitChange = (
 ) => {
   // determine user real change only
   if (isClear || !valueEquals(val, valueOnOpen.value)) {
-    emit('change', val)
+    emit(CHANGE_EVENT, val)
     // Set the value of valueOnOpen when clearing to avoid triggering change events multiple times.
     isClear && (valueOnOpen.value = val)
     props.validateEvent &&

@@ -35,7 +35,7 @@ import { useVModel } from '@vueuse/core'
 import { useNamespace, useZIndex } from '@element-plus/hooks'
 import { isBoolean } from '@element-plus/utils'
 import ElTeleport from '@element-plus/components/teleport'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElTourMask from './mask.vue'
 import ElTourContent from './content.vue'
 import ElTourSteps from './steps'
@@ -142,7 +142,7 @@ provide(tourKey, {
     emit('finish')
   },
   onChange() {
-    emit('change', current.value)
+    emit(CHANGE_EVENT, current.value)
   },
 })
 </script>
