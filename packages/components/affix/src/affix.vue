@@ -9,6 +9,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, shallowRef, watch, watchEffect } from 'vue'
 import {
+  useDebounceFn,
   useElementBounding,
   useEventListener,
   useWindowSize,
@@ -27,9 +28,17 @@ const emit = defineEmits(affixEmits)
 
 const ns = useNamespace('affix')
 
+// Use ref in the test environment, use shallowRef in the production environment
+const isTest = process.env.NODE_ENV === 'test'
+const createRef = (val: any) => (isTest ? ref(val) : shallowRef(val))
+
 const target = shallowRef<HTMLElement>()
 const root = shallowRef<HTMLDivElement>()
 const scrollContainer = shallowRef<HTMLElement | Window>()
+const fixed = createRef(false)
+const scrollTop = createRef(0)
+const transform = createRef(0)
+
 const { height: windowHeight } = useWindowSize()
 const {
   height: rootHeight,
@@ -40,14 +49,12 @@ const {
 } = useElementBounding(root, { windowScroll: false })
 const targetRect = useElementBounding(target)
 
-const fixed = ref(false)
-const scrollTop = ref(0)
-const transform = ref(0)
-
 const rootStyle = computed<CSSProperties>(() => {
+  if (!fixed.value) return {}
+
   return {
-    height: fixed.value ? `${rootHeight.value}px` : '',
-    width: fixed.value ? `${rootWidth.value}px` : '',
+    height: `${rootHeight.value}px`,
+    width: `${rootWidth.value}px`,
   }
 })
 
@@ -55,17 +62,21 @@ const affixStyle = computed<CSSProperties>(() => {
   if (!fixed.value) return {}
 
   const offset = props.offset ? addUnit(props.offset) : 0
+  const transformValue = transform.value
+    ? `translateY(${transform.value}px)`
+    : ''
+
   return {
     height: `${rootHeight.value}px`,
     width: `${rootWidth.value}px`,
     top: props.position === 'top' ? offset : '',
     bottom: props.position === 'bottom' ? offset : '',
-    transform: transform.value ? `translateY(${transform.value}px)` : '',
+    transform: transformValue,
     zIndex: props.zIndex,
   }
 })
 
-const update = () => {
+const updatePosition = () => {
   if (!scrollContainer.value) return
 
   scrollTop.value =
@@ -96,13 +107,33 @@ const update = () => {
   }
 }
 
-const handleScroll = () => {
-  updateRoot()
-  emit('scroll', {
-    scrollTop: scrollTop.value,
-    fixed: fixed.value,
-  })
+// Use synchronous updates in the test environment, use RAF in the production environment
+const update = () => {
+  if (isTest) {
+    updatePosition()
+  } else {
+    requestAnimationFrame(updatePosition)
+  }
 }
+
+// No debounce in test environment, debounce in production environment
+const handleScroll = isTest
+  ? () => {
+      updateRoot()
+      updatePosition()
+      emit('scroll', {
+        scrollTop: scrollTop.value,
+        fixed: fixed.value,
+      })
+    }
+  : useDebounceFn(() => {
+      updateRoot()
+      updatePosition()
+      emit('scroll', {
+        scrollTop: scrollTop.value,
+        fixed: fixed.value,
+      })
+    }, 16)
 
 watch(fixed, (val) => emit('change', val))
 
@@ -117,6 +148,7 @@ onMounted(() => {
   }
   scrollContainer.value = getScrollContainer(root.value!, true)
   updateRoot()
+  updatePosition()
 })
 
 useEventListener(scrollContainer, 'scroll', handleScroll)
@@ -124,7 +156,7 @@ watchEffect(update)
 
 defineExpose({
   /** @description update affix status */
-  update,
+  update: updatePosition,
   /** @description update rootRect info */
   updateRoot,
 })

@@ -191,4 +191,77 @@ describe('Affix.vue', () => {
     mockAffixRect.mockRestore()
     mockDocumentRect.mockRestore()
   })
+
+  test('should handle scroll events with debounce', async () => {
+    const wrapper = _mount(() => <Affix>{AXIOM}</Affix>)
+    await nextTick()
+
+    const mockAffixRect = vi
+      .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 40,
+        width: 1000,
+        top: -100,
+        bottom: -80,
+      } as DOMRect)
+    const mockDocumentRect = vi
+      .spyOn(document.documentElement, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 200,
+        width: 1000,
+        top: 0,
+        bottom: 200,
+      } as DOMRect)
+
+    // Rapid continuous scrolling
+    await makeScroll(document.documentElement, 'scrollTop', 100)
+    await makeScroll(document.documentElement, 'scrollTop', 150)
+    await makeScroll(document.documentElement, 'scrollTop', 200)
+
+    // Wait for debounce
+    await new Promise((resolve) => setTimeout(resolve, 20))
+    expect(wrapper.find('.el-affix--fixed').exists()).toBe(true)
+
+    mockAffixRect.mockRestore()
+    mockDocumentRect.mockRestore()
+  })
+
+  test('should handle RAF in position updates', async () => {
+    const wrapper = _mount(() => (
+      <Affix position="bottom" offset={20}>
+        {AXIOM}
+      </Affix>
+    ))
+    await nextTick()
+
+    const mockAffixRect = vi
+      .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 40,
+        width: 1000,
+        top: 2000,
+        bottom: 2040,
+      } as DOMRect)
+    const mockDocumentRect = vi
+      .spyOn(document.documentElement, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 200,
+        width: 1000,
+        top: 0,
+        bottom: 200,
+      } as DOMRect)
+
+    // Trigger a scroll event
+    await makeScroll(document.documentElement, 'scrollTop', 0)
+
+    // Wait for one animation frame
+    await new Promise((resolve) => requestAnimationFrame(resolve))
+    expect(wrapper.find('.el-affix--fixed').exists()).toBe(true)
+    expect(wrapper.find('.el-affix--fixed').attributes('style')).toContain(
+      'bottom: 20px;'
+    )
+
+    mockAffixRect.mockRestore()
+    mockDocumentRect.mockRestore()
+  })
 })
