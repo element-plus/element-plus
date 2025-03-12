@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, shallowRef, watch, watchEffect } from 'vue'
+import { computed, onMounted, ref, shallowRef, watch, watchEffect, nextTick } from 'vue'
 import {
   useElementBounding,
   useEventListener,
@@ -97,8 +97,9 @@ const update = () => {
   }
 }
 
-const handleScroll = () => {
+const handleScroll = async () => {
   updateRoot()
+  await nextTick()
   emit('scroll', {
     scrollTop: scrollTop.value,
     fixed: fixed.value,
