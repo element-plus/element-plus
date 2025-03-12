@@ -49,7 +49,7 @@ card/shadow
 
 ## Borderless ^(2.9.7)
 
-:::demo A borderless card on a gray background.
+:::demo By default, the Card component has a border; if you don't need one, you can use the `border` property, which is enabled by setting it to `false`.
 
 card/borderless
 
@@ -66,7 +66,7 @@ card/borderless
 | body-style           | CSS style of card body                                         | ^[object]`CSSProperties`          | —       |
 | body-class ^(2.3.10) | custom class name of card body                                 | ^[string]                         | —       |
 | shadow               | when to show card shadows                                      | ^[enum]`always \| never \| hover` | always  |
-| borderless ^(2.9.7)  | set with no border                                             | ^[Boolean]                         | false   |
+| border ^(2.9.7)      | set with no border                                             | ^[Boolean]                        | true    |
 
 ### Slots
 

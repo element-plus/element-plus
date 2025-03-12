@@ -1,11 +1,5 @@
 <template>
-  <div
-    :class="[
-      ns.b(),
-      ns.is(`${shadow}-shadow`),
-      ns.is('borderless', borderless),
-    ]"
-  >
+  <div :class="[ns.b(), ns.is(`${shadow}-shadow`), ns.is('bordered', border)]">
     <div v-if="$slots.header || header" :class="ns.e('header')">
       <slot name="header">{{ header }}</slot>
     </div>
