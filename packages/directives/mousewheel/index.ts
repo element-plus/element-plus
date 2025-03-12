@@ -3,11 +3,15 @@ import normalizeWheel from 'normalize-wheel-es'
 import type { DirectiveBinding, ObjectDirective } from 'vue'
 import type { NormalizedWheelEvent } from 'normalize-wheel-es'
 
-let fnCallback: any = null
+let fnCallback:
+  | ((event: WheelEvent, normalized: NormalizedWheelEvent) => void)
+  | null = null
 
 const fn = function (this: HTMLElement, event: WheelEvent) {
   const normalized = normalizeWheel(event)
-  fnCallback && Reflect.apply(fnCallback, this, [event, normalized])
+  if (fnCallback) {
+    Reflect.apply(fnCallback, this, [event, normalized])
+  }
 }
 
 const mousewheel = function (
