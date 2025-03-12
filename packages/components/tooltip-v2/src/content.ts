@@ -1,3 +1,4 @@
+import { placements } from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
 
@@ -6,21 +7,6 @@ import type { ExtractPropTypes } from 'vue'
 import type { Placement, Strategy, VirtualElement } from '@floating-ui/dom'
 
 const tooltipV2Strategies = ['absolute', 'fixed'] as const
-
-const tooltipV2Placements = [
-  'top-start',
-  'top-end',
-  'top',
-  'bottom-start',
-  'bottom-end',
-  'bottom',
-  'left-start',
-  'left-end',
-  'left',
-  'right-start',
-  'right-end',
-  'right',
-] as const
 
 export const tooltipV2ContentProps = buildProps({
   arrowPadding: {
@@ -37,7 +23,7 @@ export const tooltipV2ContentProps = buildProps({
    */
   placement: {
     type: definePropType<Placement>(String),
-    values: tooltipV2Placements,
+    values: placements,
     default: 'bottom',
   },
   /**
