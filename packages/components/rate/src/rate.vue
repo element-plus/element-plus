@@ -57,7 +57,11 @@
 
 <script lang="ts" setup>
 import { computed, inject, markRaw, ref, watch } from 'vue'
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import { hasClass, isArray, isObject, isString } from '@element-plus/utils'
 import {
   formContextKey,
@@ -214,7 +218,7 @@ function emitValue(value: number) {
 
   emit(UPDATE_MODEL_EVENT, value)
   if (props.modelValue !== value) {
-    emit('change', value)
+    emit(CHANGE_EVENT, value)
   }
 }
 
@@ -255,7 +259,7 @@ function handleKey(e: KeyboardEvent) {
   _currentValue = _currentValue < 0 ? 0 : _currentValue
   _currentValue = _currentValue > props.max ? props.max : _currentValue
   emit(UPDATE_MODEL_EVENT, _currentValue)
-  emit('change', _currentValue)
+  emit(CHANGE_EVENT, _currentValue)
   return _currentValue
 }
 

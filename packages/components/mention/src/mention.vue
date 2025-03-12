@@ -121,7 +121,7 @@ const hoveringId = computed(() => {
 })
 
 const handleInputChange = (value: string) => {
-  emit('update:modelValue', value)
+  emit(UPDATE_MODEL_EVENT, value)
   syncAfterCursorMove()
 }
 

@@ -136,7 +136,11 @@ import {
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
 import AlphaSlider from './components/alpha-slider.vue'
@@ -286,7 +290,7 @@ function handleConfirm() {
 function confirmValue() {
   const value = color.value
   emit(UPDATE_MODEL_EVENT, value)
-  emit('change', value)
+  emit(CHANGE_EVENT, value)
   if (props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
@@ -307,7 +311,7 @@ function confirmValue() {
 function clear() {
   debounceSetShowPicker(false)
   emit(UPDATE_MODEL_EVENT, null)
-  emit('change', null)
+  emit(CHANGE_EVENT, null)
   if (props.modelValue !== null && props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
