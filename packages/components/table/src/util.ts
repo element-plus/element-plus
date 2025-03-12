@@ -180,6 +180,7 @@ export const getRowIdentity = <T>(
   rowKey: string | ((row: T) => any)
 ): string => {
   if (!row) throwError('ElTable', 'Row is required when get row identity')
+  if (!rowKey) debugWarn('ElTable', 'rowKey is required when get row identity')
   if (!row[rowKey]) debugWarn('ElTable', `${rowKey} is not in row`)
 
   if (isString(rowKey)) {
