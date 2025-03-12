@@ -114,16 +114,6 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
       const node = store.value.getNode(currentItem.dataset.key)
 
       shouldClickCurrentItem(node, currentItem, ev.code)
-      // if (
-      //   (!node.childNodes.length && !node.store.lazy) ||
-      //   (node.store.lazy && node.isLeaf)
-      // ) {
-      //   currentItem.click()
-      // } else if (!node.expanded) {
-      //   node.expand()
-      // } else if (node.expanded) {
-      //   node.collapse()
-      // }
     }
     const hasInput = currentItem.querySelector(
       '[type="checkbox"]'
@@ -140,18 +130,6 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
       ev.preventDefault()
       const node = store.value.getNode(currentItem.dataset.key)
       shouldClickCurrentItem(node, currentItem)
-      // // Check whether it is a leaf node or the last child node
-      // if (
-      //   (!node.childNodes.length && !node.store.lazy) ||
-      //   (node.store.lazy && node.isLeaf) ||
-      //   node.store.checkStrictly
-      // ) {
-      //   currentItem.click()
-      // } else if (!node.expanded) {
-      //   node.expand()
-      // } else if (node.expanded) {
-      //   node.collapse()
-      // }
     }
   }
 
