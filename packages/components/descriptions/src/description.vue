@@ -32,7 +32,7 @@ import { useFormSize } from '@element-plus/components/form'
 import ElDescriptionsRow from './descriptions-row.vue'
 import { descriptionsKey } from './token'
 import { descriptionProps } from './description'
-import { DescriptionItemComponentName } from './description-item'
+import { COMPONENT_NAME } from './constants'
 
 import type { IDescriptionsInject } from './descriptions.type'
 import type { DescriptionItemVNode } from './description-item'
@@ -77,7 +77,7 @@ const getRows = () => {
 
   const children = flattedChildren(slots.default()).filter(
     (node): node is DescriptionItemVNode =>
-      (node as any)?.type?.name === DescriptionItemComponentName
+      (node as any)?.type?.name === COMPONENT_NAME
   )
   const rows: DescriptionItemVNode[][] = []
   let temp: DescriptionItemVNode[] = []
