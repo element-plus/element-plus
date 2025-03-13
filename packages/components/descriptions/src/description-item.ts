@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 import { buildProps } from '@element-plus/utils'
-
 import { COMPONENT_NAME } from './constants'
+
 import type { ExtractPropTypes, Slot, VNode } from 'vue'
 
 export const descriptionItemProps = buildProps({
