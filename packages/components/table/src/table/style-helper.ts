@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   computed,
   nextTick,
@@ -11,6 +10,7 @@ import {
 import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { useFormSize } from '@element-plus/components/form'
 
+import type { NormalizedWheelEvent } from 'normalize-wheel-es'
 import type { Table, TableProps } from './defaults'
 import type { Store } from '../store'
 import type TableLayout from '../table-layout'
@@ -85,28 +85,27 @@ function useStyle<T>(
     table.store.commit('setHoverRow', null)
     if (table.hoverState) table.hoverState = null
   }
-
-  const handleHeaderFooterMousewheel = (event, data) => {
+  const handleHeaderFooterMousewheel = (
+    event: WheelEvent,
+    data: NormalizedWheelEvent
+  ) => {
     const { pixelX, pixelY } = data
     if (Math.abs(pixelX) >= Math.abs(pixelY)) {
       table.refs.bodyWrapper.scrollLeft += data.pixelX / 5
     }
   }
 
-  const shouldUpdateHeight = computed(() => {
-    return (
+  const shouldUpdateHeight = computed(
+    () =>
       props.height ||
       props.maxHeight ||
       store.states.fixedColumns.value.length > 0 ||
       store.states.rightFixedColumns.value.length > 0
-    )
-  })
+  )
 
-  const tableBodyStyles = computed(() => {
-    return {
-      width: layout.bodyWidth.value ? `${layout.bodyWidth.value}px` : '',
-    }
-  })
+  const tableBodyStyles = computed(() => ({
+    width: layout.bodyWidth.value ? `${layout.bodyWidth.value}px` : '',
+  }))
 
   const doLayout = () => {
     if (shouldUpdateHeight.value) {
@@ -127,7 +126,7 @@ function useStyle<T>(
 
     const el: HTMLElement = table.vnode.el as HTMLElement
     const tableHeader: HTMLElement = table.refs.headerWrapper
-    if (props.flexible && el && el.parentElement) {
+    if (props.flexible && el?.parentElement) {
       // Automatic minimum size of flex-items
       // Ensure that the main axis does not follow the width of the items
       el.parentElement.style.minWidth = '0'
@@ -142,7 +141,7 @@ function useStyle<T>(
 
     // init filters
     store.states.columns.value.forEach((column: TableColumnCtx<T>) => {
-      if (column.filteredValue && column.filteredValue.length) {
+      if (column.filteredValue?.length) {
         table.store.commit('filterChange', {
           column,
           values: column.filteredValue,
@@ -166,7 +165,7 @@ function useStyle<T>(
   }
   const hasScrollClass = (className: string) => {
     const { tableWrapper } = table.refs
-    return !!(tableWrapper && tableWrapper.classList.contains(className))
+    return !!tableWrapper?.classList.contains(className)
   }
   const syncPosition = function () {
     if (!table.refs.scrollBarRef) return
@@ -268,7 +267,7 @@ function useStyle<T>(
   const bodyWidth = computed(() => {
     const { bodyWidth: bodyWidth_, scrollY, gutterWidth } = layout
     return bodyWidth_.value
-      ? `${(bodyWidth_.value as number) - (scrollY.value ? gutterWidth : 0)}px`
+      ? `${bodyWidth_.value - (scrollY.value ? gutterWidth : 0)}px`
       : ''
   })
 
@@ -278,7 +277,7 @@ function useStyle<T>(
   })
 
   const emptyBlockStyle = computed(() => {
-    if (props.data && props.data.length) return null
+    if (props.data?.length) return undefined
     let height = '100%'
     if (props.height && bodyScrollHeight.value) {
       height = `${bodyScrollHeight.value}px`
@@ -297,47 +296,22 @@ function useStyle<T>(
       }
     }
     if (props.maxHeight) {
-      if (!Number.isNaN(Number(props.maxHeight))) {
-        return {
-          maxHeight: `${
-            props.maxHeight -
-            headerScrollHeight.value -
-            footerScrollHeight.value
-          }px`,
-        }
-      } else {
-        return {
-          maxHeight: `calc(${props.maxHeight} - ${
-            headerScrollHeight.value + footerScrollHeight.value
-          }px)`,
-        }
-      }
+      return Number.isNaN(Number(props.maxHeight))
+        ? {
+            maxHeight: `calc(${props.maxHeight} - ${
+              headerScrollHeight.value + footerScrollHeight.value
+            }px)`,
+          }
+        : {
+            maxHeight: `${
+              Number(props.maxHeight) -
+              headerScrollHeight.value -
+              footerScrollHeight.value
+            }px`,
+          }
     }
-
     return {}
   })
-
-  /**
-   * fix layout
-   */
-  const handleFixedMousewheel = (event, data) => {
-    const bodyWrapper = table.refs.bodyWrapper
-    if (Math.abs(data.spinY) > 0) {
-      const currentScrollTop = bodyWrapper.scrollTop
-      if (data.pixelY < 0 && currentScrollTop !== 0) {
-        event.preventDefault()
-      }
-      if (
-        data.pixelY > 0 &&
-        bodyWrapper.scrollHeight - bodyWrapper.clientHeight > currentScrollTop
-      ) {
-        event.preventDefault()
-      }
-      bodyWrapper.scrollTop += Math.ceil(data.pixelY / 5)
-    } else {
-      bodyWrapper.scrollLeft += Math.ceil(data.pixelX / 5)
-    }
-  }
 
   return {
     isHidden,
@@ -348,7 +322,6 @@ function useStyle<T>(
     handleHeaderFooterMousewheel,
     tableSize,
     emptyBlockStyle,
-    handleFixedMousewheel,
     resizeProxyVisible,
     bodyWidth,
     resizeState,

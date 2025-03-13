@@ -1,4 +1,3 @@
-// @ts-nocheck
 import type { ComponentInternalInstance, PropType, Ref, VNode } from 'vue'
 import type { DefaultRow, Table } from '../table/defaults'
 import type {
@@ -13,7 +12,7 @@ type Filters = {
   value: string
 }[]
 
-type FilterMethods<T> = (value, row: T, column: TableColumnCtx<T>) => void
+type FilterMethods<T> = (value: any, row: T, column: TableColumnCtx<T>) => void
 
 type ValueOf<T> = T[keyof T]
 
@@ -43,7 +42,7 @@ interface TableColumnCtx<T> {
   formatter: (
     row: T,
     column: TableColumnCtx<T>,
-    cellValue,
+    cellValue: any,
     index: number
   ) => VNode | string
   selectable: (row: T, index: number) => boolean
@@ -235,13 +234,10 @@ export default {
    */
   sortOrders: {
     type: Array as PropType<TableColumnCtx<DefaultRow>['sortOrders']>,
-    default: () => {
-      return ['ascending', 'descending', null]
-    },
-    validator: (val: TableColumnCtx<unknown>['sortOrders']) => {
-      return val.every((order: string) =>
+    default: () => ['ascending', 'descending', null],
+    validator: (val: TableColumnCtx<unknown>['sortOrders']) =>
+      val.every((order: string | null) =>
         ['ascending', 'descending', null].includes(order)
-      )
-    },
+      ),
   },
 }
