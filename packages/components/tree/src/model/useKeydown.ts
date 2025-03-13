@@ -34,7 +34,7 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     })
   })
 
-  const shouldClickCurrentItem = (node, currentItem, code = '') => {
+  const handleNode = (node, currentItem, code = '') => {
     // Check whether it is a leaf node or the last child node
     if (
       (!node.childNodes.length && !node.store.lazy) ||
@@ -113,7 +113,7 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
 
       const node = store.value.getNode(currentItem.dataset.key)
 
-      shouldClickCurrentItem(node, currentItem, ev.code)
+      handleNode(node, currentItem, ev.code)
     }
     const hasInput = currentItem.querySelector(
       '[type="checkbox"]'
@@ -129,7 +129,7 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     } else if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(code)) {
       ev.preventDefault()
       const node = store.value.getNode(currentItem.dataset.key)
-      shouldClickCurrentItem(node, currentItem)
+      handleNode(node, currentItem)
     }
   }
 
