@@ -1,5 +1,5 @@
 <template>
-  <div class="popover-base-box">
+  <div class="popconfirm-base-box">
     <div class="row center">
       <el-popconfirm
         class="box-item"
@@ -118,21 +118,21 @@
 </template>
 
 <style>
-.popover-base-box {
+.popconfirm-base-box {
   width: 600px;
 }
 
-.popover-base-box .row {
+.popconfirm-base-box .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.popover-base-box .center {
+.popconfirm-base-box .center {
   justify-content: center;
 }
 
-.popover-base-box .box-item {
+.popconfirm-base-box .box-item {
   width: 110px;
   margin-top: 10px;
 }
