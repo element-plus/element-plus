@@ -4,11 +4,14 @@
 @include b(popconfirm) {
   @include e(main) {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
+
   @include e(icon) {
     margin-right: 5px;
+    margin-top: 3px;
   }
+
   @include e(action) {
     text-align: right;
     margin-top: 8px;
