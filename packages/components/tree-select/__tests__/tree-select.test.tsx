@@ -880,11 +880,11 @@ describe('TreeSelect.vue', () => {
       components: { TreeSelect },
       data() {
         return {
-          data: [{ value: 1, handleChange: spy1 }],
+          data: [{ value: null, handleModelValue: spy1 }],
           options: [{ value: 1 }, { value: 2 }],
         }
       },
-      template: `<TreeSelect v-for="item in data" v-model="item.value" :data="options" @update:modelValue="item.handleChange" />`,
+      template: `<TreeSelect v-for="item in data" v-model="item.value" :data="options" @update:modelValue="item.handleModelValue" />`,
     })
     const select = wrapper.findComponent({
       name: 'ElSelect',
@@ -894,7 +894,7 @@ describe('TreeSelect.vue', () => {
     expect(spy1).toBeCalledWith(1)
 
     const spy2 = vi.fn()
-    wrapper.vm.data = [{ value: 1, handleChange: spy2 }]
+    wrapper.vm.data = [{ value: 1, handleModelValue: spy2 }]
     await nextTick()
 
     select.vm.handleOptionSelect(select.vm.states.options.get(2))
