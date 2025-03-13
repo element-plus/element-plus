@@ -76,7 +76,7 @@ export const descriptionItemProps = buildProps({
   },
 })
 
-export const COMPONENT_NAME = 'ElDescriptionsItem'
+export const DescriptionItemComponentName = 'ElDescriptionsItem'
 const DescriptionItem = defineComponent({
   name: COMPONENT_NAME,
   props: descriptionItemProps,
