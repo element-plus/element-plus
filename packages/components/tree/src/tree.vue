@@ -19,6 +19,7 @@
       :render-after-expand="renderAfterExpand"
       :show-checkbox="showCheckbox"
       :render-content="renderContent"
+      :highlight-current="highlightCurrent"
       @node-expand="handleNodeExpand"
     />
     <div v-if="isEmpty" :class="ns.e('empty-block')">
