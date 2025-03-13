@@ -7,7 +7,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, shallowRef, watch, watchEffect, nextTick } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  ref,
+  shallowRef,
+  watch,
+  watchEffect,
+} from 'vue'
 import {
   useElementBounding,
   useEventListener,
@@ -131,3 +139,4 @@ defineExpose({
   updateRoot,
 })
 </script>
+playground
