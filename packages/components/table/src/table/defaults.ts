@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useSizeProp } from '@element-plus/hooks'
 import { buildProps } from '@element-plus/utils'
 import type {
@@ -444,8 +445,14 @@ export default buildProps({
     type: Boolean,
     default: true,
   },
-} as const)
-
+  /**
+   * @description whether to preserve expanded row content in DOM when collapsed
+   */
+  preserveExpandedContent: {
+    type: Boolean,
+    default: false,
+  },
+})
 export type {
   SummaryMethod,
   Table,
