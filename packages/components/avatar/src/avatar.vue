@@ -37,11 +37,12 @@ const hasLoadError = ref(false)
 
 const avatarClass = computed(() => {
   const { size, icon, shape } = props
-  const classList = [ns.b()]
-  if (isString(size)) classList.push(ns.m(size))
-  if (icon) classList.push(ns.m('icon'))
-  if (shape) classList.push(ns.m(shape))
-  return classList
+  return [
+    ns.b(),
+    isString(size) && ns.m(size),
+    icon && ns.m('icon'),
+    shape && ns.m(shape),
+  ].filter(Boolean)
 })
 
 const sizeStyle = computed(() => {
