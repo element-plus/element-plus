@@ -11,7 +11,7 @@ A simple confirmation dialog of an element click action.
 
 popconfirm has 9 placements.
 
-:::demo Use attribute `content` to set the display content when click the reference element. The attribute `placement` determines the position of the popconfirm. Its value is `[orientation]-[alignment]` with four orientations `top`, `left`, `right`, `bottom` and three alignments `start`, `end`, `null`, and the default alignment is null. Take `placement="left-end"` for example, popconfirm will display on the left of the element which you are hovering and the bottom of the popconfirm aligns with the bottom of the element.
+:::demo Use attribute `title` to set the display content when click the reference element. The attribute `placement` determines the position of the popconfirm. Its value is `[orientation]-[alignment]` with four orientations `top`, `left`, `right`, `bottom` and three alignments `start`, `end`, `null`, and the default alignment is null. Take `placement="left-end"` for example, popconfirm will display on the left of the element which you are hovering and the bottom of the popconfirm aligns with the bottom of the element.
 
 popconfirm/placement
 
