@@ -136,10 +136,12 @@ function useWatcher<T>() {
 
     // 处理固定列
     fixedColumns.value = _columns.value.filter((column) => {
+      // 对于 selection 和 index 列，如果没有明确设置 fixed 为 false 或 'right'，则默认为左侧固定
       if (column.type === 'selection' || column.type === 'index') {
-        return [true, 'left'].includes(column.fixed)
+        return column.fixed !== false && column.fixed !== 'right'
       }
-      return [true, 'left'].includes(column.fixed)
+      // 对于其他列，只有明确设置 fixed 为 true 或 'left' 时才固定
+      return column.fixed === true || column.fixed === 'left'
     })
 
     rightFixedColumns.value = _columns.value.filter(
