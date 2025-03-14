@@ -453,6 +453,62 @@ export default buildProps({
     default: false,
   },
 })
+
+export const tableEmits = {
+  select: <T = any>(selection: T[], row: T) => selection && row,
+  'select-all': (selection: any[]) => selection,
+  'selection-change': (newSelection: any[]) => newSelection,
+  'cell-mouse-enter': (
+    row: any,
+    column: any,
+    cell: HTMLTableCellElement,
+    event: Event
+  ) => row && column && cell && event,
+  'cell-mouse-leave': (
+    row: any,
+    column: any,
+    cell: HTMLTableCellElement,
+    event: Event
+  ) => row && column && cell && event,
+  'cell-click': (
+    row: any,
+    column: any,
+    cell: HTMLTableCellElement,
+    event: Event
+  ) => row && column && cell && event,
+  'cell-dblclick': (
+    row: any,
+    column: any,
+    cell: HTMLTableCellElement,
+    event: Event
+  ) => row && column && cell && event,
+  'cell-contextmenu': (
+    row: any,
+    column: any,
+    cell: HTMLTableCellElement,
+    event: Event
+  ) => event && row && cell && column,
+  'row-click': (row: any, column: any, event: Event) => row && column && event,
+  'row-contextmenu': (row: any, column: any, event: Event) =>
+    row && column && event,
+  'row-dblclick': (row: any, column: any, event: Event) =>
+    row && column && event,
+  'header-click': (column: any, event: Event) => column && event,
+  'header-contextmenu': (column: any, event: Event) => column && event,
+  'sort-change': (data: { column: any; prop: string; order: any }) => data,
+  'filter-change': (newFilters: any) => newFilters,
+  'current-change': (currentRow: any, oldCurrentRow: any) =>
+    currentRow && oldCurrentRow,
+  'header-dragend': (
+    newWidth: number,
+    oldWidth: number,
+    column: any,
+    event: MouseEvent
+  ) => newWidth && oldWidth && column && event,
+  'expand-change': (row: any, expand: any[] | boolean) => row && expand,
+  scroll: (data: { scrollLeft: number; scrollTop: number }) => data,
+}
+
 export type {
   SummaryMethod,
   Table,
