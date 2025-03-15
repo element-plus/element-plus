@@ -115,46 +115,49 @@ function useWatcher<T>() {
       updateChildFixed(column)
     })
 
-    // 重新排序所有列
-    const reorderedColumns = [..._columns.value]
-    // 先找出 selection 和 index 列
-    const selectionColumn = reorderedColumns.find(
-      (col) => col.type === 'selection'
-    )
-    const indexColumn = reorderedColumns.find((col) => col.type === 'index')
-    // 过滤掉 selection 和 index 列
-    const otherColumns = reorderedColumns.filter(
-      (col) => col.type !== 'selection' && col.type !== 'index'
+    // 处理固定列，保持原始顺序
+    const leftFixedColumns = []
+    const rightFixedColumns_ = []
+    const notFixedColumns = []
+
+    // 检查是否有固定列
+    const hasFixedColumns = _columns.value.some(
+      (column) =>
+        (column.fixed === true || column.fixed === 'left') &&
+        column.type !== 'selection' &&
+        column.type !== 'index'
     )
 
-    // 按照 selection -> index -> others 的顺序重组列
-    _columns.value = [
-      ...(selectionColumn ? [selectionColumn] : []),
-      ...(indexColumn ? [indexColumn] : []),
-      ...otherColumns,
-    ]
-
-    // 处理固定列
-    fixedColumns.value = _columns.value.filter((column) => {
-      // 对于 selection 和 index 列，如果没有明确设置 fixed 为 false 或 'right'，则默认为左侧固定
+    // 按原始顺序分类列
+    _columns.value.forEach((column, index) => {
       if (column.type === 'selection' || column.type === 'index') {
-        return column.fixed !== false && column.fixed !== 'right'
+        // 如果是第一列且后面有固定列，则设为固定列
+        if (index === 0 && hasFixedColumns) {
+          leftFixedColumns.push(column)
+        } else if (column.fixed === true || column.fixed === 'left') {
+          leftFixedColumns.push(column)
+        } else if (column.fixed === 'right') {
+          rightFixedColumns_.push(column)
+        } else {
+          notFixedColumns.push(column)
+        }
+      } else if (column.fixed === 'right') {
+        rightFixedColumns_.push(column)
+      } else if (column.fixed === true || column.fixed === 'left') {
+        leftFixedColumns.push(column)
+      } else {
+        notFixedColumns.push(column)
       }
-      // 对于其他列，只有明确设置 fixed 为 true 或 'left' 时才固定
-      return column.fixed === true || column.fixed === 'left'
     })
 
-    rightFixedColumns.value = _columns.value.filter(
-      (column) => column.fixed === 'right'
-    )
-
-    // 获取非固定列
-    const notFixedColumns = _columns.value.filter((column) => !column.fixed)
+    // 更新引用
+    fixedColumns.value = leftFixedColumns
+    rightFixedColumns.value = rightFixedColumns_
 
     originColumns.value = []
-      .concat(fixedColumns.value)
+      .concat(leftFixedColumns)
       .concat(notFixedColumns)
-      .concat(rightFixedColumns.value)
+      .concat(rightFixedColumns_)
     const leafColumns = doFlattenColumns(notFixedColumns)
     const fixedLeafColumns = doFlattenColumns(fixedColumns.value)
     const rightFixedLeafColumns = doFlattenColumns(rightFixedColumns.value)

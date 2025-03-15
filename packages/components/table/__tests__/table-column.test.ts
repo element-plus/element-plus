@@ -1204,7 +1204,7 @@ describe('table column', () => {
       wrapper.vm.fixed = true
       await doubleWait()
       expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
-        rowLength * 2
+        rowLength * (dynamicFixCols + 1)
       )
       wrapper.vm.fixed = false
       await doubleWait()
@@ -1260,10 +1260,10 @@ describe('table column', () => {
       wrapper.vm.fixed = true
       await doubleWait()
       expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
-        rowLength * dynamicFixCols
+        rowLength * (dynamicFixCols + 1) - 1
       )
       expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
-        rowLength * 2
+        rowLength
       )
 
       // 恢复普通列不固定
