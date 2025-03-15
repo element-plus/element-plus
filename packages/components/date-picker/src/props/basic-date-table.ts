@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProps } from '@element-plus/utils'
 import { datePickerSharedProps, selectionModeWithDefault } from './shared'
 
 import type { ExtractPropTypes } from 'vue'
@@ -6,9 +6,6 @@ import type { Dayjs } from 'dayjs'
 
 export const basicDateTableProps = buildProps({
   ...datePickerSharedProps,
-  cellClassName: {
-    type: definePropType<(date: Date) => string>(Function),
-  },
   showWeekNumber: Boolean,
   selectionMode: selectionModeWithDefault('date'),
 } as const)
