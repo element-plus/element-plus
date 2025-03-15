@@ -79,6 +79,14 @@ input-number/controlled
 
 :::
 
+## Hover ^(2.9.7)
+
+:::demo Setting the `hover` property controls how the button appears when the mouse hovers.
+
+input-number/hover
+
+:::
+
 ## Custom Icon ^(2.6.3)
 
 :::demo Use `decrease-icon` and `increase-icon` to set custom icons.
@@ -111,6 +119,7 @@ input-number/with-prefix-suffix
 | readonly ^(2.2.16)          | same as `readonly` in native input               | ^[boolean]                                    | false     |
 | disabled                    | whether the component is disabled                | ^[boolean]                                    | false     |
 | controls                    | whether to enable the control buttons            | ^[boolean]                                    | true      |
+| hover ^(2.9.7)              | display control buttons when mouse moves in      | ^[boolean]                                    | false     |
 | controls-position           | position of the control buttons                  | ^[enum]`'' \| 'right'`                        | —         |
 | name                        | same as `name` in native input                   | ^[string]                                     | —         |
 | aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in native input             | ^[string]                                     | —         |
