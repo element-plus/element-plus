@@ -50,10 +50,10 @@ function useStyle<T>(
   const appendScrollHeight = ref(0)
 
   watchEffect(() => {
-    layout.setHeight(props.height)
+    layout.setHeight(props.height as string | number)
   })
   watchEffect(() => {
-    layout.setMaxHeight(props.maxHeight)
+    layout.setMaxHeight(props.maxHeight as string | number)
   })
   watch(
     () => [props.currentRowKey, store.states.rowKey],
