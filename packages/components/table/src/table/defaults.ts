@@ -1,4 +1,5 @@
 // @ts-nocheck
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useSizeProp } from '@element-plus/hooks'
 import { buildProps } from '@element-plus/utils'
 import type {
@@ -455,58 +456,55 @@ export default buildProps({
 })
 
 export const tableEmits = {
-  select: <T = any>(selection: T[], row: T) => selection && row,
-  'select-all': (selection: any[]) => selection,
-  'selection-change': (newSelection: any[]) => newSelection,
+  select: <T = any>(selection: T[], row: T) => true,
+  'select-all': (selection: any[]) => true,
+  'selection-change': (newSelection: any[]) => true,
   'cell-mouse-enter': (
     row: any,
     column: any,
     cell: HTMLTableCellElement,
     event: Event
-  ) => row && column && cell && event,
+  ) => true,
   'cell-mouse-leave': (
     row: any,
     column: any,
     cell: HTMLTableCellElement,
     event: Event
-  ) => row && column && cell && event,
+  ) => true,
   'cell-click': (
     row: any,
     column: any,
     cell: HTMLTableCellElement,
     event: Event
-  ) => row && column && cell && event,
+  ) => true,
   'cell-dblclick': (
     row: any,
     column: any,
     cell: HTMLTableCellElement,
     event: Event
-  ) => row && column && cell && event,
+  ) => true,
   'cell-contextmenu': (
     row: any,
     column: any,
     cell: HTMLTableCellElement,
     event: Event
-  ) => event && row && cell && column,
-  'row-click': (row: any, column: any, event: Event) => row && column && event,
-  'row-contextmenu': (row: any, column: any, event: Event) =>
-    row && column && event,
-  'row-dblclick': (row: any, column: any, event: Event) =>
-    row && column && event,
-  'header-click': (column: any, event: Event) => column && event,
-  'header-contextmenu': (column: any, event: Event) => column && event,
-  'sort-change': (data: { column: any; prop: string; order: any }) => data,
-  'filter-change': (newFilters: any) => newFilters,
-  'current-change': (currentRow: any, oldCurrentRow: any) =>
-    currentRow && oldCurrentRow,
+  ) => true,
+  'row-click': (row: any, column: any, event: Event) => true,
+  'row-contextmenu': (row: any, column: any, event: Event) => true,
+  'row-dblclick': (row: any, column: any, event: Event) => true,
+  'header-click': (column: any, event: Event) => true,
+  'header-contextmenu': (column: any, event: Event) => true,
+  'sort-change': (data: { column: any; prop: string; order: any }) => true,
+  'filter-change': (newFilters: any) => true,
+  'current-change': (currentRow: any, oldCurrentRow: any) => true,
   'header-dragend': (
     newWidth: number,
     oldWidth: number,
     column: any,
     event: MouseEvent
-  ) => newWidth && oldWidth && column && event,
-  'expand-change': (row: any, expand: any[] | boolean) => row && expand,
-  scroll: (data: { scrollLeft: number; scrollTop: number }) => data,
+  ) => true,
+  'expand-change': (row: any, expand: any[] | boolean) => true,
+  scroll: (data: { scrollLeft: number; scrollTop: number }) => true,
 }
 
 export type {
