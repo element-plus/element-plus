@@ -327,6 +327,9 @@ export default defineComponent({
         forwardRef.value.removeEventListener('focusout', onFocusOut)
         forwardRef.value = undefined
       }
+
+      lastFocusBeforeTrapped = null
+      lastFocusAfterTrapped = null
     })
 
     return {

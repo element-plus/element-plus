@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue'
+import { computed, inject, onBeforeUnmount, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { unrefElement } from '@vueuse/core'
 import { ElOnlyChild } from '@element-plus/components/slot'
@@ -68,71 +68,71 @@ const TRIGGER_ELE_EVENTS = [
   'onContextmenu',
 ] as const
 
-onMounted(() => {
-  watch(
-    () => props.virtualRef,
-    (virtualEl) => {
-      if (virtualEl) {
-        triggerRef.value = unrefElement(virtualEl as HTMLElement)
-      }
-    },
-    {
-      immediate: true,
+watch(
+  () => props.virtualRef,
+  (virtualEl) => {
+    if (virtualEl) {
+      triggerRef.value = unrefElement(virtualEl as HTMLElement)
     }
-  )
+  },
+  {
+    immediate: true,
+    flush: 'post',
+  }
+)
 
-  watch(
-    triggerRef,
-    (el, prevEl) => {
-      virtualTriggerAriaStopWatch?.()
-      virtualTriggerAriaStopWatch = undefined
-      if (isElement(el)) {
-        TRIGGER_ELE_EVENTS.forEach((eventName) => {
-          const handler = props[eventName]
-          if (handler) {
-            ;(el as HTMLElement).addEventListener(
-              eventName.slice(2).toLowerCase(),
-              handler
-            )
-            ;(prevEl as HTMLElement)?.removeEventListener?.(
-              eventName.slice(2).toLowerCase(),
-              handler
-            )
-          }
-        })
-        if (isFocusable(el as HTMLElement)) {
-          virtualTriggerAriaStopWatch = watch(
-            [ariaControls, ariaDescribedby, ariaHaspopup, ariaExpanded],
-            (watches) => {
-              ;[
-                'aria-controls',
-                'aria-describedby',
-                'aria-haspopup',
-                'aria-expanded',
-              ].forEach((key, idx) => {
-                isNil(watches[idx])
-                  ? el.removeAttribute(key)
-                  : el.setAttribute(key, watches[idx]!)
-              })
-            },
-            { immediate: true }
+watch(
+  triggerRef,
+  (el, prevEl) => {
+    virtualTriggerAriaStopWatch?.()
+    virtualTriggerAriaStopWatch = undefined
+    if (isElement(el)) {
+      TRIGGER_ELE_EVENTS.forEach((eventName) => {
+        const handler = props[eventName]
+        if (handler) {
+          ;(el as HTMLElement).addEventListener(
+            eventName.slice(2).toLowerCase(),
+            handler
+          )
+          ;(prevEl as HTMLElement)?.removeEventListener?.(
+            eventName.slice(2).toLowerCase(),
+            handler
           )
         }
+      })
+      if (isFocusable(el as HTMLElement)) {
+        virtualTriggerAriaStopWatch = watch(
+          [ariaControls, ariaDescribedby, ariaHaspopup, ariaExpanded],
+          (watches) => {
+            ;[
+              'aria-controls',
+              'aria-describedby',
+              'aria-haspopup',
+              'aria-expanded',
+            ].forEach((key, idx) => {
+              isNil(watches[idx])
+                ? el.removeAttribute(key)
+                : el.setAttribute(key, watches[idx]!)
+            })
+          },
+          { immediate: true }
+        )
       }
-      if (isElement(prevEl) && isFocusable(prevEl as HTMLElement)) {
-        ;[
-          'aria-controls',
-          'aria-describedby',
-          'aria-haspopup',
-          'aria-expanded',
-        ].forEach((key) => prevEl.removeAttribute(key))
-      }
-    },
-    {
-      immediate: true,
     }
-  )
-})
+    if (isElement(prevEl) && isFocusable(prevEl as HTMLElement)) {
+      ;[
+        'aria-controls',
+        'aria-describedby',
+        'aria-haspopup',
+        'aria-expanded',
+      ].forEach((key) => prevEl.removeAttribute(key))
+    }
+  },
+  {
+    immediate: true,
+    flush: 'post',
+  }
+)
 
 onBeforeUnmount(() => {
   virtualTriggerAriaStopWatch?.()

@@ -1,4 +1,4 @@
-import { computed, inject, onMounted, ref, unref, watch } from 'vue'
+import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
 import { isUndefined } from 'lodash-unified'
 import { usePopper } from '@element-plus/hooks'
 import { POPPER_INJECTION_KEY } from '../constants'
@@ -63,13 +63,18 @@ export const usePopperContent = (props: PopperContentProps) => {
 
   watch(instanceRef, (instance) => (popperInstanceRef.value = instance))
 
-  onMounted(() => {
-    watch(
-      () => unref(computedReference)?.getBoundingClientRect(),
-      () => {
-        update()
-      }
-    )
+  watch(
+    () => unref(computedReference)?.getBoundingClientRect(),
+    () => {
+      update()
+    },
+    {
+      flush: 'post',
+    }
+  )
+
+  onBeforeUnmount(() => {
+    popperInstanceRef.value = undefined
   })
 
   return {

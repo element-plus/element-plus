@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
 
 import type { SetupContext } from 'vue'
 import type { PopperContentEmits, PopperContentProps } from '../content'
@@ -43,6 +43,10 @@ export const usePopperContentFocusTrap = (
     trapped.value = false
     emit('close')
   }
+
+  onBeforeUnmount(() => {
+    focusStartRef.value = undefined
+  })
 
   return {
     focusStartRef,
