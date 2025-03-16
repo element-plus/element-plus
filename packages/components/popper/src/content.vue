@@ -26,11 +26,11 @@
 
 <script lang="ts" setup>
 import {
-  computed,
   inject,
   onBeforeUnmount,
   onMounted,
   provide,
+  ref,
   unref,
   watch,
 } from 'vue'
@@ -84,7 +84,7 @@ const {
 })
 
 const formItemContext = inject(formItemContextKey, undefined)
-const arrowOffset = computed(() => props.arrowOffset)
+const arrowOffset = ref<number>(props.arrowOffset)
 
 provide(POPPER_CONTENT_INJECTION_KEY, {
   arrowStyle,
