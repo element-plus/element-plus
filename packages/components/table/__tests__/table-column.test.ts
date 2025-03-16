@@ -796,7 +796,7 @@ describe('table column', () => {
         `,
 
         created() {
-          this.testData = null
+          this.testData = undefined
         },
       })
 
@@ -834,7 +834,7 @@ describe('table column', () => {
         `,
 
         created() {
-          this.testData = null
+          this.testData = undefined
         },
       })
 
@@ -871,7 +871,7 @@ describe('table column', () => {
         `,
 
         created() {
-          this.testData = null
+          this.testData = undefined
         },
       })
 
