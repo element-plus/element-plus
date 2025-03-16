@@ -26,6 +26,7 @@
       :popper-style="popperStyle"
       :placement="placement"
       :popper-options="popperOptions"
+      :arrow-offset="arrowOffset"
       :pure="pure"
       :raw-content="rawContent"
       :reference-el="referenceEl"
