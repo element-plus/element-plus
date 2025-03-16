@@ -287,7 +287,11 @@ import {
 } from '@element-plus/icons-vue'
 import { panelDateRangeProps } from '../props/panel-date-range'
 import { useRangePicker } from '../composables/use-range-picker'
-import { getDefaultValue, isValidRange } from '../utils'
+import {
+  correctlyParseUserInput,
+  getDefaultValue,
+  isValidRange,
+} from '../utils'
 import DateTable from './basic-date-table.vue'
 
 import type { Dayjs } from 'dayjs'
@@ -718,9 +722,7 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return isArray(value)
-    ? value.map((_) => dayjs(_, format.value).locale(lang.value))
-    : dayjs(value, format.value).locale(lang.value)
+  return correctlyParseUserInput(value, format.value, lang.value)
 }
 
 function onParsedValueChanged(

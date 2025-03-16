@@ -85,6 +85,7 @@ type useSelectType = (
   iconComponent: ComputedRef<string>
   iconReverse: ComputedRef<boolean>
   validateState: ComputedRef<string>
+  popupScroll: (data: { scrollTop: number; scrollLeft: number }) => void
 
   validateIcon: ComputedRef<unknown>
   showNewOption: ComputedRef<boolean>
@@ -405,19 +406,16 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     }
   )
 
-  watch(
-    () => states.hoveringIndex,
-    (val) => {
-      if (isNumber(val) && val > -1) {
-        hoverOption.value = optionsArray.value[val] || {}
-      } else {
-        hoverOption.value = {}
-      }
-      optionsArray.value.forEach((option) => {
-        option.hover = hoverOption.value === option
-      })
+  watch([() => states.hoveringIndex, optionsArray], ([val]) => {
+    if (isNumber(val) && val > -1) {
+      hoverOption.value = optionsArray.value[val] || {}
+    } else {
+      hoverOption.value = {}
     }
-  )
+    optionsArray.value.forEach((option) => {
+      option.hover = hoverOption.value === option
+    })
+  })
 
   watchEffect(() => {
     // Anything could cause options changed, then update options
@@ -707,7 +705,10 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
 
   const handleMenuEnter = () => {
     states.isBeforeHide = false
-    nextTick(() => scrollToOption(states.selected))
+    nextTick(() => {
+      scrollbarRef.value?.update()
+      scrollToOption(states.selected)
+    })
   }
 
   const focus = () => {
@@ -850,6 +851,10 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
 
+  const popupScroll = (data: { scrollTop: number; scrollLeft: number }) => {
+    emit('popup-scroll', data)
+  }
+
   useResizeObserver(selectionRef, resetSelectionWidth)
   useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(wrapperRef, updateTooltip)
@@ -915,6 +920,7 @@ export const useSelect: useSelectType = (props: ISelectProps, emit) => {
     dropdownMenuVisible,
     showTagList,
     collapseTagList,
+    popupScroll,
 
     // computed style
     tagStyle,

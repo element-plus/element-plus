@@ -8,6 +8,7 @@
     <el-link type="info">info</el-link>
   </div>
 </template>
+
 <style scoped>
 .el-link {
   margin-right: 8px;

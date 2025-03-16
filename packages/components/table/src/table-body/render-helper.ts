@@ -59,11 +59,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
       rowClasses.push(ns.em('row', `level-${treeRowData.level}`))
       display = treeRowData.display
     }
-    const displayStyle = display
-      ? null
-      : {
-          display: 'none',
-        }
+    const displayStyle = display ? null : { display: 'none' }
     return h(
       'tr',
       {
@@ -157,39 +153,40 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
       const expanded = isRowExpanded(row)
       const tr = rowRender(row, $index, undefined, expanded)
       const renderExpanded = parent.renderExpanded
-      if (expanded) {
-        if (!renderExpanded) {
-          console.error('[Element Error]renderExpanded is required.')
-          return tr
-        }
-        // 使用二维数组，避免修改 $index
-        // Use a matrix to avoid modifying $index
-        return [
-          [
-            tr,
-            h(
-              'tr',
-              {
-                key: `expanded-row__${tr.key as string}`,
-              },
-              [
-                h(
-                  'td',
-                  {
-                    colspan: columns.length,
-                    class: `${ns.e('cell')} ${ns.e('expanded-cell')}`,
-                  },
-                  [renderExpanded({ row, $index, store, expanded })]
-                ),
-              ]
-            ),
-          ],
-        ]
-      } else {
-        // 使用二维数组，避免修改 $index
-        // Use a two dimensional array avoid modifying $index
-        return [[tr]]
+      if (!renderExpanded) {
+        console.error('[Element Error]renderExpanded is required.')
+        return tr
       }
+
+      // 在没设置时候避免 h 执行
+      // 非保留模式且未展开时，直接返回
+      // 使用二维数组包装，避免修改 $index
+      const rows = [[tr]]
+
+      // 仅在需要时创建展开行（保留模式或展开状态）
+      if (parent.props.preserveExpandedContent || expanded) {
+        rows[0].push(
+          h(
+            'tr',
+            {
+              key: `expanded-row__${tr.key as string}`,
+              style: { display: expanded ? '' : 'none' },
+            },
+            [
+              h(
+                'td',
+                {
+                  colspan: columns.length,
+                  class: `${ns.e('cell')} ${ns.e('expanded-cell')}`,
+                },
+                [renderExpanded({ row, $index, store, expanded })]
+              ),
+            ]
+          )
+        )
+      }
+
+      return rows
     } else if (Object.keys(treeData.value).length) {
       assertRowKey()
       // TreeTable 时，rowKey 必须由用户设定，不使用 getKeyOfRow 计算

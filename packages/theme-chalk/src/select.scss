@@ -118,6 +118,14 @@
     }
   }
 
+  @include e(clear) {
+    cursor: pointer;
+
+    &:hover {
+      color: getCssVar('select-close-hover-color');
+    }
+  }
+
   @include e(selection) {
     position: relative;
     display: flex;
@@ -191,6 +199,7 @@
       // Out of the document flow
       position: absolute;
       opacity: 0;
+      z-index: -1;
     }
   }
 
