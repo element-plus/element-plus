@@ -290,7 +290,7 @@ import ElIcon from '@element-plus/components/icon'
 import { useCalcInputWidth } from '@element-plus/hooks'
 import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
-import { SelectProps, selectEmits } from './defaults'
+import { selectV2Emits, selectV2Props } from './defaults'
 import { selectV2InjectionKey } from './token'
 
 export default defineComponent({
@@ -302,8 +302,8 @@ export default defineComponent({
     ElIcon,
   },
   directives: { ClickOutside },
-  props: SelectProps,
-  emits: selectEmits,
+  props: selectV2Props,
+  emits: selectV2Emits,
   setup(props, { emit }) {
     const modelValue = computed(() => {
       const { modelValue: rawModelValue, multiple } = props
