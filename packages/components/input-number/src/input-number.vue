@@ -6,7 +6,7 @@
       ns.is('disabled', inputNumberDisabled),
       ns.is('without-controls', !controls),
       ns.is('controls-right', controlsAtRight),
-      ns.is('controls-hover', props.hover),
+      ns.is('hover-controls', props.hoverControls),
     ]"
     @dragstart.prevent
   >

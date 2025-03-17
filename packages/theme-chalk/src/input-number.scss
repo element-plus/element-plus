@@ -135,7 +135,7 @@
     }
   }
 
-  @include when(controls-hover) {
+  @include when(hover-controls) {
     @include e((increase, decrease)) {
       opacity: 0;
       transition: opacity 0.3s ease-in-out;
@@ -154,7 +154,7 @@
       padding-right: #{map.get($input-height, 'default') + 10};
     }
 
-    &.is-controls-hover {
+    &.is-hover-controls {
       .#{$namespace}-input__wrapper {
         padding-left: #{map.get($input-height, 'default') + 10};
         padding-right: #{map.get($input-height, 'default') + 10};

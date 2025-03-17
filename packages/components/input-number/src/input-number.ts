@@ -76,7 +76,7 @@ export const inputNumberProps = buildProps({
   /**
    * @description when to show control buttons
    */
-  hover: {
+  hoverControls: {
     type: Boolean,
     default: false,
   },

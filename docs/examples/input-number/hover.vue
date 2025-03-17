@@ -5,7 +5,7 @@
     :max="10"
     class="mx-4"
     :controls="false"
-    hover
+    hover-controls
     size="large"
     controls-position="right"
     @change="handleChange"
@@ -15,7 +15,7 @@
     :min="1"
     :max="10"
     class="mx-4"
-    hover
+    hover-controls
     size="large"
     @change="handleChange"
   />
@@ -23,7 +23,7 @@
     v-model="num"
     :min="1"
     :max="10"
-    hover
+    hover-controls
     controls-position="right"
     @change="handleChange"
   />
@@ -32,7 +32,7 @@
     :min="1"
     :max="10"
     class="mx-4"
-    hover
+    hover-controls
     size="small"
     controls-position="right"
     @change="handleChange"
