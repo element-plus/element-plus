@@ -137,7 +137,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       if (props.saveOnBlur) {
         handleAddTag()
       } else {
-        inputValue.value = ''
+        inputValue.value = undefined
       }
 
       if (props.validateEvent) {
