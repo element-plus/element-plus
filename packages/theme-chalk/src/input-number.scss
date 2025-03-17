@@ -103,19 +103,6 @@
         font-size: map.get($input-font-size, $size);
       }
 
-      @include when(controls-hover) {
-        @include e((increase, decrease)) {
-          opacity: 0;
-          transition: opacity 0.3s ease-in-out;
-        }
-
-        &:hover {
-          @include e((increase, decrease)) {
-            opacity: 1;
-          }
-        }
-      }
-
       @include when(controls-right) {
         .#{$namespace}-input--#{$size} {
           .#{$namespace}-input__wrapper {
