@@ -630,6 +630,14 @@ const useSelect: useSelectReturnType = (
         selectedOptions = [...selectedOptions, getValue(option)]
         states.cachedOptions.push(option)
         selectNewOption(option)
+
+        nextTick(() => {
+          const isModelChanged = isEqual(selectedOptions, props.modelValue)
+
+          if (!isModelChanged) {
+            states.cachedOptions.pop()
+          }
+        })
       }
       update(selectedOptions)
       if (option.created) {
