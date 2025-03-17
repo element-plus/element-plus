@@ -1,5 +1,6 @@
 # Editor directories and files
 .idea
+.history
 
 # Package Manager
 node_modules
