@@ -117,6 +117,13 @@ export const inputTagProps = buildProps({
     default: 'off',
   },
   /**
+   * @description whether to save the input value when the input loses focus
+   */
+  saveOnBlur: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * @description native `aria-label` attribute
    */
   ariaLabel: String,
