@@ -18,6 +18,13 @@ import type { ExtractPropTypes } from 'vue'
 
 export const inputTagProps = buildProps({
   /**
+   * @description Whether to save in out-of-focus state
+   */
+  saveOnBlur: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * @description binding value
    */
   modelValue: {

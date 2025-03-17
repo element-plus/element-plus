@@ -17,6 +17,16 @@ input-tag/basic
 
 :::
 
+## saveOnBlur
+
+Add after out of focus.
+
+:::demo
+
+input-tag/save-onBlur
+
+:::
+
 ## Custom Trigger
 
 You can customize the key used to trigger the input tag. The default key is Enter.
@@ -122,6 +132,7 @@ input-tag/prefix-suffix
 | placeholder           | placeholder of input                   | ^[string]                                                   | —       |
 | autocomplete          | same as `autocomplete` in native input | ^[string]                                                   | off     |
 | aria-label ^(a11y)    | native `aria-label` attribute          | ^[string]                                                   | —       |
+| saveOnBlur            | Whether to save in out-of-focus state  | ^[boolean]                                                  | false   |
 
 ### Events
 

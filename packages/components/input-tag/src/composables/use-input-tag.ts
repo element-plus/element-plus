@@ -134,6 +134,10 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       return disabled.value
     },
     afterBlur() {
+      if (!props.saveOnBlur) {
+        inputValue.value = undefined
+        return false
+      }
       handleAddTag()
       if (props.validateEvent) {
         formItem?.validate?.('blur').catch((err) => debugWarn(err))
