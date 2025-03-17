@@ -186,15 +186,20 @@ import {
   useFocusController,
   useNamespace,
 } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import { calcTextareaHeight } from './utils'
 import { inputEmits, inputProps } from './input'
 import type { StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 
+const COMPONENT_NAME = 'ElInput'
 defineOptions({
-  name: 'ElInput',
+  name: COMPONENT_NAME,
   inheritAttrs: false,
 })
 const props = defineProps(inputProps)
@@ -407,7 +412,7 @@ const handleInput = async (event: Event) => {
   }
 
   emit(UPDATE_MODEL_EVENT, value)
-  emit('input', value)
+  emit(INPUT_EVENT, value)
 
   // ensure native input value is controlled
   // see: https://github.com/ElemeFE/element/issues/12850
@@ -422,7 +427,7 @@ const handleChange = (event: Event) => {
   if (props.formatter && props.parser) {
     value = props.parser(value)
   }
-  emit('change', value)
+  emit(CHANGE_EVENT, value)
 }
 
 const {
@@ -463,9 +468,9 @@ const select = () => {
 
 const clear = () => {
   emit(UPDATE_MODEL_EVENT, '')
-  emit('change', '')
+  emit(CHANGE_EVENT, '')
   emit('clear')
-  emit('input', '')
+  emit(INPUT_EVENT, '')
 }
 
 watch(
@@ -498,7 +503,7 @@ watch(
 onMounted(() => {
   if (!props.formatter && props.parser) {
     debugWarn(
-      'ElInput',
+      COMPONENT_NAME,
       'If you set the parser, you also need to set the formatter.'
     )
   }

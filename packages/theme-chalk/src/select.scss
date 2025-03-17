@@ -118,6 +118,14 @@
     }
   }
 
+  @include e(clear) {
+    cursor: pointer;
+
+    &:hover {
+      color: getCssVar('select-close-hover-color');
+    }
+  }
+
   @include e(selection) {
     position: relative;
     display: flex;

@@ -87,6 +87,7 @@ import ElIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { getStyle, isNumber } from '@element-plus/utils'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { timeUnits } from '../constants'
 import { buildTimeList } from '../utils'
 import { basicTimeSpinnerProps } from '../props/basic-time-spinner'
@@ -100,7 +101,7 @@ import type { TimeList } from '../utils'
 const props = defineProps(basicTimeSpinnerProps)
 const pickerBase = inject('EP_PICKER_BASE') as any
 const { isRange } = pickerBase.props
-const emit = defineEmits(['change', 'select-range', 'set-option'])
+const emit = defineEmits([CHANGE_EVENT, 'select-range', 'set-option'])
 
 const ns = useNamespace('time')
 
@@ -281,7 +282,7 @@ const modifyDateField = (type: TimeUnit, value: number) => {
       changeTo = props.spinnerDate.hour(hours).minute(minutes).second(value)
       break
   }
-  emit('change', changeTo)
+  emit(CHANGE_EVENT, changeTo)
 }
 
 const handleClick = (

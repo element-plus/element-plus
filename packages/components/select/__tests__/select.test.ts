@@ -2975,6 +2975,70 @@ describe('Select', () => {
 
       vi.useRealTimers()
     })
+
+    // fix: 11930
+    it('should work when options changed', async () => {
+      vi.useFakeTimers()
+
+      const wrapper = _mount(
+        `
+        <el-select v-model="value" filterable remote default-first-option :remoteMethod="remoteMethod">
+          <el-option
+            v-for="option in options"
+            :key="option.value"
+            :value="option.value"
+            :label="option.label"
+          />
+        </el-select>
+      `,
+        () => ({
+          value: '',
+          options: [
+            {
+              value: 'a',
+              label: 'a',
+            },
+          ],
+        }),
+        {
+          methods: {
+            remoteMethod() {
+              setTimeout(() => {
+                this.options = [
+                  {
+                    value: 0,
+                    label: 0,
+                  },
+                ]
+              }, 200)
+            },
+          },
+        }
+      )
+
+      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const selectVm = select.vm as any
+      const input = wrapper.find('input')
+      input.element.focus()
+
+      vi.runAllTimers()
+      await nextTick()
+      let options = getOptions()
+      expect(hasClass(options[0], 'is-hovering')).toBeTruthy()
+
+      selectVm.onInput({
+        target: {
+          value: '0',
+        },
+      })
+
+      vi.runAllTimers()
+      await nextTick()
+      options = getOptions()
+      expect(hasClass(options[0], 'is-hovering')).toBeTruthy()
+
+      vi.useRealTimers()
+    })
   })
 
   it('should keep the selected label after filtering options', async () => {
