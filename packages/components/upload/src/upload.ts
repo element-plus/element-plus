@@ -44,6 +44,7 @@ export type UploadUserFile = Omit<UploadFile, 'status' | 'uid'> &
 export type UploadFiles = UploadFile[]
 export interface UploadRawFile extends File {
   uid: number
+  isDirectory?: boolean
 }
 export type UploadRequestHandler = (
   options: UploadRequestOptions

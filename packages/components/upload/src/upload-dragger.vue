@@ -16,6 +16,8 @@ import { throwError } from '@element-plus/utils/error'
 import { uploadContextKey } from './constants'
 import { uploadDraggerEmits, uploadDraggerProps } from './upload-dragger'
 
+import type { UploadRawFile } from './upload'
+
 const COMPONENT_NAME = 'ElUploadDrag'
 
 defineOptions({
@@ -43,13 +45,12 @@ const onDrop = (e: DragEvent) => {
 
   e.stopPropagation()
 
-  const files = Array.from(e.dataTransfer!.files)
+  const files = Array.from(e.dataTransfer!.files) as UploadRawFile[]
   const items = e.dataTransfer!.items || []
   files.forEach((file, index) => {
     const item = items[index]
     const entry = item?.webkitGetAsEntry?.()
     if (entry) {
-      // @ts-expect-error isDirectory is not defined in File
       file.isDirectory = entry.isDirectory
     }
   })
