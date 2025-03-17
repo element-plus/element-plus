@@ -53,7 +53,7 @@ export const useHandlers = (
 
   function removeFile(file: UploadFile) {
     uploadFiles.value = uploadFiles.value.filter(
-      (uploadFile) => uploadFile !== file
+      (uploadFile) => uploadFile.uid !== file.uid
     )
   }
 

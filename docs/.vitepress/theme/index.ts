@@ -8,6 +8,7 @@ import { define } from '../utils/types'
 import 'uno.css'
 import './style.css'
 import 'vitepress/dist/client/theme-default/styles/components/vp-code-group.css'
+import 'virtual:group-icons.css'
 import type { Theme } from 'vitepress'
 
 export default define<Theme>({

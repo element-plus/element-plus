@@ -24,6 +24,7 @@
     </el-anchor>
   </el-affix>
 </template>
+
 <script lang="ts" setup>
 import { computed } from 'vue'
 import anchorLocale from '../../.vitepress/i18n/component/anchor.json'

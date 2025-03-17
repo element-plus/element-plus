@@ -21,7 +21,7 @@
           <el-dropdown-item>Action 1</el-dropdown-item>
           <el-dropdown-item>Action 2</el-dropdown-item>
           <el-dropdown-item>Action 3</el-dropdown-item>
-          <el-dropdown-item>Action 4</el-dropdown-item>
+          <el-dropdown-item divided>Action 4</el-dropdown-item>
           <el-dropdown-item>Action 5</el-dropdown-item>
         </el-dropdown-menu>
       </template>
@@ -37,6 +37,7 @@ const handleClick = () => {
   alert('button click')
 }
 </script>
+
 <style scoped>
 .example-showcase .el-dropdown + .el-dropdown {
   margin-left: 15px;
