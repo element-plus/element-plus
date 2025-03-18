@@ -30,4 +30,4 @@ export const pageHeaderEmits = {
 }
 export type PageHeaderEmits = typeof pageHeaderEmits
 
-export type PageHeaderInstance = InstanceType<typeof PageHeader>
+export type PageHeaderInstance = InstanceType<typeof PageHeader> & unknown

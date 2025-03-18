@@ -100,6 +100,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { isPropAbsent } from '@element-plus/utils'
 
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { Placement } from '@element-plus/components/popper'
 import type { PropType, WritableComputedRef } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
@@ -147,7 +148,7 @@ export default defineComponent({
       parent.filterPanels.value[props.column.id] = instance
     }
     const tooltipVisible = ref(false)
-    const tooltip = ref<InstanceType<typeof ElTooltip> | null>(null)
+    const tooltip = ref<TooltipInstance | null>(null)
     const filters = computed(() => {
       return props.column && props.column.filters
     })

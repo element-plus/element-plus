@@ -63,4 +63,4 @@ export const stepsEmits = {
 }
 export type StepsEmits = typeof stepsEmits
 
-export type StepsInstance = InstanceType<typeof Steps>
+export type StepsInstance = InstanceType<typeof Steps> & unknown

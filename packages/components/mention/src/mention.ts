@@ -118,6 +118,6 @@ export const mentionEmits = {
 
 export type MentionEmits = typeof mentionEmits
 export type MentionProps = ExtractPropTypes<typeof mentionProps>
-export type MentionInstance = InstanceType<typeof Mention>
+export type MentionInstance = InstanceType<typeof Mention> & unknown
 
 export type { MentionOption } from './types'

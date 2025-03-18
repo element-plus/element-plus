@@ -1,7 +1,13 @@
 <template>
   switch parent border: <el-switch v-model="parentBorder" /> switch child
-  border: <el-switch v-model="childBorder" />
-  <el-table :data="tableData" :border="parentBorder" style="width: 100%">
+  border: <el-switch v-model="childBorder" /> preserve expanded:
+  <el-switch v-model="preserveExpanded" />
+  <el-table
+    :data="tableData"
+    :border="parentBorder"
+    :preserve-expanded-content="preserveExpanded"
+    style="width: 100%"
+  >
     <el-table-column type="expand">
       <template #default="props">
         <div m="4">
@@ -30,6 +36,7 @@ import { ref } from 'vue'
 
 const parentBorder = ref(false)
 const childBorder = ref(false)
+const preserveExpanded = ref(false)
 const tableData = [
   {
     date: '2016-05-03',
