@@ -16,4 +16,4 @@ export const uploadDraggerEmits = {
 }
 export type UploadDraggerEmits = typeof uploadDraggerEmits
 
-export type UploadDraggerInstance = InstanceType<typeof UploadDragger>
+export type UploadDraggerInstance = InstanceType<typeof UploadDragger> & unknown

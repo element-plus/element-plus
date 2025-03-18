@@ -175,6 +175,7 @@ interface UploadProgressEvent extends ProgressEvent {
 
 interface UploadRawFile extends File {
   uid: number
+  isDirectory?: boolean
 }
 
 interface UploadRequestOptions {
