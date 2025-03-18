@@ -9,6 +9,6 @@ export type MenuInstance = InstanceType<typeof Menu> & {
   handleResize: () => void
 }
 
-export type MenuItemInstance = InstanceType<typeof MenuItem>
-export type MenuItemGroupInstance = InstanceType<typeof MenuItemGroup>
-export type SubMenuInstance = InstanceType<typeof SubMenu>
+export type MenuItemInstance = InstanceType<typeof MenuItem> & unknown
+export type MenuItemGroupInstance = InstanceType<typeof MenuItemGroup> & unknown
+export type SubMenuInstance = InstanceType<typeof SubMenu> & unknown

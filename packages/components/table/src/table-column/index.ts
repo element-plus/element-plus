@@ -67,9 +67,13 @@ export default defineComponent({
 
       const type = props.type || 'default'
       const sortable = props.sortable === '' ? true : props.sortable
-      const showOverflowTooltip = isUndefined(props.showOverflowTooltip)
-        ? parent.props.showOverflowTooltip
-        : props.showOverflowTooltip
+      //The selection column should not be affected by `showOverflowTooltip`.
+      const showOverflowTooltip =
+        type === 'selection'
+          ? false
+          : isUndefined(props.showOverflowTooltip)
+          ? parent.props.showOverflowTooltip
+          : props.showOverflowTooltip
       const tooltipFormatter = isUndefined(props.tooltipFormatter)
         ? parent.props.tooltipFormatter
         : props.tooltipFormatter

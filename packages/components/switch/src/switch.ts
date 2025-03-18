@@ -148,4 +148,4 @@ export const switchEmits = {
 }
 export type SwitchEmits = typeof switchEmits
 
-export type SwitchInstance = InstanceType<typeof Switch>
+export type SwitchInstance = InstanceType<typeof Switch> & unknown
