@@ -132,11 +132,27 @@ tooltip/controlled
 
 ## Animations
 
-Tooltip can be customized animated, you can set the desired animation function as you desired.
+Tooltip can be customized animated, you can set the desired animation use `transition`.
+
+:::tip
+
+Transition Classes, more information can be found at [Vue Transition](https://vuejs.org/guide/built-ins/transition.html#css-based-transitions).
+
+:::
 
 :::demo
 
 tooltip/animations
+
+:::
+
+## Use the `append-to`
+
+You must wait for the DOM to be mounted before using `targetElement`.
+
+:::demo
+
+tooltip/append-to
 
 :::
 

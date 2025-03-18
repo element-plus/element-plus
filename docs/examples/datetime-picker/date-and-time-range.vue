@@ -61,6 +61,7 @@ const shortcuts = [
   },
 ]
 </script>
+
 <style scoped>
 .block {
   padding: 30px 0;

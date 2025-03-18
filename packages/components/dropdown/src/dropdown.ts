@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { createCollectionWithScope } from '@element-plus/components/collection'
@@ -7,9 +6,9 @@ import {
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
 
+import { type Placement, roleTypes } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
-import type { Placement } from '@element-plus/components/popper'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 
@@ -17,7 +16,7 @@ export interface IElDropdownInstance {
   instance?: ComponentInternalInstance
   dropdownSize?: ComputedRef<string>
   handleClick?: () => void
-  commandHandler?: (...arg) => void
+  commandHandler?: (...arg: any[]) => void
   show?: () => void
   hide?: () => void
   trigger?: ComputedRef<string>
@@ -30,6 +29,15 @@ export const dropdownProps = buildProps({
    * @description how to trigger
    */
   trigger: useTooltipTriggerProps.trigger,
+  triggerKeys: {
+    type: definePropType<string[]>(Array),
+    default: () => [
+      EVENT_CODE.enter,
+      EVENT_CODE.numpadEnter,
+      EVENT_CODE.space,
+      EVENT_CODE.down,
+    ],
+  },
   effect: {
     ...useTooltipContentProps.effect,
     default: 'light',
@@ -121,15 +129,23 @@ export const dropdownProps = buildProps({
    */
   role: {
     type: String,
+    values: roleTypes,
     default: 'menu',
   },
   buttonProps: {
-    type: definePropType<ButtonProps>(Object),
+    type: definePropType<Partial<ButtonProps>>(Object),
   },
   /**
    * @description whether the dropdown popup is teleported to the body
    */
   teleported: useTooltipContentProps.teleported,
+  /**
+   * @description when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 export const dropdownItemProps = buildProps({

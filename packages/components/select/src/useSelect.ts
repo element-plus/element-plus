@@ -56,8 +56,6 @@ import type {
   SelectStates,
 } from './type'
 
-const MINIMUM_INPUT_WIDTH = 11
-
 export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
   const { t } = useLocale()
   const contentId = useId()
@@ -71,7 +69,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
     optionValues: [], // sorted value of options
     selected: [],
     selectionWidth: 0,
-    calculatorWidth: 0,
     collapseItemWidth: 0,
     selectedLabel: '',
     hoveringIndex: -1,
@@ -87,7 +84,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
   const tooltipRef = ref<TooltipInstance>()
   const tagTooltipRef = ref<TooltipInstance>()
   const inputRef = ref<HTMLInputElement>()
-  const calculatorRef = ref<HTMLElement>()
   const prefixRef = ref<HTMLElement>()
   const suffixRef = ref<HTMLElement>()
   const menuRef = ref<HTMLElement>()
@@ -172,12 +168,14 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
 
   const debounce = computed(() => (props.remote ? 300 : 0))
 
+  const isRemoteSearchEmpty = computed(
+    () => props.remote && !states.inputValue && states.options.size === 0
+  )
+
   const emptyText = computed(() => {
     if (props.loading) {
       return props.loadingText || t('el.select.loading')
     } else {
-      if (props.remote && !states.inputValue && states.options.size === 0)
-        return false
       if (
         props.filterable &&
         states.inputValue &&
@@ -246,7 +244,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
 
   const dropdownMenuVisible = computed({
     get() {
-      return expanded.value && emptyText.value !== false
+      return expanded.value && !isRemoteSearchEmpty.value
     },
     set(val: boolean) {
       expanded.value = val
@@ -317,15 +315,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
     () => {
       if (!isClient) return
       // tooltipRef.value?.updatePopper?.()
-      const inputs = selectRef.value?.querySelectorAll('input') || []
-      if (
-        (!props.filterable &&
-          !props.defaultFirstOption &&
-          !isUndefined(props.modelValue)) ||
-        !Array.from(inputs).includes(document.activeElement as HTMLInputElement)
-      ) {
-        setSelected()
-      }
+      setSelected()
       if (
         props.defaultFirstOption &&
         (props.filterable || props.remote) &&
@@ -339,19 +329,16 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
     }
   )
 
-  watch(
-    () => states.hoveringIndex,
-    (val) => {
-      if (isNumber(val) && val > -1) {
-        hoverOption.value = optionsArray.value[val] || {}
-      } else {
-        hoverOption.value = {}
-      }
-      optionsArray.value.forEach((option) => {
-        option.hover = hoverOption.value === option
-      })
+  watch([() => states.hoveringIndex, optionsArray], ([val]) => {
+    if (isNumber(val) && val > -1) {
+      hoverOption.value = optionsArray.value[val] || {}
+    } else {
+      hoverOption.value = {}
     }
-  )
+    optionsArray.value.forEach((option) => {
+      option.hover = hoverOption.value === option
+    })
+  })
 
   watchEffect(() => {
     // Anything could cause options changed, then update options
@@ -468,10 +455,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
 
   const resetSelectionWidth = () => {
     states.selectionWidth = selectionRef.value!.getBoundingClientRect().width
-  }
-
-  const resetCalculatorWidth = () => {
-    states.calculatorWidth = calculatorRef.value!.getBoundingClientRect().width
   }
 
   const resetCollapseItemWidth = () => {
@@ -653,7 +636,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
 
   const handleMenuEnter = () => {
     states.isBeforeHide = false
-    nextTick(() => scrollToOption(states.selected))
+    nextTick(() => {
+      scrollbarRef.value?.update()
+      scrollToOption(states.selected)
+    })
   }
 
   const focus = () => {
@@ -710,7 +696,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
       toggleMenu()
     } else {
       const option = optionsArray.value[states.hoveringIndex]
-      if (option && !option.disabled && !option.states.groupDisabled) {
+      if (option && !option.isDisabled) {
         handleOptionSelect(option)
       }
     }
@@ -725,7 +711,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
   const optionsAllDisabled = computed(() =>
     optionsArray.value
       .filter((option) => option.visible)
-      .every((option) => option.disabled)
+      .every((option) => option.isDisabled)
   )
 
   const showTagList = computed(() => {
@@ -771,11 +757,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
         }
       }
       const option = optionsArray.value[states.hoveringIndex]
-      if (
-        option.disabled === true ||
-        option.states.groupDisabled === true ||
-        !option.visible
-      ) {
+      if (option.isDisabled || !option.visible) {
         navigateOptions(direction)
       }
       nextTick(() => scrollToOption(hoverOption.value))
@@ -802,12 +784,11 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
     return { maxWidth: `${states.selectionWidth}px` }
   })
 
-  const inputStyle = computed(() => ({
-    width: `${Math.max(states.calculatorWidth, MINIMUM_INPUT_WIDTH)}px`,
-  }))
+  const popupScroll = (data: { scrollTop: number; scrollLeft: number }) => {
+    emit('popup-scroll', data)
+  }
 
   useResizeObserver(selectionRef, resetSelectionWidth)
-  useResizeObserver(calculatorRef, resetCalculatorWidth)
   useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
@@ -829,7 +810,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
     hoverOption,
     selectSize,
     filteredOptionsCount,
-    resetCalculatorWidth,
     updateTooltip,
     updateTagTooltip,
     debouncedOnInputChange,
@@ -873,18 +853,17 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
     dropdownMenuVisible,
     showTagList,
     collapseTagList,
+    popupScroll,
 
     // computed style
     tagStyle,
     collapseTagStyle,
-    inputStyle,
 
     // DOM ref
     popperRef,
     inputRef,
     tooltipRef,
     tagTooltipRef,
-    calculatorRef,
     prefixRef,
     suffixRef,
     selectRef,

@@ -1,6 +1,8 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
+import { InfoFilled } from '@element-plus/icons-vue'
+import { ElIcon } from '@element-plus/components/icon'
 import Badge from '../src/badge.vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -145,5 +147,24 @@ describe('Badge', () => {
     expect(wrapper.find('.el-badge__content').attributes('style')).toContain(
       'margin-top: 10px'
     )
+  })
+
+  test('content slot', () => {
+    const wrapper = mount(() => (
+      <Badge
+        value={99}
+        v-slots={{
+          content: ({ value }: { value: string }) => (
+            <div class="custom">
+              <ElIcon>
+                <InfoFilled />
+              </ElIcon>
+              <span>{value}</span>
+            </div>
+          ),
+        }}
+      />
+    ))
+    expect(wrapper.find('.el-badge__content .custom').exists()).toBe(true)
   })
 })

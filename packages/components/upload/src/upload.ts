@@ -44,6 +44,7 @@ export type UploadUserFile = Omit<UploadFile, 'status' | 'uid'> &
 export type UploadFiles = UploadFile[]
 export interface UploadRawFile extends File {
   uid: number
+  isDirectory?: boolean
 }
 export type UploadRequestHandler = (
   options: UploadRequestOptions
@@ -256,4 +257,4 @@ export const uploadProps = buildProps({
 
 export type UploadProps = ExtractPropTypes<typeof uploadProps>
 
-export type UploadInstance = InstanceType<typeof Upload>
+export type UploadInstance = InstanceType<typeof Upload> & unknown

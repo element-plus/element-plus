@@ -5,6 +5,7 @@
     <el-segmented v-model="value" :options="options" size="small" />
   </div>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 

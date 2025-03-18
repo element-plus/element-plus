@@ -924,6 +924,7 @@ $input-tag: () !default;
 $input-tag: map.merge(
   (
     'border-color-hover': getCssVar('border-color-hover'),
+    'placeholder-color': getCssVar('text-color-placeholder'),
     'disabled-color': getCssVar('disabled-text-color'),
     'disabled-border': getCssVar('disabled-border-color'),
     'font-size': getCssVar('font-size-base'),

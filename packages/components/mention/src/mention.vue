@@ -1,5 +1,5 @@
 <template>
-  <div ref="wrapperRef" :class="ns.b()">
+  <div ref="wrapperRef" :class="[ns.b(), ns.is('disabled', disabled)]">
     <el-input
       v-bind="mergeProps(passInputProps, $attrs)"
       ref="elInputRef"
@@ -121,7 +121,7 @@ const hoveringId = computed(() => {
 })
 
 const handleInputChange = (value: string) => {
-  emit('update:modelValue', value)
+  emit(UPDATE_MODEL_EVENT, value)
   syncAfterCursorMove()
 }
 

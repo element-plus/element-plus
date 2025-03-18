@@ -153,6 +153,7 @@
     </template>
   </el-tooltip>
 </template>
+
 <script lang="ts" setup>
 import {
   computed,
@@ -178,7 +179,11 @@ import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { NOOP, debugWarn, isArray } from '@element-plus/utils'
-import { EVENT_CODE } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
 import { dayOrDaysToDate, formatter, parseDate, valueEquals } from '../utils'
 import { timePickerDefaultProps } from './props'
@@ -204,8 +209,8 @@ defineOptions({
 
 const props = defineProps(timePickerDefaultProps)
 const emit = defineEmits([
-  'update:modelValue',
-  'change',
+  UPDATE_MODEL_EVENT,
+  CHANGE_EVENT,
   'focus',
   'blur',
   'clear',
@@ -291,7 +296,9 @@ const emitChange = (
 ) => {
   // determine user real change only
   if (isClear || !valueEquals(val, valueOnOpen.value)) {
-    emit('change', val)
+    emit(CHANGE_EVENT, val)
+    // Set the value of valueOnOpen when clearing to avoid triggering change events multiple times.
+    isClear && (valueOnOpen.value = val)
     props.validateEvent &&
       formItem?.validate('change').catch((err) => debugWarn(err))
   }
@@ -306,7 +313,7 @@ const emitInput = (input: SingleOrRange<DateModelType> | null) => {
     } else if (input) {
       formatted = formatter(input, props.valueFormat, lang.value)
     }
-    emit('update:modelValue', input ? formatted : input, lang.value)
+    emit(UPDATE_MODEL_EVENT, input ? formatted : input, lang.value)
   }
 }
 const emitKeydown = (e: KeyboardEvent) => {
@@ -540,7 +547,7 @@ const handleChange = () => {
   }
   if (userInput.value === '') {
     emitInput(valueOnClear.value)
-    emitChange(valueOnClear.value)
+    emitChange(valueOnClear.value, true)
     userInput.value = null
   }
 }

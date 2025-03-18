@@ -32,7 +32,7 @@ export const timeSelectProps = buildProps({
    * @description Tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
-    type: definePropType<PopperEffect | string>(String),
+    type: definePropType<PopperEffect>(String),
     default: 'light',
   },
   /**
@@ -80,6 +80,13 @@ export const timeSelectProps = buildProps({
    */
   maxTime: String,
   /**
+   * @description whether `end` is included in options
+   */
+  includeEndTime: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * @description same as `name` in native input
    */
   name: String,
@@ -102,4 +109,4 @@ export const timeSelectProps = buildProps({
 
 export type TimeSelectProps = ExtractPropTypes<typeof timeSelectProps>
 
-export type TimeSelectInstance = InstanceType<typeof TimeSelect>
+export type TimeSelectInstance = InstanceType<typeof TimeSelect> & unknown

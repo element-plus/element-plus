@@ -50,8 +50,7 @@
           :class="[
             ns.e('list-item'),
             {
-              [ns.is('active')]:
-                filterValue === undefined || filterValue === null,
+              [ns.is('active')]: isPropAbsent(filterValue),
             },
           ]"
           @click="handleSelect(null)"
@@ -99,8 +98,10 @@ import { ClickOutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import type { Placement } from '@element-plus/components/popper'
+import { isPropAbsent } from '@element-plus/utils'
 
+import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { Placement } from '@element-plus/components/popper'
 import type { PropType, WritableComputedRef } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { TableHeader } from './table-header'
@@ -147,7 +148,7 @@ export default defineComponent({
       parent.filterPanels.value[props.column.id] = instance
     }
     const tooltipVisible = ref(false)
-    const tooltip = ref<InstanceType<typeof ElTooltip> | null>(null)
+    const tooltip = ref<TooltipInstance | null>(null)
     const filters = computed(() => {
       return props.column && props.column.filters
     })
@@ -161,7 +162,7 @@ export default defineComponent({
       get: () => (props.column?.filteredValue || [])[0],
       set: (value: string) => {
         if (filteredValue.value) {
-          if (typeof value !== 'undefined' && value !== null) {
+          if (!isPropAbsent(value)) {
             filteredValue.value.splice(0, 1, value)
           } else {
             filteredValue.value.splice(0, 1)
@@ -212,7 +213,7 @@ export default defineComponent({
     }
     const handleSelect = (_filterValue?: string) => {
       filterValue.value = _filterValue
-      if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
+      if (!isPropAbsent(_filterValue)) {
         confirmFilter(filteredValue.value)
       } else {
         confirmFilter([])
@@ -253,6 +254,7 @@ export default defineComponent({
       handleConfirm,
       handleReset,
       handleSelect,
+      isPropAbsent,
       isActive,
       t,
       ns,

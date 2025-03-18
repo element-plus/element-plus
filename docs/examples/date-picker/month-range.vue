@@ -55,6 +55,7 @@ const shortcuts = [
   },
 ]
 </script>
+
 <style scoped>
 .demo-date-picker {
   display: flex;

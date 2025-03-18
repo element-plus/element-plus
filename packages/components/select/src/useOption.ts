@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance, inject, toRaw, watch } from 'vue'
-import { get } from 'lodash-unified'
+import { get, isEqual } from 'lodash-unified'
 import {
   ensureArray,
   escapeStringRegexp,
@@ -86,8 +86,8 @@ export function useOption(props: OptionProps, states: OptionStates) {
     () => props.value,
     (val, oldVal) => {
       const { remote, valueKey } = select.props
-
-      if (val !== oldVal) {
+      const shouldUpdate = remote ? val !== oldVal : !isEqual(val, oldVal)
+      if (shouldUpdate) {
         select.onOptionDestroy(oldVal, instance.proxy)
         select.onOptionCreate(instance.proxy)
       }

@@ -12,10 +12,12 @@
     </template>
   </el-statistic>
 </template>
+
 <script lang="ts" setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { ElStatistic } from '@element-plus/components/statistic'
 import { cAF, rAF } from '@element-plus/utils'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { countdownEmits, countdownProps } from './countdown'
 import { formatTime, getTime } from './utils'
 
@@ -43,7 +45,7 @@ const startTimer = () => {
   const timestamp = getTime(props.value)
   const frameFunc = () => {
     let diff = timestamp - Date.now()
-    emit('change', diff)
+    emit(CHANGE_EVENT, diff)
     if (diff <= 0) {
       diff = 0
       stopTimer()

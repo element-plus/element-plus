@@ -22,14 +22,6 @@ export const rightLogoSmallSponsors = [
     slogan_cn: 'Vue3企业级开源后台管理系统',
   },
   {
-    name: '百搭云',
-    img: '/images/baidayun-logo.png',
-    imgL: '/images/baidayun.png',
-    url: 'http://www.i-renderer.love/home/index',
-    slogan: 'Fast and elegant low-code dev platform',
-    slogan_cn: '快速且优雅的低代码平台',
-  },
-  {
     name: 'bit',
     img: '/images/bit.svg',
     imgL: '/images/bit-l.png',
@@ -43,18 +35,10 @@ export const leftCustomImgSponsors = [
   {
     name: '美乐',
     img: '/images/mele.png',
-    url: 'https://melecode.com/',
+    url: 'https://melecode.com/prom.html',
     slogan: 'Enterprise-level low-code development platform',
     slogan_cn: '企业级全栈低代码开发平台',
     banner_img: '/images/mele-banner.png',
-  },
-  {
-    name: 'VForm',
-    img: '/images/vform.png',
-    url: 'https://vform666.com/',
-    slogan: 'Vue 2/3 Visual/Low-Code Forms',
-    slogan_cn: 'Vue 2/3 可视化低代码表单',
-    banner_img: '/images/vform-banner.png',
   },
   {
     name: 'JNPF',

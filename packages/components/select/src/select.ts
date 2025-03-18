@@ -59,7 +59,7 @@ export const selectProps = buildProps({
    * @description tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
-    type: definePropType<PopperEffect | string>(String),
+    type: definePropType<PopperEffect>(String),
     default: 'light',
   },
   /**
@@ -171,7 +171,7 @@ export const selectProps = buildProps({
     default: 1,
   },
   /**
-   * @description whether select dropdown is teleported to the body
+   * @description whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets
    */
   teleported: useTooltipContentProps.teleported,
   /**

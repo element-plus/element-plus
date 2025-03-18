@@ -254,5 +254,6 @@ const DynamicSizeList = createList({
   },
 })
 
-export type DynamicSizeListInstance = InstanceType<typeof DynamicSizeList>
+export type DynamicSizeListInstance = InstanceType<typeof DynamicSizeList> &
+  unknown
 export default DynamicSizeList

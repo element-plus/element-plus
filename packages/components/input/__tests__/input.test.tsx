@@ -260,7 +260,7 @@ describe('Input.vue', () => {
     `)
   })
 
-  test('use formatter and parser', () => {
+  test('use formatter and parser', async () => {
     const val = ref('10000')
     const formatter = (val: string) => {
       return val.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -269,8 +269,17 @@ describe('Input.vue', () => {
       return val.replace(/\$\s?|(,*)/g, '')
     }
 
+    const _val = ref('')
+    const handleEvent = (val: string) => (_val.value = val)
+
     const wrapper = mount(() => (
-      <Input v-model={val.value} formatter={formatter} parser={parser} />
+      <Input
+        v-model={val.value}
+        formatter={formatter}
+        parser={parser}
+        onInput={handleEvent}
+        onChange={handleEvent}
+      />
     ))
 
     const vm = wrapper.vm
@@ -278,8 +287,15 @@ describe('Input.vue', () => {
     expect(vm.$el.querySelector('input').value).toEqual('10,000')
     expect(vm.$el.querySelector('input').value).not.toEqual('1000')
     vm.$el.querySelector('input').value = '1,000,000'
+
+    vm.$el
+      .querySelector('input')
+      .dispatchEvent(new Event('change', { bubbles: true }))
+    expect(_val.value).toEqual('1000000')
+
     vm.$el.querySelector('input').dispatchEvent(event)
     expect(val.value).toEqual('1000000')
+    expect(_val.value).toEqual('1000000')
   })
 
   describe('Input Methods', () => {
