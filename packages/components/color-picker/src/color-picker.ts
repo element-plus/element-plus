@@ -75,7 +75,7 @@ export const colorPickerEmits = {
 
 export type ColorPickerProps = ExtractPropTypes<typeof colorPickerProps>
 export type ColorPickerEmits = typeof colorPickerEmits
-export type ColorPickerInstance = InstanceType<typeof ColorPicker>
+export type ColorPickerInstance = InstanceType<typeof ColorPicker> & unknown
 
 export interface ColorPickerContext {
   currentColor: ComputedRef<string>

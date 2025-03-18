@@ -32,4 +32,4 @@ export const tabPaneProps = buildProps({
 
 export type TabPaneProps = ExtractPropTypes<typeof tabPaneProps>
 
-export type TabPaneInstance = InstanceType<typeof TabPane>
+export type TabPaneInstance = InstanceType<typeof TabPane> & unknown
