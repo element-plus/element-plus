@@ -3,7 +3,6 @@
     v-model="num"
     :min="1"
     :max="10"
-    class="mx-4"
     :controls="false"
     hover-controls
     size="large"
