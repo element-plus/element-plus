@@ -74,7 +74,7 @@ export const inputNumberProps = buildProps({
     values: ['', 'right'],
   },
   /**
-   * @description when to show control buttons
+   * @description whether to display control buttons when mouse moves in
    */
   hoverControls: {
     type: Boolean,
