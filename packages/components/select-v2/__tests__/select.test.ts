@@ -1517,6 +1517,34 @@ describe('Select', () => {
     expect(wrapper.findAll('.el-tag').length).toBe(0)
   })
 
+  it('tag list should be synchronized when the model value is the same', async () => {
+    const wrapper = _mount(
+      `<el-select
+        :model-value="[1]"
+        :options="[
+          {
+            value: 1,
+            label: 1,
+          },
+          {
+            value: 2,
+            label: 2,
+          },
+        ]"
+        clearable
+        multiple
+      />`
+    )
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+
+    clickClearButton(wrapper)
+    const option = document.querySelector(`.${OPTION_ITEM_CLASS_NAME}`)
+    option.click()
+    await nextTick()
+
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+  })
+
   it('should reset placeholder after clear when both multiple and filterable are true', async () => {
     const wrapper = createSelect({
       data() {
