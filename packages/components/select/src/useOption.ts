@@ -72,7 +72,7 @@ export function useOption(props: OptionProps, states: OptionStates) {
 
   const updateOption = (query: string) => {
     const regexp = new RegExp(escapeStringRegexp(query), 'i')
-    states.visible = regexp.test(currentLabel.value as string) || props.created
+    states.visible = regexp.test(String(currentLabel.value)) || props.created
   }
 
   watch(

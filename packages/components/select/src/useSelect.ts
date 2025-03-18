@@ -157,7 +157,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
       : props.suffixIcon
   )
   const iconReverse = computed(() =>
-    nsSelect.is('reverse', iconComponent.value && expanded.value)
+    nsSelect.is('reverse', !!(iconComponent.value && expanded.value))
   )
 
   const validateState = computed(() => formItem?.validateState || '')
