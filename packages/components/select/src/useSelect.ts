@@ -63,7 +63,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
 
-  const states: SelectStates = reactive({
+  const states = reactive<SelectStates>({
     inputValue: '',
     options: new Map(),
     cachedOptions: new Map(),
