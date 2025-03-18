@@ -49,7 +49,7 @@ export default defineComponent({
       ns.is('hovering', unref(hover)),
     ])
 
-    const states: OptionStates = reactive({
+    const states = reactive<OptionStates>({
       index: -1,
       groupDisabled: false,
       visible: true,
