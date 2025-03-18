@@ -160,6 +160,7 @@ module.exports = defineConfig({
 
     'no-redeclare': 'off',
     '@typescript-eslint/no-redeclare': 'error',
+    '@typescript-eslint/no-unused-vars': 'warn',
 
     // best-practice
     'array-callback-return': 'error',
