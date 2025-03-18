@@ -83,7 +83,7 @@ input-number/controlled
 
 :::demo Setting the `hover-controls` property controls how the button appears when the mouse hovers.
 
-input-number/hover
+input-number/hover-controls
 
 :::
 
