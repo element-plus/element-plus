@@ -195,13 +195,13 @@ describe('DatePicker', () => {
     await nextTick()
     ;(document.querySelector('td.available') as HTMLElement).click()
     await nextTick()
-    const vm = wrapper.vm as any
+    const vm = wrapper.vm
     expect(vm.value).toBeDefined()
     expect(vm.value.getHours()).toBe(12)
     expect(vm.value.getMinutes()).toBe(0)
     expect(vm.value.getSeconds()).toBe(1)
     const picker = wrapper.findComponent(CommonPicker)
-    ;(picker.vm as any).showClose = true
+    picker.vm.showClose = true
     await nextTick()
     ;(document.querySelector('.clear-icon') as HTMLElement).click()
     expect(vm.value).toBe(null)

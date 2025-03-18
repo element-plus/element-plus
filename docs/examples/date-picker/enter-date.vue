@@ -6,6 +6,7 @@
   </el-radio-group>
   <div class="demo-date-picker">
     <div class="block">
+      {{ value1 }}
       <span class="demonstration">Default</span>
       <el-date-picker
         v-model="value1"
