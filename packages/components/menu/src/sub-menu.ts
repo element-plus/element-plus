@@ -381,7 +381,7 @@ export default defineComponent({
                     ],
                     onPointerenter: (evt: MouseEvent) =>
                       handleMouseenter(evt, 100),
-                    onPointerleave: () => handleMouseleave(true),
+                    onMouseleave: () => handleMouseleave(true),
                     onFocus: (evt: FocusEvent) => handleMouseenter(evt, 100),
                   },
                   [
