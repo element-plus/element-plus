@@ -1488,6 +1488,35 @@ describe('Select', () => {
     expect(wrapper.findAll('.el-tag').length).toBe(2)
   })
 
+  it('tag list should be empty when model-value is empty', async () => {
+    const wrapper = _mount(
+      `<el-select
+        model-value=""
+        :options="[
+          {
+            value: 1,
+            label: 1,
+          },
+        ]"
+        multiple
+      />`
+    )
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+
+    const option = document.querySelector(`.${OPTION_ITEM_CLASS_NAME}`)
+    option.click()
+    await nextTick()
+
+    option.click()
+    await nextTick()
+
+    option.click()
+    await nextTick()
+
+    await nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(0)
+  })
+
   it('should reset placeholder after clear when both multiple and filterable are true', async () => {
     const wrapper = createSelect({
       data() {
