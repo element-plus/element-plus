@@ -213,11 +213,6 @@ export default defineComponent({
     const doDestroy = () =>
       vPopper.value?.popperRef?.popperInstanceRef?.destroy()
 
-    const isMobile = () =>
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        window.navigator.userAgent
-      )
-
     const handleCollapseToggle = (value: boolean) => {
       if (!value) {
         doDestroy()
@@ -258,13 +253,9 @@ export default defineComponent({
       subMenu.mouseInChild.value = true
 
       timeout?.()
-      if (isMobile()) {
+      ;({ stop: timeout } = useTimeoutFn(() => {
         rootMenu.openMenu(props.index, indexPath.value)
-      } else {
-        ;({ stop: timeout } = useTimeoutFn(() => {
-          rootMenu.openMenu(props.index, indexPath.value)
-        }, showTimeout))
-      }
+      }, showTimeout))
 
       if (appendToBody.value) {
         parentMenu.value.vnode.el?.dispatchEvent(new MouseEvent('mouseenter'))
@@ -388,9 +379,9 @@ export default defineComponent({
                       nsMenu.m('popup-container'),
                       subMenuPopperClass.value,
                     ],
-                    onMouseenter: (evt: MouseEvent) =>
+                    onPointerenter: (evt: MouseEvent) =>
                       handleMouseenter(evt, 100),
-                    onMouseleave: () => handleMouseleave(true),
+                    onPointerleave: () => handleMouseleave(true),
                     onFocus: (evt: FocusEvent) => handleMouseenter(evt, 100),
                   },
                   [
