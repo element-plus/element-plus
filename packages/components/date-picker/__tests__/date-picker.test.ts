@@ -181,6 +181,32 @@ describe('DatePicker', () => {
     expect(vm.value).toBe(null)
   })
 
+  it('defaultTime and clear value', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        :default-time="'12:00:01'"
+    />`,
+      () => ({ value: '' })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(document.querySelector('td.available') as HTMLElement).click()
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value).toBeDefined()
+    expect(vm.value.getHours()).toBe(12)
+    expect(vm.value.getMinutes()).toBe(0)
+    expect(vm.value.getSeconds()).toBe(1)
+    const picker = wrapper.findComponent(CommonPicker)
+    ;(picker.vm as any).showClose = true
+    await nextTick()
+    ;(document.querySelector('.clear-icon') as HTMLElement).click()
+    expect(vm.value).toBe(null)
+  })
+
   it('defaultValue', async () => {
     const wrapper = _mount(
       `<el-date-picker

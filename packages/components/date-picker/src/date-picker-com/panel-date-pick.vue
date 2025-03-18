@@ -228,6 +228,7 @@ import {
   correctlyParseUserInput,
   getValidDateOfMonth,
   getValidDateOfYear,
+  isValidTimeFormat,
 } from '../utils'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
@@ -270,6 +271,13 @@ const isChangeToNow = ref(false)
 let isShortcut = false
 
 const defaultTimeD = computed(() => {
+  const date = new Date(defaultTime)
+  if (Number.isNaN(date.getTime())) {
+    if (!isValidTimeFormat(defaultTime)) return dayjs().locale(lang.value)
+
+    const dateTime = dayjs(`${dayjs().format('YYYY-MM-DD')} ${defaultTime}`)
+    return dayjs(dateTime.format()).locale(lang.value)
+  }
   return dayjs(defaultTime).locale(lang.value)
 })
 

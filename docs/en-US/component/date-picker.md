@@ -93,7 +93,7 @@ date-picker/date-formats
 
 When picking a date range, you can assign the time part for start date and end date.
 
-:::demo By default, the time part of start date and end date are both `00:00:00`. Setting `default-time` can change their time respectively. It accepts an array of up to two Date objects. The first string sets the time for the start date, and the second for the end date.
+:::demo By default, the time part of start date and end date are both `00:00:00`. Setting `default-time` can change their time respectively. It accepts an array of up to two Date objects or strings. The first string sets the time for the start date, and the second for the end date.
 
 date-picker/default-time
 
@@ -178,7 +178,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | popper-options               | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                                             | ^[object]`Partial<PopperOptions>`                                                                                                                              | {}            |
 | range-separator              | range separator                                                                                                              | ^[string]                                                                                                                                                      | '-'           |
 | default-value                | optional, default date of the calendar                                                                                       | ^[object]`Date \| [Date, Date]`                                                                                                                                | —             |
-| default-time                 | optional, the time value to use when selecting date range                                                                    | ^[object]`Date \| [Date, Date]`                                                                                                                                | —             |
+| default-time                 | optional, the time value to use when selecting date range                                                                    | ^[string] / ^[object]`Date \| [Date, Date] \| String \| [String, String]`                                                                                                                              | —             |
 | value-format                 | optional, format of binding value. If not specified, the binding value will be a Date object                                 | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                                                                                        | —             |
 | id                           | same as `id` in native input                                                                                                 | ^[string] / ^[object]`[string, string]`                                                                                                                        | —             |
 | name                         | same as `name` in native input                                                                                               | ^[string] / ^[object]`[string, string]`                                                                                                                        | ''            |

@@ -161,7 +161,11 @@ export const timePickerDefaultProps = buildProps({
    * @description optional, the time value to use when selecting date range
    */
   defaultTime: {
-    type: definePropType<SingleOrRange<Date>>([Date, Array]),
+    type: definePropType<SingleOrRange<Date> | Array<string> | string>([
+      Date,
+      Array,
+      String,
+    ]),
   },
   /**
    * @description whether to pick a time range

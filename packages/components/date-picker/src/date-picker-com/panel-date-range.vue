@@ -291,6 +291,7 @@ import {
   correctlyParseUserInput,
   getDefaultValue,
   isValidRange,
+  isValidTimeFormat,
 } from '../utils'
 import DateTable from './basic-date-table.vue'
 
@@ -535,9 +536,20 @@ const showTime = computed(
 const formatEmit = (emitDayjs: Dayjs | null, index?: number) => {
   if (!emitDayjs) return
   if (defaultTime) {
-    const defaultTimeD = dayjs(
-      defaultTime[index as number] || defaultTime
-    ).locale(lang.value)
+    const time = defaultTime[index as number] || defaultTime
+    const date = new Date(time)
+    let defaultTimeD = null
+
+    if (Number.isNaN(date.getTime())) {
+      if (!isValidTimeFormat(time)) {
+        defaultTimeD = dayjs().locale(lang.value)
+      } else {
+        const dateTime = dayjs(`${dayjs().format('YYYY-MM-DD')} ${time}`)
+        defaultTimeD = dayjs(dateTime.format()).locale(lang.value)
+      }
+    } else {
+      defaultTimeD = dayjs(time).locale(lang.value)
+    }
     return defaultTimeD
       .year(emitDayjs.year())
       .month(emitDayjs.month())
