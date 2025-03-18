@@ -87,6 +87,12 @@ input-number/hover
 
 :::
 
+:::tip
+
+When used in combination with slots, `hover-controls` does not take effect.
+
+:::
+
 ## Custom Icon ^(2.6.3)
 
 :::demo Use `decrease-icon` and `increase-icon` to set custom icons.
