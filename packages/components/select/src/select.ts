@@ -1,5 +1,6 @@
 import { type ExtractPropTypes } from 'vue'
 import { placements } from '@popperjs/core'
+import { scrollbarEmits } from 'element-plus'
 import {
   useAriaProps,
   useEmptyValuesProps,
@@ -266,6 +267,7 @@ export const selectProps = buildProps({
 export const selectEmits = {
   [UPDATE_MODEL_EVENT]: (val: SelectProps['modelValue']) => true,
   [CHANGE_EVENT]: (val: SelectProps['modelValue']) => true,
+  'popup-scroll': scrollbarEmits.scroll,
   'remove-tag': (val: unknown) => true,
   'visible-change': (visible: boolean) => true,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,

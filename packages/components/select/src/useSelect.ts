@@ -14,6 +14,7 @@ import {
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
+import { ScrollbarInstance } from 'element-plus'
 import {
   ValidateComponentsMap,
   debugWarn,
@@ -89,9 +90,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
   const menuRef = ref<HTMLElement>()
   const tagMenuRef = ref<HTMLElement>()
   const collapseItemRef = ref<HTMLElement>()
-  const scrollbarRef = ref<{
-    handleScroll: () => void
-  }>()
+  const scrollbarRef = ref<ScrollbarInstance>()
 
   const {
     isComposing,
