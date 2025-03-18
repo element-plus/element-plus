@@ -6,7 +6,10 @@
       ns.is('disabled', inputNumberDisabled),
       ns.is('without-controls', !controls),
       ns.is('controls-right', controlsAtRight),
-      ns.is('hover-controls', props.hoverControls && !hasAffixes),
+      ns.is(
+        'hover-controls',
+        props.hoverControls && !($slots.prefix || $slots.suffix)
+      ),
     ]"
     @dragstart.prevent
   >
@@ -73,15 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  onMounted,
-  onUpdated,
-  reactive,
-  ref,
-  useSlots,
-  watch,
-} from 'vue'
+import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { ElInput } from '@element-plus/components/input'
 import { ElIcon } from '@element-plus/components/icon'
@@ -159,9 +154,6 @@ const controlsAtRight = computed(() => {
 
 const inputNumberSize = useFormSize()
 const inputNumberDisabled = useFormDisabled()
-
-const slots = useSlots()
-const hasAffixes = computed(() => Boolean(slots.prefix || slots.suffix))
 
 const displayValue = computed(() => {
   if (data.userInput !== null) {

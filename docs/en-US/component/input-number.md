@@ -89,7 +89,7 @@ input-number/hover
 
 :::tip
 
-When used in combination with slots, `hover-controls` does not take effect.
+`hover-controls` will only take effect when `controls` is `true` and there is no custom slot.
 
 :::
 
@@ -125,7 +125,7 @@ input-number/with-prefix-suffix
 | readonly ^(2.2.16)          | same as `readonly` in native input               | ^[boolean]                                    | false     |
 | disabled                    | whether the component is disabled                | ^[boolean]                                    | false     |
 | controls                    | whether to enable the control buttons            | ^[boolean]                                    | true      |
-| hover-controls ^(2.9.7)     | display control buttons when mouse moves in      | ^[boolean]                                    | false     |
+| hover-controls ^(2.9.7)     | display control buttons when mouse moves in, it will only take effect when `controls` is true and there is no custom slot.      | ^[boolean]                                    | false     |
 | controls-position           | position of the control buttons                  | ^[enum]`'' \| 'right'`                        | —         |
 | name                        | same as `name` in native input                   | ^[string]                                     | —         |
 | aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in native input             | ^[string]                                     | —         |
