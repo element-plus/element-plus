@@ -67,7 +67,7 @@ export default defineComponent({
 
       const type = props.type || 'default'
       const sortable = props.sortable === '' ? true : props.sortable
-      //Restrict the `selection` type to set `showOverflowTooltip`, as its own label tag cannot use the text-align property of the parent element. Therefore, it is directly restricted.
+      //The selection column should not be affected by `showOverflowTooltip`.
       const showOverflowTooltip =
         type === 'selection'
           ? false
