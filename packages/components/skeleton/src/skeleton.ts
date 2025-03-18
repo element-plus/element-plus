@@ -41,4 +41,4 @@ export const skeletonProps = buildProps({
 } as const)
 export type SkeletonProps = ExtractPropTypes<typeof skeletonProps>
 
-export type SkeletonInstance = InstanceType<typeof Skeleton>
+export type SkeletonInstance = InstanceType<typeof Skeleton> & unknown

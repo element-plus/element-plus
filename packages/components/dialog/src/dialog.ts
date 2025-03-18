@@ -133,4 +133,4 @@ export const dialogEmits = {
   closeAutoFocus: () => true,
 }
 export type DialogEmits = typeof dialogEmits
-export type DialogInstance = InstanceType<typeof Dialog>
+export type DialogInstance = InstanceType<typeof Dialog> & unknown
