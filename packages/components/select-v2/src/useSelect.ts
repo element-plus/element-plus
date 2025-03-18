@@ -486,6 +486,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     emit(UPDATE_MODEL_EVENT, val)
     emitChange(val)
     states.previousValue = props.multiple ? String(val) : val
+    syncCacheWithModelValue()
   }
 
   const getValueIndex = (arr: unknown[] = [], value: unknown) => {
@@ -539,23 +540,13 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
           ...selectedOptions.slice(0, index),
           ...selectedOptions.slice(index + 1),
         ]
-        states.cachedOptions.splice(index, 1)
         removeNewOption(option)
       } else if (
         props.multipleLimit <= 0 ||
         selectedOptions.length < props.multipleLimit
       ) {
         selectedOptions = [...selectedOptions, getValue(option)]
-        states.cachedOptions.push(option)
         selectNewOption(option)
-
-        nextTick(() => {
-          const isModelChanged = isEqual(selectedOptions, props.modelValue)
-
-          if (!isModelChanged) {
-            states.cachedOptions.pop()
-          }
-        })
       }
       update(selectedOptions)
       if (option.created) {
@@ -586,7 +577,6 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
         ...(props.modelValue as Array<unknown>).slice(0, index),
         ...(props.modelValue as Array<unknown>).slice(index + 1),
       ]
-      states.cachedOptions.splice(index, 1)
       update(selectedOptions)
       emit('remove-tag', getValue(option))
       removeNewOption(option)
@@ -637,11 +627,24 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       const removeTagValue = selected[lastNotDisabledIndex]
       selected.splice(lastNotDisabledIndex, 1)
       const option = states.cachedOptions[lastNotDisabledIndex]
-      states.cachedOptions.splice(lastNotDisabledIndex, 1)
       removeNewOption(option)
       update(selected)
       emit('remove-tag', removeTagValue)
     }
+  }
+
+  const syncCacheWithModelValue = () => {
+    nextTick(() => {
+      if (props.multiple && Array.isArray(props.modelValue)) {
+        const selectedOptions = props.modelValue.map((value) =>
+          getOption(value)
+        )
+
+        if (!isEqual(states.cachedOptions, selectedOptions)) {
+          states.cachedOptions = selectedOptions
+        }
+      }
+    })
   }
 
   const handleClear = () => {
@@ -651,12 +654,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     } else {
       emptyValue = valueOnClear.value
     }
-
-    if (props.multiple) {
-      states.cachedOptions = []
-    } else {
-      states.selectedLabel = ''
-    }
+    states.selectedLabel = ''
     expanded.value = false
     update(emptyValue)
     emit('clear')
