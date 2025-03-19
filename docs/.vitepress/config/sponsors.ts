@@ -22,6 +22,14 @@ export const rightLogoSmallSponsors = [
     slogan_cn: 'Vue3企业级开源后台管理系统',
   },
   {
+    name: 'Fantastic-admin',
+    img: '/images/fantastic-admin.png',
+    imgL: '/images/fantastic-admin-l.png',
+    url: 'https://fantastic-admin.github.io/?from=element-plus',
+    slogan: 'An out-of-the-box backend framework',
+    slogan_cn: '开箱即用的 Vue 后台管理框架',
+  },
+  {
     name: 'bit',
     img: '/images/bit.svg',
     imgL: '/images/bit-l.png',
