@@ -65,7 +65,7 @@ image/manually-preview
 
 ## Custom Toolbar ^(2.9.4)
 
-:::demo Custom toolbar content by `slot = toolbar`
+:::demo Custom toolbar content by `slot = toolbar`, starting from version ^(2.9.7) , the slot has a new `setActiveItem` function, which can be switched according to the index.
 
 image/custom-toolbar
 

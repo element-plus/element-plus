@@ -6,9 +6,12 @@
       :preview-src-list="srcList"
       fit="cover"
     >
-      <template #toolbar="{ actions, prev, next, reset, activeIndex }">
+      <template
+        #toolbar="{ actions, prev, next, reset, activeIndex, setActiveItem }"
+      >
         <el-icon @click="prev"><DArrowLeft /></el-icon>
         <el-icon @click="next"><DArrowRight /></el-icon>
+        <el-icon @click="setActiveItem(3)"><Right /></el-icon>
         <el-icon @click="actions('zoomOut')"><ZoomOut /></el-icon>
         <el-icon
           @click="actions('zoomIn', { enableTransition: false, zoomRate: 2 })"
@@ -39,6 +42,7 @@ import {
   Refresh,
   RefreshLeft,
   RefreshRight,
+  Right,
   ZoomIn,
   ZoomOut,
 } from '@element-plus/icons-vue'
