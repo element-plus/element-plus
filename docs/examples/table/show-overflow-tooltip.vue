@@ -16,8 +16,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ElTable } from 'element-plus'
-
 interface User {
   date: string
   name: string

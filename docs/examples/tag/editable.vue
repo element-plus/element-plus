@@ -26,7 +26,6 @@
 
 <script lang="ts" setup>
 import { nextTick, ref } from 'vue'
-import { ElInput } from 'element-plus'
 import type { InputInstance } from 'element-plus'
 
 const inputValue = ref('')
