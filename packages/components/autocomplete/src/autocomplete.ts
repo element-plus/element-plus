@@ -135,7 +135,7 @@ export const autocompleteProps = buildProps({
    */
   name: String,
   ...useAriaProps(['ariaLabel']),
-} as const)
+})
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
 
 export const autocompleteEmits = {

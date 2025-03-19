@@ -55,7 +55,7 @@ export const checkboxGroupProps = buildProps({
     default: true,
   },
   ...useAriaProps(['ariaLabel']),
-} as const)
+})
 
 export const checkboxGroupEmits = {
   [UPDATE_MODEL_EVENT]: (val: CheckboxGroupValueType) => isArray(val),

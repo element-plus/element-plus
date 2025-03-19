@@ -60,7 +60,7 @@ export const dialogContentProps = buildProps({
     type: String,
     default: '2',
   },
-} as const)
+})
 
 export const dialogContentEmits = {
   close: () => true,

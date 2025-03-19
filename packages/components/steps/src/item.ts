@@ -31,7 +31,7 @@ export const stepProps = buildProps({
     values: ['', 'wait', 'process', 'finish', 'error', 'success'],
     default: '',
   },
-} as const)
+})
 
 export type StepProps = ExtractPropTypes<typeof stepProps>
 

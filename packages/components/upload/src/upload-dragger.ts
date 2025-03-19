@@ -8,7 +8,7 @@ export const uploadDraggerProps = buildProps({
     type: Boolean,
     default: false,
   },
-} as const)
+})
 export type UploadDraggerProps = ExtractPropTypes<typeof uploadDraggerProps>
 
 export const uploadDraggerEmits = {

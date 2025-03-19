@@ -198,6 +198,6 @@ export const tableV2Props = buildProps({
   onScroll: tableV2GridProps.onScroll,
   onRowsRendered: tableV2GridProps.onRowsRendered,
   rowEventHandlers: tableV2RowProps.rowEventHandlers,
-} as const)
+})
 
 export type TableV2Props = ExtractPropTypes<typeof tableV2Props>

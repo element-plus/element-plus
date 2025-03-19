@@ -24,7 +24,7 @@ export const useEmptyValuesProps = buildProps({
     default: undefined,
     validator: (val: any) => (isFunction(val) ? !val() : !val),
   },
-} as const)
+})
 
 export const useEmptyValues = (
   props: EmptyValuesContext,

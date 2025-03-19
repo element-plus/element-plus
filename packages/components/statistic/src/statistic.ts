@@ -56,7 +56,7 @@ export const statisticProps = buildProps({
   valueStyle: {
     type: definePropType<StyleValue>([String, Object, Array]),
   },
-} as const)
+})
 export type StatisticProps = ExtractPropTypes<typeof statisticProps>
 
 export type StatisticInstance = InstanceType<typeof Statistic> & unknown

@@ -7,4 +7,4 @@ export const descriptionsRowProps = buildProps({
     type: definePropType<DescriptionItemVNode[]>(Array),
     default: () => [],
   },
-} as const)
+})

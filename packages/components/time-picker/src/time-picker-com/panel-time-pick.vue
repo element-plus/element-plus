@@ -129,14 +129,14 @@ const handleKeydown = (event: KeyboardEvent) => {
 
   const { left, right, up, down } = EVENT_CODE
 
-  if ([left, right].includes(code)) {
+  if (([left, right] as string[]).includes(code)) {
     const step = code === left ? -1 : 1
     changeSelectionRange(step)
     event.preventDefault()
     return
   }
 
-  if ([up, down].includes(code)) {
+  if (([up, down] as string[]).includes(code)) {
     const step = code === up ? -1 : 1
     timePickerOptions['start_scrollDown'](step)
     event.preventDefault()

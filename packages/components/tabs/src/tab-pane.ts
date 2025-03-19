@@ -28,7 +28,7 @@ export const tabPaneProps = buildProps({
    * @description whether Tab is lazily rendered
    */
   lazy: Boolean,
-} as const)
+})
 
 export type TabPaneProps = ExtractPropTypes<typeof tabPaneProps>
 

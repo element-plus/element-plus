@@ -104,13 +104,16 @@ export default defineComponent({
 
         e.preventDefault()
 
-        if (target !== unref(contentRef) || !FIRST_LAST_KEYS.includes(code))
+        if (
+          target !== unref(contentRef) ||
+          !(FIRST_LAST_KEYS as string[]).includes(code)
+        )
           return
         const items = getItems<{ disabled: boolean }>().filter(
           (item) => !item.disabled
         )
         const targets = items.map((item) => item.ref!)
-        if (LAST_KEYS.includes(code)) {
+        if ((LAST_KEYS as string[]).includes(code)) {
           targets.reverse()
         }
         focusFirst(targets)

@@ -233,7 +233,7 @@ export const timePickerDefaultProps = buildProps({
     type: Boolean,
     default: true,
   },
-} as const)
+})
 
 export type TimePickerDefaultProps = ExtractPropTypes<
   typeof timePickerDefaultProps
@@ -263,7 +263,7 @@ export const timePickerRangeTriggerProps = buildProps({
   },
   startPlaceholder: String,
   endPlaceholder: String,
-} as const)
+})
 
 /**
  * @deprecated Use `timePickerRangeTriggerProps` instead. This will be removed in future versions.

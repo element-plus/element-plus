@@ -84,6 +84,6 @@ export const tableV2RowProps = buildProps({
   style: {
     type: definePropType<CSSProperties>(Object),
   },
-} as const)
+})
 
 export type TableV2RowProps = ExtractPropTypes<typeof tableV2RowProps>

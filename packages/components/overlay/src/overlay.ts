@@ -21,7 +21,7 @@ export const overlayProps = buildProps({
   zIndex: {
     type: definePropType<ZIndexProperty>([String, Number]),
   },
-} as const)
+})
 export type OverlayProps = ExtractPropTypes<typeof overlayProps>
 
 export const overlayEmits = {

@@ -62,5 +62,5 @@ export const badgeProps = buildProps({
   badgeClass: {
     type: String,
   },
-} as const)
+})
 export type BadgeProps = ExtractPropTypes<typeof badgeProps>

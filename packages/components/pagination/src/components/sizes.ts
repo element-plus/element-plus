@@ -1,4 +1,4 @@
-import { buildProps, definePropType, mutable } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
 import type Sizes from './sizes.vue'
@@ -10,7 +10,7 @@ export const paginationSizesProps = buildProps({
   },
   pageSizes: {
     type: definePropType<number[]>(Array),
-    default: () => mutable([10, 20, 30, 40, 50, 100] as const),
+    default: () => [10, 20, 30, 40, 50, 100],
   },
   popperClass: {
     type: String,
@@ -22,7 +22,7 @@ export const paginationSizesProps = buildProps({
     values: componentSizes,
   },
   appendSizeTo: String,
-} as const)
+})
 
 export type PaginationSizesProps = ExtractPropTypes<typeof paginationSizesProps>
 

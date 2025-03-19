@@ -48,7 +48,7 @@ export const tagProps = buildProps({
    * @description whether Tag is rounded
    */
   round: Boolean,
-} as const)
+})
 export type TagProps = ExtractPropTypes<typeof tagProps>
 
 export const tagEmits = {

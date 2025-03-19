@@ -1,4 +1,4 @@
-import { definePropType, mutable } from '@element-plus/utils'
+import { buildProp, definePropType } from '@element-plus/utils'
 
 import type { CSSProperties } from 'vue'
 import type { Column, KeyType } from './types'
@@ -11,40 +11,40 @@ export type AnyColumn = Column<any>
  */
 export const classType = String
 
-export const columns = {
+export const columns = buildProp({
   type: definePropType<AnyColumn[]>(Array),
   required: true,
-} as const
+})
 
 export const column = {
   type: definePropType<AnyColumn>(Object),
-} as const
+}
 
 export const fixedDataType = {
   type: definePropType<any[]>(Array),
-} as const
+}
 
-export const dataType = {
+export const dataType = buildProp({
   ...fixedDataType,
   required: true,
-} as const
+})
 
 export const expandColumnKey = String
 
-export const expandKeys = {
+export const expandKeys = buildProp({
   type: definePropType<KeyType[]>(Array),
-  default: () => mutable([]),
-} as const
+  default: () => [],
+})
 
-export const requiredNumber = {
+export const requiredNumber = buildProp({
   type: Number,
   required: true,
-} as const
+})
 
-export const rowKey = {
+export const rowKey = buildProp({
   type: definePropType<KeyType>([String, Number, Symbol]),
   default: 'id',
-} as const
+})
 
 /**
  * @note even though we can use `StyleValue` but that would be difficult for us to mapping them,

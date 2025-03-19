@@ -32,5 +32,5 @@ export const cardProps = buildProps({
     values: ['always', 'hover', 'never'],
     default: 'always',
   },
-} as const)
+})
 export type CardProps = ExtractPropTypes<typeof cardProps>

@@ -8,7 +8,7 @@ export const paginationJumperProps = buildProps({
     type: String,
     values: componentSizes,
   },
-} as const)
+})
 
 export type PaginationJumperProps = ExtractPropTypes<
   typeof paginationJumperProps

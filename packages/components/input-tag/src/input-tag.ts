@@ -127,7 +127,7 @@ export const inputTagProps = buildProps({
    * @description native `aria-label` attribute
    */
   ariaLabel: String,
-} as const)
+})
 export type InputTagProps = ExtractPropTypes<typeof inputTagProps>
 
 export const inputTagEmits = {

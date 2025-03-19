@@ -17,7 +17,7 @@ export const tooltipV2ArrowProps = buildProps({
     type: definePropType<CSSProperties | null>(Object),
     default: null,
   },
-} as const)
+})
 
 export const tooltipV2ArrowSpecialProps = buildProps({
   side: {
@@ -25,6 +25,6 @@ export const tooltipV2ArrowSpecialProps = buildProps({
     values: tooltipV2Sides,
     required: true,
   },
-} as const)
+})
 
 export type TooltipV2ArrowProps = ExtractPropTypes<typeof tooltipV2ArrowProps>

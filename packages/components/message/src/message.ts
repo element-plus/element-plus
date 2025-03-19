@@ -3,7 +3,6 @@ import {
   definePropType,
   iconPropType,
   isClient,
-  mutable,
 } from '@element-plus/utils'
 import type { AppContext, ExtractPropTypes, VNode } from 'vue'
 import type { Mutable } from '@element-plus/utils'
@@ -21,7 +20,7 @@ export interface MessageConfigContext {
   showClose?: boolean
 }
 
-export const messageDefaults = mutable({
+export const messageDefaults = {
   customClass: '',
   center: false,
   dangerouslyUseHTMLString: false,
@@ -38,7 +37,7 @@ export const messageDefaults = mutable({
   grouping: false,
   repeatNum: 1,
   appendTo: isClient ? document.body : (undefined as never),
-} as const)
+} as const
 
 export const messageProps = buildProps({
   /**
@@ -151,7 +150,7 @@ export const messageProps = buildProps({
     type: Number,
     default: messageDefaults.repeatNum,
   },
-} as const)
+})
 export type MessageProps = ExtractPropTypes<typeof messageProps>
 
 export const messageEmits = {

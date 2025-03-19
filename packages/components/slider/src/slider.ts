@@ -176,7 +176,7 @@ export const sliderProps = buildProps({
     default: true,
   },
   ...useAriaProps(['ariaLabel']),
-} as const)
+})
 export type SliderProps = ExtractPropTypes<typeof sliderProps>
 
 const isValidValue = (value: Arrayable<number>) =>

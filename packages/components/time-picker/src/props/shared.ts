@@ -27,7 +27,7 @@ export const disabledTimeListsProps = buildProps({
   disabledSeconds: {
     type: definePropType<GetDisabledSeconds>(Function),
   },
-} as const)
+})
 
 export type DisabledTimeListsProps = ExtractPropTypes<
   typeof disabledTimeListsProps
@@ -43,6 +43,6 @@ export const timePanelSharedProps = buildProps({
     type: String,
     default: '',
   },
-} as const)
+})
 
 export type TimePanelSharedProps = ExtractPropTypes<typeof timePanelSharedProps>

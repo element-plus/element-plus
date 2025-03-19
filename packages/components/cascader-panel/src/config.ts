@@ -19,16 +19,16 @@ export const CommonProps = buildProps({
    */
   options: {
     type: definePropType<CascaderOption[]>(Array),
-    default: () => [] as CascaderOption[],
+    default: () => [],
   },
   /**
    * @description configuration options, see the following `CascaderProps` table.
    */
   props: {
     type: definePropType<CascaderProps>(Object),
-    default: () => ({} as CascaderProps),
+    default: () => ({}),
   },
-} as const)
+})
 
 export const DefaultProps: CascaderConfig = {
   /**

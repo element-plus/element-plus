@@ -105,7 +105,7 @@ export const timeSelectProps = buildProps({
     default: () => CircleClose,
   },
   ...useEmptyValuesProps,
-} as const)
+})
 
 export type TimeSelectProps = ExtractPropTypes<typeof timeSelectProps>
 

@@ -6,18 +6,22 @@ import {
   isClient,
   isFunction,
 } from '@element-plus/utils'
-import type { ExtractPropType } from '@element-plus/utils'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
-import type { ComponentPublicInstance, ExtractPropTypes, Ref } from 'vue'
+import type {
+  ComponentPublicInstance,
+  ExtractPropTypes,
+  PropType,
+  Ref,
+} from 'vue'
 
 const _prop = buildProp({
   type: definePropType<boolean | null>(Boolean),
   default: null,
-} as const)
+})
 const _event = buildProp({
   type: definePropType<(val: boolean) => void>(Function),
-} as const)
+})
 
 export type UseModelTogglePropsRaw<T extends string> = {
   [K in T]: typeof _prop
@@ -26,9 +30,11 @@ export type UseModelTogglePropsRaw<T extends string> = {
 }
 
 export type UseModelTogglePropsGeneric<T extends string> = {
-  [K in T]: ExtractPropType<typeof _prop>
+  [K in T]: typeof _prop['type'] extends PropType<infer T> ? T : never
 } & {
-  [K in `onUpdate:${T}`]: ExtractPropType<typeof _event>
+  [K in `onUpdate:${T}`]: typeof _event['type'] extends PropType<infer T>
+    ? T
+    : never
 }
 
 export const createModelToggleComposable = <T extends string>(name: T) => {

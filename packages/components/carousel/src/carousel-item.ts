@@ -13,6 +13,6 @@ export const carouselItemProps = buildProps({
     type: [String, Number],
     default: '',
   },
-} as const)
+})
 
 export type CarouselItemProps = ExtractPropTypes<typeof carouselItemProps>

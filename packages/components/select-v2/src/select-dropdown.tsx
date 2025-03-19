@@ -8,7 +8,7 @@ import {
   watch,
 } from 'vue'
 import { get } from 'lodash-unified'
-import { isIOS, isObject, isUndefined } from '@element-plus/utils'
+import { buildProps, isIOS, isObject, isUndefined } from '@element-plus/utils'
 import {
   DynamicSizeList,
   FixedSizeList,
@@ -34,15 +34,15 @@ import type {
   Ref,
 } from 'vue'
 
-const props = {
+const props = buildProps({
   loading: Boolean,
   data: {
     type: Array,
-    required: true as const,
+    required: true,
   },
   hoveringIndex: Number,
   width: Number,
-}
+})
 interface SelectDropdownExposed {
   listRef: Ref<FixedSizeListInstance | DynamicSizeListInstance | undefined>
   isSized: ComputedRef<boolean>
@@ -227,7 +227,7 @@ export default defineComponent({
     const onKeydown = (e: KeyboardEvent) => {
       const { code } = e
       const { tab, esc, down, up, enter, numpadEnter } = EVENT_CODE
-      if ([esc, down, up, enter, numpadEnter].includes(code)) {
+      if (([esc, down, up, enter, numpadEnter] as string[]).includes(code)) {
         e.preventDefault()
         e.stopPropagation()
       }

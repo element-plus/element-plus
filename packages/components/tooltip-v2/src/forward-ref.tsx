@@ -13,7 +13,7 @@ export type RefSetter = (el: HTMLElement | null) => void
 export const forwardRefProps = buildProps({
   setRef: { type: definePropType<RefSetter>(Function), required: true },
   onlyChild: Boolean,
-} as const)
+})
 
 export type ForwardRefProps = ExtractPropTypes<typeof forwardRefProps>
 
