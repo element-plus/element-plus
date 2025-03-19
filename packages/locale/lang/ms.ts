@@ -169,7 +169,7 @@ export default {
       error: 'FAILED',
     },
     pageHeader: {
-      title: 'Belakang',
+      title: 'Kembali',
     },
     popconfirm: {
       confirmButtonText: 'Ya',
