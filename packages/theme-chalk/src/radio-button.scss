@@ -41,7 +41,7 @@
     margin: 0;
     position: relative;
     cursor: pointer;
-    transition: color getCssVar('transition-duration'), background-color getCssVar('transition-duration');
+    transition: getCssVar('transition-all');
     user-select: none;
 
     @include button-size(
