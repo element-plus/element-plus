@@ -8,6 +8,7 @@
     <slot />
   </div>
 </template>
+
 <script lang="ts" setup>
 import { inject, ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
@@ -15,6 +16,8 @@ import { useFormDisabled } from '@element-plus/components/form'
 import { throwError } from '@element-plus/utils/error'
 import { uploadContextKey } from './constants'
 import { uploadDraggerEmits, uploadDraggerProps } from './upload-dragger'
+
+import type { UploadRawFile } from './upload'
 
 const COMPONENT_NAME = 'ElUploadDrag'
 
@@ -43,7 +46,15 @@ const onDrop = (e: DragEvent) => {
 
   e.stopPropagation()
 
-  const files = Array.from(e.dataTransfer!.files)
+  const files = Array.from(e.dataTransfer!.files) as UploadRawFile[]
+  const items = e.dataTransfer!.items || []
+  files.forEach((file, index) => {
+    const item = items[index]
+    const entry = item?.webkitGetAsEntry?.()
+    if (entry) {
+      file.isDirectory = entry.isDirectory
+    }
+  })
   emit('file', files)
 }
 

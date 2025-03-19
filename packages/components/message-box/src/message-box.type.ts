@@ -21,6 +21,7 @@ export declare interface MessageBoxState {
   message: string
   type: MessageType
   icon: string | Component
+  closeIcon: string | Component
   customClass: string
   customStyle: CSSProperties
   showInput: boolean
@@ -83,6 +84,9 @@ export interface ElMessageBoxOptions {
   /** Custom inline style for MessageBox */
   customStyle?: CSSProperties
 
+  /** modal class name for MessageBox */
+  modalClass?: string
+
   /** MessageBox closing callback if you don't prefer Promise */
   callback?: Callback
 
@@ -127,6 +131,9 @@ export interface ElMessageBoxOptions {
 
   /** Custom icon component */
   icon?: string | Component
+
+  /** Custom close icon component */
+  closeIcon?: string | Component
 
   /** Whether message is treated as HTML string */
   dangerouslyUseHTMLString?: boolean

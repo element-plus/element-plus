@@ -128,4 +128,4 @@ export const imageEmits = {
   show: () => true,
 }
 export type ImageEmits = typeof imageEmits
-export type ImageInstance = InstanceType<typeof Image>
+export type ImageInstance = InstanceType<typeof Image> & unknown

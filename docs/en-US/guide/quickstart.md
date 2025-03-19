@@ -126,6 +126,7 @@ And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#re
 <template>
   <el-button>I am ElButton</el-button>
 </template>
+
 <script>
 import { ElButton } from 'element-plus'
 export default {

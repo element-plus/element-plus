@@ -33,6 +33,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     border: 1px solid getCssVar('border-color');
     height: 20px;
     width: 20px;
