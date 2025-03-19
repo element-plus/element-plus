@@ -18,7 +18,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
 import type { CheckboxValueType } from 'element-plus'
 
 const checkAll = ref(false)
