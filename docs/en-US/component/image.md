@@ -108,13 +108,13 @@ image/custom-toolbar
 
 ### Image Slots
 
-| Name              | Description                                              | Type                                                                                                                                                                      |
-| ----------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| placeholder       | custom placeholder content when image hasn't loaded yet. | -                                                                                                                                                                         |
-| error             | custom image load failed content.                        | -                                                                                                                                                                         |
-| viewer            | custom content when image preview.                       | -                                                                                                                                                                         |
-| progress ^(2.9.4) | custom progress content when image preview.              | ^[object]`{ activeIndex: number, total: number }`                                                                                                                         |
-| toolbar ^(2.9.4)  | custom toolbar content when image preview.               | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }` |
+| Name              | Description                                              | Type                                                                                                                                                                                                              |
+| ----------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| placeholder       | custom placeholder content when image hasn't loaded yet. | -                                                                                                                                                                                                                 |
+| error             | custom image load failed content.                        | -                                                                                                                                                                                                                 |
+| viewer            | custom content when image preview.                       | -                                                                                                                                                                                                                 |
+| progress ^(2.9.4) | custom progress content when image preview.              | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                 |
+| toolbar ^(2.9.4)  | custom toolbar content when image preview.               | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }, setActiveItem: (index: number) => void` |
 
 ### Image Exposes
 
