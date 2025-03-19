@@ -11,7 +11,7 @@ export const tooltipV2CommonProps = buildProps({
 
 export type TooltipV2CommonProps = ExtractPropTypes<typeof tooltipV2CommonProps>
 
-export enum TooltipV2Sides {
+export const enum TooltipV2Sides {
   top = 'top',
   bottom = 'bottom',
   left = 'left',

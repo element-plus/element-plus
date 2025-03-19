@@ -27,7 +27,7 @@ const EMPTY_NODE = {
 } as const
 
 // enums
-export enum TreeOptionsEnum {
+export const enum TreeOptionsEnum {
   KEY = 'id',
   LABEL = 'label',
   CHILDREN = 'children',

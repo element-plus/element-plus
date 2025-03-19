@@ -20,7 +20,7 @@ import type {
 
 const SCOPE = 'utils/vue/vnode'
 
-export enum PatchFlags {
+export const enum PatchFlags {
   TEXT = 1,
   CLASS = 2,
   STYLE = 4,

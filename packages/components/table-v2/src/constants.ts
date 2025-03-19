@@ -1,14 +1,14 @@
-export enum SortOrder {
+export const enum SortOrder {
   ASC = 'asc',
   DESC = 'desc',
 }
 
-export enum Alignment {
+export const enum Alignment {
   CENTER = 'center',
   RIGHT = 'right',
 }
 
-export enum FixedDir {
+export const enum FixedDir {
   LEFT = 'left',
   RIGHT = 'right',
 }
