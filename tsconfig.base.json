@@ -16,7 +16,12 @@
     "rootDir": ".",
     "types": [],
     "paths": {
-      "@element-plus/*": ["packages/*"],
+      "@element-plus/components": ["packages/components"],
+      "@element-plus/utils": ["pacakges/utils"],
+      "@element-plus/hooks": ["pacakges/hooks"],
+      "@element-plus/directives": ["pacakges/directives"],
+      "@element-plus/constants": ["pacakges/constants"],
+      "@element-plus/locale": ["pacakges/locale"],
       "element-plus": ["packages/element-plus"]
     },
     "preserveSymlinks": true
