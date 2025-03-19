@@ -17,7 +17,6 @@
 <script lang="tsx" setup>
 import { ref, withKeys } from 'vue'
 import { ElInput } from 'element-plus'
-
 import type { FunctionalComponent } from 'vue'
 import type { Column, InputInstance } from 'element-plus'
 
