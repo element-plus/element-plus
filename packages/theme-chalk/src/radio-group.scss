@@ -6,11 +6,28 @@
   align-items: center;
   flex-wrap: wrap;
   font-size: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  .#{$namespace}-radio-button {
+    flex: 1;
+    display: flex;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    .#{$namespace}-radio-button__inner {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
 
   @include m(vertical) {
-    &:not(:has(.#{$namespace}-radio-button)) {
-      flex-direction: column;
-      align-items: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .#{$namespace}-radio-button {
+      width: 100%;
     }
   }
 }
