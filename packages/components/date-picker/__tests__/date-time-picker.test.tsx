@@ -384,7 +384,7 @@ describe('Datetime Picker', () => {
     )!
     ;(spinner.nextSibling as HTMLElement).click()
     await nextTick()
-    expect(timeInput.value).toBe('13:00:00')
+    expect(timeInput.value).toBe('12:00:00')
   })
 
   // fix #15196
