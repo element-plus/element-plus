@@ -182,7 +182,7 @@ export const useCalendar = (
     const day = dateMap[type]
 
     if (!day.isSame(date.value, 'day')) {
-      type == 'today' ? pickDay(day) : pickDay(day, false)
+      pickDay(day, type === 'today')
     }
   }
 
