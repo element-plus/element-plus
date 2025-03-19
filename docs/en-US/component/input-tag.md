@@ -110,7 +110,7 @@ input-tag/prefix-suffix
 | trigger               | the key to trigger input tag                               | ^[enum]`'Enter' \| 'Space'`                                 | Enter   |
 | draggable             | whether tags can be dragged                                | ^[boolean]                                                  | false   |
 | size                  | input box size                                             | ^[enum]`'large' \| 'default' \| 'small'`                    | —       |
-| save-on-blur          | whether to save the input value when the input loses focus | ^[boolean]                                                  | false   |
+| save-on-blur ^(2.9.7) | whether to save the input value when the input loses focus | ^[boolean]                                                  | false   |
 | clearable             | whether to show clear button                               | ^[boolean]                                                  | false   |
 | disabled              | whether to disable input-tag                               | ^[boolean]                                                  | false   |
 | validate-event        | whether to trigger form validation                         | ^[boolean]                                                  | true    |
