@@ -55,6 +55,7 @@ const draggerStyles = computed(() => {
     width: isHorizontal.value ? '16px' : '100%',
     height: isHorizontal.value ? '100%' : '16px',
     cursor: isHorizontal.value ? 'col-resize' : 'row-resize',
+    touchAction: 'none',
   }
 })
 
@@ -71,6 +72,8 @@ const startPos = ref<[x: number, y: number] | null>(null)
 
 let clearMouseup: () => void
 let clearMousemove: () => void
+let clearTouchup: () => void
+let clearTouchmove: () => void
 
 // Start dragging
 const onMousedown = (e: MouseEvent) => {
@@ -79,6 +82,17 @@ const onMousedown = (e: MouseEvent) => {
   emit('moveStart', props.index)
   clearMouseup = useEventListener(window, 'mouseup', onMouseUp)
   clearMousemove = useEventListener(window, 'mousemove', onMouseMove)
+}
+
+const onTouchStart = (e: TouchEvent) => {
+  if (props.resizable && e.touches.length === 1) {
+    e.preventDefault()
+    const touch = e.touches[0]
+    startPos.value = [touch.pageX, touch.pageY]
+    emit('moveStart', props.index)
+    clearTouchup = useEventListener(window, 'touchend', onTouchEnd)
+    clearTouchmove = useEventListener(window, 'touchmove', onTouchMove)
+  }
 }
 
 // During dragging
@@ -90,11 +104,29 @@ const onMouseMove = (e: MouseEvent) => {
   emit('moving', props.index, offset)
 }
 
+const onTouchMove = (e: TouchEvent) => {
+  if (e.touches.length === 1) {
+    e.preventDefault()
+    const touch = e.touches[0]
+    const offsetX = touch.pageX - startPos.value![0]
+    const offsetY = touch.pageY - startPos.value![1]
+    const offset = isHorizontal.value ? offsetX : offsetY
+    emit('moving', props.index, offset)
+  }
+}
+
 // End dragging
 const onMouseUp = () => {
   startPos.value = null
   clearMouseup()
   clearMousemove()
+  emit('moveEnd', props.index)
+}
+
+const onTouchEnd = () => {
+  startPos.value = null
+  clearTouchup()
+  clearTouchmove()
   emit('moveEnd', props.index)
 }
 
@@ -122,6 +154,7 @@ const EndIcon = computed(() => (isHorizontal.value ? ArrowRight : ArrowDown))
       ]"
       :style="draggerStyles"
       @mousedown="onMousedown"
+      @touchstart="onTouchStart"
     />
     <div
       v-if="endCollapsible"
