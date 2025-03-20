@@ -101,6 +101,11 @@ You can also try Element Plus out with the components built-in playground.
         </a>
       </td>
       <td align="center" valign="middle">
+        <a href="https://fantastic-admin.github.io/?from=element-plus" target="_blank">
+          <img width="150px" src="https://github.com/user-attachments/assets/0dbd9c02-d132-4c9e-a162-2b5a8728fc7e">
+        </a>
+      </td>
+      <td align="center" valign="middle">
         <a href="https://bit.dev/?from=element-ui" target="_blank">
           <img width="130px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
         </a>
