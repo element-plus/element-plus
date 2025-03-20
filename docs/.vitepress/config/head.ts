@@ -80,6 +80,13 @@ export const head: HeadConfig[] = [
     },
   ],
   [
+    'meta',
+    {
+      name: 'baidu-site-verification',
+      content: 'codeva-q5gBxYcfOs',
+    },
+  ],
+  [
     'script',
     {},
     `;(() => {
