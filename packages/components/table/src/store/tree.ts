@@ -158,7 +158,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     }
   )
 
-  const updateTreeExpandKeys = (value: string[]) => {
+  const updateTreeExpandKeys = (value: string[] | number[]) => {
     expandRowKeys.value = value
     updateTreeData()
   }
