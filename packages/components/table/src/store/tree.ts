@@ -83,14 +83,15 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       const getExpanded = (oldValue, key) => {
         if (ifChangeExpandRowKeys) {
           if (expandRowKeys.value) {
-            return ifExpandAll || expandRowKeys.value.includes(key)
+            return ifExpandAll || expandRowKeys.value.some((val) => key == val)
           } else {
             return !!(ifExpandAll || oldValue?.expanded)
           }
         } else {
           const included =
             ifExpandAll ||
-            (expandRowKeys.value && expandRowKeys.value.includes(key))
+            (expandRowKeys.value &&
+              expandRowKeys.value.some((val) => key == val))
           return !!(oldValue?.expanded || included)
         }
       }
