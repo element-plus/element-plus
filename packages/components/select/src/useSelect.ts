@@ -187,7 +187,10 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
 
   const filteredOptionsCount = computed(
-    () => optionsArray.value.filter((option) => option.visible).length
+    () =>
+      optionsArray.value.filter(
+        (option) => option.visible || option.value === states.inputValue
+      ).length
   )
 
   const optionsArray = computed(() => {
@@ -414,8 +417,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   const getOption = (value) => {
     let option
     const isObjectValue = isPlainObject(value)
-
-    for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
+    for (let i = 0; i <= states.cachedOptions.size - 1; i++) {
       const cachedOption = cachedOptionsArray.value[i]
       const isEqualValue = isObjectValue
         ? get(cachedOption.value, props.valueKey) === get(value, props.valueKey)
@@ -607,8 +609,10 @@ export const useSelect = (props: ISelectProps, emit) => {
   }
 
   const onOptionCreate = (vm: SelectOptionProxy) => {
-    states.options.set(vm.value, vm)
-    states.cachedOptions.set(vm.value, vm)
+    if (!states.options.has(vm.value)) {
+      states.options.set(vm.value, vm)
+      states.cachedOptions.set(vm.value, vm)
+    }
   }
 
   const onOptionDestroy = (key, vm: SelectOptionProxy) => {
