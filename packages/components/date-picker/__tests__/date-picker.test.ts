@@ -181,7 +181,7 @@ describe('DatePicker', () => {
     expect(vm.value).toBe(null)
   })
 
-  it('defaultTime and clear value', async () => {
+  it('doubleSelect and clear value', async () => {
     const wrapper = _mount(
       `<el-date-picker
         v-model="value"
