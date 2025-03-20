@@ -98,7 +98,11 @@ export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
       Icons({
         autoInstall: true,
       }),
-      UnoCSS(),
+
+      UnoCSS({
+        inspector: false,
+      }),
+
       MarkdownTransform(),
       Inspect(),
       groupIconVitePlugin(),
