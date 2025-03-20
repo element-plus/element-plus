@@ -59,7 +59,7 @@ export const leftCustomImgSponsors = [
   },
   {
     name: 'MISBoot',
-    img: '/images/misboot.png',
+    img: '/images/misboot-logo.png',
     banner_img: '/images/misboot-left.png',
     url: 'https://vue.misboot.com/#/login?from=element-plus',
     slogan: 'Low-code development platform',
