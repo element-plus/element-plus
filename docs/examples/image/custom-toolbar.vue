@@ -6,9 +6,14 @@
       :preview-src-list="srcList"
       fit="cover"
     >
-      <template #toolbar="{ actions, prev, next, reset, activeIndex }">
-        <el-icon @click="prev"><DArrowLeft /></el-icon>
-        <el-icon @click="next"><DArrowRight /></el-icon>
+      <template
+        #toolbar="{ actions, prev, next, reset, activeIndex, setActiveItem }"
+      >
+        <el-icon @click="prev"><Back /></el-icon>
+        <el-icon @click="next"><Right /></el-icon>
+        <el-icon @click="setActiveItem(srcList.length - 1)">
+          <DArrowRight />
+        </el-icon>
         <el-icon @click="actions('zoomOut')"><ZoomOut /></el-icon>
         <el-icon
           @click="actions('zoomIn', { enableTransition: false, zoomRate: 2 })"
@@ -33,12 +38,13 @@
 <script lang="ts" setup>
 import ElIcon from '@element-plus/components/icon'
 import {
-  DArrowLeft,
+  Back,
   DArrowRight,
   Download,
   Refresh,
   RefreshLeft,
   RefreshRight,
+  Right,
   ZoomIn,
   ZoomOut,
 } from '@element-plus/icons-vue'
