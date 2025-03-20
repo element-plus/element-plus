@@ -57,6 +57,14 @@ export const leftCustomImgSponsors = [
     className: 'jnpf',
     banner_img: '/images/jnpfsoft.png',
   },
+  {
+    name: 'MISBoot',
+    img: '/images/misboot-logo.png',
+    banner_img: '/images/misboot-left.png',
+    url: 'https://vue.misboot.com/#/login?from=element-plus',
+    slogan: 'Low code development platform built on Element Plus',
+    slogan_cn: '基于Element Plus构建的低代码开发平台',
+  },
 ]
 
 export const platinumSponsors = [
