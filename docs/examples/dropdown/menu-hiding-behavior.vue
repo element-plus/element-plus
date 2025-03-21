@@ -19,6 +19,7 @@
 <script lang="ts" setup>
 import { ArrowDown } from '@element-plus/icons-vue'
 </script>
+
 <style scoped>
 .example-showcase .el-dropdown + .el-dropdown {
   margin-left: 15px;

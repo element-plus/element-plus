@@ -16,6 +16,7 @@ import {
   type DateModelType,
   type SingleOrRange,
 } from '@element-plus/components/time-picker'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { ROOT_PICKER_INJECTION_KEY } from './constants'
 
 import { datePickerProps } from './props/date-picker'
@@ -35,7 +36,7 @@ export default defineComponent({
   name: 'ElDatePicker',
   install: null,
   props: datePickerProps,
-  emits: ['update:modelValue'],
+  emits: [UPDATE_MODEL_EVENT],
   setup(props, { expose, emit, slots }) {
     const ns = useNamespace('picker-panel')
 
@@ -64,7 +65,7 @@ export default defineComponent({
     expose(refProps)
 
     const onModelValueUpdated = (val: SingleOrRange<DateModelType> | null) => {
-      emit('update:modelValue', val)
+      emit(UPDATE_MODEL_EVENT, val)
     }
 
     return () => {

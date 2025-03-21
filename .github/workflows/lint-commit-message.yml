@@ -7,6 +7,8 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    # if pull request title is D2M, then skip this job
+    if: ${{ !contains(github.event.pull_request.title, 'D2M') }}
     continue-on-error: true
     outputs:
       failed: ${{ steps.lint_commit.outputs.failed == 'true' }}
