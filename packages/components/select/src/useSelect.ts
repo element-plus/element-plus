@@ -43,6 +43,7 @@ import {
   useNamespace,
 } from '@element-plus/hooks'
 import {
+  useFormDisabled,
   useFormItem,
   useFormItemInputId,
   useFormSize,
@@ -129,7 +130,7 @@ export const useSelect = (props: ISelectProps, emit) => {
   })
   const { valueOnClear, isEmptyValue } = useEmptyValues(props)
 
-  const selectDisabled = computed(() => props.disabled || form?.disabled)
+  const selectDisabled = useFormDisabled()
 
   const hasModelValue = computed(() => {
     return isArray(props.modelValue)
