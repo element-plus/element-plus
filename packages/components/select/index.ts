@@ -1,8 +1,8 @@
 import { withInstall, withNoopInstall } from '@element-plus/utils'
-
 import Select from './src/select.vue'
 import Option from './src/option.vue'
 import OptionGroup from './src/option-group.vue'
+
 import type { SFCWithInstall } from '@element-plus/utils'
 
 export const ElSelect: SFCWithInstall<typeof Select> & {
@@ -18,3 +18,10 @@ export const ElOptionGroup: SFCWithInstall<typeof OptionGroup> =
   withNoopInstall(OptionGroup)
 
 export * from './src/token'
+
+export type {
+  SelectProps as ISelectProps,
+  SelectContext,
+  OptionPublicInstance as SelectOptionProxy,
+  OptionBasic,
+} from './src/type'

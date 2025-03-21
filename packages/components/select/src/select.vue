@@ -314,9 +314,9 @@ import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
 import { selectKey } from './token'
 import ElOptions from './options'
+import { selectProps } from './select'
 
-import { SelectProps } from './select'
-import type { SelectContext } from './token'
+import type { SelectContext } from './type'
 
 const COMPONENT_NAME = 'ElSelect'
 export default defineComponent({
@@ -332,7 +332,7 @@ export default defineComponent({
     ElIcon,
   },
   directives: { ClickOutside },
-  props: SelectProps,
+  props: selectProps,
   emits: [
     UPDATE_MODEL_EVENT,
     CHANGE_EVENT,
@@ -370,13 +370,13 @@ export default defineComponent({
       reactive({
         props: _props,
         states: API.states,
+        selectRef: API.selectRef,
         optionsArray: API.optionsArray,
+        setSelected: API.setSelected,
         handleOptionSelect: API.handleOptionSelect,
         onOptionCreate: API.onOptionCreate,
         onOptionDestroy: API.onOptionDestroy,
-        selectRef: API.selectRef,
-        setSelected: API.setSelected,
-      }) as unknown as SelectContext
+      }) satisfies SelectContext
     )
 
     const selectedLabel = computed(() => {
