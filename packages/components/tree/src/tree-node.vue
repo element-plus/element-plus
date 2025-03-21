@@ -38,7 +38,7 @@
             expanded: !node.isLeaf && expanded,
           },
         ]"
-        @click.stop="handleExpandIconClick"
+        @click.stop="handleExpandIconClick(true)"
       >
         <component :is="tree.props.icon || CaretRight" />
       </el-icon>
@@ -72,6 +72,7 @@
           :render-content="renderContent"
           :render-after-expand="renderAfterExpand"
           :show-checkbox="showCheckbox"
+          :highlight-current="highlightCurrent"
           :node="child"
           :accordion="accordion"
           :props="props"
@@ -130,6 +131,10 @@ export default defineComponent({
     renderContent: Function,
     renderAfterExpand: Boolean,
     showCheckbox: {
+      type: Boolean,
+      default: false,
+    },
+    highlightCurrent: {
       type: Boolean,
       default: false,
     },
@@ -272,8 +277,11 @@ export default defineComponent({
       )
     }
 
-    const handleExpandIconClick = () => {
+    const handleExpandIconClick = (isOnlyHandleIcon = false) => {
       if (props.node.isLeaf) return
+      if (isOnlyHandleIcon && props.highlightCurrent) {
+        node$.value?.blur?.()
+      }
       if (expanded.value) {
         tree.ctx.emit('node-collapse', props.node.data, props.node, instance)
         props.node.collapse()
