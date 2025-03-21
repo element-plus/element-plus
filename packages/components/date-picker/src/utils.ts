@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { isArray } from '@element-plus/utils'
+import { isArray, isString } from '@element-plus/utils'
 import { rangeArr } from '@element-plus/components/time-picker'
 
 import type { Dayjs } from 'dayjs'
@@ -190,8 +190,8 @@ export const correctlyParseUserInput = (
   if (isArray(value)) {
     return value.map((v) => correctlyParseUserInput(v, format, lang) as Dayjs)
   }
-  if (typeof value === 'string') {
-    const dayjsValue = dayjs(value)
+  if (isString(value)) {
+    const dayjsValue = dayjs(value, format)
     if (!dayjsValue.isValid()) {
       // return directly if not valid
       return dayjsValue
