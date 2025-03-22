@@ -56,10 +56,14 @@ export const useCollapse = (
   }
 }
 
-export const useCollapseDOM = () => {
+export const useCollapseDOM = (props: CollapseProps) => {
   const ns = useNamespace('collapse')
 
-  const rootKls = computed(() => ns.b())
+  const rootKls = computed(() => [
+    ns.b(),
+    ns.b(`icon-position-${props.expandIconPosition}`),
+  ])
+
   return {
     rootKls,
   }
