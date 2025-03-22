@@ -291,12 +291,7 @@ const checkDateWithinRange = (date: ConfigType) => {
     : true
 }
 const formatEmit = (emitDayjs: Dayjs) => {
-  if (
-    defaultTime &&
-    !visibleTime.value &&
-    !isChangeToNow.value &&
-    !isShortcut
-  ) {
+  if (defaultTime && !isChangeToNow.value && !isShortcut) {
     return defaultTimeD.value
       .year(emitDayjs.year())
       .month(emitDayjs.month())
