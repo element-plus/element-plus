@@ -48,6 +48,10 @@
     font-size: 40px;
   }
 
+  @include e(img) {
+    cursor: grab;
+  }
+
   @include e(canvas) {
     position: static;
     width: 100%;
