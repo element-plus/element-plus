@@ -9,6 +9,30 @@
     @mousemove="handleMouseMove"
     @mouseleave="clearHoverZone"
   >
+    <li
+      v-if="multiple"
+      :class="[
+        'el-cascader-node',
+        (nodes.every((i) => i.checked)
+          ? true
+          : nodes.some((i) => i.indeterminate) ||
+            nodes.some((i) => i.checked)) && 'in-active-path',
+      ]"
+    >
+      <el-checkbox
+        :model-value="nodes.every((i) => i.checked)"
+        :indeterminate="
+          nodes.every((i) => i.checked)
+            ? false
+            : nodes.some((i) => i.indeterminate) || nodes.some((i) => i.checked)
+        "
+        @click.stop
+        @update:model-value="handleSelectCheck"
+      />
+      <span class="el-cascader-node__label">{{
+        t('el.cascader.selectAll')
+      }}</span>
+    </li>
     <el-cascader-node
       v-for="node in nodes"
       :key="node.uid"
@@ -40,6 +64,7 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { Loading } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
+import ElCheckbox from '@element-plus/components/checkbox'
 import ElCascaderNode from './node.vue'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
@@ -54,6 +79,7 @@ export default defineComponent({
     Loading,
     ElIcon,
     ElScrollbar,
+    ElCheckbox,
     ElCascaderNode,
   },
 
@@ -81,6 +107,7 @@ export default defineComponent({
 
     const hoverZone = ref<null | SVGSVGElement>(null)
 
+    const multiple = computed(() => panel.config.multiple)
     const isEmpty = computed(() => !props.nodes.length)
     const isLoading = computed(() => !panel.initialLoaded)
     const menuId = computed(() => `${id.value}-${props.index}`)
@@ -125,9 +152,19 @@ export default defineComponent({
       hoverZone.value.innerHTML = ''
       clearHoverTimer()
     }
+
+    const handleSelectCheck = () => {
+      if (props.nodes.every((i) => i.checked)) {
+        panel.handleCheckChangeAll(false, props.index)
+        return
+      }
+      panel.handleCheckChangeAll(true, props.index)
+    }
+
     return {
       ns,
       panel,
+      multiple,
       hoverZone,
       isEmpty,
       isLoading,
@@ -136,6 +173,7 @@ export default defineComponent({
       handleExpand,
       handleMouseMove,
       clearHoverZone,
+      handleSelectCheck,
     }
   },
 })
