@@ -2,6 +2,7 @@
 import { createVNode, isVNode, render } from 'vue'
 import { flatMap, get, isNull, merge } from 'lodash-unified'
 import {
+  debugWarn,
   getProp,
   hasOwn,
   isArray,
@@ -178,7 +179,10 @@ export const getRowIdentity = <T>(
   row: T,
   rowKey: string | ((row: T) => any)
 ): string => {
-  if (!row) throw new Error('Row is required when get row identity')
+  if (!row) throwError('ElTable', 'Row is required when get row identity')
+  if (!rowKey) debugWarn('ElTable', 'rowKey is required when get row identity')
+  if (!row[rowKey]) debugWarn('ElTable', `${rowKey} is not in row`)
+
   if (isString(rowKey)) {
     if (!rowKey.includes('.')) {
       return `${row[rowKey]}`
@@ -279,14 +283,20 @@ export function toggleRowStatus<T>(
   newVal?: boolean,
   tableTreeProps?: TreeProps,
   selectable?: (row: T, index?: number) => boolean,
-  rowIndex?: number
-): boolean {
+  rowIndex?: number,
+  rowKey?: string
+) {
   let _rowIndex = rowIndex ?? 0
   let changed = false
-  const index = statusArr.indexOf(row)
+  const rowIdentity = rowKey ? getRowIdentity(row, rowKey) : null
+  const index = rowKey
+    ? statusArr.findIndex(
+        (item) => getRowIdentity(item, rowKey) === rowIdentity
+      )
+    : statusArr.indexOf(row)
+
   const included = index !== -1
   const isRowSelectable = selectable?.call(null, row, _rowIndex)
-
   const toggleStatus = (type: 'add' | 'remove') => {
     if (type === 'add') {
       statusArr.push(row)
@@ -331,7 +341,8 @@ export function toggleRowStatus<T>(
         newVal ?? !included,
         tableTreeProps,
         selectable,
-        _rowIndex + 1
+        _rowIndex + 1,
+        rowKey
       )
       _rowIndex += getChildrenCount(item) + 1
       if (childChanged) {
