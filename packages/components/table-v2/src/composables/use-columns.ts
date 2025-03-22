@@ -66,12 +66,15 @@ function useColumns(
     return unref(fixedColumnsOnLeft).length || unref(fixedColumnsOnRight).length
   })
 
-  const columnsStyles = computed(() =>
-    unref(_columns).reduce<Record<KeyType, CSSProperties>>((style, column) => {
-      style[column.key] = calcColumnStyle(column, unref(fixed), props.fixed)
-      return style
-    }, {})
-  )
+  const columnsStyles = computed(() => {
+    return unref(_columns).reduce<Record<KeyType, CSSProperties>>(
+      (style, column) => {
+        style[column.key] = calcColumnStyle(column, unref(fixed), props.fixed)
+        return style
+      },
+      {}
+    )
+  })
 
   const columnsTotalWidth = computed(() => {
     return unref(visibleColumns).reduce(
