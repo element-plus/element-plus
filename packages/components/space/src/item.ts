@@ -8,7 +8,7 @@ export const spaceItemProps = buildProps({
   prefixCls: {
     type: String,
   },
-} as const)
+})
 export type SpaceItemProps = ExtractPropTypes<typeof spaceItemProps>
 
 const SpaceItem = defineComponent({

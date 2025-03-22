@@ -32,7 +32,7 @@ export const calendarProps = buildProps({
     type: definePropType<[Date, Date]>(Array),
     validator: isValidRange,
   },
-} as const)
+})
 export type CalendarProps = ExtractPropTypes<typeof calendarProps>
 
 export const calendarEmits = {

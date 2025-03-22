@@ -49,7 +49,7 @@ export const radioProps = buildProps({
    * @description whether to add a border around Radio
    */
   border: Boolean,
-} as const)
+})
 
 export const radioEmits = {
   [UPDATE_MODEL_EVENT]: (val: string | number | boolean | undefined) =>

@@ -683,7 +683,7 @@ const _handleFocusPicker = () => {
 
 const handleKeydownTable = (event: KeyboardEvent) => {
   const { code } = event
-  const validCode = [
+  const validCode: string[] = [
     EVENT_CODE.up,
     EVENT_CODE.down,
     EVENT_CODE.left,
@@ -698,10 +698,11 @@ const handleKeydownTable = (event: KeyboardEvent) => {
     event.stopPropagation()
     event.preventDefault()
   }
+
   if (
-    [EVENT_CODE.enter, EVENT_CODE.space, EVENT_CODE.numpadEnter].includes(
-      code
-    ) &&
+    (
+      [EVENT_CODE.enter, EVENT_CODE.space, EVENT_CODE.numpadEnter] as string[]
+    ).includes(code) &&
     userInputDate.value === null &&
     userInputTime.value === null
   ) {

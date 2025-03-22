@@ -119,7 +119,7 @@ export const dialogProps = buildProps({
     type: String,
     default: '2',
   },
-} as const)
+})
 
 export type DialogProps = ExtractPropTypes<typeof dialogProps>
 

@@ -43,7 +43,7 @@ export const rowProps = buildProps({
     type: String,
     values: RowAlign,
   },
-} as const)
+})
 
 export type RowProps = ExtractPropTypes<typeof rowProps>
 export type RowInstance = InstanceType<typeof Row> & unknown

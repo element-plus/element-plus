@@ -1,4 +1,4 @@
-import { buildProps, definePropType, mutable } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type Col from './col.vue'
 
@@ -51,36 +51,36 @@ export const colProps = buildProps({
    */
   xs: {
     type: definePropType<ColSize>([Number, Object]),
-    default: () => mutable({} as const),
+    default: () => ({}),
   },
   /**
    * @description `≥768px` Responsive columns or column props object
    */
   sm: {
     type: definePropType<ColSize>([Number, Object]),
-    default: () => mutable({} as const),
+    default: () => ({}),
   },
   /**
    * @description `≥992px` Responsive columns or column props object
    */
   md: {
     type: definePropType<ColSize>([Number, Object]),
-    default: () => mutable({} as const),
+    default: () => ({}),
   },
   /**
    * @description `≥1200px` Responsive columns or column props object
    */
   lg: {
     type: definePropType<ColSize>([Number, Object]),
-    default: () => mutable({} as const),
+    default: () => ({}),
   },
   /**
    * @description `≥1920px` Responsive columns or column props object
    */
   xl: {
     type: definePropType<ColSize>([Number, Object]),
-    default: () => mutable({} as const),
+    default: () => ({}),
   },
-} as const)
+})
 export type ColProps = ExtractPropTypes<typeof colProps>
 export type ColInstance = InstanceType<typeof Col> & unknown

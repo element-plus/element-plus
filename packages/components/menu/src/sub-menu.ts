@@ -93,7 +93,7 @@ export const subMenuProps = buildProps({
   collapseOpenIcon: {
     type: iconPropType,
   },
-} as const)
+})
 export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>
 
 const COMPONENT_NAME = 'ElSubMenu'

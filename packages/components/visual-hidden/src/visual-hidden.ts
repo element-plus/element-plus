@@ -6,4 +6,4 @@ export const visualHiddenProps = buildProps({
     type: definePropType<StyleValue>([String, Object, Array]),
     default: () => ({}),
   },
-} as const)
+})

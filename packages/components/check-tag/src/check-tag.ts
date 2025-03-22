@@ -21,7 +21,7 @@ export const checkTagProps = buildProps({
     values: ['primary', 'success', 'info', 'warning', 'danger'],
     default: 'primary',
   },
-} as const)
+})
 export type CheckTagProps = ExtractPropTypes<typeof checkTagProps>
 
 export const checkTagEmits = {

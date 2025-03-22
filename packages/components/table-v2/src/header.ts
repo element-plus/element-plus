@@ -1,12 +1,12 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProp, buildProps, definePropType } from '@element-plus/utils'
 import { columns } from './common'
 
 import type { ExtractPropTypes } from 'vue'
 
-const requiredNumberType = {
+const requiredNumberType = buildProp({
   type: Number,
   required: true,
-} as const
+})
 
 export const tableV2HeaderProps = buildProps({
   class: String,
@@ -29,6 +29,6 @@ export const tableV2HeaderProps = buildProps({
   },
   height: requiredNumberType,
   width: requiredNumberType,
-} as const)
+})
 
 export type TableV2HeaderProps = ExtractPropTypes<typeof tableV2HeaderProps>

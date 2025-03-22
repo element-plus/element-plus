@@ -17,6 +17,6 @@ export const tableV2CellProps = buildProps({
     type: definePropType<any>(Object),
   },
   rowIndex: Number,
-} as const)
+})
 
 export type TableV2CellProps = ExtractPropTypes<typeof tableV2CellProps>

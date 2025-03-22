@@ -72,7 +72,7 @@ export const watermarkProps = buildProps({
   offset: {
     type: definePropType<[number, number]>(Array),
   },
-} as const)
+})
 
 export type WatermarkProps = ExtractPropTypes<typeof watermarkProps>
 export type WatermarkInstance = InstanceType<typeof Watermark> & unknown

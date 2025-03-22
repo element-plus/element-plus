@@ -47,7 +47,7 @@ export const datePickerSharedProps = buildProps({
       selecting: false,
     }),
   },
-} as const)
+})
 
 export const panelSharedProps = buildProps({
   type: {
@@ -61,14 +61,14 @@ export const panelSharedProps = buildProps({
     type: Boolean,
     default: true,
   },
-} as const)
+})
 
 export const panelRangeSharedProps = buildProps({
   unlinkPanels: Boolean,
   parsedValue: {
     type: definePropType<Dayjs[]>(Array),
   },
-} as const)
+})
 
 export const selectionModeWithDefault = (
   mode: typeof selectionModes[number]

@@ -22,7 +22,7 @@ export const pageHeaderProps = buildProps({
     type: String,
     default: '',
   },
-} as const)
+})
 export type PageHeaderProps = ExtractPropTypes<typeof pageHeaderProps>
 
 export const pageHeaderEmits = {

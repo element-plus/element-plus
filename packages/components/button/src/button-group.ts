@@ -11,5 +11,5 @@ export const buttonGroupProps = {
    * @description control the type of buttons in this button-group
    */
   type: buttonProps.type,
-} as const
+}
 export type ButtonGroupProps = ExtractPropTypes<typeof buttonGroupProps>

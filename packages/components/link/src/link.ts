@@ -39,7 +39,7 @@ export const linkProps = buildProps({
   icon: {
     type: iconPropType,
   },
-} as const)
+})
 export type LinkProps = ExtractPropTypes<typeof linkProps>
 
 export const linkEmits = {

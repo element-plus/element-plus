@@ -8,7 +8,7 @@ export const popperArrowProps = buildProps({
     type: Number,
     default: 5,
   },
-} as const)
+})
 export type PopperArrowProps = ExtractPropTypes<typeof popperArrowProps>
 
 export type PopperArrowInstance = InstanceType<typeof Arrow> & unknown

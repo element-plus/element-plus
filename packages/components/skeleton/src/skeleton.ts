@@ -38,7 +38,7 @@ export const skeletonProps = buildProps({
   throttle: {
     type: definePropType<ThrottleType>([Number, Object]),
   },
-} as const)
+})
 export type SkeletonProps = ExtractPropTypes<typeof skeletonProps>
 
 export type SkeletonInstance = InstanceType<typeof Skeleton> & unknown

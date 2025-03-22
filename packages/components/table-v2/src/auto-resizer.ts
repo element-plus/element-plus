@@ -10,6 +10,6 @@ export const autoResizerProps = buildProps({
   onResize: {
     type: definePropType<AutoResizeHandler>(Function),
   },
-} as const)
+})
 
 export type AutoResizerProps = ExtractPropTypes<typeof autoResizerProps>

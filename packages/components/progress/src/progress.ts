@@ -99,7 +99,7 @@ export const progressProps = buildProps({
     type: definePropType<ProgressFn>(Function),
     default: (percentage: number): string => `${percentage}%`,
   },
-} as const)
+})
 
 export type ProgressProps = ExtractPropTypes<typeof progressProps>
 export type ProgressInstance = InstanceType<typeof Progress> & unknown

@@ -39,7 +39,7 @@ export const affixProps = buildProps({
     values: ['top', 'bottom'],
     default: 'top',
   },
-} as const)
+})
 export type AffixProps = ExtractPropTypes<typeof affixProps>
 
 export const affixEmits = {

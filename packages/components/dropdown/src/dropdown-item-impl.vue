@@ -86,12 +86,15 @@ export default defineComponent({
       }
       return 'button'
     })
-
     const handleKeydown = composeEventHandlers((e: KeyboardEvent) => {
       if (
-        [EVENT_CODE.enter, EVENT_CODE.numpadEnter, EVENT_CODE.space].includes(
-          e.code
-        )
+        (
+          [
+            EVENT_CODE.enter,
+            EVENT_CODE.numpadEnter,
+            EVENT_CODE.space,
+          ] as string[]
+        ).includes(e.code)
       ) {
         e.preventDefault()
         e.stopImmediatePropagation()

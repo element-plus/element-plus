@@ -300,7 +300,7 @@ export const SelectProps = buildProps({
   },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
-} as const)
+})
 
 export const OptionProps = buildProps({
   data: Array,
@@ -314,7 +314,7 @@ export const OptionProps = buildProps({
   style: Object,
   selected: Boolean,
   created: Boolean,
-} as const)
+})
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 export const selectEmits = {

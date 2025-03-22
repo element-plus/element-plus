@@ -95,7 +95,7 @@ export const carouselProps = buildProps({
    * @description infuse dynamism and smoothness into the carousel
    */
   motionBlur: Boolean,
-} as const)
+})
 
 export const carouselEmits = {
   /**

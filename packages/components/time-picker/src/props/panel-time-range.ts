@@ -9,6 +9,6 @@ export const panelTimeRangeProps = buildProps({
   parsedValue: {
     type: definePropType<[Dayjs, Dayjs]>(Array),
   },
-} as const)
+})
 
 export type PanelTimeRangeProps = ExtractPropTypes<typeof panelTimeRangeProps>

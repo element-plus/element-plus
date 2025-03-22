@@ -49,7 +49,7 @@ export const descriptionProps = buildProps({
     type: [String, Number],
     default: '',
   },
-} as const)
+})
 
 export type DescriptionProps = ExtractPropTypes<typeof descriptionProps>
 export type DescriptionInstance = InstanceType<typeof Description> & unknown

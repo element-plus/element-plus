@@ -35,7 +35,7 @@ export const popperProps = buildProps({
     values: roleTypes,
     default: 'tooltip',
   },
-} as const)
+})
 
 export type PopperProps = ExtractPropTypes<typeof popperProps>
 

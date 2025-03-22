@@ -14,7 +14,6 @@ import {
   definePropType,
   iconPropType,
   isNumber,
-  mutable,
 } from '@element-plus/utils'
 import {
   useDeprecated,
@@ -105,7 +104,7 @@ export const paginationProps = buildProps({
    */
   pageSizes: {
     type: definePropType<number[]>(Array),
-    default: () => mutable([10, 20, 30, 40, 50, 100] as const),
+    default: () => [10, 20, 30, 40, 50, 100],
   },
   /**
    * @description custom class name for the page size Select's dropdown
@@ -173,7 +172,7 @@ export const paginationProps = buildProps({
    * @description which element the size dropdown appends to.
    */
   appendSizeTo: String,
-} as const)
+})
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
 
 export const paginationEmits = {

@@ -111,7 +111,7 @@ export const buttonProps = buildProps({
     type: definePropType<string | Component>([String, Object]),
     default: 'button',
   },
-} as const)
+})
 export const buttonEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,
 }

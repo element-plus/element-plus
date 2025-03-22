@@ -24,7 +24,7 @@ export const basicTimeSpinnerProps = buildProps({
     default: '',
   },
   ...disabledTimeListsProps,
-} as const)
+})
 
 export type BasicTimeSpinnerProps = ExtractPropTypes<
   typeof basicTimeSpinnerProps

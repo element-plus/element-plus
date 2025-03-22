@@ -23,7 +23,7 @@ export const formMetaProps = buildProps({
    * @description Whether to disable all components in this form. If set to `true`, it will override the `disabled` prop of the inner component.
    */
   disabled: Boolean,
-} as const)
+})
 
 export const formProps = buildProps({
   ...formMetaProps,
@@ -107,7 +107,7 @@ export const formProps = buildProps({
   scrollIntoViewOptions: {
     type: [Object, Boolean],
   },
-} as const)
+})
 export type FormProps = ExtractPropTypes<typeof formProps>
 export type FormMetaProps = ExtractPropTypes<typeof formMetaProps>
 

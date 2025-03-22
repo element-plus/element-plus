@@ -39,7 +39,7 @@ export const dateTableProps = buildProps({
   hideHeader: {
     type: Boolean,
   },
-} as const)
+})
 export type DateTableProps = ExtractPropTypes<typeof dateTableProps>
 
 export const dateTableEmits = {

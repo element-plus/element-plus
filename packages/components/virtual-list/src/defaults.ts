@@ -13,7 +13,7 @@ export const CENTERED_ALIGNMENT = 'center'
 export const END_ALIGNMENT = 'end'
 
 export const HORIZONTAL = 'horizontal'
-export const VERTICAL = 'vertical'
+export const VERTICAL = 'vertical' as const
 
 export const LTR = 'ltr'
 export const RTL = 'rtl'

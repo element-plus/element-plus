@@ -12,6 +12,6 @@ export const alphaSliderProps = buildProps({
     type: Boolean,
     default: false,
   },
-} as const)
+})
 
 export type AlphaSliderProps = ExtractPropTypes<typeof alphaSliderProps>

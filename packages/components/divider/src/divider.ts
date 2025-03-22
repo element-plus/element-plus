@@ -28,7 +28,7 @@ export const dividerProps = buildProps({
     type: definePropType<BorderStyle>(String),
     default: 'solid',
   },
-} as const)
+})
 export type DividerProps = ExtractPropTypes<typeof dividerProps>
 
 export type DividerInstance = InstanceType<typeof Divider> & unknown

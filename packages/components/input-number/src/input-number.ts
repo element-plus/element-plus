@@ -1,6 +1,6 @@
 import { isNil } from 'lodash-unified'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
-import { buildProps, isNumber } from '@element-plus/utils'
+import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
@@ -77,7 +77,7 @@ export const inputNumberProps = buildProps({
    * @description value should be set when input box is cleared
    */
   valueOnClear: {
-    type: [String, Number, null],
+    type: definePropType<'min' | 'max' | number | null>([String, Number, null]),
     validator: (val: 'min' | 'max' | number | null) =>
       val === null || isNumber(val) || ['min', 'max'].includes(val),
     default: null,
@@ -106,7 +106,7 @@ export const inputNumberProps = buildProps({
     default: true,
   },
   ...useAriaProps(['ariaLabel']),
-} as const)
+})
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
 
 export const inputNumberEmits = {

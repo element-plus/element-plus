@@ -11,7 +11,7 @@ export const thumbProps = buildProps({
     required: true,
   },
   always: Boolean,
-} as const)
+})
 export type ThumbProps = ExtractPropTypes<typeof thumbProps>
 
 export type ThumbInstance = InstanceType<typeof Thumb> & unknown

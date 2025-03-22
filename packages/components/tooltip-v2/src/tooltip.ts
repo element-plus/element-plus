@@ -22,6 +22,6 @@ export const tooltipV2Props = buildProps({
     type: definePropType<TeleportProps['to']>(String),
     default: 'body',
   },
-} as const)
+})
 
 export type TooltipV2Props = ExtractPropTypes<typeof tooltipV2Props>

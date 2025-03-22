@@ -38,7 +38,7 @@ export const countdownProps = buildProps({
   valueStyle: {
     type: definePropType<StyleValue>([String, Object, Array]),
   },
-} as const)
+})
 export type CountdownProps = ExtractPropTypes<typeof countdownProps>
 
 export const countdownEmits = {

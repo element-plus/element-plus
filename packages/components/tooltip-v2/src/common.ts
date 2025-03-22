@@ -7,7 +7,7 @@ import type { ExtractPropTypes } from 'vue'
  */
 export const tooltipV2CommonProps = buildProps({
   nowrap: Boolean,
-} as const)
+})
 
 export type TooltipV2CommonProps = ExtractPropTypes<typeof tooltipV2CommonProps>
 

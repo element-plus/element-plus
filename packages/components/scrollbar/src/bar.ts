@@ -11,7 +11,7 @@ export const barProps = buildProps({
     type: Number,
     required: true,
   },
-} as const)
+})
 export type BarProps = ExtractPropTypes<typeof barProps>
 
 export type BarInstance = InstanceType<typeof Bar> & unknown

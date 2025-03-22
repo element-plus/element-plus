@@ -78,7 +78,7 @@ export const tabsProps = buildProps({
    * @description whether width of tab automatically fits its container
    */
   stretch: Boolean,
-} as const)
+})
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
 
 const isPaneName = (value: unknown): value is string | number =>
@@ -206,7 +206,11 @@ const Tabs = defineComponent({
             tabindex="0"
             onClick={handleTabAdd}
             onKeydown={(ev: KeyboardEvent) => {
-              if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(ev.code))
+              if (
+                (
+                  [EVENT_CODE.enter, EVENT_CODE.numpadEnter] as string[]
+                ).includes(ev.code)
+              )
                 handleTabAdd()
             }}
           >

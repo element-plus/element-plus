@@ -21,7 +21,7 @@ export const skeletonItemProps = buildProps({
     ],
     default: 'text',
   },
-} as const)
+})
 export type SkeletonItemProps = ExtractPropTypes<typeof skeletonItemProps>
 
 export type SkeletonItemInstance = InstanceType<typeof SkeletonItem> & unknown

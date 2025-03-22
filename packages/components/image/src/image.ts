@@ -1,9 +1,4 @@
-import {
-  buildProps,
-  definePropType,
-  isNumber,
-  mutable,
-} from '@element-plus/utils'
+import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
 import type Image from './image.vue'
@@ -50,7 +45,7 @@ export const imageProps = buildProps({
    */
   previewSrcList: {
     type: definePropType<string[]>(Array),
-    default: () => mutable([] as const),
+    default: () => [],
   },
   /**
    * @description whether to append image-viewer to body. A nested parent element attribute transform should have this attribute set to `true`.
@@ -117,7 +112,7 @@ export const imageProps = buildProps({
   crossorigin: {
     type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
   },
-} as const)
+})
 export type ImageProps = ExtractPropTypes<typeof imageProps>
 
 export const imageEmits = {

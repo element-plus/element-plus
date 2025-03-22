@@ -48,7 +48,7 @@ export const resultProps = buildProps({
     values: ['success', 'warning', 'info', 'error'],
     default: 'info',
   },
-} as const)
+})
 
 export type ResultProps = ExtractPropTypes<typeof resultProps>
 

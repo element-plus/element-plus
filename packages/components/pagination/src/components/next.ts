@@ -18,7 +18,7 @@ export const paginationNextProps = buildProps({
   nextIcon: {
     type: iconPropType,
   },
-} as const)
+})
 
 export type PaginationNextProps = ExtractPropTypes<typeof paginationNextProps>
 

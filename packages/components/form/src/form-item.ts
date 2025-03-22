@@ -90,5 +90,5 @@ export const formItemProps = buildProps({
     type: String,
     values: componentSizes,
   },
-} as const)
+})
 export type FormItemProps = ExtractPropTypes<typeof formItemProps>

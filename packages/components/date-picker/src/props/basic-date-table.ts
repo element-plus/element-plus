@@ -11,7 +11,7 @@ export const basicDateTableProps = buildProps({
   },
   showWeekNumber: Boolean,
   selectionMode: selectionModeWithDefault('date'),
-} as const)
+})
 
 export const basicDateTableEmits = ['changerange', 'pick', 'select']
 

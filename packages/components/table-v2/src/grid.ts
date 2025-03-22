@@ -73,6 +73,6 @@ export const tableV2GridProps = buildProps({
   onScroll: {
     type: definePropType<(...args: any[]) => void>(Function),
   },
-} as const)
+})
 
 export type TableV2GridProps = ExtractPropTypes<typeof tableV2GridProps>

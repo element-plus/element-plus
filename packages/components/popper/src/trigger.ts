@@ -31,7 +31,7 @@ export const popperTriggerProps = buildProps({
   },
   id: String,
   open: Boolean,
-} as const)
+})
 
 export type PopperTriggerProps = typeof popperTriggerProps
 

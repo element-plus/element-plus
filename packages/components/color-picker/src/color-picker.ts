@@ -64,7 +64,7 @@ export const colorPickerProps = buildProps({
     default: true,
   },
   ...useAriaProps(['ariaLabel']),
-} as const)
+})
 export const colorPickerEmits = {
   [UPDATE_MODEL_EVENT]: (val: string | null) => isString(val) || isNil(val),
   [CHANGE_EVENT]: (val: string | null) => isString(val) || isNil(val),

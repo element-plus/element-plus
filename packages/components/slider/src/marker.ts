@@ -14,7 +14,7 @@ export const sliderMarkerProps = buildProps({
     >([String, Object]),
     default: undefined,
   },
-} as const)
+})
 export type SliderMarkerProps = ExtractPropTypes<typeof sliderMarkerProps>
 
 export default defineComponent({

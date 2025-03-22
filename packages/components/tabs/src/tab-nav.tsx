@@ -17,7 +17,6 @@ import {
   buildProps,
   capitalize,
   definePropType,
-  mutable,
   throwError,
 } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -39,7 +38,7 @@ interface Scrollable {
 export const tabNavProps = buildProps({
   panes: {
     type: definePropType<TabsPaneContext[]>(Array),
-    default: () => mutable([] as const),
+    default: () => [],
   },
   currentName: {
     type: [String, Number],
@@ -52,7 +51,7 @@ export const tabNavProps = buildProps({
     default: '',
   },
   stretch: Boolean,
-} as const)
+})
 
 export const tabNavEmits = {
   tabClick: (tab: TabsPaneContext, tabName: TabPaneName, ev: Event) =>

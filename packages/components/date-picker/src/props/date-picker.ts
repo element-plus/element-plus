@@ -13,6 +13,6 @@ export const datePickerProps = buildProps({
     type: definePropType<IDatePickerType>(String),
     default: 'date',
   },
-} as const)
+})
 
 export type DatePickerProps = ExtractPropTypes<typeof datePickerProps>

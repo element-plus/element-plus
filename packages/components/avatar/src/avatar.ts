@@ -54,7 +54,7 @@ export const avatarProps = buildProps({
     type: definePropType<ObjectFitProperty>(String),
     default: 'cover',
   },
-} as const)
+})
 export type AvatarProps = ExtractPropTypes<typeof avatarProps>
 
 export const avatarEmits = {

@@ -5,7 +5,7 @@ import type { ExtractPropTypes } from 'vue'
 
 export const panelYearRangeProps = buildProps({
   ...panelRangeSharedProps,
-} as const)
+})
 
 export const panelYearRangeEmits = [
   'pick',
