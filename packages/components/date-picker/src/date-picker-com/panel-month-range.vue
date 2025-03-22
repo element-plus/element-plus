@@ -138,6 +138,7 @@ const unit = 'year'
 
 const { lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
+const isDefaultFormat = inject('ElIsDefaultFormat') as any
 const { shortcuts, disabledDate } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -224,7 +225,12 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return correctlyParseUserInput(value, format.value, lang.value)
+  return correctlyParseUserInput(
+    value,
+    format.value,
+    lang.value,
+    isDefaultFormat
+  )
 }
 
 function onParsedValueChanged(
