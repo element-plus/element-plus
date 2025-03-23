@@ -37,6 +37,11 @@ const beforeChange = () => {
       Math.max(x, innerWidth - x),
       Math.max(y, innerHeight - y)
     )
+
+    const ratioX = (100 * x) / innerWidth
+    const ratioY = (100 * y) / innerHeight
+    const ratioR = (100 * endRadius) / Math.min(innerWidth, innerHeight)
+
     // @ts-expect-error: Transition API
     const transition = document.startViewTransition(async () => {
       resolve(true)
@@ -44,8 +49,8 @@ const beforeChange = () => {
     })
     transition.ready.then(() => {
       const clipPath = [
-        `circle(0px at ${x}px ${y}px)`,
-        `circle(${endRadius}px at ${x}px ${y}px)`,
+        `circle(0% at ${ratioX}% ${ratioY}%)`,
+        `circle(${ratioR}% at ${ratioX}% ${ratioY}%)`,
       ]
       document.documentElement.animate(
         {
