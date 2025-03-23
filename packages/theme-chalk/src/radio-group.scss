@@ -6,7 +6,6 @@
   align-items: center;
   flex-wrap: wrap;
   font-size: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   .#{$namespace}-radio-button {
     flex: 1;

@@ -167,7 +167,6 @@
     }
   }
 
-  // 添加对垂直方向的支持
   .#{$namespace}-radio-group--vertical & {
     &:first-child {
       .#{$namespace}-radio-button__inner {
