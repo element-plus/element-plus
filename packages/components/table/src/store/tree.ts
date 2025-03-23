@@ -44,23 +44,23 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
 
   const normalize = (data) => {
     const rowKey = watcherData.rowKey.value
-    const res = {}
+    const res = new Map() // 使用 Map 替代 Object，解决 number key 的问题
     walkTreeNode(
       data,
       (parent, children, level) => {
-        const parentId = getRowIdentity(parent, rowKey)
+        const parentId = parent[rowKey]
         if (isArray(children)) {
-          res[parentId] = {
-            children: children.map((row) => getRowIdentity(row, rowKey)),
+          res.set(parentId, {
+            children: children.map((row) => row[rowKey]),
             level,
-          }
+          })
         } else if (lazy.value) {
           // 当 children 不存在且 lazy 为 true，该节点即为懒加载的节点
-          res[parentId] = {
+          res.set(parentId, {
             children: [],
             lazy: true,
             level,
-          }
+          })
         }
       },
       childrenColumnName.value,
@@ -75,30 +75,29 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   ) => {
     const nested = normalizedData.value
     const normalizedLazyNode_ = normalizedLazyNode.value
-    const keys = Object.keys(nested)
     const newTreeData = {}
-    if (keys.length) {
+    if (nested.size) {
+      const keys = Array.from(nested.keys())
       const oldTreeData = unref(treeData)
       const rootLazyRowKeys = []
       const getExpanded = (oldValue, key) => {
         if (ifChangeExpandRowKeys) {
           if (expandRowKeys.value) {
-            return ifExpandAll || expandRowKeys.value.some((val) => key == val)
+            return ifExpandAll || expandRowKeys.value.includes(key)
           } else {
             return !!(ifExpandAll || oldValue?.expanded)
           }
         } else {
           const included =
             ifExpandAll ||
-            (expandRowKeys.value &&
-              expandRowKeys.value.some((val) => key == val))
+            (expandRowKeys.value && expandRowKeys.value.includes(key))
           return !!(oldValue?.expanded || included)
         }
       }
       // 合并 expanded 与 display，确保数据刷新后，状态不变
       keys.forEach((key) => {
         const oldValue = oldTreeData[key]
-        const newValue = { ...nested[key] }
+        const newValue = { ...nested.get(key) }
         newValue.expanded = getExpanded(oldValue, key)
         if (newValue.lazy) {
           const { loaded = false, loading = false } = oldValue || {}
