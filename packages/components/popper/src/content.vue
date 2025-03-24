@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, onBeforeUnmount, provide, ref, unref, watch } from 'vue'
+import { inject, onBeforeUnmount, provide, ref, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { NOOP, isElement } from '@element-plus/utils'
 import ElFocusTrap from '@element-plus/components/focus-trap'
@@ -110,30 +110,30 @@ const togglePopperAlive = () => {
 }
 
 watch(
-  () => props.triggerTargetEl,
+  () => props.triggerTargetEl || contentRef.value,
   (triggerTargetEl, prevTriggerTargetEl) => {
     triggerTargetAriaStopWatch?.()
     triggerTargetAriaStopWatch = undefined
 
-    const el = unref(triggerTargetEl || contentRef.value)
-    const prevEl = unref(prevTriggerTargetEl || contentRef.value)
-
-    if (isElement(el)) {
+    if (isElement(triggerTargetEl)) {
       triggerTargetAriaStopWatch = watch(
         [role, () => props.ariaLabel, ariaModal, () => props.id],
         (watches) => {
           ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key, idx) => {
             isNil(watches[idx])
-              ? el.removeAttribute(key)
-              : el.setAttribute(key, watches[idx]!)
+              ? triggerTargetEl.removeAttribute(key)
+              : triggerTargetEl.setAttribute(key, watches[idx]!)
           })
         },
         { immediate: true }
       )
     }
-    if (prevEl !== el && isElement(prevEl)) {
+    if (
+      prevTriggerTargetEl !== triggerTargetEl &&
+      isElement(prevTriggerTargetEl)
+    ) {
       ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key) => {
-        prevEl.removeAttribute(key)
+        prevTriggerTargetEl.removeAttribute(key)
       })
     }
   },
