@@ -1,4 +1,9 @@
-import type { CSSProperties, ComponentInternalInstance, Ref } from 'vue'
+import type {
+  CSSProperties,
+  ComponentInternalInstance,
+  ComputedRef,
+  Ref,
+} from 'vue'
 
 export type Instance = ComponentInternalInstance
 
@@ -211,3 +216,12 @@ export type GridItemKeyGetter = <
   data: T
   rowIndex: number
 }) => string | number
+
+export type GridEdgeState = {
+  atXStartEdge: ComputedRef<boolean>
+  atXEndEdge: ComputedRef<boolean>
+  atYStartEdge: ComputedRef<boolean>
+  atYEndEdge: ComputedRef<boolean>
+}
+
+export type ScrollDeltaHandler = (x: number, y: number) => void

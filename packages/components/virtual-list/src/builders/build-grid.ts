@@ -22,6 +22,7 @@ import {
 import { useNamespace } from '@element-plus/hooks'
 import Scrollbar from '../components/scrollbar'
 import { useGridWheel } from '../hooks/use-grid-wheel'
+import { useGridTouch } from '../hooks/use-grid-touch'
 import { useCache } from '../hooks/use-cache'
 import { virtualizedGridProps } from '../props'
 import { getRTLOffsetType, getScrollDir, isRTL } from '../utils'
@@ -47,7 +48,9 @@ import type {
 import type {
   Alignment,
   GridConstructorProps,
+  GridEdgeState,
   GridScrollOptions,
+  ScrollDeltaHandler,
   ScrollbarExpose,
 } from '../types'
 import type { VirtualizedGridProps } from '../props'
@@ -324,42 +327,55 @@ const createGrid = ({
         })
       }
 
-      const { onWheel } = useGridWheel(
-        {
-          atXStartEdge: computed(() => states.value.scrollLeft <= 0),
-          atXEndEdge: computed(
-            () =>
-              states.value.scrollLeft >=
-              estimatedTotalWidth.value - unref(parsedWidth)
+      const gridEdgeState: GridEdgeState = {
+        atXStartEdge: computed(() => states.value.scrollLeft <= 0),
+        atXEndEdge: computed(
+          () =>
+            states.value.scrollLeft >=
+            estimatedTotalWidth.value - unref(parsedWidth)
+        ),
+        atYStartEdge: computed(() => states.value.scrollTop <= 0),
+        atYEndEdge: computed(
+          () =>
+            states.value.scrollTop >=
+            estimatedTotalHeight.value - unref(parsedHeight)
+        ),
+      }
+
+      const scrollDeltaHandler: ScrollDeltaHandler = (x: number, y: number) => {
+        hScrollbar.value?.onMouseUp?.()
+        vScrollbar.value?.onMouseUp?.()
+        const width = unref(parsedWidth)
+        const height = unref(parsedHeight)
+        scrollTo({
+          scrollLeft: Math.min(
+            states.value.scrollLeft + x,
+            estimatedTotalWidth.value - width
           ),
-          atYStartEdge: computed(() => states.value.scrollTop <= 0),
-          atYEndEdge: computed(
-            () =>
-              states.value.scrollTop >=
-              estimatedTotalHeight.value - unref(parsedHeight)
+          scrollTop: Math.min(
+            states.value.scrollTop + y,
+            estimatedTotalHeight.value - height
           ),
-        },
-        (x: number, y: number) => {
-          hScrollbar.value?.onMouseUp?.()
-          vScrollbar.value?.onMouseUp?.()
-          const width = unref(parsedWidth)
-          const height = unref(parsedHeight)
-          scrollTo({
-            scrollLeft: Math.min(
-              states.value.scrollLeft + x,
-              estimatedTotalWidth.value - width
-            ),
-            scrollTop: Math.min(
-              states.value.scrollTop + y,
-              estimatedTotalHeight.value - height
-            ),
-          })
-        }
+        })
+      }
+
+      // 鼠标滚轮处理
+      const { onWheel } = useGridWheel(gridEdgeState, scrollDeltaHandler)
+
+      // 触摸处理
+      const { onTouchStart, onTouchMove, onTouchEnd } = useGridTouch(
+        gridEdgeState,
+        scrollDeltaHandler
       )
 
+      // 添加事件监听器
       useEventListener(windowRef, 'wheel', onWheel, {
         passive: false,
       })
+
+      useEventListener(windowRef, 'touchstart', onTouchStart, { passive: true })
+      useEventListener(windowRef, 'touchmove', onTouchMove, { passive: false })
+      useEventListener(windowRef, 'touchend', onTouchEnd)
 
       const scrollTo = ({
         scrollLeft = states.value.scrollLeft,
