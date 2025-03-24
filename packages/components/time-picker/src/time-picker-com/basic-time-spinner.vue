@@ -88,7 +88,7 @@ import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { getStyle, isNumber } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
-import { timeUnits } from '../constants'
+import { DEFAULT_FORMATS_TIME, timeUnits } from '../constants'
 import { buildTimeList } from '../utils'
 import { basicTimeSpinnerProps } from '../props/basic-time-spinner'
 import { getTimeLists } from '../composables/use-time-picker'
@@ -100,7 +100,7 @@ import type { TimeList } from '../utils'
 
 const props = defineProps(basicTimeSpinnerProps)
 const pickerBase = inject('EP_PICKER_BASE') as any
-const { isRange } = pickerBase.props
+const { isRange, format } = pickerBase.props
 const emit = defineEmits([CHANGE_EVENT, 'select-range', 'set-option'])
 
 const ns = useNamespace('time')
@@ -174,18 +174,19 @@ const getAmPmFlag = (hour: number) => {
 }
 
 const emitSelectRange = (type: TimeUnit) => {
-  let range
-
-  switch (type) {
-    case 'hours':
-      range = [0, 2]
-      break
-    case 'minutes':
-      range = [3, 5]
-      break
-    case 'seconds':
-      range = [6, 8]
-      break
+  let range = [0, 0]
+  if (!format || format === DEFAULT_FORMATS_TIME) {
+    switch (type) {
+      case 'hours':
+        range = [0, 2]
+        break
+      case 'minutes':
+        range = [3, 5]
+        break
+      case 'seconds':
+        range = [6, 8]
+        break
+    }
   }
   const [left, right] = range
 

@@ -8,4 +8,4 @@ export const radioButtonProps = buildProps({
 } as const)
 
 export type RadioButtonProps = ExtractPropTypes<typeof radioButtonProps>
-export type RadioButtonInstance = InstanceType<typeof RadioButton>
+export type RadioButtonInstance = InstanceType<typeof RadioButton> & unknown
