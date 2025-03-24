@@ -86,6 +86,14 @@ const {
 const formItemContext = inject(formItemContextKey, undefined)
 const arrowOffset = ref<number>(props.arrowOffset)
 
+watch(
+  () => props.arrowOffset,
+  (val) => {
+    arrowOffset.value = val
+    updatePopper(false)
+  }
+)
+
 provide(POPPER_CONTENT_INJECTION_KEY, {
   arrowStyle,
   arrowRef,
