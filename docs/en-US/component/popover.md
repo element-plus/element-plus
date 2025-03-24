@@ -5,6 +5,16 @@ lang: en-US
 
 # Popover
 
+## Placement
+
+Popover has 9 placements.
+
+:::demo Use attribute `content` to set the display content when hover. The attribute `placement` determines the position of the Popover. Its value is `[orientation]-[alignment]` with four orientations `top`, `left`, `right`, `bottom` and three alignments `start`, `end`, `null`, and the default alignment is null. Take `placement="left-end"` for example, Popover will display on the left of the element which you are hovering and the bottom of the Popover aligns with the bottom of the element.
+
+popover/placement
+
+:::
+
 ## Basic usage
 
 Popover is built with `ElTooltip`. So for some duplicated attributes, please refer to the documentation of Tooltip.
