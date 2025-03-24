@@ -50,7 +50,6 @@ export type EpPropMergeType<Type, Value, Validator> =
   | IfNever<UnknownToNever<Value>, ResolvePropType<Type>, never>
   | UnknownToNever<Value>
   | UnknownToNever<Validator>
-  | null
 
 /**
  * Handling default values for input (constraints)

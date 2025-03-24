@@ -88,8 +88,13 @@ export const buildProp = <
         }
       : undefined
 
+  const _type: unknown[] = Array.isArray(type) ? type : [type]
+  if (!_type.includes(null)) {
+    _type.push(null)
+  }
+
   const epProp: any = {
-    type,
+    type: _type,
     required: !!required,
     validator: _validator,
     [epPropKey]: true,
