@@ -23,7 +23,7 @@ import {
   watch,
 } from 'vue'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
@@ -48,7 +48,7 @@ const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
 
 const changeEvent = (value: RadioGroupProps['modelValue']) => {
   emit(UPDATE_MODEL_EVENT, value)
-  nextTick(() => emit('change', value))
+  nextTick(() => emit(CHANGE_EVENT, value))
 }
 
 onMounted(() => {

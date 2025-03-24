@@ -71,4 +71,4 @@ export const segmentedEmits = {
 }
 export type SegmentedEmits = typeof segmentedEmits
 
-export type SegmentedInstance = InstanceType<typeof Segmented>
+export type SegmentedInstance = InstanceType<typeof Segmented> & unknown

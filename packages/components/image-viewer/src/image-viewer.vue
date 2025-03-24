@@ -56,6 +56,7 @@
                 :next="next"
                 :reset="toggleMode"
                 :active-index="activeIndex"
+                :set-active-item="setActiveItem"
               >
                 <el-icon @click="handleActions('zoomOut')">
                   <ZoomOut />

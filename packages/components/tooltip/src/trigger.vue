@@ -16,6 +16,7 @@
     <slot />
   </el-popper-trigger>
 </template>
+
 <script lang="ts" setup>
 import { inject, ref, toRef, unref } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
