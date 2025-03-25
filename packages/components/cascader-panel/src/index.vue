@@ -140,7 +140,7 @@ export default defineComponent({
         _node.childrenData = _node.childrenData || []
 
         // skip root node
-        if (!isRoot && !_node.childrenData.length) store?.appendLeafNode(_node)
+        if (!isRoot && _node.isLeaf) store?.appendLeafNode(_node)
 
         cb && cb(dataList)
       }
