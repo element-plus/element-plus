@@ -257,6 +257,7 @@ const slots = useSlots()
 
 const { t, lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
+const isDefaultFormat = inject('ElIsDefaultFormat') as any
 const popper = inject(TOOLTIP_INJECTION_KEY)
 const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -618,7 +619,8 @@ const handleVisibleDateChange = (value: string) => {
   const newDate = correctlyParseUserInput(
     value,
     dateFormat.value,
-    lang.value
+    lang.value,
+    isDefaultFormat
   ) as Dayjs
   if (newDate.isValid()) {
     if (disabledDate && disabledDate(newDate.toDate())) {
@@ -646,7 +648,12 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 }
 
 const parseUserInput = (value: Dayjs) => {
-  return correctlyParseUserInput(value, props.format, lang.value)
+  return correctlyParseUserInput(
+    value,
+    props.format,
+    lang.value,
+    isDefaultFormat
+  )
 }
 
 const getDefaultValue = () => {

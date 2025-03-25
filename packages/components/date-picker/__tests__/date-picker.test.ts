@@ -508,6 +508,29 @@ describe('DatePicker', () => {
     expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-01')
   })
 
+  it('validate manual change value with format', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        format="DD.MM.YYYY"
+        />`,
+      () => ({
+        value: '',
+      })
+    )
+    const input = wrapper.find('input')
+    input.element.value = '01.10.2023'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-01')
+
+    input.element.value = '02.10.2023'
+    await input.trigger('input')
+    await input.trigger('blur')
+
+    expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-02')
+  })
+
   it('ref focus', async () => {
     _mount(
       `<el-date-picker
