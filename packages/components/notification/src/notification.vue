@@ -10,8 +10,8 @@
       :class="[ns.b(), customClass, horizontalClass]"
       :style="positionStyle"
       role="alert"
-      @mouseenter="clearTimer"
-      @mouseleave="startTimer"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
       @click="onClick"
     >
       <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
@@ -66,7 +66,10 @@ const { nextZIndex, currentZIndex } = zIndex
 const { Close } = CloseComponents
 
 const visible = ref(false)
-let timer: (() => void) | undefined = undefined
+const isPaused = ref(false)
+const remainingTime = ref(props.duration)
+const startTime = ref(0)
+let timer: ReturnType<typeof useTimeoutFn> | null = null
 
 const typeClass = computed(() => {
   const type = props.type
@@ -96,20 +99,42 @@ const positionStyle = computed<CSSProperties>(() => {
 const progressStyle = computed(() => {
   return {
     animationDuration: `${props.duration}ms`,
+    animationPlayState: isPaused.value ? 'paused' : 'running',
     opacity: visible.value ? 1 : 0,
   }
 })
 
-function startTimer() {
-  if (props.duration > 0) {
-    ;({ stop: timer } = useTimeoutFn(() => {
-      if (visible.value) close()
-    }, props.duration))
+function startTimer(durationToUse = remainingTime.value) {
+  startTime.value = Date.now()
+  timer = useTimeoutFn(() => {
+    if (visible.value) close()
+  }, durationToUse)
+}
+
+function pauseTimer() {
+  if (timer) {
+    timer.stop()
+    const elapsed = Date.now() - startTime.value
+    remainingTime.value = Math.max(remainingTime.value - elapsed, 0)
   }
 }
 
-function clearTimer() {
-  timer?.()
+function resumeTimer() {
+  if (remainingTime.value > 0) {
+    startTimer(remainingTime.value)
+  } else {
+    close()
+  }
+}
+
+function handleMouseEnter() {
+  isPaused.value = true
+  pauseTimer()
+}
+
+function handleMouseLeave() {
+  isPaused.value = false
+  resumeTimer()
 }
 
 function close() {
@@ -118,14 +143,14 @@ function close() {
 
 function onKeydown({ code }: KeyboardEvent) {
   if (code === EVENT_CODE.delete || code === EVENT_CODE.backspace) {
-    clearTimer() // press delete/backspace clear timer
+    pauseTimer() // press delete/backspace clear timer
   } else if (code === EVENT_CODE.esc) {
     // press esc to close the notification
     if (visible.value) {
       close()
     }
   } else {
-    startTimer() // resume timer
+    resumeTimer() // resume timer
   }
 }
 
