@@ -1802,7 +1802,7 @@ describe('Table.vue', () => {
         `,
         data() {
           return {
-            testData: getTestChildrenData() as any,
+            testData: getTestChildrenData(),
           }
         },
       })
