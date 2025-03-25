@@ -61,4 +61,4 @@ export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>
 
 export const radioGroupEmits = radioEmits
 export type RadioGroupEmits = typeof radioGroupEmits
-export type RadioGroupInstance = InstanceType<typeof RadioGroup>
+export type RadioGroupInstance = InstanceType<typeof RadioGroup> & unknown

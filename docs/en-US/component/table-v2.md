@@ -293,9 +293,7 @@ table-v2/manual-scroll
 
 :::
 
-## TableV2 API
-
-### Attributes
+## TableV2 Attributes
 
 | Name                      | Description                                                                                                                | Type                                                   | Default   |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | --------- |
@@ -310,6 +308,7 @@ table-v2/manual-scroll
 | row-key                   | The key of each row, if not provided, will be the index of the row                                                         | `string` / `Symbol` / `number`                         | id        |
 | row-props                 | Customized props name passed to row component                                                                              | `object` / Function<[RowPropsGetter](#typings)>        | —         |
 | row-height                | The height of each row, used for calculating the total height of the table                                                 | `number`                                               | 50        |
+| row-event-handlers        | A collection of handlers attached to each row                                                                              | `object`\<[RowEventHandlers](#typings)\>               | —         |
 | cell-props                | extra props passed to each cell (except header cells)                                                                      | `object` / Function<[CellPropsGetter](#typings)>       | —         |
 | columns                   | An array of column definitions.                                                                                            | [Column[]](#column-attribute)                          | —         |
 | data                      | An array of data to be rendered in the table.                                                                              | [Data[]](#typings)                                     | []        |
@@ -330,7 +329,7 @@ table-v2/manual-scroll
 | sort-by                   | Sort indicator                                                                                                             | `object`\<[SortBy](#typings)\>                         | {}        |
 | sort-state                | Multiple sort indicator                                                                                                    | `object`\<[SortState](#typings)\>                      | undefined |
 
-### Slots
+## TableV2 Slots
 
 | Name        | Params                                      |
 | ----------- | ------------------------------------------- |
@@ -342,7 +341,7 @@ table-v2/manual-scroll
 | empty       | —                                           |
 | overlay     | —                                           |
 
-### Events
+## TableV2 Events
 
 | Name                 | Description                                                           | Parameters                                 |
 | -------------------- | --------------------------------------------------------------------- | ------------------------------------------ |
@@ -352,9 +351,8 @@ table-v2/manual-scroll
 | scroll               | Invoked after scrolling                                               | `object`\<[ScrollParams](#typings)\>       |
 | rows-rendered        | Invoked when rows are rendered                                        | `object`\<[RowsRenderedParams](#typings)\> |
 | row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon | `object`\<[RowExpandParams](#typings)\>    |
-| row-event-handlers   | A collection of handlers attached to each row                         | `object`\<[RowEventHandlers](#typings)\>   |
 
-### Methods
+## TableV2 Methods
 
 | Event Name   | Description                                          | Parameters                                                                             |
 | ------------ | ---------------------------------------------------- | -------------------------------------------------------------------------------------- |
@@ -369,9 +367,7 @@ Note that these are `JavaScript` Objects, so you **CANNOT USE** kebab-case for t
 
 :::
 
-## Column API
-
-### Attribute
+## Column Attribute
 
 | Name               | Description                                                           | Type                                                                                                                                                                 | Default |
 | ------------------ | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
@@ -393,7 +389,7 @@ Note that these are `JavaScript` Objects, so you **CANNOT USE** kebab-case for t
 | cellRenderer       | Customized Cell renderer                                              | `VueComponent` / (props: [CellRenderProps](#typings)) => VNode                                                                                                       | —       |
 | headerCellRenderer | Customized Header renderer                                            | `VueComponent` / (props: [HeaderRenderProps](#typings)) => VNode                                                                                                     | —       |
 
-## Type Declarations
+## Typings{#typings}
 
 <details>
 <summary>Show Type Declarations</summary>

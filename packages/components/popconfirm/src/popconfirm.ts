@@ -94,4 +94,4 @@ export type PopconfirmEmits = typeof popconfirmEmits
 
 export type PopconfirmProps = ExtractPropTypes<typeof popconfirmProps>
 
-export type PopconfirmInstance = InstanceType<typeof Popconfirm>
+export type PopconfirmInstance = InstanceType<typeof Popconfirm> & unknown

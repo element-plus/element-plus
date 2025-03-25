@@ -26,4 +26,4 @@ export const paginationSizesProps = buildProps({
 
 export type PaginationSizesProps = ExtractPropTypes<typeof paginationSizesProps>
 
-export type SizesInstance = InstanceType<typeof Sizes>
+export type SizesInstance = InstanceType<typeof Sizes> & unknown

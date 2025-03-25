@@ -25,11 +25,12 @@
     <div v-else-if="isEmpty" :class="ns.e('empty-text')">
       <slot name="empty">{{ t('el.cascader.noData') }}</slot>
     </div>
+    <!-- eslint-disable-next-line vue/html-self-closing -->
     <svg
       v-else-if="panel?.isHoverMenu"
       ref="hoverZone"
       :class="ns.e('hover-zone')"
-    />
+    ></svg>
   </el-scrollbar>
 </template>
 

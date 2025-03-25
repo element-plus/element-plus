@@ -188,4 +188,4 @@ export const sliderEmits = {
 }
 export type SliderEmits = typeof sliderEmits
 
-export type SliderInstance = InstanceType<typeof Slider>
+export type SliderInstance = InstanceType<typeof Slider> & unknown
