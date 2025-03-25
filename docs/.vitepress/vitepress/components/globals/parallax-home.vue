@@ -238,27 +238,27 @@ useEventListener(window, 'scroll', handleScroll)
 
   @media screen and (max-width: 959px) {
     .jumbotron {
-      display: none !important;
-    }
-
-    .mobile-banner {
-      margin-top: 25px;
-      margin-bottom: -15px;
-      display: inline-block;
+      .parallax-container {
+        width: 700px;
+        margin: 0 auto;
+      }
     }
   }
 
   @media (max-width: 768px) {
     .jumbotron {
       width: 50%;
-      display: flex;
-      margin: auto;
-      justify-content: center;
-      align-items: center;
+      display: none !important;
 
       .parallax-container {
         width: 100%;
       }
+    }
+
+    .mobile-banner {
+      display: inline-block;
+      margin-top: 25px;
+      margin-bottom: -15px;
     }
   }
 
