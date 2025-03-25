@@ -15,6 +15,7 @@
 <script lang="ts" setup>
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import type { TreeNodeData } from 'element-plus/es/components/tree/src/tree.type'
+
 interface Tree {
   id: number
   label: string
