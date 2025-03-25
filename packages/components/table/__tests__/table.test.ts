@@ -10,6 +10,7 @@ import ElTableColumn from '../src/table-column'
 import {
   doubleWait,
   getMutliRowTestData,
+  getTestChildrenData,
   getTestData,
   mount,
 } from './table-test-common'
@@ -1783,6 +1784,39 @@ describe('Table.vue', () => {
       expect(expandIcon.classes()).not.toContain(
         'el-table__expand-icon--expanded'
       )
+    })
+
+    it('expand-row-keys number', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" row-key="id" :expand-row-keys="[3, 4]">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: getTestChildrenData() as any,
+          }
+        },
+      })
+      await doubleWait()
+      // 查找所有 level-1 的行
+      const level1Rows = wrapper.findAll('.el-table__row--level-1')
+
+      // 遍历每一行并检查其样式是否不为 display: none;
+      level1Rows.forEach((row) => {
+        const rowStyle = row.attributes('style')
+        if (rowStyle) {
+          expect(rowStyle).not.toContain('display: none;') // 期望样式不包含 display: none;
+        }
+      })
     })
 
     it('v-if on el-table-column should patch correctly', async () => {

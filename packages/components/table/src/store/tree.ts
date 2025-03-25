@@ -7,7 +7,7 @@ import type { WatcherPropsData } from '.'
 import type { Table, TableProps } from '../table/defaults'
 
 function useTree<T>(watcherData: WatcherPropsData<T>) {
-  const expandRowKeys = ref<string[]>([])
+  const expandRowKeys = ref<Array<string | number>>([])
   const treeData = ref<unknown>({})
   const indent = ref(16)
   const lazy = ref(false)
@@ -44,7 +44,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
 
   const normalize = (data) => {
     const rowKey = watcherData.rowKey.value
-    const res = new Map() // 使用 Map 替代 Object，解决 number key 的问题
+    const res = new Map<Array<string | number>>() // 使用 Map 替代 Object，解决 number key 的问题
     walkTreeNode(
       data,
       (parent, children, level) => {
