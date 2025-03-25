@@ -10,8 +10,9 @@ import ElTableColumn from '../src/table-column'
 import {
   doubleWait,
   getMutliRowTestData,
-  getTestChildrenData,
   getTestData,
+  getTestDataNum,
+  getTestDataString,
   mount,
 } from './table-test-common'
 import type { VueWrapper } from '@vue/test-utils'
@@ -1786,14 +1787,14 @@ describe('Table.vue', () => {
       )
     })
 
-    it('expand-row-keys number', async () => {
+    it('expand-row-keys number and string', async () => {
       wrapper = mount({
         components: {
           ElTable,
           ElTableColumn,
         },
         template: `
-          <el-table :data="testData" row-key="id" :expand-row-keys="[3, 4]">
+          <el-table :data="testData" row-key="id" :expand-row-keys="expandRowKeys">
             <el-table-column prop="name" label="片名" />
             <el-table-column prop="release" label="发行日期" />
             <el-table-column prop="director" label="导演" />
@@ -1802,21 +1803,34 @@ describe('Table.vue', () => {
         `,
         data() {
           return {
-            testData: getTestChildrenData(),
+            testData: getTestDataNum(),
+            expandRowKeys: [2, 3],
           }
         },
+        methods: {
+          changeTest() {
+            this.testData = getTestDataString()
+            this.expandRowKeys = ['2asdf', '3zxcv']
+          },
+        },
       })
-      await doubleWait()
-      // 查找所有 level-1 的行
-      const level1Rows = wrapper.findAll('.el-table__row--level-1')
+      const handle = async () => {
+        await doubleWait()
+        // 查找所有 level-1 的行
+        const level1Rows = wrapper.findAll('.el-table__row--level-1')
 
-      // 遍历每一行并检查其样式是否不为 display: none;
-      level1Rows.forEach((row) => {
-        const rowStyle = row.attributes('style')
-        if (rowStyle) {
-          expect(rowStyle).not.toContain('display: none;') // 期望样式不包含 display: none;
-        }
-      })
+        // 遍历每一行并检查其样式是否不为 display: none;
+        level1Rows.forEach((row) => {
+          const rowStyle = row.attributes('style')
+          if (rowStyle) {
+            expect(rowStyle).not.toContain('display: none;') // 期望样式不包含 display: none;
+          }
+        })
+      }
+      await handle()
+      wrapper.vm.changeTest()
+      expect(wrapper.vm.testData).toEqual(getTestDataString())
+      await handle()
     })
 
     it('v-if on el-table-column should patch correctly', async () => {
