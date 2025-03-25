@@ -126,6 +126,7 @@ export default defineComponent({
     }
 
     const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
+      const isRoot = !node
       const cfg = config.value
       node! = node || new Node({}, cfg, undefined, true)
       node.loading = true
@@ -137,6 +138,10 @@ export default defineComponent({
         _node.loading = false
         _node.loaded = true
         _node.childrenData = _node.childrenData || []
+
+        // skip root node
+        if (!isRoot && !_node.childrenData.length) store?.appendLeafNode(_node)
+
         cb && cb(dataList)
       }
 

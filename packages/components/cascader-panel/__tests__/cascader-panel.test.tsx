@@ -602,6 +602,53 @@ describe('CascaderPanel.vue', () => {
     vi.useRealTimers()
   })
 
+  test('when isLeaf changes, leafNodes should be updated', async () => {
+    vi.useFakeTimers()
+    const handleChange = vi.fn()
+    const props: CascaderProps = {
+      lazy: true,
+      lazyLoad(node, resolve) {
+        const { level } = node
+        setTimeout(() => {
+          const nodes = Array.from({
+            length: level < 2 ? 2 : 0,
+          }).map((v, i) => ({
+            value: `option-${level}-${i}`,
+            label: `option-${level}-${i}`,
+          }))
+          resolve(nodes)
+        }, 1000)
+      },
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel props={props} onChange={handleChange} />
+    ))
+
+    vi.runAllTimers()
+    await nextTick()
+    const firstMenu = wrapper.findAll(MENU)[0]
+    const firstOption = firstMenu.find(NODE)
+    expect(firstOption.exists()).toBe(true)
+
+    await firstOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(handleChange).toBeCalledTimes(0)
+
+    const secondMenu = wrapper.findAll(MENU)[1]
+    const secondOption = secondMenu.find(NODE)
+    expect(secondOption.exists()).toBe(true)
+
+    await secondOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(handleChange).toBeCalledTimes(1)
+
+    vi.useRealTimers()
+  })
+
   test('no loaded nodes with checkStrictly should be selectable', async () => {
     vi.useFakeTimers()
     const props: CascaderProps = {
