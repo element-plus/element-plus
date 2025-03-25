@@ -34,6 +34,11 @@
           <Close />
         </el-icon>
       </div>
+      <div
+        v-if="showProgress && duration !== 0"
+        :class="[ns.e('progress'), typeClass || ns.m('primary')]"
+        :style="progressStyle"
+      />
     </div>
   </transition>
 </template>
@@ -46,7 +51,6 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { notificationEmits, notificationProps } from './notification'
-
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -86,6 +90,13 @@ const positionStyle = computed<CSSProperties>(() => {
   return {
     [verticalProperty.value]: `${props.offset}px`,
     zIndex: props.zIndex ?? currentZIndex.value,
+  }
+})
+
+const progressStyle = computed(() => {
+  return {
+    animationDuration: `${props.duration}ms`,
+    opacity: visible.value ? 1 : 0,
   }
 })
 

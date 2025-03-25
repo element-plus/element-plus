@@ -40,6 +40,23 @@
     margin-right: getCssVar('notification-group-margin-right');
   }
 
+  @include e(progress) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    transform-origin: left;
+    -webkit-animation: scale-x-frames linear 1 forwards;
+    animation: auto linear 0ms 1 normal forwards running scale-x-frames;
+
+    @each $type in (primary, success, info, warning, error) {
+      &.#{$namespace}-notification--#{$type} {
+        background-color: getCssVar('color', $type);
+      }
+    }
+  }
+
   @include e(title) {
     font-weight: bold;
     font-size: getCssVar('notification-title-font-size');
@@ -104,4 +121,27 @@
 
 .#{$namespace}-notification-fade-leave-to {
   opacity: 0;
+}
+
+@-webkit-keyframes scale-x-frames {
+  0% {
+      -webkit-transform: scaleX(1);
+      transform: scaleX(1)
+  }
+
+  to {
+      -webkit-transform: scaleX(0);
+      transform: scaleX(0)
+  }
+}
+@keyframes scale-x-frames {
+  0% {
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1)
+  }
+
+  100% {
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0)
+  }
 }

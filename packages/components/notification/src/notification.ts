@@ -108,6 +108,13 @@ export const notificationProps = buildProps({
    * @description initial zIndex
    */
   zIndex: Number,
+  /**
+   * @description whether to show a progress bar
+   */
+  showProgress: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 export type NotificationProps = ExtractPropTypes<typeof notificationProps>
 
