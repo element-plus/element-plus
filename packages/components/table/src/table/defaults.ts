@@ -124,7 +124,7 @@ interface TableProps<T> {
   highlightCurrentRow?: boolean
   currentRowKey?: string | number
   emptyText?: string
-  expandRowKeys?: string[] | number[]
+  expandRowKeys?: Array<string | number>
   defaultExpandAll?: boolean
   defaultSort?: Sort
   tooltipEffect?: string
