@@ -13,6 +13,10 @@ export const popoverProps = buildProps({
    */
   trigger: useTooltipTriggerProps.trigger,
   /**
+   * @description When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of popover through the keyboard
+   */
+  triggerKeys: useTooltipTriggerProps.triggerKeys,
+  /**
    * @description popover placement
    */
   placement: dropdownProps.placement,
