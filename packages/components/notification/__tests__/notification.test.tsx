@@ -100,7 +100,7 @@ describe('Notification.vue', () => {
       const consoleWarn = vi
         .spyOn(console, 'warn')
         .mockImplementation(() => vi.fn)
-      // @ts-expect-error
+      // @ts-expect-error 'some-type' is not a valid type
       const wrapper = __mount({ type: 'some-type' })
       expect(findIcon(wrapper).exists()).toBe(false)
       expect(consoleWarn).toHaveBeenCalled()
