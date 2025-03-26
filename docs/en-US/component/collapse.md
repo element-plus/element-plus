@@ -47,7 +47,7 @@ collapse/custom-icon
 
 :::
 
-## Custom icon position ^(2.9.6)
+## Custom icon position ^(2.9.8)
 
 using the `expandIconPosition` attribute, you can customize icon position.
 
@@ -65,7 +65,7 @@ collapse/custom-icon-position
 | --------------------- | --------------------------------------------------------------------------------------- | -------------------------------- | ------- |
 | model-value / v-model | currently active panel, the type is `string` in accordion mode, otherwise it is `array` | ^[string] / ^[array]             | []      |
 | accordion             | whether to activate accordion mode                                                      | ^[boolean]                       | false   |
-| expandIconPosition ^(2.9.6)    | set expand icon position                                                                | ^[enum]`'left' \| 'right' ` | right     |
+| expandIconPosition ^(2.9.8)    | set expand icon position                                                                | ^[enum]`'left' \| 'right' ` | right     |
 
 ### Collapse Events
 
