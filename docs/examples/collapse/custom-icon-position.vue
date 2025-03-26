@@ -1,5 +1,17 @@
 <template>
   <div class="demo-collapse-position">
+    <div class="flex items-center mb-4">
+      <span class="mr-4">expand icon position: </span>
+      <el-switch
+        v-model="position"
+        inactive-value="left"
+        active-value="right"
+        inactive-text="left"
+        active-text="right"
+        style="--el-switch-off-color: #88b8fe"
+      />
+    </div>
+
     <el-collapse :expand-icon-position="position">
       <el-collapse-item title="Consistency" name="1">
         <div>
@@ -35,16 +47,6 @@
         </div>
       </el-collapse-item>
     </el-collapse>
-    <br />
-    <span>Expand Icon Position: </span>
-    <el-select v-model="position" style="width: 240px">
-      <el-option
-        v-for="item in positionOptions"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
   </div>
 </template>
 
@@ -52,15 +54,5 @@
 import { ref } from 'vue'
 import type { CollapseIconPositionType } from 'element-plus'
 
-const position = ref<CollapseIconPositionType>('right')
-const positionOptions = [
-  {
-    value: 'left',
-    label: 'left',
-  },
-  {
-    value: 'right',
-    label: 'right',
-  },
-]
+const position = ref<CollapseIconPositionType>('left')
 </script>
