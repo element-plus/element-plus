@@ -60,10 +60,17 @@ export const anchorProps = buildProps({
     type: definePropType<'vertical' | 'horizontal'>(String),
     default: 'vertical',
   },
+  /**
+   * @description Scroll whether link is selected at the top
+   */
+  selectScrollTop: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 export type AnchorProps = ExtractPropTypes<typeof anchorProps>
-export type AnchorInstance = InstanceType<typeof Anchor>
+export type AnchorInstance = InstanceType<typeof Anchor> & unknown
 
 export const anchorEmits = {
   change: (href: string) => isString(href),

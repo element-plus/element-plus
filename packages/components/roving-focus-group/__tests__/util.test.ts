@@ -7,7 +7,7 @@ describe('util', () => {
     expect(
       Util.getFocusIntent(
         new KeyboardEvent('mousedown', {
-          key: EVENT_CODE.enter,
+          code: EVENT_CODE.enter,
         })
       )
     ).toBe(undefined)
@@ -15,7 +15,7 @@ describe('util', () => {
     expect(
       Util.getFocusIntent(
         new KeyboardEvent('mousedown', {
-          key: EVENT_CODE.left,
+          code: EVENT_CODE.left,
         })
       )
     ).toBe('prev')
@@ -23,7 +23,7 @@ describe('util', () => {
     expect(
       Util.getFocusIntent(
         new KeyboardEvent('mousedown', {
-          key: EVENT_CODE.left,
+          code: EVENT_CODE.left,
         }),
         'vertical'
       )
@@ -31,7 +31,7 @@ describe('util', () => {
     expect(
       Util.getFocusIntent(
         new KeyboardEvent('mousedown', {
-          key: EVENT_CODE.up,
+          code: EVENT_CODE.up,
         }),
         'horizontal'
       )
@@ -40,7 +40,7 @@ describe('util', () => {
     expect(
       Util.getFocusIntent(
         new KeyboardEvent('mousedown', {
-          key: EVENT_CODE.left,
+          code: EVENT_CODE.left,
         }),
         'horizontal',
         'rtl'
@@ -50,7 +50,7 @@ describe('util', () => {
     expect(
       Util.getFocusIntent(
         new KeyboardEvent('mousedown', {
-          key: EVENT_CODE.right,
+          code: EVENT_CODE.right,
         }),
         'horizontal',
         'rtl'
@@ -60,7 +60,7 @@ describe('util', () => {
     expect(
       Util.getFocusIntent(
         new KeyboardEvent('mousedown', {
-          key: EVENT_CODE.up,
+          code: EVENT_CODE.up,
         }),
         'vertical',
         'rtl'

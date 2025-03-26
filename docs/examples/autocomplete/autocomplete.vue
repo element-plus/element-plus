@@ -68,7 +68,7 @@ const loadAll = () => {
   ]
 }
 
-const handleSelect = (item: RestaurantItem) => {
+const handleSelect = (item: Record<string, any>) => {
   console.log(item)
 }
 

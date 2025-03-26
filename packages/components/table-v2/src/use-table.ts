@@ -7,7 +7,7 @@ import {
   unref,
   watch,
 } from 'vue'
-import { isArray } from '@element-plus/utils'
+import { isArray, isNumber } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   useColumns,
@@ -84,6 +84,20 @@ function useTable(props: TableV2Props) {
     resetAfterIndex,
   })
 
+  const rowsHeight = computed(() => {
+    const { estimatedRowHeight, rowHeight } = props
+    const _data = unref(data)
+    if (isNumber(estimatedRowHeight)) {
+      // calculate the actual height
+      return Object.values(unref(rowHeights)).reduce(
+        (acc, curr) => acc + curr,
+        0
+      )
+    }
+
+    return _data.length * rowHeight
+  })
+
   const {
     bodyWidth,
     fixedTableHeight,
@@ -91,7 +105,6 @@ function useTable(props: TableV2Props) {
     leftTableWidth,
     rightTableWidth,
     headerWidth,
-    rowsHeight,
     windowHeight,
     footerHeight,
     emptyStyle,
@@ -99,9 +112,9 @@ function useTable(props: TableV2Props) {
     headerHeight,
   } = useStyles(props, {
     columnsTotalWidth,
-    data,
     fixedColumnsOnLeft,
     fixedColumnsOnRight,
+    rowsHeight,
   })
 
   // DOM/Component refs

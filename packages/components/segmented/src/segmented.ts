@@ -13,6 +13,10 @@ import type { ExtractPropTypes } from 'vue'
 import type Segmented from './segmented.vue'
 
 export const segmentedProps = buildProps({
+  direction: {
+    type: definePropType<'vertical' | 'horizontal'>(String),
+    default: 'horizontal',
+  },
   /**
    * @description options of segmented
    */
@@ -67,4 +71,4 @@ export const segmentedEmits = {
 }
 export type SegmentedEmits = typeof segmentedEmits
 
-export type SegmentedInstance = InstanceType<typeof Segmented>
+export type SegmentedInstance = InstanceType<typeof Segmented> & unknown

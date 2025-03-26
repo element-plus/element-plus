@@ -113,6 +113,10 @@ function useStyle<T>(
       layout.updateElsHeight()
     }
     layout.updateColumnsWidth()
+
+    // When the test case is running, the context environment simulated by jsdom may have been destroyed,
+    // and window.requestAnimationFrame does not exist at this time.
+    if (typeof window === 'undefined') return
     requestAnimationFrame(syncPosition)
   }
   onMounted(async () => {
@@ -286,24 +290,6 @@ function useStyle<T>(
     }
   })
 
-  const tableInnerStyle = computed(() => {
-    if (props.height) {
-      return {
-        height: !Number.isNaN(Number(props.height))
-          ? `${props.height}px`
-          : props.height,
-      }
-    }
-    if (props.maxHeight) {
-      return {
-        maxHeight: !Number.isNaN(Number(props.maxHeight))
-          ? `${props.maxHeight}px`
-          : props.maxHeight,
-      }
-    }
-    return {}
-  })
-
   const scrollbarStyle = computed(() => {
     if (props.height) {
       return {
@@ -370,7 +356,6 @@ function useStyle<T>(
     tableBodyStyles,
     tableLayout,
     scrollbarViewStyle,
-    tableInnerStyle,
     scrollbarStyle,
   }
 }

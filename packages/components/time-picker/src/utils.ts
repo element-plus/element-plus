@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import { isArray, isDate, isEmpty } from '@element-plus/utils'
 
 import type { Dayjs } from 'dayjs'
+import type { DateOrDates, DayOrDays } from './common/props'
 export type TimeList = [number | undefined, number, undefined | number]
 
 export const buildTimeList = (value: number, bound: number): TimeList => {
@@ -87,4 +88,10 @@ export const makeList = (total: number, method?: () => number[]) => {
     arr.push(disabledArr?.includes(i) ?? false)
   }
   return arr
+}
+
+export const dayOrDaysToDate = (dayOrDays: DayOrDays): DateOrDates => {
+  return isArray(dayOrDays)
+    ? (dayOrDays.map((d) => d.toDate()) as [Date, Date])
+    : dayOrDays.toDate()
 }

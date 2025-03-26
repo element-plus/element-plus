@@ -1,9 +1,10 @@
 // @ts-nocheck
 import { isRef, nextTick, ref } from 'vue'
-import { hasOwn, isClient } from '@element-plus/utils'
+import { isNull } from 'lodash-unified'
+import { hasOwn, isClient, isNumber, isString } from '@element-plus/utils'
 import { parseHeight } from './util'
-import type { Ref } from 'vue'
 
+import type { Ref } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { TableHeader } from './table-header'
 import type { Table } from './table/defaults'
@@ -64,7 +65,7 @@ class TableLayout<T> {
      * When the height is not initialized, it is null.
      * After the table is initialized, when the height is not configured, the height is 0.
      */
-    if (height === null) return false
+    if (isNull(height)) return false
     const scrollBarRef = this.table.refs.scrollBarRef
     if (this.table.vnode.el && scrollBarRef?.wrapRef) {
       let scrollY = true
@@ -86,10 +87,10 @@ class TableLayout<T> {
     if (!el && (value || value === 0))
       return nextTick(() => this.setHeight(value, prop))
 
-    if (typeof value === 'number') {
+    if (isNumber(value)) {
       el.style[prop] = `${value}px`
       this.updateElsHeight()
-    } else if (typeof value === 'string') {
+    } else if (isString(value)) {
       el.style[prop] = value
       this.updateElsHeight()
     }
@@ -139,12 +140,11 @@ class TableLayout<T> {
 
     const flattenColumns = this.getFlattenColumns()
     const flexColumns = flattenColumns.filter(
-      (column) => typeof column.width !== 'number'
+      (column) => !isNumber(column.width)
     )
     flattenColumns.forEach((column) => {
       // Clean those columns whose width changed from flex to unflex
-      if (typeof column.width === 'number' && column.realWidth)
-        column.realWidth = null
+      if (isNumber(column.width) && column.realWidth) column.realWidth = null
     })
     if (flexColumns.length > 0 && fit) {
       flattenColumns.forEach((column) => {

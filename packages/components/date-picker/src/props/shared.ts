@@ -57,6 +57,10 @@ export const panelSharedProps = buildProps({
   },
   dateFormat: String,
   timeFormat: String,
+  showNow: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 export const panelRangeSharedProps = buildProps({

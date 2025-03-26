@@ -11,6 +11,7 @@
     </el-button>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { ElNotification, notificationTypes } from 'element-plus'
 import type { NotificationOptions } from 'element-plus'

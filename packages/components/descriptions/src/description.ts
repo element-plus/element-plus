@@ -42,7 +42,14 @@ export const descriptionProps = buildProps({
     type: String,
     default: '',
   },
+  /**
+   * @description width of every label column
+   */
+  labelWidth: {
+    type: [String, Number],
+    default: '',
+  },
 } as const)
 
 export type DescriptionProps = ExtractPropTypes<typeof descriptionProps>
-export type DescriptionInstance = InstanceType<typeof Description>
+export type DescriptionInstance = InstanceType<typeof Description> & unknown

@@ -2,6 +2,7 @@
   <el-button plain @click="resettable"> Resettable notification </el-button>
   <el-button plain @click="pauseable"> Pauseable notification </el-button>
 </template>
+
 <script lang="ts" setup>
 import { ElNotification } from 'element-plus'
 

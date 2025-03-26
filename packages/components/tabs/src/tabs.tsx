@@ -124,7 +124,14 @@ const Tabs = defineComponent({
       if (currentName.value === value || isUndefined(value)) return
 
       try {
-        const canLeave = await props.beforeLeave?.(value, currentName.value)
+        let canLeave
+        if (props.beforeLeave) {
+          const result = props.beforeLeave(value, currentName.value)
+          canLeave = result instanceof Promise ? await result : result
+        } else {
+          canLeave = true
+        }
+
         if (canLeave !== false) {
           currentName.value = value
           if (trigger) {
@@ -199,7 +206,8 @@ const Tabs = defineComponent({
             tabindex="0"
             onClick={handleTabAdd}
             onKeydown={(ev: KeyboardEvent) => {
-              if (ev.code === EVENT_CODE.enter) handleTabAdd()
+              if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(ev.code))
+                handleTabAdd()
             }}
           >
             {addSlot ? (

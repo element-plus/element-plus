@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { getCurrentInstance, inject, ref } from 'vue'
+import { isNull } from 'lodash-unified'
 import {
   addClass,
   hasClass,
@@ -128,7 +129,8 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
 
       const bodyStyle = document.body.style
       const isLastTh = target.parentNode?.lastElementChild === target
-      if (rect.width > 12 && rect.right - event.pageX < 8 && !isLastTh) {
+      const allowDarg = props.allowDragLastColumn || !isLastTh
+      if (rect.width > 12 && rect.right - event.clientX < 8 && allowDarg) {
         bodyStyle.cursor = 'col-resize'
         if (hasClass(target, 'is-sortable')) {
           target.style.cursor = 'col-resize'
@@ -189,7 +191,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
 
     if (
       sortingColumn !== column ||
-      (sortingColumn === column && sortingColumn.order === null)
+      (sortingColumn === column && isNull(sortingColumn.order))
     ) {
       if (sortingColumn) {
         sortingColumn.order = null

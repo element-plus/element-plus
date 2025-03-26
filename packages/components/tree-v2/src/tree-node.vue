@@ -7,6 +7,7 @@
       ns.is('current', current),
       ns.is('focusable', !disabled),
       ns.is('checked', !disabled && checked),
+      getNodeClass(node),
     ]"
     role="treeitem"
     tabindex="-1"
@@ -60,6 +61,7 @@ import ElIcon from '@element-plus/components/icon'
 import { CaretRight } from '@element-plus/icons-vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
+import { isFunction, isString } from '@element-plus/utils'
 import ElNodeContent from './tree-node-content'
 import {
   NODE_CONTEXTMENU,
@@ -68,6 +70,7 @@ import {
   treeNodeProps,
 } from './virtual-tree'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
+import type { TreeNode } from './types'
 
 defineOptions({
   name: 'ElTreeNode',
@@ -79,18 +82,27 @@ const emit = defineEmits(treeNodeEmits)
 const tree = inject(ROOT_TREE_INJECTION_KEY)
 const ns = useNamespace('tree')
 
-const indent = computed(() => {
-  return tree?.props.indent ?? 16
-})
+const indent = computed(() => tree?.props.indent ?? 16)
+const icon = computed(() => tree?.props.icon ?? CaretRight)
 
-const icon = computed(() => {
-  return tree?.props.icon ?? CaretRight
-})
+const getNodeClass = (node: TreeNode) => {
+  const nodeClassFunc = tree?.props.props.class
+  if (!nodeClassFunc) return {}
+
+  let className
+  if (isFunction(nodeClassFunc)) {
+    const { data } = node
+    className = nodeClassFunc(data, node)
+  } else {
+    className = nodeClassFunc
+  }
+
+  return isString(className) ? { [className]: true } : className
+}
 
 const handleClick = (e: MouseEvent) => {
   emit('click', props.node, e)
 }
-
 const handleDrop = (e: DragEvent) => {
   emit('drop', props.node, e)
 }
@@ -100,6 +112,7 @@ const handleExpandIconClick = () => {
 const handleCheckChange = (value: CheckboxValueType) => {
   emit('check', props.node, value)
 }
+
 const handleContextMenu = (event: Event) => {
   if (tree?.instance?.vnode?.props?.['onNodeContextmenu']) {
     event.stopPropagation()

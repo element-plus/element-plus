@@ -1,10 +1,11 @@
-import { nextTick } from 'vue'
+import { createApp, nextTick } from 'vue'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import Notification, { closeAll } from '../src/notify'
-import { ElNotification, notificationTypes } from '..'
+import { notificationTypes } from '..'
 import { mockAnimationsApi } from './mock-animations-api'
 import type { NotificationHandle } from '../src/notification'
+import type { VNode } from 'vue'
 
 const selector = '.el-notification'
 
@@ -13,6 +14,7 @@ describe('Notification on command', () => {
 
   afterEach(() => {
     closeAll()
+    Notification._context = null
   })
 
   test('should get component handle', async () => {
@@ -39,7 +41,19 @@ describe('Notification on command', () => {
     close()
   })
 
-  test('should be able to close notification by manually close', async () => {
+  test('it should be able to render function that return vnode', async () => {
+    const testClassName = 'test-classname'
+    const { close } = Notification({
+      duration: 0,
+      message: () => <div class={testClassName}>test-content</div>,
+    })
+
+    await rAF()
+    expect(document.querySelector(`.${testClassName}`)).toBeTruthy()
+    close()
+  })
+
+  test('it should be able to close notification by manually close', async () => {
     const { close } = Notification({
       duration: 0,
     })
@@ -106,20 +120,55 @@ describe('Notification on command', () => {
     expect(htmlElement.querySelector(selector)).toBeNull()
   })
 
-  describe('context inheritance', () => {
-    test('should globally inherit context correctly', () => {
-      expect(ElNotification._context).toBe(null)
-      const testContext = {
-        config: {
-          globalProperties: {},
-        },
-        _context: {},
-      }
-      ElNotification.install?.(testContext as any)
-      expect(ElNotification._context).not.toBe(null)
-      expect(ElNotification._context).toBe(testContext._context)
-      // clean up
-      ElNotification._context = null
+  test('should globally inherit context correctly', async () => {
+    const globalContext = createApp({})._context
+    Notification._context = globalContext
+    const onClose = vi.fn((vm: VNode) => vm.appContext)
+    const handle = Notification({ duration: 0, onClose })
+    await nextTick()
+    handle.close()
+    await nextTick()
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveLastReturnedWith(globalContext)
+  })
+
+  test('should be possible to set the context individually', async () => {
+    const globalContext = createApp({})._context
+    Notification._context = globalContext
+    const localContext = createApp({})._context
+    const onClose = vi.fn((vm: VNode) => vm.appContext)
+    const handle = Notification({ duration: 0, onClose }, localContext)
+    await nextTick()
+    handle.close()
+    await nextTick()
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveLastReturnedWith(localContext)
+  })
+
+  test('set dangerouslyUseHTMLString should render html string', async () => {
+    const htmlString = '<div class="test-html-string">test-html-string</div>'
+    const { close } = Notification({
+      duration: 0,
+      message: htmlString,
+      dangerouslyUseHTMLString: true,
     })
+
+    await rAF()
+    expect(document.querySelector('.test-html-string')).toBeDefined()
+    close()
+  })
+
+  test('not set dangerouslyUseHTMLString should render text', async () => {
+    const text = '<div class="test-html-string">test-html-string</div>'
+    const { close } = Notification({
+      duration: 0,
+      message: text,
+    })
+
+    await rAF()
+    expect(
+      document.querySelector('.el-notification__content')!.textContent
+    ).toBe(text)
+    close()
   })
 })

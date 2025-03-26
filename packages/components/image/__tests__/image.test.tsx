@@ -21,6 +21,15 @@ async function doubleWait() {
   await nextTick()
 }
 
+const _mount = (template: string, data: Record<string, any>) =>
+  mount({
+    components: {
+      [Image.name!]: Image,
+    },
+    template,
+    data,
+  })
+
 describe('Image.vue', () => {
   mockImageEvent()
 
@@ -169,5 +178,30 @@ describe('Image.vue', () => {
     expect(handleLoad).toBeCalled()
   })
 
+  test('manually open preview', async () => {
+    const url = IMAGE_SUCCESS
+    const srcList = Array.from<string>({ length: 3 }).fill(IMAGE_FAIL)
+    const wrapper = _mount(
+      `
+      <el-image
+        ref="imageRef"
+        style="width: 100px; height: 100px"
+        :src="url"
+        :preview-src-list="srcList"
+        :initial-index="1"
+        fit="cover"
+      />`,
+      () => ({
+        url,
+        srcList,
+      })
+    )
+    await doubleWait()
+    wrapper.vm.$refs.imageRef.showPreview()
+    await doubleWait()
+    expect(
+      wrapper.findAll('.el-image-viewer__img')[1].attributes('style')
+    ).not.toContain('display: none')
+  })
   //@todo lazy image test
 })

@@ -149,34 +149,34 @@ describe('<ElRovingFocusItem />', () => {
       const firstDOMItem = DOMItems.at(0)
       expect(onItemShiftTab).not.toHaveBeenCalled()
       await firstDOMItem.trigger('keydown.shift', {
-        key: EVENT_CODE.tab,
+        code: EVENT_CODE.tab,
       })
       expect(items.at(0).emitted()).toHaveProperty('keydown')
       expect(onItemShiftTab).toHaveBeenCalled()
       // navigating clockwise
       expect(document.activeElement).toBe(document.body)
       await DOMItems.at(1).trigger('keydown', {
-        key: EVENT_CODE.down,
+        code: EVENT_CODE.down,
       })
       await nextTick()
       expect(document.activeElement).toStrictEqual(DOMItems.at(2).element)
 
       // navigate anticlockwise
       await DOMItems.at(1).trigger('keydown', {
-        key: EVENT_CODE.up,
+        code: EVENT_CODE.up,
       })
       await nextTick()
       expect(document.activeElement).toStrictEqual(DOMItems.at(0).element)
 
       // should be able to focus on the last element when press End
       await DOMItems.at(0).trigger('keydown', {
-        key: EVENT_CODE.end,
+        code: EVENT_CODE.end,
       })
       await nextTick()
       expect(document.activeElement).toStrictEqual(DOMItems.at(2).element)
 
       await DOMItems.at(0).trigger('keydown', {
-        key: EVENT_CODE.home,
+        code: EVENT_CODE.home,
       })
       await nextTick()
       expect(document.activeElement).toStrictEqual(DOMItems.at(0).element)

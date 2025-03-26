@@ -111,6 +111,7 @@ datetime-picker/custom-icon
 | teleported              | whether datetime-picker dropdown is teleported to the body                                                     | ^[boolean]                                                                                     | true                |
 | empty-values ^(2.7.0)   | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                       | —                   |
 | value-on-clear ^(2.7.0) | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                               | —                   |
+| show-now ^(2.8.7)       | whether to show the now button                                                                                 | ^[boolean]                                                                                     | true                |
 
 ## Events
 
@@ -123,12 +124,6 @@ datetime-picker/custom-icon
 | calendar-change | triggers when the calendar selected date is changed. Only for `datetimerange` | [Date, Date]                              |
 | visible-change  | triggers when the DateTimePicker's dropdown appears/disappears                | true when it appears, and false otherwise |
 
-## Methods
-
-| Method | Description               | Parameters |
-| ------ | ------------------------- | ---------- |
-| focus  | focus the Input component | —          |
-
 ## Slots
 
 | Name                | Description                    |
@@ -139,3 +134,10 @@ datetime-picker/custom-icon
 | next-month ^(2.8.0) | next month icon                |
 | prev-year ^(2.8.0)  | prev year icon                 |
 | next-year ^(2.8.0)  | next year icon                 |
+
+## Exposes
+
+| Method        | Description                    | Type                    |
+| ------------- | ------------------------------ | ----------------------- |
+| focus         | focus the DatePicker component | ^[Function]`() => void` |
+| blur ^(2.8.7) | blur the DatePicker component  | ^[Function]`() => void` |
