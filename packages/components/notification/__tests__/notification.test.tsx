@@ -31,9 +31,12 @@ describe('Notification.vue', () => {
       })
       expect(wrapper.text()).toEqual(AXIOM)
       expect(wrapper).toSatisfy(isOpen)
-      expect((wrapper.vm as any).iconComponent).toBeUndefined()
-      expect((wrapper.vm as any).horizontalClass).toBe('right')
-      expect((wrapper.vm as any).positionStyle).toEqual(
+      // @ts-expect-error iconComponent is defined in script setup but not exposed
+      expect(wrapper.vm.iconComponent).toBeUndefined()
+      // @ts-expect-error horizontalClass is defined in script setup but not exposed
+      expect(wrapper.vm.horizontalClass).toBe('right')
+      // @ts-expect-error positionStyle is defined in script setup but not exposed
+      expect(wrapper.vm.positionStyle).toEqual(
         expect.objectContaining({
           top: '0px',
         })
@@ -70,7 +73,8 @@ describe('Notification.vue', () => {
     test('should be able to render z-index style with zIndex flag', async () => {
       const wrapper = __mount({ zIndex: 9999 })
       await nextTick()
-      expect((wrapper.vm as any).positionStyle).toEqual(
+      // @ts-expect-error positionStyle is defined in script setup but not exposed
+      expect(wrapper.vm.positionStyle).toEqual(
         expect.objectContaining({
           top: '0px',
           zIndex: 9999,
