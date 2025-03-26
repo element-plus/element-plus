@@ -81,6 +81,19 @@ const testDatePickerPanelChange = async (type: 'date' | 'daterange') => {
   expect(mode).toBe('year')
 }
 
+const checkDefaultTime = (
+  wrapper: ReturnType<typeof _mount>,
+  hours: number,
+  minutes: number,
+  seconds: number
+) => {
+  const vm = wrapper.vm
+  expect(vm.value).toBeDefined()
+  expect(vm.value.getHours()).toBe(hours)
+  expect(vm.value.getMinutes()).toBe(minutes)
+  expect(vm.value.getSeconds()).toBe(seconds)
+}
+
 describe('DatePicker', () => {
   it('create & custom class & style', async () => {
     const popperClassName = 'popper-class-test'
@@ -181,7 +194,7 @@ describe('DatePicker', () => {
     expect(vm.value).toBe(null)
   })
 
-  it('defaultTime and clear value', async () => {
+  it('verify defaultTime', async () => {
     const wrapper = _mount(
       `<el-date-picker
         v-model="value"
@@ -198,17 +211,32 @@ describe('DatePicker', () => {
       await nextTick()
       ;(document.querySelector('td.available') as HTMLElement).click()
       await nextTick()
-      const vm = wrapper.vm
-      expect(vm.value).toBeDefined()
-      expect(vm.value.getHours()).toBe(12)
-      expect(vm.value.getMinutes()).toBe(0)
-      expect(vm.value.getSeconds()).toBe(1)
+      checkDefaultTime(wrapper, 12, 0, 1)
       const picker = wrapper.findComponent(CommonPicker)
       picker.vm.showClose = true
       await nextTick()
     }
     await handle()
     await handle()
+  })
+
+  it('input date', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+      type='date'
+      v-model="value"
+      :default-time="new Date(2011,1,1,12,0,1)"
+    />`,
+      () => ({ value: '' })
+    )
+
+    const input = wrapper.find('input')
+    await input.setValue('2025-05-25')
+    await input.trigger('keydown', {
+      code: EVENT_CODE.enter,
+    })
+
+    checkDefaultTime(wrapper, 12, 0, 1)
   })
 
   it('defaultValue', async () => {
@@ -2119,7 +2147,7 @@ describe('MonthRange', () => {
     expect(vm.value.getFullYear()).toBe(2023)
     expect(vm.value.getMonth()).toBe(0)
     expect(vm.value.getDate()).toBe(1)
-    expect(vm.value.getHours()).toBe(12)
+    expect(vm.value.getHours()).toBe(19)
   })
   it('format allows dynamic changes', async () => {
     const format = 'YYYY/MM/DD HH:mm:ss'

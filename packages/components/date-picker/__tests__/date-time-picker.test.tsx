@@ -908,7 +908,7 @@ describe('Datetimerange', () => {
     await nextTick()
     expect(value.value).toBeDefined()
     expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toStrictEqual(
-      '2023-01-01 12:00:00'
+      '2023-01-01 19:00:00'
     )
   })
 })
