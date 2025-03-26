@@ -711,7 +711,6 @@ const handleEndChange = () => {
     ]
     const newValue = [parsedVal && parsedVal[0], value] as DayOrDays
     if (isValidValue(newValue)) {
-      console.log(newValue)
       emitInput(dayOrDaysToDate(newValue))
       userInput.value = null
     }
