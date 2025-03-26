@@ -2,7 +2,7 @@ import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
 import type { AppContext, ExtractPropTypes, VNode } from 'vue'
 import type Notification from './notification.vue'
-import type { ButtonProps } from '@element-plus/element-plus'
+import type { ButtonProps } from '@element-plus/components/button'
 
 export const notificationTypes = [
   'success',
