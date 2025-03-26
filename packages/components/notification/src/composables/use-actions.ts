@@ -1,6 +1,6 @@
 import { type Ref, computed, ref } from 'vue'
 import { type MaybeComputedRef, resolveUnref as toValue } from '@vueuse/core'
-import { debugWarn, keysOf } from '@element-plus/utils'
+import { type Mutable, debugWarn, keysOf } from '@element-plus/utils'
 import type { ButtonProps } from '@element-plus/components/button'
 import type { NotificationAction, NotificationProps } from '../notification'
 
@@ -55,11 +55,12 @@ function makeAction(
 ): IntervalNotificationAction {
   const { keepOpen = false, disableAfterExecute = keepOpen !== true } = action
 
-  const button: Partial<ButtonProps> = { size: 'small' }
+  const button: Mutable<Partial<ButtonProps>> = { size: 'small' }
   if (action.button) {
     for (const key of keysOf(action.button).filter(
       (key) => key.toLowerCase() !== 'onclick'
     )) {
+      // @ts-expect-error TypeScript does not recognize key as a valid ButtonProps key
       button[key] = action.button[key]
     }
   }
