@@ -247,12 +247,7 @@ useEventListener(window, 'scroll', handleScroll)
 
   @media (max-width: 768px) {
     .jumbotron {
-      width: 50%;
       display: none !important;
-
-      .parallax-container {
-        width: 100%;
-      }
     }
 
     .mobile-banner {
@@ -260,9 +255,7 @@ useEventListener(window, 'scroll', handleScroll)
       margin-top: 25px;
       margin-bottom: -15px;
     }
-  }
 
-  @media (max-width: 768px) {
     .banner-stars {
       display: none;
     }
