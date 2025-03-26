@@ -168,16 +168,16 @@ import {
 } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside, unrefElement } from '@vueuse/core'
+import { useFormItem, useFormSize } from '@element-plus/components/form'
+import ElInput from '@element-plus/components/input'
+import ElIcon from '@element-plus/components/icon'
+import ElTooltip from '@element-plus/components/tooltip'
 import {
   useEmptyValues,
   useFocusController,
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
-import { useFormItem, useFormSize } from '@element-plus/components/form'
-import ElInput from '@element-plus/components/input'
-import ElIcon from '@element-plus/components/icon'
-import ElTooltip from '@element-plus/components/tooltip'
 import { NOOP, debugWarn, isArray } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -192,7 +192,7 @@ import {
   setDateWithDefaultTime,
   valueEquals,
 } from '../utils'
-import { timePickerDefaultProps } from './props'
+import { type DateOrDates, timePickerDefaultProps } from './props'
 import PickerRangeTrigger from './picker-range-trigger.vue'
 import type {
   DateModelType,
@@ -204,8 +204,8 @@ import type {
 } from './props'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
-import type { Dayjs } from 'dayjs'
 import type { ComponentPublicInstance, Ref } from 'vue'
+import type { Dayjs } from 'dayjs'
 import type { Options } from '@popperjs/core'
 
 defineOptions({
@@ -319,21 +319,7 @@ const emitInput = (input: SingleOrRange<DateModelType> | null) => {
       formatted = formatter(input, props.valueFormat, lang.value)
     }
 
-    let date = input ? formatted : input
-
-    if (props.defaultTime) {
-      if (
-        Array.isArray(props.defaultTime) &&
-        Array.isArray(date) &&
-        date.length
-      ) {
-        date = date.map((item) =>
-          setDateWithDefaultTime(item as Date, props.defaultTime as Date)
-        )
-      } else if (date instanceof Date) {
-        date = setDateWithDefaultTime(date, props.defaultTime as Date)
-      }
-    }
+    const date = input ? formatted : input
     emit(UPDATE_MODEL_EVENT, date, lang.value)
   }
 }
@@ -561,7 +547,34 @@ const handleChange = () => {
     const value = parseUserInputToDayjs(displayValue.value)
     if (value) {
       if (isValidValue(value)) {
-        emitInput(dayOrDaysToDate(value))
+        let date = dayOrDaysToDate(value)
+
+        if (props.defaultTime) {
+          if (Array.isArray(date) && date.length) {
+            let arr: DateOrDates | Array<DateOrDates>
+
+            if (Array.isArray(props.defaultTime) && props.defaultTime.length) {
+              arr = date.map((item, i) =>
+                setDateWithDefaultTime(
+                  item as Date,
+                  (props.defaultTime as Date[])[i]
+                )
+              )
+            } else {
+              arr = date.map((item) =>
+                setDateWithDefaultTime(item as Date, props.defaultTime as Date)
+              )
+            }
+            date = arr as DateOrDates
+          } else {
+            date = setDateWithDefaultTime(
+              date as Date,
+              props.defaultTime as Date
+            )
+          }
+        }
+
+        emitInput(date)
         userInput.value = null
       }
     }
@@ -698,6 +711,7 @@ const handleEndChange = () => {
     ]
     const newValue = [parsedVal && parsedVal[0], value] as DayOrDays
     if (isValidValue(newValue)) {
+      console.log(newValue)
       emitInput(dayOrDaysToDate(newValue))
       userInput.value = null
     }

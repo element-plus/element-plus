@@ -82,16 +82,15 @@ const testDatePickerPanelChange = async (type: 'date' | 'daterange') => {
 }
 
 const checkDefaultTime = (
-  wrapper: ReturnType<typeof _mount>,
+  date: Date,
   hours: number,
   minutes: number,
   seconds: number
 ) => {
-  const vm = wrapper.vm
-  expect(vm.value).toBeDefined()
-  expect(vm.value.getHours()).toBe(hours)
-  expect(vm.value.getMinutes()).toBe(minutes)
-  expect(vm.value.getSeconds()).toBe(seconds)
+  expect(date).toBeDefined()
+  expect(date.getHours()).toBe(hours)
+  expect(date.getMinutes()).toBe(minutes)
+  expect(date.getSeconds()).toBe(seconds)
 }
 
 describe('DatePicker', () => {
@@ -211,7 +210,7 @@ describe('DatePicker', () => {
       await nextTick()
       ;(document.querySelector('td.available') as HTMLElement).click()
       await nextTick()
-      checkDefaultTime(wrapper, 12, 0, 1)
+      checkDefaultTime(new Date(wrapper.vm.value), 12, 0, 1)
       const picker = wrapper.findComponent(CommonPicker)
       picker.vm.showClose = true
       await nextTick()
@@ -225,18 +224,37 @@ describe('DatePicker', () => {
       `<el-date-picker
       type='date'
       v-model="value"
-      :default-time="new Date(2011,1,1,12,0,1)"
+      :value-format="valueFormat"
+      :default-time="new Date(2011, 1, 1, 12, 0, 1)"
     />`,
-      () => ({ value: '' })
+      () => ({
+        value: '',
+        valueFormat: 'x',
+      }),
+      {
+        methods: {
+          changeValueFormat() {
+            this.valueFormat = 'YYYY-MM-DD HH:mm:ss'
+          },
+        },
+      }
     )
 
-    const input = wrapper.find('input')
-    await input.setValue('2025-05-25')
-    await input.trigger('keydown', {
-      code: EVENT_CODE.enter,
-    })
+    const handle = async () => {
+      const input = wrapper.find('input')
+      await input.setValue('2025-05-25')
+      await input.trigger('keydown', {
+        code: EVENT_CODE.enter,
+      })
+    }
+    await handle()
+    checkDefaultTime(new Date(wrapper.vm.value), 12, 0, 1)
 
-    checkDefaultTime(wrapper, 12, 0, 1)
+    await nextTick()
+    wrapper.vm.changeValueFormat()
+    await nextTick()
+    await handle()
+    checkDefaultTime(new Date(wrapper.vm.value), 12, 0, 1)
   })
 
   it('defaultValue', async () => {
@@ -2147,7 +2165,7 @@ describe('MonthRange', () => {
     expect(vm.value.getFullYear()).toBe(2023)
     expect(vm.value.getMonth()).toBe(0)
     expect(vm.value.getDate()).toBe(1)
-    expect(vm.value.getHours()).toBe(19)
+    expect(vm.value.getHours()).toBe(12)
   })
   it('format allows dynamic changes', async () => {
     const format = 'YYYY/MM/DD HH:mm:ss'

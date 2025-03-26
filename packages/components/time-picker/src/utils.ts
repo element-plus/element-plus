@@ -99,7 +99,7 @@ export const dayOrDaysToDate = (dayOrDays: DayOrDays): DateOrDates => {
 export const setDateWithDefaultTime = function (
   date: Date,
   defaultTime: Date
-): Date {
+): DateOrDates {
   return new Date(
     date.getFullYear(),
     date.getMonth(),
