@@ -239,7 +239,6 @@ describe('DatePicker', () => {
         },
       }
     )
-
     const handle = async () => {
       const input = wrapper.find('input')
       await input.setValue('2025-05-25')
