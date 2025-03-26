@@ -1,6 +1,6 @@
 import { type Ref, computed, ref } from 'vue'
 import { type MaybeComputedRef, resolveUnref as toValue } from '@vueuse/core'
-import { debugWarn } from '@element-plus/utils'
+import { debugWarn, keysOf } from '@element-plus/utils'
 import type { ButtonProps } from '@element-plus/element-plus'
 import type { NotificationAction, NotificationProps } from '../notification'
 
@@ -57,10 +57,9 @@ function makeAction(
 
   const button: Partial<ButtonProps> = { size: 'small' }
   if (action.button) {
-    for (const key of Object.keys(action.button).filter(
+    for (const key of keysOf(action.button).filter(
       (key) => key.toLowerCase() !== 'onclick'
     )) {
-      // @ts-expect-error
       button[key] = action.button[key]
     }
   }
