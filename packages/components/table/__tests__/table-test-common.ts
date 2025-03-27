@@ -63,7 +63,7 @@ export function getTestData() {
   ]
 }
 
-export function getTestDataNum() {
+export function getTestDataNumAndString() {
   return [
     {
       id: 1,
@@ -81,50 +81,7 @@ export function getTestDataNum() {
       children: [
         {
           id: 21,
-          name: 'Toy Story 2',
-          release: '1999-11-24',
-          director: 'John Lasseter',
-          runtime: 92,
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: 'Monsters, Inc.',
-      release: '2001-11-2',
-      director: 'Peter Docter',
-      runtime: 92,
-      children: [
-        {
-          id: 31,
-          name: 'Monsters, Inc.',
-          release: '2001-11-2',
-          director: 'Peter Docter',
-          runtime: 92,
-        },
-      ],
-    },
-  ]
-}
-
-export function getTestDataString() {
-  return [
-    {
-      id: '1qwer',
-      name: 'Toy Story',
-      release: '1995-11-22',
-      director: 'John Lasseter',
-      runtime: 80,
-    },
-    {
-      id: '2asdf',
-      name: 'Toy Story 2',
-      release: '1999-11-24',
-      director: 'John Lasseter',
-      runtime: 92,
-      children: [
-        {
-          id: '21',
+          key: '2asdf-21',
           name: 'Toy Story 2',
           release: '1999-11-24',
           director: 'John Lasseter',
@@ -140,11 +97,21 @@ export function getTestDataString() {
       runtime: 92,
       children: [
         {
-          id: '31',
+          id: 31,
           name: 'Monsters, Inc.',
           release: '2001-11-2',
           director: 'Peter Docter',
           runtime: 92,
+          children: [
+            {
+              id: 311,
+              key: '2asdf-21',
+              name: 'Toy Story 2',
+              release: '1999-11-24',
+              director: 'John Lasseter',
+              runtime: 92,
+            },
+          ],
         },
       ],
     },
