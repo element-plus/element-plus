@@ -1,12 +1,9 @@
 import { describe, expect, test, vi } from 'vitest'
-import { type NotificationProps, notificationTypes } from '../src/notification'
-import {
-  type NotificationVueWrapper,
-  __mount,
-  isClosed,
-  isOpen,
-} from './wrapper.utils'
+import { notificationTypes } from '../src/notification'
+import { __mount, isClosed, isOpen } from './wrapper.utils'
 import { mockAnimationsApi } from './mock-animations-api'
+import type { NotificationProps } from '../src/notification'
+import type { NotificationVueWrapper } from './wrapper.utils'
 
 const findProgressBar = (wrapper: NotificationVueWrapper) =>
   wrapper.find('.el-notification__progressBar')

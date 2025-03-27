@@ -1,6 +1,9 @@
-import { type Ref, computed, ref } from 'vue'
-import { type MaybeComputedRef, resolveUnref as toValue } from '@vueuse/core'
-import { type Mutable, debugWarn, keysOf } from '@element-plus/utils'
+import { computed, ref } from 'vue'
+import { resolveUnref as toValue } from '@vueuse/core'
+import { debugWarn, keysOf } from '@element-plus/utils'
+import type { Ref } from 'vue'
+import type { MaybeComputedRef } from '@vueuse/core'
+import type { Mutable } from '@element-plus/utils'
 import type { ButtonProps } from '@element-plus/components/button'
 import type { NotificationAction, NotificationProps } from '../notification'
 

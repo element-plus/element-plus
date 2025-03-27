@@ -1,5 +1,7 @@
-import { type Ref, computed, watch } from 'vue'
-import { type MaybeComputedRef, resolveUnref as toValue } from '@vueuse/core'
+import { computed, watch } from 'vue'
+import { resolveUnref as toValue } from '@vueuse/core'
+import type { Ref } from 'vue'
+import type { MaybeComputedRef } from '@vueuse/core'
 
 export function useProgress(
   showProgressBar: MaybeComputedRef<boolean>,
