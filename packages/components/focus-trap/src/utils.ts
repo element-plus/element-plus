@@ -82,7 +82,7 @@ export const tryFocus = (
 ) => {
   if (element && element.focus) {
     const prevFocusedElement = document.activeElement
-    let cleanup = false
+    let cleanup: boolean = false
 
     if (
       isElement(element) &&
