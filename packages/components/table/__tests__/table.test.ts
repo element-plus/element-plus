@@ -48,13 +48,13 @@ describe('Table.vue', () => {
         ElTableColumn,
       },
       template: `
-        <el-table :data="testData">
-          <el-table-column prop="id" />
-          <el-table-column prop="name" label="片名" />
-          <el-table-column prop="release" label="发行日期" />
-          <el-table-column prop="director" label="导演" />
-          <el-table-column prop="runtime" label="时长（分）" />
-        </el-table>
+      <el-table :data="testData">
+        <el-table-column prop="id" />
+        <el-table-column prop="name" label="片名" />
+        <el-table-column prop="release" label="发行日期" />
+        <el-table-column prop="director" label="导演" />
+        <el-table-column prop="runtime" label="时长（分）" />
+      </el-table>
       `,
       created() {
         this.testData = getTestData()
@@ -95,16 +95,16 @@ describe('Table.vue', () => {
         ElCheckbox,
       },
       template: `
-        <el-table :data="tableData">
-          <el-table-column label="someLabel">
-            <template #default="{ row }">
-              <el-checkbox-group v-model="row.checkList">
-                <el-checkbox label="复选框 A" value="复选框 A"></el-checkbox>
-                <el-checkbox label="复选框 B" value="复选框 B"></el-checkbox>
-              </el-checkbox-group>
-            </template>
-          </el-table-column>
-        </el-table>
+      <el-table :data="tableData">
+        <el-table-column label="someLabel">
+          <template #default="{ row }">
+            <el-checkbox-group v-model="row.checkList">
+              <el-checkbox label="复选框 A" value="复选框 A"></el-checkbox>
+              <el-checkbox label="复选框 B" value="复选框 B"></el-checkbox>
+            </el-checkbox-group>
+          </template>
+        </el-table-column>
+      </el-table>
       `,
       data() {
         return {
@@ -147,13 +147,13 @@ describe('Table.vue', () => {
               ElTableColumn,
             },
             template: `
-              <el-table :data="testData" ${props}>
-                <el-table-column prop="name" label="片名" />
-                <el-table-column prop="release" label="发行日期" />
-                <el-table-column prop="director" label="导演" />
-                <el-table-column prop="runtime" label="时长（分）" />
-              </el-table>
-            `,
+          <el-table :data="testData" ${props}>
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
             created() {
               this.testData = getTestData()
             },
@@ -279,13 +279,13 @@ describe('Table.vue', () => {
           ElTableColumn,
         },
         template: `
-          <el-table :data="testData" row-key="id" highlight-current-row :current-row-key="currentRowKey">
-            <el-table-column prop="name" label="片名" />
-            <el-table-column prop="release" label="发行日期" />
-            <el-table-column prop="director" label="导演" />
-            <el-table-column prop="runtime" label="时长（分）" />
-          </el-table>
-        `,
+        <el-table :data="testData" row-key="id" highlight-current-row :current-row-key="currentRowKey">
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
+        </el-table>
+      `,
         created() {
           this.testData = getTestData()
         },
@@ -542,7 +542,7 @@ describe('Table.vue', () => {
             <el-table-column prop="name" />
             <el-table-column prop="release" />
             <el-table-column prop="director" />
-            <el-table-column prop="runtime" />
+            <el-table-column prop="runtime"/>
           </el-table>
         `,
 
@@ -594,19 +594,19 @@ describe('Table.vue', () => {
           ElTableColumn,
         },
         template: `
-          <el-table
-            :data="testData"
-            :span-method="objectSpanMethod"
-            border
-            style="width: 100%; margin-top: 20px"
-          >
-            <el-table-column prop="id" label="ID" width="180" />
-            <el-table-column prop="name" label="片名" />
-            <el-table-column prop="release" label="发行日期" />
-            <el-table-column prop="director" label="导演" />
-            <el-table-column prop="runtime" label="时长（分）" />
-          </el-table>
-        `,
+         <el-table
+          :data="testData"
+          :span-method="objectSpanMethod"
+          border
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column prop="id" label="ID" width="180" />
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
+        </el-table>
+      `,
         data() {
           return {
             testData: getTestData(),
@@ -735,9 +735,9 @@ describe('Table.vue', () => {
         template: `
           <el-table :data="testData" show-summary sum-text="Time">
             <el-table-column prop="name" />
-            <el-table-column prop="release" />
-            <el-table-column prop="director" />
-            <el-table-column prop="runtime" />
+            <el-table-column prop="release"/>
+            <el-table-column prop="director"/>
+            <el-table-column prop="runtime"/>
           </el-table>
         `,
 
@@ -761,9 +761,9 @@ describe('Table.vue', () => {
         template: `
           <el-table :data="testData" show-summary :summary-method="getSummary">
             <el-table-column prop="name" />
-            <el-table-column prop="release" />
-            <el-table-column prop="director" />
-            <el-table-column prop="runtime" />
+            <el-table-column prop="release"/>
+            <el-table-column prop="director"/>
+            <el-table-column prop="runtime"/>
           </el-table>
         `,
 
@@ -815,7 +815,7 @@ describe('Table.vue', () => {
             <el-table-column prop="name" />
             <el-table-column prop="release" />
             <el-table-column prop="director" />
-            <el-table-column prop="runtime" />
+            <el-table-column prop="runtime"/>
           </el-table>
         `,
 
@@ -908,7 +908,7 @@ describe('Table.vue', () => {
             <el-table-column prop="name" />
             <el-table-column prop="release" />
             <el-table-column prop="director" />
-            <el-table-column prop="runtime" />
+            <el-table-column prop="runtime"/>
           </el-table>
         `,
         data() {
@@ -943,11 +943,11 @@ describe('Table.vue', () => {
           ElTable,
         },
         template: `
-          <el-table ref="table" :data="testData" :default-sort="{prop: 'runtime', order: 'ascending'}">
+          <el-table ref="table" :data="testData" :default-sort = "{prop: 'runtime', order: 'ascending'}">
             <el-table-column prop="name" />
             <el-table-column prop="release" />
             <el-table-column prop="director" />
-            <el-table-column prop="runtime" />
+            <el-table-column prop="runtime"/>
           </el-table>
         `,
         data() {
@@ -997,7 +997,7 @@ describe('Table.vue', () => {
           ElTableColumn,
         },
         template: `
-          <el-table ref="table" :data="testData">
+          <el-table ref="table" :data="testData" >
             <el-table-column prop="name" sortable />
             <el-table-column prop="release" sortable />
             <el-table-column prop="director" sortable />
@@ -1048,10 +1048,10 @@ describe('Table.vue', () => {
         },
         template: `
           <el-table :data="testData" @sort-change="handleSortChange">
-            <el-table-column prop="name" />
-            <el-table-column prop="release" />
-            <el-table-column prop="director" />
-            <el-table-column prop="runtime" sortable ref="runtime" />
+          <el-table-column prop="name" />
+          <el-table-column prop="release" />
+          <el-table-column prop="director" />
+          <el-table-column prop="runtime" sortable ref="runtime" />
           </el-table>
         `,
         data() {
@@ -1093,15 +1093,15 @@ describe('Table.vue', () => {
           ElTableColumn,
         },
         template: `
-          <div>
-            <el-table ref="table" :data="testData" highlight-current-row>
-              <el-table-column prop="name" sortable />
-              <el-table-column prop="release" sortable />
-              <el-table-column prop="director" sortable />
-              <el-table-column prop="runtime" sortable />
-            </el-table>
-            <button class="clear" @click="clear">clear</button>
-          </div>
+        <div>
+          <el-table ref="table" :data="testData" highlight-current-row>
+            <el-table-column prop="name" sortable />
+            <el-table-column prop="release" sortable />
+            <el-table-column prop="director" sortable />
+            <el-table-column prop="runtime" sortable />
+          </el-table>
+          <button class="clear" @click="clear">clear</button>
+        </div>
         `,
         data() {
           return { testData: getTestData() }
@@ -1133,12 +1133,12 @@ describe('Table.vue', () => {
           ElTableColumn,
         },
         template: `
-          <div>
-            <el-table ref="table" :data="testData" highlight-current-row>
-              <el-table-column prop="name" sortable />
-              <el-table-column prop="release" sortable />
-            </el-table>
-          </div>
+        <div>
+          <el-table ref="table" :data="testData" highlight-current-row>
+            <el-table-column prop="name" sortable />
+            <el-table-column prop="release" sortable />
+          </el-table>
+        </div>
         `,
         data() {
           return { testData: getTestData() }
@@ -1194,7 +1194,7 @@ describe('Table.vue', () => {
         ElTableColumn,
       },
       template: `
-        <el-table
+         <el-table
           :data="testData"
           :span-method="objectSpanMethod"
           border
@@ -1401,7 +1401,7 @@ describe('Table.vue', () => {
         ElTableColumn,
       },
       template: `
-        <el-table :data="testData" row-key="release" highlight-current-row>
+        <el-table :data="testData" row-key="release" highlight-current-row >
           <el-table-column prop="name" label="片名" />
           <el-table-column prop="release" label="发行日期" />
           <el-table-column prop="director" label="导演" />
@@ -1433,17 +1433,17 @@ describe('Table.vue', () => {
         ElTableColumn,
       },
       template: `
-        <el-table :data="[]" height="100%">
-          <el-table-column prop="name" label="片名" />
-          <el-table-column prop="release" label="发行日期" />
-          <el-table-column prop="director" label="导演" />
-          <el-table-column prop="runtime" label="时长（分）" />
-          <template #append>
-            <div class="append-content" style="height: 48px;">
-              append 区域始终出现在视图内
-            </div>
-          </template>
-        </el-table>
+      <el-table :data="[]" height="100%">
+        <el-table-column prop="name" label="片名" />
+        <el-table-column prop="release" label="发行日期" />
+        <el-table-column prop="director" label="导演" />
+        <el-table-column prop="runtime" label="时长（分）" />
+        <template #append>
+          <div class="append-content" style="height: 48px;">
+            append 区域始终出现在视图内
+          </div>
+        </template>
+      </el-table>
       `,
     })
     await doubleWait()
@@ -1460,7 +1460,7 @@ describe('Table.vue', () => {
           ElTableColumn,
         },
         template: `
-          <el-table :data="testData" row-key="release" highlight-current-row>
+          <el-table :data="testData" row-key="release" highlight-current-row >
             <el-table-column type="index" />
             <el-table-column prop="name" label="片名" />
             <el-table-column prop="release" label="发行日期" />
@@ -1488,7 +1488,7 @@ describe('Table.vue', () => {
           ElTableColumn,
         },
         template: `
-          <el-table :data="testData" row-key="release" highlight-current-row>
+          <el-table :data="testData" row-key="release" highlight-current-row >
             <el-table-column type="index" />
             <el-table-column type="expand">
               <template #default="props">
@@ -1664,8 +1664,7 @@ describe('Table.vue', () => {
         },
         template: `
           <el-table
-            :data="testData" lazy default-expand-all row-key="release"
-            :tree-props="{children: 'childrenTest', hasChildren: 'hasChildrenTest'}"
+            :data="testData" lazy default-expand-all row-key="release" :tree-props="{children: 'childrenTest', hasChildren: 'hasChildrenTest'}"
             :load="load" @expand-change="change">
             <el-table-column prop="name" label="片名" />
             <el-table-column prop="release" label="发行日期" />
@@ -1833,7 +1832,7 @@ describe('Table.vue', () => {
               <el-table-column key="name" label="片名" v-if="showName">
                 <template #default="{ row }"><span class="name">{{ row.name }}</span></template>
               </el-table-column>
-              <el-table-column key="release" label="发行日期">
+              <el-table-column key="release" label="发行日期" >
                 <template #default="{ row }"><span class="release">{{ row.release }}</span></template>
               </el-table-column>
             </el-table>
@@ -1867,14 +1866,14 @@ describe('Table.vue', () => {
           ElTableColumn,
         },
         template: `
-          <el-table :data="testData" :tree-props="treeProps" row-key="id" @selection-change="change">
-            <el-table-column type="selection" />
-            <el-table-column prop="name" label="name" />
-            <el-table-column prop="release" label="release" />
-            <el-table-column prop="director" label="director" />
-            <el-table-column prop="runtime" label="runtime" />
-          </el-table>
-        `,
+              <el-table :data="testData" :tree-props="treeProps" row-key="id" @selection-change="change">
+                <el-table-column type="selection" />
+                <el-table-column prop="name" label="name" />
+                <el-table-column prop="release" label="release" />
+                <el-table-column prop="director" label="director" />
+                <el-table-column prop="runtime" label="runtime" />
+              </el-table>
+            `,
         data() {
           const treeProps = {
             children: 'childrenTest',
@@ -1952,13 +1951,13 @@ describe('Table.vue', () => {
         ElTableColumn,
       },
       template: `
-        <el-table :data="testData" table-layout="auto">
-          <el-table-column prop="id" />
-          <el-table-column prop="name" label="片名" />
-          <el-table-column prop="release" label="发行日期" />
-          <el-table-column prop="director" label="导演" />
-          <el-table-column prop="runtime" label="时长（分）" />
-        </el-table>
+      <el-table :data="testData" table-layout="auto">
+        <el-table-column prop="id" />
+        <el-table-column prop="name" label="片名" />
+        <el-table-column prop="release" label="发行日期" />
+        <el-table-column prop="director" label="导演" />
+        <el-table-column prop="runtime" label="时长（分）" />
+      </el-table>
       `,
       created() {
         this.testData = getTestData()
@@ -2004,15 +2003,15 @@ describe('Table.vue', () => {
         ElTableColumn,
       },
       template: `
-        <button class="change-column" @click="changeColumnData"></button>
-        <el-table :data="testData">
-          <el-table-column
-            v-for="item in columnsData"
-            :prop="item.prop"
-            :label="item.label"
-            :key="item.prop" />
-        </el-table>
-      `,
+            <button class="change-column" @click="changeColumnData"></button>
+            <el-table :data="testData">
+              <el-table-column
+                v-for="item in columnsData"
+                :prop="item.prop"
+                :label="item.label"
+                :key="item.prop" />
+            </el-table>
+          `,
       data() {
         const testData = getTestData() as any
 
@@ -2055,11 +2054,11 @@ describe('Table.vue', () => {
       },
 
       template: `
-        <el-table :data="testData" show-overflow-tooltip>
-          <el-table-column prop="name" label="name" />
-          <el-table-column prop="release" label="release" />
-        </el-table>
-      `,
+      <el-table :data="testData" show-overflow-tooltip>
+        <el-table-column prop="name" label="name" />
+        <el-table-column prop="release" label="release" />
+      </el-table>
+    `,
 
       data() {
         const testData = getTestData() as any
@@ -2084,11 +2083,11 @@ describe('Table.vue', () => {
       },
 
       template: `
-        <el-table :data="testData" show-overflow-tooltip>
-          <el-table-column prop="name" label="name" :show-overflow-tooltip="false" />
-          <el-table-column prop="release" label="release" />
-        </el-table>
-      `,
+      <el-table :data="testData" show-overflow-tooltip>
+        <el-table-column prop="name" label="name" :show-overflow-tooltip="false" />
+        <el-table-column prop="release" label="release" />
+      </el-table>
+    `,
 
       data() {
         const testData = getTestData() as any
@@ -2118,10 +2117,10 @@ describe('Table.vue', () => {
       },
 
       template: `
-        <el-table :data="testData" show-overflow-tooltip>
-          <el-table-column class-name="overflow_tooltip" prop="name" label="name" />
-        </el-table>
-      `,
+    <el-table :data="testData" show-overflow-tooltip>
+      <el-table-column class-name="overflow_tooltip" prop="name" label="name"/>
+    </el-table>
+  `,
 
       data() {
         const testData = getTestData() as any
@@ -2217,14 +2216,12 @@ describe('Table.vue', () => {
       },
 
       template: `
-        <el-table :data="testData" show-overflow-tooltip :tooltip-formatter="tooltipFormatter">
-          <el-table-column class-name="overflow-tooltip-formatter" prop="name" label="name" />
-          <el-table-column class-name="overflow-tooltip-formatter-cell" prop="director" label="director"
-                           :tooltip-formatter="cellTooltipFormatter" />
-          <el-table-column class-name="vnode-formatter-cell" prop="runtime" label="runtime"
-                           :tooltip-formatter="vnodeFormmatter" />
-        </el-table>
-      `,
+    <el-table :data="testData" show-overflow-tooltip :tooltip-formatter="tooltipFormatter">
+      <el-table-column class-name="overflow-tooltip-formatter" prop="name" label="name"/>
+      <el-table-column class-name="overflow-tooltip-formatter-cell" prop="director" label="director" :tooltip-formatter="cellTooltipFormatter" />
+      <el-table-column class-name="vnode-formatter-cell" prop="runtime" label="runtime" :tooltip-formatter="vnodeFormmatter" />
+    </el-table>
+  `,
 
       data() {
         const testData = getTestData() as any
