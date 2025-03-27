@@ -48,7 +48,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     walkTreeNode(
       data,
       (parent, children, level) => {
-        const parentId = parent[rowKey]
+        const parentId = getRowIdentity(parent, rowKey, true)
         if (isArray(children)) {
           res.set(parentId, {
             children: children.map((row) => row[rowKey]),
