@@ -18,7 +18,7 @@ export function useActions(
   actions: MaybeComputedRef<NotificationProps['actions']>,
   closeNotification: () => void
 ) {
-  const actions_ = computed(() => {
+  const _actions = computed(() => {
     const actionsValue = toValue(actions)
     if (!actionsValue) {
       return []
@@ -47,8 +47,8 @@ export function useActions(
   })
 
   return {
-    mustShow: computed(() => actions_.value.length > 0),
-    actions: actions_,
+    mustShow: computed(() => _actions.value.length > 0),
+    actions: _actions,
   }
 }
 
