@@ -25,8 +25,8 @@ import { useMutationObserver } from '@vueuse/core'
 import { ensureArray, isArray } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { selectGroupKey } from './token'
-import type { Component, VNode, VNodeArrayChildren } from 'vue'
 
+import type { Component, VNode, VNodeArrayChildren } from 'vue'
 import type { OptionInternalInstance, OptionPublicInstance } from './type'
 
 export default defineComponent({
@@ -45,7 +45,7 @@ export default defineComponent({
   },
   setup(props) {
     const ns = useNamespace('select')
-    const groupRef = ref(null)
+    const groupRef = ref<HTMLElement>()
     const instance = getCurrentInstance()!
     const children = ref<OptionPublicInstance[]>([])
 

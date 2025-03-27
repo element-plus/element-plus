@@ -1,4 +1,5 @@
 import {
+  Component,
   computed,
   nextTick,
   onMounted,
@@ -162,7 +163,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
 
   const validateState = computed(() => formItem?.validateState || '')
   const validateIcon = computed(
-    () => validateState.value && ValidateComponentsMap[validateState.value]
+    () =>
+      validateState.value &&
+      (ValidateComponentsMap[validateState.value] as Component)
   )
 
   const debounce = computed(() => (props.remote ? 300 : 0))
