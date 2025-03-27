@@ -36,7 +36,7 @@ const GAP_SIZE = 16
 let seed = 1
 
 function parseOptions(options: NotificationParams) {
-  if (typeof options === 'string' || isVNode(options)) {
+  if (isString(options) || isVNode(options)) {
     return { message: options }
   }
   return options
