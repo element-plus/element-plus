@@ -64,4 +64,4 @@ export const checkboxGroupEmits = {
 
 export type CheckboxGroupProps = ExtractPropTypes<typeof checkboxGroupProps>
 export type CheckboxGroupEmits = typeof checkboxGroupEmits
-export type CheckboxGroupInstance = InstanceType<typeof checkboxGroup>
+export type CheckboxGroupInstance = InstanceType<typeof checkboxGroup> & unknown
