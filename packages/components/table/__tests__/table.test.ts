@@ -707,9 +707,9 @@ describe('Table.vue', () => {
         template: `
           <el-table :data="testData" show-summary>
             <el-table-column prop="name" />
-            <el-table-column prop="release" />
-            <el-table-column prop="director" />
-            <el-table-column prop="runtime" />
+            <el-table-column prop="release"/>
+            <el-table-column prop="director"/>
+            <el-table-column prop="runtime"/>
           </el-table>
         `,
 
