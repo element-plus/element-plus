@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import { resolveUnref as toValue } from '@vueuse/core'
-import { debugWarn, isString, keysOf } from '@element-plus/utils'
+import { debugWarn, isFunction, isString, keysOf } from '@element-plus/utils'
 import type { Ref } from 'vue'
 import type { MaybeComputedRef } from '@vueuse/core'
 import type { Mutable } from '@element-plus/utils'
@@ -26,9 +26,7 @@ export function useActions(
     const preparedActions = actionsValue
       .filter(
         (action) =>
-          typeof action.execute === 'function' &&
-          isString(action.label) &&
-          action.label
+          isFunction(action.execute) && isString(action.label) && action.label
       )
       .reduce((actions, action) => {
         const { label } = action
