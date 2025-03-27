@@ -1,9 +1,7 @@
 import { computed, defineComponent, nextTick, onMounted, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
-import sleep from '@element-plus/test-utils/sleep'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { hasClass } from '@element-plus/utils'
-
 import { useLockscreen } from '../use-lockscreen'
 import { useNamespace } from '../use-namespace'
 
@@ -22,6 +20,14 @@ const Comp = defineComponent({
 })
 
 describe('useLockscreen', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
   it('should lock screen when trigger is true', async () => {
     const wrapper = mount({
       setup: () => () => <Comp />,
@@ -32,7 +38,8 @@ describe('useLockscreen', () => {
     wrapper.unmount()
     await nextTick()
 
-    await sleep(250)
+    vi.advanceTimersByTime(250)
+    await nextTick()
     expect(hasClass(document.body, kls)).toBe(false)
   })
 
@@ -43,13 +50,13 @@ describe('useLockscreen', () => {
     })
 
     await nextTick()
-
     expect(hasClass(document.body, kls)).toBe(true)
 
     shouldRender.value = false
     await nextTick()
 
-    await sleep(250)
+    vi.advanceTimersByTime(250)
+    await nextTick()
     expect(hasClass(document.body, kls)).toBe(false)
   })
 
@@ -64,11 +71,13 @@ describe('useLockscreen', () => {
     expect(hasClass(document.body, kls)).toBe(true)
 
     wrapper2.unmount()
-    await sleep(250)
+    vi.advanceTimersByTime(250)
+    await nextTick()
     expect(hasClass(document.body, kls)).toBe(true)
 
     wrapper1.unmount()
-    await sleep(250)
+    vi.advanceTimersByTime(250)
+    await nextTick()
     expect(hasClass(document.body, kls)).toBe(false)
   })
 

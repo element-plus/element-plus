@@ -35,4 +35,4 @@ export const uploadListEmits = {
   remove: (file: UploadFile) => !!file,
 }
 export type UploadListEmits = typeof uploadListEmits
-export type UploadListInstance = InstanceType<typeof UploadList>
+export type UploadListInstance = InstanceType<typeof UploadList> & unknown

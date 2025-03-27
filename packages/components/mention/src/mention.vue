@@ -69,7 +69,7 @@ import { getCursorPosition, getMentionCtx } from './helper'
 import ElMentionDropdown from './mention-dropdown.vue'
 
 import type { Placement } from '@popperjs/core'
-import type { CSSProperties, ComputedRef, Ref } from 'vue'
+import type { CSSProperties } from 'vue'
 import type { InputInstance } from '@element-plus/components/input'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { MentionCtx, MentionOption } from './types'
@@ -121,7 +121,7 @@ const hoveringId = computed(() => {
 })
 
 const handleInputChange = (value: string) => {
-  emit('update:modelValue', value)
+  emit(UPDATE_MODEL_EVENT, value)
   syncAfterCursorMove()
 }
 
@@ -280,11 +280,7 @@ const syncDropdownVisible = () => {
   visible.value = false
 }
 
-defineExpose<{
-  input: Ref<InputInstance | undefined>
-  tooltip: Ref<TooltipInstance | undefined>
-  dropdownVisible: ComputedRef<boolean>
-}>({
+defineExpose({
   input: elInputRef,
   tooltip: tooltipRef,
   dropdownVisible,
