@@ -117,6 +117,16 @@ cascader/custom-content
 
 :::
 
+## Custom suggestion item ^(2.9.5)
+
+You can customize the filter suggestion item by `suggestion-item` slot. You'll have access to `item` in the scope, standing for the suggestion item.
+
+:::demo
+
+cascader/custom-suggestion-item
+
+:::
+
 ## Cascader panel
 
 `CascaderPanel` is the core component of `Cascader` which has various of features such as single selection, multiple selection, dynamic loading and so on.
@@ -175,11 +185,12 @@ cascader/panel
 
 ### Cascader Slots
 
-| Name            | Description                                                                                    | Scope                               |
-| --------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
-| default         | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
-| empty           | content when there is no matched options.                                                      | —                                   |
-| prefix ^(2.9.4) | content as Input prefix                                                                        | —                                   |
+| Name                     | Description                                                                                    | Scope                               |
+| ------------------------ | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
+| default                  | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
+| empty                    | content when there is no matched options.                                                      | —                                   |
+| prefix ^(2.9.4)          | content as Input prefix                                                                        | —                                   |
+| suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                              | ^[object]`{ item: CascaderNode }`   |
 
 ### Cascader Exposes
 

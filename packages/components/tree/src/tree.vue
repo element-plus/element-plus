@@ -35,6 +35,7 @@
     />
   </div>
 </template>
+
 <script lang="ts">
 // @ts-nocheck
 import {
@@ -90,6 +91,10 @@ export default defineComponent({
       default: true,
     },
     checkOnClickNode: Boolean,
+    checkOnClickLeaf: {
+      type: Boolean,
+      default: true,
+    },
     checkDescendants: {
       type: Boolean,
       default: false,

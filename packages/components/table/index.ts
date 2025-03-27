@@ -12,9 +12,9 @@ export default ElTable
 export const ElTableColumn: SFCWithInstall<typeof TableColumn> =
   withNoopInstall(TableColumn)
 
-export type TableInstance = InstanceType<typeof Table>
+export type TableInstance = InstanceType<typeof Table> & unknown
 
-export type TableColumnInstance = InstanceType<typeof TableColumn>
+export type TableColumnInstance = InstanceType<typeof TableColumn> & unknown
 
 export type {
   SummaryMethod,
@@ -30,4 +30,5 @@ export type {
   Sort,
   Filter,
   TableColumnCtx,
+  TableTooltipData,
 } from './src/table/defaults'

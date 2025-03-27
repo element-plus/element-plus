@@ -130,7 +130,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
       const bodyStyle = document.body.style
       const isLastTh = target.parentNode?.lastElementChild === target
       const allowDarg = props.allowDragLastColumn || !isLastTh
-      if (rect.width > 12 && rect.right - event.pageX < 8 && allowDarg) {
+      if (rect.width > 12 && rect.right - event.clientX < 8 && allowDarg) {
         bodyStyle.cursor = 'col-resize'
         if (hasClass(target, 'is-sortable')) {
           target.style.cursor = 'col-resize'

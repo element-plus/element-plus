@@ -57,7 +57,7 @@ image/image-preview
 
 ## Manually Open Preview ^(2.9.4)
 
-:::demo allow big image preview by call `showPreview` method.
+:::demo
 
 image/manually-preview
 
@@ -65,7 +65,7 @@ image/manually-preview
 
 ## Custom Toolbar ^(2.9.4)
 
-:::demo Custom toolbar content by `slot = toolbar`
+:::demo Custom toolbar content by `slot = toolbar`, starting from version ^(2.9.7) , the slot has a new `setActiveItem` function, which can be switched according to the index.
 
 image/custom-toolbar
 
@@ -108,13 +108,19 @@ image/custom-toolbar
 
 ### Image Slots
 
-| Name              | Description                                              | Type                                                                                                                                                                      |
-| ----------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| placeholder       | custom placeholder content when image hasn't loaded yet. | -                                                                                                                                                                         |
-| error             | custom image load failed content.                        | -                                                                                                                                                                         |
-| viewer            | custom content when image preview.                       | -                                                                                                                                                                         |
-| progress ^(2.9.4) | custom progress content when image preview.              | ^[object]`{ activeIndex: number, total: number }`                                                                                                                         |
-| toolbar ^(2.9.4)  | custom toolbar content when image preview.               | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }` |
+| Name              | Description                                              | Type                                                                                                                                                                                                              |
+| ----------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| placeholder       | custom placeholder content when image hasn't loaded yet. | -                                                                                                                                                                                                                 |
+| error             | custom image load failed content.                        | -                                                                                                                                                                                                                 |
+| viewer            | custom content when image preview.                       | -                                                                                                                                                                                                                 |
+| progress ^(2.9.4) | custom progress content when image preview.              | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                 |
+| toolbar ^(2.9.4)  | custom toolbar content when image preview.               | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }, setActiveItem: (index: number) => void` |
+
+### Image Exposes
+
+| Name                 | Description                     | Type                    |
+| -------------------- | ------------------------------- | ----------------------- |
+| showPreview ^(2.9.4) | manually open preview big image | ^[Function]`() => void` |
 
 ## Image Viewer API
 
@@ -144,10 +150,9 @@ image/custom-toolbar
 
 ### Image Viewer Exposes
 
-| Name                 | Description                     | Type                                 |
-| -------------------- | ------------------------------- | ------------------------------------ |
-| setActiveItem        | manually switch image           | ^[Function]`(index: number) => void` |
-| showPreview ^(2.9.4) | manually open preview big image | ^[Function]`() => void`              |
+| Name          | Description           | Type                                 |
+| ------------- | --------------------- | ------------------------------------ |
+| setActiveItem | manually switch image | ^[Function]`(index: number) => void` |
 
 ## Type Declarations
 

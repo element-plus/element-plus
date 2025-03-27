@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick } from 'vue'
+import { h, nextTick } from 'vue'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ElCheckbox from '@element-plus/components/checkbox'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
@@ -2165,5 +2165,103 @@ describe('Table.vue', () => {
     mockRangeRect.mockRestore()
     mockCellRect.mockRestore()
     mockCellRect2.mockRestore()
+  })
+
+  it('use-tooltip-formatter', async () => {
+    const testData = getTestData() as any
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 150,
+        height: 30,
+      } as DOMRect)
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+
+      template: `
+    <el-table :data="testData" show-overflow-tooltip :tooltip-formatter="tooltipFormatter">
+      <el-table-column class-name="overflow-tooltip-formatter" prop="name" label="name"/>
+      <el-table-column class-name="overflow-tooltip-formatter-cell" prop="director" label="director" :tooltip-formatter="cellTooltipFormatter" />
+      <el-table-column class-name="vnode-formatter-cell" prop="runtime" label="runtime" :tooltip-formatter="vnodeFormmatter" />
+    </el-table>
+  `,
+
+      data() {
+        const testData = getTestData() as any
+        return {
+          testData,
+        }
+      },
+      methods: {
+        tooltipFormatter({ row }) {
+          return `${row.name}:formattered`
+        },
+        cellTooltipFormatter({ cellValue }) {
+          return `${cellValue}:hello world`
+        },
+        vnodeFormmatter({ cellValue }) {
+          return h(
+            'a',
+            { type: 'primary', href: `http://www.baidu.com?q=${cellValue}` },
+            () => h('span', null, cellValue)
+          )
+        },
+      },
+    })
+
+    await doubleWait()
+    const baseFormatterTds = wrapper.findAll('.overflow-tooltip-formatter')
+    const childFormatterTds = wrapper.findAll(
+      '.overflow-tooltip-formatter-cell'
+    )
+    const vnodeFormatterTds = wrapper.findAll('.vnode-formatter-cell')
+    // Enter the cell
+    await baseFormatterTds[1].trigger('mouseenter')
+    await rAF()
+
+    expect(document.querySelector('.el-popper span')?.innerHTML).equals(
+      `${testData[0].name}:formattered`
+    )
+
+    // From cell1 to cell2
+    await childFormatterTds[1].trigger('mouseenter')
+    await rAF()
+    expect(document.querySelector('.el-popper span')?.innerHTML).equals(
+      `${testData[0].director}:hello world`
+    )
+    await baseFormatterTds[2].trigger('mouseenter')
+    await rAF()
+    expect(document.querySelector('.el-popper span')?.innerHTML).equals(
+      `${testData[1].name}:formattered`
+    )
+
+    // vnode
+    await vnodeFormatterTds[1].trigger('mouseenter')
+    await rAF()
+    expect(document.querySelector('.el-popper a')?.getAttribute('href')).equals(
+      `http://www.baidu.com?q=${testData[0].runtime}`
+    )
+
+    // leave and enter again
+    vi.useFakeTimers()
+    await vnodeFormatterTds[1].trigger('mouseleave')
+    vi.runAllTimers()
+    vi.useRealTimers()
+    await rAF()
+    expect(
+      document.querySelector('.el-popper')?.getAttribute('aria-hidden')
+    ).toEqual('true')
+
+    // Enter the cell again
+    await vnodeFormatterTds[1].trigger('mouseenter')
+    await rAF()
+    expect(document.querySelector('.el-popper a')?.getAttribute('href')).equals(
+      `http://www.baidu.com?q=${testData[0].runtime}`
+    )
+
+    mockRangeRect.mockRestore()
   })
 })

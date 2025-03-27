@@ -3,6 +3,7 @@
   <el-button :plain="true" @click="open2">Success</el-button>
   <el-button :plain="true" @click="open3">Warning</el-button>
   <el-button :plain="true" @click="open4">Error</el-button>
+  <el-button :plain="true" @click="open5">Won't close automatically</el-button>
 </template>
 
 <script lang="ts" setup>
@@ -33,6 +34,13 @@ const open4 = () => {
     showClose: true,
     message: 'Oops, this is a error message.',
     type: 'error',
+  })
+}
+const open5 = () => {
+  ElMessage({
+    showClose: true,
+    message: 'Oops, this is a message that does not automatically close.',
+    duration: 0,
   })
 }
 </script>
