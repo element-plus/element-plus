@@ -15,7 +15,7 @@ import {
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import { ScrollbarInstance } from 'element-plus'
+import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 import {
   ValidateComponentsMap,
   debugWarn,
