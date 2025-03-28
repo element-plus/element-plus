@@ -2,6 +2,7 @@
   <div class="block">
     <span class="demonstration">Start and end date time 12:00:00</span>
     <el-date-picker
+      :show-now="true"
       v-model="value1"
       type="datetimerange"
       start-placeholder="Start Date"
