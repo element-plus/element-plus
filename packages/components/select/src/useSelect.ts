@@ -15,7 +15,6 @@ import {
   debounce as lodashDebounce,
 } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 import {
   ValidateComponentsMap,
   debugWarn,
@@ -50,6 +49,7 @@ import {
 } from '@element-plus/components/form'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 import type {
   OptionPublicInstance,
   OptionValue,
