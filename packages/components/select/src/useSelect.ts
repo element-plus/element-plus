@@ -53,12 +53,12 @@ import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type {
   OptionPublicInstance,
   OptionValue,
-  SelectEmitFn,
+  SelectEmits,
   SelectProps,
   SelectStates,
 } from './type'
 
-export const useSelect = (props: SelectProps, emit: SelectEmitFn) => {
+export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const { t } = useLocale()
   const contentId = useId()
   const nsSelect = useNamespace('select')

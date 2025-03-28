@@ -1,4 +1,3 @@
-import { type ExtractPropTypes } from 'vue'
 import { placements } from '@popperjs/core'
 import { scrollbarEmits } from 'element-plus'
 import {
@@ -6,12 +5,19 @@ import {
   useEmptyValuesProps,
   useSizeProp,
 } from '@element-plus/hooks'
-import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
+import {
+  EmitFn,
+  buildProps,
+  definePropType,
+  iconPropType,
+} from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
+import type { ExtractPropTypes } from 'vue'
+import type Select from './select.vue'
 import type {
   Options,
   Placement,
@@ -277,3 +283,5 @@ export const selectEmits = {
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
 export type SelectProps = ExtractPropTypes<typeof selectProps>
+export type SelectEmits = EmitFn<typeof selectEmits>
+export type SelectInstance = InstanceType<typeof Select> & unknown

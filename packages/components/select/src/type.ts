@@ -5,12 +5,10 @@ import type {
   ExtractPropTypes,
   Ref,
 } from 'vue'
-import type { EmitFn } from '@element-plus/utils'
-import type { SelectProps, selectEmits } from './select'
+import type { SelectEmits, SelectProps } from './select'
 import type { optionProps } from './option'
 
-export { SelectProps }
-export type SelectEmitFn = EmitFn<typeof selectEmits>
+export { SelectEmits, SelectProps }
 export interface SelectGroupContext {
   disabled: boolean
 }

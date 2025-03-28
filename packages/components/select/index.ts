@@ -18,6 +18,9 @@ export const ElOptionGroup: SFCWithInstall<typeof OptionGroup> =
   withNoopInstall(OptionGroup)
 
 export * from './src/token'
+export * from './src/select'
+
+export { SelectProps as selectProps } from './src/select'
 
 export type {
   SelectProps as ISelectProps,
