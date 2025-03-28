@@ -633,6 +633,150 @@ describe('table column', () => {
     })
   })
 
+  describe('column expand', () => {
+    const createInstance = function (extra?) {
+      extra = extra || ''
+      return mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+        },
+        template: `
+          <el-table row-key="id" :data="testData" @expand-change="handleExpand" ${extra}>
+            <el-table-column type="expand">
+              <template #default="props">
+                <div>{{props.row.name}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="release" label="release" />
+            <el-table-column prop="director" label="director" />
+            <el-table-column prop="runtime" label="runtime" />
+          </el-table>
+        `,
+
+        data() {
+          return {
+            expandCount: 0,
+            expandRowKeys: [],
+            testData: getTestData(),
+          }
+        },
+
+        methods: {
+          handleExpand() {
+            this.expandCount++
+          },
+          refreshData() {
+            this.testData = getTestData()
+          },
+        },
+      })
+    }
+
+    it('should render expand column correctly', async () => {
+      const wrapper = createInstance()
+      await doubleWait()
+      expect(wrapper.findAll('td.el-table__expand-column').length).toEqual(5)
+      wrapper.unmount()
+    })
+
+    describe('preserve-expanded-content', () => {
+      it('should lose expanded state when refreshing data without preserve-expanded-content', async () => {
+        const wrapper = createInstance() // No preserve-expanded-content prop
+        await doubleWait()
+
+        // Click expand icon and verify initial state
+        const expandIcon = wrapper.find('.el-table__expand-icon')
+        await expandIcon.trigger('click')
+        await doubleWait()
+        expect(wrapper.findAll('.el-table__expanded-cell')).toHaveLength(1)
+
+        // Clear and replace data
+        wrapper.vm.testData = []
+        await doubleWait()
+        wrapper.vm.testData = getTestData()
+        await doubleWait()
+
+        // Without preserve-expanded-content, expanded state should be lost
+        expect(wrapper.findAll('.el-table__expanded-cell')).toHaveLength(0)
+        // All expand icons should be in collapsed state
+        expect(
+          wrapper.find('.el-table__expand-icon--expanded').exists()
+        ).toBeFalsy()
+
+        wrapper.unmount()
+      })
+
+      it('should preserve expanded state when refreshing data with preserve-expanded-content', async () => {
+        const wrapper = createInstance('preserve-expanded-content')
+        await doubleWait()
+
+        // First expand the row
+        const expandEl = wrapper.find('.el-table__expand-icon')
+        await expandEl.trigger('click')
+
+        // Verify initial expand
+        expect(wrapper.find('.el-table__expanded-cell').exists()).toBeTruthy()
+        const expandedContent = wrapper.find('.el-table__expanded-cell').text()
+        expect(expandedContent).toContain(wrapper.vm.testData[0].name)
+
+        // Refresh data
+        wrapper.vm.refreshData()
+        await doubleWait()
+
+        // With preserve-expanded-content, expanded state and content should persist
+        expect(wrapper.find('.el-table__expanded-cell').exists()).toBeTruthy()
+        expect(wrapper.find('.el-table__expanded-cell').text()).toBe(
+          expandedContent
+        )
+
+        wrapper.unmount()
+      })
+
+      it('should preserve multiple expanded rows when refreshing data', async () => {
+        const wrapper = createInstance('preserve-expanded-content')
+        await doubleWait()
+
+        // Find first two expand icons
+        const expandIcons = wrapper
+          .findAll('.el-table__expand-icon')
+          .slice(0, 2)
+
+        // Expand first two rows
+        for (const icon of expandIcons) {
+          await icon.trigger('click')
+          await doubleWait()
+        }
+
+        // Verify both rows are expanded
+        const expandedIcons = wrapper.findAll(
+          '.el-table__expand-icon--expanded'
+        )
+        expect(expandedIcons).toHaveLength(2)
+
+        // Store expanded content
+        const expandedRows = wrapper.findAll('.el-table__expanded-cell')
+        const initialContents = expandedRows.map((row) => row.text())
+
+        // Replace data with new reference
+        wrapper.vm.testData = [...getTestData()]
+        await doubleWait()
+
+        // Verify expansions and content are preserved
+        const expandedIconsAfter = wrapper.findAll(
+          '.el-table__expand-icon--expanded'
+        )
+        expect(expandedIconsAfter).toHaveLength(2)
+
+        const expandedRowsAfter = wrapper.findAll('.el-table__expanded-cell')
+        const preservedContents = expandedRowsAfter.map((row) => row.text())
+        expect(preservedContents).toEqual(initialContents)
+
+        wrapper.unmount()
+      })
+    })
+  })
+
   describe('multi level column', () => {
     it('should works', async () => {
       const wrapper = mount({

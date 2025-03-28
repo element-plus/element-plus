@@ -1,7 +1,8 @@
 import dayjs from 'dayjs'
-import { isArray } from '@element-plus/utils'
+import { isArray, isString } from '@element-plus/utils'
 import { rangeArr } from '@element-plus/components/time-picker'
 
+import type { ComputedRef } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type { DateCell } from './date-picker.type'
 import type { DisabledDateType } from './props/shared'
@@ -14,7 +15,11 @@ export const isValidRange = (range: DayRange): boolean => {
   const [left, right] = range
 
   return (
-    dayjs.isDayjs(left) && dayjs.isDayjs(right) && left.isSameOrBefore(right)
+    dayjs.isDayjs(left) &&
+    dayjs.isDayjs(right) &&
+    dayjs(left).isValid() &&
+    dayjs(right).isValid() &&
+    left.isSameOrBefore(right)
   )
 }
 
@@ -176,4 +181,25 @@ export const getValidDateOfYear = (
     }
   }
   return value
+}
+
+export const correctlyParseUserInput = (
+  value: string | Dayjs | Dayjs[],
+  format: string,
+  lang: string,
+  defaultFormat: ComputedRef<boolean>
+): Dayjs | Dayjs[] => {
+  if (isArray(value)) {
+    return value.map(
+      (v) => correctlyParseUserInput(v, format, lang, defaultFormat) as Dayjs
+    )
+  }
+  if (isString(value)) {
+    const dayjsValue = defaultFormat.value ? dayjs(value) : dayjs(value, format)
+    if (!dayjsValue.isValid()) {
+      // return directly if not valid
+      return dayjsValue
+    }
+  }
+  return dayjs(value, format).locale(lang)
 }

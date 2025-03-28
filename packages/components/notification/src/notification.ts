@@ -116,7 +116,7 @@ export const notificationEmits = {
 }
 export type NotificationEmits = typeof notificationEmits
 
-export type NotificationInstance = InstanceType<typeof Notification>
+export type NotificationInstance = InstanceType<typeof Notification> & unknown
 
 export type NotificationOptions = Omit<NotificationProps, 'id' | 'onClose'> & {
   /**

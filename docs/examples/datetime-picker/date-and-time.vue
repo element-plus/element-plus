@@ -60,6 +60,7 @@ const shortcuts = [
   },
 ]
 </script>
+
 <style scoped>
 .demo-datetime-picker {
   display: flex;

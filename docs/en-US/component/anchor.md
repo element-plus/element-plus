@@ -75,7 +75,7 @@ anchor/affix
 
 ## Anchor API
 
-### Attributes
+### Anchor Attributes
 
 | Property                   | Description                                                | Type                                   | Default    |
 | -------------------------- | ---------------------------------------------------------- | -------------------------------------- | ---------- |
@@ -88,35 +88,33 @@ anchor/affix
 | direction                  | Set Anchor direction.                                      | ^[enum]`'vertical' \| 'horizontal'`    | `vertical` |
 | select-scroll-top ^(2.9.2) | scroll whether link is selected at the top                 | ^[boolean]                             | false      |
 
-### Events
+### Anchor Events
 
 | Name   | Description                                | Type                                                |
 | ------ | ------------------------------------------ | --------------------------------------------------- |
 | change | callback when the step changes             | ^[Function]`(href: string) => void`                 |
 | click  | Triggered when the user clicks on the link | ^[Function]`(e: MouseEvent, href?: string) => void` |
 
-### Methods
+### Anchor Methods
 
 | Name     | Description                               | Type                                |
 | -------- | ----------------------------------------- | ----------------------------------- |
 | scrollTo | Manually scroll to the specific position. | ^[Function]`(href: string) => void` |
 
-### Slots
+### Anchor Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
 | default | AnchorLink component list |
 
-## AnchorLink API
-
-### Attributes
+### AnchorLink Attributes
 
 | Property | Description                          | Type     | Default |
 | -------- | ------------------------------------ | -------- | ------- |
 | title    | the text content of the anchor link. | `string` | —       |
 | href     | The address of the anchor link.      | `string` | —       |
 
-### Slots
+### AnchorLink Slots
 
 | Name     | Description                     |
 | -------- | ------------------------------- |

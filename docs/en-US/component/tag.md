@@ -75,7 +75,7 @@ tag/checkable
 
 ## Tag API
 
-### Attributes
+### Tag Attributes
 
 | Name                | Description                          | Type                                                               | Default |
 | ------------------- | ------------------------------------ | ------------------------------------------------------------------ | ------- |
@@ -88,14 +88,14 @@ tag/checkable
 | effect              | theme of Tag                         | ^[enum]`'dark' \| 'light' \| 'plain'`                              | light   |
 | round               | whether Tag is rounded               | ^[boolean]                                                         | false   |
 
-### Events
+### Tag Events
 
 | Name  | Description                  | Type                                   |
 | ----- | ---------------------------- | -------------------------------------- |
 | click | triggers when Tag is clicked | ^[Function]`(evt: MouseEvent) => void` |
 | close | triggers when Tag is removed | ^[Function]`(evt: MouseEvent) => void` |
 
-### Slots
+### Tag Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
@@ -103,7 +103,7 @@ tag/checkable
 
 ## CheckTag API
 
-### Attributes
+### CheckTag Attributes
 
 | Name                      | Description                       | Type                                                               | Default |
 | ------------------------- | --------------------------------- | ------------------------------------------------------------------ | ------- |
@@ -111,13 +111,13 @@ tag/checkable
 | disabled ^(2.8.2)         | whether the check-tag is disabled | ^[boolean]                                                         | false   |
 | type ^(2.5.4)             | type of CheckTag                  | ^[enum]`'primary' \| 'success' \| 'info' \| 'warning' \| 'danger'` | primary |
 
-### Events
+### CheckTag Events
 
 | Name   | Description                        | Type                                  |
 | ------ | ---------------------------------- | ------------------------------------- |
 | change | triggers when Check Tag is clicked | ^[Function]`(value: boolean) => void` |
 
-### Slots
+### CheckTag Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
