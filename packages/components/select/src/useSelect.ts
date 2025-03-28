@@ -50,15 +50,10 @@ import {
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
-import type {
-  OptionPublicInstance,
-  OptionValue,
-  SelectEmits,
-  SelectProps,
-  SelectStates,
-} from './type'
+import type { ISelectProps, SelectEmits } from './select'
+import type { OptionPublicInstance, OptionValue, SelectStates } from './type'
 
-export const useSelect = (props: SelectProps, emit: SelectEmits) => {
+export const useSelect = (props: ISelectProps, emit: SelectEmits) => {
   const { t } = useLocale()
   const contentId = useId()
   const nsSelect = useNamespace('select')

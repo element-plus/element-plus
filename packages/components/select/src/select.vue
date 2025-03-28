@@ -314,7 +314,7 @@ import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
 import { selectKey } from './token'
 import ElOptions from './options'
-import { selectProps } from './select'
+import { SelectProps } from './select'
 
 import type { SelectContext } from './type'
 
@@ -332,7 +332,7 @@ export default defineComponent({
     ElIcon,
   },
   directives: { ClickOutside },
-  props: selectProps,
+  props: SelectProps,
   emits: [
     UPDATE_MODEL_EVENT,
     CHANGE_EVENT,

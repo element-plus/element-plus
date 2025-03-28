@@ -25,7 +25,7 @@ import type {
 } from '@element-plus/components/popper'
 import type { OptionValue } from './type'
 
-export const selectProps = buildProps({
+export const SelectProps = buildProps({
   /**
    * @description the name attribute of select input
    */
@@ -271,8 +271,8 @@ export const selectProps = buildProps({
 })
 /* eslint-disable @typescript-eslint/no-unused-vars */
 export const selectEmits = {
-  [UPDATE_MODEL_EVENT]: (val: SelectProps['modelValue']) => true,
-  [CHANGE_EVENT]: (val: SelectProps['modelValue']) => true,
+  [UPDATE_MODEL_EVENT]: (val: ISelectProps['modelValue']) => true,
+  [CHANGE_EVENT]: (val: ISelectProps['modelValue']) => true,
   'popup-scroll': scrollbarEmits.scroll,
   'remove-tag': (val: unknown) => true,
   'visible-change': (visible: boolean) => true,
@@ -282,6 +282,6 @@ export const selectEmits = {
 }
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
-export type SelectProps = ExtractPropTypes<typeof selectProps>
+export type ISelectProps = ExtractPropTypes<typeof SelectProps>
 export type SelectEmits = EmitFn<typeof selectEmits>
 export type SelectInstance = InstanceType<typeof Select> & unknown
