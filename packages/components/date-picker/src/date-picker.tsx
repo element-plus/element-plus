@@ -1,4 +1,4 @@
-import { defineComponent, provide, reactive, ref, toRef } from 'vue'
+import { computed, defineComponent, provide, reactive, ref, toRef } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import advancedFormat from 'dayjs/plugin/advancedFormat.js'
@@ -39,7 +39,10 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT],
   setup(props, { expose, emit, slots }) {
     const ns = useNamespace('picker-panel')
-
+    const isDefaultFormat = computed(() => {
+      return !props.format
+    })
+    provide('ElIsDefaultFormat', isDefaultFormat)
     provide('ElPopperOptions', reactive(toRef(props, 'popperOptions')))
     provide(ROOT_PICKER_INJECTION_KEY, {
       slots,
