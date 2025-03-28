@@ -1047,6 +1047,39 @@ describe('Select', () => {
     expect((wrapper.vm as any).value).toBe('new')
   })
 
+  test('allow create with number string value', async () => {
+    // fix: 19954 20268
+    const initOptions = [
+      { value: '1', label: 'HTML' },
+      { value: '2', label: 'JavaScript' },
+      { value: '3', label: '选项3' },
+      { value: '4', label: '选项4' },
+    ]
+    wrapper = getSelectVm({ filterable: true, allowCreate: true }, initOptions)
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+
+    await input.setValue('1')
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+    await input.setValue('')
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+    expect(
+      [...getOptions()].filter((o) => o.style.display !== 'none')
+    ).toHaveLength(initOptions.length)
+
+    await input.setValue('3')
+    await nextTick()
+    await input.setValue('')
+    await nextTick()
+    getOptions()[2].click()
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('选项3')
+  })
+
   test('allow create with default first option', async () => {
     wrapper = getSelectVm(
       {
