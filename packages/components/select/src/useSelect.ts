@@ -732,7 +732,7 @@ export const useSelect = (props: ISelectProps, emit) => {
     }
   }
 
-  const navigateOptions = (direction) => {
+  const navigateOptions = (direction: 'prev' | 'next') => {
     if (!expanded.value) {
       expanded.value = true
       return
