@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { ElTooltip } from '@element-plus/components'
 import _contributors from '@element-plus/metadata/dist/contributors.json'
 import VpLink from '../common/vp-link.vue'
 
@@ -17,7 +16,7 @@ const withSize = (rawURL: string) => {
 
 <template>
   <div class="flex flex-wrap gap-2 pb-2">
-    <ElTooltip
+    <el-tooltip
       v-for="{ login, avatar, name, hash } of contributors"
       :key="hash"
       :content="name"
@@ -34,7 +33,7 @@ const withSize = (rawURL: string) => {
           loading="lazy"
         />
       </vp-link>
-    </ElTooltip>
+    </el-tooltip>
   </div>
 </template>
 
