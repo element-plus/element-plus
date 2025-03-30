@@ -116,6 +116,9 @@ export const useSelect = (props: ISelectProps, emit: SelectEmits) => {
     afterBlur() {
       expanded.value = false
       states.menuVisibleOnFocus = false
+      if (props.validateEvent) {
+        formItem?.validate?.('blur').catch((err) => debugWarn(err))
+      }
     },
   })
 
