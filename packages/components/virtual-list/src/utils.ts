@@ -77,9 +77,6 @@ export function renderThumbStyle(
 
   style[bar.size] = size
   style.transform = translate
-  style.msTransform = translate
-  // polyfill
-  style.WebkitTransform = translate
 
   if (layout === 'horizontal') {
     style.height = '100%'
