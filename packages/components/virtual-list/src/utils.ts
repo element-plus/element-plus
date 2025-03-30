@@ -1,10 +1,8 @@
-// @ts-nocheck
 import {
   BACKWARD,
   FORWARD,
   HORIZONTAL,
   LTR,
-  PageKey,
   RTL,
   RTL_OFFSET_NAG,
   RTL_OFFSET_POS_ASC,
@@ -12,7 +10,7 @@ import {
 } from './defaults'
 
 import type { CSSProperties } from 'vue'
-import type { Direction, LayoutDirection, RTLOffsetType } from './types'
+import type { Direction, RTLOffsetType } from './types'
 
 export const getScrollDir = (prev: number, cur: number) =>
   prev < cur ? FORWARD : BACKWARD
@@ -61,13 +59,6 @@ export function getRTLOffsetType(recalculate = false): RTLOffsetType {
   return cachedRTLResult
 }
 
-export const getRelativePos = (
-  e: TouchEvent | MouseEvent,
-  layout: LayoutDirection
-) => {
-  return 'touches' in e ? e.touches[0][PageKey[layout]] : e[PageKey[layout]]
-}
-
 type RenderThumbStyleParams = {
   bar: {
     size: 'height' | 'width'
@@ -88,7 +79,7 @@ export function renderThumbStyle(
   style.transform = translate
   style.msTransform = translate
   // polyfill
-  ;(style as any).webkitTransform = translate
+  style.WebkitTransform = translate
 
   if (layout === 'horizontal') {
     style.height = '100%'
