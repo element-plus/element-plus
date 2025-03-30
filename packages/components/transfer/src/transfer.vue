@@ -13,6 +13,9 @@
       :props="props.props"
       @checked-change="onSourceCheckedChange"
     >
+      <template #empty>
+        <slot name="left-empty" />
+      </template>
       <slot name="left-footer" />
     </transfer-panel>
     <div :class="ns.e('buttons')">
@@ -48,6 +51,9 @@
       :props="props.props"
       @checked-change="onTargetCheckedChange"
     >
+      <template #empty>
+        <slot name="right-empty" />
+      </template>
       <slot name="right-footer" />
     </transfer-panel>
   </div>

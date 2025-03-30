@@ -1,6 +1,6 @@
 import { watch } from 'vue'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { debugWarn, throwError } from '@element-plus/utils'
+import { debugWarn, isArray, isNumber, throwError } from '@element-plus/utils'
 import type { ComputedRef, SetupContext } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
 import type { FormItemContext } from '@element-plus/components/form'
@@ -34,7 +34,7 @@ export const useWatch = (
       throwError('Slider', 'min should not be greater than max.')
     }
     const val = props.modelValue
-    if (props.range && Array.isArray(val)) {
+    if (props.range && isArray(val)) {
       if (val[1] < props.min) {
         _emit([props.min, props.min])
       } else if (val[0] > props.max) {
@@ -53,7 +53,7 @@ export const useWatch = (
           initData.oldValue = val.slice()
         }
       }
-    } else if (!props.range && typeof val === 'number' && !Number.isNaN(val)) {
+    } else if (!props.range && isNumber(val) && !Number.isNaN(val)) {
       if (val < props.min) {
         _emit(props.min)
       } else if (val > props.max) {
@@ -86,8 +86,8 @@ export const useWatch = (
     (val, oldVal) => {
       if (
         initData.dragging ||
-        (Array.isArray(val) &&
-          Array.isArray(oldVal) &&
+        (isArray(val) &&
+          isArray(oldVal) &&
           val.every((item, index) => item === oldVal[index]) &&
           initData.firstValue === val[0] &&
           initData.secondValue === val[1])

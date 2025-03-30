@@ -124,12 +124,6 @@ datetime-picker/custom-icon
 | calendar-change | triggers when the calendar selected date is changed. Only for `datetimerange` | [Date, Date]                              |
 | visible-change  | triggers when the DateTimePicker's dropdown appears/disappears                | true when it appears, and false otherwise |
 
-## Methods
-
-| Method | Description               | Parameters |
-| ------ | ------------------------- | ---------- |
-| focus  | focus the Input component | —          |
-
 ## Slots
 
 | Name                | Description                    |
@@ -140,3 +134,10 @@ datetime-picker/custom-icon
 | next-month ^(2.8.0) | next month icon                |
 | prev-year ^(2.8.0)  | prev year icon                 |
 | next-year ^(2.8.0)  | next year icon                 |
+
+## Exposes
+
+| Method        | Description                    | Type                    |
+| ------------- | ------------------------------ | ----------------------- |
+| focus         | focus the DatePicker component | ^[Function]`() => void` |
+| blur ^(2.8.7) | blur the DatePicker component  | ^[Function]`() => void` |

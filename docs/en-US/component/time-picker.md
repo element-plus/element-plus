@@ -85,9 +85,9 @@ time-picker/range
 
 ### Exposes
 
-| Name                  | Description                 | Type                                              |
-| --------------------- | --------------------------- | ------------------------------------------------- |
-| focus                 | focus the Input component   | ^[Function]`(e: FocusEvent \| undefined) => void` |
-| blur                  | blur the Input component    | ^[Function]`(e: FocusEvent \| undefined) => void` |
-| handleOpen ^(2.2.16)  | open the TimePicker popper  | ^[Function]`() => void`                           |
-| handleClose ^(2.2.16) | close the TimePicker popper | ^[Function]`() => void`                           |
+| Name                  | Description                    | Type                    |
+| --------------------- | ------------------------------ | ----------------------- |
+| focus                 | focus the TimePicker component | ^[Function]`() => void` |
+| blur                  | blur the TimePicker component  | ^[Function]`() => void` |
+| handleOpen ^(2.2.16)  | open the TimePicker popper     | ^[Function]`() => void` |
+| handleClose ^(2.2.16) | close the TimePicker popper    | ^[Function]`() => void` |

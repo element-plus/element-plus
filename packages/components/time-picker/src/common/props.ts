@@ -44,7 +44,6 @@ export const timePickerDefaultProps = buildProps({
    */
   name: {
     type: definePropType<SingleOrRange<string>>([Array, String]),
-    default: '',
   },
   /**
    * @description custom class name for TimePicker's dropdown
@@ -251,3 +250,22 @@ export interface PickerOptions {
   handleClear: () => void
   handleFocusPicker?: () => void
 }
+
+export const timePickerRangeTriggerProps = buildProps({
+  id: {
+    type: definePropType<string[]>(Array),
+  },
+  name: {
+    type: definePropType<string[]>(Array),
+  },
+  modelValue: {
+    type: definePropType<UserInput>([Array, String]),
+  },
+  startPlaceholder: String,
+  endPlaceholder: String,
+} as const)
+
+/**
+ * @deprecated Use `timePickerRangeTriggerProps` instead. This will be removed in future versions.
+ */
+export const timePickerRngeTriggerProps = timePickerRangeTriggerProps

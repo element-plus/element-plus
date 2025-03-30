@@ -1,6 +1,7 @@
 // @ts-nocheck
 import {
   capitalize,
+  isArray,
   isEmpty,
   isFunction,
   isUndefined,
@@ -137,7 +138,7 @@ class Node {
     return isUndefined(isLeaf)
       ? lazy && !loaded
         ? false
-        : !(Array.isArray(childrenData) && childrenData.length)
+        : !(isArray(childrenData) && childrenData.length)
       : !!isLeaf
   }
 
@@ -149,7 +150,7 @@ class Node {
     const { childrenData, children } = this
     const node = new Node(childData, this.config, this)
 
-    if (Array.isArray(childrenData)) {
+    if (isArray(childrenData)) {
       childrenData.push(childData)
     } else {
       this.childrenData = [childData]

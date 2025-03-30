@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { nextTick, ref } from 'vue'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 import { NOOP, hasClass } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
@@ -117,6 +117,7 @@ const createSelect = (
         :reserve-keyword="reserveKeyword"
         :scrollbar-always-on="scrollbarAlwaysOn"
         :teleported="teleported"
+        :tabindex="tabindex"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -165,6 +166,7 @@ const createSelect = (
           scrollbarAlwaysOn: false,
           popperAppendToBody: undefined,
           teleported: undefined,
+          tabindex: undefined,
           ...(options.data && options.data()),
         }
       },
@@ -193,6 +195,10 @@ const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
 const DEFAULT_PLACEHOLDER = 'Select'
 
 describe('Select', () => {
+  beforeAll(() => {
+    HTMLCanvasElement.prototype.getContext = vi.fn(() => null)
+  })
+
   afterEach(() => {
     document.body.innerHTML = ''
   })
@@ -1369,6 +1375,31 @@ describe('Select', () => {
     expect(placeholder.text()).toBe('option_a')
   })
 
+  it('the scroll position of the dropdown should be correct when value is 0', async () => {
+    const options = Array.from({ length: 1000 }).map((_, idx) => ({
+      value: 999 - idx,
+      label: `options ${999 - idx}`,
+    }))
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: 0,
+          options,
+        }
+      },
+    })
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const optionsDoms = Array.from(
+      document.querySelectorAll(`.${OPTION_ITEM_CLASS_NAME}`)
+    )
+    const result = optionsDoms.some((option) => {
+      const text = option.textContent
+      return text === 'options 0'
+    })
+    expect(result).toBeTruthy()
+  })
+
   it('emptyText error show', async () => {
     const wrapper = createSelect({
       data() {
@@ -1455,6 +1486,35 @@ describe('Select', () => {
     vm.value.splice(0, 1)
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(2)
+  })
+
+  it('tag list should be empty when model-value is empty', async () => {
+    const wrapper = _mount(
+      `<el-select
+        model-value=""
+        :options="[
+          {
+            value: 1,
+            label: 1,
+          },
+        ]"
+        multiple
+      />`
+    )
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+
+    const option = document.querySelector(`.${OPTION_ITEM_CLASS_NAME}`)
+    option.click()
+    await nextTick()
+
+    option.click()
+    await nextTick()
+
+    option.click()
+    await nextTick()
+
+    await nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(0)
   })
 
   it('should reset placeholder after clear when both multiple and filterable are true', async () => {
@@ -1972,5 +2032,29 @@ describe('Select', () => {
 
     await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
     expect(handleClick).toHaveBeenCalledOnce()
+  })
+
+  describe('It should generate accessible attributes', () => {
+    it('create', async () => {
+      const wrapper = createSelect()
+
+      const input = wrapper.find('input')
+      expect(input.attributes('role')).toBe('combobox')
+      expect(input.attributes('tabindex')).toBe('0')
+      expect(input.attributes('aria-autocomplete')).toBe('list')
+      expect(input.attributes('aria-expanded')).toBe('false')
+      expect(input.attributes('aria-haspopup')).toBe('listbox')
+    })
+
+    it('tabindex', () => {
+      const wrapper = createSelect({
+        data: () => ({
+          tabindex: 1,
+        }),
+      })
+
+      const input = wrapper.find('input')
+      expect(input.attributes('tabindex')).toBe('1')
+    })
   })
 })

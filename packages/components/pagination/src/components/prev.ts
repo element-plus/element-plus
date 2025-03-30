@@ -22,4 +22,4 @@ export const paginationPrevEmits = {
 
 export type PaginationPrevProps = ExtractPropTypes<typeof paginationPrevProps>
 
-export type PrevInstance = InstanceType<typeof Prev>
+export type PrevInstance = InstanceType<typeof Prev> & unknown

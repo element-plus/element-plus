@@ -6,6 +6,7 @@ import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
 import type { MessageConfigContext } from '@element-plus/components/message'
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type ExperimentalFeatures = {
   // TO BE Defined
 }

@@ -61,6 +61,18 @@ Although `message` property supports HTML strings, dynamically rendering arbitra
 
 :::
 
+## Message using functions ^(2.9.0)
+
+`message` can be VNode.
+
+After ^(2.9.0), `message` supports a function whose return value is a VNode.
+
+:::demo
+
+notification/use-vnode
+
+:::
+
 ## Hide close button
 
 It is possible to hide the close button
@@ -111,7 +123,7 @@ ElNotification({}, appContext)
 | Name                     | Description                                                                                                        | Type                                                                  | Default   |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------- | --------- |
 | title                    | title                                                                                                              | ^[string]                                                             | ''        |
-| message                  | description text                                                                                                   | ^[string] / ^[VNode]                                                  | ''        |
+| message                  | description text                                                                                                   | ^[string] / ^[VNode] / ^[Function]`() => VNode`                       | ''        |
 | dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                                        | ^[boolean]                                                            | false     |
 | type                     | notification type                                                                                                  | ^[enum]`'success' \| 'warning' \| 'info' \| 'error' \| ''`            | ''        |
 | icon                     | custom icon component. It will be overridden by `type`                                                             | ^[string] / ^[Component]                                              | —         |

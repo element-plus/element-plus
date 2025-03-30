@@ -559,4 +559,19 @@ describe('Cascader.vue', () => {
       expect(emptySlotEl?.textContent).toBe('-=-empty-=-no-data')
     })
   })
+
+  describe('render prefix slot', () => {
+    it('correct render prefix slot', async () => {
+      _mount(() => (
+        <Cascader>
+          {{
+            prefix: () => <div>-=-prefix-=-</div>,
+          }}
+        </Cascader>
+      ))
+
+      const prefixSlotEl = document.querySelector('.el-input__prefix-inner')
+      expect(prefixSlotEl?.textContent).toBe('-=-prefix-=-')
+    })
+  })
 })

@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue'
 import { buildProps } from '@element-plus/utils'
+import { COMPONENT_NAME } from './constants'
 
 import type { ExtractPropTypes, Slot, VNode } from 'vue'
 
@@ -40,6 +41,13 @@ export const descriptionItemProps = buildProps({
     default: '',
   },
   /**
+   * @description column label width, if not set, it will be the same as the width of the column. Higher priority than the `label-width` of `Descriptions`
+   */
+  labelWidth: {
+    type: [String, Number],
+    default: '',
+  },
+  /**
    * @description column content alignment (If no `border`, effective for both label and content)
    */
   align: {
@@ -68,8 +76,9 @@ export const descriptionItemProps = buildProps({
     default: '',
   },
 })
+
 const DescriptionItem = defineComponent({
-  name: 'ElDescriptionsItem',
+  name: COMPONENT_NAME,
   props: descriptionItemProps,
 })
 

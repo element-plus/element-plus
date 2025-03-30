@@ -1,4 +1,4 @@
-import { isClient, isElement } from '@element-plus/utils'
+import { isArray, isClient, isElement } from '@element-plus/utils'
 
 import type {
   ComponentPublicInstance,
@@ -37,7 +37,7 @@ function createDocumentHandler(
   binding: DirectiveBinding
 ): DocumentHandler {
   let excludes: HTMLElement[] = []
-  if (Array.isArray(binding.arg)) {
+  if (isArray(binding.arg)) {
     excludes = binding.arg
   } else if (isElement(binding.arg)) {
     // due to current implementation on binding type is wrong the type casting is necessary here

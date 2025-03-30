@@ -643,6 +643,68 @@ describe('CascaderPanel.vue', () => {
     vi.useRealTimers()
   })
 
+  test('lazy load with return item has children', async () => {
+    vi.useFakeTimers()
+    const value = ref([])
+    const props: CascaderProps = {
+      lazy: true,
+      lazyLoad(node, resolve) {
+        const { level } = node
+        setTimeout(() => {
+          if (level === 0) {
+            resolve([
+              {
+                label: '1',
+                value: 1,
+              },
+            ])
+          } else {
+            resolve([
+              {
+                label: '11',
+                value: 11,
+                children: [
+                  {
+                    label: '111',
+                    value: 111,
+                    leaf: true,
+                  },
+                  {
+                    label: '112',
+                    value: 112,
+                    leaf: true,
+                  },
+                ],
+              },
+            ])
+          }
+        }, 1000)
+      },
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
+    vi.runAllTimers()
+    await nextTick()
+    const firstMenu = wrapper.findAll(MENU)[0]
+    const firstOption = firstMenu.find(NODE)
+    await firstOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    const secondMenu = wrapper.findAll(MENU)[1]
+    const secondOption = secondMenu.find(NODE)
+    await secondOption.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    const thridMenu = wrapper.findAll(MENU)[2]
+    const thridOption = thridMenu.find(NODE)
+    await thridOption.trigger('click')
+    expect(value.value).toEqual([1, 11, 111])
+    vi.useRealTimers()
+  })
+
   test('getCheckedNodes and clearCheckedNodes', () => {
     const props = { multiple: true }
     const wrapper = mount(() => (

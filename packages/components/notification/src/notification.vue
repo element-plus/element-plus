@@ -37,6 +37,7 @@
     </div>
   </transition>
 </template>
+
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'

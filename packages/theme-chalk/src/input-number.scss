@@ -103,6 +103,14 @@
         font-size: map.get($input-font-size, $size);
       }
 
+      @include when(controls-right) {
+        .#{$namespace}-input--#{$size} {
+          .#{$namespace}-input__wrapper {
+            padding-right: #{map.get($input-height, $size) + 7};
+          }
+        }
+      }
+
       .#{$namespace}-input--#{$size} {
         .#{$namespace}-input__wrapper {
           padding-left: #{map.get($input-height, $size) + 7};

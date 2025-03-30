@@ -324,6 +324,7 @@ export default defineComponent({
           break
         }
         case EVENT_CODE.enter:
+        case EVENT_CODE.numpadEnter:
           checkNode(target)
           break
       }
