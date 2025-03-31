@@ -18,6 +18,7 @@ import { virtualizedScrollbarProps } from '../props'
 import { renderThumbStyle } from '../utils'
 
 import type { CSSProperties } from 'vue'
+
 interface ScrollState {
   isDragging: boolean
   traveled: number
