@@ -122,6 +122,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     afterBlur() {
       expanded.value = false
       states.menuVisibleOnFocus = false
+      if (props.validateEvent) {
+        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
+      }
     },
   })
 
