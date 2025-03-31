@@ -78,9 +78,7 @@ tree-v2/filter
 
 :::
 
-## API
-
-### Attributes
+## TreeV2 Attributes
 
 | Name                         | Description                                                                                                                                  | Type                        | Default |
 | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ------- |
@@ -101,7 +99,7 @@ tree-v2/filter
 | icon                         | custom tree node icon                                                                                                                        | `string \| Component`       | —       |
 | item-size ^(2.2.33)          | custom tree node height                                                                                                                      | number                      | 26      |
 
-### props
+## props
 
 | Attribute      | Description                                                                          | Type                                            | Default  |
 | -------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------- | -------- |
@@ -111,7 +109,7 @@ tree-v2/filter
 | disabled       | specify which key of node object represents if node's checkbox is disabled           | string                                          | disabled |
 | class ^(2.9.0) | custom node class name                                                               | ^[string] / ^[Function]`(data, node) => string` | —        |
 
-### Method
+## TreeV2 Method
 
 `Tree` has the following method, which returns the currently selected array of nodes.
 | Method | Description | Parameters |
@@ -134,7 +132,7 @@ tree-v2/filter
 | scrollTo ^(2.8.0) | scroll to a given position | `(offset: number)` |
 | scrollToNode ^(2.8.0) | scroll to a given tree key with specified scroll strategy | `(key: TreeKey, strategy?: auto \| smart \| center \| start \| end)` |
 
-### Events
+## TreeV2 Events
 
 | Name               | Description                                          | Parameters                                                                                                                              |
 | ------------------ | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -147,7 +145,7 @@ tree-v2/filter
 | node-expand        | triggers when current node open                      | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
 | node-collapse      | triggers when current node close                     | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
 
-### Slots
+## TreeV2 Slots
 
 | Name           | Description                                                                                    |
 | -------------- | ---------------------------------------------------------------------------------------------- |

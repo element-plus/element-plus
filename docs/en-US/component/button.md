@@ -135,7 +135,7 @@ button/custom
 
 ## Button API
 
-### Attributes
+### Button Attributes
 
 | Name              | Description                                                                                                                                          | Type                                                                                      | Default |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------- |
@@ -158,7 +158,7 @@ button/custom
 | dark              | dark mode, which automatically converts `color` to dark mode colors                                                                                  | ^[boolean]                                                                                | false   |
 | tag ^(2.3.4)      | custom element tag                                                                                                                                   | ^[string] / ^[Component]                                                                  | button  |
 
-### Slots
+### Button Slots
 
 | Name    | Description                 |
 | ------- | --------------------------- |
@@ -166,7 +166,7 @@ button/custom
 | loading | customize loading component |
 | icon    | customize icon component    |
 
-### Exposes
+### Button Exposes
 
 | Name           | Description          | Type                                                                                                           |
 | -------------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
@@ -178,14 +178,14 @@ button/custom
 
 ## ButtonGroup API
 
-### Attributes
+### ButtonGroup Attributes
 
 | Name | Description                                      | Type                                                               | Default |
 | ---- | ------------------------------------------------ | ------------------------------------------------------------------ | ------- |
 | size | control the size of buttons in this button-group | ^[enum]`'large' \| 'default' \| 'small'`                           | —       |
 | type | control the type of buttons in this button-group | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —       |
 
-### Slots
+### ButtonGroup Slots
 
 | Name    | Description                    | Subtags |
 | ------- | ------------------------------ | ------- |

@@ -84,6 +84,9 @@ export interface ElMessageBoxOptions {
   /** Custom inline style for MessageBox */
   customStyle?: CSSProperties
 
+  /** modal class name for MessageBox */
+  modalClass?: string
+
   /** MessageBox closing callback if you don't prefer Promise */
   callback?: Callback
 

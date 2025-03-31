@@ -113,7 +113,11 @@ import ElIcon from '@element-plus/components/icon'
 import { isArray } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
-import { getDefaultValue, isValidRange } from '../utils'
+import {
+  correctlyParseUserInput,
+  getDefaultValue,
+  isValidRange,
+} from '../utils'
 import {
   panelMonthRangeEmits,
   panelMonthRangeProps,
@@ -134,6 +138,7 @@ const unit = 'year'
 
 const { lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
+const isDefaultFormat = inject('ElIsDefaultFormat') as any
 const { shortcuts, disabledDate } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -220,9 +225,12 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return isArray(value)
-    ? value.map((_) => dayjs(_, format.value).locale(lang.value))
-    : dayjs(value, format.value).locale(lang.value)
+  return correctlyParseUserInput(
+    value,
+    format.value,
+    lang.value,
+    isDefaultFormat
+  )
 }
 
 function onParsedValueChanged(

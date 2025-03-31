@@ -68,16 +68,18 @@
     </li>
   </ul>
 </template>
+
 <script lang="ts" setup>
 import { computed, ref, watchEffect } from 'vue'
 import { DArrowLeft, DArrowRight, MoreFilled } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { paginationPagerProps } from './pager'
 defineOptions({
   name: 'ElPaginationPager',
 })
 const props = defineProps(paginationPagerProps)
-const emit = defineEmits(['change'])
+const emit = defineEmits([CHANGE_EVENT])
 const nsPager = useNamespace('pager')
 const nsIcon = useNamespace('icon')
 const { t } = useLocale()
@@ -176,7 +178,7 @@ function onEnter(e: UIEvent) {
   ) {
     const newPage = Number(target.textContent)
     if (newPage !== props.currentPage) {
-      emit('change', newPage)
+      emit(CHANGE_EVENT, newPage)
     }
   } else if (
     target.tagName.toLowerCase() === 'li' &&
@@ -210,7 +212,7 @@ function onPagerClick(event: UIEvent) {
     }
   }
   if (newPage !== currentPage) {
-    emit('change', newPage)
+    emit(CHANGE_EVENT, newPage)
   }
 }
 </script>

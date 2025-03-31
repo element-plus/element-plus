@@ -1,18 +1,29 @@
 import { placements } from '@popperjs/core'
+import { scrollbarEmits } from 'element-plus'
 import {
   useAriaProps,
   useEmptyValuesProps,
   useSizeProp,
 } from '@element-plus/hooks'
-import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
+import {
+  EmitFn,
+  buildProps,
+  definePropType,
+  iconPropType,
+} from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+
+import type { ExtractPropTypes } from 'vue'
+import type Select from './select.vue'
 import type {
   Options,
   Placement,
   PopperEffect,
 } from '@element-plus/components/popper'
+import type { OptionValue } from './type'
 
 export const SelectProps = buildProps({
   /**
@@ -27,7 +38,13 @@ export const SelectProps = buildProps({
    * @description binding value
    */
   modelValue: {
-    type: [Array, String, Number, Boolean, Object],
+    type: definePropType<OptionValue | OptionValue[]>([
+      Array,
+      String,
+      Number,
+      Boolean,
+      Object,
+    ]),
     default: undefined,
   },
   /**
@@ -252,3 +269,19 @@ export const SelectProps = buildProps({
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 })
+/* eslint-disable @typescript-eslint/no-unused-vars */
+export const selectEmits = {
+  [UPDATE_MODEL_EVENT]: (val: ISelectProps['modelValue']) => true,
+  [CHANGE_EVENT]: (val: ISelectProps['modelValue']) => true,
+  'popup-scroll': scrollbarEmits.scroll,
+  'remove-tag': (val: unknown) => true,
+  'visible-change': (visible: boolean) => true,
+  focus: (evt: FocusEvent) => evt instanceof FocusEvent,
+  blur: (evt: FocusEvent) => evt instanceof FocusEvent,
+  clear: () => true,
+}
+/* eslint-enable @typescript-eslint/no-unused-vars */
+
+export type ISelectProps = ExtractPropTypes<typeof SelectProps>
+export type SelectEmits = EmitFn<typeof selectEmits>
+export type SelectInstance = InstanceType<typeof Select> & unknown

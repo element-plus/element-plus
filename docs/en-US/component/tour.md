@@ -73,7 +73,7 @@ tour/target
 tour-step component configuration with the same name has higher priority
 :::
 
-### Attributes
+### Tour Attributes
 
 | Property                  | Description                                                                      | Type                                                                                                                                                                        | Default                        |
 | ------------------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
@@ -91,14 +91,14 @@ tour-step component configuration with the same name has higher priority
 | close-on-press-escape     | whether the Dialog can be closed by pressing ESC                                 | `boolean`                                                                                                                                                                   | `true`                         |
 | target-area-clickable     | whether the target element can be clickable, when using mask                     | `boolean`                                                                                                                                                                   | `true`                         |
 
-### slots
+### Tour slots
 
 | Name       | Description                                                   |
 | ---------- | ------------------------------------------------------------- |
 | default    | tourStep component list                                       |
 | indicators | custom indicator, The scope parameter is `{ current, total }` |
 
-### events
+### Tour events
 
 | Name   | Description                    | Type                                   |
 | ------ | ------------------------------ | -------------------------------------- |
@@ -106,9 +106,7 @@ tour-step component configuration with the same name has higher priority
 | finish | callback function on finished  | ^[Function]`() => void`                |
 | change | callback when the step changes | ^[Function]`(current: number) => void` |
 
-## TourStep API
-
-### Attributes
+### TourStep Attributes
 
 | Property                 | Description                                                                                                                                                                                            | Type                                                                                                                                                                        | Default   |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
@@ -126,14 +124,14 @@ tour-step component configuration with the same name has higher priority
 | show-close               | whether to show a close button                                                                                                                                                                         | `boolean`                                                                                                                                                                   | `true`    |
 | close-icon               | custom close icon, default is Close                                                                                                                                                                    | `string` \| `Component`                                                                                                                                                     | —         |
 
-### slots
+### TourStep slots
 
 | Name    | Description |
 | ------- | ----------- |
 | default | description |
 | header  | header      |
 
-### events
+### TourStep events
 
 | Name  | Description                   | Arguments               |
 | ----- | ----------------------------- | ----------------------- |
