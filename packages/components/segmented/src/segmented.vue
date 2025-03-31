@@ -81,8 +81,33 @@ const handleChange = (item: Option) => {
 }
 
 const getValue = (item: Option) => {
-  return isObject(item) ? item.value : item
+  if (isObject(item)) {
+    const fallbackValue = item.id ?? item.label ?? JSON.stringify(item)
+    return 'value' in item ? item.value : fallbackValue
+  }
+  return item
 }
+
+watch(
+  () => props.options,
+  (newVal) => {
+    newVal.forEach((option) => {
+      if (
+        isObject(option) &&
+        !('value' in option) &&
+        process.env.NODE_ENV === 'development'
+      ) {
+        debugWarn(
+          'ElSegmented',
+          `Option object should contain a 'value' field. Fallback value used:: ${JSON.stringify(
+            option
+          )}`
+        )
+      }
+    })
+  },
+  { immediate: true, deep: true }
+)
 
 const getLabel = (item: Option) => {
   return isObject(item) ? item.label : item
