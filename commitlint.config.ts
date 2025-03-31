@@ -3,7 +3,7 @@ import fg from 'fast-glob'
 
 const getPackages = (packagePath) =>
   fg.sync('*', { cwd: packagePath, onlyDirectories: true })
-
+console.log(213);
 const scopes = [
   ...getPackages('packages'),
   ...getPackages('internal'),
