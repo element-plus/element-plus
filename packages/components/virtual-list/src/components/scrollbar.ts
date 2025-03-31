@@ -63,19 +63,18 @@ const ScrollBar = defineComponent({
 
     const thumbSize = computed(() => {
       const ratio = props.ratio!
-      const clientSize = props.clientSize!
       if (ratio >= 100) {
         return Number.POSITIVE_INFINITY
       }
 
       if (ratio >= 50) {
-        return (ratio * clientSize) / 100
+        return (ratio * trackSize.value) / 100
       }
 
-      const SCROLLBAR_MAX_SIZE = clientSize / 3
+      const SCROLLBAR_MAX_SIZE = trackSize.value / 3
       return Math.floor(
         Math.min(
-          Math.max(ratio * clientSize, SCROLLBAR_MIN_SIZE),
+          Math.max(ratio * trackSize.value, SCROLLBAR_MIN_SIZE),
           SCROLLBAR_MAX_SIZE
         )
       )
@@ -105,7 +104,7 @@ const ScrollBar = defineComponent({
     })
 
     const totalSteps = computed(() =>
-      Math.floor(props.clientSize! - thumbSize.value - unref(GAP))
+      Math.ceil(props.clientSize! - thumbSize.value - unref(GAP))
     )
 
     const attachEvents = () => {
@@ -205,13 +204,7 @@ const ScrollBar = defineComponent({
       // using totalSteps ÷ totalSize getting each step's size * distance to get the new
       // scroll offset to scrollTo
       frameHandle = rAF(() => {
-        state.traveled = Math.max(
-          props.startGap,
-          Math.min(
-            distance,
-            totalSteps.value // 2 is the top value
-          )
-        )
+        state.traveled = Math.max(0, Math.min(distance, totalSteps.value))
         emit('scroll', distance, totalSteps.value)
       })
     }
