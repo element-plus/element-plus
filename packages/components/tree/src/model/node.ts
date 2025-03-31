@@ -29,12 +29,15 @@ export const getChildState = (node: Node[]): TreeNodeChildState => {
     const n = node[i]
     if (n.checked !== true || n.indeterminate) {
       all = false
-      if (!n.disabled) {
-        allWithoutDisable = false
-      }
     }
     if (n.checked !== false || n.indeterminate) {
       none = false
+    }
+    if (
+      (n.checked !== true && n.disabled !== true) ||
+      (n.disabled && n.childNodes.length && !n.indeterminate)
+    ) {
+      allWithoutDisable = false
     }
   }
 
@@ -44,10 +47,13 @@ export const getChildState = (node: Node[]): TreeNodeChildState => {
 const reInitChecked = function (node: Node): void {
   if (node.childNodes.length === 0 || node.loading) return
 
-  const { all, none, half } = getChildState(node.childNodes)
+  const { all, none, half, allWithoutDisable } = getChildState(node.childNodes)
   if (all) {
     node.checked = true
     node.indeterminate = false
+  } else if (allWithoutDisable && node.disabled !== true) {
+    node.checked = true
+    node.indeterminate = true
   } else if (half) {
     node.checked = false
     node.indeterminate = true
@@ -448,9 +454,9 @@ class Node {
             const isCheck = child.disabled ? child.checked : passValue
             child.setChecked(isCheck, deep, true, passValue)
           }
-          const { half, all } = getChildState(childNodes)
+          const { half, all, allWithoutDisable } = getChildState(childNodes)
           if (!all) {
-            this.checked = all
+            this.checked = allWithoutDisable
             this.indeterminate = half
           }
         }
