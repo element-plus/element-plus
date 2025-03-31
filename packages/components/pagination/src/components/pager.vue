@@ -75,6 +75,7 @@ import { DArrowLeft, DArrowRight, MoreFilled } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { paginationPagerProps } from './pager'
+
 defineOptions({
   name: 'ElPaginationPager',
 })
