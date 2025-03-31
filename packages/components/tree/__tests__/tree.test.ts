@@ -4,6 +4,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import sleep from '@element-plus/test-utils/sleep'
+import ElIcon from '@element-plus/components/icon'
 import Tree from '../src/tree.vue'
 import Button from '../../button/src/button.vue'
 import type Node from '../src/model/node'
@@ -579,7 +580,7 @@ describe('Tree.vue', () => {
   })
 
   test('ensure no checked nodes in non show-checkbox mode', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" check-on-click-node`)
+    const { wrapper } = getTreeVm(`:props="defaultProps"`)
     const treeVm = wrapper.findComponent(Tree).vm
 
     expect(treeVm.getCheckedNodes().length).toEqual(0)
@@ -590,6 +591,14 @@ describe('Tree.vue', () => {
     const secondNodeContentWrapper = secondTreeNodeWrapper.findAll(
       '.el-tree-node__content'
     )[1]
+
+    expect(
+      secondNodeContentWrapper
+        .findComponent(ElIcon)
+        .classes()
+        .includes('is-leaf')
+    ).toBe(true)
+
     await secondNodeContentWrapper.trigger('click')
 
     expect(treeVm.getCheckedNodes().length).toEqual(0)
