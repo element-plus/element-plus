@@ -249,6 +249,7 @@ export default defineComponent({
       }
 
       if (
+        props.showCheckbox &&
         (tree.props.checkOnClickNode ||
           (props.node.isLeaf && tree.props.checkOnClickLeaf)) &&
         !props.node.disabled

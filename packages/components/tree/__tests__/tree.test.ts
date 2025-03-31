@@ -578,6 +578,23 @@ describe('Tree.vue', () => {
     expect(treeVm.getCheckedNodes().length).toEqual(0)
   })
 
+  test('ensure no checked nodes in non show-checkbox mode', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps" check-on-click-node`)
+    const treeVm = wrapper.findComponent(Tree).vm
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    const secondTreeNodeWrapper = wrapper.findAll('.el-tree-node')[2]
+    await secondTreeNodeWrapper.trigger('click')
+
+    const secondNodeContentWrapper = secondTreeNodeWrapper.findAll(
+      '.el-tree-node__content'
+    )[1]
+    await secondNodeContentWrapper.trigger('click')
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+  })
+
   test('setCheckedNodes', async () => {
     const { wrapper } = getTreeVm(
       `:props="defaultProps" show-checkbox node-key="id"`
