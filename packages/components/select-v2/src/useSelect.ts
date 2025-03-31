@@ -486,6 +486,18 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     emit(UPDATE_MODEL_EVENT, val)
     emitChange(val)
     states.previousValue = props.multiple ? String(val) : val
+
+    nextTick(() => {
+      if (props.multiple && Array.isArray(props.modelValue)) {
+        const selectedOptions = props.modelValue.map((value) =>
+          getOption(value)
+        )
+
+        if (!isEqual(states.cachedOptions, selectedOptions)) {
+          states.cachedOptions = selectedOptions
+        }
+      }
+    })
   }
 
   const getValueIndex = (arr: unknown[] = [], value: unknown) => {
@@ -548,14 +560,6 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
         selectedOptions = [...selectedOptions, getValue(option)]
         states.cachedOptions.push(option)
         selectNewOption(option)
-
-        nextTick(() => {
-          const isModelChanged = isEqual(selectedOptions, props.modelValue)
-
-          if (!isModelChanged) {
-            states.cachedOptions.pop()
-          }
-        })
       }
       update(selectedOptions)
       if (option.created) {
