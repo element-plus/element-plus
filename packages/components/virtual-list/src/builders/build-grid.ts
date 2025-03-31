@@ -51,6 +51,7 @@ import type {
 } from '../types'
 import type { VirtualizedGridProps } from '../props'
 import type { DynamicSizeGridInstance } from '../components/dynamic-size-grid.ts'
+
 const createGrid = ({
   name,
   clearCache,
