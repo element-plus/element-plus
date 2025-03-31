@@ -737,7 +737,7 @@ export const useSelect = (props: ISelectProps, emit: SelectEmits) => {
     let option = null
     // find the first enabled option
     for (const item of optionsArray.value) {
-      if (item.$parent && !(item.$parent as any).node.disabled) {
+      if (!(item.$parent as any).node.disabled) {
         option = item
         break
       }
