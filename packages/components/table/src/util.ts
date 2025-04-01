@@ -208,8 +208,9 @@ export const getKeysMap = function <T>(
 
     if (flatten) {
       const children = row[childrenKey]
-      isArray(children) &&
+      if (isArray(children)) {
         Object.assign(arrayMap, getKeysMap(children, rowKey, true, childrenKey))
+      }
     }
   })
 
