@@ -20,6 +20,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import {
   buildProps,
   iconPropType,
+  isMobile,
   isString,
   throwError,
 } from '@element-plus/utils'
@@ -212,11 +213,6 @@ export default defineComponent({
     // methods
     const doDestroy = () =>
       vPopper.value?.popperRef?.popperInstanceRef?.destroy()
-
-    const isMobile = () =>
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        window.navigator.userAgent
-      )
 
     const handleCollapseToggle = (value: boolean) => {
       if (!value) {
