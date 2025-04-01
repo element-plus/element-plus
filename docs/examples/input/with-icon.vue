@@ -26,12 +26,18 @@
       style="width: 240px"
       placeholder="Type something"
     >
-      <template #prefix>
-        <el-icon class="el-input__icon"><search /></el-icon>
-      </template>
-    </el-input>
-  </div>
-</template>
+        <template #prefix>
+          <div v-if="options.length > 0" class="tag-container">
+            <el-tag
+              v-for="item in options"
+              :key="item.value"
+              :closable="true"
+              @close="handleTagRemove(item.value)"
+            >
+              {{ item.label }}
+            </el-tag>
+          </div>
+        </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
@@ -40,4 +46,9 @@ const input1 = ref('')
 const input2 = ref('')
 const input3 = ref('')
 const input4 = ref('')
+          const options = reactive([
+  { value: '1', label: '张三' },
+  { value: '2', label: '李四' },
+  { value: '3', label: '王五' },
+]);
 </script>
