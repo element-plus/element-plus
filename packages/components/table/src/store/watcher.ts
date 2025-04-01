@@ -193,8 +193,7 @@ function useWatcher<T>() {
     let deleted
     if (rowKey.value) {
       deleted = []
-      const childrenKey = instance?.store?.states?.childrenColumnName.value
-      const dataMap = getKeysMap(data.value, rowKey.value, true, childrenKey)
+      const dataMap = getKeysMap(data.value, rowKey.value)
       for (const key in selectedMap.value) {
         if (hasOwn(selectedMap.value, key) && !dataMap[key]) {
           deleted.push(selectedMap.value[key].row)
