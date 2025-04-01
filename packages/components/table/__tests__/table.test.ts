@@ -1793,7 +1793,7 @@ describe('Table.vue', () => {
           ElTableColumn,
         },
         template: `
-          <el-table :data="testData" row-key="id" :expand-row-keys="[2, '3zxcv', 31]">
+          <el-table :data="testData" row-key="id" :expand-row-keys="[2, 3, '31']">
             <el-table-column prop="name" label="片名" />
             <el-table-column prop="release" label="发行日期" />
             <el-table-column prop="director" label="导演" />

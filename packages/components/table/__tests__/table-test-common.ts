@@ -90,14 +90,14 @@ export function getTestDataNumAndString() {
       ],
     },
     {
-      id: '3zxcv',
+      id: 3,
       name: 'Monsters, Inc.',
       release: '2001-11-2',
       director: 'Peter Docter',
       runtime: 92,
       children: [
         {
-          id: 31,
+          id: '31',
           name: 'Monsters, Inc.',
           release: '2001-11-2',
           director: 'Peter Docter',
