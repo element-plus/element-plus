@@ -5,7 +5,7 @@ import {
   mutable,
 } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, ImgHTMLAttributes } from 'vue'
 
 export const imageProps = buildProps({
   /**
@@ -108,6 +108,12 @@ export const imageProps = buildProps({
    */
   crossorigin: {
     type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
+  },
+  /**
+   * @description set HTML attribute: referrerpolicy.
+   */
+  referrerpolicy: {
+    type: definePropType<ImgHTMLAttributes['referrerpolicy']>(String),
   },
 } as const)
 export type ImageProps = ExtractPropTypes<typeof imageProps>
