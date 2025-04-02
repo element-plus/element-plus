@@ -89,6 +89,7 @@
               :style="imgStyle"
               :class="ns.e('img')"
               :crossorigin="crossorigin"
+              :referrerpolicy="referrerpolicy"
               @load="handleImgLoad"
               @error="handleImgError"
               @mousedown="handleMouseDown"
