@@ -1,4 +1,5 @@
 import { capitalize as toCapitalize } from '@vue/shared'
+
 export { camelize, hyphenate } from '@vue/shared'
 
 /**
