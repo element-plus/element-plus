@@ -5,7 +5,7 @@ import {
   capitalize,
   escapeStringRegexp,
   hyphenate,
-  hyphenate as kebabCase, // alias
+  kebabCase,
 } from '..'
 
 describe('strings', () => {
