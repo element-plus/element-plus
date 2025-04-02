@@ -25,7 +25,15 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, onBeforeUnmount, provide, ref, watch } from 'vue'
+import {
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  ref,
+  unref,
+  watch,
+} from 'vue'
 import { isNil } from 'lodash-unified'
 import { NOOP, isElement } from '@element-plus/utils'
 import ElFocusTrap from '@element-plus/components/focus-trap'
@@ -109,40 +117,39 @@ const togglePopperAlive = () => {
   }
 }
 
-watch(
-  () => props.triggerTargetEl || contentRef.value,
-  (triggerTargetEl, prevTriggerTargetEl) => {
-    triggerTargetAriaStopWatch?.()
-    triggerTargetAriaStopWatch = undefined
+onMounted(() => {
+  watch(
+    () => props.triggerTargetEl,
+    (triggerTargetEl, prevTriggerTargetEl) => {
+      triggerTargetAriaStopWatch?.()
+      triggerTargetAriaStopWatch = undefined
 
-    if (isElement(triggerTargetEl)) {
-      triggerTargetAriaStopWatch = watch(
-        [role, () => props.ariaLabel, ariaModal, () => props.id],
-        (watches) => {
-          ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key, idx) => {
-            isNil(watches[idx])
-              ? triggerTargetEl.removeAttribute(key)
-              : triggerTargetEl.setAttribute(key, watches[idx]!)
-          })
-        },
-        { immediate: true }
-      )
-    }
-    if (
-      prevTriggerTargetEl !== triggerTargetEl &&
-      isElement(prevTriggerTargetEl)
-    ) {
-      ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key) => {
-        prevTriggerTargetEl.removeAttribute(key)
-      })
-    }
-  },
-  { immediate: true, flush: 'post' }
-)
+      const el = unref(triggerTargetEl || contentRef.value)
+      const prevEl = unref(prevTriggerTargetEl || contentRef.value)
 
-watch(() => props.visible, togglePopperAlive, {
-  immediate: true,
-  flush: 'post',
+      if (isElement(el)) {
+        triggerTargetAriaStopWatch = watch(
+          [role, () => props.ariaLabel, ariaModal, () => props.id],
+          (watches) => {
+            ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key, idx) => {
+              isNil(watches[idx])
+                ? el.removeAttribute(key)
+                : el.setAttribute(key, watches[idx]!)
+            })
+          },
+          { immediate: true }
+        )
+      }
+      if (prevEl !== el && isElement(prevEl)) {
+        ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key) => {
+          prevEl.removeAttribute(key)
+        })
+      }
+    },
+    { immediate: true }
+  )
+
+  watch(() => props.visible, togglePopperAlive, { immediate: true })
 })
 
 onBeforeUnmount(() => {
