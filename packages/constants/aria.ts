@@ -15,3 +15,9 @@ export const EVENT_CODE = {
   home: 'Home',
   end: 'End',
 }
+
+export const KEY_CODE = {
+  enter: 13,
+  backspace: 8,
+  space: 32,
+}

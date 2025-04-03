@@ -1,8 +1,8 @@
 import { computed, ref, shallowRef, watch } from 'vue'
 import {
   CHANGE_EVENT,
-  EVENT_CODE,
   INPUT_EVENT,
+  KEY_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { type EmitFn, debugWarn, isUndefined } from '@element-plus/utils'
@@ -52,26 +52,22 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
   const handleKeydown = (event: KeyboardEvent) => {
     if (isComposing.value) return
-    switch (event.code) {
-      case props.trigger:
+    if (
+      (event.keyCode === KEY_CODE.enter && props.trigger === 'Enter') ||
+      (event.keyCode === KEY_CODE.space && props.trigger === 'Space')
+    ) {
+      event.preventDefault()
+      event.stopPropagation()
+      handleAddTag()
+      return
+    }
+    if (event.keyCode === KEY_CODE.backspace) {
+      if (!inputValue.value && props.modelValue?.length) {
         event.preventDefault()
         event.stopPropagation()
-        handleAddTag()
-        break
-      case EVENT_CODE.numpadEnter:
-        if (props.trigger === EVENT_CODE.enter) {
-          event.preventDefault()
-          event.stopPropagation()
-          handleAddTag()
-        }
-        break
-      case EVENT_CODE.backspace:
-        if (!inputValue.value && props.modelValue?.length) {
-          event.preventDefault()
-          event.stopPropagation()
-          handleRemoveTag(props.modelValue.length - 1)
-        }
-        break
+        handleRemoveTag(props.modelValue.length - 1)
+      }
+      return
     }
   }
 
