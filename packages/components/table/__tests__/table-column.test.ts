@@ -371,7 +371,7 @@ describe('table column', () => {
             },
             methods: {
               addRow() {
-                this.testData.push({ id: 4, desc: 'record 4' })
+                this.testData.push({ id: 5, desc: 'record 4' })
               },
               removeRow() {
                 this.testData.pop()
