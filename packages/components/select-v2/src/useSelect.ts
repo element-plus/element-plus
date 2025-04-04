@@ -488,7 +488,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     states.previousValue = props.multiple ? String(val) : val
 
     nextTick(() => {
-      if (props.multiple && Array.isArray(props.modelValue)) {
+      if (props.multiple && isArray(props.modelValue)) {
         const selectedOptions = props.modelValue.map((value) =>
           getOption(value)
         )

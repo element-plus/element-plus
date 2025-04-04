@@ -1505,16 +1505,11 @@ describe('Select', () => {
 
     const option = document.querySelector(`.${OPTION_ITEM_CLASS_NAME}`)
     option.click()
-    await nextTick()
-
     option.click()
-    await nextTick()
-
     option.click()
-    await nextTick()
 
-    await nextTick()
-    expect(wrapper.findAll('.el-tag').length).toBe(0)
+    const tags = await vi.waitUntil(() => wrapper.findAll('.el-tag'))
+    expect(tags.length).toBe(0)
   })
 
   it('tag list should be synchronized when the model value is the same', async () => {
@@ -1540,10 +1535,9 @@ describe('Select', () => {
     clickClearButton(wrapper)
     const option = document.querySelector(`.${OPTION_ITEM_CLASS_NAME}`)
     option.click()
-    await nextTick()
-    await nextTick()
+    const tags = await vi.waitUntil(() => wrapper.findAll('.el-tag'))
 
-    expect(wrapper.findAll('.el-tag').length).toBe(1)
+    expect(tags.length).toBe(1)
   })
 
   it('should reset placeholder after clear when both multiple and filterable are true', async () => {
