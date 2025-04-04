@@ -4,7 +4,10 @@
 @include b(picker-panel) {
   color: getCssVar('text-color', 'regular');
   background: getCssVar('bg-color', 'overlay');
-  border-radius: getCssVar('popper', 'border-radius');
+  border-radius: getCssVarWithDefault(
+    ('popper', 'border-radius'),
+    getCssVar('border-radius-base')
+  );
   line-height: 30px;
 
   .#{$namespace}-time-panel {
