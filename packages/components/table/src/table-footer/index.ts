@@ -8,6 +8,7 @@ import type { Store } from '../store'
 
 import type { PropType } from 'vue'
 import type { DefaultRow, Sort, SummaryMethod } from '../table/defaults'
+
 export interface TableFooter<T> {
   fixed: string
   store: Store<T>
