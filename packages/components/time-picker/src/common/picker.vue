@@ -572,7 +572,6 @@ const handleChange = () => {
             )
           }
         }
-
         emitInput(date)
         userInput.value = null
       }
