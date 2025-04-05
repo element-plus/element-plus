@@ -37,7 +37,10 @@
               </el-icon>
             </span>
           </template>
-          <div v-if="showProgress" :class="[ns.e('btn'), ns.e('progress')]">
+          <div
+            v-if="$slots.progress || showProgress"
+            :class="[ns.e('btn'), ns.e('progress')]"
+          >
             <slot
               name="progress"
               :active-index="activeIndex"
