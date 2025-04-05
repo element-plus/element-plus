@@ -71,6 +71,14 @@ image/custom-toolbar
 
 :::
 
+## Custom progress ^(2.9.4)
+
+:::demo By setting the `show-progress` prop to control whether to display progress when previewing an image. After version ^(2.9.8), the progress content will be displayed as long as the `progress` slot is used.
+
+image/custom-progress
+
+:::
+
 ## Image API
 
 ### Image Attributes
@@ -95,7 +103,7 @@ image/custom-toolbar
 | zoom-rate              | the zoom rate of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 1.2     |
 | min-scale ^(2.4.0)     | the min scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 0.2     |
 | max-scale ^(2.4.0)     | the max scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 7       |
-| show-progress ^(2.9.4) | whether to display the preview image progress content                                                                                             | ^[boolean]                                                              | false   |
+| show-progress ^(2.9.4) | whether to display the preview image progress content.                                                                                            | ^[boolean]                                                              | false   |
 
 ### Image Events
 
@@ -109,13 +117,13 @@ image/custom-toolbar
 
 ### Image Slots
 
-| Name              | Description                                              | Type                                                                                                                                                                                                              |
-| ----------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| placeholder       | custom placeholder content when image hasn't loaded yet. | -                                                                                                                                                                                                                 |
-| error             | custom image load failed content.                        | -                                                                                                                                                                                                                 |
-| viewer            | custom content when image preview.                       | -                                                                                                                                                                                                                 |
-| progress ^(2.9.4) | custom progress content when image preview.              | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                 |
-| toolbar ^(2.9.4)  | custom toolbar content when image preview.               | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }, setActiveItem: (index: number) => void` |
+| Name              | Description                                                                                | Type                                                                                                                                                                                                              |
+| ----------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| placeholder       | custom placeholder content when image hasn't loaded yet.                                   | -                                                                                                                                                                                                                 |
+| error             | custom image load failed content.                                                          | -                                                                                                                                                                                                                 |
+| viewer            | custom content when image preview.                                                         | -                                                                                                                                                                                                                 |
+| progress ^(2.9.4) | custom progress content when image preview. (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                 |
+| toolbar ^(2.9.4)  | custom toolbar content when image preview.                                                 | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }, setActiveItem: (index: number) => void` |
 
 ### Image Exposes
 
