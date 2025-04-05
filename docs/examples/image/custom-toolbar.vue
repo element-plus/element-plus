@@ -7,9 +7,6 @@
       fit="cover"
       show-progress
     >
-      <template #progress="{ activeIndex, total }">
-        <span>{{ activeIndex + 1 + '-' + total }}</span>
-      </template>
       <template
         #toolbar="{ actions, prev, next, reset, activeIndex, setActiveItem }"
       >
