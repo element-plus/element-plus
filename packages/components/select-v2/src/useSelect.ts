@@ -656,11 +656,8 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       emptyValue = valueOnClear.value
     }
 
-    if (props.multiple) {
-      states.cachedOptions = []
-    } else {
-      states.selectedLabel = ''
-    }
+    states.selectedLabel = ''
+
     expanded.value = false
     update(emptyValue)
     emit('clear')
