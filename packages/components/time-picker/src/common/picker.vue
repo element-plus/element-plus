@@ -168,16 +168,16 @@ import {
 } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside, unrefElement } from '@vueuse/core'
-import { useFormItem, useFormSize } from '@element-plus/components/form'
-import ElInput from '@element-plus/components/input'
-import ElIcon from '@element-plus/components/icon'
-import ElTooltip from '@element-plus/components/tooltip'
 import {
   useEmptyValues,
   useFocusController,
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
+import { useFormItem, useFormSize } from '@element-plus/components/form'
+import ElInput from '@element-plus/components/input'
+import ElIcon from '@element-plus/components/icon'
+import ElTooltip from '@element-plus/components/tooltip'
 import { NOOP, debugWarn, isArray } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -194,6 +194,11 @@ import {
 } from '../utils'
 import { type DateOrDates, timePickerDefaultProps } from './props'
 import PickerRangeTrigger from './picker-range-trigger.vue'
+import type { InputInstance } from '@element-plus/components/input'
+
+import type { Dayjs } from 'dayjs'
+import type { ComponentPublicInstance, Ref } from 'vue'
+import type { Options } from '@popperjs/core'
 import type {
   DateModelType,
   DayOrDays,
@@ -203,10 +208,6 @@ import type {
   UserInput,
 } from './props'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
-import type { InputInstance } from '@element-plus/components/input'
-import type { ComponentPublicInstance, Ref } from 'vue'
-import type { Dayjs } from 'dayjs'
-import type { Options } from '@popperjs/core'
 
 defineOptions({
   name: 'Picker',
@@ -318,9 +319,7 @@ const emitInput = (input: SingleOrRange<DateModelType> | null) => {
     } else if (input) {
       formatted = formatter(input, props.valueFormat, lang.value)
     }
-
-    const date = input ? formatted : input
-    emit(UPDATE_MODEL_EVENT, date, lang.value)
+    emit(UPDATE_MODEL_EVENT, input ? formatted : input, lang.value)
   }
 }
 const emitKeydown = (e: KeyboardEvent) => {
@@ -550,10 +549,10 @@ const handleChange = () => {
         let date = dayOrDaysToDate(value)
 
         if (props.defaultTime) {
-          if (Array.isArray(date) && date.length) {
+          if (isArray(date) && date.length) {
             let arr: DateOrDates | Array<DateOrDates>
 
-            if (Array.isArray(props.defaultTime) && props.defaultTime.length) {
+            if (isArray(props.defaultTime) && props.defaultTime.length) {
               arr = date.map((item, i) =>
                 setDateWithDefaultTime(
                   item as Date,
