@@ -168,16 +168,16 @@ import {
 } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside, unrefElement } from '@vueuse/core'
+import { useFormItem, useFormSize } from '@element-plus/components/form'
+import ElInput from '@element-plus/components/input'
+import ElIcon from '@element-plus/components/icon'
+import ElTooltip from '@element-plus/components/tooltip'
 import {
   useEmptyValues,
   useFocusController,
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
-import { useFormItem, useFormSize } from '@element-plus/components/form'
-import ElInput from '@element-plus/components/input'
-import ElIcon from '@element-plus/components/icon'
-import ElTooltip from '@element-plus/components/tooltip'
 import { NOOP, debugWarn, isArray } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
