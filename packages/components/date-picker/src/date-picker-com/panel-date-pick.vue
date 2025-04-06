@@ -293,8 +293,8 @@ const checkDateWithinRange = (date: ConfigType) => {
 }
 const formatEmit = (emitDayjs: Dayjs) => {
   if (
-    (!visibleTime.value || props.type === 'date') &&
     defaultTime &&
+    (!visibleTime.value || props.type === 'date') &&
     !isChangeToNow.value &&
     !isShortcut
   ) {
