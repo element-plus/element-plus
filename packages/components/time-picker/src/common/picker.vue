@@ -192,7 +192,7 @@ import {
   setDateWithDefaultTime,
   valueEquals,
 } from '../utils'
-import { type DateOrDates, timePickerDefaultProps } from './props'
+import { timePickerDefaultProps } from './props'
 import PickerRangeTrigger from './picker-range-trigger.vue'
 import type { InputInstance } from '@element-plus/components/input'
 
@@ -201,6 +201,7 @@ import type { ComponentPublicInstance, Ref } from 'vue'
 import type { Options } from '@popperjs/core'
 import type {
   DateModelType,
+  DateOrDates,
   DayOrDays,
   PickerOptions,
   SingleOrRange,
