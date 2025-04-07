@@ -310,7 +310,7 @@ describe('ScrollBar', () => {
     expect(wrapper.find('.el-scrollbar__view').classes()).toContain(viewClass)
   })
 
-  test('should bubble up click event on click scrollbar', async () => {
+  test('should not bubble up click event on click scrollbar', async () => {
     const parentClick = vi.fn()
     const wrapper = mount(() => (
       <div onClick={parentClick}>
