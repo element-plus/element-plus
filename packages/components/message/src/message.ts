@@ -196,9 +196,6 @@ export type MessageTypedFn = (
   appContext?: null | AppContext
 ) => MessageHandler
 
-export interface Message extends MessageFn {
-  success: MessageTypedFn
-  warning: MessageTypedFn
-  info: MessageTypedFn
-  error: MessageTypedFn
+export type Message = MessageFn & {
+  [K in messageType]: MessageTypedFn
 }
