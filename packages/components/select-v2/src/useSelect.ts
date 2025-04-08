@@ -41,7 +41,6 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 
-import { ArrowDown } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
 import { useProps } from './useProps'
 
@@ -164,7 +163,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   })
 
   const iconComponent = computed(() =>
-    props.remote && props.filterable ? '' : ArrowDown
+    props.remote && props.filterable ? '' : props.suffixIcon
   )
 
   const iconReverse = computed(

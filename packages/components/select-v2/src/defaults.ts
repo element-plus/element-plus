@@ -13,7 +13,7 @@ import {
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
-import { CircleClose } from '@element-plus/icons-vue'
+import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '../../tag'
 import { defaultProps } from './useProps'
 
@@ -297,6 +297,10 @@ export const SelectProps = buildProps({
     validator(val) {
       return isBoolean(val) || isNumber(val)
     },
+  },
+  suffixIcon: {
+    type: iconPropType,
+    default: ArrowDown,
   },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
