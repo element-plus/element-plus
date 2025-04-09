@@ -128,7 +128,7 @@ export default {
       close: '关闭此对话框',
     },
     upload: {
-      deleteTip: '按 delete 键可删除',
+      deleteTip: '按 Delete 键可删除',
       delete: '删除',
       preview: '查看图片',
       continue: '继续上传',
