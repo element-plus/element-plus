@@ -6,10 +6,12 @@
       role="alert"
     >
       <el-icon
-        v-if="showIcon && iconComponent"
+        v-if="showIcon && ($slots.icon || iconComponent)"
         :class="[ns.e('icon'), { [ns.is('big')]: hasDesc }]"
       >
-        <component :is="iconComponent" />
+        <slot name="icon">
+          <component :is="iconComponent" />
+        </slot>
       </el-icon>
 
       <div :class="ns.e('content')">
@@ -40,6 +42,7 @@
     </div>
   </transition>
 </template>
+
 <script lang="ts" setup>
 import { computed, ref, useSlots } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'

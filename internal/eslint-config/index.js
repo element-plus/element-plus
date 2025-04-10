@@ -121,13 +121,18 @@ module.exports = defineConfig({
         ],
       },
     },
-
     {
       files: ['**/*.md/*.js', '**/*.md/*.ts'],
       rules: {
         'no-console': 'off',
         'import/no-unresolved': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
+      },
+    },
+    {
+      files: ['!docs/**/*.{js,ts,vue}'],
+      rules: {
+        'import/newline-after-import': ['error', { count: 1 }],
       },
     },
   ],
@@ -200,6 +205,7 @@ module.exports = defineConfig({
     'vue/multi-word-component-names': 'off',
     'vue/prefer-import-from-vue': 'off',
     'vue/no-v-text-v-html-on-component': 'off',
+    'vue/padding-line-between-blocks': ['warn', 'always'],
     'vue/html-self-closing': [
       'error',
       {

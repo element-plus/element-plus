@@ -245,6 +245,6 @@ const Space = defineComponent({
   },
 })
 
-export type SpaceInstance = InstanceType<typeof Space>
+export type SpaceInstance = InstanceType<typeof Space> & unknown
 
 export default Space

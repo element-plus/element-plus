@@ -3,6 +3,7 @@
     ref="tooltipRef"
     v-bind="$attrs"
     :trigger="trigger"
+    :trigger-keys="triggerKeys"
     :placement="placement"
     :disabled="disabled"
     :visible="visible"
@@ -43,6 +44,7 @@
     </template>
   </el-tooltip>
 </template>
+
 <script lang="ts" setup>
 import { computed, ref, unref } from 'vue'
 import { ElTooltip } from '@element-plus/components/tooltip'

@@ -416,6 +416,7 @@ const emit = defineEmits([
 const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject('EP_PICKER_BASE') as any
+const isDefaultFormat = inject('ElIsDefaultFormat') as any
 const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
@@ -829,7 +830,12 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return correctlyParseUserInput(value, format.value, lang.value)
+  return correctlyParseUserInput(
+    value,
+    format.value,
+    lang.value,
+    isDefaultFormat
+  )
 }
 
 function onParsedValueChanged(

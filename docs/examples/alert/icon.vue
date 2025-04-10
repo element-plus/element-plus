@@ -4,8 +4,17 @@
     <el-alert title="Info alert" type="info" show-icon />
     <el-alert title="Warning alert" type="warning" show-icon />
     <el-alert title="Error alert" type="error" show-icon />
+    <el-alert title="Error alert with custom icon" type="error" show-icon>
+      <template #icon>
+        <Bell />
+      </template>
+    </el-alert>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { Bell } from '@element-plus/icons-vue'
+</script>
 
 <style scoped>
 .el-alert {

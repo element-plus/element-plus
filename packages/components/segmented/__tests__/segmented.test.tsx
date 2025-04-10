@@ -117,6 +117,58 @@ describe('Segmented.vue', () => {
     expect(wrapper.findAll('.is-disabled').length).toBe(4)
   })
 
+  test('render options props', async () => {
+    const value = ref('Mon')
+    const props = {
+      label: 'myLabel',
+      value: 'myValue',
+      disabled: 'myDisabled',
+    }
+    const options = [
+      {
+        myLabel: 'Mon',
+        myValue: 'Mon',
+        myDisabled: true,
+      },
+      {
+        myLabel: 'Tue',
+        myValue: 'Tue',
+      },
+      {
+        myLabel: 'Wed',
+        myValue: 'Wed',
+        myDisabled: true,
+      },
+      {
+        myLabel: 'Thu',
+        myValue: 'Thu',
+      },
+      {
+        myLabel: 'Fri',
+        myValue: 'Fri',
+        myDisabled: true,
+      },
+      {
+        myLabel: 'Sat',
+        myValue: 'Sat',
+      },
+      {
+        myLabel: 'Sun',
+        myValue: 'Sun',
+      },
+    ]
+    const wrapper = mount(() => (
+      <Segmented
+        v-model={value.value}
+        options={options}
+        props={props}
+      ></Segmented>
+    ))
+    await nextTick()
+    // 4 = the disabled options + .el-segmented__item-selected
+    expect(wrapper.findAll('.is-disabled').length).toBe(4)
+  })
+
   test('render accessible attributes', async () => {
     const value = ref('Mon')
     const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']

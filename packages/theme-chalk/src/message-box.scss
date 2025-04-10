@@ -144,6 +144,7 @@
 
   @include e(message) {
     margin: 0;
+    min-width: 0;
 
     & p {
       margin: 0;

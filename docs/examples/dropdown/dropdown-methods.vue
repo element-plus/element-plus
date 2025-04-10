@@ -50,6 +50,7 @@ function showClick() {
   dropdown1.value.handleOpen()
 }
 </script>
+
 <style scoped>
 .example-showcase .el-dropdown-link {
   cursor: pointer;
