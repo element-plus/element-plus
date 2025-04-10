@@ -43,7 +43,7 @@
         <span v-if="rawContent" v-html="content" />
         <span v-else>{{ content }}</span>
       </slot>
-      <el-popper-arrow v-if="showArrow" :arrow-offset="arrowOffset" />
+      <el-popper-arrow v-if="showArrow" />
     </el-tooltip-content>
   </el-popper>
 </template>
