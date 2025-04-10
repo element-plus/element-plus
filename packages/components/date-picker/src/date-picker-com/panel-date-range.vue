@@ -129,39 +129,35 @@
                 <el-icon><arrow-left /></el-icon>
               </slot>
             </button>
-            <template v-if="unlinkPanels">
-              <button
-                type="button"
-                :disabled="!enableYearArrow"
-                :class="[
-                  ppNs.e('icon-btn'),
-                  { 'is-disabled': !enableYearArrow },
-                ]"
-                :aria-label="t(`el.datepicker.nextYear`)"
-                class="d-arrow-right"
-                @click="leftNextYear"
-              >
-                <slot name="next-year">
-                  <el-icon><d-arrow-right /></el-icon>
-                </slot>
-              </button>
-              <button
-                v-show="leftCurrentView === 'date'"
-                type="button"
-                :disabled="!enableMonthArrow"
-                :class="[
-                  ppNs.e('icon-btn'),
-                  { 'is-disabled': !enableMonthArrow },
-                ]"
-                :aria-label="t(`el.datepicker.nextMonth`)"
-                class="arrow-right"
-                @click="leftNextMonth"
-              >
-                <slot name="next-month">
-                  <el-icon><arrow-right /></el-icon>
-                </slot>
-              </button>
-            </template>
+            <button
+              v-if="unlinkPanels"
+              type="button"
+              :disabled="!enableYearArrow"
+              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :aria-label="t(`el.datepicker.nextYear`)"
+              class="d-arrow-right"
+              @click="leftNextYear"
+            >
+              <slot name="next-year">
+                <el-icon><d-arrow-right /></el-icon>
+              </slot>
+            </button>
+            <button
+              v-if="unlinkPanels && leftCurrentView === 'date'"
+              type="button"
+              :disabled="!enableMonthArrow"
+              :class="[
+                ppNs.e('icon-btn'),
+                { 'is-disabled': !enableMonthArrow },
+              ]"
+              :aria-label="t(`el.datepicker.nextMonth`)"
+              class="arrow-right"
+              @click="leftNextMonth"
+            >
+              <slot name="next-month">
+                <el-icon><arrow-right /></el-icon>
+              </slot>
+            </button>
             <div>
               <span
                 role="button"
@@ -224,39 +220,35 @@
         </div>
         <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
           <div :class="drpNs.e('header')">
-            <template v-if="unlinkPanels">
-              <button
-                type="button"
-                :disabled="!enableYearArrow"
-                :class="[
-                  ppNs.e('icon-btn'),
-                  { 'is-disabled': !enableYearArrow },
-                ]"
-                :aria-label="t(`el.datepicker.prevYear`)"
-                class="d-arrow-left"
-                @click="rightPrevYear"
-              >
-                <slot name="prev-year">
-                  <el-icon><d-arrow-left /></el-icon>
-                </slot>
-              </button>
-              <button
-                v-show="rightCurrentView === 'date'"
-                type="button"
-                :disabled="!enableMonthArrow"
-                :class="[
-                  ppNs.e('icon-btn'),
-                  { 'is-disabled': !enableMonthArrow },
-                ]"
-                :aria-label="t(`el.datepicker.prevMonth`)"
-                class="arrow-left"
-                @click="rightPrevMonth"
-              >
-                <slot name="prev-month">
-                  <el-icon><arrow-left /></el-icon>
-                </slot>
-              </button>
-            </template>
+            <button
+              v-if="unlinkPanels"
+              type="button"
+              :disabled="!enableYearArrow"
+              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :aria-label="t(`el.datepicker.prevYear`)"
+              class="d-arrow-left"
+              @click="rightPrevYear"
+            >
+              <slot name="prev-year">
+                <el-icon><d-arrow-left /></el-icon>
+              </slot>
+            </button>
+            <button
+              v-if="unlinkPanels && rightCurrentView === 'date'"
+              type="button"
+              :disabled="!enableMonthArrow"
+              :class="[
+                ppNs.e('icon-btn'),
+                { 'is-disabled': !enableMonthArrow },
+              ]"
+              :aria-label="t(`el.datepicker.prevMonth`)"
+              class="arrow-left"
+              @click="rightPrevMonth"
+            >
+              <slot name="prev-month">
+                <el-icon><arrow-left /></el-icon>
+              </slot>
+            </button>
             <button
               type="button"
               :aria-label="t(`el.datepicker.nextYear`)"
