@@ -91,6 +91,12 @@ Element Plus has added a global method `$notify` for `app.config.globalPropertie
 
 ```javascript
 import { ElNotification } from 'element-plus'
+
+// How to use
+ElNotification({
+  title: 'Title',
+  message: 'This is a message',
+})
 ```
 
 In this case you should call `ElNotification(options)`. We have also registered methods for different types, e.g. `ElNotification.success(options)`. You can call `ElNotification.closeAll()` to manually close all the instances.
@@ -136,6 +142,7 @@ ElNotification({}, appContext)
 | offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | ^[number]                                                             | 0         |
 | appendTo                 | set the root element for the notification, default to `document.body`                                              | ^[string] / ^[HTMLElement]                                            | —         |
 | zIndex                   | initial zIndex                                                                                                     | ^[number]                                                             | 0         |
+| closeIcon                | custom close icon, default is Close                                                                                | ^[string] / ^[Component]                                              | —         |
 
 ### Method
 
