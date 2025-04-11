@@ -496,6 +496,8 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
         if (!isEqual(states.cachedOptions, selectedOptions)) {
           states.cachedOptions = selectedOptions
         }
+      } else {
+        initStates(true)
       }
     })
   }
