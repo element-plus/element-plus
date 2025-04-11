@@ -2,8 +2,13 @@
   <div :style="style" :class="containerKls">
     <!-- icon & line -->
     <div :class="[ns.e('head'), ns.is(currentStatus)]">
-      <div v-if="!isSimple" :class="ns.e('line')">
-        <i :class="ns.e('line-inner')" :style="lineStyle" />
+      <!-- line -->
+      <div v-if="!isSimple" :class="[ns.e('line-container')]">
+        <slot name="line">
+          <div :class="ns.e('line')">
+            <i :class="ns.e('line-inner')" :style="lineStyle" />
+          </div>
+        </slot>
       </div>
 
       <div
