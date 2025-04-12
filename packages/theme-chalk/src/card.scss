@@ -8,7 +8,7 @@
 
 @include b(card) {
   border-radius: getCssVar('card', 'border-radius');
-  border: 1px solid getCssVar('card', 'border-color');
+  border: none;
   background-color: getCssVar('card', 'bg-color');
   overflow: hidden;
   color: getCssVar('text-color', 'primary');
@@ -23,6 +23,10 @@
     &:focus {
       box-shadow: getCssVar('box-shadow', 'light');
     }
+  }
+
+  @include when(bordered) {
+    border: 1px solid getCssVar('card', 'border-color');
   }
 
   @include e(header) {
