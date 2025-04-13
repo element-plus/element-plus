@@ -28,7 +28,7 @@ export const uploadListProps = buildProps({
   crossorigin: {
     type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
   },
-} as const)
+})
 
 export type UploadListProps = ExtractPropTypes<typeof uploadListProps>
 export const uploadListEmits = {

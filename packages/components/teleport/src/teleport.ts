@@ -8,7 +8,7 @@ export const teleportProps = buildProps({
     required: true,
   },
   disabled: Boolean,
-} as const)
+})
 
 export type TeleportProps = ExtractPropTypes<typeof teleportProps>
 export type TeleportInstance = InstanceType<typeof Teleport> & unknown

@@ -3,7 +3,6 @@ import {
   definePropType,
   iconPropType,
   isString,
-  mutable,
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
@@ -156,7 +155,7 @@ export const inputProps = buildProps({
    */
   inputStyle: {
     type: definePropType<StyleValue>([Object, Array, String]),
-    default: () => mutable({} as const),
+    default: () => ({}),
   },
   /**
    * @description native input autofocus
@@ -167,7 +166,7 @@ export const inputProps = buildProps({
     default: 2,
   },
   ...useAriaProps(['ariaLabel']),
-} as const)
+})
 export type InputProps = ExtractPropTypes<typeof inputProps>
 
 export const inputEmits = {

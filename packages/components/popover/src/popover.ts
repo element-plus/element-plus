@@ -123,7 +123,7 @@ export const popoverProps = buildProps({
   'onUpdate:visible': {
     type: Function as PropType<(visible: boolean) => void>,
   },
-} as const)
+})
 export type PopoverProps = ExtractPropTypes<typeof popoverProps>
 
 export const popoverEmits = {

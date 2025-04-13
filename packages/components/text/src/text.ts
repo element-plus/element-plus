@@ -37,6 +37,6 @@ export const textProps = buildProps({
     type: String,
     default: 'span',
   },
-} as const)
+})
 
 export type TextProps = ExtractPropTypes<typeof textProps>

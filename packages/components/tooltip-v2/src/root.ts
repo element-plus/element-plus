@@ -20,6 +20,6 @@ export const tooltipV2RootProps = buildProps({
   'onUpdate:open': {
     type: definePropType<StateUpdater>(Function),
   },
-} as const)
+})
 
 export type TooltipV2RootProps = ExtractPropTypes<typeof tooltipV2RootProps>

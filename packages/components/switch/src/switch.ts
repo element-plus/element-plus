@@ -134,7 +134,7 @@ export const switchProps = buildProps({
     type: [String, Number],
   },
   ...useAriaProps(['ariaLabel']),
-} as const)
+})
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>
 

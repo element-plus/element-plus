@@ -37,12 +37,12 @@ export const getFocusIntent = (
   const key = getDirectionAwareKey(event.code, dir)
   if (
     orientation === 'vertical' &&
-    [EVENT_CODE.left, EVENT_CODE.right].includes(key)
+    ([EVENT_CODE.left, EVENT_CODE.right] as string[]).includes(key)
   )
     return undefined
   if (
     orientation === 'horizontal' &&
-    [EVENT_CODE.up, EVENT_CODE.down].includes(key)
+    ([EVENT_CODE.up, EVENT_CODE.down] as string[]).includes(key)
   )
     return undefined
   return MAP_KEY_TO_FOCUS_INTENT[key]

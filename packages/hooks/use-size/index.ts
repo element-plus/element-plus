@@ -8,8 +8,7 @@ import type { ComponentSize } from '@element-plus/constants'
 export const useSizeProp = buildProp({
   type: String,
   values: componentSizes,
-  required: false,
-} as const)
+})
 
 export const useSizeProps = {
   size: useSizeProp,

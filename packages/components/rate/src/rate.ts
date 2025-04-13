@@ -5,7 +5,6 @@ import {
   definePropType,
   iconPropType,
   isNumber,
-  mutable,
 } from '@element-plus/utils'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import type { Component, ExtractPropTypes } from 'vue'
@@ -52,7 +51,7 @@ export const rateProps = buildProps({
    */
   colors: {
     type: definePropType<string[] | Record<number, string>>([Array, Object]),
-    default: () => mutable(['', '', ''] as const),
+    default: () => ['', '', ''],
   },
   /**
    * @description color of unselected icons
@@ -120,14 +119,13 @@ export const rateProps = buildProps({
    */
   texts: {
     type: definePropType<string[]>(Array),
-    default: () =>
-      mutable([
-        'Extremely bad',
-        'Disappointed',
-        'Fair',
-        'Satisfied',
-        'Surprise',
-      ] as const),
+    default: () => [
+      'Extremely bad',
+      'Disappointed',
+      'Fair',
+      'Satisfied',
+      'Surprise',
+    ],
   },
   /**
    * @description score template
@@ -145,7 +143,7 @@ export const rateProps = buildProps({
    */
   clearable: Boolean,
   ...useAriaProps(['ariaLabel']),
-} as const)
+})
 
 export type RateProps = ExtractPropTypes<typeof rateProps>
 

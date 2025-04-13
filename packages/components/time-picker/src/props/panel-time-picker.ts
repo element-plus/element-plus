@@ -10,6 +10,6 @@ export const panelTimePickerProps = buildProps({
   parsedValue: {
     type: definePropType<Dayjs>(Object),
   },
-} as const)
+})
 
 export type PanelTimePickerProps = ExtractPropTypes<typeof panelTimePickerProps>

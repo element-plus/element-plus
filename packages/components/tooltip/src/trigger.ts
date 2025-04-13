@@ -26,7 +26,7 @@ export const useTooltipTriggerProps = buildProps({
     type: definePropType<string[]>(Array),
     default: () => [EVENT_CODE.enter, EVENT_CODE.numpadEnter, EVENT_CODE.space],
   },
-} as const)
+})
 
 export type ElTooltipTriggerProps = ExtractPropTypes<
   typeof useTooltipTriggerProps

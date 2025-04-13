@@ -14,7 +14,7 @@ export const paginationPrevProps = buildProps({
   prevIcon: {
     type: iconPropType,
   },
-} as const)
+})
 
 export const paginationPrevEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,

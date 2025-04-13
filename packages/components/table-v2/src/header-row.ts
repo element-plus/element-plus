@@ -13,7 +13,7 @@ export const tableV2HeaderRowProps = buildProps({
   },
   headerIndex: Number,
   style: { type: definePropType<CSSProperties>(Object) },
-} as const)
+})
 
 export type TableV2HeaderRowProps = ExtractPropTypes<
   typeof tableV2HeaderRowProps

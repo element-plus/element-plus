@@ -77,7 +77,7 @@ export const popconfirmProps = buildProps({
     type: [String, Number],
     default: 150,
   },
-} as const)
+})
 
 export const popconfirmEmits = {
   /**

@@ -1,9 +1,4 @@
-import {
-  buildProps,
-  definePropType,
-  isNumber,
-  mutable,
-} from '@element-plus/utils'
+import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 
 import type { Component, ExtractPropTypes } from 'vue'
 import type ImageViewer from './image-viewer.vue'
@@ -20,7 +15,7 @@ export const imageViewerProps = buildProps({
    */
   urlList: {
     type: definePropType<string[]>(Array),
-    default: () => mutable([] as const),
+    default: () => [],
   },
   /**
    * @description preview backdrop z-index.
@@ -91,7 +86,7 @@ export const imageViewerProps = buildProps({
   crossorigin: {
     type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
   },
-} as const)
+})
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 
 export const imageViewerEmits = {

@@ -27,7 +27,7 @@ export const menuItemProps = buildProps({
    * @description whether disabled
    */
   disabled: Boolean,
-} as const)
+})
 export type MenuItemProps = ExtractPropTypes<typeof menuItemProps>
 
 export const menuItemEmits = {

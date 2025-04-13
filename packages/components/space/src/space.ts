@@ -96,7 +96,11 @@ export const spaceProps = buildProps({
    * @description Spacing size
    */
   size: {
-    type: [String, Array, Number],
+    type: definePropType<string | number | [number, number]>([
+      String,
+      Array,
+      Number,
+    ]),
     values: componentSizes,
     validator: (val: unknown): val is [number, number] | number => {
       return (
@@ -105,7 +109,8 @@ export const spaceProps = buildProps({
       )
     },
   },
-} as const)
+})
+
 export type SpaceProps = ExtractPropTypes<typeof spaceProps>
 
 const Space = defineComponent({

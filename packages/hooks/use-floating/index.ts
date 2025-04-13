@@ -14,7 +14,7 @@ import type {
   VirtualElement,
 } from '@floating-ui/dom'
 
-export const useFloatingProps = buildProps({} as const)
+export const useFloatingProps = buildProps({})
 
 export type UseFloatingProps = ToRefs<{
   middleware: Array<Middleware>

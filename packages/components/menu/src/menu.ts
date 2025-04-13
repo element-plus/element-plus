@@ -25,7 +25,6 @@ import {
   isArray,
   isObject,
   isString,
-  mutable,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
@@ -67,7 +66,7 @@ export const menuProps = buildProps({
    */
   defaultOpeneds: {
     type: definePropType<string[]>(Array),
-    default: () => mutable([] as const),
+    default: () => [],
   },
   /**
    * @description whether only one sub-menu can be active
@@ -168,7 +167,7 @@ export const menuProps = buildProps({
     type: Boolean,
     default: true,
   },
-} as const)
+})
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
 const checkIndexPath = (indexPath: unknown): indexPath is string[] =>

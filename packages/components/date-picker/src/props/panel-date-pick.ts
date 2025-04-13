@@ -16,6 +16,6 @@ export const panelDatePickProps = buildProps({
     type: String,
     default: '',
   },
-} as const)
+})
 
 export type PanelDatePickProps = ExtractPropTypes<typeof panelDatePickProps>
