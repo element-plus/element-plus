@@ -10,8 +10,8 @@
       :class="[ns.b(), customClass, horizontalClass]"
       :style="positionStyle"
       role="alert"
-      @mouseenter="clearTimer"
-      @mouseleave="startTimer"
+      @mouseenter="progress.pauseOrReset"
+      @mouseleave="progress.resume"
       @click="onClick"
     >
       <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
@@ -30,22 +30,40 @@
             <p v-else v-html="message" />
           </slot>
         </div>
+        <div v-if="mustShowActions" :class="ns.e('actions')">
+          <el-button
+            v-for="action of actions_"
+            :key="action.label"
+            v-bind="action.button"
+            :disabled="action.disabled.value"
+            @click="action.onClick"
+          >
+            {{ action.label }}
+          </el-button>
+        </div>
         <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
           <Close />
         </el-icon>
       </div>
+      <div
+        ref="progressBarRef"
+        :hidden="progress.mustHide.value"
+        :class="[ns.e('progressBar'), typeClass]"
+      />
     </div>
   </transition>
 </template>
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
-import { useEventListener, useTimeoutFn } from '@vueuse/core'
+import { useEventListener } from '@vueuse/core'
 import { CloseComponents, TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
+import { ElButton } from '@element-plus/components/button'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { notificationEmits, notificationProps } from './notification'
+import { useActions, useProgress, useVisibility } from './composables'
 
 import type { CSSProperties } from 'vue'
 
@@ -56,13 +74,31 @@ defineOptions({
 const props = defineProps(notificationProps)
 defineEmits(notificationEmits)
 
+const { visible, show: open, hide: close } = useVisibility(false)
+
+const onClose = () => {
+  progress.cleanup()
+  props.onClose?.()
+}
+
+const progressBarRef = ref<HTMLElement>()
+const progress = useProgress(
+  () => props.showProgressBar,
+  () => props.duration,
+  () => props.timerControls === 'reset-restart',
+  progressBarRef,
+  close
+)
+
+const { actions: actions_, mustShow: mustShowActions } = useActions(
+  () => props.actions,
+  close
+)
+
 const { ns, zIndex } = useGlobalComponentSettings('notification')
 const { nextZIndex, currentZIndex } = zIndex
 
 const { Close } = CloseComponents
-
-const visible = ref(false)
-let timer: (() => void) | undefined = undefined
 
 const typeClass = computed(() => {
   const type = props.type
@@ -89,43 +125,21 @@ const positionStyle = computed<CSSProperties>(() => {
   }
 })
 
-function startTimer() {
-  if (props.duration > 0) {
-    ;({ stop: timer } = useTimeoutFn(() => {
-      if (visible.value) close()
-    }, props.duration))
-  }
-}
-
-function clearTimer() {
-  timer?.()
-}
-
-function close() {
-  visible.value = false
-}
-
-function onKeydown({ code }: KeyboardEvent) {
+useEventListener(document, 'keydown', ({ code }: KeyboardEvent) => {
   if (code === EVENT_CODE.delete || code === EVENT_CODE.backspace) {
-    clearTimer() // press delete/backspace clear timer
+    progress.pauseOrReset()
   } else if (code === EVENT_CODE.esc) {
-    // press esc to close the notification
-    if (visible.value) {
-      close()
-    }
+    close()
   } else {
-    startTimer() // resume timer
+    progress.resume()
   }
-}
-
-// lifecycle
-onMounted(() => {
-  startTimer()
-  nextZIndex()
-  visible.value = true
 })
 
-useEventListener(document, 'keydown', onKeydown)
+onMounted(() => {
+  progress.initialize()
+  nextZIndex()
+  open()
+})
 
 defineExpose({
   visible,

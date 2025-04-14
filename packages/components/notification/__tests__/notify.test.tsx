@@ -1,24 +1,26 @@
 import { createApp, nextTick } from 'vue'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import Notification, { closeAll } from '../src/notify'
-
+import { notificationTypes } from '..'
+import { mockAnimationsApi } from './mock-animations-api'
 import type { NotificationHandle } from '../src/notification'
 import type { VNode } from 'vue'
 
 const selector = '.el-notification'
 
 describe('Notification on command', () => {
+  mockAnimationsApi()
+
   afterEach(() => {
     closeAll()
     Notification._context = null
   })
 
-  it('it should get component handle', async () => {
+  test('should get component handle', async () => {
     const handle = Notification()
     await rAF()
     expect(document.querySelector(selector)).toBeDefined()
-
     handle.close()
     await rAF()
     await nextTick()
@@ -28,19 +30,18 @@ describe('Notification on command', () => {
     ).toBeNull()
   })
 
-  it('it should be able to render vnode', async () => {
+  test('should be able to render vnode', async () => {
     const testClassName = 'test-classname'
     const { close } = Notification({
       duration: 0,
       message: <div class={testClassName}>test-content</div>,
     })
-
     await rAF()
     expect(document.querySelector(`.${testClassName}`)).toBeDefined()
     close()
   })
 
-  it('it should be able to render function that return vnode', async () => {
+  test('it should be able to render function that return vnode', async () => {
     const testClassName = 'test-classname'
     const { close } = Notification({
       duration: 0,
@@ -52,22 +53,20 @@ describe('Notification on command', () => {
     close()
   })
 
-  it('it should be able to close notification by manually close', async () => {
+  test('it should be able to close notification by manually close', async () => {
     const { close } = Notification({
       duration: 0,
     })
     await rAF()
-
     const element = document.querySelector(selector)
     expect(element).toBeDefined()
     close()
     await rAF()
     await nextTick()
-
     expect(document.querySelector(selector)).toBeNull()
   })
 
-  it('it should close all notifications', async () => {
+  test('should close all notifications', async () => {
     const notifications: NotificationHandle[] = []
     const onClose = vi.fn()
     for (let i = 0; i < 4; i++) {
@@ -78,39 +77,35 @@ describe('Notification on command', () => {
         })
       )
     }
-    // vi.runAllTicks()
     await rAF()
-
-    expect(document.querySelectorAll(selector).length).toBe(4)
+    expect(document.querySelectorAll(selector)).toHaveLength(4)
     closeAll()
-    // vi.runAllTicks()
     await rAF()
     expect(onClose).toHaveBeenCalledTimes(notifications.length)
-    expect(document.querySelectorAll(selector).length).toBe(0)
+    expect(document.querySelectorAll(selector)).toHaveLength(0)
   })
 
-  it('it should be able to render all types notification', () => {
-    for (const type of ['success', 'warning', 'error', 'info'] as const) {
+  test('should be able to render all types notification', () => {
+    for (const type of notificationTypes) {
       Notification[type]({})
       expect(document.querySelector(`.el-icon-${type}`)).toBeDefined()
     }
   })
 
-  it('it should appendTo specified HTMLElement', async () => {
+  test('should appendTo specified HTMLElement', async () => {
     const htmlElement = document.createElement('div')
     const handle = Notification({
       appendTo: htmlElement,
     })
     await rAF()
     expect(htmlElement.querySelector(selector)).toBeDefined()
-
     handle.close()
     await rAF()
     await nextTick()
     expect(htmlElement.querySelector(selector)).toBeNull()
   })
 
-  it('it should appendTo specified selector', async () => {
+  test('should appendTo specified selector', async () => {
     const htmlElement = document.createElement('div')
     htmlElement.classList.add('notification-manager')
     document.body.appendChild(htmlElement)
@@ -125,7 +120,7 @@ describe('Notification on command', () => {
     expect(htmlElement.querySelector(selector)).toBeNull()
   })
 
-  it('should globally inherit context correctly', async () => {
+  test('should globally inherit context correctly', async () => {
     const globalContext = createApp({})._context
     Notification._context = globalContext
     const onClose = vi.fn((vm: VNode) => vm.appContext)
@@ -137,7 +132,7 @@ describe('Notification on command', () => {
     expect(onClose).toHaveLastReturnedWith(globalContext)
   })
 
-  it('should be possible to set the context individually', async () => {
+  test('should be possible to set the context individually', async () => {
     const globalContext = createApp({})._context
     Notification._context = globalContext
     const localContext = createApp({})._context
@@ -150,7 +145,7 @@ describe('Notification on command', () => {
     expect(onClose).toHaveLastReturnedWith(localContext)
   })
 
-  it('set dangerouslyUseHTMLString should render html string', async () => {
+  test('set dangerouslyUseHTMLString should render html string', async () => {
     const htmlString = '<div class="test-html-string">test-html-string</div>'
     const { close } = Notification({
       duration: 0,
@@ -163,7 +158,7 @@ describe('Notification on command', () => {
     close()
   })
 
-  it('not set dangerouslyUseHTMLString should render text', async () => {
+  test('not set dangerouslyUseHTMLString should render text', async () => {
     const text = '<div class="test-html-string">test-html-string</div>'
     const { close } = Notification({
       duration: 0,

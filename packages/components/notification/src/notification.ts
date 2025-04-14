@@ -2,6 +2,7 @@ import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
 import type { AppContext, ExtractPropTypes, VNode } from 'vue'
 import type Notification from './notification.vue'
+import type { ButtonProps } from '@element-plus/components/button'
 
 export const notificationTypes = [
   'success',
@@ -10,7 +11,55 @@ export const notificationTypes = [
   'error',
 ] as const
 
+export const notificationTimerControls = [
+  'pause-resume',
+  'reset-restart',
+] as const
+
+export type NotificationTimerControls = typeof notificationTimerControls[number]
+
+export const notificationKeepOpen = [false, true, 'until-resolved'] as const
+
+export type NotificationKeepOpen = typeof notificationKeepOpen[number]
+
+export type NotificationAction = {
+  /**
+   * @description Action button inner text.
+   * Must be unique and non-empty.
+   */
+  label: string
+  /**
+   * @description Listener for `click` event of action button.
+   */
+  execute(): void | Promise<void>
+  /**
+   * @description Determines whether to keep the notification open after calling `execute`.
+   * Will close the notification by default.
+   * If set to `'until-resolved'`, it waits for the promise from `execute` to resolve and then closes the notification.
+   * @default false
+   */
+  keepOpen?: NotificationKeepOpen
+  /**
+   * @description Disables the action button after calling `execute`.
+   * You probably don't want to do change this as it prevent multiple `execute` calls.
+   * @default keepOpen !== true
+   */
+  disableAfterExecute?: boolean
+  /**
+   * @description Props of `el-button` component.
+   * Will ignore `onclick` properties (case insensitive), use `execute` instead.
+   * @default { size: 'small' }
+   */
+  button?: Partial<ButtonProps>
+}
+
 export const notificationProps = buildProps({
+  /**
+   * @description buttons for notification interaction
+   */
+  actions: {
+    type: definePropType<NotificationAction[]>(Array),
+  },
   /**
    * @description custom class name for Notification
    */
@@ -24,6 +73,7 @@ export const notificationProps = buildProps({
   dangerouslyUseHTMLString: Boolean,
   /**
    * @description duration before close. It will not automatically close if set 0
+   * @default 4500
    */
   duration: {
     type: Number,
@@ -55,6 +105,7 @@ export const notificationProps = buildProps({
   },
   /**
    * @description offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset
+   * @default 0
    */
   offset: {
     type: Number,
@@ -76,6 +127,7 @@ export const notificationProps = buildProps({
   },
   /**
    * @description custom position
+   * @default 'top-right'
    */
   position: {
     type: String,
@@ -84,10 +136,28 @@ export const notificationProps = buildProps({
   },
   /**
    * @description whether to show a close button
+   * @default true
    */
   showClose: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @description whether to show a progress bar
+   * @default false
+   */
+  showProgressBar: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * @description behavior of timer upon hover over notification
+   * @default 'reset-restart'
+   */
+  timerControls: {
+    type: String,
+    values: notificationTimerControls,
+    default: 'reset-restart',
   },
   /**
    * @description title

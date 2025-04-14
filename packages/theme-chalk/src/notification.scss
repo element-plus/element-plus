@@ -59,6 +59,31 @@
     }
   }
 
+  @include e(progressBar) {
+    height: 6px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 0.1s;
+    background-color: currentColor;
+
+    @each $type in (success, info, warning, error) {
+      &.#{$namespace}-notification--#{$type} {
+        background-color: getCssVar('color', $type);
+      }
+    }
+  }
+
+  @include e(actions) {
+    display: inline-flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+
+    .el-button + .el-button {
+      margin-left: 0;
+    }
+  }
+
   & .#{$namespace}-notification__icon {
     flex-shrink: 0;
     height: getCssVar('notification-icon-size');

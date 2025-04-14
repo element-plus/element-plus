@@ -116,26 +116,70 @@ const { appContext } = getCurrentInstance()!
 ElNotification({}, appContext)
 ```
 
+## Keyboard listener
+
+Notification component registers a `keydown` event listener on the document. When the Escape key is pressed, it will close the notification. On Backspace and Delete, the timer will pause or reset (depending on the <a href='#timer-controls'>timerControls</a> prop). Any other key will resume or restart the timer.
+
+## Actions ^(X.Y.Z)
+
+Actions use Element Plus's <a href='button'>Button</a> component, with button props provided via the action's `button` property.
+
+When clicked, the `execute` method is called, and the notification closes by default. To prevent closing, set the action's `keepOpen` property to `true` or `'until-resolved'` (by default it is `false`). If set to `'until-resolved'`, the notification will remain open until the promise returned by `execute` resolves.
+
+To prevent multiple `execute` calls, actions's has `disableAfterExecute` property. After the first `execute` call, the action button will be disabled and other `execute` calls will be ignored. Although this is not recommended, it is possible to change this behavior. By default it is `false` (except when `keepOpen` is `true`).
+
+:::demo The `label` property be unique non empty string. The `execute` method must be specified.
+
+notification/actions
+
+:::
+
+## Progress bar ^(X.Y.Z)
+
+The progress bar's background color will match the notification's `type` prop. If no type is set, the color will default to 'currentColor'.
+
+Implementation uses <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API'>
+Web Animations API</a> and does not rely on `setInterval` and `setTimeout`.
+
+:::demo To make the progress bar visible set the `duration` prop to a positive number and set the `showProgress` prop to `true`. Otherwise the progress bar will be hidden (but will be in DOM).
+
+notification/progress-bar
+
+:::
+
+## Timer controls ^(X.Y.Z)
+
+By default, the close timer resets on `mouseenter` and restarts on `mouseleave` events. You can change this behavior to pause and resume the timer by setting `timerControls` prop to `'pause-resume'`.
+
+:::demo
+
+notification/timer-controls
+
+:::
+
 ## API
 
 ### Options
 
-| Name                     | Description                                                                                                        | Type                                                                  | Default   |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------- | --------- |
-| title                    | title                                                                                                              | ^[string]                                                             | ''        |
-| message                  | description text                                                                                                   | ^[string] / ^[VNode] / ^[Function]`() => VNode`                       | ''        |
-| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                                        | ^[boolean]                                                            | false     |
-| type                     | notification type                                                                                                  | ^[enum]`'success' \| 'warning' \| 'info' \| 'error' \| ''`            | ''        |
-| icon                     | custom icon component. It will be overridden by `type`                                                             | ^[string] / ^[Component]                                              | —         |
-| customClass              | custom class name for Notification                                                                                 | ^[string]                                                             | ''        |
-| duration                 | duration before close. It will not automatically close if set 0                                                    | ^[number]                                                             | 4500      |
-| position                 | custom position                                                                                                    | ^[enum]`'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left'` | top-right |
-| showClose                | whether to show a close button                                                                                     | ^[boolean]                                                            | true      |
-| onClose                  | callback function when closed                                                                                      | ^[Function]`() => void`                                               | —         |
-| onClick                  | callback function when notification clicked                                                                        | ^[Function]`() => void`                                               | —         |
-| offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | ^[number]                                                             | 0         |
-| appendTo                 | set the root element for the notification, default to `document.body`                                              | ^[string] / ^[HTMLElement]                                            | —         |
-| zIndex                   | initial zIndex                                                                                                     | ^[number]                                                             | 0         |
+| Name                     | Description                                                                                                        | Type                                                                                                                                       | Default       |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
+| title                    | title                                                                                                              | ^[string]                                                                                                                                  | ''            |
+| message                  | description text                                                                                                   | ^[string] / ^[VNode] / ^[Function]`() => VNode`                                                                                            | ''            |
+| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                                        | ^[boolean]                                                                                                                                 | false         |
+| type                     | notification type                                                                                                  | ^[enum]`'success' \| 'warning' \| 'info' \| 'error' \| ''`                                                                                 | ''            |
+| icon                     | custom icon component. It will be overridden by `type`                                                             | ^[string] / ^[Component]                                                                                                                   | —             |
+| customClass              | custom class name for Notification                                                                                 | ^[string]                                                                                                                                  | ''            |
+| duration                 | duration before close. It will not automatically close if set 0                                                    | ^[number]                                                                                                                                  | 4500          |
+| timerControls ^(X.Y.Z)   | behavior of timer upon hover over notification                                                                     | ^[enum]`'pause-resume' \| 'reset-restart'`                                                                                                 | reset-restart |
+| actions ^(X.Y.Z)         | buttons for notification interaction                                                                               | ^[Array]`{ label: string; execute(): void; keepOpen?: boolean \|'until-resolved'; disableAfterExecute?: boolean; button?: ButtonProps }[]` | —             |
+| position                 | custom position                                                                                                    | ^[enum]`'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left'`                                                                      | top-right     |
+| showClose                | whether to show a close button                                                                                     | ^[boolean]                                                                                                                                 | true          |
+| showProgressBar ^(X.Y.Z) | whether to show a progress bar                                                                                     | ^[boolean]                                                                                                                                 | false         |
+| onClose                  | callback function when closed                                                                                      | ^[Function]`() => void`                                                                                                                    | —             |
+| onClick                  | callback function when notification clicked                                                                        | ^[Function]`() => void`                                                                                                                    | —             |
+| offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | ^[number]                                                                                                                                  | 0             |
+| appendTo                 | set the root element for the notification, default to `document.body`                                              | ^[string] / ^[HTMLElement]                                                                                                                 | —             |
+| zIndex                   | initial zIndex                                                                                                     | ^[number]                                                                                                                                  | 0             |
 
 ### Method
 
