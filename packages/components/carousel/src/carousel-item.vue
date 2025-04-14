@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, unref } from 'vue'
+import { computed, onUnmounted, ref, unref, watch } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { carouselItemProps } from './carousel-item'
 import { useCarouselItem } from './use-carousel-item'
@@ -39,6 +39,8 @@ const {
   isCardType,
   scale,
   ready,
+  isSide,
+  isLastItem,
   handleItemClick,
 } = useCarouselItem(props)
 
@@ -54,14 +56,63 @@ const itemKls = computed(() => [
   },
 ])
 
+const zIndex = ref<any>('')
+const timer = ref<ReturnType<typeof setTimeout> | null>(null)
+
+watch(isSide, (newVal) => {
+  if (newVal) {
+    if (isLastItem.value) {
+      zIndex.value = -10
+    } else {
+      if (timer.value) {
+        clearTimeout(timer.value)
+      }
+      // set timeout to the same value as the transition-duration(0.4s) specified in carousel-item.scss
+      timer.value = setTimeout(() => {
+        zIndex.value = -10
+      }, 400)
+    }
+  } else {
+    if (isLastItem.value) {
+      if (timer.value) {
+        clearTimeout(timer.value)
+      }
+      timer.value = setTimeout(() => {
+        zIndex.value = ''
+      }, 400)
+    } else {
+      zIndex.value = ''
+    }
+  }
+})
+
+function pauseTimer() {
+  if (timer.value) {
+    clearTimeout(timer.value)
+    timer.value = null
+  }
+}
+
+onUnmounted(() => {
+  pauseTimer()
+})
+
 const itemStyle = computed<CSSProperties>(() => {
   const translateType = `translate${unref(isVertical) ? 'Y' : 'X'}`
   const _translate = `${translateType}(${unref(translate)}px)`
   const _scale = `scale(${unref(scale)})`
   const transform = [_translate, _scale].join(' ')
 
-  return {
-    transform,
+  type Style = {
+    transform: string
+    zIndex: any
   }
+
+  const style: Style = {
+    transform,
+    zIndex: zIndex.value,
+  }
+
+  return style
 })
 </script>
