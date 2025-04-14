@@ -51,6 +51,7 @@
 import {
   computed,
   onDeactivated,
+  onMounted,
   provide,
   readonly,
   ref,
@@ -106,6 +107,14 @@ const { onOpen, onClose } = useDelayedToggle({
   autoClose: toRef(props, 'autoClose'),
   open: show,
   close: hide,
+})
+
+onMounted(() => {
+  window.addEventListener('blur', () => {
+    if (document.activeElement?.tagName === 'IFRAME') {
+      hide()
+    }
+  })
 })
 
 const controlled = computed(
