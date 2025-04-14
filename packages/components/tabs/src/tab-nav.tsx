@@ -154,23 +154,22 @@ const TabNav = defineComponent({
       let newOffset = currentOffset
 
       if (isHorizontal) {
-        if (activeTabBounding.left < navScrollBounding.left) {
-          newOffset =
-            currentOffset - (navScrollBounding.left - activeTabBounding.left)
+        const { left: activeLeft, right: activeRight } = activeTabBounding
+        const { left: navLeft, right: navRIght } = navScrollBounding
+        if (activeLeft < navLeft) {
+          newOffset = currentOffset - (activeLeft - navLeft)
         }
-        if (activeTabBounding.right > navScrollBounding.right) {
-          newOffset =
-            currentOffset + activeTabBounding.right - navScrollBounding.right
+        if (activeRight > navRIght) {
+          newOffset = currentOffset + activeRight - navRIght
         }
       } else {
-        if (activeTabBounding.top < navScrollBounding.top) {
-          newOffset =
-            currentOffset - (navScrollBounding.top - activeTabBounding.top)
+        const { top: activeTop, bottom: activeBottom } = activeTabBounding
+        const { top: navTop, bottom: navBottom } = navScrollBounding
+        if (activeTop < navTop) {
+          newOffset = currentOffset - (navTop - activeTop)
         }
-        if (activeTabBounding.bottom > navScrollBounding.bottom) {
-          newOffset =
-            currentOffset +
-            (activeTabBounding.bottom - navScrollBounding.bottom)
+        if (activeBottom > navBottom) {
+          newOffset = currentOffset + (activeBottom - navBottom)
         }
       }
       newOffset = Math.max(newOffset, 0)
