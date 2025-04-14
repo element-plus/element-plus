@@ -186,7 +186,7 @@ describe('Tree.vue', () => {
 
   test('click node', async () => {
     const { wrapper, vm } = getTreeVm(
-      `:props="defaultProps" @node-click="handleNodeClick"`,
+      `:props="defaultProps" @node-click="handleNodeClick" node-key="id"`,
       {
         methods: {
           handleNodeClick(data) {
@@ -202,6 +202,12 @@ describe('Tree.vue', () => {
     await firstNodeContentWrapper.trigger('click')
     await nextTick() // because node click method to expaned is async
 
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+    let expandedKeys = tree.store.expandedKeys
+    expect(expandedKeys.has(vm.clickedNode.id)).toBe(true)
+    expect(expandedKeys.size).toEqual(1)
+
     expect(vm.clickedNode.label).toEqual('一级 1')
     expect(firstNodeWrapper.classes('is-expanded')).toBe(true)
     expect(firstNodeWrapper.classes('is-current')).toBe(true)
@@ -211,6 +217,13 @@ describe('Tree.vue', () => {
 
     expect(firstNodeWrapper.classes('is-expanded')).toBe(false)
     expect(firstNodeWrapper.classes('is-current')).toBe(true)
+    expect(tree.store.currentNode.data.id).toEqual(1)
+
+    await firstNodeContentWrapper.trigger('click')
+    vm.data = [...vm.data]
+    expandedKeys = tree.store.expandedKeys
+
+    expect(expandedKeys.has(1)).toBe(true)
   })
 
   test('emptyText', async () => {
@@ -235,7 +248,7 @@ describe('Tree.vue', () => {
   })
 
   test('checkOnNodeClick', async () => {
-    const { wrapper } = getTreeVm(
+    const { wrapper, vm } = getTreeVm(
       `:props="defaultProps" node-key="id" show-checkbox check-on-click-node`
     )
 
@@ -246,6 +259,15 @@ describe('Tree.vue', () => {
     expect(
       (treeWrapper.vm as InstanceType<typeof Tree>).getCheckedKeys()
     ).toEqual([1, 11, 111])
+
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+    const checkedKeys = tree.store.checkedKeys
+    expect(checkedKeys.has(111)).toBe(true)
+    expect(checkedKeys.size).toBe(3)
+
+    vm.data = [...vm.data]
+    expect(checkedKeys.has(111)).toBe(true)
+    expect(checkedKeys.size).toBe(3)
   })
 
   test('current-node-key', async () => {
@@ -302,6 +324,13 @@ describe('Tree.vue', () => {
     )
     const expanedNodeWrappers = wrapper.findAll('.el-tree-node.is-expanded')
     expect(expanedNodeWrappers.length).toEqual(2)
+
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+    const expandedKeys = tree.store.expandedKeys
+    expect(expandedKeys.has(1)).toBe(true)
+    expect(expandedKeys.has(3)).toBe(true)
+    expect(expandedKeys.size).toEqual(2)
   })
 
   test('defaultExpandedKeys set', async () => {
@@ -319,6 +348,13 @@ describe('Tree.vue', () => {
     vm.defaultExpandedKeys = [2]
     await nextTick()
     await nextTick()
+
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+    const expandedKeys = tree.store.expandedKeys
+    expect(expandedKeys.has(2)).toBe(true)
+    expect(expandedKeys.size).toEqual(1)
+
     vm.data = [
       {
         id: 4,
@@ -470,6 +506,12 @@ describe('Tree.vue', () => {
       }
     )
     expect(wrapper.findAll('.el-checkbox .is-checked').length).toEqual(3)
+
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+    const checkedKeys = tree.store.checkedKeys
+    const newChecked = checkedKeys.has(1) && checkedKeys.size === 1
+    expect(newChecked).toBeTruthy
   })
 
   test('defaultCheckedKeys & check-strictly', async () => {
@@ -482,6 +524,37 @@ describe('Tree.vue', () => {
       }
     )
     expect(wrapper.findAll('.el-checkbox .is-checked').length).toEqual(1)
+
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+    const checkedKeys = tree.store.checkedKeys
+    expect(checkedKeys.has(1)).toBe(true)
+    expect(checkedKeys.size).toEqual(1)
+  })
+
+  test('defaultCheckedKeys set', async () => {
+    const { wrapper, vm } = getTreeVm(
+      `:props="defaultProps" default-expand-all show-checkbox :default-checked-keys="defaultCheckedKeys" node-key="id" check-strictly`,
+      {
+        created() {
+          this.defaultCheckedKeys = [1]
+        },
+      }
+    )
+    expect(wrapper.findAll('.el-checkbox .is-checked').length).toEqual(1)
+
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+    let checkedKeys = tree.store.checkedKeys
+    expect(checkedKeys.has(1)).toBe(true)
+    expect(checkedKeys.size).toEqual(1)
+
+    vm.defaultCheckedKeys = [2]
+    await nextTick()
+    await nextTick()
+    checkedKeys = tree.store.checkedKeys
+    expect(checkedKeys.has(2)).toBe(true)
+    expect(checkedKeys.size).toEqual(1)
   })
 
   test('show checkbox', async () => {
