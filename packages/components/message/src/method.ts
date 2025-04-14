@@ -89,7 +89,9 @@ const createMessage = (
   { appendTo, ...options }: MessageParamsNormalized,
   context?: AppContext | null
 ): MessageContext => {
-  const id = `message_${seed++}`
+  const msgKey = options.msgKey
+  const id =
+    msgKey === undefined ? `message_${seed++}` : `message_key_${msgKey}`
   const userOnClose = options.onClose
 
   const container = document.createElement('div')
@@ -149,6 +151,17 @@ const createMessage = (
 
   return instance
 }
+const updateMessage = (instance: MessageContext, params?: MessageParams) => {
+  const options: MessageOptions =
+    !params || isString(params) || isVNode(params) || isFunction(params)
+      ? { message: params }
+      : params
+  options.times = instance.props.times + 1
+
+  Object.assign(instance.props, {
+    ...options,
+  })
+}
 
 const message: MessageFn &
   Partial<Message> & { _context: AppContext | null } = (
@@ -158,6 +171,16 @@ const message: MessageFn &
   if (!isClient) return { close: () => undefined }
 
   const normalized = normalizeOptions(options)
+
+  if (normalized.msgKey !== undefined && instances.length) {
+    const instance = instances.find(
+      ({ vnode: vm }) => vm.props?.msgKey === normalized.msgKey
+    )
+    if (instance) {
+      updateMessage(instance, options)
+      return instance.handler
+    }
+  }
 
   if (normalized.grouping && instances.length) {
     const instance = instances.find(
