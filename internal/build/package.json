@@ -7,7 +7,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "start": "gulp --require @esbuild-kit/cjs-loader -f gulpfile.ts",
+    "start": "gulp --require tsx/dist/cjs/index.cjs -f gulpfile.ts",
     "dev": "pnpm run stub",
     "stub": "unbuild --stub"
   },
@@ -36,8 +36,8 @@
     "unplugin-vue-macros": "^0.11.2"
   },
   "devDependencies": {
-    "@esbuild-kit/cjs-loader": "^2.2.1",
     "@pnpm/types": "^8.4.0",
+    "tsx": "^4.19.3",
     "unbuild": "^2.0.0",
     "vue": "^3.2.37"
   }
