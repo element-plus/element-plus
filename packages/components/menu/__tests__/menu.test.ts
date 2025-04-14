@@ -237,7 +237,7 @@ describe('default active', () => {
         <el-menu default-active="2-2" mode="vertical">
           <el-menu-item index="1" ref="item1">处理中心</el-menu-item>
           <el-sub-menu index="2" ref="submenu">
-            <template slot="title">我的工作台</template>
+            <template #title>我的工作台</template>
             <el-menu-item index="2-1">选项1</el-menu-item>
             <el-menu-item index="2-2" ref="submenuItem2">选项2</el-menu-item>
             <el-menu-item index="2-3">选项3</el-menu-item>
@@ -259,7 +259,7 @@ describe('default active', () => {
         <el-menu default-active="2-2">
           <el-menu-item index="1" ref="item1">处理中心</el-menu-item>
           <el-sub-menu index="2" ref="submenu">
-            <template slot="title">我的工作台</template>
+            <template #title>我的工作台</template>
             <el-menu-item index="2-1">选项1</el-menu-item>
             <el-menu-item index="2-2" ref="submenuItem2">选项2</el-menu-item>
             <el-menu-item index="2-3">选项3</el-menu-item>
@@ -283,7 +283,7 @@ describe('submenu', () => {
       `<el-menu>
         <el-menu-item index="1" ref="item1">处理中心</el-menu-item>
         <el-sub-menu index="2" ref="submenu">
-          <template slot="title">我的工作台</template>
+          <template #title>我的工作台</template>
           <el-menu-item index="2-1">选项1</el-menu-item>
           <el-menu-item index="2-2" ref="submenuItem2">选项2</el-menu-item>
           <el-menu-item index="2-3">选项3</el-menu-item>
@@ -308,13 +308,13 @@ describe('submenu', () => {
       `<el-menu :default-openeds="defaultOpeneds">
         <el-menu-item index="1">default opened处理中心</el-menu-item>
         <el-sub-menu index="2" ref="submenu1">
-          <template slot="title">default opened我的工作台</template>
+          <template #title>default opened我的工作台</template>
           <el-menu-item index="2-1">选项1</el-menu-item>
           <el-menu-item index="2-2" ref="submenu1Item2">选项2</el-menu-item>
           <el-menu-item index="2-3">选项3</el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="3" ref="submenu2">
-          <template slot="title">default opened订单管理</template>
+          <template #title>default opened订单管理</template>
           <el-menu-item index="3-1">选项1</el-menu-item>
           <el-menu-item index="3-2" ref="submenu2Item2">选项2</el-menu-item>
           <el-menu-item index="3-3">选项3</el-menu-item>
@@ -344,7 +344,7 @@ describe('submenu', () => {
       `<el-menu>
         <el-menu-item index="1" ref="item1">处理中心</el-menu-item>
         <el-sub-menu index="2" ref="submenu" disabled>
-          <template slot="title">我的工作台</template>
+          <template #title>我的工作台</template>
           <el-menu-item index="2-1">选项1</el-menu-item>
           <el-menu-item index="2-2" ref="submenuItem2">选项2</el-menu-item>
           <el-menu-item index="2-3">选项3</el-menu-item>
@@ -372,13 +372,13 @@ describe('other', () => {
       `<el-menu unique-opened default-active="2-2">
         <el-menu-item index="1">处理中心</el-menu-item>
         <el-sub-menu index="2" ref="submenu1">
-          <template slot="title">我的工作台</template>
+          <template #title>我的工作台</template>
           <el-menu-item index="2-1">选项1</el-menu-item>
           <el-menu-item index="2-2" ref="submenu1Item2">选项2</el-menu-item>
           <el-menu-item index="2-3">选项3</el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="3" ref="submenu2">
-          <template slot="title">订单管理</template>
+          <template #title>订单管理</template>
           <el-menu-item index="3-1">选项1</el-menu-item>
           <el-menu-item index="3-2" ref="submenu2Item2">选项2</el-menu-item>
           <el-menu-item index="3-3">选项3</el-menu-item>
@@ -397,7 +397,7 @@ describe('other', () => {
       `<el-menu mode="horizontal" @open="onOpen">
         <el-menu-item index="1">处理中心</el-menu-item>
         <el-sub-menu index="2" ref="submenu">
-          <template slot="title">我的工作台</template>
+          <template #title>我的工作台</template>
           <el-menu-item index="2-1">选项1</el-menu-item>
           <el-menu-item index="2-2" ref="submenuItem2">选项2</el-menu-item>
           <el-menu-item index="2-3">选项3</el-menu-item>
@@ -431,7 +431,7 @@ describe('other', () => {
           <el-menu-item index="2">导航二</el-menu-item>
         </el-menu-item-group>
         <el-sub-menu index="5">
-          <template slot="title">导航五</template>
+          <template #title>导航五</template>
           <el-menu-item-group title="分组二">
             <el-menu-item index="5-1">选项1</el-menu-item>
             <el-menu-item index="5-2">选项2</el-menu-item>
