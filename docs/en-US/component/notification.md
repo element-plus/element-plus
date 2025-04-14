@@ -83,6 +83,16 @@ notification/no-close
 
 :::
 
+## With progress bar
+
+Display a progress bar to indicate the remaining time before the notification closes.
+
+:::demo Set the `showProgress` attribute to `true` to display a progress bar at the bottom of the notification. The color of the progress bar matches the notification type (`success`, `warning`, `info`, or `error`). If `type` is not set, the progress bar will use the `primary` color. If `duration` is set to `0`, the progress bar will not be displayed, effectively behaving as if `showProgress` is `false`.
+
+notification/progressbar
+
+:::
+
 ## Global method
 
 Element Plus has added a global method `$notify` for `app.config.globalProperties`. So in a vue instance you can call `Notification` like what we did in this page.
@@ -131,6 +141,7 @@ ElNotification({}, appContext)
 | duration                 | duration before close. It will not automatically close if set 0                                                    | ^[number]                                                             | 4500      |
 | position                 | custom position                                                                                                    | ^[enum]`'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left'` | top-right |
 | showClose                | whether to show a close button                                                                                     | ^[boolean]                                                            | true      |
+| showProgress             | whether to show progress bar                                                                                       | ^[boolean]                                                            | false     |
 | onClose                  | callback function when closed                                                                                      | ^[Function]`() => void`                                               | —         |
 | onClick                  | callback function when notification clicked                                                                        | ^[Function]`() => void`                                               | —         |
 | offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | ^[number]                                                             | 0         |

@@ -95,6 +95,30 @@ describe('Notification.vue', () => {
         })
       )
     })
+
+    test('should be able to render progress bar with showProgress flag', () => {
+      const wrapper = _mount({
+        props: {
+          showProgress: true,
+          duration: 3000,
+          type: 'success',
+        },
+      })
+
+      expect(wrapper.find('.el-notification__progress').exists()).toBe(true)
+    })
+
+    test('should not be able to render progress bar with showProgress flag', () => {
+      const wrapper = _mount({
+        props: {
+          showProgress: false,
+          duration: 3000,
+          type: 'success',
+        },
+      })
+
+      expect(wrapper.find('.el-notification__progress').exists()).toBe(false)
+    })
   })
 
   describe('Notification.type', () => {
@@ -127,6 +151,23 @@ describe('Notification.vue', () => {
       expect(wrapper.find('.el-notification__icon').exists()).toBe(false)
       expect(console.warn).toHaveBeenCalled()
       ;(console.warn as any as MockInstance).mockRestore()
+    })
+
+    test('should be able to render typed progress bar', () => {
+      let wrapper: VueWrapper<NotificationInstance>
+
+      for (const type of notificationTypes) {
+        wrapper = _mount({
+          props: {
+            showProgress: true,
+            duration: 3000,
+            type,
+          },
+        })
+
+        const progressBar = wrapper.find('.el-notification__progress')
+        expect(progressBar.classes()).toContain(`el-notification--${type}`)
+      }
     })
   })
 
@@ -252,6 +293,22 @@ describe('Notification.vue', () => {
       vi.runAllTimers()
       expect(wrapper.vm.visible).toBe(false)
       vi.useRealTimers()
+    })
+
+    test('should apply animation duration from duration', () => {
+      const duration = 5000
+      const wrapper = _mount({
+        props: {
+          showProgress: true,
+          duration,
+          type: 'warning',
+        },
+      })
+
+      const progressBar = wrapper.find('.el-notification__progress')
+      expect(progressBar.attributes('style')).toContain(
+        `animation-duration: ${duration}ms`
+      )
     })
   })
 })
