@@ -4,7 +4,11 @@ import {
   isArray,
   isDate,
 } from '@element-plus/utils'
-import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
 
 export type CalendarDateType =
@@ -38,5 +42,6 @@ export type CalendarProps = ExtractPropTypes<typeof calendarProps>
 export const calendarEmits = {
   [UPDATE_MODEL_EVENT]: (value: Date) => isDate(value),
   [INPUT_EVENT]: (value: Date) => isDate(value),
+  [CHANGE_EVENT]: (value: Date) => isDate(value),
 }
 export type CalendarEmits = typeof calendarEmits
