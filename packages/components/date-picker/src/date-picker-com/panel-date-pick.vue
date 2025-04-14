@@ -488,6 +488,7 @@ const showPicker = async (view: 'month' | 'year') => {
   currentView.value = view
   await nextTick()
   handleFocusPicker()
+  handlePanelChange(view)
 }
 
 const showTime = computed(
