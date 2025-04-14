@@ -91,11 +91,12 @@ Element Plus has added a global method `$notify` for `app.config.globalPropertie
 
 ```javascript
 import { ElNotification } from 'element-plus'
+import { CloseBold } from '@element-plus/icons-vue'
 
-// How to use
 ElNotification({
   title: 'Title',
   message: 'This is a message',
+  closeIcon: CloseBold
 })
 ```
 
@@ -142,7 +143,7 @@ ElNotification({}, appContext)
 | offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | ^[number]                                                             | 0         |
 | appendTo                 | set the root element for the notification, default to `document.body`                                              | ^[string] / ^[HTMLElement]                                            | —         |
 | zIndex                   | initial zIndex                                                                                                     | ^[number]                                                             | 0         |
-| closeIcon                | custom close icon, default is Close                                                                                | ^[string] / ^[Component]                                              | —         |
+| closeIcon  ^(2.9.8)      | custom close icon, default is Close                                                                                | ^[string] / ^[Component]                                              | —         |
 
 ### Method
 
