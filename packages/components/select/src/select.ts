@@ -1,5 +1,5 @@
 import { placements } from '@popperjs/core'
-import { scrollbarEmits } from 'element-plus'
+import { scrollbarEmits } from '@element-plus/components/scrollbar'
 import {
   useAriaProps,
   useEmptyValuesProps,
