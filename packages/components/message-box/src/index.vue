@@ -98,6 +98,7 @@
                   ref="inputRef"
                   v-model="inputValue"
                   :type="inputType"
+                  :clearable="false"
                   :placeholder="inputPlaceholder"
                   :aria-invalid="validateError"
                   :class="{ invalid: validateError }"

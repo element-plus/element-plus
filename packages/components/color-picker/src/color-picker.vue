@@ -39,6 +39,7 @@
               v-model="customInput"
               :validate-event="false"
               size="small"
+              :clearable="false"
               @keyup.enter="handleConfirm"
               @blur="handleConfirm"
             />
