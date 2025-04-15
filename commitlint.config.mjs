@@ -42,7 +42,7 @@ const subjectComplete = gitStatus
 
 /** @type { import('cz-git').UserConfig } */
 export default {
-  extends: "@commitlint/config-conventional",
+  extends: '@commitlint/config-conventional',
   rules: {
     /**
      * type[scope]: [function] description
