@@ -30,7 +30,10 @@
         <td
           v-for="(cell, columnKey) in row"
           :key="`${rowKey}.${columnKey}`"
-          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
+          :ref="(el) => {
+            if(isUnmounting) return
+            return isSelectedCell(cell) && (currentCellRef = el as HTMLElement)
+          }"
           :class="getCellClasses(cell)"
           :aria-current="cell.isCurrent ? 'date' : undefined"
           :aria-selected="cell.isCurrent"
@@ -45,6 +48,7 @@
 </template>
 
 <script lang="ts" setup>
+import { onBeforeUnmount } from 'vue'
 import {
   basicDateTableEmits,
   basicDateTableProps,
@@ -80,6 +84,11 @@ const { tableLabel, tableKls, weekLabel, getCellClasses, getRowKls, t } =
     isCurrent,
     isWeekActive,
   })
+let isUnmounting = false
+
+onBeforeUnmount(() => {
+  isUnmounting = true
+})
 
 defineExpose({
   /**
