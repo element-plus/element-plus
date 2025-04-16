@@ -30,10 +30,7 @@
         <td
           v-for="(cell, columnKey) in row"
           :key="`${rowKey}.${columnKey}`"
-          :ref="(el) => {
-            if(isUnmounting) return
-            return isSelectedCell(cell) && (currentCellRef = el as HTMLElement)
-          }"
+          :ref="(el) => !isUnmounting && isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
           :class="getCellClasses(cell)"
           :aria-current="cell.isCurrent ? 'date' : undefined"
           :aria-selected="cell.isCurrent"
