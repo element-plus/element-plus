@@ -80,6 +80,11 @@
       .#{$namespace}-tag {
         cursor: not-allowed;
       }
+
+      &,
+      input {
+        cursor: not-allowed;
+      }
     }
   }
 
