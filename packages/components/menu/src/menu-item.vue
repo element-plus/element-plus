@@ -35,7 +35,6 @@
 </template>
 
 <script lang="ts" setup>
-// @ts-nocheck
 import {
   computed,
   getCurrentInstance,
@@ -103,8 +102,6 @@ defineExpose({
   parentMenu,
   rootMenu,
   active,
-  nsMenu,
-  nsMenuItem,
   handleClick,
 })
 </script>
