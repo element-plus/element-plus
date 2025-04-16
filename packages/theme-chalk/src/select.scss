@@ -81,7 +81,7 @@
         cursor: not-allowed;
       }
 
-      &,
+      // When the native input tag is disabled, the cursor value is the 'default'.
       input {
         cursor: not-allowed;
       }
