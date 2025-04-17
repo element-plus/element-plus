@@ -366,7 +366,7 @@ const TabNav = defineComponent({
         >
           {scrollBtn}
           <div class={ns.e('nav-scroll')} ref={navScroll$}>
-            <div
+            {props.panes.length > 0 ? <div
               class={[
                 ns.e('nav'),
                 ns.is(rootTabs.props.tabPosition),
@@ -387,7 +387,7 @@ const TabNav = defineComponent({
                 ) : null,
                 tabs,
               ]}
-            </div>
+            </div> : null}
           </div>
         </div>
       )
