@@ -27,6 +27,10 @@
 
   &:hover {
     color: getCssVar('link', 'hover-text-color');
+
+    &:after {
+      border-color: getCssVar('link', 'hover-text-color');
+    }
   }
 
   @include when(underline) {
@@ -41,20 +45,30 @@
     }
   }
 
+  @include when(always-underline) {
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 0;
+      bottom: 0;
+      border-bottom: 1px solid getCssVar('link', 'text-color');
+    }
+  }
+
   @include when(disabled) {
     color: getCssVar('link', 'disabled-text-color');
     cursor: not-allowed;
+
+    &:after {
+      border-color: getCssVar('link', 'disabled-text-color');
+    }
   }
 
   & [class*='#{$namespace}-icon-'] {
     & + span {
       margin-left: 5px;
-    }
-  }
-
-  &.#{$namespace}-link--default {
-    &:after {
-      border-color: getCssVar('link', 'hover-text-color');
     }
   }
 
@@ -80,9 +94,12 @@
         border-color: getCssVar('link', 'text-color');
       }
 
-      @include when(underline) {
-        &:hover:after {
-          border-color: getCssVar('link', 'text-color');
+      @include when(disabled) {
+        color: getCssVar('link', 'disabled-text-color');
+        cursor: not-allowed;
+
+        &:after {
+          border-color: getCssVar('link', 'disabled-text-color');
         }
       }
     }
