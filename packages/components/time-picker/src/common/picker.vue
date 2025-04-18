@@ -185,7 +185,13 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
-import { dayOrDaysToDate, formatter, parseDate, valueEquals } from '../utils'
+import {
+  dayOrDaysToDate,
+  formatter,
+  parseDate,
+  setDateWithDefaultTime,
+  valueEquals,
+} from '../utils'
 import { timePickerDefaultProps } from './props'
 import PickerRangeTrigger from './picker-range-trigger.vue'
 import type { InputInstance } from '@element-plus/components/input'
@@ -195,6 +201,7 @@ import type { ComponentPublicInstance, Ref } from 'vue'
 import type { Options } from '@popperjs/core'
 import type {
   DateModelType,
+  DateOrDates,
   DayOrDays,
   PickerOptions,
   SingleOrRange,
@@ -540,7 +547,33 @@ const handleChange = () => {
     const value = parseUserInputToDayjs(displayValue.value)
     if (value) {
       if (isValidValue(value)) {
-        emitInput(dayOrDaysToDate(value))
+        let date = dayOrDaysToDate(value)
+
+        if (props.defaultTime) {
+          if (isArray(date) && date.length) {
+            let arr: DateOrDates | Array<DateOrDates>
+
+            if (isArray(props.defaultTime) && props.defaultTime.length) {
+              arr = date.map((item, i) =>
+                setDateWithDefaultTime(
+                  item as Date,
+                  (props.defaultTime as Date[])[i]
+                )
+              )
+            } else {
+              arr = date.map((item) =>
+                setDateWithDefaultTime(item as Date, props.defaultTime as Date)
+              )
+            }
+            date = arr as DateOrDates
+          } else {
+            date = setDateWithDefaultTime(
+              date as Date,
+              props.defaultTime as Date
+            )
+          }
+        }
+        emitInput(date)
         userInput.value = null
       }
     }

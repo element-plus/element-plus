@@ -81,6 +81,18 @@ const testDatePickerPanelChange = async (type: 'date' | 'daterange') => {
   expect(mode).toBe('year')
 }
 
+const checkDefaultTime = (
+  date: Date,
+  hours: number,
+  minutes: number,
+  seconds: number
+) => {
+  expect(date).toBeDefined()
+  expect(date.getHours()).toBe(hours)
+  expect(date.getMinutes()).toBe(minutes)
+  expect(date.getSeconds()).toBe(seconds)
+}
+
 describe('DatePicker', () => {
   it('create & custom class & style', async () => {
     const popperClassName = 'popper-class-test'
@@ -179,6 +191,69 @@ describe('DatePicker', () => {
     await nextTick()
     ;(document.querySelector('.clear-icon') as HTMLElement).click()
     expect(vm.value).toBe(null)
+  })
+
+  it('verify defaultTime', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="date"
+        :default-time="new Date(2011,1,1,12,0,1)"
+    />`,
+      () => ({ value: '' })
+    )
+    const handle = async () => {
+      const input = wrapper.find('input')
+      input.trigger('blur')
+      await nextTick()
+      input.trigger('focus')
+      await nextTick()
+      ;(document.querySelector('td.available') as HTMLElement).click()
+      await nextTick()
+      checkDefaultTime(new Date(wrapper.vm.value), 12, 0, 1)
+      const picker = wrapper.findComponent(CommonPicker)
+      picker.vm.showClose = true
+      await nextTick()
+    }
+    await handle()
+    await handle()
+  })
+
+  it('input date', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+      type='date'
+      v-model="value"
+      :value-format="valueFormat"
+      :default-time="new Date(2011, 1, 1, 12, 0, 1)"
+    />`,
+      () => ({
+        value: '',
+        valueFormat: 'x',
+      }),
+      {
+        methods: {
+          changeValueFormat() {
+            this.valueFormat = 'YYYY-MM-DD HH:mm:ss'
+          },
+        },
+      }
+    )
+    const handle = async () => {
+      const input = wrapper.find('input')
+      await input.setValue('2025-05-25')
+      await input.trigger('keydown', {
+        code: EVENT_CODE.enter,
+      })
+    }
+    await handle()
+    checkDefaultTime(new Date(wrapper.vm.value), 12, 0, 1)
+
+    await nextTick()
+    wrapper.vm.changeValueFormat()
+    await nextTick()
+    await handle()
+    checkDefaultTime(new Date(wrapper.vm.value), 12, 0, 1)
   })
 
   it('defaultValue', async () => {

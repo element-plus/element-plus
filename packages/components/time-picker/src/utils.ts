@@ -96,3 +96,17 @@ export const dayOrDaysToDate = (dayOrDays: DayOrDays): DateOrDates => {
     ? (dayOrDays.map((d) => d.toDate()) as [Date, Date])
     : dayOrDays.toDate()
 }
+
+export const setDateWithDefaultTime = function (
+  date: Date,
+  defaultTime: Date
+): DateOrDates {
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    defaultTime.getHours(),
+    defaultTime.getMinutes(),
+    defaultTime.getSeconds()
+  )
+}
