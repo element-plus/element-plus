@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { defineComponent, h } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+
 export default defineComponent({
   name: 'NodeContent',
   setup() {

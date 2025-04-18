@@ -47,16 +47,6 @@ message/closable
 
 :::
 
-## Centered text
-
-Use the `center` attribute to center the text.
-
-:::demo
-
-message/centered-content
-
-:::
-
 ## Use HTML string
 
 `message` supports HTML string.
@@ -130,7 +120,6 @@ ElMessage({}, appContext)
 | customClass              | custom class name for Message                                                                        | ^[string]                                            | ''      |
 | duration                 | display duration, millisecond. If set to 0, it will not turn off automatically                       | ^[number]                                            | 3000    |
 | showClose                | whether to show a close button                                                                       | ^[boolean]                                           | false   |
-| center                   | whether to center the text                                                                           | ^[boolean]                                           | false   |
 | onClose                  | callback function when closed with the message instance as the parameter                             | ^[Function]`() => void`                              | —       |
 | offset                   | set the distance to the top of viewport                                                              | ^[number]                                            | 16      |
 | appendTo                 | set the root element for the message, default to `document.body`                                     | ^[string] / ^[HTMLElement]                           | —       |

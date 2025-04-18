@@ -1,9 +1,10 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import makeScroll from '@element-plus/test-utils/make-scroll'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import Scrollbar from '../src/scrollbar.vue'
+import Thumb from '../src/thumb.vue'
 
 describe('ScrollBar', () => {
   test('vertical', async () => {
@@ -307,5 +308,19 @@ describe('ScrollBar', () => {
     const wrapper = mount(() => <Scrollbar view-class={viewClass} />)
 
     expect(wrapper.find('.el-scrollbar__view').classes()).toContain(viewClass)
+  })
+
+  test('should not bubble up click event on click scrollbar', async () => {
+    const parentClick = vi.fn()
+    const wrapper = mount(() => (
+      <div onClick={parentClick}>
+        <Scrollbar style={{ width: '100px' }}>
+          ILoveRemILoveRemILoveRem
+        </Scrollbar>
+      </div>
+    ))
+    const scrollbar = wrapper.findComponent(Thumb)
+    await scrollbar.trigger('click')
+    expect(parentClick).toHaveBeenCalledTimes(0)
   })
 })

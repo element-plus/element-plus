@@ -308,6 +308,7 @@ table-v2/manual-scroll
 | row-key                   | The key of each row, if not provided, will be the index of the row                                                         | `string` / `Symbol` / `number`                         | id        |
 | row-props                 | Customized props name passed to row component                                                                              | `object` / Function<[RowPropsGetter](#typings)>        | —         |
 | row-height                | The height of each row, used for calculating the total height of the table                                                 | `number`                                               | 50        |
+| row-event-handlers        | A collection of handlers attached to each row                                                                              | `object`\<[RowEventHandlers](#typings)\>               | —         |
 | cell-props                | extra props passed to each cell (except header cells)                                                                      | `object` / Function<[CellPropsGetter](#typings)>       | —         |
 | columns                   | An array of column definitions.                                                                                            | [Column[]](#column-attribute)                          | —         |
 | data                      | An array of data to be rendered in the table.                                                                              | [Data[]](#typings)                                     | []        |
@@ -350,7 +351,6 @@ table-v2/manual-scroll
 | scroll               | Invoked after scrolling                                               | `object`\<[ScrollParams](#typings)\>       |
 | rows-rendered        | Invoked when rows are rendered                                        | `object`\<[RowsRenderedParams](#typings)\> |
 | row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon | `object`\<[RowExpandParams](#typings)\>    |
-| row-event-handlers   | A collection of handlers attached to each row                         | `object`\<[RowEventHandlers](#typings)\>   |
 
 ## TableV2 Methods
 
