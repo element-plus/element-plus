@@ -33,6 +33,7 @@ const linkKls = computed(() => [
   ns.m(props.type),
   ns.is('disabled', props.disabled),
   ns.is('underline', props.underline && !props.disabled),
+  ns.is('always-underline', props.alwaysUnderline),
 ])
 
 function handleClick(event: MouseEvent) {

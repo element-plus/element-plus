@@ -12,11 +12,18 @@ export const linkProps = buildProps({
     default: 'default',
   },
   /**
-   * @description whether the component has underline
+   * @description Whether to show the underline on hover
    */
   underline: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @description whether the underline is always visible
+   */
+  alwaysUnderline: {
+    type: Boolean,
+    default: false,
   },
   /**
    * @description whether the component is disabled

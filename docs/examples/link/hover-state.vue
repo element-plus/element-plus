@@ -9,7 +9,4 @@
 .el-link {
   margin-right: 8px;
 }
-.el-link .el-icon--right.el-icon {
-  vertical-align: text-bottom;
-}
 </style>
