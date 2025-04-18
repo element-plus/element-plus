@@ -243,7 +243,7 @@ const handleMouseDown = (event: MouseEvent) => {
   }
 }
 
-const handleChange = (value: string) => {
+const handleChange = (value: string | number) => {
   emit(CHANGE_EVENT, value)
 }
 
