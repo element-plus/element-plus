@@ -2264,4 +2264,123 @@ describe('Table.vue', () => {
 
     mockRangeRect.mockRestore()
   })
+
+  it('change fixed column width is sync with the fixed-left-shadow', async () => {
+    const NEW_MIN_WIDTH = 19200
+
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+            <button class="change-column" @click="changeFixedColumnWidth"></button>
+            <el-table :data="testData">
+              <el-table-column
+                v-for="item in columnsData"
+                :prop="item.prop"
+                :label="item.label"
+                :fixed="item.fixed"
+                :min-width="item.minWidth"
+                :key="item.prop" />
+            </el-table>
+          `,
+      data() {
+        const testData = getTestData() as any
+
+        return {
+          testData,
+          columnsData: [
+            { label: 'name', prop: 'name', fixed: 'left', minWidth: 120 },
+            { label: 'release', prop: 'release' },
+            { label: 'director', prop: 'director' },
+            { label: 'runtime', prop: 'runtime' },
+          ] as Array<{
+            label: string
+            prop: string
+            fixed?: string
+            minWidth?: number
+          }>,
+        }
+      },
+
+      methods: {
+        changeFixedColumnWidth() {
+          this.columnsData[0].minWidth = NEW_MIN_WIDTH
+        },
+      },
+    })
+    await doubleWait()
+
+    const shadowEl = wrapper.find('.el-table__fixed-left-shadow')
+    await expect(shadowEl.exists()).toBe(true)
+
+    await wrapper.find('button.change-column').trigger('click')
+    await doubleWait()
+
+    const newFixedWidth = `${NEW_MIN_WIDTH}px`
+    await expect(shadowEl.element.style.left).toBe(newFixedWidth)
+  })
+
+  it('change fixed column width is sync with the fixed-right-shadow', async () => {
+    const NEW_MIN_WIDTH = 190
+
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+            <button class="change-column" @click="changeFixedColumnWidth"></button>
+            <el-table :data="testData">
+              <el-table-column
+                v-for="item in columnsData"
+                :prop="item.prop"
+                :label="item.label"
+                :fixed="item.fixed"
+                :min-width="item.minWidth"
+                :key="item.prop" />
+            </el-table>
+          `,
+      data() {
+        const testData = getTestData() as any
+
+        return {
+          testData,
+          columnsData: [
+            { label: 'name', prop: 'name' },
+            { label: 'release', prop: 'release' },
+            { label: 'director', prop: 'director' },
+            {
+              label: 'runtime',
+              prop: 'runtime',
+              fixed: 'right',
+              minWidth: 120,
+            },
+          ] as Array<{
+            label: string
+            prop: string
+            fixed?: string
+            minWidth?: number
+          }>,
+        }
+      },
+
+      methods: {
+        changeFixedColumnWidth() {
+          this.columnsData[3].minWidth = NEW_MIN_WIDTH
+        },
+      },
+    })
+    await doubleWait()
+
+    const shadowEl = wrapper.find('.el-table__fixed-right-shadow')
+    await expect(shadowEl.exists()).toBe(true)
+
+    await wrapper.find('button.change-column').trigger('click')
+    await doubleWait()
+
+    const newFixedWidth = `${NEW_MIN_WIDTH}px`
+    await expect(shadowEl.element.style.right).toBe(newFixedWidth)
+  })
 })

@@ -27,6 +27,14 @@
     @mouseleave="handleMouseLeave"
   >
     <div :class="ns.e('inner-wrapper')">
+      <div
+        ref="leftFixedShadow"
+        :class="ns.e('fixed-left-shadow')"
+        :style="{
+          left: `${layout.fixedWidth.value}px`,
+        }"
+      />
+
       <div ref="hiddenColumns" class="hidden-columns">
         <slot />
       </div>
@@ -160,6 +168,14 @@
         </table>
       </div>
       <div v-if="border || isGroup" :class="ns.e('border-left-patch')" />
+
+      <div
+        ref="rightFixedShadow"
+        :class="ns.e('fixed-right-shadow')"
+        :style="{
+          right: `${layout.rightFixedWidth.value}px`,
+        }"
+      />
     </div>
     <div
       v-show="resizeProxyVisible"

@@ -982,8 +982,8 @@ $table: map.merge(
     'bg-color': getCssVar('fill-color', 'blank'),
     'tr-bg-color': getCssVar('bg-color'),
     'expanded-cell-bg-color': getCssVar('fill-color', 'blank'),
-    'fixed-left-column': inset 10px 0 10px -10px rgb(0 0 0 / 15%),
-    'fixed-right-column': inset -10px 0 10px -10px rgb(0 0 0 / 15%),
+    'shadow-color': 'rgba(0, 0, 0, 0.12)',
+    'shadow-width': '10px',
     'index': getCssVar('index-normal'),
   ),
   $table

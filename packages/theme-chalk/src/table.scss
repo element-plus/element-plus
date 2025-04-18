@@ -321,6 +321,26 @@
     visibility: hidden;
   }
 
+  @include e((fixed-left-shadow, fixed-right-shadow)) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: getCssVar('table-shadow-width');
+    z-index: calc(getCssVar('table-index') + 2);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity getCssVar('transition-duration');
+    will-change: opacity;
+  }
+
+  @include e(fixed-left-shadow) {
+    background: linear-gradient(to right, getCssVar('table-shadow-color'), transparent getCssVar('table-shadow-width'));
+  }
+
+  @include e(fixed-right-shadow) {
+    background: linear-gradient(to left, getCssVar('table-shadow-color'), transparent getCssVar('table-shadow-width'));
+  }
+
   @include e((header-wrapper, body-wrapper, footer-wrapper)) {
     width: 100%;
 
@@ -332,34 +352,6 @@
           position: sticky !important;
           background: inherit;
           z-index: calc(getCssVar('table-index') + 1);
-
-          &.is-last-column,
-          &.is-first-column {
-            &::before {
-              content: '';
-              position: absolute;
-              top: 0px;
-              width: 10px;
-              bottom: -1px;
-              overflow-x: hidden;
-              overflow-y: hidden;
-              box-shadow: none;
-              touch-action: none;
-              pointer-events: none;
-            }
-          }
-
-          &.is-first-column {
-            &::before {
-              left: -10px;
-            }
-          }
-
-          &.is-last-column {
-            &::before {
-              right: -10px;
-            }
-          }
         }
 
         &.#{$namespace}-table__fixed-right-patch {
@@ -424,10 +416,11 @@
   }
 
   @include when(scrolling-left) {
-    .#{$namespace}-table-fixed-column--right.is-first-column {
-      &::before {
-        box-shadow: getCssVar('table-fixed-right-column');
-      }
+    .#{$namespace}-table__fixed-left-shadow {
+      opacity: 0;
+    }
+    .#{$namespace}-table__fixed-right-shadow {
+      opacity: 1;
     }
 
     &.#{$namespace}-table--border {
@@ -446,10 +439,11 @@
   }
 
   @include when(scrolling-right) {
-    .#{$namespace}-table-fixed-column--left.is-last-column {
-      &::before {
-        box-shadow: getCssVar('table-fixed-left-column');
-      }
+    .#{$namespace}-table__fixed-right-shadow {
+      opacity: 0;
+    }
+    .#{$namespace}-table__fixed-left-shadow {
+      opacity: 1;
     }
 
     .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
@@ -462,34 +456,17 @@
   }
 
   @include when(scrolling-middle) {
+    .#{$namespace}-table__fixed-left-shadow,
+    .#{$namespace}-table__fixed-right-shadow {
+      opacity: 1;
+    }
+
     .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
       border-right: none;
-    }
-
-    .#{$namespace}-table-fixed-column--right.is-first-column {
-      &::before {
-        box-shadow: getCssVar('table-fixed-right-column');
-      }
-    }
-
-    .#{$namespace}-table-fixed-column--left.is-last-column {
-      &::before {
-        box-shadow: getCssVar('table-fixed-left-column');
-      }
     }
   }
 
   @include when(scrolling-none) {
-    .#{$namespace}-table-fixed-column--left,
-    .#{$namespace}-table-fixed-column--right {
-      &.is-first-column,
-      &.is-last-column {
-        &::before {
-          box-shadow: none;
-        }
-      }
-    }
-
     th.#{$namespace}-table-fixed-column--left,
     th.#{$namespace}-table-fixed-column--right {
       background-color: getCssVar('table-header-bg-color');

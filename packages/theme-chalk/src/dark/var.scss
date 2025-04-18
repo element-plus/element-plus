@@ -89,6 +89,15 @@ $border-color: map.merge(
   $border-color
 );
 
+// Table
+$table: () !default;
+$table: map.merge(
+    (
+      'shadow-color': 'rgba(255, 255, 255, 0.2)',
+    ),
+    $table
+);
+
 // mix to hex to avoid overlay issues
 @each $key, $val in $border-color {
   $border-color: map.merge(
