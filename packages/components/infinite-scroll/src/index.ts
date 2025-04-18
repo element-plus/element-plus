@@ -172,8 +172,17 @@ const InfiniteScroll: ObjectDirective<
     if (!el[SCOPE]) {
       await nextTick()
     } else {
-      const { containerEl, cb, observer } = el[SCOPE]
-      if (containerEl.clientHeight && observer) {
+      const { containerEl, cb, instance } = el[SCOPE]
+      const { immediate } = getScrollOptions(el, instance)
+
+      if (containerEl.clientHeight && immediate) {
+        if (!el[SCOPE].observer) {
+          const observer = new MutationObserver(
+            throttle(checkFull.bind(null, el, cb), CHECK_INTERVAL)
+          )
+          el[SCOPE].observer = observer
+          observer.observe(el, { childList: true, subtree: true })
+        }
         checkFull(el, cb)
       }
     }
