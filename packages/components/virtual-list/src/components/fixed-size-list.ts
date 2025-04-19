@@ -120,9 +120,7 @@ const FixedSizeList = buildList({
 
   clearCache: true,
 
-  validateProps() {
-    //
-  },
+  validateProps() {},
 })
 
 export type FixedSizeListInstance = InstanceType<typeof FixedSizeList> & unknown

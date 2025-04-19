@@ -65,9 +65,17 @@ image/manually-preview
 
 ## Custom Toolbar ^(2.9.4)
 
-:::demo Custom toolbar content by `slot = toolbar`, starting from version ^(2.9.7) , the slot has a new `setActiveItem` function, which can be switched according to the index.
+:::demo Custom toolbar content by `toolbar` slot, starting from version ^(2.9.7), the slot has a new `setActiveItem` function, which can be switched according to the index.
 
 image/custom-toolbar
+
+:::
+
+## Custom progress ^(2.9.4)
+
+:::demo By setting the `show-progress` prop to control whether to display progress when previewing an image. After version ^(2.9.8), the progress content will be displayed as long as the `progress` slot is used.
+
+image/custom-progress
 
 :::
 
@@ -75,26 +83,27 @@ image/custom-toolbar
 
 ### Image Attributes
 
-| Name                  | Description                                                                                                                                       | Type                                                                    | Default |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------- |
-| src                   | image source, same as native.                                                                                                                     | ^[string]                                                               | ''      |
-| fit                   | indicate how the image should be resized to fit its container, same as [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit). | ^[enum]`'' \| 'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | ''      |
-| hide-on-click-modal   | when enabling preview, use this flag to control whether clicking on backdrop can exit preview mode.                                               | ^[boolean]                                                              | false   |
-| loading ^(2.2.3)      | Indicates how the browser should load the image, same as [native](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-loading).    | ^[enum]`'eager' \| 'lazy'`                                              | —       |
-| lazy                  | whether to use lazy load.                                                                                                                         | ^[boolean]                                                              | false   |
-| scroll-container      | the container to add scroll listener when using lazy load. By default, the container to add scroll listener when using lazy load.                 | ^[string] / ^[object]`HTMLElement`                                      | —       |
-| alt                   | native attribute `alt`.                                                                                                                           | ^[string]                                                               | —       |
-| referrerpolicy        | native attribute [referrerPolicy](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/referrerPolicy).                              | ^[string]                                                               | —       |
-| crossorigin           | native attribute [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin).                                         | ^[enum]`'' \| 'anonymous' \| 'use-credentials'`                         | —       |
-| preview-src-list      | allow big image preview.                                                                                                                          | ^[object]`string[]`                                                     | []      |
-| z-index               | set image preview z-index.                                                                                                                        | ^[number]                                                               | —       |
-| initial-index         | initial preview image index, less than the length of `url-list`.                                                                                  | ^[number]                                                               | 0       |
-| close-on-press-escape | whether the image-viewer can be closed by pressing ESC.                                                                                           | ^[boolean]                                                              | true    |
-| preview-teleported    | whether to append image-viewer to body. A nested parent element attribute transform should have this attribute set to `true`.                     | ^[boolean]                                                              | false   |
-| infinite              | whether the viewer preview is infinite.                                                                                                           | ^[boolean]                                                              | true    |
-| zoom-rate             | the zoom rate of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 1.2     |
-| min-scale ^(2.4.0)    | the min scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 0.2     |
-| max-scale ^(2.4.0)    | the max scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 7       |
+| Name                   | Description                                                                                                                                       | Type                                                                    | Default |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------- |
+| src                    | image source, same as native.                                                                                                                     | ^[string]                                                               | ''      |
+| fit                    | indicate how the image should be resized to fit its container, same as [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit). | ^[enum]`'' \| 'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | ''      |
+| hide-on-click-modal    | when enabling preview, use this flag to control whether clicking on backdrop can exit preview mode.                                               | ^[boolean]                                                              | false   |
+| loading ^(2.2.3)       | Indicates how the browser should load the image, same as [native](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-loading).    | ^[enum]`'eager' \| 'lazy'`                                              | —       |
+| lazy                   | whether to use lazy load.                                                                                                                         | ^[boolean]                                                              | false   |
+| scroll-container       | the container to add scroll listener when using lazy load. By default, the container to add scroll listener when using lazy load.                 | ^[string] / ^[object]`HTMLElement`                                      | —       |
+| alt                    | native attribute `alt`.                                                                                                                           | ^[string]                                                               | —       |
+| referrerpolicy         | native attribute [referrerPolicy](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/referrerPolicy).                              | ^[string]                                                               | —       |
+| crossorigin            | native attribute [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin).                                         | ^[enum]`'' \| 'anonymous' \| 'use-credentials'`                         | —       |
+| preview-src-list       | allow big image preview.                                                                                                                          | ^[object]`string[]`                                                     | []      |
+| z-index                | set image preview z-index.                                                                                                                        | ^[number]                                                               | —       |
+| initial-index          | initial preview image index, less than the length of `url-list`.                                                                                  | ^[number]                                                               | 0       |
+| close-on-press-escape  | whether the image-viewer can be closed by pressing ESC.                                                                                           | ^[boolean]                                                              | true    |
+| preview-teleported     | whether to append image-viewer to body. A nested parent element attribute transform should have this attribute set to `true`.                     | ^[boolean]                                                              | false   |
+| infinite               | whether the viewer preview is infinite.                                                                                                           | ^[boolean]                                                              | true    |
+| zoom-rate              | the zoom rate of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 1.2     |
+| min-scale ^(2.4.0)     | the min scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 0.2     |
+| max-scale ^(2.4.0)     | the max scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 7       |
+| show-progress ^(2.9.4) | whether to display the preview image progress content.                                                                                            | ^[boolean]                                                              | false   |
 
 ### Image Events
 
@@ -108,13 +117,13 @@ image/custom-toolbar
 
 ### Image Slots
 
-| Name              | Description                                              | Type                                                                                                                                                                                                              |
-| ----------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| placeholder       | custom placeholder content when image hasn't loaded yet. | -                                                                                                                                                                                                                 |
-| error             | custom image load failed content.                        | -                                                                                                                                                                                                                 |
-| viewer            | custom content when image preview.                       | -                                                                                                                                                                                                                 |
-| progress ^(2.9.4) | custom progress content when image preview.              | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                 |
-| toolbar ^(2.9.4)  | custom toolbar content when image preview.               | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }, setActiveItem: (index: number) => void` |
+| Name              | Description                                                                                | Type                                                                                                                                                                                                              |
+| ----------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| placeholder       | custom placeholder content when image hasn't loaded yet.                                   | -                                                                                                                                                                                                                 |
+| error             | custom image load failed content.                                                          | -                                                                                                                                                                                                                 |
+| viewer            | custom content when image preview.                                                         | -                                                                                                                                                                                                                 |
+| progress ^(2.9.4) | custom progress content when image preview. (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                 |
+| toolbar ^(2.9.4)  | custom toolbar content when image preview.                                                 | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }, setActiveItem: (index: number) => void` |
 
 ### Image Exposes
 
