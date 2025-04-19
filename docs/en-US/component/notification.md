@@ -96,7 +96,7 @@ import { CloseBold } from '@element-plus/icons-vue'
 ElNotification({
   title: 'Title',
   message: 'This is a message',
-  closeIcon: CloseBold
+  closeIcon: CloseBold,
 })
 ```
 
@@ -143,7 +143,7 @@ ElNotification({}, appContext)
 | offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | ^[number]                                                             | 0         |
 | appendTo                 | set the root element for the notification, default to `document.body`                                              | ^[string] / ^[HTMLElement]                                            | —         |
 | zIndex                   | initial zIndex                                                                                                     | ^[number]                                                             | 0         |
-| closeIcon  ^(2.9.8)      | custom close icon, default is Close                                                                                | ^[string] / ^[Component]                                              | —         |
+| closeIcon ^(2.9.8)       | custom close icon, default is Close                                                                                | ^[string] / ^[Component]                                              | —         |
 
 ### Method
 

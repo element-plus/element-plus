@@ -147,14 +147,14 @@ function useTable(props: TableV2Props) {
     const _totalHeight = unref(rowsHeight)
     const clientHeight = unref(windowHeight)
 
-    const heightUntilEnd =
+    const remainDistance =
       _totalHeight - (scrollTop + clientHeight) + props.hScrollbarSize
 
     if (
       unref(lastRenderedRowIndex) >= 0 &&
       _totalHeight === scrollTop + unref(mainTableHeight) - unref(headerHeight)
     ) {
-      onEndReached(heightUntilEnd)
+      onEndReached(remainDistance)
     }
   }
 

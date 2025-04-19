@@ -343,14 +343,14 @@ table-v2/manual-scroll
 
 ## TableV2 Events
 
-| Name                 | Description                                                           | Parameters                                 |
-| -------------------- | --------------------------------------------------------------------- | ------------------------------------------ |
-| column-sort          | Invoked when column sorted                                            | `object`\<[ColumnSortParam](#typings)\>    |
-| expanded-rows-change | Invoked when expanded rows changed                                    | [KeyType[]](#typings)                      |
-| end-reached          | Invoked when the end of the table is reached                          | —                                          |
-| scroll               | Invoked after scrolling                                               | `object`\<[ScrollParams](#typings)\>       |
-| rows-rendered        | Invoked when rows are rendered                                        | `object`\<[RowsRenderedParams](#typings)\> |
-| row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon | `object`\<[RowExpandParams](#typings)\>    |
+| Name                 | Description                                                                                                                     | Parameters                                    |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| column-sort          | Invoked when column sorted                                                                                                      | `object`\<[ColumnSortParam](#typings)\>       |
+| expanded-rows-change | Invoked when expanded rows changed                                                                                              | [KeyType[]](#typings)                         |
+| end-reached          | Invoked when the end of the table is reached. The callback contain the remain distance, it is the usually the scrollbar height. | ^[Function]`(remainDistance: number) => void` |
+| scroll               | Invoked after scrolling                                                                                                         | `object`\<[ScrollParams](#typings)\>          |
+| rows-rendered        | Invoked when rows are rendered                                                                                                  | `object`\<[RowsRenderedParams](#typings)\>    |
+| row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon                                                           | `object`\<[RowExpandParams](#typings)\>       |
 
 ## TableV2 Methods
 
