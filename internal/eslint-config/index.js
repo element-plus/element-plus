@@ -121,13 +121,18 @@ module.exports = defineConfig({
         ],
       },
     },
-
     {
       files: ['**/*.md/*.js', '**/*.md/*.ts'],
       rules: {
         'no-console': 'off',
         'import/no-unresolved': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
+      },
+    },
+    {
+      files: ['!docs/**/*.{js,ts,vue}'],
+      rules: {
+        'import/newline-after-import': ['error', { count: 1 }],
       },
     },
   ],

@@ -21,6 +21,7 @@ import useUtils from './utils-helper'
 import type { ComponentInternalInstance, PropType, Ref } from 'vue'
 import type { DefaultRow, Sort } from '../table/defaults'
 import type { Store } from '../store'
+
 export interface TableHeader extends ComponentInternalInstance {
   state: {
     onColumnsChange

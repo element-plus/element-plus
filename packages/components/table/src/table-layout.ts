@@ -9,6 +9,7 @@ import type { TableColumnCtx } from './table-column/defaults'
 import type { TableHeader } from './table-header'
 import type { Table } from './table/defaults'
 import type { Store } from './store'
+
 class TableLayout<T> {
   observers: TableHeader[]
   table: Table<T>
