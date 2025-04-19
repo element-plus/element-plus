@@ -79,7 +79,7 @@ export default class TreeStore {
         if (index % 80 === 0 && index > 0) {
           await nextTick()
         }
-        traverse(child)
+        await traverse(child)
       }
 
       if (!(node as Node).visible && childNodes.length) {
