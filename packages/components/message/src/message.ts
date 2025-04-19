@@ -23,7 +23,6 @@ export interface MessageConfigContext {
 
 export const messageDefaults = mutable({
   customClass: '',
-  center: false,
   dangerouslyUseHTMLString: false,
   duration: 3000,
   icon: undefined,
@@ -47,13 +46,6 @@ export const messageProps = buildProps({
   customClass: {
     type: String,
     default: messageDefaults.customClass,
-  },
-  /**
-   * @description whether to center the text
-   */
-  center: {
-    type: Boolean,
-    default: messageDefaults.center,
   },
   /**
    * @description whether `message` is treated as HTML string

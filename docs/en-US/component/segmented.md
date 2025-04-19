@@ -82,7 +82,7 @@ segmented/custom-style
 ### Attributes
 
 | Name                  | Description                                    | Type                                           | Default    |
-|-----------------------|------------------------------------------------|------------------------------------------------|------------|
+| --------------------- | ---------------------------------------------- | ---------------------------------------------- | ---------- |
 | model-value / v-model | binding value                                  | ^[string] / ^[number] / ^[boolean]             | —          |
 | options               | data of the options                            | ^[array]`Option[]`                             | []         |
 | props ^(2.9.8)        | configuration options, see the following table | ^[object]                                      | —          |
@@ -98,7 +98,7 @@ segmented/custom-style
 ### props
 
 | Attribute | Description                                                     | Type      | Default  |
-|-----------|-----------------------------------------------------------------|-----------|----------|
+| --------- | --------------------------------------------------------------- | --------- | -------- |
 | value     | specify which key of node object is used as the node's value    | ^[string] | value    |
 | label     | specify which key of node object is used as the node's label    | ^[string] | label    |
 | disabled  | specify which key of node object is used as the node's disabled | ^[string] | disabled |
@@ -106,13 +106,13 @@ segmented/custom-style
 ### Events
 
 | Name   | Description                                                                   | Type                            |
-|--------|-------------------------------------------------------------------------------|---------------------------------|
+| ------ | ----------------------------------------------------------------------------- | ------------------------------- |
 | change | triggers when the selected value changes, the param is current selected value | ^[Function]`(val: any) => void` |
 
 ### Slots
 
 | Name    | Description     | Type                        |
-|---------|-----------------|-----------------------------|
+| ------- | --------------- | --------------------------- |
 | default | option renderer | ^[object]`{ item: Option }` |
 
 ## Type Declarations
