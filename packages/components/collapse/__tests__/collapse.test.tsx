@@ -190,4 +190,49 @@ describe('Collapse.vue', () => {
     expect(collapseItemWrappers[0].vm.isActive).toBe(true)
     expect(collapseItemWrappers[1].vm.isActive).toBe(true)
   })
+
+  test('modelValue prop', async () => {
+    const wrapper = mount({
+      data() {
+        return {
+          activeNames: ['1'],
+        }
+      },
+      render() {
+        return (
+          <Collapse modelValue={this.activeNames}>
+            <CollapseItem title="title1" name="1">
+              <div class="content">111</div>
+            </CollapseItem>
+            <CollapseItem title="title2" name="2">
+              <div class="content">222</div>
+            </CollapseItem>
+            <CollapseItem title="title3" name="3">
+              <div class="content">333</div>
+            </CollapseItem>
+            <CollapseItem title="title4" name="4">
+              <div class="content">444</div>
+            </CollapseItem>
+          </Collapse>
+        )
+      },
+    })
+
+    const vm = wrapper.vm
+    const collapseWrapper = wrapper.findComponent(Collapse)
+    const collapseItemWrappers = collapseWrapper.findAllComponents(
+      CollapseItem
+    ) as VueWrapper<CollapseItemInstance>[]
+    const collapseItemHeaderEls = vm.$el.querySelectorAll(
+      '.el-collapse-item__header'
+    )
+    expect(collapseItemWrappers[0].vm.isActive).toBe(true)
+
+    collapseItemHeaderEls[2].click()
+    await nextTick()
+    expect(collapseItemWrappers[0].vm.isActive).toBe(true)
+    expect(collapseItemWrappers[2].vm.isActive).toBe(false)
+
+    expect(vm.activeNames).toEqual(['1'])
+  })
 })

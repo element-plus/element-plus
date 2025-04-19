@@ -52,8 +52,8 @@ collapse/custom-icon
 ### Collapse Attributes
 
 | Name                  | Description                                                                             | Type                 | Default |
-| --------------------- | --------------------------------------------------------------------------------------- | -------------------- | ------- |
-| model-value / v-model | currently active panel, the type is `string` in accordion mode, otherwise it is `array` | ^[string] / ^[array] | []      |
+| --------------------- | --------------------------------------------------------------------------------------- | -------------------- |---------|
+| model-value / v-model | currently active panel, the type is `string` in accordion mode, otherwise it is `array` | ^[string] / ^[array] | —       |
 | accordion             | whether to activate accordion mode                                                      | ^[boolean]           | false   |
 
 ### Collapse Events
