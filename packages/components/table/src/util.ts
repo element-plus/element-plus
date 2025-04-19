@@ -196,12 +196,24 @@ export const getRowIdentity = <T>(
 
 export const getKeysMap = function <T>(
   array: T[],
-  rowKey: string
+  rowKey: string,
+  flatten = false,
+  childrenKey = 'children'
 ): Record<string, { row: T; index: number }> {
+  const data = array || []
   const arrayMap = {}
-  ;(array || []).forEach((row, index) => {
+
+  data.forEach((row, index) => {
     arrayMap[getRowIdentity(row, rowKey)] = { row, index }
+
+    if (flatten) {
+      const children = row[childrenKey]
+      if (isArray(children)) {
+        Object.assign(arrayMap, getKeysMap(children, rowKey, true, childrenKey))
+      }
+    }
   })
+
   return arrayMap
 }
 

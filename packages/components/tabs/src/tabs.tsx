@@ -150,8 +150,8 @@ const Tabs = defineComponent({
       event: Event
     ) => {
       if (tab.props.disabled) return
-      setCurrentName(tabName, true)
       emit('tabClick', tab, event)
+      setCurrentName(tabName, true)
     }
 
     const handleTabRemove = (pane: TabsPaneContext, ev: Event) => {
