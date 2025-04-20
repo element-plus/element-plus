@@ -22,7 +22,6 @@
   padding: 0;
   font-size: getCssVar('link', 'font-size');
   font-weight: getCssVar('link', 'font-weight');
-
   color: getCssVar('link', 'text-color');
 
   &:hover {
@@ -57,15 +56,6 @@
     }
   }
 
-  @include when(disabled) {
-    color: getCssVar('link', 'disabled-text-color');
-    cursor: not-allowed;
-
-    &:after {
-      border-color: getCssVar('link', 'disabled-text-color');
-    }
-  }
-
   & [class*='#{$namespace}-icon-'] {
     & + span {
       margin-left: 5px;
@@ -93,15 +83,15 @@
       &:after {
         border-color: getCssVar('link', 'text-color');
       }
+    }
+  }
 
-      @include when(disabled) {
-        color: getCssVar('link', 'disabled-text-color');
-        cursor: not-allowed;
+  @include when(disabled) {
+    color: getCssVar('link', 'disabled-text-color');
+    cursor: not-allowed;
 
-        &:after {
-          border-color: getCssVar('link', 'disabled-text-color');
-        }
-      }
+    &:after {
+      border-color: getCssVar('link', 'disabled-text-color');
     }
   }
 }
