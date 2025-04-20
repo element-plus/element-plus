@@ -176,6 +176,7 @@ watch(
   (val) => {
     if (!val) {
       stopHandle?.()
+      stopHandle = undefined
     } else {
       ariaHidden.value = false
     }
