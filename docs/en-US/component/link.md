@@ -27,7 +27,7 @@ link/disabled
 
 :::
 
-## Underline Link ^(next)
+## Underline Link ^(2.9.9)
 
 A underline is added below the text to indicate it is a link
 
@@ -67,15 +67,15 @@ link/with-icon
 
 ### Attributes
 
-| Name                     | Description                                                                        | Type                                                                            | Default |
-| ------------------------ | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------- |
-| type                     | type                                                                               | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
-| underline                | Whether to show the underline on hover                                             | ^[boolean]                                                                      | true    |
-| always-underline ^(next) | whether the underline is always visible (Priority is higher than `underline` prop) | ^[boolean]                                                                      | false   |
-| disabled                 | whether the component is disabled                                                  | ^[boolean]                                                                      | false   |
-| href                     | same as native hyperlink's `href`                                                  | ^[string]                                                                       | —       |
-| target                   | same as native hyperlink's `target`                                                | ^[enum]`'_blank' \| '_parent' \| '_self' \| '_top'`                             | \_self  |
-| icon                     | icon component                                                                     | ^[string] / ^[Component]                                                        | —       |
+| Name                      | Description                                                                        | Type                                                                            | Default |
+| ------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------- |
+| type                      | type                                                                               | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
+| underline                 | Whether to show the underline on hover                                             | ^[boolean]                                                                      | true    |
+| always-underline ^(2.9.9) | whether the underline is always visible (Priority is higher than `underline` prop) | ^[boolean]                                                                      | false   |
+| disabled                  | whether the component is disabled                                                  | ^[boolean]                                                                      | false   |
+| href                      | same as native hyperlink's `href`                                                  | ^[string]                                                                       | —       |
+| target                    | same as native hyperlink's `target`                                                | ^[enum]`'_blank' \| '_parent' \| '_self' \| '_top'`                             | \_self  |
+| icon                      | icon component                                                                     | ^[string] / ^[Component]                                                        | —       |
 
 ### Slots
 
