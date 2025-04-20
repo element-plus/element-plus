@@ -85,7 +85,6 @@ export default defineComponent({
           default: () => [
             h(CacheOptions, {
               data: cacheOptions.value,
-              isUseTreeKeydown: true,
             }),
             h(
               ElTree,

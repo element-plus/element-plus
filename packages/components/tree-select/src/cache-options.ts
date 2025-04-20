@@ -18,10 +18,6 @@ export default defineComponent({
       type: Array as PropType<CacheOption[]>,
       default: () => [],
     },
-    isUseTreeKeydown: {
-      type: Boolean,
-      default: false,
-    },
   },
   setup(props) {
     const select = inject(selectKey) as NonNullable<SelectContext>
@@ -52,7 +48,8 @@ export default defineComponent({
       { flush: 'post', immediate: true }
     )
 
-    select.states.isUseTreeKeydown = props.isUseTreeKeydown
+    // use tree's keydown event
+    select.states.isUseTreeKeydown = true
 
     return () => undefined
   },

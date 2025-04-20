@@ -35,7 +35,7 @@ export type SelectStates = {
   selectedLabel: string
   menuVisibleOnFocus: boolean
   isBeforeHide: boolean
-  isUseTreeKeydown: boolean
+  isUseTreeKeydown?: boolean
 }
 export type OptionProps = ExtractPropTypes<typeof optionProps>
 export interface OptionStates {
