@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-link disabled>default</el-link>
-    <el-link type="primary" always-underline disabled>primary</el-link>
+    <el-link type="primary" disabled>primary</el-link>
     <el-link type="success" disabled>success</el-link>
     <el-link type="warning" disabled>warning</el-link>
     <el-link type="danger" disabled>danger</el-link>

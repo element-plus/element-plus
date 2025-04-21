@@ -39,4 +39,41 @@ describe('Link.vue', () => {
     expect(wrapper.text()).toContain(linkName)
     expect(wrapper.text()).toContain(AXIOM)
   })
+
+  describe('underline prop', () => {
+    it('it should show underline on hover when true', async () => {
+      const wrapper = mount(() => <Link underline>{AXIOM}</Link>)
+
+      expect(wrapper.classes()).not.toContain('is-underline')
+      expect(wrapper.classes()).toContain('is-hover-underline')
+    })
+
+    it('it should not show any underline when false', async () => {
+      const wrapper = mount(() => <Link underline={false}>{AXIOM}</Link>)
+
+      expect(wrapper.classes()).not.toContain('is-underline')
+      expect(wrapper.classes()).not.toContain('is-hover-underline')
+    })
+
+    it('it should always show underline when set to "always"', async () => {
+      const wrapper = mount(() => <Link underline="always">{AXIOM}</Link>)
+
+      expect(wrapper.classes()).toContain('is-underline')
+      expect(wrapper.classes()).not.toContain('is-hover-underline')
+    })
+
+    it('it should show underline on hover when set to "hover"', async () => {
+      const wrapper = mount(() => <Link underline="hover">{AXIOM}</Link>)
+
+      expect(wrapper.classes()).not.toContain('is-underline')
+      expect(wrapper.classes()).toContain('is-hover-underline')
+    })
+
+    it('should never show underline when set to "never"', async () => {
+      const wrapper = mount(() => <Link underline="never">{AXIOM}</Link>)
+
+      expect(wrapper.classes()).not.toContain('is-underline')
+      expect(wrapper.classes()).not.toContain('is-hover-underline')
+    })
+  })
 })

@@ -24,15 +24,7 @@
   font-weight: getCssVar('link', 'font-weight');
   color: getCssVar('link', 'text-color');
 
-  &:hover {
-    color: getCssVar('link', 'hover-text-color');
-
-    &:after {
-      border-color: getCssVar('link', 'hover-text-color');
-    }
-  }
-
-  @include when(underline) {
+  @include when(hover-underline) {
     &:hover:after {
       content: '';
       position: absolute;
@@ -44,7 +36,7 @@
     }
   }
 
-  @include when(always-underline) {
+  @include when(underline) {
     &:after {
       content: '';
       position: absolute;
@@ -53,6 +45,14 @@
       height: 0;
       bottom: 0;
       border-bottom: 1px solid getCssVar('link', 'text-color');
+    }
+  }
+
+  &:hover {
+    color: getCssVar('link', 'hover-text-color');
+
+    &:after {
+      border-color: getCssVar('link', 'hover-text-color');
     }
   }
 
@@ -79,10 +79,6 @@
         ('link', 'disabled-text-color'),
         ('color', $type, 'light-5')
       );
-
-      &:after {
-        border-color: getCssVar('link', 'text-color');
-      }
     }
   }
 
