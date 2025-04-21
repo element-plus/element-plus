@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { useNamespace } from '@element-plus/hooks'
+import { useDeprecated, useNamespace } from '@element-plus/hooks'
 import { isBoolean } from '@element-plus/utils'
 import { linkEmits, linkProps } from './link'
 
@@ -26,6 +26,17 @@ defineOptions({
 })
 const props = defineProps(linkProps)
 const emit = defineEmits(linkEmits)
+
+useDeprecated(
+  {
+    scope: 'el-link',
+    from: 'The underline option (boolean)',
+    replacement: "'always' | 'hover' | 'never'",
+    version: '3.0.0',
+    ref: 'https://element-plus.org/en-US/component/link.html#underline',
+  },
+  computed(() => isBoolean(props.underline))
+)
 
 const ns = useNamespace('link')
 
