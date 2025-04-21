@@ -52,6 +52,7 @@ switch/custom-icons
 :::demo You can set `active-value` and `inactive-value` attributes. They both receive a `Boolean`, `String` or `Number` typed value.
 
 switch/extended-value-types
+When binding a member property of an object and using non-Boolean types at the same time, active-value and inactive-value should use `v-bind` or `:` to make el-switch handle types correctly, otherwise unexpected errors will occur.
 
 :::
 
