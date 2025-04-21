@@ -197,6 +197,17 @@ describe('Message on command', () => {
     })
   })
 
+  // #20333
+  test('it should destroy self immediately', async () => {
+    const el = document.createElement('div')
+    document.body.appendChild(el)
+    const { close } = Message({ appendTo: el })
+    close()
+
+    await rAF()
+    expect(el.querySelector(selector)).toBeFalsy()
+  })
+
   // #19366
   test('it should not be collected by watchEffect', async () => {
     watchEffect(() => {
