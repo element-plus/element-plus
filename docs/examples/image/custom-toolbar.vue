@@ -5,6 +5,7 @@
       :src="url"
       :preview-src-list="srcList"
       fit="cover"
+      show-progress
     >
       <template
         #toolbar="{ actions, prev, next, reset, activeIndex, setActiveItem }"

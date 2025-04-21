@@ -6,6 +6,7 @@
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass]"
     :teleported="teleported"
+    :append-to="appendTo"
     :gpu-acceleration="false"
     pure
     manual-mode
@@ -251,9 +252,9 @@ const handleFocus = (evt: FocusEvent) => {
   if (!ignoreFocusEvent) {
     activated.value = true
     emit('focus', evt)
-
+    const queryString = props.modelValue ?? ''
     if (props.triggerOnFocus && !readonly) {
-      debouncedGetData(String(props.modelValue))
+      debouncedGetData(String(queryString))
     }
   } else {
     ignoreFocusEvent = false

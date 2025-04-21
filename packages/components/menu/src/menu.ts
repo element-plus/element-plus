@@ -458,6 +458,7 @@ export default defineComponent({
       expose({
         open,
         close,
+        updateActiveIndex,
         handleResize,
       })
     }
