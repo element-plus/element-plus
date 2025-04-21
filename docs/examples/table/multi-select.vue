@@ -2,6 +2,7 @@
   <el-table
     ref="multipleTableRef"
     :data="tableData"
+    row-key="id"
     style="width: 100%"
     @selection-change="handleSelectionChange"
   >

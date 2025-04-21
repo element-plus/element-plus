@@ -146,6 +146,16 @@ tooltip/animations
 
 :::
 
+## Use the `append-to`
+
+You must wait for the DOM to be mounted before using `targetElement`.
+
+:::demo
+
+tooltip/append-to
+
+:::
+
 ## API
 
 ### Attributes

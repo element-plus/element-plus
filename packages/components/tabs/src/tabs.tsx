@@ -124,7 +124,14 @@ const Tabs = defineComponent({
       if (currentName.value === value || isUndefined(value)) return
 
       try {
-        const canLeave = await props.beforeLeave?.(value, currentName.value)
+        let canLeave
+        if (props.beforeLeave) {
+          const result = props.beforeLeave(value, currentName.value)
+          canLeave = result instanceof Promise ? await result : result
+        } else {
+          canLeave = true
+        }
+
         if (canLeave !== false) {
           currentName.value = value
           if (trigger) {
@@ -143,8 +150,8 @@ const Tabs = defineComponent({
       event: Event
     ) => {
       if (tab.props.disabled) return
-      setCurrentName(tabName, true)
       emit('tabClick', tab, event)
+      setCurrentName(tabName, true)
     }
 
     const handleTabRemove = (pane: TabsPaneContext, ev: Event) => {

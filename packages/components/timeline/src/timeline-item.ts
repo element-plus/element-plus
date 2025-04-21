@@ -62,4 +62,4 @@ export const timelineItemProps = buildProps({
 } as const)
 export type TimelineItemProps = ExtractPropTypes<typeof timelineItemProps>
 
-export type TimelineItemInstance = InstanceType<typeof TimelineItem>
+export type TimelineItemInstance = InstanceType<typeof TimelineItem> & unknown

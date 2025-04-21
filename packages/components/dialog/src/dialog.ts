@@ -88,6 +88,18 @@ export const dialogProps = buildProps({
    */
   modalClass: String,
   /**
+   * @description custom class names for header wrapper
+   */
+  headerClass: String,
+  /**
+   * @description custom class names for body wrapper
+   */
+  bodyClass: String,
+  /**
+   * @description custom class names for footer wrapper
+   */
+  footerClass: String,
+  /**
    * @description width of Dialog, default is 50%
    */
   width: {
@@ -121,4 +133,4 @@ export const dialogEmits = {
   closeAutoFocus: () => true,
 }
 export type DialogEmits = typeof dialogEmits
-export type DialogInstance = InstanceType<typeof Dialog>
+export type DialogInstance = InstanceType<typeof Dialog> & unknown

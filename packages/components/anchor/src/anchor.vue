@@ -26,6 +26,7 @@ import {
   isWindow,
   throttleByRaf,
 } from '@element-plus/utils'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { anchorEmits, anchorProps } from './anchor'
 import { anchorKey } from './constants'
 
@@ -67,7 +68,7 @@ const setCurrentAnchor = (href: string) => {
   const activeHref = currentAnchor.value
   if (activeHref !== href) {
     currentAnchor.value = href
-    emit('change', href)
+    emit(CHANGE_EVENT, href)
   }
 }
 
@@ -139,7 +140,7 @@ const getCurrentHref = () => {
     const next = anchorTopList[i + 1]
 
     if (i === 0 && scrollTop === 0) {
-      return props.scrollTop ? item.href : ''
+      return props.selectScrollTop ? item.href : ''
     }
     if (item.top <= scrollTop && (!next || next.top > scrollTop)) {
       return item.href

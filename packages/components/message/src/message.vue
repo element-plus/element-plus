@@ -1,6 +1,7 @@
 <template>
   <transition
     :name="ns.b('fade')"
+    @before-enter="isStartTransition = true"
     @before-leave="onClose"
     @after-leave="$emit('destroy')"
   >
@@ -11,7 +12,6 @@
       :class="[
         ns.b(),
         { [ns.m(type)]: type },
-        ns.is('center', center),
         ns.is('closable', showClose),
         ns.is('plain', plain),
         customClass,
@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useEventListener, useResizeObserver, useTimeoutFn } from '@vueuse/core'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -64,7 +64,9 @@ defineOptions({
 })
 
 const props = defineProps(messageProps)
-defineEmits(messageEmits)
+const emit = defineEmits(messageEmits)
+
+const isStartTransition = ref(false)
 
 const { ns, zIndex } = useGlobalComponentSettings('message')
 const { currentZIndex, nextZIndex } = zIndex
@@ -109,6 +111,14 @@ function clearTimer() {
 
 function close() {
   visible.value = false
+
+  // if the message has never started a transition, we can destroy it immediately
+  nextTick(() => {
+    if (!isStartTransition.value) {
+      props.onClose?.()
+      emit('destroy')
+    }
+  })
 }
 
 function keydown({ code }: KeyboardEvent) {

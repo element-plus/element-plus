@@ -78,7 +78,7 @@
     cursor: pointer;
 
     &:hover {
-      color: getCssVar('text-color', 'secondary');
+      color: getCssVar('input-clear-hover-color');
     }
   }
 
@@ -134,7 +134,7 @@
     cursor: pointer;
 
     &:hover {
-      color: getCssVar('text-color', 'secondary');
+      color: getCssVar('input-clear-hover-color');
     }
 
     svg {

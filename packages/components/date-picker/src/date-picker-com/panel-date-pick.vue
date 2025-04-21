@@ -224,7 +224,11 @@ import {
 } from '@element-plus/icons-vue'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
-import { getValidDateOfMonth, getValidDateOfYear } from '../utils'
+import {
+  correctlyParseUserInput,
+  getValidDateOfMonth,
+  getValidDateOfYear,
+} from '../utils'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -253,6 +257,7 @@ const slots = useSlots()
 
 const { t, lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
+const isDefaultFormat = inject('ElIsDefaultFormat') as any
 const popper = inject(TOOLTIP_INJECTION_KEY)
 const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -617,7 +622,12 @@ const handleVisibleTimeChange = (value: string) => {
 }
 
 const handleVisibleDateChange = (value: string) => {
-  const newDate = dayjs(value, dateFormat.value).locale(lang.value)
+  const newDate = correctlyParseUserInput(
+    value,
+    dateFormat.value,
+    lang.value,
+    isDefaultFormat
+  ) as Dayjs
   if (newDate.isValid()) {
     if (disabledDate && disabledDate(newDate.toDate())) {
       return
@@ -644,7 +654,12 @@ const formatToString = (value: Dayjs | Dayjs[]) => {
 }
 
 const parseUserInput = (value: Dayjs) => {
-  return dayjs(value, props.format).locale(lang.value)
+  return correctlyParseUserInput(
+    value,
+    props.format,
+    lang.value,
+    isDefaultFormat
+  )
 }
 
 const getDefaultValue = () => {

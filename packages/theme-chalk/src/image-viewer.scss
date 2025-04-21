@@ -36,7 +36,6 @@
     user-select: none;
 
     .#{$namespace}-icon {
-      font-size: inherit;
       cursor: pointer;
     }
   }
@@ -63,7 +62,6 @@
     left: 50%;
     bottom: 30px;
     transform: translateX(-50%);
-    width: 282px;
     height: 44px;
     padding: 0 23px;
     background-color: getCssVar('text-color', 'regular');
@@ -79,7 +77,21 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
+      gap: 22px;
+      padding: 0 6px;
+
+      @include e(actions__divider) {
+        margin: 0 -6px;
+      }
     }
+  }
+
+  @include e(progress) {
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: default;
+    color: #fff;
+    bottom: 90px;
   }
 
   @include e(prev) {

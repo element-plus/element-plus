@@ -230,7 +230,11 @@
             </el-icon>
             <el-icon
               v-if="validateState && validateIcon && needStatusIcon"
-              :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
+              :class="[
+                nsInput.e('icon'),
+                nsInput.e('validateIcon'),
+                nsInput.is('loading', validateState === 'validating'),
+              ]"
             >
               <component :is="validateIcon" />
             </el-icon>
@@ -257,6 +261,7 @@
             role="listbox"
             :aria-label="ariaLabel"
             aria-orientation="vertical"
+            @scroll="popupScroll"
           >
             <el-option
               v-if="showNewOption"
@@ -303,14 +308,15 @@ import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { isArray } from '@element-plus/utils'
+import { useCalcInputWidth } from '@element-plus/hooks'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
 import { selectKey } from './token'
 import ElOptions from './options'
-
 import { SelectProps } from './select'
-import type { SelectContext } from './token'
+
+import type { SelectContext } from './type'
 
 const COMPONENT_NAME = 'ElSelect'
 export default defineComponent({
@@ -335,6 +341,7 @@ export default defineComponent({
     'visible-change',
     'focus',
     'blur',
+    'popup-scroll',
   ],
 
   setup(props, { emit }) {
@@ -356,32 +363,35 @@ export default defineComponent({
     })
 
     const API = useSelect(_props, emit)
+    const { calculatorRef, inputStyle } = useCalcInputWidth()
 
     provide(
       selectKey,
       reactive({
         props: _props,
         states: API.states,
+        selectRef: API.selectRef,
         optionsArray: API.optionsArray,
+        setSelected: API.setSelected,
         handleOptionSelect: API.handleOptionSelect,
         onOptionCreate: API.onOptionCreate,
         onOptionDestroy: API.onOptionDestroy,
-        selectRef: API.selectRef,
-        setSelected: API.setSelected,
-      }) as unknown as SelectContext
+      }) satisfies SelectContext
     )
 
     const selectedLabel = computed(() => {
       if (!props.multiple) {
         return API.states.selectedLabel
       }
-      return API.states.selected.map((i: any) => i.currentLabel as string)
+      return API.states.selected.map((i) => i.currentLabel as string)
     })
 
     return {
       ...API,
       modelValue,
       selectedLabel,
+      calculatorRef,
+      inputStyle,
     }
   },
 })

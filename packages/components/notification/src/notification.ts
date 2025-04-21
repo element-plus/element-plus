@@ -1,3 +1,4 @@
+import { Close } from '@element-plus/icons-vue'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
 import type { AppContext, ExtractPropTypes, VNode } from 'vue'
@@ -108,6 +109,13 @@ export const notificationProps = buildProps({
    * @description initial zIndex
    */
   zIndex: Number,
+  /**
+   * @description custom close icon, default is Close
+   */
+  closeIcon: {
+    type: iconPropType,
+    default: Close,
+  },
 } as const)
 export type NotificationProps = ExtractPropTypes<typeof notificationProps>
 
@@ -116,7 +124,7 @@ export const notificationEmits = {
 }
 export type NotificationEmits = typeof notificationEmits
 
-export type NotificationInstance = InstanceType<typeof Notification>
+export type NotificationInstance = InstanceType<typeof Notification> & unknown
 
 export type NotificationOptions = Omit<NotificationProps, 'id' | 'onClose'> & {
   /**

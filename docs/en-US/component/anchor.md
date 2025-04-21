@@ -77,15 +77,16 @@ anchor/affix
 
 ### Anchor Attributes
 
-| Property  | Description                                                | Type                                   | Default    |
-| --------- | ---------------------------------------------------------- | -------------------------------------- | ---------- |
-| container | scroll container.                                          | `string` \| `HTMLElement` \| `Window ` | —          |
-| offset    | set the offset of the anchor scroll.                       | `number`                               | 0          |
-| bound     | the offset of the element starting to trigger the anchor.  | `number`                               | 15         |
-| duration  | set the scroll duration of the container, in milliseconds. | `number`                               | 300        |
-| marker    | whether to show the marker.                                | ^[boolean]                             | true       |
-| type      | set Anchor type.                                           | ^[enum]`'default' \| 'underline'`      | `default`  |
-| direction | Set Anchor direction.                                      | ^[enum]`'vertical' \| 'horizontal'`    | `vertical` |
+| Property                   | Description                                                | Type                                   | Default    |
+| -------------------------- | ---------------------------------------------------------- | -------------------------------------- | ---------- |
+| container                  | scroll container.                                          | `string` \| `HTMLElement` \| `Window ` | —          |
+| offset                     | set the offset of the anchor scroll.                       | `number`                               | 0          |
+| bound                      | the offset of the element starting to trigger the anchor.  | `number`                               | 15         |
+| duration                   | set the scroll duration of the container, in milliseconds. | `number`                               | 300        |
+| marker                     | whether to show the marker.                                | ^[boolean]                             | true       |
+| type                       | set Anchor type.                                           | ^[enum]`'default' \| 'underline'`      | `default`  |
+| direction                  | Set Anchor direction.                                      | ^[enum]`'vertical' \| 'horizontal'`    | `vertical` |
+| select-scroll-top ^(2.9.2) | scroll whether link is selected at the top                 | ^[boolean]                             | false      |
 
 ### Anchor Events
 

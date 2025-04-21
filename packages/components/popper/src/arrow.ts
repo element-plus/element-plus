@@ -11,7 +11,7 @@ export const popperArrowProps = buildProps({
 } as const)
 export type PopperArrowProps = ExtractPropTypes<typeof popperArrowProps>
 
-export type PopperArrowInstance = InstanceType<typeof Arrow>
+export type PopperArrowInstance = InstanceType<typeof Arrow> & unknown
 
 /** @deprecated use `popperArrowProps` instead, and it will be deprecated in the next major version */
 export const usePopperArrowProps = popperArrowProps
