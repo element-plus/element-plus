@@ -1488,6 +1488,83 @@ describe('Select', () => {
     expect(wrapper.findAll('.el-tag').length).toBe(2)
   })
 
+  it('tag list should be empty when model-value is empty', async () => {
+    const wrapper = _mount(
+      `<el-select
+        model-value=""
+        :options="[
+          {
+            value: 1,
+            label: 1,
+          },
+        ]"
+        multiple
+      />`
+    )
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+
+    const option = document.querySelector(`.${OPTION_ITEM_CLASS_NAME}`)
+    option.click()
+    option.click()
+    option.click()
+
+    const tags = await vi.waitUntil(() => wrapper.findAll('.el-tag'))
+    expect(tags.length).toBe(0)
+  })
+
+  it('The tag list in the multiple select should remain synchronized when the model value is unchanged', async () => {
+    const wrapper = _mount(
+      `<el-select
+        :model-value="[1]"
+        :options="[
+          {
+            value: 1,
+            label: 1,
+          },
+          {
+            value: 2,
+            label: 2,
+          },
+        ]"
+        clearable
+        multiple
+      />`
+    )
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+
+    await clickClearButton(wrapper)
+    const option = document.querySelector(`.${OPTION_ITEM_CLASS_NAME}`)
+    option.click()
+    const tags = await vi.waitUntil(() => wrapper.findAll('.el-tag'))
+
+    expect(tags.length).toBe(1)
+  })
+
+  it('The tag list in the single select should remain synchronized when the model value is unchanged', async () => {
+    const wrapper = _mount(
+      `<el-select
+        :model-value="1"
+        :options="[
+          {
+            value: 1,
+            label: 1,
+          },
+          {
+            value: 2,
+            label: 2,
+          },
+        ]"
+        clearable
+      />`
+    )
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+
+    await clickClearButton(wrapper)
+
+    const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+    expect(placeholder.text()).toBe('1')
+  })
+
   it('should reset placeholder after clear when both multiple and filterable are true', async () => {
     const wrapper = createSelect({
       data() {

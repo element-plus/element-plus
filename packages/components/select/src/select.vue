@@ -261,6 +261,7 @@
             role="listbox"
             :aria-label="ariaLabel"
             aria-orientation="vertical"
+            @scroll="popupScroll"
           >
             <el-option
               v-if="showNewOption"
@@ -313,9 +314,9 @@ import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
 import { selectKey } from './token'
 import ElOptions from './options'
-
 import { SelectProps } from './select'
-import type { SelectContext } from './token'
+
+import type { SelectContext } from './type'
 
 const COMPONENT_NAME = 'ElSelect'
 export default defineComponent({
@@ -340,6 +341,7 @@ export default defineComponent({
     'visible-change',
     'focus',
     'blur',
+    'popup-scroll',
   ],
 
   setup(props, { emit }) {
@@ -368,20 +370,20 @@ export default defineComponent({
       reactive({
         props: _props,
         states: API.states,
+        selectRef: API.selectRef,
         optionsArray: API.optionsArray,
+        setSelected: API.setSelected,
         handleOptionSelect: API.handleOptionSelect,
         onOptionCreate: API.onOptionCreate,
         onOptionDestroy: API.onOptionDestroy,
-        selectRef: API.selectRef,
-        setSelected: API.setSelected,
-      }) as unknown as SelectContext
+      }) satisfies SelectContext
     )
 
     const selectedLabel = computed(() => {
       if (!props.multiple) {
         return API.states.selectedLabel
       }
-      return API.states.selected.map((i: any) => i.currentLabel as string)
+      return API.states.selected.map((i) => i.currentLabel as string)
     })
 
     return {

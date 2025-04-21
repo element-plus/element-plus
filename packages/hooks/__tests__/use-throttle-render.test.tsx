@@ -1,7 +1,6 @@
 import { defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
-import sleep from '@element-plus/test-utils/sleep'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useThrottleRender } from '../use-throttle-render'
 
 const Comp = defineComponent({
@@ -16,11 +15,22 @@ const Comp = defineComponent({
 })
 
 describe.concurrent('useThrottleRender', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
   it('should throttle rendering when loading is true', async () => {
     const wrapper = mount(Comp)
     await nextTick()
     expect(wrapper.find('.test-dom').text()).toBe('false') // initially false
-    await sleep(1000)
+
+    vi.advanceTimersByTime(1000)
+    await nextTick()
+
     expect(wrapper.find('.test-dom').text()).toBe('true') // after throttle time, should be true
     wrapper.unmount()
   })
@@ -43,7 +53,10 @@ describe.concurrent('useThrottleRender', () => {
     expect(throttled.value).toBe(false) // initially false
     loading.value = false
     expect(throttled.value).toBe(false) // should remain false immediately
-    await sleep(1000)
+
+    vi.advanceTimersByTime(250)
+    await nextTick()
+
     loading.value = true
     expect(throttled.value).toBe(false) // should still be false after throttle time
   })
@@ -64,12 +77,20 @@ describe.concurrent('useThrottleRender', () => {
     })
     expect(throttled.value).toBe(false) // initially false when not pass initVal
     loading.value = true
+    await nextTick()
     expect(throttled.value).toBe(false) // should remain false until throttle time
-    await sleep(250) // Here, the delay time cannot be set to 200, setTimeout is not so precise, you can set it a little larger.
-    expect(throttled.value).toBe(true) // should be true after throttle time
+
+    vi.advanceTimersByTime(250)
+    await nextTick()
+
+    expect(throttled.value).toBe(true) // should be true after leading time
     loading.value = false
-    expect(throttled.value).toBe(true) // should remain true until throttle time
-    await sleep(250) // Here, the delay time cannot be set to 200, setTimeout is not so precise, you can set it a little larger.
-    expect(throttled.value).toBe(false) // should be false after throttle time
+    await nextTick()
+    expect(throttled.value).toBe(true) // should remain true until trailing time
+
+    vi.advanceTimersByTime(250)
+    await nextTick()
+
+    expect(throttled.value).toBe(false) // should be false after trailing time
   })
 })

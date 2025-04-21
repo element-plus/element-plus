@@ -48,8 +48,5 @@ jobs:
         env:
           NODE_OPTIONS: --max-old-space-size=4096
 
-      - name: Install chrome
-        run: pnpx puppeteer browsers install chrome
-
       - name: Test
         run: pnpm test:ssr

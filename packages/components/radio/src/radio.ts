@@ -60,4 +60,4 @@ export const radioEmits = {
 
 export type RadioProps = ExtractPropTypes<typeof radioProps>
 export type RadioEmits = typeof radioEmits
-export type RadioInstance = InstanceType<typeof Radio>
+export type RadioInstance = InstanceType<typeof Radio> & unknown

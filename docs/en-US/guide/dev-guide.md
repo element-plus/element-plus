@@ -39,9 +39,7 @@ will start the local development environment.
 
 2. Add your component into `play/src/App.vue`
 
-> App.vue
-
-```vue
+```vue [App.vue]
 <template>
   <ComponentYouAreDeveloping />
 </template>
