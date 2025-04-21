@@ -301,7 +301,11 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     const padding =
       Number.parseFloat(style.paddingLeft) +
       Number.parseFloat(style.paddingRight)
-    ctx.font = style.font
+    let baseFont = style.font
+    if (!/bold/.test(baseFont)) {
+      baseFont = `bold ${baseFont}`
+    }
+    ctx.font = baseFont
     const maxWidth = filteredOptions.value.reduce((max, option) => {
       const metrics = ctx.measureText(getLabel(option))
       return Math.max(metrics.width, max)
