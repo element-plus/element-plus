@@ -51,9 +51,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import type { CollapseModelValue } from 'element-plus'
 
 const activeNames = ref(['1'])
-const handleChange = (val: string[]) => {
+const handleChange = (val: CollapseModelValue) => {
   console.log(val)
 }
 </script>

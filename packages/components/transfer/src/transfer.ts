@@ -159,4 +159,4 @@ export const transferEmits = {
 }
 export type TransferEmits = typeof transferEmits
 
-export type TransferInstance = InstanceType<typeof Transfer>
+export type TransferInstance = InstanceType<typeof Transfer> & unknown

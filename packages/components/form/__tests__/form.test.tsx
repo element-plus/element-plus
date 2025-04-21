@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick, reactive, ref } from 'vue'
+import { computed, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import {
   afterEach,
@@ -16,6 +16,7 @@ import {
   ElCheckbox as Checkbox,
   ElCheckboxGroup as CheckboxGroup,
 } from '@element-plus/components/checkbox'
+import Button from '@element-plus/components/button/src/button.vue'
 import Input from '@element-plus/components/input'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
@@ -641,6 +642,45 @@ describe('Form', () => {
     expect(fn.mock.calls.length).toBe(2)
     expect(fn.mock.calls[0][0]).toBe('beforeResolve')
     expect(fn.mock.calls[1][0]).toBe('finally')
+  })
+
+  it('validate on rule change', async () => {
+    const form = reactive({
+      email: '',
+    })
+    const value = ref(0)
+    const rules = computed(() => ({
+      age: [
+        {
+          required: true,
+          message: `age is: ${value.value}`,
+          trigger: 'blur',
+        },
+      ],
+    }))
+
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Form ref="form" model={form} rules={rules}>
+            <FormItem ref="age" prop="age" label="age">
+              <Input v-model={form.age} />
+              <Button onClick={() => value.value++}>increase</Button>
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    vi.useFakeTimers()
+    await wrapper.findComponent(Button).trigger('click')
+    vi.runAllTimers()
+    vi.useRealTimers()
+
+    await nextTick()
+    expect(value.value).toBe(1)
+    expect(rules.value.age[0].message).toBe('age is: 1')
+    expect(wrapper.find('.el-form-item__error').text()).toBe('age is: 1')
   })
 
   describe('FormItem', () => {

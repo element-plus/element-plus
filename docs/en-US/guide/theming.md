@@ -80,8 +80,7 @@ Because the sass team said they will remove `@import` eventually.
 
 :::
 
-```scss
-// styles/element/index.scss
+```scss [styles/element/index.scss]
 /* just override what you need */
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
@@ -113,7 +112,7 @@ If they are mixed together, each hot update of `element-plus` needs to compile a
 
 :::
 
-```ts
+```ts [main.ts]
 import { createApp } from 'vue'
 import './styles/element/index.scss'
 import ElementPlus from 'element-plus'
@@ -127,7 +126,7 @@ If you are using vite, and you want to custom theme when importing on demand.
 
 Use `scss.additionalData` to compile variables with scss of every component.
 
-```ts
+```ts [vite.config.ts]
 import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -138,7 +137,6 @@ import vue from '@vitejs/plugin-vue'
 // or use unplugin-element-plus
 import ElementPlus from 'unplugin-element-plus/vite'
 
-// vite.config.ts
 export default defineConfig({
   resolve: {
     alias: {
@@ -174,8 +172,7 @@ export default defineConfig({
 
 If you are using webpack, and you want to custom theme when importing on demand.
 
-```ts
-// webpack.config.ts
+```js [webpack.config.js]
 // use unplugin-element-plus
 
 import ElementPlus from 'unplugin-element-plus/webpack'

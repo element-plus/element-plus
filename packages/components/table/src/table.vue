@@ -54,6 +54,7 @@
             :default-sort="defaultSort"
             :store="store"
             :append-filter-panel-to="appendFilterPanelTo"
+            :allow-drag-last-column="allowDragLastColumn"
             @set-drag-visible="setDragVisible"
           />
         </table>
@@ -401,6 +402,10 @@ export default defineComponent({
        * @description set vertical scroll position
        */
       setScrollTop,
+      /**
+       * @description whether to allow drag the last column
+       */
+      allowDragLastColumn: props.allowDragLastColumn,
     }
   },
 })

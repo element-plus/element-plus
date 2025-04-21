@@ -1,4 +1,5 @@
 import mdContainer from 'markdown-it-container'
+import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import externalLinkIcon from '../plugins/external-link-icon'
 import tableWrapper from '../plugins/table-wrapper'
 import tooltip from '../plugins/tooltip'
@@ -16,4 +17,5 @@ export const mdPlugin = (md: MarkdownRenderer) => {
   md.use(tag)
   md.use(mdContainer, 'demo', createDemoContainer(md))
   md.use(ApiTableContainer)
+  md.use(groupIconMdPlugin as unknown as (md: MarkdownRenderer) => void)
 }

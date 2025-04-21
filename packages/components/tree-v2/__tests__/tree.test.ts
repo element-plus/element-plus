@@ -68,6 +68,7 @@ interface TreeProps {
   iconClass?: string
   expandOnClickNode?: boolean
   checkOnClickNode?: boolean
+  checkOnClickLeaf?: boolean
   currentNodeKey?: TreeKey
   filterMethod?: FilterMethod
 }
@@ -130,6 +131,7 @@ const createTree = (
         :icon-class="iconClass"
         :expand-on-click-node="expandOnClickNode"
         :check-on-click-node="checkOnClickNode"
+        :check-on-click-leaf="checkOnClickLeaf"
         :current-node-key="currentNodeKey"
         :filter-method="filterMethod"
         @node-click="onNodeClick"
@@ -162,6 +164,7 @@ const createTree = (
           iconClass: undefined,
           expandOnClickNode: true,
           checkOnClickNode: false,
+          checkOnClickLeaf: true,
           currentNodeKey: undefined,
           filterMethod: undefined,
           ...(options.data && options.data()),
@@ -453,6 +456,137 @@ describe('Virtual Tree', () => {
     await nodes[5].find('.el-checkbox').trigger('click')
     expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(0)
     expect(wrapper.findAll('.el-checkbox .is-indeterminate').length).toBe(0)
+  })
+
+  test('showCheckbox checkOnClickLeaf', async () => {
+    const { wrapper, treeRef } = createTree({
+      data() {
+        return {
+          showCheckbox: true,
+          checkOnClickLeaf: true,
+          height: 400,
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                  children: [
+                    {
+                      id: '1-1-1',
+                      label: 'node-1-1-1',
+                    },
+                    {
+                      id: '1-1-2',
+                      label: 'node-1-1-2',
+                    },
+                  ],
+                },
+                {
+                  id: '1-2',
+                  label: 'node-1-2',
+                  children: [
+                    {
+                      id: '1-2-1',
+                      label: 'node-1-2-1',
+                    },
+                  ],
+                },
+                {
+                  id: '1-3',
+                  label: 'node-1-3',
+                },
+              ],
+            },
+            {
+              id: '2',
+              label: 'node-2',
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    expect(treeRef.getCheckedKeys()).toHaveLength(0)
+    let nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    await nodes[0].trigger('click')
+    nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    await nodes[1].trigger('click')
+    nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+
+    expect(nodes).toHaveLength(7)
+    await nodes[2].trigger('click')
+    expect(treeRef.getCheckedKeys().toString()).toBe(['1-1-1'].toString())
+    await nodes[3].trigger('click')
+    expect(nodes).toHaveLength(7)
+    expect(treeRef.getCheckedKeys().toString()).toBe(
+      ['1-1-1', '1-1-2', '1-1'].toString()
+    )
+  })
+
+  test('showCheckbox :checkOnClickLeaf="false"', async () => {
+    const { wrapper, treeRef } = createTree({
+      data() {
+        return {
+          showCheckbox: true,
+          checkOnClickLeaf: false,
+          height: 400,
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                  children: [
+                    {
+                      id: '1-1-1',
+                      label: 'node-1-1-1',
+                    },
+                    {
+                      id: '1-1-2',
+                      label: 'node-1-1-2',
+                    },
+                  ],
+                },
+                {
+                  id: '1-2',
+                  label: 'node-1-2',
+                  children: [
+                    {
+                      id: '1-2-1',
+                      label: 'node-1-2-1',
+                    },
+                  ],
+                },
+                {
+                  id: '1-3',
+                  label: 'node-1-3',
+                },
+              ],
+            },
+            {
+              id: '2',
+              label: 'node-2',
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    expect(treeRef.getCheckedKeys()).toHaveLength(0)
+    let nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    await nodes[0].trigger('click')
+    nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    await nodes[1].trigger('click')
+    nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+
+    expect(nodes).toHaveLength(7)
+    await nodes[2].trigger('click')
+    expect(treeRef.getCheckedKeys()).toHaveLength(0)
   })
 
   test('defaultCheckedKeys', async () => {

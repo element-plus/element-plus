@@ -39,6 +39,7 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'

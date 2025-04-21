@@ -18,5 +18,5 @@ export * from './src/types'
 export * from './src/constants'
 export * from './src/hooks'
 
-export type FormInstance = InstanceType<typeof Form>
-export type FormItemInstance = InstanceType<typeof FormItem>
+export type FormInstance = InstanceType<typeof Form> & unknown
+export type FormItemInstance = InstanceType<typeof FormItem> & unknown
