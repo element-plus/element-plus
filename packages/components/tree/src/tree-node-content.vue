@@ -1,3 +1,4 @@
+<script lang="ts">
 import { defineComponent, h, inject, renderSlot } from 'vue'
 import { ElText } from '@element-plus/components/text'
 
@@ -33,3 +34,4 @@ export default defineComponent({
     }
   },
 })
+</script>
