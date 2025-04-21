@@ -196,4 +196,13 @@ describe('Message on command', () => {
       ElMessage._context = null
     })
   })
+
+  // #20333
+  test('it should destroy self immediately', async () => {
+    const { close } = Message()
+    close()
+
+    await rAF()
+    expect(document.querySelector(selector)).toBeFalsy()
+  })
 })
