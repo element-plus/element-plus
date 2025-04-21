@@ -41,7 +41,7 @@ describe('Link.vue', () => {
   })
 
   describe('underline prop', () => {
-    // TODO: remove in 3.0.0
+    // will be removed in 3.0.0.
     it('it should show underline on hover when true', async () => {
       const wrapper = mount(() => <Link underline>{AXIOM}</Link>)
 
@@ -49,7 +49,7 @@ describe('Link.vue', () => {
       expect(wrapper.classes()).toContain('is-hover-underline')
     })
 
-    // TODO: remove in 3.0.0
+    // will be removed in 3.0.0.
     it('it should not show any underline when false', async () => {
       const wrapper = mount(() => <Link underline={false}>{AXIOM}</Link>)
 
