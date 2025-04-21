@@ -158,7 +158,7 @@ dialog/events
 | body-class ^(2.9.3)        | custom class names for body wrapper                                                                  | ^[string]                           | —       |
 | footer-class ^(2.9.3)      | custom class names for footer wrapper                                                                | ^[string]                           | —       |
 | append-to-body             | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`    | ^[boolean]                          | false   |
-| append-to ^(2.4.3)         | which element the Dialog appends to. Will override `append-to-body`                                  | ^[string] / ^[HTMLElement]          | body    |
+| append-to ^(2.4.3)         | which element the Dialog appends to. Will override `append-to-body`                                  | ^[CSSSelector] / ^[HTMLElement]     | body    |
 | lock-scroll                | whether scroll of body is disabled while Dialog is displayed                                         | ^[boolean]                          | true    |
 | open-delay                 | the Time(milliseconds) before open                                                                   | ^[number]                           | 0       |
 | close-delay                | the Time(milliseconds) before close                                                                  | ^[number]                           | 0       |
@@ -217,13 +217,13 @@ dialog/events
 
 ## FAQ
 
-#### Using dialog in SFC, the scope style does not take effect.
+#### Using dialog in SFC, the scope style does not take effect
 
 Typical issue: [#10515](https://github.com/element-plus/element-plus/issues/10515)
 
 PS: Since the dialog is rendered using `Teleport`, the style of the root node is recommended to be written globally.
 
-#### When the dialog is displayed and hidden, there is a situation where the page elements are displaced back and forth.
+#### When the dialog is displayed and hidden, there is a situation where the page elements are displaced back and forth
 
 Typical issue: [#10481](https://github.com/element-plus/element-plus/issues/10481)
 
