@@ -199,10 +199,12 @@ describe('Message on command', () => {
 
   // #20333
   test('it should destroy self immediately', async () => {
-    const { close } = Message()
+    const el = document.createElement('div')
+    document.body.appendChild(el)
+    const { close } = Message({ appendTo: el })
     close()
 
     await rAF()
-    expect(document.querySelector(selector)).toBeFalsy()
+    expect(el.querySelector(selector)).toBeFalsy()
   })
 })
