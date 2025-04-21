@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -20,6 +19,12 @@ import { renderThumbStyle } from '../utils'
 
 import type { CSSProperties } from 'vue'
 
+interface ScrollState {
+  isDragging: boolean
+  traveled: number
+  [key: string]: unknown
+}
+
 const ScrollBar = defineComponent({
   name: 'ElVirtualScrollBar',
   props: virtualizedScrollbarProps,
@@ -38,7 +43,7 @@ const ScrollBar = defineComponent({
     let onselectstartStore: null | typeof document.onselectstart = null
 
     // data
-    const state = reactive({
+    const state = reactive<ScrollState>({
       isDragging: false,
       traveled: 0,
     })
@@ -80,8 +85,6 @@ const ScrollBar = defineComponent({
       )
     })
 
-    // const sizeRange = computed(() => props.size - thumbSize.value)
-
     const thumbStyle = computed<CSSProperties>(() => {
       if (!Number.isFinite(thumbSize.value)) {
         return {
@@ -91,7 +94,7 @@ const ScrollBar = defineComponent({
 
       const thumb = `${thumbSize.value}px`
 
-      const style: CSSProperties = renderThumbStyle(
+      const style = renderThumbStyle(
         {
           bar: bar.value,
           size: thumb,
@@ -136,7 +139,7 @@ const ScrollBar = defineComponent({
       thumbEl.removeEventListener('touchend', onMouseUp)
     }
 
-    const onThumbMouseDown = (e: Event) => {
+    const onThumbMouseDown = (e: Event | KeyboardEvent | MouseEvent) => {
       e.stopImmediatePropagation()
       if (
         (e as KeyboardEvent).ctrlKey ||
@@ -147,8 +150,8 @@ const ScrollBar = defineComponent({
 
       state.isDragging = true
       state[bar.value.axis] =
-        e.currentTarget![bar.value.offset] -
-        (e[bar.value.client] -
+        (e.currentTarget as HTMLElement)[bar.value.offset] -
+        ((e as MouseEvent)[bar.value.client] -
           (e.currentTarget as HTMLElement).getBoundingClientRect()[
             bar.value.direction
           ])
@@ -164,7 +167,7 @@ const ScrollBar = defineComponent({
       detachEvents()
     }
 
-    const onMouseMove = (e: Event) => {
+    const onMouseMove = (e: MouseEvent | TouchEvent) => {
       const { isDragging } = state
       if (!isDragging) return
       if (!thumbRef.value || !trackRef.value) return
@@ -177,11 +180,12 @@ const ScrollBar = defineComponent({
       // to get the relative position of the pointer to the track.
       const offset =
         (trackRef.value.getBoundingClientRect()[bar.value.direction] -
-          e[bar.value.client]) *
+          (e as MouseEvent)[bar.value.client]) *
         -1
 
       // find where the thumb was clicked on.
-      const thumbClickPosition = thumbRef.value[bar.value.offset] - prevPage
+      const thumbClickPosition =
+        thumbRef.value[bar.value.offset] - (prevPage as number)
       /**
        *  +--------------+                                   +--------------+
        *  |              -  <--------- thumb.offsetTop       |              |

@@ -59,11 +59,22 @@ describe('Card.vue', () => {
     ).toBe('font-size:14px;color:blue;')
   })
 
-  test('should render body-class props', async () => {
+  test('should render header-class, body-class and footer-class  props', async () => {
     const bodyClass = 'test-body-class'
-    const wrapper = mount(() => <Card body-class={bodyClass} />)
+    const headerClass = 'test-header-class'
+    const footerClass = 'test-footer-class'
+    const wrapper = mount(() => (
+      <Card
+        header-class={headerClass}
+        body-class={bodyClass}
+        footer-class={footerClass}
+        v-slots={{ header: () => <div />, footer: () => <div /> }}
+      />
+    ))
 
     expect(wrapper.find('.el-card__body').classes()).toContain(bodyClass)
+    expect(wrapper.find('.el-card__header').classes()).toContain(headerClass)
+    expect(wrapper.find('.el-card__footer').classes()).toContain(footerClass)
   })
 
   test('shadow', () => {

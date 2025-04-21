@@ -213,6 +213,7 @@ dialog/events
 | Name                   | Description    | Type                    |
 | ---------------------- | -------------- | ----------------------- |
 | resetPosition ^(2.8.1) | reset position | ^[Function]`() => void` |
+| handleClose ^(2.9.8)   | close dialog   | ^[Function]`() => void` |
 
 ## FAQ
 
