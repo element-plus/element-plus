@@ -182,7 +182,6 @@ const copyCode = async () => {
 .example {
   border: 1px solid var(--border-color);
   border-radius: var(--el-border-radius-base);
-  overflow: hidden;
 
   .example-showcase {
     padding: 1.5rem;
