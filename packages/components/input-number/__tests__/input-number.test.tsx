@@ -495,6 +495,19 @@ describe('InputNumber.vue', () => {
     expect(num2.value).toBe(8)
   })
 
+  test('clear when non-numeric is set', async () => {
+    const num = ref(0)
+    const handleInput = vi.fn()
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} onInput={handleInput} />
+    ))
+    const inputWrapper = wrapper.find('input')
+    inputWrapper.setValue('2e')
+    expect(inputWrapper.element.value).toEqual('')
+    expect(handleInput).toHaveBeenCalledWith(null)
+    expect(num.value).toEqual(null)
+  })
+
   describe('form item accessibility integration', () => {
     test('automatic id attachment', async () => {
       const wrapper = mount(() => (
