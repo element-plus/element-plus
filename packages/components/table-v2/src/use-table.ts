@@ -138,6 +138,7 @@ function useTable(props: TableV2Props) {
     )
   }
 
+  const isEndReached = ref(false)
   function onMaybeEndReached() {
     const { onEndReached } = props
     if (!onEndReached) return
@@ -151,14 +152,23 @@ function useTable(props: TableV2Props) {
       _totalHeight - (scrollTop + clientHeight) + props.hScrollbarSize
 
     if (
+      !isEndReached.value &&
       unref(lastRenderedRowIndex) >= 0 &&
       _totalHeight <= scrollTop + unref(mainTableHeight) - unref(headerHeight)
     ) {
+      isEndReached.value = true
       onEndReached(heightUntilEnd)
+    } else {
+      isEndReached.value = false
     }
   }
 
   // events
+
+  watch(
+    () => unref(rowsHeight),
+    () => (isEndReached.value = false)
+  )
 
   watch(
     () => props.expandedRowKeys,
