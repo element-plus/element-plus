@@ -11,6 +11,8 @@ export const notificationTypes = [
   'error',
 ] as const
 
+export type NotificationType = typeof notificationTypes[number]
+
 export const notificationProps = buildProps({
   /**
    * @description custom class name for Notification
@@ -162,11 +164,8 @@ export type NotifyTypedFn = (
   appContext?: null | AppContext
 ) => NotificationHandle
 
-export interface Notify extends NotifyFn {
-  success: NotifyTypedFn
-  warning: NotifyTypedFn
-  error: NotifyTypedFn
-  info: NotifyTypedFn
+export type Notify = NotifyFn & {
+  [K in NotificationType]: NotifyTypedFn
 }
 
 export interface NotificationQueueItem {
