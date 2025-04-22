@@ -301,11 +301,13 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     const padding =
       Number.parseFloat(style.paddingLeft) +
       Number.parseFloat(style.paddingRight)
-    let baseFont = style.font
-    if (!/\bbold\b/i.test(baseFont)) {
-      baseFont = `bold ${baseFont}`
-    }
-    ctx.font = baseFont
+    const fontParts = style.font.split(' ')
+    ctx.font = [
+      'bold',
+      ...fontParts.filter(
+        (p) => !p.match(/(bold|normal|lighter|bolder|\d{3})/)
+      ),
+    ].join(' ')
     const maxWidth = filteredOptions.value.reduce((max, option) => {
       const metrics = ctx.measureText(getLabel(option))
       return Math.max(metrics.width, max)
