@@ -218,7 +218,9 @@ export default defineComponent({
     }
 
     function onAutofocusTriggerEnter() {
-      triggeringElementRef.value?.$el?.focus()
+      triggeringElementRef.value?.$el?.focus({
+        preventScroll: true,
+      })
     }
 
     function onItemEnter() {
@@ -228,7 +230,10 @@ export default defineComponent({
     function onItemLeave() {
       const contentEl = unref(contentRef)
 
-      trigger.value.includes('hover') && contentEl?.focus()
+      trigger.value.includes('hover') &&
+        contentEl?.focus({
+          preventScroll: true,
+        })
       currentTabId.value = null
     }
 
