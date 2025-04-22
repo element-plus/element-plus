@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, h, inject, renderSlot } from 'vue'
-import { ElText } from '@element-plus/components/text'
+import ElText from '@element-plus/components/text'
 
 import { useNamespace } from '@element-plus/hooks'
 import type { ComponentInternalInstance } from 'vue'
