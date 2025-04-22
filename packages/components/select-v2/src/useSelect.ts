@@ -302,7 +302,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       Number.parseFloat(style.paddingLeft) +
       Number.parseFloat(style.paddingRight)
     let baseFont = style.font
-    if (!/bold/.test(baseFont)) {
+    if (!/\bbold\b/i.test(baseFont)) {
       baseFont = `bold ${baseFont}`
     }
     ctx.font = baseFont
