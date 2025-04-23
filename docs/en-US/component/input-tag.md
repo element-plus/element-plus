@@ -119,7 +119,7 @@ input-tag/prefix-suffix
 | tag-effect            | tag effect                                                 | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                 | light   |
 | trigger               | the key to trigger input tag                               | ^[enum]`'Enter' \| 'Space'`                                 | Enter   |
 | draggable             | whether tags can be dragged                                | ^[boolean]                                                  | false   |
-| delimiter             | add a tag when a delimiter is matched                      | ^[string] / ^[regex]                                        | —       |
+| delimiter ^(2.9.9)    | add a tag when a delimiter is matched                      | ^[string] / ^[regex]                                        | —       |
 | size                  | input box size                                             | ^[enum]`'large' \| 'default' \| 'small'`                    | —       |
 | save-on-blur ^(2.9.7) | whether to save the input value when the input loses focus | ^[boolean]                                                  | true    |
 | clearable             | whether to show clear button                               | ^[boolean]                                                  | false   |
