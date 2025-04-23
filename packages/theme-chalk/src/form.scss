@@ -78,6 +78,7 @@ $form-item-label-top-margin-bottom: map.merge(
 
 @include b(form-item) {
   display: flex;
+  align-items: flex-start;
   --font-size: #{map.get($input-font-size, 'default')};
   margin-bottom: #{map.get($form-item-margin-bottom, 'default')};
 
@@ -97,7 +98,6 @@ $form-item-label-top-margin-bottom: map.merge(
       margin-bottom: #{map.get($form-item-margin-bottom, $size)};
 
       @include e(label) {
-        height: #{map.get($form-item-line-height, $size)};
         line-height: #{map.get($form-item-line-height, $size)};
       }
 
@@ -142,8 +142,6 @@ $form-item-label-top-margin-bottom: map.merge(
     flex: 0 0 auto;
     font-size: getCssVar('form-label-font-size');
     color: getCssVar('text-color', 'regular');
-
-    height: #{map.get($form-item-line-height, 'default')};
     line-height: #{map.get($form-item-line-height, 'default')};
 
     padding: 0 12px 0 0;
