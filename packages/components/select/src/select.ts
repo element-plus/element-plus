@@ -1,5 +1,5 @@
 import { placements } from '@popperjs/core'
-import { scrollbarEmits } from 'element-plus'
+import { scrollbarEmits } from '@element-plus/components/scrollbar'
 import {
   useAriaProps,
   useEmptyValuesProps,
@@ -265,7 +265,7 @@ export const SelectProps = buildProps({
   /**
    * @description which element the selection dropdown appends to
    */
-  appendTo: String,
+  appendTo: useTooltipContentProps.appendTo,
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 })

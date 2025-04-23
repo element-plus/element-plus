@@ -5,6 +5,7 @@
       ref="instance"
       :class="[ns.e('bar'), ns.is(bar.key)]"
       @mousedown="clickTrackHandler"
+      @click.stop
     >
       <div
         ref="thumb"
