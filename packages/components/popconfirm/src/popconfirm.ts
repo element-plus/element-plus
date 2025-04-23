@@ -15,6 +15,13 @@ export const popconfirmProps = buildProps({
    */
   confirmButtonText: String,
   /**
+   * @description Confirm button loading
+   */
+  confirmButtonLoading: {
+    type: Boolean,
+    default: undefined,
+  },
+  /**
    * @description Cancel button text
    */
   cancelButtonText: String,
@@ -83,7 +90,8 @@ export const popconfirmEmits = {
   /**
    * @description triggers when click confirm button
    */
-  confirm: (e: MouseEvent) => e instanceof MouseEvent,
+  confirm: (e: MouseEvent, done: () => void) =>
+    e instanceof MouseEvent && done instanceof Function,
   /**
    * @description triggers when click cancel button
    */

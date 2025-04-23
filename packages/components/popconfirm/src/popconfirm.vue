@@ -37,6 +37,7 @@
               size="small"
               :type="confirmButtonType === 'text' ? '' : confirmButtonType"
               :text="confirmButtonType === 'text'"
+              :loading="finalConfirmButtonLoading"
               @click="confirm"
             >
               {{ finalConfirmButtonText }}
@@ -72,6 +73,7 @@ const emit = defineEmits(popconfirmEmits)
 const { t } = useLocale()
 const ns = useNamespace('popconfirm')
 const tooltipRef = ref<TooltipInstance>()
+const confirmLoading = ref<boolean>(false)
 
 const hidePopper = () => {
   tooltipRef.value?.onClose?.()
@@ -84,8 +86,21 @@ const style = computed(() => {
 })
 
 const confirm = (e: MouseEvent) => {
-  emit('confirm', e)
-  hidePopper()
+  const done = () => {
+    // 当父组件未传递 loading 状态时自动关闭 loading
+    if (props.confirmButtonLoading === undefined) {
+      confirmLoading.value = false
+    }
+
+    hidePopper()
+  }
+
+  // 当父组件未传递 loading 状态时自动开启 loading
+  if (props.confirmButtonLoading === undefined) {
+    confirmLoading.value = true
+  }
+
+  emit('confirm', e, done)
 }
 const cancel = (e: MouseEvent) => {
   emit('cancel', e)
@@ -98,4 +113,10 @@ const finalConfirmButtonText = computed(
 const finalCancelButtonText = computed(
   () => props.cancelButtonText || t('el.popconfirm.cancelButtonText')
 )
+
+const finalConfirmButtonLoading = computed(() => {
+  return props.confirmButtonLoading !== undefined
+    ? props.confirmButtonLoading
+    : confirmLoading.value
+})
 </script>
