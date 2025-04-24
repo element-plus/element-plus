@@ -22,6 +22,7 @@ import {
   isFunction,
   isNumber,
   isObject,
+  isUndefined,
 } from '@element-plus/utils'
 import {
   useComposition,
@@ -686,7 +687,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     if (!expanded.value) {
       return toggleMenu()
     }
-    if (hoveringIndex === undefined) {
+    if (isUndefined(hoveringIndex)) {
       hoveringIndex = states.hoveringIndex
     }
     let newIndex = -1
