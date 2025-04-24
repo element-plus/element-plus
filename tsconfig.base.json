@@ -22,6 +22,8 @@
       "@element-plus/directives": ["packages/directives"],
       "@element-plus/constants": ["packages/constants"],
       "@element-plus/locale": ["packages/locale"],
+      "@element-plus/components/*": ["packages/components/*"],
+      "@element-plus/utils/*": ["packages/utils/*"],
       "element-plus": ["packages/element-plus"]
     },
     "preserveSymlinks": true
