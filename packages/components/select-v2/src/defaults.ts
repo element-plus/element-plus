@@ -13,7 +13,7 @@ import {
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
-import { CircleClose } from '@element-plus/icons-vue'
+import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '../../tag'
 import { defaultProps } from './useProps'
 
@@ -285,7 +285,7 @@ export const SelectProps = buildProps({
   /**
    * @description which element the select dropdown appends to
    */
-  appendTo: String,
+  appendTo: useTooltipContentProps.appendTo,
   /**
    * @description if it is `true`, the width of the dropdown panel is the same as the input box.
    * if it is `false`, the width is automatically calculated based on the value of `label`,
@@ -297,6 +297,10 @@ export const SelectProps = buildProps({
     validator(val) {
       return isBoolean(val) || isNumber(val)
     },
+  },
+  suffixIcon: {
+    type: iconPropType,
+    default: ArrowDown,
   },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),

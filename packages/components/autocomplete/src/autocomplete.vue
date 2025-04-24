@@ -6,6 +6,7 @@
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass]"
     :teleported="teleported"
+    :append-to="appendTo"
     :gpu-acceleration="false"
     pure
     manual-mode
@@ -129,7 +130,7 @@ import { useFormDisabled } from '@element-plus/components/form'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
 import type { AutocompleteData } from './autocomplete'
 
-import type { Ref, StyleValue } from 'vue'
+import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 
@@ -251,9 +252,9 @@ const handleFocus = (evt: FocusEvent) => {
   if (!ignoreFocusEvent) {
     activated.value = true
     emit('focus', evt)
-
+    const queryString = props.modelValue ?? ''
     if (props.triggerOnFocus && !readonly) {
-      debouncedGetData(String(props.modelValue))
+      debouncedGetData(String(queryString))
     }
   } else {
     ignoreFocusEvent = false
@@ -379,21 +380,7 @@ onMounted(() => {
   readonly = (inputRef.value as any).ref!.hasAttribute('readonly')
 })
 
-defineExpose<{
-  highlightedIndex: Ref<number>
-  activated: Ref<boolean>
-  loading: Ref<boolean>
-  inputRef: Ref<InputInstance | undefined>
-  popperRef: Ref<TooltipInstance | undefined>
-  suggestions: Ref<AutocompleteData>
-  handleSelect: (item: any) => void
-  handleKeyEnter: () => void
-  focus: () => void
-  blur: () => void
-  close: () => void
-  highlight: (index: number) => void
-  getData: (queryString: string) => void
-}>({
+defineExpose({
   /** @description the index of the currently highlighted item */
   highlightedIndex,
   /** @description autocomplete whether activated */

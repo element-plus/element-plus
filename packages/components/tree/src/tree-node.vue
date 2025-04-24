@@ -65,6 +65,7 @@
         :class="ns.be('node', 'children')"
         role="group"
         :aria-expanded="expanded"
+        @click.stop
       >
         <el-tree-node
           v-for="child in node.childNodes"
@@ -81,6 +82,7 @@
     </el-collapse-transition>
   </div>
 </template>
+
 <script lang="ts">
 import {
   defineComponent,
@@ -249,7 +251,9 @@ export default defineComponent({
 
       if (
         (tree.props.checkOnClickNode ||
-          (props.node.isLeaf && tree.props.checkOnClickLeaf)) &&
+          (props.node.isLeaf &&
+            tree.props.checkOnClickLeaf &&
+            props.showCheckbox)) &&
         !props.node.disabled
       ) {
         handleCheckChange(!props.node.checked)

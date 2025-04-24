@@ -4,6 +4,7 @@ import { getStyle } from '@element-plus/utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElMessage } from '..'
 import Message from '../src/method'
+import { messageTypes } from '../src/message'
 
 const selector = '.el-message'
 // TODO: testing the original transition with `nextTick`'
@@ -126,10 +127,9 @@ describe('Message on command', () => {
   })
 
   test('it should have 4 other types of message', () => {
-    expect(Message.success).toBeInstanceOf(Function)
-    expect(Message.warning).toBeInstanceOf(Function)
-    expect(Message.info).toBeInstanceOf(Function)
-    expect(Message.error).toBeInstanceOf(Function)
+    messageTypes.forEach((type) => {
+      expect(Message[type]).toBeInstanceOf(Function)
+    })
   })
 
   test('it should appendTo specified HTMLElement', async () => {
@@ -195,5 +195,16 @@ describe('Message on command', () => {
       // clean up
       ElMessage._context = null
     })
+  })
+
+  // #20333
+  test('it should destroy self immediately', async () => {
+    const el = document.createElement('div')
+    document.body.appendChild(el)
+    const { close } = Message({ appendTo: el })
+    close()
+
+    await rAF()
+    expect(el.querySelector(selector)).toBeFalsy()
   })
 })

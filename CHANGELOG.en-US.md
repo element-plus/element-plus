@@ -1,6 +1,106 @@
 ## Changelog
 
 
+### 2.9.8
+
+_2025-04-18_
+
+#### Features
+
+- I18n added Lao (lo) language (#20245 by @Xaypanya)
+- Components [dialog] expose `handleClose` (#20323 by @btea)
+- Components [segmented] add aliases for custom options (#20319 by @kooriookami)
+- Components [popover] add trigger-keys prop for keyboard control of popover display (#20264 by @betavs)
+- Components [image] `progress` slot higher priority (#20353 by @btea)
+- Components [select-v2] add `suffix-icon` prop with default ArrowDown (#20370 by @cn-xufei)
+- Components [card] add `header-class` and `footer-class` for slots (#20408 by @Dsaquel)
+- Components [notification] add `closeIcon` option with default Close (#20402 by @cn-xufei)
+- Components [menu] expose updateActiveIndex (#20430 by @Liao-js)
+
+#### Bug fixes
+
+- Locale update ru.ts (#20225 by @btea)
+- Components [date-picker] config format manual change value invalid (#20223 by @btea)
+- Components [autocomplete] modelValue is null compatible (#20288 by @momei-LJM)
+- Components [select, select-v2] blur validate not executed (#20232 by @HaceraI)
+- Utils nuxt build error (#20325 by @warmthsea)
+- Components [tree] ensure no checked nodes in regular tree (#20311 by @Dsaquel)
+- Components [message] fix consecutive closeAll method calls (#20334 by @DDDDD12138)
+- Components [watermark] content not fully displayed (#20348 by @betavs)
+- Theme-chalk [description] remove useless font-weight declaration (#20338 by @Dsaquel)
+- Components [message-box] `message` overflow `container` (#20347 by @zzjiaxiang)
+- Locale el-upload and el-message-box Unified Chinese prompts (#20366 by @mjsong07)
+- Components [table] prevent child node selection loss during table data modification (#20322 by @comp-squirrel)
+- Components [slider] emit change event on slider marker down (#20383 by @betavs)
+- Components [scrollbar] stop click when click scrollbar (#20316 by @Dsaquel)
+- Components [tabs] ensure correct event order (#20384 by @DDDDD12138)
+- Components [select] import `scrollbarEmits` path error (#20415 by @btea)
+- Component resolve 'cursor' style loss caused by 'pointer-events: none' (#19464 by @DDDDD12138)
+- Components [el-select-v2] u-tag sync with :model-value (#20306 by @stillgg)
+- Components [date-picker] memory leak with vue 3.4+ (#20451 by @makedopamine)
+- Chore(style): [table] remove duplicate defined style code (#20216 by @Putia3)
+- Style(components): [date-picker] adjust panel border block & modify css variables (#20337 by @comp-squirrel)
+#### Refactors
+
+- Components [message] use message type constants (#20355 by @w2xi)
+- Components [message] deprecate the center option (#20296 by @betavs)
+
+### 2.9.7
+
+_2025-03-21_
+
+#### Features
+
+- Components [alert] add `icon` slot (#20034 by @xinconan)
+- Components [table-column]  preserve expanded content (#19899 by @EralChen)
+- Components [image-viewer] export `setActiveItem` in slot (#20190 by @warmthsea)
+- Components [input-tag] add `saveOnBlur` prop (#20158 by @QFifteen)
+
+#### Bug fixes
+
+- Components [select] typed value causes `default-first-option` to fail (#19806 by @noki-maker)
+- Components [affix] scroll event value sync (#20108 by @markbiu)
+- Components [message-box] `ElMessageBoxOptions` type missing `modalClass` (#20135 by @a3660980)
+- Components [upload] drag file add isDirectory attribute (#20012 by @btea)
+- Components [table] the selection column conflicts with setting both `showOverflowTooltip` and `align='center'` styles (#20157 by @webvs2)
+- Components [el-select-v2] use `:model-value` without changes (#20149 by @stillgg)
+- Components [empty] remove static ID attributes from SVG (#19764 by @d--j)
+- Components [time-picker] custom format causes highlight errors (#20161 by @sheepzh)
+- I18n update ms.ts (#20186 by @aliuddinabdrauf)
+- Style(components): [cascader] add collapse-tag margin (#19890 by @wjp980108)
+- Style(components): [select, picker] improve clear-icon hover color (#20127 by @warmthsea)
+
+#### Refactors
+
+- Components [time-select] using built-in constants (#20079 by @cleaverlove)
+- Components [description, input] use the component name constant (#20107 by @FungYuu)
+
+### 2.9.6
+
+_2025-03-07_
+
+#### Features
+
+- Components [tree/tree-select] add `check-on-click-leaf` attribute (#19494 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [select-v2] allow propagation of non-control key events in custom options (#19984 by @DDDDD12138)
+- Components [table] replace pageX with clientX (#19881 by @chengang4505)
+- Components [date-picker] change triggers twice when clearing (#19804 by @xingyixiang)
+- Components [input] `@change` event value formatter (#20000 by @qq1037305420)
+- Components [date-picker] add user input validation (#20021 by @zhixiaotong)
+- Components [dropdown] `button-props` as a `Partial` type (#20035 by @Dsaquel)
+- Components [date-picker] support remove same months from different years (#20020 by @DDDDD12138)
+- Components [select-v2] option need double click in IOS (#20041 by @warmthsea)
+- Style(theme-chalk): [tabs] update tabs style (#19975 by @kooriookami)
+- Perf(components): [select-v2] optimize to avoid unnecessary computations (#19970 by @DDDDD12138)
+- Style(components): [cascader] content display is incomplete (#20015 by @warmthsea)
+- Style(components): [cascader] delete icon height (#20036 by @warmthsea)
+#### Refactors
+
+- Components [image] image-viewer standalone use (#19715 by @zzjiaxiang)
+
 ### 2.9.5
 
 _2025-02-21_

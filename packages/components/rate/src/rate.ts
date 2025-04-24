@@ -155,4 +155,4 @@ export const rateEmits = {
 }
 export type RateEmits = typeof rateEmits
 
-export type RateInstance = InstanceType<typeof Rate>
+export type RateInstance = InstanceType<typeof Rate> & unknown

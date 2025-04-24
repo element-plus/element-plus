@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   isFunction,
   isNumber,
@@ -18,7 +17,7 @@ import {
 import type { GridInstance } from '../builders/build-grid'
 import type { VirtualizedGridProps } from '../props'
 
-import type { Alignment, GridCache, ItemSize, ListItem } from '../types'
+import type { Alignment, GridCache, ItemSize } from '../types'
 
 const { max, min, floor } = Math
 const SCOPE = 'ElDynamicSizeGrid'
@@ -34,13 +33,13 @@ type Indices = {
 const ACCESS_SIZER_KEY_MAP = {
   column: 'columnWidth',
   row: 'rowHeight',
-}
+} as const
 
 // generates cache access key via type
 const ACCESS_LAST_VISITED_KEY_MAP = {
   column: 'lastVisitedColumnIndex',
   row: 'lastVisitedRowIndex',
-}
+} as const
 
 const getItemFromCache = (
   props: Props,
@@ -50,9 +49,9 @@ const getItemFromCache = (
 ) => {
   const [cachedItems, sizer, lastVisited] = [
     gridCache[type],
-    props[ACCESS_SIZER_KEY_MAP[type]],
+    props[ACCESS_SIZER_KEY_MAP[type]] as ItemSize,
     gridCache[ACCESS_LAST_VISITED_KEY_MAP[type]],
-  ] as [Record<string, ListItem>, ItemSize, number]
+  ]
 
   if (index > lastVisited) {
     let offset = 0
@@ -62,7 +61,6 @@ const getItemFromCache = (
     }
 
     for (let i = lastVisited + 1; i <= index; i++) {
-      // console.log(i, sizer(i))
       const size = sizer(i)
 
       cachedItems[i] = {
@@ -133,7 +131,7 @@ const findItem = (
   const [cache, lastVisitedIndex] = [
     gridCache[type],
     gridCache[ACCESS_LAST_VISITED_KEY_MAP[type]],
-  ] as [Record<string, ListItem>, number]
+  ]
 
   const lastVisitedItemOffset =
     lastVisitedIndex > 0 ? cache[lastVisitedIndex].offset : 0
@@ -345,7 +343,6 @@ const DynamicSizeGrid = createGrid({
       }
 
       if (isNumber(rowIndex)) {
-        // console.log(rowIndex)
         cache.value.lastVisitedRowIndex = Math.min(
           cache.value.lastVisitedRowIndex,
           rowIndex - 1
@@ -378,7 +375,7 @@ const DynamicSizeGrid = createGrid({
       )
     }
 
-    Object.assign(instance.proxy, {
+    Object.assign(instance.proxy!, {
       resetAfterColumnIndex,
       resetAfterRowIndex,
       resetAfter,
