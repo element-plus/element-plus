@@ -17,7 +17,7 @@ type UseRangePickerProps = {
     maxDate: Dayjs | undefined
   ) => void
   defaultValue: Ref<DefaultValue>
-  defaultTime: Ref<DefaultValue>
+  defaultTime?: Ref<DefaultValue>
   leftDate: Ref<Dayjs>
   rightDate: Ref<Dayjs>
   unit: 'month' | 'year'
