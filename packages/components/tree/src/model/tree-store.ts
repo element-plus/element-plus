@@ -412,7 +412,7 @@ export default class TreeStore {
 
   setCurrentNodeKey(key?: TreeKey, shouldAutoExpandParent = true): void {
     this.currentNodeKey = key
-    if (key === null || key === undefined) {
+    if (isPropAbsent(key)) {
       this.currentNode && (this.currentNode.isCurrent = false)
       this.currentNode = null
       return

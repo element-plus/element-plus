@@ -21,6 +21,7 @@ import {
   buildProps,
   iconPropType,
   isString,
+  isUndefined,
   throwError,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -148,7 +149,7 @@ export default defineComponent({
     const isFirstLevel = computed(() => subMenu.level === 0)
     const appendToBody = computed(() => {
       const value = props.teleported
-      return value === undefined ? isFirstLevel.value : value
+      return isUndefined(value) ? isFirstLevel.value : value
     })
     const menuTransitionName = computed(() =>
       rootMenu.props.collapse
