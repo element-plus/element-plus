@@ -86,19 +86,19 @@ export const useRangePicker = (
       unit,
       unlinkPanels: props.unlinkPanels,
     })
-    const getDiff = (date: Dayjs) => {
-      return date.diff(date.startOf('d'), 'ms')
+    const getShift = (day: Dayjs) => {
+      return day.diff(day.startOf('d'), 'ms')
     }
     const maybeTimes = unref(defaultTime)
     if (maybeTimes) {
       let leftShift = 0
       let rightShift = 0
-      if (Array.isArray(maybeTimes)) {
+      if (isArray(maybeTimes)) {
         const [timeStart, timeEnd] = maybeTimes.map(dayjs)
-        leftShift = getDiff(timeStart)
-        rightShift = getDiff(timeEnd)
+        leftShift = getShift(timeStart)
+        rightShift = getShift(timeEnd)
       } else {
-        const shift = getDiff(dayjs(maybeTimes))
+        const shift = getShift(dayjs(maybeTimes))
         leftShift = shift
         rightShift = shift
       }
