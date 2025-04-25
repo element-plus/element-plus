@@ -265,6 +265,7 @@ const TabNav = defineComponent({
     expose({
       scrollToActiveTab,
       removeFocus,
+      tabListRef: nav$,
     })
 
     return () => {

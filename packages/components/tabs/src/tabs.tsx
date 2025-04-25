@@ -188,6 +188,7 @@ const Tabs = defineComponent({
 
     expose({
       currentName,
+      tabNavRef: nav$,
     })
     const TabNavRenderer: FunctionalComponent<{ render: () => VNode }> = ({
       render,
