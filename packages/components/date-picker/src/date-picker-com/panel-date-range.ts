@@ -3,7 +3,7 @@ import { useLocale } from '@element-plus/hooks'
 import {
   getValidDateOfMonth,
   getValidDateOfYear,
-} from '@element-plus/components/date-picker/src/utils'
+} from '../utils'
 
 import type { PanelDateRangeProps } from '@element-plus/components/date-picker/src/props/panel-date-range'
 import type { Translator } from '@element-plus/hooks'
