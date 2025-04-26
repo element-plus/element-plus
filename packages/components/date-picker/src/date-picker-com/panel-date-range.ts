@@ -1,11 +1,8 @@
 import { computed, inject, nextTick, ref } from 'vue'
 import { useLocale } from '@element-plus/hooks'
-import {
-  getValidDateOfMonth,
-  getValidDateOfYear,
-} from '../utils'
+import { getValidDateOfMonth, getValidDateOfYear } from '../utils'
 
-import type { PanelDateRangeProps } from '@element-plus/components/date-picker/src/props/panel-date-range'
+import type { PanelDateRangeProps } from '../props/panel-date-range'
 import type { Translator } from '@element-plus/hooks'
 import type { Dayjs } from 'dayjs'
 import type { ComputedRef, Ref } from 'vue'
