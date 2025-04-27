@@ -196,4 +196,15 @@ describe('Message on command', () => {
       ElMessage._context = null
     })
   })
+
+  // #20333
+  test('it should destroy self immediately', async () => {
+    const el = document.createElement('div')
+    document.body.appendChild(el)
+    const { close } = Message({ appendTo: el })
+    close()
+
+    await rAF()
+    expect(el.querySelector(selector)).toBeFalsy()
+  })
 })
