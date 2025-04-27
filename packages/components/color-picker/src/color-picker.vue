@@ -75,7 +75,7 @@
           t('el.colorpicker.description', { color: modelValue || '' })
         "
         :aria-disabled="colorDisabled"
-        :tabindex="colorDisabled ? -1 : tabindex"
+        :tabindex="colorDisabled ? undefined : tabindex"
         @keydown="handleKeyDown"
         @focus="handleFocus"
         @blur="handleBlur"

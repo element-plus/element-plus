@@ -32,7 +32,6 @@ async function generateLLms() {
     const title = fsContent.match(/^#\s*([^\n]+)$/m)?.[1]?.trim()
 
     if (!title) {
-      console.log('MISS title, ignore:', mdPath)
       continue
     }
 
@@ -118,7 +117,6 @@ async function generateLLms() {
 
   await fs.writeFile(path.join(siteDir, 'llms.txt'), docsIndexContent)
   await fs.writeFile(path.join(siteDir, 'llms-full.txt'), docsBodyContent)
-  console.log('Generated llms.txt and llms-full.txt')
 }
 
 ;(async () => {
