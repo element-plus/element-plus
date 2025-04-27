@@ -7,15 +7,18 @@ async function generateLLms() {
   const siteDir = path.resolve(cwd, 'docs/llms')
   const docsDir = ['docs/en-US', 'docs/examples']
 
-  const matchSuffix = '.md'
+  const matchSuffixes = ['.md', '.vue']
 
   // Ensure siteDir exists
   await fs.ensureDir(siteDir)
 
-  const docs = await fg(`{${docsDir.join(',')}}/**/*${matchSuffix}`, {
-    cwd,
-    absolute: false,
-  })
+  const docs = await fg(
+    `{${docsDir.join(',')}}/**/*{${matchSuffixes.join(',')}}`,
+    {
+      cwd,
+      absolute: false,
+    }
+  )
 
   const docsIndex: Array<{ title: string; url: string }> = []
   const docsBody: string[] = []
@@ -25,10 +28,8 @@ async function generateLLms() {
 
     const fsContent = (await fs.readFile(mdPath, 'utf-8')).trim()
 
-    // e.g. # Button 按钮 -> Button
-    const title = fsContent
-      .match(/^#\s*(.*?)(?:\s+[\u4E00-\u9FA5].*)?$/m)?.[1]
-      ?.trim()
+    // e.g. # Button -> Button
+    const title = fsContent.match(/^#\s*([^\n]+)$/m)?.[1]?.trim()
 
     if (!title) {
       console.log('MISS title, ignore:', mdPath)
@@ -38,7 +39,7 @@ async function generateLLms() {
     // URL
     let url = `https://element-plus.org/${markdown
       .replace(/^docs\//, '')
-      .replace(matchSuffix, '')}`
+      .replace(/\.(md|vue)$/, '')}`
     if (url.includes('/examples/')) {
       url = url.replace('/index', '')
     }
@@ -50,12 +51,42 @@ async function generateLLms() {
     })
 
     // Docs: content
-    const parsedContent = fsContent
-      .replace(/^---[\s\S]*?---\n/, '') // Remove frontmatter
-      .replace(/:::\s*demo.*?:::/gs, '') // Remove demo blocks
-      .replace(/:::\s*tip.*?:::/gs, '') // Remove tip blocks
-      .replace(/:::\s*warning.*?:::/gs, '') // Remove warning blocks
-      .trim()
+    let parsedContent = fsContent
+
+    if (markdown.endsWith('.md')) {
+      parsedContent = fsContent
+        .replace(/^---[\s\S]*?---\n/, '') // Remove frontmatter
+        .replace(/:::\s*demo.*?:::/gs, '') // Remove demo blocks
+        .replace(/:::\s*tip.*?:::/gs, '') // Remove tip blocks
+        .replace(/:::\s*warning.*?:::/gs, '') // Remove warning blocks
+        .trim()
+
+      // 提取组件名称
+      const componentName = markdown.split('/').pop()?.replace('.md', '')
+      if (componentName) {
+        // 在examples目录下查找对应的Vue示例文件
+        const examplesDir = path.join(cwd, 'docs/examples', componentName)
+        if (fs.existsSync(examplesDir)) {
+          const vueFiles = await fg('**/*.vue', {
+            cwd: examplesDir,
+            absolute: true,
+          })
+
+          // 添加Vue示例代码
+          if (vueFiles.length > 0) {
+            parsedContent += '\n\n## Vue Examples\n'
+            for (const vueFile of vueFiles) {
+              const vueContent = await fs.readFile(vueFile, 'utf-8')
+              const fileName = path.basename(vueFile)
+              parsedContent += `\n### ${fileName}\n\`\`\`vue\n${vueContent}\n\`\`\`\n`
+            }
+          }
+        }
+      }
+    } else if (markdown.endsWith('.vue')) {
+      // For Vue files, use the entire content as example code
+      parsedContent = `\`\`\`vue\n${fsContent}\n\`\`\``
+    }
 
     const fullContent = [
       // Title
