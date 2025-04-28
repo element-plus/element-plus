@@ -17,10 +17,10 @@
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.mjs",
-  "types": "es/index.d.ts",
+  "types": "es/element-plus.d.ts",
   "exports": {
     ".": {
-      "types": "./es/index.d.ts",
+      "types": "./es/element-plus.d.ts",
       "import": "./es/index.mjs",
       "require": "./lib/index.js"
     },
@@ -28,11 +28,11 @@
       "types": "./global.d.ts"
     },
     "./es": {
-      "types": "./es/index.d.ts",
+      "types": "./es/element-plus.d.ts",
       "import": "./es/index.mjs"
     },
     "./lib": {
-      "types": "./lib/index.d.ts",
+      "types": "./lib/element-plus.d.ts",
       "require": "./lib/index.js"
     },
     "./es/*.mjs": {
