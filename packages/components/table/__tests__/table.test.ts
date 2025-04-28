@@ -1722,6 +1722,56 @@ describe('Table.vue', () => {
       expect(spy.mock.calls[0][1]).toBeTruthy()
     })
 
+    it('tree-props & default-expand-all & shrink & edit-value', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" default-expand-all row-key="id">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="edit" label="修改">
+              <template #default="{row}">
+                <button class="edit" @click="row.release =Date.now()">click</button>
+              </template>
+            </el-table-column>
+          </el-table>
+        `,
+        data() {
+          const testData = [
+            {
+              id: 1,
+              name: 'Toy Story',
+              release: '1995-11-22',
+              children: [
+                { id: 11, name: 'Toy Story Session 1' },
+                { id: 12, name: 'Toy Story Session 2' },
+              ],
+            },
+          ]
+          return { testData }
+        },
+      })
+      await doubleWait()
+      let childRows = wrapper.findAll('.el-table__row--level-1')
+      expect(childRows.length).toEqual(2)
+      childRows.forEach((item) => {
+        expect(item.attributes('style')).toBeUndefined()
+      })
+      const expandIcon = wrapper.find('.el-table__expand-icon')
+      expandIcon.trigger('click')
+      await doubleWait()
+      const editBtn = wrapper.find('.edit')
+      editBtn.trigger('click')
+      await doubleWait()
+      childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item) => {
+        expect(item.attributes('style')).toContain('display: none')
+      })
+    })
+
     it('expand-row-keys & toggleRowExpansion', async () => {
       wrapper = mount({
         components: {
