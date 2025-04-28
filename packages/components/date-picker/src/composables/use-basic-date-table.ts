@@ -302,7 +302,7 @@ export const useBasicDateTable = (
 
   const handleWeekPick = (newDate: Dayjs) => {
     const weekNumber = newDate.week()
-    const value = `${newDate.year()}w${weekNumber}`
+    const value = `${newDate.weekYear()}w${weekNumber}`
     emit('pick', {
       year: newDate.year(),
       week: weekNumber,
