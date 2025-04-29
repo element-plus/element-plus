@@ -1750,19 +1750,28 @@ describe('Table.vue', () => {
                 { id: 12, name: 'Toy Story Session 2' },
               ],
             },
+            {
+              id: 2,
+              name: 'The Matrix',
+              release: '1999-3-31',
+              director: 'The Wachowskis',
+              children: [
+                { id: 21, name: "The Matrix' Session 1" },
+                { id: 22, name: "The Matrix' Session 2" },
+              ],
+            },
           ]
           return { testData }
         },
       })
       await doubleWait()
       let childRows = wrapper.findAll('.el-table__row--level-1')
-      expect(childRows.length).toEqual(2)
+      expect(childRows.length).toEqual(4)
       childRows.forEach((item) => {
         expect(item.attributes('style')).toBeUndefined()
       })
-      const expandIcon = wrapper.find('.el-table__expand-icon')
-      expandIcon.trigger('click')
-      await doubleWait()
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      expandIcons.forEach((icon) => icon.trigger('click'))
       const editBtn = wrapper.find('.edit')
       editBtn.trigger('click')
       await doubleWait()
