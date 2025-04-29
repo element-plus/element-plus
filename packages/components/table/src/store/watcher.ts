@@ -118,31 +118,31 @@ function useWatcher<T>() {
       (column) =>
         column.type !== 'selection' && [true, 'left'].includes(column.fixed)
     )
-    // 找到 selection 列
-    const selectColumn = _columns.value.find(
-      (column) => column.type === 'selection'
+    // 找有fixed的selectColumn
+    const fixedSelectColumn = _columns.value.find(
+      (column) =>
+        column.type === 'selection' &&
+        [true, 'left', 'right'].includes(column.fixed)
     )
-    // 过滤出非 selection 列
-    const nonSelectColumns = _columns.value.filter(
-      (column) => column.type !== 'selection'
-    )
-    // 往上提,先拿到所有非 selection 列的，然后根据 fixed 属性进行分类
-    rightFixedColumns.value = nonSelectColumns.filter(
-      (column) => column.fixed === 'right'
-    )
-    if (selectColumn) {
-      const selectColFixLeft =
-        [true, 'left'].includes(selectColumn.fixed) ||
-        (fixedColumns.value.length && selectColumn.fixed !== 'right')
+    let selectColFixLeft
+    if (fixedSelectColumn) {
+      selectColFixLeft =
+        [true, 'left'].includes(fixedSelectColumn.fixed) ||
+        (fixedColumns.value.length && fixedSelectColumn.fixed !== 'right')
       if (selectColFixLeft) {
-        fixedColumns.value.unshift(selectColumn)
-      } else if (selectColumn.fixed === 'right') {
-        rightFixedColumns.value = [selectColumn, ...rightFixedColumns.value]
-      } else {
-        nonSelectColumns.push(selectColumn)
+        fixedColumns.value.unshift(fixedSelectColumn)
       }
     }
-    const notFixedColumns = nonSelectColumns.filter((column) => !column.fixed)
+
+    rightFixedColumns.value = _columns.value.filter(
+      (column) => column.fixed === 'right'
+    )
+
+    const notFixedColumns = _columns.value.filter(
+      (column) =>
+        (fixedSelectColumn ? column.type !== 'selection' : true) &&
+        !column.fixed
+    )
 
     originColumns.value = []
       .concat(fixedColumns.value)
