@@ -43,7 +43,7 @@
         <div v-if="$slots.viewer">
           <slot name="viewer" />
         </div>
-        <template #progress="progress">
+        <template v-if="$slots.progress" #progress="progress">
           <slot name="progress" v-bind="progress" />
         </template>
         <template #toolbar="toolbar">
