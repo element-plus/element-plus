@@ -277,6 +277,7 @@ const Tabs = defineComponent({
 
 export type TabsInstance = InstanceType<typeof Tabs> & {
   currentName: TabPaneName
-}
+  tabNavRef: TabNavInstance | undefined
+} & unknown
 
 export default Tabs
