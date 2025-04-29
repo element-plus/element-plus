@@ -52,7 +52,7 @@ collapse/custom-icon
 ### Collapse Attributes
 
 | Name                  | Description                                                                             | Type                 | Default |
-| --------------------- | --------------------------------------------------------------------------------------- | -------------------- |---------|
+| --------------------- | --------------------------------------------------------------------------------------- | -------------------- | ------- |
 | model-value / v-model | currently active panel, the type is `string` in accordion mode, otherwise it is `array` | ^[string] / ^[array] | —       |
 | accordion             | whether to activate accordion mode                                                      | ^[boolean]           | false   |
 
@@ -67,6 +67,13 @@ collapse/custom-icon
 | Name    | Description               | Subtags       |
 | ------- | ------------------------- | ------------- |
 | default | customize default content | Collapse Item |
+
+### Collapse Exposes
+
+| Name           | Description                  | Type                                                     |
+| -------------- | ---------------------------- | -------------------------------------------------------- |
+| activeNames    | currently active panel names | ^[object]`ComputedRef<(string \| number)[]>`             |
+| setActiveNames | set active panel names       | ^[Function]`(activeNames: CollapseActiveName[]) => void` |
 
 ## Collapse Item API
 
@@ -86,3 +93,20 @@ collapse/custom-icon
 | default       | content of Collapse Item       | —                                |
 | title         | content of Collapse Item title | —                                |
 | icon ^(2.8.3) | content of Collapse Item icon  | ^[object]`{ isActive: boolean }` |
+
+### Collapse Item Exposes
+
+| Name     | Description                                 | Type                                         |
+| -------- | ------------------------------------------- | -------------------------------------------- |
+| isActive | whether the current collapse item is active | ^[object]`ComputedRef<boolean \| undefined>` |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type CollapseActiveName = string | number
+```
+
+</details>
