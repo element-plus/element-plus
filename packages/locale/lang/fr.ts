@@ -5,7 +5,7 @@ export default {
       label: `Fil d'Ariane`,
     },
     colorpicker: {
-      confirm: 'OK',
+      confirm: 'Confirmer',
       clear: 'Effacer',
       defaultLabel: 'color picker',
       description:
@@ -16,7 +16,7 @@ export default {
       today: 'Auj.',
       cancel: 'Annuler',
       clear: 'Effacer',
-      confirm: 'OK',
+      confirm: 'Confirmer',
       dateTablePrompt:
         'Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner le jour du mois',
       monthTablePrompt:

@@ -122,7 +122,7 @@ ElMessage({}, appContext)
 | showClose                | whether to show a close button                                                                       | ^[boolean]                                           | false   |
 | onClose                  | callback function when closed with the message instance as the parameter                             | ^[Function]`() => void`                              | —       |
 | offset                   | set the distance to the top of viewport                                                              | ^[number]                                            | 16      |
-| appendTo                 | set the root element for the message, default to `document.body`                                     | ^[string] / ^[HTMLElement]                           | —       |
+| appendTo                 | set the root element for the message, default to `document.body`                                     | ^[CSSSelector] / ^[HTMLElement]                      | —       |
 | grouping                 | merge messages with the same content, type of VNode message is not supported                         | ^[boolean]                                           | false   |
 | repeatNum                | The number of repetitions, similar to badge, is used as the initial number when used with `grouping` | ^[number]                                            | 1       |
 

@@ -285,7 +285,7 @@ export const SelectProps = buildProps({
   /**
    * @description which element the select dropdown appends to
    */
-  appendTo: String,
+  appendTo: useTooltipContentProps.appendTo,
   /**
    * @description if it is `true`, the width of the dropdown panel is the same as the input box.
    * if it is `false`, the width is automatically calculated based on the value of `label`,

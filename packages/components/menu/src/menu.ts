@@ -25,6 +25,7 @@ import {
   isArray,
   isObject,
   isString,
+  isUndefined,
   mutable,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -190,7 +191,7 @@ export const menuEmits = {
     isString(index) &&
     checkIndexPath(indexPath) &&
     isObject(item) &&
-    (routerResult === undefined || routerResult instanceof Promise),
+    (isUndefined(routerResult) || routerResult instanceof Promise),
 }
 export type MenuEmits = typeof menuEmits
 

@@ -350,7 +350,7 @@ describe('Tree.vue', () => {
     const treeWrapper = wrapper.findComponent(Tree)
     ;(treeWrapper.vm as InstanceType<typeof Tree>).filter('2-1')
 
-    await nextTick()
+    await sleep()
     expect(treeWrapper.findAll('.el-tree-node.is-hidden').length).toEqual(3)
   })
   test('lazy load with filter expand loaded node', async () => {

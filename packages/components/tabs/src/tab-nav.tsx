@@ -265,6 +265,7 @@ const TabNav = defineComponent({
     expose({
       scrollToActiveTab,
       removeFocus,
+      tabListRef: nav$,
     })
 
     return () => {
@@ -398,5 +399,6 @@ const TabNav = defineComponent({
 export type TabNavInstance = InstanceType<typeof TabNav> & {
   scrollToActiveTab: () => Promise<void>
   removeFocus: () => void
-}
+  tabListRef: HTMLDivElement | undefined
+} & unknown
 export default TabNav

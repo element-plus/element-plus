@@ -116,6 +116,23 @@ tabs/customized-trigger
 | add-icon ^(2.5.4)              | customize add button icon | —        |
 | addIcon ^(2.4.0) ^(deprecated) | customize add button icon | —        |
 
+### Tabs Exposes
+
+| Name                | Description                | Type                                        |
+| ------------------- | -------------------------- | ------------------------------------------- |
+| currentName         | current active pane name   | ^[object]`Ref<TabPaneName>`                 |
+| tabNavRef ^(2.9.10) | tab-nav component instance | ^[object]`Ref<TabNavInstance \| undefined>` |
+
+## Tab-nav API
+
+### Tab-nav Exposes
+
+| Name                 | Description                 | Type                             |
+| -------------------- | --------------------------- | -------------------------------- |
+| scrollToActiveTab    | scroll to the active tab    | ^[Function]`() => Promise<void>` |
+| removeFocus          | remove focus status         | ^[Function]`() => boolean`       |
+| tabListRef ^(2.9.10) | el_tabs\_\_nav html element | ^[object]`ref<HTMLDivElement>`   |
+
 ## Tab-pane API
 
 ### Tab-pane Attributes

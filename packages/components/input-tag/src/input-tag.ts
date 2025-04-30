@@ -50,6 +50,13 @@ export const inputTagProps = buildProps({
     default: false,
   },
   /**
+   * @description add a tag when a delimiter is matched
+   */
+  delimiter: {
+    type: [String, RegExp],
+    default: '',
+  },
+  /**
    * @description input box size
    */
   size: useSizeProp,
