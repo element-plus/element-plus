@@ -73,7 +73,7 @@ collapse/custom-icon
 | Name           | Description                  | Type                                                     |
 | -------------- | ---------------------------- | -------------------------------------------------------- |
 | activeNames    | currently active panel names | ^[object]`ComputedRef<(string \| number)[]>`             |
-| setActiveNames | set active panel names       | ^[Function]`(activeNames: CollapseActiveName[]) => void` |
+| setActiveNames | set active panel names       | ^[Function]`(activeNames: (string \| number)[]) => void` |
 
 ## Collapse Item API
 
@@ -99,14 +99,3 @@ collapse/custom-icon
 | Name     | Description                                 | Type                                         |
 | -------- | ------------------------------------------- | -------------------------------------------- |
 | isActive | whether the current collapse item is active | ^[object]`ComputedRef<boolean \| undefined>` |
-
-## Type Declarations
-
-<details>
-  <summary>Show declarations</summary>
-
-```ts
-type CollapseActiveName = string | number
-```
-
-</details>
