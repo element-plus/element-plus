@@ -92,7 +92,7 @@ const lastOffset = computed(() => getLastOffset(props.id))
 const offset = computed(
   () => getOffsetOrSpace(props.id, props.offset) + lastOffset.value
 )
-const bottom = computed((): number => height.value + offset.value)
+const bottom = computed(() => height.value + offset.value)
 const customStyle = computed<CSSProperties>(() => ({
   top: `${offset.value}px`,
   zIndex: currentZIndex.value,
