@@ -240,7 +240,7 @@ samp {
 
 .doc-content [class*='language-'] > button.copy.copied::before,
 .doc-content [class*='language-'] > button.copy:hover.copied::before {
-  position: relative;
+  position: absolute;
   top: -1px;
   /*rtl:ignore*/
   transform: translateX(calc(-100% - 1px));

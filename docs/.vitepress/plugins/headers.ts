@@ -19,6 +19,10 @@ export default (md: MarkdownRenderer): void => {
       shouldEscapeText: false,
       slugify,
     })
+    // remove space before <
+    env.headers.forEach((header) => {
+      header.title = header.title.replace(/\s+</g, '<')
+    })
     return render(tokens, options, env)
   }
 }

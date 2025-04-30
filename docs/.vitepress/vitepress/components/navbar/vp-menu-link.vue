@@ -3,18 +3,24 @@ import { useRoute } from 'vitepress'
 import { useStorage } from '@vueuse/core'
 import VPLink from '../common/vp-link.vue'
 import { isActive } from '../../utils'
-
+import { usePlaygroundPreview } from '../../composables/use-playground'
 import type { Link } from '../../types'
+
 const USER_VISITED_NEW_RESOURCE_PAGE = 'USER_VISITED_NEW_RESOURCE_PAGE'
-defineProps<{
+
+const props = defineProps<{
   item: Link
 }>()
 
 const route = useRoute()
+
 const isVisited = useStorage<boolean | string>(
   USER_VISITED_NEW_RESOURCE_PAGE,
   false
 )
+
+const targetLink = usePlaygroundPreview(props)
+
 const isNewPage = (item: Link) => item.activeMatch === '/some_fake_path/'
 
 const onNavClick = (item: Link) => {
@@ -34,7 +40,7 @@ const onNavClick = (item: Link) => {
         !!item.activeMatch
       ),
     }"
-    :href="item.link"
+    :href="targetLink"
     :no-icon="true"
     @click="onNavClick(item)"
   >

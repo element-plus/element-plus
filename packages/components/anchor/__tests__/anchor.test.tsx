@@ -1,6 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import Anchor from '../src/anchor.vue'
 import AnchorLink from '../src/anchor-link.vue'
 
@@ -107,7 +108,7 @@ describe('Anchor.vue', () => {
     ))
     wrapper.find(`a[href="${hash1}"]`).trigger('click')
     wrapper.find(`a[href="${hash2}"]`).trigger('click')
-    expect(wrapper.findComponent(Anchor).emitted('change')).toEqual([
+    expect(wrapper.findComponent(Anchor).emitted(CHANGE_EVENT)).toEqual([
       [hash1],
       [hash2],
     ])

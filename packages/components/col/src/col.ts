@@ -83,4 +83,4 @@ export const colProps = buildProps({
   },
 } as const)
 export type ColProps = ExtractPropTypes<typeof colProps>
-export type ColInstance = InstanceType<typeof Col>
+export type ColInstance = InstanceType<typeof Col> & unknown

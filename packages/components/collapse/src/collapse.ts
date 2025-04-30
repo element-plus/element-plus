@@ -4,7 +4,6 @@ import {
   isArray,
   isNumber,
   isString,
-  mutable,
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
@@ -28,7 +27,7 @@ export const collapseProps = buildProps({
    */
   modelValue: {
     type: definePropType<CollapseModelValue>([Array, String, Number]),
-    default: () => mutable([] as const),
+    default: () => undefined,
   },
   /**
    * @description set expand icon position
