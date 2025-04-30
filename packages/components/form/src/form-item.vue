@@ -61,6 +61,7 @@ import {
   isBoolean,
   isFunction,
   isString,
+  isUndefined,
 } from '@element-plus/utils'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
@@ -167,9 +168,10 @@ const hasLabel = computed<boolean>(() => {
 })
 
 const labelFor = computed<string | undefined>(() => {
-  return (
-    props.for || (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
-  )
+  if (!isUndefined(props.for)) {
+    return props.for ? props.for : undefined
+  }
+  return inputIds.value.length === 1 ? inputIds.value[0] : undefined
 })
 
 const isGroup = computed<boolean>(() => {
