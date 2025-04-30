@@ -47,7 +47,7 @@ collapse/custom-icon
 
 :::
 
-## Custom icon position ^(2.9.8)
+## Custom icon position ^(2.9.10)
 
 using the `expandIconPosition` attribute, you can customize icon position.
 
