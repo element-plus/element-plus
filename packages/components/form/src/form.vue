@@ -30,7 +30,7 @@ defineOptions({
 const props = defineProps(formProps)
 const emit = defineEmits(formEmits)
 
-const fields: FormItemContext[] = []
+const fields = reactive<FormItemContext[]>([])
 
 const formSize = useFormSize()
 const ns = useNamespace('form')
