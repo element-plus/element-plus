@@ -31,6 +31,12 @@ collapse/accordion
 
 Besides using the `title` attribute, you can customize panel title with named slots, which makes adding custom content, e.g. icons, possible.
 
+:::tip
+
+Starting from version ^(2.9.10), the `title` slot provides an `isActive` property that indicates whether the current collapse item is active.
+
+:::
+
 :::demo
 
 collapse/customization
@@ -91,7 +97,7 @@ collapse/custom-icon
 | Name          | Description                    | Type                             |
 | ------------- | ------------------------------ | -------------------------------- |
 | default       | content of Collapse Item       | —                                |
-| title         | content of Collapse Item title | —                                |
+| title         | content of Collapse Item title | ^[object]`{ isActive: boolean }` |
 | icon ^(2.8.3) | content of Collapse Item icon  | ^[object]`{ isActive: boolean }` |
 
 ### Collapse Item Exposes

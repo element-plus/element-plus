@@ -13,7 +13,7 @@
       @focus="handleFocus"
       @blur="focusing = false"
     >
-      <slot name="title">{{ title }}</slot>
+      <slot name="title" :is-active="isActive">{{ title }}</slot>
       <slot name="icon" :is-active="isActive">
         <el-icon :class="arrowKls">
           <component :is="icon" />
