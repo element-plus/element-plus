@@ -1,5 +1,9 @@
 export const timeUnits = ['hours', 'minutes', 'seconds'] as const
 
+export const PICKER_BASE = Symbol()
+
+export const PICKER_POPPER_OPTIONS = Symbol()
+
 export const DEFAULT_FORMATS_TIME = 'HH:mm:ss'
 export const DEFAULT_FORMATS_DATE = 'YYYY-MM-DD'
 export const DEFAULT_FORMATS_DATEPICKER = {

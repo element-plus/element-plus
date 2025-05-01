@@ -60,18 +60,10 @@ import { ElIcon } from '@element-plus/components/icon'
 import { Check, Close } from '@element-plus/icons-vue'
 import { isNumber } from '@element-plus/utils'
 import { stepProps } from './item'
+import { STEPS_INJECTION_KEY } from './tokens'
 
+import type { StepsProps } from './steps'
 import type { CSSProperties, Ref } from 'vue'
-
-export interface IStepsProps {
-  space: number | string
-  active: number
-  direction: string
-  alignCenter: boolean
-  simple: boolean
-  finishStatus: string
-  processStatus: string
-}
 
 export interface StepItemState {
   uid: number
@@ -81,7 +73,7 @@ export interface StepItemState {
 }
 
 export interface IStepsInject {
-  props: IStepsProps
+  props: StepsProps
   steps: Ref<StepItemState[]>
   addStep: (item: StepItemState) => void
   removeStep: (uid: number) => void
@@ -96,7 +88,7 @@ const ns = useNamespace('step')
 const index = ref(-1)
 const lineStyle = ref({})
 const internalStatus = ref('')
-const parent = inject('ElSteps') as IStepsInject
+const parent = inject(STEPS_INJECTION_KEY) as IStepsInject
 const currentInstance = getCurrentInstance()
 
 onMounted(() => {

@@ -17,7 +17,11 @@ import {
   type SingleOrRange,
 } from '@element-plus/components/time-picker'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { ROOT_PICKER_INJECTION_KEY } from './constants'
+import {
+  ROOT_PICKER_INJECTION_KEY,
+  ROOT_PICKER_IS_DEFAULT_FORMAT,
+  ROOT_PICKER_POPPER_OPTIONS,
+} from './constants'
 
 import { datePickerProps } from './props/date-picker'
 import { getPanel } from './panel-utils'
@@ -42,8 +46,8 @@ export default defineComponent({
     const isDefaultFormat = computed(() => {
       return !props.format
     })
-    provide('ElIsDefaultFormat', isDefaultFormat)
-    provide('ElPopperOptions', reactive(toRef(props, 'popperOptions')))
+    provide(ROOT_PICKER_IS_DEFAULT_FORMAT, isDefaultFormat)
+    provide(ROOT_PICKER_POPPER_OPTIONS, reactive(toRef(props, 'popperOptions')))
     provide(ROOT_PICKER_INJECTION_KEY, {
       slots,
       pickerNs: ns,

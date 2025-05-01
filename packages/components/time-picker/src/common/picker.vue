@@ -186,6 +186,7 @@ import {
 } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
 import { dayOrDaysToDate, formatter, parseDate, valueEquals } from '../utils'
+import { PICKER_BASE, PICKER_POPPER_OPTIONS } from '../constants'
 import { timePickerDefaultProps } from './props'
 import PickerRangeTrigger from './picker-range-trigger.vue'
 import type { InputInstance } from '@element-plus/components/input'
@@ -228,7 +229,7 @@ const nsInput = useNamespace('input')
 const nsRange = useNamespace('range')
 
 const { form, formItem } = useFormItem()
-const elPopperOptions = inject('ElPopperOptions', {} as Options)
+const elPopperOptions = inject(PICKER_POPPER_OPTIONS, {} as Options)
 const { valueOnClear } = useEmptyValues(props, null)
 
 const refPopper = ref<TooltipInstance>()
@@ -714,7 +715,7 @@ const blur = () => {
   inputRef.value?.blur()
 }
 
-provide('EP_PICKER_BASE', {
+provide(PICKER_BASE, {
   props,
 })
 
