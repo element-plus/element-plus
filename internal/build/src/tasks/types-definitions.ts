@@ -11,7 +11,6 @@ export const generateTypesDefinitions = async () => {
   const typesDir = path.join(buildOutput, 'types', 'packages')
   const entryDir = path.join(typesDir, 'element-plus')
   const entryFilePath = path.join(entryDir, 'index.d.ts')
-  const bundlePath = path.join(typesDir, 'element-plus.d.ts')
   const tsDir = path.join(projRoot, 'node_modules', 'typescript')
   const tsConfigPath = path.join(projRoot, 'tsconfig.web.json')
   const tsConfig = ts.readConfigFile(tsConfigPath, ts.sys.readFile)
@@ -21,7 +20,7 @@ export const generateTypesDefinitions = async () => {
     'npx vue-tsc -p tsconfig.web.json --declaration --emitDeclarationOnly --declarationDir dist/types'
   )
 
-  // Rollup all .d.ts files into one bundle file
+  // Rollup all .d.ts files into index.d.ts
   const extractorConfig = ExtractorConfig.prepare({
     configObject: {
       projectFolder: typesDir,
@@ -37,7 +36,7 @@ export const generateTypesDefinitions = async () => {
       },
       dtsRollup: {
         enabled: true,
-        untrimmedFilePath: bundlePath,
+        untrimmedFilePath: entryFilePath,
       },
       compiler: {
         overrideTsconfig: {
@@ -60,9 +59,9 @@ export const generateTypesDefinitions = async () => {
   Extractor.invoke(extractorConfig, { typescriptCompilerFolder: tsDir })
 
   // Format the bundle file
-  const fileContent = await readFile(bundlePath, 'utf8')
+  const fileContent = await readFile(entryFilePath, 'utf8')
   const sourceFile = ts.createSourceFile(
-    bundlePath,
+    entryFilePath,
     fileContent,
     tsConfig.config.compilerOptions.target
   )
@@ -70,7 +69,7 @@ export const generateTypesDefinitions = async () => {
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed })
   const formattedText = printer.printFile(sourceFile)
 
-  await writeFile(bundlePath, formattedText, 'utf8')
+  await writeFile(entryFilePath, formattedText, 'utf8')
 
   // "@element-plus" should be replaced with "element-plus"
   const filePaths = await glob(`**/*.d.ts`, {
