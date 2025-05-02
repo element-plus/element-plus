@@ -38,8 +38,6 @@ const formClasses = computed(() => {
   const { labelPosition, inline } = props
   return [
     ns.b(),
-    // todo: in v2.2.0, we can remove default
-    // in fact, remove it doesn't affect the final style
     ns.m(formSize.value || 'default'),
     {
       [ns.m(`label-${labelPosition}`)]: labelPosition,
