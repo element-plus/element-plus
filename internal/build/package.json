@@ -9,8 +9,7 @@
   "scripts": {
     "start": "gulp --require tsx/dist/loader.cjs -f gulpfile.ts",
     "dev": "pnpm run stub",
-    "stub": "unbuild --stub",
-    "gen-dts": "gulp --require tsx/dist/loader.cjs -f gulpfile.ts generateTypesDefinitions"
+    "stub": "unbuild --stub"
   },
   "peerDependencies": {
     "vue": "^3.2.25"
