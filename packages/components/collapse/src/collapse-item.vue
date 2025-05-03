@@ -14,7 +14,7 @@
       @blur="focusing = false"
     >
       <div :class="itemTitleKls">
-        <slot name="title">{{ title }}</slot>
+        <slot name="title" :is-active="isActive">{{ title }}</slot>
       </div>
       <slot name="icon" :is-active="isActive">
         <el-icon :class="arrowKls">
