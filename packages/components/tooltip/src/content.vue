@@ -144,13 +144,6 @@ const onBeforeLeave = () => {
 
 const onAfterShow = () => {
   onShow()
-  stopHandle = onClickOutside(popperContentRef, () => {
-    if (unref(controlled)) return
-    const $trigger = unref(trigger)
-    if ($trigger !== 'hover') {
-      onClose()
-    }
-  })
 }
 
 const onBlur = () => {
@@ -174,6 +167,13 @@ watch(
       stopHandle?.()
     } else {
       ariaHidden.value = false
+      stopHandle = onClickOutside(popperContentRef, () => {
+        if (unref(controlled)) return
+        const $trigger = unref(trigger)
+        if ($trigger !== 'hover') {
+          onClose()
+        }
+      })
     }
   },
   {

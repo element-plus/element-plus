@@ -53,8 +53,8 @@ importers:
         specifier: ^4.17.6
         version: 4.17.6
       '@vueuse/core':
-        specifier: ^9.1.0
-        version: 9.1.0(vue@3.2.37)
+        specifier: ^10.11.0
+        version: 10.11.0(vue@3.2.37)
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=wdmp4xlpil2odxo3rasjmxbdfm)
@@ -208,7 +208,7 @@ importers:
         version: 5.5.4
       unplugin-vue-macros:
         specifier: ^2.7.11
-        version: 2.7.11(@vueuse/core@9.1.0(vue@3.2.37))(esbuild@0.25.2)(rollup@4.24.4)(typescript@5.5.4)(vue@3.2.37)
+        version: 2.7.11(@vueuse/core@10.11.0(vue@3.2.37))(esbuild@0.25.2)(rollup@4.24.4)(typescript@5.5.4)(vue@3.2.37)
       vitest:
         specifier: ^2.0.5
         version: 2.0.5(@types/node@22.9.0)(@vitest/ui@2.0.5)(happy-dom@17.4.4)(jsdom@16.4.0)(sass@1.79.3)(terser@5.36.0)
@@ -10933,13 +10933,13 @@ snapshots:
       - vite
       - webpack
 
-  '@vue-macros/define-models@1.2.2(@vueuse/core@9.1.0(vue@3.2.37))(rollup@4.24.4)(vue@3.2.37)':
+  '@vue-macros/define-models@1.2.2(@vueuse/core@10.11.0(vue@3.2.37))(rollup@4.24.4)(vue@3.2.37)':
     dependencies:
       '@vue-macros/common': 1.10.1(rollup@4.24.4)(vue@3.2.37)
       ast-walker-scope: 0.5.0(rollup@4.24.4)
       unplugin: 1.10.0
     optionalDependencies:
-      '@vueuse/core': 9.1.0(vue@3.2.37)
+      '@vueuse/core': 10.11.0(vue@3.2.37)
     transitivePeerDependencies:
       - rollup
       - vue
@@ -11462,6 +11462,16 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.9.0
 
+  '@vueuse/core@10.11.0(vue@3.2.37)':
+    dependencies:
+      '@types/web-bluetooth': 0.0.20
+      '@vueuse/metadata': 10.11.0
+      '@vueuse/shared': 10.11.0(vue@3.2.37)
+      vue-demi: 0.14.8(vue@3.2.37)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+
   '@vueuse/core@10.11.0(vue@3.4.31(typescript@5.5.4))':
     dependencies:
       '@types/web-bluetooth': 0.0.20
@@ -11509,6 +11519,13 @@ snapshots:
   '@vueuse/metadata@10.11.0': {}
 
   '@vueuse/metadata@9.1.0': {}
+
+  '@vueuse/shared@10.11.0(vue@3.2.37)':
+    dependencies:
+      vue-demi: 0.14.8(vue@3.2.37)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
 
   '@vueuse/shared@10.11.0(vue@3.4.31(typescript@5.5.4))':
     dependencies:
@@ -16732,14 +16749,14 @@ snapshots:
       - vite
       - webpack
 
-  unplugin-vue-macros@2.7.11(@vueuse/core@9.1.0(vue@3.2.37))(esbuild@0.25.2)(rollup@4.24.4)(typescript@5.5.4)(vue@3.2.37):
+  unplugin-vue-macros@2.7.11(@vueuse/core@10.11.0(vue@3.2.37))(esbuild@0.25.2)(rollup@4.24.4)(typescript@5.5.4)(vue@3.2.37):
     dependencies:
       '@vue-macros/better-define': 1.7.3(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/boolean-prop': 0.3.2(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/chain-call': 0.2.2(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/common': 1.10.1(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/define-emit': 0.2.3(rollup@4.24.4)(vue@3.2.37)
-      '@vue-macros/define-models': 1.2.2(@vueuse/core@9.1.0(vue@3.2.37))(rollup@4.24.4)(vue@3.2.37)
+      '@vue-macros/define-models': 1.2.2(@vueuse/core@10.11.0(vue@3.2.37))(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/define-prop': 0.3.3(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/define-props': 2.0.3(@vue-macros/reactivity-transform@0.4.3(rollup@4.24.4)(vue@3.2.37))(rollup@4.24.4)(vue@3.2.37)
       '@vue-macros/define-props-refs': 1.2.2(rollup@4.24.4)(vue@3.2.37)
@@ -17110,6 +17127,10 @@ snapshots:
   vue-demi@0.13.1(vue@3.4.31(typescript@5.5.4)):
     dependencies:
       vue: 3.4.31(typescript@5.5.4)
+
+  vue-demi@0.14.8(vue@3.2.37):
+    dependencies:
+      vue: 3.2.37
 
   vue-demi@0.14.8(vue@3.4.31(typescript@5.5.4)):
     dependencies:
