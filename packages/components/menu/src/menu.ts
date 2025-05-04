@@ -30,6 +30,7 @@ import {
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
+import { collapseTransitionOpenKey } from '@element-plus/components/collapse-transition/src/constants'
 import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
@@ -208,6 +209,9 @@ export default defineComponent({
     const nsMenu = useNamespace('menu')
     const nsSubMenu = useNamespace('sub-menu')
 
+    const isOpenTransition = ref(true)
+    provide(collapseTransitionOpenKey, isOpenTransition)
+
     // data
     const sliceIndex = ref(-1)
 
@@ -228,18 +232,30 @@ export default defineComponent({
     )
 
     // methods
-    const initMenu = () => {
+    const initMenu = async () => {
       const activeItem = activeIndex.value && items.value[activeIndex.value]
       if (!activeItem || props.mode === 'horizontal' || props.collapse) return
 
       const indexPath = activeItem.indexPath
 
-      // 展开该菜单项的路径上所有子菜单
-      // expand all subMenus of the menu item
-      indexPath.forEach((index) => {
-        const subMenu = subMenus.value[index]
-        subMenu && openMenu(index, subMenu.indexPath)
-      })
+      const _submenus = indexPath
+        .map((index) => subMenus.value[index])
+        .filter((item) => !isUndefined(item))
+
+      if (_submenus.length > 1) {
+        isOpenTransition.value = false
+        _submenus.forEach(
+          (item, index) => index !== 0 && openedMenus.value.push(item.index)
+        )
+
+        await nextTick()
+        isOpenTransition.value = true
+        _submenus.forEach(
+          (item, index) => index !== 0 && openedMenus.value.pop()
+        )
+      }
+
+      _submenus.forEach((item) => openMenu(item.index, item.indexPath))
     }
 
     const openMenu: MenuProvider['openMenu'] = (index, indexPath) => {
