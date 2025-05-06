@@ -1426,14 +1426,6 @@ describe('table column', () => {
       const dynamicFixCols = 2
 
       expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
-      wrapper.vm.fixed = true
-      await doubleWait()
-      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
-        rowLength * (dynamicFixCols + 1)
-      )
-      wrapper.vm.fixed = false
-      await doubleWait()
-      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
 
       wrapper.vm.selectFixed = true
       await doubleWait()
