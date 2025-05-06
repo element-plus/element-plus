@@ -189,7 +189,7 @@ import {
   dayOrDaysToDate,
   formatter,
   parseDate,
-  setDateWithDefaultTime,
+  setDefaultTimeForDate,
   valueEquals,
 } from '../utils'
 import { timePickerDefaultProps } from './props'
@@ -201,7 +201,6 @@ import type { ComponentPublicInstance, Ref } from 'vue'
 import type { Options } from '@popperjs/core'
 import type {
   DateModelType,
-  DateOrDates,
   DayOrDays,
   PickerOptions,
   SingleOrRange,
@@ -545,37 +544,14 @@ const userInput = ref<UserInput>(null)
 const handleChange = () => {
   if (userInput.value) {
     const value = parseUserInputToDayjs(displayValue.value)
-    if (value) {
-      if (isValidValue(value)) {
-        let date = dayOrDaysToDate(value)
+    if (value && isValidValue(value)) {
+      let date = dayOrDaysToDate(value)
 
-        if (props.defaultTime) {
-          if (isArray(date) && date.length) {
-            let arr: DateOrDates | Array<DateOrDates>
-
-            if (isArray(props.defaultTime) && props.defaultTime.length) {
-              arr = date.map((item, i) =>
-                setDateWithDefaultTime(
-                  item as Date,
-                  (props.defaultTime as Date[])[i]
-                )
-              )
-            } else {
-              arr = date.map((item) =>
-                setDateWithDefaultTime(item as Date, props.defaultTime as Date)
-              )
-            }
-            date = arr as DateOrDates
-          } else {
-            date = setDateWithDefaultTime(
-              date as Date,
-              props.defaultTime as Date
-            )
-          }
-        }
-        emitInput(date)
-        userInput.value = null
+      if (props.defaultTime) {
+        date = setDefaultTimeForDate(date, props.defaultTime)
       }
+      emitInput(date)
+      userInput.value = null
     }
   }
   if (userInput.value === '') {
@@ -693,7 +669,12 @@ const handleStartChange = () => {
     ]
     const newValue = [value, parsedVal && (parsedVal[1] || null)] as DayOrDays
     if (isValidValue(newValue)) {
-      emitInput(dayOrDaysToDate(newValue))
+      const date = dayOrDaysToDate(newValue)
+      let newDate = date
+      if (props.defaultTime) {
+        newDate = setDefaultTimeForDate(date as Date, props.defaultTime as Date)
+      }
+      emitInput(newDate)
       userInput.value = null
     }
   }
@@ -710,7 +691,12 @@ const handleEndChange = () => {
     ]
     const newValue = [parsedVal && parsedVal[0], value] as DayOrDays
     if (isValidValue(newValue)) {
-      emitInput(dayOrDaysToDate(newValue))
+      const date = dayOrDaysToDate(newValue)
+      let newDate = date
+      if (props.defaultTime) {
+        newDate = setDefaultTimeForDate(date as Date, props.defaultTime as Date)
+      }
+      emitInput(newDate)
       userInput.value = null
     }
   }

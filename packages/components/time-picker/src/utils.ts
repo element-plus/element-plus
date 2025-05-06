@@ -97,7 +97,7 @@ export const dayOrDaysToDate = (dayOrDays: DayOrDays): DateOrDates => {
     : dayOrDays.toDate()
 }
 
-export const setDateWithDefaultTime = function (
+const setDateWithDefaultTime = function (
   date: Date,
   defaultTime: Date
 ): DateOrDates {
@@ -109,4 +109,34 @@ export const setDateWithDefaultTime = function (
     defaultTime.getMinutes(),
     defaultTime.getSeconds()
   )
+}
+
+/**
+ * 设置日期的默认时间
+ *
+ * @param {Date | Date[]} date - 日期，可以是单个日期或日期数组
+ * @param {Date | Date[]} defaultTime - 默认时间，可以是单个时间或时间数组
+ * @return {Date | Date[]} - 设置默认时间后的日期
+ */
+export function setDefaultTimeForDate(
+  date: Date | Date[],
+  defaultTime: Date | Date[]
+): DateOrDates {
+  if (Array.isArray(date) && date.length) {
+    // 判断是否存在多个默认时间
+    const hasMultipleDefaultTimes = isArray(defaultTime) && defaultTime.length
+
+    // 根据情况设置默认时间
+    const arr = date.map((item, index) =>
+      setDateWithDefaultTime(
+        item as Date,
+        hasMultipleDefaultTimes
+          ? (defaultTime as Date[])[index]
+          : (defaultTime as Date)
+      )
+    )
+    return arr as DateOrDates
+  } else {
+    return setDateWithDefaultTime(date as Date, defaultTime as Date)
+  }
 }

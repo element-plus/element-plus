@@ -256,6 +256,54 @@ describe('DatePicker', () => {
     checkDefaultTime(new Date(wrapper.vm.value), 12, 0, 1)
   })
 
+  it('input date range date', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="daterange"
+        range-separator="To"
+        start-placeholder="Start date"
+        end-placeholder="End date"
+        :default-time="defaultTime"
+        value-format="YYYY-MM-DD HH:mm:ss"
+      />`,
+      () => ({
+        value: [undefined, undefined],
+        defaultTime: [
+          new Date(2000, 1, 1, 12, 5, 4),
+          new Date(2000, 1, 1, 15, 10, 20),
+        ],
+      }),
+      {
+        methods: {
+          changeValueFormat() {
+            this.valueFormat = 'YYYY-MM-DD HH:mm:ss'
+          },
+        },
+      }
+    )
+
+    const inputs = wrapper.findAll('input')
+
+    const handle = async () => {
+      await inputs[0].trigger('focus')
+
+      await nextTick()
+      const panels = document.querySelectorAll('.el-date-range-picker__content')
+      expect(panels.length).toBe(2)
+      ;(panels[0].querySelector('td.available') as HTMLElement).click()
+      await nextTick()
+      ;(panels[1].querySelector('td.available') as HTMLElement).click()
+      await nextTick()
+
+      await inputs[0].setValue('2025-05-01')
+      await inputs[0].trigger('blur')
+    }
+    await handle()
+    checkDefaultTime(new Date(wrapper.vm.value[0]), 12, 5, 4)
+    checkDefaultTime(new Date(wrapper.vm.value[1]), 15, 10, 20)
+  })
+
   it('defaultValue', async () => {
     const wrapper = _mount(
       `<el-date-picker
