@@ -188,6 +188,7 @@ const copyCode = async () => {
     margin: 0.5px;
     background-color: var(--bg-color);
     border-radius: var(--el-border-radius-base);
+    overflow: auto;
   }
 
   .op-btns {
