@@ -134,6 +134,9 @@
     },
     "patchedDependencies": {
       "async-validator@4.2.5": "patches/async-validator@4.2.5.patch"
+    },
+    "overrides": {
+      "typescript": "$typescript"
     }
   },
   "lint-staged": {
