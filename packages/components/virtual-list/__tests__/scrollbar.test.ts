@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick } from '@vue/runtime-core'
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import Scrollbar from '../src/components/scrollbar'
