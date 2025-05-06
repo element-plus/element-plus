@@ -361,6 +361,35 @@ const createGrid = ({
         passive: false,
       })
 
+      const touchStartX = ref(0)
+      const touchStartY = ref(0)
+
+      const handleTouchStart = (event: TouchEvent) => {
+        event.preventDefault()
+        touchStartX.value = event.touches[0].clientX
+        touchStartY.value = event.touches[0].clientY
+      }
+
+      const handleTouchMove = (event: TouchEvent) => {
+        event.preventDefault()
+        const deltaX = touchStartX.value - event.touches[0].clientX
+        const deltaY = touchStartY.value - event.touches[0].clientY
+
+        scrollTo({
+          scrollLeft: states.value.scrollLeft + deltaX,
+          scrollTop: states.value.scrollTop + deltaY,
+        })
+
+        handleTouchStart(event)
+      }
+
+      useEventListener(windowRef, 'touchstart', handleTouchStart, {
+        passive: false,
+      })
+      useEventListener(windowRef, 'touchmove', handleTouchMove, {
+        passive: false,
+      })
+
       const scrollTo = ({
         scrollLeft = states.value.scrollLeft,
         scrollTop = states.value.scrollTop,
@@ -522,6 +551,10 @@ const createGrid = ({
         windowRef,
         innerRef,
         getItemStyleCache,
+        touchStartX,
+        touchStartY,
+        handleTouchStart,
+        handleTouchMove,
         scrollTo,
         scrollToItem,
         states,

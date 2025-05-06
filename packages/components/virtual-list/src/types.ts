@@ -124,6 +124,10 @@ export type GridExposes = {
     xAxisScrollDir: Direction
     yAxisScrollDir: Direction
   } & ExposesStates
+  touchStartX: Ref<number>
+  touchStartY: Ref<number>
+  handleTouchStart: (e: TouchEvent) => void
+  handleTouchMove: (e: TouchEvent) => void
   scrollTo: (props: { scrollLeft: number; scrollTop: number }) => void
   scrollToItem: (
     columnIndex?: number,
