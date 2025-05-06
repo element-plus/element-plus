@@ -13,9 +13,9 @@
       @focus="handleFocus"
       @blur="focusing = false"
     >
-      <div :class="itemTitleKls">
+      <span :class="itemTitleKls">
         <slot name="title" :is-active="isActive">{{ title }}</slot>
-      </div>
+      </span>
       <slot name="icon" :is-active="isActive">
         <el-icon :class="arrowKls">
           <component :is="icon" />
