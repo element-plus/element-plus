@@ -60,8 +60,10 @@ jobs:
         node-version: [20, 22, 24]
         include:
           - node-version: 20
-            node-name: LTS
+            node-name: LTS(20)
           - node-version: 22
+            node-name: LTS(22)
+          - node-version: 24
             node-name: Current
 
     steps:
