@@ -10,7 +10,6 @@
     :gpu-acceleration="false"
     :placement="placement"
     :transition="`${nsCascader.namespace.value}-zoom-in-top`"
-    effect="light"
     pure
     :persistent="persistent"
     @hide="hideSuggestionPanel"
