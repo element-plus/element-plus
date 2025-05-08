@@ -127,11 +127,12 @@ tabs/customized-trigger
 
 ### Tab-nav Exposes
 
-| Name                 | Description                 | Type                             |
-| -------------------- | --------------------------- | -------------------------------- |
-| scrollToActiveTab    | scroll to the active tab    | ^[Function]`() => Promise<void>` |
-| removeFocus          | remove focus status         | ^[Function]`() => boolean`       |
-| tabListRef ^(2.9.10) | el_tabs\_\_nav html element | ^[object]`ref<HTMLDivElement>`   |
+| Name                 | Description                 | Type                                        |
+| -------------------- | --------------------------- | ------------------------------------------- |
+| scrollToActiveTab    | scroll to the active tab    | ^[Function]`() => Promise<void>`            |
+| removeFocus          | remove focus status         | ^[Function]`() => boolean`                  |
+| tabListRef ^(2.9.10) | el_tabs\_\_nav html element | ^[object]`Ref<HTMLDivElement \| undefined>` |
+| tabBarRef ^(2.9.10)  | el_tabs\_\_nav bar instance | ^[object]`Ref<TabBarInstance \| undefined>` |
 
 ## Tab-pane API
 
