@@ -1,19 +1,17 @@
 import {
   computed,
   getCurrentInstance,
-  isVNode,
   onBeforeUnmount,
   onMounted,
   provide,
   ref,
   shallowRef,
   unref,
-  useSlots,
   watch,
 } from 'vue'
 import { throttle } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import { debugWarn, flattedChildren, isString } from '@element-plus/utils'
+import { debugWarn, isString } from '@element-plus/utils'
 import { useOrderedChildren } from '@element-plus/hooks'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
@@ -38,15 +36,12 @@ export const useCarousel = (
     CAROUSEL_ITEM_NAME
   )
 
-  const slots = useSlots()
-
   // refs
   const activeIndex = ref(-1)
   const timer = ref<ReturnType<typeof setInterval> | null>(null)
   const hover = ref(false)
   const root = ref<HTMLDivElement>()
   const containerHeight = ref<number>(0)
-  const isItemsTwoLength = ref(true)
   const isFirstCall = ref(true)
   const isTransitioning = ref(false)
 
@@ -86,11 +81,6 @@ export const useCarousel = (
   const throttledIndicatorHover = throttle((index: number) => {
     handleIndicatorHover(index)
   }, THROTTLE_TIME)
-
-  const isTwoLengthShow = (index: number) => {
-    if (!isItemsTwoLength.value) return true
-    return activeIndex.value <= 1 ? index <= 1 : index > 1
-  }
 
   function pauseTimer() {
     if (timer.value) {
@@ -247,34 +237,11 @@ export const useCarousel = (
     containerHeight.value = height
   }
 
-  function PlaceholderItem() {
-    // fix: https://github.com/element-plus/element-plus/issues/12139
-    const defaultSlots = slots.default?.()
-    if (!defaultSlots) return null
-
-    const flatSlots = flattedChildren(defaultSlots)
-
-    const normalizeSlots = flatSlots.filter((slot) => {
-      return isVNode(slot) && (slot.type as any).name === CAROUSEL_ITEM_NAME
-    })
-
-    if (normalizeSlots?.length === 2 && props.loop && !isCardType.value) {
-      isItemsTwoLength.value = true
-      return normalizeSlots
-    }
-    isItemsTwoLength.value = false
-    return null
-  }
-
   // watch
   watch(
     () => activeIndex.value,
     (current, prev) => {
       resetItemPosition(prev)
-      if (isItemsTwoLength.value) {
-        current = current % 2
-        prev = prev % 2
-      }
       if (prev > -1) {
         emit(CHANGE_EVENT, current, prev)
       }
@@ -349,7 +316,6 @@ export const useCarousel = (
     items,
     isVertical,
     containerStyle,
-    isItemsTwoLength,
     handleButtonEnter,
     handleTransitionEnd,
     handleButtonLeave,
@@ -359,8 +325,6 @@ export const useCarousel = (
     setActiveItem,
     prev,
     next,
-    PlaceholderItem,
-    isTwoLengthShow,
     throttledArrowClick,
     throttledIndicatorHover,
   }

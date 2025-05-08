@@ -43,6 +43,11 @@ export default defineConfig(async ({ mode }) => {
           find: /^element-plus\/(es|lib)\/(.*)$/,
           replacement: `${pkgRoot}/$2`,
         },
+        {
+          find: /^echarts$/,
+          replacement:
+            'https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.esm.js',
+        },
       ],
     },
     server: {
