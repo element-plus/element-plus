@@ -97,7 +97,7 @@ import { ElLoading } from 'element-plus'
 
 // in your setup method
 const { appContext } = getCurrentInstance()!
-ElLoading({}, appContext)
+ElLoading.service({}, appContext)
 ```
 
 ## API
