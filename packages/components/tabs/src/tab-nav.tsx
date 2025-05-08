@@ -30,6 +30,7 @@ import { tabsRootContextKey } from './constants'
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { TabsPaneContext } from './constants'
 import type { TabPaneName } from './tabs'
+import type { TabBarInstance } from './tab-bar'
 
 interface Scrollable {
   next?: boolean
@@ -80,7 +81,7 @@ const TabNav = defineComponent({
     const nav$ = ref<HTMLDivElement>()
     const el$ = ref<HTMLDivElement>()
 
-    const tabBarRef = ref<InstanceType<typeof TabBar>>()
+    const tabBarRef = ref<TabBarInstance>()
 
     const scrollable = ref<false | Scrollable>(false)
     const navOffset = ref(0)
@@ -266,6 +267,7 @@ const TabNav = defineComponent({
       scrollToActiveTab,
       removeFocus,
       tabListRef: nav$,
+      tabBarRef,
     })
 
     return () => {
@@ -400,5 +402,6 @@ export type TabNavInstance = InstanceType<typeof TabNav> & {
   scrollToActiveTab: () => Promise<void>
   removeFocus: () => void
   tabListRef: HTMLDivElement | undefined
+  tabBarRef: TabBarInstance | undefined
 } & unknown
 export default TabNav
