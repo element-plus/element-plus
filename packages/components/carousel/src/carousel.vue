@@ -46,13 +46,11 @@
       @transitionstart="handleTransitionStart"
       @transitionend="handleTransitionEnd"
     >
-      <PlaceholderItem />
       <slot />
     </div>
     <ul v-if="indicatorPosition !== 'none'" :class="indicatorsClasses">
       <li
         v-for="(item, index) in items"
-        v-show="isTwoLengthShow(index)"
         :key="index"
         :class="[
           ns.e('indicator'),
@@ -121,8 +119,6 @@ const {
   setActiveItem,
   prev,
   next,
-  PlaceholderItem,
-  isTwoLengthShow,
   throttledArrowClick,
   throttledIndicatorHover,
 } = useCarousel(props, emit, COMPONENT_NAME)
