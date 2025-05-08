@@ -1739,6 +1739,51 @@ describe('Select', () => {
     expect(tag.text()).toBe('label:Alabama')
   })
 
+  it('label display correctly after selecting remote search', async () => {
+    const remoteList = Array.from({ length: 200 }).map((_, idx) => {
+      return {
+        label: `${idx}`,
+        value: `remote${idx}`,
+      }
+    })
+    const options = ref([{ value: `0`, label: `Option1` }])
+    const remoteMethod = (query: string) => {
+      if (query !== '') {
+        options.value = remoteList.filter((item) => {
+          return item.label.toLowerCase().includes(query.toLowerCase())
+        })
+      }
+    }
+
+    const wrapper = createSelect({
+      data() {
+        return {
+          filterable: true,
+          remote: true,
+          options,
+          multiple: true,
+          value: ['0'],
+        }
+      },
+      methods: {
+        remoteMethod,
+      },
+    })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    input.element.value = '1'
+    await input.trigger('input')
+    const optionElements = getOptions()
+    optionElements[0].click()
+    await nextTick()
+    const tags = await vi.waitUntil(() =>
+      wrapper.findAll('.el-select__tags-text')
+    )
+    expect(tags[0].text()).toBe('Option1')
+    expect(tags[1].text()).toBe('1')
+  })
+
   it('keyboard operations', async () => {
     const wrapper = createSelect({
       data() {
