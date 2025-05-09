@@ -21,6 +21,7 @@
         :offset="offset"
         :placement="placement"
         :popper-options="popperOptions"
+        :arrow-offset="arrowOffset"
         :strategy="strategy"
         :effect="effect"
         :enterable="enterable"
