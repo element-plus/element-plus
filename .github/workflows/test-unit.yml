@@ -57,7 +57,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20, 22, 24]
+        node-version: [20, 22, 24.0.1]
         include:
           - node-version: 20
             node-name: LTS(20)
