@@ -219,7 +219,6 @@ describe('<fixed-size-grid />', () => {
       } as unknown as TouchEvent
 
       gridRef.handleTouchStart(touchStartEvent)
-      expect(touchStartEvent.preventDefault).toHaveBeenCalled()
 
       expect(gridRef.touchStartX).toBe(100)
       expect(gridRef.touchStartY).toBe(200)

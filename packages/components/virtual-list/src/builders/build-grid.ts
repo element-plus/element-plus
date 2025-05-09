@@ -365,7 +365,6 @@ const createGrid = ({
       const touchStartY = ref(0)
 
       const handleTouchStart = (event: TouchEvent) => {
-        event.preventDefault()
         touchStartX.value = event.touches[0].clientX
         touchStartY.value = event.touches[0].clientY
       }
@@ -384,7 +383,7 @@ const createGrid = ({
       }
 
       useEventListener(windowRef, 'touchstart', handleTouchStart, {
-        passive: false,
+        passive: true,
       })
       useEventListener(windowRef, 'touchmove', handleTouchMove, {
         passive: false,
