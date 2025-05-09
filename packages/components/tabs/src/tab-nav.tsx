@@ -27,6 +27,7 @@ import { useNamespace } from '@element-plus/hooks'
 import TabBar from './tab-bar.vue'
 import { tabsRootContextKey } from './constants'
 
+import { TabBarInstance } from './tab-bar'
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { TabsPaneContext } from './constants'
 import type { TabPaneName } from './tabs'
@@ -396,8 +397,6 @@ const TabNav = defineComponent({
     }
   },
 })
-
-export type TabBarInstance = InstanceType<typeof TabBar>
 
 export type TabNavInstance = InstanceType<typeof TabNav> & {
   scrollToActiveTab: () => Promise<void>
