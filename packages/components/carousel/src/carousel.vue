@@ -41,8 +41,9 @@
       </button>
     </transition>
     <div
-      :class="carouselContainer"
+      :class="ns.e('container')"
       :style="containerStyle"
+      @transitionstart="handleTransitionStart"
       @transitionend="handleTransitionEnd"
     >
       <slot />
@@ -112,11 +113,9 @@ const {
   containerStyle,
   handleButtonEnter,
   handleButtonLeave,
-  isTransitioning,
   handleIndicatorClick,
   handleMouseEnter,
   handleMouseLeave,
-  handleTransitionEnd,
   setActiveItem,
   prev,
   next,
@@ -135,18 +134,6 @@ const carouselClasses = computed(() => {
   return classes
 })
 
-const carouselContainer = computed(() => {
-  const classes = [ns.e('container')]
-  if (props.motionBlur && unref(isTransitioning) && items.value.length > 1) {
-    classes.push(
-      unref(isVertical)
-        ? `${ns.namespace.value}-transitioning-vertical`
-        : `${ns.namespace.value}-transitioning`
-    )
-  }
-  return classes
-})
-
 const indicatorsClasses = computed(() => {
   const classes = [ns.e('indicators'), ns.em('indicators', props.direction)]
   if (unref(hasLabel)) {
@@ -160,6 +147,24 @@ const indicatorsClasses = computed(() => {
   }
   return classes
 })
+
+function handleTransitionStart(e: TransitionEvent) {
+  if (!props.motionBlur) return
+
+  const kls = unref(isVertical)
+    ? `${ns.namespace.value}-transitioning-vertical`
+    : `${ns.namespace.value}-transitioning`
+  ;(e.currentTarget as HTMLDivElement).classList.add(kls)
+}
+
+function handleTransitionEnd(e: TransitionEvent) {
+  if (!props.motionBlur) return
+
+  const kls = unref(isVertical)
+    ? `${ns.namespace.value}-transitioning-vertical`
+    : `${ns.namespace.value}-transitioning`
+  ;(e.currentTarget as HTMLDivElement).classList.remove(kls)
+}
 
 defineExpose({
   /** @description active slide index */
