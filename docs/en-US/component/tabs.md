@@ -152,3 +152,19 @@ tabs/customized-trigger
 | ------- | ------------------ |
 | default | Tab-pane's content |
 | label   | Tab-pane's label   |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type TabBarInstance = InstanceType<typeof TabBar> & {
+  /** @description tab root html element */
+  ref: barRef
+  /** @description method to manually update tab bar style */
+  update
+}
+```
+
+</details>
