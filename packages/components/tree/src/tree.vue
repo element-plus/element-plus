@@ -194,7 +194,7 @@ export default defineComponent({
 
     const { broadcastExpanded } = useNodeExpandEventBroadcast(props)
 
-    const { dragState } = useDragNodeHandler({
+    const { dragState, treeNodeDragStart, treeNodeDragEnd } = useDragNodeHandler({
       props,
       ctx,
       el$,
@@ -439,6 +439,9 @@ export default defineComponent({
       insertAfter,
       handleNodeExpand,
       updateKeyChildren,
+
+      treeNodeDragStart,
+      treeNodeDragEnd,
     }
   },
 })
