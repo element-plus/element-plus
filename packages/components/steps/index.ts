@@ -14,3 +14,4 @@ export const ElStep: SFCWithInstall<typeof Step> = withNoopInstall(Step)
 
 export * from './src/item'
 export * from './src/steps'
+export * from './src/tokens'

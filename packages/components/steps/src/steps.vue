@@ -9,6 +9,7 @@ import { getCurrentInstance, provide, watch } from 'vue'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { stepsEmits, stepsProps } from './steps'
+import { STEPS_INJECTION_KEY } from './tokens'
 
 import type { StepItemState } from './item.vue'
 
@@ -32,7 +33,7 @@ watch(steps, () => {
   })
 })
 
-provide('ElSteps', { props, steps, addStep, removeStep })
+provide(STEPS_INJECTION_KEY, { props, steps, addStep, removeStep })
 
 watch(
   () => props.active,
