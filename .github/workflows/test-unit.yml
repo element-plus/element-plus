@@ -63,7 +63,7 @@ jobs:
             node-name: LTS(20)
           - node-version: 22
             node-name: LTS(22)
-          - node-version: 24
+          - node-version: 24.0.1
             node-name: Current
 
     steps:
