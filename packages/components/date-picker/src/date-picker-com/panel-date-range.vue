@@ -337,6 +337,7 @@ const {
   t,
 } = useRangePicker(props, {
   defaultValue,
+  defaultTime,
   leftDate,
   rightDate,
   unit,

@@ -495,8 +495,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
 
     nextTick(() => {
       if (props.multiple && isArray(props.modelValue)) {
+        const cachedOptions = states.cachedOptions.slice()
         const selectedOptions = props.modelValue.map((value) =>
-          getOption(value)
+          getOption(value, cachedOptions)
         )
 
         if (!isEqual(states.cachedOptions, selectedOptions)) {
@@ -533,7 +534,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   }
 
   const resetSelectionWidth = () => {
-    states.selectionWidth = selectionRef.value!.getBoundingClientRect().width
+    states.selectionWidth = Number.parseFloat(
+      window.getComputedStyle(selectionRef.value!).width
+    )
   }
 
   const resetCollapseItemWidth = () => {
