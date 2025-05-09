@@ -5,9 +5,10 @@ import type {
   RendererNode,
   VNode,
 } from 'vue'
+import type { Align } from '@element-plus/constants'
 import type { FixedDir, SortOrder } from './constants'
 
-export type Alignment = 'left' | 'center' | 'right'
+export type Alignment = Align
 export type FixedDirection = FixedDir
 export type KeyType = string | number | symbol
 
