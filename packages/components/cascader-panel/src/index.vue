@@ -178,6 +178,22 @@ export default defineComponent({
       !emitClose && !multiple && !checkStrictly && expandParentNode(node)
     }
 
+    const handleCheckChangeAll = (checked: boolean, menuIndex: number) => {
+      menus.value.forEach((menu) => {
+        if (menuIndex === 0) {
+          menu.forEach((node) => {
+            node.doCheck(checked)
+            calculateCheckedValue()
+          })
+        } else {
+          menus.value[menuIndex].forEach((node) => {
+            node.doCheck(checked)
+            calculateCheckedValue()
+          })
+        }
+      })
+    }
+
     const expandParentNode = (node) => {
       if (!node) return
       node = node.parent
@@ -342,6 +358,7 @@ export default defineComponent({
         lazyLoad,
         expandNode,
         handleCheckChange,
+        handleCheckChangeAll,
       })
     )
 
