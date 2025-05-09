@@ -72,7 +72,7 @@ export default defineComponent({
     watch(
       () => size.value,
       () => {
-        select.tooltipRef.value!.updatePopper?.()
+        select.tooltipRef.value?.updatePopper?.()
       }
     )
 
