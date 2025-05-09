@@ -118,15 +118,19 @@ function useWatcher<T>() {
       (column) =>
         column.type !== 'selection' && [true, 'left'].includes(column.fixed)
     )
-
+    // 找有fixed的selectColumn
+    const fixedSelectColumn = _columns.value.find(
+      (column) =>
+        column.type === 'selection' &&
+        [true, 'left', 'right'].includes(column.fixed)
+    )
     let selectColFixLeft
-    if (_columns.value?.[0]?.type === 'selection') {
-      const selectColumn = _columns.value[0]
+    if (fixedSelectColumn) {
       selectColFixLeft =
-        [true, 'left'].includes(selectColumn.fixed) ||
-        (fixedColumns.value.length && selectColumn.fixed !== 'right')
+        [true, 'left'].includes(fixedSelectColumn.fixed) ||
+        (fixedColumns.value.length && fixedSelectColumn.fixed !== 'right')
       if (selectColFixLeft) {
-        fixedColumns.value.unshift(selectColumn)
+        fixedColumns.value.unshift(fixedSelectColumn)
       }
     }
 
@@ -136,7 +140,8 @@ function useWatcher<T>() {
 
     const notFixedColumns = _columns.value.filter(
       (column) =>
-        (selectColFixLeft ? column.type !== 'selection' : true) && !column.fixed
+        (fixedSelectColumn ? column.type !== 'selection' : true) &&
+        !column.fixed
     )
 
     originColumns.value = []
