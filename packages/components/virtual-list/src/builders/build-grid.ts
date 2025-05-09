@@ -374,9 +374,21 @@ const createGrid = ({
         const deltaX = touchStartX.value - event.touches[0].clientX
         const deltaY = touchStartY.value - event.touches[0].clientY
 
+        const maxScrollLeft = estimatedTotalWidth.value - unref(parsedWidth)
+        const maxScrollTop = estimatedTotalHeight.value - unref(parsedHeight)
+
+        const safeScrollLeft = Math.min(
+          states.value.scrollLeft + deltaX,
+          maxScrollLeft
+        )
+        const safeScrollTop = Math.min(
+          states.value.scrollTop + deltaY,
+          maxScrollTop
+        )
+
         scrollTo({
-          scrollLeft: states.value.scrollLeft + deltaX,
-          scrollTop: states.value.scrollTop + deltaY,
+          scrollLeft: safeScrollLeft,
+          scrollTop: safeScrollTop,
         })
 
         handleTouchStart(event)
