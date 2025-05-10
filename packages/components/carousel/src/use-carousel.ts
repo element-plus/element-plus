@@ -100,7 +100,13 @@ export const useCarousel = (
   }
 
   function startTimer() {
-    if (props.interval <= 0 || !props.autoplay || timer.value) return
+    if (
+      props.interval <= 0 ||
+      !props.autoplay ||
+      timer.value ||
+      !items.value.length
+    )
+      return
     timer.value = setInterval(() => playSlides(), props.interval)
   }
 
@@ -306,7 +312,10 @@ export const useCarousel = (
     watch(
       () => items.value,
       () => {
-        if (items.value.length > 0) setActiveItem(props.initialIndex)
+        if (items.value.length > 0) {
+          setActiveItem(props.initialIndex)
+          startTimer()
+        }
       },
       {
         immediate: true,
@@ -316,7 +325,6 @@ export const useCarousel = (
     resizeObserver.value = useResizeObserver(root.value, () => {
       resetItemPosition()
     })
-    startTimer()
   })
 
   onBeforeUnmount(() => {
