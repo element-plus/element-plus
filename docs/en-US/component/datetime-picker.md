@@ -59,6 +59,14 @@ datetime-picker/date-and-time-range
 
 :::
 
+## Single Panel ^(2.9.3)
+
+:::demo By default date picker ranges have two panels. If you want one panel set `single-panel` attribute.
+
+datetime-picker/single-panel
+
+:::
+
 ## Default time value for start date and end date
 
 :::demo When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two Date objects. The first item controls time value of the start date and the second item controls time value of the end date.
@@ -103,6 +111,7 @@ datetime-picker/custom-icon
 | id                      | same as `id` in native input                                                                                   | ^[string] / ^[object]`[string, string]`                                                        | —                   |
 | name                    | same as `name` in native input                                                                                 | ^[string]                                                                                      | —                   |
 | unlink-panels           | unlink two date-panels in range-picker                                                                         | ^[boolean]                                                                                     | false               |
+| single-panel ^(2.9.3)   | show only one panel in range-picker                                                                            | ^[boolean]                                                                                     | false               |
 | prefix-icon             | Custom prefix icon component                                                                                   | ^[string] / `Component`                                                                        | Date                |
 | clear-icon              | Custom clear icon component                                                                                    | ^[string] / `Component`                                                                        | CircleClose         |
 | shortcuts               | an object array to set shortcut options                                                                        | ^[object]`Array<{ text: string, value: Date \| Function }>`                                    | —                   |
