@@ -125,26 +125,25 @@ const createMessage = (
   )
   vnode.appContext = context || message._context
 
-  render(vnode, container)
-  // instances will remove this item when close function gets called. So we do not need to worry about it.
-  appendTo.appendChild(container.firstElementChild!)
-
-  const vm = vnode.component!
+  const mount = () => {
+    render(vnode, container)
+    // instances will remove this item when close function gets called. So we do not need to worry about it.
+    appendTo.appendChild(container.firstElementChild!)
+  }
 
   const handler: MessageHandler = {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
     close: () => {
-      vm.exposed!.close()
+      vnode.component!.exposed!.close()
     },
   }
 
   const instance: MessageContext = {
     id,
-    vnode,
-    vm,
+    vnode: vnode as any,
     handler,
-    props: (vnode.component as any).props,
+    mount,
   }
 
   return instance
@@ -164,8 +163,8 @@ const message: MessageFn &
       ({ vnode: vm }) => vm.props?.message === normalized.message
     )
     if (instance) {
-      instance.props.repeatNum += 1
-      instance.props.type = normalized.type
+      instance.vnode.component.props.repeatNum += 1
+      instance.vnode.component.props.type = normalized.type
       return instance.handler
     }
   }
@@ -177,6 +176,7 @@ const message: MessageFn &
   const instance = createMessage(normalized, context)
 
   instances.push(instance)
+  instance.mount()
   return instance.handler
 }
 
@@ -192,8 +192,8 @@ export function closeAll(type?: messageType): void {
   const instancesToClose = [...instances]
 
   for (const instance of instancesToClose) {
-    if (!type || type === instance.props.type) {
-      instance.handler.close()
+    if (!type || type === instance.vnode.component.props.type) {
+      closeMessage(instance)
     }
   }
 }
