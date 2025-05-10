@@ -4,6 +4,7 @@
     <el-input
       :size="size"
       :class="[ns.e('editor'), ns.is('in-pagination')]"
+      :clearable="false"
       :min="1"
       :max="pageCount"
       :disabled="disabled"
