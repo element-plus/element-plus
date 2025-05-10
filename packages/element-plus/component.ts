@@ -80,6 +80,7 @@ import {
   ElOptionGroup,
   ElSelect,
 } from '@element-plus/components/select'
+import { ElSelectIcon } from '@element-plus/components/select-icon'
 import { ElSelectV2 } from '@element-plus/components/select-v2'
 import { ElSkeleton, ElSkeletonItem } from '@element-plus/components/skeleton'
 import { ElSlider } from '@element-plus/components/slider'
@@ -183,6 +184,7 @@ export default [
   ElSelect,
   ElOption,
   ElOptionGroup,
+  ElSelectIcon,
   ElSelectV2,
   ElSkeleton,
   ElSkeletonItem,
