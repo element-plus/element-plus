@@ -1403,6 +1403,7 @@ describe('table column', () => {
         template: `
           <el-table :data="testData">
             <el-table-column :fixed="selectFixed" type="selection" />
+            <el-table-column :fixed="indexFixed" type="index" />
             <el-table-column :fixed="fixed" prop="name" />
             <el-table-column :fixed="fixed" prop="release" />
             <el-table-column prop="director" />
@@ -1413,6 +1414,7 @@ describe('table column', () => {
         data() {
           return {
             selectFixed: false,
+            indexFixed: false,
             fixed: false,
           }
         },
@@ -1425,7 +1427,10 @@ describe('table column', () => {
       const rowLength = wrapper.vm.testData.length + 1 // include header
       const dynamicFixCols = 2
 
+      // 初始状态：所有列都不固定
       expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
+
+      // 测试普通列固定
       wrapper.vm.fixed = true
       await doubleWait()
       expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
@@ -1435,41 +1440,68 @@ describe('table column', () => {
       await doubleWait()
       expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
 
+      // 测试 selection 列固定
       wrapper.vm.selectFixed = true
       await doubleWait()
       expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
         rowLength
       )
+
+      // 测试 index 列固定
+      wrapper.vm.indexFixed = true
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+        rowLength * 2 // selection 和 index 列都固定
+      )
+
+      // 测试所有列固定
       wrapper.vm.fixed = true
       await doubleWait()
       expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
-        rowLength * (dynamicFixCols + 1)
+        rowLength * (dynamicFixCols + 2)
       )
+
+      // 只保留 selection 和 index 列固定
       wrapper.vm.fixed = false
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+        rowLength * 2
+      )
+
+      // 将 index 列设为右固定
+      wrapper.vm.indexFixed = 'right'
       await doubleWait()
       expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
         rowLength
       )
+      expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
+        rowLength
+      )
 
+      // 将 selection 列也设为右固定
       wrapper.vm.selectFixed = 'right'
       await doubleWait()
       expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
       expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
-        rowLength
+        rowLength * 2
       )
+
+      // 添加普通列左固定
       wrapper.vm.fixed = true
       await doubleWait()
       expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
-        rowLength * dynamicFixCols
+        rowLength * (dynamicFixCols + 1) - 1
       )
       expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
         rowLength
       )
+
+      // 恢复普通列不固定
       wrapper.vm.fixed = false
       await doubleWait()
       expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
       expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
-        rowLength
+        rowLength * 2
       )
 
       wrapper.unmount()
