@@ -38,11 +38,21 @@ export const useCarouselItem = (props: CarouselItemProps) => {
   const ready = ref(false)
   const inStage = ref(false)
   const animating = ref(false)
+  const isSide = ref(false)
+  const isLastItem = ref(false)
 
   // computed
   const { isCardType, isVertical, cardScale } = carouselContext
 
   // methods
+
+  function setIsSide(side: boolean) {
+    isSide.value = side
+  }
+
+  function setIsLastItem(last: boolean) {
+    isLastItem.value = last
+  }
 
   function processIndex(index: number, activeIndex: number, length: number) {
     const lastItemIndex = length - 1
@@ -122,6 +132,8 @@ export const useCarouselItem = (props: CarouselItemProps) => {
     if (isActive && carouselItemRef.value) {
       carouselContext.setContainerHeight(carouselItemRef.value.offsetHeight)
     }
+
+    return index
   }
 
   function handleItemClick() {
@@ -148,6 +160,8 @@ export const useCarouselItem = (props: CarouselItemProps) => {
       }),
       uid: instance.uid,
       translateItem,
+      setIsSide,
+      setIsLastItem,
     })
   })
 
@@ -166,6 +180,8 @@ export const useCarouselItem = (props: CarouselItemProps) => {
     isCardType,
     scale,
     ready,
+    isSide,
+    isLastItem,
     handleItemClick,
   }
 }
