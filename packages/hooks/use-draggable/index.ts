@@ -28,7 +28,11 @@ export const useDraggable = (
       const minLeft = -targetLeft + offsetX
       const minTop = -targetTop + offsetY
       const maxLeft = clientWidth - targetLeft - targetWidth + offsetX
-      const maxTop = clientHeight - targetTop - targetHeight + offsetY
+      const maxTop =
+        clientHeight -
+        targetTop -
+        (targetHeight < clientHeight ? targetHeight : 0) +
+        offsetY
 
       if (!overflow?.value) {
         moveX = Math.min(Math.max(moveX, minLeft), maxLeft)
