@@ -1,34 +1,53 @@
-import { computed, inject, ref, unref } from 'vue'
-import { useGlobalSize, useProp } from '@element-plus/hooks'
+import { computed, getCurrentInstance, inject, reactive, ref, unref } from 'vue'
+import { SIZE_INJECTION_KEY, useGlobalSize, useProp } from '@element-plus/hooks'
+import { hasOwn } from '@element-plus/utils'
 import { formContextKey, formItemContextKey } from '../constants'
 
+import type { FormContext, FormItemContext } from '../types'
+import type { InjectionKey } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { MaybeRef } from '@vueuse/core'
 
 export const useFormSize = (
   fallback?: MaybeRef<ComponentSize | undefined>,
-  ignore: Partial<Record<'prop' | 'form' | 'formItem' | 'global', boolean>> = {}
+  ignore: Partial<Record<'prop', boolean>> = {}
 ) => {
-  const emptyRef = ref(undefined)
+  const size = ignore.prop ? ref(undefined) : useProp<ComponentSize>('size')
+  let context:
+    | {
+        size?: ComponentSize
+      }
+    | undefined = undefined
 
-  const size = ignore.prop ? emptyRef : useProp<ComponentSize>('size')
-  const globalConfig = ignore.global ? emptyRef : useGlobalSize()
-  const form = ignore.form
-    ? { size: undefined }
-    : inject(formContextKey, undefined)
-  const formItem = ignore.formItem
-    ? { size: undefined }
-    : inject(formItemContextKey, undefined)
+  const instance = getCurrentInstance()!
+  // @ts-ignore
+  let provides = instance.parent?.provides
+  while (provides) {
+    const injectionKey = [
+      formItemContextKey,
+      formContextKey,
+      SIZE_INJECTION_KEY,
+    ].find((key) => hasOwn(provides, key as symbol))
 
-  return computed(
-    (): ComponentSize =>
-      size.value ||
-      unref(fallback) ||
-      formItem?.size ||
-      form?.size ||
-      globalConfig.value ||
-      ''
-  )
+    if (injectionKey) {
+      context =
+        injectionKey === SIZE_INJECTION_KEY
+          ? reactive({
+              size: useGlobalSize(),
+            })
+          : inject(
+              injectionKey as InjectionKey<FormContext | FormItemContext>,
+              undefined
+            )
+      break
+    }
+    // @ts-ignore
+    provides = Object.getPrototypeOf(provides)
+  }
+
+  return computed((): ComponentSize => {
+    return size.value || unref(fallback) || context?.size || ''
+  })
 }
 
 export const useFormDisabled = (fallback?: MaybeRef<boolean | undefined>) => {
