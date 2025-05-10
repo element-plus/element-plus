@@ -134,6 +134,7 @@ export default defineComponent({
     const doLoad = () => {
       panel.lazyLoad(props.node, () => {
         if (!isLeaf.value) doExpand()
+        else handleCheck(true)
       })
     }
 
