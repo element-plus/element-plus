@@ -84,8 +84,10 @@ const vLoading: Directive<ElementLoading, LoadingBinding> = {
       if (binding.value && !binding.oldValue) {
         createInstance(el, binding)
       } else if (binding.value && binding.oldValue) {
-        if (isObject(binding.value))
+        if (isObject(binding.value)) {
+          instance!.instance.visible.value = binding.value?.visible
           updateOptions(binding.value, instance!.options)
+        }
       } else {
         instance?.instance.close()
       }
