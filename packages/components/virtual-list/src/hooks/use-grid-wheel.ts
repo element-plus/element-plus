@@ -24,7 +24,16 @@ export const useGridWheel = (
       (x <= 0 && atXStartEdge.value) || (x >= 0 && atXEndEdge.value)
     const yEdgeReached =
       (y <= 0 && atYStartEdge.value) || (y >= 0 && atYEndEdge.value)
-    return xEdgeReached && yEdgeReached
+    if(x !== 0 && y === 0 && !xEdgeReached){
+      // slide side to side
+      return false;
+    }
+    if(y !== 0 && x === 0 && !yEdgeReached){
+      // slide up and down
+      return false;
+    }
+    return xEdgeReached || yEdgeReached;
+
   }
 
   const onWheel = (e: WheelEvent) => {
