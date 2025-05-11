@@ -114,12 +114,7 @@ export const useCarouselItem = (props: CarouselItemProps) => {
       translate.value = calcCardTranslate(index, activeIndex)
       scale.value = unref(active) ? 1 : cardScale
     } else {
-      if (carouselItemLength === 2) {
-        const rootEl = carouselContext.root.value!
-        const distance =
-          (isVertical ? rootEl.offsetHeight : rootEl.offsetWidth) || 0
-        return distance * (index - activeIndex)
-      } else translate.value = calcTranslate(index, activeIndex, _isVertical)
+      translate.value = calcTranslate(index, activeIndex, _isVertical)
     }
 
     ready.value = true
