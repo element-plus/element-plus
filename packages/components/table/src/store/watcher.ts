@@ -135,7 +135,7 @@ function useWatcher<T>() {
 
     const notFixedColumns = _columns.value.filter(
       (column) =>
-        (fixedSelectColumn ? column.type !== 'selection' : true) &&
+        (selectColFixLeft ? column.type !== 'selection' : true) &&
         !column.fixed
     )
 
