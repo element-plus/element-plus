@@ -59,7 +59,7 @@
                 :visible="minTimePickerVisible"
                 :format="timeFormat"
                 datetime-role="start"
-                :parsed-value="leftDate"
+                :parsed-value="minDate || leftDate"
                 @pick="handleMinTimePick"
               />
             </span>
@@ -101,7 +101,7 @@
                 datetime-role="end"
                 :visible="maxTimePickerVisible"
                 :format="timeFormat"
-                :parsed-value="rightDate"
+                :parsed-value="maxDate || rightDate"
                 @pick="handleMaxTimePick"
               />
             </span>
