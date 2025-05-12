@@ -118,12 +118,7 @@ function useWatcher<T>() {
       (column) =>
         column.type !== 'selection' && [true, 'left'].includes(column.fixed)
     )
-    // 找有fixed的selectColumn
-    const fixedSelectColumn = _columns.value.find(
-      (column) =>
-        column.type === 'selection' &&
-        [true, 'left', 'right'].includes(column.fixed)
-    )
+    const selectColumn = _columns.value.find(column => column.type === 'selection')
     let selectColFixLeft
     if (fixedSelectColumn) {
       selectColFixLeft =
