@@ -121,14 +121,20 @@ function useWatcher<T>() {
     rightFixedColumns.value = _columns.value.filter(
       (column) => column.type !== 'selection' && column.fixed === 'right'
     )
+
     const fixedSelectColumn = _columns.value.find(
-      (column) =>
+      (column, index) =>
         column.type === 'selection' &&
-        [true, 'left', 'right'].includes(column.fixed)
+        ([true, 'left', 'right'].includes(column.fixed) ||
+          (fixedColumns.value.length && index === 0))
     )
 
+    let selectColFixLeft
     if (fixedSelectColumn) {
-      if ([true, 'left'].includes(fixedSelectColumn.fixed)) {
+      selectColFixLeft =
+        [true, 'left'].includes(fixedSelectColumn.fixed) ||
+        (fixedColumns.value.length && fixedSelectColumn.fixed !== 'right')
+      if (selectColFixLeft) {
         fixedColumns.value.unshift(fixedSelectColumn)
       } else {
         rightFixedColumns.value.push(fixedSelectColumn)

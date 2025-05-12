@@ -1429,7 +1429,7 @@ describe('table column', () => {
       wrapper.vm.fixed = true
       await doubleWait()
       expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
-        rowLength * dynamicFixCols
+        rowLength * (dynamicFixCols + 1)
       )
       wrapper.vm.fixed = false
       await doubleWait()
