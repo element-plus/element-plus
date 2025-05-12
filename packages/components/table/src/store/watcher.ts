@@ -123,7 +123,7 @@ function useWatcher<T>() {
     if (selectColumn) {
       selectColFixLeft =
         [true, 'left'].includes(selectColumn.fixed) ||
-        (fixedColumns.value.length && fixedSelectColumn.fixed !== 'right')
+        (fixedColumns.value.length && selectColumn.fixed !== 'right')
       if (selectColFixLeft) {
         fixedColumns.value.unshift(selectColumn)
       }
