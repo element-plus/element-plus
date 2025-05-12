@@ -120,7 +120,7 @@ function useWatcher<T>() {
     )
     const selectColumn = _columns.value.find(column => column.type === 'selection')
     let selectColFixLeft
-    if (fixedSelectColumn) {
+    if (selectColumn) {
       selectColFixLeft =
         [true, 'left'].includes(fixedSelectColumn.fixed) ||
         (fixedColumns.value.length && fixedSelectColumn.fixed !== 'right')
