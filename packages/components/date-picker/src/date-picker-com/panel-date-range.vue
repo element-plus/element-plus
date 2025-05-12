@@ -114,7 +114,9 @@
               @click="leftPrevYear"
             >
               <slot name="prev-year">
-                <el-icon><d-arrow-left /></el-icon>
+                <el-icon>
+                  <d-arrow-left />
+                </el-icon>
               </slot>
             </button>
             <button
@@ -126,7 +128,9 @@
               @click="leftPrevMonth"
             >
               <slot name="prev-month">
-                <el-icon><arrow-left /></el-icon>
+                <el-icon>
+                  <arrow-left />
+                </el-icon>
               </slot>
             </button>
             <button
@@ -139,7 +143,9 @@
               @click="leftNextYear"
             >
               <slot name="next-year">
-                <el-icon><d-arrow-right /></el-icon>
+                <el-icon>
+                  <d-arrow-right />
+                </el-icon>
               </slot>
             </button>
             <button
@@ -155,7 +161,9 @@
               @click="leftNextMonth"
             >
               <slot name="next-month">
-                <el-icon><arrow-right /></el-icon>
+                <el-icon>
+                  <arrow-right />
+                </el-icon>
               </slot>
             </button>
             <div>
@@ -230,7 +238,9 @@
               @click="rightPrevYear"
             >
               <slot name="prev-year">
-                <el-icon><d-arrow-left /></el-icon>
+                <el-icon>
+                  <d-arrow-left />
+                </el-icon>
               </slot>
             </button>
             <button
@@ -246,7 +256,9 @@
               @click="rightPrevMonth"
             >
               <slot name="prev-month">
-                <el-icon><arrow-left /></el-icon>
+                <el-icon>
+                  <arrow-left />
+                </el-icon>
               </slot>
             </button>
             <button
@@ -257,7 +269,9 @@
               @click="rightNextYear"
             >
               <slot name="next-year">
-                <el-icon><d-arrow-right /></el-icon>
+                <el-icon>
+                  <d-arrow-right />
+                </el-icon>
               </slot>
             </button>
             <button
@@ -269,7 +283,9 @@
               @click="rightNextMonth"
             >
               <slot name="next-month">
-                <el-icon><arrow-right /></el-icon>
+                <el-icon>
+                  <arrow-right />
+                </el-icon>
               </slot>
             </button>
             <div>
@@ -384,9 +400,9 @@ import {
   getDefaultValue,
   isValidRange,
 } from '../utils'
+import { usePanelDateRange } from '../composables/use-panel-date-range'
 import YearTable from './basic-year-table.vue'
 import MonthTable from './basic-month-table.vue'
-import { usePanelDateRange } from './panel-date-range'
 import DateTable from './basic-date-table.vue'
 
 import type { Dayjs } from 'dayjs'
@@ -476,7 +492,7 @@ const {
   handleRightMonthPick,
   handlePanelChange,
   adjustDateByView,
-} = usePanelDateRange(props, emit, leftDate, rightDate, t)
+} = usePanelDateRange(props, emit, leftDate, rightDate)
 
 const hasShortcuts = computed(() => !!shortcuts.value.length)
 

@@ -3,7 +3,6 @@ import { useLocale } from '@element-plus/hooks'
 import { getValidDateOfMonth, getValidDateOfYear } from '../utils'
 
 import type { PanelDateRangeProps } from '../props/panel-date-range'
-import type { Translator } from '@element-plus/hooks'
 import type { Dayjs } from 'dayjs'
 import type { ComputedRef, Ref } from 'vue'
 
@@ -19,8 +18,7 @@ export const usePanelDateRange = (
   props: PanelDateRangeProps,
   emit: Emits,
   leftDate: Ref<Dayjs>,
-  rightDate: Ref<Dayjs>,
-  t: Translator
+  rightDate: Ref<Dayjs>
 ) => {
   const leftCurrentView = ref<CurrentView>('date')
   const leftCurrentViewRef = ref<CurrentViewRef>()
@@ -28,7 +26,7 @@ export const usePanelDateRange = (
   const rightCurrentViewRef = ref<CurrentViewRef>()
   const pickerBase = inject('EP_PICKER_BASE') as any
   const { disabledDate } = pickerBase.props
-  const { lang } = useLocale()
+  const { t, lang } = useLocale()
 
   const leftYear = computed(() => {
     return leftDate.value.year()
