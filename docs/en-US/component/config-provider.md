@@ -95,6 +95,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | duration ^(2.8.2)  | display duration, millisecond. If set to 0, it will not turn off automatically | ^[number]  | —       |
 | showClose ^(2.8.2) | whether to show a close button                                                 | ^[boolean] | —       |
 | offset ^(2.8.2)    | set the distance to the top of viewport                                        | ^[number]  | —       |
+| plain ^(2.9.11)    | whether message is plain                                                       | ^[number]  | —       |
 
 ### Config Provider Slots
 
