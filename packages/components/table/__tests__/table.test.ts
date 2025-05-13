@@ -1730,7 +1730,7 @@ describe('Table.vue', () => {
         },
         template: `
           <el-table
-            :data="testData" lazy default-expand-all row-key="release" :tree-props="{children: 'childrenTest', hasChildren: 'hasChildrenTest'}"
+            :data="testData" default-expand-all row-key="id"
             >
             <el-table-column prop="name" label="片名" />
             <el-table-column prop="release" label="发行日期" />
@@ -1745,29 +1745,67 @@ describe('Table.vue', () => {
         },
         methods: {
           setData() {
-            const testData = getTestData() as any
-            testData[testData.length - 1].childrenTest = [
+            this.testData = [
               {
-                name: "A Bug's Life copy 1",
-                release: '2008-1-25-1',
+                id: 1,
+                name: 'Toy Story',
+                release: '1995-11-22',
+                director: 'John Lasseter',
+                runtime: 80,
+                children: [
+                  {
+                    id: 11,
+                    name: 'Toy Story',
+                    release: '1995-11-22',
+                    director: 'John Lasseter',
+                    runtime: 80,
+                  },
+                  {
+                    id: 12,
+                    name: 'Toy Story',
+                    release: '1995-11-22',
+                    director: 'John Lasseter',
+                    runtime: 80,
+                  },
+                ],
+              },
+              {
+                id: 2,
+                name: "A Bug's Life",
+                release: '1998-11-25',
                 director: 'John Lasseter',
                 runtime: 95,
+                children: [
+                  {
+                    id: 21,
+                    name: "A Bug's Life",
+                    release: '1998-11-25',
+                    director: 'John Lasseter',
+                    runtime: 95,
+                  },
+                  {
+                    id: 22,
+                    name: "A Bug's Life",
+                    release: '1998-11-25',
+                    director: 'John Lasseter',
+                    runtime: 95,
+                  },
+                ],
               },
             ]
-            testData[1].hasChildrenTest = true
-            this.testData = testData
           },
         },
       })
       await doubleWait()
-      const childRows = wrapper.findAll('.el-table__row--level-1')
-      childRows.forEach((item) => {
-        expect(item.attributes('style')).toBeUndefined()
-      })
+      let childRows = wrapper.findAll('.el-table__row--level-1')
+      expect(childRows.length).toEqual(0)
       wrapper.vm.setData()
       await doubleWait()
 
-      expect(wrapper.findAll('.el-table__row').length).toEqual(6)
+      childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item) => {
+        expect(item.attributes('style')).toBeUndefined()
+      })
     })
 
     it('tree-props & default-expand-all & shrink & edit-value', async () => {
