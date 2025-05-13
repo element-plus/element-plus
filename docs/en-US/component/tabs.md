@@ -127,11 +127,12 @@ tabs/customized-trigger
 
 ### Tab-nav Exposes
 
-| Name                 | Description                 | Type                             |
-| -------------------- | --------------------------- | -------------------------------- |
-| scrollToActiveTab    | scroll to the active tab    | ^[Function]`() => Promise<void>` |
-| removeFocus          | remove focus status         | ^[Function]`() => boolean`       |
-| tabListRef ^(2.9.10) | el_tabs\_\_nav html element | ^[object]`ref<HTMLDivElement>`   |
+| Name                 | Description                 | Type                                        |
+| -------------------- | --------------------------- | ------------------------------------------- |
+| scrollToActiveTab    | scroll to the active tab    | ^[Function]`() => Promise<void>`            |
+| removeFocus          | remove focus status         | ^[Function]`() => boolean`                  |
+| tabListRef ^(2.9.10) | el_tabs\_\_nav html element | ^[object]`Ref<HTMLDivElement \| undefined>` |
+| tabBarRef ^(2.9.10)  | el_tabs\_\_nav bar instance | ^[object]`Ref<TabBarInstance \| undefined>` |
 
 ## Tab-pane API
 
@@ -151,3 +152,19 @@ tabs/customized-trigger
 | ------- | ------------------ |
 | default | Tab-pane's content |
 | label   | Tab-pane's label   |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type TabBarInstance = InstanceType<typeof TabBar> & {
+  /** @description tab root html element */
+  ref: barRef
+  /** @description method to manually update tab bar style */
+  update
+}
+```
+
+</details>

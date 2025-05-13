@@ -6,6 +6,8 @@ import CollapseItem from '../src/collapse-item.vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type { CollapseItemInstance } from '../src/instance'
 
+const AXIOM = 'Rem is the best girl'
+
 describe('Collapse.vue', () => {
   test('create', async () => {
     const wrapper = mount({
@@ -234,5 +236,32 @@ describe('Collapse.vue', () => {
     expect(collapseItemWrappers[2].vm.isActive).toBe(false)
 
     expect(vm.activeNames).toEqual(['1'])
+  })
+
+  test('title slot', async () => {
+    const wrapper = mount({
+      render() {
+        return (
+          <Collapse>
+            <CollapseItem
+              name="1"
+              v-slots={{
+                title: ({ isActive }: { isActive: boolean }) => {
+                  return (
+                    <div class={['title-wrapper', { 'is-active': isActive }]}>
+                      {AXIOM}
+                    </div>
+                  )
+                },
+              }}
+            ></CollapseItem>
+          </Collapse>
+        )
+      },
+    })
+
+    expect(wrapper.find('.title-wrapper').text()).toBe(AXIOM)
+    await wrapper.find('.el-collapse-item__header').trigger('click')
+    expect(wrapper.find('.title-wrapper').classes()).toContain('is-active')
   })
 })

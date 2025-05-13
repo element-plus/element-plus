@@ -2,8 +2,7 @@ import { inject, onBeforeUnmount, onMounted, provide, ref, unref } from 'vue'
 import Collection from './collection.vue'
 import CollectionItem from './collection-item.vue'
 
-import type { InjectionKey } from 'vue'
-import type { SetupContext } from '@vue/runtime-core'
+import type { InjectionKey, SetupContext } from 'vue'
 import type {
   ElCollectionInjectionContext,
   ElCollectionItemInjectionContext,

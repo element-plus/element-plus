@@ -22,6 +22,7 @@
     :popper-class="kls"
     :popper-style="style"
     :teleported="teleported"
+    :append-to="appendTo"
     :persistent="persistent"
     :gpu-acceleration="gpuAcceleration"
     @update:visible="onUpdateVisible"

@@ -7,6 +7,7 @@
         type="daterange"
         start-placeholder="Start date"
         end-placeholder="End date"
+        value-format="YYYY-MM-DD HH:mm:ss"
         :default-time="defaultTime"
       />
     </div>
