@@ -8,9 +8,9 @@
       <el-checkbox v-model="config.round"> round </el-checkbox>
       <el-select v-model="config.type" class="ml-5" style="max-width: 150px">
         <el-option
-          v-for="type in buttonTypes"
+          v-for="type in buttonTypes.filter(Boolean)"
           :key="type"
-          :value="type || '(empty string)'"
+          :value="type"
         />
       </el-select>
     </div>
