@@ -321,9 +321,14 @@ const readonly = computed(() => !props.filterable || multiple.value)
 const searchKeyword = computed(() =>
   multiple.value ? searchInputValue.value : inputValue.value
 )
-const checkedNodes: ComputedRef<CascaderNode[]> = computed(
-  () => cascaderPanelRef.value?.checkedNodes || []
-)
+let checkNodeCache: CascaderNode[] = []
+const checkedNodes: ComputedRef<CascaderNode[]> = computed(() => {
+  if (!props.persistent && cascaderPanelRef.value) {
+    // fix #20701
+    checkNodeCache = cascaderPanelRef.value?.checkedNodes || []
+  }
+  return cascaderPanelRef.value?.checkedNodes || checkNodeCache
+})
 const clearBtnVisible = computed(() => {
   if (
     !props.clearable ||
