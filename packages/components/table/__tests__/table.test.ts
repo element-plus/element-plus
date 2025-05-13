@@ -1722,6 +1722,54 @@ describe('Table.vue', () => {
       expect(spy.mock.calls[0][1]).toBeTruthy()
     })
 
+    it('tree-props & default-expand-all with dynamic data', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="testData" lazy default-expand-all row-key="release" :tree-props="{children: 'childrenTest', hasChildren: 'hasChildrenTest'}"
+            >
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: [],
+          }
+        },
+        methods: {
+          setData() {
+            const testData = getTestData() as any
+            testData[testData.length - 1].childrenTest = [
+              {
+                name: "A Bug's Life copy 1",
+                release: '2008-1-25-1',
+                director: 'John Lasseter',
+                runtime: 95,
+              },
+            ]
+            testData[1].hasChildrenTest = true
+            this.testData = testData
+          },
+        },
+      })
+      await doubleWait()
+      const childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item) => {
+        expect(item.attributes('style')).toBeUndefined()
+      })
+      wrapper.vm.setData()
+      await doubleWait()
+
+      expect(wrapper.findAll('.el-table__row').length).toEqual(6)
+    })
+
     it('tree-props & default-expand-all & shrink & edit-value', async () => {
       wrapper = mount({
         components: {
