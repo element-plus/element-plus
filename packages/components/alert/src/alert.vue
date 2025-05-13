@@ -34,7 +34,7 @@
           >
             {{ closeText }}
           </div>
-          <el-icon v-else :class="ns.e('close-btn')" @click="close">
+          <el-icon v-else :class="ns.e('close-btn')" @click="onClose">
             <Close />
           </el-icon>
         </template>
@@ -44,10 +44,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, useSlots } from 'vue'
+import { computed, ref, toRef, useSlots } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
-import { useNamespace } from '@element-plus/hooks'
+import {
+  TypeComponents,
+  TypeComponentsMap,
+  isClient,
+} from '@element-plus/utils'
+import { useDelayedToggle, useNamespace } from '@element-plus/hooks'
 import { alertEmits, alertProps } from './alert'
 
 const { Close } = TypeComponents
@@ -62,14 +66,31 @@ const slots = useSlots()
 
 const ns = useNamespace('alert')
 
-const visible = ref(true)
+const visible = ref(false)
 
 const iconComponent = computed(() => TypeComponentsMap[props.type])
 
 const hasDesc = computed(() => !!(props.description || slots.default))
 
-const close = (evt: MouseEvent) => {
+const open = () => {
+  visible.value = true
+  emit('open')
+}
+
+const close = (event?: Event) => {
   visible.value = false
-  emit('close', evt)
+  emit('close', event)
+}
+
+const { onOpen, onClose } = useDelayedToggle({
+  showAfter: toRef(props, 'showAfter'),
+  hideAfter: toRef(props, 'hideAfter'),
+  autoClose: toRef(props, 'autoClose'),
+  open,
+  close,
+})
+
+if (isClient) {
+  onOpen()
 }
 </script>
