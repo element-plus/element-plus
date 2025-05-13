@@ -83,10 +83,7 @@ export const buttonProps = buildProps({
   /**
    * @description native button autofocus
    */
-  autofocus: {
-    type: Boolean,
-    default: undefined,
-  },
+  autofocus: Boolean,
   /**
    * @description determine whether it's a round button
    */
