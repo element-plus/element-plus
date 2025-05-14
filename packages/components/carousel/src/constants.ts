@@ -5,6 +5,7 @@ import type { CarouselItemProps } from './carousel-item'
 export type CarouselItemStates = {
   hover: boolean
   translate: number
+  left: number
   scale: number
   active: boolean
   ready: boolean

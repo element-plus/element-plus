@@ -36,6 +36,7 @@ const {
   inStage,
   isVertical,
   translate,
+  left,
   isCardType,
   scale,
   ready,
@@ -62,6 +63,7 @@ const itemStyle = computed<CSSProperties>(() => {
 
   return {
     transform,
+    left: `${unref(left)}px`,
   }
 })
 </script>

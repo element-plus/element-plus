@@ -70,6 +70,12 @@ export const useCarousel = (
   // methods
   const throttledArrowClick = throttle(
     (index: number) => {
+      const length = items.value.length
+      if (length === 2) {
+        if (activeIndex.value === 0 && index === -1) {
+          items.value[1].states.left = -1904
+        }
+      }
       setActiveItem(index)
     },
     THROTTLE_TIME,

@@ -33,6 +33,7 @@ export const useCarouselItem = (props: CarouselItemProps) => {
   const carouselItemRef = ref<HTMLElement>()
   const hover = ref(false)
   const translate = ref(0)
+  const left = ref(0)
   const scale = ref(1)
   const active = ref(false)
   const ready = ref(false)
@@ -140,6 +141,7 @@ export const useCarouselItem = (props: CarouselItemProps) => {
       states: reactive({
         hover,
         translate,
+        left,
         scale,
         active,
         ready,
@@ -163,6 +165,7 @@ export const useCarouselItem = (props: CarouselItemProps) => {
     inStage,
     isVertical,
     translate,
+    left,
     isCardType,
     scale,
     ready,
