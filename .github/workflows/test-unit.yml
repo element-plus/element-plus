@@ -57,13 +57,13 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20, 22, 24.0.1]
+        node-version: [20, 22, 24]
         include:
           - node-version: 20
             node-name: LTS
           - node-version: 22
             node-name: Current
-          - node-version: 24.0.1
+          - node-version: 24
             node-name: New
 
     steps:

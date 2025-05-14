@@ -6,6 +6,7 @@ settings:
 
 overrides:
   typescript: ~5.5.4
+  jwa: ^1.4.2
 
 patchedDependencies:
   async-validator@4.2.5:
@@ -127,7 +128,7 @@ importers:
         version: 1.3.10
       '@vitest/coverage-v8':
         specifier: ^2.0.5
-        version: 2.0.5(vitest@2.0.5)
+        version: 2.0.5(vitest@2.0.5(@types/node@22.9.0)(@vitest/ui@2.0.5)(happy-dom@17.4.4)(jsdom@16.4.0)(sass@1.79.3)(terser@5.36.0))
       '@vitest/ui':
         specifier: ^2.0.5
         version: 2.0.5(vitest@2.0.5)
@@ -5674,8 +5675,8 @@ packages:
   just-debounce@1.1.0:
     resolution: {integrity: sha512-qpcRocdkUmf+UTNBYx5w6dexX5J31AKK1OmPwH630a83DdVVUIngk55RSAiIGpQyoH0dlr872VHfPjnQnK1qDQ==}
 
-  jwa@1.4.1:
-    resolution: {integrity: sha512-qiLX/xhEEFKUAJ6FiBMbes3w9ATzyk5W7Hvzpa/SLYdxNtng+gcurvrI7TbACjIXlsJyr05/S1oUhZrc63evQA==}
+  jwa@1.4.2:
+    resolution: {integrity: sha512-eeH5JO+21J78qMvTIDdBXidBd6nG2kZjg5Ohz/1fpa28Z4CcsWUzJ1ZZyFq/3z3N17aZy+ZuBoHljASbL1WfOw==}
 
   jws@3.2.2:
     resolution: {integrity: sha512-YHlZCB6lMTllWDtSPHz/ZXTsi8S00usEV6v1tjq8tOUZzw7DpSDWVXjXDre6ed1w/pd495ODpHZYSdkRTsa0HA==}
@@ -10932,7 +10933,7 @@ snapshots:
       vite: 5.4.10(@types/node@22.9.0)(sass@1.79.3)(terser@5.36.0)
       vue: 3.2.37
 
-  '@vitest/coverage-v8@2.0.5(vitest@2.0.5)':
+  '@vitest/coverage-v8@2.0.5(vitest@2.0.5(@types/node@22.9.0)(@vitest/ui@2.0.5)(happy-dom@17.4.4)(jsdom@16.4.0)(sass@1.79.3)(terser@5.36.0))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -14504,7 +14505,7 @@ snapshots:
 
   just-debounce@1.1.0: {}
 
-  jwa@1.4.1:
+  jwa@1.4.2:
     dependencies:
       buffer-equal-constant-time: 1.0.1
       ecdsa-sig-formatter: 1.0.11
@@ -14512,7 +14513,7 @@ snapshots:
 
   jws@3.2.2:
     dependencies:
-      jwa: 1.4.1
+      jwa: 1.4.2
       safe-buffer: 5.2.1
 
   kind-of@3.2.2:

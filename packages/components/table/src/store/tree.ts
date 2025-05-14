@@ -148,6 +148,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   watch(
     () => normalizedData.value,
     () => {
+      isInitTree = true
       updateTreeData()
     }
   )
