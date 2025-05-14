@@ -122,6 +122,28 @@ describe('config-provider', () => {
         wrapper.find('.el-button .el-button__text--expand').exists()
       ).toBeFalsy()
     })
+    it('fully configured', async () => {
+      const config = reactive({
+        type: 'warning',
+        plain: true,
+        round: true,
+        autoInsertSpace: true,
+      })
+
+      const wrapper = mount(() => (
+        <ConfigProvider button={config}>
+          <ElButton>中文</ElButton>
+        </ConfigProvider>
+      ))
+      await nextTick()
+      expect(
+        wrapper
+          .find(
+            '.el-button.el-button--warning.is-plain.is-round .el-button__text--expand'
+          )
+          .exists()
+      ).toBe(true)
+    })
   })
 
   describe('namespace-config', () => {
