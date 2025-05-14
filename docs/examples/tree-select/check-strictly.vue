@@ -7,7 +7,7 @@
     style="width: 240px"
   />
   <el-divider />
-  show checkbox(only click checkbox to select):
+  show checkbox:
   <el-tree-select
     v-model="value"
     :data="data"
