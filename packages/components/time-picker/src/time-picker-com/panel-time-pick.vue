@@ -43,6 +43,7 @@ import dayjs from 'dayjs'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { isUndefined } from '@element-plus/utils'
+import { PICKER_BASE_INJECTION_KEY } from '../constants'
 import { panelTimePickerProps } from '../props/panel-time-picker'
 import { useTimePanel } from '../composables/use-time-panel'
 import {
@@ -57,7 +58,7 @@ const props = defineProps(panelTimePickerProps)
 const emit = defineEmits(['pick', 'select-range', 'set-picker-option'])
 
 // Injections
-const pickerBase = inject('EP_PICKER_BASE') as any
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const {
   arrowControl,
   disabledHours,

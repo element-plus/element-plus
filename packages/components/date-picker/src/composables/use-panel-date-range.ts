@@ -1,5 +1,6 @@
 import { computed, inject, nextTick, ref } from 'vue'
 import { useLocale } from '@element-plus/hooks'
+import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
 import { getValidDateOfMonth, getValidDateOfYear } from '../utils'
 
 import type { PanelDateRangeProps } from '../props/panel-date-range'
@@ -24,7 +25,7 @@ export const usePanelDateRange = (
   const leftCurrentViewRef = ref<CurrentViewRef>()
   const rightCurrentView = ref<CurrentView>('date')
   const rightCurrentViewRef = ref<CurrentViewRef>()
-  const pickerBase = inject('EP_PICKER_BASE') as any
+  const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
   const { disabledDate } = pickerBase.props
   const { t, lang } = useLocale()
 

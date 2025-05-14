@@ -382,6 +382,7 @@ import { useLocale } from '@element-plus/hooks'
 import ElButton from '@element-plus/components/button'
 import ElInput from '@element-plus/components/input'
 import {
+  PICKER_BASE_INJECTION_KEY,
   TimePickPanel,
   extractDateFormat,
   extractTimeFormat,
@@ -401,6 +402,7 @@ import {
   isValidRange,
 } from '../utils'
 import { usePanelDateRange } from '../composables/use-panel-date-range'
+import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import YearTable from './basic-year-table.vue'
 import MonthTable from './basic-month-table.vue'
 import DateTable from './basic-date-table.vue'
@@ -423,8 +425,10 @@ const emit = defineEmits([
 
 const unit = 'month'
 // FIXME: fix the type for ep picker
-const pickerBase = inject('EP_PICKER_BASE') as any
-const isDefaultFormat = inject('ElIsDefaultFormat') as any
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
+const isDefaultFormat = inject(
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
+) as any
 const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
