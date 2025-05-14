@@ -184,6 +184,7 @@ describe('config-provider', () => {
         grouping: true,
         showClose: true,
         offset: 200,
+        plain: true,
       })
       const open = () => {
         ElMessage('this is a message.')
@@ -203,6 +204,7 @@ describe('config-provider', () => {
       const elements = document.querySelectorAll('.el-message')
       expect(elements.length).toBe(1)
       expect(document.querySelectorAll('.el-message__closeBtn').length).toBe(1)
+      expect(document.querySelectorAll('.is-plain').length).toBe(1)
 
       const getTopValue = (elm: Element): number =>
         Number.parseFloat(getStyle(elm as HTMLElement, 'top'))

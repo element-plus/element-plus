@@ -19,6 +19,7 @@ export interface MessageConfigContext {
   duration?: number
   offset?: number
   showClose?: boolean
+  plain?: boolean
 }
 
 export const messageDefaults = mutable({
