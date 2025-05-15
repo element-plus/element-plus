@@ -27,7 +27,7 @@ link/disabled
 
 :::
 
-## Underline
+## Underline ^(2.9.9)
 
 Controlling when underlines should appear
 
@@ -78,14 +78,14 @@ link/with-icon
 
 ### Attributes
 
-| Name      | Description                         | Type                                                                            | Default |
-| --------- | ----------------------------------- | ------------------------------------------------------------------------------- | ------- |
-| type      | type                                | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
-| underline | when underlines should appear       | ^[enum]`'always' \| 'hover' \| 'never' \| boolean`                              | hover   |
-| disabled  | whether the component is disabled   | ^[boolean]                                                                      | false   |
-| href      | same as native hyperlink's `href`   | ^[string]                                                                       | —       |
-| target    | same as native hyperlink's `target` | ^[enum]`'_blank' \| '_parent' \| '_self' \| '_top'`                             | \_self  |
-| icon      | icon component                      | ^[string] / ^[Component]                                                        | —       |
+| Name               | Description                         | Type                                                                            | Default |
+| ------------------ | ----------------------------------- | ------------------------------------------------------------------------------- | ------- |
+| type               | type                                | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
+| underline ^(2.9.9) | when underlines should appear       | ^[enum]`'always' \| 'hover' \| 'never' \| boolean`                              | hover   |
+| disabled           | whether the component is disabled   | ^[boolean]                                                                      | false   |
+| href               | same as native hyperlink's `href`   | ^[string]                                                                       | —       |
+| target             | same as native hyperlink's `target` | ^[enum]`'_blank' \| '_parent' \| '_self' \| '_top'`                             | \_self  |
+| icon               | icon component                      | ^[string] / ^[Component]                                                        | —       |
 
 ### Slots
 
