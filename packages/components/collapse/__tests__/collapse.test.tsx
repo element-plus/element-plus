@@ -202,6 +202,33 @@ describe('Collapse.vue', () => {
     expect(collapseItemWrappers[1].vm.isActive).toBe(true)
   })
 
+  test('title slot', async () => {
+    const wrapper = mount({
+      render() {
+        return (
+          <Collapse>
+            <CollapseItem
+              name="1"
+              v-slots={{
+                title: ({ isActive }: { isActive: boolean }) => {
+                  return (
+                    <div class={['title-wrapper', { 'is-active': isActive }]}>
+                      {AXIOM}
+                    </div>
+                  )
+                },
+              }}
+            ></CollapseItem>
+          </Collapse>
+        )
+      },
+    })
+
+    expect(wrapper.find('.title-wrapper').text()).toBe(AXIOM)
+    await wrapper.find('.el-collapse-item__header').trigger('click')
+    expect(wrapper.find('.title-wrapper').classes()).toContain('is-active')
+  })
+
   test('beforeCollapse function return promise', async () => {
     const activeNames = ref([])
     const asyncResult = ref('error')
