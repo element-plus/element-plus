@@ -84,7 +84,9 @@
           :tabindex="tabindex"
           :aria-label="t('el.dropdown.toggleDropdown')"
         >
-          <el-icon :class="ns.e('icon')"><arrow-down /></el-icon>
+          <el-icon :class="ns.e('icon')">
+            <component :is="globalIcons.dropdown" />
+          </el-icon>
         </el-button>
       </el-button-group>
     </template>
@@ -111,8 +113,8 @@ import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useFormSize } from '@element-plus/components/form'
 import { addUnit, ensureArray } from '@element-plus/utils'
-import { ArrowDown } from '@element-plus/icons-vue'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
+import { useGlobalIcons } from '@element-plus/components/config-provider'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import {
   DROPDOWN_INJECTION_KEY,
@@ -135,7 +137,6 @@ export default defineComponent({
     ElRovingFocusGroup,
     ElOnlyChild,
     ElIcon,
-    ArrowDown,
   },
   props: dropdownProps,
   emits: ['visible-change', 'click', 'command'],
@@ -143,6 +144,7 @@ export default defineComponent({
     const _instance = getCurrentInstance()
     const ns = useNamespace('dropdown')
     const { t } = useLocale()
+    const globalIcons = useGlobalIcons()
 
     const triggeringElementRef = ref()
     const referenceElementRef = ref()
@@ -311,6 +313,7 @@ export default defineComponent({
       contentRef,
       triggeringElementRef,
       referenceElementRef,
+      globalIcons,
     }
   },
 })
