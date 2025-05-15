@@ -63,7 +63,7 @@ collapse/custom-icon-position
 
 :::
 
-## prevent collapsing ^(2.9.11)
+## Prevent collapsing ^(2.9.11)
 
 set the `before-collapse` property, If `false` is returned or a `Promise` is returned and then is rejected, will stop collapsing.
 
