@@ -130,6 +130,12 @@ function useRender<T>(
       }
     }
 
+    if (slots['expand']) {
+      column.renderExpand = (scope) => {
+        return renderSlot(slots, 'expand', scope)
+      }
+    }
+
     let originRenderCell = column.renderCell
     // TODO: 这里的实现调整
     if (column.type === 'expand') {
