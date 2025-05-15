@@ -1,4 +1,4 @@
-import { computed, provide, ref } from 'vue'
+import { computed, provide, ref, watch } from 'vue'
 import { ensureArray } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -15,12 +15,7 @@ export const useCollapse = (
   props: CollapseProps,
   emit: SetupContext<CollapseEmits>['emit']
 ) => {
-  const activeNames = ref<CollapseActiveName[]>([])
-
-  const computedActiveNames = computed(() => {
-    const activeKeys = props.modelValue ?? activeNames.value
-    return ensureArray(activeKeys)
-  })
+  const activeNames = ref(ensureArray(props.modelValue))
 
   const setActiveNames = (_activeNames: CollapseActiveName[]) => {
     activeNames.value = _activeNames
@@ -31,9 +26,9 @@ export const useCollapse = (
 
   const handleItemClick = (name: CollapseActiveName) => {
     if (props.accordion) {
-      setActiveNames([computedActiveNames.value[0] === name ? '' : name])
+      setActiveNames([activeNames.value[0] === name ? '' : name])
     } else {
-      const _activeNames = [...computedActiveNames.value]
+      const _activeNames = [...activeNames.value]
       const index = _activeNames.indexOf(name)
 
       if (index > -1) {
@@ -45,12 +40,18 @@ export const useCollapse = (
     }
   }
 
+  watch(
+    () => props.modelValue,
+    () => (activeNames.value = ensureArray(props.modelValue)),
+    { deep: true }
+  )
+
   provide(collapseContextKey, {
-    activeNames: computedActiveNames,
+    activeNames,
     handleItemClick,
   })
   return {
-    activeNames: computedActiveNames,
+    activeNames,
     setActiveNames,
   }
 }

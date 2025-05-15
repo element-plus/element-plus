@@ -67,11 +67,10 @@ collapse/custom-icon-position
 
 ### Collapse Attributes
 
-| Name                         | Description                                                                             | Type                        | Default |
-| ---------------------------- | --------------------------------------------------------------------------------------- | --------------------------- | ------- |
-| model-value / v-model        | currently active panel, the type is `string` in accordion mode, otherwise it is `array` | ^[string] / ^[array]        | —       |
-| accordion                    | whether to activate accordion mode                                                      | ^[boolean]                  | false   |
-| expand-icon-position ^(2.9.10) | set expand icon position                                                                | ^[enum]`'left' \| 'right' ` | right   |
+| Name                  | Description                                                                             | Type                 | Default |
+| --------------------- | --------------------------------------------------------------------------------------- | -------------------- | ------- |
+| model-value / v-model | currently active panel, the type is `string` in accordion mode, otherwise it is `array` | ^[string] / ^[array] | []      |
+| accordion             | whether to activate accordion mode                                                      | ^[boolean]           | false   |
 
 ### Collapse Events
 
