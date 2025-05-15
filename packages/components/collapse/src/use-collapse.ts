@@ -1,5 +1,11 @@
 import { computed, provide, ref, watch } from 'vue'
-import { ensureArray } from '@element-plus/utils'
+import {
+  debugWarn,
+  ensureArray,
+  isBoolean,
+  isPromise,
+  throwError,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { collapseContextKey } from './constants'
@@ -11,6 +17,7 @@ import type {
   CollapseProps,
 } from './collapse'
 
+const SCOPE = 'ElCollapse'
 export const useCollapse = (
   props: CollapseProps,
   emit: SetupContext<CollapseEmits>['emit']
@@ -24,7 +31,7 @@ export const useCollapse = (
     emit(CHANGE_EVENT, value)
   }
 
-  const handleItemClick = (name: CollapseActiveName) => {
+  const handleChange = (name: CollapseActiveName) => {
     if (props.accordion) {
       setActiveNames([activeNames.value[0] === name ? '' : name])
     } else {
@@ -37,6 +44,40 @@ export const useCollapse = (
         _activeNames.push(name)
       }
       setActiveNames(_activeNames)
+    }
+  }
+
+  const handleItemClick = async (name: CollapseActiveName) => {
+    const { beforeCollapse } = props
+    if (!beforeCollapse) {
+      handleChange(name)
+      return
+    }
+
+    const shouldChange = beforeCollapse(name)
+    const isPromiseOrBool = [
+      isPromise(shouldChange),
+      isBoolean(shouldChange),
+    ].includes(true)
+    if (!isPromiseOrBool) {
+      throwError(
+        SCOPE,
+        'beforeCollapse must return type `Promise<boolean>` or `boolean`'
+      )
+    }
+
+    if (isPromise(shouldChange)) {
+      shouldChange
+        .then((result) => {
+          if (result !== false) {
+            handleChange(name)
+          }
+        })
+        .catch((e) => {
+          debugWarn(SCOPE, `some error occurred: ${e}`)
+        })
+    } else if (shouldChange) {
+      handleChange(name)
     }
   }
 
