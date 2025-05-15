@@ -58,7 +58,7 @@
     "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
     "@types/lodash": "^4.14.182",
     "@types/lodash-es": "^4.17.6",
-    "@vueuse/core": "^9.1.0",
+    "@vueuse/core": "^10.11.0",
     "async-validator": "^4.2.5",
     "dayjs": "^1.11.13",
     "escape-html": "^1.0.3",
@@ -135,6 +135,10 @@
     },
     "patchedDependencies": {
       "async-validator@4.2.5": "patches/async-validator@4.2.5.patch"
+    },
+    "overrides": {
+      "typescript": "$typescript",
+      "jwa": "^1.4.2"
     }
   },
   "lint-staged": {

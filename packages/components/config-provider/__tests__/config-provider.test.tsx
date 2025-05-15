@@ -122,6 +122,28 @@ describe('config-provider', () => {
         wrapper.find('.el-button .el-button__text--expand').exists()
       ).toBeFalsy()
     })
+    it('fully configured', async () => {
+      const config = reactive({
+        type: 'warning',
+        plain: true,
+        round: true,
+        autoInsertSpace: true,
+      })
+
+      const wrapper = mount(() => (
+        <ConfigProvider button={config}>
+          <ElButton>中文</ElButton>
+        </ConfigProvider>
+      ))
+      await nextTick()
+      expect(
+        wrapper
+          .find(
+            '.el-button.el-button--warning.is-plain.is-round .el-button__text--expand'
+          )
+          .exists()
+      ).toBe(true)
+    })
   })
 
   describe('namespace-config', () => {
@@ -184,6 +206,7 @@ describe('config-provider', () => {
         grouping: true,
         showClose: true,
         offset: 200,
+        plain: true,
       })
       const open = () => {
         ElMessage('this is a message.')
@@ -203,6 +226,7 @@ describe('config-provider', () => {
       const elements = document.querySelectorAll('.el-message')
       expect(elements.length).toBe(1)
       expect(document.querySelectorAll('.el-message__closeBtn').length).toBe(1)
+      expect(document.querySelectorAll('.is-plain').length).toBe(1)
 
       const getTopValue = (elm: Element): number =>
         Number.parseFloat(getStyle(elm as HTMLElement, 'top'))

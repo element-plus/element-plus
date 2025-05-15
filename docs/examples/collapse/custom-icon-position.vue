@@ -1,15 +1,19 @@
 <template>
-  <div class="demo-collapse">
-    <el-collapse accordion>
-      <el-collapse-item name="1">
-        <template #title="{ isActive }">
-          <div :class="['title-wrapper', { 'is-active': isActive }]">
-            Consistency
-            <el-icon class="header-icon">
-              <info-filled />
-            </el-icon>
-          </div>
-        </template>
+  <div class="demo-collapse-position">
+    <div class="flex items-center mb-4">
+      <span class="mr-4">expand icon position: </span>
+      <el-switch
+        v-model="position"
+        inactive-value="left"
+        active-value="right"
+        inactive-text="left"
+        active-text="right"
+        style="--el-switch-off-color: #88b8fe"
+      />
+    </div>
+
+    <el-collapse :expand-icon-position="position">
+      <el-collapse-item title="Consistency" name="1">
         <div>
           Consistent with real life: in line with the process and logic of real
           life, and comply with languages and habits that the users are used to;
@@ -42,33 +46,13 @@
           the users to identify and frees them from memorizing and recalling.
         </div>
       </el-collapse-item>
-      <el-collapse-item title="Controllability" name="4">
-        <div>
-          Decision making: giving advices about operations is acceptable, but do
-          not make decisions for the users;
-        </div>
-        <div>
-          Controlled consequences: users should be granted the freedom to
-          operate, including canceling, aborting or terminating current
-          operation.
-        </div>
-      </el-collapse-item>
     </el-collapse>
   </div>
 </template>
 
-<script setup lang="ts">
-import { InfoFilled } from '@element-plus/icons-vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
+import type { CollapseIconPositionType } from 'element-plus'
+
+const position = ref<CollapseIconPositionType>('left')
 </script>
-
-<style scoped>
-.title-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.title-wrapper.is-active {
-  color: var(--el-color-primary);
-}
-</style>

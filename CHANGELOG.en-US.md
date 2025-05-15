@@ -1,6 +1,69 @@
 ## Changelog
 
 
+### 2.9.10
+
+_2025-05-09_
+
+#### Features
+
+- Components [tabs] expose `tabNavRef` and `tabListRef` (#20552 by @xinconan)
+- Components [collapse-item ] enhance `title` slot with `isActive` property (#20613 by @w2xi)
+- Components [popover] `append-to` prop (#20596 by @warmthsea)
+- Components [collapse] add expand icon position customization (#19537 by @zzjiaxiang)
+- Components [tabs] update type and expose tabBarRef (#20670 by @warmthsea)
+
+#### Bug fixes
+
+- Components useProp import circular dep (#20574 by @btea)
+- Components [collapse] avoid direct activeNames changes (#20437 by @kaine0923)
+- Components [image] make `show-progress` prop available (#20590 by @w2xi)
+- Components [date-picker] correct injection key for default format (#20611 by @betavs)
+- Components [table] shrinked  table expanded when modify data (#20587 by @wNing50)
+- Components [tooltip] listen clickoutside after open (#20577 by @Dsaquel)
+- Components [select] update selection width calculation (#20615 by @betavs)
+- Components [date-picker] merge default-value with default-time (#20550 by @Dsaquel)
+- Components [popper] fix arrow overflow issue (#20049 by @xiaowhang)
+- Components [mention] fix missing input emit (#20651 by @kooriookami)
+- Components [loading] inherit app context (#20371 by @Dsaquel)
+- Components [select-v2] label error when multiple and remote (#20668 by @Liao-js)
+- Components [select-v2] tooltipRef maybe undefined (#20688 by @zhixiaotong)
+
+#### Refactors
+
+- Components [form] make exposed `fields` reactive (#20567 by @w2xi)
+
+### 2.9.9
+
+_2025-04-27_
+
+#### Features
+
+- Components [autocomplete] enable `append-to` prop (#20472 by @betavs)
+- Components [link] add control for when underlines should appear (#20480 by @comp-squirrel)
+- Components [input-tag] add delimiter (#20532 by @Dsaquel)
+
+#### Bug fixes
+
+- Components [tree] stop propagating click event to parent node (#20506 by @makedopamine)
+- Components [table-v2] loss of precision causes `endReached` to fail to trigger (#17065 by @YancyZhang30)
+- Components [tree] retain DOM nodes only in their intended scope (#20494 by @makedopamine)
+- Components [tree] enable ellipsis on label (#20496 by @Dsaquel)
+- Components [dialog] fix draggable when window resize (#20505 by @kooriookami)
+- Components [table-v2] `onEndReached` executes multiple times (#20517 by @warmthsea)
+- Components [tooltip] remove some references in time (#20495 by @makedopamine)
+- Locale update french translation for confirm (#20556 by @betavs)
+- Components [mention] the input event is not be triggered when selecting a mention (#20549 by @w2xi)
+- Components [select-v2] fix fit-input-width (#20509 by @kooriookami)
+- Components [tree] filter update scheduling error (#20267 by @a92126)
+
+#### Refactors
+
+- Components unify `append-to` prop type across multiple components (#20501 by @betavs)
+- Components use built-in methods to check for undefined and null (#20537 by @betavs)
+- Components [message] remove inferable return types (#20551 by @w2xi)
+- Style(components): [tooltip] add class name (#20569 by @kooriookami)
+
 ### 2.9.8
 
 _2025-04-18_

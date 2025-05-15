@@ -123,7 +123,7 @@ const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(leftDate.value.add(10, 'year'))
 const { pickerNs: ppNs } = inject(ROOT_PICKER_INJECTION_KEY)!
 const drpNs = useNamespace('date-range-picker')
-const isDefaultFormat = inject('isDefaultFormat') as any
+const isDefaultFormat = inject('ElIsDefaultFormat') as any
 
 const hasShortcuts = computed(() => !!shortcuts.length)
 

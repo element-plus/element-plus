@@ -188,6 +188,7 @@ const Tabs = defineComponent({
 
     expose({
       currentName,
+      tabNavRef: nav$,
     })
     const TabNavRenderer: FunctionalComponent<{ render: () => VNode }> = ({
       render,
@@ -276,6 +277,7 @@ const Tabs = defineComponent({
 
 export type TabsInstance = InstanceType<typeof Tabs> & {
   currentName: TabPaneName
+  tabNavRef: TabNavInstance | undefined
 }
 
 export default Tabs

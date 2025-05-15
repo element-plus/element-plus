@@ -252,7 +252,9 @@ const popperOptions: Partial<Options> = {
       fn: ({ state }) => {
         const { modifiersData, placement } = state as any
         if (['right', 'left', 'bottom', 'top'].includes(placement)) return
-        modifiersData.arrow.x = 35
+        if (modifiersData.arrow) {
+          modifiersData.arrow.x = 35
+        }
       },
       requires: ['arrow'],
     },
