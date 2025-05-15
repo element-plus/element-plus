@@ -31,7 +31,7 @@
           </slot>
         </div>
         <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
-          <component :is="closeIcon" />
+          <component :is="closeIconComponent" />
         </el-icon>
       </div>
     </div>
@@ -44,7 +44,10 @@ import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
-import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
+import {
+  useGlobalComponentSettings,
+  useGlobalIcons,
+} from '@element-plus/components/config-provider'
 import { notificationEmits, notificationProps } from './notification'
 
 import type { CSSProperties } from 'vue'
@@ -58,6 +61,7 @@ defineEmits(notificationEmits)
 
 const { ns, zIndex } = useGlobalComponentSettings('notification')
 const { nextZIndex, currentZIndex } = zIndex
+const globalIcons = useGlobalIcons()
 
 const visible = ref(false)
 let timer: (() => void) | undefined = undefined
@@ -85,6 +89,10 @@ const positionStyle = computed<CSSProperties>(() => {
     [verticalProperty.value]: `${props.offset}px`,
     zIndex: props.zIndex ?? currentZIndex.value,
   }
+})
+
+const closeIconComponent = computed(() => {
+  return props.closeIcon || globalIcons.value.close
 })
 
 function startTimer() {

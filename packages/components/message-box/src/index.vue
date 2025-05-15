@@ -62,7 +62,7 @@
                 "
               >
                 <el-icon :class="ns.e('close')">
-                  <component :is="closeIcon || 'close'" />
+                  <component :is="closeIconComponent" />
                 </el-icon>
               </button>
             </div>
@@ -182,9 +182,12 @@ import {
 import { ElIcon } from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
 import ElFocusTrap from '@element-plus/components/focus-trap'
-import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
+import {
+  useGlobalComponentSettings,
+  useGlobalIcons,
+} from '@element-plus/components/config-provider'
 
-import type { ComponentPublicInstance, PropType } from 'vue'
+import type { Component, ComponentPublicInstance, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type {
   Action,
@@ -250,6 +253,9 @@ export default defineComponent({
       type: String as PropType<MessageBoxType>,
       default: '',
     },
+    closeIcon: {
+      type: [String, Object] as PropType<string | Component>,
+    },
   },
   emits: ['vanish', 'action'],
   setup(props, { emit }) {
@@ -283,7 +289,7 @@ export default defineComponent({
       dangerouslyUseHTMLString: false,
       distinguishCancelAndClose: false,
       icon: '',
-      closeIcon: '',
+      closeIcon: props.closeIcon as string | Component,
       inputPattern: null,
       inputPlaceholder: '',
       inputType: 'text',
@@ -332,6 +338,12 @@ export default defineComponent({
     const confirmRef = ref<ComponentPublicInstance>()
 
     const confirmButtonClasses = computed(() => state.confirmButtonClass)
+
+    const globalIcons = useGlobalIcons()
+
+    const closeIconComponent = computed(() => {
+      return props.closeIcon || globalIcons.value.close
+    })
 
     watch(
       () => state.inputValue,
@@ -509,6 +521,7 @@ export default defineComponent({
       handleInputEnter,
       handleAction,
       t,
+      closeIconComponent,
     }
   },
 })

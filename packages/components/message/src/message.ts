@@ -150,6 +150,12 @@ export const messageProps = buildProps({
     type: Number,
     default: messageDefaults.repeatNum,
   },
+  /**
+   * @description close icon component
+   */
+  closeIcon: {
+    type: iconPropType,
+  },
 } as const)
 export type MessageProps = ExtractPropTypes<typeof messageProps>
 
