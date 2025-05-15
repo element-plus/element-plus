@@ -1,6 +1,10 @@
-import { align, componentSizes, datePickTypes } from '@element-plus/constants'
+import {
+  columnAlignment,
+  componentSizes,
+  datePickTypes,
+} from '@element-plus/constants'
 import type {
-  Align,
+  ColumnAlignment,
   ComponentSize,
   DatePickType,
 } from '@element-plus/constants'
@@ -11,5 +15,5 @@ export const isValidComponentSize = (val: string): val is ComponentSize | '' =>
 export const isValidDatePickType = (val: string): val is DatePickType =>
   ([...datePickTypes] as string[]).includes(val)
 
-export const isValidAlign = (val: string): val is Align =>
-  align.includes(val as Align)
+export const isValidColumnAlignment = (val: string): val is ColumnAlignment =>
+  columnAlignment.includes(val as ColumnAlignment)
