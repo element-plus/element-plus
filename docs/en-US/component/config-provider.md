@@ -41,6 +41,14 @@ config-provider/message
 
 :::
 
+## Icons Configurations
+
+:::demo
+
+config-provider/icons
+
+:::
+
 ## Empty Values Configurations ^(2.7.0)
 
 <details>
@@ -85,6 +93,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | button                  | button related configuration, [see the following table](#button-attribute)                                                                                             | ^[object]`{autoInsertSpace?: boolean, type?: string, plain?: boolean, round?: boolean}`                                                                                                                                                                        | see the following table                                                                |
 | link                    | link related configuration, [see the following table](#link-attribute)                                                                                                 | ^[object]`{type?: string, underline?: boolean \| string}`                                                                                                                                                                                                      | see the following table                                                                |
 | message                 | message related configuration, [see the following table](#message-attribute)                                                                                           | ^[object]`{max?: number}`                                                                                                                                                                                                                                      | see the following table                                                                |
+| icons                   | icons related configuration, [see the following table](#icons-attribute)                                                                                               | ^[object]`{close?: string \| Component, dropdown?: string \| Component}`                                                                                                                                                                                       | —                                                                                      |
 | experimental-features   | features at experimental stage to be added, all features are default to be set to false                                                                                | ^[object]                                                                                                                                                                                                                                                      | —                                                                                      |
 | empty-values ^(2.7.0)   | global empty values of components                                                                                                                                      | ^[array]                                                                                                                                                                                                                                                       | —                                                                                      |
 | value-on-clear ^(2.7.0) | global clear return value                                                                                                                                              | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                                                                                                               | —                                                                                      |
@@ -115,6 +124,13 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | showClose ^(2.8.2) | whether to show a close button                                                 | ^[boolean] | —       |
 | offset ^(2.8.2)    | set the distance to the top of viewport                                        | ^[number]  | —       |
 | plain ^(2.9.11)    | whether message is plain                                                       | ^[boolean] | —       |
+
+### Icons Attribute
+
+| Attribute | Description                                               | Type                     | Default |
+| --------- | --------------------------------------------------------- | ------------------------ | ------- |
+| close     | Custom close icon component for dialog, message, etc.     | ^[string] / ^[Component] | —       |
+| dropdown  | Custom dropdown icon component for select, dropdown, etc. | ^[string] / ^[Component] | —       |
 
 ### Config Provider Slots
 
