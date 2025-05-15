@@ -86,8 +86,8 @@ collapse/prevent-collapsing
 
 ### Collapse Events
 
-| Name   | Description                                                                                                   | Type                                                | s   |
-| ------ | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | --- |
+| Name   | Description                                                                                                   | Type                                                |
+| ------ | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
 | change | triggers when active panels change, the parameter type is `string` in accordion mode, otherwise it is `array` | ^[Function]`(activeNames: array \| string) => void` |
 
 ### Collapse Slots
