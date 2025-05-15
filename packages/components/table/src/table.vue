@@ -191,7 +191,7 @@ import useUtils from './table/utils-helper'
 import { convertToRows } from './table-header/utils-helper'
 import useStyle from './table/style-helper'
 import useKeyRender from './table/key-render-helper'
-import defaultProps from './table/defaults'
+import defaultProps, { tableEmits } from './table/defaults'
 import { TABLE_INJECTION_KEY } from './tokens'
 import { hColgroup } from './h-helper'
 import { useScrollbar } from './composables/use-scrollbar'
@@ -212,27 +212,7 @@ export default defineComponent({
     hColgroup,
   },
   props: defaultProps,
-  emits: [
-    'select',
-    'select-all',
-    'selection-change',
-    'cell-mouse-enter',
-    'cell-mouse-leave',
-    'cell-contextmenu',
-    'cell-click',
-    'cell-dblclick',
-    'row-click',
-    'row-contextmenu',
-    'row-dblclick',
-    'header-click',
-    'header-contextmenu',
-    'sort-change',
-    'filter-change',
-    'current-change',
-    'header-dragend',
-    'expand-change',
-    'scroll',
-  ],
+  emits: tableEmits,
   setup(props) {
     type Row = typeof props.data[number]
     const { t } = useLocale()

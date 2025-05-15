@@ -1,5 +1,7 @@
 // @ts-nocheck
 import { useSizeProp } from '@element-plus/hooks'
+import { ComponentSize } from '@element-plus/constants'
+import { Nullable } from '@element-plus/utils'
 import type {
   CSSProperties,
   ComponentInternalInstance,
@@ -7,8 +9,6 @@ import type {
   Ref,
   VNode,
 } from 'vue'
-import type { ComponentSize } from '@element-plus/constants'
-import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
@@ -190,6 +190,28 @@ interface RenderRowData<T> {
   treeNode?: TreeNode
   expanded: boolean
 }
+
+export const tableEmits = [
+  'select',
+  'select-all',
+  'selection-change',
+  'cell-mouse-enter',
+  'cell-mouse-leave',
+  'cell-contextmenu',
+  'cell-click',
+  'cell-dblclick',
+  'row-click',
+  'row-contextmenu',
+  'row-dblclick',
+  'header-click',
+  'header-contextmenu',
+  'sort-change',
+  'filter-change',
+  'current-change',
+  'header-dragend',
+  'expand-change',
+  'scroll',
+]
 
 export default {
   /**
