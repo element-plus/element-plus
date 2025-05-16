@@ -29,10 +29,21 @@ async function generateLLms() {
     const fsContent = (await fs.readFile(mdPath, 'utf-8')).trim()
 
     // e.g. # Button -> Button
-    const title = fsContent.match(/^#\s*([^\n]+)$/m)?.[1]?.trim()
+    let title = fsContent.match(/^#\s*([^\n]+)$/m)?.[1]?.trim()
 
     if (!title) {
       continue
+    }
+
+    // 特殊处理带版本标记和beta标签的组件名称
+    if (markdown.includes('dark-mode.md')) {
+      title = 'Dark Mode'
+    } else if (markdown.includes('namespace.md')) {
+      title = 'Custom namespace'
+    } else if (markdown.includes('table-v2.md')) {
+      title = 'Virtualized Table'
+    } else if (markdown.includes('tree-v2.md')) {
+      title = 'Tree V2 virtualized tree'
     }
 
     // URL
