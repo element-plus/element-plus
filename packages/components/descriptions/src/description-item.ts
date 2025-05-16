@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { columnAlignment } from '@element-plus/constants'
-import { buildProps, isValidColumnAlignment } from '@element-plus/utils'
+import { buildProps } from '@element-plus/utils'
 import { COMPONENT_NAME } from './constants'
 
 import type { ExtractPropTypes, Slot, VNode } from 'vue'
@@ -55,7 +55,6 @@ export const descriptionItemProps = buildProps({
     type: String,
     values: columnAlignment,
     default: 'left',
-    validator: isValidColumnAlignment,
   },
   /**
    * @description column label alignment, if omitted, the value of the above `align` attribute will be applied (If no `border`, please use `align` attribute)
@@ -63,7 +62,6 @@ export const descriptionItemProps = buildProps({
   labelAlign: {
     type: String,
     values: columnAlignment,
-    validator: isValidColumnAlignment,
   },
   /**
    * @description column content custom class name
