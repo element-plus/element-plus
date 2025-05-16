@@ -3,8 +3,9 @@
   "private": true,
   "scripts": {
     "dev": "pnpm gen-locale && vitepress dev .",
-    "build": "NODE_ENV=production && vitepress build .",
+    "build": "pnpm gen:llms && NODE_ENV=production && vitepress build .",
     "serve": "NODE_ENV=production vitepress serve . --port 5001",
+    "gen:llms": "tsx .vitepress/build/generate-llms.ts",
     "gen-locale": "rimraf .vitepress/i18n && tsx .vitepress/build/crowdin-generate.ts",
     "crowdin-credentials": "tsx .vitepress/build/crowdin-credentials.ts"
   },

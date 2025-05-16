@@ -4,8 +4,8 @@ import fg from 'fast-glob'
 
 async function generateLLms() {
   const cwd = process.cwd()
-  const siteDir = path.resolve(cwd, 'docs/llms')
-  const docsDir = ['docs/en-US', 'docs/examples']
+  const siteDir = path.resolve(cwd, 'public')
+  const docsDir = ['en-US', 'examples']
 
   const matchSuffixes = ['.md', '.vue']
 
@@ -64,7 +64,7 @@ async function generateLLms() {
       const componentName = markdown.split('/').pop()?.replace('.md', '')
       if (componentName) {
         // 在examples目录下查找对应的Vue示例文件
-        const examplesDir = path.join(cwd, 'docs/examples', componentName)
+        const examplesDir = path.join(cwd, 'examples', componentName)
         if (fs.existsSync(examplesDir)) {
           const vueFiles = await fg('**/*.vue', {
             cwd: examplesDir,
