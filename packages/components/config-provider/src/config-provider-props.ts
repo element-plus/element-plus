@@ -1,7 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 
-import type { ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes } from 'vue'
 import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
 import type { MessageConfigContext } from '@element-plus/components/message'
@@ -9,6 +9,11 @@ import type { MessageConfigContext } from '@element-plus/components/message'
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type ExperimentalFeatures = {
   // TO BE Defined
+}
+
+export type IconConfigContext = {
+  close?: string | Component
+  dropdown?: string | Component
 }
 
 export const configProviderProps = buildProps({
@@ -64,6 +69,12 @@ export const configProviderProps = buildProps({
   namespace: {
     type: String,
     default: 'el',
+  },
+  /**
+   * @description global icon component
+   */
+  icons: {
+    type: definePropType<IconConfigContext>(Object),
   },
   ...useEmptyValuesProps,
 } as const)

@@ -38,7 +38,7 @@
         <p v-else :class="ns.e('content')" v-html="message" />
       </slot>
       <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
-        <Close />
+        <component :is="closeIconComponent" />
       </el-icon>
     </div>
   </transition>
@@ -47,18 +47,20 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useEventListener, useResizeObserver, useTimeoutFn } from '@vueuse/core'
-import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
+import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
-import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
+import {
+  useGlobalComponentSettings,
+  useGlobalIcons,
+} from '@element-plus/components/config-provider'
 import { ElIcon } from '@element-plus/components/icon'
 import { messageEmits, messageProps } from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
 import type { BadgeProps } from '@element-plus/components/badge'
 import type { CSSProperties } from 'vue'
 
-const { Close } = TypeComponents
-
+const globalIcons = useGlobalIcons()
 defineOptions({
   name: 'ElMessage',
 })
@@ -97,6 +99,10 @@ const customStyle = computed<CSSProperties>(() => ({
   top: `${offset.value}px`,
   zIndex: currentZIndex.value,
 }))
+
+const closeIconComponent = computed(
+  () => props.closeIcon || globalIcons.value.close
+)
 
 function startTimer() {
   if (props.duration === 0) return
