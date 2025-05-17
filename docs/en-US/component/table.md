@@ -395,11 +395,12 @@ table/tooltip-formatter
 
 ### Table-column Slots
 
-| Name                 | Description                      | Type                                                 |
-| -------------------- | -------------------------------- | ---------------------------------------------------- |
-| default              | Custom content for table columns | ^[object]`{ row: any, column: any, $index: number }` |
-| header               | Custom content for table header  | ^[object]`{ column: any, $index: number }`           |
-| filter-icon ^(2.7.8) | Custom content for filter icon   | ^[object]`{ filterOpened: boolean }`                 |
+| Name                 | Description                       | Type                                                 |
+| -------------------- |-----------------------------------| ---------------------------------------------------- |
+| default              | Custom content for table columns  | ^[object]`{ row: any, column: any, $index: number }` |
+| header               | Custom content for table header   | ^[object]`{ column: any, $index: number }`           |
+| filter-icon ^(2.7.8) | Custom content for filter icon    | ^[object]`{ filterOpened: boolean }`                 |
+| expand               | Custom content for expand columns | ^[object]`{ expanded: boolean }`                     |
 
 ## Type Declarations
 

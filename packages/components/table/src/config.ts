@@ -116,17 +116,22 @@ export const cellForced = {
       return column.label || ''
     },
     renderCell<T>({
+      column,
       row,
       store,
       expanded,
     }: {
+      column: TableColumnCtx<T>
       row: T
       store: Store<T>
       expanded: boolean
     }) {
       const { ns } = store
-      const classes = [ns.e('expand-icon')]
-      if (expanded) {
+      const classes = [
+        column.renderExpand ? ns.e('expand') : ns.e('expand-icon'),
+      ]
+
+      if (!column.renderExpand && expanded) {
         classes.push(ns.em('expand-icon', 'expanded'))
       }
       const callback = function (e: Event) {
@@ -141,6 +146,14 @@ export const cellForced = {
         },
         {
           default: () => {
+            if (column.renderExpand) {
+              return [
+                column.renderExpand({
+                  expanded,
+                }),
+              ]
+            }
+
             return [
               h(ElIcon, null, {
                 default: () => {
