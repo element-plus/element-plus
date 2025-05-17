@@ -45,9 +45,7 @@ export const useGridWheel = (
       y = 0
     }
 
-    if (hasReachedEdge(x, y)) {
-      return
-    }
+    if (hasReachedEdge(x, y)) return
 
     xOffset += x
     yOffset += y
