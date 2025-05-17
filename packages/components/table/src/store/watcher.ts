@@ -118,25 +118,33 @@ function useWatcher<T>() {
       (column) =>
         column.type !== 'selection' && [true, 'left'].includes(column.fixed)
     )
+    rightFixedColumns.value = _columns.value.filter(
+      (column) => column.type !== 'selection' && column.fixed === 'right'
+    )
+
+    const fixedSelectColumn = _columns.value.find(
+      (column, index) =>
+        column.type === 'selection' &&
+        ([true, 'left', 'right'].includes(column.fixed) ||
+          (fixedColumns.value.length && index === 0))
+    )
 
     let selectColFixLeft
-    if (_columns.value?.[0]?.type === 'selection') {
-      const selectColumn = _columns.value[0]
+    if (fixedSelectColumn) {
       selectColFixLeft =
-        [true, 'left'].includes(selectColumn.fixed) ||
-        (fixedColumns.value.length && selectColumn.fixed !== 'right')
+        [true, 'left'].includes(fixedSelectColumn.fixed) ||
+        (fixedColumns.value.length && fixedSelectColumn.fixed !== 'right')
       if (selectColFixLeft) {
-        fixedColumns.value.unshift(selectColumn)
+        fixedColumns.value.unshift(fixedSelectColumn)
+      } else {
+        rightFixedColumns.value.push(fixedSelectColumn)
       }
     }
 
-    rightFixedColumns.value = _columns.value.filter(
-      (column) => column.fixed === 'right'
-    )
-
     const notFixedColumns = _columns.value.filter(
       (column) =>
-        (selectColFixLeft ? column.type !== 'selection' : true) && !column.fixed
+        (fixedSelectColumn ? column.type !== 'selection' : true) &&
+        !column.fixed
     )
 
     originColumns.value = []
