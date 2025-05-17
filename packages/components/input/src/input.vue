@@ -293,11 +293,7 @@ const showClear = computed(
     (isFocused.value || hovering.value)
 )
 const showPwdVisible = computed(
-  () =>
-    props.showPassword &&
-    !inputDisabled.value &&
-    !!nativeInputValue.value &&
-    (!!nativeInputValue.value || isFocused.value)
+  () => props.showPassword && !inputDisabled.value && !!nativeInputValue.value
 )
 const isWordLimitVisible = computed(
   () =>
