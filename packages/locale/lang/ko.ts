@@ -92,7 +92,7 @@ export default {
       noData: '데이터 없음',
     },
     pagination: {
-      goto: '',
+      goto: '이동',
       pagesize: '건/페이지',
       total: '총 {total} 건',
       pageClassifier: '페이지로',
