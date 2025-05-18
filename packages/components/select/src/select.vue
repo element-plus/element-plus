@@ -371,22 +371,17 @@ export default defineComponent({
         // After option rendering is completed, the useSelect internal state can collect the value of each option.
         // If the persistent value is false, option will not be rendered by default, so in this case,
         // manually render and load option data here.
-        const hasValue = isArray(modelValue.value)
-          ? modelValue.value.length > 0
-          : !!modelValue.value
-        if (hasValue) {
-          const defaultSlots = slots.default?.()
-          if (!defaultSlots) return
-          const children = flattedChildren(defaultSlots) as VNode[]
-          children.filter((item) => {
-            // @ts-expect-error
-            return isObject(item) && item!.type.name === 'ElOption'
-          }).forEach(item => {
-            const obj = {...item.props} as any
-            obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
-            API.onOptionCreate(obj)
-          })
-        }
+        const defaultSlots = slots.default?.()
+        if (!defaultSlots) return
+        const children = flattedChildren(defaultSlots) as VNode[]
+        children.filter((item) => {
+          // @ts-expect-error
+          return isObject(item) && item!.type.name === 'ElOption'
+        }).forEach(item => {
+          const obj = {...item.props} as any
+          obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
+          API.onOptionCreate(obj)
+        })
       }
     })
 
