@@ -7,15 +7,10 @@
 }
 
 @include b(date-range-picker) {
-  &:not(.single-panel) {
-    width: 646px;
+  width: 646px;
 
-    &.has-sidebar {
-      width: 756px;
-    }
-    .#{$namespace}-picker-panel__body {
-      min-width: 513px;
-    }
+  &.has-sidebar {
+    width: 756px;
   }
 
   &.has-time .#{$namespace}-picker-panel__body-wrapper {
@@ -27,14 +22,19 @@
     width: 100%;
   }
 
+  .#{$namespace}-picker-panel__body {
+    min-width: 513px;
+  }
+
   .#{$namespace}-picker-panel__content {
     margin: 0;
   }
 
   &.single-panel {
     width: 322px;
+
     .#{$namespace}-picker-panel__body {
-      width: 322px;
+      min-width: 322px;
     }
 
     &.has-sidebar.has-time {
