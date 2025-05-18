@@ -12,6 +12,7 @@ import { ref } from 'vue'
 
 const value1 = ref()
 </script>
+
 <style scoped>
 .demo-date-picker {
   display: flex;
