@@ -59,9 +59,9 @@ datetime-picker/date-and-time-range
 
 :::
 
-## Single Panel ^(2.9.3)
+## Single Panel ^(2.9.11)
 
-:::demo By default date picker ranges have two panels. If you want one panel set `single-panel` attribute.
+:::demo By default date picker ranges have two panels. If you want one panel set the `single-panel` attribute.
 
 datetime-picker/single-panel
 
@@ -111,7 +111,7 @@ datetime-picker/custom-icon
 | id                      | same as `id` in native input                                                                                   | ^[string] / ^[object]`[string, string]`                                                        | —                   |
 | name                    | same as `name` in native input                                                                                 | ^[string]                                                                                      | —                   |
 | unlink-panels           | unlink two date-panels in range-picker                                                                         | ^[boolean]                                                                                     | false               |
-| single-panel ^(2.9.3)   | show only one panel in range-picker                                                                            | ^[boolean]                                                                                     | false               |
+| single-panel ^(2.9.11)  | show only one panel in range-picker                                                                            | ^[boolean]                                                                                     | false               |
 | prefix-icon             | Custom prefix icon component                                                                                   | ^[string] / `Component`                                                                        | Date                |
 | clear-icon              | Custom clear icon component                                                                                    | ^[string] / `Component`                                                                        | CircleClose         |
 | shortcuts               | an object array to set shortcut options                                                                        | ^[object]`Array<{ text: string, value: Date \| Function }>`                                    | —                   |

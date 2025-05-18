@@ -156,7 +156,7 @@
               </slot>
             </button>
             <button
-              v-if="unlinkPanels && leftCurrentView === 'date' || singlePanel"
+              v-if="(unlinkPanels && leftCurrentView === 'date') || singlePanel"
               type="button"
               :disabled="!enableMonthArrow"
               :class="[
