@@ -114,37 +114,37 @@ function useWatcher<T>() {
     _columns.value.forEach((column) => {
       updateChildFixed(column)
     })
-    fixedColumns.value = _columns.value.filter(
-      (column) =>
-        column.type !== 'selection' && [true, 'left'].includes(column.fixed)
-    )
-    rightFixedColumns.value = _columns.value.filter(
-      (column) => column.type !== 'selection' && column.fixed === 'right'
+    fixedColumns.value = _columns.value.filter((column) =>
+      [true, 'left'].includes(column.fixed)
     )
 
-    const fixedSelectColumn = _columns.value.find(
-      (column, index) =>
-        column.type === 'selection' &&
-        ([true, 'left', 'right'].includes(column.fixed) ||
-          (fixedColumns.value.length && index === 0))
+    const selectColumn = _columns.value.find(
+      (column) => column.type === 'selection'
     )
 
     let selectColFixLeft
-    if (fixedSelectColumn) {
-      selectColFixLeft =
-        [true, 'left'].includes(fixedSelectColumn.fixed) ||
-        (fixedColumns.value.length && fixedSelectColumn.fixed !== 'right')
-      if (selectColFixLeft) {
-        fixedColumns.value.unshift(fixedSelectColumn)
-      } else {
-        rightFixedColumns.value.push(fixedSelectColumn)
+    if (
+      selectColumn &&
+      selectColumn.fixed !== 'right' &&
+      !fixedColumns.value.includes(selectColumn)
+    ) {
+      const selectColumnIndex = _columns.value.indexOf(selectColumn)
+      const lastLeftFixedColumnIndex = _columns.value.indexOf(
+        fixedColumns.value[fixedColumns.value.length - 1]
+      )
+      if (selectColumnIndex < lastLeftFixedColumnIndex) {
+        fixedColumns.value.unshift(selectColumn)
+        selectColFixLeft = true
       }
     }
 
+    rightFixedColumns.value = _columns.value.filter(
+      (column) => column.fixed === 'right'
+    )
+
     const notFixedColumns = _columns.value.filter(
       (column) =>
-        (fixedSelectColumn ? column.type !== 'selection' : true) &&
-        !column.fixed
+        (selectColFixLeft ? column.type !== 'selection' : true) && !column.fixed
     )
 
     originColumns.value = []
