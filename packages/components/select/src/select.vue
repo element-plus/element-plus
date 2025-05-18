@@ -375,7 +375,9 @@ export default defineComponent({
           ? modelValue.value.length > 0
           : !!modelValue.value
         if (hasValue) {
-          const children = flattedChildren(slots.default?.()!) as VNode[]
+          const defaultSlots = slots.default?.()
+          if (!defaultSlots) return
+          const children = flattedChildren(defaultSlots) as VNode[]
           children.filter((item) => {
             // @ts-expect-error
             return isObject(item) && item!.type.name === 'ElOption'
