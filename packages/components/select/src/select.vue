@@ -368,6 +368,9 @@ export default defineComponent({
 
     onBeforeMount(() => {
       if (!props.persistent) {
+        // After option rendering is completed, the useSelect internal state can collect the value of each option.
+        // If the persistent value is false, option will not be rendered by default, so in this case,
+        // manually render and load option data here.
         const hasValue = isArray(modelValue.value)
           ? modelValue.value.length > 0
           : !!modelValue.value
