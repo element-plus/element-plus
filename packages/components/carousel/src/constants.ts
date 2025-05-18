@@ -26,6 +26,7 @@ export type CarouselContext = {
   isVertical: Ref<boolean>
   loop: boolean
   cardScale: number
+  translateDirection: 'prev' | 'next' | undefined
   addItem: (item: CarouselItemContext) => void
   removeItem: (uid: number) => void
   setActiveItem: (index: number) => void

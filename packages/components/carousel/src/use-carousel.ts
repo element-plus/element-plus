@@ -11,7 +11,7 @@ import {
 } from 'vue'
 import { throttle } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import { debugWarn, isString } from '@element-plus/utils'
+import { debugWarn, isString, isUndefined } from '@element-plus/utils'
 import { useOrderedChildren } from '@element-plus/hooks'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
@@ -42,6 +42,7 @@ export const useCarousel = (
   const hover = ref(false)
   const root = ref<HTMLDivElement>()
   const containerHeight = ref<number>(0)
+  let translateDirection: 'prev' | 'next' | undefined
 
   // computed
   const arrowDisplay = computed(
@@ -94,9 +95,9 @@ export const useCarousel = (
 
   const playSlides = () => {
     if (activeIndex.value < items.value.length - 1) {
-      activeIndex.value = activeIndex.value + 1
+      setActiveItem(activeIndex.value + 1)
     } else if (props.loop) {
-      activeIndex.value = 0
+      setActiveItem(activeIndex.value + 1)
     }
   }
 
@@ -114,8 +115,17 @@ export const useCarousel = (
       debugWarn(componentName, 'index must be integer.')
       return
     }
+
     const itemCount = items.value.length
     const oldIndex = activeIndex.value
+    translateDirection = undefined
+    if (itemCount === 2 && !isCardType.value && props.loop && oldIndex > -1) {
+      if (index < oldIndex) {
+        translateDirection = 'prev'
+      } else if (index > oldIndex) {
+        translateDirection = 'next'
+      }
+    }
     if (index < 0) {
       activeIndex.value = props.loop ? itemCount - 1 : 0
     } else if (index >= itemCount) {
@@ -277,6 +287,9 @@ export const useCarousel = (
     removeItem,
     setActiveItem,
     setContainerHeight,
+    get translateDirection() {
+      return translateDirection
+    },
   })
 
   return {

@@ -89,35 +89,62 @@ export const useCarouselItem = (props: CarouselItemProps) => {
     return distance * (index - activeIndex)
   }
 
+  function processTranslate(
+    translateDirection: 'prev' | 'next',
+    activeIndex: number,
+    isVertical: boolean
+  ) {
+    animating.value = false
+    if (translateDirection === 'prev') {
+      translate.value = calcTranslate(activeIndex - 1, activeIndex, isVertical)
+    } else if (translateDirection === 'next') {
+      translate.value = calcTranslate(activeIndex + 1, activeIndex, isVertical)
+    }
+  }
+
   const translateItem = (
     index: number,
     activeIndex: number,
     oldIndex?: number
   ) => {
     const _isCardType = unref(isCardType)
+    const _isVertical = unref(isVertical)
     const carouselItemLength = carouselContext.items.value.length ?? Number.NaN
+    const translateDirection = carouselContext.translateDirection
 
     const isActive = index === activeIndex
     if (!_isCardType && !isUndefined(oldIndex)) {
       animating.value = isActive || index === oldIndex
     }
 
-    if (!isActive && carouselItemLength > 2 && carouselContext.loop) {
-      index = processIndex(index, activeIndex, carouselItemLength)
+    if (carouselContext.loop) {
+      const shouldProcessIndex =
+        carouselItemLength === 2 &&
+        !_isCardType &&
+        ((translateDirection === 'prev' && activeIndex === 1) ||
+          (translateDirection === 'next' && activeIndex === 0))
+      if (!isActive && (carouselItemLength > 2 || shouldProcessIndex))
+        index = processIndex(index, activeIndex, carouselItemLength)
+
+      if (isActive)
+        processTranslate(translateDirection!, activeIndex, _isVertical!)
     }
 
-    const _isVertical = unref(isVertical)
     active.value = isActive
 
     if (_isCardType) {
       inStage.value = Math.round(Math.abs(index - activeIndex)) <= 1
       translate.value = calcCardTranslate(index, activeIndex)
       scale.value = unref(active) ? 1 : cardScale
+      ready.value = true
     } else {
-      translate.value = calcTranslate(index, activeIndex, _isVertical)
+      const _translate = calcTranslate(index, activeIndex, _isVertical)
+      requestAnimationFrame(() => {
+        animating.value = true
+        translate.value = _translate
+        ready.value = true
+      })
     }
-
-    ready.value = true
 
     if (isActive && carouselItemRef.value) {
       carouselContext.setContainerHeight(carouselItemRef.value.offsetHeight)
