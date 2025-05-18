@@ -300,14 +300,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, provide, reactive, toRefs } from 'vue'
+import { computed, defineComponent, onBeforeMount, provide, reactive, toRefs } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isArray } from '@element-plus/utils'
+import { flattedChildren, isArray, isObject } from '@element-plus/utils'
 import { useCalcInputWidth } from '@element-plus/hooks'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
@@ -316,6 +316,7 @@ import { selectKey } from './token'
 import ElOptions from './options'
 import { SelectProps } from './select'
 
+import type { VNode } from 'vue';
 import type { SelectContext } from './type'
 
 const COMPONENT_NAME = 'ElSelect'
@@ -344,7 +345,7 @@ export default defineComponent({
     'popup-scroll',
   ],
 
-  setup(props, { emit }) {
+  setup(props, { emit, slots}) {
     const modelValue = computed(() => {
       const { modelValue: rawModelValue, multiple } = props
       const fallback = multiple ? [] : undefined
@@ -364,6 +365,25 @@ export default defineComponent({
 
     const API = useSelect(_props, emit)
     const { calculatorRef, inputStyle } = useCalcInputWidth()
+
+    onBeforeMount(() => {
+      if (!props.persistent) {
+        const hasValue = isArray(modelValue.value)
+          ? modelValue.value.length > 0
+          : !!modelValue.value
+        if (hasValue) {
+          const children = flattedChildren(slots.default?.()!) as VNode[]
+          children.filter((item) => {
+            // @ts-expect-error
+            return isObject(item) && item!.type.name === 'ElOption'
+          }).forEach(item => {
+            const obj = {...item.props} as any
+            obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
+            API.onOptionCreate(obj)
+          })
+        }
+      }
+    })
 
     provide(
       selectKey,
