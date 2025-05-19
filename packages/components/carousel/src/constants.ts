@@ -17,6 +17,7 @@ export type CarouselItemContext = {
   states: CarouselItemStates
   uid: number
   translateItem: (index: number, activeIndex: number, oldIndex?: number) => void
+  preprocessTranslate: (index: number) => void
 }
 
 export type CarouselContext = {

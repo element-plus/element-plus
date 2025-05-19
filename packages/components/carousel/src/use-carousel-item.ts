@@ -89,17 +89,9 @@ export const useCarouselItem = (props: CarouselItemProps) => {
     return distance * (index - activeIndex)
   }
 
-  function processTranslate(
-    translateDirection: 'prev' | 'next',
-    activeIndex: number,
-    isVertical: boolean
-  ) {
+  function preprocessTranslate(index: number) {
     animating.value = false
-    if (translateDirection === 'prev') {
-      translate.value = calcTranslate(activeIndex - 1, activeIndex, isVertical)
-    } else if (translateDirection === 'next') {
-      translate.value = calcTranslate(activeIndex + 1, activeIndex, isVertical)
-    }
+    translate.value = calcTranslate(index, activeIndex, isVertical)
   }
 
   const translateItem = (
@@ -175,6 +167,7 @@ export const useCarouselItem = (props: CarouselItemProps) => {
       }),
       uid: instance.uid,
       translateItem,
+      preprocessTranslte,
     })
   })
 

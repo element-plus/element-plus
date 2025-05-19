@@ -11,7 +11,7 @@ import {
 } from 'vue'
 import { throttle } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import { debugWarn, isString, isUndefined } from '@element-plus/utils'
+import { debugWarn, isString } from '@element-plus/utils'
 import { useOrderedChildren } from '@element-plus/hooks'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
@@ -94,9 +94,7 @@ export const useCarousel = (
   }
 
   const playSlides = () => {
-    if (activeIndex.value < items.value.length - 1) {
-      setActiveItem(activeIndex.value + 1)
-    } else if (props.loop) {
+    if (props.loop || activeIndex.value < items.value.length - 1) {
       setActiveItem(activeIndex.value + 1)
     }
   }
@@ -118,14 +116,9 @@ export const useCarousel = (
 
     const itemCount = items.value.length
     const oldIndex = activeIndex.value
-    translateDirection = undefined
-    if (itemCount === 2 && !isCardType.value && props.loop && oldIndex > -1) {
-      if (index < oldIndex) {
-        translateDirection = 'prev'
-      } else if (index > oldIndex) {
-        translateDirection = 'next'
-      }
+    if (itemCount === 2 && !isCardType.value && props.loop) {
     }
+
     if (index < 0) {
       activeIndex.value = props.loop ? itemCount - 1 : 0
     } else if (index >= itemCount) {
@@ -140,6 +133,11 @@ export const useCarousel = (
   }
 
   function resetItemPosition(oldIndex?: number) {
+    const shouldProcessIndex = rawIndex !== false
+    if (shouldProcessIndex) {
+      if (activeIndex.value === 0)
+        items.value[0].preprocessTranslate(1, activeIndex.value)
+    }
     items.value.forEach((item, index) => {
       item.translateItem(index, activeIndex.value, oldIndex)
     })
