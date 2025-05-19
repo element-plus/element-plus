@@ -5,6 +5,7 @@ import type { AppContext, ExtractPropTypes, VNode } from 'vue'
 import type Notification from './notification.vue'
 
 export const notificationTypes = [
+  'primary',
   'success',
   'info',
   'warning',
@@ -163,6 +164,7 @@ export type NotifyTypedFn = (
 ) => NotificationHandle
 
 export interface Notify extends NotifyFn {
+  primary: NotifyTypedFn
   success: NotifyTypedFn
   warning: NotifyTypedFn
   error: NotifyTypedFn
