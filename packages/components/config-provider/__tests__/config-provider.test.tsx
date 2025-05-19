@@ -4,7 +4,12 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { useLocale } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
-import { ElButton, ElMessage, ElPagination } from '@element-plus/components'
+import {
+  ElButton,
+  ElLink,
+  ElMessage,
+  ElPagination,
+} from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
 import { getStyle } from '@element-plus/utils'
 import {
@@ -143,6 +148,23 @@ describe('config-provider', () => {
           )
           .exists()
       ).toBe(true)
+    })
+  })
+
+  describe('link-config', () => {
+    it('should have :type="success" :underline="always"', async () => {
+      const config = reactive({
+        type: 'success',
+        underline: 'always',
+      })
+
+      const wrapper = mount(() => (
+        <ConfigProvider link={config}>
+          <ElLink>中文</ElLink>
+        </ConfigProvider>
+      ))
+      await nextTick()
+      expect(wrapper.find('.el-link--success.is-underline').exists()).toBe(true)
     })
   })
 
