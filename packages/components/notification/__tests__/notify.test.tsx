@@ -2,6 +2,7 @@ import { createApp, nextTick } from 'vue'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import Notification, { closeAll } from '../src/notify'
+import { notificationTypes } from '../src/notification'
 
 import type { NotificationHandle } from '../src/notification'
 import type { VNode } from 'vue'
@@ -90,7 +91,7 @@ describe('Notification on command', () => {
   })
 
   it('it should be able to render all types notification', () => {
-    for (const type of ['success', 'warning', 'error', 'info'] as const) {
+    for (const type of notificationTypes) {
       Notification[type]({})
       expect(document.querySelector(`.el-icon-${type}`)).toBeDefined()
     }
