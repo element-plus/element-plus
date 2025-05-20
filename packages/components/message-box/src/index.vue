@@ -62,7 +62,7 @@
                 "
               >
                 <el-icon :class="ns.e('close')">
-                  <close />
+                  <component :is="closeIcon || 'close'" />
                 </el-icon>
               </button>
             </div>
@@ -148,8 +148,8 @@
     </el-overlay>
   </transition>
 </template>
+
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -176,6 +176,7 @@ import {
   TypeComponents,
   TypeComponentsMap,
   isFunction,
+  isString,
   isValidComponentSize,
 } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
@@ -282,13 +283,14 @@ export default defineComponent({
       dangerouslyUseHTMLString: false,
       distinguishCancelAndClose: false,
       icon: '',
+      closeIcon: '',
       inputPattern: null,
       inputPlaceholder: '',
       inputType: 'text',
-      inputValue: null,
-      inputValidator: null,
+      inputValue: '',
+      inputValidator: undefined,
       inputErrorMessage: '',
-      message: null,
+      message: '',
       modalFade: true,
       modalClass: '',
       showCancelButton: false,
@@ -318,9 +320,10 @@ export default defineComponent({
     const contentId = useId()
     const inputId = useId()
 
-    const iconComponent = computed(
-      () => state.icon || TypeComponentsMap[state.type] || ''
-    )
+    const iconComponent = computed(() => {
+      const type = state.type
+      return state.icon || (type && TypeComponentsMap[type]) || ''
+    })
     const hasMessage = computed(() => !!state.message)
     const rootRef = ref<HTMLElement>()
     const headerRef = ref<HTMLElement>()
@@ -334,7 +337,7 @@ export default defineComponent({
       () => state.inputValue,
       async (val) => {
         await nextTick()
-        if (props.boxType === 'prompt' && val !== null) {
+        if (props.boxType === 'prompt' && val) {
           validate()
         }
       },
@@ -405,7 +408,7 @@ export default defineComponent({
 
     const overlayEvent = useSameTarget(handleWrapperClick)
 
-    const handleInputEnter = (e: KeyboardEvent) => {
+    const handleInputEnter = (e: KeyboardEvent | Event) => {
       if (state.inputType !== 'textarea') {
         e.preventDefault()
         return handleAction('confirm')
@@ -444,7 +447,7 @@ export default defineComponent({
             state.validateError = true
             return false
           }
-          if (typeof validateResult === 'string') {
+          if (isString(validateResult)) {
             state.editorErrorMessage = validateResult
             state.validateError = true
             return false
@@ -457,8 +460,8 @@ export default defineComponent({
     }
 
     const getInputElement = () => {
-      const inputRefs = inputRef.value.$refs
-      return (inputRefs.input || inputRefs.textarea) as HTMLElement
+      const inputRefs = inputRef.value?.$refs
+      return (inputRefs?.input ?? inputRefs?.textarea) as HTMLElement
     }
 
     const handleClose = () => {

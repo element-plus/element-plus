@@ -1,6 +1,6 @@
 import { inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { isFunction } from '@element-plus/utils'
+import { isFunction, isString } from '@element-plus/utils'
 
 import {
   ensurePosition,
@@ -26,7 +26,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
   const getHeaderRowClass = (rowIndex: number): string => {
     const classes: string[] = []
     const headerRowClassName = parent?.props.headerRowClassName
-    if (typeof headerRowClassName === 'string') {
+    if (isString(headerRowClassName)) {
       classes.push(headerRowClassName)
     } else if (isFunction(headerRowClassName)) {
       classes.push(headerRowClassName.call(null, { rowIndex }))
@@ -92,7 +92,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     }
 
     const headerCellClassName = parent?.props.headerCellClassName
-    if (typeof headerCellClassName === 'string') {
+    if (isString(headerCellClassName)) {
       classes.push(headerCellClassName)
     } else if (isFunction(headerCellClassName)) {
       classes.push(

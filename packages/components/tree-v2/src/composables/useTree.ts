@@ -1,4 +1,4 @@
-import { computed, nextTick, ref, shallowRef, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 import { isObject } from '@element-plus/utils'
 import {
   CURRENT_CHANGE,
@@ -34,26 +34,6 @@ export function useTree(
   const currentKey = ref<TreeKey | undefined>()
   const tree = shallowRef<Tree | undefined>()
   const listRef = ref<typeof FixedSizeList | undefined>()
-
-  watch(
-    () => props.currentNodeKey,
-    (key) => {
-      currentKey.value = key
-    },
-    {
-      immediate: true,
-    }
-  )
-
-  watch(
-    () => props.data,
-    (data: TreeData) => {
-      setData(data)
-    },
-    {
-      immediate: true,
-    }
-  )
 
   const {
     isIndeterminate,
@@ -216,7 +196,11 @@ export function useTree(
     if (props.expandOnClickNode) {
       toggleExpand(node)
     }
-    if (props.showCheckbox && props.checkOnClickNode && !node.disabled) {
+    if (
+      props.showCheckbox &&
+      (props.checkOnClickNode || (node.isLeaf && props.checkOnClickLeaf)) &&
+      !node.disabled
+    ) {
       toggleCheckbox(node, !isChecked(node), true)
     }
   }
@@ -284,7 +268,7 @@ export function useTree(
   }
 
   function setData(data: TreeData) {
-    nextTick(() => (tree.value = createTree(data)))
+    tree.value = createTree(data)
   }
 
   function getNode(data: TreeKey | TreeNodeData) {
@@ -302,6 +286,26 @@ export function useTree(
   function scrollTo(offset: number) {
     listRef.value?.scrollTo(offset)
   }
+
+  watch(
+    () => props.currentNodeKey,
+    (key) => {
+      currentKey.value = key
+    },
+    {
+      immediate: true,
+    }
+  )
+
+  watch(
+    () => props.data,
+    (data: TreeData) => {
+      setData(data)
+    },
+    {
+      immediate: true,
+    }
+  )
 
   return {
     tree,

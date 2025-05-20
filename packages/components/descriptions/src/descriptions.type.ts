@@ -1,4 +1,4 @@
-import type { ComponentSize } from '@element-plus/constants'
+import type { ColumnAlignment, ComponentSize } from '@element-plus/constants'
 
 export interface IDescriptionsInject {
   border: boolean
@@ -7,6 +7,7 @@ export interface IDescriptionsInject {
   size: ComponentSize
   title: string
   extra: string
+  labelWidth: string | number
 }
 
 export interface IDescriptionsItemInject {
@@ -15,8 +16,9 @@ export interface IDescriptionsItemInject {
   rowspan: number
   width: string | number
   minWidth: string | number
-  align: string
-  labelAlign: string
+  labelWidth: string | number
+  align: ColumnAlignment
+  labelAlign?: ColumnAlignment
   className: string
   labelClassName: string
 }

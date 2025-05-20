@@ -3,7 +3,7 @@
     :id="`${menuId}-${node.uid}`"
     role="menuitem"
     :aria-haspopup="!isLeaf"
-    :aria-owns="isLeaf ? null : menuId"
+    :aria-owns="isLeaf ? undefined : menuId"
     :aria-expanded="inExpandingPath"
     :tabindex="expandable ? -1 : undefined"
     :class="[
@@ -61,7 +61,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import { computed, defineComponent, inject } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import ElRadio from '@element-plus/components/radio'
@@ -71,8 +70,8 @@ import { ArrowRight, Check, Loading } from '@element-plus/icons-vue'
 import NodeContent from './node-content'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 import type { default as CascaderNode } from './node'
-
 import type { PropType } from 'vue'
+import type { CheckboxValueType } from '@element-plus/components/checkbox'
 
 export default defineComponent({
   name: 'ElCascaderNode',
@@ -166,14 +165,14 @@ export default defineComponent({
       }
     }
 
-    const handleSelectCheck = (checked: boolean) => {
+    const handleSelectCheck = (checked: CheckboxValueType | undefined) => {
       if (checkStrictly.value) {
-        doCheck(checked)
+        doCheck(checked as boolean)
         if (props.node.loaded) {
           doExpand()
         }
       } else {
-        handleCheck(checked)
+        handleCheck(checked as boolean)
       }
     }
 

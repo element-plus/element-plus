@@ -28,7 +28,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
 import type { CheckboxValueType } from 'element-plus'
 
 const isAdding = ref(false)
@@ -81,7 +80,7 @@ const clear = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style>
 .option-input {
   width: 100%;
   margin-bottom: 8px;

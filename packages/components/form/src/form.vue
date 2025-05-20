@@ -30,7 +30,7 @@ defineOptions({
 const props = defineProps(formProps)
 const emit = defineEmits(formEmits)
 
-const fields: FormItemContext[] = []
+const fields = reactive<FormItemContext[]>([])
 
 const formSize = useFormSize()
 const ns = useNamespace('form')
@@ -38,8 +38,6 @@ const formClasses = computed(() => {
   const { labelPosition, inline } = props
   return [
     ns.b(),
-    // todo: in v2.2.0, we can remove default
-    // in fact, remove it doesn't affect the final style
     ns.m(formSize.value || 'default'),
     {
       [ns.m(`label-${labelPosition}`)]: labelPosition,
@@ -109,6 +107,7 @@ const doValidateField = async (
   for (const field of fields) {
     try {
       await field.validate('')
+      if (field.validateState === 'error') field.resetField()
     } catch (fields) {
       validationErrors = {
         ...validationErrors,
@@ -160,7 +159,7 @@ watch(
       validate().catch((err) => debugWarn(err))
     }
   },
-  { deep: true }
+  { deep: true, flush: 'post' }
 )
 
 provide(

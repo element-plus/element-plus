@@ -13,7 +13,7 @@ const onItemClick = (item: any) => {
       v-for="item in leftLogoSponsors"
       :key="item.name"
       :class="[
-        'sponsor-item inline-flex items-center',
+        'sponsor-each inline-flex items-center',
         item.isDark && isDark ? 'filter invert' : '',
       ]"
       :href="item.url"
@@ -31,7 +31,7 @@ const onItemClick = (item: any) => {
 div {
   display: flex;
   align-items: center;
-  .sponsor-item {
+  .sponsor-each {
     margin-right: 4px;
     height: 36px;
     width: 36px;

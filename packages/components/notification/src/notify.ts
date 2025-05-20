@@ -1,15 +1,16 @@
-import { createVNode, render } from 'vue'
+import { createVNode, isVNode, render } from 'vue'
 import {
   debugWarn,
   isClient,
   isElement,
+  isFunction,
   isString,
-  isVNode,
+  isUndefined,
 } from '@element-plus/utils'
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'
 
-import type { AppContext, Ref, VNode } from 'vue'
+import type { Ref, VNode } from 'vue'
 import type {
   NotificationOptions,
   NotificationProps,
@@ -33,92 +34,88 @@ const notifications: Record<
 const GAP_SIZE = 16
 let seed = 1
 
-const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
-  function (options = {}, context: AppContext | null = null) {
-    if (!isClient) return { close: () => undefined }
+const notify: NotifyFn & Partial<Notify> = function (options = {}, context) {
+  if (!isClient) return { close: () => undefined }
 
-    if (typeof options === 'string' || isVNode(options)) {
-      options = { message: options }
-    }
-
-    const position = options.position || 'top-right'
-
-    let verticalOffset = options.offset || 0
-    notifications[position].forEach(({ vm }) => {
-      verticalOffset += (vm.el?.offsetHeight || 0) + GAP_SIZE
-    })
-    verticalOffset += GAP_SIZE
-
-    const id = `notification_${seed++}`
-    const userOnClose = options.onClose
-    const props: Partial<NotificationProps> = {
-      ...options,
-      offset: verticalOffset,
-      id,
-      onClose: () => {
-        close(id, position, userOnClose)
-      },
-    }
-
-    let appendTo: HTMLElement | null = document.body
-    if (isElement(options.appendTo)) {
-      appendTo = options.appendTo
-    } else if (isString(options.appendTo)) {
-      appendTo = document.querySelector(options.appendTo)
-    }
-
-    // should fallback to default value with a warning
-    if (!isElement(appendTo)) {
-      debugWarn(
-        'ElNotification',
-        'the appendTo option is not an HTMLElement. Falling back to document.body.'
-      )
-      appendTo = document.body
-    }
-
-    const container = document.createElement('div')
-
-    const vm = createVNode(
-      NotificationConstructor,
-      props,
-      isVNode(props.message)
-        ? {
-            default: () => props.message,
-          }
-        : null
-    )
-    vm.appContext = context ?? notify._context
-
-    // clean notification element preventing mem leak
-    vm.props!.onDestroy = () => {
-      render(null, container)
-    }
-
-    // instances will remove this item when close function gets called. So we do not need to worry about it.
-    render(vm, container)
-    notifications[position].push({ vm })
-    appendTo.appendChild(container.firstElementChild!)
-
-    return {
-      // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
-      // for out component, so that all closing steps will not be skipped.
-      close: () => {
-        ;(vm.component!.exposed as { visible: Ref<boolean> }).visible.value =
-          false
-      },
-    }
+  if (isString(options) || isVNode(options)) {
+    options = { message: options }
   }
+
+  const position = options.position || 'top-right'
+
+  let verticalOffset = options.offset || 0
+  notifications[position].forEach(({ vm }) => {
+    verticalOffset += (vm.el?.offsetHeight || 0) + GAP_SIZE
+  })
+  verticalOffset += GAP_SIZE
+
+  const id = `notification_${seed++}`
+  const userOnClose = options.onClose
+  const props: Partial<NotificationProps> = {
+    ...options,
+    offset: verticalOffset,
+    id,
+    onClose: () => {
+      close(id, position, userOnClose)
+    },
+  }
+
+  let appendTo: HTMLElement | null = document.body
+  if (isElement(options.appendTo)) {
+    appendTo = options.appendTo
+  } else if (isString(options.appendTo)) {
+    appendTo = document.querySelector(options.appendTo)
+  }
+
+  // should fallback to default value with a warning
+  if (!isElement(appendTo)) {
+    debugWarn(
+      'ElNotification',
+      'the appendTo option is not an HTMLElement. Falling back to document.body.'
+    )
+    appendTo = document.body
+  }
+
+  const container = document.createElement('div')
+
+  const vm = createVNode(
+    NotificationConstructor,
+    props,
+    isFunction(props.message)
+      ? props.message
+      : isVNode(props.message)
+      ? () => props.message
+      : null
+  )
+  vm.appContext = isUndefined(context) ? notify._context : context
+
+  // clean notification element preventing mem leak
+  vm.props!.onDestroy = () => {
+    render(null, container)
+  }
+
+  // instances will remove this item when close function gets called. So we do not need to worry about it.
+  render(vm, container)
+  notifications[position].push({ vm })
+  appendTo.appendChild(container.firstElementChild!)
+
+  return {
+    // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
+    // for out component, so that all closing steps will not be skipped.
+    close: () => {
+      ;(vm.component!.exposed as { visible: Ref<boolean> }).visible.value =
+        false
+    },
+  }
+}
 notificationTypes.forEach((type) => {
-  notify[type] = (options = {}) => {
-    if (typeof options === 'string' || isVNode(options)) {
+  notify[type] = (options = {}, appContext) => {
+    if (isString(options) || isVNode(options)) {
       options = {
         message: options,
       }
     }
-    return notify({
-      ...options,
-      type,
-    })
+    return notify({ ...options, type }, appContext)
   }
 })
 

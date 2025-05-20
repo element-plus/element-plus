@@ -77,8 +77,9 @@
     </template>
   </div>
 </template>
+
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, unref, watch } from 'vue'
+import { computed, inject, nextTick, onMounted, ref, unref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import { vRepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -86,7 +87,8 @@ import ElIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { getStyle, isNumber } from '@element-plus/utils'
-import { timeUnits } from '../constants'
+import { CHANGE_EVENT } from '@element-plus/constants'
+import { DEFAULT_FORMATS_TIME, timeUnits } from '../constants'
 import { buildTimeList } from '../utils'
 import { basicTimeSpinnerProps } from '../props/basic-time-spinner'
 import { getTimeLists } from '../composables/use-time-picker'
@@ -97,7 +99,9 @@ import type { TimeUnit } from '../constants'
 import type { TimeList } from '../utils'
 
 const props = defineProps(basicTimeSpinnerProps)
-const emit = defineEmits(['change', 'select-range', 'set-option'])
+const pickerBase = inject('EP_PICKER_BASE') as any
+const { isRange, format } = pickerBase.props
+const emit = defineEmits([CHANGE_EVENT, 'select-range', 'set-option'])
 
 const ns = useNamespace('time')
 
@@ -135,10 +139,12 @@ const timePartials = computed<Record<TimeUnit, number>>(() => {
 
 const timeList = computed(() => {
   const { hours, minutes } = unref(timePartials)
+  const { role, spinnerDate } = props
+  const compare = !isRange ? spinnerDate : undefined
   return {
-    hours: getHoursList(props.role),
-    minutes: getMinutesList(hours, props.role),
-    seconds: getSecondsList(hours, minutes, props.role),
+    hours: getHoursList(role, compare),
+    minutes: getMinutesList(hours, role, compare),
+    seconds: getSecondsList(hours, minutes, role, compare),
   }
 })
 
@@ -168,18 +174,19 @@ const getAmPmFlag = (hour: number) => {
 }
 
 const emitSelectRange = (type: TimeUnit) => {
-  let range
-
-  switch (type) {
-    case 'hours':
-      range = [0, 2]
-      break
-    case 'minutes':
-      range = [3, 5]
-      break
-    case 'seconds':
-      range = [6, 8]
-      break
+  let range = [0, 0]
+  if (!format || format === DEFAULT_FORMATS_TIME) {
+    switch (type) {
+      case 'hours':
+        range = [0, 2]
+        break
+      case 'minutes':
+        range = [3, 5]
+        break
+      case 'seconds':
+        range = [6, 8]
+        break
+    }
   }
   const [left, right] = range
 
@@ -276,7 +283,7 @@ const modifyDateField = (type: TimeUnit, value: number) => {
       changeTo = props.spinnerDate.hour(hours).minute(minutes).second(value)
       break
   }
-  emit('change', changeTo)
+  emit(CHANGE_EVENT, changeTo)
 }
 
 const handleClick = (

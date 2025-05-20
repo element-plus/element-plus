@@ -21,6 +21,15 @@ async function doubleWait() {
   await nextTick()
 }
 
+const _mount = (template: string, data: Record<string, any>) =>
+  mount({
+    components: {
+      [Image.name!]: Image,
+    },
+    template,
+    data,
+  })
+
 describe('Image.vue', () => {
   mockImageEvent()
 
@@ -169,5 +178,87 @@ describe('Image.vue', () => {
     expect(handleLoad).toBeCalled()
   })
 
+  test('manually open preview', async () => {
+    const url = IMAGE_SUCCESS
+    const srcList = Array.from<string>({ length: 3 }).fill(IMAGE_FAIL)
+    const wrapper = _mount(
+      `
+      <el-image
+        ref="imageRef"
+        style="width: 100px; height: 100px"
+        :src="url"
+        :preview-src-list="srcList"
+        :initial-index="1"
+        fit="cover"
+      />`,
+      () => ({
+        url,
+        srcList,
+      })
+    )
+    await doubleWait()
+    wrapper.vm.$refs.imageRef.showPreview()
+    await doubleWait()
+    expect(
+      wrapper.findAll('.el-image-viewer__img')[1].attributes('style')
+    ).not.toContain('display: none')
+  })
   //@todo lazy image test
+
+  test('`show-progress` prop to control whether to display progress', async () => {
+    const url = IMAGE_SUCCESS
+    const srcList = Array.from<string>({ length: 3 }).fill(IMAGE_SUCCESS)
+    const wrapper = _mount(
+      `
+      <el-image
+        ref="imageRef"
+        :src="url"
+        :preview-src-list="srcList"
+        :show-progress="false"
+      />`,
+      () => ({
+        url,
+        srcList,
+      })
+    )
+    await doubleWait()
+    wrapper.vm.$refs.imageRef.showPreview()
+    await doubleWait()
+    expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(false)
+
+    wrapper.setProps({ showProgress: true })
+    await doubleWait()
+    expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(true)
+  })
+
+  test('progress slot', async () => {
+    const url = IMAGE_SUCCESS
+    const srcList = Array.from<string>({ length: 3 }).fill(IMAGE_SUCCESS)
+    const wrapper = _mount(
+      `
+      <el-image
+        ref="imageRef"
+        :src="url"
+        :preview-src-list="srcList"
+      >
+        <template #progress="{ activeIndex, total }">
+          <div>{{ activeIndex + 1 }} - {{ total }}</div>
+        </template>
+      </el-image>`,
+      () => ({
+        url,
+        srcList,
+      })
+    )
+    await doubleWait()
+    wrapper.vm.$refs.imageRef.showPreview()
+    await doubleWait()
+    expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(true)
+    expect(wrapper.find('.el-image-viewer__progress').text()).toBe('1 - 3')
+
+    // progress slot's priority is higher than `show-progress` prop
+    wrapper.setProps({ showProgress: false })
+    await doubleWait()
+    expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(true)
+  })
 })

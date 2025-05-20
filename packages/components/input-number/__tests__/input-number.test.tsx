@@ -4,6 +4,7 @@ import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import { ElIcon } from '@element-plus/components/icon'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
@@ -161,15 +162,21 @@ describe('InputNumber.vue', () => {
   })
   //fix: #12690
   test('maximum is less than the minimum', async () => {
-    try {
-      const num = ref(6)
-      mount(() => <InputNumber v-model={num.value} min={10} max={8} />)
-    } catch (e: any) {
-      expect(e).to.be.an('error')
-      expect(e.message).to.equal(
-        '[InputNumber] min should not be greater than max.'
-      )
-    }
+    const num = ref(6)
+    const errorHandler = vi.fn()
+
+    mount(() => <InputNumber v-model={num.value} min={10} max={8} />, {
+      global: {
+        config: {
+          errorHandler,
+        },
+      },
+    })
+    expect(errorHandler).toHaveBeenCalled()
+    const [error] = errorHandler.mock.calls[0]
+    expect(error.message).toEqual(
+      '[InputNumber] min should not be greater than max.'
+    )
   })
 
   describe('precision accuracy 2', () => {
@@ -310,7 +317,7 @@ describe('InputNumber.vue', () => {
       1, 0,
     ])
     expect(
-      wrapper.getComponent(InputNumber).emitted('update:modelValue')
+      wrapper.getComponent(InputNumber).emitted(UPDATE_MODEL_EVENT)
     ).toHaveLength(1)
     wrapper.find('.el-input-number__increase').trigger('mousedown')
     document.dispatchEvent(mouseup)
@@ -320,7 +327,7 @@ describe('InputNumber.vue', () => {
       2, 1,
     ])
     expect(
-      wrapper.getComponent(InputNumber).emitted('update:modelValue')
+      wrapper.getComponent(InputNumber).emitted(UPDATE_MODEL_EVENT)
     ).toHaveLength(2)
     await wrapper.find('input').setValue(0)
     expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(3)
@@ -328,7 +335,7 @@ describe('InputNumber.vue', () => {
       0, 2,
     ])
     expect(
-      wrapper.getComponent(InputNumber).emitted('update:modelValue')
+      wrapper.getComponent(InputNumber).emitted(UPDATE_MODEL_EVENT)
     ).toHaveLength(4)
     await wrapper.find('input').setValue('')
     expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(4)

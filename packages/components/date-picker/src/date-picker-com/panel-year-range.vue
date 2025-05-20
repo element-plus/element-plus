@@ -90,6 +90,7 @@
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { computed, inject, ref, toRef, useSlots, watch } from 'vue'
 import dayjs from 'dayjs'
@@ -103,7 +104,7 @@ import {
 } from '../props/panel-year-range'
 import { useShortcut } from '../composables/use-shortcut'
 import { useYearRangeHeader } from '../composables/use-year-range-header'
-import { isValidRange } from '../utils'
+import { correctlyParseUserInput, isValidRange } from '../utils'
 import { ROOT_PICKER_INJECTION_KEY } from '../constants'
 import YearTable from './basic-year-table.vue'
 
@@ -122,6 +123,7 @@ const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(leftDate.value.add(10, 'year'))
 const { pickerNs: ppNs } = inject(ROOT_PICKER_INJECTION_KEY)!
 const drpNs = useNamespace('date-range-picker')
+const isDefaultFormat = inject('ElIsDefaultFormat') as any
 
 const hasShortcuts = computed(() => !!shortcuts.length)
 
@@ -286,9 +288,12 @@ watch(
 )
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return isArray(value)
-    ? value.map((_) => dayjs(_, format.value).locale(lang.value))
-    : dayjs(value, format.value).locale(lang.value)
+  return correctlyParseUserInput(
+    value,
+    format.value,
+    lang.value,
+    isDefaultFormat
+  )
 }
 
 const formatToString = (value: Dayjs[] | Dayjs) => {
