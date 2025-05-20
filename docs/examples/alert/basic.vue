@@ -1,5 +1,6 @@
 <template>
   <div style="max-width: 600px">
+    <el-alert title="Primary alert" type="primary" />
     <el-alert title="Success alert" type="success" />
     <el-alert title="Info alert" type="info" />
     <el-alert title="Warning alert" type="warning" />

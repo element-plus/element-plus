@@ -71,7 +71,7 @@ switch/loading
 
 :::
 
-## prevent switching
+## Prevent switching
 
 :::demo set the `before-change` property, If `false` is returned or a `Promise` is returned and then is rejected, will stop switching.
 
@@ -79,7 +79,7 @@ switch/prevent-switching
 
 :::
 
-## custom action icon ^(2.3.9)
+## Custom action icon ^(2.3.9)
 
 :::demo You can add `active-action-icon` and `inactive-active-icon` attribute to show icons.
 
@@ -87,7 +87,7 @@ switch/custom-action-icon
 
 :::
 
-## custom action slot ^(2.4.4)
+## Custom action slot ^(2.4.4)
 
 :::demo You can use `active-action` and `inactive-action` slot to customize action.
 
