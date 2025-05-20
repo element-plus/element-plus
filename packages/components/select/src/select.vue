@@ -300,7 +300,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, provide, reactive, toRefs } from 'vue'
+import { computed, defineComponent, onBeforeMount, provide, reactive, toRefs, watch } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -366,13 +366,11 @@ export default defineComponent({
     const API = useSelect(_props, emit)
     const { calculatorRef, inputStyle } = useCalcInputWidth()
 
-    onBeforeMount(() => {
-      if (!props.persistent) {
-        // After option rendering is completed, the useSelect internal state can collect the value of each option.
-        // If the persistent value is false, option will not be rendered by default, so in this case,
-        // manually render and load option data here.
-        const defaultSlots = slots.default?.()
-        if (!defaultSlots) return
+    const manuallyRenderSlots = (defaultSlots: VNode[] | undefined) => {
+      // After option rendering is completed, the useSelect internal state can collect the value of each option.
+      // If the persistent value is false, option will not be rendered by default, so in this case,
+      // manually render and load option data here.
+      if (!props.persistent && defaultSlots) {
         const children = flattedChildren(defaultSlots) as VNode[]
         children.filter((item) => {
           // @ts-expect-error
@@ -383,6 +381,16 @@ export default defineComponent({
           API.onOptionCreate(obj)
         })
       }
+    }
+    watch(() => {
+      const currentSlot = slots.default?.()
+      return currentSlot
+    }, (newSlot) => {
+      manuallyRenderSlots(newSlot)
+    })
+    onBeforeMount(() => {
+      const defaultSlots = slots.default?.()
+      manuallyRenderSlots(defaultSlots)
     })
 
     provide(
