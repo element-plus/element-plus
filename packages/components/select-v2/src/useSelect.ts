@@ -738,12 +738,13 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   const updateHoveringIndex = () => {
     if (!props.multiple) {
       states.hoveringIndex = filteredOptions.value.findIndex((item) => {
-        return getValueKey(item) === getValueKey(props.modelValue)
+        return getValueKey(getValue(item)) === getValueKey(props.modelValue)
       })
     } else {
       states.hoveringIndex = filteredOptions.value.findIndex((item) =>
         props.modelValue.some(
-          (modelValue: unknown) => getValueKey(modelValue) === getValueKey(item)
+          (modelValue: unknown) =>
+            getValueKey(modelValue) === getValueKey(getValue(item))
         )
       )
     }
