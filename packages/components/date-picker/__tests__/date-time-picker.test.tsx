@@ -5,6 +5,8 @@ import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
+import type DatePickerRange from '../src/date-picker-com/panel-date-range.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import type { VNode } from 'vue'
 
 const formatStr = 'YYYY-MM-DD HH:mm:ss'
@@ -403,6 +405,33 @@ describe('Datetime Picker', () => {
     await nextTick()
     expect(dayjs(value.value).format('D')).toBe(dayText)
   })
+
+  it('validate user input', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+    const input = wrapper.find('input')
+    input.element.value = '999999-10-01 12:01:03'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(value.value).toBe('')
+
+    input.element.value = '2023-10-01 12:01:03'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toBe(
+      '2023-10-01 12:01:03'
+    )
+
+    // invalid user input not work
+    input.element.value = '999999-10-01'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toBe(
+      '2023-10-01 12:01:03'
+    )
+  })
 })
 
 describe('Datetimerange', () => {
@@ -631,8 +660,11 @@ describe('Datetimerange', () => {
     expect(btn.getAttribute('disabled')).not.toBeUndefined() // invalid input disables button
     btn.click()
     await nextTick()
-    const rangePanel = document.querySelector('.el-date-range-picker')!
-    expect(rangePanel.getAttribute('visible')).toBe('true') // popper still open
+    const rangePanelWrapper = wrapper.findComponent(
+      '.el-date-range-picker'
+    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true) // popper still open
     expect(value.value).toBe('')
     leftDateInput.value = '2001-09-01'
     triggerEvent(leftDateInput, 'input', true)
@@ -641,7 +673,7 @@ describe('Datetimerange', () => {
     expect(btn.getAttribute('disabled')).not.toBeUndefined()
     btn.click()
     await nextTick()
-    expect(rangePanel.getAttribute('visible')).toBe('false') // popper dismiss
+    expect(rangePanelWrapper.vm.visible).toBe(false) // popper dismiss
     expect(value.value).not.toBe('')
   })
 

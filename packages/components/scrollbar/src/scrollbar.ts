@@ -76,6 +76,13 @@ export const scrollbarProps = buildProps({
     default: 20,
   },
   /**
+   * @description Wrap tabindex
+   */
+  tabindex: {
+    type: [String, Number],
+    default: undefined,
+  },
+  /**
    * @description id of view
    */
   id: String,
@@ -98,4 +105,4 @@ export const scrollbarEmits = {
 }
 export type ScrollbarEmits = typeof scrollbarEmits
 
-export type ScrollbarInstance = InstanceType<typeof Scrollbar>
+export type ScrollbarInstance = InstanceType<typeof Scrollbar> & unknown

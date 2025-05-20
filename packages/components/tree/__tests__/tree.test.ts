@@ -4,6 +4,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import sleep from '@element-plus/test-utils/sleep'
+import ElIcon from '@element-plus/components/icon'
 import Tree from '../src/tree.vue'
 import Button from '../../button/src/button.vue'
 import type Node from '../src/model/node'
@@ -22,6 +23,7 @@ const getTreeVm = (props = '', options = {}) => {
     `,
         data() {
           return {
+            currentId: null,
             currentNode: null,
             nodeExpended: false,
             defaultExpandedKeys: [],
@@ -259,6 +261,30 @@ describe('Tree.vue', () => {
     expect(wrapper.find('.el-tree--highlight-current').exists()).toBe(true)
   })
 
+  test('update tree-data after current-node-key', async () => {
+    const { wrapper, vm } = getTreeVm(
+      `:props="defaultProps" :expand-on-click-node="false" default-expand-all highlight-current node-key="id" :current-node-key="currentId"`
+    )
+
+    vm.currentId = 22
+    await nextTick()
+    const currentNodeLabelWrapper = wrapper.find(
+      '.is-current .el-tree-node__label'
+    )
+    expect(wrapper.find('.el-tree--highlight-current').exists()).toBe(true)
+    expect(currentNodeLabelWrapper.text()).toEqual('二级 2-2')
+    const _data = [...vm.data]
+    await nextTick()
+    vm.data = [..._data]
+    await nextTick()
+    const currentNodeLabelWrapper2 = wrapper.find(
+      '.is-current .el-tree-node__label'
+    )
+    expect(currentNodeLabelWrapper2.exists()).toBe(true)
+    expect(currentNodeLabelWrapper2.text()).toEqual('二级 2-2')
+    expect(wrapper.find('.el-tree--highlight-current').exists()).toBe(true)
+  })
+
   test('defaultExpandAll', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" default-expand-all`)
     const expanedNodeWrappers = wrapper.findAll('.el-tree-node.is-expanded')
@@ -324,7 +350,7 @@ describe('Tree.vue', () => {
     const treeWrapper = wrapper.findComponent(Tree)
     ;(treeWrapper.vm as InstanceType<typeof Tree>).filter('2-1')
 
-    await nextTick()
+    await sleep()
     expect(treeWrapper.findAll('.el-tree-node.is-hidden').length).toEqual(3)
   })
   test('lazy load with filter expand loaded node', async () => {
@@ -515,6 +541,67 @@ describe('Tree.vue', () => {
     const [data, args] = handleCheckMockFunction.mock.calls[0]
     expect(data.id).toEqual(2)
     expect(args.checkedNodes.length).toEqual(3)
+  })
+
+  test('check by clicking on leaf node', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox`)
+    const treeVm = wrapper.findComponent(Tree).vm
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    const secondTreeNodeWrapper = wrapper.findAll('.el-tree-node')[2]
+    await secondTreeNodeWrapper.trigger('click')
+
+    const secondNodeContentWrapper = secondTreeNodeWrapper.findAll(
+      '.el-tree-node__content'
+    )[1]
+    await secondNodeContentWrapper.trigger('click')
+
+    expect(treeVm.getCheckedNodes().length).toEqual(1)
+  })
+
+  test('show-checkbox :check-on-click-leaf="false"', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox :check-on-click-leaf="false"`
+    )
+    const treeVm = wrapper.findComponent(Tree).vm
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    const secondTreeNodeWrapper = wrapper.findAll('.el-tree-node')[2]
+    await secondTreeNodeWrapper.trigger('click')
+
+    const secondNodeContentWrapper = secondTreeNodeWrapper.findAll(
+      '.el-tree-node__content'
+    )[1]
+    await secondNodeContentWrapper.trigger('click')
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+  })
+
+  test('ensure no checked nodes in non show-checkbox mode', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps"`)
+    const treeVm = wrapper.findComponent(Tree).vm
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    const secondTreeNodeWrapper = wrapper.findAll('.el-tree-node')[2]
+    await secondTreeNodeWrapper.trigger('click')
+
+    const secondNodeContentWrapper = secondTreeNodeWrapper.findAll(
+      '.el-tree-node__content'
+    )[1]
+
+    expect(
+      secondNodeContentWrapper
+        .findComponent(ElIcon)
+        .classes()
+        .includes('is-leaf')
+    ).toBe(true)
+
+    await secondNodeContentWrapper.trigger('click')
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
   })
 
   test('setCheckedNodes', async () => {

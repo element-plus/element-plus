@@ -8,9 +8,40 @@ export const useDraggable = (
   draggable: ComputedRef<boolean>,
   overflow?: ComputedRef<boolean>
 ) => {
-  let transform = {
+  const transform = {
     offsetX: 0,
     offsetY: 0,
+  }
+
+  const adjustPosition = (moveX: number, moveY: number) => {
+    if (targetRef.value) {
+      const { offsetX, offsetY } = transform
+      const targetRect = targetRef.value.getBoundingClientRect()
+      const targetLeft = targetRect.left
+      const targetTop = targetRect.top
+      const targetWidth = targetRect.width
+      const targetHeight = targetRect.height
+
+      const clientWidth = document.documentElement.clientWidth
+      const clientHeight = document.documentElement.clientHeight
+
+      const minLeft = -targetLeft + offsetX
+      const minTop = -targetTop + offsetY
+      const maxLeft = clientWidth - targetLeft - targetWidth + offsetX
+      const maxTop = clientHeight - targetTop - targetHeight + offsetY
+
+      if (!overflow?.value) {
+        moveX = Math.min(Math.max(moveX, minLeft), maxLeft)
+        moveY = Math.min(Math.max(moveY, minTop), maxTop)
+      }
+
+      transform.offsetX = moveX
+      transform.offsetY = moveY
+
+      targetRef.value.style.transform = `translate(${addUnit(moveX)}, ${addUnit(
+        moveY
+      )})`
+    }
   }
 
   const onMousedown = (e: MouseEvent) => {
@@ -18,39 +49,11 @@ export const useDraggable = (
     const downY = e.clientY
     const { offsetX, offsetY } = transform
 
-    const targetRect = targetRef.value!.getBoundingClientRect()
-    const targetLeft = targetRect.left
-    const targetTop = targetRect.top
-    const targetWidth = targetRect.width
-    const targetHeight = targetRect.height
-
-    const clientWidth = document.documentElement.clientWidth
-    const clientHeight = document.documentElement.clientHeight
-
-    const minLeft = -targetLeft + offsetX
-    const minTop = -targetTop + offsetY
-    const maxLeft = clientWidth - targetLeft - targetWidth + offsetX
-    const maxTop = clientHeight - targetTop - targetHeight + offsetY
-
     const onMousemove = (e: MouseEvent) => {
-      let moveX = offsetX + e.clientX - downX
-      let moveY = offsetY + e.clientY - downY
+      const moveX = offsetX + e.clientX - downX
+      const moveY = offsetY + e.clientY - downY
 
-      if (!overflow?.value) {
-        moveX = Math.min(Math.max(moveX, minLeft), maxLeft)
-        moveY = Math.min(Math.max(moveY, minTop), maxTop)
-      }
-
-      transform = {
-        offsetX: moveX,
-        offsetY: moveY,
-      }
-
-      if (targetRef.value) {
-        targetRef.value.style.transform = `translate(${addUnit(
-          moveX
-        )}, ${addUnit(moveY)})`
-      }
+      adjustPosition(moveX, moveY)
     }
 
     const onMouseup = () => {
@@ -65,13 +68,30 @@ export const useDraggable = (
   const onDraggable = () => {
     if (dragRef.value && targetRef.value) {
       dragRef.value.addEventListener('mousedown', onMousedown)
+      window.addEventListener('resize', updatePosition)
     }
   }
 
   const offDraggable = () => {
     if (dragRef.value && targetRef.value) {
       dragRef.value.removeEventListener('mousedown', onMousedown)
+      window.removeEventListener('resize', updatePosition)
     }
+  }
+
+  const resetPosition = () => {
+    transform.offsetX = 0
+    transform.offsetY = 0
+
+    if (targetRef.value) {
+      targetRef.value.style.transform = ''
+    }
+  }
+
+  const updatePosition = () => {
+    const { offsetX, offsetY } = transform
+
+    adjustPosition(offsetX, offsetY)
   }
 
   onMounted(() => {
@@ -87,4 +107,9 @@ export const useDraggable = (
   onBeforeUnmount(() => {
     offDraggable()
   })
+
+  return {
+    resetPosition,
+    updatePosition,
+  }
 }

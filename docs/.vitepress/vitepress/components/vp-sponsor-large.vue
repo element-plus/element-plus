@@ -19,7 +19,7 @@ const onItemClick = (item: any) => {
       :key="item.name"
       :href="item.url"
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
-      :class="['sponsor-item inline-flex', itemClass]"
+      :class="['sponsor-large inline-flex', itemClass]"
       :style="itemStyle"
       target="_blank"
       @click="onItemClick(item)"
@@ -32,7 +32,7 @@ const onItemClick = (item: any) => {
 <style scoped lang="scss">
 @use '../styles/mixins.scss' as *;
 
-.sponsor-item {
+.sponsor-large {
   margin-bottom: 8px;
   height: 60px;
   width: 196px;
@@ -56,7 +56,7 @@ const onItemClick = (item: any) => {
 }
 
 @media (max-width: 768px) {
-  .sponsor-item {
+  .sponsor-large {
     img {
       border-radius: 4px;
       min-height: 45px;

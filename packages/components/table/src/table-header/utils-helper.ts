@@ -20,7 +20,7 @@ const getAllColumns = <T>(
   return result
 }
 
-const convertToRows = <T>(
+export const convertToRows = <T>(
   originColumns: TableColumnCtx<T>[]
 ): TableColumnCtx<T>[] => {
   let maxLevel = 1

@@ -1,7 +1,12 @@
 <template>
   <div
-    :class="[ns.b(), ns.m(listType), ns.is('drag', drag)]"
-    tabindex="0"
+    :class="[
+      ns.b(),
+      ns.m(listType),
+      ns.is('drag', drag),
+      ns.is('disabled', disabled),
+    ]"
+    :tabindex="disabled ? '-1' : '0'"
     @click="handleClick"
     @keydown.self.enter.space="handleKeydown"
   >
@@ -17,6 +22,7 @@
       ref="inputRef"
       :class="ns.e('input')"
       :name="name"
+      :disabled="disabled"
       :multiple="multiple"
       :accept="accept"
       type="file"
@@ -28,10 +34,9 @@
 
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
-import { isPlainObject } from '@vue/shared'
 import { cloneDeep, isEqual } from 'lodash-unified'
+import { entriesOf, isFunction, isPlainObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { entriesOf, isFunction } from '@element-plus/utils'
 import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
 import { uploadContentProps } from './upload-content'

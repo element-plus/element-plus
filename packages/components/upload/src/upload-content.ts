@@ -1,5 +1,4 @@
-import { NOOP } from '@vue/shared'
-import { buildProps, definePropType } from '@element-plus/utils'
+import { NOOP, buildProps, definePropType } from '@element-plus/utils'
 import { uploadBaseProps } from './upload'
 
 import type { ExtractPropTypes } from 'vue'
@@ -55,4 +54,4 @@ export const uploadContentProps = buildProps({
 
 export type UploadContentProps = ExtractPropTypes<typeof uploadContentProps>
 
-export type UploadContentInstance = InstanceType<typeof UploadContent>
+export type UploadContentInstance = InstanceType<typeof UploadContent> & unknown

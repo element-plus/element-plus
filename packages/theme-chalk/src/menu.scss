@@ -80,16 +80,15 @@
   }
 
   @include m(horizontal) {
-    // reset menu-item popup height
-    &.#{$namespace}-menu--popup-container {
-      height: unset;
-    }
-
     display: flex;
     flex-wrap: nowrap;
     border-right: none;
 
     height: getCssVar('menu-horizontal-height');
+    // reset menu-item popup height
+    &.#{$namespace}-menu--popup-container {
+      height: unset;
+    }
 
     &.#{$namespace}-menu {
       border-bottom: solid 1px getCssVar('menu-border-color');

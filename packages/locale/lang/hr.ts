@@ -68,6 +68,9 @@ export default {
       noData: 'Nema podataka',
       placeholder: 'Izaberi',
     },
+    mention: {
+      loading: 'Učitavanje',
+    },
     cascader: {
       noMatch: 'Nema pronađenih podataka',
       loading: 'Učitavanje',

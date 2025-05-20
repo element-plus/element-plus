@@ -23,6 +23,7 @@
         :value="actualValue"
         :name="name || radioGroup?.name"
         :disabled="disabled"
+        :checked="modelValue === actualValue"
         type="radio"
         @focus="focus = true"
         @blur="focus = false"
@@ -42,6 +43,7 @@
 <script lang="ts" setup>
 import { nextTick } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { radioEmits, radioProps } from './radio'
 import { useRadio } from './use-radio'
 
@@ -57,6 +59,6 @@ const { radioRef, radioGroup, focus, size, disabled, modelValue, actualValue } =
   useRadio(props, emit)
 
 function handleChange() {
-  nextTick(() => emit('change', modelValue.value))
+  nextTick(() => emit(CHANGE_EVENT, modelValue.value))
 }
 </script>

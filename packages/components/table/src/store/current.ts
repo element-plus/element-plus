@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { getCurrentInstance, ref, unref } from 'vue'
+import { isNull } from 'lodash-unified'
 import { getRowIdentity } from '../util'
 
 import type { Ref } from 'vue'
@@ -59,7 +60,7 @@ function useCurrent<T>(watcherData: WatcherPropsData<T>) {
       } else {
         currentRow.value = null
       }
-      if (currentRow.value === null) {
+      if (isNull(currentRow.value)) {
         instance.emit('current-change', null, oldCurrentRow)
       }
     } else if (_currentRowKey.value) {

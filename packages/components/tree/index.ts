@@ -1,14 +1,11 @@
+import { withInstall } from '@element-plus/utils'
 import Tree from './src/tree.vue'
 
-import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils'
 
-Tree.install = (app: App): void => {
-  app.component(Tree.name, Tree)
-}
+export const ElTree: SFCWithInstall<typeof Tree> = withInstall(Tree)
 
-const _Tree = Tree as SFCWithInstall<typeof Tree>
+export default ElTree
 
-export default _Tree
-export const ElTree = _Tree
-export type { TreeInstance } from './src/instance'
+export * from './src/tree.type'
+export * from './src/instance'

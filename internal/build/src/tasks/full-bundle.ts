@@ -1,6 +1,7 @@
 import path from 'path'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { rollup } from 'rollup'
+import replace from '@rollup/plugin-replace'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/rollup'
@@ -38,6 +39,12 @@ async function buildFullEntry(minify: boolean) {
       plugins: {
         vue: vue({
           isProduction: true,
+          template: {
+            compilerOptions: {
+              hoistStatic: false,
+              cacheHandlers: false,
+            },
+          },
         }),
         vueJsx: vueJsx(),
       },
@@ -58,6 +65,9 @@ async function buildFullEntry(minify: boolean) {
       },
       treeShaking: true,
       legalComments: 'eof',
+    }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
   ]
   if (minify) {

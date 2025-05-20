@@ -68,6 +68,9 @@ export default {
       noData: 'Maʼlumot yoʻq',
       placeholder: 'Tanladizngiz',
     },
+    mention: {
+      loading: 'Yuklanmoqda',
+    },
     cascader: {
       noMatch: 'Mos maʼlumot topilmadi',
       loading: 'Yuklanmoqda',

@@ -1,5 +1,5 @@
-// @ts-nocheck
 import {
+  Fragment,
   computed,
   defineComponent,
   getCurrentInstance,
@@ -10,6 +10,7 @@ import {
   resolveDynamicComponent,
   unref,
 } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import {
   getScrollBarWidth,
   hasOwn,
@@ -49,6 +50,7 @@ import type {
   ScrollbarExpose,
 } from '../types'
 import type { VirtualizedGridProps } from '../props'
+import type { DynamicSizeGridInstance } from '../components/dynamic-size-grid.ts'
 
 const createGrid = ({
   name,
@@ -355,6 +357,10 @@ const createGrid = ({
         }
       )
 
+      useEventListener(windowRef, 'wheel', onWheel, {
+        passive: false,
+      })
+
       const scrollTo = ({
         scrollLeft = states.value.scrollLeft,
         scrollTop = states.value.scrollTop,
@@ -405,7 +411,7 @@ const createGrid = ({
             alignment,
             _states.scrollLeft,
             _cache,
-            estimatedWidth > props.width! ? scrollBarWidth : 0
+            estimatedWidth > (props.width as number) ? scrollBarWidth : 0
           ),
           scrollTop: getRowOffset(
             props,
@@ -413,15 +419,12 @@ const createGrid = ({
             alignment,
             _states.scrollTop,
             _cache,
-            estimatedHeight > props.height! ? scrollBarWidth : 0
+            estimatedHeight > (props.height as number) ? scrollBarWidth : 0
           ),
         })
       }
 
-      const getItemStyle = (
-        rowIndex: number,
-        columnIndex: number
-      ): CSSProperties => {
+      const getItemStyle = (rowIndex: number, columnIndex: number) => {
         const { columnWidth, direction, rowHeight } = props
         const itemStyleCache = getItemStyleCache.value(
           clearCache && columnWidth,
@@ -433,7 +436,7 @@ const createGrid = ({
         const key = `${rowIndex},${columnIndex}`
 
         if (hasOwn(itemStyleCache, key)) {
-          return itemStyleCache[key]
+          return itemStyleCache[key] as CSSProperties
         } else {
           const [, left] = getColumnPosition(props, columnIndex, unref(cache))
           const _cache = unref(cache)
@@ -451,15 +454,13 @@ const createGrid = ({
             width: `${width}px`,
           }
 
-          return itemStyleCache[key]
+          return itemStyleCache[key] as CSSProperties
         }
       }
 
       // TODO: debounce setting is scrolling.
 
       const resetIsScrolling = () => {
-        // timer = null
-
         states.value.isScrolling = false
         nextTick(() => {
           getItemStyleCache.value(-1, null, null)
@@ -515,7 +516,7 @@ const createGrid = ({
       }
 
       const { resetAfterColumnIndex, resetAfterRowIndex, resetAfter } =
-        instance.proxy as any
+        instance.proxy as DynamicSizeGridInstance
 
       expose({
         windowRef,
@@ -590,17 +591,21 @@ const createGrid = ({
         if (totalRow > 0 && totalColumn > 0) {
           for (let row = rowStart; row <= rowEnd; row++) {
             for (let column = columnStart; column <= columnEnd; column++) {
+              const key = itemKey({ columnIndex: column, data, rowIndex: row })
               children.push(
-                slots.default?.({
-                  columnIndex: column,
-                  data,
-                  key: itemKey({ columnIndex: column, data, rowIndex: row }),
-                  isScrolling: useIsScrolling
-                    ? unref(states).isScrolling
-                    : undefined,
-                  style: getItemStyle(row, column),
-                  rowIndex: row,
-                })
+                h(
+                  Fragment,
+                  { key },
+                  slots.default?.({
+                    columnIndex: column,
+                    data,
+                    isScrolling: useIsScrolling
+                      ? unref(states).isScrolling
+                      : undefined,
+                    style: getItemStyle(row, column),
+                    rowIndex: row,
+                  })
+                )
               )
             }
           }
@@ -648,7 +653,6 @@ const createGrid = ({
                 class: props.className,
                 style: unref(windowStyle),
                 onScroll,
-                onWheel,
                 ref: windowRef,
               },
               !isString(Container) ? { default: () => Inner } : Inner

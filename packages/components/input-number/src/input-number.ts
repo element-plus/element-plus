@@ -89,10 +89,6 @@ export const inputNumberProps = buildProps({
    */
   name: String,
   /**
-   * @deprecated same as `label` in native input
-   */
-  label: String,
-  /**
    * @description same as `placeholder` in native input
    */
   placeholder: String,
@@ -127,4 +123,4 @@ export const inputNumberEmits = {
 }
 export type InputNumberEmits = typeof inputNumberEmits
 
-export type InputNumberInstance = InstanceType<typeof InputNumber>
+export type InputNumberInstance = InstanceType<typeof InputNumber> & unknown

@@ -1,11 +1,14 @@
 // @ts-nocheck
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import useLayoutObserver from '../layout-observer'
+import { TABLE_INJECTION_KEY } from '../tokens'
 import useStyle from './style-helper'
 import type { Store } from '../store'
 
 import type { PropType } from 'vue'
 import type { DefaultRow, Sort, SummaryMethod } from '../table/defaults'
+
 export interface TableFooter<T> {
   fixed: string
   store: Store<T>
@@ -43,12 +46,17 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const parent = inject(TABLE_INJECTION_KEY)
+    const ns = useNamespace('table')
     const { getCellClasses, getCellStyles, columns } = useStyle(
       props as TableFooter<DefaultRow>
     )
-    const ns = useNamespace('table')
+    const { onScrollableChange, onColumnsChange } = useLayoutObserver(parent!)
+
     return {
       ns,
+      onScrollableChange,
+      onColumnsChange,
       getCellClasses,
       getCellStyles,
       columns,

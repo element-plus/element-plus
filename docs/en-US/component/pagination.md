@@ -35,7 +35,7 @@ pagination/background-color
 
 Use small pagination in the case of limited space.
 
-:::demo Just set the `small` attribute to `true` and the Pagination becomes smaller.
+:::demo set size to change the `size`. Here is a demonstration of `small`
 
 pagination/small-pagination
 
@@ -67,7 +67,7 @@ pagination/more-elements
 
 | Name                                | Description                                                                                                                     | Type                                                                              | Default                              |
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------ |
-| small                               | whether to use small pagination                                                                                                 | ^[boolean]                                                                        | false                                |
+| size ^(2.7.6)                       | pagination size                                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`                                          | 'default'                            |
 | background                          | whether the buttons have a background color                                                                                     | ^[boolean]                                                                        | false                                |
 | page-size / v-model:page-size       | item count of each page                                                                                                         | ^[number]                                                                         | —                                    |
 | default-page-size                   | default initial value of page size, not setting is the same as setting 10                                                       | ^[number]                                                                         | —                                    |
@@ -78,6 +78,7 @@ pagination/more-elements
 | default-current-page                | default initial value of current-page, not setting is the same as setting 1                                                     | ^[number]                                                                         | —                                    |
 | layout                              | layout of Pagination, elements separated with a comma                                                                           | ^[string]`string (consists of sizes, prev, pager, next, jumper, ->, total, slot)` | prev, pager, next, jumper, ->, total |
 | page-sizes                          | options of item count per page                                                                                                  | ^[object]`number[]`                                                               | [10, 20, 30, 40, 50, 100]            |
+| append-size-to ^(2.8.4)             | which element the size dropdown appends to                                                                                      | ^[string]                                                                         | —                                    |
 | popper-class                        | custom class name for the page size Select's dropdown                                                                           | ^[string]                                                                         | ''                                   |
 | prev-text                           | text for the prev button                                                                                                        | ^[string]                                                                         | ''                                   |
 | prev-icon                           | icon for the prev button, has a lower priority than `prev-text`                                                                 | ^[string] / ^[Component]                                                          | ArrowLeft                            |
@@ -86,6 +87,7 @@ pagination/more-elements
 | disabled                            | whether Pagination is disabled                                                                                                  | ^[boolean]                                                                        | false                                |
 | teleported ^(2.3.13)                | whether Pagination select dropdown is teleported to the body                                                                    | ^[boolean]                                                                        | true                                 |
 | hide-on-single-page                 | whether to hide when there's only one page                                                                                      | ^[boolean]                                                                        | false                                |
+| small ^(deprecated)                 | whether to use small pagination                                                                                                 | ^[boolean]                                                                        | false                                |
 
 :::warning
 

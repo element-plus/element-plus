@@ -141,19 +141,9 @@ export const rateProps = buildProps({
    */
   size: useSizeProp,
   /**
-   * @deprecated same as `aria-label` in Rate
-   */
-  label: {
-    type: String,
-    default: undefined,
-  },
-  /**
    * @description whether value can be reset to `0`
    */
-  clearable: {
-    type: Boolean,
-    default: false,
-  },
+  clearable: Boolean,
   ...useAriaProps(['ariaLabel']),
 } as const)
 
@@ -165,4 +155,4 @@ export const rateEmits = {
 }
 export type RateEmits = typeof rateEmits
 
-export type RateInstance = InstanceType<typeof Rate>
+export type RateInstance = InstanceType<typeof Rate> & unknown

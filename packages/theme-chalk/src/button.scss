@@ -72,12 +72,14 @@ $button-icon-span-gap: map.merge(
     margin-left: 12px;
   }
 
-  @include button-size(
-    map.get($button-padding-vertical, 'default') - $button-border-width,
-    map.get($button-padding-horizontal, 'default') - $button-border-width,
-    map.get($button-font-size, 'default'),
-    map.get($button-border-radius, 'default')
-  );
+  & {
+    @include button-size(
+      map.get($button-padding-vertical, 'default') - $button-border-width,
+      map.get($button-padding-horizontal, 'default') - $button-border-width,
+      map.get($button-font-size, 'default'),
+      map.get($button-border-radius, 'default')
+    );
+  }
 
   &::-moz-focus-inner {
     border: 0;
@@ -284,12 +286,14 @@ $button-icon-span-gap: map.merge(
         }
       }
 
-      @include button-size(
-        map.get($button-padding-vertical, $size) - $button-border-width,
-        map.get($button-padding-horizontal, $size) - $button-border-width,
-        map.get($button-font-size, $size),
-        map.get($button-border-radius, $size)
-      );
+      & {
+        @include button-size(
+          map.get($button-padding-vertical, $size) - $button-border-width,
+          map.get($button-padding-horizontal, $size) - $button-border-width,
+          map.get($button-font-size, $size),
+          map.get($button-border-radius, $size)
+        );
+      }
 
       @include when(circle) {
         width: getCssVar('button', 'size');

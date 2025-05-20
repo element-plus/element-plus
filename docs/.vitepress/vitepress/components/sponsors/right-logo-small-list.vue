@@ -8,7 +8,7 @@ const onItemClick = (item: any) => {
 </script>
 
 <template>
-  <div class="flex flex-wrap justify-between" style="margin-top: 16px">
+  <div class="flex flex-wrap justify-between right-small">
     <template
       v-for="item in rightLogoSmallSponsors.concat([{} as any])"
       :key="item.name"
@@ -43,3 +43,9 @@ const onItemClick = (item: any) => {
     </template>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.right-small {
+  margin-top: 16px;
+}
+</style>

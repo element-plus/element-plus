@@ -37,11 +37,8 @@
     border-radius: getCssVar('border-radius-base');
     background-color: getCssVar('fill-color', 'blank');
     transition: getCssVar('transition', 'duration');
+    transform: translate3d(0, 0, 0);
     @include mixed-input-border(#{getCssVar('border-color')});
-
-    &:hover {
-      @include mixed-input-border(#{getCssVar('text-color')});
-    }
 
     @include when(filterable) {
       cursor: text;
@@ -83,6 +80,11 @@
       .#{$namespace}-tag {
         cursor: not-allowed;
       }
+
+      // When the native input tag is disabled, the cursor value is the 'default'.
+      input {
+        cursor: not-allowed;
+      }
     }
   }
 
@@ -120,6 +122,14 @@
     }
   }
 
+  @include e(clear) {
+    cursor: pointer;
+
+    &:hover {
+      color: getCssVar('select-close-hover-color');
+    }
+  }
+
   @include e(selection) {
     position: relative;
     display: flex;
@@ -136,6 +146,10 @@
     .#{$namespace}-tag {
       cursor: pointer;
       border-color: transparent;
+
+      &.#{$namespace}-tag--plain {
+        border-color: getCssVar('tag', 'border-color');
+      }
 
       .#{$namespace}-tag__content {
         min-width: 0;
@@ -157,6 +171,7 @@
 
   @include e(placeholder) {
     position: absolute;
+    z-index: -1;
     display: block;
     top: 50%;
     transform: translateY(-50%);
@@ -182,12 +197,13 @@
   }
 
   @include e(input-wrapper) {
-    max-width: 100%;
+    flex: 1;
 
     @include when(hidden) {
       // Out of the document flow
       position: absolute;
       opacity: 0;
+      z-index: -1;
     }
   }
 
@@ -200,7 +216,7 @@
     font-family: inherit;
     appearance: none;
     height: map.get($select-item-height, 'default');
-    max-width: 100%;
+    width: 100%;
     background-color: transparent;
 
     @include when(disabled) {

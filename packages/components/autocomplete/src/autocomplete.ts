@@ -1,5 +1,5 @@
-import { NOOP } from '@vue/shared'
 import {
+  NOOP,
   buildProps,
   definePropType,
   isObject,
@@ -101,7 +101,14 @@ export const autocompleteProps = buildProps({
     type: Boolean,
     default: false,
   },
+  /**
+   * @description whether select dropdown is teleported to the body
+   */
   teleported: useTooltipContentProps.teleported,
+  /**
+   * @description which select dropdown appends to
+   */
+  appendTo: useTooltipContentProps.appendTo,
   /**
    * @description whether to highlight first item in remote search suggestions by default
    */
@@ -149,4 +156,4 @@ export const autocompleteEmits = {
 }
 export type AutocompleteEmits = typeof autocompleteEmits
 
-export type AutocompleteInstance = InstanceType<typeof Autocomplete>
+export type AutocompleteInstance = InstanceType<typeof Autocomplete> & unknown

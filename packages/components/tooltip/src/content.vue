@@ -1,5 +1,5 @@
 <template>
-  <teleport :disabled="!teleported" :to="appendTo">
+  <el-teleport :disabled="!teleported" :to="appendTo">
     <transition
       :name="transitionClass"
       @after-leave="onTransitionLeave"
@@ -21,6 +21,7 @@
         :offset="offset"
         :placement="placement"
         :popper-options="popperOptions"
+        :arrow-offset="arrowOffset"
         :strategy="strategy"
         :effect="effect"
         :enterable="enterable"
@@ -36,22 +37,23 @@
         @blur="onBlur"
         @close="onClose"
       >
-        <template v-if="!destroyed">
-          <slot />
-        </template>
+        <slot />
       </el-popper-content>
     </transition>
-  </teleport>
+  </el-teleport>
 </template>
 
 <script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
-import { onClickOutside } from '@vueuse/core'
+import { computedEager, onClickOutside } from '@vueuse/core'
 import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
 import { composeEventHandlers } from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
+import ElTeleport from '@element-plus/components/teleport'
+import { tryFocus } from '@element-plus/components/focus-trap'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipContentProps } from './content'
+import type { PopperContentInstance } from '@element-plus/components/popper'
 
 defineOptions({
   name: 'ElTooltipContent',
@@ -62,9 +64,10 @@ const props = defineProps(useTooltipContentProps)
 
 const { selector } = usePopperContainerId()
 const ns = useNamespace('tooltip')
-// TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
-const contentRef = ref<any>(null)
-const destroyed = ref(false)
+
+const contentRef = ref<PopperContentInstance>()
+const popperContentRef = computedEager(() => contentRef.value?.popperContentRef)
+let stopHandle: ReturnType<typeof onClickOutside>
 const {
   controlled,
   id,
@@ -90,7 +93,7 @@ const persistentRef = computed(() => {
 })
 
 onBeforeUnmount(() => {
-  destroyed.value = true
+  stopHandle?.()
 })
 
 const shouldRender = computed(() => {
@@ -107,10 +110,12 @@ const appendTo = computed(() => {
 
 const contentStyle = computed(() => (props.style ?? {}) as any)
 
-const ariaHidden = computed(() => !unref(open))
+const ariaHidden = ref(true)
 
 const onTransitionLeave = () => {
   onHide()
+  isFocusInsideContent() && tryFocus(document.body)
+  ariaHidden.value = true
 }
 
 const stopWhenControlled = () => {
@@ -140,18 +145,6 @@ const onBeforeLeave = () => {
 
 const onAfterShow = () => {
   onShow()
-  stopHandle = onClickOutside(
-    computed(() => {
-      return contentRef.value?.popperContentRef
-    }),
-    () => {
-      if (unref(controlled)) return
-      const $trigger = unref(trigger)
-      if ($trigger !== 'hover') {
-        onClose()
-      }
-    }
-  )
 }
 
 const onBlur = () => {
@@ -160,13 +153,28 @@ const onBlur = () => {
   }
 }
 
-let stopHandle: ReturnType<typeof onClickOutside>
+const isFocusInsideContent = (event?: FocusEvent) => {
+  const popperContent: HTMLElement | undefined =
+    contentRef.value?.popperContentRef
+  const activeElement = (event?.relatedTarget as Node) || document.activeElement
+
+  return popperContent?.contains(activeElement)
+}
 
 watch(
   () => unref(open),
   (val) => {
     if (!val) {
       stopHandle?.()
+    } else {
+      ariaHidden.value = false
+      stopHandle = onClickOutside(popperContentRef, () => {
+        if (unref(controlled)) return
+        const $trigger = unref(trigger)
+        if ($trigger !== 'hover') {
+          onClose()
+        }
+      })
     }
   },
   {
@@ -186,5 +194,9 @@ defineExpose({
    * @description el-popper-content component instance
    */
   contentRef,
+  /**
+   * @description validate current focus event is trigger inside el-popper-content
+   */
+  isFocusInsideContent,
 })
 </script>

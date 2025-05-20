@@ -13,7 +13,6 @@
   </div>
   <br />
   <el-form
-    ref="form"
     style="max-width: 600px"
     :model="sizeForm"
     label-width="auto"

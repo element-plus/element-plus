@@ -46,6 +46,7 @@
 @use './infinite-scroll.scss';
 @use './input.scss';
 @use './input-number.scss';
+@use './input-tag.scss';
 @use './link.scss';
 @use './loading.scss';
 @use './main.scss';
@@ -107,3 +108,4 @@
 @use './anchor.scss';
 @use './anchor-link.scss';
 @use './segmented.scss';
+@use './mention.scss';

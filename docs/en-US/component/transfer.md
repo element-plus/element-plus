@@ -33,6 +33,16 @@ transfer/customizable
 
 :::
 
+## Custom empty content ^(2.9.0)
+
+You can customize the content when the list is empty or when no filtering results are found.
+
+:::demo Use `left-empty` and `right-empty` slots to customize the empty content for each panel.
+
+transfer/empty-content
+
+:::
+
 ## Prop aliases
 
 By default, Transfer looks for `key`, `label` and `disabled` in a data item. If your data items have different key names, you can use the `props` attribute to define aliases.
@@ -43,9 +53,9 @@ transfer/prop-alias
 
 :::
 
-## API
+## Transfer API
 
-### Attributes
+### Transfer Attributes
 
 | Name                  | Description                                                                                                                                                                                                                                                                        | Type                                                               | Default  |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | -------- |
@@ -64,7 +74,7 @@ transfer/prop-alias
 | right-default-checked | key array of initially checked data items of the right list                                                                                                                                                                                                                        | ^[object]`Array<string \| number>`                                 | []       |
 | validate-event        | whether to trigger form validation                                                                                                                                                                                                                                                 | ^[boolean]                                                         | true     |
 
-### Events
+### Transfer Events
 
 | Name               | Description                                                                         | Type                                                                                                |
 | ------------------ | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
@@ -72,19 +82,31 @@ transfer/prop-alias
 | left-check-change  | triggers when end user changes the checked state of any data item in the left list  | ^[Function]`(value: TransferKey[], movedKeys?: TransferKey[]) => void`                              |
 | right-check-change | triggers when end user changes the checked state of any data item in the right list | ^[Function]`(value: TransferKey[], movedKeys?: TransferKey[]) => void`                              |
 
-### Slots
+### Transfer Slots
 
-| Name         | Description                                                      |
-| ------------ | ---------------------------------------------------------------- |
-| default      | Custom content for data items. The scope parameter is { option } |
-| left-footer  | content of left list footer                                      |
-| right-footer | content of right list footer                                     |
+| Name                 | Description                                                          |
+| -------------------- | -------------------------------------------------------------------- |
+| default              | Custom content for data items. The scope parameter is `{ option }`   |
+| left-footer          | content of left list footer                                          |
+| right-footer         | content of right list footer                                         |
+| left-empty ^(2.9.0)  | content when left panel is empty or when no data matches the filter  |
+| right-empty ^(2.9.0) | content when right panel is empty or when no data matches the filter |
 
-### Exposes
+### Transfer Exposes
 
-| Method     | Description                                 | Type                                            |
+| Name       | Description                                 | Type                                            |
 | ---------- | ------------------------------------------- | ----------------------------------------------- |
 | clearQuery | clear the filter keyword of a certain panel | ^[Function]`(which: TransferDirection) => void` |
+| leftPanel  | left panel ref                              | ^[object]`Ref<TransferPanelInstance>`           |
+| rightPanel | right panel ref                             | ^[object]`Ref<TransferPanelInstance>`           |
+
+## Transfer Panel API
+
+### Transfer Panel Exposes
+
+| Name  | Description    | Type      |
+| ----- | -------------- | --------- |
+| query | filter keyword | ^[string] |
 
 ## Type Declarations
 

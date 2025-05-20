@@ -6,6 +6,7 @@
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass]"
     :teleported="teleported"
+    :append-to="appendTo"
     :gpu-acceleration="false"
     pure
     manual-mode
@@ -104,7 +105,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, useAttrs as useRawAttrs } from 'vue'
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  useAttrs as useRawAttrs,
+} from 'vue'
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
@@ -245,9 +252,9 @@ const handleFocus = (evt: FocusEvent) => {
   if (!ignoreFocusEvent) {
     activated.value = true
     emit('focus', evt)
-
+    const queryString = props.modelValue ?? ''
     if (props.triggerOnFocus && !readonly) {
-      debouncedGetData(String(props.modelValue))
+      debouncedGetData(String(queryString))
     }
   } else {
     ignoreFocusEvent = false
@@ -350,8 +357,14 @@ const highlight = (index: number) => {
   )
 }
 
-onClickOutside(listboxRef, () => {
+const stopHandle = onClickOutside(listboxRef, () => {
+  // Prevent closing if focus is inside popper content
+  if (popperRef.value?.isFocusInsideContent()) return
   suggestionVisible.value && close()
+})
+
+onBeforeUnmount(() => {
+  stopHandle?.()
 })
 
 onMounted(() => {
@@ -392,5 +405,7 @@ defineExpose({
   close,
   /** @description highlight an item in a suggestion */
   highlight,
+  /** @description loading suggestion list */
+  getData,
 })
 </script>

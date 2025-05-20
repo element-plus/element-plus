@@ -15,7 +15,6 @@
   "scripts": {
     "build": "run-p \"build:*\"",
     "build:contributor": "tsx src/contributor.ts",
-    "build:components": "tsx src/components.ts",
     "dev": "DEV=1 pnpm run build"
   },
   "devDependencies": {

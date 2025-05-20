@@ -1,14 +1,29 @@
 import { placements } from '@popperjs/core'
+import { scrollbarEmits } from '@element-plus/components/scrollbar'
 import {
   useAriaProps,
   useEmptyValuesProps,
   useSizeProp,
 } from '@element-plus/hooks'
-import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
+import {
+  EmitFn,
+  buildProps,
+  definePropType,
+  iconPropType,
+} from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
-import type { Options, Placement } from '@element-plus/components/popper'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+
+import type { ExtractPropTypes } from 'vue'
+import type Select from './select.vue'
+import type {
+  Options,
+  Placement,
+  PopperEffect,
+} from '@element-plus/components/popper'
+import type { OptionValue } from './type'
 
 export const SelectProps = buildProps({
   /**
@@ -23,7 +38,13 @@ export const SelectProps = buildProps({
    * @description binding value
    */
   modelValue: {
-    type: [Array, String, Number, Boolean, Object],
+    type: definePropType<OptionValue | OptionValue[]>([
+      Array,
+      String,
+      Number,
+      Boolean,
+      Object,
+    ]),
     default: undefined,
   },
   /**
@@ -45,7 +66,7 @@ export const SelectProps = buildProps({
    * @description tooltip theme, built-in theme: `dark` / `light`
    */
   effect: {
-    type: definePropType<'light' | 'dark' | string>(String),
+    type: definePropType<PopperEffect>(String),
     default: 'light',
   },
   /**
@@ -157,7 +178,7 @@ export const SelectProps = buildProps({
     default: 1,
   },
   /**
-   * @description whether select dropdown is teleported to the body
+   * @description whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets
    */
   teleported: useTooltipContentProps.teleported,
   /**
@@ -191,6 +212,10 @@ export const SelectProps = buildProps({
   // eslint-disable-next-line vue/require-prop-types
   tagType: { ...tagProps.type, default: 'info' },
   /**
+   * @description tag effect
+   */
+  tagEffect: { ...tagProps.effect, default: 'light' },
+  /**
    * @description whether to trigger form validation
    */
   validateEvent: {
@@ -201,6 +226,20 @@ export const SelectProps = buildProps({
    * @description in remote search method show suffix icon
    */
   remoteShowSuffix: Boolean,
+  /**
+   * @description determines whether the arrow is displayed
+   */
+  showArrow: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description offset of the dropdown
+   */
+  offset: {
+    type: Number,
+    default: 12,
+  },
   /**
    * @description position of dropdown
    */
@@ -216,6 +255,33 @@ export const SelectProps = buildProps({
     type: definePropType<Placement[]>(Array),
     default: ['bottom-start', 'top-start', 'right', 'left'],
   },
+  /**
+   * @description tabindex for input
+   */
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
+  /**
+   * @description which element the selection dropdown appends to
+   */
+  appendTo: useTooltipContentProps.appendTo,
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 })
+/* eslint-disable @typescript-eslint/no-unused-vars */
+export const selectEmits = {
+  [UPDATE_MODEL_EVENT]: (val: ISelectProps['modelValue']) => true,
+  [CHANGE_EVENT]: (val: ISelectProps['modelValue']) => true,
+  'popup-scroll': scrollbarEmits.scroll,
+  'remove-tag': (val: unknown) => true,
+  'visible-change': (visible: boolean) => true,
+  focus: (evt: FocusEvent) => evt instanceof FocusEvent,
+  blur: (evt: FocusEvent) => evt instanceof FocusEvent,
+  clear: () => true,
+}
+/* eslint-enable @typescript-eslint/no-unused-vars */
+
+export type ISelectProps = ExtractPropTypes<typeof SelectProps>
+export type SelectEmits = EmitFn<typeof selectEmits>
+export type SelectInstance = InstanceType<typeof Select> & unknown
