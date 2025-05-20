@@ -129,10 +129,7 @@ function useWatcher<T>() {
       !fixedColumns.value.includes(selectColumn)
     ) {
       const selectColumnIndex = _columns.value.indexOf(selectColumn)
-      const lastLeftFixedColumnIndex = _columns.value.indexOf(
-        fixedColumns.value[fixedColumns.value.length - 1]
-      )
-      if (selectColumnIndex < lastLeftFixedColumnIndex) {
+      if (selectColumnIndex === 0 && fixedColumns.value.length) {
         fixedColumns.value.unshift(selectColumn)
         selectColFixLeft = true
       }
