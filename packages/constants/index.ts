@@ -1,5 +1,4 @@
 export * from './aria'
-export * from './container'
 export * from './date'
 export * from './event'
 export * from './key'
