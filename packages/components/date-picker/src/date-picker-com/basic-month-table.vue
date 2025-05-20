@@ -148,7 +148,9 @@ const getCellStyle = (cell: MonthCell) => {
   const month = cell.text
 
   style.disabled = props.disabledDate
-    ? datesInMonth(year, month, lang.value).every(props.disabledDate)
+    ? datesInMonth(props.date, year, month, lang.value).every(
+        props.disabledDate
+      )
     : false
   style.current =
     castArray(props.parsedValue).findIndex(
@@ -225,6 +227,7 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
       return
     }
     const newMonth = getValidDateOfMonth(
+      props.date,
       props.date.year(),
       month,
       lang.value,
