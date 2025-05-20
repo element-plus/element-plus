@@ -114,35 +114,50 @@ function useWatcher<T>() {
     _columns.value.forEach((column) => {
       updateChildFixed(column)
     })
-    fixedColumns.value = _columns.value.filter(
+
+    // 处理固定列，保持原始顺序
+    const leftFixedColumns = []
+    const rightFixedColumns_ = []
+    const notFixedColumns = []
+
+    // 检查是否有固定列
+    const hasFixedColumns = _columns.value.some(
       (column) =>
-        column.type !== 'selection' && [true, 'left'].includes(column.fixed)
+        (column.fixed === true || column.fixed === 'left') &&
+        column.type !== 'selection' &&
+        column.type !== 'index'
     )
 
-    let selectColFixLeft
-    if (_columns.value?.[0]?.type === 'selection') {
-      const selectColumn = _columns.value[0]
-      selectColFixLeft =
-        [true, 'left'].includes(selectColumn.fixed) ||
-        (fixedColumns.value.length && selectColumn.fixed !== 'right')
-      if (selectColFixLeft) {
-        fixedColumns.value.unshift(selectColumn)
+    // 按原始顺序分类列
+    _columns.value.forEach((column, index) => {
+      if (column.type === 'selection' || column.type === 'index') {
+        // 如果是第一列且后面有固定列，则设为固定列
+        if (index === 0 && hasFixedColumns) {
+          leftFixedColumns.push(column)
+        } else if (column.fixed === true || column.fixed === 'left') {
+          leftFixedColumns.push(column)
+        } else if (column.fixed === 'right') {
+          rightFixedColumns_.push(column)
+        } else {
+          notFixedColumns.push(column)
+        }
+      } else if (column.fixed === 'right') {
+        rightFixedColumns_.push(column)
+      } else if (column.fixed === true || column.fixed === 'left') {
+        leftFixedColumns.push(column)
+      } else {
+        notFixedColumns.push(column)
       }
-    }
+    })
 
-    rightFixedColumns.value = _columns.value.filter(
-      (column) => column.fixed === 'right'
-    )
-
-    const notFixedColumns = _columns.value.filter(
-      (column) =>
-        (selectColFixLeft ? column.type !== 'selection' : true) && !column.fixed
-    )
+    // 更新引用
+    fixedColumns.value = leftFixedColumns
+    rightFixedColumns.value = rightFixedColumns_
 
     originColumns.value = []
-      .concat(fixedColumns.value)
+      .concat(leftFixedColumns)
       .concat(notFixedColumns)
-      .concat(rightFixedColumns.value)
+      .concat(rightFixedColumns_)
     const leafColumns = doFlattenColumns(notFixedColumns)
     const fixedLeafColumns = doFlattenColumns(fixedColumns.value)
     const rightFixedLeafColumns = doFlattenColumns(rightFixedColumns.value)
