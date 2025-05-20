@@ -47,7 +47,6 @@ export const inputNumberProps = buildProps({
    */
   modelValue: {
     type: [Number, null],
-    validator: (val: number | null) => val === null || isNumber(val),
   },
   /**
    * @description same as `readonly` in native input
