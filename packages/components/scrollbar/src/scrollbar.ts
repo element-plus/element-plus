@@ -125,6 +125,3 @@ export const scrollbarEmits = {
 export type ScrollbarEmits = typeof scrollbarEmits
 
 export type ScrollbarInstance = InstanceType<typeof Scrollbar> & unknown
-
-//#import { useScroll } from '@vueuse/core'
-//#import type { UnwrapNestedRefs } from 'vue'
