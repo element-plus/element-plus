@@ -307,6 +307,7 @@ const WRAPPER_CLASS_NAME = 'el-select__wrapper'
 const OPTION_ITEM_CLASS_NAME = 'el-select-dropdown__item'
 const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
 const DEFAULT_PLACEHOLDER = 'Select'
+const TAG_NAME = `${WRAPPER_CLASS_NAME} .el-tag`
 
 describe('Select', () => {
   let wrapper: ReturnType<typeof _mount>
@@ -448,6 +449,75 @@ describe('Select', () => {
     await nextTick()
 
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
+  })
+
+  test('multiple is true and persistent is false', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :persistent="false" multiple>
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        value: ['选项2'],
+      })
+    )
+    await nextTick()
+
+    const tags = wrapper.findAll(`.${TAG_NAME}`)
+    expect(tags.length).toBe(1)
+    expect(tags[0].text()).toBe('双皮奶')
+  })
+
+  test('multiple is true and persistent is false, render the label and dynamically modify options', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :persistent="false" multiple>
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [],
+        value: ['选项2'],
+      })
+    )
+    await nextTick()
+    const vm = wrapper.vm as any
+    vm.options = [
+      {
+        value: '选项1',
+        label: '黄金糕',
+      },
+      {
+        value: '选项2',
+        label: '双皮奶',
+      },
+    ]
+    await nextTick()
+
+    const tags = wrapper.findAll(`.${TAG_NAME}`)
+    expect(tags.length).toBe(1)
+    expect(tags[0].text()).toBe('双皮奶')
   })
 
   test('expose select label', async () => {
