@@ -68,6 +68,10 @@ export const panelRangeSharedProps = buildProps({
   parsedValue: {
     type: definePropType<Dayjs[]>(Array),
   },
+  singlePanel: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 
 export const selectionModeWithDefault = (
