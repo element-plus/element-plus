@@ -17,14 +17,12 @@
         >
           <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
-          <!-- CLOSE -->
           <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
             <el-icon>
               <Close />
             </el-icon>
           </span>
 
-          <!-- ARROW -->
           <template v-if="!isSingle">
             <span :class="arrowPrevKls" @click="prev">
               <el-icon>
@@ -49,7 +47,7 @@
               {{ progress }}
             </slot>
           </div>
-          <!-- ACTIONS -->
+
           <div :class="[ns.e('btn'), ns.e('actions')]">
             <div :class="ns.e('actions__inner')">
               <slot
@@ -81,14 +79,12 @@
               </slot>
             </div>
           </div>
-          <!-- CANVAS -->
+
           <div :class="ns.e('canvas')">
             <img
-              v-for="(url, i) in urlList"
-              v-show="i === activeIndex"
-              :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
-              :key="url"
-              :src="url"
+              ref="imgRef"
+              :key="currentImg"
+              :src="currentImg"
               :style="imgStyle"
               :class="ns.e('img')"
               :crossorigin="crossorigin"
@@ -164,7 +160,7 @@ const { t } = useLocale()
 const ns = useNamespace('image-viewer')
 const { nextZIndex } = useZIndex()
 const wrapper = ref<HTMLDivElement>()
-const imgRefs = ref<HTMLImageElement[]>([])
+const imgRef = ref<HTMLImageElement>()
 
 const scopeEventListener = effectScope()
 
@@ -320,7 +316,7 @@ function reset() {
     deg: 0,
     offsetX: 0,
     offsetY: 0,
-    enableTransition: false,
+    enableTransition: true,
   }
 }
 
@@ -413,7 +409,7 @@ function wheelHandler(e: WheelEvent) {
 
 watch(currentImg, () => {
   nextTick(() => {
-    const $img = imgRefs.value[0]
+    const $img = imgRef.value
     if (!$img?.complete) {
       loading.value = true
     }
