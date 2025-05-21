@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { defineComponent, markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
@@ -310,8 +310,13 @@ const DEFAULT_PLACEHOLDER = 'Select'
 
 describe('Select', () => {
   let wrapper: ReturnType<typeof _mount>
+  beforeEach(() => {
+    // This is convenient for testing the default value label rendering when persistent is false.
+    process.env.RUN_TEST_FILE_NAME = 'select'
+  })
   afterEach(() => {
     document.body.innerHTML = ''
+    delete process.env.RUN_TEST_FILE_NAME
   })
 
   test('create', async () => {
@@ -375,6 +380,71 @@ describe('Select', () => {
         value: '选项2',
       })
     )
+    await nextTick()
+
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
+  })
+
+  test('the scenario of rendering label when there is a default value and persistent is false', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        value: '选项2',
+      })
+    )
+    await nextTick()
+
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
+  })
+
+  test('when there is a default value and persistent is false, render the label and dynamically modify options', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [],
+        value: '选项2',
+      })
+    )
+    await nextTick()
+    const vm = wrapper.vm as any
+    vm.options = [
+      {
+        value: '选项1',
+        label: '黄金糕',
+      },
+      {
+        value: '选项2',
+        label: '双皮奶',
+      },
+    ]
     await nextTick()
 
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
@@ -1291,8 +1361,8 @@ describe('Select', () => {
     const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
     expect(triggerWrappers[0]).toBeDefined()
     const tags = document.querySelectorAll('.el-select__tags-text')
-    expect(tags.length).toBe(4)
-    expect(tags[3].textContent).toBe('蚵仔煎')
+    expect(tags.length).toBe(2)
+    expect(tags[1].textContent).toBe(' + 2')
   })
 
   test('multiple select with maxCollapseTags', async () => {

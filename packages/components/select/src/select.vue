@@ -345,7 +345,7 @@ export default defineComponent({
     'popup-scroll',
   ],
 
-  setup(props, { emit, slots}) {
+  setup(props, { emit, slots }) {
     const modelValue = computed(() => {
       const { modelValue: rawModelValue, multiple } = props
       const fallback = multiple ? [] : undefined
@@ -376,7 +376,7 @@ export default defineComponent({
           // @ts-expect-error
           return isObject(item) && item!.type.name === 'ElOption'
         }).forEach(item => {
-          const obj = {...item.props} as any
+          const obj = { ...item.props } as any
           obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
           API.onOptionCreate(obj)
         })
