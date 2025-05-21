@@ -1,7 +1,13 @@
 <template>
-  <el-scrollbar ref="scrollbarRef" height="400px" always @scroll="scroll">
+  <el-scrollbar
+    ref="scrollbarRef"
+    height="400px"
+    always
+    :end-reached="loadMore"
+    @scroll="scroll"
+  >
     <div ref="innerRef">
-      <p v-for="item in 20" :key="item" class="scrollbar-demo-item">
+      <p v-for="item in num" :key="item" class="scrollbar-demo-item">
         {{ item }}
       </p>
     </div>
@@ -23,6 +29,10 @@ type Arrayable<T> = T | T[]
 
 const max = ref(0)
 const value = ref(0)
+const num = ref(20)
+const loadMore = () => {
+  num.value += 5
+}
 const innerRef = ref<HTMLDivElement>()
 const scrollbarRef = ref<ScrollbarInstance>()
 

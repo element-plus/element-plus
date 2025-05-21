@@ -1,6 +1,13 @@
-import { buildProps, definePropType, isNumber } from '@element-plus/utils'
+import { useScroll } from '@vueuse/core'
+import {
+  Awaitable,
+  NOOP,
+  buildProps,
+  definePropType,
+  isNumber,
+} from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type { ExtractPropTypes, StyleValue, UnwrapNestedRefs } from 'vue'
 import type Scrollbar from './scrollbar.vue'
 
 export const scrollbarProps = buildProps({
@@ -90,9 +97,21 @@ export const scrollbarProps = buildProps({
    * @description role of view
    */
   role: String,
+  /**
+   * @description hook function when reach the end of scroll.
+   */
+  endReached: {
+    type: definePropType<
+      (options: InfiniteLoadScrollOptions) => Awaitable<void>
+    >(Function),
+    default: NOOP,
+  },
   ...useAriaProps(['ariaLabel', 'ariaOrientation']),
 } as const)
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
+export type InfiniteLoadScrollOptions = UnwrapNestedRefs<
+  ReturnType<typeof useScroll>
+>
 
 export const scrollbarEmits = {
   scroll: ({
@@ -106,3 +125,6 @@ export const scrollbarEmits = {
 export type ScrollbarEmits = typeof scrollbarEmits
 
 export type ScrollbarInstance = InstanceType<typeof Scrollbar> & unknown
+
+//#import { useScroll } from '@vueuse/core'
+//#import type { UnwrapNestedRefs } from 'vue'
