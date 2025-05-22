@@ -8,7 +8,7 @@ import {
   unref,
 } from 'vue'
 import { debugWarn, keysOf } from '@element-plus/utils'
-import { ArrowDown, Close } from '@element-plus/icons-vue'
+import { ArrowDown, CircleClose, Close } from '@element-plus/icons-vue'
 import {
   SIZE_INJECTION_KEY,
   defaultInitialZIndex,
@@ -84,6 +84,7 @@ export function useGlobalComponentSettings(
 const defaultIcons = {
   close: markRaw(Close),
   dropdown: markRaw(ArrowDown),
+  clear: markRaw(CircleClose),
 }
 
 export function useGlobalIcons() {
