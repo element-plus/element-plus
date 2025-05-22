@@ -1,49 +1,53 @@
 <template>
   <div>
     <el-config-provider :icons="icons">
-      <div class="flex flex-wrap items-center gap-4 mb-4">
-        <el-select
-          v-model="value"
-          placeholder="Select"
-          clearable
-          style="width: 240px"
-        >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+      <div class="space-y-4">
+        <div class="flex flex-wrap items-center gap-4">
+          <el-select
+            v-model="value"
+            placeholder="Select"
+            clearable
+            style="width: 240px"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+
+          <el-select-v2
+            v-model="value2"
+            clearable
+            placeholder="Select"
+            style="width: 240px"
+            :options="options"
           />
-        </el-select>
 
-        <el-select-v2
-          v-model="value2"
-          clearable
-          placeholder="Select"
-          style="width: 240px"
-          :options="options"
-        />
+          <el-time-picker v-model="value3" placeholder="Arbitrary time" />
 
-        <el-time-picker v-model="value3" placeholder="Arbitrary time" />
+          <el-time-select
+            v-model="value4"
+            style="width: 240px"
+            start="08:30"
+            step="00:15"
+            end="18:30"
+            placeholder="Select time"
+          />
+        </div>
 
-        <el-time-select
-          v-model="value4"
-          style="width: 240px"
-          start="08:30"
-          step="00:15"
-          end="18:30"
-          placeholder="Select time"
-        />
-      </div>
+        <div class="flex flex-wrap items-center space-x-4">
+          <el-button plain @click="dialogVisible = true">
+            Click to open the Dialog
+          </el-button>
 
-      <div class="flex flex-wrap items-center space-x-4">
-        <el-button plain @click="dialogVisible = true">
-          Click to open the Dialog
-        </el-button>
+          <el-button plain @click="openMessage">
+            Click to open message
+          </el-button>
+        </div>
 
-        <el-button plain @click="openMessage">
-          Click to open message
-        </el-button>
+        <el-alert title="Primary alert" type="primary" show-icon />
       </div>
 
       <el-dialog
@@ -69,12 +73,18 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { ArrowDownBold, CircleClose, Close } from '@element-plus/icons-vue'
+import {
+  ArrowDownBold,
+  Bell,
+  CircleClose,
+  Close,
+} from '@element-plus/icons-vue'
 
 const icons = reactive({
   close: CircleClose,
   dropdown: ArrowDownBold,
   clear: Close,
+  info: Bell,
 })
 const options = [
   {

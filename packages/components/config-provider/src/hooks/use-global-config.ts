@@ -8,7 +8,15 @@ import {
   unref,
 } from 'vue'
 import { debugWarn, keysOf } from '@element-plus/utils'
-import { ArrowDown, CircleClose, Close } from '@element-plus/icons-vue'
+import {
+  ArrowDown,
+  CircleClose,
+  CircleCloseFilled,
+  Close,
+  InfoFilled,
+  SuccessFilled,
+  WarningFilled,
+} from '@element-plus/icons-vue'
 import {
   SIZE_INJECTION_KEY,
   defaultInitialZIndex,
@@ -85,6 +93,10 @@ const defaultIcons = {
   close: markRaw(Close),
   dropdown: markRaw(ArrowDown),
   clear: markRaw(CircleClose),
+  success: markRaw(SuccessFilled),
+  info: markRaw(InfoFilled),
+  warning: markRaw(WarningFilled),
+  error: markRaw(CircleCloseFilled),
 }
 
 export function useGlobalIcons() {
