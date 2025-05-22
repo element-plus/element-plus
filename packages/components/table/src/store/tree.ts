@@ -7,7 +7,7 @@ import type { WatcherPropsData } from '.'
 import type { Table, TableProps } from '../table/defaults'
 
 function useTree<T>(watcherData: WatcherPropsData<T>) {
-  const expandRowKeys = ref<string[]>([])
+  const expandRowKeys = ref<string[] | undefined>()
   const treeData = ref<unknown>({})
   const indent = ref(16)
   const lazy = ref(false)
@@ -70,23 +70,27 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   }
 
   let isInitTree = true
-  let hasUpdateExpandRowKeys = false
 
   const updateTreeData = (ifChangeExpandRowKeys = false) => {
+    if (!expandRowKeys.value) {
+      // If the expandRowKeys property is not provided, trigger it manually
+      expandRowKeys.value = []
+    }
     const nested = normalizedData.value
     const normalizedLazyNode_ = normalizedLazyNode.value
     const keys = Object.keys(nested)
     const newTreeData = {}
     const ifExpandAll =
       instance.store?.states.defaultExpandAll.value && isInitTree
-    isInitTree = false
+    if (ifChangeExpandRowKeys && isInitTree) {
+      isInitTree = false
+    }
     if (keys.length) {
       const oldTreeData = unref(treeData)
       const rootLazyRowKeys = []
       const getExpanded = (oldValue, key) => {
         if (ifChangeExpandRowKeys) {
-          if (expandRowKeys.value.length || hasUpdateExpandRowKeys) {
-            hasUpdateExpandRowKeys = false
+          if (expandRowKeys.value) {
             return ifExpandAll || expandRowKeys.value.includes(key)
           } else {
             return !!(ifExpandAll || oldValue?.expanded)
@@ -144,7 +148,6 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   watch(
     () => expandRowKeys.value,
     () => {
-      hasUpdateExpandRowKeys = true
       updateTreeData(true)
     }
   )
