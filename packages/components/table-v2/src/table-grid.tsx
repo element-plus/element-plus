@@ -179,7 +179,7 @@ const TableGrid = defineComponent({
 
     onActivated(async () => {
       await nextTick()
-      const scrollTop = bodyRef.value?.states.scrollTop || 0
+      const scrollTop = bodyRef.value?.states.scrollTop
       scrollTop && scrollToTop(Math.round(scrollTop) + 1)
     })
 
