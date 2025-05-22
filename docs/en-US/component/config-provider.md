@@ -41,7 +41,7 @@ config-provider/message
 
 :::
 
-## Icons Configurations
+## Icons Configurations ^(2.9.11)
 
 :::demo
 
