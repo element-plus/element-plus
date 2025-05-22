@@ -579,7 +579,7 @@ describe('Cascader.vue', () => {
       process.env.RUN_TEST_WITH_PERSISTENT = true
     })
     afterEach(() => {
-      delete process.env.RUN_TEST_FILE_NAME
+      delete process.env.RUN_TEST_WITH_PERSISTENT
     })
     test('persistent false', async () => {
       const value = ref([])
