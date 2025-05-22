@@ -21,7 +21,7 @@ message/basic
 
 Used to show the feedback of Success, Warning, Message and Error activities.
 
-:::demo When you need more customizations, Message component can also take an object as parameter. For example, setting value of `type` can define different types, and its default is `info`. In such cases the main body is passed in as the value of `message`. Also, we have registered methods for different types, so you can directly call it without passing a type like `open4`.
+:::demo When you need more customizations, Message component can also take an object as parameter. For example, setting value of `type` can define different types, and its default is `info`. In such cases the main body is passed in as the value of `message`. Also, we have registered methods for different types, so you can directly call it without passing a type like `open4`. `primary` has been added in ^(2.9.11).
 
 message/different-types
 
@@ -110,21 +110,21 @@ ElMessage({}, appContext)
 
 ### Options
 
-| Name                     | Description                                                                                          | Type                                                 | Default |
-| ------------------------ | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------- |
-| message                  | message text                                                                                         | ^[string] / ^[VNode] / ^[Function]`() => VNode`      | ''      |
-| type                     | message type                                                                                         | ^[enum]`'success' \| 'warning' \| 'info' \| 'error'` | info    |
-| plain ^(2.6.3)           | whether message is plain                                                                             | ^[boolean]                                           | false   |
-| icon                     | custom icon component, overrides `type`                                                              | ^[string] / ^[Component]                             | —       |
-| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                          | ^[boolean]                                           | false   |
-| customClass              | custom class name for Message                                                                        | ^[string]                                            | ''      |
-| duration                 | display duration, millisecond. If set to 0, it will not turn off automatically                       | ^[number]                                            | 3000    |
-| showClose                | whether to show a close button                                                                       | ^[boolean]                                           | false   |
-| onClose                  | callback function when closed with the message instance as the parameter                             | ^[Function]`() => void`                              | —       |
-| offset                   | set the distance to the top of viewport                                                              | ^[number]                                            | 16      |
-| appendTo                 | set the root element for the message, default to `document.body`                                     | ^[CSSSelector] / ^[HTMLElement]                      | —       |
-| grouping                 | merge messages with the same content, type of VNode message is not supported                         | ^[boolean]                                           | false   |
-| repeatNum                | The number of repetitions, similar to badge, is used as the initial number when used with `grouping` | ^[number]                                            | 1       |
+| Name                     | Description                                                                                          | Type                                                                       | Default |
+| ------------------------ | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------- |
+| message                  | message text                                                                                         | ^[string] / ^[VNode] / ^[Function]`() => VNode`                            | ''      |
+| type                     | message type                                                                                         | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'` | info    |
+| plain ^(2.6.3)           | whether message is plain                                                                             | ^[boolean]                                                                 | false   |
+| icon                     | custom icon component, overrides `type`                                                              | ^[string] / ^[Component]                                                   | —       |
+| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                          | ^[boolean]                                                                 | false   |
+| customClass              | custom class name for Message                                                                        | ^[string]                                                                  | ''      |
+| duration                 | display duration, millisecond. If set to 0, it will not turn off automatically                       | ^[number]                                                                  | 3000    |
+| showClose                | whether to show a close button                                                                       | ^[boolean]                                                                 | false   |
+| onClose                  | callback function when closed with the message instance as the parameter                             | ^[Function]`() => void`                                                    | —       |
+| offset                   | set the distance to the top of viewport                                                              | ^[number]                                                                  | 16      |
+| appendTo                 | set the root element for the message, default to `document.body`                                     | ^[CSSSelector] / ^[HTMLElement]                                            | —       |
+| grouping                 | merge messages with the same content, type of VNode message is not supported                         | ^[boolean]                                                                 | false   |
+| repeatNum                | The number of repetitions, similar to badge, is used as the initial number when used with `grouping` | ^[number]                                                                  | 1       |
 
 ### Methods
 

@@ -1867,6 +1867,81 @@ describe('Table.vue', () => {
       })
     })
 
+    it('tree-props & update expandRowKeys', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" row-key="release" :expand-row-keys="expandRowKeys">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="edit" label="修改">
+              <template #default="{row}">
+                <button class="edit" @click="row.release =Date.now()">click</button>
+              </template>
+            </el-table-column>
+          </el-table>
+        `,
+        data() {
+          const testData = [
+            {
+              id: 1,
+              name: 'Toy Story',
+              release: '1995-11-22',
+              children: [
+                { id: 11, name: 'Toy Story Session 1' },
+                { id: 12, name: 'Toy Story Session 2' },
+              ],
+            },
+            {
+              id: 2,
+              name: 'The Matrix',
+              release: '1999-3-31',
+              director: 'The Wachowskis',
+              children: [
+                { id: 21, name: "The Matrix' Session 1" },
+                { id: 22, name: "The Matrix' Session 2" },
+              ],
+            },
+          ]
+          return {
+            testData,
+            expandRowKeys: ['1995-11-22'],
+          }
+        },
+        methods: {
+          update(list: string[]) {
+            this.expandRowKeys = list
+          },
+        },
+      })
+
+      await doubleWait()
+      let childRows = wrapper.findAll('.el-table__row--level-1')
+      expect(childRows.length).toEqual(4)
+      childRows.forEach((item, index) => {
+        if (index < 2) {
+          expect(item.attributes('style')).toBeUndefined()
+        } else {
+          expect(item.attributes('style')).toContain('display: none')
+        }
+      })
+      wrapper.vm.update([])
+      await doubleWait()
+      childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item) => {
+        expect(item.attributes('style')).toContain('display: none')
+      })
+      wrapper.vm.update(['1995-11-22', '1999-3-31'])
+      await doubleWait()
+      childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item) => {
+        expect(item.attributes('style')).toContain('')
+      })
+    })
+
     it('expand-row-keys & toggleRowExpansion', async () => {
       wrapper = mount({
         components: {
