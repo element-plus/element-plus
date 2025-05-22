@@ -1,11 +1,11 @@
 <template>
-  <form :class="formClasses">
+  <form ref="formRef" :class="formClasses">
     <slot />
   </form>
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, reactive, toRefs, watch } from 'vue'
+import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
 import { debugWarn, isFunction } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
@@ -30,6 +30,7 @@ defineOptions({
 const props = defineProps(formProps)
 const emit = defineEmits(formEmits)
 
+const formRef = ref<HTMLElement>()
 const fields = reactive<FormItemContext[]>([])
 
 const formSize = useFormSize()
@@ -138,7 +139,10 @@ const validateField: FormContext['validateField'] = async (
     const invalidFields = e as ValidateFieldsError
 
     if (props.scrollToError) {
-      scrollToField(Object.keys(invalidFields)[0])
+      const formItems = formRef.value?.querySelectorAll('.is-error')
+      if (formItems?.length) {
+        formItems[0].scrollIntoView(props.scrollIntoViewOptions)
+      }
     }
     await callback?.(false, invalidFields)
     return shouldThrow && Promise.reject(invalidFields)
