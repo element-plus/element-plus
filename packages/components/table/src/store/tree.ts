@@ -73,7 +73,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
 
   const updateTreeData = (ifChangeExpandRowKeys = false) => {
     if (!expandRowKeys.value) {
-      // If the expandRowKeys property is not provided, trigger it manually
+      // If the `expandRowKeys` prop is not provided, trigger the watch manually
       expandRowKeys.value = []
     }
     const nested = normalizedData.value
