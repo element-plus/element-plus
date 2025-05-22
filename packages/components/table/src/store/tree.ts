@@ -70,6 +70,8 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   }
 
   let isInitTree = true
+  let hasUpdateExpandRowKeys = false
+
   const updateTreeData = (ifChangeExpandRowKeys = false) => {
     const nested = normalizedData.value
     const normalizedLazyNode_ = normalizedLazyNode.value
@@ -83,7 +85,8 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       const rootLazyRowKeys = []
       const getExpanded = (oldValue, key) => {
         if (ifChangeExpandRowKeys) {
-          if (expandRowKeys.value.length) {
+          if (expandRowKeys.value.length || hasUpdateExpandRowKeys) {
+            hasUpdateExpandRowKeys = false
             return ifExpandAll || expandRowKeys.value.includes(key)
           } else {
             return !!(ifExpandAll || oldValue?.expanded)
@@ -141,6 +144,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   watch(
     () => expandRowKeys.value,
     () => {
+      hasUpdateExpandRowKeys = true
       updateTreeData(true)
     }
   )
@@ -148,6 +152,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   watch(
     () => normalizedData.value,
     () => {
+      isInitTree = true
       updateTreeData()
     }
   )

@@ -45,7 +45,9 @@ export const inputNumberProps = buildProps({
   /**
    * @description binding value
    */
-  modelValue: Number,
+  modelValue: {
+    type: [Number, null],
+  },
   /**
    * @description same as `readonly` in native input
    */

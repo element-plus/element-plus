@@ -1475,6 +1475,53 @@ describe('table column', () => {
       wrapper.unmount()
     })
 
+    it('correct render selection column when it is not in the first', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="data">
+            <el-table-column fixed="left" prop="name" />
+            <el-table-column fixed="left" type="selection" />
+            <el-table-column fixed="left" prop="date" />
+          </el-table>
+        `,
+
+        data() {
+          const data = [
+            {
+              date: '2016-05-03',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-02',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-04',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-01',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+          ]
+          return {
+            data,
+          }
+        },
+      })
+
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-column--selection').length).toEqual(5)
+    })
+
     it('prop', async () => {
       const wrapper = mount({
         components: {

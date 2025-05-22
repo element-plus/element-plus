@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { defineComponent, provide, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useTable } from './use-table'
@@ -16,6 +15,7 @@ import Footer from './renderers/footer'
 import Empty from './renderers/empty'
 import Overlay from './renderers/overlay'
 
+import type { CSSProperties } from 'vue'
 import type { TableGridRowSlotParams } from './table-grid'
 import type { ScrollStrategy } from './composables/use-scrollbar'
 import type {
@@ -23,6 +23,7 @@ import type {
   TableV2HeaderRowCellRendererParams,
   TableV2RowCellRenderParam,
 } from './components'
+import type { KeyType } from './types'
 
 const COMPONENT_NAME = 'ElTableV2'
 
@@ -55,7 +56,6 @@ const TableV2 = defineComponent({
       bodyWidth,
       emptyStyle,
       rootStyle,
-      headerWidth,
       footerHeight,
 
       showEmpty,
@@ -141,9 +141,9 @@ const TableV2 = defineComponent({
         data: _data,
         fixedData,
         estimatedRowHeight,
-        bodyWidth: unref(bodyWidth) + vScrollbarSize,
+        bodyWidth: unref(bodyWidth),
         headerHeight,
-        headerWidth: unref(headerWidth),
+        headerWidth: unref(bodyWidth),
         height: unref(mainTableHeight),
         mainTableRef,
         rowKey,
@@ -185,7 +185,6 @@ const TableV2 = defineComponent({
       }
 
       const rightColumnsWidth = unref(rightTableWidth)
-      const rightColumnsWidthWithScrollbar = rightColumnsWidth + vScrollbarSize
 
       const rightTableProps = {
         cache,
@@ -196,18 +195,18 @@ const TableV2 = defineComponent({
         estimatedRowHeight,
         rightTableRef,
         rowHeight,
-        bodyWidth: rightColumnsWidthWithScrollbar,
-        headerWidth: rightColumnsWidthWithScrollbar,
+        bodyWidth: rightColumnsWidth,
+        headerWidth: rightColumnsWidth,
         headerHeight,
         height: _fixedTableHeight,
         rowKey,
         scrollbarAlwaysOn,
         scrollbarStartGap: 2,
         scrollbarEndGap: vScrollbarSize,
-        width: rightColumnsWidthWithScrollbar,
+        width: rightColumnsWidth,
         style: `--${unref(
           ns.namespace
-        )}-table-scrollbar-size: ${vScrollbarSize}px`,
+        )}-table-scrollbar-size: ${vScrollbarSize}px` as unknown as CSSProperties,
         useIsScrolling,
         getRowHeight,
         onScroll: onVerticalScroll,
@@ -267,7 +266,7 @@ const TableV2 = defineComponent({
                   <Cell
                     {...props}
                     {...tableCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key as KeyType]}
                   >
                     {slots.cell(props)}
                   </Cell>
@@ -275,7 +274,7 @@ const TableV2 = defineComponent({
                   <Cell
                     {...props}
                     {...tableCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key as KeyType]}
                   />
                 ),
             }}
@@ -290,7 +289,7 @@ const TableV2 = defineComponent({
                   <HeaderCell
                     {...props}
                     {...tableHeaderCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key as KeyType]}
                   >
                     {slots['header-cell'](props)}
                   </HeaderCell>
@@ -298,7 +297,7 @@ const TableV2 = defineComponent({
                   <HeaderCell
                     {...props}
                     {...tableHeaderCellProps}
-                    style={_columnsStyles[props.column.key]}
+                    style={_columnsStyles[props.column.key as KeyType]}
                   />
                 ),
             }}

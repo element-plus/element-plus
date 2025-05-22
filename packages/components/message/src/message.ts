@@ -9,7 +9,13 @@ import type { AppContext, ExtractPropTypes, VNode } from 'vue'
 import type { Mutable } from '@element-plus/utils'
 import type MessageConstructor from './message.vue'
 
-export const messageTypes = ['success', 'info', 'warning', 'error'] as const
+export const messageTypes = [
+  'primary',
+  'success',
+  'info',
+  'warning',
+  'error',
+] as const
 
 export type messageType = typeof messageTypes[number]
 
@@ -19,6 +25,7 @@ export interface MessageConfigContext {
   duration?: number
   offset?: number
   showClose?: boolean
+  plain?: boolean
 }
 
 export const messageDefaults = mutable({

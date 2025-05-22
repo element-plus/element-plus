@@ -1400,6 +1400,35 @@ describe('Select', () => {
     expect(result).toBeTruthy()
   })
 
+  it('the scroll position of the dropdown should be correct when use props', async () => {
+    const options = Array.from({ length: 1000 }).map((_, idx) => ({
+      value1: 999 - idx,
+      label1: `options ${999 - idx}`,
+    }))
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: 500,
+          options,
+          props: {
+            label: 'label1',
+            value: 'value1',
+          },
+        }
+      },
+    })
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const optionsDoms = Array.from(
+      document.querySelectorAll(`.${OPTION_ITEM_CLASS_NAME}`)
+    )
+    const result = optionsDoms.some((option) => {
+      const text = option.textContent
+      return text === 'options 499'
+    })
+    expect(result).toBeTruthy()
+  })
+
   it('emptyText error show', async () => {
     const wrapper = createSelect({
       data() {
