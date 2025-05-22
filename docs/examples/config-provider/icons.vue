@@ -1,8 +1,13 @@
 <template>
   <div>
     <el-config-provider :icons="icons">
-      <div class="flex items-center space-x-4">
-        <el-select v-model="value" placeholder="Select" style="width: 240px">
+      <div class="flex flex-wrap items-center gap-4 mb-4">
+        <el-select
+          v-model="value"
+          placeholder="Select"
+          clearable
+          style="width: 240px"
+        >
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -11,6 +16,27 @@
           />
         </el-select>
 
+        <el-select-v2
+          v-model="value2"
+          clearable
+          placeholder="Select"
+          style="width: 240px"
+          :options="options"
+        />
+
+        <el-time-picker v-model="value3" placeholder="Arbitrary time" />
+
+        <el-time-select
+          v-model="value4"
+          style="width: 240px"
+          start="08:30"
+          step="00:15"
+          end="18:30"
+          placeholder="Select time"
+        />
+      </div>
+
+      <div class="flex flex-wrap items-center space-x-4">
         <el-button plain @click="dialogVisible = true">
           Click to open the Dialog
         </el-button>
@@ -43,11 +69,12 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { ArrowDownBold, CircleClose } from '@element-plus/icons-vue'
+import { ArrowDownBold, CircleClose, Close } from '@element-plus/icons-vue'
 
 const icons = reactive({
   close: CircleClose,
   dropdown: ArrowDownBold,
+  clear: Close,
 })
 const options = [
   {
@@ -60,6 +87,9 @@ const options = [
   },
 ]
 const value = ref('1')
+const value2 = ref('1')
+const value3 = ref()
+const value4 = ref()
 const dialogVisible = ref(false)
 
 const handleClose = (done: () => void) => {
