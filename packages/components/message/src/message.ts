@@ -196,5 +196,9 @@ export type MessageTypedFn = (
 ) => MessageHandler
 
 export type Message = MessageFn & {
-  [K in messageType]: MessageTypedFn
+  primary: MessageTypedFn
+  success: MessageTypedFn
+  warning: MessageTypedFn
+  info: MessageTypedFn
+  error: MessageTypedFn
 }
