@@ -164,6 +164,9 @@ const optionRender = computed(() => (option: TransferDataItem) => {
   )
 })
 
+const leftChecked = computed(() => checkedState.leftChecked)
+const rightChecked = computed(() => checkedState.rightChecked)
+
 defineExpose({
   /** @description clear the filter keyword of a certain panel */
   clearQuery,
@@ -171,5 +174,17 @@ defineExpose({
   leftPanel,
   /** @description right panel ref */
   rightPanel,
+  /** @description source data on the left */
+  sourceData,
+  /** @description target data on the right */
+  targetData,
+  /** @description checked value on the left */
+  leftChecked,
+  /** @description checked value on the right */
+  rightChecked,
+  /** @description transfer the selected data on the right to the left */
+  addToLeft,
+  /** @description transfer the selected data on the left to the right */
+  addToRight,
 })
 </script>
