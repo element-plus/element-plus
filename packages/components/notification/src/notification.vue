@@ -41,15 +41,17 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
-import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   useGlobalComponentSettings,
   useGlobalIcons,
 } from '@element-plus/components/config-provider'
-import { notificationEmits, notificationProps } from './notification'
-
+import {
+  notificationEmits,
+  notificationProps,
+  notificationTypes,
+} from './notification'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -68,12 +70,15 @@ let timer: (() => void) | undefined = undefined
 
 const typeClass = computed(() => {
   const type = props.type
-  return type && TypeComponentsMap[props.type] ? ns.m(type) : ''
+  return type && notificationTypes.includes(type) ? ns.m(type) : ''
 })
 
 const iconComponent = computed(() => {
   if (!props.type) return props.icon
-  return TypeComponentsMap[props.type] || props.icon
+  return (
+    globalIcons.value[props.type === 'primary' ? 'info' : props.type] ||
+    props.icon
+  )
 })
 
 const horizontalClass = computed(() =>

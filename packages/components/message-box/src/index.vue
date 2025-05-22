@@ -174,7 +174,6 @@ import ElInput from '@element-plus/components/input'
 import { ElOverlay } from '@element-plus/components/overlay'
 import {
   TypeComponents,
-  TypeComponentsMap,
   isFunction,
   isString,
   isValidComponentSize,
@@ -186,6 +185,7 @@ import {
   useGlobalComponentSettings,
   useGlobalIcons,
 } from '@element-plus/components/config-provider'
+import { messageTypes } from '@element-plus/components/message/src/message'
 
 import type { Component, ComponentPublicInstance, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -320,7 +320,7 @@ export default defineComponent({
 
     const typeClass = computed(() => {
       const type = state.type
-      return { [ns.bm('icon', type)]: type && TypeComponentsMap[type] }
+      return { [ns.bm('icon', type)]: type && messageTypes.includes(type) }
     })
 
     const contentId = useId()
@@ -328,7 +328,11 @@ export default defineComponent({
 
     const iconComponent = computed(() => {
       const type = state.type
-      return state.icon || (type && TypeComponentsMap[type]) || ''
+      return (
+        state.icon ||
+        (type && globalIcons.value[type === 'primary' ? 'info' : type]) ||
+        ''
+      )
     })
     const hasMessage = computed(() => !!state.message)
     const rootRef = ref<HTMLElement>()
