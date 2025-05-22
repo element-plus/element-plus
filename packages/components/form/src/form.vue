@@ -139,9 +139,13 @@ const validateField: FormContext['validateField'] = async (
     const invalidFields = e as ValidateFieldsError
 
     if (props.scrollToError) {
-      const formItems = formRef.value?.querySelector('.is-error')
-      if (formItems) {
-        formItems.scrollIntoView(props.scrollIntoViewOptions)
+      // form-item may be dynamically rendered based on the judgment conditions, and the order in invalidFields is uncertain.
+      // Therefore, the first form field with an error is determined by directly looking for the rendered element.
+      if (formRef.value) {
+        const formItem = formRef.value.querySelector(
+          `${formRef.value.className} > .is-error`
+        )
+        formItem?.scrollIntoView(props.scrollIntoViewOptions)
       }
     }
     await callback?.(false, invalidFields)
