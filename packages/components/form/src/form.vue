@@ -139,9 +139,9 @@ const validateField: FormContext['validateField'] = async (
     const invalidFields = e as ValidateFieldsError
 
     if (props.scrollToError) {
-      const formItems = formRef.value?.querySelectorAll('.is-error')
-      if (formItems?.length) {
-        formItems[0].scrollIntoView(props.scrollIntoViewOptions)
+      const formItems = formRef.value?.querySelector('.is-error')
+      if (formItems) {
+        formItems.scrollIntoView(props.scrollIntoViewOptions)
       }
     }
     await callback?.(false, invalidFields)
