@@ -2,6 +2,7 @@ import {
   computed,
   defineComponent,
   inject,
+  nextTick,
   onActivated,
   provide,
   ref,
@@ -176,7 +177,8 @@ const TableGrid = defineComponent({
 
     provide('tableV2GridScrollLeft', scrollLeft)
 
-    onActivated(() => {
+    onActivated(async () => {
+      await nextTick()
       const scrollTop = bodyRef.value?.states.scrollTop
       scrollTop && scrollToTop(Math.round(scrollTop) + 1)
     })
