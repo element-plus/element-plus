@@ -160,6 +160,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const iconReverse = computed(() =>
     nsSelect.is('reverse', !!(iconComponent.value && expanded.value))
   )
+  const clearIconComponent = computed(
+    () => props.clearIcon || globalIcons.value.clear
+  )
 
   const validateState = computed(() => formItem?.validateState || '')
   const validateIcon = computed(
@@ -831,6 +834,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     showClose,
     iconComponent,
     iconReverse,
+    clearIconComponent,
     validateState,
     validateIcon,
     showNewOption,

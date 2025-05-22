@@ -68,12 +68,12 @@
         </template>
         <template #suffix>
           <el-icon
-            v-if="showClose && clearIcon"
+            v-if="showClose && clearIconComponent"
             :class="`${nsInput.e('icon')} clear-icon`"
             @mousedown.prevent="NOOP"
             @click="onClearIconClick"
           >
-            <component :is="clearIcon" />
+            <component :is="clearIconComponent" />
           </el-icon>
         </template>
       </el-input>
@@ -185,6 +185,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
+import { useGlobalIcons } from '@element-plus/components/config-provider'
 import { dayOrDaysToDate, formatter, parseDate, valueEquals } from '../utils'
 import {
   PICKER_BASE_INJECTION_KEY,
@@ -237,6 +238,7 @@ const elPopperOptions = inject(
   {} as Options
 )
 const { valueOnClear } = useEmptyValues(props, null)
+const globalIcons = useGlobalIcons()
 
 const refPopper = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
@@ -282,6 +284,10 @@ const clearIconKls = computed(() => [
   nsRange.e('close-icon'),
   !showClose.value ? nsRange.e('close-icon--hidden') : '',
 ])
+
+const clearIconComponent = computed(
+  () => props.clearIcon || globalIcons.value.clear
+)
 
 watch(pickerVisible, (val) => {
   if (!val) {

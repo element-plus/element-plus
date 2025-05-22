@@ -12,7 +12,6 @@ import {
   iconPropType,
 } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
-import { CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
@@ -193,7 +192,6 @@ export const selectProps = buildProps({
    */
   clearIcon: {
     type: iconPropType,
-    default: CircleClose,
   },
   /**
    * @description whether the width of the dropdown is the same as the input
