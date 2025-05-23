@@ -582,10 +582,11 @@ describe('Cascader.vue', () => {
       delete process.env.RUN_TEST_FILE_NAME
     })
     test('persistent false', async () => {
-      const value = ref([])
+      const value = ref(['zhejiang', 'hangzhou'])
       const wrapper = _mount(() => (
         <Cascader v-model={value.value} options={OPTIONS} persistent={false} />
       ))
+      expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
       await nextTick()
       expect(document.querySelector(DROPDOWN)).toBeFalsy()
       const trigger = wrapper.find(TRIGGER)
@@ -594,12 +595,12 @@ describe('Cascader.vue', () => {
       expect(document.querySelector(DROPDOWN)).toBeTruthy()
       ;(document.querySelector(NODE) as HTMLElement).click()
       await nextTick()
-      ;(document.querySelectorAll(NODE)[1] as HTMLElement).click()
+      ;(document.querySelectorAll(NODE)[2] as HTMLElement).click()
       await nextTick()
       await nextTick()
-      expect(value.value).toEqual(['zhejiang', 'hangzhou'])
+      expect(value.value).toEqual(['zhejiang', 'ningbo'])
       expect(wrapper.find('input').attributes().placeholder).toBe('')
-      expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
+      expect(wrapper.find('input').element.value).toBe('Zhejiang / Ningbo')
     })
   })
 })

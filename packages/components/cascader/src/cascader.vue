@@ -199,7 +199,17 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
+import {
+  computed,
+  createVNode,
+  nextTick,
+  onMounted,
+  ref,
+  render,
+  unref,
+  useAttrs,
+  watch,
+} from 'vue'
 import { cloneDeep, debounce } from 'lodash-unified'
 import { useCssVar, useResizeObserver } from '@vueuse/core'
 import {
@@ -232,7 +242,7 @@ import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { cascaderEmits, cascaderProps } from './cascader'
 
 import type { Options } from '@element-plus/components/popper'
-import type { ComputedRef, Ref, StyleValue } from 'vue'
+import type { ComputedRef, Ref, StyleValue, VNode } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
@@ -326,7 +336,6 @@ const searchKeyword = computed(() =>
 let checkNodeCache: CascaderNode[] = []
 const checkedNodes: ComputedRef<CascaderNode[]> = computed(() => {
   if (!props.persistent && cascaderPanelRef.value) {
-    // fix #20701
     checkNodeCache = cascaderPanelRef.value?.checkedNodes || []
   }
   return cascaderPanelRef.value?.checkedNodes || checkNodeCache
@@ -691,6 +700,33 @@ const getInputInnerHeight = (inputInner: HTMLElement): number =>
     useCssVar(nsInput.cssVarName('input-height'), inputInner).value
   ) - 2
 
+onMounted(() => {
+  const inputInner = input.value!.input!
+  const inputInnerHeight = getInputInnerHeight(inputInner)
+  inputInitialHeight = inputInner.offsetHeight || inputInnerHeight
+  useResizeObserver(inputInner, updateStyle)
+})
+
+watch(
+  () => props.persistent,
+  (newVal) => {
+    if (!newVal) {
+      const v: VNode = createVNode(ElCascaderPanel, {
+        ...unref(props),
+        onDestroy: () => {
+          render(null, container)
+        },
+      })!
+      let container = document.createElement('div')
+      render(v, container)
+      checkNodeCache = (v.component as any).proxy?.getCheckedNodes() || []
+      // @ts-expect-error
+      container = null
+    }
+  },
+  { immediate: true }
+)
+
 watch(filtering, updatePopperPosition)
 
 watch(
@@ -710,15 +746,6 @@ watch(realSize, async () => {
 })
 
 watch(presentText, syncPresentTextValue, { immediate: true })
-
-onMounted(() => {
-  const inputInner = input.value!.input!
-
-  const inputInnerHeight = getInputInnerHeight(inputInner)
-
-  inputInitialHeight = inputInner.offsetHeight || inputInnerHeight
-  useResizeObserver(inputInner, updateStyle)
-})
 
 defineExpose({
   /**
