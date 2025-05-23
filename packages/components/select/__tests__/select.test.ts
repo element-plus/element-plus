@@ -313,11 +313,11 @@ describe('Select', () => {
   let wrapper: ReturnType<typeof _mount>
   beforeEach(() => {
     // This is convenient for testing the default value label rendering when persistent is false.
-    process.env.RUN_TEST_FILE_NAME = 'select'
+    process.env.RUN_TEST_WITH_PERSISTENT = true
   })
   afterEach(() => {
     document.body.innerHTML = ''
-    delete process.env.RUN_TEST_FILE_NAME
+    delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
   test('create', async () => {

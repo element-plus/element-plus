@@ -576,10 +576,10 @@ describe('Cascader.vue', () => {
   })
   describe('persistent', async () => {
     beforeEach(() => {
-      process.env.RUN_TEST_FILE_NAME = 'select'
+      process.env.RUN_TEST_WITH_PERSISTENT = true
     })
     afterEach(() => {
-      delete process.env.RUN_TEST_FILE_NAME
+      delete process.env.RUN_TEST_WITH_PERSISTENT
     })
     test('persistent false', async () => {
       const value = ref(['zhejiang', 'hangzhou'])
