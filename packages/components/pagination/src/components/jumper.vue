@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, defineExpose, onUnmounted, ref, watch } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { usePagination } from '../usePagination'
@@ -37,14 +37,36 @@ const ns = useNamespace('pagination')
 const { pageCount, disabled, currentPage, changeEvent } = usePagination()
 const userInput = ref<number | string>()
 const innerValue = computed(() => userInput.value ?? currentPage?.value)
+let timer: ReturnType<typeof setTimeout> | undefined
 
 function handleInput(val: number | string) {
   userInput.value = val ? +val : ''
 }
 
 function handleChange(val: number | string) {
-  val = Math.trunc(+val)
-  changeEvent?.(val)
-  userInput.value = undefined
+  timer = setTimeout(() => {
+    val = Math.trunc(+val)
+    changeEvent?.(val)
+    userInput.value = undefined
+  }, 100)
 }
+
+function clearTimer() {
+  timer && clearTimeout(timer)
+  timer = undefined
+}
+
+watch(currentPage!, () => {
+  userInput.value = undefined
+  timer && clearTimeout(timer)
+})
+
+onUnmounted(() => {
+  clearTimer()
+})
+
+defineExpose({
+  /** @description test use */
+  handleChange,
+})
 </script>
