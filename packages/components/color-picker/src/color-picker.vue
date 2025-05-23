@@ -288,6 +288,9 @@ function handleTrigger() {
 
 function handleConfirm() {
   color.fromString(customInput.value)
+  if (color.value !== customInput.value) {
+    customInput.value = color.value
+  }
 }
 
 function confirmValue() {
