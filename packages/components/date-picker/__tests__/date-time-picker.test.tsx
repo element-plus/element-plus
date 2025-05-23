@@ -387,7 +387,7 @@ describe('Datetime Picker', () => {
     expect(timeInput.value).toBe('13:00:00')
   })
 
-  it('inherit time accross different picker view', async () => {
+  it('inherit time across different picker view', async () => {
     const value = ref(new Date(2000, 10, 8, 10, 10))
     const wrapper = _mount(() => (
       <DatePicker v-model={value.value} type="datetime" />
