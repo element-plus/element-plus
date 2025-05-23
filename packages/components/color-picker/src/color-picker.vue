@@ -268,6 +268,9 @@ function resetColor() {
       color.fromString(props.modelValue)
     } else {
       color.value = ''
+      if (!currentColor.value && customInput.value) {
+        customInput.value = ''
+      }
       nextTick(() => {
         showPanelColor.value = false
       })
