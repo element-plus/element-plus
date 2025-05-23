@@ -387,6 +387,30 @@ describe('Datetime Picker', () => {
     expect(timeInput.value).toBe('13:00:00')
   })
 
+  it('inherit time across different picker view', async () => {
+    const value = ref(new Date(2000, 10, 8, 10, 10))
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    const headerPanel = document.querySelectorAll(
+      '.el-date-picker__header-label'
+    )
+    ;(headerPanel[1] as HTMLSpanElement).click()
+    await nextTick()
+    const firstMonth = document.querySelector(
+      '.el-month-table td'
+    ) as HTMLSpanElement
+    firstMonth.click()
+    const timeInput: HTMLInputElement = document.querySelector(
+      '.el-date-picker__time-header > span:nth-child(2) input'
+    )!
+    expect(timeInput.value).toBe('10:10:00')
+  })
+
   // fix #15196
   it('first click accuracy', async () => {
     const value = ref('')

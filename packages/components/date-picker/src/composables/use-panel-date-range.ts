@@ -95,6 +95,7 @@ export const usePanelDateRange = (
 
     if (mode === 'month') {
       startDate.value = getValidDateOfMonth(
+        startDate.value,
         startDate.value.year(),
         value,
         lang.value,
