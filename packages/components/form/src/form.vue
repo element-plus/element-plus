@@ -143,7 +143,7 @@ const validateField: FormContext['validateField'] = async (
       // Therefore, the first form field with an error is determined by directly looking for the rendered element.
       if (formRef.value) {
         const formItem = formRef.value!.querySelector(
-          `.${ns.b()}-item.is-error.is-required`
+          `.${ns.b()}-item.is-error`
         )
         formItem?.scrollIntoView(props.scrollIntoViewOptions)
       }
