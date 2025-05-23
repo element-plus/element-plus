@@ -75,6 +75,14 @@ alert/icon-description
 
 :::
 
+## With Delayed Attributes ^(2.9.12)
+
+:::demo At last, this is an example with delayed attributes.
+
+alert/delayed
+
+:::
+
 ## Alert API
 
 ### Attributes
