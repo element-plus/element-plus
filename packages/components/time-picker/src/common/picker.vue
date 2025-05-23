@@ -121,12 +121,12 @@
         </template>
         <template #suffix>
           <el-icon
-            v-if="clearIcon"
+            v-if="clearIconComponent"
             :class="clearIconKls"
             @mousedown.prevent="NOOP"
             @click="onClearIconClick"
           >
-            <component :is="clearIcon" />
+            <component :is="clearIconComponent" />
           </el-icon>
         </template>
       </picker-range-trigger>
