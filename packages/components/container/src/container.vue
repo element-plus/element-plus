@@ -19,6 +19,7 @@ const props = defineProps({
    */
   direction: {
     type: String,
+    validator: (val: string) => ['horizontal', 'vertical'].includes(val),
   },
 })
 const slots = useSlots()
