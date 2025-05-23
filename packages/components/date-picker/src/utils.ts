@@ -140,20 +140,26 @@ export const buildPickerTable = (
   }
 }
 
-export const datesInMonth = (year: number, month: number, lang: string) => {
-  const firstDay = dayjs().locale(lang).startOf('month').month(month).year(year)
+export const datesInMonth = (
+  date: Dayjs,
+  year: number,
+  month: number,
+  lang: string
+) => {
+  const firstDay = dayjs(date).locale(lang).month(month).year(year)
   const numOfDays = firstDay.daysInMonth()
   return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())
 }
 
 export const getValidDateOfMonth = (
+  date: Dayjs,
   year: number,
   month: number,
   lang: string,
   disabledDate?: DisabledDateType
 ) => {
-  const _value = dayjs().year(year).month(month).startOf('month')
-  const _date = datesInMonth(year, month, lang).find((date) => {
+  const _value = dayjs(date).year(year).month(month)
+  const _date = datesInMonth(date, year, month, lang).find((date) => {
     return !disabledDate?.(date)
   })
   if (_date) {
@@ -172,12 +178,12 @@ export const getValidDateOfYear = (
     return value.locale(lang)
   }
   const month = value.month()
-  if (!datesInMonth(year, month, lang).every(disabledDate)) {
-    return getValidDateOfMonth(year, month, lang, disabledDate)
+  if (!datesInMonth(value, year, month, lang).every(disabledDate)) {
+    return getValidDateOfMonth(value, year, month, lang, disabledDate)
   }
   for (let i = 0; i < 12; i++) {
-    if (!datesInMonth(year, i, lang).every(disabledDate)) {
-      return getValidDateOfMonth(year, i, lang, disabledDate)
+    if (!datesInMonth(value, year, i, lang).every(disabledDate)) {
+      return getValidDateOfMonth(value, year, i, lang, disabledDate)
     }
   }
   return value

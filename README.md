@@ -152,6 +152,12 @@ This project exists thanks to all the people who contribute.
 
 And thank you to all our backers! 🙏
 
+<a href="https://openomy.app/github/element-plus/element-plus" target="_blank" style="display: block; width: 100%;" align="center">
+  <img src="https://openomy.app/svg?repo=element-plus/element-plus&chart=bubble&latestMonth=3" target="_blank" alt="Contribution Leaderboard" style="display: block; width: 100%;" />
+</a>
+
+<hr />
+
 <a href="https://github.com/element-plus/element-plus/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=element-plus/element-plus" />
 </a>

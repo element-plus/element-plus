@@ -63,15 +63,26 @@ collapse/custom-icon-position
 
 :::
 
+## Prevent collapsing ^(2.9.11)
+
+set the `before-collapse` property, If `false` is returned or a `Promise` is returned and then is rejected, will stop collapsing.
+
+:::demo
+
+collapse/prevent-collapsing
+
+:::
+
 ## Collapse API
 
 ### Collapse Attributes
 
-| Name                         | Description                                                                             | Type                        | Default |
-| ---------------------------- | --------------------------------------------------------------------------------------- | --------------------------- | ------- |
-| model-value / v-model        | currently active panel, the type is `string` in accordion mode, otherwise it is `array` | ^[string] / ^[array]        | —       |
-| accordion                    | whether to activate accordion mode                                                      | ^[boolean]                  | false   |
-| expand-icon-position ^(2.9.10) | set expand icon position                                                                | ^[enum]`'left' \| 'right' ` | right   |
+| Name                           | Description                                                                                                                                          | Type                                          | Default |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ------- |
+| model-value / v-model          | currently active panel, the type is `string` in accordion mode, otherwise it is `array`                                                              | ^[string] / ^[array]                          | []      |
+| accordion                      | whether to activate accordion mode                                                                                                                   | ^[boolean]                                    | false   |
+| expand-icon-position ^(2.9.10) | set expand icon position                                                                                                                             | ^[enum]`'left' \| 'right' `                   | right   |
+| before-collapse ^(2.9.11)      | before-collapse hook before the collapse state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop collapsing | ^[Function]`() => Promise<boolean> \| boolen` | —       |
 
 ### Collapse Events
 

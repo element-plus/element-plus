@@ -11,6 +11,7 @@ import { reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 const config = reactive({
   max: 3,
+  plain: true,
 })
 const open = () => {
   ElMessage('This is a message.')

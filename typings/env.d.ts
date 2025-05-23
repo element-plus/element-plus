@@ -5,6 +5,7 @@ declare global {
   const process: {
     env: {
       NODE_ENV: string
+      RUN_TEST_WITH_PERSISTENT: boolean
     }
   }
 

@@ -436,6 +436,7 @@ const handleMonthPick = async (
 ) => {
   if (selectionMode.value === 'month') {
     innerDate.value = getValidDateOfMonth(
+      innerDate.value,
       innerDate.value.year(),
       month as number,
       lang.value,
@@ -446,6 +447,7 @@ const handleMonthPick = async (
     emit(month as MonthsPickerEmits, keepOpen ?? true)
   } else {
     innerDate.value = getValidDateOfMonth(
+      innerDate.value,
       innerDate.value.year(),
       month as number,
       lang.value,

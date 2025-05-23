@@ -34,9 +34,18 @@ export const useButton = (
   const _ref = ref<HTMLButtonElement>()
   const slots = useSlots()
 
-  const _type = computed(() => props.type || buttonGroupContext?.type || '')
+  const _type = computed(
+    () =>
+      props.type || buttonGroupContext?.type || globalConfig.value?.type || ''
+  )
   const autoInsertSpace = computed(
     () => props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
+  )
+  const _plain = computed(
+    () => props.plain ?? globalConfig.value?.plain ?? false
+  )
+  const _round = computed(
+    () => props.round ?? globalConfig.value?.round ?? false
   )
 
   const _props = computed(() => {
@@ -81,6 +90,8 @@ export const useButton = (
     _type,
     _ref,
     _props,
+    _plain,
+    _round,
     shouldAddSpace,
     handleClick,
   }

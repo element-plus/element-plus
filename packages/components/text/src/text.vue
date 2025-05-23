@@ -54,9 +54,9 @@ const bindTitle = () => {
     }
   }
   if (shouldAddTitle) {
-    textRef.value!.setAttribute('title', text)
+    textRef.value?.setAttribute('title', text)
   } else {
-    textRef.value!.removeAttribute('title')
+    textRef.value?.removeAttribute('title')
   }
 }
 

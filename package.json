@@ -136,7 +136,8 @@
       "async-validator@4.2.5": "patches/async-validator@4.2.5.patch"
     },
     "overrides": {
-      "typescript": "$typescript"
+      "typescript": "$typescript",
+      "jwa": "^1.4.2"
     }
   },
   "lint-staged": {
