@@ -69,12 +69,14 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     return res
   }
 
-  const updateTreeData = (ifChangeExpandRowKeys = false) => {
+  const updateTreeData = (
+    ifChangeExpandRowKeys = false,
+    ifExpandAll = instance.store?.states.defaultExpandAll.value
+  ) => {
     const nested = normalizedData.value
     const normalizedLazyNode_ = normalizedLazyNode.value
     const keys = Object.keys(nested)
     const newTreeData = {}
-    const ifExpandAll = instance.store?.states.defaultExpandAll.value
 
     if (keys.length) {
       const oldTreeData = unref(treeData)
