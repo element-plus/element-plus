@@ -8,7 +8,7 @@ import {
   throwError,
 } from '@element-plus/utils'
 
-import type { ComponentPublicInstance, ObjectDirective } from 'vue'
+import type { ComponentPublicInstance, ObjectDirective, VNode } from 'vue'
 
 export const SCOPE = 'ElInfiniteScroll'
 export const CHECK_INTERVAL = 50
@@ -116,11 +116,29 @@ function checkFull(el: InfiniteScrollEl, cb: InfiniteScrollCallback) {
   }
 }
 
+const syncInfiniteScrollOptions = (origin: HTMLElement, el: HTMLElement) => {
+  Object.entries(attributes).forEach(([name]) => {
+    const attrVal = origin.getAttribute(`infinite-scroll-${name}`)
+    if (attrVal != null) {
+      el.setAttribute(`infinite-scroll-${name}`, attrVal)
+    }
+  })
+}
+
+const detectScrollContainer = (el: HTMLElement, vnode: VNode) => {
+  const isScrollBar = vnode.ref?.i?.type.name === 'ElScrollbar'
+  if (isScrollBar) {
+    syncInfiniteScrollOptions(el, el.firstElementChild)
+    el = el.firstElementChild as HTMLElement
+  }
+  return el
+}
+
 const InfiniteScroll: ObjectDirective<
   InfiniteScrollEl,
   InfiniteScrollCallback
 > = {
-  async mounted(el, binding) {
+  async mounted(el, binding, vnode) {
     const { instance, value: cb } = binding
 
     if (!isFunction(cb)) {
@@ -130,6 +148,7 @@ const InfiniteScroll: ObjectDirective<
     // ensure parentNode mounted
     await nextTick()
 
+    el = detectScrollContainer(el, vnode)
     const { delay, immediate } = getScrollOptions(el, instance)
     const container = getScrollContainer(el, true)
     const containerEl =
@@ -161,14 +180,16 @@ const InfiniteScroll: ObjectDirective<
 
     container.addEventListener('scroll', onScroll)
   },
-  unmounted(el) {
+  unmounted(el, _, vnode) {
+    el = detectScrollContainer(el, vnode)
     if (!el[SCOPE]) return
     const { container, onScroll } = el[SCOPE]
 
     container?.removeEventListener('scroll', onScroll)
     destroyObserver(el)
   },
-  async updated(el) {
+  async updated(el, _, vnode) {
+    el = detectScrollContainer(el, vnode)
     if (!el[SCOPE]) {
       await nextTick()
     } else {
