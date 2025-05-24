@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import { buttonTypes } from 'element-plus/es/components/button'
+import { buttonTypes } from 'element-plus'
 
 const config = reactive({
   autoInsertSpace: true,
