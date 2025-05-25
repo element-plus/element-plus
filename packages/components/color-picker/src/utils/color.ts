@@ -65,11 +65,13 @@ export default class Color {
       this._alpha = 100
     } else {
       const color = new TinyColor(value)
-      const { h, s, v, a } = color.toHsv()
-      this._hue = h
-      this._saturation = s * 100
-      this._value = v * 100
-      this._alpha = a * 100
+      if (color.isValid) {
+        const { h, s, v, a } = color.toHsv()
+        this._hue = h
+        this._saturation = s * 100
+        this._value = v * 100
+        this._alpha = a * 100
+      }
     }
     this.doOnChange()
   }
