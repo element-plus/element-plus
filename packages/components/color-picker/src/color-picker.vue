@@ -236,10 +236,6 @@ const btnKls = computed(() => {
 })
 
 function displayedRgb(color: Color, showAlpha: boolean) {
-  if (!(color instanceof Color)) {
-    throw new TypeError('color should be instance of _color Class')
-  }
-
   const { r, g, b, a } = color.toRgb()
   return showAlpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`
 }
