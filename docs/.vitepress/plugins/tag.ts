@@ -21,7 +21,7 @@ export default (md: MarkdownRenderer): void => {
     const tagClass = ['beta', 'deprecated', 'a11y', 'required'].includes(value)
       ? value
       : ''
-    token.content = `<span class="vp-tag ${tagClass}">${value}</span>`
+    token.content = `<span class="vp-tag ml-1 ${tagClass}">${value}</span>`
     token.level = state.level
     state.pos += result[0].length
 

@@ -16,7 +16,6 @@
 
 <script lang="tsx" setup>
 import { TableV2FixedDir, TableV2Placeholder } from 'element-plus'
-
 import type { FunctionalComponent } from 'vue'
 import type {
   HeaderClassNameGetter,

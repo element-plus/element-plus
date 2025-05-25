@@ -77,6 +77,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     const normalizedLazyNode_ = normalizedLazyNode.value
     const keys = Object.keys(nested)
     const newTreeData = {}
+
     if (keys.length) {
       const oldTreeData = unref(treeData)
       const rootLazyRowKeys = []

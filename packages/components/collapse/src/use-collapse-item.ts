@@ -73,12 +73,14 @@ export const useCollapseItemDOM = (
     ns.be('item', 'arrow'),
     ns.is('active', unref(isActive)),
   ])
+  const itemTitleKls = computed(() => [ns.be('item', 'title')])
   const itemWrapperKls = computed(() => ns.be('item', 'wrap'))
   const itemContentKls = computed(() => ns.be('item', 'content'))
   const scopedContentId = computed(() => ns.b(`content-${unref(id)}`))
   const scopedHeadId = computed(() => ns.b(`head-${unref(id)}`))
 
   return {
+    itemTitleKls,
     arrowKls,
     headKls,
     rootKls,

@@ -3,8 +3,9 @@
   "private": true,
   "scripts": {
     "dev": "pnpm gen-locale && vitepress dev .",
-    "build": "NODE_ENV=production && vitepress build .",
+    "build": "pnpm gen-llms && NODE_ENV=production && vitepress build .",
     "serve": "NODE_ENV=production vitepress serve . --port 5001",
+    "gen-llms": "tsx .vitepress/build/generate-llms.ts",
     "gen-locale": "rimraf .vitepress/i18n && tsx .vitepress/build/crowdin-generate.ts",
     "crowdin-credentials": "tsx .vitepress/build/crowdin-credentials.ts"
   },
@@ -33,7 +34,7 @@
     "escape-html": "^1.0.3",
     "fast-glob": "^3.2.11",
     "markdown-it-container": "^3.0.0",
-    "unocss": "0.63.6",
+    "unocss": "66.0.0",
     "unplugin-icons": "^0.14.15",
     "unplugin-vue-components": "^0.27.4",
     "vite-plugin-inspect": "^0.8.7",

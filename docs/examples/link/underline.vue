@@ -1,15 +1,14 @@
 <template>
   <div>
-    <el-link :underline="false">Without Underline</el-link>
-    <el-link>With Underline</el-link>
+    <el-link>default</el-link>
+    <el-link underline="always">always</el-link>
+    <el-link underline="hover">hover</el-link>
+    <el-link underline="never">never</el-link>
   </div>
 </template>
 
 <style scoped>
 .el-link {
   margin-right: 8px;
-}
-.el-link .el-icon--right.el-icon {
-  vertical-align: text-bottom;
 }
 </style>

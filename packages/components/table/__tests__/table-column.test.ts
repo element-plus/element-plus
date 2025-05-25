@@ -338,6 +338,92 @@ describe('table column', () => {
           expect(expectIndexs).toEqual(actualIndexs)
           expect(wrapper.vm.selected.length).toBe(wrapper.vm.testData.length)
         })
+
+        // #20292
+        it('Maintain child selection states during data updates', async () => {
+          const wrapper = mount({
+            components: {
+              ElTable,
+              ElTableColumn,
+            },
+            template: `
+              <el-table ref="tableRef" :data="testData" row-key="id" default-expand-all>
+                <el-table-column type="selection" />
+                <el-table-column prop="desc" />
+              </el-table>
+            `,
+
+            data() {
+              return {
+                testData: [
+                  { id: 0, desc: 'record 1' },
+                  { id: 1, desc: 'record 2' },
+                  {
+                    id: 2,
+                    desc: 'record 3',
+                    children: [
+                      { id: 3, desc: 'record 3-1' },
+                      { id: 4, desc: 'record 3-2' },
+                    ],
+                  },
+                ],
+              }
+            },
+            methods: {
+              addRow() {
+                this.testData.push({ id: 5, desc: 'record 4' })
+              },
+              removeRow() {
+                this.testData.pop()
+              },
+              removeChildRow() {
+                this.testData[2].children.pop()
+              },
+            },
+          })
+          await doubleWait()
+
+          const getSelection = wrapper.vm.$refs.tableRef.getSelectionRows
+          const domArr = wrapper.findAll('.el-table__row .el-checkbox')
+
+          let selectionKeys = []
+
+          domArr.forEach(
+            (checkbox, index) => index < 3 && checkbox.trigger('click')
+          )
+          await doubleWait()
+
+          selectionKeys = getSelection().map((item) => item.id)
+          expect(selectionKeys).toEqual([0, 1, 2, 3, 4])
+
+          // add
+          wrapper.vm.addRow()
+          await doubleWait()
+
+          selectionKeys = getSelection().map((item) => item.id)
+          expect(selectionKeys).toEqual([0, 1, 2, 3, 4])
+
+          // remove
+          wrapper.vm.removeRow()
+          await doubleWait()
+
+          selectionKeys = getSelection().map((item) => item.id)
+          expect(selectionKeys).toEqual([0, 1, 2, 3, 4])
+
+          // remove child
+          wrapper.vm.removeChildRow()
+          await doubleWait()
+
+          selectionKeys = getSelection().map((item) => item.id)
+          expect(selectionKeys).toEqual([0, 1, 2, 3])
+
+          // remove with child
+          wrapper.vm.removeRow()
+          await doubleWait()
+
+          selectionKeys = getSelection().map((item) => item.id)
+          expect(selectionKeys).toEqual([0, 1])
+        })
       })
 
       describe('= index', () => {
@@ -1387,6 +1473,53 @@ describe('table column', () => {
       )
 
       wrapper.unmount()
+    })
+
+    it('correct render selection column when it is not in the first', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="data">
+            <el-table-column fixed="left" prop="name" />
+            <el-table-column fixed="left" type="selection" />
+            <el-table-column fixed="left" prop="date" />
+          </el-table>
+        `,
+
+        data() {
+          const data = [
+            {
+              date: '2016-05-03',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-02',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-04',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-01',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+          ]
+          return {
+            data,
+          }
+        },
+      })
+
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-column--selection').length).toEqual(5)
     })
 
     it('prop', async () => {

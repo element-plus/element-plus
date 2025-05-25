@@ -96,10 +96,13 @@ import { ElIcon } from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ClickOutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import ElTooltip from '@element-plus/components/tooltip'
+import ElTooltip, {
+  useTooltipContentProps,
+} from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { isPropAbsent } from '@element-plus/utils'
 
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { Placement } from '@element-plus/components/popper'
 import type { PropType, WritableComputedRef } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
@@ -134,9 +137,7 @@ export default defineComponent({
     upDataColumn: {
       type: Function,
     },
-    appendTo: {
-      type: String,
-    },
+    appendTo: useTooltipContentProps.appendTo,
   },
   setup(props) {
     const instance = getCurrentInstance()
@@ -147,7 +148,7 @@ export default defineComponent({
       parent.filterPanels.value[props.column.id] = instance
     }
     const tooltipVisible = ref(false)
-    const tooltip = ref<InstanceType<typeof ElTooltip> | null>(null)
+    const tooltip = ref<TooltipInstance | null>(null)
     const filters = computed(() => {
       return props.column && props.column.filters
     })
@@ -229,7 +230,6 @@ export default defineComponent({
     watch(
       tooltipVisible,
       (value) => {
-        // todo
         if (props.column) {
           props.upDataColumn('filterOpened', value)
         }
