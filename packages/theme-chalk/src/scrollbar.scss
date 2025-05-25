@@ -13,6 +13,33 @@
   position: relative;
   height: 100%;
 
+  @include when(top) {
+    @include e(wrap) {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+    @include e(bar) {
+      transform: scaleY(-1);
+    }
+  }
+  @include when(left) {
+    @include e(wrap) {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+    @include e(view) {
+      display: inline-flex;
+    }
+    @include e(bar) {
+      transform: scaleX(-1);
+    }
+  }
+
+  @include when(right) {
+    @include e(view) {
+      display: inline-flex;
+    }
+  }
   @include e(wrap) {
     overflow: auto;
     height: 100%;

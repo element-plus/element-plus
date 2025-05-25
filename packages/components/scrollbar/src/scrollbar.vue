@@ -1,5 +1,5 @@
 <template>
-  <div ref="scrollbarRef" :class="ns.b()">
+  <div ref="scrollbarRef" :class="[ns.b(), ns.is(direction)]">
     <div ref="wrapRef" :class="wrapKls" :style="wrapStyle" :tabindex="tabindex">
       <component
         :is="tag"
@@ -67,7 +67,10 @@ const resizeRef = ref<HTMLElement>()
 const barRef = ref<BarInstance>()
 
 onMounted(() => {
-  useInfiniteScroll(wrapRef, props.endReached, { onScroll: handleScroll })
+  useInfiniteScroll(wrapRef, props.bottomReached, {
+    onScroll: handleScroll,
+    direction: props.direction,
+  })
 })
 
 const wrapStyle = computed<StyleValue>(() => {
@@ -166,6 +169,7 @@ provide(
   reactive({
     scrollbarElement: scrollbarRef,
     wrapElement: wrapRef,
+    direction: props.direction,
   })
 )
 

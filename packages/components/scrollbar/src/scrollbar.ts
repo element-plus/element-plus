@@ -100,18 +100,22 @@ export const scrollbarProps = buildProps({
   /**
    * @description hook function when reach the end of scroll.
    */
-  endReached: {
-    type: definePropType<
-      (options: InfiniteLoadScrollOptions) => Awaitable<void>
-    >(Function),
+  bottomReached: {
+    type: definePropType<(options: ScrollOptions) => Awaitable<void>>(Function),
     default: NOOP,
+  },
+  /**
+   * @description direction to use the infinite scroll
+   */
+  direction: {
+    type: String,
+    values: ['top', 'bottom', 'left', 'right'] as const,
+    default: 'bottom',
   },
   ...useAriaProps(['ariaLabel', 'ariaOrientation']),
 } as const)
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
-export type InfiniteLoadScrollOptions = UnwrapNestedRefs<
-  ReturnType<typeof useScroll>
->
+export type ScrollOptions = UnwrapNestedRefs<ReturnType<typeof useScroll>>
 
 export const scrollbarEmits = {
   scroll: ({

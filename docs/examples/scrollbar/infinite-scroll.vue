@@ -1,5 +1,5 @@
 <template>
-  <el-scrollbar height="400px" :end-reached="loadMore">
+  <el-scrollbar height="400px" :bottom-reached="loadMore">
     <p v-for="item in num" :key="item" class="scrollbar-demo-item">
       {{ item }}
     </p>
