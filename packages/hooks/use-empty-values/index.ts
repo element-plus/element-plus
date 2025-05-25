@@ -20,7 +20,7 @@ export const useEmptyValuesProps = buildProps({
    * @description return value when cleared, if you want to set `undefined`, use `() => undefined`
    */
   valueOnClear: {
-    type: [String, Number, Boolean, Function],
+    type: [String, Number, Boolean, Function, null],
     default: undefined,
     validator: (val: any) => (isFunction(val) ? !val() : !val),
   },
