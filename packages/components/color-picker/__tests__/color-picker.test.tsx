@@ -35,7 +35,7 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
   it('should show alpha slider when show-alpha=true', async () => {
-    const color = ref('#20A0FF')
+    const color = ref('#20a0ff')
     const wrapper = mount(() => (
       <ColorPicker v-model={color.value} show-alpha={true} />
     ))
@@ -46,7 +46,7 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
   it('should show correct rgb value', async () => {
-    const color = ref('#20A0FF')
+    const color = ref('#20a0ff')
     const wrapper = mount(() => <ColorPicker v-model={color.value} />)
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
@@ -54,11 +54,11 @@ describe('Color-picker', () => {
     const input = document.querySelector<HTMLInputElement>(
       '.el-color-dropdown__value input'
     )
-    expect(input!.value.trim().toUpperCase()).toEqual('#20A0FF')
+    expect(input!.value.trim()).toEqual('#20a0ff')
     wrapper.unmount()
   })
   it('should show correct hex value contains alpha', async () => {
-    const color = ref('#20A0FFEE')
+    const color = ref('#20a0ffee')
     const wrapper = mount(() => (
       <ColorPicker v-model={color.value} color-format="hex" show-alpha />
     ))
@@ -68,7 +68,7 @@ describe('Color-picker', () => {
     const input = document.querySelector<HTMLInputElement>(
       '.el-color-dropdown__value input'
     )
-    expect(input!.value.trim().toUpperCase()).toEqual('#20A0FFEE')
+    expect(input!.value.trim()).toEqual('#20a0ffee')
     wrapper.unmount()
   })
   it('control alpha changes through keyboard', async () => {
@@ -106,7 +106,7 @@ describe('Color-picker', () => {
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
     await nextTick()
-    expect(color.value).toEqual('#FF0000')
+    expect(color.value).toEqual('#ff0000')
     wrapper.unmount()
   })
   it('should pick a color contains alpha when confirm button click', async () => {
@@ -118,11 +118,11 @@ describe('Color-picker', () => {
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
     await nextTick()
-    expect(color.value).toEqual('#FF0000FF')
+    expect(color.value).toEqual('#ff0000ff')
     wrapper.unmount()
   })
   it('should init the right color when open', async () => {
-    const color = ref('#0F0')
+    const color = ref('#0f0')
     const wrapper = mount(() => <ColorPicker v-model={color.value} />)
 
     const colorPickerWrapper = wrapper.findComponent(ColorPicker)
@@ -148,7 +148,7 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
   it('should show color picker when click trigger', async () => {
-    const color = ref('#0F0')
+    const color = ref('#0f0')
     const wrapper = mount(() => <ColorPicker v-model={color.value} />)
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
@@ -157,7 +157,7 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
   it('should clear a color when clear button click', async () => {
-    const color = ref('#0F0')
+    const color = ref('#0f0')
     const wrapper = mount(() => <ColorPicker v-model={color.value} />)
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
@@ -169,7 +169,7 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
   it('should change hue when clicking the hue bar', async () => {
-    const color = ref('#F00')
+    const color = ref('#f00')
     const wrapper = mount(() => <ColorPicker v-model={color.value} />)
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
@@ -204,7 +204,7 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
   it('should change hue when saturation is zero', async () => {
-    const color = ref('20A0FF')
+    const color = ref('20a0ff')
     const wrapper = mount(() => <ColorPicker v-model={color.value} />)
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
@@ -244,7 +244,7 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
   it('should change alpha when clicking the alpha bar', async () => {
-    const color = ref('#F00')
+    const color = ref('#f00')
     const wrapper = mount(() => (
       <ColorPicker v-model={color.value} show-alpha />
     ))
@@ -423,7 +423,7 @@ describe('Color-picker', () => {
   })
   it('should not execute activeChange event', async () => {
     const onActiveChange = vi.fn()
-    const color = ref('#20A0FF')
+    const color = ref('#20a0ff')
     const wrapper = mount(() => (
       <ColorPicker modelValue={color.value} onActiveChange={onActiveChange} />
     ))
@@ -434,7 +434,7 @@ describe('Color-picker', () => {
   })
 
   it('should update the colorFormat and selected color when the colorFormat prop changes', async () => {
-    const color = ref('#00FF00')
+    const color = ref('#00ff00')
     const colorFormat = ref('hex')
     const wrapper = mount(() => (
       <ColorPicker v-model={color.value} color-format={colorFormat.value} />
@@ -454,7 +454,7 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
   it('should update the selected color when the showAlpha prop changes', async () => {
-    const color = ref('#00FF00AA')
+    const color = ref('#00ff00aa')
     const showAlpha = ref(true)
     const wrapper = mount(() => (
       <ColorPicker
@@ -471,10 +471,10 @@ describe('Color-picker', () => {
       ref: 'inputRef',
     })
     expect(colorPickerWrapper.vm.color.enableAlpha).toBe(false)
-    expect(color.value).toBe('#00FF00')
+    expect(color.value).toBe('#00ff00')
     expect(
       customInput.find<HTMLInputElement>('.el-input__inner').element.value
-    ).toBe('#00FF00')
+    ).toBe('#00ff00')
     wrapper.unmount()
   })
 

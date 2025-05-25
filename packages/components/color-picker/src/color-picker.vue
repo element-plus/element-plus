@@ -39,8 +39,7 @@
               v-model="customInput"
               :validate-event="false"
               size="small"
-              @keyup.enter="handleConfirm"
-              @blur="handleConfirm"
+              @change="handleConfirm"
             />
           </span>
           <el-button
@@ -241,10 +240,8 @@ function displayedRgb(color: Color, showAlpha: boolean) {
     throw new TypeError('color should be instance of _color Class')
   }
 
-  const { r, g, b } = color.toRgb()
-  return showAlpha
-    ? `rgba(${r}, ${g}, ${b}, ${color.get('alpha') / 100})`
-    : `rgb(${r}, ${g}, ${b})`
+  const { r, g, b, a } = color.toRgb()
+  return showAlpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`
 }
 
 function setShowPicker(value: boolean) {
