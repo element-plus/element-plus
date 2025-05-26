@@ -63,6 +63,10 @@ $form-item-label-top-margin-bottom: map.merge(
       display: inline-flex;
       vertical-align: middle;
       margin-right: 32px;
+
+      .#{$namespace}-select {
+        min-width: 200px;
+      }
     }
 
     &.#{$namespace}-form--label-top {
