@@ -102,4 +102,4 @@ export const progressProps = buildProps({
 } as const)
 
 export type ProgressProps = ExtractPropTypes<typeof progressProps>
-export type ProgressInstance = InstanceType<typeof Progress>
+export type ProgressInstance = InstanceType<typeof Progress> & unknown

@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { nextTick } from 'vue'
 import { hasOwn, isObject, isPropAbsent } from '@element-plus/utils'
 import Node from './node'
 import { getNodeKey } from './util'
@@ -67,16 +68,19 @@ export default class TreeStore {
   filter(value: FilterValue): void {
     const filterNodeMethod = this.filterNodeMethod
     const lazy = this.lazy
-    const traverse = function (node: TreeStore | Node) {
+    const traverse = async function (node: TreeStore | Node) {
       const childNodes = (node as TreeStore).root
         ? (node as TreeStore).root.childNodes
         : (node as Node).childNodes
 
-      childNodes.forEach((child) => {
+      for (const [index, child] of childNodes.entries()) {
         child.visible = filterNodeMethod.call(child, value, child.data, child)
 
-        traverse(child)
-      })
+        if (index % 80 === 0 && index > 0) {
+          await nextTick()
+        }
+        await traverse(child)
+      }
 
       if (!(node as Node).visible && childNodes.length) {
         let allHidden = true
@@ -408,7 +412,7 @@ export default class TreeStore {
 
   setCurrentNodeKey(key?: TreeKey, shouldAutoExpandParent = true): void {
     this.currentNodeKey = key
-    if (key === null || key === undefined) {
+    if (isPropAbsent(key)) {
       this.currentNode && (this.currentNode.isCurrent = false)
       this.currentNode = null
       return

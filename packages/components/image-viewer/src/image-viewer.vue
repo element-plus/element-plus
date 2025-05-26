@@ -37,7 +37,10 @@
               </el-icon>
             </span>
           </template>
-          <div v-if="showProgress" :class="[ns.e('btn'), ns.e('progress')]">
+          <div
+            v-if="$slots.progress || showProgress"
+            :class="[ns.e('btn'), ns.e('progress')]"
+          >
             <slot
               name="progress"
               :active-index="activeIndex"
@@ -56,6 +59,7 @@
                 :next="next"
                 :reset="toggleMode"
                 :active-index="activeIndex"
+                :set-active-item="setActiveItem"
               >
                 <el-icon @click="handleActions('zoomOut')">
                   <ZoomOut />
@@ -79,19 +83,19 @@
           </div>
           <!-- CANVAS -->
           <div :class="ns.e('canvas')">
-            <img
-              v-for="(url, i) in urlList"
-              v-show="i === activeIndex"
-              :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
-              :key="url"
-              :src="url"
-              :style="imgStyle"
-              :class="ns.e('img')"
-              :crossorigin="crossorigin"
-              @load="handleImgLoad"
-              @error="handleImgError"
-              @mousedown="handleMouseDown"
-            />
+            <template v-for="(url, i) in urlList" :key="i">
+              <img
+                v-if="i === activeIndex"
+                :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
+                :src="url"
+                :style="imgStyle"
+                :class="ns.e('img')"
+                :crossorigin="crossorigin"
+                @load="handleImgLoad"
+                @error="handleImgError"
+                @mousedown="handleMouseDown"
+              />
+            </template>
           </div>
           <slot />
         </el-focus-trap>
@@ -152,6 +156,9 @@ defineOptions({
 
 const props = defineProps(imageViewerProps)
 const emit = defineEmits(imageViewerEmits)
+
+let stopWheelListener: (() => void) | undefined
+let prevOverflow = ''
 
 const { t } = useLocale()
 const ns = useNamespace('image-viewer')
@@ -223,6 +230,8 @@ const progress = computed(
 
 function hide() {
   unregisterEventListener()
+  stopWheelListener?.()
+  document.body.style.overflow = prevOverflow
   emit('close')
 }
 
@@ -390,6 +399,18 @@ function onCloseRequested() {
   }
 }
 
+function wheelHandler(e: WheelEvent) {
+  if (!e.ctrlKey) return
+
+  if (e.deltaY < 0) {
+    e.preventDefault()
+    return false
+  } else if (e.deltaY > 0) {
+    e.preventDefault()
+    return false
+  }
+}
+
 watch(currentImg, () => {
   nextTick(() => {
     const $img = imgRefs.value[0]
@@ -406,6 +427,14 @@ watch(activeIndex, (val) => {
 
 onMounted(() => {
   registerEventListener()
+
+  stopWheelListener = useEventListener('wheel', wheelHandler, {
+    passive: false,
+  })
+
+  // prevent body scroll
+  prevOverflow = document.body.style.overflow
+  document.body.style.overflow = 'hidden'
 })
 
 defineExpose({

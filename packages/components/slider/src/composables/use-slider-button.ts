@@ -50,27 +50,7 @@ const useTooltip = (
   }
 }
 
-type HTMLType = HTMLDivElement | undefined
-type useSliderButtonType = (
-  props: SliderButtonProps,
-  initData: SliderButtonInitData,
-  emit: SetupContext<SliderButtonEmits>['emit']
-) => {
-  disabled: Ref<boolean>
-  button: Ref<HTMLType>
-  tooltip: Ref<TooltipInstance | undefined>
-  tooltipVisible: Ref<boolean>
-  showTooltip: Ref<SliderProps['showTooltip']>
-  wrapperStyle: ComputedRef<CSSProperties>
-  formatValue: ComputedRef<number | string>
-  handleMouseEnter: () => void
-  handleMouseLeave: () => void
-  onButtonDown: (event: MouseEvent | TouchEvent) => void
-  onKeyDown: (event: KeyboardEvent) => void
-  setPosition: (newPosition: number) => Promise<void>
-}
-
-export const useSliderButton: useSliderButtonType = (
+export const useSliderButton = (
   props: SliderButtonProps,
   initData: SliderButtonInitData,
   emit: SetupContext<SliderButtonEmits>['emit']
@@ -81,6 +61,7 @@ export const useSliderButton: useSliderButtonType = (
     max,
     step,
     showTooltip,
+    persistent,
     precision,
     sliderSize,
     formatTooltip,
@@ -312,6 +293,7 @@ export const useSliderButton: useSliderButtonType = (
     tooltip,
     tooltipVisible,
     showTooltip,
+    persistent,
     wrapperStyle,
     formatValue,
     handleMouseEnter,

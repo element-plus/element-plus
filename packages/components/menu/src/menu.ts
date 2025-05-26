@@ -25,6 +25,7 @@ import {
   isArray,
   isObject,
   isString,
+  isUndefined,
   mutable,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -161,6 +162,13 @@ export const menuProps = buildProps({
     type: Number,
     default: 300,
   },
+  /**
+   * @description when menu inactive and `persistent` is `false` , dropdown menu will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
@@ -183,7 +191,7 @@ export const menuEmits = {
     isString(index) &&
     checkIndexPath(indexPath) &&
     isObject(item) &&
-    (routerResult === undefined || routerResult instanceof Promise),
+    (isUndefined(routerResult) || routerResult instanceof Promise),
 }
 export type MenuEmits = typeof menuEmits
 
@@ -451,6 +459,7 @@ export default defineComponent({
       expose({
         open,
         close,
+        updateActiveIndex,
         handleResize,
       })
     }

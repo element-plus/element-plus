@@ -183,7 +183,7 @@ select/custom-label
 
 ## Select API
 
-### Attributes
+### Select Attributes
 
 | Name                            | Description                                                                                                           | Type                                                                                                                                                                        | Default                                        |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
@@ -214,7 +214,7 @@ select/custom-label
 | reserve-keyword                 | when `multiple` and `filterable` is true, whether to reserve current keyword after selecting an option                | ^[boolean]                                                                                                                                                                  | true                                           |
 | default-first-option            | select first matching option on enter key. Use with `filterable` or `remote`                                          | ^[boolean]                                                                                                                                                                  | false                                          |
 | teleported                      | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                      | ^[boolean]                                                                                                                                                                  | true                                           |
-| append-to ^(2.8.4)              | which element the select dropdown appends to                                                                          | ^[string]                                                                                                                                                                   | —                                              |
+| append-to ^(2.8.4)              | which element the select dropdown appends to                                                                          | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                                              |
 | persistent                      | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | automatic-dropdown              | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                     | ^[boolean]                                                                                                                                                                  | false                                          |
 | clear-icon                      | custom clear icon component                                                                                           | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose                                    |
@@ -241,7 +241,7 @@ select/custom-label
 
 :::
 
-### Events
+### Select Events
 
 | Name                  | Description                                                   | Type                                                                |
 | --------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------- |
@@ -253,7 +253,7 @@ select/custom-label
 | focus                 | triggers when Input focuses                                   | ^[Function]`(event: FocusEvent) => void`                            |
 | popup-scroll ^(2.9.4) | triggers when dropdown scrolls                                | ^[Function]`(data:{scrollTop: number, scrollLeft: number}) => void` |
 
-### Slots
+### Select Slots
 
 | Name             | Description                           | Subtags               |
 | ---------------- | ------------------------------------- | --------------------- |
@@ -266,7 +266,7 @@ select/custom-label
 | loading ^(2.5.2) | content as Select loading             | —                     |
 | label ^(2.7.4)   | content as Select label               | —                     |
 
-### Exposes
+### Select Exposes
 
 | Name                   | Description                                     | Type                                       |
 | ---------------------- | ----------------------------------------------- | ------------------------------------------ |
@@ -276,14 +276,14 @@ select/custom-label
 
 ## Option Group API
 
-### Attributes
+### Option Group Attributes
 
 | Name     | Description                                  | Type       | Default |
 | -------- | -------------------------------------------- | ---------- | ------- |
 | label    | name of the group                            | ^[string]  | —       |
 | disabled | whether to disable all options in this group | ^[boolean] | false   |
 
-### Slots
+### Option Group Slots
 
 | Name    | Description               | Subtags |
 | ------- | ------------------------- | ------- |
@@ -291,7 +291,7 @@ select/custom-label
 
 ## Option API
 
-### Attributes
+### Option Attributes
 
 | Name     | Description                                 | Type                                           | Default |
 | -------- | ------------------------------------------- | ---------------------------------------------- | ------- |
@@ -299,7 +299,7 @@ select/custom-label
 | label    | label of option, same as `value` if omitted | ^[string] / ^[number]                          | —       |
 | disabled | whether option is disabled                  | ^[boolean]                                     | false   |
 
-### Slots
+### Option Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |

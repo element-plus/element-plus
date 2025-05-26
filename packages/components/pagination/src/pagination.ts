@@ -23,6 +23,7 @@ import {
   useNamespace,
   useSizeProp,
 } from '@element-plus/hooks'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { elPaginationKey } from './constants'
 
 import Prev from './components/prev.vue'
@@ -318,7 +319,7 @@ export default defineComponent({
     watch(
       [currentPageBridge, pageSizeBridge],
       (value) => {
-        emit('change', ...value)
+        emit(CHANGE_EVENT, ...value)
       },
       { flush: 'post' }
     )

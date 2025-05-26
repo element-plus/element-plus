@@ -49,7 +49,7 @@ descriptions/customized-style
 
 ## Descriptions API
 
-### Attributes
+### Descriptions Attributes
 
 | Name                 | Description                                | Type                                           | Default    |
 | -------------------- | ------------------------------------------ | ---------------------------------------------- | ---------- |
@@ -61,7 +61,7 @@ descriptions/customized-style
 | extra                | extra text, display on the top right       | ^[string]                                      | ''         |
 | label-width ^(2.8.8) | label width of every column                | ^[string] / ^[number]                          | ''         |
 
-### Slots
+### Descriptions Slots
 
 | Name    | Description                                 | Subtags           |
 | ------- | ------------------------------------------- | ----------------- |
@@ -71,7 +71,7 @@ descriptions/customized-style
 
 ## DescriptionsItem API
 
-### Attributes
+### DescriptionsItem Attributes
 
 | Name                 | Description                                                                                                                                                                                  | Type                                   | Default |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ------- |
@@ -82,11 +82,11 @@ descriptions/customized-style
 | min-width            | column minimum width, columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion (If no`border`, width contains label and content) | ^[string] / ^[number]                  | ''      |
 | label-width ^(2.8.8) | column label width, if not set, it will be the same as the width of the column. Higher priority than the `label-width` of `Descriptions`                                                     | ^[string] / ^[number]                  | ''      |
 | align                | column content alignment (If no `border`, effective for both label and content)                                                                                                              | ^[enum]`'left' \| 'center' \| 'right'` | left    |
-| label-align          | column label alignment, if omitted, the value of the above `align` attribute will be applied (If no `border`, please use `align` attribute)                                                  | ^[enum]`'left' \| 'center' \| 'right'` | ''      |
+| label-align          | column label alignment, if omitted, the value of the above `align` attribute will be applied (If no `border`, please use `align` attribute)                                                  | ^[enum]`'left' \| 'center' \| 'right'` | —       |
 | class-name           | column content custom class name                                                                                                                                                             | ^[string]                              | ''      |
 | label-class-name     | column label custom class name                                                                                                                                                               | ^[string]                              | ''      |
 
-### Slots
+### DescriptionsItem Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |

@@ -75,7 +75,7 @@
           t('el.colorpicker.description', { color: modelValue || '' })
         "
         :aria-disabled="colorDisabled"
-        :tabindex="colorDisabled ? -1 : tabindex"
+        :tabindex="colorDisabled ? undefined : tabindex"
         @keydown="handleKeyDown"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -135,7 +135,11 @@ import {
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
 import AlphaSlider from './components/alpha-slider.vue'
@@ -263,6 +267,9 @@ function resetColor() {
       color.fromString(props.modelValue)
     } else {
       color.value = ''
+      if (!currentColor.value && customInput.value) {
+        customInput.value = ''
+      }
       nextTick(() => {
         showPanelColor.value = false
       })
@@ -280,12 +287,15 @@ function handleTrigger() {
 
 function handleConfirm() {
   color.fromString(customInput.value)
+  if (color.value !== customInput.value) {
+    customInput.value = color.value
+  }
 }
 
 function confirmValue() {
   const value = color.value
   emit(UPDATE_MODEL_EVENT, value)
-  emit('change', value)
+  emit(CHANGE_EVENT, value)
   if (props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
@@ -306,7 +316,7 @@ function confirmValue() {
 function clear() {
   debounceSetShowPicker(false)
   emit(UPDATE_MODEL_EVENT, null)
-  emit('change', null)
+  emit(CHANGE_EVENT, null)
   if (props.modelValue !== null && props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }

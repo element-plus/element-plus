@@ -50,6 +50,13 @@ export const inputTagProps = buildProps({
     default: false,
   },
   /**
+   * @description add a tag when a delimiter is matched
+   */
+  delimiter: {
+    type: [String, RegExp],
+    default: '',
+  },
+  /**
    * @description input box size
    */
   size: useSizeProp,
@@ -115,6 +122,13 @@ export const inputTagProps = buildProps({
   autocomplete: {
     type: String,
     default: 'off',
+  },
+  /**
+   * @description whether to save the input value when the input loses focus
+   */
+  saveOnBlur: {
+    type: Boolean,
+    default: true,
   },
   /**
    * @description native `aria-label` attribute

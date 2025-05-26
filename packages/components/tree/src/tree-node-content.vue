@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, h, inject, renderSlot } from 'vue'
+import ElText from '@element-plus/components/text'
 
 import { useNamespace } from '@element-plus/hooks'
 import type { ComponentInternalInstance } from 'vue'
@@ -24,7 +25,11 @@ export default defineComponent({
       return props.renderContent
         ? props.renderContent(h, { _self: nodeInstance, node, data, store })
         : renderSlot(tree.ctx.slots, 'default', { node, data }, () => [
-            h('span', { class: ns.be('node', 'label') }, [node.label]),
+            h(
+              ElText,
+              { tag: 'span', truncated: true, class: ns.be('node', 'label') },
+              () => [node.label]
+            ),
           ])
     }
   },

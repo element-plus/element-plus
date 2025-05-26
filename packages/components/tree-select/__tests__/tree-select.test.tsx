@@ -246,8 +246,9 @@ describe('TreeSelect.vue', () => {
     expect(tree.findAll('.el-tree-node:not(.is-hidden)').length).toBe(1)
     expect(document.querySelector('.el-select-dropdown__empty')).toBeFalsy()
     tree.vm.filter('no match')
-    await nextTick()
-    expect(document.querySelector('.el-select-dropdown__empty')).toBeTruthy()
+    await vi.waitFor(() => {
+      expect(document.querySelector('.el-select-dropdown__empty')).toBeTruthy()
+    })
   })
 
   test('props', async () => {
@@ -799,6 +800,45 @@ describe('TreeSelect.vue', () => {
     await nextTick()
 
     expect(select.vm.modelValue).toEqual([5, 6, 4, 2])
+  })
+
+  test('check by click on leaf node', async () => {
+    const { tree, select } = createComponent({
+      props: {
+        showCheckbox: true,
+      },
+    })
+
+    const treeVm = tree.vm
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    await tree.findAll('.el-tree-node__content')[0].trigger('click')
+    await tree.findAll('.el-tree-node__content')[1].trigger('click')
+    await tree.findAll('.el-tree-node__content')[2].trigger('click')
+
+    expect(select.vm.modelValue).toEqual(111)
+    expect(treeVm.getCheckedNodes().length).toEqual(3)
+    expect(treeVm.getCheckedNodes(true).length).toEqual(1)
+  })
+
+  test('show-checkbox :check-on-click-leaf="false"', async () => {
+    const { tree, select } = createComponent({
+      props: {
+        showCheckbox: true,
+        checkOnClickLeaf: false,
+      },
+    })
+
+    const treeVm = tree.vm
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    await tree.findAll('.el-tree-node__content')[0].trigger('click')
+    await tree.findAll('.el-tree-node__content')[1].trigger('click')
+    await tree.findAll('.el-tree-node__content')[2].trigger('click')
+
+    expect(select.vm.modelValue).toBeUndefined()
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+    expect(treeVm.getCheckedNodes(true).length).toEqual(0)
   })
 
   test('no checkbox and check on click node', async () => {

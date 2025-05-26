@@ -73,32 +73,34 @@ tour/target
 tour-step component configuration with the same name has higher priority
 :::
 
-### Attributes
+### Tour Attributes
 
-| Property                  | Description                                                                      | Type                                                                                                                                                                        | Default                        |
-| ------------------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| show-arrow                | whether to show the arrow                                                        | `boolean`                                                                                                                                                                   | true                           |
-| placement                 | position of the guide card relative to the target element                        | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | `bottom`                       |
-| content-style             | custom style for content                                                         | `CSSProperties`                                                                                                                                                             | —                              |
-| mask                      | whether to enable masking, change mask style and fill color by pass custom props | `boolean` \| ^[Object]`{ style?: CSSProperties; color?: string; }`                                                                                                          | `true`                         |
-| type                      | type, affects the background color and text color                                | `default` \| `primary`                                                                                                                                                      | `default`                      |
-| model-value / v-model     | open tour                                                                        | `boolean`                                                                                                                                                                   | —                              |
-| current / v-model:current | what is the current step                                                         | `number`                                                                                                                                                                    | —                              |
-| scroll-into-view-options  | support pass custom scrollIntoView options                                       | `boolean` \| `ScrollIntoViewOptions`                                                                                                                                        | ^[Object]`{ block: 'center' }` |
-| z-index                   | Tour's zIndex                                                                    | `number`                                                                                                                                                                    | `2001`                         |
-| show-close                | whether to show a close button                                                   | `boolean`                                                                                                                                                                   | `true`                         |
-| close-icon                | custom close icon, default is Close                                              | `string` \| `Component`                                                                                                                                                     | —                              |
-| close-on-press-escape     | whether the Dialog can be closed by pressing ESC                                 | `boolean`                                                                                                                                                                   | `true`                         |
-| target-area-clickable     | whether the target element can be clickable, when using mask                     | `boolean`                                                                                                                                                                   | `true`                         |
+| Property                  | Description                                                                      | Type                                                                                                                                                                        | Default                            |
+| ------------------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| append-to                 | which element the TourContent appends to                                         | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | `body`                             |
+| show-arrow                | whether to show the arrow                                                        | `boolean`                                                                                                                                                                   | true                               |
+| placement                 | position of the guide card relative to the target element                        | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | `bottom`                           |
+| content-style             | custom style for content                                                         | `CSSProperties`                                                                                                                                                             | —                                  |
+| mask                      | whether to enable masking, change mask style and fill color by pass custom props | `boolean` \| ^[Object]`{ style?: CSSProperties; color?: string; }`                                                                                                          | `true`                             |
+| gap                       | transparent gap between mask and target                                          | `TourGap`                                                                                                                                                                   | ^[Object]`{ offset: 6, radius: 2}` |
+| type                      | type, affects the background color and text color                                | `default` \| `primary`                                                                                                                                                      | `default`                          |
+| model-value / v-model     | open tour                                                                        | `boolean`                                                                                                                                                                   | —                                  |
+| current / v-model:current | what is the current step                                                         | `number`                                                                                                                                                                    | —                                  |
+| scroll-into-view-options  | support pass custom scrollIntoView options                                       | `boolean` \| `ScrollIntoViewOptions`                                                                                                                                        | ^[Object]`{ block: 'center' }`     |
+| z-index                   | Tour's zIndex                                                                    | `number`                                                                                                                                                                    | `2001`                             |
+| show-close                | whether to show a close button                                                   | `boolean`                                                                                                                                                                   | `true`                             |
+| close-icon                | custom close icon, default is Close                                              | `string` \| `Component`                                                                                                                                                     | —                                  |
+| close-on-press-escape     | whether the Dialog can be closed by pressing ESC                                 | `boolean`                                                                                                                                                                   | `true`                             |
+| target-area-clickable     | whether the target element can be clickable, when using mask                     | `boolean`                                                                                                                                                                   | `true`                             |
 
-### slots
+### Tour slots
 
 | Name       | Description                                                   |
 | ---------- | ------------------------------------------------------------- |
 | default    | tourStep component list                                       |
 | indicators | custom indicator, The scope parameter is `{ current, total }` |
 
-### events
+### Tour events
 
 | Name   | Description                    | Type                                   |
 | ------ | ------------------------------ | -------------------------------------- |
@@ -106,9 +108,7 @@ tour-step component configuration with the same name has higher priority
 | finish | callback function on finished  | ^[Function]`() => void`                |
 | change | callback when the step changes | ^[Function]`(current: number) => void` |
 
-## TourStep API
-
-### Attributes
+### TourStep Attributes
 
 | Property                 | Description                                                                                                                                                                                            | Type                                                                                                                                                                        | Default   |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
@@ -126,14 +126,14 @@ tour-step component configuration with the same name has higher priority
 | show-close               | whether to show a close button                                                                                                                                                                         | `boolean`                                                                                                                                                                   | `true`    |
 | close-icon               | custom close icon, default is Close                                                                                                                                                                    | `string` \| `Component`                                                                                                                                                     | —         |
 
-### slots
+### TourStep slots
 
 | Name    | Description |
 | ------- | ----------- |
 | default | description |
 | header  | header      |
 
-### events
+### TourStep events
 
 | Name  | Description                   | Arguments               |
 | ----- | ----------------------------- | ----------------------- |

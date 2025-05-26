@@ -18,7 +18,7 @@
       :effect="rootMenu.props.popperEffect"
       placement="right"
       :fallback-placements="['left']"
-      persistent
+      :persistent="rootMenu.props.persistent"
     >
       <template #content>
         <slot name="title" />
