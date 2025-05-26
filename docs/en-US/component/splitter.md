@@ -61,9 +61,9 @@ splitter/size
 
 ### Splitter Attributes
 
-| Attribute | Description                      | Type                                  | Default      |
-| --------- | -------------------------------- | ------------------------------------- | ------------ |
-| layout    | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical' \` | 'horizontal' |
+| Attribute | Description                      | Type                                | Default      |
+| --------- | -------------------------------- | ----------------------------------- | ------------ |
+| layout    | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | 'horizontal' |
 
 ### Splitter Events
 
@@ -77,13 +77,13 @@ splitter/size
 
 ### SplitterPanel Attributes
 
-| Attribute           | Description                                         | Type             | Default |
-| ------------------- | --------------------------------------------------- | ---------------- | ------- |
-| size / v-model:size | Size of the panel (in pixels or percentage)         | string \| number | -       |
-| min                 | Minimum size of the panel (in pixels or percentage) | string \| number | -       |
-| max                 | Maximum size of the panel (in pixels or percentage) | string \| number | -       |
-| resizable           | Whether the panel can be resized                    | boolean          | true    |
-| collapsible         | Whether the panel can be collapsed                  | boolean          | false   |
+| Attribute           | Description                                         | Type                  | Default |
+| ------------------- | --------------------------------------------------- | --------------------- | ------- |
+| size / v-model:size | Size of the panel (in pixels or percentage)         | ^[string] / ^[number] | -       |
+| min                 | Minimum size of the panel (in pixels or percentage) | ^[string] / ^[number] | -       |
+| max                 | Maximum size of the panel (in pixels or percentage) | ^[string] / ^[number] | -       |
+| resizable           | Whether the panel can be resized                    | ^[boolean]            | true    |
+| collapsible         | Whether the panel can be collapsed                  | ^[boolean]            | false   |
 
 ### SplitterPanel Events
 
