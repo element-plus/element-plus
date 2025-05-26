@@ -141,7 +141,7 @@ const EndIcon = computed(() => (isHorizontal.value ? ArrowRight : ArrowDown))
       :class="[ns.e('collapse-icon'), ns.e(`${layout}-collapse-icon-start`)]"
       @click="emit('collapse', index, 'start')"
     >
-      <slot name="startCollapsible">
+      <slot name="start-collapsible">
         <component :is="StartIcon" style="width: 12px; height: 12px" />
       </slot>
     </div>
@@ -161,7 +161,7 @@ const EndIcon = computed(() => (isHorizontal.value ? ArrowRight : ArrowDown))
       :class="[ns.e('collapse-icon'), ns.e(`${layout}-collapse-icon-end`)]"
       @click="emit('collapse', index, 'end')"
     >
-      <slot name="endCollapsible">
+      <slot name="end-collapsible">
         <component :is="EndIcon" style="width: 12px; height: 12px" />
       </slot>
     </div>
