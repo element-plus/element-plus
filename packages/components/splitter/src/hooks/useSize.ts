@@ -1,4 +1,5 @@
 import { computed, ref, watch } from 'vue'
+import { isString } from '@element-plus/utils'
 import type { ComputedRef, Ref } from 'vue'
 import type { PanelItem } from '../type'
 
@@ -13,13 +14,13 @@ export function getPx(str: string) {
 export function isPct(
   itemSize: string | number | undefined
 ): itemSize is string {
-  return typeof itemSize === 'string' && itemSize.endsWith('%')
+  return isString(itemSize) && itemSize.endsWith('%')
 }
 
 export function isPx(
   itemSize: string | number | undefined
 ): itemSize is string {
-  return typeof itemSize === 'string' && itemSize.endsWith('px')
+  return isString(itemSize) && itemSize.endsWith('px')
 }
 
 export function useSize(

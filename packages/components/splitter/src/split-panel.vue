@@ -24,7 +24,9 @@ defineOptions({
 
 const props = defineProps(splitterPanelProps)
 
-const emits = defineEmits(['update:size'])
+const emits = defineEmits<{
+  (e: 'update:size', value: number): void
+}>()
 
 const addPanel = inject(addPanelKey)!
 const removePanel = inject(removePanelKey)!

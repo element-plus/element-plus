@@ -11,7 +11,11 @@ defineOptions({
   name: 'ElSplitter',
 })
 
-const emits = defineEmits(['resizeStart', 'resize', 'resizeEnd'])
+const emits = defineEmits<{
+  (e: 'resizeStart', index: number, sizes: number[]): void
+  (e: 'resize', index: number, sizes: number[]): void
+  (e: 'resizeEnd', index: number, sizes: number[]): void
+}>()
 
 const props = defineProps(splitterProps)
 

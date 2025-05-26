@@ -1,5 +1,6 @@
 import { type Ref, computed, provide, ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { isObject } from '@element-plus/utils'
 import { addPanelKey, removePanelKey } from '../const'
 import type { PanelItem } from '../type'
 
@@ -8,7 +9,7 @@ const ns = useNamespace('splitter-panel')
 export function getCollapsible(
   collapsible: boolean | { start?: boolean; end?: boolean }
 ) {
-  if (collapsible && typeof collapsible === 'object') {
+  if (collapsible && isObject(collapsible)) {
     return collapsible
   }
   return {

@@ -27,4 +27,4 @@ export const splitterPanelProps = buildProps({
 } as const)
 
 export type SplitterPanelProps = ExtractPropTypes<typeof splitterPanelProps>
-export type SplitterPanelInstance = InstanceType<typeof SplitterPanel>
+export type SplitterPanelInstance = InstanceType<typeof SplitterPanel> & unknown

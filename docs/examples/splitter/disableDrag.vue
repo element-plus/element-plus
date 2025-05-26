@@ -1,4 +1,11 @@
 <template>
+  <el-switch
+    v-model="resizable"
+    active-text="enable"
+    inactive-text="disable"
+    inline-prompt
+    class="mb-2"
+  />
   <div
     style="height: 250px; box-shadow: var(--el-border-color-light) 0px 0px 10px"
   >
@@ -16,13 +23,6 @@
       </el-splitter-panel>
     </el-splitter>
   </div>
-  <el-switch
-    v-model="resizable"
-    active-text="enable"
-    inactive-text="disable"
-    inline-prompt
-    style="margin-top: 16px"
-  />
 </template>
 
 <script setup lang="ts">

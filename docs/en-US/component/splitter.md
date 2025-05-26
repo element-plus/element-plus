@@ -61,9 +61,9 @@ splitter/size
 
 ### Splitter Attributes
 
-| Name   | Description                      | Type                                | Default      |
-| ------ | -------------------------------- | ----------------------------------- | ------------ |
-| layout | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | 'horizontal' |
+| Name   | Description                      | Type                                | Default    |
+| ------ | -------------------------------- | ----------------------------------- | ---------- |
+| layout | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
 
 ### Splitter Events
 

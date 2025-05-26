@@ -12,4 +12,4 @@ export const splitterProps = buildProps({
 } as const)
 
 export type SplitterProps = ExtractPropTypes<typeof splitterProps>
-export type SplitterInstance = InstanceType<typeof Splitter>
+export type SplitterInstance = InstanceType<typeof Splitter> & unknown
