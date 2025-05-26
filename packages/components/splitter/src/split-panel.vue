@@ -121,7 +121,7 @@ watch(
   () => panel.value?.size,
   (val) => {
     if (!isSizeUpdating && val !== props.size) {
-      emits('update:size', val)
+      emits('update:size', val as number)
     }
   }
 )

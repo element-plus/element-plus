@@ -67,11 +67,11 @@ splitter/size
 
 ### Splitter Events
 
-| Name        | Description                                                              | type                                                  |
-| ----------- | ------------------------------------------------------------------------ | ----------------------------------------------------- |
-| resizeStart | Triggered when starting to resize a panel, `index` is the drag bar index | ^[Function]`(index: number, sizes: number[]) => void` |
-| resize      | Triggered while resizing a panel, `index` is the drag bar index          | ^[Function]`(index: number, sizes: number[]) => void` |
-| resizeEnd   | Triggered when panel resizing ends, `index` is the drag bar index        | ^[Function]`(index: number, sizes: number[]) => void` |
+| Name         | Description                                                              | type                                                  |
+| ------------ | ------------------------------------------------------------------------ | ----------------------------------------------------- |
+| resize-start | Triggered when starting to resize a panel, `index` is the drag bar index | ^[Function]`(index: number, sizes: number[]) => void` |
+| resize       | Triggered while resizing a panel, `index` is the drag bar index          | ^[Function]`(index: number, sizes: number[]) => void` |
+| resize-end   | Triggered when panel resizing ends, `index` is the drag bar index        | ^[Function]`(index: number, sizes: number[]) => void` |
 
 ## SplitterPanel API
 
