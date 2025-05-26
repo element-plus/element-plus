@@ -47,16 +47,12 @@ let originalOnSelectStart:
   | null = isClient ? document.onselectstart : null
 
 const bar = computed(() => BAR_MAP[props.vertical ? 'vertical' : 'horizontal'])
-const reverseScroll = computed(() =>
-  scrollbar.direction.includes(bar.value.direction)
-)
 
 const thumbStyle = computed(() =>
   renderThumbStyle({
     size: props.size,
     move: props.move,
     bar: bar.value,
-    reverse: reverseScroll.value,
   })
 )
 
@@ -98,17 +94,11 @@ const clickTrackHandler = (e: MouseEvent) => {
     ((offset - thumbHalf) * 100 * offsetRatio.value) /
     instance.value[bar.value.offset]
 
-  let scrollOffset =
+  scrollbar.wrapElement[bar.value.scroll] =
     (thumbPositionPercentage * scrollbar.wrapElement[bar.value.scrollSize]) /
     100
-  if (reverseScroll.value) {
-    const scrollSize =
-      scrollbar.wrapElement[bar.value.scrollSize] -
-      scrollbar.wrapElement[bar.value.offset]
-    scrollOffset = -(scrollSize - scrollOffset)
-  }
-  scrollbar.wrapElement[bar.value.scroll] = scrollOffset
 }
+
 const startDrag = (e: MouseEvent) => {
   e.stopImmediatePropagation()
   cursorDown = true
@@ -133,16 +123,9 @@ const mouseMoveDocumentHandler = (e: MouseEvent) => {
   const thumbPositionPercentage =
     ((offset - thumbClickPosition) * 100 * offsetRatio.value) /
     instance.value[bar.value.offset]
-  let scrollOffset =
+  scrollbar.wrapElement[bar.value.scroll] =
     (thumbPositionPercentage * scrollbar.wrapElement[bar.value.scrollSize]) /
     100
-  if (reverseScroll.value) {
-    const scrollSize =
-      scrollbar.wrapElement[bar.value.scrollSize] -
-      scrollbar.wrapElement[bar.value.offset]
-    scrollOffset = -(scrollSize - scrollOffset)
-  }
-  scrollbar.wrapElement[bar.value.scroll] = scrollOffset
 }
 
 const mouseUpDocumentHandler = () => {

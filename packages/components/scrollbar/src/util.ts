@@ -30,13 +30,9 @@ export const renderThumbStyle = ({
   move,
   size,
   bar,
-  reverse,
 }: Pick<ThumbProps, 'move' | 'size'> & {
   bar: typeof BAR_MAP[keyof typeof BAR_MAP]
-  reverse: boolean
 }): CSSProperties => ({
   [bar.size]: size,
-  transform: `${reverse ? `scale${bar.axis}(-1) ` : ''}translate${
-    bar.axis
-  }(${move}%)`,
+  transform: `translate${bar.axis}(${move}%)`,
 })

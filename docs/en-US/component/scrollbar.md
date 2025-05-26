@@ -39,9 +39,9 @@ scrollbar/manual-scroll
 
 :::
 
-## Infinite scroll ^(2.9.12)
+## Infinite scroll ^(2.9.11)
 
-:::demo When the end of the scroll is reached `bottom-reached` is called. It can be used for infinite scroll.
+:::demo When the end of the scroll is reached `endReached` is called. It can be used for infinite scroll.
 
 scrollbar/infinite-scroll
 
@@ -51,26 +51,25 @@ scrollbar/infinite-scroll
 
 ### Attributes
 
-| Name                              | Description                                                                                                                     | Type                                                                | Default |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ------- |
-| height                            | height of scrollbar                                                                                                             | ^[string] / ^[number]                                               | —       |
-| max-height                        | max height of scrollbar                                                                                                         | ^[string] / ^[number]                                               | —       |
-| native                            | whether to use the native scrollbar style                                                                                       | ^[boolean]                                                          | false   |
-| wrap-style                        | style of wrap container                                                                                                         | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
-| wrap-class                        | class of wrap container                                                                                                         | ^[string]                                                           | —       |
-| view-style                        | style of view                                                                                                                   | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
-| view-class                        | class of view                                                                                                                   | ^[string]                                                           | —       |
-| noresize                          | do not respond to container size changes, if the container size does not change, it is better to set it to optimize performance | ^[boolean]                                                          | false   |
-| tag                               | element tag of the view                                                                                                         | ^[string]                                                           | div     |
-| always                            | always show scrollbar                                                                                                           | ^[boolean]                                                          | false   |
-| min-size                          | minimum size of scrollbar                                                                                                       | ^[number]                                                           | 20      |
-| id ^(2.4.0)                       | id of view                                                                                                                      | ^[string]                                                           | —       |
-| role ^(2.4.0) ^(a11y)             | role of view                                                                                                                    | ^[string]                                                           | —       |
-| aria-label ^(2.4.0) ^(a11y)       | aria-label of view                                                                                                              | ^[string]                                                           | —       |
-| aria-orientation ^(2.4.0) ^(a11y) | aria-orientation of view                                                                                                        | ^[enum]`'horizontal' \| 'vertical'`                                 | —       |
-| tabindex ^(2.8.3)                 | tabindex of wrap container                                                                                                      | ^[number] / ^[string]                                               | —       |
-| bottom-reached ^(2.9.12)          | invoked when the end of the scroll is reached. Useful for infinite scroll.                                                      | (options: [ScrollOptions](#typings)) => Awaitable<void\>            | —       |
-| direction ^(2.9.12)               | direction to use the infinite scroll scroll.                                                                                    | ^[enum]`'top'\| 'bottom' \| 'left'\| 'right'`                       | bottom  |
+| Name                              | Description                                                                                                                     | Type                                                                 | Default |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------- |
+| height                            | height of scrollbar                                                                                                             | ^[string] / ^[number]                                                | —       |
+| max-height                        | max height of scrollbar                                                                                                         | ^[string] / ^[number]                                                | —       |
+| native                            | whether to use the native scrollbar style                                                                                       | ^[boolean]                                                           | false   |
+| wrap-style                        | style of wrap container                                                                                                         | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]`  | —       |
+| wrap-class                        | class of wrap container                                                                                                         | ^[string]                                                            | —       |
+| view-style                        | style of view                                                                                                                   | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]`  | —       |
+| view-class                        | class of view                                                                                                                   | ^[string]                                                            | —       |
+| noresize                          | do not respond to container size changes, if the container size does not change, it is better to set it to optimize performance | ^[boolean]                                                           | false   |
+| tag                               | element tag of the view                                                                                                         | ^[string]                                                            | div     |
+| always                            | always show scrollbar                                                                                                           | ^[boolean]                                                           | false   |
+| min-size                          | minimum size of scrollbar                                                                                                       | ^[number]                                                            | 20      |
+| id ^(2.4.0)                       | id of view                                                                                                                      | ^[string]                                                            | —       |
+| role ^(2.4.0) ^(a11y)             | role of view                                                                                                                    | ^[string]                                                            | —       |
+| aria-label ^(2.4.0) ^(a11y)       | aria-label of view                                                                                                              | ^[string]                                                            | —       |
+| aria-orientation ^(2.4.0) ^(a11y) | aria-orientation of view                                                                                                        | ^[enum]`'horizontal' \| 'vertical'`                                  | —       |
+| tabindex ^(2.8.3)                 | tabindex of wrap container                                                                                                      | ^[number] / ^[string]                                                | —       |
+| end-reached ^(2.9.11)             | Invoked when the end of the scroll is reached. Useful for infinite scroll.                                                      | (options: [InfiniteLoadScrollOptions](#typings)) => Awaitable<void\> | —       |
 
 ### Events
 
@@ -105,7 +104,8 @@ import { useScroll } from '@vueuse/core'
 import type { UnwrapNestedRefs } from 'vue'
 
 type Awaitable<T> = Promise<T> | T
-type ScrollOptions = UnwrapNestedRefs<ReturnType<typeof useScroll>>
+
+type InfiniteLoadScrollOptions = UnwrapNestedRefs<ReturnType<typeof useScroll>>
 ```
 
 </details>
