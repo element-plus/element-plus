@@ -47,20 +47,6 @@ scrollbar/infinite-scroll
 
 :::
 
-## Direction ^(2.9.12)
-
-:::demo You can choose in which direction to use infinite scroll.
-
-scrollbar/direction
-
-:::
-
-:::warning
-
-The direction property is an option from [vueuse](https://vueuse.org/core/useInfiniteScroll/#direction) and it apply the required css.
-
-:::
-
 ## API
 
 ### Attributes

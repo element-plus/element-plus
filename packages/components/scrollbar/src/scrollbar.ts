@@ -106,7 +106,6 @@ export const scrollbarProps = buildProps({
   },
   /**
    * @description direction to use the infinite scroll
-   * @link https://vueuse.org/core/useInfiniteScroll/#direction
    */
   direction: {
     type: String,
