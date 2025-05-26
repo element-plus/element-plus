@@ -127,10 +127,15 @@ In this section, you can learn how to use Config Provider to provide experimenta
 
 ### Icons Attribute
 
-| Attribute | Description                                               | Type                     | Default |
-| --------- | --------------------------------------------------------- | ------------------------ | ------- |
-| close     | Custom close icon component for dialog, message, etc.     | ^[string] / ^[Component] | —       |
-| dropdown  | Custom dropdown icon component for select, dropdown, etc. | ^[string] / ^[Component] | —       |
+| Attribute          | Description                                               | Type                     | Default           |
+| ------------------ | --------------------------------------------------------- | ------------------------ | ----------------- |
+| close ^(2.9.12)    | custom close icon component for dialog, message, etc.     | ^[string] / ^[Component] | CircleClose       |
+| dropdown ^(2.9.12) | custom dropdown icon component for select, dropdown, etc. | ^[string] / ^[Component] | ArrowDown         |
+| clear ^(2.9.12)    | custom clear icon component                               | ^[string] / ^[Component] | CircleClose       |
+| success ^(2.9.12)  | custom success icon component                             | ^[string] / ^[Component] | SuccessFilled     |
+| info ^(2.9.12)     | custom info icon component                                | ^[string] / ^[Component] | InfoFilled        |
+| warning ^(2.9.12)  | custom warning icon component                             | ^[string] / ^[Component] | WarningFilled     |
+| error ^(2.9.12)    | custom error icon component                               | ^[string] / ^[Component] | CircleCloseFilled |
 
 ### Config Provider Slots
 
