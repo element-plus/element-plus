@@ -5,11 +5,11 @@ lang: en-US
 
 # Splitter
 
-Divide the area horizontally or vertically, and freely drag to adjust the size of each area
+Divide the area horizontally or vertically, and freely drag to adjust the size of each area.
 
 ## Basic usage
 
-The most basic usage, if no default size is passed, it will be automatically divided equally
+The most basic usage, if no default size is passed, it will be automatically divided equally.
 
 :::demo
 
@@ -19,7 +19,7 @@ splitter/basic
 
 ## Vertical
 
-Use vertical orientation
+Use vertical orientation.
 
 :::demo
 
@@ -39,7 +39,7 @@ splitter/collapsible
 
 ## Disable drag
 
-When either panel disables `resizable`, dragging will be disabled
+When either panel disables `resizable`, dragging will be disabled.
 
 :::demo
 
@@ -49,7 +49,7 @@ splitter/disableDrag
 
 ## Panel size
 
-`v-model:size` can get the panel size
+`v-model:size` can get the panel size.
 
 :::demo
 
@@ -61,13 +61,13 @@ splitter/size
 
 ### Splitter Attributes
 
-| Attribute | Description                      | Type                                | Default      |
-| --------- | -------------------------------- | ----------------------------------- | ------------ |
-| layout    | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | 'horizontal' |
+| Name   | Description                      | Type                                | Default      |
+| ------ | -------------------------------- | ----------------------------------- | ------------ |
+| layout | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | 'horizontal' |
 
 ### Splitter Events
 
-| Event Name  | Description                                                              | type                                                  |
+| Name        | Description                                                              | type                                                  |
 | ----------- | ------------------------------------------------------------------------ | ----------------------------------------------------- |
 | resizeStart | Triggered when starting to resize a panel, `index` is the drag bar index | ^[Function]`(index: number, sizes: number[]) => void` |
 | resize      | Triggered while resizing a panel, `index` is the drag bar index          | ^[Function]`(index: number, sizes: number[]) => void` |
@@ -77,7 +77,7 @@ splitter/size
 
 ### SplitterPanel Attributes
 
-| Attribute           | Description                                         | Type                  | Default |
+| Name                | Description                                         | Type                  | Default |
 | ------------------- | --------------------------------------------------- | --------------------- | ------- |
 | size / v-model:size | Size of the panel (in pixels or percentage)         | ^[string] / ^[number] | -       |
 | min                 | Minimum size of the panel (in pixels or percentage) | ^[string] / ^[number] | -       |
@@ -87,7 +87,7 @@ splitter/size
 
 ### SplitterPanel Events
 
-| Event Name  | Description                       | type                                |
+| Name        | Description                       | type                                |
 | ----------- | --------------------------------- | ----------------------------------- |
 | update:size | Triggered when panel size changes | ^[Function]`(size: number) => void` |
 

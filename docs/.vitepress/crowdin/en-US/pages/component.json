@@ -53,6 +53,11 @@
         "text": "Space"
       },
       {
+        "link": "/splitter",
+        "text": "Splitter",
+        "promotion": "2.10.0"
+      },
+      {
         "link": "/typography",
         "text": "Typography"
       }
@@ -362,11 +367,6 @@
         "link": "/watermark",
         "text": "Watermark",
         "promotion": "2.4.0"
-      },
-      {
-        "link": "/splitter",
-        "text": "Splitter",
-        "promotion": "2.10.0"
       }
     ]
   }
