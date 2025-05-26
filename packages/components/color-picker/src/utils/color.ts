@@ -12,7 +12,7 @@ export default class Color {
   private _hue = 0
   private _saturation = 100
   private _value = 100
-  _alpha = 100
+  private _alpha = 100
   private _tiny = new TinyColor()
   public enableAlpha = false
   public format = ''

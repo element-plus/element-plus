@@ -6,7 +6,7 @@
         :key="colors[index]"
         :class="[
           ns.e('color-selector'),
-          ns.is('alpha', item._alpha < 100),
+          ns.is('alpha', item.get('alpha') < 100),
           { selected: item.selected },
         ]"
         @click="handleSelect(index)"
