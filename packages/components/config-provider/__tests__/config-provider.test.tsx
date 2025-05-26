@@ -13,6 +13,7 @@ import {
 import { rAF } from '@element-plus/test-utils/tick'
 import { getStyle } from '@element-plus/utils'
 import {
+  provideGlobalConfig,
   useGlobalComponentSettings,
   useGlobalConfig,
 } from '../src/hooks/use-global-config'
@@ -253,6 +254,34 @@ describe('config-provider', () => {
       const getTopValue = (elm: Element): number =>
         Number.parseFloat(getStyle(elm as HTMLElement, 'top'))
       expect(getTopValue(elements[0])).toBe(config.offset)
+    })
+
+    it('provide global config', async () => {
+      const open = () => {
+        for (let i = 0; i < 20; i++) {
+          ElMessage('this is a message.')
+        }
+      }
+      const TestComponent = defineComponent({
+        setup() {
+          provideGlobalConfig({
+            message: {
+              grouping: true,
+            },
+          })
+        },
+        render: () => (
+          <ConfigProvider>
+            <ElButton onClick={open}>open</ElButton>
+          </ConfigProvider>
+        ),
+      })
+      const wrapper = mount(() => <TestComponent />)
+
+      await rAF()
+      await wrapper.find('.el-button').trigger('click')
+      await nextTick()
+      expect(document.querySelectorAll('.el-message').length).toBe(1)
     })
 
     it('multiple config-provider config override', async () => {
