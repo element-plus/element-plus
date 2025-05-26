@@ -26,15 +26,6 @@
           />
 
           <el-time-picker v-model="value3" placeholder="Arbitrary time" />
-
-          <el-time-select
-            v-model="value4"
-            style="width: 240px"
-            start="08:30"
-            step="00:15"
-            end="18:30"
-            placeholder="Select time"
-          />
         </div>
 
         <div class="flex flex-wrap items-center space-x-4">
@@ -67,6 +58,22 @@
         </template>
       </el-dialog>
     </el-config-provider>
+
+    <el-divider />
+
+    <div class="mt-4">
+      <h3 class="mb-2">Default Icons Reference</h3>
+      <el-table :data="iconsTable" style="width: 100%">
+        <el-table-column prop="property" label="Property" />
+        <el-table-column prop="default" label="Default Icon">
+          <template #default="{ row }">
+            <el-icon :size="20">
+              <component :is="row.default" />
+            </el-icon>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
@@ -74,10 +81,15 @@
 import { reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
+  ArrowDown,
   ArrowDownBold,
   Bell,
   CircleClose,
+  CircleCloseFilled,
   Close,
+  InfoFilled,
+  SuccessFilled,
+  WarningFilled,
 } from '@element-plus/icons-vue'
 
 const icons = reactive({
@@ -86,6 +98,38 @@ const icons = reactive({
   clear: Close,
   info: Bell,
 })
+
+const iconsTable = [
+  {
+    property: 'close',
+    default: Close,
+  },
+  {
+    property: 'dropdown',
+    default: ArrowDown,
+  },
+  {
+    property: 'clear',
+    default: CircleClose,
+  },
+  {
+    property: 'success',
+    default: SuccessFilled,
+  },
+  {
+    property: 'info',
+    default: InfoFilled,
+  },
+  {
+    property: 'warning',
+    default: WarningFilled,
+  },
+  {
+    property: 'error',
+    default: CircleCloseFilled,
+  },
+]
+
 const options = [
   {
     value: '1',
@@ -99,7 +143,6 @@ const options = [
 const value = ref('1')
 const value2 = ref('1')
 const value3 = ref()
-const value4 = ref()
 const dialogVisible = ref(false)
 
 const handleClose = (done: () => void) => {
