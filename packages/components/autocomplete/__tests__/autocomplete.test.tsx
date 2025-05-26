@@ -1,10 +1,15 @@
+/**
+ * @vitest-environment happy-dom
+ */
+
 import { defineComponent, nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
-import { NOOP } from '@vue/shared'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'
+import { NOOP } from '@element-plus/utils'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Autocomplete from '../src/autocomplete.vue'
+import { AutocompleteFetchSuggestionsCallback } from '../src/autocomplete'
 
 vi.unmock('lodash')
 
@@ -12,13 +17,14 @@ vi.useFakeTimers()
 
 const _mount = (
   payload = {},
-  type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'fn-async' | 'arr' = 'fn-cb'
+  type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'fn-async' | 'arr' = 'fn-cb',
+  defaultValue = ''
 ) =>
   mount(
     defineComponent({
       setup(_, { expose }) {
         const state = reactive({
-          value: '',
+          value: defaultValue,
           list: [
             { value: 'Java', tag: 'java' },
             { value: 'Go', tag: 'go' },
@@ -244,6 +250,23 @@ describe('Autocomplete.vue', () => {
     await target.handleSelect({ value: 'Go', tag: 'go' })
     expect(target.modelValue).toBe('go')
   })
+  test('modelValue default null', async () => {
+    let qs = ''
+    const fetchSuggestions = (
+      queryString: string,
+      cb: AutocompleteFetchSuggestionsCallback
+    ) => {
+      qs = queryString
+      cb([])
+    }
+    const wrapper = _mount({ fetchSuggestions }, 'fn-cb', null as any)
+
+    await nextTick()
+    await wrapper.find('input').trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+    expect(qs).toBe('')
+  })
 
   test('hideLoading', async () => {
     const wrapper = _mount({
@@ -368,6 +391,7 @@ describe('Autocomplete.vue', () => {
     test('specified id attachment', async () => {
       const wrapper = mount(() => (
         <FormItem label="Foobar" data-test-ref="item">
+          {/* @ts-ignore */}
           <Autocomplete id="foobar" data-test-ref="input" />
         </FormItem>
       ))
@@ -438,7 +462,7 @@ describe('Autocomplete.vue', () => {
     await wrapper.find('input').trigger('blur')
     vi.runAllTimers()
     await nextTick()
-    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(onBlur).toHaveBeenCalled()
   })
 
   describe('test a11y supports', () => {

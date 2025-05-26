@@ -33,10 +33,7 @@ export const progressProps = buildProps({
   /**
    * @description set indeterminate progress
    */
-  indeterminate: {
-    type: Boolean,
-    default: false,
-  },
+  indeterminate: Boolean,
   /**
    * @description control the animation duration of indeterminate progress or striped flow progress
    */
@@ -61,10 +58,7 @@ export const progressProps = buildProps({
   /**
    * @description whether to place the percentage inside progress bar, only works when `type` is 'line'
    */
-  textInside: {
-    type: Boolean,
-    default: false,
-  },
+  textInside: Boolean,
   /**
    * @description the canvas width of circle progress bar
    */
@@ -108,4 +102,4 @@ export const progressProps = buildProps({
 } as const)
 
 export type ProgressProps = ExtractPropTypes<typeof progressProps>
-export type ProgressInstance = InstanceType<typeof Progress>
+export type ProgressInstance = InstanceType<typeof Progress> & unknown

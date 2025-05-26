@@ -31,5 +31,5 @@ export const getLastOffset = (id: string): number => {
 
 export const getOffsetOrSpace = (id: string, offset: number) => {
   const idx = instances.findIndex((instance) => instance.id === id)
-  return idx > 0 ? 20 : offset
+  return idx > 0 ? 16 : offset
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
-// @ts-nocheck
-import { defineComponent, h, inject } from 'vue'
+import { defineComponent, h, inject, renderSlot } from 'vue'
+import ElText from '@element-plus/components/text'
 
 import { useNamespace } from '@element-plus/hooks'
 import type { ComponentInternalInstance } from 'vue'
@@ -18,15 +18,19 @@ export default defineComponent({
   setup(props) {
     const ns = useNamespace('tree')
     const nodeInstance = inject<ComponentInternalInstance>('NodeInstance')
-    const tree = inject<RootTreeType>('RootTree')
+    const tree = inject<RootTreeType>('RootTree')!
     return () => {
       const node = props.node
       const { data, store } = node
       return props.renderContent
         ? props.renderContent(h, { _self: nodeInstance, node, data, store })
-        : tree.ctx.slots.default
-        ? tree.ctx.slots.default({ node, data })
-        : h('span', { class: ns.be('node', 'label') }, [node.label])
+        : renderSlot(tree.ctx.slots, 'default', { node, data }, () => [
+            h(
+              ElText,
+              { tag: 'span', truncated: true, class: ns.be('node', 'label') },
+              () => [node.label]
+            ),
+          ])
     }
   },
 })

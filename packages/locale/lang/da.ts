@@ -1,6 +1,9 @@
 export default {
   name: 'da',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Ryd',
@@ -65,6 +68,9 @@ export default {
       noData: 'Ingen data',
       placeholder: 'Vælg',
     },
+    mention: {
+      loading: 'Henter',
+    },
     cascader: {
       noMatch: 'Ingen matchende data',
       loading: 'Henter',
@@ -121,6 +127,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

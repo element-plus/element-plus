@@ -7,7 +7,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, shallowRef, watch, watchEffect } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  ref,
+  shallowRef,
+  watch,
+  watchEffect,
+} from 'vue'
 import {
   useElementBounding,
   useEventListener,
@@ -15,6 +23,7 @@ import {
 } from '@vueuse/core'
 import { addUnit, getScrollContainer, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { affixEmits, affixProps } from './affix'
 import type { CSSProperties } from 'vue'
 
@@ -22,7 +31,6 @@ const COMPONENT_NAME = 'ElAffix'
 defineOptions({
   name: COMPONENT_NAME,
 })
-
 const props = defineProps(affixProps)
 const emit = defineEmits(affixEmits)
 
@@ -74,46 +82,46 @@ const update = () => {
       ? document.documentElement.scrollTop
       : scrollContainer.value.scrollTop || 0
 
-  if (props.position === 'top') {
-    if (props.target) {
-      const difference =
-        targetRect.bottom.value - props.offset - rootHeight.value
-      fixed.value = props.offset > rootTop.value && targetRect.bottom.value > 0
+  const { position, target, offset } = props
+  const rootHeightOffset = offset + rootHeight.value
+
+  if (position === 'top') {
+    if (target) {
+      const difference = targetRect.bottom.value - rootHeightOffset
+      fixed.value = offset > rootTop.value && targetRect.bottom.value > 0
       transform.value = difference < 0 ? difference : 0
     } else {
-      fixed.value = props.offset > rootTop.value
+      fixed.value = offset > rootTop.value
     }
-  } else if (props.target) {
+  } else if (target) {
     const difference =
-      windowHeight.value -
-      targetRect.top.value -
-      props.offset -
-      rootHeight.value
+      windowHeight.value - targetRect.top.value - rootHeightOffset
     fixed.value =
-      windowHeight.value - props.offset < rootBottom.value &&
+      windowHeight.value - offset < rootBottom.value &&
       windowHeight.value > targetRect.top.value
     transform.value = difference < 0 ? -difference : 0
   } else {
-    fixed.value = windowHeight.value - props.offset < rootBottom.value
+    fixed.value = windowHeight.value - offset < rootBottom.value
   }
 }
 
-const handleScroll = () => {
+const handleScroll = async () => {
   updateRoot()
+  await nextTick()
   emit('scroll', {
     scrollTop: scrollTop.value,
     fixed: fixed.value,
   })
 }
 
-watch(fixed, (val) => emit('change', val))
+watch(fixed, (val) => emit(CHANGE_EVENT, val))
 
 onMounted(() => {
   if (props.target) {
     target.value =
       document.querySelector<HTMLElement>(props.target) ?? undefined
     if (!target.value)
-      throwError(COMPONENT_NAME, `Target is not existed: ${props.target}`)
+      throwError(COMPONENT_NAME, `Target does not exist: ${props.target}`)
   } else {
     target.value = document.documentElement
   }

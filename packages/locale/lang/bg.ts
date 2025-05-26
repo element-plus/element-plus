@@ -1,6 +1,9 @@
 export default {
   name: 'bg',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Изчисти',
@@ -65,6 +68,9 @@ export default {
       noData: 'Няма данни',
       placeholder: 'Избери',
     },
+    mention: {
+      loading: 'Зареждане',
+    },
     cascader: {
       noMatch: 'Няма намерени',
       loading: 'Зареждане',
@@ -122,6 +128,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

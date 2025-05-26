@@ -1,6 +1,9 @@
 <template>
   <div :ref="composedDialogRef" :class="dialogKls" :style="style" tabindex="-1">
-    <header ref="headerRef" :class="ns.e('header')">
+    <header
+      ref="headerRef"
+      :class="[ns.e('header'), headerClass, { 'show-close': showClose }]"
+    >
       <slot name="header">
         <span role="heading" :aria-level="ariaLevel" :class="ns.e('title')">
           {{ title }}
@@ -18,10 +21,10 @@
         </el-icon>
       </button>
     </header>
-    <div :id="bodyId" :class="ns.e('body')">
+    <div :id="bodyId" :class="[ns.e('body'), bodyClass]">
       <slot />
     </div>
-    <footer v-if="$slots.footer" :class="ns.e('footer')">
+    <footer v-if="$slots.footer" :class="[ns.e('footer'), footerClass]">
       <slot name="footer" />
     </footer>
   </div>
@@ -52,11 +55,21 @@ const dialogKls = computed(() => [
   ns.is('draggable', props.draggable),
   ns.is('align-center', props.alignCenter),
   { [ns.m('center')]: props.center },
-  props.customClass,
 ])
 
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 
 const draggable = computed(() => props.draggable)
-useDraggable(dialogRef, headerRef, draggable)
+const overflow = computed(() => props.overflow)
+const { resetPosition, updatePosition } = useDraggable(
+  dialogRef,
+  headerRef,
+  draggable,
+  overflow
+)
+
+defineExpose({
+  resetPosition,
+  updatePosition,
+})
 </script>

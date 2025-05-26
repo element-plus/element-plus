@@ -7,7 +7,7 @@ addIcon
     editable
     @edit="handleTabsEdit"
   >
-    <template #addIcon>
+    <template #add-icon>
       <el-icon><Select /></el-icon>
     </template>
     <el-tab-pane
@@ -20,6 +20,7 @@ addIcon
     </el-tab-pane>
   </el-tabs>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Select } from '@element-plus/icons-vue'
@@ -71,6 +72,7 @@ const handleTabsEdit = (
   }
 }
 </script>
+
 <style>
 .demo-tabs > .el-tabs__content {
   padding: 32px;

@@ -1,7 +1,7 @@
 import { computed, inject, ref, toRaw } from 'vue'
-import { isEqual, isNil } from 'lodash-unified'
+import { isEqual } from 'lodash-unified'
 import { useFormSize } from '@element-plus/components/form'
-import { isArray, isBoolean, isObject } from '@element-plus/utils'
+import { isArray, isBoolean, isObject, isPropAbsent } from '@element-plus/utils'
 import { checkboxGroupContextKey } from '../constants'
 
 import type { ComponentInternalInstance } from 'vue'
@@ -15,18 +15,26 @@ export const useCheckboxStatus = (
 ) => {
   const checkboxGroup = inject(checkboxGroupContextKey, undefined)
   const isFocused = ref(false)
+  const actualValue = computed(() => {
+    // In version 2.x, if there's no props.value, props.label will act as props.value
+    // In version 3.x, remove this computed value, use props.value instead.
+    if (!isPropAbsent(props.value)) {
+      return props.value
+    }
+    return props.label
+  })
   const isChecked = computed<boolean>(() => {
     const value = model.value
     if (isBoolean(value)) {
       return value
     } else if (isArray(value)) {
-      if (isObject(props.label)) {
-        return value.map(toRaw).some((o) => isEqual(o, props.label))
+      if (isObject(actualValue.value)) {
+        return value.map(toRaw).some((o) => isEqual(o, actualValue.value))
       } else {
-        return value.map(toRaw).includes(props.label)
+        return value.map(toRaw).includes(actualValue.value)
       }
     } else if (value !== null && value !== undefined) {
-      return value === props.trueLabel
+      return value === props.trueValue || value === props.trueLabel
     } else {
       return !!value
     }
@@ -41,7 +49,7 @@ export const useCheckboxStatus = (
   const checkboxSize = useFormSize(computed(() => checkboxGroup?.size?.value))
 
   const hasOwnLabel = computed<boolean>(() => {
-    return !!slots.default || !isNil(props.label)
+    return !!slots.default || !isPropAbsent(actualValue.value)
   })
 
   return {
@@ -50,6 +58,7 @@ export const useCheckboxStatus = (
     isFocused,
     checkboxSize,
     hasOwnLabel,
+    actualValue,
   }
 }
 

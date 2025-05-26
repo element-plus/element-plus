@@ -1,6 +1,9 @@
 export default {
   name: 'km',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'យល់ព្រម',
       clear: 'លុប',
@@ -65,6 +68,9 @@ export default {
       noData: 'គ្មានទិន្នន័យ',
       placeholder: 'ជ្រើសរើស',
     },
+    mention: {
+      loading: 'កំពុងផ្ទុក',
+    },
     cascader: {
       noMatch: 'គ្មានទិន្នន័យដូច',
       loading: 'កំពុងផ្ទុក',
@@ -122,6 +128,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'យល់ព្រម',
       cancelButtonText: 'មិនព្រម',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

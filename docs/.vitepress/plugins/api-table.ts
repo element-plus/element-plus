@@ -1,13 +1,7 @@
-import markdown from 'markdown-it'
-
-import type MarkdownIt from 'markdown-it'
-
-const ApiMd = new markdown()
-
-export const ApiTableContainer = (md: MarkdownIt) => {
+import type { MarkdownRenderer } from 'vitepress'
+export const ApiTableContainer = (md: MarkdownRenderer) => {
   const fence = md.renderer.rules.fence!
 
-  ApiMd.renderer.rules = md.renderer.rules
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx, ...rest] = args
     const [options, env] = rest

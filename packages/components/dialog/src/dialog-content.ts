@@ -16,20 +16,29 @@ export const dialogContentProps = buildProps({
     type: iconPropType,
   },
   /**
-   * @deprecated will be removed in version 2.4.0, please use class
-   */
-  customClass: {
-    type: String,
-    default: '',
-  },
-  /**
    * @description enable dragging feature for Dialog
    */
   draggable: Boolean,
   /**
+   * @description draggable Dialog can overflow the viewport
+   */
+  overflow: Boolean,
+  /**
    * @description whether the Dialog takes up full screen
    */
   fullscreen: Boolean,
+  /**
+   * @description custom class names for header wrapper
+   */
+  headerClass: String,
+  /**
+   * @description custom class names for body wrapper
+   */
+  bodyClass: String,
+  /**
+   * @description custom class names for footer wrapper
+   */
+  footerClass: String,
   /**
    * @description whether to show a close button
    */

@@ -8,8 +8,12 @@ function useUtils<T>(store: Store<T>) {
   const getSelectionRows = () => {
     return store.getSelectionRows()
   }
-  const toggleRowSelection = (row: T, selected: boolean) => {
-    store.toggleRowSelection(row, selected, false)
+  const toggleRowSelection = (
+    row: T,
+    selected?: boolean,
+    ignoreSelectable = true
+  ) => {
+    store.toggleRowSelection(row, selected, false, ignoreSelectable)
     store.updateAllSelected()
   }
   const clearSelection = () => {
@@ -30,6 +34,9 @@ function useUtils<T>(store: Store<T>) {
   const sort = (prop: string, order: string) => {
     store.commit('sort', { prop, order })
   }
+  const updateKeyChildren = (key: string, data: T[]) => {
+    store.updateKeyChildren(key, data)
+  }
 
   return {
     setCurrentRow,
@@ -41,6 +48,7 @@ function useUtils<T>(store: Store<T>) {
     toggleRowExpansion,
     clearSort,
     sort,
+    updateKeyChildren,
   }
 }
 

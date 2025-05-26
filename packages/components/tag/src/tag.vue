@@ -12,7 +12,12 @@
       <Close />
     </el-icon>
   </span>
-  <transition v-else :name="`${ns.namespace.value}-zoom-in-center`" appear>
+  <transition
+    v-else
+    :name="`${ns.namespace.value}-zoom-in-center`"
+    appear
+    @vue:mounted="handleVNodeMounted"
+  >
     <span
       :class="containerKls"
       :style="{ backgroundColor: color }"
@@ -36,6 +41,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
 
 import { tagEmits, tagProps } from './tag'
+import type { VNode } from 'vue'
 
 defineOptions({
   name: 'ElTag',
@@ -50,7 +56,7 @@ const containerKls = computed(() => {
   return [
     ns.b(),
     ns.is('closable', closable),
-    ns.m(type),
+    ns.m(type || 'primary'),
     ns.m(tagSize.value),
     ns.m(effect),
     ns.is('hit', hit),
@@ -65,5 +71,13 @@ const handleClose = (event: MouseEvent) => {
 
 const handleClick = (event: MouseEvent) => {
   emit('click', event)
+}
+
+const handleVNodeMounted = (vnode: VNode) => {
+  // @ts-ignore
+  if (vnode?.component?.subTree?.component?.bum) {
+    // @ts-ignore
+    vnode.component.subTree.component.bum = null
+  }
 }
 </script>

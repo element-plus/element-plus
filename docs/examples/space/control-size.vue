@@ -1,9 +1,9 @@
 <template>
   <el-space direction="vertical" alignment="start" :size="30">
     <el-radio-group v-model="size">
-      <el-radio :label="'large'">large</el-radio>
-      <el-radio :label="'default'">default</el-radio>
-      <el-radio :label="'small'">small</el-radio>
+      <el-radio value="large">Large</el-radio>
+      <el-radio value="default">Default</el-radio>
+      <el-radio value="small">Small</el-radio>
     </el-radio-group>
 
     <el-space wrap :size="size">
@@ -24,5 +24,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-const size = ref('default')
+import type { ComponentSize } from 'element-plus'
+
+const size = ref<ComponentSize>('default')
 </script>

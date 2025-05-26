@@ -1,5 +1,6 @@
 <template>
   <el-tree
+    style="max-width: 600px"
     :props="props"
     :load="loadNode"
     lazy
@@ -10,12 +11,12 @@
 
 <script lang="ts" setup>
 import type Node from 'element-plus/es/components/tree/src/model/node'
-let count = 1
 
 interface Tree {
   name: string
 }
 
+let count = 1
 const props = {
   label: 'name',
   children: 'zones',

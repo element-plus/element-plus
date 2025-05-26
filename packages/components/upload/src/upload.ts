@@ -1,5 +1,4 @@
-import { NOOP } from '@vue/shared'
-import { buildProps, definePropType, mutable } from '@element-plus/utils'
+import { NOOP, buildProps, definePropType, mutable } from '@element-plus/utils'
 import { ajaxUpload } from './ajax'
 import type { Awaitable, Mutable } from '@element-plus/utils'
 
@@ -20,7 +19,7 @@ export interface UploadProgressEvent extends ProgressEvent {
 export interface UploadRequestOptions {
   action: string
   method: string
-  data: Record<string, string | Blob | [string | Blob, string]>
+  data: Record<string, string | Blob | [Blob, string]>
   filename: string
   file: UploadRawFile
   headers: Headers | Record<string, string | number | null | undefined>
@@ -45,6 +44,7 @@ export type UploadUserFile = Omit<UploadFile, 'status' | 'uid'> &
 export type UploadFiles = UploadFile[]
 export interface UploadRawFile extends File {
   uid: number
+  isDirectory?: boolean
 }
 export type UploadRequestHandler = (
   options: UploadRequestOptions
@@ -114,10 +114,7 @@ export const uploadBaseProps = buildProps({
   /**
    * @description whether uploading multiple files is permitted
    */
-  multiple: {
-    type: Boolean,
-    default: false,
-  },
+  multiple: Boolean,
   /**
    * @description key name for uploaded file
    */
@@ -128,10 +125,7 @@ export const uploadBaseProps = buildProps({
   /**
    * @description whether to activate drag and drop mode
    */
-  drag: {
-    type: Boolean,
-    default: false,
-  },
+  drag: Boolean,
   /**
    * @description whether cookies are sent
    */
@@ -253,8 +247,14 @@ export const uploadProps = buildProps({
     type: definePropType<UploadHooks['onExceed']>(Function),
     default: NOOP,
   },
+  /**
+   * @description set HTML attribute: crossorigin.
+   */
+  crossorigin: {
+    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
+  },
 } as const)
 
 export type UploadProps = ExtractPropTypes<typeof uploadProps>
 
-export type UploadInstance = InstanceType<typeof Upload>
+export type UploadInstance = InstanceType<typeof Upload> & unknown

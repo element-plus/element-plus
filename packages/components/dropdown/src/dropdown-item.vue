@@ -15,6 +15,7 @@
     </el-roving-focus-item>
   </el-dropdown-collection-item>
 </template>
+
 <script lang="ts">
 import {
   computed,
@@ -87,15 +88,10 @@ export default defineComponent({
       })
     )
 
-    const handlePointerLeave = composeEventHandlers(
-      (e: PointerEvent) => {
-        emit('pointerleave', e)
-        return e.defaultPrevented
-      },
-      whenMouse((e) => {
-        onItemLeave(e)
-      })
-    )
+    const handlePointerLeave = composeEventHandlers((e: PointerEvent) => {
+      emit('pointerleave', e)
+      return e.defaultPrevented
+    }, whenMouse(onItemLeave))
 
     const handleClick = composeEventHandlers(
       (e: PointerEvent) => {
@@ -118,9 +114,7 @@ export default defineComponent({
     )
 
     // direct usage of v-bind={ ...$props, ...$attrs } causes type errors
-    const propsAndAttrs = computed(() => {
-      return { ...props, ...attrs }
-    })
+    const propsAndAttrs = computed(() => ({ ...props, ...attrs }))
 
     return {
       handleClick,

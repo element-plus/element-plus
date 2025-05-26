@@ -152,11 +152,16 @@ describe('Cascader.vue', () => {
   })
 
   test('clearable', async () => {
+    const isClear = ref(false)
+
     const wrapper = _mount(() => (
       <Cascader
         modelValue={['zhejiang', 'hangzhou']}
         clearable
         options={OPTIONS}
+        onClear={() => {
+          isClear.value = true
+        }}
       />
     ))
 
@@ -164,6 +169,7 @@ describe('Cascader.vue', () => {
     expect(wrapper.findComponent(ArrowDown).exists()).toBe(true)
     await trigger.trigger('mouseenter')
     expect(wrapper.findComponent(ArrowDown).exists()).toBe(false)
+    expect(isClear.value).toBe(false)
     await wrapper.findComponent(CircleClose).trigger('click')
     expect(wrapper.find('input').element.value).toBe('')
     expect(
@@ -172,6 +178,7 @@ describe('Cascader.vue', () => {
     await trigger.trigger('mouseleave')
     await trigger.trigger('mouseenter')
     await expect(wrapper.findComponent(CircleClose).exists()).toBe(false)
+    expect(isClear.value).toBe(true)
   })
 
   test('show last level label', async () => {
@@ -299,6 +306,21 @@ describe('Cascader.vue', () => {
 
     await nextTick()
     expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success')
+  })
+
+  test('tag effect', async () => {
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[['zhejiang', 'hangzhou']]}
+        tagEffect="dark"
+        props={props}
+        options={OPTIONS}
+      />
+    ))
+
+    await nextTick()
+    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--dark')
   })
 
   test('filterable', async () => {
@@ -501,5 +523,55 @@ describe('Cascader.vue', () => {
       await nextTick()
       expect(inputEl.style.height).toEqual(`${sizeMap[size] - 2}px`)
     }
+  })
+
+  describe('render empty slot', () => {
+    it('correct render panel empty slot', async () => {
+      const wrapper = _mount(() => (
+        <Cascader>
+          {{
+            empty: () => <div>-=-empty-=-</div>,
+          }}
+        </Cascader>
+      ))
+
+      await wrapper.find(TRIGGER).trigger('click')
+      const emptySlotEl = document.querySelector(
+        '.el-cascader-menu__empty-text'
+      )
+      expect(emptySlotEl?.textContent).toBe('-=-empty-=-')
+    })
+
+    it('correct render menu list empty slot', async () => {
+      const wrapper = _mount(() => (
+        <Cascader filterable>
+          {{
+            empty: () => <div>-=-empty-=-no-data</div>,
+          }}
+        </Cascader>
+      ))
+
+      const input = wrapper.find('input')
+      await input.trigger('focus')
+      const emptySlotEl = document.querySelector(
+        '.el-cascader-menu__empty-text'
+      )
+      expect(emptySlotEl?.textContent).toBe('-=-empty-=-no-data')
+    })
+  })
+
+  describe('render prefix slot', () => {
+    it('correct render prefix slot', async () => {
+      _mount(() => (
+        <Cascader>
+          {{
+            prefix: () => <div>-=-prefix-=-</div>,
+          }}
+        </Cascader>
+      ))
+
+      const prefixSlotEl = document.querySelector('.el-input__prefix-inner')
+      expect(prefixSlotEl?.textContent).toBe('-=-prefix-=-')
+    })
   })
 })

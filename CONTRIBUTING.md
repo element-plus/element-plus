@@ -4,7 +4,7 @@
 
 - Before opening issue please search for the keyword see whether the issue you encountered has been reported already. :pray:
 
-- Issues should be opened via [Issue Template](https://elementui.github.io/issue-generator/#/en-US?repo=element-plus), fill in the form to provide
+- Issues should be opened via [Issue Template](https://issue.element-plus.org/), fill in the form to provide
   sufficient information to reproduce the issue, so that our developers can help you verify and fix it
 
 **Insufficient information issue WILL BE CLOSED directly because we cannot reproduce them**
@@ -17,11 +17,13 @@ Next section is for those who wants to help develop Element Plus.
 
 You should be having:
 
-NodeJS >= 16
+NodeJS >= 18
+
+Pnpm >= 9.5
 
 Git > v2.20
 
-Some of our compiling code used syntax that introduced in NodeJS>16.0 so you will be need to install that in advance.
+Some of our compiling code used syntax that introduced in NodeJS>18 so you will be need to install that in advance.
 
 ## Clone the repository
 

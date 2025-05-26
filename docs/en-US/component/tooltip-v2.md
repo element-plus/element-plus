@@ -7,12 +7,6 @@ lang: en-US
 
 For the existing tooltip, it has too many APIs which is not very intuitive and accessible, so we created this much simpler tooltip, which does only one simple thing - showing tooltip. The structure of having a tooltip is kind of the same, but the API is different. In this version we have provided the components individually, you can compose your own tooltip by using the components.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 **Hover** or **tab** on the icon to see the tooltip.

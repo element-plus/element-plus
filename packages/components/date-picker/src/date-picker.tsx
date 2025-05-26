@@ -1,4 +1,4 @@
-import { defineComponent, provide, reactive, ref, toRef } from 'vue'
+import { computed, defineComponent, provide, reactive, ref, toRef } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import advancedFormat from 'dayjs/plugin/advancedFormat.js'
@@ -13,7 +13,10 @@ import {
   CommonPicker,
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_DATEPICKER,
+  type DateModelType,
+  type SingleOrRange,
 } from '@element-plus/components/time-picker'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { ROOT_PICKER_INJECTION_KEY } from './constants'
 
 import { datePickerProps } from './props/date-picker'
@@ -33,10 +36,13 @@ export default defineComponent({
   name: 'ElDatePicker',
   install: null,
   props: datePickerProps,
-  emits: ['update:modelValue'],
+  emits: [UPDATE_MODEL_EVENT],
   setup(props, { expose, emit, slots }) {
     const ns = useNamespace('picker-panel')
-
+    const isDefaultFormat = computed(() => {
+      return !props.format
+    })
+    provide('ElIsDefaultFormat', isDefaultFormat)
     provide('ElPopperOptions', reactive(toRef(props, 'popperOptions')))
     provide(ROOT_PICKER_INJECTION_KEY, {
       slots,
@@ -45,8 +51,11 @@ export default defineComponent({
 
     const commonPicker = ref<InstanceType<typeof CommonPicker>>()
     const refProps: DatePickerExpose = {
-      focus: (focusStartInput = true) => {
-        commonPicker.value?.focus(focusStartInput)
+      focus: () => {
+        commonPicker.value?.focus()
+      },
+      blur: () => {
+        commonPicker.value?.blur()
       },
       handleOpen: () => {
         commonPicker.value?.handleOpen()
@@ -58,8 +67,8 @@ export default defineComponent({
 
     expose(refProps)
 
-    const onModelValueUpdated = (val: any) => {
-      emit('update:modelValue', val)
+    const onModelValueUpdated = (val: SingleOrRange<DateModelType> | null) => {
+      emit(UPDATE_MODEL_EVENT, val)
     }
 
     return () => {
@@ -81,7 +90,14 @@ export default defineComponent({
         >
           {{
             default: (scopedProps: /**FIXME: remove any type */ any) => (
-              <Component {...scopedProps} />
+              <Component {...scopedProps}>
+                {{
+                  'prev-month': slots['prev-month'],
+                  'next-month': slots['next-month'],
+                  'prev-year': slots['prev-year'],
+                  'next-year': slots['next-year'],
+                }}
+              </Component>
             ),
             'range-separator': slots['range-separator'],
           }}

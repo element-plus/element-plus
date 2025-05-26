@@ -130,11 +130,7 @@
     &.selected .#{$namespace}-date-table-cell {
       margin-left: 5px;
       margin-right: 5px;
-      background-color: getCssVar('datepicker-inrange-bg-color');
       border-radius: 15px;
-      &:hover {
-        background-color: getCssVar('datepicker-inrange-hover-bg-color');
-      }
     }
 
     &.selected .#{$namespace}-date-table-cell__text {

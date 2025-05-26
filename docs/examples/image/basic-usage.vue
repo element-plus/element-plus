@@ -8,7 +8,15 @@
 </template>
 
 <script lang="ts" setup>
-const fits = ['fill', 'contain', 'cover', 'none', 'scale-down']
+import type { ImageProps } from 'element-plus'
+
+const fits = [
+  'fill',
+  'contain',
+  'cover',
+  'none',
+  'scale-down',
+] as ImageProps['fit'][]
 const url =
   'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 </script>

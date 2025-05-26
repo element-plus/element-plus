@@ -1,5 +1,8 @@
 <template>
-  <teleport to="body" :disabled="!appendToBody">
+  <el-teleport
+    :to="appendTo"
+    :disabled="appendTo !== 'body' ? false : !appendToBody"
+  >
     <transition
       name="dialog-fade"
       @after-enter="afterEnter"
@@ -38,12 +41,15 @@
               v-if="rendered"
               ref="dialogContentRef"
               v-bind="$attrs"
-              :custom-class="customClass"
               :center="center"
               :align-center="alignCenter"
               :close-icon="closeIcon"
               :draggable="draggable"
+              :overflow="overflow"
               :fullscreen="fullscreen"
+              :header-class="headerClass"
+              :body-class="bodyClass"
+              :footer-class="footerClass"
               :show-close="showClose"
               :title="title"
               :aria-level="headerAriaLevel"
@@ -68,7 +74,7 @@
         </div>
       </el-overlay>
     </transition>
-  </teleport>
+  </el-teleport>
 </template>
 
 <script lang="ts" setup>
@@ -76,6 +82,7 @@ import { computed, provide, ref, useSlots } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import { useDeprecated, useNamespace, useSameTarget } from '@element-plus/hooks'
 import ElFocusTrap from '@element-plus/components/focus-trap'
+import ElTeleport from '@element-plus/components/teleport'
 import ElDialogContent from './dialog-content.vue'
 import { dialogInjectionKey } from './constants'
 import { dialogEmits, dialogProps } from './dialog'
@@ -99,18 +106,6 @@ useDeprecated(
     ref: 'https://element-plus.org/en-US/component/dialog.html#slots',
   },
   computed(() => !!slots.title)
-)
-
-useDeprecated(
-  {
-    scope: 'el-dialog',
-    from: 'custom-class',
-    replacement: 'class',
-    version: '2.3.0',
-    ref: 'https://element-plus.org/en-US/component/dialog.html#attributes',
-    type: 'Attribute',
-  },
-  computed(() => !!props.customClass)
 )
 
 const ns = useNamespace('dialog')
@@ -150,9 +145,15 @@ const overlayEvent = useSameTarget(onModalClick)
 
 const draggable = computed(() => props.draggable && !props.fullscreen)
 
+const resetPosition = () => {
+  dialogContentRef.value?.resetPosition()
+}
+
 defineExpose({
   /** @description whether the dialog is visible */
   visible,
   dialogContentRef,
+  resetPosition,
+  handleClose,
 })
 </script>

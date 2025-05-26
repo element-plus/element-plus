@@ -2,6 +2,7 @@
   <div class="custom-tree-container">
     <p>Using render-content</p>
     <el-tree
+      style="max-width: 600px"
       :data="dataSource"
       show-checkbox
       node-key="id"
@@ -11,6 +12,7 @@
     />
     <p>Using scoped slot</p>
     <el-tree
+      style="max-width: 600px"
       :data="dataSource"
       show-checkbox
       node-key="id"
@@ -18,13 +20,22 @@
       :expand-on-click-node="false"
     >
       <template #default="{ node, data }">
-        <span class="custom-tree-node">
+        <div class="custom-tree-node">
           <span>{{ node.label }}</span>
-          <span>
-            <a @click="append(data)"> Append </a>
-            <a style="margin-left: 8px" @click="remove(node, data)"> Delete </a>
-          </span>
-        </span>
+          <div>
+            <el-button type="primary" link @click="append(data)">
+              Append
+            </el-button>
+            <el-button
+              style="margin-left: 4px"
+              type="danger"
+              link
+              @click="remove(node, data)"
+            >
+              Delete
+            </el-button>
+          </div>
+        </div>
       </template>
     </el-tree>
   </div>
@@ -32,6 +43,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { ElButton } from 'element-plus'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 
 interface Tree {
@@ -71,25 +83,29 @@ const renderContent = (
   }
 ) => {
   return h(
-    'span',
+    'div',
     {
       class: 'custom-tree-node',
     },
     h('span', null, node.label),
     h(
-      'span',
+      'div',
       null,
       h(
-        'a',
+        ElButton,
         {
+          type: 'primary',
+          link: true,
           onClick: () => append(data),
         },
         'Append '
       ),
       h(
-        'a',
+        ElButton,
         {
-          style: 'margin-left: 8px',
+          type: 'danger',
+          link: true,
+          style: 'margin-left: 4px',
           onClick: () => remove(node, data),
         },
         'Delete'

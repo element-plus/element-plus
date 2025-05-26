@@ -34,7 +34,7 @@ export const getFocusIntent = (
   orientation?: Orientation,
   dir?: Direction
 ) => {
-  const key = getDirectionAwareKey(event.key, dir)
+  const key = getDirectionAwareKey(event.code, dir)
   if (
     orientation === 'vertical' &&
     [EVENT_CODE.left, EVENT_CODE.right].includes(key)

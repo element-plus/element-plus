@@ -2,7 +2,7 @@
   <label
     :class="[
       ns.b('button'),
-      ns.is('active', modelValue === label),
+      ns.is('active', modelValue === actualValue),
       ns.is('disabled', disabled),
       ns.is('focus', focus),
       ns.bm('button', size),
@@ -12,7 +12,7 @@
       ref="radioRef"
       v-model="modelValue"
       :class="ns.be('button', 'original-radio')"
-      :value="label"
+      :value="actualValue"
       type="radio"
       :name="name || radioGroup?.name"
       :disabled="disabled"
@@ -22,7 +22,7 @@
     />
     <span
       :class="ns.be('button', 'inner')"
-      :style="modelValue === label ? activeStyle : {}"
+      :style="modelValue === actualValue ? activeStyle : {}"
       @keydown.stop
     >
       <slot>
@@ -46,7 +46,7 @@ defineOptions({
 const props = defineProps(radioButtonProps)
 
 const ns = useNamespace('radio')
-const { radioRef, focus, size, disabled, modelValue, radioGroup } =
+const { radioRef, focus, size, disabled, modelValue, radioGroup, actualValue } =
   useRadio(props)
 
 const activeStyle = computed<CSSProperties>(() => {

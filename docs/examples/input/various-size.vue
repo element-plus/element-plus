@@ -1,58 +1,62 @@
 <template>
-  <div class="demo-input-size">
+  <div class="flex gap-4 mb-4 items-center">
     <el-input
       v-model="input1"
-      class="w-50 m-2"
+      style="width: 240px"
       size="large"
       placeholder="Please Input"
     />
-    <el-input v-model="input2" class="w-50 m-2" placeholder="Please Input" />
+    <el-input
+      v-model="input2"
+      style="width: 240px"
+      placeholder="Please Input"
+    />
     <el-input
       v-model="input3"
-      class="w-50 m-2"
+      style="width: 240px"
       size="small"
       placeholder="Please Input"
     />
   </div>
-  <div class="demo-input-size">
+  <div class="flex gap-4 mb-4 items-center">
     <el-input
       v-model="input1"
-      class="w-50 m-2"
+      style="width: 240px"
       size="large"
       placeholder="Please Input"
       :suffix-icon="Search"
     />
     <el-input
       v-model="input2"
-      class="w-50 m-2"
+      style="width: 240px"
       placeholder="Please Input"
       :suffix-icon="Search"
     />
     <el-input
       v-model="input3"
-      class="w-50 m-2"
+      style="width: 240px"
       size="small"
       placeholder="Please Input"
       :suffix-icon="Search"
     />
   </div>
-  <div class="demo-input-size">
+  <div class="flex gap-4 items-center">
     <el-input
       v-model="input1"
-      class="w-50 m-2"
+      style="width: 240px"
       size="large"
       placeholder="Please Input"
       :prefix-icon="Search"
     />
     <el-input
       v-model="input2"
-      class="w-50 m-2"
+      style="width: 240px"
       placeholder="Please Input"
       :prefix-icon="Search"
     />
     <el-input
       v-model="input3"
-      class="w-50 m-2"
+      style="width: 240px"
       size="small"
       placeholder="Please Input"
       :prefix-icon="Search"

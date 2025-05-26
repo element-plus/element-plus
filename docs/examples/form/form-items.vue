@@ -1,8 +1,9 @@
 <template>
   <el-form
     ref="formRef"
+    style="max-width: 600px"
     :model="dynamicValidateForm"
-    label-width="120px"
+    label-width="auto"
     class="demo-dynamic"
   >
     <el-form-item
@@ -35,9 +36,9 @@
       }"
     >
       <el-input v-model="domain.value" />
-      <el-button class="mt-2" @click.prevent="removeDomain(domain)"
-        >Delete</el-button
-      >
+      <el-button class="mt-2" @click.prevent="removeDomain(domain)">
+        Delete
+      </el-button>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(formRef)">Submit</el-button>
@@ -91,7 +92,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
       console.log('submit!')
     } else {
       console.log('error submit!')
-      return false
     }
   })
 }

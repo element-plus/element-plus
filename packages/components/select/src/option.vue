@@ -6,7 +6,7 @@
     role="option"
     :aria-disabled="isDisabled || undefined"
     :aria-selected="itemSelected"
-    @mouseenter="hoverItem"
+    @mousemove="hoverItem"
     @click.stop="selectOptionClick"
   >
     <slot>
@@ -16,7 +16,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -29,30 +28,15 @@ import {
 } from 'vue'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
-import type { SelectOptionProxy } from './token'
+import { COMPONENT_NAME, optionProps } from './option'
+
+import type { OptionExposed, OptionInternalInstance, OptionStates } from './type'
 
 export default defineComponent({
-  name: 'ElOption',
-  componentName: 'ElOption',
+  name: COMPONENT_NAME,
+  componentName: COMPONENT_NAME,
 
-  props: {
-    /**
-     * @description value of option
-     */
-    value: {
-      required: true,
-      type: [String, Number, Boolean, Object],
-    },
-    /**
-     * @description label of option, same as `value` if omitted
-     */
-    label: [String, Number],
-    created: Boolean,
-    /**
-     * @description whether option is disabled
-     */
-    disabled: Boolean,
-  },
+  props: optionProps,
 
   setup(props) {
     const ns = useNamespace('select')
@@ -61,47 +45,49 @@ export default defineComponent({
     const containerKls = computed(() => [
       ns.be('dropdown', 'item'),
       ns.is('disabled', unref(isDisabled)),
-      {
-        selected: unref(itemSelected),
-        hover: unref(hover),
-      },
+      ns.is('selected', unref(itemSelected)),
+      ns.is('hovering', unref(hover)),
     ])
 
-    const states = reactive({
+    const states = reactive<OptionStates>({
       index: -1,
       groupDisabled: false,
       visible: true,
-      hitState: false,
       hover: false,
     })
 
-    const { currentLabel, itemSelected, isDisabled, select, hoverItem } =
-      useOption(props, states)
+    const {
+      currentLabel,
+      itemSelected,
+      isDisabled,
+      select,
+      hoverItem,
+      updateOption,
+    } = useOption(props, states)
 
     const { visible, hover } = toRefs(states)
 
-    const vm = getCurrentInstance().proxy
+    const vm = (getCurrentInstance()! as OptionInternalInstance).proxy
 
-    select.onOptionCreate(vm as unknown as SelectOptionProxy)
+    select.onOptionCreate(vm)
 
     onBeforeUnmount(() => {
-      const key = (vm as unknown as SelectOptionProxy).value
-      const { selected } = select
-      const selectedOptions = select.props.multiple ? selected : [selected]
+      const key = vm.value
+      const { selected: selectedOptions } = select.states
       const doesSelected = selectedOptions.some((item) => {
-        return item.value === (vm as unknown as SelectOptionProxy).value
+        return item.value === vm.value
       })
       // if option is not selected, remove it from cache
       nextTick(() => {
-        if (select.cachedOptions.get(key) === vm && !doesSelected) {
-          select.cachedOptions.delete(key)
+        if (select.states.cachedOptions.get(key) === vm && !doesSelected) {
+          select.states.cachedOptions.delete(key)
         }
       })
       select.onOptionDestroy(key, vm)
     })
 
     function selectOptionClick() {
-      if (props.disabled !== true && states.groupDisabled !== true) {
+      if (!isDisabled.value) {
         select.handleOptionSelect(vm)
       }
     }
@@ -114,12 +100,14 @@ export default defineComponent({
       itemSelected,
       isDisabled,
       select,
-      hoverItem,
       visible,
       hover,
-      selectOptionClick,
       states,
-    }
+
+      hoverItem,
+      updateOption,
+      selectOptionClick,
+    } satisfies OptionExposed
   },
 })
 </script>

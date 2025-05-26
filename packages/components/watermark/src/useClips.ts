@@ -1,3 +1,5 @@
+import { isArray } from '@element-plus/utils'
+
 import type { WatermarkProps } from './watermark'
 
 export const FontGap = 3
@@ -51,14 +53,22 @@ export default function useClips() {
       ctx.drawImage(content, 0, 0, contentWidth, contentHeight)
     } else {
       // Text
-      const { color, fontSize, fontStyle, fontWeight, fontFamily } = font
+      const {
+        color,
+        fontSize,
+        fontStyle,
+        fontWeight,
+        fontFamily,
+        textAlign,
+        textBaseline,
+      } = font
       const mergedFontSize = Number(fontSize) * ratio
 
       ctx.font = `${fontStyle} normal ${fontWeight} ${mergedFontSize}px/${height}px ${fontFamily}`
       ctx.fillStyle = color
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'top'
-      const contents = Array.isArray(content) ? content : [content]
+      ctx.textAlign = textAlign
+      ctx.textBaseline = textBaseline
+      const contents = isArray(content) ? content : [content]
       contents?.forEach((item, index) => {
         ctx.fillText(
           item ?? '',

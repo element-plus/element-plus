@@ -23,21 +23,21 @@
       {{ t('el.cascader.loading') }}
     </div>
     <div v-else-if="isEmpty" :class="ns.e('empty-text')">
-      {{ t('el.cascader.noData') }}
+      <slot name="empty">{{ t('el.cascader.noData') }}</slot>
     </div>
+    <!-- eslint-disable-next-line vue/html-self-closing -->
     <svg
       v-else-if="panel?.isHoverMenu"
       ref="hoverZone"
       :class="ns.e('hover-zone')"
-    />
+    ></svg>
   </el-scrollbar>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import { useLocale, useNamespace } from '@element-plus/hooks'
-import { generateId } from '@element-plus/utils'
+import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { Loading } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
 import ElCascaderNode from './node.vue'
@@ -73,7 +73,7 @@ export default defineComponent({
     const ns = useNamespace('cascader-menu')
 
     const { t } = useLocale()
-    const id = generateId()
+    const id = useId()
     let activeNode: Nullable<HTMLElement> = null
     let hoverTimer: Nullable<number> = null
 
@@ -83,7 +83,7 @@ export default defineComponent({
 
     const isEmpty = computed(() => !props.nodes.length)
     const isLoading = computed(() => !panel.initialLoaded)
-    const menuId = computed(() => `cascader-menu-${id}-${props.index}`)
+    const menuId = computed(() => `${id.value}-${props.index}`)
 
     const handleExpand = (e: MouseEvent) => {
       activeNode = e.target as HTMLElement

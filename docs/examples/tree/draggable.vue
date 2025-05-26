@@ -1,5 +1,6 @@
 <template>
   <el-tree
+    style="max-width: 600px"
     :allow-drop="allowDrop"
     :allow-drag="allowDrag"
     :data="data"

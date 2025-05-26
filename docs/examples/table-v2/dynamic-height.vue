@@ -19,7 +19,6 @@ import {
   TableV2FixedDir,
   TableV2SortOrder,
 } from 'element-plus'
-
 import type { Column, SortBy } from '@element-plus/components/table-v2'
 
 const longText =
@@ -34,7 +33,7 @@ const textList = [shortText, midText, longText]
 let id = 0
 
 const dataGenerator = () => ({
-  id: `random:${++id}`,
+  id: `random-${++id}`,
   name: 'Tom',
   date: '2016-05-03',
   description: textList[Math.floor(Math.random() * 3)],

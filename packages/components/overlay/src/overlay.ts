@@ -10,10 +10,7 @@ export const overlayProps = buildProps({
     type: Boolean,
     default: true,
   },
-  customMaskEvent: {
-    type: Boolean,
-    default: false,
-  },
+  customMaskEvent: Boolean,
   overlayClass: {
     type: definePropType<string | string[] | Record<string, boolean>>([
       String,

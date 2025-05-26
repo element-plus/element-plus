@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { isRef, ref } from 'vue'
-import { hyphenate, isObject, isString } from '@vue/shared'
-import { Loading } from './service'
+import { hyphenate, isObject, isString } from '@element-plus/utils'
+import Loading from './service'
 import type { Directive, DirectiveBinding, UnwrapRef } from 'vue'
 import type { LoadingOptions } from './types'
 import type { LoadingInstance } from './loading'
@@ -54,9 +54,11 @@ const createInstance = (
     body: getBindingProp('body') ?? binding.modifiers.body,
     lock: getBindingProp('lock') ?? binding.modifiers.lock,
   }
+  const instance = Loading(options)
+  instance._context = vLoading._context
   el[INSTANCE_KEY] = {
     options,
-    instance: Loading(options),
+    instance,
   }
 }
 
@@ -70,7 +72,7 @@ const updateOptions = (
   }
 }
 
-export const vLoading: Directive<ElementLoading, LoadingBinding> = {
+const vLoading: Directive<ElementLoading, LoadingBinding> = {
   mounted(el, binding) {
     if (binding.value) {
       createInstance(el, binding)
@@ -91,5 +93,9 @@ export const vLoading: Directive<ElementLoading, LoadingBinding> = {
   },
   unmounted(el) {
     el[INSTANCE_KEY]?.instance.close()
+    el[INSTANCE_KEY] = null
   },
 }
+
+vLoading._context = null
+export default vLoading

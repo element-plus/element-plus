@@ -1,0 +1,69 @@
+<template>
+  <svg
+    width="280"
+    height="180"
+    viewBox="0 0 280 180"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect width="280" height="180" fill="var(--el-fill-color-light)" />
+    <rect
+      x="110"
+      y="62"
+      width="56"
+      height="3"
+      rx="1.5"
+      transform="rotate(90 110 62)"
+      fill="var(--el-color-primary-light-8)"
+    />
+    <rect
+      x="110"
+      y="74"
+      width="8"
+      height="3"
+      rx="1.5"
+      transform="rotate(90 110 74)"
+      fill="var(--el-color-primary)"
+    />
+    <rect
+      x="120"
+      y="76"
+      width="45"
+      height="4"
+      rx="2"
+      fill="var(--el-color-primary)"
+    />
+    <rect
+      x="120"
+      y="64"
+      width="45"
+      height="4"
+      rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+    <rect
+      x="120"
+      y="112"
+      width="45"
+      height="4"
+      rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+    <rect
+      x="128"
+      y="88"
+      width="45"
+      height="4"
+      rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+    <rect
+      x="128"
+      y="100"
+      width="45"
+      height="4"
+      rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+  </svg>
+</template>

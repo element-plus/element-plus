@@ -5,14 +5,7 @@ import type RadioButton from './radio-button.vue'
 
 export const radioButtonProps = buildProps({
   ...radioPropsBase,
-  /**
-   * @description native 'name' attribute
-   */
-  name: {
-    type: String,
-    default: '',
-  },
 } as const)
 
 export type RadioButtonProps = ExtractPropTypes<typeof radioButtonProps>
-export type RadioButtonInstance = InstanceType<typeof RadioButton>
+export type RadioButtonInstance = InstanceType<typeof RadioButton> & unknown

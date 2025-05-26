@@ -15,20 +15,19 @@
   "scripts": {
     "build": "run-p \"build:*\"",
     "build:contributor": "tsx src/contributor.ts",
-    "build:components": "tsx src/components.ts",
     "dev": "DEV=1 pnpm run build"
   },
   "devDependencies": {
-    "@element-plus/build": "^0.0.1",
-    "@element-plus/build-constants": "^0.0.1",
-    "@element-plus/build-utils": "^0.0.1",
+    "@element-plus/build": "workspace:*",
+    "@element-plus/build-constants": "workspace:*",
+    "@element-plus/build-utils": "workspace:*",
     "@types/lodash-es": "^4.17.6",
-    "chalk": "^5.0.1",
+    "chalk": "^5.3.0",
     "consola": "^2.15.3",
-    "fast-glob": "^3.2.11",
+    "fast-glob": "^3.3.2",
     "lodash-es": "^4.17.21",
-    "npm-run-all": "^4.1.5",
-    "octokit": "^2.0.3",
-    "tsx": "^3.6.0"
+    "npm-run-all2": "^5.0.0",
+    "octokit": "^2.1.0",
+    "tsx": "^4.7.1"
   }
 }

@@ -28,12 +28,6 @@ module.exports = defineConfig({
       parser: 'jsonc-eslint-parser',
     },
     {
-      files: ['*.ts', '*.vue'],
-      rules: {
-        'no-undef': 'off',
-      },
-    },
-    {
       files: ['**/__tests__/**'],
       rules: {
         'no-console': 'off',
@@ -121,15 +115,24 @@ module.exports = defineConfig({
       },
       rules: {
         'no-undef': 'off',
+        '@typescript-eslint/consistent-type-imports': [
+          'error',
+          { disallowTypeAnnotations: false },
+        ],
       },
     },
-
     {
       files: ['**/*.md/*.js', '**/*.md/*.ts'],
       rules: {
         'no-console': 'off',
         'import/no-unresolved': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
+      },
+    },
+    {
+      files: ['!docs/**/*.{js,ts,vue}'],
+      rules: {
+        'import/newline-after-import': ['error', { count: 1 }],
       },
     },
   ],
@@ -191,11 +194,9 @@ module.exports = defineConfig({
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
-    '@typescript-eslint/consistent-type-imports': [
-      'error',
-      { disallowTypeAnnotations: false },
-    ],
     '@typescript-eslint/ban-ts-comment': ['off', { 'ts-ignore': false }],
+    '@typescript-eslint/no-require-imports': 'off',
+    '@typescript-eslint/no-unused-expressions': 'off',
 
     // vue
     'vue/no-v-html': 'off',
@@ -204,6 +205,7 @@ module.exports = defineConfig({
     'vue/multi-word-component-names': 'off',
     'vue/prefer-import-from-vue': 'off',
     'vue/no-v-text-v-html-on-component': 'off',
+    'vue/padding-line-between-blocks': ['warn', 'always'],
     'vue/html-self-closing': [
       'error',
       {
@@ -262,6 +264,21 @@ module.exports = defineConfig({
     'import/no-named-as-default': 'off',
     'import/no-named-as-default-member': 'off',
     'import/named': 'off',
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          { name: 'lodash', message: 'Use lodash-unified instead.' },
+          { name: 'lodash-es', message: 'Use lodash-unified instead.' },
+        ],
+        patterns: [
+          {
+            group: ['lodash/*', 'lodash-es/*'],
+            message: 'Use lodash-unified instead.',
+          },
+        ],
+      },
+    ],
 
     // eslint-plugin-eslint-comments
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],

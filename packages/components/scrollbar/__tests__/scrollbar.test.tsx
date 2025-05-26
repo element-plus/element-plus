@@ -1,9 +1,10 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import makeScroll from '@element-plus/test-utils/make-scroll'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import Scrollbar from '../src/scrollbar.vue'
+import Thumb from '../src/thumb.vue'
 
 describe('ScrollBar', () => {
   test('vertical', async () => {
@@ -30,11 +31,11 @@ describe('ScrollBar', () => {
 
     await makeScroll(scrollDom, 'scrollTop', 100)
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'height: 80px; transform: translateY(50%);'
+      'transform: translateY(50%); height: 80px;'
     )
     await makeScroll(scrollDom, 'scrollTop', 300)
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'height: 80px; transform: translateY(150%);'
+      'transform: translateY(150%); height: 80px;'
     )
     offsetHeightRestore()
     scrollHeightRestore()
@@ -64,11 +65,11 @@ describe('ScrollBar', () => {
 
     await makeScroll(scrollDom, 'scrollLeft', 100)
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain(
-      'width: 80px; transform: translateX(50%);'
+      'transform: translateX(50%); width: 80px;'
     )
     await makeScroll(scrollDom, 'scrollLeft', 300)
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain(
-      'width: 80px; transform: translateX(150%);'
+      'transform: translateX(150%); width: 80px;'
     )
     offsetWidthRestore()
     scrollWidthRestore()
@@ -111,18 +112,18 @@ describe('ScrollBar', () => {
     await makeScroll(scrollDom, 'scrollTop', 100)
     await makeScroll(scrollDom, 'scrollLeft', 100)
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'height: 80px; transform: translateY(50%);'
+      'transform: translateY(50%); height: 80px;'
     )
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain(
-      'width: 80px; transform: translateX(50%);'
+      'transform: translateX(50%); width: 80px;'
     )
     await makeScroll(scrollDom, 'scrollTop', 300)
     await makeScroll(scrollDom, 'scrollLeft', 300)
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'height: 80px; transform: translateY(150%);'
+      'transform: translateY(150%); height: 80px;'
     )
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain(
-      'width: 80px; transform: translateX(150%);'
+      'transform: translateX(150%); width: 80px;'
     )
 
     offsetHeightRestore()
@@ -221,10 +222,10 @@ describe('ScrollBar', () => {
     scrollbar.setScrollLeft(100)
     await nextTick()
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'height: 80px; transform: translateY(0%);'
+      'transform: translateY(0%); height: 80px;'
     )
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain(
-      'width: 80px; transform: translateX(0%);'
+      'transform: translateX(0%); width: 80px;'
     )
 
     offsetHeightRestore()
@@ -257,7 +258,7 @@ describe('ScrollBar', () => {
 
     await makeScroll(scrollDom, 'scrollTop', 0)
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'height: 20px; transform: translateY(0%);'
+      'transform: translateY(0%); height: 20px;'
     )
     offsetHeightRestore()
     scrollHeightRestore()
@@ -307,5 +308,19 @@ describe('ScrollBar', () => {
     const wrapper = mount(() => <Scrollbar view-class={viewClass} />)
 
     expect(wrapper.find('.el-scrollbar__view').classes()).toContain(viewClass)
+  })
+
+  test('should not bubble up click event on click scrollbar', async () => {
+    const parentClick = vi.fn()
+    const wrapper = mount(() => (
+      <div onClick={parentClick}>
+        <Scrollbar style={{ width: '100px' }}>
+          ILoveRemILoveRemILoveRem
+        </Scrollbar>
+      </div>
+    ))
+    const scrollbar = wrapper.findComponent(Thumb)
+    await scrollbar.trigger('click')
+    expect(parentClick).toHaveBeenCalledTimes(0)
   })
 })

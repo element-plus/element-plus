@@ -2,8 +2,8 @@
   <div>
     <div style="margin-bottom: 15px">
       direction:
-      <el-radio v-model="direction" label="horizontal">horizontal</el-radio>
-      <el-radio v-model="direction" label="vertical">vertical</el-radio>
+      <el-radio v-model="direction" value="horizontal">horizontal</el-radio>
+      <el-radio v-model="direction" value="vertical">vertical</el-radio>
     </div>
     <div style="margin-bottom: 15px">
       fillRatio:<el-slider v-model="fillRatio" />
@@ -32,7 +32,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import type { SpaceInstance } from 'element-plus'
 
-const direction = ref('horizontal')
+const direction = ref<SpaceInstance['direction']>('horizontal')
 const fillRatio = ref(30)
 </script>

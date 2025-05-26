@@ -1,5 +1,5 @@
 <template>
-  <el-cascader-panel :options="options" />
+  <el-cascader-panel style="width: fit-content" :options="options" />
 </template>
 
 <script lang="ts" setup>

@@ -21,26 +21,19 @@ export function useSpace(props: SpaceProps) {
 
   const containerStyle = computed<StyleValue>(() => {
     const wrapKls: CSSProperties =
-      props.wrap || props.fill
-        ? { flexWrap: 'wrap', marginBottom: `-${verticalSize.value}px` }
-        : {}
+      props.wrap || props.fill ? { flexWrap: 'wrap' } : {}
     const alignment: CSSProperties = {
       alignItems: props.alignment,
     }
-    return [wrapKls, alignment, props.style]
+    const gap: CSSProperties = {
+      rowGap: `${verticalSize.value}px`,
+      columnGap: `${horizontalSize.value}px`,
+    }
+    return [wrapKls, alignment, gap, props.style]
   })
 
   const itemStyle = computed<StyleValue>(() => {
-    const itemBaseStyle: CSSProperties = {
-      paddingBottom: `${verticalSize.value}px`,
-      marginRight: `${horizontalSize.value}px`,
-    }
-
-    const fillStyle: CSSProperties = props.fill
-      ? { flexGrow: 1, minWidth: `${props.fillRatio}%` }
-      : {}
-
-    return [itemBaseStyle, fillStyle]
+    return props.fill ? { flexGrow: 1, minWidth: `${props.fillRatio}%` } : {}
   })
 
   watchEffect(() => {

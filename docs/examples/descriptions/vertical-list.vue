@@ -1,8 +1,8 @@
 <template>
   <el-radio-group v-model="size">
-    <el-radio label="large">Large</el-radio>
-    <el-radio>Default</el-radio>
-    <el-radio label="small">Small</el-radio>
+    <el-radio value="large">Large</el-radio>
+    <el-radio value="default">Default</el-radio>
+    <el-radio value="small">Small</el-radio>
   </el-radio-group>
 
   <el-descriptions
@@ -18,8 +18,8 @@
     <el-descriptions-item label="Remarks">
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
-    <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+    <el-descriptions-item label="Address">
+      No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
     </el-descriptions-item>
   </el-descriptions>
 
@@ -36,16 +36,18 @@
     <el-descriptions-item label="Remarks">
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
-    <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+    <el-descriptions-item label="Address">
+      No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
     </el-descriptions-item>
   </el-descriptions>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import type { ComponentSize } from 'element-plus'
 
-const size = ref('')
+const size = ref<ComponentSize>('default')
+
 const blockMargin = computed(() => {
   const marginMap = {
     large: '32px',

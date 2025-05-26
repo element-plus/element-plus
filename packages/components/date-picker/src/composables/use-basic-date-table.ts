@@ -2,7 +2,7 @@ import { computed, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { flatten } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { castArray } from '@element-plus/utils'
+import { castArray, isArray } from '@element-plus/utils'
 import { buildPickerTable } from '../utils'
 
 import type { SetupContext } from 'vue'
@@ -133,9 +133,7 @@ export const useBasicDateTable = (
     const shouldIncrement = setDateText(cell, { count, rowIndex, columnIndex })
 
     const cellDate = cell.dayjs!.toDate()
-    cell.selected = _selectedDate.find(
-      (d) => d.valueOf() === cell.dayjs!.valueOf()
-    )
+    cell.selected = _selectedDate.find((d) => d.isSame(cell.dayjs, 'day'))
     cell.isSelected = !!cell.selected
     cell.isCurrent = isCurrent(cell)
     cell.disabled = disabledDate?.(cellDate)
@@ -375,7 +373,7 @@ export const useBasicDateTable = (
 
     newDate = newDate.date(Number.parseInt(cell.text as any, 10))
 
-    if (props.parsedValue && !Array.isArray(props.parsedValue)) {
+    if (props.parsedValue && !isArray(props.parsedValue)) {
       const dayOffset = ((props.parsedValue.day() - firstDayOfWeek + 7) % 7) - 1
       const weekDate = props.parsedValue.subtract(dayOffset, 'day')
       return weekDate.isSame(newDate, 'day')

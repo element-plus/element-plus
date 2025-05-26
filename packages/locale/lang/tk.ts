@@ -1,6 +1,9 @@
 export default {
   name: 'tk',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Arassala',
@@ -65,6 +68,9 @@ export default {
       noData: 'Hiçzat ýok',
       placeholder: 'Saýla',
     },
+    mention: {
+      loading: 'Indirilýär',
+    },
     cascader: {
       noMatch: 'Hiçzat tapylmady',
       loading: 'Indirilýär',
@@ -122,6 +128,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

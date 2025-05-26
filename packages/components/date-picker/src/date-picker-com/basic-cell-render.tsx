@@ -1,4 +1,4 @@
-import { defineComponent, inject } from 'vue'
+import { defineComponent, inject, renderSlot } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { ROOT_PICKER_INJECTION_KEY } from '../constants'
 import { basicCellProps } from '../props/basic-cell'
@@ -11,24 +11,12 @@ export default defineComponent({
     const { slots } = inject(ROOT_PICKER_INJECTION_KEY)!
     return () => {
       const { cell } = props
-      if (slots.default) {
-        const list = slots.default(cell).filter((item) => {
-          return (
-            item.patchFlag !== -2 &&
-            item.type.toString() !== 'Symbol(Comment)' &&
-            item.type.toString() !== 'Symbol(v-cmt)'
-          )
-        })
-        if (list.length) {
-          return list
-        }
-      }
 
-      return (
+      return renderSlot(slots, 'default', { ...cell }, () => [
         <div class={ns.b()}>
-          <span class={ns.e('text')}>{cell?.text}</span>
-        </div>
-      )
+          <span class={ns.e('text')}>{cell?.renderText ?? cell?.text}</span>
+        </div>,
+      ])
     }
   },
 })

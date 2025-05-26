@@ -1,10 +1,11 @@
 <template>
-  <el-button text @click="open">Click to open Message Box</el-button>
+  <el-button plain @click="open">Click to open Message Box</el-button>
 </template>
 
 <script lang="ts" setup>
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { Action } from 'element-plus'
+
 const open = () => {
   ElMessageBox.confirm(
     'You have unsaved changes, save and proceed?',

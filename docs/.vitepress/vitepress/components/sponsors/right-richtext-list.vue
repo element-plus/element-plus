@@ -13,7 +13,7 @@ const onItemClick = (item: any) => {
 </script>
 
 <template>
-  <div class="m-t-16px">
+  <div class="right-rich">
     <a
       v-for="item in rightRichTextSponsors"
       :key="item.name"
@@ -57,3 +57,9 @@ const onItemClick = (item: any) => {
     </a>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.right-rich {
+  margin-top: 16px;
+}
+</style>

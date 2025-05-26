@@ -78,6 +78,19 @@ export const imageViewerProps = buildProps({
     type: Number,
     default: 7,
   },
+  /**
+   * @description show preview image progress content.
+   */
+  showProgress: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * @description set HTML attribute: crossorigin.
+   */
+  crossorigin: {
+    type: definePropType<'anonymous' | 'use-credentials' | ''>(String),
+  },
 } as const)
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 
@@ -93,4 +106,4 @@ export interface ImageViewerMode {
   icon: Component
 }
 
-export type ImageViewerInstance = InstanceType<typeof ImageViewer>
+export type ImageViewerInstance = InstanceType<typeof ImageViewer> & unknown

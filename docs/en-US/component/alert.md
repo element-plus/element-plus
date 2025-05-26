@@ -11,7 +11,7 @@ Displays important alert messages.
 
 Alert components are non-overlay elements in the page that does not disappear automatically.
 
-:::demo Alert provides 4 types of themes defined by `type`, whose default value is `info`.
+:::demo Alert provides 5 types of themes defined by `type`, whose default value is `info`. `primary` has been added in ^(2.9.11).
 
 alert/basic
 
@@ -41,7 +41,7 @@ alert/close-button
 
 Displaying an icon improves readability.
 
-:::demo Setting the `show-icon` attribute displays an icon that corresponds with the current Alert type.
+:::demo Setting the `show-icon` attribute displays an icon that corresponds with the current Alert type. Or use the `icon` slot to customize icon.
 
 alert/icon
 
@@ -75,30 +75,43 @@ alert/icon-description
 
 :::
 
+## With Delayed Attributes ^(2.9.12)
+
+:::demo At last, this is an example with delayed attributes.
+
+alert/delayed
+
+:::
+
 ## Alert API
 
 ### Attributes
 
-| Name        | Description                              | Type                                                  | Default   | Required |
-| ----------- | ---------------------------------------- | ----------------------------------------------------- | --------- | -------- |
-| title       | alert title.                             | ^[string]                                             | —         | No       |
-| type        | alert type.                              | ^[enum]`'success' \| 'warning' \| 'info' \| 'error' ` | `info`    | No       |
-| description | descriptive text.                        | ^[string]                                             | —         | No       |
-| closable    | whether alert can be dismissed.          | ^[boolean]                                            | `true`    | No       |
-| center      | whether content is placed in the center. | ^[boolean]                                            | `false`   | No       |
-| close-text  | customized close button text.            | ^[string]                                             | —         | No       |
-| show-icon   | whether a type icon is displayed.        | ^[boolean]                                            | `false`   | No       |
-| effect      | theme style.                             | ^[enum]`'light' \| 'dark'`                            | `'light'` | No       |
+| Name                 | Description                              | Type                                                                       | Default |
+| -------------------- | ---------------------------------------- | -------------------------------------------------------------------------- | ------- |
+| title                | alert title.                             | ^[string]                                                                  | —       |
+| type                 | alert type.                              | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'` | info    |
+| description          | descriptive text.                        | ^[string]                                                                  | —       |
+| closable             | whether alert can be dismissed.          | ^[boolean]                                                                 | true    |
+| center               | whether content is placed in the center. | ^[boolean]                                                                 | false   |
+| close-text           | customized close button text.            | ^[string]                                                                  | —       |
+| show-icon            | whether a type icon is displayed.        | ^[boolean]                                                                 | false   |
+| effect               | theme style.                             | ^[enum]`'light' \| 'dark'`                                                 | light   |
+| show-after ^(2.9.12) | delay of appearance, in millisecond      | ^[number]                                                                  | 0       |
+| hide-after ^(2.9.12) | delay of disappear, in millisecond       | ^[number]                                                                  | 200     |
+| auto-close ^(2.9.12) | timeout in milliseconds to hide alert    | ^[number]                                                                  | 0       |
 
 ### Events
 
-| Name  | Description                   | Type                                     |
-| ----- | ----------------------------- | ---------------------------------------- |
-| close | trigger when alert is closed. | ^[Function]`(event: MouseEvent) => void` |
+| Name           | Description                   | Type                                 |
+| -------------- | ----------------------------- | ------------------------------------ |
+| open ^(2.9.12) | trigger when alert is opened. | ^[Function]`() => void`              |
+| close          | trigger when alert is closed. | ^[Function]`(event?: Event) => void` |
 
 ### Slots
 
-| Name    | Description                       |
-| ------- | --------------------------------- |
-| default | content of the alert description. |
-| title   | content of the alert title.       |
+| Name          | Description                       |
+| ------------- | --------------------------------- |
+| default       | content of the alert description. |
+| title         | content of the alert title.       |
+| icon ^(2.9.7) | content of the alert icon.        |

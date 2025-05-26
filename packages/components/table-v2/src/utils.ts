@@ -25,7 +25,7 @@ export const enforceUnit = (style: CSSProperties) => {
   return style
 }
 
-export const componentToSlot = <T>(
+export const componentToSlot = <T extends object>(
   ComponentLike: JSX.Element | ((props: T) => Component<T>) | undefined
 ) =>
   isVNode(ComponentLike)

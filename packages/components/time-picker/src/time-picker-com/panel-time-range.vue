@@ -153,6 +153,9 @@ const isValidValue = (_date: Dayjs[]) => {
 }
 
 const handleChange = (start: Dayjs, end: Dayjs) => {
+  if (!props.visible) {
+    return
+  }
   // todo getRangeAvailableTime(_date).millisecond(0)
   emit('pick', [start, end], true)
 }

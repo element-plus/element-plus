@@ -75,6 +75,12 @@ $rate-size: map.merge(
     display: inline-block;
     overflow: hidden;
     color: getCssVar('rate', 'fill-color');
+
+    @include m('box') {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
   }
 
   @include e(text) {
@@ -86,6 +92,7 @@ $rate-size: map.merge(
   @each $size in (large, small) {
     @include m($size) {
       height: map.get($rate-height, $size);
+
       & .#{bem('rate', 'icon')} {
         font-size: map.get($rate-size, $size);
       }

@@ -1,12 +1,12 @@
 <template>
-  <el-button text @click="centerDialogVisible = true">
+  <el-button plain @click="centerDialogVisible = true">
     Click to open Dialog
   </el-button>
 
   <el-dialog
     v-model="centerDialogVisible"
     title="Notice"
-    width="30%"
+    width="500"
     destroy-on-close
     center
   >
@@ -18,12 +18,12 @@
       <strong>Extra content (Not rendered)</strong>
     </div>
     <template #footer>
-      <span class="dialog-footer">
+      <div class="dialog-footer">
         <el-button @click="centerDialogVisible = false">Cancel</el-button>
         <el-button type="primary" @click="centerDialogVisible = false">
           Confirm
         </el-button>
-      </span>
+      </div>
     </template>
   </el-dialog>
 </template>
@@ -33,8 +33,3 @@ import { ref } from 'vue'
 
 const centerDialogVisible = ref(false)
 </script>
-<style scoped>
-.dialog-footer button:first-child {
-  margin-right: 10px;
-}
-</style>

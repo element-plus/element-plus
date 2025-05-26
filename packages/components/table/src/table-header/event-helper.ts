@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { getCurrentInstance, inject, ref } from 'vue'
+import { isNull } from 'lodash-unified'
 import {
   addClass,
   hasClass,
@@ -121,13 +122,15 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
     }
     const target = el?.closest('th')
 
-    if (!column || !column.resizable) return
+    if (!column || !column.resizable || !target) return
 
     if (!dragging.value && props.border) {
       const rect = target.getBoundingClientRect()
 
       const bodyStyle = document.body.style
-      if (rect.width > 12 && rect.right - event.pageX < 8) {
+      const isLastTh = target.parentNode?.lastElementChild === target
+      const allowDarg = props.allowDragLastColumn || !isLastTh
+      if (rect.width > 12 && rect.right - event.clientX < 8 && allowDarg) {
         bodyStyle.cursor = 'col-resize'
         if (hasClass(target, 'is-sortable')) {
           target.style.cursor = 'col-resize'
@@ -160,7 +163,6 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
     event.stopPropagation()
     const order =
       column.order === givenOrder ? null : givenOrder || toggleOrder(column)
-
     const target = (event.target as HTMLElement)?.closest('th')
 
     if (target) {
@@ -172,6 +174,16 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
 
     if (!column.sortable) return
 
+    const clickTarget = event.currentTarget
+
+    if (
+      ['ascending', 'descending'].some(
+        (str) => hasClass(clickTarget, str) && !column.sortOrders.includes(str)
+      )
+    ) {
+      return
+    }
+
     const states = props.store.states
     let sortProp = states.sortProp.value
     let sortOrder
@@ -179,7 +191,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
 
     if (
       sortingColumn !== column ||
-      (sortingColumn === column && sortingColumn.order === null)
+      (sortingColumn === column && isNull(sortingColumn.order))
     ) {
       if (sortingColumn) {
         sortingColumn.order = null

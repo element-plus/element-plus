@@ -1,5 +1,5 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type Link from './link.vue'
 
 export const linkProps = buildProps({
@@ -9,23 +9,31 @@ export const linkProps = buildProps({
   type: {
     type: String,
     values: ['primary', 'success', 'warning', 'info', 'danger', 'default'],
-    default: 'default',
+    default: undefined,
   },
   /**
-   * @description whether the component has underline
+   * @description when underlines should appear
    */
   underline: {
-    type: Boolean,
-    default: true,
+    type: [Boolean, String],
+    values: [true, false, 'always', 'never', 'hover'],
+    default: undefined,
   },
   /**
    * @description whether the component is disabled
    */
-  disabled: { type: Boolean, default: false },
+  disabled: Boolean,
   /**
    * @description same as native hyperlink's `href`
    */
   href: { type: String, default: '' },
+  /**
+   * @description same as native hyperlink's `target`
+   */
+  target: {
+    type: String as PropType<'_blank' | '_parent' | '_self' | '_top' | string>,
+    default: '_self',
+  },
   /**
    * @description icon component
    */
@@ -40,4 +48,8 @@ export const linkEmits = {
 }
 export type LinkEmits = typeof linkEmits
 
-export type LinkInstance = InstanceType<typeof Link>
+export type LinkInstance = InstanceType<typeof Link> & unknown
+export interface LinkConfigContext {
+  type?: string
+  underline?: string | boolean
+}
