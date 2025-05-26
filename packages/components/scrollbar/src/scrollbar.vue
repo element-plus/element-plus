@@ -1,6 +1,12 @@
 <template>
   <div ref="scrollbarRef" :class="ns.b()">
-    <div ref="wrapRef" :class="wrapKls" :style="wrapStyle" :tabindex="tabindex">
+    <div
+      ref="wrapRef"
+      :class="wrapKls"
+      :style="wrapStyle"
+      :tabindex="tabindex"
+      @scroll="handleScroll"
+    >
       <component
         :is="tag"
         :id="id"
@@ -32,11 +38,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import {
-  useEventListener,
-  useInfiniteScroll,
-  useResizeObserver,
-} from '@vueuse/core'
+import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { addUnit, debugWarn, isNumber, isObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
@@ -66,10 +68,6 @@ const wrapRef = ref<HTMLDivElement>()
 const resizeRef = ref<HTMLElement>()
 const barRef = ref<BarInstance>()
 
-onMounted(() => {
-  useInfiniteScroll(wrapRef, props.endReached, { onScroll: handleScroll })
-})
-
 const wrapStyle = computed<StyleValue>(() => {
   const style: CSSProperties = {}
   if (props.height) style.height = addUnit(props.height)
@@ -89,7 +87,7 @@ const resizeKls = computed(() => {
   return [ns.e('view'), props.viewClass]
 })
 
-function handleScroll() {
+const handleScroll = () => {
   if (wrapRef.value) {
     barRef.value?.handleScroll(wrapRef.value)
     wrapScrollTop = wrapRef.value.scrollTop
