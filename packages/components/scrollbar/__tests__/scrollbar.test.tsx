@@ -323,4 +323,66 @@ describe('ScrollBar', () => {
     await scrollbar.trigger('click')
     expect(parentClick).toHaveBeenCalledTimes(0)
   })
+
+  test('should emit end-reached event foreach direction', async () => {
+    const endReached = vi.fn()
+    const outerHeight = 204
+    const innerHeight = 500
+    const outerWidth = 204
+    const innerWidth = 500
+    const wrapper = mount(() => (
+      <Scrollbar
+        style={`height: ${outerHeight}px; width: ${outerWidth}px;`}
+        onEndReached={endReached}
+      >
+        <div style={`height: ${innerHeight}px; width: ${innerWidth}px;`}></div>
+      </Scrollbar>
+    ))
+
+    const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+
+    const offsetHeightRestore = defineGetter(
+      scrollDom,
+      'offsetHeight',
+      outerHeight
+    )
+    const scrollHeightRestore = defineGetter(
+      scrollDom,
+      'scrollHeight',
+      innerHeight
+    )
+    const offsetWidthRestore = defineGetter(
+      scrollDom,
+      'offsetWidth',
+      outerWidth
+    )
+    const scrollWidthRestore = defineGetter(
+      scrollDom,
+      'scrollWidth',
+      innerWidth
+    )
+
+    await makeScroll(scrollDom, 'scrollTop', innerHeight)
+    expect(endReached).toHaveBeenCalledWith('bottom')
+    endReached.mockReset()
+    await makeScroll(scrollDom, 'scrollTop', 0)
+    expect(endReached).toHaveBeenCalledWith('top')
+    endReached.mockReset()
+    await makeScroll(scrollDom, 'scrollLeft', innerWidth)
+    expect(endReached).toHaveBeenCalledWith('right')
+    endReached.mockReset()
+    await makeScroll(scrollDom, 'scrollLeft', 0)
+    expect(endReached).toHaveBeenCalledWith('left')
+    endReached.mockReset()
+    await makeScroll(scrollDom, 'scrollLeft', innerWidth / 2)
+    expect(endReached).not.toHaveBeenCalled()
+    endReached.mockReset()
+    await makeScroll(scrollDom, 'scrollTop', innerHeight / 2)
+    expect(endReached).not.toHaveBeenCalled()
+
+    offsetHeightRestore()
+    scrollHeightRestore()
+    offsetWidthRestore()
+    scrollWidthRestore()
+  })
 })
