@@ -33,7 +33,7 @@ type RowRendererProps = TableGridRowSlotParams &
     >
   > & {
     ns: UseNamespaceReturn
-    tableInstance: null | ComponentInternalInstance
+    tableInstance?: ComponentInternalInstance
   }
 
 const RowRenderer: FunctionalComponent<RowRendererProps> = (

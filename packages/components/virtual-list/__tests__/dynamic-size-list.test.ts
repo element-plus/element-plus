@@ -12,6 +12,7 @@ import { DynamicSizeList } from '..'
 import setupMock from './setup-mock'
 
 import type { ListExposes } from '../src/types'
+
 type ListRef = ListExposes
 
 const onItemRendered = vi.fn()

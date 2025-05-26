@@ -17,7 +17,7 @@ export const usePopperContent = (props: PopperContentProps) => {
   )!
 
   const arrowRef = ref<HTMLElement>()
-  const arrowOffset = ref<number>()
+  const arrowOffset = computed(() => props.arrowOffset)
 
   const eventListenerModifier = computed(() => {
     return {
@@ -61,7 +61,9 @@ export const usePopperContent = (props: PopperContentProps) => {
   const { attributes, state, styles, update, forceUpdate, instanceRef } =
     usePopper(computedReference, contentRef, options)
 
-  watch(instanceRef, (instance) => (popperInstanceRef.value = instance))
+  watch(instanceRef, (instance) => (popperInstanceRef.value = instance), {
+    flush: 'sync',
+  })
 
   onMounted(() => {
     watch(

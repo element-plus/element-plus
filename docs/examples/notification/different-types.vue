@@ -1,8 +1,9 @@
 <template>
-  <el-button plain @click="open1"> Success </el-button>
-  <el-button plain @click="open2"> Warning </el-button>
-  <el-button plain @click="open3"> Info </el-button>
-  <el-button plain @click="open4"> Error </el-button>
+  <el-button plain @click="open5">Primary</el-button>
+  <el-button plain @click="open1">Success</el-button>
+  <el-button plain @click="open2">Warning</el-button>
+  <el-button plain @click="open3">Info</el-button>
+  <el-button plain @click="open4">Error</el-button>
 </template>
 
 <script lang="ts" setup>
@@ -37,6 +38,14 @@ const open4 = () => {
     title: 'Error',
     message: 'This is an error message',
     type: 'error',
+  })
+}
+
+const open5 = () => {
+  ElNotification({
+    title: 'Primary',
+    message: 'This is a primary message',
+    type: 'primary',
   })
 }
 </script>

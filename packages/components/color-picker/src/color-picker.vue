@@ -75,7 +75,7 @@
           t('el.colorpicker.description', { color: modelValue || '' })
         "
         :aria-disabled="colorDisabled"
-        :tabindex="colorDisabled ? -1 : tabindex"
+        :tabindex="colorDisabled ? undefined : tabindex"
         @keydown="handleKeyDown"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -268,6 +268,9 @@ function resetColor() {
       color.fromString(props.modelValue)
     } else {
       color.value = ''
+      if (!currentColor.value && customInput.value) {
+        customInput.value = ''
+      }
       nextTick(() => {
         showPanelColor.value = false
       })
@@ -285,6 +288,9 @@ function handleTrigger() {
 
 function handleConfirm() {
   color.fromString(customInput.value)
+  if (color.value !== customInput.value) {
+    customInput.value = color.value
+  }
 }
 
 function confirmValue() {

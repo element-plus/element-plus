@@ -22,6 +22,7 @@ import {
   isFunction,
   isNumber,
   isObject,
+  isUndefined,
 } from '@element-plus/utils'
 import {
   useComposition,
@@ -41,7 +42,6 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 
-import { ArrowDown } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
 import { useProps } from './useProps'
 
@@ -122,6 +122,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     afterBlur() {
       expanded.value = false
       states.menuVisibleOnFocus = false
+      if (props.validateEvent) {
+        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
+      }
     },
   })
 
@@ -161,7 +164,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   })
 
   const iconComponent = computed(() =>
-    props.remote && props.filterable ? '' : ArrowDown
+    props.remote && props.filterable ? '' : props.suffixIcon
   )
 
   const iconReverse = computed(
@@ -299,7 +302,10 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     const padding =
       Number.parseFloat(style.paddingLeft) +
       Number.parseFloat(style.paddingRight)
-    ctx.font = style.font
+    ctx.font = `bold ${style.font.replace(
+      new RegExp(`\\b${style.fontWeight}\\b`),
+      ''
+    )}`
     const maxWidth = filteredOptions.value.reduce((max, option) => {
       const metrics = ctx.measureText(getLabel(option))
       return Math.max(metrics.width, max)
@@ -486,6 +492,21 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     emit(UPDATE_MODEL_EVENT, val)
     emitChange(val)
     states.previousValue = props.multiple ? String(val) : val
+
+    nextTick(() => {
+      if (props.multiple && isArray(props.modelValue)) {
+        const cachedOptions = states.cachedOptions.slice()
+        const selectedOptions = props.modelValue.map((value) =>
+          getOption(value, cachedOptions)
+        )
+
+        if (!isEqual(states.cachedOptions, selectedOptions)) {
+          states.cachedOptions = selectedOptions
+        }
+      } else {
+        initStates(true)
+      }
+    })
   }
 
   const getValueIndex = (arr: unknown[] = [], value: unknown) => {
@@ -513,7 +534,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   }
 
   const resetSelectionWidth = () => {
-    states.selectionWidth = selectionRef.value!.getBoundingClientRect().width
+    states.selectionWidth = Number.parseFloat(
+      window.getComputedStyle(selectionRef.value!).width
+    )
   }
 
   const resetCollapseItemWidth = () => {
@@ -644,11 +667,8 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       emptyValue = valueOnClear.value
     }
 
-    if (props.multiple) {
-      states.cachedOptions = []
-    } else {
-      states.selectedLabel = ''
-    }
+    states.selectedLabel = ''
+
     expanded.value = false
     update(emptyValue)
     emit('clear')
@@ -673,7 +693,7 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
     if (!expanded.value) {
       return toggleMenu()
     }
-    if (hoveringIndex === undefined) {
+    if (isUndefined(hoveringIndex)) {
       hoveringIndex = states.hoveringIndex
     }
     let newIndex = -1
@@ -718,12 +738,13 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   const updateHoveringIndex = () => {
     if (!props.multiple) {
       states.hoveringIndex = filteredOptions.value.findIndex((item) => {
-        return getValueKey(item) === getValueKey(props.modelValue)
+        return getValueKey(getValue(item)) === getValueKey(props.modelValue)
       })
     } else {
       states.hoveringIndex = filteredOptions.value.findIndex((item) =>
         props.modelValue.some(
-          (modelValue: unknown) => getValueKey(modelValue) === getValueKey(item)
+          (modelValue: unknown) =>
+            getValueKey(modelValue) === getValueKey(getValue(item))
         )
       )
     }

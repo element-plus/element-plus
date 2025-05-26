@@ -4,6 +4,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import sleep from '@element-plus/test-utils/sleep'
+import ElIcon from '@element-plus/components/icon'
 import Tree from '../src/tree.vue'
 import Button from '../../button/src/button.vue'
 import type Node from '../src/model/node'
@@ -349,7 +350,7 @@ describe('Tree.vue', () => {
     const treeWrapper = wrapper.findComponent(Tree)
     ;(treeWrapper.vm as InstanceType<typeof Tree>).filter('2-1')
 
-    await nextTick()
+    await sleep()
     expect(treeWrapper.findAll('.el-tree-node.is-hidden').length).toEqual(3)
   })
   test('lazy load with filter expand loaded node', async () => {
@@ -573,6 +574,31 @@ describe('Tree.vue', () => {
     const secondNodeContentWrapper = secondTreeNodeWrapper.findAll(
       '.el-tree-node__content'
     )[1]
+    await secondNodeContentWrapper.trigger('click')
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+  })
+
+  test('ensure no checked nodes in non show-checkbox mode', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps"`)
+    const treeVm = wrapper.findComponent(Tree).vm
+
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    const secondTreeNodeWrapper = wrapper.findAll('.el-tree-node')[2]
+    await secondTreeNodeWrapper.trigger('click')
+
+    const secondNodeContentWrapper = secondTreeNodeWrapper.findAll(
+      '.el-tree-node__content'
+    )[1]
+
+    expect(
+      secondNodeContentWrapper
+        .findComponent(ElIcon)
+        .classes()
+        .includes('is-leaf')
+    ).toBe(true)
+
     await secondNodeContentWrapper.trigger('click')
 
     expect(treeVm.getCheckedNodes().length).toEqual(0)
