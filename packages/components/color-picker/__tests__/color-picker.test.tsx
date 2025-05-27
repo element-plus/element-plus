@@ -106,7 +106,7 @@ describe('Color-picker', () => {
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
     await nextTick()
-    expect(color.value).toEqual('#ff0000')
+    expect(color.value).toEqual('') // should be empty #13239
     wrapper.unmount()
   })
   it('should pick a color contains alpha when confirm button click', async () => {
@@ -118,7 +118,7 @@ describe('Color-picker', () => {
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
     await nextTick()
-    expect(color.value).toEqual('#ff0000ff')
+    expect(color.value).toEqual('') // should be empty #13239
     wrapper.unmount()
   })
   it('should init the right color when open', async () => {
