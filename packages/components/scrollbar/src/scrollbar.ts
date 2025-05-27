@@ -95,7 +95,7 @@ export const scrollbarProps = buildProps({
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
 
 export const scrollbarEmits = {
-  endReached: (direction: ScrollbarDirection) => direction,
+  ‘end-reached': (direction: ScrollbarDirection) => direction,
   scroll: ({
     scrollTop,
     scrollLeft,
