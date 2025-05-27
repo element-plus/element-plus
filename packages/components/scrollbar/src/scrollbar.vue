@@ -119,7 +119,7 @@ const handleScroll = () => {
       scrollTop: wrapScrollTop,
       scrollLeft: wrapScrollLeft,
     })
-    if (arrivedStates[direction]) emit('endReached', direction)
+    if (arrivedStates[direction]) emit('end-reached', direction)
   }
 }
 
