@@ -9,6 +9,7 @@ import {
   ElLink,
   ElMessage,
   ElPagination,
+  MessageConfigContext,
 } from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
 import { getStyle } from '@element-plus/utils'
@@ -17,7 +18,7 @@ import {
   useGlobalComponentSettings,
   useGlobalConfig,
 } from '../src/hooks/use-global-config'
-import ConfigProvider from '../src/config-provider'
+import ConfigProvider, { messageConfig } from '../src/config-provider'
 
 import type { PropType } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
@@ -190,6 +191,9 @@ describe('config-provider', () => {
   describe('message-config', () => {
     afterEach(() => {
       ElMessage.closeAll()
+      Object.keys(messageConfig).forEach(
+        (key) => (messageConfig[key as keyof MessageConfigContext] = undefined)
+      )
     })
 
     it('limit the number of messages displayed at the same time', async () => {
