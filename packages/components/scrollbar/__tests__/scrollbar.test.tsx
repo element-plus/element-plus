@@ -333,7 +333,7 @@ describe('ScrollBar', () => {
     const wrapper = mount(() => (
       <Scrollbar
         style={`height: ${outerHeight}px; width: ${outerWidth}px;`}
-        onEndReached={endReached}
+        onEnd-reached={endReached}
       >
         <div style={`height: ${innerHeight}px; width: ${innerWidth}px;`}></div>
       </Scrollbar>
