@@ -41,7 +41,7 @@ scrollbar/manual-scroll
 
 ## Infinite scroll ^(2.9.12)
 
-:::demo When the end of the scroll is reached `bottom-reached` is called. It can be used for infinite scroll.
+:::demo `end-reached` is triggered when the scrollbar reaches the end. It can be used as an infinite scroll.
 
 scrollbar/infinite-scroll
 
