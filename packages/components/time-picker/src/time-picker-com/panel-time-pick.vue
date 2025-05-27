@@ -52,6 +52,7 @@ import {
 import TimeSpinner from './basic-time-spinner.vue'
 
 import type { Dayjs } from 'dayjs'
+import type { ModelValueType } from '../common/props'
 
 const props = defineProps(panelTimePickerProps)
 const emit = defineEmits(['pick', 'select-range', 'set-picker-option'])
@@ -150,8 +151,17 @@ const { timePickerOptions, onSetOption, getAvailableTime } = useTimePanel({
   getAvailableSeconds,
 })
 
-const getRangeAvailableTime = (date: Dayjs) => {
-  return getAvailableTime(date, props.datetimeRole || '', true)
+const getRangeAvailableTime = (
+  date: Dayjs,
+  modelValue?: ModelValueType | null
+) => {
+  return getAvailableTime(
+    date,
+    props.datetimeRole || '',
+    true,
+    undefined,
+    modelValue
+  )
 }
 
 const parseUserInput = (value: Dayjs) => {
