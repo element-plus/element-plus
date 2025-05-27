@@ -39,7 +39,7 @@ scrollbar/manual-scroll
 
 :::
 
-## Infinite scroll ^(2.9.12)
+## Infinite scroll ^(2.10.0)
 
 :::demo `end-reached` is triggered when the scrollbar reaches the end. It can be used as an infinite scroll.
 
