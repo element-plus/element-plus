@@ -430,7 +430,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       expanded.value = true
     }
     createNewOption(states.inputValue)
-    handleQueryChange(states.inputValue)
+    nextTick(() => {
+      handleQueryChange(states.inputValue)
+    })
   }
 
   const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)
