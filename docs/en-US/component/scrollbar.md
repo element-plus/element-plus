@@ -72,10 +72,10 @@ scrollbar/infinite-scroll
 
 ### Events
 
-| Name                  | Description                                           | Type                                                               |
-| --------------------- | ----------------------------------------------------- | ------------------------------------------------------------------ |
-| scroll                | triggers when scrolling, return distance of scrolling | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void`   |
-| end-reached ^(2.10.0) | triggers when the end of a scroll is triggered        | ^[Function]`(direction: 'top'\|'bottom'\|'left'\|'right') => void` |
+| Name                  | Description                                           | Type                                                                     |
+| --------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------ |
+| scroll                | triggers when scrolling, return distance of scrolling | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void`         |
+| end-reached ^(2.10.0) | triggers when the end of a scroll is triggered        | ^[Function]`(direction: 'top' \| 'bottom' \| 'left' \| 'right') => void` |
 
 ### Slots
 
