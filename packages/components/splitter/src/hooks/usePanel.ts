@@ -1,10 +1,5 @@
-import { type Ref, computed, provide, ref } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
 import { isObject } from '@element-plus/utils'
-import { addPanelKey, removePanelKey } from '../const'
 import type { PanelItem } from '../type'
-
-const ns = useNamespace('splitter-panel')
 
 export function getCollapsible(
   collapsible: boolean | { start?: boolean; end?: boolean }
@@ -36,39 +31,4 @@ export function isCollapsible(
 
   // 否则不可折叠
   return false
-}
-
-export function usePanel(containerEl: Ref<HTMLDivElement | undefined>) {
-  const panels = ref<PanelItem[]>([])
-
-  const addPanel = (panel: PanelItem) => {
-    // 1. Find the position of the panel
-    let index = -1
-    Array.from(containerEl.value?.children || []).some((el) => {
-      if (el.className.includes(ns.b())) index++
-      return el.isSameNode(panel.el)
-    })
-
-    panels.value.splice(index, 0, { ...panel, index })
-    // 2. Reorder the panels
-    panels.value.forEach((p, i) => (p.index = i))
-  }
-
-  const removePanel = (uid: number) => {
-    const index = panels.value.findIndex((p) => p.uid === uid)
-    panels.value.splice(index, 1)
-    panels.value.forEach((p, i) => (p.index = i))
-  }
-
-  const panelsMap = computed(() => {
-    return panels.value.reduce<Record<number, PanelItem>>((obj, pane) => {
-      obj[pane.uid] = pane
-      return obj
-    }, {})
-  })
-
-  provide(addPanelKey, addPanel)
-  provide(removePanelKey, removePanel)
-
-  return { panelsMap, panels }
 }

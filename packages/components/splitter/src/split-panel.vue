@@ -6,20 +6,24 @@ import {
   nextTick,
   onMounted,
   onUnmounted,
+  reactive,
   ref,
+  toRefs,
   watch,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { addPanelKey, panelContextKey, removePanelKey } from './const'
+import { throwError } from '@element-plus/utils'
 import { getCollapsible, isCollapsible } from './hooks/usePanel'
 import SplitBar from './split-bar.vue'
 import { splitterPanelProps } from './split-panel'
 import { getPct, getPx, isPct, isPx } from './hooks'
+import { splitterRootContextKey } from './type'
 
 const ns = useNamespace('splitter-panel')
 
+const COMPONENT_NAME = 'ElSplitterPanel'
 defineOptions({
-  name: 'ElSplitterPanel',
+  name: COMPONENT_NAME,
 })
 
 const props = defineProps(splitterPanelProps)
@@ -27,31 +31,48 @@ const props = defineProps(splitterPanelProps)
 const emits = defineEmits<{
   (e: 'update:size', value: number): void
 }>()
+const splitterContext = inject(splitterRootContextKey)
+if (!splitterContext)
+  throwError(
+    COMPONENT_NAME,
+    'usage: <el-splitter><el-splitter-panel /></el-splitter/>'
+  )
 
-const addPanel = inject(addPanelKey)!
-const removePanel = inject(removePanelKey)!
-const panelContext = inject(panelContextKey)!
+const { panels, layout, containerSize, pxSizes } = toRefs(splitterContext)
+
+const {
+  registerPanel,
+  sortPanel,
+  unregisterPanel,
+  onCollapse,
+  onMoveEnd,
+  onMoveStart,
+  onMoving,
+} = splitterContext
 
 const panelEl = ref<HTMLDivElement>()
 const uid = getCurrentInstance()!.uid
 
-const panel = computed(() => panelContext.panelsMap[uid])
+const index = ref(0)
+const panel = computed(() => panels.value[index.value])
+
+const setIndex = (val: number) => {
+  index.value = val
+}
 
 const panelSize = computed(() => {
   if (!panel.value) return 0
-  return panelContext.pxSizes[panel.value.index] ?? 0
+  return pxSizes.value[index.value] ?? 0
 })
-
-const containerSize = computed(() => panelContext.containerSize)
 
 const nextSize = computed(() => {
   if (!panel.value) return 0
-  return panelContext.pxSizes[panel.value.index + 1] ?? 0
+  return pxSizes.value[index.value + 1] ?? 0
 })
 
 const nextPanel = computed(() => {
   if (panel.value) {
-    return panelContext.panels[panel.value.index + 1]
+    return panels.value[index.value + 1]
   }
   return null
 })
@@ -71,7 +92,7 @@ const isResizable = computed(() => {
 // The last panel doesn't need a drag bar
 const isShowBar = computed(() => {
   if (!panel.value) return false
-  return panel.value?.index !== panelContext.panels.length - 1
+  return index.value !== panels.value.length - 1
 })
 
 const startCollapsible = computed(() =>
@@ -135,17 +156,20 @@ watch(
   }
 )
 
-onMounted(() => {
-  addPanel?.({
-    el: panelEl.value!,
-    uid,
-    index: 0,
-    ...props,
-    collapsible: getCollapsible(props.collapsible),
-  })
+const _panel = reactive({
+  el: panelEl.value!,
+  uid,
+  setIndex,
+  ...props,
+  collapsible: getCollapsible(props.collapsible),
 })
 
-onUnmounted(() => removePanel?.(uid))
+registerPanel(_panel)
+onMounted(() => {
+  sortPanel(_panel)
+})
+
+onUnmounted(() => unregisterPanel?.(uid))
 </script>
 
 <template>
@@ -159,15 +183,15 @@ onUnmounted(() => removePanel?.(uid))
   </div>
   <SplitBar
     v-if="isShowBar"
-    :index="panel?.index"
-    :layout="panelContext.layout"
+    :index="index"
+    :layout="layout"
     :resizable="isResizable"
     :start-collapsible="startCollapsible"
     :end-collapsible="endCollapsible"
-    @move-start="panelContext.onMoveStart"
-    @moving="panelContext.onMoving"
-    @move-end="panelContext.onMoveEnd"
-    @collapse="panelContext.onCollapse"
+    @move-start="onMoveStart"
+    @moving="onMoving"
+    @move-end="onMoveEnd"
+    @collapse="onCollapse"
   >
     <template #start-collapsible>
       <slot name="start-collapsible" />

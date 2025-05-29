@@ -1,10 +1,10 @@
 import { computed, ref } from 'vue'
 import { getPct, getPx, isPct, isPx } from './useSize'
 import type { ComputedRef, Ref } from 'vue'
-import type { PanelItem } from '../type'
+import type { PanelItemState } from '../type'
 
 export function useResize(
-  panels: Ref<PanelItem[]>,
+  panels: Ref<PanelItemState[]>,
   containerSize: ComputedRef<number>,
   pxSizes: ComputedRef<number[]>
 ) {

@@ -1,27 +1,35 @@
+import type { InjectionKey, UnwrapRef } from 'vue'
+
 export type Layout = 'horizontal' | 'vertical'
 
-export interface PanelItem {
-  min?: number | string
-  max?: number | string
-  size?: number | string
-  defaultSize?: number | string
-  el: HTMLElement
-  index: number
+export type PanelItemState = UnwrapRef<{
   uid: number
-  resizable: boolean
+  el: HTMLElement
   collapsible: { start?: boolean; end?: boolean }
-}
+  defaultSize?: number | string
+  max?: number | string
+  min?: number | string
+  resizable: boolean
+  size?: number | string
+  setIndex: (val: number) => void
+}>
 
-export interface PanelContext {
-  panels: PanelItem[]
-  panelsMap: Record<number, PanelItem>
+export interface SplitterRootContext {
+  panels: PanelItemState[]
+  layout: Layout
+  containerSize: number
+  movingIndex: { index: number; confirmed: boolean } | null
   percentSizes: number[]
   pxSizes: number[]
-  layout: Layout
-  movingIndex: { index: number; confirmed: boolean } | null
-  containerSize: number
+  registerPanel: (pane: PanelItemState) => void
+  sortPanel: (pane: PanelItemState) => void
+  unregisterPanel: (uid: number) => void
+  onCollapse: (index: number, type: 'start' | 'end') => void
+  onMoveEnd: () => void
   onMoveStart: (index: number) => void
   onMoving: (index: number, offset: number) => void
-  onMoveEnd: () => void
-  onCollapse: (index: number, type: 'start' | 'end') => void
 }
+
+export const splitterRootContextKey: InjectionKey<SplitterRootContext> = Symbol(
+  'splitterRootContextKey'
+)

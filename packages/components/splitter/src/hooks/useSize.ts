@@ -1,7 +1,7 @@
 import { computed, ref, watch } from 'vue'
 import { isString } from '@element-plus/utils'
 import type { ComputedRef, Ref } from 'vue'
-import type { PanelItem } from '../type'
+import type { PanelItemState } from '../type'
 
 export function getPct(str: string) {
   return Number(str.slice(0, -1)) / 100
@@ -24,7 +24,7 @@ export function isPx(
 }
 
 export function useSize(
-  panels: Ref<PanelItem[]>,
+  panels: Ref<PanelItemState[]>,
   containerSize: ComputedRef<number>
 ) {
   const propSizes = computed(() => panels.value.map((i) => i.size))

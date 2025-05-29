@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { provide, reactive, toRef } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
-import { panelContextKey } from './const'
-import { useContainer, usePanel, useResize, useSize } from './hooks'
+import { getCurrentInstance, provide, reactive, toRef, watch } from 'vue'
+import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
+import { useContainer, useResize, useSize } from './hooks'
 import { splitterProps } from './splitter'
+import { type PanelItemState, splitterRootContextKey } from './type'
 
 const ns = useNamespace('splitter')
 
@@ -21,7 +21,17 @@ const props = defineProps(splitterProps)
 
 const { containerEl, containerSize } = useContainer(toRef(props, 'layout'))
 
-const { panelsMap, panels } = usePanel(containerEl)
+const {
+  removeChild: unregisterPanel,
+  children: panels,
+  addChild: sortPanel,
+} = useOrderedChildren<PanelItemState>(getCurrentInstance()!, 'ElSplitterPanel')
+
+watch(panels, () => {
+  panels.value.forEach((instance: PanelItemState, index: number) => {
+    instance.setIndex(index)
+  })
+})
 
 const { percentSizes, pxSizes } = useSize(panels, containerSize)
 
@@ -47,9 +57,8 @@ const onResizeEnd = (index: number) => {
 }
 
 provide(
-  panelContextKey,
+  splitterRootContextKey,
   reactive({
-    panelsMap,
     panels,
     percentSizes,
     pxSizes,
@@ -60,6 +69,11 @@ provide(
     onMoving: onResize,
     onMoveEnd: onResizeEnd,
     onCollapse,
+    registerPanel: (panel: PanelItemState) => {
+      panels.value.push(panel)
+    },
+    sortPanel,
+    unregisterPanel,
   })
 )
 </script>
