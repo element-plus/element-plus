@@ -35,7 +35,7 @@
             {{ closeText }}
           </div>
           <el-icon v-else :class="ns.e('close-btn')" @click="onClose">
-            <Close />
+            <component :is="globalIcons.close" />
           </el-icon>
         </template>
       </div>
@@ -46,15 +46,12 @@
 <script lang="ts" setup>
 import { computed, ref, toRef, useSlots } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import {
-  TypeComponents,
-  TypeComponentsMap,
-  isClient,
-} from '@element-plus/utils'
+import { isClient } from '@element-plus/utils'
 import { useDelayedToggle, useNamespace } from '@element-plus/hooks'
+import { useGlobalIcons } from '@element-plus/components/config-provider'
 import { alertEmits, alertProps } from './alert'
 
-const { Close } = TypeComponents
+const globalIcons = useGlobalIcons()
 
 defineOptions({
   name: 'ElAlert',
@@ -68,7 +65,9 @@ const ns = useNamespace('alert')
 
 const visible = ref(false)
 
-const iconComponent = computed(() => TypeComponentsMap[props.type])
+const iconComponent = computed(
+  () => globalIcons.value[props.type === 'primary' ? 'info' : props.type]
+)
 
 const hasDesc = computed(() => !!(props.description || slots.default))
 
