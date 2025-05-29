@@ -1,13 +1,13 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProps } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
 import type Splitter from './splitter.vue'
-import type { Layout } from './type'
 
 export const splitterProps = buildProps({
   layout: {
-    type: definePropType<Layout>(String),
+    type: String,
     default: 'horizontal',
+    values: ['horizontal', 'vertical'] as const,
   },
 } as const)
 

@@ -1,20 +1,20 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProps } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
 import type SplitterPanel from './split-panel.vue'
 
 export const splitterPanelProps = buildProps({
   min: {
-    type: definePropType<string | number>([String, Number]),
+    type: [String, Number],
   },
   max: {
-    type: definePropType<string | number>([String, Number]),
+    type: [String, Number],
   },
   size: {
-    type: definePropType<string | number>([String, Number]),
+    type: [String, Number],
   },
   defaultSize: {
-    type: definePropType<string | number>([String, Number]),
+    type: [String, Number],
   },
   resizable: {
     type: Boolean,

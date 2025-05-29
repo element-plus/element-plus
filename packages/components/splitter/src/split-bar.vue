@@ -8,7 +8,6 @@ import {
   ArrowUp,
 } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
-import type { PropType } from 'vue'
 
 const ns = useNamespace('splitter-bar')
 
@@ -22,7 +21,8 @@ const props = defineProps({
     required: true,
   },
   layout: {
-    type: String as PropType<'horizontal' | 'vertical'>,
+    type: String,
+    values: ['horizontal', 'vertical'] as const,
     default: 'horizontal',
   },
   resizable: {
@@ -31,11 +31,9 @@ const props = defineProps({
   },
   startCollapsible: {
     type: Boolean,
-    default: false,
   },
   endCollapsible: {
     type: Boolean,
-    default: false,
   },
 })
 
