@@ -149,7 +149,12 @@ onUnmounted(() => removePanel?.(uid))
 </script>
 
 <template>
-  <div ref="panelEl" :class="[ns.b()]" :style="{ flexBasis: `${panelSize}px` }">
+  <div
+    ref="panelEl"
+    :class="[ns.b()]"
+    :style="{ flexBasis: `${panelSize}px` }"
+    v-bind="$attrs"
+  >
     <slot />
   </div>
   <SplitBar
