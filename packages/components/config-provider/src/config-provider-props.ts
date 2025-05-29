@@ -15,6 +15,11 @@ export type ExperimentalFeatures = {
 export type IconConfigContext = {
   close?: string | Component
   dropdown?: string | Component
+  clear?: string | Component
+  success?: string | Component
+  info?: string | Component
+  warning?: string | Component
+  error?: string | Component
 }
 
 export const configProviderProps = buildProps({
