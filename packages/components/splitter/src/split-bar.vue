@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useEventListener } from '@vueuse/core'
 import {
   ArrowDown,
   ArrowLeft,
@@ -68,18 +67,13 @@ const draggerPseudoClass = computed(() => {
 
 const startPos = ref<[x: number, y: number] | null>(null)
 
-let clearMouseup: () => void
-let clearMousemove: () => void
-let clearTouchup: () => void
-let clearTouchmove: () => void
-
 // Start dragging
 const onMousedown = (e: MouseEvent) => {
   if (!props.resizable) return
   startPos.value = [e.pageX, e.pageY]
   emit('moveStart', props.index)
-  clearMouseup = useEventListener(window, 'mouseup', onMouseUp)
-  clearMousemove = useEventListener(window, 'mousemove', onMouseMove)
+  window.addEventListener('mouseup', onMouseUp)
+  window.addEventListener('mousemove', onMouseMove)
 }
 
 const onTouchStart = (e: TouchEvent) => {
@@ -88,8 +82,8 @@ const onTouchStart = (e: TouchEvent) => {
     const touch = e.touches[0]
     startPos.value = [touch.pageX, touch.pageY]
     emit('moveStart', props.index)
-    clearTouchup = useEventListener(window, 'touchend', onTouchEnd)
-    clearTouchmove = useEventListener(window, 'touchmove', onTouchMove)
+    window.addEventListener('touchend', onTouchEnd)
+    window.addEventListener('touchmove', onTouchMove)
   }
 }
 
@@ -116,15 +110,15 @@ const onTouchMove = (e: TouchEvent) => {
 // End dragging
 const onMouseUp = () => {
   startPos.value = null
-  clearMouseup()
-  clearMousemove()
+  window.removeEventListener('mouseup', onMouseUp)
+  window.removeEventListener('mousemove', onMouseMove)
   emit('moveEnd', props.index)
 }
 
 const onTouchEnd = () => {
   startPos.value = null
-  clearTouchup()
-  clearTouchmove()
+  window.removeEventListener('touchend', onTouchEnd)
+  window.removeEventListener('touchmove', onTouchMove)
   emit('moveEnd', props.index)
 }
 
