@@ -44,10 +44,5 @@
     "tsconfig.json": "tsconfig.*.json",
     "vitest.config.mts": "vitest.setup.ts, vitest.workspace.ts"
   },
-  "eslint.workingDirectories": [
-    {
-      "mode": "auto"
-    }
-  ],
   "eslint.useFlatConfig": false
 }
