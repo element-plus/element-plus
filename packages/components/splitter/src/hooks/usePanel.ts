@@ -1,5 +1,5 @@
 import { isObject } from '@element-plus/utils'
-import type { PanelItem } from '../type'
+import type { PanelItemState } from '../type'
 
 export function getCollapsible(
   collapsible: boolean | { start?: boolean; end?: boolean }
@@ -14,9 +14,9 @@ export function getCollapsible(
 }
 
 export function isCollapsible(
-  panel: PanelItem | null | undefined,
+  panel: PanelItemState | null | undefined,
   size: number,
-  nextPanel: PanelItem | null | undefined,
+  nextPanel: PanelItemState | null | undefined,
   nextSize: number
 ) {
   // 如果当前面板是可折叠的，并且当前面板有大小，则可折叠
