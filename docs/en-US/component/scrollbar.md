@@ -39,6 +39,14 @@ scrollbar/manual-scroll
 
 :::
 
+## Infinite scroll ^(2.10.0)
+
+:::demo `end-reached` is triggered when the scrollbar reaches the end. It can be used as an infinite scroll.
+
+scrollbar/infinite-scroll
+
+:::
+
 ## API
 
 ### Attributes
@@ -64,9 +72,10 @@ scrollbar/manual-scroll
 
 ### Events
 
-| Name   | Description                                           | Type                                                             |
-| ------ | ----------------------------------------------------- | ---------------------------------------------------------------- |
-| scroll | triggers when scrolling, return distance of scrolling | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void` |
+| Name                  | Description                                           | Type                                                                     |
+| --------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------ |
+| scroll                | triggers when scrolling, return distance of scrolling | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void`         |
+| end-reached ^(2.10.0) | triggers when the end of a scroll is triggered        | ^[Function]`(direction: 'top' \| 'bottom' \| 'left' \| 'right') => void` |
 
 ### Slots
 

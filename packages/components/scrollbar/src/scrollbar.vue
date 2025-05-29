@@ -44,6 +44,7 @@ import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
 import { scrollbarContextKey } from './constants'
 import { scrollbarEmits, scrollbarProps } from './scrollbar'
+import type { ScrollbarDirection } from './scrollbar'
 import type { BarInstance } from './bar'
 import type { CSSProperties, StyleValue } from 'vue'
 
@@ -62,6 +63,7 @@ let stopResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
 let wrapScrollTop = 0
 let wrapScrollLeft = 0
+let direction = '' as ScrollbarDirection
 
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
@@ -90,13 +92,34 @@ const resizeKls = computed(() => {
 const handleScroll = () => {
   if (wrapRef.value) {
     barRef.value?.handleScroll(wrapRef.value)
+    const prevTop = wrapScrollTop
+    const prevLeft = wrapScrollLeft
     wrapScrollTop = wrapRef.value.scrollTop
     wrapScrollLeft = wrapRef.value.scrollLeft
 
+    const arrivedStates = {
+      bottom:
+        wrapScrollTop + wrapRef.value.clientHeight >=
+        wrapRef.value.scrollHeight,
+      top: wrapScrollTop <= 0 && prevTop !== 0,
+      right:
+        wrapScrollLeft + wrapRef.value.clientWidth >=
+          wrapRef.value.scrollWidth && prevLeft !== wrapScrollLeft,
+      left: wrapScrollLeft <= 0 && prevLeft !== 0,
+    }
+
+    if (prevTop !== wrapScrollTop) {
+      direction = wrapScrollTop > prevTop ? 'bottom' : 'top'
+    }
+    if (prevLeft !== wrapScrollLeft) {
+      direction = wrapScrollLeft > prevLeft ? 'right' : 'left'
+    }
+
     emit('scroll', {
-      scrollTop: wrapRef.value.scrollTop,
-      scrollLeft: wrapRef.value.scrollLeft,
+      scrollTop: wrapScrollTop,
+      scrollLeft: wrapScrollLeft,
     })
+    if (arrivedStates[direction]) emit('end-reached', direction)
   }
 }
 

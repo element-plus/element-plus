@@ -42,6 +42,7 @@ const visible = ref(false)
 
 let cursorDown = false
 let cursorLeave = false
+let baseScrollHeight = 0
 let originalOnSelectStart:
   | ((this: GlobalEventHandlers, ev: Event) => any)
   | null = isClient ? document.onselectstart : null
@@ -102,6 +103,7 @@ const clickTrackHandler = (e: MouseEvent) => {
 const startDrag = (e: MouseEvent) => {
   e.stopImmediatePropagation()
   cursorDown = true
+  baseScrollHeight = scrollbar.wrapElement.scrollHeight
   document.addEventListener('mousemove', mouseMoveDocumentHandler)
   document.addEventListener('mouseup', mouseUpDocumentHandler)
   originalOnSelectStart = document.onselectstart
@@ -124,8 +126,7 @@ const mouseMoveDocumentHandler = (e: MouseEvent) => {
     ((offset - thumbClickPosition) * 100 * offsetRatio.value) /
     instance.value[bar.value.offset]
   scrollbar.wrapElement[bar.value.scroll] =
-    (thumbPositionPercentage * scrollbar.wrapElement[bar.value.scrollSize]) /
-    100
+    (thumbPositionPercentage * baseScrollHeight) / 100
 }
 
 const mouseUpDocumentHandler = () => {

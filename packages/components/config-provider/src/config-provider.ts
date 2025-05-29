@@ -11,14 +11,14 @@ const ConfigProvider = defineComponent({
   props: configProviderProps,
 
   setup(props, { slots }) {
+    const config = provideGlobalConfig(props)
     watch(
       () => props.message,
       (val) => {
-        Object.assign(messageConfig, val ?? {})
+        Object.assign(messageConfig, config?.value?.message ?? {}, val ?? {})
       },
       { immediate: true, deep: true }
     )
-    const config = provideGlobalConfig(props)
     return () => renderSlot(slots, 'default', { config: config?.value })
   },
 })
