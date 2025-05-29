@@ -258,7 +258,7 @@ const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
       return inputDisabled.value
     },
     afterBlur() {
-      if (props.validateEvent) {
+      if (props.validateEvent && !inputDisabled.value) {
         elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
       }
     },
