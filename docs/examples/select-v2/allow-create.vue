@@ -7,6 +7,7 @@
         placeholder="Please select"
         style="width: 240px; margin-right: 16px; vertical-align: middle"
         allow-create
+        default-first-option
         filterable
         multiple
         clearable
@@ -17,6 +18,7 @@
         placeholder="Please select"
         style="width: 240px; vertical-align: middle"
         allow-create
+        default-first-option
         filterable
         clearable
       />
@@ -31,6 +33,7 @@
         placeholder="Please select"
         style="width: 240px; margin-right: 16px; vertical-align: middle"
         allow-create
+        default-first-option
         filterable
         multiple
         clearable
