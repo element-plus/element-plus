@@ -11,6 +11,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { ensureArray } from '@element-plus/utils'
 import { tableV2HeaderProps } from '../header'
 import { enforceUnit } from '../utils'
+import { TABLE_V2_GRID_INJECTION_KEY } from '../tokens'
 
 import type { CSSProperties, Ref, UnwrapRef } from 'vue'
 import type { TableV2HeaderProps } from '../header'
@@ -22,7 +23,7 @@ const TableV2Header = defineComponent({
   props: tableV2HeaderProps,
   setup(props, { slots, expose }) {
     const ns = useNamespace('table-v2')
-    const scrollLeftInfo = inject<Ref<number>>('tableV2GridScrollLeft')
+    const scrollLeftInfo = inject<Ref<number>>(TABLE_V2_GRID_INJECTION_KEY)
 
     const headerRef = ref<HTMLElement>()
 
