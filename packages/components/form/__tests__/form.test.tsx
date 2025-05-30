@@ -756,6 +756,28 @@ describe('Form', () => {
     expect(wrapper.find('.el-form-item__error').text()).toBe('age is: 1')
   })
 
+  it('should use form disabled input not trigger @blur', async () => {
+    const blurHandler = vi.fn()
+    const wrapper = mount({
+      setup() {
+        const form = reactive({
+          name: '',
+        })
+        return () => (
+          <Form ref="form" model={form} disabled>
+            <FormItem label="Name">
+              <Input v-model={form.name} onBlur={blurHandler} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+    const input = wrapper.find('input')
+    await input.trigger('blur')
+    expect(blurHandler).not.toHaveBeenCalled()
+    expect(input.element.disabled).toBe(true)
+  })
+
   describe('FormItem', () => {
     const onSuccess = vi.fn()
     const onError = vi.fn()
