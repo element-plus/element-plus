@@ -2,6 +2,16 @@
 import { defineComponent, h } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
+//https://github.com/vuejs/core/issues/4733#issuecomment-933284261
+function isVNodeEmpty(vnodes?: VNode | VNode[] | null) {
+  return (
+    !!vnodes &&
+    (Array.isArray(vnodes)
+      ? vnodes.every((vnode) => vnode.type !== Comment)
+      : vnodes.type !== Comment)
+  )
+}
+
 export default defineComponent({
   name: 'NodeContent',
   setup() {
@@ -17,7 +27,7 @@ export default defineComponent({
     const { renderLabelFn } = panel
     const label = () => {
       let renderLabel = renderLabelFn?.({ node, data })
-      if (renderLabel?.every((child) => child?.children === 'v-if')) {
+      if (isVNodeEmpty(renderLabel)) {
         renderLabel = nodeLabel
       }
       return renderLabel ?? nodeLabel
