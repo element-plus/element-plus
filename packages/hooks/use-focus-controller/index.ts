@@ -1,8 +1,7 @@
 import { getCurrentInstance, onMounted, ref, shallowRef, watch } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import { useFormDisabled } from 'element-plus'
 import { isElement, isFunction } from '@element-plus/utils'
-
+import { useFormDisabled } from '@element-plus/components/form'
 import type { ShallowRef } from 'vue'
 
 interface UseFocusControllerOptions {
