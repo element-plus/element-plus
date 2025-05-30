@@ -13,12 +13,15 @@ export default defineComponent({
   render() {
     const { ns } = this
     const { node, panel } = this.$parent
-    const { data, label } = node
+    const { data, label: nodeLabel } = node
     const { renderLabelFn } = panel
-    return h(
-      'span',
-      { class: ns.e('label') },
-      renderLabelFn ? renderLabelFn({ node, data }) : label
-    )
+    const label = () => {
+      let renderLabel = renderLabelFn?.({ node, data })
+      if (renderLabel?.every((child) => child?.children === 'v-if')) {
+        renderLabel = nodeLabel
+      }
+      return renderLabel ?? nodeLabel
+    }
+    return h('span', { class: ns.e('label') }, label())
   },
 })
