@@ -1,6 +1,81 @@
 ## Changelog
 
 
+### 2.9.11
+
+_2025-05-23_
+
+#### Features
+
+- Components [date-picker] add quick year and month selection (#19700 by @wjp980108)
+- Components [config-provider] add message plain config (#20723 by @kooriookami)
+- Components [config-provider] support more button config (#20726 by @Dsaquel)
+- Components [collapse] add beforeCollapse prop (#20716 by @Liao-js)
+- Ure: generate-llms.txt for AI Knowledge (#20450 by @yuxuan-ctrl)
+- Components [config-provider] support `link` config (#20773 by @Dsaquel)
+- Components [alert] [result] [message] [message-box] [notification] add primary type (#20782 by @kooriookami)
+- Revert "table expand  #20587 #20715 #20811" (#20834 by @warmthsea)
+
+#### Bug fixes
+
+- Components [table] `default-expand-all` invalid (#20715 by @btea)
+- Components [cascader] safeguard arrow modifier access in popper options (#20732 by @betavs)
+- Components [table-v2] modify the width calculation logic (#19021 by @YiMo1)
+- Components [text] fix properties of null when destroyed (#20751 by @kooriookami)
+- Components [tree-v2] set expanded keys requires multiple nextTick (#20725 by @xingyixiang)
+- Locale missing pagination translation (#20770 by @btea)
+- Components [table] the selection column cannot be displayed when it is not in the first row (#20582 by @qp666)
+- Components [select-v2] fix scroll position when using props (#20788 by @kooriookami)
+- Components [input-number] Improve modelValue prop type (#16124 by @XL-YiBai)
+- Components [select] select value label rendering error (#20769 by @btea)
+- Components [table] update `expand-row-keys` invalid (#20811 by @warmthsea)
+- Components [table-v2] use `keep-alive` position top error (#20813 by @warmthsea)
+- Components [message] message method jump failed (#20818 by @btea)
+- Components [date-time-picker] inherit time across picker views (#20806 by @Dsaquel)
+- Components [cascader-panel] value can be an empty string (#20731 by @betavs)
+- Components [form] `scrollToError` scroll to correct position (#20826 by @btea)
+- Components [image-viewer] dont persist image preview list (#20807 by @Dsaquel)
+- Style(theme-chalk): fix form label style (#20710 by @kooriookami)
+
+#### Refactors
+
+- Components [carousel] simplify the code for motion blur (#20696 by @makedopamine)
+- Delete useless code (#20759 by @IllegalCreed)
+- Components improve alignment type definitions (#20695 by @zhixiaotong)
+- Rename test env (#20816 by @btea)
+
+### 2.9.10
+
+_2025-05-09_
+
+#### Features
+
+- Components [tabs] expose `tabNavRef` and `tabListRef` (#20552 by @xinconan)
+- Components [collapse-item ] enhance `title` slot with `isActive` property (#20613 by @w2xi)
+- Components [popover] `append-to` prop (#20596 by @warmthsea)
+- Components [collapse] add expand icon position customization (#19537 by @zzjiaxiang)
+- Components [tabs] update type and expose tabBarRef (#20670 by @warmthsea)
+
+#### Bug fixes
+
+- Components useProp import circular dep (#20574 by @btea)
+- Components [collapse] avoid direct activeNames changes (#20437 by @kaine0923)
+- Components [image] make `show-progress` prop available (#20590 by @w2xi)
+- Components [date-picker] correct injection key for default format (#20611 by @betavs)
+- Components [table] shrinked  table expanded when modify data (#20587 by @wNing50)
+- Components [tooltip] listen clickoutside after open (#20577 by @Dsaquel)
+- Components [select] update selection width calculation (#20615 by @betavs)
+- Components [date-picker] merge default-value with default-time (#20550 by @Dsaquel)
+- Components [popper] fix arrow overflow issue (#20049 by @xiaowhang)
+- Components [mention] fix missing input emit (#20651 by @kooriookami)
+- Components [loading] inherit app context (#20371 by @Dsaquel)
+- Components [select-v2] label error when multiple and remote (#20668 by @Liao-js)
+- Components [select-v2] tooltipRef maybe undefined (#20688 by @zhixiaotong)
+
+#### Refactors
+
+- Components [form] make exposed `fields` reactive (#20567 by @w2xi)
+
 ### 2.9.9
 
 _2025-04-27_
