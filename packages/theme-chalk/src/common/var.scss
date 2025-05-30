@@ -498,7 +498,7 @@ $select-item-height: map.merge(
 $alert: () !default;
 $alert: map.merge(
   (
-    'padding': 8px 16px,
+    'padding': 7px 15px,
     'border-radius-base': getCssVar('border-radius-base'),
     'title-font-size': 14px,
     'title-with-description-font-size': 16px,

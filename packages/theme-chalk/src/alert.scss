@@ -9,6 +9,8 @@
   padding: getCssVar('alert', 'padding');
   margin: 0;
   box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
   border-radius: getCssVar('alert', 'border-radius-base');
   position: relative;
   background-color: getCssVar('color', 'white');
@@ -41,12 +43,17 @@
     @include m($type) {
       @include css-var-from-global(
         ('alert', 'bg-color'),
-        ('color', $type, 'light-9')
+        ('color', $type, 'light-9'),
+      );
+      @include css-var-from-global(
+        ('alert', 'border-color'),
+        ('color', $type, 'light-8'),
       );
 
       &.is-light {
         background-color: getCssVar('alert', 'bg-color');
         color: getCssVar('color', $type);
+        border-color: getCssVar('alert', 'border-color');
 
         .#{$namespace}-alert__description {
           color: getCssVar('color', $type);
@@ -56,6 +63,7 @@
       &.is-dark {
         background-color: getCssVar('color', $type);
         color: getCssVar('color', 'white');
+        border-color: getCssVar('color', $type);
       }
     }
   }
@@ -96,15 +104,15 @@
     font-size: getCssVar('alert', 'close-font-size');
     opacity: 1;
     position: absolute;
-    top: 12px;
-    right: 16px;
+    top: 11px;
+    right: 15px;
     cursor: pointer;
 
     @include when(customed) {
       font-style: normal;
       font-size: getCssVar('alert', 'close-customed-font-size');
       line-height: 24px;
-      top: 8px;
+      top: 7px;
     }
   }
 }
