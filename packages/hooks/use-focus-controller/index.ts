@@ -1,7 +1,7 @@
 import { getCurrentInstance, onMounted, ref, shallowRef, watch } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { isElement, isFunction } from '@element-plus/utils'
-import { useProp } from '../use-prop'
+import { useFormDisabled } from '@element-plus/components/form/src/hooks/use-form-common-props'
 import type { ShallowRef } from 'vue'
 
 interface UseFocusControllerOptions {
@@ -31,7 +31,7 @@ export function useFocusController<T extends { focus: () => void }>(
   const instance = getCurrentInstance()!
   const { emit } = instance
   const wrapperRef = shallowRef<HTMLElement>()
-  const disabled = useProp<boolean>('disabled')
+  const disabled = useFormDisabled()
   const isFocused = ref(false)
 
   const handleFocus = (event: FocusEvent) => {

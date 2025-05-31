@@ -756,6 +756,56 @@ describe('Form', () => {
     expect(wrapper.find('.el-form-item__error').text()).toBe('age is: 1')
   })
 
+  it('should use form disabled input not trigger @blur', async () => {
+    const focusHandler = vi.fn()
+    const blurHandler = vi.fn()
+
+    const wrapper = mount({
+      setup() {
+        const disabled = ref(true)
+        const form = reactive({
+          name: '',
+        })
+        return () => (
+          <div>
+            <Form ref="form" model={form} disabled={disabled.value}>
+              <FormItem
+                label="Name"
+                prop="name"
+                rules={{
+                  required: true,
+                  message: 'Please input name',
+                  trigger: 'blur',
+                }}
+              >
+                <Input
+                  v-model={form.name}
+                  onBlur={blurHandler}
+                  onFocus={focusHandler}
+                />
+              </FormItem>
+            </Form>
+            <Button>Test</Button>
+          </div>
+        )
+      },
+    })
+    const input = wrapper.find('input')
+    const button = wrapper.findComponent(Button)
+
+    await input.trigger('mouseenter')
+    await input.trigger('focus')
+    expect(focusHandler).toHaveBeenCalledTimes(0)
+
+    await input.trigger('mouseleave')
+    await button.trigger('click')
+    await input.trigger('blur')
+    expect(blurHandler).toHaveBeenCalledTimes(0)
+    await nextTick()
+    const inputWrapper = wrapper.find('.el-input__wrapper')
+    expect(inputWrapper.attributes('tabindex')).toBeUndefined()
+  })
+
   describe('FormItem', () => {
     const onSuccess = vi.fn()
     const onError = vi.fn()
