@@ -143,6 +143,7 @@
         :type="type"
         :default-value="defaultValue"
         :show-now="showNow"
+        :single-panel="singlePanel"
         @pick="onPick"
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
