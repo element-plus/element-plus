@@ -130,7 +130,7 @@ function useRender<T>(
       }
     }
 
-    if (slots['expand']) {
+    if (slots.expand) {
       column.renderExpand = (scope) => {
         return renderSlot(slots, 'expand', scope)
       }
