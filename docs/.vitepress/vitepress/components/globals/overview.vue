@@ -61,6 +61,14 @@
         >
           @叨叨
         </el-link>
+        <el-link
+          type="primary"
+          :underline="false"
+          href="https://github.com/zhiwendesign"
+          target="_blank"
+        >
+          @卡卡
+        </el-link>
       </p>
     </div>
   </div>
@@ -189,7 +197,10 @@ onMounted(() => {
     }
 
     .designed-by {
-      text-align: right;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 5px;
       font-size: 14px;
     }
   }

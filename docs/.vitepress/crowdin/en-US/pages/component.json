@@ -53,6 +53,11 @@
         "text": "Space"
       },
       {
+        "link": "/splitter",
+        "text": "Splitter",
+        "promotion": "2.10.0"
+      },
+      {
         "link": "/typography",
         "text": "Typography"
       }

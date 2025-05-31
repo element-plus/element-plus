@@ -103,6 +103,7 @@ declare module 'vue' {
     OvSkeleton: typeof import('./.vitepress/vitepress/components/overview-icons/ov-skeleton.vue')['default']
     OvSlider: typeof import('./.vitepress/vitepress/components/overview-icons/ov-slider.vue')['default']
     OvSpace: typeof import('./.vitepress/vitepress/components/overview-icons/ov-space.vue')['default']
+    OvSplitter: typeof import('./.vitepress/vitepress/components/overview-icons/ov-splitter.vue')['default']
     OvStatistic: typeof import('./.vitepress/vitepress/components/overview-icons/ov-statistic.vue')['default']
     OvSteps: typeof import('./.vitepress/vitepress/components/overview-icons/ov-steps.vue')['default']
     OvSwitch: typeof import('./.vitepress/vitepress/components/overview-icons/ov-switch.vue')['default']
