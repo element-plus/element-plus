@@ -48,6 +48,9 @@ export default defineComponent({
       { flush: 'post', immediate: true }
     )
 
+    // use tree's keydown event
+    select.states.isUseTreeKeydown = true
+
     return () => undefined
   },
 })
