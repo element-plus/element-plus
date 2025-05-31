@@ -168,7 +168,7 @@ const hasLabel = computed<boolean>(() => {
 
 const labelFor = computed<string | undefined>(() => {
   return (
-    props.for || (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
+    props.for ?? (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
   )
 })
 

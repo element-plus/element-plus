@@ -133,6 +133,43 @@ describe('ElFormItem', () => {
     })
   })
 
+  it('form-item label for', async () => {
+    const wrapper = mount({
+      setup() {
+        const form = reactive({
+          name: '',
+          email: '',
+          address: '',
+        })
+
+        return () => (
+          <div>
+            <Form model={form}>
+              <FormItem label="name">
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem label="email" for="">
+                <Input v-model={form.email} />
+              </FormItem>
+              <FormItem label="address" for="address">
+                <Input v-model={form.address} />
+              </FormItem>
+            </Form>
+          </div>
+        )
+      },
+    })
+
+    await nextTick()
+    const [name, email, address] = wrapper
+      .findAll('.el-form-item__label')
+      .map((el) => el.element.tagName.toLowerCase())
+
+    expect(name).toBe('label')
+    expect(email).toBe('div')
+    expect(address).toBe('label')
+  })
+
   it('form-item label position', () => {
     const wrapper = mount({
       setup() {
