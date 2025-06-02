@@ -400,13 +400,13 @@ describe('Collapse.vue', () => {
       const input = wrapper.find('[data-testid="test-input"]')
       const header = wrapper.find('.el-collapse-item__header')
 
-      await input.trigger('keydown', { key: 'Enter' })
+      await input.trigger('keydown.enter')
       await nextTick()
 
       const collapseItem = wrapper.findComponent(CollapseItem)
       expect(collapseItem.vm.isActive).toBe(true)
 
-      await header.trigger('keydown', { key: 'Enter' })
+      await header.trigger('keydown.enter')
       await nextTick()
       expect(collapseItem.vm.isActive).toBe(false)
     })
@@ -416,13 +416,13 @@ describe('Collapse.vue', () => {
       const input = wrapper.find('[data-testid="test-input"]')
       const header = wrapper.find('.el-collapse-item__header')
 
-      await input.trigger('keydown', { key: ' ' })
+      await input.trigger('keydown.space')
       await nextTick()
 
       const collapseItem = wrapper.findComponent(CollapseItem)
       expect(collapseItem.vm.isActive).toBe(true)
 
-      await header.trigger('keydown', { key: ' ' })
+      await header.trigger('keydown.space')
       await nextTick()
       expect(collapseItem.vm.isActive).toBe(false)
     })
