@@ -2,14 +2,11 @@
 import { defineComponent, h } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
+import type { VNode } from 'vue'
+
 //https://github.com/vuejs/core/issues/4733#issuecomment-933284261
-function isVNodeEmpty(vnodes?: VNode | VNode[] | null) {
-  return (
-    !!vnodes &&
-    (Array.isArray(vnodes)
-      ? vnodes.every((vnode) => vnode.type !== Comment)
-      : vnodes.type !== Comment)
-  )
+function isVNodeEmpty(vnodes?: VNode[]) {
+  return !!vnodes?.every((vnode) => vnode.type !== Comment)
 }
 
 export default defineComponent({
