@@ -44,6 +44,7 @@ export const SelectProps = buildProps({
       Number,
       Boolean,
       Object,
+      null,
     ]),
     default: undefined,
   },
