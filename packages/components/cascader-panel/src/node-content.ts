@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { defineComponent, h } from 'vue'
+import { Comment, defineComponent, h } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
-import type { Comment, VNode } from 'vue'
+import type { VNode } from 'vue'
 
 function isVNodeEmpty(vnodes?: VNode[]) {
   return !!vnodes?.every((vnode) => vnode.type === Comment)
