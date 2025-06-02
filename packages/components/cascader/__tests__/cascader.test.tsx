@@ -151,6 +151,12 @@ describe('Cascader.vue', () => {
     expect(wrapper.find('input').attributes().placeholder).toBe(AXIOM)
   })
 
+  test('custom placeholder with empty string', async () => {
+    const wrapper = _mount(() => <Cascader placeholder={''} />)
+    expect(wrapper.find('input').attributes().placeholder).toBe('')
+    expect(wrapper.find('input').element.value).toBe('')
+  })
+
   test('clearable', async () => {
     const isClear = ref(false)
 
