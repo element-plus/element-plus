@@ -546,7 +546,7 @@ describe('Form', () => {
     })
     const vm = wrapper.vm
 
-    function validate() {
+    async function validate() {
       return (vm.$refs.formRef as FormInstance)
         .validate()
         .then(() => ({ valid: true, fields: undefined }))
