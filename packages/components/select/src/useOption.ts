@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance, inject, toRaw, watch } from 'vue'
-import { get, isEqual } from 'lodash-unified'
+import { get, isEqual, isNull } from 'lodash-unified'
 import {
   ensureArray,
   escapeStringRegexp,
@@ -38,7 +38,10 @@ export function useOption(props: OptionProps, states: OptionStates) {
   })
 
   const currentLabel = computed(() => {
-    return props.label || (isObject(props.value) ? '' : props.value)
+    return (
+      props.label ||
+      (isObject(props.value) || isNull(props.value) ? '' : props.value)
+    )
   })
 
   const currentValue = computed(() => {
