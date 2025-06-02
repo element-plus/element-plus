@@ -3246,4 +3246,34 @@ describe('Select', () => {
     await nextTick()
     expect(selectVm.selectedLabel).toBe('')
   })
+
+  // #20905
+  test('display correct when label is 0 or ""', async () => {
+    wrapper = _mount(
+      `
+      <el-select>
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          { value: '黄金糕', label: '' },
+          { value: '双皮奶', label: 0 },
+          { value: '蚵仔煎', label: '蚵仔煎' },
+          { value: '北京烤鸭', label: undefined },
+        ],
+      })
+    )
+    await nextTick()
+    const options = getOptions()
+    expect(options[0].textContent).toBe('')
+    expect(options[1].textContent).toBe('0')
+    expect(options[2].textContent).toBe('蚵仔煎')
+    expect(options[3].textContent).toBe('北京烤鸭')
+  })
 })
