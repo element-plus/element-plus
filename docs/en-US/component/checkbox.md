@@ -22,7 +22,6 @@ If you are using a version **less than** ^(2.6.0) and using `checkbox-group`, pl
 :::
 
 ```vue
-
 <template>
   <el-checkbox-group v-model="checkList">
     <!-- works when >=2.6.0, recommended ✔️ value not work when <2.6.0 ❌ -->
@@ -106,7 +105,7 @@ checkbox/with-border
 ### Checkbox Attributes
 
 | Name                           | Description                                                                                                                                                    | Type                                           | Default |
-|--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|---------|
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------- |
 | model-value / v-model          | binding value                                                                                                                                                  | ^[string] / ^[number] / ^[boolean]             | —       |
 | value ^(2.6.0)                 | value of the Checkbox when used inside a `checkbox-group`                                                                                                      | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | label                          | label of the Checkbox when used inside a `checkbox-group`. If there's no value, `label` will act as `value`                                                    | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
@@ -129,13 +128,13 @@ checkbox/with-border
 ### Checkbox Events
 
 | Name   | Description                             | Type                                                      |
-|--------|-----------------------------------------|-----------------------------------------------------------|
+| ------ | --------------------------------------- | --------------------------------------------------------- |
 | change | triggers when the binding value changes | ^[Function]`(value: string \| number \| boolean) => void` |
 
 ### Checkbox Slots
 
 | Name    | Description               |
-|---------|---------------------------|
+| ------- | ------------------------- |
 | default | customize default content |
 
 ## CheckboxGroup API
@@ -143,7 +142,7 @@ checkbox/with-border
 ### CheckboxGroup Attributes
 
 | Name                        | Description                                       | Type                                     | Default |
-|-----------------------------|---------------------------------------------------|------------------------------------------|---------|
+| --------------------------- | ------------------------------------------------- | ---------------------------------------- | ------- |
 | model-value / v-model       | binding value                                     | ^[array]`(string \| number \| object)[]` | []      |
 | size                        | size of checkbox                                  | ^[enum]`'large' \| 'default' \| 'small'` | —       |
 | disabled                    | whether the nesting checkboxes are disabled       | ^[boolean]                               | false   |
@@ -159,13 +158,13 @@ checkbox/with-border
 ### CheckboxGroup Events
 
 | Name   | Description                             | Type                                               |
-|--------|-----------------------------------------|----------------------------------------------------|
+| ------ | --------------------------------------- | -------------------------------------------------- |
 | change | triggers when the binding value changes | ^[Function]`(value: string[] \| number[]) => void` |
 
 ### CheckboxGroup Slots
 
 | Name    | Description               | Subtags                    |
-|---------|---------------------------|----------------------------|
+| ------- | ------------------------- | -------------------------- |
 | default | customize default content | Checkbox / Checkbox-button |
 
 ## CheckboxButton API
@@ -173,7 +172,7 @@ checkbox/with-border
 ### CheckboxButton Attributes
 
 | Name                      | Description                                                                                                 | Type                                           | Default |
-|---------------------------|-------------------------------------------------------------------------------------------------------------|------------------------------------------------|---------|
+| ------------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------- |
 | value ^(2.6.0)            | value of the checkbox when used inside a `checkbox-group`                                                   | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | label                     | label of the checkbox when used inside a `checkbox-group`. If there's no value, `label` will act as `value` | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
 | true-value ^(2.6.0)       | value of the checkbox if it's checked                                                                       | ^[string] / ^[number]                          | —       |
@@ -187,5 +186,5 @@ checkbox/with-border
 ### CheckboxButton Slots
 
 | Name    | Description               |
-|---------|---------------------------|
+| ------- | ------------------------- |
 | default | customize default content |
