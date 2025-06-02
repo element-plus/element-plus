@@ -9,8 +9,7 @@ A group of options for multiple choices.
 
 :::warning
 
-`label` act as `value` has been **deprecated**, `label` is used only as display text, this action **will be** removed
-in ^(3.0.0), consider switching to new API.
+`label` act as `value` has been **deprecated**, `label` is used only as display text, this action **will be** removed in ^(3.0.0), consider switching to new API.
 
 :::
 
