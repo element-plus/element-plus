@@ -1,5 +1,10 @@
 import { computed, getCurrentInstance, inject, ref } from 'vue'
-import { buildProps, debugWarn, isFunction } from '@element-plus/utils'
+import {
+  buildProps,
+  debugWarn,
+  definePropType,
+  isFunction,
+} from '@element-plus/utils'
 
 import type { ExtractPropTypes, InjectionKey, Ref } from 'vue'
 
@@ -20,7 +25,13 @@ export const useEmptyValuesProps = buildProps({
    * @description return value when cleared, if you want to set `undefined`, use `() => undefined`
    */
   valueOnClear: {
-    type: [String, Number, Boolean, Function, null],
+    type: definePropType<string | number | boolean | (() => any) | null>([
+      String,
+      Number,
+      Boolean,
+      Function,
+      null,
+    ]),
     default: undefined,
     validator: (val: any) => (isFunction(val) ? !val() : !val),
   },
