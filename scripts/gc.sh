@@ -63,7 +63,7 @@ EOF
 cat > $DIRNAME/src/instance.ts <<EOF
 import type $NAME from './$INPUT_NAME.vue'
 
-export type ${NAME}Instance = InstanceType<typeof $NAME>
+export type ${NAME}Instance = InstanceType<typeof $NAME> & unknown
 EOF
 
 cat <<EOF >"$DIRNAME/index.ts"
