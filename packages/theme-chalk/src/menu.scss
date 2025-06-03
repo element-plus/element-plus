@@ -155,7 +155,9 @@
       }
 
       & .#{$namespace}-menu-item.is-active,
-      & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title {
+      & .#{$namespace}-menu-item.is-active:hover,
+      & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title,
+      & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title:hover {
         color: getCssVar('menu-active-color');
       }
     }
