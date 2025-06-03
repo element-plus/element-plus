@@ -284,8 +284,9 @@ export default defineComponent({
             `.${ns.namespace.value}-scrollbar__wrap`
           )
           const activeNode =
-            menuElement.querySelector(`.${ns.b('node')}.${ns.is('active')}`) ||
-            menuElement.querySelector(`.${ns.b('node')}.in-active-path`)
+            menuElement.querySelector(
+              `.${ns.b('node')}.${ns.is('active')}:last-child`
+            ) || menuElement.querySelector(`.${ns.b('node')}.in-active-path`)
           scrollIntoView(container, activeNode)
         }
       })

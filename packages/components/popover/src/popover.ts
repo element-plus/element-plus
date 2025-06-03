@@ -68,6 +68,10 @@ export const popoverProps = buildProps({
    */
   teleported: useTooltipContentProps.teleported,
   /**
+   * @description which select dropdown appends to
+   */
+  appendTo: useTooltipContentProps.appendTo,
+  /**
    * @description popover title
    */
   title: String,

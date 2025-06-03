@@ -288,6 +288,38 @@ describe('CascaderPanel.vue', () => {
     expect(value.value).toBe('beijing')
   })
 
+  test('value can be an empty string', async () => {
+    const value = ref('')
+    const options = [
+      {
+        label: 'all',
+        value: '',
+      },
+      {
+        label: 'label one',
+        value: '1',
+      },
+      {
+        label: 'label two',
+        value: '2',
+      },
+    ]
+    const props = { checkStrictly: true, emitPath: false }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} options={options} props={props} />
+    ))
+
+    await nextTick()
+
+    const node = wrapper.findAll(MENU)[0].find(NODE)
+    const radio = node.find(RADIO)
+    expect(node.classes('is-active')).toBe(true)
+    expect(radio.classes('is-checked')).toBe(true)
+
+    await wrapper.findAll(RADIO)[1].trigger('click')
+    expect(value.value).toBe('1')
+  })
+
   test('emit value only, issue 1531', async () => {
     const value = ref(null)
     const options = [
