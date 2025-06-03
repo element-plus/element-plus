@@ -3,7 +3,7 @@ title: Splitter
 lang: en-US
 ---
 
-# Splitter
+# Splitter ^(beta)
 
 Divide the area horizontally or vertically, and freely drag to adjust the size of each area.
 

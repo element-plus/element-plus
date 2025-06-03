@@ -67,17 +67,17 @@ describe('Splitter', () => {
     const simulateDrag = async (startPos: number, endPos: number) => {
       const splitBar = wrapper.find('.el-splitter-bar__dragger')
 
-      // 模拟鼠标按下
+      // Simulate mouse down
       const mousedown = new MouseEvent('mousedown', { bubbles: true })
       Object.defineProperty(mousedown, 'pageX', { value: startPos })
       splitBar.element.dispatchEvent(mousedown)
 
-      // 模拟鼠标移动
+      // Simulate mouse move
       const mousemove = new MouseEvent('mousemove', { bubbles: true })
       Object.defineProperty(mousemove, 'pageX', { value: endPos })
       window.dispatchEvent(mousemove)
 
-      // 模拟鼠标释放
+      // Simulate mouse up
       const mouseup = new MouseEvent('mouseup', { bubbles: true })
       Object.defineProperty(mouseup, 'pageX', { value: endPos })
       window.dispatchEvent(mouseup)
@@ -85,13 +85,11 @@ describe('Splitter', () => {
       await nextTick()
     }
 
-    // 测试最小值约束：向左拖动到最小值 100px
-    // test min size
+    // Test min size constraint: drag left to minimum value 100px
     await simulateDrag(150, 50)
     expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
 
-    // 测试最大值约束：向右拖动到最大值 200px
-    // test max size
+    // Test max size constraint: drag right to maximum value 200px
     await simulateDrag(50, 150)
     expect(panels[0].attributes('style')).toContain('flex-basis: 200px;')
   })

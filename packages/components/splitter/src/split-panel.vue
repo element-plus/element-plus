@@ -82,7 +82,6 @@ const isResizable = computed(() => {
   return (
     props.resizable &&
     nextPanel.value?.resizable &&
-    // 如果等于0说明折叠了=》判断是否设置最小值 设置了就不许拖拽了
     // If it is 0, it means it is collapsed => check if the minimum value is set
     (panelSize.value !== 0 || !props.min) &&
     (nextSize.value !== 0 || !nextPanel.value.min)
@@ -112,7 +111,6 @@ function sizeToPx(str: string | number | undefined) {
   return str ?? 0
 }
 
-// 双向绑定size
 // Two-way binding for size
 let isSizeUpdating = false
 watch(
@@ -123,7 +121,6 @@ watch(
       const maxSize = sizeToPx(props.max)
       const minSize = sizeToPx(props.min)
 
-      // 确保在最大最小值范围内
       // Ensure it is within the maximum and minimum value range
       const finalSize = Math.min(Math.max(size, minSize || 0), maxSize || size)
 
