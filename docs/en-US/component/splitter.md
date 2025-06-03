@@ -77,13 +77,14 @@ splitter/size
 
 ### SplitterPanel Attributes
 
-| Name                | Description                                         | Type                  | Default |
-| ------------------- | --------------------------------------------------- | --------------------- | ------- |
-| size / v-model:size | Size of the panel (in pixels or percentage)         | ^[string] / ^[number] | -       |
-| min                 | Minimum size of the panel (in pixels or percentage) | ^[string] / ^[number] | -       |
-| max                 | Maximum size of the panel (in pixels or percentage) | ^[string] / ^[number] | -       |
-| resizable           | Whether the panel can be resized                    | ^[boolean]            | true    |
-| collapsible         | Whether the panel can be collapsed                  | ^[boolean]            | false   |
+| Name                | Description                                            | Type                  | Default |
+| ------------------- | ------------------------------------------------------ | --------------------- | ------- |
+| size / v-model:size | Size of the panel (in pixels or percentage)            | ^[string] / ^[number] | -       |
+| default-size        | Initialize size of the panel (in pixels or percentage) | ^[string] / ^[number] | -       |
+| min                 | Minimum size of the panel (in pixels or percentage)    | ^[string] / ^[number] | -       |
+| max                 | Maximum size of the panel (in pixels or percentage)    | ^[string] / ^[number] | -       |
+| resizable           | Whether the panel can be resized                       | ^[boolean]            | true    |
+| collapsible         | Whether the panel can be collapsed                     | ^[boolean]            | false   |
 
 ### SplitterPanel Events
 
