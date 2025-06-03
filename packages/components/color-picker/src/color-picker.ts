@@ -11,9 +11,7 @@ export const colorPickerProps = buildProps({
   /**
    * @description binding value
    */
-  modelValue: {
-    type: [String, null],
-  },
+  modelValue: String,
   /**
    * @description ColorPicker id
    */
