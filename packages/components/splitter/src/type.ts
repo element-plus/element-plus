@@ -6,7 +6,6 @@ export type PanelItemState = UnwrapRef<{
   uid: number
   el: HTMLElement
   collapsible: { start?: boolean; end?: boolean }
-  defaultSize?: number | string
   max?: number | string
   min?: number | string
   resizable: boolean

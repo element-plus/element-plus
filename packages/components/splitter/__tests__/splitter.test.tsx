@@ -50,7 +50,7 @@ describe('Splitter', () => {
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>
         <ElSplitter>
-          <ElSplitterPanel defaultSize={150} min={100} max={200}>
+          <ElSplitterPanel size={150} min={100} max={200}>
             Left Panel
           </ElSplitterPanel>
           <ElSplitterPanel>Right Panel</ElSplitterPanel>
@@ -98,7 +98,7 @@ describe('Splitter', () => {
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>
         <ElSplitter>
-          <ElSplitterPanel defaultSize={150} collapsible>
+          <ElSplitterPanel size={150} collapsible>
             Left Panel
           </ElSplitterPanel>
           <ElSplitterPanel collapsible>Right Panel</ElSplitterPanel>

@@ -13,9 +13,6 @@ export const splitterPanelProps = buildProps({
   size: {
     type: [String, Number],
   },
-  defaultSize: {
-    type: [String, Number],
-  },
   resizable: {
     type: Boolean,
     default: true,
