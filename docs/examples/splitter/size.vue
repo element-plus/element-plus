@@ -38,7 +38,7 @@ const handleResizeEnd = (index: number, sizes: number[]) => {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .demo-panel {
   display: flex;
   align-items: center;

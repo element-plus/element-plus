@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .demo-panel {
   display: flex;
   align-items: center;

@@ -31,7 +31,7 @@ import { ref } from 'vue'
 const resizable = ref(false)
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .demo-panel {
   display: flex;
   align-items: center;
