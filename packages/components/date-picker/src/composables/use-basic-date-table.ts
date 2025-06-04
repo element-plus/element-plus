@@ -228,12 +228,6 @@ export const useBasicDateTable = (
   const getDateOfCell = (row: number, column: number) => {
     const offsetFromStart =
       row * 7 + (column - (props.showWeekNumber ? 1 : 0)) - unref(offsetDay)
-    if (props.selectionMode === 'week') {
-      const weekStart = unref(startDate)
-        .add(offsetFromStart, 'day')
-        .startOf('week')
-      return weekStart
-    }
     return unref(startDate).add(offsetFromStart, 'day')
   }
 
@@ -333,14 +327,17 @@ export const useBasicDateTable = (
     isKeyboardMovement = false
   ) => {
     const target = (event.target as HTMLElement).closest('td')
+
     if (!target) return
 
     const row = (target.parentNode as HTMLTableRowElement).rowIndex - 1
     const column = (target as HTMLTableCellElement).cellIndex
     const cell = unref(rows)[row][column]
+
     if (cell.disabled || cell.type === 'week') return
 
     const newDate = getDateOfCell(row, column)
+
     switch (props.selectionMode) {
       case 'range': {
         handleRangePick(newDate)

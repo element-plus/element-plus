@@ -311,19 +311,7 @@ const emitInput = (input: SingleOrRange<DateModelType> | null) => {
         formatter(item, props.valueFormat, lang.value)
       )
     } else if (input) {
-      if (
-        props.type === 'week' &&
-        props.valueFormat?.toLowerCase().includes('yyyy')
-      ) {
-        // For week type, we need to format it differently
-        formatted = formatter(
-          input,
-          props.valueFormat.replace(/yyyy/gi, 'gggg'),
-          lang.value
-        )
-      } else {
-        formatted = formatter(input, props.valueFormat, lang.value)
-      }
+      formatted = formatter(input, props.valueFormat, lang.value)
     }
     emit(UPDATE_MODEL_EVENT, input ? formatted : input, lang.value)
   }
