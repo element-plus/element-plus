@@ -214,7 +214,9 @@ tooltip/append-to
 Typical issue: [#20907](https://github.com/element-plus/element-plus/issues/20907)
 
 ```vue
-<el-tooltip content="tooltip content" placement="top" :trigger-keys="[]">
-  <el-input v-model="value" placeholder=""></el-input>
-</el-tooltip>
+<template>
+  <el-tooltip content="tooltip content" placement="top" :trigger-keys="[]">
+    <el-input v-model="value" placeholder="" />
+  </el-tooltip>
+</template>
 ```
