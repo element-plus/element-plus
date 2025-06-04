@@ -116,7 +116,7 @@
     "vue-tsc": "^2.0.28"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "config": {
     "commitizen": {
