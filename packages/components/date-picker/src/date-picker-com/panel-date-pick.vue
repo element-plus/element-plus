@@ -279,6 +279,7 @@ const month = computed(() => {
 })
 
 const year = computed(() => {
+  if (selectionMode.value === 'week') return innerDate.value.weekYear()
   return innerDate.value.year()
 })
 
