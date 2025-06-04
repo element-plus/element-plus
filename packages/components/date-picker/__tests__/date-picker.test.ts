@@ -1321,6 +1321,38 @@ describe('WeekPicker', () => {
       expect(dayjs(vm.value).locale(loObj.locale.name).day()).toBe(loObj.value) // Sunday or Monday
     })
   })
+
+  it('should respect week year', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type='week'
+        v-model="value"
+    />`,
+      () => ({ value: new Date(2025, 0, 15) })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(
+      document.querySelectorAll(
+        '.el-date-table__row.el-date-table__row td'
+      )[3] as HTMLElement
+    ).click()
+    await nextTick()
+    const vm = wrapper.vm as any
+
+    expect(vm.value.getFullYear()).toBe(2025)
+    expect(wrapper.findComponent(Input).vm.modelValue).toContain('2025')
+
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const yearLabel = document.querySelectorAll(
+      '.el-date-picker__header-label'
+    )[0]
+    expect(yearLabel.textContent?.trimEnd()).toBe('2025')
+  })
 })
 
 describe('DatePicker dates', () => {

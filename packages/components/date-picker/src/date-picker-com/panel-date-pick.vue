@@ -304,6 +304,12 @@ const formatEmit = (emitDayjs: Dayjs) => {
       .date(emitDayjs.date())
   }
   if (showTime.value) return emitDayjs.millisecond(0)
+  if (
+    selectionMode.value === 'week' &&
+    emitDayjs.weekYear() !== emitDayjs.year()
+  ) {
+    return emitDayjs.year(emitDayjs.weekYear()).startOf('year')
+  }
   return emitDayjs.startOf('day')
 }
 const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
