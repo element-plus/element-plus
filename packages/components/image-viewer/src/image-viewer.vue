@@ -37,43 +37,65 @@
               </el-icon>
             </span>
           </template>
+          <div
+            v-if="$slots.progress || showProgress"
+            :class="[ns.e('btn'), ns.e('progress')]"
+          >
+            <slot
+              name="progress"
+              :active-index="activeIndex"
+              :total="urlList.length"
+            >
+              {{ progress }}
+            </slot>
+          </div>
           <!-- ACTIONS -->
           <div :class="[ns.e('btn'), ns.e('actions')]">
             <div :class="ns.e('actions__inner')">
-              <el-icon @click="handleActions('zoomOut')">
-                <ZoomOut />
-              </el-icon>
-              <el-icon @click="handleActions('zoomIn')">
-                <ZoomIn />
-              </el-icon>
-              <i :class="ns.e('actions__divider')" />
-              <el-icon @click="toggleMode">
-                <component :is="mode.icon" />
-              </el-icon>
-              <i :class="ns.e('actions__divider')" />
-              <el-icon @click="handleActions('anticlockwise')">
-                <RefreshLeft />
-              </el-icon>
-              <el-icon @click="handleActions('clockwise')">
-                <RefreshRight />
-              </el-icon>
+              <slot
+                name="toolbar"
+                :actions="handleActions"
+                :prev="prev"
+                :next="next"
+                :reset="toggleMode"
+                :active-index="activeIndex"
+                :set-active-item="setActiveItem"
+              >
+                <el-icon @click="handleActions('zoomOut')">
+                  <ZoomOut />
+                </el-icon>
+                <el-icon @click="handleActions('zoomIn')">
+                  <ZoomIn />
+                </el-icon>
+                <i :class="ns.e('actions__divider')" />
+                <el-icon @click="toggleMode">
+                  <component :is="mode.icon" />
+                </el-icon>
+                <i :class="ns.e('actions__divider')" />
+                <el-icon @click="handleActions('anticlockwise')">
+                  <RefreshLeft />
+                </el-icon>
+                <el-icon @click="handleActions('clockwise')">
+                  <RefreshRight />
+                </el-icon>
+              </slot>
             </div>
           </div>
           <!-- CANVAS -->
           <div :class="ns.e('canvas')">
-            <img
-              v-for="(url, i) in urlList"
-              v-show="i === activeIndex"
-              :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
-              :key="url"
-              :src="url"
-              :style="imgStyle"
-              :class="ns.e('img')"
-              :crossorigin="crossorigin"
-              @load="handleImgLoad"
-              @error="handleImgError"
-              @mousedown="handleMouseDown"
-            />
+            <template v-for="(url, i) in urlList" :key="i">
+              <img
+                v-if="i === activeIndex"
+                :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
+                :src="url"
+                :style="imgStyle"
+                :class="ns.e('img')"
+                :crossorigin="crossorigin"
+                @load="handleImgLoad"
+                @error="handleImgError"
+                @mousedown="handleMouseDown"
+              />
+            </template>
           </div>
           <slot />
         </el-focus-trap>
@@ -135,6 +157,9 @@ defineOptions({
 const props = defineProps(imageViewerProps)
 const emit = defineEmits(imageViewerEmits)
 
+let stopWheelListener: (() => void) | undefined
+let prevOverflow = ''
+
 const { t } = useLocale()
 const ns = useNamespace('image-viewer')
 const { nextZIndex } = useZIndex()
@@ -160,17 +185,11 @@ const isSingle = computed(() => {
   return urlList.length <= 1
 })
 
-const isFirst = computed(() => {
-  return activeIndex.value === 0
-})
+const isFirst = computed(() => activeIndex.value === 0)
 
-const isLast = computed(() => {
-  return activeIndex.value === props.urlList.length - 1
-})
+const isLast = computed(() => activeIndex.value === props.urlList.length - 1)
 
-const currentImg = computed(() => {
-  return props.urlList[activeIndex.value]
-})
+const currentImg = computed(() => props.urlList[activeIndex.value])
 
 const arrowPrevKls = computed(() => [
   ns.e('btn'),
@@ -205,8 +224,14 @@ const imgStyle = computed(() => {
   return style
 })
 
+const progress = computed(
+  () => `${activeIndex.value + 1} / ${props.urlList.length}`
+)
+
 function hide() {
   unregisterEventListener()
+  stopWheelListener?.()
+  document.body.style.overflow = prevOverflow
   emit('close')
 }
 
@@ -374,6 +399,18 @@ function onCloseRequested() {
   }
 }
 
+function wheelHandler(e: WheelEvent) {
+  if (!e.ctrlKey) return
+
+  if (e.deltaY < 0) {
+    e.preventDefault()
+    return false
+  } else if (e.deltaY > 0) {
+    e.preventDefault()
+    return false
+  }
+}
+
 watch(currentImg, () => {
   nextTick(() => {
     const $img = imgRefs.value[0]
@@ -390,6 +427,14 @@ watch(activeIndex, (val) => {
 
 onMounted(() => {
   registerEventListener()
+
+  stopWheelListener = useEventListener('wheel', wheelHandler, {
+    passive: false,
+  })
+
+  // prevent body scroll
+  prevOverflow = document.body.style.overflow
+  document.body.style.overflow = 'hidden'
 })
 
 defineExpose({

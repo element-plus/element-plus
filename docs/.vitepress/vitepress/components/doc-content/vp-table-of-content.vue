@@ -52,8 +52,10 @@ const removeTag = (str: string) => str.replace(/<span.*<\/span>/g, '')
       <sponsor-right-logo-small-list />
       <sponsor-right-text-list />
     </nav>
+    <div class="toc-content-mask" />
   </aside>
 </template>
+
 <style scoped lang="scss">
 .sponsors-button {
   :deep(button) {

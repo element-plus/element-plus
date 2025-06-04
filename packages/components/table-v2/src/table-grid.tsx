@@ -1,4 +1,14 @@
-import { computed, defineComponent, inject, provide, ref, unref } from 'vue'
+import {
+  computed,
+  defineComponent,
+  inject,
+  nextTick,
+  onActivated,
+  provide,
+  ref,
+  unref,
+  watch,
+} from 'vue'
 import {
   DynamicSizeGrid,
   FixedSizeGrid,
@@ -112,6 +122,14 @@ const useTableGrid = (props: TableV2GridProps) => {
     unref(headerRef)?.$forceUpdate()
   }
 
+  watch(
+    () => props.bodyWidth,
+    () => {
+      if (isNumber(props.estimatedRowHeight))
+        bodyRef.value?.resetAfter({ columnIndex: 0 }, false)
+    }
+  )
+
   return {
     bodyRef,
     forceUpdate,
@@ -158,6 +176,12 @@ const TableGrid = defineComponent({
     } = useTableGrid(props)
 
     provide('tableV2GridScrollLeft', scrollLeft)
+
+    onActivated(async () => {
+      await nextTick()
+      const scrollTop = bodyRef.value?.states.scrollTop
+      scrollTop && scrollToTop(Math.round(scrollTop) + 1)
+    })
 
     expose({
       forceUpdate,

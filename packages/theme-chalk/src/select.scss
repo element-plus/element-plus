@@ -56,7 +56,6 @@
 
     @include when(disabled) {
       cursor: not-allowed;
-      pointer-events: none;
 
       background-color: getCssVar('fill-color', 'light');
       color: getCssVar('text-color', 'placeholder');
@@ -79,6 +78,11 @@
       }
 
       .#{$namespace}-tag {
+        cursor: not-allowed;
+      }
+
+      // When the native input tag is disabled, the cursor value is the 'default'.
+      input {
         cursor: not-allowed;
       }
     }
@@ -115,6 +119,14 @@
 
     @include when(reverse) {
       transform: rotateZ(180deg);
+    }
+  }
+
+  @include e(clear) {
+    cursor: pointer;
+
+    &:hover {
+      color: getCssVar('select-close-hover-color');
     }
   }
 

@@ -109,4 +109,4 @@ export const timeSelectProps = buildProps({
 
 export type TimeSelectProps = ExtractPropTypes<typeof timeSelectProps>
 
-export type TimeSelectInstance = InstanceType<typeof TimeSelect>
+export type TimeSelectInstance = InstanceType<typeof TimeSelect> & unknown

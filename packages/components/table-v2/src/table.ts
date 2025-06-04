@@ -192,7 +192,7 @@ export const tableV2Props = buildProps({
     type: definePropType<ExpandedRowsChangeHandler>(Function),
   },
   onEndReached: {
-    type: definePropType<(distance: number) => void>(Function),
+    type: definePropType<(remainDistance: number) => void>(Function),
   },
   onRowExpand: tableV2RowProps.onRowExpand,
   onScroll: tableV2GridProps.onScroll,

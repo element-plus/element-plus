@@ -72,13 +72,13 @@ You can also try Element Plus out with the components built-in playground.
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.vform666.com/" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/17680888/156870588-b25a42d5-888b-4943-8b1b-5239dfd8f4d2.png">
+        <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
+          <img width="150px" src="https://github.com/element-plus/element-plus/assets/17680888/6a044d82-c393-48ab-90b8-de0d3aad1624">
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
-          <img width="150px" src="https://github.com/element-plus/element-plus/assets/17680888/6a044d82-c393-48ab-90b8-de0d3aad1624">
+        <a href="https://vue.misboot.com/#/login?from=element-plus" target="_blank">
+          <img width="150px" src="https://github.com/user-attachments/assets/ade8e7e6-f9a4-45d5-9006-44b548599a8d">
         </a>
       </td>
       <td align="center" valign="middle">
@@ -98,6 +98,11 @@ You can also try Element Plus out with the components built-in playground.
       <td align="center" valign="middle">
         <a href="https://doc.buildadmin.com/?from=element-plus" target="_blank">
           <img width="130px" src="https://user-images.githubusercontent.com/17680888/173179536-30e35fd1-cd5a-482a-bc41-9d5f0aa66fd4.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://fantastic-admin.github.io/?from=element-plus" target="_blank">
+          <img width="130px" src="https://github.com/user-attachments/assets/0dbd9c02-d132-4c9e-a162-2b5a8728fc7e">
         </a>
       </td>
       <td align="center" valign="middle">
@@ -146,6 +151,12 @@ We are now lacking of experts of `Testing`, `GitHub Actions`, `PM`, if you do fe
 This project exists thanks to all the people who contribute.
 
 And thank you to all our backers! 🙏
+
+<a href="https://openomy.app/github/element-plus/element-plus" target="_blank" style="display: block; width: 100%;" align="center">
+  <img src="https://openomy.app/svg?repo=element-plus/element-plus&chart=bubble&latestMonth=3" target="_blank" alt="Contribution Leaderboard" style="display: block; width: 100%;" />
+</a>
+
+<hr />
 
 <a href="https://github.com/element-plus/element-plus/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=element-plus/element-plus" />

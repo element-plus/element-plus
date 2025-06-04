@@ -214,7 +214,7 @@ select/custom-label
 | reserve-keyword                 | when `multiple` and `filterable` is true, whether to reserve current keyword after selecting an option                | ^[boolean]                                                                                                                                                                  | true                                           |
 | default-first-option            | select first matching option on enter key. Use with `filterable` or `remote`                                          | ^[boolean]                                                                                                                                                                  | false                                          |
 | teleported                      | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                      | ^[boolean]                                                                                                                                                                  | true                                           |
-| append-to ^(2.8.4)              | which element the select dropdown appends to                                                                          | ^[string]                                                                                                                                                                   | —                                              |
+| append-to ^(2.8.4)              | which element the select dropdown appends to                                                                          | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                                              |
 | persistent                      | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | automatic-dropdown              | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                     | ^[boolean]                                                                                                                                                                  | false                                          |
 | clear-icon                      | custom clear icon component                                                                                           | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose                                    |
@@ -243,14 +243,15 @@ select/custom-label
 
 ### Select Events
 
-| Name           | Description                                                   | Type                                     |
-| -------------- | ------------------------------------------------------------- | ---------------------------------------- |
-| change         | triggers when the selected value changes                      | ^[Function]`(value: any) => void`        |
-| visible-change | triggers when the dropdown appears/disappears                 | ^[Function]`(visible: boolean) => void`  |
-| remove-tag     | triggers when a tag is removed in multiple mode               | ^[Function]`(tagValue: any) => void`     |
-| clear          | triggers when the clear icon is clicked in a clearable Select | ^[Function]`() => void`                  |
-| blur           | triggers when Input blurs                                     | ^[Function]`(event: FocusEvent) => void` |
-| focus          | triggers when Input focuses                                   | ^[Function]`(event: FocusEvent) => void` |
+| Name                  | Description                                                   | Type                                                                |
+| --------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------- |
+| change                | triggers when the selected value changes                      | ^[Function]`(value: any) => void`                                   |
+| visible-change        | triggers when the dropdown appears/disappears                 | ^[Function]`(visible: boolean) => void`                             |
+| remove-tag            | triggers when a tag is removed in multiple mode               | ^[Function]`(tagValue: any) => void`                                |
+| clear                 | triggers when the clear icon is clicked in a clearable Select | ^[Function]`() => void`                                             |
+| blur                  | triggers when Input blurs                                     | ^[Function]`(event: FocusEvent) => void`                            |
+| focus                 | triggers when Input focuses                                   | ^[Function]`(event: FocusEvent) => void`                            |
+| popup-scroll ^(2.9.4) | triggers when dropdown scrolls                                | ^[Function]`(data:{scrollTop: number, scrollLeft: number}) => void` |
 
 ### Select Slots
 

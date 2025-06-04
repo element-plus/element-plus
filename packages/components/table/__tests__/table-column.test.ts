@@ -260,9 +260,8 @@ describe('table column', () => {
       }
 
       describe('= selection', () => {
-        const wrapper = createTable('selection')
-
         it('render', async () => {
+          const wrapper = createTable('selection')
           await doubleWait()
           expect(wrapper.findAll('.el-checkbox').length).toEqual(
             getTestData().length + 1
@@ -270,6 +269,8 @@ describe('table column', () => {
         })
 
         it('select all', async () => {
+          const wrapper = createTable('selection')
+          await doubleWait()
           wrapper.find('.el-checkbox').trigger('click')
           await doubleWait()
           expect(wrapper.vm.selected.length).toEqual(5)
@@ -277,15 +278,151 @@ describe('table column', () => {
         })
 
         it('select one', async () => {
-          const wrapper2 = createTable('selection')
+          const wrapper = createTable('selection')
 
           await doubleWait()
-          wrapper2.findAll('.el-checkbox')[1].trigger('click')
+          wrapper.findAll('.el-checkbox')[1].trigger('click')
 
           await doubleWait()
-          expect(wrapper2.vm.selected.length).toEqual(1)
-          expect(wrapper2.vm.selected[0].name).toEqual(getTestData()[0].name)
-          wrapper2.unmount()
+          expect(wrapper.vm.selected.length).toEqual(1)
+          expect(wrapper.vm.selected[0].name).toEqual(getTestData()[0].name)
+          wrapper.unmount()
+        })
+
+        // #19581
+        it('The index parameters of the selectable function should be the same as the index of the row', async () => {
+          const expectIndexs = []
+          const actualIndexs = []
+          const wrapper = mount({
+            components: {
+              ElTable,
+              ElTableColumn,
+            },
+            template: `
+          <el-table :data="testData" @selection-change="change">
+            <el-table-column type="selection" :selectable="selectableFn" />
+            <el-table-column prop="desc" />
+          </el-table>`,
+
+            data() {
+              return {
+                selected: [],
+                testData: [
+                  { id: 0, desc: 'record 1' },
+                  { id: 1, desc: 'record 2' },
+                  { id: 2, desc: 'record 3' },
+                ],
+              }
+            },
+            methods: {
+              change(rows) {
+                this.selected = rows
+              },
+              selectableFn(row, index) {
+                const expectIndex = this.testData.findIndex(
+                  (item) => item.id === row.id
+                )
+                expectIndexs.push(expectIndex)
+                actualIndexs.push(index)
+                return true
+              },
+            },
+          })
+          await doubleWait()
+
+          wrapper.findAll('.el-table__row .el-checkbox').forEach((checkbox) => {
+            checkbox.trigger('click')
+          })
+          await doubleWait()
+
+          expect(expectIndexs).toEqual(actualIndexs)
+          expect(wrapper.vm.selected.length).toBe(wrapper.vm.testData.length)
+        })
+
+        // #20292
+        it('Maintain child selection states during data updates', async () => {
+          const wrapper = mount({
+            components: {
+              ElTable,
+              ElTableColumn,
+            },
+            template: `
+              <el-table ref="tableRef" :data="testData" row-key="id" default-expand-all>
+                <el-table-column type="selection" />
+                <el-table-column prop="desc" />
+              </el-table>
+            `,
+
+            data() {
+              return {
+                testData: [
+                  { id: 0, desc: 'record 1' },
+                  { id: 1, desc: 'record 2' },
+                  {
+                    id: 2,
+                    desc: 'record 3',
+                    children: [
+                      { id: 3, desc: 'record 3-1' },
+                      { id: 4, desc: 'record 3-2' },
+                    ],
+                  },
+                ],
+              }
+            },
+            methods: {
+              addRow() {
+                this.testData.push({ id: 5, desc: 'record 4' })
+              },
+              removeRow() {
+                this.testData.pop()
+              },
+              removeChildRow() {
+                this.testData[2].children.pop()
+              },
+            },
+          })
+          await doubleWait()
+
+          const getSelection = wrapper.vm.$refs.tableRef.getSelectionRows
+          const domArr = wrapper.findAll('.el-table__row .el-checkbox')
+
+          let selectionKeys = []
+
+          domArr.forEach(
+            (checkbox, index) => index < 3 && checkbox.trigger('click')
+          )
+          await doubleWait()
+
+          selectionKeys = getSelection().map((item) => item.id)
+          expect(selectionKeys).toEqual([0, 1, 2, 3, 4])
+
+          // add
+          wrapper.vm.addRow()
+          await doubleWait()
+
+          selectionKeys = getSelection().map((item) => item.id)
+          expect(selectionKeys).toEqual([0, 1, 2, 3, 4])
+
+          // remove
+          wrapper.vm.removeRow()
+          await doubleWait()
+
+          selectionKeys = getSelection().map((item) => item.id)
+          expect(selectionKeys).toEqual([0, 1, 2, 3, 4])
+
+          // remove child
+          wrapper.vm.removeChildRow()
+          await doubleWait()
+
+          selectionKeys = getSelection().map((item) => item.id)
+          expect(selectionKeys).toEqual([0, 1, 2, 3])
+
+          // remove with child
+          wrapper.vm.removeRow()
+          await doubleWait()
+
+          selectionKeys = getSelection().map((item) => item.id)
+          expect(selectionKeys).toEqual([0, 1])
         })
       })
 
@@ -579,6 +716,150 @@ describe('table column', () => {
       delBut.trigger('click')
       await doubleWait()
       expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(3)
+    })
+  })
+
+  describe('column expand', () => {
+    const createInstance = function (extra?) {
+      extra = extra || ''
+      return mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+        },
+        template: `
+          <el-table row-key="id" :data="testData" @expand-change="handleExpand" ${extra}>
+            <el-table-column type="expand">
+              <template #default="props">
+                <div>{{props.row.name}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="release" label="release" />
+            <el-table-column prop="director" label="director" />
+            <el-table-column prop="runtime" label="runtime" />
+          </el-table>
+        `,
+
+        data() {
+          return {
+            expandCount: 0,
+            expandRowKeys: [],
+            testData: getTestData(),
+          }
+        },
+
+        methods: {
+          handleExpand() {
+            this.expandCount++
+          },
+          refreshData() {
+            this.testData = getTestData()
+          },
+        },
+      })
+    }
+
+    it('should render expand column correctly', async () => {
+      const wrapper = createInstance()
+      await doubleWait()
+      expect(wrapper.findAll('td.el-table__expand-column').length).toEqual(5)
+      wrapper.unmount()
+    })
+
+    describe('preserve-expanded-content', () => {
+      it('should lose expanded state when refreshing data without preserve-expanded-content', async () => {
+        const wrapper = createInstance() // No preserve-expanded-content prop
+        await doubleWait()
+
+        // Click expand icon and verify initial state
+        const expandIcon = wrapper.find('.el-table__expand-icon')
+        await expandIcon.trigger('click')
+        await doubleWait()
+        expect(wrapper.findAll('.el-table__expanded-cell')).toHaveLength(1)
+
+        // Clear and replace data
+        wrapper.vm.testData = []
+        await doubleWait()
+        wrapper.vm.testData = getTestData()
+        await doubleWait()
+
+        // Without preserve-expanded-content, expanded state should be lost
+        expect(wrapper.findAll('.el-table__expanded-cell')).toHaveLength(0)
+        // All expand icons should be in collapsed state
+        expect(
+          wrapper.find('.el-table__expand-icon--expanded').exists()
+        ).toBeFalsy()
+
+        wrapper.unmount()
+      })
+
+      it('should preserve expanded state when refreshing data with preserve-expanded-content', async () => {
+        const wrapper = createInstance('preserve-expanded-content')
+        await doubleWait()
+
+        // First expand the row
+        const expandEl = wrapper.find('.el-table__expand-icon')
+        await expandEl.trigger('click')
+
+        // Verify initial expand
+        expect(wrapper.find('.el-table__expanded-cell').exists()).toBeTruthy()
+        const expandedContent = wrapper.find('.el-table__expanded-cell').text()
+        expect(expandedContent).toContain(wrapper.vm.testData[0].name)
+
+        // Refresh data
+        wrapper.vm.refreshData()
+        await doubleWait()
+
+        // With preserve-expanded-content, expanded state and content should persist
+        expect(wrapper.find('.el-table__expanded-cell').exists()).toBeTruthy()
+        expect(wrapper.find('.el-table__expanded-cell').text()).toBe(
+          expandedContent
+        )
+
+        wrapper.unmount()
+      })
+
+      it('should preserve multiple expanded rows when refreshing data', async () => {
+        const wrapper = createInstance('preserve-expanded-content')
+        await doubleWait()
+
+        // Find first two expand icons
+        const expandIcons = wrapper
+          .findAll('.el-table__expand-icon')
+          .slice(0, 2)
+
+        // Expand first two rows
+        for (const icon of expandIcons) {
+          await icon.trigger('click')
+          await doubleWait()
+        }
+
+        // Verify both rows are expanded
+        const expandedIcons = wrapper.findAll(
+          '.el-table__expand-icon--expanded'
+        )
+        expect(expandedIcons).toHaveLength(2)
+
+        // Store expanded content
+        const expandedRows = wrapper.findAll('.el-table__expanded-cell')
+        const initialContents = expandedRows.map((row) => row.text())
+
+        // Replace data with new reference
+        wrapper.vm.testData = [...getTestData()]
+        await doubleWait()
+
+        // Verify expansions and content are preserved
+        const expandedIconsAfter = wrapper.findAll(
+          '.el-table__expand-icon--expanded'
+        )
+        expect(expandedIconsAfter).toHaveLength(2)
+
+        const expandedRowsAfter = wrapper.findAll('.el-table__expanded-cell')
+        const preservedContents = expandedRowsAfter.map((row) => row.text())
+        expect(preservedContents).toEqual(initialContents)
+
+        wrapper.unmount()
+      })
     })
   })
 
@@ -1121,9 +1402,9 @@ describe('table column', () => {
         },
         template: `
           <el-table :data="testData">
-            <el-table-column type="selection" />
+            <el-table-column :fixed="selectFixed" type="selection" />
             <el-table-column :fixed="fixed" prop="name" />
-            <el-table-column prop="release" />
+            <el-table-column :fixed="fixed" prop="release" />
             <el-table-column prop="director" />
             <el-table-column prop="runtime" />
           </el-table>
@@ -1131,6 +1412,7 @@ describe('table column', () => {
 
         data() {
           return {
+            selectFixed: false,
             fixed: false,
           }
         },
@@ -1140,15 +1422,104 @@ describe('table column', () => {
         },
       })
 
-      await doubleWait()
-      expect(wrapper.find('.el-table-fixed-column--left').exists()).toBeFalsy()
+      const rowLength = wrapper.vm.testData.length + 1 // include header
+      const dynamicFixCols = 2
+
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
       wrapper.vm.fixed = true
       await doubleWait()
-      expect(wrapper.find('.el-table-fixed-column--left').exists()).toBeTruthy()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+        rowLength * (dynamicFixCols + 1)
+      )
       wrapper.vm.fixed = false
       await doubleWait()
-      expect(wrapper.find('.el-table-fixed-column--left').exists()).toBeFalsy()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
+
+      wrapper.vm.selectFixed = true
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+        rowLength
+      )
+      wrapper.vm.fixed = true
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+        rowLength * (dynamicFixCols + 1)
+      )
+      wrapper.vm.fixed = false
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+        rowLength
+      )
+
+      wrapper.vm.selectFixed = 'right'
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
+      expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
+        rowLength
+      )
+      wrapper.vm.fixed = true
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(
+        rowLength * dynamicFixCols
+      )
+      expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
+        rowLength
+      )
+      wrapper.vm.fixed = false
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-fixed-column--left').length).toEqual(0)
+      expect(wrapper.findAll('.el-table-fixed-column--right').length).toEqual(
+        rowLength
+      )
+
       wrapper.unmount()
+    })
+
+    it('correct render selection column when it is not in the first', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="data">
+            <el-table-column fixed="left" prop="name" />
+            <el-table-column fixed="left" type="selection" />
+            <el-table-column fixed="left" prop="date" />
+          </el-table>
+        `,
+
+        data() {
+          const data = [
+            {
+              date: '2016-05-03',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-02',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-04',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-01',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+          ]
+          return {
+            data,
+          }
+        },
+      })
+
+      await doubleWait()
+      expect(wrapper.findAll('.el-table-column--selection').length).toEqual(5)
     })
 
     it('prop', async () => {

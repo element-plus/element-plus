@@ -1,4 +1,4 @@
-import { defineComponent, provide, reactive, ref, toRef } from 'vue'
+import { computed, defineComponent, provide, reactive, ref, toRef } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import advancedFormat from 'dayjs/plugin/advancedFormat.js'
@@ -16,6 +16,7 @@ import {
   type DateModelType,
   type SingleOrRange,
 } from '@element-plus/components/time-picker'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { ROOT_PICKER_INJECTION_KEY } from './constants'
 
 import { datePickerProps } from './props/date-picker'
@@ -35,10 +36,13 @@ export default defineComponent({
   name: 'ElDatePicker',
   install: null,
   props: datePickerProps,
-  emits: ['update:modelValue'],
+  emits: [UPDATE_MODEL_EVENT],
   setup(props, { expose, emit, slots }) {
     const ns = useNamespace('picker-panel')
-
+    const isDefaultFormat = computed(() => {
+      return !props.format
+    })
+    provide('ElIsDefaultFormat', isDefaultFormat)
     provide('ElPopperOptions', reactive(toRef(props, 'popperOptions')))
     provide(ROOT_PICKER_INJECTION_KEY, {
       slots,
@@ -64,7 +68,7 @@ export default defineComponent({
     expose(refProps)
 
     const onModelValueUpdated = (val: SingleOrRange<DateModelType> | null) => {
-      emit('update:modelValue', val)
+      emit(UPDATE_MODEL_EVENT, val)
     }
 
     return () => {
