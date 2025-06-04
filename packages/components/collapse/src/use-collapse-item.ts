@@ -44,6 +44,7 @@ export const useCollapseItem = (props: CollapseItemProps) => {
   const handleEnterClick = (e: KeyboardEvent) => {
     const target = e.target as HTMLElement
     if (target?.closest('input, textarea, select')) return
+    e.preventDefault()
     collapse?.handleItemClick(unref(name))
   }
 
