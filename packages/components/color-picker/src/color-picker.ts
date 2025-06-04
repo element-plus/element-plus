@@ -12,7 +12,8 @@ export const colorPickerProps = buildProps({
    * @description binding value
    */
   modelValue: {
-    type: [String, null],
+    type: definePropType<string | null>(String),
+    default: undefined,
   },
   /**
    * @description ColorPicker id
