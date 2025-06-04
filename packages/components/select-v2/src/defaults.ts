@@ -343,4 +343,4 @@ export type OptionV2Props = ExtractPropTypes<typeof optionV2Props>
 export type SelectV2EmitFn = EmitFn<typeof selectV2Emits>
 export type OptionV2EmitFn = EmitFn<typeof optionV2Emits>
 
-export type SelectV2Instance = InstanceType<typeof SelectV2>
+export type SelectV2Instance = InstanceType<typeof SelectV2> & unknown
