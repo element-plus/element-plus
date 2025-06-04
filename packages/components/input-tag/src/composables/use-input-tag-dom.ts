@@ -39,6 +39,7 @@ export function useInputTagDom({
     ns.is('disabled', disabled.value),
     ns.m(size.value),
     ns.e('wrapper'),
+    { [ns.e(`status-${validateState.value}`)]: validateState.value },
     attrs.class,
   ])
   const containerStyle = computed<StyleValue>(() => [attrs.style as StyleValue])

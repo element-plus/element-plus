@@ -222,6 +222,7 @@ const containerKls = computed(() => [
     [nsInput.bm('suffix', 'password-clear')]:
       showClear.value && showPwdVisible.value,
     [nsInput.b('hidden')]: props.type === 'hidden',
+    [nsInput.e(`status-${validateState.value}`)]: validateState.value,
   },
   rawAttrs.class,
 ])
@@ -266,7 +267,12 @@ const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
 )
 
 const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
-const validateState = computed(() => elFormItem?.validateState || '')
+const validateState = computed(() => {
+  if (props.validateEvent) {
+    return elFormItem?.validateState || ''
+  }
+  return ''
+})
 const validateIcon = computed(
   () => validateState.value && ValidateComponentsMap[validateState.value]
 )

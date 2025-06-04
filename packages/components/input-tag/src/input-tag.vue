@@ -120,7 +120,12 @@ const { form, formItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, { formItemContext: formItem })
 
 const needStatusIcon = computed(() => form?.statusIcon ?? false)
-const validateState = computed(() => formItem?.validateState || '')
+const validateState = computed(() => {
+  if (props.validateEvent) {
+    return formItem?.validateState || ''
+  }
+  return ''
+})
 const validateIcon = computed(() => {
   return validateState.value && ValidateComponentsMap[validateState.value]
 })

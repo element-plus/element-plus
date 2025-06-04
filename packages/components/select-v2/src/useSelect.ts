@@ -171,7 +171,12 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     () => iconComponent.value && nsSelect.is('reverse', expanded.value)
   )
 
-  const validateState = computed(() => elFormItem?.validateState || '')
+  const validateState = computed(() => {
+    if (props.validateEvent) {
+      return elFormItem?.validateState || ''
+    }
+    return ''
+  })
   const validateIcon = computed(() => {
     // When we use indexed access to get the type of an undeclared property,
     // the unsafe type `any` will be inferred, which TypeScript throws an error to emphasize it.

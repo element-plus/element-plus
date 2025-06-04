@@ -214,10 +214,10 @@ $form-item-label-top-margin-bottom: map.merge(
   }
 
   @include when(error) {
-    .#{$namespace}-input__wrapper,
-    .#{$namespace}-textarea__inner,
-    .#{$namespace}-select__wrapper,
-    .#{$namespace}-input-tag__wrapper {
+    .#{$namespace}-input__status-error .#{$namespace}-input__wrapper,
+    .#{$namespace}-input__status-error .#{$namespace}-textarea__inner,
+    .#{$namespace}-select__status-error .#{$namespace}-select__wrapper,
+    .#{$namespace}-input-tag__status-error.#{$namespace}-input-tag__wrapper {
       &,
       &:hover,
       &:focus,
