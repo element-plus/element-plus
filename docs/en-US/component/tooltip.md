@@ -206,3 +206,17 @@ tooltip/append-to
 | onOpen               | expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void`   |
 | onClose              | expose onClose function to mange el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void`   |
 | hide                 | expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void`   |
+
+## FAQ
+
+#### How to allow spaces in the input box when tooltip is nested?
+
+Typical issue: [#20907](https://github.com/element-plus/element-plus/issues/20907)
+
+```vue
+<template>
+  <el-tooltip content="tooltip content" placement="top" :trigger-keys="[]">
+    <el-input v-model="value" placeholder="" />
+  </el-tooltip>
+</template>
+```
