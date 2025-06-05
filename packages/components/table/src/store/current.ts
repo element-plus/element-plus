@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getCurrentInstance, ref, unref } from 'vue'
 import { isNull } from 'lodash-unified'
 import { getRowIdentity } from '../util'
@@ -9,8 +8,8 @@ import type { WatcherPropsData } from '.'
 
 function useCurrent<T>(watcherData: WatcherPropsData<T>) {
   const instance = getCurrentInstance() as Table<T>
-  const _currentRowKey = ref<string>(null)
-  const currentRow: Ref<T> = ref(null)
+  const _currentRowKey = ref<string>()
+  const currentRow: Ref<T | undefined> = ref()
 
   const setCurrentRowKey = (key: string) => {
     instance.store.assertRowKey()
@@ -19,12 +18,12 @@ function useCurrent<T>(watcherData: WatcherPropsData<T>) {
   }
 
   const restoreCurrentRowKey = () => {
-    _currentRowKey.value = null
+    _currentRowKey.value = undefined
   }
 
   const setCurrentRowByKey = (key: string) => {
     const { data, rowKey } = watcherData
-    let _currentRow = null
+    let _currentRow
     if (rowKey.value) {
       _currentRow = (unref(data) || []).find(
         (item) => getRowIdentity(item, rowKey.value) === key
@@ -42,7 +41,7 @@ function useCurrent<T>(watcherData: WatcherPropsData<T>) {
       return
     }
     if (!_currentRow && oldCurrentRow) {
-      currentRow.value = null
+      currentRow.value = undefined
       instance.emit('current-change', null, oldCurrentRow)
     }
   }
@@ -53,12 +52,12 @@ function useCurrent<T>(watcherData: WatcherPropsData<T>) {
     const data = watcherData.data.value || []
     const oldCurrentRow = currentRow.value
     // 当 currentRow 不在 data 中时尝试更新数据
-    if (!data.includes(oldCurrentRow) && oldCurrentRow) {
+    if (oldCurrentRow && !data.includes(oldCurrentRow)) {
       if (rowKey) {
         const currentRowKey = getRowIdentity(oldCurrentRow, rowKey)
         setCurrentRowByKey(currentRowKey)
       } else {
-        currentRow.value = null
+        currentRow.value = undefined
       }
       if (isNull(currentRow.value)) {
         instance.emit('current-change', null, oldCurrentRow)
