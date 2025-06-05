@@ -98,29 +98,31 @@
                   <span>{{ tag.text }}</span>
                 </template>
                 <template #content>
-                  <div :class="nsCascader.e('collapse-tags')">
-                    <div
-                      v-for="(tag2, idx) in allPresentTags.slice(
-                        maxCollapseTags
-                      )"
-                      :key="idx"
-                      :class="nsCascader.e('collapse-tag')"
-                    >
-                      <el-tag
-                        :key="tag2.key"
-                        class="in-tooltip"
-                        :type="tagType"
-                        :size="tagSize"
-                        :effect="tagEffect"
-                        :hit="tag2.hitState"
-                        :closable="tag2.closable"
-                        disable-transitions
-                        @close="deleteTag(tag2)"
+                  <el-scrollbar :height="maxCollapseTagsTooltipHeight">
+                    <div :class="nsCascader.e('collapse-tags')">
+                      <div
+                        v-for="(tag2, idx) in allPresentTags.slice(
+                          maxCollapseTags
+                        )"
+                        :key="idx"
+                        :class="nsCascader.e('collapse-tag')"
                       >
-                        <span>{{ tag2.text }}</span>
-                      </el-tag>
+                        <el-tag
+                          :key="tag2.key"
+                          class="in-tooltip"
+                          :type="tagType"
+                          :size="tagSize"
+                          :effect="tagEffect"
+                          :hit="tag2.hitState"
+                          :closable="tag2.closable"
+                          disable-transitions
+                          @close="deleteTag(tag2)"
+                        >
+                          <span>{{ tag2.text }}</span>
+                        </el-tag>
+                      </div>
                     </div>
-                  </div>
+                  </el-scrollbar>
                 </template>
               </el-tooltip>
             </template>
@@ -387,6 +389,13 @@ const inputClass = computed(() => {
 
 const contentRef = computed(() => {
   return tooltipRef.value?.popperRef?.contentRef
+})
+
+// The max height of the collapse tags tooltip, if the value is greater than the window height, it will be set to the smaller than window height
+const maxCollapseTagsTooltipHeight = computed(() => {
+  return props.maxCollapseTagsTooltipHeight > window.innerHeight
+    ? window.innerHeight - 100
+    : props.maxCollapseTagsTooltipHeight
 })
 
 const togglePopperVisible = (visible?: boolean) => {
