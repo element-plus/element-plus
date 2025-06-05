@@ -33,6 +33,7 @@ import {
   onActivated,
   onMounted,
   onUpdated,
+  onBeforeUnmount,
   provide,
   reactive,
   ref,
@@ -204,7 +205,12 @@ onMounted(() => {
     })
 })
 onUpdated(() => update())
-
+onBeforeUnmount(() => {
+  scrollbarRef.value = null;
+  wrapRef.value = null;
+  resizeRef.value = null;
+  barRef.value = null;
+})
 defineExpose({
   /** @description scrollbar wrap ref */
   wrapRef,
