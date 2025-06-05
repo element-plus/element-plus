@@ -146,7 +146,11 @@ export const datesInMonth = (
   month: number,
   lang: string
 ) => {
-  const firstDay = dayjs(date).locale(lang).month(month).year(year)
+  const firstDay = dayjs(date)
+    .locale(lang)
+    .month(month)
+    .year(year)
+    .startOf('month')
   const numOfDays = firstDay.daysInMonth()
   return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())
 }
