@@ -14,10 +14,8 @@ export const menuItemProps = buildProps({
    * @description unique identification
    */
   index: {
-    type: definePropType<string | null>([String, null]),
-    // will be required in the next major version
-    // required: true,
-    default: null,
+    type: String,
+    required: true,
   },
   /**
    * @description Vue Router object
