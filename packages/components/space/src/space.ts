@@ -177,6 +177,8 @@ const Space = defineComponent({
               ['style', 'prefixCls']
             )
           )
+        } else if (isVNode(child) && child.type === Comment) {
+          extractedChildren.push(child)
         }
       })
 
