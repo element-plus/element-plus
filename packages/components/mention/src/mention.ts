@@ -108,6 +108,7 @@ export const mentionProps = buildProps({
 
 export const mentionEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
+  input: (value: string) => isString(value),
   search: (pattern: string, prefix: string) =>
     isString(pattern) && isString(prefix),
   select: (option: MentionOption, prefix: string) =>

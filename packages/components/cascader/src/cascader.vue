@@ -252,7 +252,9 @@ const popperOptions: Partial<Options> = {
       fn: ({ state }) => {
         const { modifiersData, placement } = state as any
         if (['right', 'left', 'bottom', 'top'].includes(placement)) return
-        modifiersData.arrow.x = 35
+        if (modifiersData.arrow) {
+          modifiersData.arrow.x = 35
+        }
       },
       requires: ['arrow'],
     },
@@ -305,7 +307,7 @@ const cascaderStyle = computed<StyleValue>(() => {
 
 const isDisabled = computed(() => props.disabled || form?.disabled)
 const inputPlaceholder = computed(
-  () => props.placeholder || t('el.cascader.placeholder')
+  () => props.placeholder ?? t('el.cascader.placeholder')
 )
 const currentPlaceholder = computed(() =>
   searchInputValue.value || presentTags.value.length > 0 || isComposing.value
