@@ -90,6 +90,7 @@
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { computed, inject, ref, toRef, useSlots, watch } from 'vue'
 import dayjs from 'dayjs'
@@ -97,6 +98,7 @@ import { isArray } from '@element-plus/utils'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
 import {
   panelYearRangeEmits,
   panelYearRangeProps,
@@ -104,7 +106,10 @@ import {
 import { useShortcut } from '../composables/use-shortcut'
 import { useYearRangeHeader } from '../composables/use-year-range-header'
 import { correctlyParseUserInput, isValidRange } from '../utils'
-import { ROOT_PICKER_INJECTION_KEY } from '../constants'
+import {
+  ROOT_PICKER_INJECTION_KEY,
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
+} from '../constants'
 import YearTable from './basic-year-table.vue'
 
 import type { Dayjs } from 'dayjs'
@@ -122,6 +127,9 @@ const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(leftDate.value.add(10, 'year'))
 const { pickerNs: ppNs } = inject(ROOT_PICKER_INJECTION_KEY)!
 const drpNs = useNamespace('date-range-picker')
+const isDefaultFormat = inject(
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
+) as any
 
 const hasShortcuts = computed(() => !!shortcuts.length)
 
@@ -221,7 +229,7 @@ const onSelect = (selecting: boolean) => {
   }
 }
 
-const pickerBase = inject('EP_PICKER_BASE') as any
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const { shortcuts, disabledDate } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -286,7 +294,12 @@ watch(
 )
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return correctlyParseUserInput(value, format.value, lang.value)
+  return correctlyParseUserInput(
+    value,
+    format.value,
+    lang.value,
+    isDefaultFormat
+  )
 }
 
 const formatToString = (value: Dayjs[] | Dayjs) => {

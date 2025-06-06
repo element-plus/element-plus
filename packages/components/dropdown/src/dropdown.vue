@@ -90,6 +90,7 @@
     </template>
   </div>
 </template>
+
 <script lang="ts">
 import {
   computed,
@@ -113,7 +114,10 @@ import { addUnit, ensureArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
-import { DROPDOWN_INJECTION_KEY } from './tokens'
+import {
+  DROPDOWN_INJECTION_KEY,
+  DROPDOWN_INSTANCE_INJECTION_KEY,
+} from './tokens'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { CSSProperties } from 'vue'
@@ -265,7 +269,7 @@ export default defineComponent({
       onItemLeave,
     })
 
-    provide('elDropdown', {
+    provide(DROPDOWN_INSTANCE_INJECTION_KEY, {
       instance: _instance,
       dropdownSize,
       handleClick,

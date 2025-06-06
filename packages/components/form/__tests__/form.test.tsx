@@ -546,7 +546,7 @@ describe('Form', () => {
     })
     const vm = wrapper.vm
 
-    function validate() {
+    async function validate() {
       return (vm.$refs.formRef as FormInstance)
         .validate()
         .then(() => ({ valid: true, fields: undefined }))
@@ -569,6 +569,79 @@ describe('Form', () => {
     res = await validate()
     expect(res.valid).toBe(true)
     expect(res.fields).toBe(undefined)
+  })
+
+  it('scroll to the exact form option location', async () => {
+    const form = reactive({
+      name: '',
+      age: '',
+    })
+
+    const wrapper = mount({
+      setup() {
+        const rules = reactive({
+          name: [
+            { required: true, message: 'Please input name', trigger: 'blur' },
+          ],
+          age: [
+            { required: true, message: 'Please input age', trigger: 'blur' },
+          ],
+        })
+        const showFirst = ref(false)
+
+        return () => (
+          <Form
+            ref="formRef"
+            model={form}
+            rules={rules}
+            scrollToError
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            onSubmit="return false"
+          >
+            <FormItem prop="name" label="name" v-if={showFirst.value}>
+              <Input v-model={form.name} />
+            </FormItem>
+            <FormItem prop="age" label="age">
+              <Input v-model={form.age} />
+            </FormItem>
+            <FormItem>
+              <Button
+                onClick={() => {
+                  showFirst.value = true
+                }}
+              >
+                show
+              </Button>
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+    const vm = wrapper.vm
+    wrapper.findComponent(Button).trigger('click')
+    await nextTick()
+
+    function validate() {
+      return (vm.$refs.formRef as FormInstance)
+        .validate()
+        .then(() => ({ valid: true, fields: undefined }))
+        .catch((fields) => ({ valid: false, fields }))
+    }
+
+    const oldScrollIntoView = window.HTMLElement.prototype.scrollIntoView
+    let callEl: HTMLElement
+    window.HTMLElement.prototype.scrollIntoView = function () {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      callEl = this
+    }
+    const res = await validate()
+    expect(res.valid).toBe(false)
+    expect(callEl.textContent).contain('name')
+    expect(callEl.className).toBe(
+      'el-form-item is-error is-required asterisk-left el-form-item--label-right'
+    )
+    window.HTMLElement.prototype.scrollIntoView = oldScrollIntoView
   })
 
   it('validate status', async () => {
@@ -681,6 +754,56 @@ describe('Form', () => {
     expect(value.value).toBe(1)
     expect(rules.value.age[0].message).toBe('age is: 1')
     expect(wrapper.find('.el-form-item__error').text()).toBe('age is: 1')
+  })
+
+  it('should use form disabled input not trigger @blur', async () => {
+    const focusHandler = vi.fn()
+    const blurHandler = vi.fn()
+
+    const wrapper = mount({
+      setup() {
+        const disabled = ref(true)
+        const form = reactive({
+          name: '',
+        })
+        return () => (
+          <div>
+            <Form ref="form" model={form} disabled={disabled.value}>
+              <FormItem
+                label="Name"
+                prop="name"
+                rules={{
+                  required: true,
+                  message: 'Please input name',
+                  trigger: 'blur',
+                }}
+              >
+                <Input
+                  v-model={form.name}
+                  onBlur={blurHandler}
+                  onFocus={focusHandler}
+                />
+              </FormItem>
+            </Form>
+            <Button>Test</Button>
+          </div>
+        )
+      },
+    })
+    const input = wrapper.find('input')
+    const button = wrapper.findComponent(Button)
+
+    await input.trigger('mouseenter')
+    await input.trigger('focus')
+    expect(focusHandler).toHaveBeenCalledTimes(0)
+
+    await input.trigger('mouseleave')
+    await button.trigger('click')
+    await input.trigger('blur')
+    expect(blurHandler).toHaveBeenCalledTimes(0)
+    await nextTick()
+    const inputWrapper = wrapper.find('.el-input__wrapper')
+    expect(inputWrapper.attributes('tabindex')).toBeUndefined()
   })
 
   describe('FormItem', () => {

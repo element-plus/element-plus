@@ -4,14 +4,21 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { useLocale } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
-import { ElButton, ElMessage, ElPagination } from '@element-plus/components'
+import {
+  ElButton,
+  ElLink,
+  ElMessage,
+  ElPagination,
+  MessageConfigContext,
+} from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
 import { getStyle } from '@element-plus/utils'
 import {
+  provideGlobalConfig,
   useGlobalComponentSettings,
   useGlobalConfig,
 } from '../src/hooks/use-global-config'
-import ConfigProvider from '../src/config-provider'
+import ConfigProvider, { messageConfig } from '../src/config-provider'
 
 import type { PropType } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
@@ -122,6 +129,45 @@ describe('config-provider', () => {
         wrapper.find('.el-button .el-button__text--expand').exists()
       ).toBeFalsy()
     })
+    it('fully configured', async () => {
+      const config = reactive({
+        type: 'warning',
+        plain: true,
+        round: true,
+        autoInsertSpace: true,
+      })
+
+      const wrapper = mount(() => (
+        <ConfigProvider button={config}>
+          <ElButton>中文</ElButton>
+        </ConfigProvider>
+      ))
+      await nextTick()
+      expect(
+        wrapper
+          .find(
+            '.el-button.el-button--warning.is-plain.is-round .el-button__text--expand'
+          )
+          .exists()
+      ).toBe(true)
+    })
+  })
+
+  describe('link-config', () => {
+    it('should have :type="success" :underline="always"', async () => {
+      const config = reactive({
+        type: 'success',
+        underline: 'always',
+      })
+
+      const wrapper = mount(() => (
+        <ConfigProvider link={config}>
+          <ElLink>中文</ElLink>
+        </ConfigProvider>
+      ))
+      await nextTick()
+      expect(wrapper.find('.el-link--success.is-underline').exists()).toBe(true)
+    })
   })
 
   describe('namespace-config', () => {
@@ -145,6 +191,9 @@ describe('config-provider', () => {
   describe('message-config', () => {
     afterEach(() => {
       ElMessage.closeAll()
+      Object.keys(messageConfig).forEach(
+        (key) => (messageConfig[key as keyof MessageConfigContext] = undefined)
+      )
     })
 
     it('limit the number of messages displayed at the same time', async () => {
@@ -184,6 +233,7 @@ describe('config-provider', () => {
         grouping: true,
         showClose: true,
         offset: 200,
+        plain: true,
       })
       const open = () => {
         ElMessage('this is a message.')
@@ -203,10 +253,39 @@ describe('config-provider', () => {
       const elements = document.querySelectorAll('.el-message')
       expect(elements.length).toBe(1)
       expect(document.querySelectorAll('.el-message__closeBtn').length).toBe(1)
+      expect(document.querySelectorAll('.is-plain').length).toBe(1)
 
       const getTopValue = (elm: Element): number =>
         Number.parseFloat(getStyle(elm as HTMLElement, 'top'))
       expect(getTopValue(elements[0])).toBe(config.offset)
+    })
+
+    it('provide global config', async () => {
+      const open = () => {
+        for (let i = 0; i < 20; i++) {
+          ElMessage('this is a message.')
+        }
+      }
+      const TestComponent = defineComponent({
+        setup() {
+          provideGlobalConfig({
+            message: {
+              grouping: true,
+            },
+          })
+        },
+        render: () => (
+          <ConfigProvider>
+            <ElButton onClick={open}>open</ElButton>
+          </ConfigProvider>
+        ),
+      })
+      const wrapper = mount(() => <TestComponent />)
+
+      await rAF()
+      await wrapper.find('.el-button').trigger('click')
+      await nextTick()
+      expect(document.querySelectorAll('.el-message').length).toBe(1)
     })
 
     it('multiple config-provider config override', async () => {

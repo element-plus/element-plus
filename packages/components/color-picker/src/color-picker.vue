@@ -39,8 +39,7 @@
               v-model="customInput"
               :validate-event="false"
               size="small"
-              @keyup.enter="handleConfirm"
-              @blur="handleConfirm"
+              @change="handleConfirm"
             />
           </span>
           <el-button
@@ -75,12 +74,11 @@
           t('el.colorpicker.description', { color: modelValue || '' })
         "
         :aria-disabled="colorDisabled"
-        :tabindex="colorDisabled ? -1 : tabindex"
+        :tabindex="colorDisabled ? undefined : tabindex"
         @keydown="handleKeyDown"
         @focus="handleFocus"
         @blur="handleBlur"
       >
-        <div v-if="colorDisabled" :class="ns.be('picker', 'mask')" />
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
           <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
             <span
@@ -136,7 +134,11 @@ import {
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
 import AlphaSlider from './components/alpha-slider.vue'
@@ -233,14 +235,8 @@ const btnKls = computed(() => {
 })
 
 function displayedRgb(color: Color, showAlpha: boolean) {
-  if (!(color instanceof Color)) {
-    throw new TypeError('color should be instance of _color Class')
-  }
-
-  const { r, g, b } = color.toRgb()
-  return showAlpha
-    ? `rgba(${r}, ${g}, ${b}, ${color.get('alpha') / 100})`
-    : `rgb(${r}, ${g}, ${b})`
+  const { r, g, b, a } = color.toRgb()
+  return showAlpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`
 }
 
 function setShowPicker(value: boolean) {
@@ -264,6 +260,9 @@ function resetColor() {
       color.fromString(props.modelValue)
     } else {
       color.value = ''
+      if (!currentColor.value && customInput.value) {
+        customInput.value = ''
+      }
       nextTick(() => {
         showPanelColor.value = false
       })
@@ -281,12 +280,15 @@ function handleTrigger() {
 
 function handleConfirm() {
   color.fromString(customInput.value)
+  if (color.value !== customInput.value) {
+    customInput.value = color.value
+  }
 }
 
 function confirmValue() {
   const value = color.value
   emit(UPDATE_MODEL_EVENT, value)
-  emit('change', value)
+  emit(CHANGE_EVENT, value)
   if (props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
@@ -307,7 +309,7 @@ function confirmValue() {
 function clear() {
   debounceSetShowPicker(false)
   emit(UPDATE_MODEL_EVENT, null)
-  emit('change', null)
+  emit(CHANGE_EVENT, null)
   if (props.modelValue !== null && props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }

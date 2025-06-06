@@ -106,4 +106,4 @@ export interface ImageViewerMode {
   icon: Component
 }
 
-export type ImageViewerInstance = InstanceType<typeof ImageViewer>
+export type ImageViewerInstance = InstanceType<typeof ImageViewer> & unknown

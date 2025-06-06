@@ -12,6 +12,18 @@ import type { Option } from './types'
 import type { ExtractPropTypes } from 'vue'
 import type Segmented from './segmented.vue'
 
+export interface Props {
+  label?: string
+  value?: string
+  disabled?: string
+}
+
+export const defaultProps: Required<Props> = {
+  label: 'label',
+  value: 'value',
+  disabled: 'disabled',
+}
+
 export const segmentedProps = buildProps({
   direction: {
     type: definePropType<'vertical' | 'horizontal'>(String),
@@ -30,6 +42,13 @@ export const segmentedProps = buildProps({
   modelValue: {
     type: [String, Number, Boolean],
     default: undefined,
+  },
+  /**
+   * @description configuration options, see the following table
+   */
+  props: {
+    type: definePropType<Props>(Object),
+    default: () => defaultProps,
   },
   /**
    * @description fit width of parent content
@@ -71,4 +90,4 @@ export const segmentedEmits = {
 }
 export type SegmentedEmits = typeof segmentedEmits
 
-export type SegmentedInstance = InstanceType<typeof Segmented>
+export type SegmentedInstance = InstanceType<typeof Segmented> & unknown

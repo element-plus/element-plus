@@ -79,6 +79,27 @@ Calling the `close` method on any one of them can close this full screen Loading
 
 If Element Plus is imported entirely, a globally method `$loading` will be registered to `app.config.globalProperties`. You can invoke it like this: `this.$loading(options)`, and it also returns a Loading instance.
 
+## App context inheritance ^(2.9.10)
+
+Now loading accepts a `context` as second parameter of the loading constructor which allows you to inject current app's context to loading which allows you to inherit all the properties of the app.
+
+You can use it like this:
+
+:::tip
+
+If you globally registered ElLoading component, it will automatically inherit your app context.
+
+:::
+
+```ts
+import { getCurrentInstance } from 'vue'
+import { ElLoading } from 'element-plus'
+
+// in your setup method
+const { appContext } = getCurrentInstance()!
+ElLoading.service({}, appContext)
+```
+
 ## API
 
 ### Options

@@ -5,7 +5,10 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
 import { rAF } from '@element-plus/test-utils/tick'
 import ConfigProvider from '@element-plus/components/config-provider'
-import { CommonPicker } from '@element-plus/components/time-picker'
+import {
+  CommonPicker,
+  PICKER_POPPER_OPTIONS_INJECTION_KEY,
+} from '@element-plus/components/time-picker'
 import Input from '@element-plus/components/input'
 import zhCn from '@element-plus/locale/lang/zh-cn'
 import enUs from '@element-plus/locale/lang/en'
@@ -476,6 +479,29 @@ describe('DatePicker', () => {
     await input.trigger('input')
     await input.trigger('blur')
     expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-01')
+  })
+
+  it('validate manual change value with format', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        format="DD.MM.YYYY"
+        />`,
+      () => ({
+        value: '',
+      })
+    )
+    const input = wrapper.find('input')
+    input.element.value = '01.10.2023'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-01')
+
+    input.element.value = '02.10.2023'
+    await input.trigger('input')
+    await input.trigger('blur')
+
+    expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-02')
   })
 
   it('ref focus', async () => {
@@ -1672,14 +1698,14 @@ describe('DateRangePicker', () => {
     const right = panels[1].querySelector(
       '.is-right .el-date-range-picker__header'
     )
-    expect(left.textContent).toBe('2000  October')
-    expect(right.textContent).toBe('2000  December')
+    expect(left.textContent).toBe('2000 October')
+    expect(right.textContent).toBe('2000 December')
     ;(panels[1].querySelector('.d-arrow-right') as HTMLElement).click()
     await nextTick()
     ;(panels[1].querySelector('.arrow-right') as HTMLElement).click()
     await nextTick()
-    expect(left.textContent).toBe('2000  October')
-    expect(right.textContent).toBe('2002  January')
+    expect(left.textContent).toBe('2000 October')
+    expect(right.textContent).toBe('2002 January')
   })
 
   it('daylight saving time highlight', async () => {
@@ -1762,6 +1788,134 @@ describe('DateRangePicker', () => {
     const [startInput, endInput] = wrapper.findAll('input')
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
+  })
+
+  it('range, select-year', async () => {
+    _mount(
+      `<el-date-picker
+      type="daterange"
+      v-model="value"
+    />`,
+      () => ({ value: [new Date(2025, 0, 1), new Date(2025, 1, 1)] })
+    )
+
+    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const left = panels[0].querySelector('.el-date-range-picker__header')
+    const right = panels[1].querySelector('.el-date-range-picker__header')
+
+    const selectYearAndMonth = async (panel, yearIndex, monthIndex) => {
+      const yearLabel = panel.querySelector(
+        '.el-date-range-picker__header-label'
+      )
+      yearLabel.click()
+      await nextTick()
+      panel.querySelectorAll('.el-year-table td')[yearIndex].click()
+      await nextTick()
+      panel.querySelectorAll('.el-month-table td')[monthIndex].click()
+      await nextTick()
+    }
+
+    await selectYearAndMonth(panels[0], 0, 0)
+    expect(left.textContent).toBe('2020 January')
+    expect(right.textContent).toBe('2020 February')
+
+    await selectYearAndMonth(panels[1], 0, 0)
+    expect(left.textContent).toBe('2019 December')
+    expect(right.textContent).toBe('2020 January')
+  })
+
+  it('range, select-year with unlink option', async () => {
+    _mount(
+      `<el-date-picker
+      type="daterange"
+      v-model="value"
+      unlink-panels
+    />`,
+      () => ({ value: [new Date(2025, 0, 1), new Date(2025, 1, 1)] })
+    )
+
+    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const left = panels[0].querySelector('.el-date-range-picker__header')
+    const right = panels[1].querySelector('.el-date-range-picker__header')
+
+    const selectYearAndMonth = async (panel, yearIndex, monthIndex) => {
+      const yearLabel = panel.querySelector(
+        '.el-date-range-picker__header-label'
+      )
+      yearLabel.click()
+      await nextTick()
+      panel.querySelectorAll('.el-year-table td')[yearIndex].click()
+      await nextTick()
+      panel.querySelectorAll('.el-month-table td')[monthIndex].click()
+      await nextTick()
+    }
+
+    await selectYearAndMonth(panels[0], 0, 0)
+    await selectYearAndMonth(panels[1], 1, 1)
+    expect(left.textContent).toBe('2020 January')
+    expect(right.textContent).toBe('2021 February')
+  })
+
+  it('range, select-month', async () => {
+    _mount(
+      `<el-date-picker
+      type="daterange"
+      v-model="value"
+    />`,
+      () => ({ value: [new Date(2025, 0, 1), new Date(2025, 1, 1)] })
+    )
+
+    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const left = panels[0].querySelector('.el-date-range-picker__header')
+    const right = panels[1].querySelector('.el-date-range-picker__header')
+
+    const selectYearAndMonth = async (panel, monthIndex) => {
+      const monthLabel = panel.querySelector(
+        '.el-date-range-picker__header-label:last-child'
+      )
+      monthLabel.click()
+      await nextTick()
+      panel.querySelectorAll('.el-month-table td')[monthIndex].click()
+      await nextTick()
+    }
+
+    await selectYearAndMonth(panels[0], 0)
+    expect(left.textContent).toBe('2025 January')
+    expect(right.textContent).toBe('2025 February')
+
+    await selectYearAndMonth(panels[1], 0)
+    expect(left.textContent).toBe('2024 December')
+    expect(right.textContent).toBe('2025 January')
+  })
+
+  it('range, select-month with unlink option', async () => {
+    _mount(
+      `<el-date-picker
+      type="daterange"
+      v-model="value"
+      unlink-panels
+    />`,
+      () => ({ value: [new Date(2025, 0, 1), new Date(2025, 1, 1)] })
+    )
+
+    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const left = panels[0].querySelector('.el-date-range-picker__header')
+    const right = panels[1].querySelector('.el-date-range-picker__header')
+
+    const selectYearAndMonth = async (panel, monthIndex) => {
+      const monthLabel = panel.querySelector(
+        '.el-date-range-picker__header-label:last-child'
+      )
+      monthLabel.click()
+      await nextTick()
+      panel.querySelectorAll('.el-month-table td')[monthIndex].click()
+      await nextTick()
+    }
+
+    await selectYearAndMonth(panels[0], 0)
+    await selectYearAndMonth(panels[1], 1)
+    expect(left.textContent).toBe('2025 January')
+    expect(right.textContent).toBe('2025 February')
   })
 })
 
@@ -1914,7 +2068,7 @@ describe('MonthRange', () => {
       {
         provide() {
           return {
-            ElPopperOptions,
+            [PICKER_POPPER_OPTIONS_INJECTION_KEY]: ElPopperOptions,
           }
         },
       }
@@ -2247,7 +2401,7 @@ describe('YearRange', () => {
       {
         provide() {
           return {
-            ElPopperOptions,
+            [PICKER_POPPER_OPTIONS_INJECTION_KEY]: ElPopperOptions,
           }
         },
       }

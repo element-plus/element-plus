@@ -1,4 +1,4 @@
-import { PopperProps } from '@element-plus/element-plus'
+import { PopperProps } from '@element-plus/components/popper'
 import type { ComputedRef, InjectionKey, Ref } from 'vue'
 
 export type ElDropdownInjectionContext = {
@@ -12,3 +12,5 @@ export type ElDropdownInjectionContext = {
 
 export const DROPDOWN_INJECTION_KEY: InjectionKey<ElDropdownInjectionContext> =
   Symbol('elDropdown')
+
+export const DROPDOWN_INSTANCE_INJECTION_KEY = 'elDropdown'
