@@ -12,6 +12,7 @@
     :popper-class="filterClassName"
     persistent
     :append-to="appendTo"
+    @hide="handleHide"
   >
     <template #content>
       <div v-if="multiple">
@@ -33,8 +34,10 @@
         </div>
         <div :class="ns.e('bottom')">
           <button
-            :class="{ [ns.is('disabled')]: filteredValue.length === 0 }"
-            :disabled="filteredValue.length === 0"
+            :class="{
+              [ns.is('disabled')]: confirmDisabled,
+            }"
+            :disabled="confirmDisabled"
             type="button"
             @click="handleConfirm"
           >
@@ -183,6 +186,14 @@ export default defineComponent({
         }
       },
     })
+    const needCached = ref(true)
+    const filteredValueCache = ref([])
+    const confirmDisabled = computed(() => {
+      return (
+        filteredValue.value.length === 0 &&
+        filteredValueCache.value.length === 0
+      )
+    })
     const multiple = computed(() => {
       if (props.column) {
         return props.column.filterMultiple
@@ -203,10 +214,12 @@ export default defineComponent({
       tooltipVisible.value = false
     }
     const handleConfirm = () => {
+      needCached.value = false
       confirmFilter(filteredValue.value)
       hidden()
     }
     const handleReset = () => {
+      needCached.value = false
       filteredValue.value = []
       confirmFilter(filteredValue.value)
       hidden()
@@ -227,11 +240,22 @@ export default defineComponent({
       })
       props.store.updateAllSelected()
     }
+    const handleHide = () => {
+      if (needCached.value && multiple.value) {
+        filteredValue.value = filteredValueCache.value
+      }
+    }
+
     watch(
       tooltipVisible,
       (value) => {
         if (props.column) {
           props.upDataColumn('filterOpened', value)
+
+          if (value && multiple.value) {
+            filteredValueCache.value = filteredValue.value
+            needCached.value = true
+          }
         }
       },
       {
@@ -244,6 +268,9 @@ export default defineComponent({
     })
 
     return {
+      filteredValueCache,
+      confirmDisabled,
+      handleHide,
       tooltipVisible,
       multiple,
       filterClassName,
