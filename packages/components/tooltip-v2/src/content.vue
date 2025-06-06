@@ -68,7 +68,7 @@ const ns = useNamespace('tooltip-v2')
 const side = computed(() => {
   return placement.value.split(
     '-'
-  )[0] as typeof TooltipV2Sides[keyof typeof TooltipV2Sides]
+  )[0] as TooltipV2Sides
 })
 
 const contentStyle = computed<CSSProperties>(() => {
