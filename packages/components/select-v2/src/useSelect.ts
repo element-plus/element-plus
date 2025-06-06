@@ -46,12 +46,12 @@ import { useAllowCreate } from './useAllowCreate'
 import { useProps } from './useProps'
 
 import type { Option, OptionType, SelectStates } from './select.types'
-import type { ISelectV2Props } from './token'
-import type { SelectEmitFn } from './defaults'
+import type { SelectV2Props } from './token'
+import type { SelectV2EmitFn } from './defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectDropdownInstance } from './select-dropdown'
 
-const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
+const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   // inject
   const { t } = useLocale()
   const nsSelect = useNamespace('select')
@@ -430,7 +430,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       expanded.value = true
     }
     createNewOption(states.inputValue)
-    handleQueryChange(states.inputValue)
+    nextTick(() => {
+      handleQueryChange(states.inputValue)
+    })
   }
 
   const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)

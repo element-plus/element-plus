@@ -75,26 +75,38 @@ alert/icon-description
 
 :::
 
+## With Delayed Attributes ^(2.9.12)
+
+:::demo At last, this is an example with delayed attributes.
+
+alert/delayed
+
+:::
+
 ## Alert API
 
 ### Attributes
 
-| Name        | Description                              | Type                                                                        | Default |
-| ----------- | ---------------------------------------- | --------------------------------------------------------------------------- | ------- |
-| title       | alert title.                             | ^[string]                                                                   | —       |
-| type        | alert type.                              | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error' ` | info    |
-| description | descriptive text.                        | ^[string]                                                                   | —       |
-| closable    | whether alert can be dismissed.          | ^[boolean]                                                                  | true    |
-| center      | whether content is placed in the center. | ^[boolean]                                                                  | false   |
-| close-text  | customized close button text.            | ^[string]                                                                   | —       |
-| show-icon   | whether a type icon is displayed.        | ^[boolean]                                                                  | false   |
-| effect      | theme style.                             | ^[enum]`'light' \| 'dark'`                                                  | light   |
+| Name                 | Description                              | Type                                                                       | Default |
+| -------------------- | ---------------------------------------- | -------------------------------------------------------------------------- | ------- |
+| title                | alert title.                             | ^[string]                                                                  | —       |
+| type                 | alert type.                              | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'` | info    |
+| description          | descriptive text.                        | ^[string]                                                                  | —       |
+| closable             | whether alert can be dismissed.          | ^[boolean]                                                                 | true    |
+| center               | whether content is placed in the center. | ^[boolean]                                                                 | false   |
+| close-text           | customized close button text.            | ^[string]                                                                  | —       |
+| show-icon            | whether a type icon is displayed.        | ^[boolean]                                                                 | false   |
+| effect               | theme style.                             | ^[enum]`'light' \| 'dark'`                                                 | light   |
+| show-after ^(2.9.12) | delay of appearance, in millisecond      | ^[number]                                                                  | 0       |
+| hide-after ^(2.9.12) | delay of disappear, in millisecond       | ^[number]                                                                  | 200     |
+| auto-close ^(2.9.12) | timeout in milliseconds to hide alert    | ^[number]                                                                  | 0       |
 
 ### Events
 
-| Name  | Description                   | Type                                     |
-| ----- | ----------------------------- | ---------------------------------------- |
-| close | trigger when alert is closed. | ^[Function]`(event: MouseEvent) => void` |
+| Name           | Description                   | Type                                 |
+| -------------- | ----------------------------- | ------------------------------------ |
+| open ^(2.9.12) | trigger when alert is opened. | ^[Function]`() => void`              |
+| close          | trigger when alert is closed. | ^[Function]`(event?: Event) => void` |
 
 ### Slots
 

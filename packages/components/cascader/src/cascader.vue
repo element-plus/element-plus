@@ -307,7 +307,7 @@ const cascaderStyle = computed<StyleValue>(() => {
 
 const isDisabled = computed(() => props.disabled || form?.disabled)
 const inputPlaceholder = computed(
-  () => props.placeholder || t('el.cascader.placeholder')
+  () => props.placeholder ?? t('el.cascader.placeholder')
 )
 const currentPlaceholder = computed(() =>
   searchInputValue.value || presentTags.value.length > 0 || isComposing.value

@@ -1,6 +1,46 @@
 ## Changelog
 
 
+### 2.10.0
+
+_2025-06-06_
+
+#### Features
+
+- Components [alert] add open and auto-close functionality with delays (#20533 by @betavs)
+- Components [scrollbar] add `end-reached` event (#20812 by @Dsaquel)
+- Components [table-column] add `expand` slot (#20750 by @wjp980108)
+- Components [splitter] new component (#20145 by @Gnalvin)
+
+#### Bug fixes
+
+- [color-picker] Fix invalid color code clearing (#20832 by @zhanghaifeng213)
+- Components [config-provider] provide global config function is invalid for message (#20863 by @betavs)
+- Components [text] the title attribute loses its reactivity (#20875 by @betavs)
+- Components [cascader] scrolling to active node is inaccurate (#20877 by @btea)
+- Components [input-number] clear display content after non-numeric input (#19538 by @DDDDD12138)
+- Components [select-v2] fix `default-first-option` and `allow-create` are not effective together (#20872 by @kooriookami)
+- Components [cascader] placeholder should be blank if pass a empty string (#20896 by @btea)
+- Components [form-item] cannot be set to div tag for rendering (#20608 by @betavs)
+- Components [select] display exception when label is `0` or `""` (#20905 by @YiMo1)
+- Components [dialog] drag into view when content is too high (#20595 by @wNing50)
+- Hooks  [use-focus-controller] form-disabled-status not trigger blur (#20891 by @warmthsea)
+- Components [cascader-panel] check if children label are comments (#20899 by @Dsaquel)
+- Components [dialog] fix dialog zindex should update responsively (#18520 by @wsVIC)
+- Components [space] correctly render comment nodes (#20922 by @btea)
+- Types [menu-item] make `index` attribute required (#19007 by @DDDDD12138)
+- Theme-chalk [radio] update background color for checked state (#19594 by @betavs)
+- Components [space] keep comment nodes (#20930 by @btea)
+- Components [collapse] resolve space key conflict and improve accessibility (#20529 by @rhodi2436)
+
+#### Refactors
+
+- Components [color-picker] Use tinycolor to calculate color (#20847 by @kooriookami)
+- [select, select-v2]: unified name & supplement type (#20050 by @warmthsea)
+- Components [select] modify `manuallyRenderSlots` execute (#20854 by @jeff-fe)
+- Components standardize injection keys (#20616 by @betavs)
+- Components [tooltip-v2] remove `ts-nocheck` comments (#16928 by @warmthsea)
+
 ### 2.9.11
 
 _2025-05-23_
