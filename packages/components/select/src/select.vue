@@ -300,7 +300,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, provide, reactive, toRefs, watch } from 'vue'
+import { Fragment, computed, defineComponent, h, nextTick, provide, reactive, toRefs, watchEffect } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -316,7 +316,7 @@ import { selectKey } from './token'
 import ElOptions from './options'
 import { selectProps } from './select'
 
-import type { VNode } from 'vue';
+import type { VNode, VNodeNormalizedChildren } from 'vue';
 import type { SelectContext } from './type'
 
 const COMPONENT_NAME = 'ElSelect'
@@ -366,29 +366,27 @@ export default defineComponent({
     const API = useSelect(_props, emit)
     const { calculatorRef, inputStyle } = useCalcInputWidth()
 
-    const manuallyRenderSlots = (defaultSlots: VNode[] | undefined) => {
+    const manuallyRenderSlots = (vnodes: VNodeNormalizedChildren) => {
       // After option rendering is completed, the useSelect internal state can collect the value of each option.
       // If the persistent value is false, option will not be rendered by default, so in this case,
       // manually render and load option data here.
-      if (!props.persistent && defaultSlots) {
-        const children = flattedChildren(defaultSlots) as VNode[]
-        children.filter((item) => {
-          // @ts-expect-error
-          return isObject(item) && item!.type.name === 'ElOption'
-        }).forEach(item => {
-          const obj = { ...item.props } as any
-          obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
-          API.onOptionCreate(obj)
+      const children = flattedChildren(vnodes) as VNode[]
+      children.filter((item) => {
+        // @ts-expect-error
+        return isObject(item) && item!.type.name === 'ElOption'
+      }).forEach(item => {
+        const obj = { ...item.props } as any
+        obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
+        API.onOptionCreate(obj)
+      })
+    }
+    watchEffect(() => {
+      if (!props.persistent) {
+        nextTick(() => {
+          const defaultSlots = h(Fragment, slots.default?.() ?? []).children
+          manuallyRenderSlots(defaultSlots)
         })
       }
-    }
-    watch(() => {
-      const currentSlot = slots.default?.()
-      return currentSlot
-    }, (newSlot) => {
-      manuallyRenderSlots(newSlot)
-    }, {
-      immediate: true,
     })
 
     provide(
