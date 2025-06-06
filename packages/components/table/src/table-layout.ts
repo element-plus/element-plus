@@ -69,9 +69,8 @@ class TableLayout<T> {
     if (isNull(height)) return false
     const scrollBarRef = this.table.refs.scrollBarRef
     if (this.table.vnode.el && scrollBarRef?.wrapRef) {
-      let scrollY = true
       const prevScrollY = this.scrollY.value
-      scrollY =
+      const scrollY =
         scrollBarRef.wrapRef.scrollHeight > scrollBarRef.wrapRef.clientHeight
       this.scrollY.value = scrollY
       return prevScrollY !== scrollY
@@ -143,12 +142,10 @@ class TableLayout<T> {
     const flexColumns = flattenColumns.filter(
       (column) => !isNumber(column.width)
     )
-    flattenColumns.forEach((column) => {
-      // Clean those columns whose width changed from flex to unflex
-      if (isNumber(column.width) && column.realWidth) column.realWidth = null
-    })
     if (flexColumns.length > 0 && fit) {
       flattenColumns.forEach((column) => {
+        // Clean those columns whose width changed from flex to unflex
+        if (isNumber(column.width) && column.realWidth) column.realWidth = null
         bodyMinWidth += Number(column.width || column.minWidth || 80)
       })
       if (bodyMinWidth <= bodyWidth) {
