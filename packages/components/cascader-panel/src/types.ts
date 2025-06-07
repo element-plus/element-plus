@@ -52,6 +52,7 @@ export interface ElCascaderPanelContext {
     checked: boolean,
     emitClose?: boolean
   ) => void
+  handleCheckChangeAll: (checked: boolean, menuIndex: number) => void
 }
 
 export const CASCADER_PANEL_INJECTION_KEY: InjectionKey<ElCascaderPanelContext> =
