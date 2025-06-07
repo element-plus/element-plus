@@ -1148,6 +1148,36 @@ describe('MonthPicker', () => {
       dayjs(new Date(2020, 0, 1)).format(valueFormat)
     )
   })
+  it('only the status of current month is enable when using disabledDate prop', async () => {
+    const CurrentMonth = Number(dayjs().format('M'))
+    const CurrentMonthForamt = dayjs().format('YYYY-MM')
+    const wrapper = _mount(
+      `<el-date-picker
+        type="month"
+        v-model="value"
+        :disabledDate="disabledDate"
+    />`,
+      () => ({
+        value: undefined,
+        disabledDate(time) {
+          return !(dayjs(time).format('YYYY-MM') === CurrentMonthForamt)
+        },
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const monthTds = Array.from(document.querySelectorAll('.el-month-table td'))
+    const currentMonthTd = monthTds[CurrentMonth - 1]
+    const otherMonthTds = monthTds.filter(
+      (td, index) => index !== CurrentMonth - 1
+    )
+    expect(currentMonthTd.classList.contains('disabled')).toBeFalsy()
+    expect(
+      otherMonthTds.every((td) => td.classList.contains('disabled'))
+    ).toBeTruthy()
+  })
 })
 
 describe('YearPicker', () => {
