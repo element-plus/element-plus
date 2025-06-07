@@ -76,6 +76,13 @@ export const cascaderProps = buildProps({
     default: false,
   },
   /**
+   * @description The max height of collapse tags tooltip, in pixels. To use this, collapse-tags-tooltip must be true
+   */
+  maxCollapseTagsTooltipHeight: {
+    type: Number,
+    default: 500,
+  },
+  /**
    * @description debounce delay when typing filter keyword, in milliseconds
    */
   debounce: {

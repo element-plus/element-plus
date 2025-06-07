@@ -299,6 +299,83 @@ describe('Cascader.vue', () => {
     expect(tooltipTags.length).toBe(1)
   })
 
+  test('max collapse tags tooltip height', async () => {
+    const props = { multiple: true }
+    const options = [
+      ...OPTIONS,
+      {
+        value: 'jiangsu',
+        label: 'Jiangsu',
+        children: [
+          {
+            value: 'nanjing',
+            label: 'Nanjing',
+          },
+          {
+            value: 'suzhou',
+            label: 'Suzhou',
+          },
+          {
+            value: 'zhenjiang',
+            label: 'Zhenjiang',
+          },
+          {
+            value: 'wuxi',
+            label: 'Wuxi',
+          },
+        ],
+      },
+      {
+        value: 'guangdong',
+        label: 'Guangdong',
+        children: [
+          {
+            value: 'guangzhou',
+            label: 'Guangzhou',
+          },
+          {
+            value: 'shenzhen',
+            label: 'Shenzhen',
+          },
+          {
+            value: 'zhuhai',
+            label: 'Zhuhai',
+          },
+        ],
+      },
+    ]
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[
+          ['zhejiang', 'hangzhou'],
+          ['zhejiang', 'ningbo'],
+          ['zhejiang', 'wenzhou'],
+          ['jiangsu', 'nanjing'],
+          ['jiangsu', 'suzhou'],
+          ['jiangsu', 'zhenjiang'],
+          ['jiangsu', 'wuxi'],
+          ['guangdong', 'guangzhou'],
+          ['guangdong', 'shenzhen'],
+          ['guangdong', 'zhuhai'],
+        ]}
+        collapseTags
+        collapseTagsTooltip
+        props={props}
+        options={options}
+        maxCollapseTagsTooltipHeight={200}
+      />
+    ))
+    await nextTick()
+    const tooltipTrigger = wrapper.find('.el-tag__content')
+
+    expect(tooltipTrigger.exists()).toBe(true)
+    await tooltipTrigger.trigger('hover')
+    const popper = document.querySelector('.el-popper')
+    expect(popper).toBeTruthy()
+    const scrollbar = popper?.querySelector('.el-scrollbar')
+    expect(scrollbar).toBeDefined()
+  })
+
   test('tag type', async () => {
     const props = { multiple: true }
     const wrapper = _mount(() => (
