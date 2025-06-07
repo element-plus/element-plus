@@ -366,18 +366,41 @@ export default defineComponent({
     const API = useSelect(_props, emit)
     const { calculatorRef, inputStyle } = useCalcInputWidth()
 
+    const flatTreeSelectData = (data: any[]) => {
+      return data.reduce((acc, item) => {
+        acc.push(item)
+        if (item.children && item.children.length > 0) {
+          acc.push(...flatTreeSelectData(item.children))
+        }
+        return acc
+      }, [])
+    }
+
     const manuallyRenderSlots = (vnodes: VNodeNormalizedChildren) => {
       // After option rendering is completed, the useSelect internal state can collect the value of each option.
       // If the persistent value is false, option will not be rendered by default, so in this case,
       // manually render and load option data here.
       const children = flattedChildren(vnodes) as VNode[]
-      children.filter((item) => {
+      children.forEach((item) => {
         // @ts-expect-error
-        return isObject(item) && item!.type.name === 'ElOption'
-      }).forEach(item => {
-        const obj = { ...item.props } as any
-        obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
-        API.onOptionCreate(obj)
+        if (isObject(item) && (item.type.name === 'ElOption' || item.type.name === 'ElTree')) {
+          // @ts-expect-error
+          const _name = item.type.name
+          if (_name === 'ElTree') {
+            // tree-select component is a special case.
+            // So we need to handle it separately.
+            const treeData = item.props?.data || []
+            const flatData = flatTreeSelectData(treeData)
+            flatData.forEach((treeItem: any) => {
+              treeItem.currentLabel = treeItem.label || (isObject(treeItem.value) ? '' : treeItem.value)
+              API.onOptionCreate(treeItem)
+            })
+          } else if (_name !== 'ElOption') {
+            const obj = { ...item.props } as any
+            obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
+            API.onOptionCreate(obj)
+          }
+        }
       })
     }
     watchEffect(() => {
