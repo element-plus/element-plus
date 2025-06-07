@@ -142,7 +142,7 @@ checkbox/with-border
 
 | Name                        | Description                                       | Type                                     | Default |
 | --------------------------- | ------------------------------------------------- | ---------------------------------------- | ------- |
-| model-value / v-model       | binding value                                     | ^[object]`string[] \| number[]`          | []      |
+| model-value / v-model       | binding value                                     | ^[array]`(string \| number \| object)[]` | []      |
 | size                        | size of checkbox                                  | ^[enum]`'large' \| 'default' \| 'small'` | —       |
 | disabled                    | whether the nesting checkboxes are disabled       | ^[boolean]                               | false   |
 | min                         | minimum number of checkbox checked                | ^[number]                                | —       |
