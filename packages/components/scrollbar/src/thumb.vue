@@ -125,8 +125,15 @@ const mouseMoveDocumentHandler = (e: MouseEvent) => {
   const thumbPositionPercentage =
     ((offset - thumbClickPosition) * 100 * offsetRatio.value) /
     instance.value[bar.value.offset]
-  scrollbar.wrapElement[bar.value.scroll] =
-    (thumbPositionPercentage * baseScrollHeight) / 100
+
+  if (bar.value.scroll === 'scrollLeft') {
+    scrollbar.wrapElement[bar.value.scroll] =
+      (thumbPositionPercentage * scrollbar.wrapElement[bar.value.scrollSize]) /
+      100
+  } else {
+    scrollbar.wrapElement[bar.value.scroll] =
+      (thumbPositionPercentage * baseScrollHeight) / 100
+  }
 }
 
 const mouseUpDocumentHandler = () => {
