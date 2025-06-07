@@ -31,7 +31,7 @@
           </slot>
         </div>
         <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
-          <component :is="closeIcon" />
+          <component :is="closeIconComponent" />
         </el-icon>
       </div>
     </div>
@@ -41,12 +41,17 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
-import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
-import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
-import { notificationEmits, notificationProps } from './notification'
-
+import {
+  useGlobalComponentSettings,
+  useGlobalIcons,
+} from '@element-plus/components/config-provider'
+import {
+  notificationEmits,
+  notificationProps,
+  notificationTypes,
+} from './notification'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -58,18 +63,22 @@ defineEmits(notificationEmits)
 
 const { ns, zIndex } = useGlobalComponentSettings('notification')
 const { nextZIndex, currentZIndex } = zIndex
+const globalIcons = useGlobalIcons()
 
 const visible = ref(false)
 let timer: (() => void) | undefined = undefined
 
 const typeClass = computed(() => {
   const type = props.type
-  return type && TypeComponentsMap[props.type] ? ns.m(type) : ''
+  return type && notificationTypes.includes(type) ? ns.m(type) : ''
 })
 
 const iconComponent = computed(() => {
   if (!props.type) return props.icon
-  return TypeComponentsMap[props.type] || props.icon
+  return (
+    globalIcons.value[props.type === 'primary' ? 'info' : props.type] ||
+    props.icon
+  )
 })
 
 const horizontalClass = computed(() =>
@@ -85,6 +94,10 @@ const positionStyle = computed<CSSProperties>(() => {
     [verticalProperty.value]: `${props.offset}px`,
     zIndex: props.zIndex ?? currentZIndex.value,
   }
+})
+
+const closeIconComponent = computed(() => {
+  return props.closeIcon || globalIcons.value.close
 })
 
 function startTimer() {
