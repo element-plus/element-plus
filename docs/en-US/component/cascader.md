@@ -53,18 +53,19 @@ Add `:props="props"` in tag and set data `props = { multiple: true }` to use mul
 
 Do:
 
-```html
+```vue
 <template>
   <el-cascader :props="props" />
 </template>
+
 <script lang="ts" setup>
-  const props = { multiple: true }
+const props = { multiple: true }
 </script>
 ```
 
 Don't do:
 
-```html
+```vue
 <template>
   <!--  Object literal binging here is invalid syntax for cascader  -->
   <el-cascader :props="{ multiple: true }" />
@@ -153,6 +154,7 @@ cascader/panel
 | show-all-levels                     | whether to display all levels of the selected value in the input                                                                                                                 | ^[boolean]                                                                                                                                                                  | true         |
 | collapse-tags                       | whether to collapse tags in multiple selection mode                                                                                                                              | ^[boolean]                                                                                                                                                                  | —            |
 | collapse-tags-tooltip               | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                                                                 | ^[boolean]                                                                                                                                                                  | false        |
+| max-collapse-tags-tooltip-height    | max height of collapse-tags tooltip.                                                                                                                                             | ^[string] / ^[number]                                                                                                                                                       | 500          |
 | separator                           | option label separator                                                                                                                                                           | ^[string]                                                                                                                                                                   | ' / '        |
 | filterable                          | whether the options can be searched                                                                                                                                              | ^[boolean]                                                                                                                                                                  | —            |
 | filter-method                       | customize search logic, the first parameter is `node`, the second is `keyword`, and need return a boolean value indicating whether it hits.                                      | ^[Function]`(node: CascaderNode, keyword: string) => boolean`                                                                                                               | —            |
