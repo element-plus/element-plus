@@ -29,8 +29,10 @@ export default defineConfig({
       reporter: ['text', 'json-summary', 'json'],
       exclude: [
         'play/**',
-        'packages/locale/lang/**',
+        '**/lang/**',
         'packages/components/*/style/**',
+        'scripts/**',
+        'ssr-testing/**',
       ],
     },
   },
