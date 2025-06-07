@@ -1,6 +1,15 @@
 ## Changelog
 
 
+### 2.10.1
+
+_2025-06-07_
+
+#### Bug fixes
+
+- Components [form] the validate function is executed repeatedly (#19345 by @betavs)
+- Components [splitter-panel] the style file path error (#20948 by @tolking)
+
 ### 2.10.0
 
 _2025-06-06_
