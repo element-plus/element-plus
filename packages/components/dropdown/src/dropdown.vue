@@ -54,6 +54,7 @@
           ref="triggeringElementRef"
           role="button"
           :tabindex="tabindex"
+          :class="[ns.e('slot-default'), ns.is('js-focus', isJsFocus)]"
         >
           <slot name="default" />
         </el-only-child>
@@ -68,6 +69,7 @@
           :type="type"
           :disabled="disabled"
           :tabindex="tabindex"
+          :class="[ns.e('slot-default'), ns.is('js-focus', isJsFocus)]"
           @click="handlerMainButtonClick"
         >
           <slot name="default" />
@@ -150,6 +152,7 @@ export default defineComponent({
     const contentRef = ref<HTMLElement>()
     const scrollbar = ref(null)
     const currentTabId = ref<string | null>(null)
+    const isJsFocus = ref<boolean>(false)
     const isUsingKeyboard = ref(false)
 
     const wrapStyle = computed<CSSProperties>(() => ({
@@ -173,12 +176,14 @@ export default defineComponent({
             'pointerenter',
             onAutofocusTriggerEnter
           )
+          document.removeEventListener('keydown', onDocKeydown)
         }
         if (triggeringElement?.$el?.removeEventListener) {
           triggeringElement.$el.removeEventListener(
             'pointerenter',
             onAutofocusTriggerEnter
           )
+          document.removeEventListener('keydown', onDocKeydown)
         }
         if (
           triggeringElement?.$el?.addEventListener &&
@@ -188,6 +193,7 @@ export default defineComponent({
             'pointerenter',
             onAutofocusTriggerEnter
           )
+          document.addEventListener('keydown', onDocKeydown)
         }
       },
       { immediate: true }
@@ -221,7 +227,12 @@ export default defineComponent({
     }
 
     function onAutofocusTriggerEnter() {
+      isJsFocus.value = true
       triggeringElementRef.value?.$el?.focus()
+    }
+
+    function onDocKeydown() {
+      isJsFocus.value = false
     }
 
     function onItemEnter() {
@@ -298,6 +309,7 @@ export default defineComponent({
       dropdownSize,
       triggerId,
       currentTabId,
+      isJsFocus,
       handleCurrentTabIdChange,
       handlerMainButtonClick,
       handleEntryFocus,
