@@ -68,7 +68,7 @@ const clear = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style>
 .select-footer {
   display: flex;
   flex-direction: column;

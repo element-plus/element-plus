@@ -92,6 +92,7 @@ menu/popper-offset
 | background-color ^(deprecated)  | background color of Menu (hex format) (use `--el-menu-bg-color` in a style class instead)                                                                             | ^[string]                              | #ffffff  |
 | text-color ^(deprecated)        | text color of Menu (hex format) ( use `--el-menu-text-color` in a style class instead)                                                                                | ^[string]                              | #303133  |
 | active-text-color ^(deprecated) | text color of currently active menu item (hex format) ( use `--el-menu-active-color` in a style class instead)                                                        | ^[string]                              | #409eff  |
+| persistent ^(2.9.5)             | when menu inactive and `persistent` is `false` , dropdown menu will be destroyed                                                                                      | ^[boolean]                             | true     |
 
 ### Menu Events
 
@@ -109,10 +110,11 @@ menu/popper-offset
 
 ### Menu Exposes
 
-| Name  | Description                                                            | Type                                 |
-| ----- | ---------------------------------------------------------------------- | ------------------------------------ |
-| open  | open a specific sub-menu, the param is index of the sub-menu to open   | ^[Function]`(index: string) => void` |
-| close | close a specific sub-menu, the param is index of the sub-menu to close | ^[Function]`(index: string) => void` |
+| Name                       | Description                                                            | Type                                 |
+| -------------------------- | ---------------------------------------------------------------------- | ------------------------------------ |
+| open                       | open a specific sub-menu, the param is index of the sub-menu to open   | ^[Function]`(index: string) => void` |
+| close                      | close a specific sub-menu, the param is index of the sub-menu to close | ^[Function]`(index: string) => void` |
+| updateActiveIndex ^(2.9.8) | set index of active menu                                               | ^[Function]`(index: string) => void` |
 
 ## SubMenu API
 
@@ -143,11 +145,11 @@ menu/popper-offset
 
 ### Menu-Item Attributes
 
-| Name     | Description           | Type                | Default |
-| -------- | --------------------- | ------------------- | ------- |
-| index    | unique identification | ^[string] / ^[null] | null    |
-| route    | Vue Router object     | ^[object]           | —       |
-| disabled | whether disabled      | ^[boolean]          | false   |
+| Name              | Description                          | Type                  | Default |
+| ----------------- | ------------------------------------ | --------------------- | ------- |
+| index ^(required) | unique identification                | ^[string]             | —       |
+| route             | Vue Router Route Location Parameters | ^[string] / ^[object] | —       |
+| disabled          | whether disabled                     | ^[boolean]            | false   |
 
 ### Menu-Item Events
 

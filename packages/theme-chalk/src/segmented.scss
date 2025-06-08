@@ -39,7 +39,7 @@ $segmented-item-padding-vertical: () !default;
 $segmented-item-padding-vertical: map.merge(
   (
     'large': 11px 11px,
-    'default':11px 11px,
+    'default': 11px 11px,
     'small': 7px 7px,
   ),
   $segmented-item-padding-vertical

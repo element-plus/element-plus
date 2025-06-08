@@ -1,4 +1,4 @@
-import { nextTick, reactive, ref } from 'vue'
+import { Comment, h, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -149,6 +149,12 @@ describe('Cascader.vue', () => {
     const wrapper = _mount(() => <Cascader placeholder={AXIOM} />)
 
     expect(wrapper.find('input').attributes().placeholder).toBe(AXIOM)
+  })
+
+  test('custom placeholder with empty string', async () => {
+    const wrapper = _mount(() => <Cascader placeholder={''} />)
+    expect(wrapper.find('input').attributes().placeholder).toBe('')
+    expect(wrapper.find('input').element.value).toBe('')
   })
 
   test('clearable', async () => {
@@ -557,6 +563,65 @@ describe('Cascader.vue', () => {
         '.el-cascader-menu__empty-text'
       )
       expect(emptySlotEl?.textContent).toBe('-=-empty-=-no-data')
+    })
+  })
+
+  describe('render default slot', () => {
+    it('should render default slot correctly', async () => {
+      const wrapper = _mount(() => (
+        <Cascader options={OPTIONS}>
+          {{
+            default: () => <>default slot!</>,
+          }}
+        </Cascader>
+      ))
+
+      await wrapper.find(TRIGGER).trigger('click')
+      const defaultSlotEl = document.querySelector('.el-cascader-node__label')
+      expect(defaultSlotEl?.textContent).toBe('default slot!')
+    })
+
+    it('should fallback to option label when it has v-if comment', async () => {
+      const wrapper = _mount(() => (
+        <Cascader options={OPTIONS}>
+          {{
+            default: () => false && <div>{AXIOM}</div>,
+          }}
+        </Cascader>
+      ))
+
+      await wrapper.find(TRIGGER).trigger('click')
+      const defaultSlotEl = document.querySelector('.el-cascader-node__label')
+      expect(defaultSlotEl?.textContent).toBe(OPTIONS[0].label)
+    })
+
+    it('should fallback to option label when default has a single comment', async () => {
+      const wrapper = _mount(() => (
+        <Cascader options={OPTIONS}>
+          {{
+            default: () => h(Comment, AXIOM),
+          }}
+        </Cascader>
+      ))
+
+      await wrapper.find(TRIGGER).trigger('click')
+      const defaultSlotEl = document.querySelector('.el-cascader-node__label')
+      expect(defaultSlotEl?.textContent).toBe(OPTIONS[0].label)
+    })
+  })
+
+  describe('render prefix slot', () => {
+    it('correct render prefix slot', async () => {
+      _mount(() => (
+        <Cascader>
+          {{
+            prefix: () => <div>-=-prefix-=-</div>,
+          }}
+        </Cascader>
+      ))
+
+      const prefixSlotEl = document.querySelector('.el-input__prefix-inner')
+      expect(prefixSlotEl?.textContent).toBe('-=-prefix-=-')
     })
   })
 })

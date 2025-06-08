@@ -168,7 +168,7 @@ const hasLabel = computed<boolean>(() => {
 
 const labelFor = computed<string | undefined>(() => {
   return (
-    props.for || (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
+    props.for ?? (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
   )
 })
 
@@ -294,7 +294,7 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
       return true as const
     })
     .catch((err: FormValidateFailure) => {
-      onValidationFailed(err as FormValidateFailure)
+      onValidationFailed(err)
       return Promise.reject(err)
     })
 }

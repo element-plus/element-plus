@@ -33,7 +33,7 @@ export const useTree = (
   }
 ) => {
   watch(
-    () => props.modelValue,
+    [() => props.modelValue, tree],
     () => {
       if (props.showCheckbox) {
         nextTick(() => {

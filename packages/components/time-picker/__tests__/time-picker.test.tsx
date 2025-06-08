@@ -6,7 +6,6 @@ import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
-import sleep from '@element-plus/test-utils/sleep'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 
@@ -385,6 +384,41 @@ describe('TimePicker', () => {
     expect(value.value).toEqual('2000-01-01 09:00:00')
   })
 
+  it('when a time is input, the type of modelValue should be Date by default', async () => {
+    const value = ref('2024-11-18 12:00:00')
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+
+    await input.setValue('10:00:00')
+
+    input.trigger('blur')
+    expect(value.value).toBeInstanceOf(Date)
+  })
+
+  it('when a time is input, the type of modelValue should be Date by default (is-range)', async () => {
+    const value = ref([
+      new Date('2024-11-18 10:00:00'),
+      new Date('2024-11-18 12:00:00'),
+    ])
+    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
+
+    const [startTimeInput, endTimeInput] = wrapper.findAll('input')
+
+    // Input start time
+    startTimeInput.trigger('focus')
+    await startTimeInput.setValue('10:00:10')
+    startTimeInput.trigger('blur')
+    expect(value.value[0]).toBeInstanceOf(Date)
+
+    // Input end time
+    endTimeInput.trigger('focus')
+    await endTimeInput.setValue('12:00:10')
+    endTimeInput.trigger('blur')
+    expect(value.value[1]).toBeInstanceOf(Date)
+  })
+
   it('picker-panel should not pop up when readonly', async () => {
     const wrapper = mount(() => <TimePicker readonly />)
 
@@ -408,6 +442,8 @@ describe('TimePicker', () => {
   })
 
   it('can auto skip when disabled', async () => {
+    vi.useFakeTimers()
+
     const disabledHours = () => [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23,
     ]
@@ -447,19 +483,24 @@ describe('TimePicker', () => {
     const testTime = 130
     hoursElArrowDown.dispatchEvent(mousedownEvt)
     hoursElArrowDown.dispatchEvent(mouseupEvt)
-    await sleep(testTime)
+    vi.advanceTimersByTime(testTime)
+    await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(21)
     hoursElArrowDown.dispatchEvent(mousedownEvt)
     hoursElArrowDown.dispatchEvent(mouseupEvt)
-    await sleep(testTime)
+    vi.advanceTimersByTime(testTime)
+    await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(22)
     hoursElArrowDown.dispatchEvent(new MouseEvent('mousedown'))
     hoursElArrowDown.dispatchEvent(new MouseEvent('mouseup'))
-    await sleep(testTime)
+    vi.advanceTimersByTime(testTime)
+    await nextTick()
     activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
     expect(activeHours).toEqual(20)
+
+    vi.useRealTimers()
   })
 })
 

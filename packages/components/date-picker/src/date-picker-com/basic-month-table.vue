@@ -148,7 +148,9 @@ const getCellStyle = (cell: MonthCell) => {
   const month = cell.text
 
   style.disabled = props.disabledDate
-    ? datesInMonth(year, month, lang.value).every(props.disabledDate)
+    ? datesInMonth(props.date, year, month, lang.value).every(
+        props.disabledDate
+      )
     : false
   style.current =
     castArray(props.parsedValue).findIndex(
@@ -225,6 +227,7 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
       return
     }
     const newMonth = getValidDateOfMonth(
+      props.date,
       props.date.year(),
       month,
       lang.value,
@@ -232,7 +235,10 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
     )
     const newValue = hasClass(target, 'current')
       ? castArray(props.parsedValue).filter(
-          (d) => d?.month() !== newMonth.month()
+          (d) =>
+            // Filter out the selected month only when both year and month match
+            // This allows remove same months from different years #20019
+            d?.year() !== newMonth.year() || d?.month() !== newMonth.month()
         )
       : castArray(props.parsedValue).concat([dayjs(newMonth)])
     emit('pick', newValue)

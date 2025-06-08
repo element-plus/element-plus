@@ -54,6 +54,7 @@
             :default-sort="defaultSort"
             :store="store"
             :append-filter-panel-to="appendFilterPanelTo"
+            :allow-drag-last-column="allowDragLastColumn"
             @set-drag-visible="setDragVisible"
           />
         </table>
@@ -65,6 +66,7 @@
           :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
           :tabindex="scrollbarTabindex"
+          @scroll="$emit('scroll', $event)"
         >
           <table
             ref="tableBody"
@@ -229,6 +231,7 @@ export default defineComponent({
     'current-change',
     'header-dragend',
     'expand-change',
+    'scroll',
   ],
   setup(props) {
     type Row = typeof props.data[number]
@@ -399,6 +402,10 @@ export default defineComponent({
        * @description set vertical scroll position
        */
       setScrollTop,
+      /**
+       * @description whether to allow drag the last column
+       */
+      allowDragLastColumn: props.allowDragLastColumn,
     }
   },
 })

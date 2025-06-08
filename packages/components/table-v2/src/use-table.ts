@@ -7,7 +7,7 @@ import {
   unref,
   watch,
 } from 'vue'
-import { isArray } from '@element-plus/utils'
+import { isArray, isNumber } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   useColumns,
@@ -84,14 +84,26 @@ function useTable(props: TableV2Props) {
     resetAfterIndex,
   })
 
+  const rowsHeight = computed(() => {
+    const { estimatedRowHeight, rowHeight } = props
+    const _data = unref(data)
+    if (isNumber(estimatedRowHeight)) {
+      // calculate the actual height
+      return Object.values(unref(rowHeights)).reduce(
+        (acc, curr) => acc + curr,
+        0
+      )
+    }
+
+    return _data.length * rowHeight
+  })
+
   const {
     bodyWidth,
     fixedTableHeight,
     mainTableHeight,
     leftTableWidth,
     rightTableWidth,
-    headerWidth,
-    rowsHeight,
     windowHeight,
     footerHeight,
     emptyStyle,
@@ -99,9 +111,9 @@ function useTable(props: TableV2Props) {
     headerHeight,
   } = useStyles(props, {
     columnsTotalWidth,
-    data,
     fixedColumnsOnLeft,
     fixedColumnsOnRight,
+    rowsHeight,
   })
 
   // DOM/Component refs
@@ -125,6 +137,7 @@ function useTable(props: TableV2Props) {
     )
   }
 
+  const isEndReached = ref(false)
   function onMaybeEndReached() {
     const { onEndReached } = props
     if (!onEndReached) return
@@ -134,18 +147,27 @@ function useTable(props: TableV2Props) {
     const _totalHeight = unref(rowsHeight)
     const clientHeight = unref(windowHeight)
 
-    const heightUntilEnd =
+    const remainDistance =
       _totalHeight - (scrollTop + clientHeight) + props.hScrollbarSize
 
     if (
+      !isEndReached.value &&
       unref(lastRenderedRowIndex) >= 0 &&
-      _totalHeight === scrollTop + unref(mainTableHeight) - unref(headerHeight)
+      _totalHeight <= scrollTop + unref(mainTableHeight) - unref(headerHeight)
     ) {
-      onEndReached(heightUntilEnd)
+      isEndReached.value = true
+      onEndReached(remainDistance)
+    } else {
+      isEndReached.value = false
     }
   }
 
   // events
+
+  watch(
+    () => unref(rowsHeight),
+    () => (isEndReached.value = false)
+  )
 
   watch(
     () => props.expandedRowKeys,
@@ -180,7 +202,6 @@ function useTable(props: TableV2Props) {
     bodyWidth,
     emptyStyle,
     rootStyle,
-    headerWidth,
     footerHeight,
     mainTableHeight,
     fixedTableHeight,

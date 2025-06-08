@@ -53,6 +53,11 @@
         "text": "Space"
       },
       {
+        "link": "/splitter",
+        "text": "Splitter",
+        "promotion": "2.10.0"
+      },
+      {
         "link": "/typography",
         "text": "Typography"
       }
@@ -105,6 +110,11 @@
       {
         "link": "/input-number",
         "text": "Input Number"
+      },
+      {
+        "link": "/input-tag",
+        "text": "Input Tag",
+        "promotion": "2.9.0"
       },
       {
         "link": "/mention",

@@ -10,6 +10,8 @@
     "vue": "^3.2.0"
   },
   "types": "index.d.ts",
-  "sideEffects": false,
+  "sideEffects": [
+    "*/style/*"
+  ],
   "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }
