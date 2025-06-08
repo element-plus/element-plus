@@ -29,6 +29,18 @@
   opacity: 0;
 }
 
+.#{$namespace}-fade-in-scale-up-enter-active,
+.#{$namespace}-fade-in-scale-up-leave-active {
+  opacity: 1;
+  transition: getCssVar('transition-all');
+  transform: scale(1, 1);
+}
+.#{$namespace}-fade-in-scale-up-enter-from,
+.#{$namespace}-fade-in-scale-up-leave-active {
+  opacity: 0;
+  transform: scale(0.45, 0.45);
+}
+
 .#{$namespace}-zoom-in-center-enter-active,
 .#{$namespace}-zoom-in-center-leave-active {
   transition: all getCssVar('transition-duration') cubic-bezier(0.55, 0, 0.1, 1);
