@@ -51,13 +51,19 @@ export const useHandlers = (
     )
   }
 
+  function removeFile(file: UploadFile) {
+    uploadFiles.value = uploadFiles.value.filter(
+      (uploadFile) => uploadFile.uid !== file.uid
+    )
+  }
+
   const handleError: UploadContentProps['onError'] = (err, rawFile) => {
     const file = getFile(rawFile)
     if (!file) return
 
     console.error(err)
     file.status = 'fail'
-    uploadFiles.value.splice(uploadFiles.value.indexOf(file), 1)
+    removeFile(file)
     props.onError(err, file, uploadFiles.value)
     props.onChange(file, uploadFiles.value)
   }
@@ -114,9 +120,8 @@ export const useHandlers = (
 
     const doRemove = (file: UploadFile) => {
       abort(file)
-      const fileList = uploadFiles.value
-      fileList.splice(fileList.indexOf(file), 1)
-      props.onRemove(file, fileList)
+      removeFile(file)
+      props.onRemove(file, uploadFiles.value)
       revokeFileObjectURL(file)
     }
 

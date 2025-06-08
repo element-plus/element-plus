@@ -3,9 +3,8 @@
     ref="selectRef"
     v-click-outside:[popperRef]="handleClickOutside"
     :class="[nsSelect.b(), nsSelect.m(selectSize)]"
-    @mouseenter="states.inputHovering = true"
+    @[mouseEnterEventName]="states.inputHovering = true"
     @mouseleave="states.inputHovering = false"
-    @click.prevent.stop="toggleMenu"
   >
     <el-tooltip
       ref="tooltipRef"
@@ -22,6 +21,9 @@
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
       :persistent="persistent"
+      :append-to="appendTo"
+      :show-arrow="showArrow"
+      :offset="offset"
       @before-show="handleMenuEnter"
       @hide="states.isBeforeHide = false"
     >
@@ -35,6 +37,7 @@
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
           ]"
+          @click.prevent="toggleMenu"
         >
           <div
             v-if="$slots.prefix"
@@ -63,6 +66,7 @@
                   :closable="!selectDisabled && !item.isDisabled"
                   :size="collapseTagSize"
                   :type="tagType"
+                  :effect="tagEffect"
                   disable-transitions
                   :style="tagStyle"
                   @close="deleteTag($event, item)"
@@ -97,6 +101,7 @@
                       :closable="false"
                       :size="collapseTagSize"
                       :type="tagType"
+                      :effect="tagEffect"
                       disable-transitions
                       :style="collapseTagStyle"
                     >
@@ -118,6 +123,7 @@
                         :closable="!selectDisabled && !item.isDisabled"
                         :size="collapseTagSize"
                         :type="tagType"
+                        :effect="tagEffect"
                         disable-transitions
                         @close="deleteTag($event, item)"
                       >
@@ -137,7 +143,6 @@
               </el-tooltip>
             </slot>
             <div
-              v-if="!selectDisabled"
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
@@ -154,6 +159,7 @@
                 :disabled="selectDisabled"
                 :autocomplete="autocomplete"
                 :style="inputStyle"
+                :tabindex="tabindex"
                 role="combobox"
                 :readonly="!filterable"
                 spellcheck="false"
@@ -163,8 +169,6 @@
                 :aria-label="ariaLabel"
                 aria-autocomplete="none"
                 aria-haspopup="listbox"
-                @focus="handleFocus"
-                @blur="handleBlur"
                 @keydown.down.stop.prevent="navigateOptions('next')"
                 @keydown.up.stop.prevent="navigateOptions('prev')"
                 @keydown.esc.stop.prevent="handleEsc"
@@ -215,14 +219,22 @@
             </el-icon>
             <el-icon
               v-if="showClose && clearIcon"
-              :class="[nsSelect.e('caret'), nsSelect.e('icon')]"
+              :class="[
+                nsSelect.e('caret'),
+                nsSelect.e('icon'),
+                nsSelect.e('clear'),
+              ]"
               @click="handleClearClick"
             >
               <component :is="clearIcon" />
             </el-icon>
             <el-icon
-              v-if="validateState && validateIcon"
-              :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
+              v-if="validateState && validateIcon && needStatusIcon"
+              :class="[
+                nsInput.e('icon'),
+                nsInput.e('validateIcon'),
+                nsInput.is('loading', validateState === 'validating'),
+              ]"
             >
               <component :is="validateIcon" />
             </el-icon>
@@ -249,6 +261,7 @@
             role="listbox"
             :aria-label="ariaLabel"
             aria-orientation="vertical"
+            @scroll="popupScroll"
           >
             <el-option
               v-if="showNewOption"
@@ -287,30 +300,30 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
-import { defineComponent, provide, reactive } from 'vue'
+import { Fragment, computed, defineComponent, h, nextTick, provide, reactive, toRefs, watchEffect } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
-import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { flattedChildren, isArray, isObject } from '@element-plus/utils'
+import { useCalcInputWidth } from '@element-plus/hooks'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
 import { selectKey } from './token'
 import ElOptions from './options'
+import { selectProps } from './select'
 
-import { SelectProps } from './select'
-import type { SelectContext } from './token'
+import type { VNode, VNodeNormalizedChildren } from 'vue';
+import type { SelectContext } from './type'
 
 const COMPONENT_NAME = 'ElSelect'
 export default defineComponent({
   name: COMPONENT_NAME,
   componentName: COMPONENT_NAME,
   components: {
-    ElInput,
     ElSelectMenu,
     ElOption,
     ElOptions,
@@ -320,7 +333,7 @@ export default defineComponent({
     ElIcon,
   },
   directives: { ClickOutside },
-  props: SelectProps,
+  props: selectProps,
   emits: [
     UPDATE_MODEL_EVENT,
     CHANGE_EVENT,
@@ -329,27 +342,80 @@ export default defineComponent({
     'visible-change',
     'focus',
     'blur',
+    'popup-scroll',
   ],
 
-  setup(props, { emit }) {
-    const API = useSelect(props, emit)
+  setup(props, { emit, slots }) {
+    const modelValue = computed(() => {
+      const { modelValue: rawModelValue, multiple } = props
+      const fallback = multiple ? [] : undefined
+      // When it is array, we check if this is multi-select.
+      // Based on the result we get
+      if (isArray(rawModelValue)) {
+        return multiple ? rawModelValue : fallback
+      }
+
+      return multiple ? fallback : rawModelValue
+    })
+
+    const _props = reactive({
+      ...toRefs(props),
+      modelValue,
+    })
+
+    const API = useSelect(_props, emit)
+    const { calculatorRef, inputStyle } = useCalcInputWidth()
+
+    const manuallyRenderSlots = (vnodes: VNodeNormalizedChildren) => {
+      // After option rendering is completed, the useSelect internal state can collect the value of each option.
+      // If the persistent value is false, option will not be rendered by default, so in this case,
+      // manually render and load option data here.
+      const children = flattedChildren(vnodes) as VNode[]
+      children.filter((item) => {
+        // @ts-expect-error
+        return isObject(item) && item!.type.name === 'ElOption'
+      }).forEach(item => {
+        const obj = { ...item.props } as any
+        obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
+        API.onOptionCreate(obj)
+      })
+    }
+    watchEffect(() => {
+      if (!props.persistent) {
+        nextTick(() => {
+          const defaultSlots = h(Fragment, slots.default?.() ?? []).children
+          manuallyRenderSlots(defaultSlots)
+        })
+      }
+    })
 
     provide(
       selectKey,
       reactive({
-        props,
+        props: _props,
         states: API.states,
+        selectRef: API.selectRef,
         optionsArray: API.optionsArray,
+        setSelected: API.setSelected,
         handleOptionSelect: API.handleOptionSelect,
         onOptionCreate: API.onOptionCreate,
         onOptionDestroy: API.onOptionDestroy,
-        selectRef: API.selectRef,
-        setSelected: API.setSelected,
-      }) as unknown as SelectContext
+      }) satisfies SelectContext
     )
+
+    const selectedLabel = computed(() => {
+      if (!props.multiple) {
+        return API.states.selectedLabel
+      }
+      return API.states.selected.map((i) => i.currentLabel as string)
+    })
 
     return {
       ...API,
+      modelValue,
+      selectedLabel,
+      calculatorRef,
+      inputStyle,
     }
   },
 })

@@ -300,4 +300,33 @@ describe('Button Group', () => {
     const btn = wrapper.findComponent(Button)
     expect(btn.classes()).toContain('el-button--small')
   })
+
+  it('use custom tag disabled click not triggered', async () => {
+    const isLoaing = ref(false)
+    const isDisabled = ref(false)
+    const wrapper = mount(() => (
+      <div>
+        <Button
+          tag="div"
+          loading={isLoaing.value}
+          disabled={isDisabled.value}
+        ></Button>
+      </div>
+    ))
+    const btn = wrapper.findComponent(Button)
+    isDisabled.value = true
+    await nextTick()
+    await btn.trigger('click')
+    expect(wrapper.emitted('click')).toBeUndefined()
+    isLoaing.value = true
+    isDisabled.value = false
+    await nextTick()
+    await btn.trigger('click')
+    expect(wrapper.emitted('click')).toBeUndefined()
+    isLoaing.value = false
+    isDisabled.value = false
+    await nextTick()
+    await btn.trigger('click')
+    expect(wrapper.emitted('click')).toHaveLength(1)
+  })
 })

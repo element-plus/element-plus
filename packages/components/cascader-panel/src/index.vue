@@ -9,7 +9,11 @@
       :ref="(item) => (menuList[index] = item)"
       :index="index"
       :nodes="[...menu]"
-    />
+    >
+      <template #empty>
+        <slot name="empty" />
+      </template>
+    </el-cascader-menu>
   </div>
 </template>
 
@@ -280,8 +284,9 @@ export default defineComponent({
             `.${ns.namespace.value}-scrollbar__wrap`
           )
           const activeNode =
-            menuElement.querySelector(`.${ns.b('node')}.${ns.is('active')}`) ||
-            menuElement.querySelector(`.${ns.b('node')}.in-active-path`)
+            menuElement.querySelector(
+              `.${ns.b('node')}.${ns.is('active')}:last-child`
+            ) || menuElement.querySelector(`.${ns.b('node')}.in-active-path`)
           scrollIntoView(container, activeNode)
         }
       })
@@ -320,6 +325,7 @@ export default defineComponent({
           break
         }
         case EVENT_CODE.enter:
+        case EVENT_CODE.numpadEnter:
           checkNode(target)
           break
       }

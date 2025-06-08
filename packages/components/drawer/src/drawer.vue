@@ -1,5 +1,8 @@
 <template>
-  <teleport to="body" :disabled="!appendToBody">
+  <el-teleport
+    :to="appendTo"
+    :disabled="appendTo !== 'body' ? false : !appendToBody"
+  >
     <transition
       :name="ns.b('fade')"
       @after-enter="afterEnter"
@@ -38,7 +41,7 @@
             @click.stop
           >
             <span ref="focusStartRef" :class="ns.e('sr-focus')" tabindex="-1" />
-            <header v-if="withHeader" :class="ns.e('header')">
+            <header v-if="withHeader" :class="[ns.e('header'), headerClass]">
               <slot
                 v-if="!$slots.title"
                 name="header"
@@ -66,22 +69,24 @@
                 type="button"
                 @click="handleClose"
               >
-                <el-icon :class="ns.e('close')"><close /></el-icon>
+                <el-icon :class="ns.e('close')">
+                  <close />
+                </el-icon>
               </button>
             </header>
             <template v-if="rendered">
-              <div :id="bodyId" :class="ns.e('body')">
+              <div :id="bodyId" :class="[ns.e('body'), bodyClass]">
                 <slot />
               </div>
             </template>
-            <div v-if="$slots.footer" :class="ns.e('footer')">
+            <div v-if="$slots.footer" :class="[ns.e('footer'), footerClass]">
               <slot name="footer" />
             </div>
           </div>
         </el-focus-trap>
       </el-overlay>
     </transition>
-  </teleport>
+  </el-teleport>
 </template>
 
 <script lang="ts" setup>
@@ -90,6 +95,7 @@ import { Close } from '@element-plus/icons-vue'
 
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
+import ElTeleport from '@element-plus/components/teleport'
 import { useDialog } from '@element-plus/components/dialog'
 import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'

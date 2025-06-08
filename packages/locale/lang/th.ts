@@ -68,6 +68,9 @@ export default {
       noData: 'ไม่พบข้อมูล',
       placeholder: 'เลือก',
     },
+    mention: {
+      loading: 'กำลังโหลด',
+    },
     cascader: {
       noMatch: 'ไม่พบข้อมูลที่ตรงกัน',
       loading: 'กำลังโหลด',

@@ -44,12 +44,6 @@ export const badgeProps = buildProps({
    */
   color: String,
   /**
-   * @deprecated
-   */
-  dotStyle: {
-    type: definePropType<StyleValue>([String, Object, Array]),
-  },
-  /**
    * @description CSS style of badge
    */
   badgeStyle: {
@@ -61,12 +55,6 @@ export const badgeProps = buildProps({
   offset: {
     type: definePropType<[number, number]>(Array),
     default: [0, 0],
-  },
-  /**
-   * @deprecated
-   */
-  dotClass: {
-    type: String,
   },
   /**
    * @description custom class name of badge

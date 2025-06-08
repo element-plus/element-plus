@@ -32,6 +32,7 @@ import { useFormSize } from '@element-plus/components/form'
 import ElDescriptionsRow from './descriptions-row.vue'
 import { descriptionsKey } from './token'
 import { descriptionProps } from './description'
+import { COMPONENT_NAME } from './constants'
 
 import type { IDescriptionsInject } from './descriptions.type'
 import type { DescriptionItemVNode } from './description-item'
@@ -76,16 +77,31 @@ const getRows = () => {
 
   const children = flattedChildren(slots.default()).filter(
     (node): node is DescriptionItemVNode =>
-      (node as any)?.type?.name === 'ElDescriptionsItem'
+      (node as any)?.type?.name === COMPONENT_NAME
   )
   const rows: DescriptionItemVNode[][] = []
   let temp: DescriptionItemVNode[] = []
   let count = props.column
   let totalSpan = 0 // all spans number of item
+  const rowspanTemp: number[] = [] // the number of row spans
 
   children.forEach((node, index) => {
     const span = node.props?.span || 1
+    const rowspan = node.props?.rowspan || 1
+    const rowNo = rows.length
+    rowspanTemp[rowNo] ||= 0
 
+    if (rowspan > 1) {
+      for (let i = 1; i < rowspan; i++) {
+        rowspanTemp[rowNo + i] ||= 0
+        rowspanTemp[rowNo + i]++
+        totalSpan++
+      }
+    }
+    if (rowspanTemp[rowNo] > 0) {
+      count -= rowspanTemp[rowNo]
+      rowspanTemp[rowNo] = 0
+    }
     if (index < children.length - 1) {
       totalSpan += span > count ? count : span
     }

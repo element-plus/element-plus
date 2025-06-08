@@ -208,6 +208,19 @@
       width: 100px;
     }
   }
+  @include m(large) {
+    .btn-prev,
+    .btn-next,
+    .#{$namespace}-pager li {
+      height: getCssVar('pagination-button-height-large');
+      line-height: getCssVar('pagination-button-height-large');
+      min-width: getCssVar('pagination-button-width-large');
+    }
+
+    .#{$namespace}-select .#{$namespace}-input {
+      width: 160px;
+    }
+  }
 }
 
 @include b(pager) {

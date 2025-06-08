@@ -68,6 +68,9 @@ export default {
       noData: 'Hiçzat ýok',
       placeholder: 'Saýla',
     },
+    mention: {
+      loading: 'Indirilýär',
+    },
     cascader: {
       noMatch: 'Hiçzat tapylmady',
       loading: 'Indirilýär',

@@ -9,8 +9,8 @@
         format="HH:mm:ss"
         :value="value1"
       />
-      <el-button class="countdown-footer" type="primary" @click="reset"
-        >Reset
+      <el-button class="countdown-footer" type="primary" @click="reset">
+        Reset
       </el-button>
     </el-col>
     <el-col :span="8">

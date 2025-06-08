@@ -68,6 +68,9 @@ export default {
       noData: 'Өгөгдөл байхгүй',
       placeholder: 'Сонгох',
     },
+    mention: {
+      loading: 'Ачаалж байна',
+    },
     cascader: {
       noMatch: 'Тохирох өгөгдөл байхгүй',
       loading: 'Ачаалж байна',

@@ -7,12 +7,6 @@ lang: en-US
 
 Informs users while preserving the current page state.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Dialog pops up a dialog box, and it's quite customizable.
@@ -111,6 +105,42 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 :::
 
+## Fullscreen
+
+Set the `fullscreen` attribute to open fullscreen dialog.
+
+:::demo
+
+dialog/fullscreen
+
+:::
+
+:::tip
+
+If `fullscreen` is true, `width` `top` `draggable` attributes don't work.
+
+:::
+
+## Modal
+
+Setting `modal` to `false` will hide modal (overlay) of dialog.
+
+:::demo
+
+dialog/modal
+
+:::
+
+## Events
+
+Open developer console (ctrl + shift + J), to see order of events.
+
+:::demo
+
+dialog/events
+
+:::
+
 ## API
 
 ### Attributes
@@ -124,10 +154,12 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | top                        | value for `margin-top` of Dialog CSS, default is 15vh                                                | ^[string]                           | ''      |
 | modal                      | whether a mask is displayed                                                                          | ^[boolean]                          | true    |
 | modal-class                | custom class names for mask                                                                          | ^[string]                           | —       |
+| header-class ^(2.9.3)      | custom class names for header wrapper                                                                | ^[string]                           | —       |
+| body-class ^(2.9.3)        | custom class names for body wrapper                                                                  | ^[string]                           | —       |
+| footer-class ^(2.9.3)      | custom class names for footer wrapper                                                                | ^[string]                           | —       |
 | append-to-body             | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`    | ^[boolean]                          | false   |
-| append-to ^(2.4.3)         | which element the Dialog appends to. Will override `append-to-body`                                  | ^[string]                           | body    |
+| append-to ^(2.4.3)         | which element the Dialog appends to. Will override `append-to-body`                                  | ^[CSSSelector] / ^[HTMLElement]     | body    |
 | lock-scroll                | whether scroll of body is disabled while Dialog is displayed                                         | ^[boolean]                          | true    |
-| custom-class ^(deprecated) | custom class names for Dialog                                                                        | ^[string]                           | ''      |
 | open-delay                 | the Time(milliseconds) before open                                                                   | ^[number]                           | 0       |
 | close-delay                | the Time(milliseconds) before close                                                                  | ^[number]                           | 0       |
 | close-on-click-modal       | whether the Dialog can be closed by clicking the mask                                                | ^[boolean]                          | true    |
@@ -142,6 +174,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | close-icon                 | custom close icon, default is Close                                                                  | ^[string] / ^[Component]            | —       |
 | z-index                    | same as z-index in native CSS, z-order of dialog                                                     | ^[number]                           | —       |
 | header-aria-level ^(a11y)  | header's `aria-level` attribute                                                                      | ^[string]                           | 2       |
+| custom-class ^(deprecated) | custom class names for Dialog                                                                        | ^[string]                           | ''      |
 
 :::warning
 
@@ -153,10 +186,10 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 | Name                | Description                                                                                           |
 | ------------------- | ----------------------------------------------------------------------------------------------------- |
-| —                   | content of Dialog                                                                                     |
+| default             | default content of Dialog                                                                             |
 | header              | content of the Dialog header; Replacing this removes the title, but does not remove the close button. |
-| title ^(deprecated) | works the same as the header slot. Use that instead.                                                  |
 | footer              | content of the Dialog footer                                                                          |
+| title ^(deprecated) | works the same as the header slot. Use that instead.                                                  |
 
 :::warning
 
@@ -175,15 +208,22 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | open-auto-focus  | triggers after Dialog opens and content focused  | ^[Function]`() => void` |
 | close-auto-focus | triggers after Dialog closed and content focused | ^[Function]`() => void` |
 
+### Exposes
+
+| Name                   | Description    | Type                    |
+| ---------------------- | -------------- | ----------------------- |
+| resetPosition ^(2.8.1) | reset position | ^[Function]`() => void` |
+| handleClose ^(2.9.8)   | close dialog   | ^[Function]`() => void` |
+
 ## FAQ
 
-#### Using dialog in SFC, the scope style does not take effect.
+#### Using dialog in SFC, the scope style does not take effect
 
 Typical issue: [#10515](https://github.com/element-plus/element-plus/issues/10515)
 
 PS: Since the dialog is rendered using `Teleport`, the style of the root node is recommended to be written globally.
 
-#### When the dialog is displayed and hidden, there is a situation where the page elements are displaced back and forth.
+#### When the dialog is displayed and hidden, there is a situation where the page elements are displaced back and forth
 
 Typical issue: [#10481](https://github.com/element-plus/element-plus/issues/10481)
 

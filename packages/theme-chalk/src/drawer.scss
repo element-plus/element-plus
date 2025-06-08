@@ -45,7 +45,7 @@ $directions: rtl, ltr, ttb, btt;
     margin: 0;
     flex: 1;
     line-height: inherit;
-    font-size: 1rem;
+    font-size: 16px;
   }
 
   @include e(footer) {
@@ -127,12 +127,7 @@ $directions: rtl, ltr, ttb, btt;
 
   &-enter-from,
   &-leave-to {
-    opacity: 0;
-  }
-
-  &-enter-to,
-  &-leave-from {
-    opacity: 1;
+    background-color: transparent !important;
   }
 
   &-enter-from,

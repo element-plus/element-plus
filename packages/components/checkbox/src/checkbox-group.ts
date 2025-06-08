@@ -33,10 +33,6 @@ export const checkboxGroupProps = buildProps({
    */
   size: useSizeProp,
   /**
-   * @deprecated label for screen reader
-   */
-  label: String,
-  /**
    * @description border and background color when button is active
    */
   fill: String,
@@ -68,4 +64,4 @@ export const checkboxGroupEmits = {
 
 export type CheckboxGroupProps = ExtractPropTypes<typeof checkboxGroupProps>
 export type CheckboxGroupEmits = typeof checkboxGroupEmits
-export type CheckboxGroupInstance = InstanceType<typeof checkboxGroup>
+export type CheckboxGroupInstance = InstanceType<typeof checkboxGroup> & unknown

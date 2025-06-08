@@ -16,7 +16,10 @@
     @hide="setShowPicker(false)"
   >
     <template #content>
-      <div v-click-outside="handleClickOutside" @keydown.esc="handleEsc">
+      <div
+        v-click-outside:[triggerRef]="handleClickOutside"
+        @keydown.esc="handleEsc"
+      >
         <div :class="ns.be('dropdown', 'main-wrapper')">
           <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
           <sv-panel ref="sv" :color="color" />
@@ -36,8 +39,7 @@
               v-model="customInput"
               :validate-event="false"
               size="small"
-              @keyup.enter="handleConfirm"
-              @blur="handleConfirm"
+              @change="handleConfirm"
             />
           </span>
           <el-button
@@ -72,13 +74,12 @@
           t('el.colorpicker.description', { color: modelValue || '' })
         "
         :aria-disabled="colorDisabled"
-        :tabindex="colorDisabled ? -1 : tabindex"
+        :tabindex="colorDisabled ? undefined : tabindex"
         @keydown="handleKeyDown"
         @focus="handleFocus"
         @blur="handleBlur"
         @click.stop
       >
-        <div v-if="colorDisabled" :class="ns.be('picker', 'mask')" />
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
           <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
             <span
@@ -130,12 +131,15 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 import {
-  useDeprecated,
   useFocusController,
   useLocale,
   useNamespace,
 } from '@element-plus/hooks'
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
 import AlphaSlider from './components/alpha-slider.vue'
@@ -173,11 +177,10 @@ const popper = ref<TooltipInstance>()
 const triggerRef = ref()
 const inputRef = ref()
 
-const {
-  isFocused,
-  handleFocus: _handleFocus,
-  handleBlur,
-} = useFocusController(triggerRef, {
+const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
+  beforeFocus() {
+    return colorDisabled.value
+  },
   beforeBlur(event) {
     return popper.value?.isFocusInsideContent(event)
   },
@@ -186,11 +189,6 @@ const {
     resetColor()
   },
 })
-
-const handleFocus = (event: FocusEvent) => {
-  if (colorDisabled.value) return blur()
-  _handleFocus(event)
-}
 
 // active-change is used to prevent modelValue changes from triggering.
 let shouldActiveChange = true
@@ -220,20 +218,9 @@ const currentColor = computed(() => {
 
 const buttonAriaLabel = computed<string | undefined>(() => {
   return !isLabeledByFormItem.value
-    ? props.label || props.ariaLabel || t('el.colorpicker.defaultLabel')
+    ? props.ariaLabel || t('el.colorpicker.defaultLabel')
     : undefined
 })
-
-useDeprecated(
-  {
-    from: 'label',
-    replacement: 'aria-label',
-    version: '2.8.0',
-    scope: 'el-color-picker',
-    ref: 'https://element-plus.org/en-US/component/color-picker.html',
-  },
-  computed(() => !!props.label)
-)
 
 const buttonAriaLabelledby = computed<string | undefined>(() => {
   return isLabeledByFormItem.value ? formItem?.labelId : undefined
@@ -249,14 +236,8 @@ const btnKls = computed(() => {
 })
 
 function displayedRgb(color: Color, showAlpha: boolean) {
-  if (!(color instanceof Color)) {
-    throw new TypeError('color should be instance of _color Class')
-  }
-
-  const { r, g, b } = color.toRgb()
-  return showAlpha
-    ? `rgba(${r}, ${g}, ${b}, ${color.get('alpha') / 100})`
-    : `rgb(${r}, ${g}, ${b})`
+  const { r, g, b, a } = color.toRgb()
+  return showAlpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`
 }
 
 function setShowPicker(value: boolean) {
@@ -264,7 +245,6 @@ function setShowPicker(value: boolean) {
 }
 
 const debounceSetShowPicker = debounce(setShowPicker, 100, { leading: true })
-
 function show() {
   if (colorDisabled.value) return
   setShowPicker(true)
@@ -281,6 +261,9 @@ function resetColor() {
       color.fromString(props.modelValue)
     } else {
       color.value = ''
+      if (!currentColor.value && customInput.value) {
+        customInput.value = ''
+      }
       nextTick(() => {
         showPanelColor.value = false
       })
@@ -290,17 +273,23 @@ function resetColor() {
 
 function handleTrigger() {
   if (colorDisabled.value) return
+  if (showPicker.value) {
+    resetColor()
+  }
   debounceSetShowPicker(!showPicker.value)
 }
 
 function handleConfirm() {
   color.fromString(customInput.value)
+  if (color.value !== customInput.value) {
+    customInput.value = color.value
+  }
 }
 
 function confirmValue() {
   const value = color.value
   emit(UPDATE_MODEL_EVENT, value)
-  emit('change', value)
+  emit(CHANGE_EVENT, value)
   if (props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
@@ -321,21 +310,17 @@ function confirmValue() {
 function clear() {
   debounceSetShowPicker(false)
   emit(UPDATE_MODEL_EVENT, null)
-  emit('change', null)
+  emit(CHANGE_EVENT, null)
   if (props.modelValue !== null && props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
   resetColor()
 }
 
-function handleClickOutside(event: Event) {
+function handleClickOutside() {
   if (!showPicker.value) return
   hide()
-
-  if (isFocused.value) {
-    const _event = new FocusEvent('focus', event)
-    handleBlur(_event)
-  }
+  isFocused.value && focus()
 }
 
 function handleEsc(event: KeyboardEvent) {
@@ -348,6 +333,7 @@ function handleEsc(event: KeyboardEvent) {
 function handleKeyDown(event: KeyboardEvent) {
   switch (event.code) {
     case EVENT_CODE.enter:
+    case EVENT_CODE.numpadEnter:
     case EVENT_CODE.space:
       event.preventDefault()
       event.stopPropagation()
@@ -383,6 +369,16 @@ watch(
       shouldActiveChange = false
       color.fromString(newVal)
     }
+  }
+)
+
+watch(
+  () => [props.colorFormat, props.showAlpha],
+  () => {
+    color.enableAlpha = props.showAlpha
+    color.format = props.colorFormat || color.format
+    color.doOnChange()
+    emit(UPDATE_MODEL_EVENT, color.value)
   }
 )
 

@@ -39,10 +39,12 @@ const toTranslation = () => {
 
 <style lang="scss" scoped>
 @use '../../styles/mixins' as *;
+
 .translation-container {
   display: none;
   height: 24px;
   padding: 0 12px;
+  cursor: pointer;
 
   @include respond-to('md') {
     display: block;
@@ -67,6 +69,7 @@ const toTranslation = () => {
   .language {
     padding: 0 16px;
     line-height: 28px;
+
     &.selected {
       --el-text-color-regular: var(--brand-color);
     }

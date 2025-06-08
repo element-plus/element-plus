@@ -4,6 +4,7 @@ import {
   SIZE_INJECTION_KEY,
   defaultInitialZIndex,
   defaultNamespace,
+  emptyValuesContextKey,
   localeContextKey,
   namespaceContextKey,
   useLocale,
@@ -110,6 +111,14 @@ export const provideGlobalConfig = (
   provideFn(SIZE_INJECTION_KEY, {
     size: computed(() => context.value.size || ''),
   })
+
+  provideFn(
+    emptyValuesContextKey,
+    computed(() => ({
+      emptyValues: context.value.emptyValues,
+      valueOnClear: context.value.valueOnClear,
+    }))
+  )
 
   if (global || !globalConfig.value) {
     globalConfig.value = context.value

@@ -79,6 +79,9 @@ export default {
       noData: '데이터 없음',
       placeholder: '선택',
     },
+    mention: {
+      loading: '불러오는 중',
+    },
     dropdown: {
       toggleDropdown: '드롭다운 전환',
     },
@@ -89,7 +92,7 @@ export default {
       noData: '데이터 없음',
     },
     pagination: {
-      goto: '',
+      goto: '이동',
       pagesize: '건/페이지',
       total: '총 {total} 건',
       pageClassifier: '페이지로',

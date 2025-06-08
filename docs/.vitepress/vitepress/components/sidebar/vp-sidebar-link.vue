@@ -15,7 +15,9 @@ const sidebarItem = ref<HTMLElement>()
 
 const route = useRoute()
 
-const activeLink = computed<boolean>(() => isActive(route, props.item.link))
+const activeLink = computed<boolean>(() =>
+  isActive(route.data.relativePath, props.item.link)
+)
 
 watch([activeLink, sidebarItem], ([active, el]) => {
   if (active && el) {

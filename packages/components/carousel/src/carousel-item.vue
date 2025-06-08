@@ -16,16 +16,17 @@ import { computed, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { carouselItemProps } from './carousel-item'
 import { useCarouselItem } from './use-carousel-item'
+import { CAROUSEL_ITEM_NAME } from './constants'
 
 import type { CSSProperties } from 'vue'
 
 defineOptions({
-  name: 'ElCarouselItem',
+  name: CAROUSEL_ITEM_NAME,
 })
 
 const props = defineProps(carouselItemProps)
 const ns = useNamespace('carousel')
-const COMPONENT_NAME = 'ElCarouselItem'
+
 // inject
 const {
   carouselItemRef,
@@ -39,7 +40,7 @@ const {
   scale,
   ready,
   handleItemClick,
-} = useCarouselItem(props, COMPONENT_NAME)
+} = useCarouselItem(props)
 
 const itemKls = computed(() => [
   ns.e('item'),

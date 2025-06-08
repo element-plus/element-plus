@@ -5,18 +5,19 @@ declare global {
   const process: {
     env: {
       NODE_ENV: string
+      RUN_TEST_WITH_PERSISTENT: boolean
     }
   }
 
   namespace JSX {
     interface IntrinsicAttributes {
-      class?: any
-      style?: any
+      class?: unknown
+      style?: unknown
     }
   }
 }
 
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   export interface App {
     [INSTALLED_KEY]?: boolean
   }

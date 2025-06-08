@@ -277,6 +277,80 @@ describe('Checkbox', () => {
     })
   })
 
+  describe('true/false-value ', () => {
+    test('without true/false-value attribute', async () => {
+      const checked = ref(true)
+
+      const wrapper = mount(() => (
+        <ElFormItem label="test">
+          <Checkbox v-model={checked.value} />
+        </ElFormItem>
+      ))
+
+      const checkbox = wrapper.findComponent(Checkbox)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe(false)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe(true)
+    })
+
+    test('without true-value attribute', async () => {
+      const checked = ref(true)
+
+      const wrapper = mount(() => (
+        <ElFormItem label="test">
+          <Checkbox v-model={checked.value} falseValue={'a'} />
+        </ElFormItem>
+      ))
+
+      const checkbox = wrapper.findComponent(Checkbox)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe('a')
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe(true)
+    })
+
+    test('without false-value attribute', async () => {
+      const checked = ref(true)
+
+      const wrapper = mount(() => (
+        <ElFormItem label="test">
+          <Checkbox v-model={checked.value} trueValue={'a'} />
+        </ElFormItem>
+      ))
+
+      const checkbox = wrapper.findComponent(Checkbox)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe(false)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe('a')
+    })
+
+    test('with true/false-value attribute', async () => {
+      const checked = ref(true)
+
+      const wrapper = mount(() => (
+        <ElFormItem label="test">
+          <Checkbox v-model={checked.value} trueValue={'a'} falseValue={1} />
+        </ElFormItem>
+      ))
+
+      const checkbox = wrapper.findComponent(Checkbox)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe(1)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checked.value).toBe('a')
+    })
+  })
+
   test('check', () => {
     const checked = ref(false)
     const checklist = ref([])

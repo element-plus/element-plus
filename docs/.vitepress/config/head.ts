@@ -80,6 +80,13 @@ export const head: HeadConfig[] = [
     },
   ],
   [
+    'meta',
+    {
+      name: 'baidu-site-verification',
+      content: 'codeva-q5gBxYcfOs',
+    },
+  ],
+  [
     'script',
     {},
     `;(() => {
@@ -152,9 +159,3 @@ gtag('config', 'UA-175337989-1');`,
     `,
   ],
 ]
-
-head.push([
-  'script',
-  {},
-  fs.readFileSync(path.resolve(vpRoot, 'dark-mode.js'), 'utf-8'),
-])

@@ -7,9 +7,13 @@ lang: en-US
 
 A simple confirmation dialog of an element click action.
 
-:::tip
+## Placement
 
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+popconfirm has 9 placements.
+
+:::demo Use attribute `title` to set the display content when click the reference element. The attribute `placement` determines the position of the popconfirm. Its value is `[orientation]-[alignment]` with four orientations `top`, `left`, `right`, `bottom` and three alignments `start`, `end`, `null`, and the default alignment is null. Take `placement="left-end"` for example, popconfirm will display on the left of the element which you are hovering and the bottom of the popconfirm aligns with the bottom of the element.
+
+popconfirm/placement
 
 :::
 
@@ -71,6 +75,7 @@ popconfirm/trigger-event
 
 ### Slots
 
-| Name      | Description                           |
-| --------- | ------------------------------------- |
-| reference | HTML element that triggers Popconfirm |
+| Name             | Description                           | Type                                                                             |
+| ---------------- | ------------------------------------- | -------------------------------------------------------------------------------- |
+| reference        | HTML element that triggers Popconfirm | —                                                                                |
+| actions ^(2.8.1) | content of the Popconfirm footer      | ^[object]`{ confirm: (e: MouseEvent) => void, cancel: (e: MouseEvent) => void }` |

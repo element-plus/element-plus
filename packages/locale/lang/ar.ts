@@ -78,6 +78,9 @@ export default {
       noData: 'لايوجد بيانات',
       placeholder: 'إختر',
     },
+    mention: {
+      loading: 'جار التحميل',
+    },
     dropdown: {
       toggleDropdown: 'تبديل القائمة',
     },

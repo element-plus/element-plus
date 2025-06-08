@@ -141,7 +141,7 @@ describe('Pagination', () => {
 
     test('test small layout', () => {
       const wrapper = mount(() => (
-        <Pagination total={100} small={true}></Pagination>
+        <Pagination total={100} size="small"></Pagination>
       ))
 
       expect(wrapper.vm.$el.classList.contains('el-pagination--small')).toBe(

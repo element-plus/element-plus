@@ -15,7 +15,8 @@ import { throttle } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import { debugWarn, flattedChildren, isString } from '@element-plus/utils'
 import { useOrderedChildren } from '@element-plus/hooks'
-import { carouselContextKey } from './constants'
+import { CHANGE_EVENT } from '@element-plus/constants'
+import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
 import type { SetupContext } from 'vue'
 import type { CarouselItemContext } from './constants'
@@ -34,7 +35,7 @@ export const useCarousel = (
     removeChild: removeItem,
   } = useOrderedChildren<CarouselItemContext>(
     getCurrentInstance()!,
-    'ElCarouselItem'
+    CAROUSEL_ITEM_NAME
   )
 
   const slots = useSlots()
@@ -46,8 +47,6 @@ export const useCarousel = (
   const root = ref<HTMLDivElement>()
   const containerHeight = ref<number>(0)
   const isItemsTwoLength = ref(true)
-  const isFirstCall = ref(true)
-  const isTransitioning = ref(false)
 
   // computed
   const arrowDisplay = computed(
@@ -104,11 +103,6 @@ export const useCarousel = (
   }
 
   const playSlides = () => {
-    if (!isFirstCall.value) {
-      isTransitioning.value = true
-    }
-    isFirstCall.value = false
-
     if (activeIndex.value < items.value.length - 1) {
       activeIndex.value = activeIndex.value + 1
     } else if (props.loop) {
@@ -117,11 +111,6 @@ export const useCarousel = (
   }
 
   function setActiveItem(index: number | string) {
-    if (!isFirstCall.value) {
-      isTransitioning.value = true
-    }
-    isFirstCall.value = false
-
     if (isString(index)) {
       const filteredItems = items.value.filter(
         (item) => item.props.name === index
@@ -188,10 +177,6 @@ export const useCarousel = (
     startTimer()
   }
 
-  function handleTransitionEnd() {
-    isTransitioning.value = false
-  }
-
   function handleButtonEnter(arrow: 'left' | 'right') {
     if (unref(isVertical)) return
     items.value.forEach((item, index) => {
@@ -209,20 +194,12 @@ export const useCarousel = (
   }
 
   function handleIndicatorClick(index: number) {
-    if (index !== activeIndex.value) {
-      if (!isFirstCall.value) {
-        isTransitioning.value = true
-      }
-    }
     activeIndex.value = index
   }
 
   function handleIndicatorHover(index: number) {
     if (props.trigger === 'hover' && index !== activeIndex.value) {
       activeIndex.value = index
-      if (!isFirstCall.value) {
-        isTransitioning.value = true
-      }
     }
   }
 
@@ -251,10 +228,8 @@ export const useCarousel = (
 
     const flatSlots = flattedChildren(defaultSlots)
 
-    const carouselItemsName = 'ElCarouselItem'
-
     const normalizeSlots = flatSlots.filter((slot) => {
-      return isVNode(slot) && (slot.type as any).name === carouselItemsName
+      return isVNode(slot) && (slot.type as any).name === CAROUSEL_ITEM_NAME
     })
 
     if (normalizeSlots?.length === 2 && props.loop && !isCardType.value) {
@@ -275,7 +250,7 @@ export const useCarousel = (
         prev = prev % 2
       }
       if (prev > -1) {
-        emit('change', current, prev)
+        emit(CHANGE_EVENT, current, prev)
       }
     }
   )
@@ -330,6 +305,7 @@ export const useCarousel = (
     isVertical,
     items,
     loop: props.loop,
+    cardScale: props.cardScale,
     addItem,
     removeItem,
     setActiveItem,
@@ -343,13 +319,11 @@ export const useCarousel = (
     hasLabel,
     hover,
     isCardType,
-    isTransitioning,
     items,
     isVertical,
     containerStyle,
     isItemsTwoLength,
     handleButtonEnter,
-    handleTransitionEnd,
     handleButtonLeave,
     handleIndicatorClick,
     handleMouseEnter,

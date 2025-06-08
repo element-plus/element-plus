@@ -68,6 +68,9 @@ export default {
       noData: 'គ្មានទិន្នន័យ',
       placeholder: 'ជ្រើសរើស',
     },
+    mention: {
+      loading: 'កំពុងផ្ទុក',
+    },
     cascader: {
       noMatch: 'គ្មានទិន្នន័យដូច',
       loading: 'កំពុងផ្ទុក',
