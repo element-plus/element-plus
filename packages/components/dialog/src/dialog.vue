@@ -47,6 +47,9 @@
               :draggable="draggable"
               :overflow="overflow"
               :fullscreen="fullscreen"
+              :header-class="headerClass"
+              :body-class="bodyClass"
+              :footer-class="footerClass"
               :show-close="showClose"
               :title="title"
               :aria-level="headerAriaLevel"
@@ -151,5 +154,6 @@ defineExpose({
   visible,
   dialogContentRef,
   resetPosition,
+  handleClose,
 })
 </script>

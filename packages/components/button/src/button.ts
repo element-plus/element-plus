@@ -64,7 +64,10 @@ export const buttonProps = buildProps({
   /**
    * @description determine whether it's a plain button
    */
-  plain: Boolean,
+  plain: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description determine whether it's a text button
    */
@@ -84,7 +87,10 @@ export const buttonProps = buildProps({
   /**
    * @description determine whether it's a round button
    */
-  round: Boolean,
+  round: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description determine whether it's a circle button
    */
@@ -123,5 +129,8 @@ export type ButtonType = ButtonProps['type']
 export type ButtonNativeType = ButtonProps['nativeType']
 
 export interface ButtonConfigContext {
+  type?: string
+  plain?: boolean
+  round?: boolean
   autoInsertSpace?: boolean
 }

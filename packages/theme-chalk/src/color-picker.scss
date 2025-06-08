@@ -250,6 +250,8 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   position: relative;
   line-height: normal;
   outline: none;
+  height: map.get($color-picker-size, 'default');
+  width: map.get($color-picker-size, 'default');
 
   &:hover:not(.is-disabled, .is-focused) {
     .#{$namespace}-color-picker__trigger {
@@ -271,25 +273,20 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   }
 
   @include when(disabled) {
-    pointer-events: none;
     .#{$namespace}-color-picker__trigger {
       cursor: not-allowed;
+      background-color: getCssVar('fill-color', 'light');
+    }
+
+    @include e(color) {
+      opacity: 0.3;
     }
   }
 
   @each $size in (large, small) {
     @include m($size) {
       height: map.get($color-picker-size, $size);
-
-      .#{$namespace}-color-picker__trigger {
-        height: map.get($color-picker-size, $size);
-        width: map.get($color-picker-size, $size);
-      }
-
-      .#{$namespace}-color-picker__mask {
-        height: map.get($color-picker-size, $size)-2px;
-        width: map.get($color-picker-size, $size)-2px;
-      }
+      width: map.get($color-picker-size, $size);
     }
   }
 
@@ -300,26 +297,14 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     }
   }
 
-  @include e(mask) {
-    height: map.get($color-picker-size, 'default')-2px;
-    width: map.get($color-picker-size, 'default')-2px;
-    border-radius: 4px;
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    z-index: 1;
-    cursor: not-allowed;
-    background-color: rgba(255, 255, 255, 0.7);
-  }
-
   @include e(trigger) {
     display: inline-flex;
     justify-content: center;
     align-items: center;
 
     box-sizing: border-box;
-    height: map.get($color-picker-size, 'default');
-    width: map.get($color-picker-size, 'default');
+    height: 100%;
+    width: 100%;
     padding: 4px;
     border: 1px solid getCssVar('border-color');
     border-radius: 4px;

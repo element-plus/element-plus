@@ -78,7 +78,7 @@
     cursor: pointer;
 
     &:hover {
-      color: getCssVar('text-color', 'secondary');
+      color: getCssVar('input-clear-hover-color');
     }
   }
 
@@ -134,7 +134,7 @@
     cursor: pointer;
 
     &:hover {
-      color: getCssVar('text-color', 'secondary');
+      color: getCssVar('input-clear-hover-color');
     }
 
     svg {
@@ -189,7 +189,6 @@
     border-color: map.get($input-disabled, 'border');
     color: map.get($input-disabled, 'text-color');
     cursor: not-allowed;
-    pointer-events: none;
 
     &:hover,
     &:focus {

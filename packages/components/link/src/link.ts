@@ -9,14 +9,15 @@ export const linkProps = buildProps({
   type: {
     type: String,
     values: ['primary', 'success', 'warning', 'info', 'danger', 'default'],
-    default: 'default',
+    default: undefined,
   },
   /**
-   * @description whether the component has underline
+   * @description when underlines should appear
    */
   underline: {
-    type: Boolean,
-    default: true,
+    type: [Boolean, String],
+    values: [true, false, 'always', 'never', 'hover'],
+    default: undefined,
   },
   /**
    * @description whether the component is disabled
@@ -47,4 +48,8 @@ export const linkEmits = {
 }
 export type LinkEmits = typeof linkEmits
 
-export type LinkInstance = InstanceType<typeof Link>
+export type LinkInstance = InstanceType<typeof Link> & unknown
+export interface LinkConfigContext {
+  type?: string
+  underline?: string | boolean
+}

@@ -3,6 +3,7 @@
     ref="tooltipRef"
     v-bind="$attrs"
     :trigger="trigger"
+    :trigger-keys="triggerKeys"
     :placement="placement"
     :disabled="disabled"
     :visible="visible"
@@ -21,6 +22,7 @@
     :popper-class="kls"
     :popper-style="style"
     :teleported="teleported"
+    :append-to="appendTo"
     :persistent="persistent"
     :gpu-acceleration="gpuAcceleration"
     @update:visible="onUpdateVisible"
@@ -43,6 +45,7 @@
     </template>
   </el-tooltip>
 </template>
+
 <script lang="ts" setup>
 import { computed, ref, unref } from 'vue'
 import { ElTooltip } from '@element-plus/components/tooltip'

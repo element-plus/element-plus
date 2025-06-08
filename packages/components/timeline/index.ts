@@ -14,3 +14,4 @@ export const ElTimelineItem: SFCWithInstall<typeof TimelineItem> =
 
 export * from './src/timeline'
 export * from './src/timeline-item'
+export * from './src/tokens'

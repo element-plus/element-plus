@@ -122,7 +122,14 @@ const Tabs = defineComponent({
       if (currentName.value === value || isUndefined(value)) return
 
       try {
-        const canLeave = await props.beforeLeave?.(value, currentName.value)
+        let canLeave
+        if (props.beforeLeave) {
+          const result = props.beforeLeave(value, currentName.value)
+          canLeave = result instanceof Promise ? await result : result
+        } else {
+          canLeave = true
+        }
+
         if (canLeave !== false) {
           const isFocusInsidePane = panes.value
             .find((item) => item.paneName === currentName.value)
@@ -148,8 +155,8 @@ const Tabs = defineComponent({
       event: Event
     ) => {
       if (tab.props.disabled) return
-      setCurrentName(tabName, true)
       emit('tabClick', tab, event)
+      setCurrentName(tabName, true)
     }
 
     const handleTabRemove = (pane: TabsPaneContext, ev: Event) => {
@@ -186,6 +193,7 @@ const Tabs = defineComponent({
 
     expose({
       currentName,
+      tabNavRef: nav$,
     })
     const TabNavRenderer: FunctionalComponent<{ render: () => VNode }> = ({
       render,
@@ -274,6 +282,7 @@ const Tabs = defineComponent({
 
 export type TabsInstance = InstanceType<typeof Tabs> & {
   currentName: TabPaneName
+  tabNavRef: TabNavInstance | undefined
 }
 
 export default Tabs

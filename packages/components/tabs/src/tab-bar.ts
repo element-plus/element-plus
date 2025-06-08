@@ -15,4 +15,4 @@ export const tabBarProps = buildProps({
 } as const)
 
 export type TabBarProps = ExtractPropTypes<typeof tabBarProps>
-export type TabBarInstance = InstanceType<typeof TabBar>
+export type TabBarInstance = InstanceType<typeof TabBar> & unknown

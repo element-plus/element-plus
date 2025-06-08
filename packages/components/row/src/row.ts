@@ -46,4 +46,4 @@ export const rowProps = buildProps({
 } as const)
 
 export type RowProps = ExtractPropTypes<typeof rowProps>
-export type RowInstance = InstanceType<typeof Row>
+export type RowInstance = InstanceType<typeof Row> & unknown

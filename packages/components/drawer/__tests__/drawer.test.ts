@@ -255,6 +255,43 @@ describe('Drawer', () => {
     expect(drawer.emitted()).toHaveProperty('close')
   })
 
+  test('should render header-class, body-class and footer-class if setted', async () => {
+    const wrapper = _mount(
+      `
+      <el-drawer v-model='visible' :header-class='headerClass' :body-class='bodyClass' :footer-class='footerClass'>
+        <template #header>
+          header desu
+        </template>
+        body desu
+        <template #footer>
+          footer desu
+        </template>
+      </el-drawer>
+      `,
+      () => ({
+        visible: true,
+        headerClass: 'test-header-class',
+        bodyClass: 'test-body-class',
+        footerClass: 'test-footer-class',
+      })
+    )
+
+    await nextTick()
+    expect(wrapper.find('.test-header-class').exists()).toBe(true)
+    expect(wrapper.find('.test-body-class').exists()).toBe(true)
+    expect(wrapper.find('.test-footer-class').exists()).toBe(true)
+
+    await wrapper.setProps({
+      headerClass: undefined,
+      bodyClass: undefined,
+      footerClass: undefined,
+    })
+
+    expect(wrapper.find('.test-header-class').exists()).toBe(false)
+    expect(wrapper.find('.test-body-class').exists()).toBe(false)
+    expect(wrapper.find('.test-footer-class').exists()).toBe(false)
+  })
+
   test('should not render header when withHeader attribute is false', async () => {
     const wrapper = _mount(
       `

@@ -26,13 +26,15 @@ import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import TabBar from './tab-bar.vue'
 import { tabsRootContextKey } from './constants'
-
 import type {
   CSSProperties,
   ComponentPublicInstance,
   ExtractPropTypes,
 } from 'vue'
-import type { TabPaneName, TabsPaneContext } from './constants'
+import type { TabBarInstance } from './tab-bar'
+import type { TabsPaneContext } from './constants'
+import type { TabPaneName } from './tabs'
+
 
 interface Scrollable {
   next?: boolean
@@ -84,7 +86,7 @@ const TabNav = defineComponent({
     const el$ = ref<HTMLDivElement>()
     const tabRefsMap = ref<{ [key: TabPaneName]: HTMLDivElement }>({})
 
-    const tabBarRef = ref<InstanceType<typeof TabBar>>()
+    const tabBarRef = ref<TabBarInstance>()
 
     const scrollable = ref<false | Scrollable>(false)
     const navOffset = ref(0)
@@ -284,6 +286,8 @@ const TabNav = defineComponent({
       scrollToActiveTab,
       removeFocus,
       focusActiveTab,
+      tabListRef: nav$,
+      tabBarRef,
     })
 
     return () => {
@@ -422,5 +426,8 @@ export type TabNavInstance = InstanceType<typeof TabNav> & {
   scrollToActiveTab: () => Promise<void>
   removeFocus: () => void
   focusActiveTab: () => void
+  tabListRef: HTMLDivElement | undefined
+  tabBarRef: TabBarInstance | undefined
 }
+
 export default TabNav

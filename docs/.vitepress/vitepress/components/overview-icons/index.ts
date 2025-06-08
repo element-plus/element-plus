@@ -73,6 +73,7 @@ import OvDivider from './ov-divider.vue'
 import OvWatermark from './ov-watermark.vue'
 import OvMention from './ov-mention.vue'
 import OvInputTag from './ov-input-tag.vue'
+import OvSplitter from './ov-splitter.vue'
 
 export default {
   button: OvButton,
@@ -139,6 +140,7 @@ export default {
   menu: OvMenu,
   'page-header': OvPageHeader,
   steps: OvSteps,
+  splitter: OvSplitter,
   tabs: OvTabs,
   alert: OvAlert,
   dialog: OvDialog,

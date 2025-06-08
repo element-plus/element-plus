@@ -4,7 +4,7 @@
 
 - Before opening issue please search for the keyword see whether the issue you encountered has been reported already. :pray:
 
-- Issues should be opened via [Issue Template](https://elementui.github.io/issue-generator/#/en-US?repo=element-plus), fill in the form to provide
+- Issues should be opened via [Issue Template](https://issue.element-plus.org/), fill in the form to provide
   sufficient information to reproduce the issue, so that our developers can help you verify and fix it
 
 **Insufficient information issue WILL BE CLOSED directly because we cannot reproduce them**

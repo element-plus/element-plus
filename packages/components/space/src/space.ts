@@ -1,4 +1,5 @@
 import {
+  Comment,
   createTextVNode,
   createVNode,
   defineComponent,
@@ -136,21 +137,25 @@ const Space = defineComponent({
                   extractedChildren
                 )
               } else {
-                extractedChildren.push(
-                  createVNode(
-                    Item,
-                    {
-                      style: itemStyle.value,
-                      prefixCls,
-                      key: `nested-${parentKey + key}`,
-                    },
-                    {
-                      default: () => [nested],
-                    },
-                    PatchFlags.PROPS | PatchFlags.STYLE,
-                    ['style', 'prefixCls']
+                if (isVNode(nested) && nested?.type === Comment) {
+                  extractedChildren.push(nested)
+                } else {
+                  extractedChildren.push(
+                    createVNode(
+                      Item,
+                      {
+                        style: itemStyle.value,
+                        prefixCls,
+                        key: `nested-${parentKey + key}`,
+                      },
+                      {
+                        default: () => [nested],
+                      },
+                      PatchFlags.PROPS | PatchFlags.STYLE,
+                      ['style', 'prefixCls']
+                    )
                   )
-                )
+                }
               }
             })
           }
@@ -172,6 +177,8 @@ const Space = defineComponent({
               ['style', 'prefixCls']
             )
           )
+        } else if (isVNode(child) && child.type === Comment) {
+          extractedChildren.push(child)
         }
       })
 
@@ -245,6 +252,6 @@ const Space = defineComponent({
   },
 })
 
-export type SpaceInstance = InstanceType<typeof Space>
+export type SpaceInstance = InstanceType<typeof Space> & unknown
 
 export default Space

@@ -35,6 +35,7 @@
     />
   </div>
 </template>
+
 <script lang="ts">
 // @ts-nocheck
 import {
@@ -56,6 +57,7 @@ import ElTreeNode from './tree-node.vue'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
+import { ROOT_TREE_INJECTION_KEY } from './tokens'
 import type Node from './model/node'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
@@ -90,6 +92,10 @@ export default defineComponent({
       default: true,
     },
     checkOnClickNode: Boolean,
+    checkOnClickLeaf: {
+      type: Boolean,
+      default: true,
+    },
     checkDescendants: {
       type: Boolean,
       default: false,
@@ -387,7 +393,7 @@ export default defineComponent({
       store.value.updateChildren(key, data)
     }
 
-    provide('RootTree', {
+    provide(ROOT_TREE_INJECTION_KEY, {
       ctx,
       props,
       store,
