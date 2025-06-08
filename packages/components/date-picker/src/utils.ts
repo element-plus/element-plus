@@ -146,11 +146,15 @@ export const datesInMonth = (
   month: number,
   lang: string
 ) => {
-  const firstDay = dayjs(date)
+  const firstDay = dayjs()
     .locale(lang)
+    .startOf('month')
     .month(month)
     .year(year)
-    .startOf('month')
+    .hour(date.hour())
+    .minute(date.minute())
+    .second(date.second())
+
   const numOfDays = firstDay.daysInMonth()
   return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())
 }
@@ -162,7 +166,13 @@ export const getValidDateOfMonth = (
   lang: string,
   disabledDate?: DisabledDateType
 ) => {
-  const _value = dayjs(date).year(year).month(month)
+  const _value = dayjs()
+    .year(year)
+    .month(month)
+    .startOf('month')
+    .hour(date.hour())
+    .minute(date.minute())
+    .second(date.second())
   const _date = datesInMonth(date, year, month, lang).find((date) => {
     return !disabledDate?.(date)
   })
