@@ -78,7 +78,6 @@
         @keydown="handleKeyDown"
         @focus="handleFocus"
         @blur="handleBlur"
-        @click.stop
       >
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
           <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
