@@ -107,6 +107,7 @@
     display: flex;
     white-space: nowrap;
     position: relative;
+    height: getCssVar('tabs', 'header-height');
     transition: transform getCssVar('transition-duration');
     float: left;
     z-index: calc(#{getCssVar('index-normal')} + 1);
