@@ -3,6 +3,7 @@ import '@element-plus/theme-chalk/src/dark/css-vars.scss'
 import '@element-plus/theme-chalk/src/notification.scss'
 import '@element-plus/theme-chalk/src/message-box.scss'
 import '@element-plus/theme-chalk/src/message.scss'
+import '@element-plus/theme-chalk/src/date-picker.scss'
 ;(async () => {
   const apps = import.meta.glob<
     true,

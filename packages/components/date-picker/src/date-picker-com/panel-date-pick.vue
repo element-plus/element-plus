@@ -340,6 +340,14 @@ const handleDatePick = async (value: DateTableEmits, keepOpen?: boolean) => {
         .month(value.month())
         .date(value.date())
     }
+
+    if (showTime.value && innerDate.value) {
+      // const inputTime = dayjs(userInputTime.value)
+      newDate = newDate
+        .hour(innerDate.value.hour())
+        .minute(innerDate.value.minute())
+        .second(innerDate.value.second())
+    }
     innerDate.value = newDate
     emit(newDate, showTime.value || keepOpen)
     // fix: https://github.com/element-plus/element-plus/issues/14728
@@ -450,13 +458,21 @@ const handleMonthPick = async (
   } else if (selectionMode.value === 'months') {
     emit(month as MonthsPickerEmits, keepOpen ?? true)
   } else {
-    innerDate.value = getValidDateOfMonth(
+    let newDate = getValidDateOfMonth(
       innerDate.value,
       innerDate.value.year(),
       month as number,
       lang.value,
       disabledDate
     )
+    if (showTime.value && innerDate.value) {
+      newDate = newDate
+        .hour(innerDate.value.hour())
+        .minute(innerDate.value.minute())
+        .second(innerDate.value.second())
+    }
+
+    innerDate.value = newDate
     currentView.value = 'date'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
       emit(innerDate.value, true)
