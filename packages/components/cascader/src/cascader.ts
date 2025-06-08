@@ -79,7 +79,7 @@ export const cascaderProps = buildProps({
    * @description The max height of collapse tags tooltip, in pixels. To use this, collapse-tags-tooltip must be true
    */
   maxCollapseTagsTooltipHeight: {
-    type: Number,
+    type: [String, Number],
     default: 500,
   },
   /**
