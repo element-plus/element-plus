@@ -32,9 +32,7 @@ import type {
   ExtractPropTypes,
 } from 'vue'
 import type { TabBarInstance } from './tab-bar'
-import type { TabsPaneContext } from './constants'
-import type { TabPaneName } from './tabs'
-
+import type { TabPaneName, TabsPaneContext } from './constants'
 
 interface Scrollable {
   next?: boolean
