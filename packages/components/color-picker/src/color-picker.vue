@@ -165,7 +165,7 @@ const ns = useNamespace('color')
 const { formItem } = useFormItem()
 const colorSize = useFormSize()
 const colorDisabled = useFormDisabled()
-const { valueOnClear } = useEmptyValues(props, null)
+const { valueOnClear, isEmptyValue } = useEmptyValues(props, null)
 
 const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
@@ -288,7 +288,7 @@ function handleConfirm() {
 }
 
 function confirmValue() {
-  const value = color.value.length ? color.value : valueOnClear.value
+  const value = isEmptyValue(color.value) ? valueOnClear.value : color.value
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
   if (props.validateEvent) {
