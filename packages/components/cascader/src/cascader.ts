@@ -80,7 +80,6 @@ export const cascaderProps = buildProps({
    */
   maxCollapseTagsTooltipHeight: {
     type: [String, Number],
-    default: 500,
   },
   /**
    * @description debounce delay when typing filter keyword, in milliseconds
