@@ -105,7 +105,11 @@ import {
 } from '../props/panel-year-range'
 import { useYearRangeHeader } from '../composables/use-year-range-header'
 import { useRangePicker } from '../composables/use-range-picker'
-import { correctlyParseUserInput, getDefaultValue, isValidRange } from '../utils'
+import {
+  correctlyParseUserInput,
+  getDefaultValue,
+  isValidRange,
+} from '../utils'
 import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import YearTable from './basic-year-table.vue'
 
@@ -121,12 +125,15 @@ const step = 10
 const unit = 'year'
 
 const { lang } = useLocale()
-const pickerBase = inject('EP_PICKER_BASE') as any
+const leftDate = ref(dayjs().locale(lang.value))
+const rightDate = ref(dayjs().locale(lang.value).add(step, unit))
+const isDefaultFormat = inject(
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
+) as any
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const { shortcuts, disabledDate } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
-const leftDate = ref(dayjs().locale(lang.value))
-const rightDate = ref(dayjs().locale(lang.value).add(step, unit))
 
 const {
   minDate,
@@ -163,10 +170,6 @@ const {
   leftDate,
   rightDate,
 })
-
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
-) as any
 
 const hasShortcuts = computed(() => !!shortcuts.length)
 
