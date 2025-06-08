@@ -8,7 +8,6 @@ import Inspect from 'vite-plugin-inspect'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
 import VueMacros from 'unplugin-vue-macros/vite'
-import esbuild from 'rollup-plugin-esbuild'
 import {
   epPackage,
   epRoot,
@@ -16,17 +15,6 @@ import {
   pkgRoot,
   projRoot,
 } from '@element-plus/build-utils'
-import type { Plugin } from 'vite'
-
-const esbuildPlugin = (): Plugin => ({
-  ...esbuild({
-    target: 'chrome64',
-    loaders: {
-      '.vue': 'js',
-    },
-  }),
-  enforce: 'post',
-})
 
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
@@ -74,7 +62,6 @@ export default defineConfig(async ({ mode }) => {
           vueJsx: vueJsx(),
         },
       }),
-      esbuildPlugin(),
       Components({
         include: `${__dirname}/**`,
         resolvers: ElementPlusResolver({

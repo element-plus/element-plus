@@ -48,7 +48,11 @@ export interface Tree {
   maxLevel: number
 }
 
-export type FilterMethod = (query: string, node: TreeNodeData) => boolean
+export type FilterMethod = (
+  query: string,
+  data: TreeNodeData,
+  node: TreeNode
+) => boolean
 
 export interface CheckedInfo {
   checkedKeys: TreeKey[]

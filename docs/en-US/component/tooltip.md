@@ -132,11 +132,27 @@ tooltip/controlled
 
 ## Animations
 
-Tooltip can be customized animated, you can set the desired animation function as you desired.
+Tooltip can be customized animated, you can set the desired animation use `transition`.
+
+:::tip
+
+Transition Classes, more information can be found at [Vue Transition](https://vuejs.org/guide/built-ins/transition.html#css-based-transitions).
+
+:::
 
 :::demo
 
 tooltip/animations
+
+:::
+
+## Use the `append-to`
+
+You must wait for the DOM to be mounted before using `targetElement`.
+
+:::demo
+
+tooltip/append-to
 
 :::
 
@@ -157,6 +173,7 @@ tooltip/animations
 | offset                    | offset of the Tooltip                                                                                                                                   | ^[number]                                                                                                                                                                   | 12                |
 | transition                | animation name                                                                                                                                          | ^[string]                                                                                                                                                                   | —                 |
 | popper-options            | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                                  | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                |
+| arrow-offset ^(2.9.10)    | Controls the offset (padding) of the tooltip’s arrow relative to the popper.                                                                            | ^[number]                                                                                                                                                                   | 5                 |
 | show-after                | delay of appearance, in millisecond                                                                                                                     | ^[number]                                                                                                                                                                   | 0                 |
 | show-arrow                | whether the tooltip content has an arrow                                                                                                                | ^[boolean]                                                                                                                                                                  | true              |
 | hide-after                | delay of disappear, in millisecond                                                                                                                      | ^[number]                                                                                                                                                                   | 200               |
@@ -189,3 +206,17 @@ tooltip/animations
 | onOpen               | expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void`   |
 | onClose              | expose onClose function to mange el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void`   |
 | hide                 | expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void`   |
+
+## FAQ
+
+#### How to allow spaces in the input box when tooltip is nested?
+
+Typical issue: [#20907](https://github.com/element-plus/element-plus/issues/20907)
+
+```vue
+<template>
+  <el-tooltip content="tooltip content" placement="top" :trigger-keys="[]">
+    <el-input v-model="value" placeholder="" />
+  </el-tooltip>
+</template>
+```

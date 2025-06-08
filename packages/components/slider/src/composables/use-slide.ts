@@ -189,7 +189,10 @@ export const useSlide = (
 
   const onSliderMarkerDown = (position: number) => {
     if (sliderDisabled.value || initData.dragging) return
-    setPosition(position)
+    const buttonRef = setPosition(position)
+    if (buttonRef) {
+      emitChange()
+    }
   }
 
   return {

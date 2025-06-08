@@ -108,6 +108,7 @@ export const mentionProps = buildProps({
 
 export const mentionEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
+  input: (value: string) => isString(value),
   search: (pattern: string, prefix: string) =>
     isString(pattern) && isString(prefix),
   select: (option: MentionOption, prefix: string) =>
@@ -118,6 +119,6 @@ export const mentionEmits = {
 
 export type MentionEmits = typeof mentionEmits
 export type MentionProps = ExtractPropTypes<typeof mentionProps>
-export type MentionInstance = InstanceType<typeof Mention>
+export type MentionInstance = InstanceType<typeof Mention> & unknown
 
 export type { MentionOption } from './types'

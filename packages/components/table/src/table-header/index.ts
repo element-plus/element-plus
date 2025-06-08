@@ -6,7 +6,9 @@ import {
   inject,
   nextTick,
   onMounted,
+  reactive,
   ref,
+  watch,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
@@ -19,6 +21,7 @@ import useUtils from './utils-helper'
 import type { ComponentInternalInstance, PropType, Ref } from 'vue'
 import type { DefaultRow, Sort } from '../table/defaults'
 import type { Store } from '../store'
+
 export interface TableHeader extends ComponentInternalInstance {
   state: {
     onColumnsChange
@@ -31,6 +34,7 @@ export interface TableHeaderProps<T> {
   store: Store<T>
   border: boolean
   defaultSort: Sort
+  allowDragLastColumn: boolean
 }
 
 export default defineComponent({
@@ -60,6 +64,9 @@ export default defineComponent({
     appendFilterPanelTo: {
       type: String,
     },
+    allowDragLastColumn: {
+      type: Boolean,
+    },
   },
   setup(props, { emit }) {
     const instance = getCurrentInstance() as TableHeader
@@ -69,7 +76,7 @@ export default defineComponent({
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
 
     const isTableLayoutAuto = parent?.props.tableLayout === 'auto'
-    const saveIndexSelection = new Map()
+    const saveIndexSelection = reactive(new Map())
     const theadRef = ref()
 
     const updateFixedColumnStyle = () => {
@@ -88,6 +95,8 @@ export default defineComponent({
         }
       })
     }
+
+    watch(saveIndexSelection, updateFixedColumnStyle)
 
     onMounted(async () => {
       // Need double await, because updateColumns is executed after nextTick for now

@@ -159,6 +159,7 @@
                 :disabled="selectDisabled"
                 :autocomplete="autocomplete"
                 :style="inputStyle"
+                :tabindex="tabindex"
                 role="combobox"
                 :readonly="!filterable"
                 spellcheck="false"
@@ -229,7 +230,11 @@
             </el-icon>
             <el-icon
               v-if="validateState && validateIcon && needStatusIcon"
-              :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
+              :class="[
+                nsInput.e('icon'),
+                nsInput.e('validateIcon'),
+                nsInput.is('loading', validateState === 'validating'),
+              ]"
             >
               <component :is="validateIcon" />
             </el-icon>
@@ -256,6 +261,7 @@
             role="listbox"
             :aria-label="ariaLabel"
             aria-orientation="vertical"
+            @scroll="popupScroll"
           >
             <el-option
               v-if="showNewOption"
@@ -294,22 +300,24 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, provide, reactive, toRefs } from 'vue'
+import { Fragment, computed, defineComponent, h, nextTick, provide, reactive, toRefs, watchEffect } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isArray } from '@element-plus/utils'
+import { flattedChildren, isArray, isObject } from '@element-plus/utils'
+import { useCalcInputWidth } from '@element-plus/hooks'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
 import { selectKey } from './token'
 import ElOptions from './options'
+import { selectProps } from './select'
 
-import { SelectProps } from './select'
-import type { SelectContext } from './token'
+import type { VNode, VNodeNormalizedChildren } from 'vue';
+import type { SelectContext } from './type'
 
 const COMPONENT_NAME = 'ElSelect'
 export default defineComponent({
@@ -325,7 +333,7 @@ export default defineComponent({
     ElIcon,
   },
   directives: { ClickOutside },
-  props: SelectProps,
+  props: selectProps,
   emits: [
     UPDATE_MODEL_EVENT,
     CHANGE_EVENT,
@@ -334,9 +342,10 @@ export default defineComponent({
     'visible-change',
     'focus',
     'blur',
+    'popup-scroll',
   ],
 
-  setup(props, { emit }) {
+  setup(props, { emit, slots }) {
     const modelValue = computed(() => {
       const { modelValue: rawModelValue, multiple } = props
       const fallback = multiple ? [] : undefined
@@ -355,19 +364,43 @@ export default defineComponent({
     })
 
     const API = useSelect(_props, emit)
+    const { calculatorRef, inputStyle } = useCalcInputWidth()
+
+    const manuallyRenderSlots = (vnodes: VNodeNormalizedChildren) => {
+      // After option rendering is completed, the useSelect internal state can collect the value of each option.
+      // If the persistent value is false, option will not be rendered by default, so in this case,
+      // manually render and load option data here.
+      const children = flattedChildren(vnodes) as VNode[]
+      children.filter((item) => {
+        // @ts-expect-error
+        return isObject(item) && item!.type.name === 'ElOption'
+      }).forEach(item => {
+        const obj = { ...item.props } as any
+        obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
+        API.onOptionCreate(obj)
+      })
+    }
+    watchEffect(() => {
+      if (!props.persistent) {
+        nextTick(() => {
+          const defaultSlots = h(Fragment, slots.default?.() ?? []).children
+          manuallyRenderSlots(defaultSlots)
+        })
+      }
+    })
 
     provide(
       selectKey,
       reactive({
         props: _props,
         states: API.states,
+        selectRef: API.selectRef,
         optionsArray: API.optionsArray,
+        setSelected: API.setSelected,
         handleOptionSelect: API.handleOptionSelect,
         onOptionCreate: API.onOptionCreate,
         onOptionDestroy: API.onOptionDestroy,
-        selectRef: API.selectRef,
-        setSelected: API.setSelected,
-      }) as unknown as SelectContext
+      }) satisfies SelectContext
     )
 
     const selectedLabel = computed(() => {
@@ -381,6 +414,8 @@ export default defineComponent({
       ...API,
       modelValue,
       selectedLabel,
+      calculatorRef,
+      inputStyle,
     }
   },
 })

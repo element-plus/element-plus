@@ -24,7 +24,6 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
-
 import type { CheckboxValueType } from 'element-plus'
 
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
@@ -60,7 +59,7 @@ const handleCheckAll = (val: CheckboxValueType) => {
 }
 </script>
 
-<style lang="scss">
+<style>
 .custom-header {
   .el-checkbox {
     display: flex;

@@ -8,6 +8,7 @@
     :always="always"
   />
 </template>
+
 <script lang="ts" setup>
 import { inject, ref } from 'vue'
 import { GAP } from './util'

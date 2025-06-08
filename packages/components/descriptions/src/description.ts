@@ -52,4 +52,4 @@ export const descriptionProps = buildProps({
 } as const)
 
 export type DescriptionProps = ExtractPropTypes<typeof descriptionProps>
-export type DescriptionInstance = InstanceType<typeof Description>
+export type DescriptionInstance = InstanceType<typeof Description> & unknown

@@ -155,6 +155,7 @@
                 v-model="states.inputValue"
                 :style="inputStyle"
                 :autocomplete="autocomplete"
+                :tabindex="tabindex"
                 aria-autocomplete="list"
                 aria-haspopup="listbox"
                 autocapitalize="off"
@@ -229,7 +230,11 @@
             </el-icon>
             <el-icon
               v-if="validateState && validateIcon && needStatusIcon"
-              :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
+              :class="[
+                nsInput.e('icon'),
+                nsInput.e('validateIcon'),
+                nsInput.is('loading', validateState === 'validating'),
+              ]"
             >
               <component :is="validateIcon" />
             </el-icon>
@@ -282,9 +287,10 @@ import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
+import { useCalcInputWidth } from '@element-plus/hooks'
 import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
-import { SelectProps, selectEmits } from './defaults'
+import { selectV2Emits, selectV2Props } from './defaults'
 import { selectV2InjectionKey } from './token'
 
 export default defineComponent({
@@ -296,8 +302,8 @@ export default defineComponent({
     ElIcon,
   },
   directives: { ClickOutside },
-  props: SelectProps,
-  emits: selectEmits,
+  props: selectV2Props,
+  emits: selectV2Emits,
   setup(props, { emit }) {
     const modelValue = computed(() => {
       const { modelValue: rawModelValue, multiple } = props
@@ -317,6 +323,8 @@ export default defineComponent({
       }),
       emit
     )
+    const { calculatorRef, inputStyle } = useCalcInputWidth()
+
     provide(selectV2InjectionKey, {
       props: reactive({
         ...toRefs(props),
@@ -342,6 +350,8 @@ export default defineComponent({
       ...API,
       modelValue,
       selectedLabel,
+      calculatorRef,
+      inputStyle,
     }
   },
 })

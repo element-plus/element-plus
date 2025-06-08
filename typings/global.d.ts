@@ -48,6 +48,7 @@ declare module 'vue' {
     ElImageViewer: typeof import('element-plus')['ElImageViewer']
     ElInput: typeof import('element-plus')['ElInput']
     ElInputNumber: typeof import('element-plus')['ElInputNumber']
+    ElInputTag: typeof import('element-plus')['ElInputTag']
     ElLink: typeof import('element-plus')['ElLink']
     ElMain: typeof import('element-plus')['ElMain']
     ElMenu: typeof import('element-plus')['ElMenu']
@@ -105,6 +106,8 @@ declare module 'vue' {
     ElTourStep: typeof import('element-plus')['ElTourStep']
     ElSegmented: typeof import('element-plus')['ElSegmented']
     ElMention: typeof import('element-plus')['ElMention']
+    ElSplitter: typeof import('element-plus')['ElSplitter']
+    ElSplitterPanel: typeof import('element-plus')['ElSplitterPanel']
   }
 
   interface ComponentCustomProperties {

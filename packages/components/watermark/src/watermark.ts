@@ -75,4 +75,4 @@ export const watermarkProps = buildProps({
 } as const)
 
 export type WatermarkProps = ExtractPropTypes<typeof watermarkProps>
-export type WatermarkInstance = InstanceType<typeof Watermark>
+export type WatermarkInstance = InstanceType<typeof Watermark> & unknown

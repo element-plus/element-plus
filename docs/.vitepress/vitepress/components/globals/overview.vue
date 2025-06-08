@@ -2,6 +2,7 @@
   <div class="overview-container">
     <div class="search-content">
       <el-input
+        ref="searchRef"
         v-model="query"
         :prefix-icon="Search"
         size="large"
@@ -60,16 +61,25 @@
         >
           @叨叨
         </el-link>
+        <el-link
+          type="primary"
+          :underline="false"
+          href="https://github.com/zhiwendesign"
+          target="_blank"
+        >
+          @卡卡
+        </el-link>
       </p>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vitepress'
 import { Search } from '@element-plus/icons-vue'
 import overviewLocale from '../../../i18n/component/overview.json'
+import type { InputInstance } from 'element-plus'
 import { useSidebar } from '~/composables/sidebar'
 import { useLang } from '~/composables/lang'
 import overviewIcons from '~/components/overview-icons'
@@ -79,7 +89,7 @@ const router = useRouter()
 const { sidebars } = useSidebar()
 
 const query = ref('')
-
+const searchRef = ref<InputInstance>()
 const locale = computed(() => overviewLocale[lang.value])
 const filteredSidebars = computed(() =>
   sidebars.value
@@ -106,6 +116,12 @@ const getIcon = (link: string) => {
   const name = link.split('/').pop()
   return name ? overviewIcons[name] : null
 }
+
+onMounted(() => {
+  nextTick(() => {
+    searchRef.value?.focus()
+  })
+})
 </script>
 
 <style scoped lang="scss">
@@ -181,7 +197,10 @@ const getIcon = (link: string) => {
     }
 
     .designed-by {
-      text-align: right;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 5px;
       font-size: 14px;
     }
   }
