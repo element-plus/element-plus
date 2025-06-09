@@ -165,7 +165,6 @@
 
   @include e(tags-text) {
     display: block;
-    line-height: normal;
     @include utils-ellipsis;
   }
 
