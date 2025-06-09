@@ -395,7 +395,7 @@ export default defineComponent({
               treeItem.currentLabel = treeItem.label || (isObject(treeItem.value) ? '' : treeItem.value)
               API.onOptionCreate(treeItem)
             })
-          } else if (_name !== 'ElOption') {
+          } else if (_name === 'ElOption') {
             const obj = { ...item.props } as any
             obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
             API.onOptionCreate(obj)
