@@ -383,7 +383,7 @@ describe('Select', () => {
 
   test('the scenario of rendering label when there is a default value and persistent is false', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
-    process.env.RUN_TEST_WITH_PERSISTENT = true
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
       `
       <el-select v-model="value" :persistent="false">
@@ -417,7 +417,7 @@ describe('Select', () => {
 
   test('when there is a default value and persistent is false, render the label and dynamically modify options', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
-    process.env.RUN_TEST_WITH_PERSISTENT = true
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
       `
       <el-select v-model="value" :persistent="false">
@@ -454,7 +454,7 @@ describe('Select', () => {
 
   test('multiple is true and persistent is false', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
-    process.env.RUN_TEST_WITH_PERSISTENT = true
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
       `
       <el-select v-model="value" :persistent="false" multiple>
@@ -1391,7 +1391,7 @@ describe('Select', () => {
 
   test('multiple select with collapseTagsTooltip', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
-    process.env.RUN_TEST_WITH_PERSISTENT = true
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
 
     wrapper = _mount(
       `

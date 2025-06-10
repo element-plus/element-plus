@@ -101,7 +101,7 @@ describe('TreeSelect.vue', () => {
 
   test('render tree-select with default value and persistent is false', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
-    process.env.RUN_TEST_WITH_PERSISTENT = true
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     const { select, wrapper } = createComponent({
       props: {
         persistent: false,
