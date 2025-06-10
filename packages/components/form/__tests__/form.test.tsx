@@ -851,6 +851,7 @@ describe('Form', () => {
   })
 
   it('prop is array', async () => {
+    vi.useFakeTimers()
     const wrapper = mount({
       setup() {
         const form = reactive({
@@ -878,7 +879,6 @@ describe('Form', () => {
 
     await nextTick()
 
-    vi.useFakeTimers()
     const formRef = wrapper.vm.$refs.formRef as FormInstance
     const valid = await formRef
       .validateField([['obj', 'name']])
@@ -905,6 +905,7 @@ describe('Form', () => {
     await nextTick()
     expect(wrapper.find('.is-error').exists()).toBe(true)
     expect(wrapper.find('.el-form-item__error').text()).toBe('name is error')
+    vi.useRealTimers()
   })
 
   describe('FormItem', () => {
