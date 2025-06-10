@@ -300,7 +300,7 @@
 </template>
 
 <script lang="ts">
-import { Fragment, computed, defineComponent, h, provide, reactive, toRefs, watch } from 'vue'
+import { computed, defineComponent, getCurrentInstance, provide, reactive, toRefs, watch } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -316,7 +316,7 @@ import { selectKey } from './token'
 import ElOptions from './options'
 import { selectProps } from './select'
 
-import type { VNode, VNodeNormalizedChildren } from 'vue';
+import type { VNode } from 'vue';
 import type { SelectContext } from './type'
 
 const COMPONENT_NAME = 'ElSelect'
@@ -346,6 +346,15 @@ export default defineComponent({
   ],
 
   setup(props, { emit, slots }) {
+    const instance = getCurrentInstance()!
+    instance.appContext.config.warnHandler = (...args) => {
+      // Overrides warnings about slots not being executable outside of a render function.
+      // We call slot below just to simulate data when persist is false, this warning message should be ignored
+      if (!args[0] || args[0].includes('Slot "default" invoked outside of the render function')) {
+        return
+      }
+      console.warn(...args)
+    }
     const modelValue = computed(() => {
       const { modelValue: rawModelValue, multiple } = props
       const fallback = multiple ? [] : undefined
@@ -376,11 +385,11 @@ export default defineComponent({
       }, [])
     }
 
-    const manuallyRenderSlots = (vnodes: VNodeNormalizedChildren) => {
+    const manuallyRenderSlots = (vnodes: VNode[] | undefined) => {
       // After option rendering is completed, the useSelect internal state can collect the value of each option.
       // If the persistent value is false, option will not be rendered by default, so in this case,
       // manually render and load option data here.
-      const children = flattedChildren(vnodes) as VNode[]
+      const children = flattedChildren(vnodes || []) as VNode[]
       children.forEach((item) => {
         // @ts-expect-error
         if (isObject(item) && (item.type.name === 'ElOption' || item.type.name === 'ElTree')) {
@@ -404,14 +413,16 @@ export default defineComponent({
       })
     }
     watch(() => {
-      const slotsContent = slots.default?.() ?? []
-      const defaultSlots = h(Fragment, slotsContent).children
-      return defaultSlots
+      const slotsContent = slots.default?.()
+      return slotsContent
     }, newSlot => {
+      if (props.persistent) {
+        // If persistent is true, we don't need to manually render slots.
+        return
+      }
       manuallyRenderSlots(newSlot)
     }, {
       immediate: true,
-      flush: 'post',
     })
 
     provide(
