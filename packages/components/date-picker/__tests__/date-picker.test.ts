@@ -1762,6 +1762,33 @@ describe('DateRangePicker', () => {
     expect(endDate.length).toBe(1)
   })
 
+  it('single-panel', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        :model-value="value"
+        :type="type"
+        single-panel
+      />`,
+      () => ({ value: '', type: 'date' })
+    )
+    const types = ['datetimerange', 'daterange', 'monthrange', 'yearrange']
+
+    for (const type of types) {
+      await wrapper.setProps({ type })
+      const inputs = wrapper.findAll('input')
+      inputs[0].trigger('blur')
+      inputs[0].trigger('focus')
+      await nextTick()
+
+      const datePicker = wrapper.findComponent(DatePicker)
+      expect(datePicker.props().type).toBe(type)
+      expect(datePicker.props().singlePanel).toBe(true)
+
+      const panels = document.querySelectorAll('.el-date-range-picker__content')
+      expect(panels.length).toBe(1)
+    }
+  })
+
   it('value-format', async () => {
     const valueFormat = 'DD/MM YYYY'
     const wrapper = _mount(

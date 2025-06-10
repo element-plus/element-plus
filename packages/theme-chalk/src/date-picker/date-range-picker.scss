@@ -30,6 +30,29 @@
     margin: 0;
   }
 
+  &.single-panel {
+    width: 322px;
+
+    .#{$namespace}-picker-panel__body {
+      min-width: 322px;
+    }
+
+    &.has-sidebar.has-time {
+      width: 434px;
+    }
+
+    &.has-sidebar {
+      width: 438px;
+    }
+
+    .#{$namespace}-picker-panel__content {
+      position: relative;
+      margin: 15px;
+      width: 292px;
+      padding: 0;
+    }
+  }
+
   @include e(header) {
     position: relative;
     text-align: center;

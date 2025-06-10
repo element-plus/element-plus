@@ -6,6 +6,7 @@
       {
         'has-sidebar': $slots.sidebar || hasShortcuts,
         'has-time': showTime,
+        'single-panel': singlePanel,
       },
     ]"
   >
@@ -104,7 +105,13 @@
             </span>
           </span>
         </div>
-        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-left">
+        <div
+          :class="[
+            ppNs.e('content'),
+            drpNs.e('content'),
+            { 'is-left': !singlePanel },
+          ]"
+        >
           <div :class="drpNs.e('header')">
             <button
               type="button"
@@ -134,7 +141,7 @@
               </slot>
             </button>
             <button
-              v-if="unlinkPanels"
+              v-if="unlinkPanels || singlePanel"
               type="button"
               :disabled="!enableYearArrow"
               :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
@@ -149,7 +156,7 @@
               </slot>
             </button>
             <button
-              v-if="unlinkPanels && leftCurrentView === 'date'"
+              v-if="(unlinkPanels && leftCurrentView === 'date') || singlePanel"
               type="button"
               :disabled="!enableMonthArrow"
               :class="[
@@ -226,7 +233,11 @@
             @pick="handleLeftMonthPick"
           />
         </div>
-        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
+        <div
+          v-if="!singlePanel"
+          :class="[ppNs.e('content'), drpNs.e('content')]"
+          class="is-right"
+        >
           <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
@@ -624,19 +635,21 @@ const enableMonthArrow = computed(() => {
   const nextMonth = (leftMonth.value + 1) % 12
   const yearOffset = leftMonth.value + 1 >= 12 ? 1 : 0
   return (
-    props.unlinkPanels &&
-    new Date(leftYear.value + yearOffset, nextMonth) <
-      new Date(rightYear.value, rightMonth.value)
+    props.singlePanel ||
+    (props.unlinkPanels &&
+      new Date(leftYear.value + yearOffset, nextMonth) <
+        new Date(rightYear.value, rightMonth.value))
   )
 })
 
 const enableYearArrow = computed(() => {
   return (
-    props.unlinkPanels &&
-    rightYear.value * 12 +
-      rightMonth.value -
-      (leftYear.value * 12 + leftMonth.value + 1) >=
-      12
+    props.singlePanel ||
+    (props.unlinkPanels &&
+      rightYear.value * 12 +
+        rightMonth.value -
+        (leftYear.value * 12 + leftMonth.value + 1) >=
+        12)
   )
 })
 
