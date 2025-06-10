@@ -19,6 +19,7 @@
       :render-after-expand="renderAfterExpand"
       :show-checkbox="showCheckbox"
       :render-content="renderContent"
+      :direction="direction"
       @node-expand="handleNodeExpand"
     />
     <div v-if="isEmpty" :class="ns.e('empty-block')">
@@ -146,6 +147,11 @@ export default defineComponent({
     },
     icon: {
       type: iconPropType,
+    },
+    direction: {
+      type: String,
+      default: 'ltr',
+      values: ['ltr', 'rtl'],
     },
   },
   emits: [

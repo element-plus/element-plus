@@ -95,7 +95,7 @@ class Node {
   isLeafByUser: boolean
   isLeaf: boolean
   canFocus: boolean
-
+  direction: string
   level: number
   loaded: boolean
   childNodes: Node[]
