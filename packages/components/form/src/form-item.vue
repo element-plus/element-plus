@@ -382,6 +382,7 @@ const context: FormItemContext = reactive({
   ...toRefs(props),
   $el: formItemRef,
   size: _size,
+  validateMessage,
   validateState,
   labelId,
   inputIds,
@@ -393,6 +394,7 @@ const context: FormItemContext = reactive({
   resetField,
   clearValidate,
   validate,
+  propString,
 })
 
 provide(formItemContextKey, context)
