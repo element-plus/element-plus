@@ -66,6 +66,7 @@
           :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
           :tabindex="scrollbarTabindex"
+          style="text-align: left"
           @scroll="$emit('scroll', $event)"
         >
           <table

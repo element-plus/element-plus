@@ -500,7 +500,6 @@
     overflow: hidden;
     position: relative;
     flex: 1;
-    text-align: left;
 
     .#{$namespace}-scrollbar__bar {
       z-index: calc(getCssVar('table-index') + 2);
