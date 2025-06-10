@@ -168,7 +168,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   const iconComponent = computed(() =>
     props.remote && props.filterable
       ? ''
-      : props.suffixIcon || globalIcons.value.dropdown
+      : globalIcons.value.dropdown || props.suffixIcon
   )
 
   const iconReverse = computed(
@@ -176,7 +176,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   )
 
   const clearIconComponent = computed(
-    () => props.clearIcon || globalIcons.value.clear
+    () => globalIcons.value.clear || props.clearIcon
   )
 
   const validateState = computed(() => elFormItem?.validateState || '')

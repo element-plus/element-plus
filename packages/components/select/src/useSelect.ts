@@ -155,13 +155,13 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const iconComponent = computed(() =>
     props.remote && props.filterable && !props.remoteShowSuffix
       ? ''
-      : props.suffixIcon || globalIcons.value.dropdown
+      : globalIcons.value.dropdown || props.suffixIcon
   )
   const iconReverse = computed(() =>
     nsSelect.is('reverse', !!(iconComponent.value && expanded.value))
   )
   const clearIconComponent = computed(
-    () => props.clearIcon || globalIcons.value.clear
+    () => globalIcons.value.clear || props.clearIcon
   )
 
   const validateState = computed(() => formItem?.validateState || '')

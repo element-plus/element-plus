@@ -1,6 +1,10 @@
 <template>
   <div>
-    <el-config-provider :icons="icons">
+    <el-config-provider
+      :icons="icons"
+      :link="{ underline: 'never' }"
+      :message="{ max: 3 }"
+    >
       <div class="space-y-4">
         <div class="flex flex-wrap items-center gap-4">
           <el-select
@@ -58,22 +62,6 @@
         </template>
       </el-dialog>
     </el-config-provider>
-
-    <el-divider />
-
-    <div class="mt-4">
-      <h3 class="mb-2">Default Icons Reference</h3>
-      <el-table :data="iconsTable" style="width: 100%">
-        <el-table-column prop="property" label="Property" />
-        <el-table-column prop="default" label="Default Icon">
-          <template #default="{ row }">
-            <el-icon :size="20">
-              <component :is="row.default" />
-            </el-icon>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
   </div>
 </template>
 

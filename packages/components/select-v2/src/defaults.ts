@@ -13,6 +13,7 @@ import {
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
+import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '../../tag'
 import { defaultProps } from './useProps'
 import SelectV2 from './select.vue'
@@ -52,6 +53,7 @@ export const selectV2Props = buildProps({
    */
   clearIcon: {
     type: iconPropType,
+    default: CircleClose,
   },
   /**
    * @description tooltip theme, built-in theme: `dark` / `light`
@@ -300,6 +302,7 @@ export const selectV2Props = buildProps({
   },
   suffixIcon: {
     type: iconPropType,
+    default: ArrowDown,
   },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),

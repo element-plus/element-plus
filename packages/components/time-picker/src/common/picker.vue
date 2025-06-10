@@ -286,7 +286,7 @@ const clearIconKls = computed(() => [
 ])
 
 const clearIconComponent = computed(
-  () => props.clearIcon || globalIcons.value.clear
+  () => globalIcons.value.clear || props.clearIcon
 )
 
 watch(pickerVisible, (val) => {

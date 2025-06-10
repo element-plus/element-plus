@@ -1,22 +1,5 @@
-import {
-  computed,
-  getCurrentInstance,
-  inject,
-  markRaw,
-  provide,
-  ref,
-  unref,
-} from 'vue'
+import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
 import { debugWarn, keysOf } from '@element-plus/utils'
-import {
-  ArrowDown,
-  CircleClose,
-  CircleCloseFilled,
-  Close,
-  InfoFilled,
-  SuccessFilled,
-  WarningFilled,
-} from '@element-plus/icons-vue'
 import {
   SIZE_INJECTION_KEY,
   defaultInitialZIndex,
@@ -34,6 +17,7 @@ import { configProviderContextKey } from '../constants'
 import type { MaybeRef } from '@vueuse/core'
 import type { App, Ref } from 'vue'
 import type { ConfigProviderContext } from '../constants'
+import type { IconConfigContext } from '../config-provider-props'
 
 // this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
 // into the component as default injection value.
@@ -89,19 +73,8 @@ export function useGlobalComponentSettings(
   }
 }
 
-const defaultIcons = {
-  close: markRaw(Close),
-  dropdown: markRaw(ArrowDown),
-  clear: markRaw(CircleClose),
-  success: markRaw(SuccessFilled),
-  info: markRaw(InfoFilled),
-  warning: markRaw(WarningFilled),
-  error: markRaw(CircleCloseFilled),
-}
-
 export function useGlobalIcons() {
-  const globalConfig = useGlobalConfig('icons', defaultIcons)
-  return computed(() => Object.assign(defaultIcons, globalConfig.value))
+  return useGlobalConfig('icons', {} as IconConfigContext)
 }
 
 export const provideGlobalConfig = (

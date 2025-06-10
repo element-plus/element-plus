@@ -47,14 +47,16 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useEventListener, useResizeObserver, useTimeoutFn } from '@vueuse/core'
+import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
 import {
+  iconsConfig,
   useGlobalComponentSettings,
   useGlobalIcons,
 } from '@element-plus/components/config-provider'
 import { ElIcon } from '@element-plus/components/icon'
-import { messageEmits, messageProps, messageTypes } from './message'
+import { messageEmits, messageProps } from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
 import type { BadgeProps } from '@element-plus/components/badge'
 import type { CSSProperties } from 'vue'
@@ -84,14 +86,16 @@ const badgeType = computed<BadgeProps['type']>(() =>
 )
 const typeClass = computed(() => {
   const type = props.type
-  return { [ns.bm('icon', type)]: type && messageTypes.includes(type) }
+  return { [ns.bm('icon', type)]: type && TypeComponentsMap[type] }
 })
-const iconComponent = computed(
-  () =>
-    props.icon ||
-    globalIcons.value[props.type === 'primary' ? 'info' : props.type] ||
+const iconComponent = computed(() => {
+  return (
+    props.icon ??
+    iconsConfig[props.type === 'primary' ? 'info' : props.type] ??
+    TypeComponentsMap[props.type] ??
     ''
-)
+  )
+})
 
 const lastOffset = computed(() => getLastOffset(props.id))
 const offset = computed(

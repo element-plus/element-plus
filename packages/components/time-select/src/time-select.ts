@@ -1,5 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import { Clock } from '@element-plus/icons-vue'
+import { CircleClose, Clock } from '@element-plus/icons-vue'
 import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import type { PopperEffect } from '@element-plus/components/popper'
 import type TimeSelect from './time-select.vue'
@@ -102,6 +102,7 @@ export const timeSelectProps = buildProps({
    */
   clearIcon: {
     type: definePropType<string | Component>([String, Object]),
+    default: () => CircleClose,
   },
   ...useEmptyValuesProps,
 } as const)

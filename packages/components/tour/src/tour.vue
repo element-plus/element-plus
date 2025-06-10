@@ -130,7 +130,7 @@ provide(tourKey, {
   current,
   total,
   showClose: toRef(props, 'showClose'),
-  closeIcon: computed(() => props.closeIcon || globalIcons.value.close),
+  closeIcon: computed(() => globalIcons.value.close ?? props.closeIcon ?? ''),
   mergedType: mergedType as any,
   ns,
   slots,
