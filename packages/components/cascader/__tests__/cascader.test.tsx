@@ -1,6 +1,7 @@
 import { Comment, h, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
+import { ElScrollbar, ElTag, ElTooltip } from 'element-plus'
 import { EVENT_CODE } from '@element-plus/constants'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
@@ -366,14 +367,26 @@ describe('Cascader.vue', () => {
       />
     ))
     await nextTick()
-    const tooltipTrigger = wrapper.find('.el-tag__content')
-
-    expect(tooltipTrigger.exists()).toBe(true)
-    await tooltipTrigger.trigger('hover')
-    const popper = document.querySelector('.el-popper')
-    expect(popper).toBeTruthy()
-    const scrollbar = popper?.querySelector('.el-scrollbar')
+    const tagTriggers = wrapper.findAllComponents(ElTag)
+    const collapseTags = tagTriggers.filter((item) => {
+      return !hasClass(item.element, 'is-closable')
+    })
+    expect(collapseTags.length).toBe(1)
+    const collapseTag = collapseTags[0]
+    await collapseTag.trigger('hover')
+    const scrollbars = wrapper.findAllComponents(ElScrollbar).filter((item) => {
+      return !hasClass(item.element, 'el-cascader-menu')
+    })
+    expect(scrollbars.length).toBe(1)
+    const scrollbar = scrollbars[0]
     expect(scrollbar).toBeDefined()
+    expect(scrollbar?.vm.maxHeight).toBe(200)
+    const tooltip = await collapseTag.getComponent(ElTooltip)
+    expect(tooltip).toBeDefined()
+    await tooltip.trigger('hover')
+    expect(
+      scrollbar?.find('.el-scrollbar__wrap').attributes('style')
+    ).toContain('max-height: 200px;')
   })
 
   test('tag type', async () => {
