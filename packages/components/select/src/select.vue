@@ -300,7 +300,7 @@
 </template>
 
 <script lang="ts">
-import { Fragment, computed, defineComponent, h, nextTick, provide, reactive, toRefs, watchEffect } from 'vue'
+import { Fragment, computed, defineComponent, h, provide, reactive, toRefs, watch } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -403,13 +403,15 @@ export default defineComponent({
         }
       })
     }
-    watchEffect(() => {
-      if (!props.persistent) {
-        nextTick(() => {
-          const defaultSlots = h(Fragment, slots.default?.() ?? []).children
-          manuallyRenderSlots(defaultSlots)
-        })
-      }
+    watch(() => {
+      const slotsContent = slots.default?.() ?? []
+      const defaultSlots = h(Fragment, slotsContent).children
+      return defaultSlots
+    }, newSlot => {
+      manuallyRenderSlots(newSlot)
+    }, {
+      immediate: true,
+      flush: 'post',
     })
 
     provide(
