@@ -1,7 +1,7 @@
+import { BACKWARD, FORWARD } from './defaults'
 import type { CSSProperties, ComponentInternalInstance, Ref } from 'vue'
 
 export type Instance = ComponentInternalInstance
-
 export type Alignment = 'auto' | 'smart' | 'center' | 'start' | 'end'
 export type ItemSize = (idx: number) => number
 export type Direction = 'ltr' | 'rtl'
@@ -215,3 +215,13 @@ export type GridItemKeyGetter = <
   data: T
   rowIndex: number
 }) => string | number
+
+type Dir = typeof FORWARD | typeof BACKWARD
+export interface GridStates {
+  isScrolling: boolean
+  scrollLeft: number
+  scrollTop: number
+  updateRequested: boolean
+  xAxisScrollDir: Dir
+  yAxisScrollDir: Dir
+}

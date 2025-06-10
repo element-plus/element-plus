@@ -22,6 +22,7 @@ import { useNamespace } from '@element-plus/hooks'
 import Scrollbar from '../components/scrollbar'
 import { useGridWheel } from '../hooks/use-grid-wheel'
 import { useCache } from '../hooks/use-cache'
+import { useGardTouch } from '../hooks/use-grid-touch'
 import { virtualizedGridProps } from '../props'
 import { getRTLOffsetType, getScrollDir, isRTL } from '../utils'
 import {
@@ -35,6 +36,7 @@ import {
   RTL_OFFSET_POS_DESC,
   SCROLL_EVT,
 } from '../defaults'
+
 import type {
   CSSProperties,
   Ref,
@@ -47,6 +49,7 @@ import type {
   Alignment,
   GridConstructorProps,
   GridScrollOptions,
+  GridStates,
   ScrollbarExpose,
 } from '../types'
 import type { VirtualizedGridProps } from '../props'
@@ -89,8 +92,8 @@ const createGrid = ({
       const hScrollbar = ref<ScrollbarExpose>()
       const vScrollbar = ref<ScrollbarExpose>()
       // innerRef is the actual container element which contains all the elements
-      const innerRef = ref(null)
-      const states = ref({
+      const innerRef = ref<HTMLElement>()
+      const states = ref<GridStates>({
         isScrolling: false,
         scrollLeft: isNumber(props.initScrollLeft) ? props.initScrollLeft : 0,
         scrollTop: isNumber(props.initScrollTop) ? props.initScrollTop : 0,
@@ -361,46 +364,6 @@ const createGrid = ({
         passive: false,
       })
 
-      const touchStartX = ref(0)
-      const touchStartY = ref(0)
-
-      const handleTouchStart = (event: TouchEvent) => {
-        touchStartX.value = event.touches[0].clientX
-        touchStartY.value = event.touches[0].clientY
-      }
-
-      const handleTouchMove = (event: TouchEvent) => {
-        event.preventDefault()
-        const deltaX = touchStartX.value - event.touches[0].clientX
-        const deltaY = touchStartY.value - event.touches[0].clientY
-
-        const maxScrollLeft = estimatedTotalWidth.value - unref(parsedWidth)
-        const maxScrollTop = estimatedTotalHeight.value - unref(parsedHeight)
-
-        const safeScrollLeft = Math.min(
-          states.value.scrollLeft + deltaX,
-          maxScrollLeft
-        )
-        const safeScrollTop = Math.min(
-          states.value.scrollTop + deltaY,
-          maxScrollTop
-        )
-
-        scrollTo({
-          scrollLeft: safeScrollLeft,
-          scrollTop: safeScrollTop,
-        })
-
-        handleTouchStart(event)
-      }
-
-      useEventListener(windowRef, 'touchstart', handleTouchStart, {
-        passive: true,
-      })
-      useEventListener(windowRef, 'touchmove', handleTouchMove, {
-        passive: false,
-      })
-
       const scrollTo = ({
         scrollLeft = states.value.scrollLeft,
         scrollTop = states.value.scrollTop,
@@ -429,6 +392,17 @@ const createGrid = ({
         onUpdated()
         emitEvents()
       }
+
+      const { touchStartX, touchStartY, handleTouchStart, handleTouchMove } =
+        useGardTouch(
+          windowRef,
+          states,
+          scrollTo,
+          estimatedTotalWidth,
+          estimatedTotalHeight,
+          parsedWidth,
+          parsedHeight
+        )
 
       const scrollToItem = (
         rowIndex = 0,
@@ -714,8 +688,6 @@ const createGrid = ({
 
 export default createGrid
 
-type Dir = typeof FORWARD | typeof BACKWARD
-
 export type GridInstance = InstanceType<ReturnType<typeof createGrid>> &
   UnwrapRef<{
     windowRef: Ref<HTMLElement>
@@ -727,12 +699,5 @@ export type GridInstance = InstanceType<ReturnType<typeof createGrid>> &
       columnIndex: number,
       alignment: Alignment
     ) => void
-    states: Ref<{
-      isScrolling: boolean
-      scrollLeft: number
-      scrollTop: number
-      updateRequested: boolean
-      xAxisScrollDir: Dir
-      yAxisScrollDir: Dir
-    }>
+    states: Ref<GridStates>
   }>
