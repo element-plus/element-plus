@@ -353,6 +353,7 @@ export default defineComponent({
       if (!args[0] || args[0].includes('Slot "default" invoked outside of the render function')) {
         return
       }
+      // eslint-disable-next-line no-console
       console.warn(...args)
     }
     const modelValue = computed(() => {
