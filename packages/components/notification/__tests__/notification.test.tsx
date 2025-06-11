@@ -2,7 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { TypeComponentsMap } from '@element-plus/utils'
-import { Close, CloseBold } from '@element-plus/icons-vue'
+import { CloseBold } from '@element-plus/icons-vue'
 import { EVENT_CODE } from '@element-plus/constants'
 import { notificationTypes } from '../src/notification'
 import Notification from '../src/notification.vue'
@@ -104,7 +104,7 @@ describe('Notification.vue', () => {
         },
       })
 
-      expect(wrapper.findComponent(Close).exists()).toBe(true)
+      expect(wrapper.find('.el-notification__closeBtn').exists()).toBe(true)
     })
 
     test('should be able to render custom close icon', () => {
