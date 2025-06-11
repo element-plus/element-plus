@@ -382,6 +382,8 @@ describe('Select', () => {
   })
 
   test('the scenario of rendering label when there is a default value and persistent is false', async () => {
+    // This is convenient for testing the default value label rendering when persistent is false.
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
       `
       <el-select v-model="value" :persistent="false">
@@ -410,9 +412,12 @@ describe('Select', () => {
     await nextTick()
 
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
   test('when there is a default value and persistent is false, render the label and dynamically modify options', async () => {
+    // This is convenient for testing the default value label rendering when persistent is false.
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
       `
       <el-select v-model="value" :persistent="false">
@@ -444,9 +449,12 @@ describe('Select', () => {
     await nextTick()
 
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
   test('multiple is true and persistent is false', async () => {
+    // This is convenient for testing the default value label rendering when persistent is false.
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     wrapper = _mount(
       `
       <el-select v-model="value" :persistent="false" multiple>
@@ -477,6 +485,7 @@ describe('Select', () => {
     const tags = wrapper.findAll(`.${TAG_NAME}`)
     expect(tags.length).toBe(1)
     expect(tags[0].text()).toBe('双皮奶')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
   test('multiple is true and persistent is false, render the label and dynamically modify options', async () => {
@@ -1382,7 +1391,7 @@ describe('Select', () => {
 
   test('multiple select with collapseTagsTooltip', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
-    process.env.RUN_TEST_WITH_PERSISTENT = true
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
 
     wrapper = _mount(
       `
