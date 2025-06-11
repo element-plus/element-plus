@@ -96,7 +96,7 @@ const positionStyle = computed<CSSProperties>(() => {
 })
 
 const closeIconComponent = computed(() => {
-  return props.closeIcon || globalIcons.value.close
+  return globalIcons.value.close || props.closeIcon
 })
 
 function startTimer() {
