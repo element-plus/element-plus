@@ -179,11 +179,11 @@ import {
   isValidComponentSize,
 } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
-import { Loading } from '@element-plus/icons-vue'
+import { Close, Loading } from '@element-plus/icons-vue'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import {
+  iconsConfig,
   useGlobalComponentSettings,
-  useGlobalIcons,
 } from '@element-plus/components/config-provider'
 import { messageTypes } from '@element-plus/components/message/src/message'
 
@@ -255,6 +255,7 @@ export default defineComponent({
     },
     closeIcon: {
       type: [String, Object] as PropType<string | Component>,
+      default: Close,
     },
   },
   emits: ['vanish', 'action'],
@@ -330,7 +331,7 @@ export default defineComponent({
       const type = state.type
       return (
         state.icon ||
-        (type && globalIcons.value[type === 'primary' ? 'info' : type]) ||
+        (type && iconsConfig[type === 'primary' ? 'info' : type]) ||
         ''
       )
     })
@@ -343,10 +344,8 @@ export default defineComponent({
 
     const confirmButtonClasses = computed(() => state.confirmButtonClass)
 
-    const globalIcons = useGlobalIcons()
-
     const closeIconComponent = computed(() => {
-      return props.closeIcon || globalIcons.value.close
+      return iconsConfig.close ?? props.closeIcon
     })
 
     watch(

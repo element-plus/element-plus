@@ -53,15 +53,12 @@ import ElBadge from '@element-plus/components/badge'
 import {
   iconsConfig,
   useGlobalComponentSettings,
-  useGlobalIcons,
 } from '@element-plus/components/config-provider'
 import { ElIcon } from '@element-plus/components/icon'
 import { messageEmits, messageProps } from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
 import type { BadgeProps } from '@element-plus/components/badge'
 import type { CSSProperties } from 'vue'
-
-const globalIcons = useGlobalIcons()
 
 defineOptions({
   name: 'ElMessage',
@@ -107,9 +104,7 @@ const customStyle = computed<CSSProperties>(() => ({
   zIndex: currentZIndex.value,
 }))
 
-const closeIconComponent = computed(
-  () => props.closeIcon || globalIcons.value.close
-)
+const closeIconComponent = computed(() => iconsConfig.close ?? props.closeIcon)
 
 function startTimer() {
   if (props.duration === 0) return
