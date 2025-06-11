@@ -69,54 +69,18 @@
 import { reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
-  ArrowDown,
   ArrowDownBold,
   Bell,
   CircleClose,
-  CircleCloseFilled,
   Close,
-  InfoFilled,
-  SuccessFilled,
-  WarningFilled,
 } from '@element-plus/icons-vue'
 
 const icons = reactive({
   close: CircleClose,
-  dropdown: ArrowDownBold,
+  arrowDown: ArrowDownBold,
   clear: Close,
   info: Bell,
 })
-
-const iconsTable = [
-  {
-    property: 'close',
-    default: Close,
-  },
-  {
-    property: 'dropdown',
-    default: ArrowDown,
-  },
-  {
-    property: 'clear',
-    default: CircleClose,
-  },
-  {
-    property: 'success',
-    default: SuccessFilled,
-  },
-  {
-    property: 'info',
-    default: InfoFilled,
-  },
-  {
-    property: 'warning',
-    default: WarningFilled,
-  },
-  {
-    property: 'error',
-    default: CircleCloseFilled,
-  },
-]
 
 const options = [
   {

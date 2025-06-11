@@ -155,7 +155,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const iconComponent = computed(() =>
     props.remote && props.filterable && !props.remoteShowSuffix
       ? ''
-      : globalIcons.value.dropdown || props.suffixIcon
+      : globalIcons.value.arrowDown || props.suffixIcon
   )
   const iconReverse = computed(() =>
     nsSelect.is('reverse', !!(iconComponent.value && expanded.value))

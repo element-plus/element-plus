@@ -85,7 +85,7 @@
           :aria-label="t('el.dropdown.toggleDropdown')"
         >
           <el-icon :class="ns.e('icon')">
-            <component :is="globalIcons.dropdown" />
+            <component :is="globalIcons.arrowDown" />
           </el-icon>
         </el-button>
       </el-button-group>

@@ -14,7 +14,7 @@ export type ExperimentalFeatures = {
 
 export type IconConfigContext = {
   close?: string | Component
-  dropdown?: string | Component
+  arrowDown?: string | Component
   clear?: string | Component
   success?: string | Component
   info?: string | Component

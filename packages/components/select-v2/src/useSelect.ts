@@ -168,7 +168,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   const iconComponent = computed(() =>
     props.remote && props.filterable
       ? ''
-      : globalIcons.value.dropdown || props.suffixIcon
+      : globalIcons.value.arrowDown || props.suffixIcon
   )
 
   const iconReverse = computed(
