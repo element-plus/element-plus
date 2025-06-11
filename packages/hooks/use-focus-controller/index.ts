@@ -2,7 +2,7 @@ import { getCurrentInstance, onMounted, ref, shallowRef, watch } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { isElement, isFunction } from '@element-plus/utils'
 // eslint-disable-next-line no-restricted-imports
-import { useFormDisabled } from '@element-plus/components/form/src/hooks/use-form-common-props' // TODO: move to @element-plus/hooks
+import { useFormDisabled } from '@element-plus/components/form/src/hooks/use-form-common-props' // TODO: remove this
 import type { ShallowRef } from 'vue'
 
 interface UseFocusControllerOptions {

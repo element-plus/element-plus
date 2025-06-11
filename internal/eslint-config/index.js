@@ -137,8 +137,8 @@ module.exports = defineConfig({
     },
     {
       files: [
-        'docs/examples/**/*.{js,ts,vue}',
-        'docs/en-US/**/*.md/*.{js,ts,vue}',
+        'docs/examples/**/*.{js,jsx,ts,tsx,vue}',
+        'docs/en-US/**/*.md/*.{js,jsx,ts,tsx,vue}',
       ],
       rules: {
         'no-console': 'off',
@@ -169,11 +169,11 @@ module.exports = defineConfig({
     },
     {
       files: [
-        'internal/**/*.{js,ts,vue}',
-        'packages/constants/**/*.{js,ts,vue}',
-        'packages/locale/**/*.{js,ts,vue}',
-        'packages/test-utils/**/*.{js,ts,vue}',
-        'packages/theme-chalk/**/*.{js,ts,vue}',
+        'internal/**/*.{js,ts}',
+        'packages/constants/**/*.{js,ts}',
+        'packages/locale/**/*.{js,ts}',
+        'packages/test-utils/**/*.{js,ts}',
+        'packages/theme-chalk/**/*.{js,ts}',
       ],
       rules: {
         'no-restricted-imports': [
@@ -215,8 +215,51 @@ module.exports = defineConfig({
     },
     {
       files: [
-        'packages/components/**/*.{js,ts,vue}',
-        'packages/element-plus/**/*.{js,ts,vue}',
+        'packages/directives/**/*.{js,jsx,ts,tsx,vue}',
+        'packages/hooks/**/*.{js,jsx,ts,tsx,vue}',
+        'packages/utils/**/*.{js,jsx,ts,tsx,vue}',
+      ],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            paths: [
+              { name: 'lodash', message: 'Use lodash-unified instead.' },
+              { name: 'lodash-es', message: 'Use lodash-unified instead.' },
+              { name: 'element-plus', message: 'Use @element-plus/* instead.' },
+            ],
+            patterns: [
+              {
+                group: ['lodash/*', 'lodash-es/*'],
+                message: 'Use lodash-unified instead.',
+              },
+              {
+                group: ['element-plus/*'],
+                message: 'Use @element-plus/* instead.',
+              },
+              {
+                group: [
+                  '@element-plus/components',
+                  '@element-plus/element-plus',
+                  '@element-plus/theme-chalk',
+                  '@element-plus/build',
+                  '@element-plus/build-constants',
+                  '@element-plus/build-utils',
+                  '@element-plus/eslint-config',
+                  '@element-plus/metadata',
+                ],
+                message:
+                  'Please do not use this dependency in the current file.',
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      files: [
+        'packages/components/**/*.{js,jsx,ts,tsx,vue}',
+        'packages/element-plus/**/*.{js,jsx,ts,tsx,vue}',
       ],
       rules: {
         'no-restricted-imports': [
@@ -250,49 +293,6 @@ module.exports = defineConfig({
               },
               {
                 group: [
-                  '@element-plus/build',
-                  '@element-plus/build-constants',
-                  '@element-plus/build-utils',
-                  '@element-plus/eslint-config',
-                  '@element-plus/metadata',
-                ],
-                message:
-                  'Please do not use this dependency in the current file.',
-              },
-            ],
-          },
-        ],
-      },
-    },
-    {
-      files: [
-        'packages/directives/**/*.{js,ts,vue}',
-        'packages/hooks/**/*.{js,ts,vue}',
-        'packages/utils/**/*.{js,ts,vue}',
-      ],
-      rules: {
-        'no-restricted-imports': [
-          'error',
-          {
-            paths: [
-              { name: 'lodash', message: 'Use lodash-unified instead.' },
-              { name: 'lodash-es', message: 'Use lodash-unified instead.' },
-              { name: 'element-plus', message: 'Use @element-plus/* instead.' },
-            ],
-            patterns: [
-              {
-                group: ['lodash/*', 'lodash-es/*'],
-                message: 'Use lodash-unified instead.',
-              },
-              {
-                group: ['element-plus/*'],
-                message: 'Use @element-plus/* instead.',
-              },
-              {
-                group: [
-                  '@element-plus/components',
-                  '@element-plus/element-plus',
-                  '@element-plus/theme-chalk',
                   '@element-plus/build',
                   '@element-plus/build-constants',
                   '@element-plus/build-utils',
