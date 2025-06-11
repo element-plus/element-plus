@@ -70,7 +70,7 @@
                 @click="handleClose"
               >
                 <el-icon :class="ns.e('close')">
-                  <close />
+                  <component :is="closeIconComponent" />
                 </el-icon>
               </button>
             </header>
@@ -91,7 +91,6 @@
 
 <script lang="ts" setup>
 import { computed, ref, useSlots } from 'vue'
-import { Close } from '@element-plus/icons-vue'
 
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
@@ -100,6 +99,7 @@ import { useDialog } from '@element-plus/components/dialog'
 import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
+import { useGlobalIcons } from '@element-plus/components/config-provider'
 import { drawerEmits, drawerProps } from './drawer'
 
 defineOptions({
@@ -110,6 +110,8 @@ defineOptions({
 const props = defineProps(drawerProps)
 defineEmits(drawerEmits)
 const slots = useSlots()
+
+const globalIcons = useGlobalIcons()
 
 useDeprecated(
   {
@@ -147,6 +149,10 @@ const isHorizontal = computed(
   () => props.direction === 'rtl' || props.direction === 'ltr'
 )
 const drawerSize = computed(() => addUnit(props.size))
+
+const closeIconComponent = computed(
+  () => globalIcons.value.close ?? props.closeIcon
+)
 
 defineExpose({
   handleClose,
