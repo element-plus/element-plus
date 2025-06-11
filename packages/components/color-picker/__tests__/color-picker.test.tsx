@@ -168,6 +168,17 @@ describe('Color-picker', () => {
     expect(color.value).toBeNull()
     wrapper.unmount()
   })
+  it("should set '' as null when confirm button click", async () => {
+    const color = ref('')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value} show-alpha={true} />
+    ))
+    await wrapper.find('.el-color-picker__trigger').trigger('click')
+    document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
+
+    expect(color.value).toBeNull()
+    wrapper.unmount()
+  })
   it('should change hue when clicking the hue bar', async () => {
     const color = ref('#f00')
     const wrapper = mount(() => <ColorPicker v-model={color.value} />)
