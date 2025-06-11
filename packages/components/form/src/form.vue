@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
-import { debugWarn, isFunction, isString } from '@element-plus/utils'
+import { debugWarn, isFunction } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
 import { formContextKey } from './constants'
@@ -48,7 +48,7 @@ const formClasses = computed(() => {
 })
 
 const getField: FormContext['getField'] = (prop) => {
-  return filterFields(fields, isString(prop) ? prop : [prop])[0]
+  return filterFields(fields, [prop])[0]
 }
 
 const addField: FormContext['addField'] = (field) => {
