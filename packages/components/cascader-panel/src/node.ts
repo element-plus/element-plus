@@ -161,8 +161,11 @@ class Node {
     return node
   }
 
-  calcText(allLevels: boolean, separator: string) {
-    const text = allLevels ? this.pathLabels.join(separator) : this.label
+  calcText(allLevels: boolean, separator: string, topLevelOnly: boolean) {
+    let text = allLevels ? this.pathLabels.join(separator) : this.label
+    if (topLevelOnly) {
+      text = this.pathLabels[0]
+    }
     this.text = text
     return text
   }
