@@ -17,7 +17,6 @@ import { configProviderContextKey } from '../constants'
 import type { MaybeRef } from '@vueuse/core'
 import type { App, Ref } from 'vue'
 import type { ConfigProviderContext } from '../constants'
-import type { IconConfigContext } from '../config-provider-props'
 
 // this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
 // into the component as default injection value.
@@ -74,7 +73,7 @@ export function useGlobalComponentSettings(
 }
 
 export function useGlobalIcons() {
-  return useGlobalConfig('icons', {} as IconConfigContext)
+  return useGlobalConfig('icons')
 }
 
 export const provideGlobalConfig = (

@@ -70,12 +70,12 @@ const ns = useNamespace('alert')
 const visible = ref(false)
 
 const closeIconComponent = computed(
-  () => globalIcons.value.close ?? TypeComponents.Close
+  () => globalIcons.value?.close ?? TypeComponents.Close
 )
 
 const iconComponent = computed(
   () =>
-    globalIcons.value[props.type === 'primary' ? 'info' : props.type] ??
+    globalIcons.value?.[props.type === 'primary' ? 'info' : props.type] ??
     TypeComponentsMap[props.type]
 )
 

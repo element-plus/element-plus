@@ -85,7 +85,7 @@
           :aria-label="t('el.dropdown.toggleDropdown')"
         >
           <el-icon :class="ns.e('icon')">
-            <component :is="globalIcons.arrowDown" />
+            <component :is="arrowDownIconComponent" />
           </el-icon>
         </el-button>
       </el-button-group>
@@ -113,6 +113,7 @@ import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useFormSize } from '@element-plus/components/form'
 import { addUnit, ensureArray } from '@element-plus/utils'
+import { ArrowDown } from '@element-plus/icons-vue'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { useGlobalIcons } from '@element-plus/components/config-provider'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
@@ -137,6 +138,7 @@ export default defineComponent({
     ElRovingFocusGroup,
     ElOnlyChild,
     ElIcon,
+    ArrowDown,
   },
   props: dropdownProps,
   emits: ['visible-change', 'click', 'command'],
@@ -162,6 +164,10 @@ export default defineComponent({
 
     const defaultTriggerId = useId().value
     const triggerId = computed<string>(() => props.id || defaultTriggerId)
+
+    const arrowDownIconComponent = computed(
+      () => globalIcons.value?.arrowDown || ArrowDown
+    )
 
     // The goal of this code is to focus on the tooltip triggering element when it is hovered.
     // This is a temporary fix for where closing the dropdown through pointerleave event focuses on a
@@ -313,7 +319,7 @@ export default defineComponent({
       contentRef,
       triggeringElementRef,
       referenceElementRef,
-      globalIcons,
+      arrowDownIconComponent,
     }
   },
 })

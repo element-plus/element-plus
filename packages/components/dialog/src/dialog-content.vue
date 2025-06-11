@@ -59,7 +59,7 @@ const dialogKls = computed(() => [
 ])
 
 const closeIconComponent = computed(
-  () => globalIcons.value.close ?? props.closeIcon
+  () => globalIcons.value?.close ?? props.closeIcon
 )
 
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)

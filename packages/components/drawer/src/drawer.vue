@@ -151,7 +151,7 @@ const isHorizontal = computed(
 const drawerSize = computed(() => addUnit(props.size))
 
 const closeIconComponent = computed(
-  () => globalIcons.value.close ?? props.closeIcon
+  () => globalIcons.value?.close ?? props.closeIcon
 )
 
 defineExpose({
