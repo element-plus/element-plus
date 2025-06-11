@@ -36,7 +36,7 @@ import { useNamespace, useZIndex } from '@element-plus/hooks'
 import { isBoolean } from '@element-plus/utils'
 import ElTeleport from '@element-plus/components/teleport'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useGlobalIcons } from '@element-plus/components/config-provider'
+import { iconsConfig } from '@element-plus/components/config-provider'
 import ElTourMask from './mask.vue'
 import ElTourContent from './content.vue'
 import ElTourSteps from './steps'
@@ -54,7 +54,6 @@ const emit = defineEmits(tourEmits)
 const ns = useNamespace('tour')
 const total = ref(0)
 const currentStep = ref<TourStepProps>()
-const globalIcons = useGlobalIcons()
 
 const current = useVModel(props, 'current', emit, {
   passive: true,
@@ -130,7 +129,7 @@ provide(tourKey, {
   current,
   total,
   showClose: toRef(props, 'showClose'),
-  closeIcon: computed(() => globalIcons.value.close ?? props.closeIcon ?? ''),
+  closeIcon: computed((): any => iconsConfig.close ?? props.closeIcon),
   mergedType: mergedType as any,
   ns,
   slots,

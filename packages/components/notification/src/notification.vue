@@ -45,8 +45,8 @@ import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import {
+  iconsConfig,
   useGlobalComponentSettings,
-  useGlobalIcons,
 } from '@element-plus/components/config-provider'
 import { notificationEmits, notificationProps } from './notification'
 
@@ -61,7 +61,6 @@ defineEmits(notificationEmits)
 
 const { ns, zIndex } = useGlobalComponentSettings('notification')
 const { nextZIndex, currentZIndex } = zIndex
-const globalIcons = useGlobalIcons()
 
 const visible = ref(false)
 let timer: (() => void) | undefined = undefined
@@ -74,7 +73,7 @@ const typeClass = computed(() => {
 const iconComponent = computed(() => {
   if (!props.type) return props.icon
   return (
-    globalIcons.value[props.type === 'primary' ? 'info' : props.type] ??
+    iconsConfig[props.type === 'primary' ? 'info' : props.type] ??
     TypeComponentsMap[props.type] ??
     props.icon
   )
@@ -96,7 +95,7 @@ const positionStyle = computed<CSSProperties>(() => {
 })
 
 const closeIconComponent = computed(() => {
-  return globalIcons.value.close || props.closeIcon
+  return iconsConfig.close ?? props.closeIcon
 })
 
 function startTimer() {
