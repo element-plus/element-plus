@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getCurrentInstance, nextTick, unref } from 'vue'
 import { isNull } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
@@ -10,7 +9,7 @@ import type { Filter, Sort, Table } from '../table/defaults'
 
 interface WatcherPropsData<T> {
   data: Ref<T[]>
-  rowKey: Ref<string>
+  rowKey: Ref<string | null>
 }
 
 function replaceColumn<T>(
@@ -85,7 +84,7 @@ function useStore<T>() {
         if (parent && !parent.children) {
           parent.children = []
         }
-        parent.children.push(column)
+        parent.children!.push(column)
         newColumns = replaceColumn(array, parent)
       }
       sortColumn(newColumns)
@@ -119,7 +118,7 @@ function useStore<T>() {
       updateColumnOrder: () => void
     ) {
       const array = unref(states._columns) || []
-      if (parent) {
+      if (parent && parent.children) {
         parent.children.splice(
           parent.children.findIndex((item) => item.id === column.id),
           1
@@ -199,10 +198,11 @@ function useStore<T>() {
     },
 
     toggleAllSelection() {
-      instance.store.toggleAllSelection()
+      //TODO: enquete la dessus
+      ;(instance.store.toggleAllSelection as any)()
     },
 
-    rowSelectedChanged(_states, row: T) {
+    rowSelectedChanged(_states: StoreStates, row: T) {
       instance.store.toggleRowSelection(row)
       instance.store.updateAllSelected()
     },
@@ -211,14 +211,17 @@ function useStore<T>() {
       states.hoverRow.value = row
     },
 
-    setCurrentRow(_states, row: T) {
+    setCurrentRow(_states: StoreStates, row: T) {
       instance.store.updateCurrentRow(row)
     },
   }
-  const commit = function (name: keyof typeof mutations, ...args) {
+  const commit = function (name: keyof typeof mutations, ...args: any) {
     const mutations = instance.store.mutations
     if (mutations[name]) {
-      mutations[name].apply(instance, [instance.store.states].concat(args))
+      ;(mutations[name] as any).apply(
+        instance,
+        [instance.store.states].concat(args)
+      )
     } else {
       throw new Error(`Action not found: ${name}`)
     }

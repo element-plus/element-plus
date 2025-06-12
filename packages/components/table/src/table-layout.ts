@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { isRef, nextTick, ref } from 'vue'
 import { isNull } from 'lodash-unified'
 import { hasOwn, isClient, isNumber, isString } from '@element-plus/utils'
@@ -24,15 +23,16 @@ class TableLayout<T> {
   bodyWidth: Ref<null | number>
   fixedWidth: Ref<null | number>
   rightFixedWidth: Ref<null | number>
-  tableHeight: Ref<null | number>
-  headerHeight: Ref<null | number> // Table Header Height
-  appendHeight: Ref<null | number> // Append Slot Height
-  footerHeight: Ref<null | number> // Table Footer Height
+  //HACK: should not be normal to comment this ?
+  //tableHeight: Ref<null | number>
+  //headerHeight: Ref<null | number> // Table Header Height
+  //appendHeight: Ref<null | number> // Append Slot Height
+  //footerHeight: Ref<null | number> // Table Footer Height
   gutterWidth: number
   constructor(options: Record<string, any>) {
     this.observers = []
-    this.table = null
-    this.store = null
+    this.table = null as unknown as Table<T>
+    this.store = null as unknown as Store<T>
     this.columns = []
     this.fit = true
     this.showHeader = true
@@ -46,9 +46,9 @@ class TableLayout<T> {
     for (const name in options) {
       if (hasOwn(options, name)) {
         if (isRef(this[name])) {
-          this[name as string].value = options[name]
+          ;(this[name] as Ref<any>).value = options[name] as any
         } else {
-          this[name as string] = options[name]
+          this[name as keyof typeof this] = options[name]
         }
       }
     }
@@ -79,19 +79,21 @@ class TableLayout<T> {
     return false
   }
 
-  setHeight(value: string | number, prop = 'height') {
+  setHeight(value: string | number | null, prop = 'height'): void {
     if (!isClient) return
     const el = this.table.vnode.el
     value = parseHeight(value)
     this.height.value = Number(value)
 
-    if (!el && (value || value === 0))
-      return nextTick(() => this.setHeight(value, prop))
+    if (!el && (value || value === 0)) {
+      nextTick(() => this.setHeight(value, prop))
+      return
+    }
 
-    if (isNumber(value)) {
+    if (el && isNumber(value)) {
       el.style[prop] = `${value}px`
       this.updateElsHeight()
-    } else if (isString(value)) {
+    } else if (el && isString(value)) {
       el.style[prop] = value
       this.updateElsHeight()
     }
@@ -102,9 +104,9 @@ class TableLayout<T> {
   }
 
   getFlattenColumns(): TableColumnCtx<T>[] {
-    const flattenColumns = []
+    const flattenColumns: any[] = []
     const columns = this.table.store.states.columns.value
-    columns.forEach((column) => {
+    columns.forEach((column: any) => {
       if (column.isColumnGroup) {
         // eslint-disable-next-line prefer-spread
         flattenColumns.push.apply(flattenColumns, column.columns)
@@ -128,7 +130,7 @@ class TableLayout<T> {
       if (getComputedStyle(headerChild).display === 'none') {
         return true
       }
-      headerChild = headerChild.parentElement
+      headerChild = headerChild.parentElement!
     }
     return false
   }
@@ -136,7 +138,7 @@ class TableLayout<T> {
   updateColumnsWidth() {
     if (!isClient) return
     const fit = this.fit
-    const bodyWidth = this.table.vnode.el.clientWidth
+    const bodyWidth = this.table.vnode.el?.clientWidth
     let bodyMinWidth = 0
 
     const flattenColumns = this.getFlattenColumns()
@@ -210,7 +212,7 @@ class TableLayout<T> {
 
     if (fixedColumns.length > 0) {
       let fixedWidth = 0
-      fixedColumns.forEach((column) => {
+      fixedColumns.forEach((column: any) => {
         fixedWidth += Number(column.realWidth || column.width)
       })
 
@@ -220,7 +222,7 @@ class TableLayout<T> {
     const rightFixedColumns = this.store.states.rightFixedColumns.value
     if (rightFixedColumns.length > 0) {
       let rightFixedWidth = 0
-      rightFixedColumns.forEach((column) => {
+      rightFixedColumns.forEach((column: any) => {
         rightFixedWidth += Number(column.realWidth || column.width)
       })
 

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createVNode, isVNode, render } from 'vue'
 import { flatMap, get, isNull, merge } from 'lodash-unified'
 import {
@@ -55,10 +54,10 @@ export const getCell = function (event: Event) {
 
 export const orderBy = function <T>(
   array: T[],
-  sortKey: string,
-  reverse: string | number,
-  sortMethod,
-  sortBy: string | (string | ((a: T, b: T, array?: T[]) => number))[]
+  sortKey: string | null,
+  reverse: string | number | null,
+  sortMethod: TableColumnCtx<T>['sortMethod'] | null,
+  sortBy: TableColumnCtx<T>['sortBy'] //string | (string | ((a: T, b: T, array?: T[]) => number))[]
 ) {
   if (
     !sortKey &&
@@ -74,12 +73,13 @@ export const orderBy = function <T>(
   }
   const getKey = sortMethod
     ? null
-    : function (value, index) {
+    : function (value: T, index: number) {
         if (sortBy) {
+          const wrapper: (string | ((row: T, index: number) => string))[] = []
           if (!isArray(sortBy)) {
-            sortBy = [sortBy]
+            wrapper.push(sortBy)
           }
-          return sortBy.map((by) => {
+          return wrapper.map((by) => {
             if (isString(by)) {
               return get(value, by)
             } else {
@@ -177,7 +177,7 @@ export const getColumnByCell = function <T>(
 
 export const getRowIdentity = <T>(
   row: T,
-  rowKey: string | ((row: T) => any),
+  rowKey: string | ((row: T) => any) | null
   isReturnRawValue: boolean = false
 ): string => {
   if (!row) throw new Error('Row is required when get row identity')
@@ -258,7 +258,7 @@ export function parseMinWidth(minWidth: number | string): number | string {
   return minWidth
 }
 
-export function parseHeight(height: number | string) {
+export function parseHeight(height: number | string | null) {
   if (isNumber(height)) {
     return height
   }
@@ -292,7 +292,7 @@ export function toggleRowStatus<T>(
   row: T,
   newVal?: boolean,
   tableTreeProps?: TreeProps,
-  selectable?: (row: T, index?: number) => boolean,
+  selectable?: ((row: T, index: number) => boolean) | null,
   rowIndex?: number,
   rowKey?: string
 ): boolean {
