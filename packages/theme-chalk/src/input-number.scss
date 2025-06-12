@@ -22,6 +22,7 @@
       -moz-appearance: textfield;
       text-align: center;
       line-height: 1;
+
       &::-webkit-inner-spin-button,
       &::-webkit-outer-spin-button {
         margin: 0;
@@ -51,13 +52,9 @@
     &:hover {
       color: getCssVar('color-primary');
 
-      & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__wrapper {
-        box-shadow: 0 0 0 1px
-          var(
-            #{getCssVarName('input', 'focus-border-color')},
-            map.get($input, 'focus-border-color')
-          )
-          inset;
+      &~.#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__wrapper {
+        box-shadow: 0 0 0 1px var(#{getCssVarName('input', 'focus-border-color')},
+          map.get($input, 'focus-border-color')) inset;
       }
     }
 
@@ -68,16 +65,14 @@
   }
 
   @include e(increase) {
-    right: 1px;
-    border-radius: 0 getCssVar('border-radius-base')
-      getCssVar('border-radius-base') 0;
+    right: 2px;
+    border-radius: 0 getCssVar('border-radius-base') getCssVar('border-radius-base') 0;
     border-left: getCssVar('border');
   }
 
   @include e(decrease) {
     left: 1px;
-    border-radius: getCssVar('border-radius-base') 0 0
-      getCssVar('border-radius-base');
+    border-radius: getCssVar('border-radius-base') 0 0 getCssVar('border-radius-base');
     border-right: getCssVar('border');
   }
 
@@ -142,10 +137,8 @@
     }
 
     @include e((increase, decrease)) {
-      @include set-css-var-value(
-        ('input', 'number-controls-height'),
-        math.div(map.get($input-height, 'default') - 2, 2)
-      );
+      @include set-css-var-value(('input', 'number-controls-height'),
+        math.div(map.get($input-height, 'default') - 2, 2));
 
       height: getCssVar('input-number-controls-height');
       line-height: getCssVar('input-number-controls-height');
@@ -156,15 +149,15 @@
     }
 
     @include e(increase) {
-      bottom: auto;
+      bottom: 50%;
       left: auto;
       border-radius: 0 getCssVar('border-radius-base') 0 0;
       border-bottom: getCssVar('border');
     }
 
     @include e(decrease) {
-      right: 1px;
-      top: auto;
+      right: 2px;
+      top: 49%;
       left: auto;
       border-right: none;
       border-left: getCssVar('border');
@@ -173,12 +166,11 @@
 
     @each $size in (large, small) {
       &[class*='#{$size}'] {
+
         [class*='increase'],
         [class*='decrease'] {
-          @include set-css-var-value(
-            ('input', 'number-controls-height'),
-            math.div(map.get($input-height, $size) - 2, 2)
-          );
+          @include set-css-var-value(('input', 'number-controls-height'),
+            math.div(map.get($input-height, $size) - 2, 2));
         }
       }
     }
