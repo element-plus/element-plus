@@ -129,12 +129,6 @@ module.exports = defineConfig({
         '@typescript-eslint/no-unused-vars': 'off',
       },
     },
-    {
-      files: ['!docs/**/*.{js,ts,vue}'],
-      rules: {
-        'import/newline-after-import': ['error', { count: 1 }],
-      },
-    },
   ],
   rules: {
     // js/ts
@@ -264,6 +258,7 @@ module.exports = defineConfig({
     'import/no-named-as-default': 'off',
     'import/no-named-as-default-member': 'off',
     'import/named': 'off',
+    'import/newline-after-import': ['error', { count: 1 }],
     'no-restricted-imports': [
       'error',
       {
