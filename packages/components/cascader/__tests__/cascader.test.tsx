@@ -1,6 +1,6 @@
 import { Comment, h, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
@@ -714,6 +714,35 @@ describe('Cascader.vue', () => {
 
       const prefixSlotEl = document.querySelector('.el-input__prefix-inner')
       expect(prefixSlotEl?.textContent).toBe('-=-prefix-=-')
+    })
+  })
+  describe('persistent', async () => {
+    beforeEach(() => {
+      process.env.RUN_TEST_WITH_PERSISTENT = true
+    })
+    afterEach(() => {
+      delete process.env.RUN_TEST_WITH_PERSISTENT
+    })
+    test('persistent false', async () => {
+      const value = ref(['zhejiang', 'hangzhou'])
+      const wrapper = _mount(() => (
+        <Cascader v-model={value.value} options={OPTIONS} persistent={false} />
+      ))
+      expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
+      await nextTick()
+      expect(document.querySelector(DROPDOWN)).toBeFalsy()
+      const trigger = wrapper.find(TRIGGER)
+      trigger.trigger('click')
+      await nextTick()
+      expect(document.querySelector(DROPDOWN)).toBeTruthy()
+      ;(document.querySelector(NODE) as HTMLElement).click()
+      await nextTick()
+      ;(document.querySelectorAll(NODE)[2] as HTMLElement).click()
+      await nextTick()
+      await nextTick()
+      expect(value.value).toEqual(['zhejiang', 'ningbo'])
+      expect(wrapper.find('input').attributes().placeholder).toBe('')
+      expect(wrapper.find('input').element.value).toBe('Zhejiang / Ningbo')
     })
   })
 })
