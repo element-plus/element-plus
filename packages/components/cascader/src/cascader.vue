@@ -99,7 +99,7 @@
                 </template>
                 <template #content>
                   <el-scrollbar
-                    :max-height="props.maxCollapseTagsTooltipHeight"
+                    :max-height="maxCollapseTagsTooltipHeight"
                   >
                     <div :class="nsCascader.e('collapse-tags')">
                       <div
