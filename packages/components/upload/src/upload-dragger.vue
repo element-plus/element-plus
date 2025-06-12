@@ -63,7 +63,7 @@ const onDrop = (e: DragEvent) => {
 const onDragover = () => {
   if (!disabled.value) dragover.value = true
 }
-const onDragleave = (e) => {
+const onDragleave = (e: DragEvent) => {
   const rect = dragRef.value.getBoundingClientRect()
   const { clientX: x, clientY: y } = e
   if (x <= rect.left || x >= rect.right || y <= rect.top || y >= rect.bottom) {
