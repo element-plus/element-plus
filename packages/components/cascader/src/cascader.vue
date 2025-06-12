@@ -98,9 +98,7 @@
                   <span>{{ tag.text }}</span>
                 </template>
                 <template #content>
-                  <el-scrollbar
-                    :max-height="maxCollapseTagsTooltipHeight"
-                  >
+                  <el-scrollbar :max-height="maxCollapseTagsTooltipHeight">
                     <div :class="nsCascader.e('collapse-tags')">
                       <div
                         v-for="(tag2, idx) in allPresentTags.slice(
