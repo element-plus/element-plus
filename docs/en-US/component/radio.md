@@ -128,9 +128,9 @@ radio/with-borders
 | aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
 | name                        | native `name` attribute                           | ^[string]                          | —       |
 | id                          | native `id` attribute                             | ^[string]                          | —       |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
 | text-color                  | font color when button is active                  | ^[string]                          | #ffffff |
 | fill                        | border and background color when button is active | ^[string]                          | #409eff |
+| label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
 
 ### RadioGroup Events
 
