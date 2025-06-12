@@ -1,6 +1,6 @@
 import { getCurrentInstance, onMounted, ref, shallowRef, watch } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import { isElement, isFunction } from '@element-plus/utils'
+import { isElement, isFocusable, isFunction } from '@element-plus/utils'
 import { useFormDisabled } from '@element-plus/components/form/src/hooks/use-form-common-props'
 import type { ShallowRef } from 'vue'
 
@@ -56,10 +56,11 @@ export function useFocusController<T extends { focus: () => void }>(
     afterBlur?.()
   }
 
-  const handleClick = () => {
+  const handleClick = (event: Event) => {
     if (
       (wrapperRef.value?.contains(document.activeElement) &&
         wrapperRef.value !== document.activeElement) ||
+      isFocusable(event.target as HTMLElement) ||
       disabled.value
     )
       return
