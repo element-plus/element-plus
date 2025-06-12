@@ -346,10 +346,17 @@ export default defineComponent({
       })
     )
 
-    watch([config, () => props.options], initStore, {
-      deep: true,
-      immediate: true,
-    })
+    watch(
+      [config, () => props.options],
+      (newVal, oldVal) => {
+        if (isEqual(newVal, oldVal)) return
+        initStore()
+      },
+      {
+        deep: true,
+        immediate: true,
+      }
+    )
 
     watch(
       () => props.modelValue,
