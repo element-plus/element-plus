@@ -51,7 +51,7 @@ export const filterFields = (
   props: Arrayable<FormItemProp>
 ) => {
   const normalized = ensureArray(props).map((prop) =>
-    isString(prop) ? prop : prop.join('.')
+    isArray(prop) ? prop.join('.') : prop
   )
   return normalized.length > 0
     ? fields.filter(
