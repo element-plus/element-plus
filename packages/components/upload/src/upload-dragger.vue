@@ -1,9 +1,10 @@
 <template>
   <div
+    ref="dragRef"
     :class="[ns.b('dragger'), ns.is('dragover', dragover)]"
     @drop.prevent="onDrop"
     @dragover.prevent="onDragover"
-    @dragleave.prevent="dragover = false"
+    @dragleave.prevent="onDragleave"
   >
     <slot />
   </div>
@@ -39,6 +40,7 @@ if (!uploaderContext) {
 const ns = useNamespace('upload')
 const dragover = ref(false)
 const disabled = useFormDisabled()
+const dragRef = ref()
 
 const onDrop = (e: DragEvent) => {
   if (disabled.value) return
@@ -60,5 +62,13 @@ const onDrop = (e: DragEvent) => {
 
 const onDragover = () => {
   if (!disabled.value) dragover.value = true
+}
+const onDragleave = (e) => {
+  const rect = dragRef.value.getBoundingClientRect()
+  const { clientX: x, clientY: y } = e
+  if (x <= rect.left || x >= rect.right || y <= rect.top || y >= rect.bottom) {
+    // leave the container
+    dragover.value = false
+  }
 }
 </script>
