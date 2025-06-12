@@ -125,11 +125,11 @@ radio/with-borders
 | size                        | the size of radio buttons or bordered radios      | ^[string]                          | default |
 | disabled                    | whether the nesting radios are disabled           | ^[boolean]                         | false   |
 | validate-event              | whether to trigger form validation                | ^[boolean]                         | true    |
+| text-color                  | font color when button is active                  | ^[string]                          | #ffffff |
+| fill                        | border and background color when button is active | ^[string]                          | #409eff |
 | aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
 | name                        | native `name` attribute                           | ^[string]                          | —       |
 | id                          | native `id` attribute                             | ^[string]                          | —       |
-| text-color                  | font color when button is active                  | ^[string]                          | #ffffff |
-| fill                        | border and background color when button is active | ^[string]                          | #409eff |
 | label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
 
 ### RadioGroup Events
