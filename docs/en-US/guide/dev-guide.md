@@ -9,7 +9,7 @@ lang: en-US
 
 With command
 
-```
+```shell
 pnpm i
 ```
 
@@ -19,7 +19,7 @@ the project will install all dependencies.
 
 With command
 
-```
+```shell
 pnpm docs:dev
 ```
 
@@ -31,7 +31,7 @@ See [Local development guide](https://github.com/element-plus/element-plus/blob/
 
 1. With command
 
-```
+```shell
 pnpm dev
 ```
 
