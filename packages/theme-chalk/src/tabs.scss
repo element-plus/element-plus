@@ -252,7 +252,7 @@
       }
 
       &.is-active {
-        border-bottom-color: getCssVar('bg-color');
+        border-bottom: 2px solid getCssVar('bg-color');
 
         &.is-closable {
           padding-left: 20px;
