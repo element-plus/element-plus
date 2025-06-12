@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue'
-import { debugWarn, ensureArray, isString } from '@element-plus/utils'
+import { debugWarn, ensureArray, isArray } from '@element-plus/utils'
 import type { Arrayable } from '@element-plus/utils'
 import type { FormItemContext } from './types'
 import type { FormItemProp } from './form-item'
