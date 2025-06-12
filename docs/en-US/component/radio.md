@@ -119,16 +119,18 @@ radio/with-borders
 
 ### RadioGroup Attributes
 
-| Name                        | Description                                  | Type                               | Default |
-| --------------------------- | -------------------------------------------- | ---------------------------------- | ------- |
-| model-value / v-model       | binding value                                | ^[string] / ^[number] / ^[boolean] | —       |
-| size                        | the size of radio buttons or bordered radios | ^[string]                          | default |
-| disabled                    | whether the nesting radios are disabled      | ^[boolean]                         | false   |
-| validate-event              | whether to trigger form validation           | ^[boolean]                         | true    |
-| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup           | ^[string]                          | —       |
-| name                        | native `name` attribute                      | ^[string]                          | —       |
-| id                          | native `id` attribute                        | ^[string]                          | —       |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup           | ^[string]                          | —       |
+| Name                        | Description                                       | Type                               | Default |
+| --------------------------- | ------------------------------------------------- | ---------------------------------- | ------- |
+| model-value / v-model       | binding value                                     | ^[string] / ^[number] / ^[boolean] | —       |
+| size                        | the size of radio buttons or bordered radios      | ^[string]                          | default |
+| disabled                    | whether the nesting radios are disabled           | ^[boolean]                         | false   |
+| validate-event              | whether to trigger form validation                | ^[boolean]                         | true    |
+| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
+| name                        | native `name` attribute                           | ^[string]                          | —       |
+| id                          | native `id` attribute                             | ^[string]                          | —       |
+| label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
+| text-color                  | font color when button is active                  | ^[string]                          | #ffffff |
+| fill                        | border and background color when button is active | ^[string]                          | #409eff |
 
 ### RadioGroup Events
 
@@ -152,8 +154,6 @@ radio/with-borders
 | label          | the label of Radio. If there's no `value`, `label` will act as `value` | ^[string] / ^[number] / ^[boolean] | —       |
 | disabled       | whether Radio is disabled                                              | ^[boolean]                         | false   |
 | name           | native 'name' attribute                                                | ^[string]                          | —       |
-| text-color     | font color when button is active                                       | ^[string]                          | #ffffff |
-| fill           | border and background color when button is active                      | ^[string]                          | #409eff |
 
 ### RadioButton Slots
 
