@@ -166,6 +166,30 @@ const Tabs = defineComponent({
       emit('tabAdd')
     }
 
+    const TabNavRenderer: FunctionalComponent<{ render: () => VNode }> = ({
+      render,
+    }) => {
+      return render()
+    }
+
+    const swapChildren = (
+      vnode: VNode & {
+        el: HTMLDivElement
+        children: (VNode & { el?: HTMLDivElement })[]
+      }
+    ) => {
+      if (['bottom', 'right'].includes(props.tabPosition)) return
+
+      const parent = vnode.el
+      const children = vnode.children
+
+      // For Vue version below 3.4, `onVnodeBeforeMount` is called before hydrating children.
+      // https://github.com/vuejs/core/commit/2ffc1e8cfdc6ec9c45c4a4dd8e3081b2aa138f1e#diff-d13ae6fff054484d04947f8e9f28742e10fcbfb45d6c72846732d3d42a020cde
+      if (!children[0].el) return
+
+      parent.insertBefore(children[1].el, children[0].el)
+    }
+
     watch(
       () => props.modelValue,
       (modelValue) => setCurrentName(modelValue)
@@ -190,11 +214,7 @@ const Tabs = defineComponent({
       currentName,
       tabNavRef: nav$,
     })
-    const TabNavRenderer: FunctionalComponent<{ render: () => VNode }> = ({
-      render,
-    }) => {
-      return render()
-    }
+
     return () => {
       const addSlot = slots['add-icon']
       const newButton =
@@ -266,6 +286,8 @@ const Tabs = defineComponent({
               [ns.m('border-card')]: props.type === 'border-card',
             },
           ]}
+          // @ts-ignore
+          onVnodeBeforeMount={swapChildren}
         >
           {panels}
           {header}
