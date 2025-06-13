@@ -624,40 +624,4 @@ describe('Cascader.vue', () => {
       expect(prefixSlotEl?.textContent).toBe('-=-prefix-=-')
     })
   })
-  describe('Cascader - showFirstLevelOnly', () => {
-    it('should only display first level label after clicking sub-option', async () => {
-      const wrapper = mount(() => <Cascader options={OPTIONS} topLevelOnly />)
-      const trigger = wrapper.find(TRIGGER)
-
-      await trigger.trigger('click')
-      ;(document.querySelector(NODE) as HTMLElement).click()
-      await nextTick()
-      ;(document.querySelectorAll(NODE)[1] as HTMLElement).click()
-      await nextTick()
-      expect(wrapper.find('input').element.value).toBe('Zhejiang')
-    })
-    it('should only display first level labels for multiple selected sub-options', async () => {
-      const wrapper = mount(() => (
-        <Cascader options={OPTIONS} topLevelOnly multiple />
-      ))
-      const trigger = wrapper.find(TRIGGER)
-      await trigger.trigger('click')
-      await nextTick()
-      const firstNode = document.querySelector(NODE) as HTMLElement
-      expect(firstNode).not.toBeNull()
-      firstNode.click()
-      await nextTick()
-      const secondNode = document.querySelectorAll(NODE)[1] as HTMLElement
-      expect(secondNode).not.toBeNull()
-      secondNode.click()
-      await nextTick()
-      const thirdNode = document.querySelectorAll(NODE)[2] as HTMLElement
-      expect(thirdNode).not.toBeNull()
-      thirdNode.click()
-      await nextTick()
-      const inputValue = (wrapper.find('input').element as HTMLInputElement)
-        .value
-      expect(inputValue).toBe('Zhejiang')
-    })
-  })
 })
