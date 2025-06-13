@@ -555,10 +555,12 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   }
 
   const onSelect = (option: Option) => {
+    const optionValue = getValue(option)
+
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
-      const index = getValueIndex(selectedOptions, getValue(option))
+      const index = getValueIndex(selectedOptions, optionValue)
       if (index > -1) {
         selectedOptions = [
           ...selectedOptions.slice(0, index),
@@ -570,7 +572,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
         props.multipleLimit <= 0 ||
         selectedOptions.length < props.multipleLimit
       ) {
-        selectedOptions = [...selectedOptions, getValue(option)]
+        selectedOptions = [...selectedOptions, optionValue]
         states.cachedOptions.push(option)
         selectNewOption(option)
       }
@@ -583,7 +585,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       }
     } else {
       states.selectedLabel = getLabel(option)
-      update(getValue(option))
+      !isEqual(props.modelValue, optionValue) && update(optionValue)
       expanded.value = false
       selectNewOption(option)
       if (!option.created) {
