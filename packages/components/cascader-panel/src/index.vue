@@ -102,9 +102,13 @@ export default defineComponent({
     const isHoverMenu = computed(() => config.value.expandTrigger === 'hover')
     const renderLabelFn = computed(() => props.renderLabel || slots.default)
 
-    const initStore = () => {
+    const initStore = (val, oldVal) => {
       const { options } = props
       const cfg = config.value
+
+      const [newProps] = val
+      const [oldProps] = oldVal
+      if (newProps === oldProps) return
 
       manualChecked = false
       store = new Store(options, cfg)
@@ -346,10 +350,17 @@ export default defineComponent({
       })
     )
 
-    watch([config, () => props.options], initStore, {
-      deep: true,
-      immediate: true,
-    })
+    watch(
+      [
+        ...Object.keys(config.value).map((key) => () => config.value[key]),
+        () => props.options,
+      ],
+      initStore,
+      {
+        deep: true,
+        immediate: true,
+      }
+    )
 
     watch(
       () => props.modelValue,
