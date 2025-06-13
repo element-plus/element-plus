@@ -41,7 +41,7 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
-import { useGlobalIcons } from '@element-plus/components/config-provider'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 
 import { useAllowCreate } from './useAllowCreate'
 import { useProps } from './useProps'
@@ -64,7 +64,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   const { aliasProps, getLabel, getValue, getDisabled, getOptions } =
     useProps(props)
   const { valueOnClear, isEmptyValue } = useEmptyValues(props)
-  const globalIcons = useGlobalIcons()
+  const globalIcons = useGlobalConfig('icons')
 
   const states: SelectStates = reactive({
     inputValue: '',

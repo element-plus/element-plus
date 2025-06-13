@@ -52,10 +52,10 @@ import {
   isClient,
 } from '@element-plus/utils'
 import { useDelayedToggle, useNamespace } from '@element-plus/hooks'
-import { useGlobalIcons } from '@element-plus/components/config-provider'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { alertEmits, alertProps } from './alert'
 
-const globalIcons = useGlobalIcons()
+const globalIcons = useGlobalConfig('icons')
 
 defineOptions({
   name: 'ElAlert',

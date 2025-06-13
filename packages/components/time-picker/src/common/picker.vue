@@ -185,7 +185,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
-import { useGlobalIcons } from '@element-plus/components/config-provider'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { dayOrDaysToDate, formatter, parseDate, valueEquals } from '../utils'
 import {
   PICKER_BASE_INJECTION_KEY,
@@ -238,7 +238,7 @@ const elPopperOptions = inject(
   {} as Options
 )
 const { valueOnClear } = useEmptyValues(props, null)
-const globalIcons = useGlobalIcons()
+const globalIcons = useGlobalConfig('icons')
 
 const refPopper = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()

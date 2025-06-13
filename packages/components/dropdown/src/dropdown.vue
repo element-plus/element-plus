@@ -115,7 +115,7 @@ import { useFormSize } from '@element-plus/components/form'
 import { addUnit, ensureArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
-import { useGlobalIcons } from '@element-plus/components/config-provider'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import {
   DROPDOWN_INJECTION_KEY,
@@ -146,7 +146,7 @@ export default defineComponent({
     const _instance = getCurrentInstance()
     const ns = useNamespace('dropdown')
     const { t } = useLocale()
-    const globalIcons = useGlobalIcons()
+    const globalIcons = useGlobalConfig('icons')
 
     const triggeringElementRef = ref()
     const referenceElementRef = ref()

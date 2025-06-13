@@ -72,10 +72,6 @@ export function useGlobalComponentSettings(
   }
 }
 
-export function useGlobalIcons() {
-  return useGlobalConfig('icons')
-}
-
 export const provideGlobalConfig = (
   config: MaybeRef<ConfigProviderContext>,
   app?: App,

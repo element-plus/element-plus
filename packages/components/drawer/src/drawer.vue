@@ -99,7 +99,7 @@ import { useDialog } from '@element-plus/components/dialog'
 import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
-import { useGlobalIcons } from '@element-plus/components/config-provider'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { drawerEmits, drawerProps } from './drawer'
 
 defineOptions({
@@ -111,7 +111,7 @@ const props = defineProps(drawerProps)
 defineEmits(drawerEmits)
 const slots = useSlots()
 
-const globalIcons = useGlobalIcons()
+const globalIcons = useGlobalConfig('icons')
 
 useDeprecated(
   {

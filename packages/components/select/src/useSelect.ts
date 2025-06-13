@@ -47,7 +47,7 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
-import { useGlobalIcons } from '@element-plus/components/config-provider'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
@@ -59,7 +59,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const contentId = useId()
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
-  const globalIcons = useGlobalIcons()
+  const globalIcons = useGlobalConfig('icons')
 
   const states = reactive<SelectStates>({
     inputValue: '',
