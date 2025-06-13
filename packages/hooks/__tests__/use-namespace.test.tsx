@@ -1,7 +1,6 @@
 import { computed, defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { provideGlobalConfig } from '@element-plus/components/config-provider'
 import { useNamespace } from '..'
 import type { VueWrapper } from '@vue/test-utils'
 
@@ -45,17 +44,9 @@ const TestComp = defineComponent({
 })
 
 describe('use-namespace', () => {
-  const Comp = defineComponent({
-    setup(_props, { slots }) {
-      provideGlobalConfig({ namespace: 'ep' })
-      return () => slots.default?.()
-    },
-  })
-  let wrapper: VueWrapper<InstanceType<typeof Comp>>
+  let wrapper: VueWrapper<InstanceType<typeof TestComp>>
   beforeEach(() => {
-    wrapper = mount(Comp, {
-      slots: { default: () => <TestComp /> },
-    })
+    wrapper = mount(TestComp)
   })
 
   afterEach(() => {
@@ -65,21 +56,21 @@ describe('use-namespace', () => {
   it('should provide bem correctly', async () => {
     await nextTick()
     expect(wrapper.find('#testId').classes()).toEqual([
-      'ep-table', // b()
-      'ep-table-body', // b('body')
-      'ep-table__content', // e('content')
-      'ep-table--active', // m('active')
-      'ep-table-content__active', // be('content', 'active')
-      'ep-table__content--active', // em('content', 'active')
-      'ep-table-body__content--active', // bem('body', 'content', 'active')
+      'el-table', // b()
+      'el-table-body', // b('body')
+      'el-table__content', // e('content')
+      'el-table--active', // m('active')
+      'el-table-content__active', // be('content', 'active')
+      'el-table__content--active', // em('content', 'active')
+      'el-table-body__content--active', // bem('body', 'content', 'active')
       'is-focus', // is('focus')
     ])
 
     const style = wrapper.find('#testId').attributes('style')
-    expect(style).toMatch('--ep-border-style: solid;')
-    expect(style).not.toMatch('--ep-border-width:')
-    expect(style).toMatch('--ep-table-text-color: #409eff;')
-    expect(style).not.toMatch('--ep-table-active-color:')
+    expect(style).toMatch('--el-border-style: solid;')
+    expect(style).not.toMatch('--el-border-width:')
+    expect(style).toMatch('--el-table-text-color: #409eff;')
+    expect(style).not.toMatch('--el-table-active-color:')
   })
 
   it('overrides namespace', () => {
