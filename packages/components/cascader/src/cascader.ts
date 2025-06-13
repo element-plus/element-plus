@@ -138,13 +138,6 @@ export const cascaderProps = buildProps({
     type: Boolean,
     default: true,
   },
-  /**
-   * @description When enabled, the Cascader input displays only the first-level selected label, regardless of deeper level selections.
-   */
-  topLevelOnly: {
-    type: Boolean,
-    default: false,
-  },
   ...useEmptyValuesProps,
 })
 

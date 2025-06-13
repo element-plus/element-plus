@@ -208,7 +208,6 @@ import {
   getSibling,
   isClient,
   isPromise,
-  uniqueByKey,
 } from '@element-plus/utils'
 import ElCascaderPanel from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
@@ -339,12 +338,12 @@ const clearBtnVisible = computed(() => {
   return !!checkedNodes.value.length
 })
 const presentText = computed(() => {
-  const { showAllLevels, separator, topLevelOnly } = props
+  const { showAllLevels, separator } = props
   const nodes = checkedNodes.value
   return nodes.length
     ? multiple.value
       ? ''
-      : nodes[0].calcText(showAllLevels, separator, topLevelOnly)
+      : nodes[0].calcText(showAllLevels, separator)
     : ''
 })
 
@@ -420,11 +419,11 @@ const hideSuggestionPanel = () => {
 }
 
 const genTag = (node: CascaderNode): Tag => {
-  const { showAllLevels, separator, topLevelOnly } = props
+  const { showAllLevels, separator } = props
   return {
     node,
     key: node.uid,
-    text: node.calcText(showAllLevels, separator, topLevelOnly),
+    text: node.calcText(showAllLevels, separator),
     hitState: false,
     closable: !isDisabled.value && !node.isDisabled,
     isCollapseTag: false,
@@ -442,7 +441,7 @@ const calculatePresentTags = () => {
   if (!multiple.value) return
 
   const nodes = checkedNodes.value
-  let tags: Tag[] = []
+  const tags: Tag[] = []
 
   const allTags: Tag[] = []
   nodes.forEach((node) => allTags.push(genTag(node)))
@@ -466,9 +465,6 @@ const calculatePresentTags = () => {
       } else {
         rest.forEach((node) => tags.push(genTag(node)))
       }
-      if (props.topLevelOnly) {
-        tags = uniqueByKey<Tag>(tags, (item) => item.text)
-      }
     }
   }
 
@@ -476,12 +472,12 @@ const calculatePresentTags = () => {
 }
 
 const calculateSuggestions = () => {
-  const { filterMethod, showAllLevels, separator, topLevelOnly } = props
+  const { filterMethod, showAllLevels, separator } = props
   const res = cascaderPanelRef.value
     ?.getFlattedNodes(!props.props.checkStrictly)
     ?.filter((node) => {
       if (node.isDisabled) return false
-      node.calcText(showAllLevels, separator, topLevelOnly)
+      node.calcText(showAllLevels, separator)
       return filterMethod(node, searchKeyword.value)
     })
 
