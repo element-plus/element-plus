@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick } from '@vue/runtime-core'
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import Scrollbar from '../src/components/scrollbar'
@@ -75,11 +75,11 @@ describe('virtual scrollbar', () => {
     /**
      *  layout: vertical; width: auto; height: 100px; scrollHeight: 400px;
      *  thumb ratio: (100 / 400) * 100 -> 25   // (clientHeight / scrollHeight) * 100
-     *  thumbSize: 33   // scrollbar.ts computed thumbSize
+     *  thumbSize: 32   // scrollbar.ts computed thumbSize
      *  thumb translateY: (0 / (400 - 100)) * (100 - 25) -> 0  // (scrollTop / (scrollHeight - clientHeight)) * (clientHeight - thumbSize)
      */
     const initializeStyle =
-      'height: 33px; transform: translateY(0px); width: 100%;'
+      'height: 32px; transform: translateY(0px); width: 100%;'
 
     expect(wrapper.find('.el-scrollbar__thumb').attributes('style')).toContain(
       initializeStyle

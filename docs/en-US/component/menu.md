@@ -110,10 +110,11 @@ menu/popper-offset
 
 ### Menu Exposes
 
-| Name  | Description                                                            | Type                                 |
-| ----- | ---------------------------------------------------------------------- | ------------------------------------ |
-| open  | open a specific sub-menu, the param is index of the sub-menu to open   | ^[Function]`(index: string) => void` |
-| close | close a specific sub-menu, the param is index of the sub-menu to close | ^[Function]`(index: string) => void` |
+| Name                       | Description                                                            | Type                                 |
+| -------------------------- | ---------------------------------------------------------------------- | ------------------------------------ |
+| open                       | open a specific sub-menu, the param is index of the sub-menu to open   | ^[Function]`(index: string) => void` |
+| close                      | close a specific sub-menu, the param is index of the sub-menu to close | ^[Function]`(index: string) => void` |
+| updateActiveIndex ^(2.9.8) | set index of active menu                                               | ^[Function]`(index: string) => void` |
 
 ## SubMenu API
 
@@ -144,11 +145,11 @@ menu/popper-offset
 
 ### Menu-Item Attributes
 
-| Name     | Description                          | Type                  | Default |
-| -------- | ------------------------------------ | --------------------- | ------- |
-| index    | unique identification                | ^[string] / ^[null]   | null    |
-| route    | Vue Router Route Location Parameters | ^[string] / ^[object] | —       |
-| disabled | whether disabled                     | ^[boolean]            | false   |
+| Name              | Description                          | Type                  | Default |
+| ----------------- | ------------------------------------ | --------------------- | ------- |
+| index ^(required) | unique identification                | ^[string]             | —       |
+| route             | Vue Router Route Location Parameters | ^[string] / ^[object] | —       |
+| disabled          | whether disabled                     | ^[boolean]            | false   |
 
 ### Menu-Item Events
 

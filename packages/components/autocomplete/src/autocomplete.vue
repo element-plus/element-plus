@@ -6,6 +6,7 @@
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass]"
     :teleported="teleported"
+    :append-to="appendTo"
     :gpu-acceleration="false"
     pure
     manual-mode

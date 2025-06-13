@@ -47,6 +47,13 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     }
 
     if (isComposing.value) return
+    if (props.delimiter) {
+      const replacement = inputValue.value?.replace(props.delimiter, '')
+      if (replacement?.length !== inputValue.value?.length) {
+        inputValue.value = replacement
+        handleAddTag()
+      }
+    }
     emit(INPUT_EVENT, (event.target as HTMLInputElement).value)
   }
 
