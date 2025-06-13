@@ -73,58 +73,60 @@
             nsCascader.is('validate', Boolean(validateState)),
           ]"
         >
-          <el-tag
-            v-for="tag in presentTags"
-            :key="tag.key"
-            :type="tagType"
-            :size="tagSize"
-            :effect="tagEffect"
-            :hit="tag.hitState"
-            :closable="tag.closable"
-            disable-transitions
-            @close="deleteTag(tag)"
-          >
-            <template v-if="tag.isCollapseTag === false">
-              <span>{{ tag.text }}</span>
-            </template>
-            <template v-else>
-              <el-tooltip
-                :disabled="popperVisible || !collapseTagsTooltip"
-                :fallback-placements="['bottom', 'top', 'right', 'left']"
-                placement="bottom"
-                effect="light"
-              >
-                <template #default>
-                  <span>{{ tag.text }}</span>
-                </template>
-                <template #content>
-                  <div :class="nsCascader.e('collapse-tags')">
-                    <div
-                      v-for="(tag2, idx) in allPresentTags.slice(
-                        maxCollapseTags
-                      )"
-                      :key="idx"
-                      :class="nsCascader.e('collapse-tag')"
-                    >
-                      <el-tag
-                        :key="tag2.key"
-                        class="in-tooltip"
-                        :type="tagType"
-                        :size="tagSize"
-                        :effect="tagEffect"
-                        :hit="tag2.hitState"
-                        :closable="tag2.closable"
-                        disable-transitions
-                        @close="deleteTag(tag2)"
+          <slot name="tag">
+            <el-tag
+              v-for="tag in presentTags"
+              :key="tag.key"
+              :type="tagType"
+              :size="tagSize"
+              :effect="tagEffect"
+              :hit="tag.hitState"
+              :closable="tag.closable"
+              disable-transitions
+              @close="deleteTag(tag)"
+            >
+              <template v-if="tag.isCollapseTag === false">
+                <span>{{ tag.text }}</span>
+              </template>
+              <template v-else>
+                <el-tooltip
+                  :disabled="popperVisible || !collapseTagsTooltip"
+                  :fallback-placements="['bottom', 'top', 'right', 'left']"
+                  placement="bottom"
+                  effect="light"
+                >
+                  <template #default>
+                    <span>{{ tag.text }}</span>
+                  </template>
+                  <template #content>
+                    <div :class="nsCascader.e('collapse-tags')">
+                      <div
+                        v-for="(tag2, idx) in allPresentTags.slice(
+                          maxCollapseTags
+                        )"
+                        :key="idx"
+                        :class="nsCascader.e('collapse-tag')"
                       >
-                        <span>{{ tag2.text }}</span>
-                      </el-tag>
+                        <el-tag
+                          :key="tag2.key"
+                          class="in-tooltip"
+                          :type="tagType"
+                          :size="tagSize"
+                          :effect="tagEffect"
+                          :hit="tag2.hitState"
+                          :closable="tag2.closable"
+                          disable-transitions
+                          @close="deleteTag(tag2)"
+                        >
+                          <span>{{ tag2.text }}</span>
+                        </el-tag>
+                      </div>
                     </div>
-                  </div>
-                </template>
-              </el-tooltip>
-            </template>
-          </el-tag>
+                  </template>
+                </el-tooltip>
+              </template>
+            </el-tag>
+          </slot>
           <input
             v-if="filterable && !isDisabled"
             v-model="searchInputValue"
