@@ -17,7 +17,7 @@
         @click="$emit('close')"
       >
         <el-icon :class="ns.e('close')">
-          <component :is="closeIcon || Close" />
+          <component :is="closeIconComponent" />
         </el-icon>
       </button>
     </header>
@@ -35,12 +35,13 @@ import { computed, inject } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import { useDraggable, useLocale } from '@element-plus/hooks'
-import { CloseComponents, composeRefs } from '@element-plus/utils'
+import { composeRefs } from '@element-plus/utils'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { dialogInjectionKey } from './constants'
 import { dialogContentEmits, dialogContentProps } from './dialog-content'
 
 const { t } = useLocale()
-const { Close } = CloseComponents
+const globalIcons = useGlobalConfig('icons')
 
 defineOptions({ name: 'ElDialogContent' })
 const props = defineProps(dialogContentProps)
@@ -56,6 +57,10 @@ const dialogKls = computed(() => [
   ns.is('align-center', props.alignCenter),
   { [ns.m('center')]: props.center },
 ])
+
+const closeIconComponent = computed(
+  () => globalIcons.value?.close ?? props.closeIcon
+)
 
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 

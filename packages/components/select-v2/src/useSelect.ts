@@ -41,6 +41,7 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 
 import { useAllowCreate } from './useAllowCreate'
 import { useProps } from './useProps'
@@ -63,6 +64,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   const { aliasProps, getLabel, getValue, getDisabled, getOptions } =
     useProps(props)
   const { valueOnClear, isEmptyValue } = useEmptyValues(props)
+  const globalIcons = useGlobalConfig('icons')
 
   const states: SelectStates = reactive({
     inputValue: '',
@@ -164,11 +166,17 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   })
 
   const iconComponent = computed(() =>
-    props.remote && props.filterable ? '' : props.suffixIcon
+    props.remote && props.filterable
+      ? ''
+      : globalIcons.value?.arrowDown || props.suffixIcon
   )
 
   const iconReverse = computed(
     () => iconComponent.value && nsSelect.is('reverse', expanded.value)
+  )
+
+  const clearIconComponent = computed(
+    () => globalIcons.value?.clear || props.clearIcon
   )
 
   const validateState = computed(() => elFormItem?.validateState || '')
@@ -969,6 +977,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     filteredOptions,
     iconComponent,
     iconReverse,
+    clearIconComponent,
     tagStyle,
     collapseTagStyle,
     popperSize,

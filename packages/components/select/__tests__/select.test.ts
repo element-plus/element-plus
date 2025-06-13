@@ -1099,6 +1099,7 @@ describe('Select', () => {
     })
 
     const suffixIcon = wrapper.findComponent(ArrowDown)
+
     expect(suffixIcon.exists()).toBe(true)
   })
 

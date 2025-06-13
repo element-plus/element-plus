@@ -1,10 +1,11 @@
 import { defineComponent, renderSlot, watch } from 'vue'
 import { provideGlobalConfig } from './hooks/use-global-config'
-import { configProviderProps } from './config-provider-props'
+import { IconConfigContext, configProviderProps } from './config-provider-props'
 
 import type { MessageConfigContext } from '@element-plus/components/message'
 
 export const messageConfig: MessageConfigContext = {}
+export const iconsConfig: IconConfigContext = {}
 
 const ConfigProvider = defineComponent({
   name: 'ElConfigProvider',
@@ -16,6 +17,13 @@ const ConfigProvider = defineComponent({
       () => props.message,
       (val) => {
         Object.assign(messageConfig, config?.value?.message ?? {}, val ?? {})
+      },
+      { immediate: true, deep: true }
+    )
+    watch(
+      () => props.icons,
+      (val) => {
+        Object.assign(iconsConfig, config?.value?.icons ?? {}, val ?? {})
       },
       { immediate: true, deep: true }
     )
