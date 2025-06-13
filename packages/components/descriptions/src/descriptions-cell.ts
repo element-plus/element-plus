@@ -5,10 +5,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { descriptionsKey } from './token'
 import type { DirectiveArguments, PropType, VNode } from 'vue'
 
-import type {
-  IDescriptionsInject,
-  IDescriptionsItemInject,
-} from './descriptions.type'
+import type { IDescriptionsItemInject } from './type'
 import type { DescriptionItemVNode } from './description-item'
 
 export default defineComponent({
@@ -26,7 +23,7 @@ export default defineComponent({
     },
   },
   setup() {
-    const descriptions = inject(descriptionsKey, {} as IDescriptionsInject)
+    const descriptions = inject(descriptionsKey)!
 
     return {
       descriptions,
@@ -42,7 +39,7 @@ export default defineComponent({
       return [dir, value, arg, modifiers]
     }) as DirectiveArguments
 
-    const { border, direction } = this.descriptions
+    const { border, direction } = this.descriptions.props
     const isVertical = direction === 'vertical'
     const renderLabel = () => this.cell?.children?.label?.() || item.label
     const renderContent = () => this.cell?.children?.default?.()
@@ -54,7 +51,7 @@ export default defineComponent({
     const labelClassName = item.labelClassName
     const width =
       this.type === 'label'
-        ? item.labelWidth || this.descriptions.labelWidth || item.width
+        ? item.labelWidth || this.descriptions.props.labelWidth || item.width
         : item.width
 
     const style = {
@@ -109,7 +106,9 @@ export default defineComponent({
       default: {
         const label = renderLabel()
         const labelStyle: Record<string, any> = {}
-        const width = addUnit(item.labelWidth || this.descriptions.labelWidth)
+        const width = addUnit(
+          item.labelWidth || this.descriptions.props.labelWidth
+        )
         if (width) {
           labelStyle.width = width
           labelStyle.display = 'inline-block'

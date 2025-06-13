@@ -1,9 +1,21 @@
-import { defineComponent } from 'vue'
+import {
+  defineComponent,
+  getCurrentInstance,
+  inject,
+  onBeforeMount,
+  onBeforeUnmount,
+} from 'vue'
 import { columnAlignment } from '@element-plus/constants'
-import { buildProps } from '@element-plus/utils'
+import { buildProps, throwError } from '@element-plus/utils'
 import { COMPONENT_NAME } from './constants'
+import { descriptionsKey } from './token'
 
-import type { ExtractPropTypes, Slot, VNode } from 'vue'
+import type {
+  ComponentInternalInstance,
+  ExtractPropTypes,
+  Slot,
+  VNode,
+} from 'vue'
 
 export const descriptionItemProps = buildProps({
   /**
@@ -82,6 +94,30 @@ export const descriptionItemProps = buildProps({
 const DescriptionItem = defineComponent({
   name: COMPONENT_NAME,
   props: descriptionItemProps,
+  setup(props) {
+    const descriptions = inject(descriptionsKey)
+    if (!descriptions)
+      throwError(
+        COMPONENT_NAME,
+        'usage: <el-descriptions><el-descriptions-item /></el-descriptions/>'
+      )
+
+    const instance = getCurrentInstance()! as DescriptionItemInternalInstance
+
+    onBeforeMount(() => {
+      descriptions.addDescriptionItem({
+        uid: instance.uid,
+        props,
+        get vnode() {
+          return instance.vnode
+        },
+      })
+    })
+    onBeforeUnmount(() => {
+      descriptions.removeDescriptionItem(instance.uid)
+    })
+  },
+  render: () => '',
 })
 
 export default DescriptionItem
@@ -90,4 +126,7 @@ export type DescriptionItemProps = ExtractPropTypes<typeof descriptionItemProps>
 export type DescriptionItemVNode = VNode & {
   children: { [name: string]: Slot } | null
   props: Partial<DescriptionItemProps> | null
+}
+type DescriptionItemInternalInstance = ComponentInternalInstance & {
+  vnode: DescriptionItemVNode
 }
