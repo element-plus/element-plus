@@ -27,7 +27,15 @@ export const useMove = (
     emit(CHANGE_EVENT, value, direction, movedKeys)
   }
 
-  const addToLeft = () => {
+  const addToLeft = async () => {
+    if (props.beforeTransfer) {
+      const result = await props.beforeTransfer(
+        checkedState.rightChecked,
+        'left'
+      )
+      if (!result) return
+    }
+
     const currentValue = props.modelValue.slice()
 
     checkedState.rightChecked.forEach((item) => {
@@ -39,7 +47,15 @@ export const useMove = (
     _emit(currentValue, 'left', checkedState.rightChecked)
   }
 
-  const addToRight = () => {
+  const addToRight = async () => {
+    if (props.beforeTransfer) {
+      const result = await props.beforeTransfer(
+        checkedState.leftChecked,
+        'right'
+      )
+      if (!result) return
+    }
+
     let currentValue = props.modelValue.slice()
 
     const itemsToBeMoved = props.data
