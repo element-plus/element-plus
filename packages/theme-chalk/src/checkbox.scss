@@ -169,7 +169,7 @@ $checkbox-bordered-input-width: map.merge(
         border-color: getCssVar('checkbox-checked-input-border-color');
 
         &::after {
-          transform: rotate(45deg) scaleY(1);
+          transform: translate(-45%, -60%) rotate(45deg) scaleY(1);
           border-color: getCssVar('checkbox-checked-icon-color');
         }
       }
@@ -234,10 +234,10 @@ $checkbox-bordered-input-width: map.merge(
       border-left: 0;
       border-top: 0;
       height: 7px;
-      left: 4px;
+      left: 50%;
       position: absolute;
-      top: 1px;
-      transform: rotate(45deg) scaleY(0);
+      top: 50%;
+      transform: translate(-45%, -60%) rotate(45deg) scaleY(0);
       width: 3px;
       transition: transform 0.15s ease-in 0.05s;
       transform-origin: center;
