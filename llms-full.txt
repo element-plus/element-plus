@@ -324,7 +324,6 @@ will start the local development environment.
 
 <script setup lang="ts">
 // make sure this component is registered in @element-plus/components
-import { ComponentYouAreDeveloping } from '@element-plus/components'
 </script>
 ```
 
@@ -894,6 +893,7 @@ And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#re
 
 <script>
 import { ElButton } from 'element-plus'
+
 export default {
   components: { ElButton },
 }
@@ -1364,7 +1364,7 @@ For collapse effect, use the `el-collapse-transition` component.
 // collapse
 import { ElCollapseTransition } from 'element-plus'
 // fade/zoom
-import 'element-plus/lib/theme-chalk/base.css'
+import 'element-plus/theme-chalk/base.css'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -4236,6 +4236,7 @@ type CalendarDateType =
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const value = ref(new Date())
 </script>
 
@@ -4842,18 +4843,19 @@ Add `:props="props"` in tag and set data `props = { multiple: true }` to use mul
 
 Do:
 
-```html
+```vue
 <template>
   <el-cascader :props="props" />
 </template>
+
 <script lang="ts" setup>
-  const props = { multiple: true }
+const props = { multiple: true }
 </script>
 ```
 
 Don't do:
 
-```html
+```vue
 <template>
   <!--  Object literal binging here is invalid syntax for cascader  -->
   <el-cascader :props="{ multiple: true }" />
@@ -4902,35 +4904,36 @@ You can customize the filter suggestion item by `suggestion-item` slot. You'll h
 
 ### Cascader Attributes
 
-| Name                                | Description                                                                                                                                                                      | Type                                                                                                                                                                        | Default      |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| model-value / v-model               | binding value                                                                                                                                                                    | ^[string]/^[number]/^[object]`string[] \| number[] \| any`                                                                                                                  | —            |
-| options                             | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[object]`Record<string, unknown>[]`                                                                                                                                        | —            |
-| props                               | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                                                                                                                                    | —            |
-| size                                | size of input                                                                                                                                                                    | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                    | —            |
-| placeholder                         | placeholder of input                                                                                                                                                             | ^[string]                                                                                                                                                                   | —            |
-| disabled                            | whether Cascader is disabled                                                                                                                                                     | ^[boolean]                                                                                                                                                                  | —            |
-| clearable                           | whether selected value can be cleared                                                                                                                                            | ^[boolean]                                                                                                                                                                  | —            |
-| show-all-levels                     | whether to display all levels of the selected value in the input                                                                                                                 | ^[boolean]                                                                                                                                                                  | true         |
-| collapse-tags                       | whether to collapse tags in multiple selection mode                                                                                                                              | ^[boolean]                                                                                                                                                                  | —            |
-| collapse-tags-tooltip               | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                                                                 | ^[boolean]                                                                                                                                                                  | false        |
-| separator                           | option label separator                                                                                                                                                           | ^[string]                                                                                                                                                                   | ' / '        |
-| filterable                          | whether the options can be searched                                                                                                                                              | ^[boolean]                                                                                                                                                                  | —            |
-| filter-method                       | customize search logic, the first parameter is `node`, the second is `keyword`, and need return a boolean value indicating whether it hits.                                      | ^[Function]`(node: CascaderNode, keyword: string) => boolean`                                                                                                               | —            |
-| debounce                            | debounce delay when typing filter keyword, in milliseconds                                                                                                                       | ^[number]                                                                                                                                                                   | 300          |
-| before-filter                       | hook function before filtering with the value to be filtered as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, filtering will be aborted | ^[Function]`(value: string) => boolean`                                                                                                                                     | —            |
-| popper-class                        | custom class name for Cascader's dropdown                                                                                                                                        | ^[string]                                                                                                                                                                   | ''           |
-| teleported                          | whether cascader popup is teleported                                                                                                                                             | ^[boolean]                                                                                                                                                                  | true         |
-| tag-type                            | tag type                                                                                                                                                                         | ^[enum]`'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                       | info         |
-| tag-effect ^(2.7.8)                 | tag effect                                                                                                                                                                       | ^[enum]`'light' \| 'dark' \| 'plain'`                                                                                                                                       | light        |
-| validate-event                      | whether to trigger form validation                                                                                                                                               | ^[boolean]                                                                                                                                                                  | true         |
-| max-collapse-tags ^(2.3.10)         | The max tags number to be shown. To use this, `collpase-tags` must be true                                                                                                       | ^[number]                                                                                                                                                                   | 1            |
-| empty-values ^(2.7.0)               | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                   | ^[array]                                                                                                                                                                    | —            |
-| value-on-clear ^(2.7.0)             | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                          | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —            |
-| persistent ^(2.7.8)                 | when dropdown is inactive and `persistent` is `false`, dropdown will be destroyed                                                                                                | ^[boolean]                                                                                                                                                                  | true         |
-| fallback-placements ^(2.8.1)        | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                                                             | ^[arrary]`Placement[]`                                                                                                                                                      | —            |
-| placement ^(2.8.1)                  | position of dropdown                                                                                                                                                             | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start |
-| popper-append-to-body ^(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                                                                                                                                  | true         |
+| Name                                       | Description                                                                                                                                                                      | Type                                                                                                                                                                        | Default      |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| model-value / v-model                      | binding value                                                                                                                                                                    | ^[string]/^[number]/^[object]`string[] \| number[] \| any`                                                                                                                  | —            |
+| options                                    | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[object]`Record<string, unknown>[]`                                                                                                                                        | —            |
+| props                                      | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                                                                                                                                    | —            |
+| size                                       | size of input                                                                                                                                                                    | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                    | —            |
+| placeholder                                | placeholder of input                                                                                                                                                             | ^[string]                                                                                                                                                                   | —            |
+| disabled                                   | whether Cascader is disabled                                                                                                                                                     | ^[boolean]                                                                                                                                                                  | —            |
+| clearable                                  | whether selected value can be cleared                                                                                                                                            | ^[boolean]                                                                                                                                                                  | —            |
+| show-all-levels                            | whether to display all levels of the selected value in the input                                                                                                                 | ^[boolean]                                                                                                                                                                  | true         |
+| collapse-tags                              | whether to collapse tags in multiple selection mode                                                                                                                              | ^[boolean]                                                                                                                                                                  | —            |
+| collapse-tags-tooltip                      | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                                                                 | ^[boolean]                                                                                                                                                                  | false        |
+| max-collapse-tags-tooltip-height ^(2.10.2) | max height of collapse-tags tooltip.                                                                                                                                             | ^[string] / ^[number]                                                                                                                                                       | —            |
+| separator                                  | option label separator                                                                                                                                                           | ^[string]                                                                                                                                                                   | ' / '        |
+| filterable                                 | whether the options can be searched                                                                                                                                              | ^[boolean]                                                                                                                                                                  | —            |
+| filter-method                              | customize search logic, the first parameter is `node`, the second is `keyword`, and need return a boolean value indicating whether it hits.                                      | ^[Function]`(node: CascaderNode, keyword: string) => boolean`                                                                                                               | —            |
+| debounce                                   | debounce delay when typing filter keyword, in milliseconds                                                                                                                       | ^[number]                                                                                                                                                                   | 300          |
+| before-filter                              | hook function before filtering with the value to be filtered as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, filtering will be aborted | ^[Function]`(value: string) => boolean`                                                                                                                                     | —            |
+| popper-class                               | custom class name for Cascader's dropdown                                                                                                                                        | ^[string]                                                                                                                                                                   | ''           |
+| teleported                                 | whether cascader popup is teleported                                                                                                                                             | ^[boolean]                                                                                                                                                                  | true         |
+| tag-type                                   | tag type                                                                                                                                                                         | ^[enum]`'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                       | info         |
+| tag-effect ^(2.7.8)                        | tag effect                                                                                                                                                                       | ^[enum]`'light' \| 'dark' \| 'plain'`                                                                                                                                       | light        |
+| validate-event                             | whether to trigger form validation                                                                                                                                               | ^[boolean]                                                                                                                                                                  | true         |
+| max-collapse-tags ^(2.3.10)                | The max tags number to be shown. To use this, `collpase-tags` must be true                                                                                                       | ^[number]                                                                                                                                                                   | 1            |
+| empty-values ^(2.7.0)                      | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                   | ^[array]                                                                                                                                                                    | —            |
+| value-on-clear ^(2.7.0)                    | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                          | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —            |
+| persistent ^(2.7.8)                        | when dropdown is inactive and `persistent` is `false`, dropdown will be destroyed                                                                                                | ^[boolean]                                                                                                                                                                  | true         |
+| fallback-placements ^(2.8.1)               | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                                                             | ^[arrary]`Placement[]`                                                                                                                                                      | —            |
+| placement ^(2.8.1)                         | position of dropdown                                                                                                                                                             | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start |
+| popper-append-to-body ^(deprecated)        | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                                                                                                                                  | true         |
 
 ### Cascader Events
 
@@ -8073,6 +8076,7 @@ const checked6 = ref(false)
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const checkboxGroup1 = ref(['Shanghai'])
 const checkboxGroup2 = ref(['Shanghai'])
 const checkboxGroup3 = ref(['Shanghai'])
@@ -8097,6 +8101,7 @@ const cities = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen']
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const checked1 = ref(false)
 const checked2 = ref(true)
 </script>
@@ -9289,6 +9294,7 @@ const config = reactive({
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { ElMessage } from 'element-plus'
+
 const config = reactive({
   max: 3,
   plain: true,
@@ -13184,6 +13190,7 @@ const handleClose = (done: () => void) => {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const drawer = ref(false)
 </script>
 
@@ -13981,14 +13988,15 @@ When only a single input (or related control such as select or checkbox) is insi
 
 ### Form Exposes
 
-| Name            | Description                                                        | Type                                                                                                                              |
-| --------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| validate        | Validate the whole form. Receives a callback or returns `Promise`. | ^[Function]`(callback?: FormValidateCallback) => Promise<void>`                                                                   |
-| validateField   | Validate specified fields.                                         | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined, callback?: FormValidateCallback \| undefined) => FormValidationResult` |
-| resetFields     | Reset specified fields and remove validation result.               | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
-| scrollToField   | Scroll to the specified fields.                                    | ^[Function]`(prop: FormItemProp) => void`                                                                                         |
-| clearValidate   | Clear validation messages for all or specified fields.             | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
-| fields ^(2.7.3) | Get all fields context.                                            | ^[array]`FormItemContext[]`                                                                                                       |
+| Name               | Description                                                        | Type                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| validate           | Validate the whole form. Receives a callback or returns `Promise`. | ^[Function]`(callback?: FormValidateCallback) => Promise<void>`                                                                   |
+| validateField      | Validate specified fields.                                         | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined, callback?: FormValidateCallback \| undefined) => FormValidationResult` |
+| resetFields        | Reset specified fields and remove validation result.               | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
+| scrollToField      | Scroll to the specified fields.                                    | ^[Function]`(prop: FormItemProp) => void`                                                                                         |
+| clearValidate      | Clear validation messages for all or specified fields.             | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
+| fields ^(2.7.3)    | Get all fields context.                                            | ^[array]`FormItemContext[]`                                                                                                       |
+| getField ^(2.10.2) | Get a field context.                                               | ^[Function]`(prop: FormItemProp) => FormItemContext \| undefined`                                                                 |
 
 ## FormItem API
 
@@ -14096,12 +14104,14 @@ type FormItemProps = ExtractPropTypes<typeof formItemProps>
 type FormItemContext = FormItemProps & {
   $el: HTMLDivElement | undefined
   size: ComponentSize
+  validateMessage: string
   validateState: FormItemValidateState
   isGroup: boolean
   labelId: string
   inputIds: string[]
   hasLabel: boolean
   fieldValue: any
+  propString: string
   addInputId: (id: string) => void
   removeInputId: (id: string) => void
   validate: (
@@ -15455,7 +15465,7 @@ const srcList = [
 </template>
 
 <script lang="ts" setup>
-import ElIcon from '@element-plus/components/icon'
+import { ElIcon } from 'element-plus'
 import {
   Back,
   DArrowRight,
@@ -15814,6 +15824,7 @@ Add `v-infinite-scroll` to the list to automatically execute loading method when
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const count = ref(0)
 const load = () => {
   count.value += 2
@@ -16202,6 +16213,7 @@ const num = ref(5)
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const num = ref(1)
 </script>
 
@@ -16346,6 +16358,7 @@ You can customize the prefix and suffix of the InputTag by `prefix` and `suffix`
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const input = ref<string[]>()
 </script>
 
@@ -16359,6 +16372,7 @@ const input = ref<string[]>()
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const input = ref<string[]>(['tag1', 'tag2', 'tag3'])
 </script>
 
@@ -16377,6 +16391,7 @@ const input = ref<string[]>(['tag1', 'tag2', 'tag3'])
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const input = ref<string[]>([])
 </script>
 
@@ -16390,6 +16405,7 @@ const input = ref<string[]>([])
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const input = ref<string[]>(['tag1', 'tag2', 'tag3'])
 </script>
 
@@ -16403,6 +16419,7 @@ const input = ref<string[]>(['tag1', 'tag2', 'tag3'])
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const input = ref<string[]>(['tag1', 'tag2', 'tag3'])
 </script>
 
@@ -16416,6 +16433,7 @@ const input = ref<string[]>(['tag1', 'tag2', 'tag3'])
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const input = ref<string[]>()
 </script>
 
@@ -16455,6 +16473,7 @@ const input = ref<string[]>()
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const input = ref<string[]>()
 </script>
 
@@ -16700,6 +16719,7 @@ PS: Since the ElInput component does not have a default width, when the clearabl
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const textarea1 = ref('')
 const textarea2 = ref('')
 </script>
@@ -16714,6 +16734,7 @@ const textarea2 = ref('')
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const input = ref('')
 </script>
 
@@ -16732,6 +16753,7 @@ const input = ref('')
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const input = ref('')
 </script>
 
@@ -16750,6 +16772,7 @@ const input = ref('')
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const input = ref('')
 </script>
 
@@ -16769,6 +16792,7 @@ const input = ref('')
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const input = ref('')
 </script>
 
@@ -16798,6 +16822,7 @@ const input = ref('')
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const text = ref('')
 const textarea = ref('')
 </script>
@@ -16868,6 +16893,7 @@ const textarea = ref('')
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
+
 const input1 = ref('')
 const input2 = ref('')
 const input3 = ref('')
@@ -16896,6 +16922,7 @@ const select = ref('')
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const input = ref('')
 </script>
 
@@ -16915,6 +16942,7 @@ const input = ref('')
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const textarea = ref('')
 </script>
 
@@ -16991,6 +17019,7 @@ const textarea = ref('')
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
+
 const input1 = ref('')
 const input2 = ref('')
 const input3 = ref('')
@@ -17038,6 +17067,7 @@ const input3 = ref('')
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Calendar, Search } from '@element-plus/icons-vue'
+
 const input1 = ref('')
 const input2 = ref('')
 const input3 = ref('')
@@ -18005,6 +18035,7 @@ type MentionOption = {
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 const value = ref('@')
 
 const options = ref([
@@ -18130,6 +18161,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 const value = ref('')
 
 const options = ref([
@@ -18245,6 +18277,7 @@ const handleSearch = (_: string, prefix: string) => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 const value = ref('')
 
 const options = ref([
@@ -18848,6 +18881,7 @@ import {
   Location,
   Setting,
 } from '@element-plus/icons-vue'
+
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
@@ -20467,6 +20501,7 @@ Add more modules based on your scenario.
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const value = ref(false)
 </script>
 
@@ -21979,16 +22014,18 @@ Radio with button styles.
 
 ### RadioGroup Attributes
 
-| Name                        | Description                                  | Type                               | Default |
-| --------------------------- | -------------------------------------------- | ---------------------------------- | ------- |
-| model-value / v-model       | binding value                                | ^[string] / ^[number] / ^[boolean] | —       |
-| size                        | the size of radio buttons or bordered radios | ^[string]                          | default |
-| disabled                    | whether the nesting radios are disabled      | ^[boolean]                         | false   |
-| validate-event              | whether to trigger form validation           | ^[boolean]                         | true    |
-| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup           | ^[string]                          | —       |
-| name                        | native `name` attribute                      | ^[string]                          | —       |
-| id                          | native `id` attribute                        | ^[string]                          | —       |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup           | ^[string]                          | —       |
+| Name                        | Description                                       | Type                               | Default |
+| --------------------------- | ------------------------------------------------- | ---------------------------------- | ------- |
+| model-value / v-model       | binding value                                     | ^[string] / ^[number] / ^[boolean] | —       |
+| size                        | the size of radio buttons or bordered radios      | ^[string]                          | default |
+| disabled                    | whether the nesting radios are disabled           | ^[boolean]                         | false   |
+| validate-event              | whether to trigger form validation                | ^[boolean]                         | true    |
+| text-color                  | font color when button is active                  | ^[string]                          | #ffffff |
+| fill                        | border and background color when button is active | ^[string]                          | #409eff |
+| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
+| name                        | native `name` attribute                           | ^[string]                          | —       |
+| id                          | native `id` attribute                             | ^[string]                          | —       |
+| label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
 
 ### RadioGroup Events
 
@@ -22012,8 +22049,6 @@ Radio with button styles.
 | label          | the label of Radio. If there's no `value`, `label` will act as `value` | ^[string] / ^[number] / ^[boolean] | —       |
 | disabled       | whether Radio is disabled                                              | ^[boolean]                         | false   |
 | name           | native 'name' attribute                                                | ^[string]                          | —       |
-| text-color     | font color when button is active                                       | ^[string]                          | #ffffff |
-| fill           | border and background color when button is active                      | ^[string]                          | #409eff |
 
 ### RadioButton Slots
 
@@ -22840,6 +22875,7 @@ const formatTooltip = (value: number) => `${value} px`
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const count = ref(3)
 
 const add = () => {
@@ -23603,6 +23639,7 @@ The width of dropdown box is calculated by default based on the value of `label`
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 const value1 = ref([])
@@ -23685,6 +23722,7 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 const value1 = ref([])
@@ -24271,6 +24309,7 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 const value = ref([])
@@ -24306,6 +24345,7 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 const value = ref([])
@@ -24373,6 +24413,7 @@ const handleClear = () => {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 const value = ref([])
@@ -24399,6 +24440,7 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 const value = ref([])
@@ -24460,6 +24502,7 @@ const options = Array.from({ length: 10 }).map((_, idx) => {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 const value = ref([])
@@ -24487,6 +24530,7 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 const value = ref([])
@@ -24516,6 +24560,7 @@ const options = ref(
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 const props = {
   label: 'name',
@@ -24646,6 +24691,7 @@ const remoteMethod = (query: string) => {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 const value = ref({ name: 'Option 1', test: 'test 0' })
@@ -29754,7 +29800,7 @@ import {
   TableV2FixedDir,
   TableV2SortOrder,
 } from 'element-plus'
-import type { Column, SortBy } from '@element-plus/components/table-v2'
+import type { Column, SortBy } from 'element-plus'
 
 const longText =
   'Quaerat ipsam necessitatibus eum quibusdam est id voluptatem cumque mollitia.'
@@ -34863,6 +34909,7 @@ const disabledSeconds = (hour: number, minute: number) => {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const value1 = ref()
 const value2 = ref()
 </script>
@@ -35941,6 +35988,7 @@ const visible = ref(false)
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 const buttonRef = ref()
 const tooltipRef = ref()
 
@@ -36663,6 +36711,7 @@ import type {
   TransferKey,
   renderContent,
 } from 'element-plus'
+
 interface Option {
   key: number
   label: string
@@ -36720,6 +36769,7 @@ const handleChange = (
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 interface DataItem {
   key: number
   label: string
@@ -37828,10 +37878,7 @@ const data = createData(4, 30, 40)
 </template>
 
 <script lang="ts" setup>
-import type {
-  TreeNode,
-  TreeNodeData,
-} from 'element-plus/es/components/tree-v2/src/types'
+import type { TreeNode, TreeNodeData } from 'element-plus'
 
 interface Tree {
   id?: string
@@ -38136,7 +38183,7 @@ const data = createData(4, 30, 40)
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElTreeV2 } from 'element-plus'
-import type { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types'
+import type { TreeNodeData } from 'element-plus'
 
 interface Tree {
   id: string
@@ -38614,14 +38661,14 @@ const defaultProps = {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { TreeInstance } from 'element-plus'
-import type Node from 'element-plus/es/components/tree/src/model/node'
+import type { RenderContentContext, TreeInstance } from 'element-plus'
 
 interface Tree {
   id: number
   label: string
   children?: Tree[]
 }
+type Node = RenderContentContext['node']
 
 const treeRef = ref<TreeInstance>()
 
@@ -38725,7 +38772,7 @@ const data: Tree[] = [
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/es/components/tree/src/model/node'
+import type { LoadFunction } from 'element-plus'
 
 interface Tree {
   name: string
@@ -38738,7 +38785,7 @@ const props = {
   isLeaf: 'leaf',
 }
 
-const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
+const loadNode: LoadFunction = (node, resolve) => {
   if (node.level === 0) {
     return resolve([{ name: 'region' }])
   }
@@ -38779,8 +38826,7 @@ const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/es/components/tree/src/model/node'
-import type { TreeNodeData } from 'element-plus/es/components/tree/src/tree.type'
+import type { TreeNodeData } from 'element-plus'
 
 interface Tree {
   id: number
@@ -38789,7 +38835,7 @@ interface Tree {
   children?: Tree[]
 }
 
-const customNodeClass = ({ isPenultimate }: TreeNodeData, node: Node) =>
+const customNodeClass = ({ isPenultimate }: TreeNodeData) =>
   isPenultimate ? 'is-penultimate' : ''
 
 const data: Tree[] = [
@@ -38914,16 +38960,19 @@ const data: Tree[] = [
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElButton } from 'element-plus'
-import type Node from 'element-plus/es/components/tree/src/model/node'
+import type { RenderContentContext, RenderContentFunction } from 'element-plus'
 
 interface Tree {
   id: number
   label: string
   children?: Tree[]
 }
+type Node = RenderContentContext['node']
+type Data = RenderContentContext['data']
+
 let id = 1000
 
-const append = (data: Tree) => {
+const append = (data: Data) => {
   const newChild = { id: id++, label: 'testtest', children: [] }
   if (!data.children) {
     data.children = []
@@ -38932,7 +38981,7 @@ const append = (data: Tree) => {
   dataSource.value = [...dataSource.value]
 }
 
-const remove = (node: Node, data: Tree) => {
+const remove = (node: Node, data: Data) => {
   const parent = node.parent
   const children: Tree[] = parent.data.children || parent.data
   const index = children.findIndex((d) => d.id === data.id)
@@ -38940,47 +38989,36 @@ const remove = (node: Node, data: Tree) => {
   dataSource.value = [...dataSource.value]
 }
 
-const renderContent = (
-  h,
-  {
-    node,
-    data,
-    store,
-  }: {
-    node: Node
-    data: Tree
-    store: Node['store']
-  }
-) => {
+const renderContent: RenderContentFunction = (h, { node, data }) => {
   return h(
     'div',
     {
       class: 'custom-tree-node',
     },
-    h('span', null, node.label),
-    h(
-      'div',
-      null,
-      h(
-        ElButton,
-        {
-          type: 'primary',
-          link: true,
-          onClick: () => append(data),
-        },
-        'Append '
-      ),
-      h(
-        ElButton,
-        {
-          type: 'danger',
-          link: true,
-          style: 'margin-left: 4px',
-          onClick: () => remove(node, data),
-        },
-        'Delete'
-      )
-    )
+    [
+      h('span', null, node.label),
+      h('div', null, [
+        h(
+          ElButton,
+          {
+            type: 'primary',
+            link: true,
+            onClick: () => append(data),
+          },
+          'Append '
+        ),
+        h(
+          ElButton,
+          {
+            type: 'danger',
+            link: true,
+            style: 'margin-left: 4px',
+            onClick: () => remove(node, data),
+          },
+          'Delete'
+        ),
+      ]),
+    ]
   )
 }
 
@@ -39204,12 +39242,15 @@ const data = [
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/es/components/tree/src/model/node'
+// eslint-disable-next-line no-restricted-imports
 import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode'
 import type {
   AllowDropType,
   NodeDropType,
-} from 'element-plus/es/components/tree/src/tree.type'
+  RenderContentContext,
+} from 'element-plus'
+
+type Node = RenderContentContext['node']
 
 const handleDragStart = (node: Node, ev: DragEvents) => {
   console.log('drag start', node)
@@ -39341,7 +39382,7 @@ const data = [
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
-import type { TreeInstance } from 'element-plus'
+import type { FilterNodeMethodFunction, TreeInstance } from 'element-plus'
 
 interface Tree {
   [key: string]: any
@@ -39359,7 +39400,7 @@ watch(filterText, (val) => {
   treeRef.value!.filter(val)
 })
 
-const filterNode = (value: string, data: Tree) => {
+const filterNode: FilterNodeMethodFunction = (value: string, data: Tree) => {
   if (!value) return true
   return data.label.includes(value)
 }
@@ -39425,7 +39466,7 @@ const data: Tree[] = [
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/es/components/tree/src/model/node'
+import type { LoadFunction } from 'element-plus'
 
 interface Tree {
   name: string
@@ -39439,11 +39480,7 @@ const props = {
 }
 
 let time = 0
-const loadNode = (
-  node: Node,
-  resolve: (data: Tree[]) => void,
-  reject: () => void
-) => {
+const loadNode: LoadFunction = (node, resolve, reject) => {
   if (node.level === 0) {
     return resolve([{ name: 'region' }])
   }
@@ -39480,7 +39517,7 @@ const loadNode = (
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/es/components/tree/src/model/node'
+import type { LoadFunction } from 'element-plus'
 
 interface Tree {
   name: string
@@ -39500,7 +39537,7 @@ const handleCheckChange = (
   console.log(data, checked, indeterminate)
 }
 
-const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
+const loadNode: LoadFunction = (node, resolve) => {
   if (node.level === 0) {
     return resolve([{ name: 'Root1' }, { name: 'Root2' }])
   }
