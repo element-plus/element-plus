@@ -129,6 +129,178 @@ module.exports = defineConfig({
         '@typescript-eslint/no-unused-vars': 'off',
       },
     },
+    {
+      files: [
+        'docs/examples/**/*.{js,jsx,ts,tsx,vue}',
+        'docs/en-US/**/*.md/*.{js,jsx,ts,tsx,vue}',
+      ],
+      rules: {
+        'no-console': 'off',
+        'import/no-unresolved': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+        'no-restricted-imports': [
+          'error',
+          {
+            paths: [
+              { name: '@element-plus', message: 'Use element-plus instead.' },
+            ],
+            patterns: [
+              {
+                group: [
+                  '@element-plus/*',
+                  '!@element-plus/icons-vue',
+                  'element-plus/es/*',
+                  '!element-plus/es/locale',
+                  'element-plus/lib/*',
+                  '!element-plus/lib/locale',
+                ],
+                message: 'Use element-plus instead.',
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      files: [
+        'internal/**/*.{js,ts}',
+        'packages/constants/**/*.{js,ts}',
+        'packages/locale/**/*.{js,ts}',
+        'packages/test-utils/**/*.{js,ts}',
+        'packages/theme-chalk/**/*.{js,ts}',
+      ],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            paths: [
+              { name: 'lodash', message: 'Use lodash-unified instead.' },
+              { name: 'lodash-es', message: 'Use lodash-unified instead.' },
+              { name: 'element-plus', message: 'Use @element-plus/* instead.' },
+            ],
+            patterns: [
+              {
+                group: ['lodash/*', 'lodash-es/*'],
+                message: 'Use lodash-unified instead.',
+              },
+              {
+                group: ['element-plus/*'],
+                message: 'Use @element-plus/* instead.',
+              },
+              {
+                group: [
+                  '@element-plus/components',
+                  '@element-plus/constants',
+                  '@element-plus/directives',
+                  '@element-plus/element-plus',
+                  '@element-plus/hooks',
+                  '@element-plus/locale',
+                  '@element-plus/test-utils',
+                  '@element-plus/theme-chalk',
+                  '@element-plus/utils',
+                ],
+                message:
+                  'Please do not use this dependency in the current file.',
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      files: [
+        'packages/directives/**/*.{js,jsx,ts,tsx,vue}',
+        'packages/hooks/**/*.{js,jsx,ts,tsx,vue}',
+        'packages/utils/**/*.{js,jsx,ts,tsx,vue}',
+      ],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            paths: [
+              { name: 'lodash', message: 'Use lodash-unified instead.' },
+              { name: 'lodash-es', message: 'Use lodash-unified instead.' },
+              { name: 'element-plus', message: 'Use @element-plus/* instead.' },
+            ],
+            patterns: [
+              {
+                group: ['lodash/*', 'lodash-es/*'],
+                message: 'Use lodash-unified instead.',
+              },
+              {
+                group: ['element-plus/*'],
+                message: 'Use @element-plus/* instead.',
+              },
+              {
+                group: [
+                  '@element-plus/components',
+                  '@element-plus/element-plus',
+                  '@element-plus/theme-chalk',
+                  '@element-plus/build',
+                  '@element-plus/build-constants',
+                  '@element-plus/build-utils',
+                  '@element-plus/eslint-config',
+                  '@element-plus/metadata',
+                ],
+                message:
+                  'Please do not use this dependency in the current file.',
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      files: [
+        'packages/components/**/*.{js,jsx,ts,tsx,vue}',
+        'packages/element-plus/**/*.{js,jsx,ts,tsx,vue}',
+      ],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            paths: [
+              { name: 'lodash', message: 'Use lodash-unified instead.' },
+              { name: 'lodash-es', message: 'Use lodash-unified instead.' },
+              { name: 'element-plus', message: 'Use @element-plus/* instead.' },
+            ],
+            patterns: [
+              {
+                group: ['lodash/*', 'lodash-es/*'],
+                message: 'Use lodash-unified instead.',
+              },
+              {
+                group: ['element-plus/*'],
+                message: 'Use @element-plus/* instead.',
+              },
+              {
+                group: ['@element-plus/theme-chalk/src/el-*.scss'],
+                message: 'Use @element-plus/theme-chalk/src/*.scss instead.',
+              },
+              {
+                group: [
+                  '@element-plus/theme-chalk/*.css',
+                  '!@element-plus/theme-chalk/el-*.css',
+                  '!@element-plus/theme-chalk/base.css',
+                ],
+                message: 'Use @element-plus/theme-chalk/src/el-*.css instead.',
+              },
+              {
+                group: [
+                  '@element-plus/build',
+                  '@element-plus/build-constants',
+                  '@element-plus/build-utils',
+                  '@element-plus/eslint-config',
+                  '@element-plus/metadata',
+                ],
+                message:
+                  'Please do not use this dependency in the current file.',
+              },
+            ],
+          },
+        ],
+      },
+    },
   ],
   rules: {
     // js/ts
