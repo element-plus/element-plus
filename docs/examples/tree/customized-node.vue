@@ -44,16 +44,19 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElButton } from 'element-plus'
-import type Node from 'element-plus/es/components/tree/src/model/node'
+import type { RenderContentContext, RenderContentFunction } from 'element-plus'
 
 interface Tree {
   id: number
   label: string
   children?: Tree[]
 }
+type Node = RenderContentContext['node']
+type Data = RenderContentContext['data']
+
 let id = 1000
 
-const append = (data: Tree) => {
+const append = (data: Data) => {
   const newChild = { id: id++, label: 'testtest', children: [] }
   if (!data.children) {
     data.children = []
@@ -62,7 +65,7 @@ const append = (data: Tree) => {
   dataSource.value = [...dataSource.value]
 }
 
-const remove = (node: Node, data: Tree) => {
+const remove = (node: Node, data: Data) => {
   const parent = node.parent
   const children: Tree[] = parent.data.children || parent.data
   const index = children.findIndex((d) => d.id === data.id)
@@ -70,47 +73,36 @@ const remove = (node: Node, data: Tree) => {
   dataSource.value = [...dataSource.value]
 }
 
-const renderContent = (
-  h,
-  {
-    node,
-    data,
-    store,
-  }: {
-    node: Node
-    data: Tree
-    store: Node['store']
-  }
-) => {
+const renderContent: RenderContentFunction = (h, { node, data }) => {
   return h(
     'div',
     {
       class: 'custom-tree-node',
     },
-    h('span', null, node.label),
-    h(
-      'div',
-      null,
-      h(
-        ElButton,
-        {
-          type: 'primary',
-          link: true,
-          onClick: () => append(data),
-        },
-        'Append '
-      ),
-      h(
-        ElButton,
-        {
-          type: 'danger',
-          link: true,
-          style: 'margin-left: 4px',
-          onClick: () => remove(node, data),
-        },
-        'Delete'
-      )
-    )
+    [
+      h('span', null, node.label),
+      h('div', null, [
+        h(
+          ElButton,
+          {
+            type: 'primary',
+            link: true,
+            onClick: () => append(data),
+          },
+          'Append '
+        ),
+        h(
+          ElButton,
+          {
+            type: 'danger',
+            link: true,
+            style: 'margin-left: 4px',
+            onClick: () => remove(node, data),
+          },
+          'Delete'
+        ),
+      ]),
+    ]
   )
 }
 

@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElTreeV2 } from 'element-plus'
-import type { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types'
+import type { TreeNodeData } from 'element-plus'
 
 interface Tree {
   id: string

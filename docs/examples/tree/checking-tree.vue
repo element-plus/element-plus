@@ -21,14 +21,14 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { TreeInstance } from 'element-plus'
-import type Node from 'element-plus/es/components/tree/src/model/node'
+import type { RenderContentContext, TreeInstance } from 'element-plus'
 
 interface Tree {
   id: number
   label: string
   children?: Tree[]
 }
+type Node = RenderContentContext['node']
 
 const treeRef = ref<TreeInstance>()
 

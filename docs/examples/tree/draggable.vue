@@ -17,12 +17,15 @@
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/es/components/tree/src/model/node'
+// eslint-disable-next-line no-restricted-imports
 import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode'
 import type {
   AllowDropType,
   NodeDropType,
-} from 'element-plus/es/components/tree/src/tree.type'
+  RenderContentContext,
+} from 'element-plus'
+
+type Node = RenderContentContext['node']
 
 const handleDragStart = (node: Node, ev: DragEvents) => {
   console.log('drag start', node)

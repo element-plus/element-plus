@@ -18,6 +18,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const textarea1 = ref('')
 const textarea2 = ref('')
 </script>

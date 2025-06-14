@@ -3,15 +3,20 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
-import { provideGlobalConfig } from '@element-plus/components/config-provider'
 import { buildTranslator, useLocale } from '../use-locale'
 import type { Language } from '@element-plus/locale'
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 
 const TestComp = defineComponent({
-  setup() {
-    const { t } = useLocale()
+  props: {
+    locale: {
+      type: Object as PropType<Language>,
+      default: Chinese,
+    },
+  },
+  setup(props) {
+    const { t } = useLocale(computed(() => props.locale))
     return () => (
       <div class="locale-manifest">{t('el.popconfirm.confirmButtonText')}</div>
     )
@@ -22,20 +27,7 @@ describe('use-locale', () => {
   let wrapper: VueWrapper<ComponentPublicInstance>
 
   beforeEach(() => {
-    wrapper = mount(
-      defineComponent({
-        props: {
-          locale: {
-            type: Object as PropType<Language>,
-            default: Chinese,
-          },
-        },
-        setup(props) {
-          provideGlobalConfig(computed(() => ({ locale: props.locale })))
-          return () => <TestComp />
-        },
-      })
-    )
+    wrapper = mount(TestComp)
   })
 
   afterEach(() => {

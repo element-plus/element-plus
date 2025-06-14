@@ -4,6 +4,7 @@ import { rightRichTextSponsors } from '../../../config/sponsors'
 import { sendEvent } from '../../../config/analytics'
 import { useLang } from '../../composables/lang'
 import { isDark } from '../../composables/dark'
+
 const lang = useLang()
 const langZhCN = 'zh-CN'
 const isZhCn = computed(() => lang.value === langZhCN)

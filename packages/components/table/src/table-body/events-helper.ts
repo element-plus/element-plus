@@ -101,6 +101,9 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
         cell,
         namespace
       )
+      if (!column) {
+        return
+      }
       if (cell.rowSpan > 1) {
         toggleRowClassByCell(cell.rowSpan, event, addClass)
       }

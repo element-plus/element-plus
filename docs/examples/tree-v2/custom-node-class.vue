@@ -9,10 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import type {
-  TreeNode,
-  TreeNodeData,
-} from 'element-plus/es/components/tree-v2/src/types'
+import type { TreeNode, TreeNodeData } from 'element-plus'
 
 interface Tree {
   id?: string
