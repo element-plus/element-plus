@@ -166,6 +166,28 @@ const Tabs = defineComponent({
       emit('tabAdd')
     }
 
+    const TabNavRenderer: FunctionalComponent<{ render: () => VNode }> = ({
+      render,
+    }) => {
+      return render()
+    }
+
+    const swapChildren = (
+      vnode: VNode & {
+        el: HTMLDivElement
+        children: VNode<HTMLDivElement>[]
+      }
+    ) => {
+      const actualFirstChild = vnode.el.firstChild!
+      const firstChild = ['bottom', 'right'].includes(props.tabPosition)
+        ? vnode.children[0].el!
+        : vnode.children[1].el!
+
+      if (actualFirstChild !== firstChild) {
+        actualFirstChild.before(firstChild)
+      }
+    }
+
     watch(
       () => props.modelValue,
       (modelValue) => setCurrentName(modelValue)
@@ -190,11 +212,7 @@ const Tabs = defineComponent({
       currentName,
       tabNavRef: nav$,
     })
-    const TabNavRenderer: FunctionalComponent<{ render: () => VNode }> = ({
-      render,
-    }) => {
-      return render()
-    }
+
     return () => {
       const addSlot = slots['add-icon']
       const newButton =
@@ -266,6 +284,9 @@ const Tabs = defineComponent({
               [ns.m('border-card')]: props.type === 'border-card',
             },
           ]}
+          // @ts-ignore
+          onVnodeMounted={swapChildren}
+          onVnodeUpdated={swapChildren}
         >
           {panels}
           {header}
