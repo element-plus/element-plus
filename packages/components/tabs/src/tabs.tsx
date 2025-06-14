@@ -175,19 +175,17 @@ const Tabs = defineComponent({
     const swapChildren = (
       vnode: VNode & {
         el: HTMLDivElement
-        children: (VNode & { el?: HTMLDivElement })[]
+        children: VNode<HTMLDivElement>[]
       }
     ) => {
-      if (['bottom', 'right'].includes(props.tabPosition)) return
+      const actualFirstChild = vnode.el.firstChild!
+      const firstChild = ['bottom', 'right'].includes(props.tabPosition)
+        ? vnode.children[0].el!
+        : vnode.children[1].el!
 
-      const parent = vnode.el
-      const children = vnode.children
-
-      // For Vue version below 3.4, `onVnodeBeforeMount` is called before hydrating children.
-      // https://github.com/vuejs/core/commit/2ffc1e8cfdc6ec9c45c4a4dd8e3081b2aa138f1e#diff-d13ae6fff054484d04947f8e9f28742e10fcbfb45d6c72846732d3d42a020cde
-      if (!children[0].el) return
-
-      parent.insertBefore(children[1].el, children[0].el)
+      if (actualFirstChild !== firstChild) {
+        actualFirstChild.before(firstChild)
+      }
     }
 
     watch(
@@ -287,7 +285,8 @@ const Tabs = defineComponent({
             },
           ]}
           // @ts-ignore
-          onVnodeBeforeMount={swapChildren}
+          onVnodeMounted={swapChildren}
+          onVnodeUpdated={swapChildren}
         >
           {panels}
           {header}
