@@ -73,7 +73,7 @@
             nsCascader.is('validate', Boolean(validateState)),
           ]"
         >
-          <slot name="tag" :data="selectedNodeItems">
+          <slot name="tag" :data="presentTagTrees">
             <el-tag
               v-for="tag in presentTags"
               :key="tag.key"
@@ -203,15 +203,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  nextTick,
-  onMounted,
-  ref,
-  useAttrs,
-  useSlots,
-  watch,
-} from 'vue'
+import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
 import { cloneDeep, debounce } from 'lodash-unified'
 import { useCssVar, useResizeObserver } from '@vueuse/core'
 import {
@@ -243,8 +235,6 @@ import {
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { cascaderEmits, cascaderProps } from './cascader'
 
-import { getSelectedNodeItems } from './utils'
-import type { SelectedNodeItem } from './types'
 import type { Options } from '@element-plus/components/popper'
 import type { ComputedRef, Ref, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
@@ -283,7 +273,6 @@ defineOptions({
 const props = defineProps(cascaderProps)
 const emit = defineEmits(cascaderEmits)
 const attrs = useAttrs()
-const slots = useSlots()
 
 let inputInitialHeight = 0
 let pressDeleteCount = 0
@@ -315,7 +304,7 @@ const searchInputValue = ref('')
 const presentTags: Ref<Tag[]> = ref([])
 const allPresentTags: Ref<Tag[]> = ref([])
 const suggestions: Ref<CascaderNode[]> = ref([])
-const selectedNodeItems: Ref<SelectedNodeItem[]> = ref([])
+const presentTagTrees: Ref<Tag[]> = ref([])
 const cascaderStyle = computed<StyleValue>(() => {
   return attrs.style as StyleValue
 })
@@ -375,12 +364,6 @@ const checkedValue = computed<CascaderValue>({
     emit(CHANGE_EVENT, value)
     if (props.validateEvent) {
       formItem?.validate('change').catch((err) => debugWarn(err))
-    }
-    if (slots.tag) {
-      selectedNodeItems.value = getSelectedNodeItems(
-        props.options,
-        value as (string | number)[][]
-      )
     }
   },
 })
@@ -467,6 +450,11 @@ const calculatePresentTags = () => {
   const allTags: Tag[] = []
   nodes.forEach((node) => allTags.push(genTag(node)))
   allPresentTags.value = allTags
+
+  const allNodes = getCheckedNodes(false) as CascaderNode[]
+  const allNodesTags: Tag[] = []
+  allNodes.forEach((node) => allNodesTags.push(genTag(node)))
+  presentTagTrees.value = allNodesTags
 
   if (nodes.length) {
     nodes

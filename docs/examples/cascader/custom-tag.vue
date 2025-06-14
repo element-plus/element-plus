@@ -99,8 +99,8 @@ const options = [
 ]
 const getSelection = (data) => {
   return data.reduce((prev, cur) => {
-    if (cur.level === 1) {
-      prev.push(cur.label)
+    if (cur.node.level === 1) {
+      prev.push(cur.node.label)
     }
     return prev
   }, [])
