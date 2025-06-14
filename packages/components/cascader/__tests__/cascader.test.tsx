@@ -716,4 +716,47 @@ describe('Cascader.vue', () => {
       expect(prefixSlotEl?.textContent).toBe('-=-prefix-=-')
     })
   })
+  describe('Cascader - tag slot displays top-level labels', () => {
+    it('should render tags with only top-level labels', async () => {
+      const value = ref<string[][]>([])
+      const getSelection = (data: any[]) => {
+        return data.reduce((prev: string[], cur) => {
+          if (cur.level === 1) {
+            prev.push(cur.label)
+          }
+          return prev
+        }, [])
+      }
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          options={OPTIONS}
+          props={{ multiple: true }}
+          clearable
+        >
+          {{
+            tag: ({ data }: any) => {
+              const list = getSelection(data)
+              return list.map((item: string) => (
+                <el-tag key={item}>{item}</el-tag>
+              ))
+            },
+          }}
+        </Cascader>
+      ))
+      const trigger = wrapper.find(TRIGGER)
+      await trigger.trigger('click')
+      await nextTick()
+      const firstNode = document.querySelector(NODE) as HTMLElement
+      expect(firstNode).not.toBeNull()
+      firstNode.click()
+      await nextTick()
+      value.value = [['zhejiang', 'hangzhou']]
+      await nextTick()
+      await nextTick()
+      const tags = wrapper.findAll('span.el-tag')
+      expect(tags.length).toBe(1)
+      expect(tags[0].text()).toContain('Zhejiang')
+    })
+  })
 })
