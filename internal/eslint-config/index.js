@@ -395,13 +395,15 @@ module.exports = defineConfig({
       'error',
       {
         groups: [
-          'builtin',
-          'external',
-          'internal',
-          'parent',
-          'sibling',
-          'index',
-          'object',
+          [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+            'object',
+          ],
           'type',
         ],
 
@@ -423,7 +425,7 @@ module.exports = defineConfig({
         ],
         pathGroupsExcludedImportTypes: ['type'],
         sortTypesGroup: true,
-        'newlines-between': 'never',
+        'newlines-between': 'always',
         'newlines-between-types': 'always',
       },
     ],
