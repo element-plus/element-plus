@@ -1,10 +1,22 @@
 <template>
   <div class="m-4">
-    <p>Show Parent</p>
+    <p>Using slots allows for more flexible control over the display.</p>
     <el-cascader :options="options" :props="props" clearable>
       <template #tag="{ data }">
-        <el-tag v-for="item in getSelection(data)" :key="item"
-          >{{ item }}
+        <el-tag
+          v-for="(item, index) in getTags(data)"
+          :key="item"
+          :color="index % 2 === 0 ? '#FFDE0A' : ''"
+        >
+          {{ item }}
+        </el-tag>
+      </template>
+    </el-cascader>
+    <p>Display top-level tags only</p>
+    <el-cascader :options="options" :props="props" clearable>
+      <template #tag="{ data }">
+        <el-tag v-for="item in getSelection(data)" :key="item">
+          {{ item }}
         </el-tag>
       </template>
     </el-cascader>
@@ -13,7 +25,6 @@
 
 <script lang="ts" setup>
 const props = { multiple: true }
-
 const options = [
   {
     value: 1,
@@ -97,8 +108,11 @@ const options = [
     ],
   },
 ]
+const getTags = (data) => {
+  return data.map((item) => item.text)
+}
 const getSelection = (data) => {
-  const set = new Set()
+  const set: Set<string> = new Set()
   for (const datum of data) {
     let parent = datum.node.parent
     while (parent && parent.level !== 1) {
