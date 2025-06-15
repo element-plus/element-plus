@@ -719,13 +719,21 @@ describe('Cascader.vue', () => {
   describe('Cascader - tag slot displays top-level labels', () => {
     it('should render tags with only top-level labels', async () => {
       const value = ref<string[][]>([])
-      const getSelection = (data: any[]) => {
-        return data.reduce((prev: string[], cur) => {
-          if (cur.level === 1) {
-            prev.push(cur.label)
+      const getSelection = (data: any[]): any[] => {
+        const set = new Set()
+        for (const datum of data) {
+          let parent = datum.node.parent
+          while (parent) {
+            if (parent.level === 1) break
+            if (parent.parent) {
+              parent = parent.parent
+            }
           }
-          return prev
-        }, [])
+          if (!set.has(parent.data.label)) {
+            set.add(parent.data.label)
+          }
+        }
+        return Array.from(set)
       }
       const wrapper = _mount(() => (
         <Cascader
@@ -738,7 +746,7 @@ describe('Cascader.vue', () => {
             tag: ({ data }: any) => {
               const list = getSelection(data)
               return list.map((item: string) => (
-                <el-tag key={item}>{item}</el-tag>
+                <ElTag key={item}>{item}</ElTag>
               ))
             },
           }}

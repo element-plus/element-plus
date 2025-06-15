@@ -73,7 +73,7 @@
             nsCascader.is('validate', Boolean(validateState)),
           ]"
         >
-          <slot name="tag" :data="presentTagTrees">
+          <slot name="tag" :data="presentTags">
             <el-tag
               v-for="tag in presentTags"
               :key="tag.key"
@@ -304,7 +304,6 @@ const searchInputValue = ref('')
 const presentTags: Ref<Tag[]> = ref([])
 const allPresentTags: Ref<Tag[]> = ref([])
 const suggestions: Ref<CascaderNode[]> = ref([])
-const presentTagTrees: Ref<Tag[]> = ref([])
 const cascaderStyle = computed<StyleValue>(() => {
   return attrs.style as StyleValue
 })
@@ -450,11 +449,6 @@ const calculatePresentTags = () => {
   const allTags: Tag[] = []
   nodes.forEach((node) => allTags.push(genTag(node)))
   allPresentTags.value = allTags
-
-  const allNodes = getCheckedNodes(false) as CascaderNode[]
-  const allNodesTags: Tag[] = []
-  allNodes.forEach((node) => allNodesTags.push(genTag(node)))
-  presentTagTrees.value = allNodesTags
 
   if (nodes.length) {
     nodes

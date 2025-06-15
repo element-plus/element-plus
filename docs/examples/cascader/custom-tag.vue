@@ -98,11 +98,19 @@ const options = [
   },
 ]
 const getSelection = (data) => {
-  return data.reduce((prev, cur) => {
-    if (cur.node.level === 1) {
-      prev.push(cur.node.label)
+  const set = new Set()
+  for (const datum of data) {
+    let parent = datum.node.parent
+    while (parent) {
+      if (parent.level === 1) break
+      if (parent.parent) {
+        parent = parent.parent
+      }
     }
-    return prev
-  }, [])
+    if (parent?.data?.label && !set.has(parent.data.label)) {
+      set.add(parent.data.label)
+    }
+  }
+  return Array.from(set)
 }
 </script>
