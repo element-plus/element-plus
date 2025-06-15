@@ -24,6 +24,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { Tag } from 'element-plus'
+
 const props = { multiple: true }
 const options = [
   {
@@ -108,13 +110,13 @@ const options = [
     ],
   },
 ]
-const getTags = (data) => {
+const getTags = (data: Tag[]) => {
   return data.map((item) => item.text)
 }
-const getTopLevelTags = (data) => {
+const getTopLevelTags = (data: Tag[]) => {
   const set: Set<string> = new Set()
   for (const datum of data) {
-    let parent = datum.node.parent
+    let parent = datum.node?.parent
     while (parent && parent.level !== 1) {
       parent = parent.parent
     }
