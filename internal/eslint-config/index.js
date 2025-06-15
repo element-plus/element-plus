@@ -404,7 +404,7 @@ module.exports = defineConfig({
             'index',
             'object',
           ],
-          ['type'],
+          'type',
         ],
         pathGroups: [
           {
