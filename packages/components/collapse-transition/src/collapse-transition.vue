@@ -6,6 +6,7 @@
 
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
+
 import type { RendererElement } from 'vue'
 
 defineOptions({

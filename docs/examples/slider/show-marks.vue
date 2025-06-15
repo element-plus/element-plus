@@ -6,6 +6,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { CSSProperties } from 'vue'
 
 interface Mark {
