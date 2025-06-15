@@ -395,15 +395,8 @@ module.exports = defineConfig({
       'error',
       {
         groups: [
-          [
-            'builtin',
-            'external',
-            'internal',
-            'parent',
-            'sibling',
-            'index',
-            'object',
-          ],
+          'builtin',
+          ['external', 'internal', 'parent', 'sibling', 'index', 'object'],
           'type',
         ],
         pathGroups: [
