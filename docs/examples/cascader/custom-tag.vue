@@ -101,16 +101,12 @@ const getSelection = (data) => {
   const set = new Set()
   for (const datum of data) {
     let parent = datum.node.parent
-    while (parent) {
-      if (parent.level === 1) break
-      if (parent.parent) {
-        parent = parent.parent
-      }
+    while (parent && parent.level !== 1) {
+      parent = parent.parent
     }
-    if (parent?.data?.label && !set.has(parent.data.label)) {
-      set.add(parent.data.label)
-    }
+    const label = parent?.data?.label
+    label && set.add(label)
   }
-  return Array.from(set)
+  return [...set]
 }
 </script>
