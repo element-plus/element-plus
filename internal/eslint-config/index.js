@@ -404,9 +404,8 @@ module.exports = defineConfig({
             'index',
             'object',
           ],
-          'type',
+          ['type'],
         ],
-
         pathGroups: [
           {
             pattern: 'vue',
@@ -425,7 +424,7 @@ module.exports = defineConfig({
         ],
         pathGroupsExcludedImportTypes: ['type'],
         sortTypesGroup: true,
-        'newlines-between': 'always',
+        'newlines-between': 'never',
         'newlines-between-types': 'always',
       },
     ],
