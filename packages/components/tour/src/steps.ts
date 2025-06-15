@@ -1,6 +1,5 @@
 import { defineComponent } from 'vue'
 import { flattedChildren, isArray } from '@element-plus/utils'
-
 import type { FlattenVNodes } from '@element-plus/utils'
 import type { Component, VNode } from 'vue'
 

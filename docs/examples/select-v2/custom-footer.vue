@@ -31,7 +31,6 @@
 <script lang="ts" setup>
 import { nextTick, ref } from 'vue'
 import { ElSelectV2 } from 'element-plus'
-
 import type { CheckboxValueType } from 'element-plus'
 
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']

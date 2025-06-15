@@ -4,7 +4,6 @@ import { useStorage } from '@vueuse/core'
 import VPLink from '../common/vp-link.vue'
 import { isActive } from '../../utils'
 import { usePlaygroundPreview } from '../../composables/use-playground'
-
 import type { Link } from '../../types'
 
 const USER_VISITED_NEW_RESOURCE_PAGE = 'USER_VISITED_NEW_RESOURCE_PAGE'

@@ -53,7 +53,6 @@ import ElTeleport from '@element-plus/components/teleport'
 import { tryFocus } from '@element-plus/components/focus-trap'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipContentProps } from './content'
-
 import type { PopperContentInstance } from '@element-plus/components/popper'
 
 defineOptions({

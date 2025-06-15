@@ -1,10 +1,10 @@
 import { nextTick, ref } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
+
 import { EVENT_CODE } from '@element-plus/constants'
 import Upload from '../src/upload.vue'
 import UploadContent from '../src/upload-content.vue'
-
 import type { UploadRawFile } from '../src/upload'
 
 const AXIOM = 'Rem is the best girl'

@@ -42,6 +42,7 @@ import { useFormDisabled } from '@element-plus/components/form'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+
 import { timeSelectProps } from './time-select'
 import { compareTime, formatTime, nextTime, parseTime } from './utils'
 

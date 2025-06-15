@@ -7,7 +7,6 @@ import sleep from '@element-plus/test-utils/sleep'
 import ElIcon from '@element-plus/components/icon'
 import Tree from '../src/tree.vue'
 import Button from '../../button/src/button.vue'
-
 import type Node from '../src/model/node'
 
 const ALL_NODE_COUNT = 9

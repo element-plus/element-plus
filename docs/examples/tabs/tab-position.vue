@@ -16,7 +16,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
 import type { TabsInstance } from 'element-plus'
 
 const tabPosition = ref<TabsInstance['tabPosition']>('left')

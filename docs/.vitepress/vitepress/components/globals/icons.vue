@@ -6,7 +6,6 @@ import * as Icons from '@element-plus/icons-vue'
 import { useLang } from '../../composables/lang'
 import localeData from '../../../i18n/component/icons.json'
 import IconCategories from './icons-categories.json'
-
 import type { DefineComponent } from 'vue'
 
 type CategoriesItem = {

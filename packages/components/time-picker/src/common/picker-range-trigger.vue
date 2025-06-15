@@ -42,7 +42,6 @@
 import { ref } from 'vue'
 import { useAttrs, useFocusController, useNamespace } from '@element-plus/hooks'
 import { timePickerRangeTriggerProps } from './props'
-
 import type { CSSProperties } from 'vue'
 
 defineOptions({

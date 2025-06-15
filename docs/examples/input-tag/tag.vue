@@ -24,7 +24,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElementPlus } from '@element-plus/icons-vue'
-
 import type { TagProps } from 'element-plus'
 
 const type: Array<TagProps['type']> = [

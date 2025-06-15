@@ -7,7 +7,6 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-
 import type { ExtractPropTypes } from 'vue'
 import type { Arrayable, Awaitable } from '@element-plus/utils'
 

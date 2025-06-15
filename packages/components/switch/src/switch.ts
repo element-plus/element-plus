@@ -13,7 +13,6 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useAriaProps } from '@element-plus/hooks'
-
 import type { ComponentSize } from '@element-plus/constants'
 import type Switch from './switch.vue'
 import type { ExtractPropTypes, PropType } from 'vue'

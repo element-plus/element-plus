@@ -6,9 +6,7 @@ import homeLocale from '../../../i18n/pages/home.json'
 import HomeSponsors from '../home/home-sponsors.vue'
 import HomeCards from '../home/home-cards.vue'
 import HomeFooter from './vp-footer.vue'
-
 import type { CSSProperties } from 'vue'
-
 import { isDark } from '~/composables/dark'
 
 const target = ref<HTMLElement | null>(null)

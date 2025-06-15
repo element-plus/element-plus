@@ -1,5 +1,4 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
-
 import type { ExtractPropTypes } from 'vue'
 import type Next from './next.vue'
 

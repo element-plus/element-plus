@@ -48,7 +48,6 @@ import {
   Pear,
   Watermelon,
 } from '@element-plus/icons-vue'
-
 import type { SegmentedProps } from 'element-plus'
 
 const value = ref('Apple')

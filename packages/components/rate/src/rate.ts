@@ -8,7 +8,6 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
-
 import type { Component, ExtractPropTypes } from 'vue'
 import type Rate from './rate.vue'
 

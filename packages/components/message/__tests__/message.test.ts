@@ -6,7 +6,6 @@ import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import Message from '../src/message.vue'
 import { messageTypes } from '../src/message'
-
 import type { CSSProperties, Component, ComponentPublicInstance } from 'vue'
 
 const AXIOM = 'Rem is the best girl'

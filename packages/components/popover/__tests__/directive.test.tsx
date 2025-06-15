@@ -4,7 +4,6 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import Popover from '../src/popover.vue'
 import PopoverDirective, { VPopover } from '../src/directive'
-
 import type { PopoverInstance } from '../src/popover'
 
 const AXIOM = 'Rem is the best boy'

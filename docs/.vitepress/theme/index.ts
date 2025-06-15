@@ -3,9 +3,9 @@ import ElementPlus, {
   ZINDEX_INJECTION_KEY,
 } from 'element-plus'
 import { isClient } from '@vueuse/core'
+
 import VPApp, { NotFound, globals } from '../vitepress'
 import { define } from '../utils/types'
-
 import 'uno.css'
 import './style.css'
 import 'vitepress/dist/client/theme-default/styles/components/vp-code-group.css'

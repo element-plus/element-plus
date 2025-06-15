@@ -18,7 +18,6 @@ import {
   TableV2FixedDir,
 } from 'element-plus'
 import { Filter } from '@element-plus/icons-vue'
-
 import type { HeaderCellSlotProps } from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>

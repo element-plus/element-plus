@@ -24,7 +24,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
 import type { CalendarDateType, CalendarInstance } from 'element-plus'
 
 const calendar = ref<CalendarInstance>()

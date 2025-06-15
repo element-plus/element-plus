@@ -1,15 +1,15 @@
 import path from 'path'
-import { rollup } from 'rollup'
-import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild'
-import { parallel } from 'gulp'
-import glob from 'fast-glob'
-import { camelCase, upperFirst } from 'lodash-unified'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
+import { rollup } from 'rollup'
 import replace from '@rollup/plugin-replace'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/rollup'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild'
+import { parallel } from 'gulp'
+import glob from 'fast-glob'
+import { camelCase, upperFirst } from 'lodash-unified'
 import {
   PKG_BRAND_NAME,
   PKG_CAMELCASE_LOCAL_NAME,
@@ -25,7 +25,6 @@ import {
   writeBundles,
 } from '../utils'
 import { target } from '../build-info'
-
 import type { TaskFunction } from 'gulp'
 import type { Plugin } from 'rollup'
 

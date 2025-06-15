@@ -2,7 +2,6 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import Skeleton from '../src/skeleton.vue'
-
 import type { SkeletonInstance } from '../src/skeleton'
 
 const AXIOM = 'AXIOM is the best girl'

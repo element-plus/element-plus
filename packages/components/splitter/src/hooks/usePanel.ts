@@ -1,5 +1,4 @@
 import { isObject } from '@element-plus/utils'
-
 import type { PanelItemState } from '../type'
 
 export function getCollapsible(

@@ -1,9 +1,9 @@
 import { withInstall } from '@element-plus/utils'
 import Popper from './src/popper.vue'
+
 import ElPopperArrow from './src/arrow.vue'
 import ElPopperTrigger from './src/trigger.vue'
 import ElPopperContent from './src/content.vue'
-
 import type { SFCWithInstall } from '@element-plus/utils'
 
 export { ElPopperArrow, ElPopperTrigger, ElPopperContent }

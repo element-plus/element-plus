@@ -60,6 +60,7 @@ import {
   watch,
 } from 'vue'
 import { ElPopper, ElPopperArrow } from '@element-plus/components/popper'
+
 import { isBoolean } from '@element-plus/utils'
 import {
   useDelayedToggle,
@@ -71,7 +72,6 @@ import { TOOLTIP_INJECTION_KEY } from './constants'
 import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
-
 import type { TooltipContentInstance } from './content'
 import type { PopperInstance } from '@element-plus/components/popper'
 

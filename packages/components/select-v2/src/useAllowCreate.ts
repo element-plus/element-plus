@@ -1,6 +1,5 @@
 import { computed, ref } from 'vue'
 import { useProps } from './useProps'
-
 import type { SelectV2Props } from './token'
 import type { Option, SelectStates } from './select.types'
 

@@ -5,7 +5,6 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
-
 import type { ExtractPropTypes } from 'vue'
 import type { ObjectFitProperty } from 'csstype'
 

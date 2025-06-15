@@ -5,7 +5,6 @@ import { debugWarn } from '@element-plus/utils'
 import Input from '../../input/src/input.vue'
 import Collapse from '../src/collapse.vue'
 import CollapseItem from '../src/collapse-item.vue'
-
 import type { VueWrapper } from '@vue/test-utils'
 import type { CollapseItemInstance } from '../src/instance'
 

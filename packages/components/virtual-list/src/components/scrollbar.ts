@@ -11,6 +11,7 @@ import {
 } from 'vue'
 import { BAR_MAP } from '@element-plus/components/scrollbar'
 import { cAF, rAF } from '@element-plus/utils'
+
 import { useNamespace } from '@element-plus/hooks'
 import { HORIZONTAL, SCROLLBAR_MIN_SIZE, ScrollbarDirKey } from '../defaults'
 import { virtualizedScrollbarProps } from '../props'

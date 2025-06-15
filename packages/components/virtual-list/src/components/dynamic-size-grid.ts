@@ -5,6 +5,7 @@ import {
   throwError,
 } from '@element-plus/utils'
 import createGrid from '../builders/build-grid'
+
 import {
   AUTO_ALIGNMENT,
   CENTERED_ALIGNMENT,
@@ -13,9 +14,9 @@ import {
   SMART_ALIGNMENT,
   START_ALIGNMENT,
 } from '../defaults'
-
 import type { GridInstance } from '../builders/build-grid'
 import type { VirtualizedGridProps } from '../props'
+
 import type { Alignment, GridCache, ItemSize } from '../types'
 
 const { max, min, floor } = Math

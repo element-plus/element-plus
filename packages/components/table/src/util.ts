@@ -16,7 +16,6 @@ import {
 import ElTooltip, {
   type ElTooltipProps,
 } from '@element-plus/components/tooltip'
-
 import type { Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { VNode } from 'vue'

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { isClient } from '@vueuse/core'
+
 import { useSidebar } from '../composables/sidebar'
 import { useFullScreen } from '../composables/fullscreen'
 import { useToggleWidgets } from '../composables/toggle-widgets'

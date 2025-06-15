@@ -1,5 +1,4 @@
 import { cacheNames, clientsClaim } from 'workbox-core'
-
 import type { ManifestEntry } from 'workbox-build'
 
 declare let self: ServiceWorkerGlobalScope & {

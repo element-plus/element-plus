@@ -24,7 +24,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { genFileId } from 'element-plus'
-
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 
 const upload = ref<UploadInstance>()

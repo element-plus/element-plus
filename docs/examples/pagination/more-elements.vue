@@ -79,7 +79,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
 import type { ComponentSize } from 'element-plus'
 
 const currentPage1 = ref(5)

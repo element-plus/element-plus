@@ -1,4 +1,5 @@
 import type { InjectionKey, Ref } from 'vue'
+
 import type { CarouselItemProps } from './carousel-item'
 
 export type CarouselItemStates = {

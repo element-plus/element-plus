@@ -8,7 +8,6 @@ import {
   getFixedColumnsClass,
 } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
-
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 

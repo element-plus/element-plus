@@ -29,7 +29,6 @@ import { computed, inject, toRef } from 'vue'
 import { useLockscreen } from '@element-plus/hooks'
 import { maskProps } from './mask'
 import { tourKey } from './helper'
-
 import type { CSSProperties } from 'vue'
 
 defineOptions({

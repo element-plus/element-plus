@@ -1,7 +1,6 @@
 import { withInstall, withNoopInstall } from '@element-plus/utils'
 import Tabs from './src/tabs'
 import TabPane from './src/tab-pane.vue'
-
 import type { SFCWithInstall } from '@element-plus/utils'
 
 export const ElTabs: SFCWithInstall<typeof Tabs> & {

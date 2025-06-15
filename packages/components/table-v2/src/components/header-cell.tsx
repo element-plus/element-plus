@@ -1,5 +1,4 @@
 import { renderSlot } from 'vue'
-
 import type { FunctionalComponent } from 'vue'
 import type { TableV2HeaderCell } from '../header-cell'
 

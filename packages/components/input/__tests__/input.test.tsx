@@ -4,7 +4,6 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Input from '../src/input.vue'
-
 import type { CSSProperties } from 'vue'
 import type { InputAutoSize, InputProps } from '../src/input'
 import type { InputInstance } from '../src/instance'

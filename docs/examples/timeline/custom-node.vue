@@ -17,7 +17,6 @@
 
 <script lang="ts" setup>
 import { MoreFilled } from '@element-plus/icons-vue'
-
 import type { TimelineItemProps } from 'element-plus'
 
 interface ActivityType extends Partial<TimelineItemProps> {

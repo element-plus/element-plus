@@ -4,8 +4,8 @@ import { useNamespace } from '@element-plus/hooks'
 import useLayoutObserver from '../layout-observer'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import useStyle from './style-helper'
-
 import type { Store } from '../store'
+
 import type { PropType } from 'vue'
 import type { DefaultRow, Sort, SummaryMethod } from '../table/defaults'
 

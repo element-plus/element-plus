@@ -7,7 +7,6 @@ import tag from '../plugins/tag'
 import headers from '../plugins/headers'
 import createDemoContainer from '../plugins/demo'
 import { ApiTableContainer } from '../plugins/api-table'
-
 import type { MarkdownRenderer } from 'vitepress'
 
 export const mdPlugin = (md: MarkdownRenderer) => {

@@ -4,7 +4,6 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { CaretLeft, CaretRight } from '@element-plus/icons-vue'
 import Pagination from '../src/pagination'
 import selectDropdownVue from '../../select/src/select-dropdown.vue'
-
 import type { VueWrapper } from '@vue/test-utils'
 
 const assertElementsExistence = (

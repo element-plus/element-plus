@@ -4,6 +4,7 @@ import { isClient } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import resourceLocale from '../../../i18n/pages/resource.json'
 import { sendEvent } from '../../../config/analytics'
+
 import AxureComponentsSvg from './resources/axure-components-svg.vue'
 import SketchTemplateSvg from './resources/sketch-template-svg.vue'
 import FigmaTemplateSvg from './resources/figma-template-svg.vue'

@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { getCssVariable } from '@element-plus/test-utils/dom'
+
 import Container from '../src/container.vue'
 import Header from '../src/header.vue'
 import Main from '../src/main.vue'

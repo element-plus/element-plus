@@ -5,8 +5,8 @@ import {
   useTooltipContentProps,
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
-import { type Placement, roleTypes } from '@element-plus/components/popper'
 
+import { type Placement, roleTypes } from '@element-plus/components/popper'
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'

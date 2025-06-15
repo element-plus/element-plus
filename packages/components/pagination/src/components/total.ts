@@ -1,5 +1,4 @@
 import { buildProps } from '@element-plus/utils'
-
 import type Total from './total.vue'
 import type { ExtractPropTypes } from 'vue'
 

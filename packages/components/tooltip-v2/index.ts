@@ -1,6 +1,5 @@
 import { withInstall } from '@element-plus/utils'
 import TooltipV2 from './src/tooltip.vue'
-
 import type { SFCWithInstall } from '@element-plus/utils'
 
 export const ElTooltipV2: SFCWithInstall<typeof TooltipV2> =

@@ -7,6 +7,7 @@ import {
   IMAGE_SUCCESS,
   mockImageEvent,
 } from '@element-plus/test-utils/mock'
+
 import Avatar from '../src/avatar.vue'
 
 describe('Avatar.vue', () => {

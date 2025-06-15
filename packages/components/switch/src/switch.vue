@@ -95,7 +95,6 @@ import {
 } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import { switchEmits, switchProps } from './switch'
-
 import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElSwitch'

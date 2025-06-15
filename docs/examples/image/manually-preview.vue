@@ -28,7 +28,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
 import type { ImageInstance } from 'element-plus'
 
 const url =

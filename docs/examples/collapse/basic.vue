@@ -51,7 +51,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
 import type { CollapseModelValue } from 'element-plus'
 
 const activeNames = ref(['1'])

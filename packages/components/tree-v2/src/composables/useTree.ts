@@ -10,7 +10,6 @@ import {
 } from '../virtual-tree'
 import { useCheck } from './useCheck'
 import { useFilter } from './useFilter'
-
 import type {
   FixedSizeList,
   Alignment as ScrollStrategy,

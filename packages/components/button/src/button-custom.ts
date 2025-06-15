@@ -2,7 +2,6 @@ import { computed } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormDisabled } from '@element-plus/components/form'
-
 import type { ButtonProps } from './button'
 
 export function darken(color: TinyColor, amount = 20) {

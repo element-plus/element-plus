@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, ref, toRef } from 'vue'
-import { EVENT_CODE } from 'element-plus'
 import { isClient, useClipboard, useToggle } from '@vueuse/core'
+import { EVENT_CODE } from 'element-plus'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useLang } from '../composables/lang'
 import { useSourceCode } from '../composables/source-code'

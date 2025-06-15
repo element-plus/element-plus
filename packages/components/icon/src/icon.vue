@@ -9,7 +9,6 @@ import { computed } from 'vue'
 import { addUnit, isUndefined } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { iconProps } from './icon'
-
 import type { CSSProperties } from 'vue'
 
 defineOptions({

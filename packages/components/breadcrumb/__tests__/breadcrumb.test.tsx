@@ -3,7 +3,6 @@ import { describe, expect, it, vi } from 'vitest'
 import { Check } from '@element-plus/icons-vue'
 import Breadcrumb from '../src/breadcrumb.vue'
 import BreadcrumbItem from '../src/breadcrumb-item.vue'
-
 import type { VNode } from 'vue'
 
 const _mount = (render: () => VNode, $router = {}) =>

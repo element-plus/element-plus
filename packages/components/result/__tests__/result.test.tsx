@@ -2,7 +2,6 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import Result from '../src/result.vue'
-
 import type { ResultProps } from '../src/result'
 
 const AXIOM = 'Rem is the best girl'

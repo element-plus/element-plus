@@ -4,7 +4,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
 import Slider from '../src/slider.vue'
-
 import type { SliderProps } from '../src/slider'
 
 vi.mock('lodash-unified', async () => {

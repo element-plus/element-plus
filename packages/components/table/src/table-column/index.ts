@@ -17,8 +17,8 @@ import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 import defaultProps from './defaults'
-
 import type { TableColumn, TableColumnCtx } from './defaults'
+
 import type { DefaultRow } from '../table/defaults'
 
 let columnIdSeed = 1

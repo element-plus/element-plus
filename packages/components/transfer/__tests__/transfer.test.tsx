@@ -2,7 +2,6 @@ import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import Transfer from '../src/transfer.vue'
-
 import type { TransferDataItem, renderContent } from '../src/transfer'
 
 describe('Transfer', () => {

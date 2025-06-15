@@ -1,8 +1,8 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { popperContentProps } from '@element-plus/components/popper'
 import { useAriaProps, useDelayedToggleProps } from '@element-plus/hooks'
-import { teleportProps } from '@element-plus/components/teleport'
 
+import { teleportProps } from '@element-plus/components/teleport'
 import type TooltipContent from './content.vue'
 import type { ExtractPropTypes } from 'vue'
 

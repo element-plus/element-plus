@@ -44,7 +44,6 @@ import {
 import { debugWarn, isObject } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { defaultProps, segmentedEmits, segmentedProps } from './segmented'
-
 import type { Option } from './types'
 
 defineOptions({

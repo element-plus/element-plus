@@ -9,7 +9,6 @@
 
 <script lang="ts" setup>
 import { reactive, toRefs } from 'vue'
-
 import type { ObjectFitProperty } from 'csstype'
 
 const state = reactive({

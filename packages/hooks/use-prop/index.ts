@@ -1,5 +1,4 @@
 import { computed, getCurrentInstance } from 'vue'
-
 import type { ComputedRef } from 'vue'
 
 export const useProp = <T>(name: string): ComputedRef<T | undefined> => {

@@ -1,14 +1,14 @@
 import path from 'path'
 import Inspect from 'vite-plugin-inspect'
+import UnoCSS from 'unocss/vite'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
-import { loadEnv } from 'vitepress'
-import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
-import UnoCSS from 'unocss/vite'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
+import { loadEnv } from 'vitepress'
+import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import {
   docPackage,
   epPackage,
@@ -16,7 +16,6 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import { MarkdownTransform } from '../plugins/markdown-transform'
-
 import type { Plugin, UserConfig } from 'vitepress'
 
 type ViteConfig = Required<UserConfig>['vite']

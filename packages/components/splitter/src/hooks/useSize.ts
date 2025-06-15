@@ -1,6 +1,5 @@
 import { computed, ref, watch } from 'vue'
 import { isString } from '@element-plus/utils'
-
 import type { ComputedRef, Ref } from 'vue'
 import type { PanelItemState } from '../type'
 

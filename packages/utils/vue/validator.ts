@@ -1,5 +1,4 @@
 import { componentSizes, datePickTypes } from '@element-plus/constants'
-
 import type { ComponentSize, DatePickType } from '@element-plus/constants'
 
 export const isValidComponentSize = (val: string): val is ComponentSize | '' =>

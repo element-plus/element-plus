@@ -72,7 +72,6 @@ import {
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { rateEmits, rateProps } from './rate'
-
 import type { CSSProperties, Component } from 'vue'
 
 function getValueFromMap<T>(

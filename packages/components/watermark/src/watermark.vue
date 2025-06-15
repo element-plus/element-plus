@@ -18,7 +18,6 @@ import { isArray, isUndefined } from '@element-plus/utils'
 import { watermarkProps } from './watermark'
 import { getPixelRatio, getStyleStr, reRendering } from './utils'
 import useClips, { FontGap } from './useClips'
-
 import type { WatermarkProps } from './watermark'
 import type { CSSProperties } from 'vue'
 

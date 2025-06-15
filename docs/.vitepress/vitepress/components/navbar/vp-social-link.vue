@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { usePreview, usePreviewPR } from '../../composables/use-playground'
-
 import type { Component } from 'vue'
 
 const props = defineProps<{

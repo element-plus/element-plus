@@ -4,7 +4,6 @@ import { describe, expect, test } from 'vitest'
 import { Edit } from '@element-plus/icons-vue'
 import Steps from '../src/steps.vue'
 import Step from '../src/item.vue'
-
 import type { VNode } from 'vue'
 
 const _mount = (render: () => VNode) =>

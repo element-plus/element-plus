@@ -3,7 +3,6 @@ import { isClient } from '../browser'
 import { camelize } from '../strings'
 import { entriesOf, keysOf } from '../objects'
 import { debugWarn } from '../error'
-
 import type { CSSProperties } from 'vue'
 
 const SCOPE = 'utils/dom/style'

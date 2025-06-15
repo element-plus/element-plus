@@ -1,5 +1,4 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
-
 import type Step from './item.vue'
 import type { ExtractPropTypes } from 'vue'
 

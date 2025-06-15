@@ -3,8 +3,8 @@ import { onMounted, onUpdated } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
-
 import type TreeStore from './tree-store'
+
 import type { Ref } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 

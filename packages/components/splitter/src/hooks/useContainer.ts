@@ -1,6 +1,5 @@
 import { computed, ref } from 'vue'
 import { useElementSize } from '@vueuse/core'
-
 import type { Ref } from 'vue'
 
 export function useContainer(layout: Ref<'horizontal' | 'vertical'>) {

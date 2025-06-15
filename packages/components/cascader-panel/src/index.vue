@@ -46,6 +46,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
+
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
 import Node from './node'
@@ -62,6 +63,7 @@ import type {
   CascaderValue,
   RenderLabel,
 } from './node'
+
 import type { ElCascaderPanelContext } from './types'
 
 export default defineComponent({

@@ -25,7 +25,6 @@ import { addUnit, getScrollContainer, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { affixEmits, affixProps } from './affix'
-
 import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElAffix'

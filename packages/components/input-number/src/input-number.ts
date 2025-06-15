@@ -6,7 +6,6 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-
 import type { ExtractPropTypes } from 'vue'
 import type InputNumber from './input-number.vue'
 

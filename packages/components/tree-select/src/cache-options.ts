@@ -1,7 +1,6 @@
 import { defineComponent, inject, watch } from 'vue'
 import { selectKey } from '@element-plus/components/select'
 import { isClient } from '@element-plus/utils'
-
 import type { SelectContext } from '@element-plus/components/select'
 import type { PropType } from 'vue'
 

@@ -1,6 +1,5 @@
 import { TinyColor } from '@ctrl/tinycolor'
 import { hasOwn } from '@element-plus/utils'
-
 import type { ColorFormats } from '@ctrl/tinycolor'
 
 interface ColorOptions {

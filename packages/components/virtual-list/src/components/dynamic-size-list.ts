@@ -1,5 +1,7 @@
 import { throwError } from '@element-plus/utils'
+
 import createList from '../builders/build-list'
+
 import { isHorizontal } from '../utils'
 import {
   AUTO_ALIGNMENT,
@@ -9,8 +11,8 @@ import {
   SMART_ALIGNMENT,
   START_ALIGNMENT,
 } from '../defaults'
-
 import type { VirtualizedListProps } from '../props'
+
 import type { ItemSize, ListCache, ListItem } from '../types'
 
 type Props = VirtualizedListProps

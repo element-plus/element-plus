@@ -12,7 +12,6 @@ import {
   useFormDisabled,
   useFormSize,
 } from '@element-plus/components/form'
-
 import type { InputTagEmits, InputTagProps } from '../input-tag'
 
 interface UseInputTagOptions {

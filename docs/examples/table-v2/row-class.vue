@@ -19,7 +19,6 @@ import {
   TableV2FixedDir,
 } from 'element-plus'
 import { Timer } from '@element-plus/icons-vue'
-
 import type { Column, RowClassNameGetter } from 'element-plus'
 
 let id = 0

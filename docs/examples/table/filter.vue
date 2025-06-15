@@ -43,7 +43,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
 import type { TableColumnCtx, TableInstance } from 'element-plus'
 
 interface User {

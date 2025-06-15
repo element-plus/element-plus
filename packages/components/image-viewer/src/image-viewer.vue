@@ -115,8 +115,8 @@ import {
   shallowRef,
   watch,
 } from 'vue'
-import { throttle } from 'lodash-unified'
 import { useEventListener } from '@vueuse/core'
+import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import { keysOf } from '@element-plus/utils'

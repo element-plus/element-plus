@@ -6,8 +6,8 @@ import { useCheckboxDisabled } from './use-checkbox-disabled'
 import { useCheckboxEvent } from './use-checkbox-event'
 import { useCheckboxModel } from './use-checkbox-model'
 import { useCheckboxStatus } from './use-checkbox-status'
-
 import type { ComponentInternalInstance } from 'vue'
+
 import type { CheckboxProps } from '../checkbox'
 
 export const useCheckbox = (

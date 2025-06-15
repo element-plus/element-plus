@@ -18,7 +18,6 @@ import {
   treeCellPrefix,
 } from '../config'
 import { parseMinWidth, parseWidth } from '../util'
-
 import type { ComputedRef } from 'vue'
 import type { TableColumn, TableColumnCtx } from './defaults'
 

@@ -8,7 +8,6 @@ import {
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { teleportProps } from '@element-plus/components/teleport'
 import { tourContentProps } from './content'
-
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type Tour from './tour.vue'
 import type { TourGap, TourMask } from './types'

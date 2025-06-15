@@ -5,7 +5,6 @@ import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-
 import type {
   CascaderNode,
   CascaderValue,

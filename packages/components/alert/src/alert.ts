@@ -5,7 +5,6 @@ import {
   isUndefined,
   keysOf,
 } from '@element-plus/utils'
-
 import type { ExtractPropTypes } from 'vue'
 
 export const alertEffects = ['light', 'dark'] as const

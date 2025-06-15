@@ -21,7 +21,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
 import type { RenderContentContext, TreeInstance } from 'element-plus'
 
 interface Tree {

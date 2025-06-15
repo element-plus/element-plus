@@ -63,8 +63,8 @@ import {
   useAttrs as useRawAttrs,
   watch,
 } from 'vue'
-import { fromPairs } from 'lodash-unified'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
+import { fromPairs } from 'lodash-unified'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {

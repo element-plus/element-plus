@@ -5,7 +5,6 @@ import {
   getFixedColumnsClass,
 } from '../util'
 import useMapState from './mapState-helper'
-
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableFooter } from '.'
 

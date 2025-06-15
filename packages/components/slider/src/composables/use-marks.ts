@@ -1,5 +1,4 @@
 import { computed } from 'vue'
-
 import type { SliderProps } from '../slider'
 import type { SliderMarkerProps } from '../marker'
 

@@ -19,7 +19,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
 import type { TableInstance } from 'element-plus'
 
 interface User {

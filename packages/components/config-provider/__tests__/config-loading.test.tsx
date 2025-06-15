@@ -2,7 +2,6 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import { ElButton, ElLoading } from '@element-plus/components'
 import ConfigProvider from '../src/config-provider'
-
 import type { LoadingInstance } from '@element-plus/components/loading/src/loading'
 
 describe('loading config', () => {
