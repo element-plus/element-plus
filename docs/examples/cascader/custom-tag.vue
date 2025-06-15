@@ -15,7 +15,7 @@
     <p>Display top-level tags only</p>
     <el-cascader :options="options" :props="props" clearable>
       <template #tag="{ data }">
-        <el-tag v-for="item in getSelection(data)" :key="item">
+        <el-tag v-for="item in getTopLevelTags(data)" :key="item">
           {{ item }}
         </el-tag>
       </template>
@@ -111,7 +111,7 @@ const options = [
 const getTags = (data) => {
   return data.map((item) => item.text)
 }
-const getSelection = (data) => {
+const getTopLevelTags = (data) => {
   const set: Set<string> = new Set()
   for (const datum of data) {
     let parent = datum.node.parent

@@ -719,8 +719,8 @@ describe('Cascader.vue', () => {
   describe('Cascader - tag slot displays top-level labels', () => {
     it('should render tags with only top-level labels', async () => {
       const value = ref<string[][]>([])
-      const getSelection = (data: any[]): any[] => {
-        const set = new Set()
+      const getTopLevelTags = (data: any[]): any[] => {
+        const set: Set<string> = new Set()
         for (const datum of data) {
           let parent = datum.node.parent
           while (parent && parent.level !== 1) {
@@ -740,7 +740,7 @@ describe('Cascader.vue', () => {
         >
           {{
             tag: ({ data }: any) => {
-              const list = getSelection(data)
+              const list = getTopLevelTags(data)
               return list.map((item: string) => (
                 <ElTag key={item}>{item}</ElTag>
               ))
