@@ -7,12 +7,6 @@ lang: en-US
 
 ColorPicker is a color selector supporting multiple color formats.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 :::demo ColorPicker requires a string typed variable to be bound to v-model.
@@ -60,10 +54,10 @@ color-picker/sizes
 | predefine                   | predefined color options                              | ^[object]`string[]`                                                                                              | —       |
 | validate-event              | whether to trigger form validation                    | ^[boolean]                                                                                                       | true    |
 | tabindex                    | ColorPicker tabindex                                  | ^[string] / ^[number]                                                                                            | 0       |
-| label ^(a11y) ^(deprecated) | ColorPicker aria-label                                | ^[string]                                                                                                        | —       |
 | aria-label ^(a11y) ^(2.7.2) | ColorPicker aria-label                                | ^[string]                                                                                                        | —       |
 | id                          | ColorPicker id                                        | ^[string]                                                                                                        | —       |
 | teleported ^(2.7.2)         | whether color-picker popper is teleported to the body | ^[boolean]                                                                                                       | true    |
+| label ^(a11y) ^(deprecated) | ColorPicker aria-label                                | ^[string]                                                                                                        | —       |
 
 ### Events
 

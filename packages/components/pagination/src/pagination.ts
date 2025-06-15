@@ -23,6 +23,7 @@ import {
   useNamespace,
   useSizeProp,
 } from '@element-plus/hooks'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { elPaginationKey } from './constants'
 
 import Prev from './components/prev.vue'
@@ -168,6 +169,10 @@ export const paginationProps = buildProps({
    * @description whether to hide when there's only one page
    */
   hideOnSinglePage: Boolean,
+  /**
+   * @description which element the size dropdown appends to.
+   */
+  appendSizeTo: String,
 } as const)
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
 
@@ -194,8 +199,9 @@ export default defineComponent({
     const { t } = useLocale()
     const ns = useNamespace('pagination')
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
+    const _globalSize = useGlobalSize()
     const _size = computed(() =>
-      props.small ? 'small' : props.size ?? useGlobalSize().value
+      props.small ? 'small' : props.size ?? _globalSize.value
     )
     useDeprecated(
       {
@@ -313,7 +319,7 @@ export default defineComponent({
     watch(
       [currentPageBridge, pageSizeBridge],
       (value) => {
-        emit('change', ...value)
+        emit(CHANGE_EVENT, ...value)
       },
       { flush: 'post' }
     )
@@ -409,6 +415,7 @@ export default defineComponent({
           disabled: props.disabled,
           teleported: props.teleported,
           size: _size.value,
+          appendSizeTo: props.appendSizeTo,
         }),
         slot: slots?.default?.() ?? null,
         total: h(Total, { total: isAbsent(props.total) ? 0 : props.total }),

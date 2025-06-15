@@ -68,6 +68,9 @@ export default {
       noData: 'Geen data',
       placeholder: 'Kies',
     },
+    mention: {
+      loading: 'Laai',
+    },
     cascader: {
       noMatch: 'Geen toepaslike data',
       loading: 'Laai',

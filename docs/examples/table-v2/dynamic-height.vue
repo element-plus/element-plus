@@ -19,8 +19,7 @@ import {
   TableV2FixedDir,
   TableV2SortOrder,
 } from 'element-plus'
-
-import type { Column, SortBy } from '@element-plus/components/table-v2'
+import type { Column, SortBy } from 'element-plus'
 
 const longText =
   'Quaerat ipsam necessitatibus eum quibusdam est id voluptatem cumque mollitia.'

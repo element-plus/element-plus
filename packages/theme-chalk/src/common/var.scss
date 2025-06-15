@@ -1,6 +1,7 @@
 /* Element Chalk Variables */
 @use 'sass:math';
 @use 'sass:map';
+@use 'sass:color';
 
 @use '../mixins/function.scss' as *;
 
@@ -60,7 +61,7 @@ $color-info: map.get($colors, 'info', 'base') !default;
     (
       $type: (
         '#{$mode}-#{$number}':
-          mix(
+          color.mix(
             $mix-color,
             map.get($colors, $type, 'base'),
             math.percentage(math.div($number, 10))
@@ -661,6 +662,47 @@ $cascader: map.merge(
   ),
   $cascader
 );
+
+$cascader-item-gap: () !default;
+$cascader-item-gap: map.merge(
+  (
+    'large': 6px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $cascader-item-gap
+);
+
+$cascader-wrapper-padding: () !default;
+$cascader-wrapper-padding: map.merge(
+  (
+    'large': 8px,
+    'default': 4px,
+    'small': 2px,
+  ),
+  $cascader-wrapper-padding
+);
+
+$cascader-item-height: () !default;
+$cascader-item-height: map.merge(
+  (
+    'large': 24px,
+    'default': 24px,
+    'small': 20px,
+  ),
+  $cascader-item-height
+);
+
+$cascader-search-input-margin-left: () !default;
+$cascader-search-input-margin-left: map.merge(
+  (
+    'large': 7px,
+    'default': 7px,
+    'small': 5px,
+  ),
+  $cascader-search-input-margin-left
+);
+
 //statistic
 // css3 var in packages/theme-chalk/src/statistic.scss
 $statistic: () !default;
@@ -695,7 +737,7 @@ $button: map.merge(
     'active-border-color': getCssVar('color-primary'),
     'active-bg-color': getCssVar('button', 'hover-bg-color'),
     'outline-color': getCssVar('color-primary', 'light-5'),
-    'hover-link-text-color': getCssVar('color-info'),
+    'hover-link-text-color': getCssVar('text-color', 'secondary'),
     'active-color': getCssVar('text-color', 'primary'),
   ),
   $button
@@ -791,7 +833,7 @@ $dialog: map.merge(
     'content-font-size': 14px,
     'font-line-height': getCssVar('font-line-height-primary'),
     'padding-primary': 16px,
-    'border-radius': getCssVar('border-radius-small'),
+    'border-radius': getCssVar('border-radius-base'),
   ),
   $dialog
 );
@@ -851,6 +893,79 @@ $segmented: map.merge(
   $segmented
 );
 
+// Mention
+// css3 var in packages/theme-chalk/src/mention.scss
+$mention: () !default;
+$mention: map.merge(
+  (
+    'font-size': getCssVar('font-size-base'),
+    'bg-color': getCssVar('bg-color', 'overlay'),
+    'shadow': getCssVar('box-shadow-light'),
+    'border': 1px solid getCssVar('border-color-light'),
+    'option-color': getCssVar('text-color-regular'),
+    'option-height': 34px,
+    'option-min-width': 100px,
+    'option-hover-background': getCssVar('fill-color', 'light'),
+    'option-selected-color': getCssVar('color-primary'),
+    'option-disabled-color': getCssVar('text-color-placeholder'),
+    'option-loading-color': getCssVar('text-color-secondary'),
+    'option-loading-padding': 10px 0,
+    'max-height': 174px,
+    'padding': 6px 0,
+    'header-padding': 10px,
+    'footer-padding': 10px,
+  ),
+  $mention
+);
+
+// InputTag
+// css3 var in packages/theme-chalk/src/input-tag.scss
+$input-tag: () !default;
+$input-tag: map.merge(
+  (
+    'border-color-hover': getCssVar('border-color-hover'),
+    'placeholder-color': getCssVar('text-color-placeholder'),
+    'disabled-color': getCssVar('disabled-text-color'),
+    'disabled-border': getCssVar('disabled-border-color'),
+    'font-size': getCssVar('font-size-base'),
+    'close-hover-color': getCssVar('text-color-secondary'),
+    'text-color': getCssVar('text-color-regular'),
+    'input-focus-border-color': getCssVar('color-primary'),
+    'width': 100%,
+  ),
+  $input-tag
+);
+
+$input-tag-padding: () !default;
+$input-tag-padding: map.merge(
+  (
+    'large': 8px,
+    'default': 4px,
+    'small': 2px,
+  ),
+  $input-tag-padding
+);
+
+$input-tag-inner-padding: () !default;
+$input-tag-inner-padding: map.merge(
+  (
+    'large': 8px,
+    'default': 8px,
+    'small': 6px,
+  ),
+  $input-tag-inner-padding
+);
+
+$input-tag-gap: () !default;
+$input-tag-gap: map.merge(
+  (
+    'large': 6px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $input-tag-gap
+);
+
 // Table
 // css3 var in packages/theme-chalk/src/table.scss
 $table: () !default;
@@ -878,8 +993,8 @@ $table-font-size: () !default;
 $table-font-size: map.merge(
   (
     'large': getCssVar('font-size', 'base'),
-    'default': 14px,
-    'small': 12px,
+    'default': getCssVar('font-size', 'base'),
+    'small': getCssVar('font-size', 'extra-small'),
   ),
   $table-font-size
 );

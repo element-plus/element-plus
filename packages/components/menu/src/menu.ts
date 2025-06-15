@@ -22,8 +22,10 @@ import {
   definePropType,
   flattedChildren,
   iconPropType,
+  isArray,
   isObject,
   isString,
+  isUndefined,
   mutable,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -32,7 +34,9 @@ import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
+import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
+import type { PopperEffect } from '@element-plus/components/popper'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type {
@@ -45,66 +49,132 @@ import type {
 import type { UseResizeObserverReturn } from '@vueuse/core'
 
 export const menuProps = buildProps({
+  /**
+   * @description menu display mode
+   */
   mode: {
     type: String,
     values: ['horizontal', 'vertical'],
     default: 'vertical',
   },
+  /**
+   * @description index of active menu on page load
+   */
   defaultActive: {
     type: String,
     default: '',
   },
+  /**
+   * @description array that contains indexes of currently active sub-menus
+   */
   defaultOpeneds: {
     type: definePropType<string[]>(Array),
     default: () => mutable([] as const),
   },
+  /**
+   * @description whether only one sub-menu can be active
+   */
   uniqueOpened: Boolean,
+  /**
+   * @description whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action. Use with `default-active` to set the active item on load.
+   */
   router: Boolean,
+  /**
+   * @description how sub-menus are triggered, only works when `mode` is 'horizontal'
+   */
   menuTrigger: {
     type: String,
     values: ['hover', 'click'],
     default: 'hover',
   },
+  /**
+   * @description whether the menu is collapsed (available only in vertical mode)
+   */
   collapse: Boolean,
+  /**
+   * @description background color of Menu (hex format) (deprecated, use `--bg-color` instead)
+   * @deprecated use `--bg-color` instead
+   */
   backgroundColor: String,
+  /**
+   * @description text color of Menu (hex format) (deprecated, use `--text-color` instead)
+   * @deprecated use `--text-color` instead
+   */
   textColor: String,
+  /**
+   * @description text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)
+   * @deprecated use `--active-color` instead
+   */
   activeTextColor: String,
+  /**
+   * @description optional, whether menu is collapsed when clicking outside
+   */
   closeOnClickOutside: Boolean,
+  /**
+   * @description whether to enable the collapse transition
+   */
   collapseTransition: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description whether the menu is ellipsis (available only in horizontal mode)
+   */
   ellipsis: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description offset of the popper (effective for all submenus)
+   */
   popperOffset: {
     type: Number,
     default: 6,
   },
+  /**
+   * @description custom ellipsis icon (available only in horizontal mode and ellipsis is true)
+   */
   ellipsisIcon: {
     type: iconPropType,
     default: () => More,
   },
+  /**
+   * @description Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed
+   */
   popperEffect: {
-    type: String,
-    values: ['dark', 'light'],
+    type: definePropType<PopperEffect>(String),
     default: 'dark',
   },
+  /**
+   * @description custom class name for all popup menus
+   */
   popperClass: String,
+  /**
+   * @description control timeout for all menus before showing
+   */
   showTimeout: {
     type: Number,
     default: 300,
   },
+  /**
+   * @description control timeout for all menus before hiding
+   */
   hideTimeout: {
     type: Number,
     default: 300,
+  },
+  /**
+   * @description when menu inactive and `persistent` is `false` , dropdown menu will be destroyed
+   */
+  persistent: {
+    type: Boolean,
+    default: true,
   },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
 const checkIndexPath = (indexPath: unknown): indexPath is string[] =>
-  Array.isArray(indexPath) && indexPath.every((path) => isString(path))
+  isArray(indexPath) && indexPath.every((path) => isString(path))
 
 export const menuEmits = {
   close: (index: string, indexPath: string[]) =>
@@ -122,7 +192,7 @@ export const menuEmits = {
     isString(index) &&
     checkIndexPath(indexPath) &&
     isObject(item) &&
-    (routerResult === undefined || routerResult instanceof Promise),
+    (isUndefined(routerResult) || routerResult instanceof Promise),
 }
 export type MenuEmits = typeof menuEmits
 
@@ -152,12 +222,11 @@ export default defineComponent({
     const subMenus = ref<MenuProvider['subMenus']>({})
 
     // computed
-    const isMenuPopup = computed<MenuProvider['isMenuPopup']>(() => {
-      return (
+    const isMenuPopup = computed<MenuProvider['isMenuPopup']>(
+      () =>
         props.mode === 'horizontal' ||
         (props.mode === 'vertical' && props.collapse)
-      )
-    })
+    )
 
     // methods
     const initMenu = () => {
@@ -205,11 +274,7 @@ export default defineComponent({
     }) => {
       const isOpened = openedMenus.value.includes(index)
 
-      if (isOpened) {
-        closeMenu(index, indexPath)
-      } else {
-        openMenu(index, indexPath)
-      }
+      isOpened ? closeMenu(index, indexPath) : openMenu(index, indexPath)
     }
 
     const handleMenuItemClick: MenuProvider['handleMenuItemClick'] = (
@@ -218,7 +283,6 @@ export default defineComponent({
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = []
       }
-
       const { index, indexPath } = menuItem
       if (isNil(index) || isNil(indexPath)) return
 
@@ -248,11 +312,7 @@ export default defineComponent({
         (activeIndex.value && itemsInData[activeIndex.value]) ||
         itemsInData[props.defaultActive]
 
-      if (item) {
-        activeIndex.value = item.index
-      } else {
-        activeIndex.value = val
-      }
+      activeIndex.value = item?.index ?? val
     }
 
     const calcMenuItemWidth = (menuItem: HTMLElement) => {
@@ -265,10 +325,7 @@ export default defineComponent({
     const calcSliceIndex = () => {
       if (!menu.value) return -1
       const items = Array.from(menu.value?.childNodes ?? []).filter(
-        (item) =>
-          // remove comment type node #12634
-          item.nodeName !== '#comment' &&
-          (item.nodeName !== '#text' || item.nodeValue)
+        (item) => item.nodeName !== '#text' || item.nodeValue
       ) as HTMLElement[]
       const moreItemWidth = 64
       const computedMenuStyle = getComputedStyle(menu.value!)
@@ -278,6 +335,7 @@ export default defineComponent({
       let calcWidth = 0
       let sliceIndex = 0
       items.forEach((item, index) => {
+        if (item.nodeName === '#comment') return
         calcWidth += calcMenuItemWidth(item)
         if (calcWidth <= menuWidth - moreItemWidth) {
           sliceIndex = index + 1
@@ -358,8 +416,9 @@ export default defineComponent({
       const removeMenuItem: MenuProvider['removeMenuItem'] = (item) => {
         delete items.value[item.index]
       }
+
       provide<MenuProvider>(
-        'rootMenu',
+        MENU_INJECTION_KEY,
         reactive({
           props,
           openedMenus,
@@ -378,7 +437,8 @@ export default defineComponent({
           handleSubMenuClick,
         })
       )
-      provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
+
+      provide<SubMenuProvider>(`${SUB_MENU_INJECTION_KEY}${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
         mouseInChild,
@@ -402,9 +462,12 @@ export default defineComponent({
       expose({
         open,
         close,
+        updateActiveIndex,
         handleResize,
       })
     }
+
+    const ulStyle = useMenuCssVar(props, 0)
 
     return () => {
       let slot: VNodeArrayChildren = slots.default?.() ?? []
@@ -447,8 +510,6 @@ export default defineComponent({
           )
         }
       }
-
-      const ulStyle = useMenuCssVar(props, 0)
 
       const directives: DirectiveArguments = props.closeOnClickOutside
         ? [

@@ -1,7 +1,13 @@
 export const timeUnits = ['hours', 'minutes', 'seconds'] as const
 
+export const PICKER_BASE_INJECTION_KEY = 'EP_PICKER_BASE'
+
+export const PICKER_POPPER_OPTIONS_INJECTION_KEY = 'ElPopperOptions'
+
 export const DEFAULT_FORMATS_TIME = 'HH:mm:ss'
+
 export const DEFAULT_FORMATS_DATE = 'YYYY-MM-DD'
+
 export const DEFAULT_FORMATS_DATEPICKER = {
   date: DEFAULT_FORMATS_DATE,
   dates: DEFAULT_FORMATS_DATE,
@@ -9,8 +15,10 @@ export const DEFAULT_FORMATS_DATEPICKER = {
   year: 'YYYY',
   years: 'YYYY',
   month: 'YYYY-MM',
+  months: 'YYYY-MM',
   datetime: `${DEFAULT_FORMATS_DATE} ${DEFAULT_FORMATS_TIME}`,
   monthrange: 'YYYY-MM',
+  yearrange: 'YYYY',
   daterange: DEFAULT_FORMATS_DATE,
   datetimerange: `${DEFAULT_FORMATS_DATE} ${DEFAULT_FORMATS_TIME}`,
 }

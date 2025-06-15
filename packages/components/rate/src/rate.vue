@@ -3,9 +3,7 @@
     :id="inputId"
     :class="[rateClasses, ns.is('disabled', rateDisabled)]"
     role="slider"
-    :aria-label="
-      !isLabeledByFormItem ? label || ariaLabel || 'rating' : undefined
-    "
+    :aria-label="!isLabeledByFormItem ? ariaLabel || 'rating' : undefined"
     :aria-labelledby="
       isLabeledByFormItem ? formItemContext?.labelId : undefined
     "
@@ -56,9 +54,14 @@
     </span>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { computed, inject, markRaw, ref, watch } from 'vue'
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import { hasClass, isArray, isObject, isString } from '@element-plus/utils'
 import {
   formContextKey,
@@ -67,7 +70,7 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 import { ElIcon } from '@element-plus/components/icon'
-import { useDeprecated, useNamespace } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
 import { rateEmits, rateProps } from './rate'
 import type { CSSProperties, Component } from 'vue'
 
@@ -215,7 +218,7 @@ function emitValue(value: number) {
 
   emit(UPDATE_MODEL_EVENT, value)
   if (props.modelValue !== value) {
-    emit('change', value)
+    emit(CHANGE_EVENT, value)
   }
 }
 
@@ -256,7 +259,7 @@ function handleKey(e: KeyboardEvent) {
   _currentValue = _currentValue < 0 ? 0 : _currentValue
   _currentValue = _currentValue > props.max ? props.max : _currentValue
   emit(UPDATE_MODEL_EVENT, _currentValue)
-  emit('change', _currentValue)
+  emit(CHANGE_EVENT, _currentValue)
   return _currentValue
 }
 
@@ -303,17 +306,6 @@ watch(
 if (!props.modelValue) {
   emit(UPDATE_MODEL_EVENT, 0)
 }
-
-useDeprecated(
-  {
-    from: 'label',
-    replacement: 'aria-label',
-    version: '2.8.0',
-    scope: 'el-rate',
-    ref: 'https://element-plus.org/en-US/component/rate.html',
-  },
-  computed(() => !!props.label)
-)
 
 defineExpose({
   /** @description set current value */

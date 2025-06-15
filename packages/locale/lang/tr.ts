@@ -68,6 +68,9 @@ export default {
       noData: 'Veri yok',
       placeholder: 'Seç',
     },
+    mention: {
+      loading: 'Yükleniyor',
+    },
     cascader: {
       noMatch: 'Eşleşen veri bulunamadı',
       loading: 'Yükleniyor',

@@ -1,19 +1,20 @@
 import { defineComponent, inject } from 'vue'
-import { isArray } from '@vue/shared'
 import { isEqual } from 'lodash-unified'
-import { isFunction, isString } from '@element-plus/utils'
+import { isArray, isFunction, isString } from '@element-plus/utils'
 import { selectKey } from './token'
+
 import type { Component, VNode, VNodeNormalizedChildren } from 'vue'
+import type { OptionValue } from './type'
 
 export default defineComponent({
   name: 'ElOptions',
   setup(_, { slots }) {
     const select = inject(selectKey)
-    let cachedValueList: any[] = []
+    let cachedValueList: OptionValue[] = []
 
     return () => {
       const children = slots.default?.()!
-      const valueList: any[] = []
+      const valueList: OptionValue[] = []
 
       function filterOptions(children?: VNodeNormalizedChildren) {
         if (!isArray(children)) return
@@ -37,7 +38,7 @@ export default defineComponent({
       }
 
       if (children.length) {
-        filterOptions(children![0]?.children)
+        filterOptions(children[0]?.children)
       }
 
       if (!isEqual(valueList, cachedValueList)) {

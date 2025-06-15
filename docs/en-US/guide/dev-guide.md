@@ -39,16 +39,13 @@ will start the local development environment.
 
 2. Add your component into `play/src/App.vue`
 
-> App.vue
-
-```vue
+```vue [App.vue]
 <template>
   <ComponentYouAreDeveloping />
 </template>
 
 <script setup lang="ts">
 // make sure this component is registered in @element-plus/components
-import { ComponentYouAreDeveloping } from '@element-plus/components'
 </script>
 ```
 

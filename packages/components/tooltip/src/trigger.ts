@@ -24,7 +24,7 @@ export const useTooltipTriggerProps = buildProps({
    */
   triggerKeys: {
     type: definePropType<string[]>(Array),
-    default: () => [EVENT_CODE.enter, EVENT_CODE.space],
+    default: () => [EVENT_CODE.enter, EVENT_CODE.numpadEnter, EVENT_CODE.space],
   },
 } as const)
 

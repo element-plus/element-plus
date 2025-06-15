@@ -68,6 +68,9 @@ export default {
       noData: 'Nėra duomenų',
       placeholder: 'Pasirink',
     },
+    mention: {
+      loading: 'Kraunasi',
+    },
     cascader: {
       noMatch: 'Duomenų nerasta',
       loading: 'Kraunasi',

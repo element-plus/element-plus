@@ -68,6 +68,9 @@ export default {
       noData: 'هیڅ معلومات نشته',
       placeholder: 'ځای لرونکی',
     },
+    mention: {
+      loading: 'بار کول',
+    },
     cascader: {
       noMatch: 'هیڅه ونه موندل شول',
       loading: 'بار کول',

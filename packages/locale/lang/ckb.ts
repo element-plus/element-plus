@@ -89,6 +89,9 @@ export default {
       noData: 'هیچ داتایەک نیە',
       placeholder: 'هەڵبژاردن',
     },
+    mention: {
+      loading: 'بارکردن',
+    },
     dropdown: {
       toggleDropdown: 'کردنەوەو داخستنی کشاو',
     },

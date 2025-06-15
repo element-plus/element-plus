@@ -113,7 +113,15 @@ $form-item-label-top-margin-bottom: map.merge(
 
   @include m(label-left) {
     .#{$namespace}-form-item__label {
+      text-align: left;
       justify-content: flex-start;
+    }
+  }
+
+  @include m(label-right) {
+    .#{$namespace}-form-item__label {
+      text-align: right;
+      justify-content: flex-end;
     }
   }
 
@@ -135,7 +143,6 @@ $form-item-label-top-margin-bottom: map.merge(
 
   @include e(label) {
     display: inline-flex;
-    justify-content: flex-end;
     align-items: flex-start;
 
     flex: 0 0 auto;
@@ -209,7 +216,8 @@ $form-item-label-top-margin-bottom: map.merge(
   @include when(error) {
     .#{$namespace}-input__wrapper,
     .#{$namespace}-textarea__inner,
-    .#{$namespace}-select__wrapper {
+    .#{$namespace}-select__wrapper,
+    .#{$namespace}-input-tag__wrapper {
       &,
       &:hover,
       &:focus,
@@ -222,6 +230,10 @@ $form-item-label-top-margin-bottom: map.merge(
     .#{$namespace}-input-group__prepend {
       .#{$namespace}-input__wrapper {
         box-shadow: 0 0 0 1px transparent inset;
+      }
+
+      .#{$namespace}-input__validateIcon {
+        display: none;
       }
     }
 

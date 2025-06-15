@@ -5,6 +5,7 @@
   >
     <fixed-size-list
       v-if="isNotEmpty"
+      ref="listRef"
       :class-name="ns.b('virtual-list')"
       :data="flattenTree"
       :total="flattenTree.length"
@@ -28,13 +29,16 @@
           @click="handleNodeClick"
           @toggle="toggleExpand"
           @check="handleNodeCheck"
+          @drop="handleNodeDrop"
         />
       </template>
     </fixed-size-list>
     <div v-else :class="ns.e('empty-block')">
-      <span :class="ns.e('empty-text')">{{
-        emptyText ?? t('el.tree.emptyText')
-      }}</span>
+      <slot name="empty">
+        <span :class="ns.e('empty-text')">
+          {{ emptyText ?? t('el.tree.emptyText') }}
+        </span>
+      </slot>
     </div>
   </div>
 </template>
@@ -73,6 +77,7 @@ const ns = useNamespace('tree')
 const {
   flattenTree,
   isNotEmpty,
+  listRef,
   toggleExpand,
   isExpanded,
   isIndeterminate,
@@ -81,6 +86,7 @@ const {
   isCurrent,
   isForceHiddenExpandIcon,
   handleNodeClick,
+  handleNodeDrop,
   handleNodeCheck,
   // expose
   toggleCheckbox,
@@ -99,6 +105,8 @@ const {
   expandNode,
   collapseNode,
   setExpandedKeys,
+  scrollToNode,
+  scrollTo,
 } = useTree(props, emit)
 
 defineExpose({
@@ -118,5 +126,7 @@ defineExpose({
   expandNode,
   collapseNode,
   setExpandedKeys,
+  scrollToNode,
+  scrollTo,
 })
 </script>

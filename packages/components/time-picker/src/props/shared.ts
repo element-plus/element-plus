@@ -1,20 +1,12 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
-import type { Dayjs } from 'dayjs'
 
-export type GetDisabledHours = (role: string, comparingDate?: Dayjs) => number[]
-export type GetDisabledMinutes = (
-  hour: number,
-  role: string,
-  comparingDate?: Dayjs
-) => number[]
-export type GetDisabledSeconds = (
-  hour: number,
-  minute: number,
-  role: string,
-  comparingDate?: Dayjs
-) => number[]
+import type {
+  GetDisabledHours,
+  GetDisabledMinutes,
+  GetDisabledSeconds,
+} from '../common/props'
 
 export const disabledTimeListsProps = buildProps({
   /**

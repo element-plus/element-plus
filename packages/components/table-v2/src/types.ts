@@ -5,9 +5,10 @@ import type {
   RendererNode,
   VNode,
 } from 'vue'
+import type { ColumnAlignment } from '@element-plus/constants'
 import type { FixedDir, SortOrder } from './constants'
 
-export type Alignment = 'left' | 'center' | 'right'
+export type Alignment = ColumnAlignment
 export type FixedDirection = FixedDir
 export type KeyType = string | number | symbol
 
@@ -66,6 +67,7 @@ export type Column<T = any> = {
    */
   align?: Alignment
   class?: string | ClassNameGetter<T>
+  key?: KeyType
   dataKey?: KeyType
   fixed?: true | FixedDirection
   flexGrow?: CSSProperties['flexGrow']

@@ -144,7 +144,7 @@ form/accessibility
 | size                              | Control the size of components in this form.                                                                                                                                             | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | —       |
 | disabled                          | Whether to disable all components in this form. If set to `true`, it will override the `disabled` prop of the inner component.                                                           | ^[boolean]                                     | false   |
 | scroll-to-error                   | When validation fails, scroll to the first error form entry.                                                                                                                             | ^[boolean]                                     | false   |
-| scroll-into-view-options ^(2.3.2) | When validation fails, it scrolls to the first error item based on the scrollIntoView option. [scrollIntoView](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView). | ^[object]`Record<string, any>` / ^[boolean]    | —       |
+| scroll-into-view-options ^(2.3.2) | When validation fails, it scrolls to the first error item based on the scrollIntoView option. [scrollIntoView](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView). | ^[object]`Record<string, any>` / ^[boolean]    | true    |
 
 ### Form Events
 
@@ -160,14 +160,15 @@ form/accessibility
 
 ### Form Exposes
 
-| Name            | Description                                                        | Type                                                                                                                              |
-| --------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| validate        | Validate the whole form. Receives a callback or returns `Promise`. | ^[Function]`(callback?: FormValidateCallback) => Promise<void>`                                                                   |
-| validateField   | Validate specified fields.                                         | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined, callback?: FormValidateCallback \| undefined) => FormValidationResult` |
-| resetFields     | Reset specified fields and remove validation result.               | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
-| scrollToField   | Scroll to the specified fields.                                    | ^[Function]`(prop: FormItemProp) => void`                                                                                         |
-| clearValidate   | Clear validation message for specified fields.                     | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
-| fields ^(2.7.3) | Get all fields context.                                            | ^[array]`FormItemContext[]`                                                                                                       |
+| Name               | Description                                                        | Type                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| validate           | Validate the whole form. Receives a callback or returns `Promise`. | ^[Function]`(callback?: FormValidateCallback) => Promise<void>`                                                                   |
+| validateField      | Validate specified fields.                                         | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined, callback?: FormValidateCallback \| undefined) => FormValidationResult` |
+| resetFields        | Reset specified fields and remove validation result.               | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
+| scrollToField      | Scroll to the specified fields.                                    | ^[Function]`(prop: FormItemProp) => void`                                                                                         |
+| clearValidate      | Clear validation messages for all or specified fields.             | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
+| fields ^(2.7.3)    | Get all fields context.                                            | ^[array]`FormItemContext[]`                                                                                                       |
+| getField ^(2.10.2) | Get a field context.                                               | ^[Function]`(prop: FormItemProp) => FormItemContext \| undefined`                                                                 |
 
 ## FormItem API
 
@@ -279,12 +280,14 @@ type FormItemProps = ExtractPropTypes<typeof formItemProps>
 type FormItemContext = FormItemProps & {
   $el: HTMLDivElement | undefined
   size: ComponentSize
+  validateMessage: string
   validateState: FormItemValidateState
   isGroup: boolean
   labelId: string
   inputIds: string[]
   hasLabel: boolean
   fieldValue: any
+  propString: string
   addInputId: (id: string) => void
   removeInputId: (id: string) => void
   validate: (

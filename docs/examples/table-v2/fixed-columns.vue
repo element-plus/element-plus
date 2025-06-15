@@ -13,7 +13,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { TableV2FixedDir, TableV2SortOrder } from 'element-plus'
-
 import type { SortBy } from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>

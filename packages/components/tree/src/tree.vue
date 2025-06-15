@@ -35,6 +35,7 @@
     />
   </div>
 </template>
+
 <script lang="ts">
 // @ts-nocheck
 import {
@@ -56,6 +57,7 @@ import ElTreeNode from './tree-node.vue'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
+import { ROOT_TREE_INJECTION_KEY } from './tokens'
 import type Node from './model/node'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
@@ -90,6 +92,10 @@ export default defineComponent({
       default: true,
     },
     checkOnClickNode: Boolean,
+    checkOnClickLeaf: {
+      type: Boolean,
+      default: true,
+    },
     checkDescendants: {
       type: Boolean,
       default: false,
@@ -327,18 +333,20 @@ export default defineComponent({
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentNode')
 
-      handleCurrentChange(store, ctx.emit, () =>
+      handleCurrentChange(store, ctx.emit, () => {
+        broadcastExpanded(node)
         store.value.setUserCurrentNode(node, shouldAutoExpandParent)
-      )
+      })
     }
 
     const setCurrentKey = (key?: TreeKey, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentKey')
 
-      handleCurrentChange(store, ctx.emit, () =>
+      handleCurrentChange(store, ctx.emit, () => {
+        broadcastExpanded()
         store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
-      )
+      })
     }
 
     const getNode = (data: TreeKey | TreeNodeData): Node => {
@@ -385,7 +393,7 @@ export default defineComponent({
       store.value.updateChildren(key, data)
     }
 
-    provide('RootTree', {
+    provide(ROOT_TREE_INJECTION_KEY, {
       ctx,
       props,
       store,

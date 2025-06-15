@@ -7,12 +7,6 @@ lang: en-US
 
 Use Time Picker for time input.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Arbitrary time picker
 
 Can pick an arbitrary time.
@@ -67,7 +61,6 @@ time-picker/range
 | value-format                | optional, format of binding value. If not specified, the binding value will be a Date object                   | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                         | —           |
 | id                          | same as `id` in native input                                                                                   | ^[string] / ^[object]`[string, string]`                                                         | —           |
 | name                        | same as `name` in native input                                                                                 | ^[string]                                                                                       | ''          |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in native input                                                                           | ^[string]                                                                                       | —           |
 | aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in native input                                                                           | ^[string]                                                                                       | —           |
 | prefix-icon                 | Custom prefix icon component                                                                                   | ^[string] / ^[Component]                                                                        | Clock       |
 | clear-icon                  | Custom clear icon component                                                                                    | ^[string] / ^[Component]                                                                        | CircleClose |
@@ -78,22 +71,23 @@ time-picker/range
 | tabindex                    | input tabindex                                                                                                 | ^[string] / ^[number]                                                                           | 0           |
 | empty-values ^(2.7.0)       | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                        | —           |
 | value-on-clear ^(2.7.0)     | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                | —           |
+| label ^(a11y) ^(deprecated) | same as `aria-label` in native input                                                                           | ^[string]                                                                                       | —           |
 
 ### Events
 
-| Name           | Description                                                | Type                                                                                                         |
-| -------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| change         | triggers when user confirms the value                      | ^[Function]`(val: number \| string \| Date \| [number, number] \| [string, string] \| [Date, Date]) => void` |
-| blur           | triggers when Input blurs                                  | ^[Function]`(e: FocusEvent) => void`                                                                         |
-| focus          | triggers when Input focuses                                | ^[Function]`(e: FocusEvent) => void`                                                                         |
-| clear ^(2.7.7) | triggers when the clear icon is clicked in a clearable TimePicker | ^[Function]`() => void`                                                                               |
-| visible-change | triggers when the TimePicker's dropdown appears/disappears | ^[Function]`(visibility: boolean) => void`                                                                   |
+| Name           | Description                                                       | Type                                                                                                         |
+| -------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| change         | triggers when user confirms the value                             | ^[Function]`(val: number \| string \| Date \| [number, number] \| [string, string] \| [Date, Date]) => void` |
+| blur           | triggers when Input blurs                                         | ^[Function]`(e: FocusEvent) => void`                                                                         |
+| focus          | triggers when Input focuses                                       | ^[Function]`(e: FocusEvent) => void`                                                                         |
+| clear ^(2.7.7) | triggers when the clear icon is clicked in a clearable TimePicker | ^[Function]`() => void`                                                                                      |
+| visible-change | triggers when the TimePicker's dropdown appears/disappears        | ^[Function]`(visibility: boolean) => void`                                                                   |
 
 ### Exposes
 
-| Name                  | Description                 | Type                                              |
-| --------------------- | --------------------------- | ------------------------------------------------- |
-| focus                 | focus the Input component   | ^[Function]`(e: FocusEvent \| undefined) => void` |
-| blur                  | blur the Input component    | ^[Function]`(e: FocusEvent \| undefined) => void` |
-| handleOpen ^(2.2.16)  | open the TimePicker popper  | ^[Function]`() => void`                           |
-| handleClose ^(2.2.16) | close the TimePicker popper | ^[Function]`() => void`                           |
+| Name                  | Description                    | Type                    |
+| --------------------- | ------------------------------ | ----------------------- |
+| focus                 | focus the TimePicker component | ^[Function]`() => void` |
+| blur                  | blur the TimePicker component  | ^[Function]`() => void` |
+| handleOpen ^(2.2.16)  | open the TimePicker popper     | ^[Function]`() => void` |
+| handleClose ^(2.2.16) | close the TimePicker popper    | ^[Function]`() => void` |

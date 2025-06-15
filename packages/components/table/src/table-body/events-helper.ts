@@ -2,13 +2,18 @@
 import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
 import { addClass, hasClass, removeClass } from '@element-plus/utils'
-import { createTablePopper, getCell, getColumnByCell } from '../util'
+import {
+  createTablePopper,
+  getCell,
+  getColumnByCell,
+  removePopper,
+} from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
 
-function isGreaterThan(a: number, b: number, epsilon = 0.01) {
+function isGreaterThan(a: number, b: number, epsilon = 0.03) {
   return a - b > epsilon
 }
 
@@ -87,14 +92,18 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     const table = parent
     const cell = getCell(event)
     const namespace = table?.vnode.el?.dataset.prefix
+    let column: TableColumnCtx<T>
     if (cell) {
-      const column = getColumnByCell(
+      column = getColumnByCell(
         {
           columns: props.store.states.columns.value,
         },
         cell,
         namespace
       )
+      if (!column) {
+        return
+      }
       if (cell.rowSpan > 1) {
         toggleRowClassByCell(cell.rowSpan, event, addClass)
       }
@@ -135,18 +144,10 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
      *    - Expected: 188
      *    - Actual: 188.00000762939453
      */
-    let { width: rangeWidth, height: rangeHeight } =
+    const { width: rangeWidth, height: rangeHeight } =
       range.getBoundingClientRect()
-    const offsetWidth = rangeWidth - Math.floor(rangeWidth)
     const { width: cellChildWidth, height: cellChildHeight } =
       cellChild.getBoundingClientRect()
-    if (offsetWidth < 0.001) {
-      rangeWidth = Math.floor(rangeWidth)
-    }
-    const offsetHeight = rangeHeight - Math.floor(rangeHeight)
-    if (offsetHeight < 0.001) {
-      rangeHeight = Math.floor(rangeHeight)
-    }
 
     const { top, left, right, bottom } = getPadding(cellChild)
     const horizontalPadding = left + right
@@ -161,9 +162,13 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
       createTablePopper(
         tooltipOptions,
         cell.innerText || cell.textContent,
+        row,
+        column,
         cell,
         table
       )
+    } else if (removePopper?.trigger === cell) {
+      removePopper?.()
     }
   }
   const handleCellMouseLeave = (event) => {

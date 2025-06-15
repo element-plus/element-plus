@@ -8,12 +8,6 @@ lang: en-US
 The tree selector of the dropdown menu,
 it combines the functions of components `el-tree` and `el-select`.
 
-:::tip
-
-This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
-
-:::
-
 ## Basic usage
 
 Selector for tree structures.
@@ -29,18 +23,23 @@ tree-select/basic
 When using the `check-strictly=true` attribute, any node can be checked,
 otherwise only leaf nodes are supported.
 
-:::demo
-
-tree-select/check-strictly
-
-:::
-
 :::tip
 
 When using `show-checkbox`, since `check-on-click-node` is false by default,
 it can only be selected by checking, you can set it to true,
 and then click the node to select.
 
+:::
+
+:::demo
+
+tree-select/check-strictly
+
+:::
+
+:::warning
+When using show-checkbox, since `check-on-click-leaf` is true by default,
+last tree children's can be checked by clicking their nodes.
 :::
 
 ## Multiple Selection

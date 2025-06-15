@@ -14,6 +14,7 @@ describe('CheckTag.vue', () => {
     expect(wrapper.text()).toEqual(AXIOM)
 
     expect(wrapper.classes()).toContain('el-check-tag')
+    expect(wrapper.classes()).not.toContain('is-disabled')
   })
 
   test('functionality', async () => {
@@ -35,6 +36,29 @@ describe('CheckTag.vue', () => {
     await wrapper.find('.el-check-tag').trigger('click')
 
     expect(wrapper.vm.checked).toBe(true)
+
+    await wrapper.find('.el-check-tag').trigger('click')
+
+    expect(wrapper.vm.checked).toBe(false)
+  })
+
+  test('disabled', async () => {
+    const wrapper = mount({
+      data: () => ({ checked: false }),
+      render() {
+        return (
+          <CheckTag
+            disabled={true}
+            onChange={() => (this.checked = !this.checked)}
+            checked={this.checked}
+          >
+            {AXIOM}
+          </CheckTag>
+        )
+      },
+    })
+    expect(wrapper.text()).toEqual(AXIOM)
+    expect(wrapper.classes()).toContain('is-disabled')
 
     await wrapper.find('.el-check-tag').trigger('click')
 

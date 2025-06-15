@@ -10,6 +10,7 @@ export default {
       defaultLabel: 'color picker',
       description:
         'current color is {color}. press enter to select a new color.',
+      alphaLabel: 'pick alpha value',
     },
     datepicker: {
       now: 'Now',
@@ -88,6 +89,9 @@ export default {
       noMatch: 'No matching data',
       noData: 'No data',
       placeholder: 'Select',
+    },
+    mention: {
+      loading: 'Loading',
     },
     dropdown: {
       toggleDropdown: 'Toggle Dropdown',
