@@ -89,7 +89,7 @@ splitter/size
 
 | Name        | Description                       | type                                |
 | ----------- | --------------------------------- | ----------------------------------- |
-| update:size | Triggered when panel size changes | ^[Function]`(size: number) => void` |
+| update-size | Triggered when panel size changes | ^[Function]`(size: number) => void` |
 
 ### SplitterPanel Slots
 

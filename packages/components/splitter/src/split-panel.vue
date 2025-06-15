@@ -29,7 +29,7 @@ defineOptions({
 const props = defineProps(splitterPanelProps)
 
 const emits = defineEmits<{
-  (e: 'update:size', value: number): void
+  (e: 'updateSize', value: number): void
 }>()
 const splitterContext = inject(splitterRootContextKey)
 if (!splitterContext)
@@ -126,7 +126,7 @@ watch(
 
       if (finalSize !== size) {
         isSizeUpdating = true
-        emits('update:size', finalSize)
+        emits('updateSize', finalSize)
       }
 
       panel.value.size = finalSize
@@ -139,7 +139,7 @@ watch(
   () => panel.value?.size,
   (val) => {
     if (!isSizeUpdating && val !== props.size) {
-      emits('update:size', val as number)
+      emits('updateSize', val as number)
     }
   }
 )
