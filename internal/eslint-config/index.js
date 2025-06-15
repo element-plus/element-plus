@@ -408,11 +408,6 @@ module.exports = defineConfig({
         ],
         pathGroups: [
           {
-            pattern: '*',
-            group: 'builtin',
-            position: 'before',
-          },
-          {
             pattern: 'vue',
             group: 'external',
             position: 'before',
