@@ -5,6 +5,7 @@ import {
   isClient,
   mutable,
 } from '@element-plus/utils'
+
 import type { AppContext, ExtractPropTypes, VNode } from 'vue'
 import type { Mutable } from '@element-plus/utils'
 import type MessageConstructor from './message.vue'

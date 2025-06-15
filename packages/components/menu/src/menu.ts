@@ -12,9 +12,8 @@ import {
   watchEffect,
   withDirectives,
 } from 'vue'
-
-import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
+import { useResizeObserver } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {

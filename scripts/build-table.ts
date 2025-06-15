@@ -1,5 +1,5 @@
-import fs from 'fs/promises'
 import path from 'path'
+import fs from 'fs/promises'
 
 async function main() {
   const threshold = Number(process.env.THRESHOLD) || 40

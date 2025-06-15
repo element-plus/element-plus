@@ -4,6 +4,7 @@ import {
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
 import { dropdownProps } from '@element-plus/components/dropdown'
+
 import type { ExtractPropTypes, PropType } from 'vue'
 import type Popover from './popover.vue'
 

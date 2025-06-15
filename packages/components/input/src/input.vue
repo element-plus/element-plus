@@ -158,8 +158,8 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
+import { useResizeObserver } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   CircleClose,
@@ -193,6 +193,7 @@ import {
 } from '@element-plus/constants'
 import { calcTextareaHeight } from './utils'
 import { inputEmits, inputProps } from './input'
+
 import type { StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement

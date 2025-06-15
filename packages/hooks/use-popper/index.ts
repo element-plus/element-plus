@@ -1,6 +1,6 @@
 import { computed, onBeforeUnmount, ref, shallowRef, unref, watch } from 'vue'
-import { createPopper } from '@popperjs/core'
 import { fromPairs } from 'lodash-unified'
+import { createPopper } from '@popperjs/core'
 
 import type { Ref } from 'vue'
 import type {
