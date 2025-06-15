@@ -9,7 +9,7 @@ module.exports = defineConfig({
   plugins: ['@typescript-eslint', 'prettier', 'unicorn'],
   extends: [
     'eslint:recommended',
-    'plugin:import/recommended',
+    'plugin:import-x/recommended',
     'plugin:eslint-comments/recommended',
     'plugin:jsonc/recommended-with-jsonc',
     'plugin:markdown/recommended',
@@ -18,7 +18,7 @@ module.exports = defineConfig({
     'prettier',
   ],
   settings: {
-    'import/resolver': {
+    'import-x/resolver': {
       node: { extensions: ['.js', '.mjs', '.ts', '.d.ts', '.tsx'] },
     },
   },
@@ -93,7 +93,7 @@ module.exports = defineConfig({
     {
       files: ['*.d.ts'],
       rules: {
-        'import/no-duplicates': 'off',
+        'import-x/no-duplicates': 'off',
       },
     },
     {
@@ -125,7 +125,7 @@ module.exports = defineConfig({
       files: ['**/*.md/*.js', '**/*.md/*.ts'],
       rules: {
         'no-console': 'off',
-        'import/no-unresolved': 'off',
+        'import-x/no-unresolved': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
       },
     },
@@ -136,7 +136,7 @@ module.exports = defineConfig({
       ],
       rules: {
         'no-console': 'off',
-        'import/no-unresolved': 'off',
+        'import-x/no-unresolved': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
         'no-restricted-imports': [
           'error',
@@ -389,9 +389,9 @@ module.exports = defineConfig({
     'prettier/prettier': 'error',
 
     // import
-    'import/first': 'error',
-    'import/no-duplicates': 'error',
-    'import/order': [
+    'import-x/first': 'error',
+    'import-x/no-duplicates': 'error',
+    'import-x/order': [
       'error',
       {
         groups: [
@@ -424,13 +424,13 @@ module.exports = defineConfig({
         pathGroupsExcludedImportTypes: ['type'],
       },
     ],
-    'import/no-unresolved': 'off',
-    'import/namespace': 'off',
-    'import/default': 'off',
-    'import/no-named-as-default': 'off',
-    'import/no-named-as-default-member': 'off',
-    'import/named': 'off',
-    'import/newline-after-import': ['error', { count: 1 }],
+    'import-x/no-unresolved': 'off',
+    'import-x/namespace': 'off',
+    'import-x/default': 'off',
+    'import-x/no-named-as-default': 'off',
+    'import-x/no-named-as-default-member': 'off',
+    'import-x/named': 'off',
+    'import-x/newline-after-import': ['error', { count: 1 }],
     'no-restricted-imports': [
       'error',
       {
