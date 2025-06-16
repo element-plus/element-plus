@@ -27,7 +27,7 @@ function useExpand<T>(watcherData: WatcherPropsData<T>) {
         return prev
       }, [])
     } else {
-      expandRows.value = []
+      !instance.store.isUserExpand && (expandRows.value = [])
     }
   }
 
