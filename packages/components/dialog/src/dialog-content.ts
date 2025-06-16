@@ -1,3 +1,4 @@
+import { Close } from '@element-plus/icons-vue'
 import { buildProps, iconPropType } from '@element-plus/utils'
 
 export const dialogContentProps = buildProps({
@@ -14,6 +15,7 @@ export const dialogContentProps = buildProps({
    */
   closeIcon: {
     type: iconPropType,
+    default: Close,
   },
   /**
    * @description enable dragging feature for Dialog

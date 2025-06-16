@@ -38,7 +38,7 @@
         <p v-else :class="ns.e('content')" v-html="message" />
       </slot>
       <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
-        <Close />
+        <component :is="closeIconComponent" />
       </el-icon>
     </div>
   </transition>
@@ -47,17 +47,18 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useEventListener, useResizeObserver, useTimeoutFn } from '@vueuse/core'
-import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
+import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
-import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
+import {
+  iconsConfig,
+  useGlobalComponentSettings,
+} from '@element-plus/components/config-provider'
 import { ElIcon } from '@element-plus/components/icon'
 import { messageEmits, messageProps } from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
 import type { BadgeProps } from '@element-plus/components/badge'
 import type { CSSProperties } from 'vue'
-
-const { Close } = TypeComponents
 
 defineOptions({
   name: 'ElMessage',
@@ -84,9 +85,14 @@ const typeClass = computed(() => {
   const type = props.type
   return { [ns.bm('icon', type)]: type && TypeComponentsMap[type] }
 })
-const iconComponent = computed(
-  () => props.icon || TypeComponentsMap[props.type] || ''
-)
+const iconComponent = computed(() => {
+  return (
+    props.icon ??
+    iconsConfig[props.type === 'primary' ? 'info' : props.type] ??
+    TypeComponentsMap[props.type] ??
+    ''
+  )
+})
 
 const lastOffset = computed(() => getLastOffset(props.id))
 const offset = computed(
@@ -97,6 +103,8 @@ const customStyle = computed<CSSProperties>(() => ({
   top: `${offset.value}px`,
   zIndex: currentZIndex.value,
 }))
+
+const closeIconComponent = computed(() => iconsConfig.close ?? props.closeIcon)
 
 function startTimer() {
   if (props.duration === 0) return

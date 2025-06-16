@@ -47,6 +47,7 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
@@ -58,6 +59,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const contentId = useId()
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
+  const globalIcons = useGlobalConfig('icons')
 
   const states = reactive<SelectStates>({
     inputValue: '',
@@ -153,10 +155,13 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const iconComponent = computed(() =>
     props.remote && props.filterable && !props.remoteShowSuffix
       ? ''
-      : props.suffixIcon
+      : globalIcons.value?.arrowDown || props.suffixIcon
   )
   const iconReverse = computed(() =>
     nsSelect.is('reverse', !!(iconComponent.value && expanded.value))
+  )
+  const clearIconComponent = computed(
+    () => globalIcons.value?.clear || props.clearIcon
   )
 
   const validateState = computed(() => formItem?.validateState || '')
@@ -829,6 +834,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     showClose,
     iconComponent,
     iconReverse,
+    clearIconComponent,
     validateState,
     validateIcon,
     showNewOption,

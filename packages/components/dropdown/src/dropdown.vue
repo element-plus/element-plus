@@ -84,7 +84,9 @@
           :tabindex="tabindex"
           :aria-label="t('el.dropdown.toggleDropdown')"
         >
-          <el-icon :class="ns.e('icon')"><arrow-down /></el-icon>
+          <el-icon :class="ns.e('icon')">
+            <component :is="arrowDownIconComponent" />
+          </el-icon>
         </el-button>
       </el-button-group>
     </template>
@@ -113,6 +115,7 @@ import { useFormSize } from '@element-plus/components/form'
 import { addUnit, ensureArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import {
   DROPDOWN_INJECTION_KEY,
@@ -143,6 +146,7 @@ export default defineComponent({
     const _instance = getCurrentInstance()
     const ns = useNamespace('dropdown')
     const { t } = useLocale()
+    const globalIcons = useGlobalConfig('icons')
 
     const triggeringElementRef = ref()
     const referenceElementRef = ref()
@@ -160,6 +164,10 @@ export default defineComponent({
 
     const defaultTriggerId = useId().value
     const triggerId = computed<string>(() => props.id || defaultTriggerId)
+
+    const arrowDownIconComponent = computed(
+      () => globalIcons.value?.arrowDown || ArrowDown
+    )
 
     // The goal of this code is to focus on the tooltip triggering element when it is hovered.
     // This is a temporary fix for where closing the dropdown through pointerleave event focuses on a
@@ -311,6 +319,7 @@ export default defineComponent({
       contentRef,
       triggeringElementRef,
       referenceElementRef,
+      arrowDownIconComponent,
     }
   },
 })

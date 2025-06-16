@@ -36,6 +36,7 @@ import { useNamespace, useZIndex } from '@element-plus/hooks'
 import { isBoolean } from '@element-plus/utils'
 import ElTeleport from '@element-plus/components/teleport'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { iconsConfig } from '@element-plus/components/config-provider'
 import ElTourMask from './mask.vue'
 import ElTourContent from './content.vue'
 import ElTourSteps from './steps'
@@ -128,7 +129,7 @@ provide(tourKey, {
   current,
   total,
   showClose: toRef(props, 'showClose'),
-  closeIcon: toRef(props, 'closeIcon') as any,
+  closeIcon: computed((): any => iconsConfig.close ?? props.closeIcon),
   mergedType: mergedType as any,
   ns,
   slots,

@@ -1,3 +1,4 @@
+import { Close } from '@element-plus/icons-vue'
 import {
   buildProps,
   definePropType,
@@ -149,6 +150,13 @@ export const messageProps = buildProps({
   repeatNum: {
     type: Number,
     default: messageDefaults.repeatNum,
+  },
+  /**
+   * @description close icon component
+   */
+  closeIcon: {
+    type: iconPropType,
+    default: Close,
   },
 } as const)
 export type MessageProps = ExtractPropTypes<typeof messageProps>
