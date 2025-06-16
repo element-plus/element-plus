@@ -233,6 +233,10 @@ export const timePickerDefaultProps = buildProps({
     type: Boolean,
     default: true,
   },
+  showWeekNumber: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<
