@@ -144,6 +144,14 @@ export const cascaderProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description setting check strategy
+   */
+  showCheckedStrategy: {
+    type: String,
+    values: ['parent', 'child'],
+    default: 'child',
+  },
   ...useEmptyValuesProps,
 })
 
