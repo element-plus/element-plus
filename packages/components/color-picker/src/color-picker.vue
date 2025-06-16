@@ -177,9 +177,7 @@ const triggerRef = ref()
 const inputRef = ref()
 
 const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
-  beforeFocus() {
-    return colorDisabled.value
-  },
+  disabled: colorDisabled,
   beforeBlur(event) {
     return popper.value?.isFocusInsideContent(event)
   },
