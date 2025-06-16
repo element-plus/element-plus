@@ -51,6 +51,7 @@
 <script lang="ts" setup>
 import {
   computed,
+  onBeforeUnmount,
   onDeactivated,
   provide,
   readonly,
@@ -166,6 +167,10 @@ const isFocusInsideContent = (event?: FocusEvent) => {
 }
 
 onDeactivated(() => open.value && hide())
+
+onBeforeUnmount(() => {
+  toggleReason.value = undefined
+})
 
 defineExpose({
   /**
