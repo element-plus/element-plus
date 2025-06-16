@@ -1,12 +1,13 @@
 import { defineComponent, h, provide, renderSlot } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { TIMELINE_INJECTION_KEY } from './tokens'
 
 const Timeline = defineComponent({
   name: 'ElTimeline',
   setup(_, { slots }) {
     const ns = useNamespace('timeline')
 
-    provide('timeline', slots)
+    provide(TIMELINE_INJECTION_KEY, slots)
 
     /**
      *  Maybe ,this component will not support prop 'reverse', why ?

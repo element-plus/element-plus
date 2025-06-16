@@ -9,3 +9,4 @@ export default ElTree
 
 export * from './src/tree.type'
 export * from './src/instance'
+export * from './src/tokens'

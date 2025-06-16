@@ -36,6 +36,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const checkboxGroup1 = ref(['Shanghai'])
 const checkboxGroup2 = ref(['Shanghai'])
 const checkboxGroup3 = ref(['Shanghai'])

@@ -1,6 +1,117 @@
 ## Changelog
 
 
+### 2.10.2
+
+_2025-06-13_
+
+#### Features
+
+- Components [cascader]add a props to control tooltip maxHeight (#20933 by @upthen)
+- Components [form] export getField (#20981 by @xingyixiang)
+
+#### Bug fixes
+
+- Components [scrollbar] horizontal scroll drag invalid (#20953 by @btea)
+- Theme-chalk [drawer] replace fixed color with CSS var (#19011 by @tolking)
+- Components [date-picker] getting month dates range error (#20932 by @jyp114110)
+- Components [date-picker] yearrange & unlinkPanels causes panels display error (#17822 by @tolking)
+- Components [tree-select] value label rendering error (#20947 by @btea)
+- Locale update ru.ts (#20972 by @btea)
+- Hooks [use-focus-controller] repeatedly trigger focus when clicked (#17148 by @tolking)
+
+### 2.10.1
+
+_2025-06-07_
+
+#### Bug fixes
+
+- Components [form] the validate function is executed repeatedly (#19345 by @betavs)
+- Components [splitter-panel] the style file path error (#20948 by @tolking)
+
+### 2.10.0
+
+_2025-06-06_
+
+#### Features
+
+- Components [alert] add open and auto-close functionality with delays (#20533 by @betavs)
+- Components [scrollbar] add `end-reached` event (#20812 by @Dsaquel)
+- Components [table-column] add `expand` slot (#20750 by @wjp980108)
+- Components [splitter] new component (#20145 by @Gnalvin)
+
+#### Bug fixes
+
+- [color-picker] Fix invalid color code clearing (#20832 by @zhanghaifeng213)
+- Components [config-provider] provide global config function is invalid for message (#20863 by @betavs)
+- Components [text] the title attribute loses its reactivity (#20875 by @betavs)
+- Components [cascader] scrolling to active node is inaccurate (#20877 by @btea)
+- Components [input-number] clear display content after non-numeric input (#19538 by @DDDDD12138)
+- Components [select-v2] fix `default-first-option` and `allow-create` are not effective together (#20872 by @kooriookami)
+- Components [cascader] placeholder should be blank if pass a empty string (#20896 by @btea)
+- Components [form-item] cannot be set to div tag for rendering (#20608 by @betavs)
+- Components [select] display exception when label is `0` or `""` (#20905 by @YiMo1)
+- Components [dialog] drag into view when content is too high (#20595 by @wNing50)
+- Hooks  [use-focus-controller] form-disabled-status not trigger blur (#20891 by @warmthsea)
+- Components [cascader-panel] check if children label are comments (#20899 by @Dsaquel)
+- Components [dialog] fix dialog zindex should update responsively (#18520 by @wsVIC)
+- Components [space] correctly render comment nodes (#20922 by @btea)
+- Types [menu-item] make `index` attribute required (#19007 by @DDDDD12138)
+- Theme-chalk [radio] update background color for checked state (#19594 by @betavs)
+- Components [space] keep comment nodes (#20930 by @btea)
+- Components [collapse] resolve space key conflict and improve accessibility (#20529 by @rhodi2436)
+
+#### Refactors
+
+- Components [color-picker] Use tinycolor to calculate color (#20847 by @kooriookami)
+- [select, select-v2]: unified name & supplement type (#20050 by @warmthsea)
+- Components [select] modify `manuallyRenderSlots` execute (#20854 by @jeff-fe)
+- Components standardize injection keys (#20616 by @betavs)
+- Components [tooltip-v2] remove `ts-nocheck` comments (#16928 by @warmthsea)
+
+### 2.9.11
+
+_2025-05-23_
+
+#### Features
+
+- Components [date-picker] add quick year and month selection (#19700 by @wjp980108)
+- Components [config-provider] add message plain config (#20723 by @kooriookami)
+- Components [config-provider] support more button config (#20726 by @Dsaquel)
+- Components [collapse] add beforeCollapse prop (#20716 by @Liao-js)
+- Ure: generate-llms.txt for AI Knowledge (#20450 by @yuxuan-ctrl)
+- Components [config-provider] support `link` config (#20773 by @Dsaquel)
+- Components [alert] [result] [message] [message-box] [notification] add primary type (#20782 by @kooriookami)
+- Revert "table expand  #20587 #20715 #20811" (#20834 by @warmthsea)
+
+#### Bug fixes
+
+- Components [table] `default-expand-all` invalid (#20715 by @btea)
+- Components [cascader] safeguard arrow modifier access in popper options (#20732 by @betavs)
+- Components [table-v2] modify the width calculation logic (#19021 by @YiMo1)
+- Components [text] fix properties of null when destroyed (#20751 by @kooriookami)
+- Components [tree-v2] set expanded keys requires multiple nextTick (#20725 by @xingyixiang)
+- Locale missing pagination translation (#20770 by @btea)
+- Components [table] the selection column cannot be displayed when it is not in the first row (#20582 by @qp666)
+- Components [select-v2] fix scroll position when using props (#20788 by @kooriookami)
+- Components [input-number] Improve modelValue prop type (#16124 by @XL-YiBai)
+- Components [select] select value label rendering error (#20769 by @btea)
+- Components [table] update `expand-row-keys` invalid (#20811 by @warmthsea)
+- Components [table-v2] use `keep-alive` position top error (#20813 by @warmthsea)
+- Components [message] message method jump failed (#20818 by @btea)
+- Components [date-time-picker] inherit time across picker views (#20806 by @Dsaquel)
+- Components [cascader-panel] value can be an empty string (#20731 by @betavs)
+- Components [form] `scrollToError` scroll to correct position (#20826 by @btea)
+- Components [image-viewer] dont persist image preview list (#20807 by @Dsaquel)
+- Style(theme-chalk): fix form label style (#20710 by @kooriookami)
+
+#### Refactors
+
+- Components [carousel] simplify the code for motion blur (#20696 by @makedopamine)
+- Delete useless code (#20759 by @IllegalCreed)
+- Components improve alignment type definitions (#20695 by @zhixiaotong)
+- Rename test env (#20816 by @btea)
+
 ### 2.9.10
 
 _2025-05-09_
