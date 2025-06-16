@@ -1,5 +1,5 @@
 <template>
-  <template v-if="descriptions.direction === 'vertical'">
+  <template v-if="descriptions.props.direction === 'vertical'">
     <tr>
       <template v-for="(cell, _index) in row" :key="`tr1-${_index}`">
         <el-descriptions-cell :cell="cell" tag="th" type="label" />
@@ -13,7 +13,7 @@
   </template>
   <tr v-else>
     <template v-for="(cell, _index) in row" :key="`tr3-${_index}`">
-      <template v-if="descriptions.border">
+      <template v-if="descriptions.props.border">
         <el-descriptions-cell :cell="cell" tag="td" type="label" />
         <el-descriptions-cell :cell="cell" tag="td" type="content" />
       </template>
@@ -29,13 +29,11 @@ import ElDescriptionsCell from './descriptions-cell'
 import { descriptionsKey } from './token'
 import { descriptionsRowProps } from './descriptions-row'
 
-import type { IDescriptionsInject } from './descriptions.type'
-
 defineOptions({
   name: 'ElDescriptionsRow',
 })
 
 defineProps(descriptionsRowProps)
 
-const descriptions = inject(descriptionsKey, {} as IDescriptionsInject)
+const descriptions = inject(descriptionsKey)!
 </script>
