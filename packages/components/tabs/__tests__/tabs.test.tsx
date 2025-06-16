@@ -5,8 +5,10 @@ import { EVENT_CODE } from '@element-plus/constants'
 import Tabs from '../src/tabs'
 import TabPane from '../src/tab-pane.vue'
 import TabNav from '../src/tab-nav'
-import type { TabPaneName } from '../src/tabs'
-import type { TabsPaneContext } from '@element-plus/components/tabs'
+import type {
+  TabPaneName,
+  TabsPaneContext,
+} from '@element-plus/components/tabs'
 
 const Comp = defineComponent({
   components: {
