@@ -15,6 +15,7 @@ const emits = defineEmits<{
   (e: 'resizeStart', index: number, sizes: number[]): void
   (e: 'resize', index: number, sizes: number[]): void
   (e: 'resizeEnd', index: number, sizes: number[]): void
+  (e: 'collapse', index: number, type: 'start' | 'end', sizes: number[]): void
 }>()
 
 const props = defineProps(splitterProps)
@@ -56,6 +57,11 @@ const onResizeEnd = (index: number) => {
   emits('resizeEnd', index, pxSizes.value)
 }
 
+const onCollapsible = (index: number, type: 'start' | 'end') => {
+  onCollapse(index, type)
+  emits('collapse', index, type, pxSizes.value)
+}
+
 provide(
   splitterRootContextKey,
   reactive({
@@ -68,7 +74,7 @@ provide(
     onMoveStart: onResizeStart,
     onMoving: onResize,
     onMoveEnd: onResizeEnd,
-    onCollapse,
+    onCollapse: onCollapsible,
     registerPanel: (panel: PanelItemState) => {
       panels.value.push(panel)
     },
