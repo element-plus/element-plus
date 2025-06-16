@@ -8,6 +8,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { expectTypeOf } from 'expect-type'
 import { buildProp, buildProps, definePropType, keysOf, mutable } from '../..'
+
 import type {
   EpProp,
   EpPropInputDefault,
@@ -19,7 +20,6 @@ import type {
   WritableArray,
   epPropKey,
 } from '../..'
-
 import type { ExtractPropTypes, PropType } from 'vue'
 
 describe('Types', () => {

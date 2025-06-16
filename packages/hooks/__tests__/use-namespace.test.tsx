@@ -2,6 +2,7 @@ import { computed, defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { useNamespace } from '..'
+
 import type { VueWrapper } from '@vue/test-utils'
 
 const TestComp = defineComponent({

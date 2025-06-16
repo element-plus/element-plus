@@ -5,6 +5,7 @@ import {
   InfoFilled,
   WarningFilled,
 } from '@element-plus/icons-vue'
+
 import type { Component, ExtractPropTypes } from 'vue'
 import type Result from './result.vue'
 

@@ -25,6 +25,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipTriggerProps } from './trigger'
 import { whenTrigger } from './utils'
+
 import type { OnlyChildExpose } from '@element-plus/components/slot'
 
 defineOptions({

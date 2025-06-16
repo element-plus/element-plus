@@ -1,5 +1,6 @@
 import { computed, ref } from 'vue'
 import { getPct, getPx, isPct, isPx } from './useSize'
+
 import type { ComputedRef, Ref } from 'vue'
 import type { PanelItemState } from '../type'
 

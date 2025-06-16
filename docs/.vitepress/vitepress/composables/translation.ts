@@ -2,7 +2,6 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vitepress'
 import { isClient, useStorage } from '@vueuse/core'
 import { PREFERRED_LANG_KEY } from '../constant'
-
 import langs from '../../i18n/lang.json'
 import translationLocale from '../../i18n/component/translation.json'
 import { useLang } from './lang'

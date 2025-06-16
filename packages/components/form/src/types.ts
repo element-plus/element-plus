@@ -13,7 +13,6 @@ import type {
   FormItemValidateState,
 } from './form-item'
 import type { FormEmits, FormProps } from './form'
-
 import type { useFormLabelWidth } from './utils'
 
 export type FormLabelWidthContext = ReturnType<typeof useFormLabelWidth>

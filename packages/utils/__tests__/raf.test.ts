@@ -1,4 +1,4 @@
-/* eslint-disable import/first */
+/* eslint-disable import-x/first */
 let isClientMocked = false
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'

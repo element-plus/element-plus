@@ -8,6 +8,7 @@ import { rAF } from '@element-plus/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import Select from '../src/select.vue'
+
 import type { Props } from '../useProps'
 
 vi.mock('lodash-unified', async () => {

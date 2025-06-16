@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
+
 import type DatePickerRange from '../src/date-picker-com/panel-date-range.vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type { VNode } from 'vue'

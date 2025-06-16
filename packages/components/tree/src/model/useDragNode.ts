@@ -2,6 +2,7 @@
 import { provide, ref } from 'vue'
 import { addClass, isFunction, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
+
 import type { InjectionKey } from 'vue'
 import type Node from './node'
 import type { NodeDropType } from '../tree.type'

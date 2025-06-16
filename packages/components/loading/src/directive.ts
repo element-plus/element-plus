@@ -2,6 +2,7 @@
 import { isRef, ref } from 'vue'
 import { hyphenate, isObject, isString } from '@element-plus/utils'
 import Loading from './service'
+
 import type { Directive, DirectiveBinding, UnwrapRef } from 'vue'
 import type { LoadingOptions } from './types'
 import type { LoadingInstance } from './loading'

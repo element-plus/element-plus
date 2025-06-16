@@ -1,6 +1,7 @@
 import { onMounted, ref, watch } from 'vue'
 import { utoa } from '../utils'
 import { isDark } from './dark'
+
 import type { Link } from '../types'
 
 const MAIN_FILE_NAME = 'App.vue'

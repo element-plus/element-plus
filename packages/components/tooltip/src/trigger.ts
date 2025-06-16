@@ -1,6 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { popperTriggerProps } from '@element-plus/components/popper'
 import { EVENT_CODE } from '@element-plus/constants'
+
 import type { Arrayable } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 

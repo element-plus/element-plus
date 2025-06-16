@@ -1,5 +1,6 @@
 import { computed } from 'vue'
 import { debugWarn } from '@element-plus/utils'
+
 import type { CSSProperties, ComputedRef } from 'vue'
 import type { SliderInitData, SliderProps } from '../slider'
 

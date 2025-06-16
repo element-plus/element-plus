@@ -1,6 +1,7 @@
 import { withInstall, withNoopInstall } from '@element-plus/utils'
 import Anchor from './src/anchor.vue'
 import AnchorLink from './src/anchor-link.vue'
+
 import type { SFCWithInstall } from '@element-plus/utils'
 
 export const ElAnchor: SFCWithInstall<typeof Anchor> & {

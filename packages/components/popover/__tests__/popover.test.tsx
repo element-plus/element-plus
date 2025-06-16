@@ -5,6 +5,7 @@ import { usePopperContainerId, useZIndex } from '@element-plus/hooks'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElPopperTrigger } from '@element-plus/components/popper'
 import Popover from '../src/popover.vue'
+
 import type { VueWrapper } from '@vue/test-utils'
 import type { PopoverProps } from '../src/popover'
 

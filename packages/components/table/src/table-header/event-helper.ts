@@ -9,6 +9,7 @@ import {
   removeClass,
 } from '@element-plus/utils'
 import { TABLE_INJECTION_KEY } from '../tokens'
+
 import type { TableHeaderProps } from '.'
 import type { TableColumnCtx } from '../table-column/defaults'
 

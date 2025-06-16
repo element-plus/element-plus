@@ -44,6 +44,7 @@ import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
 import { scrollbarContextKey } from './constants'
 import { scrollbarEmits, scrollbarProps } from './scrollbar'
+
 import type { ScrollbarDirection } from './scrollbar'
 import type { BarInstance } from './bar'
 import type { CSSProperties, StyleValue } from 'vue'
