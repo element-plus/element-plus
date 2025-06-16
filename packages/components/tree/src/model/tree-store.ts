@@ -79,7 +79,7 @@ export default class TreeStore {
         if (index % 80 === 0 && index > 0) {
           await nextTick()
         }
-        traverse(child)
+        await traverse(child)
       }
 
       if (!(node as Node).visible && childNodes.length) {
@@ -412,7 +412,7 @@ export default class TreeStore {
 
   setCurrentNodeKey(key?: TreeKey, shouldAutoExpandParent = true): void {
     this.currentNodeKey = key
-    if (key === null || key === undefined) {
+    if (isPropAbsent(key)) {
       this.currentNode && (this.currentNode.isCurrent = false)
       this.currentNode = null
       return

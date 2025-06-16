@@ -5,6 +5,7 @@ import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+
 import type {
   CascaderNode,
   CascaderValue,
@@ -74,6 +75,12 @@ export const cascaderProps = buildProps({
   collapseTagsTooltip: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * @description The max height of collapse tags tooltip, in pixels. To use this, collapse-tags-tooltip must be true
+   */
+  maxCollapseTagsTooltipHeight: {
+    type: [String, Number],
   },
   /**
    * @description debounce delay when typing filter keyword, in milliseconds

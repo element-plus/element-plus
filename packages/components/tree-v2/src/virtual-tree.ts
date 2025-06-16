@@ -5,6 +5,7 @@ import {
   isBoolean,
   mutable,
 } from '@element-plus/utils'
+
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type { InjectionKey } from 'vue'
 import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
@@ -106,6 +107,10 @@ export const treeProps = buildProps({
   checkOnClickNode: {
     type: Boolean,
     default: false,
+  },
+  checkOnClickLeaf: {
+    type: Boolean,
+    default: true,
   },
   currentNodeKey: {
     type: definePropType<TreeKey>([String, Number]),

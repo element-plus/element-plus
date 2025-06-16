@@ -124,7 +124,7 @@ export default {
       title: '提示',
       confirm: '確定',
       cancel: '取消',
-      error: '輸入的資料不符規定!',
+      error: '輸入的資料不符合規定!',
       close: '關閉此對話框',
     },
     upload: {

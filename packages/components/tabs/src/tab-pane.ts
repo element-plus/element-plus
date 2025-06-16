@@ -1,4 +1,5 @@
 import { buildProps } from '@element-plus/utils'
+
 import type { ExtractPropTypes } from 'vue'
 import type TabPane from './tab-pane.vue'
 
@@ -32,4 +33,4 @@ export const tabPaneProps = buildProps({
 
 export type TabPaneProps = ExtractPropTypes<typeof tabPaneProps>
 
-export type TabPaneInstance = InstanceType<typeof TabPane>
+export type TabPaneInstance = InstanceType<typeof TabPane> & unknown

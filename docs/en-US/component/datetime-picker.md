@@ -77,9 +77,7 @@ datetime-picker/custom-icon
 
 :::
 
-## API
-
-### Attributes
+## Attributes
 
 | Name                    | Description                                                                                                    | Type                                                                                           | Default             |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------- |
@@ -109,13 +107,16 @@ datetime-picker/custom-icon
 | clear-icon              | Custom clear icon component                                                                                    | ^[string] / `Component`                                                                        | CircleClose         |
 | shortcuts               | an object array to set shortcut options                                                                        | ^[object]`Array<{ text: string, value: Date \| Function }>`                                    | —                   |
 | disabled-date           | a function determining if a date is disabled with that date as its parameter. Should return a Boolean          | ^[Function]`(data: Date) => boolean`                                                           | —                   |
+| disabled-hours          | To specify the array of hours that cannot be selected                                                          | ^[Function]`(role: string, comparingDate?: Dayjs) => number[]`                                 | —                   |
+| disabled-minutes        | To specify the array of minutes that cannot be selected                                                        | ^[Function]`(hour: number, role: string, comparingDate?: Dayjs) => number[]`                   | —                   |
+| disabled-seconds        | To specify the array of seconds that cannot be selected                                                        | ^[Function]`(hour: number, minute: number, role: string, comparingDate?: Dayjs) => number[]`   | —                   |
 | cell-class-name         | set custom className                                                                                           | ^[Function]`(data: Date) => string`                                                            | —                   |
 | teleported              | whether datetime-picker dropdown is teleported to the body                                                     | ^[boolean]                                                                                     | true                |
 | empty-values ^(2.7.0)   | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                       | —                   |
 | value-on-clear ^(2.7.0) | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                               | —                   |
 | show-now ^(2.8.7)       | whether to show the now button                                                                                 | ^[boolean]                                                                                     | true                |
 
-### Events
+## Events
 
 | Name            | Description                                                                   | Parameters                                |
 | --------------- | ----------------------------------------------------------------------------- | ----------------------------------------- |
@@ -126,7 +127,7 @@ datetime-picker/custom-icon
 | calendar-change | triggers when the calendar selected date is changed. Only for `datetimerange` | [Date, Date]                              |
 | visible-change  | triggers when the DateTimePicker's dropdown appears/disappears                | true when it appears, and false otherwise |
 
-### Slots
+## Slots
 
 | Name                | Description                    |
 | ------------------- | ------------------------------ |
@@ -137,7 +138,7 @@ datetime-picker/custom-icon
 | prev-year ^(2.8.0)  | prev year icon                 |
 | next-year ^(2.8.0)  | next year icon                 |
 
-### Exposes
+## Exposes
 
 | Method        | Description                    | Type                    |
 | ------------- | ------------------------------ | ----------------------- |

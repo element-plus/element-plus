@@ -134,7 +134,7 @@
   @include e(status) {
     font-size: 24px;
 
-    @each $type in (success, info, warning, error) {
+    @each $type in (primary, success, info, warning, error) {
       &.#{$namespace}-message-box-icon--#{$type} {
         @include css-var-from-global(('messagebox', 'color'), ('color', $type));
         color: getCssVar('messagebox-color');
@@ -144,6 +144,7 @@
 
   @include e(message) {
     margin: 0;
+    min-width: 0;
 
     & p {
       margin: 0;

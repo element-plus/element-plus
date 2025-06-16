@@ -5,7 +5,7 @@ export default {
       label: 'Хлебные крошки',
     },
     colorpicker: {
-      confirm: 'OK',
+      confirm: 'Ок',
       clear: 'Очистить',
     },
     datepicker: {
@@ -13,7 +13,7 @@ export default {
       today: 'Сегодня',
       cancel: 'Отмена',
       clear: 'Очистить',
-      confirm: 'OK',
+      confirm: 'Ок',
       selectDate: 'Выбрать дату',
       selectTime: 'Выбрать время',
       startDate: 'Дата начала',
@@ -91,7 +91,7 @@ export default {
     },
     messagebox: {
       title: 'Сообщение',
-      confirm: 'OK',
+      confirm: 'Ок',
       cancel: 'Отмена',
       error: 'Недопустимый ввод данных',
     },
@@ -103,7 +103,7 @@ export default {
     },
     table: {
       emptyText: 'Нет данных',
-      confirmFilter: 'Подтвердить',
+      confirmFilter: 'Ок',
       resetFilter: 'Сбросить',
       clearFilter: 'Все',
       sumText: 'Сумма',
@@ -131,7 +131,7 @@ export default {
       title: 'Назад',
     },
     popconfirm: {
-      confirmButtonText: 'OK',
+      confirmButtonText: 'Ок',
       cancelButtonText: 'Отмена',
     },
     carousel: {

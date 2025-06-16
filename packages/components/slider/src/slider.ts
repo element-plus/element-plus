@@ -11,6 +11,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
+
 import type { Arrayable } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { SliderMarkerProps } from './marker'
@@ -188,4 +189,4 @@ export const sliderEmits = {
 }
 export type SliderEmits = typeof sliderEmits
 
-export type SliderInstance = InstanceType<typeof Slider>
+export type SliderInstance = InstanceType<typeof Slider> & unknown

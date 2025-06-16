@@ -1,6 +1,9 @@
 import { getCurrentInstance, onMounted, ref, shallowRef, watch } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import { isElement, isFunction } from '@element-plus/utils'
+import { isElement, isFocusable, isFunction } from '@element-plus/utils'
+// eslint-disable-next-line no-restricted-imports
+import { useFormDisabled } from '@element-plus/components/form/src/hooks/use-form-common-props' // TODO: remove this
+
 import type { ShallowRef } from 'vue'
 
 interface UseFocusControllerOptions {
@@ -30,6 +33,7 @@ export function useFocusController<T extends { focus: () => void }>(
   const instance = getCurrentInstance()!
   const { emit } = instance
   const wrapperRef = shallowRef<HTMLElement>()
+  const disabled = useFormDisabled()
   const isFocused = ref(false)
 
   const handleFocus = (event: FocusEvent) => {
@@ -54,18 +58,23 @@ export function useFocusController<T extends { focus: () => void }>(
     afterBlur?.()
   }
 
-  const handleClick = () => {
+  const handleClick = (event: Event) => {
     if (
-      wrapperRef.value?.contains(document.activeElement) &&
-      wrapperRef.value !== document.activeElement
+      (wrapperRef.value?.contains(document.activeElement) &&
+        wrapperRef.value !== document.activeElement) ||
+      isFocusable(event.target as HTMLElement) ||
+      disabled.value
     )
       return
 
     target.value?.focus()
   }
 
-  watch(wrapperRef, (el) => {
-    if (el) {
+  watch([wrapperRef, disabled], ([el, disabled]) => {
+    if (!el) return
+    if (disabled) {
+      el.removeAttribute('tabindex')
+    } else {
       el.setAttribute('tabindex', '-1')
     }
   })

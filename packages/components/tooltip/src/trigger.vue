@@ -16,6 +16,7 @@
     <slot />
   </el-popper-trigger>
 </template>
+
 <script lang="ts" setup>
 import { inject, ref, toRef, unref } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
@@ -24,6 +25,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipTriggerProps } from './trigger'
 import { whenTrigger } from './utils'
+
 import type { OnlyChildExpose } from '@element-plus/components/slot'
 
 defineOptions({

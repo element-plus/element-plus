@@ -16,6 +16,7 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import { MarkdownTransform } from '../plugins/markdown-transform'
+
 import type { Plugin, UserConfig } from 'vitepress'
 
 type ViteConfig = Required<UserConfig>['vite']
@@ -98,7 +99,11 @@ export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
       Icons({
         autoInstall: true,
       }),
-      UnoCSS(),
+
+      UnoCSS({
+        inspector: false,
+      }),
+
       MarkdownTransform(),
       Inspect(),
       groupIconVitePlugin(),

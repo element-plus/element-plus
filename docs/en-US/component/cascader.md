@@ -53,18 +53,19 @@ Add `:props="props"` in tag and set data `props = { multiple: true }` to use mul
 
 Do:
 
-```html
+```vue
 <template>
   <el-cascader :props="props" />
 </template>
+
 <script lang="ts" setup>
-  const props = { multiple: true }
+const props = { multiple: true }
 </script>
 ```
 
 Don't do:
 
-```html
+```vue
 <template>
   <!--  Object literal binging here is invalid syntax for cascader  -->
   <el-cascader :props="{ multiple: true }" />
@@ -139,39 +140,40 @@ cascader/panel
 
 ## Cascader API
 
-### Attributes
+### Cascader Attributes
 
-| Name                                | Description                                                                                                                                                                      | Type                                                                                                                                                                        | Default      |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| model-value / v-model               | binding value                                                                                                                                                                    | ^[string]/^[number]/^[object]`string[] \| number[] \| any`                                                                                                                  | —            |
-| options                             | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[object]`Record<string, unknown>[]`                                                                                                                                        | —            |
-| props                               | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                                                                                                                                    | —            |
-| size                                | size of input                                                                                                                                                                    | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                    | —            |
-| placeholder                         | placeholder of input                                                                                                                                                             | ^[string]                                                                                                                                                                   | —            |
-| disabled                            | whether Cascader is disabled                                                                                                                                                     | ^[boolean]                                                                                                                                                                  | —            |
-| clearable                           | whether selected value can be cleared                                                                                                                                            | ^[boolean]                                                                                                                                                                  | —            |
-| show-all-levels                     | whether to display all levels of the selected value in the input                                                                                                                 | ^[boolean]                                                                                                                                                                  | true         |
-| collapse-tags                       | whether to collapse tags in multiple selection mode                                                                                                                              | ^[boolean]                                                                                                                                                                  | —            |
-| collapse-tags-tooltip               | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                                                                 | ^[boolean]                                                                                                                                                                  | false        |
-| separator                           | option label separator                                                                                                                                                           | ^[string]                                                                                                                                                                   | ' / '        |
-| filterable                          | whether the options can be searched                                                                                                                                              | ^[boolean]                                                                                                                                                                  | —            |
-| filter-method                       | customize search logic, the first parameter is `node`, the second is `keyword`, and need return a boolean value indicating whether it hits.                                      | ^[Function]`(node: CascaderNode, keyword: string) => boolean`                                                                                                               | —            |
-| debounce                            | debounce delay when typing filter keyword, in milliseconds                                                                                                                       | ^[number]                                                                                                                                                                   | 300          |
-| before-filter                       | hook function before filtering with the value to be filtered as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, filtering will be aborted | ^[Function]`(value: string) => boolean`                                                                                                                                     | —            |
-| popper-class                        | custom class name for Cascader's dropdown                                                                                                                                        | ^[string]                                                                                                                                                                   | ''           |
-| teleported                          | whether cascader popup is teleported                                                                                                                                             | ^[boolean]                                                                                                                                                                  | true         |
-| tag-type                            | tag type                                                                                                                                                                         | ^[enum]`'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                       | info         |
-| tag-effect ^(2.7.8)                 | tag effect                                                                                                                                                                       | ^[enum]`'light' \| 'dark' \| 'plain'`                                                                                                                                       | light        |
-| validate-event                      | whether to trigger form validation                                                                                                                                               | ^[boolean]                                                                                                                                                                  | true         |
-| max-collapse-tags ^(2.3.10)         | The max tags number to be shown. To use this, `collpase-tags` must be true                                                                                                       | ^[number]                                                                                                                                                                   | 1            |
-| empty-values ^(2.7.0)               | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                   | ^[array]                                                                                                                                                                    | —            |
-| value-on-clear ^(2.7.0)             | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                          | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —            |
-| persistent ^(2.7.8)                 | when dropdown is inactive and `persistent` is `false`, dropdown will be destroyed                                                                                                | ^[boolean]                                                                                                                                                                  | true         |
-| fallback-placements ^(2.8.1)        | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                                                             | ^[arrary]`Placement[]`                                                                                                                                                      | —            |
-| placement ^(2.8.1)                  | position of dropdown                                                                                                                                                             | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start |
-| popper-append-to-body ^(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                                                                                                                                  | true         |
+| Name                                       | Description                                                                                                                                                                      | Type                                                                                                                                                                        | Default      |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| model-value / v-model                      | binding value                                                                                                                                                                    | ^[string]/^[number]/^[object]`string[] \| number[] \| any`                                                                                                                  | —            |
+| options                                    | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[object]`Record<string, unknown>[]`                                                                                                                                        | —            |
+| props                                      | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                                                                                                                                    | —            |
+| size                                       | size of input                                                                                                                                                                    | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                    | —            |
+| placeholder                                | placeholder of input                                                                                                                                                             | ^[string]                                                                                                                                                                   | —            |
+| disabled                                   | whether Cascader is disabled                                                                                                                                                     | ^[boolean]                                                                                                                                                                  | —            |
+| clearable                                  | whether selected value can be cleared                                                                                                                                            | ^[boolean]                                                                                                                                                                  | —            |
+| show-all-levels                            | whether to display all levels of the selected value in the input                                                                                                                 | ^[boolean]                                                                                                                                                                  | true         |
+| collapse-tags                              | whether to collapse tags in multiple selection mode                                                                                                                              | ^[boolean]                                                                                                                                                                  | —            |
+| collapse-tags-tooltip                      | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                                                                 | ^[boolean]                                                                                                                                                                  | false        |
+| max-collapse-tags-tooltip-height ^(2.10.2) | max height of collapse-tags tooltip.                                                                                                                                             | ^[string] / ^[number]                                                                                                                                                       | —            |
+| separator                                  | option label separator                                                                                                                                                           | ^[string]                                                                                                                                                                   | ' / '        |
+| filterable                                 | whether the options can be searched                                                                                                                                              | ^[boolean]                                                                                                                                                                  | —            |
+| filter-method                              | customize search logic, the first parameter is `node`, the second is `keyword`, and need return a boolean value indicating whether it hits.                                      | ^[Function]`(node: CascaderNode, keyword: string) => boolean`                                                                                                               | —            |
+| debounce                                   | debounce delay when typing filter keyword, in milliseconds                                                                                                                       | ^[number]                                                                                                                                                                   | 300          |
+| before-filter                              | hook function before filtering with the value to be filtered as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, filtering will be aborted | ^[Function]`(value: string) => boolean`                                                                                                                                     | —            |
+| popper-class                               | custom class name for Cascader's dropdown                                                                                                                                        | ^[string]                                                                                                                                                                   | ''           |
+| teleported                                 | whether cascader popup is teleported                                                                                                                                             | ^[boolean]                                                                                                                                                                  | true         |
+| tag-type                                   | tag type                                                                                                                                                                         | ^[enum]`'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                       | info         |
+| tag-effect ^(2.7.8)                        | tag effect                                                                                                                                                                       | ^[enum]`'light' \| 'dark' \| 'plain'`                                                                                                                                       | light        |
+| validate-event                             | whether to trigger form validation                                                                                                                                               | ^[boolean]                                                                                                                                                                  | true         |
+| max-collapse-tags ^(2.3.10)                | The max tags number to be shown. To use this, `collpase-tags` must be true                                                                                                       | ^[number]                                                                                                                                                                   | 1            |
+| empty-values ^(2.7.0)                      | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                   | ^[array]                                                                                                                                                                    | —            |
+| value-on-clear ^(2.7.0)                    | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                          | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —            |
+| persistent ^(2.7.8)                        | when dropdown is inactive and `persistent` is `false`, dropdown will be destroyed                                                                                                | ^[boolean]                                                                                                                                                                  | true         |
+| fallback-placements ^(2.8.1)               | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                                                             | ^[arrary]`Placement[]`                                                                                                                                                      | —            |
+| placement ^(2.8.1)                         | position of dropdown                                                                                                                                                             | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start |
+| popper-append-to-body ^(deprecated)        | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                                                                                                                                  | true         |
 
-### Events
+### Cascader Events
 
 | Name           | Description                                                   | Type                                                        |
 | -------------- | ------------------------------------------------------------- | ----------------------------------------------------------- |
@@ -183,16 +185,16 @@ cascader/panel
 | visible-change | triggers when the dropdown appears/disappears                 | ^[Function]`(value: boolean) => void`                       |
 | remove-tag     | triggers when remove tag in multiple selection mode           | ^[Function]`(value: CascaderNode['valueByOption']) => void` |
 
-### Slots
+### Cascader Slots
 
 | Name                     | Description                                                                                    | Scope                               |
 | ------------------------ | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
 | default                  | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
 | empty                    | content when there is no matched options.                                                      | —                                   |
 | prefix ^(2.9.4)          | content as Input prefix                                                                        | —                                   |
-| suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                             | ^[object]`{ item: CascaderNode }`   |
+| suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                              | ^[object]`{ item: CascaderNode }`   |
 
-### Exposes
+### Cascader Exposes
 
 | Name                          | Description                                                                                                       | Type                                                            |
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
@@ -204,7 +206,7 @@ cascader/panel
 
 ## CascaderPanel API
 
-### Attributes
+### CascaderPanel Attributes
 
 | Name                  | Description                                                                              | Type                                                       | Default |
 | --------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------- |
@@ -212,7 +214,7 @@ cascader/panel
 | options               | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`Record<string, unknown>[]`                       | —       |
 | props                 | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                   | —       |
 
-### Events
+### CascaderPanel Events
 
 | Name          | Description                                                             | Type                                                |
 | ------------- | ----------------------------------------------------------------------- | --------------------------------------------------- |
@@ -220,14 +222,14 @@ cascader/panel
 | expand-change | triggers when expand option changes                                     | ^[Function]`(value: CascaderNodePathValue) => void` |
 | close         | close panel event, provided to Cascader to put away the panel judgment. | ^[Function]`() => void`                             |
 
-### Slots
+### CascaderPanel Slots
 
 | Name           | Description                                                                                    | Scope                               |
 | -------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
 | default        | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
 | empty ^(2.8.3) | the content of the panel when there is no data.                                                | —                                   |
 
-### Exposes
+### CascaderPanel Exposes
 
 | Name              | Description                                                                                                       | Type                                                            |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |

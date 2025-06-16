@@ -5,6 +5,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useFormItem } from '@element-plus/components/form'
+
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
@@ -189,7 +190,10 @@ export const useSlide = (
 
   const onSliderMarkerDown = (position: number) => {
     if (sliderDisabled.value || initData.dragging) return
-    setPosition(position)
+    const buttonRef = setPosition(position)
+    if (buttonRef) {
+      emitChange()
+    }
   }
 
   return {

@@ -33,6 +33,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     border: 1px solid getCssVar('border-color');
     height: 20px;
     width: 20px;
@@ -106,6 +107,7 @@
     display: flex;
     white-space: nowrap;
     position: relative;
+    height: getCssVar('tabs', 'header-height');
     transition: transform getCssVar('transition-duration');
     float: left;
     z-index: calc(#{getCssVar('index-normal')} + 1);

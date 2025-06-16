@@ -1,7 +1,7 @@
 import type { AppContext, CSSProperties, Component, VNode } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 
-type MessageType = '' | 'success' | 'warning' | 'info' | 'error'
+type MessageType = '' | 'primary' | 'success' | 'warning' | 'info' | 'error'
 
 export type Action = 'confirm' | 'close' | 'cancel'
 export type MessageBoxType = '' | 'prompt' | 'alert' | 'confirm'
@@ -83,6 +83,9 @@ export interface ElMessageBoxOptions {
 
   /** Custom inline style for MessageBox */
   customStyle?: CSSProperties
+
+  /** modal class name for MessageBox */
+  modalClass?: string
 
   /** MessageBox closing callback if you don't prefer Promise */
   callback?: Callback

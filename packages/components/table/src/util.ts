@@ -16,6 +16,7 @@ import {
 import ElTooltip, {
   type ElTooltipProps,
 } from '@element-plus/components/tooltip'
+
 import type { Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { VNode } from 'vue'
@@ -196,12 +197,24 @@ export const getRowIdentity = <T>(
 
 export const getKeysMap = function <T>(
   array: T[],
-  rowKey: string
+  rowKey: string,
+  flatten = false,
+  childrenKey = 'children'
 ): Record<string, { row: T; index: number }> {
+  const data = array || []
   const arrayMap = {}
-  ;(array || []).forEach((row, index) => {
+
+  data.forEach((row, index) => {
     arrayMap[getRowIdentity(row, rowKey)] = { row, index }
+
+    if (flatten) {
+      const children = row[childrenKey]
+      if (isArray(children)) {
+        Object.assign(arrayMap, getKeysMap(children, rowKey, true, childrenKey))
+      }
+    }
   })
+
   return arrayMap
 }
 

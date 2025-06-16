@@ -1,5 +1,6 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 import { Back } from '@element-plus/icons-vue'
+
 import type { ExtractPropTypes } from 'vue'
 import type PageHeader from './page-header.vue'
 
@@ -30,4 +31,4 @@ export const pageHeaderEmits = {
 }
 export type PageHeaderEmits = typeof pageHeaderEmits
 
-export type PageHeaderInstance = InstanceType<typeof PageHeader>
+export type PageHeaderInstance = InstanceType<typeof PageHeader> & unknown

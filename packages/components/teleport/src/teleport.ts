@@ -1,4 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils'
+
 import type { ExtractPropTypes } from 'vue'
 import type Teleport from './teleport.vue'
 
@@ -11,4 +12,4 @@ export const teleportProps = buildProps({
 } as const)
 
 export type TeleportProps = ExtractPropTypes<typeof teleportProps>
-export type TeleportInstance = InstanceType<typeof Teleport>
+export type TeleportInstance = InstanceType<typeof Teleport> & unknown

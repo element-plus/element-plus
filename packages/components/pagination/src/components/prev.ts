@@ -1,4 +1,5 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
+
 import type { ExtractPropTypes } from 'vue'
 import type Prev from './prev.vue'
 
@@ -22,4 +23,4 @@ export const paginationPrevEmits = {
 
 export type PaginationPrevProps = ExtractPropTypes<typeof paginationPrevProps>
 
-export type PrevInstance = InstanceType<typeof Prev>
+export type PrevInstance = InstanceType<typeof Prev> & unknown

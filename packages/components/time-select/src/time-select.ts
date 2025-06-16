@@ -1,6 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
+
 import type { PopperEffect } from '@element-plus/components/popper'
 import type TimeSelect from './time-select.vue'
 import type { Component, ExtractPropTypes } from 'vue'
@@ -109,4 +110,4 @@ export const timeSelectProps = buildProps({
 
 export type TimeSelectProps = ExtractPropTypes<typeof timeSelectProps>
 
-export type TimeSelectInstance = InstanceType<typeof TimeSelect>
+export type TimeSelectInstance = InstanceType<typeof TimeSelect> & unknown

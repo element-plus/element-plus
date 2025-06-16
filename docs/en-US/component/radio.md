@@ -71,6 +71,16 @@ radio/button-style
 
 :::
 
+## Button style
+
+Radio with button styles.
+
+:::demo You can set the style of the button when it is active by using `fill` and `text-color`.
+
+radio/button-fill-textcolor
+
+:::
+
 ## With borders
 
 :::demo The `border` attribute adds a border to Radios.
@@ -81,7 +91,7 @@ radio/with-borders
 
 ## Radio API
 
-### Attributes
+### Radio Attributes
 
 | Name                  | Description                                                            | Type                                     | Default |
 | --------------------- | ---------------------------------------------------------------------- | ---------------------------------------- | ------- |
@@ -93,13 +103,13 @@ radio/with-borders
 | size                  | size of the Radio                                                      | ^[enum]`'large' \| 'default' \| 'small'` | —       |
 | name                  | native `name` attribute                                                | ^[string]                                | —       |
 
-### Events
+### Radio Events
 
 | Name   | Description                           | Type                                                      |
 | ------ | ------------------------------------- | --------------------------------------------------------- |
 | change | triggers when the bound value changes | ^[Function]`(value: string \| number \| boolean) => void` |
 
-### Slots
+### Radio Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
@@ -107,28 +117,28 @@ radio/with-borders
 
 ## RadioGroup API
 
-### Attributes
+### RadioGroup Attributes
 
 | Name                        | Description                                       | Type                               | Default |
 | --------------------------- | ------------------------------------------------- | ---------------------------------- | ------- |
 | model-value / v-model       | binding value                                     | ^[string] / ^[number] / ^[boolean] | —       |
 | size                        | the size of radio buttons or bordered radios      | ^[string]                          | default |
 | disabled                    | whether the nesting radios are disabled           | ^[boolean]                         | false   |
+| validate-event              | whether to trigger form validation                | ^[boolean]                         | true    |
 | text-color                  | font color when button is active                  | ^[string]                          | #ffffff |
 | fill                        | border and background color when button is active | ^[string]                          | #409eff |
-| validate-event              | whether to trigger form validation                | ^[boolean]                         | true    |
 | aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
 | name                        | native `name` attribute                           | ^[string]                          | —       |
 | id                          | native `id` attribute                             | ^[string]                          | —       |
 | label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
 
-### Events
+### RadioGroup Events
 
 | Name   | Description                           | Type                                                      |
 | ------ | ------------------------------------- | --------------------------------------------------------- |
 | change | triggers when the bound value changes | ^[Function]`(value: string \| number \| boolean) => void` |
 
-### Slots
+### RadioGroup Slots
 
 | Name    | Description               | Subtags             |
 | ------- | ------------------------- | ------------------- |
@@ -136,7 +146,7 @@ radio/with-borders
 
 ## RadioButton API
 
-### Attributes
+### RadioButton Attributes
 
 | Name           | Description                                                            | Type                               | Default |
 | -------------- | ---------------------------------------------------------------------- | ---------------------------------- | ------- |
@@ -145,7 +155,7 @@ radio/with-borders
 | disabled       | whether Radio is disabled                                              | ^[boolean]                         | false   |
 | name           | native 'name' attribute                                                | ^[string]                          | —       |
 
-### Slots
+### RadioButton Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |

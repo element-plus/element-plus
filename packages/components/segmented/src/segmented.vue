@@ -43,7 +43,8 @@ import {
 } from '@element-plus/components/form'
 import { debugWarn, isObject } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { segmentedEmits, segmentedProps } from './segmented'
+import { defaultProps, segmentedEmits, segmentedProps } from './segmented'
+
 import type { Option } from './types'
 
 defineOptions({
@@ -80,16 +81,21 @@ const handleChange = (item: Option) => {
   emit(CHANGE_EVENT, value)
 }
 
+const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
+
 const getValue = (item: Option) => {
-  return isObject(item) ? item.value : item
+  return isObject(item) ? item[aliasProps.value.value] : item
 }
 
 const getLabel = (item: Option) => {
-  return isObject(item) ? item.label : item
+  return isObject(item) ? item[aliasProps.value.label] : item
 }
 
 const getDisabled = (item: Option | undefined) => {
-  return !!(_disabled.value || (isObject(item) ? item.disabled : false))
+  return !!(
+    _disabled.value ||
+    (isObject(item) ? item[aliasProps.value.disabled] : false)
+  )
 }
 
 const getSelected = (item: Option) => {

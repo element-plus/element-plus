@@ -1,7 +1,7 @@
 import { buildProps } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
-import type Tag from './tag.vue'
 
+import type Tag from './tag.vue'
 import type { ExtractPropTypes } from 'vue'
 
 export const tagProps = buildProps({
@@ -57,4 +57,4 @@ export const tagEmits = {
 }
 export type TagEmits = typeof tagEmits
 
-export type TagInstance = InstanceType<typeof Tag>
+export type TagInstance = InstanceType<typeof Tag> & unknown

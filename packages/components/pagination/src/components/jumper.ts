@@ -1,5 +1,6 @@
 import { buildProps } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
+
 import type { ExtractPropTypes } from 'vue'
 import type Jumper from './jumper.vue'
 
@@ -14,4 +15,4 @@ export type PaginationJumperProps = ExtractPropTypes<
   typeof paginationJumperProps
 >
 
-export type PaginationJumperInstance = InstanceType<typeof Jumper>
+export type PaginationJumperInstance = InstanceType<typeof Jumper> & unknown

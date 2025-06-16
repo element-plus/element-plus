@@ -17,8 +17,8 @@ import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 import defaultProps from './defaults'
-import type { TableColumn, TableColumnCtx } from './defaults'
 
+import type { TableColumn, TableColumnCtx } from './defaults'
 import type { DefaultRow } from '../table/defaults'
 
 let columnIdSeed = 1
@@ -67,9 +67,13 @@ export default defineComponent({
 
       const type = props.type || 'default'
       const sortable = props.sortable === '' ? true : props.sortable
-      const showOverflowTooltip = isUndefined(props.showOverflowTooltip)
-        ? parent.props.showOverflowTooltip
-        : props.showOverflowTooltip
+      //The selection column should not be affected by `showOverflowTooltip`.
+      const showOverflowTooltip =
+        type === 'selection'
+          ? false
+          : isUndefined(props.showOverflowTooltip)
+          ? parent.props.showOverflowTooltip
+          : props.showOverflowTooltip
       const tooltipFormatter = isUndefined(props.tooltipFormatter)
         ? parent.props.tooltipFormatter
         : props.tooltipFormatter

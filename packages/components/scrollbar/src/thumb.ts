@@ -1,4 +1,5 @@
 import { buildProps } from '@element-plus/utils'
+
 import type { ExtractPropTypes } from 'vue'
 import type Thumb from './thumb.vue'
 
@@ -14,4 +15,4 @@ export const thumbProps = buildProps({
 } as const)
 export type ThumbProps = ExtractPropTypes<typeof thumbProps>
 
-export type ThumbInstance = InstanceType<typeof Thumb>
+export type ThumbInstance = InstanceType<typeof Thumb> & unknown

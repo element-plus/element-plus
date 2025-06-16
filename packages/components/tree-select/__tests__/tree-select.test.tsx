@@ -99,6 +99,24 @@ describe('TreeSelect.vue', () => {
     expect(tree.findAll('.el-tree .el-tree-node').length).toBe(1)
   })
 
+  test('render tree-select with default value and persistent is false', async () => {
+    // This is convenient for testing the default value label rendering when persistent is false.
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    const { select, wrapper } = createComponent({
+      props: {
+        persistent: false,
+        modelValue: 1,
+      },
+    })
+
+    await nextTick()
+
+    expect(select.vm.modelValue).toBe(1)
+    expect(select.vm.states.selectedLabel).toBe('一级 1')
+    expect(wrapper.find('.el-select__placeholder').text()).toBe('一级 1')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
+  })
+
   test('render tree-select with dynamic class', async () => {
     const isClass = ref(false)
     const { wrapper } = createComponent({
@@ -800,6 +818,45 @@ describe('TreeSelect.vue', () => {
     await nextTick()
 
     expect(select.vm.modelValue).toEqual([5, 6, 4, 2])
+  })
+
+  test('check by click on leaf node', async () => {
+    const { tree, select } = createComponent({
+      props: {
+        showCheckbox: true,
+      },
+    })
+
+    const treeVm = tree.vm
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    await tree.findAll('.el-tree-node__content')[0].trigger('click')
+    await tree.findAll('.el-tree-node__content')[1].trigger('click')
+    await tree.findAll('.el-tree-node__content')[2].trigger('click')
+
+    expect(select.vm.modelValue).toEqual(111)
+    expect(treeVm.getCheckedNodes().length).toEqual(3)
+    expect(treeVm.getCheckedNodes(true).length).toEqual(1)
+  })
+
+  test('show-checkbox :check-on-click-leaf="false"', async () => {
+    const { tree, select } = createComponent({
+      props: {
+        showCheckbox: true,
+        checkOnClickLeaf: false,
+      },
+    })
+
+    const treeVm = tree.vm
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+
+    await tree.findAll('.el-tree-node__content')[0].trigger('click')
+    await tree.findAll('.el-tree-node__content')[1].trigger('click')
+    await tree.findAll('.el-tree-node__content')[2].trigger('click')
+
+    expect(select.vm.modelValue).toBeUndefined()
+    expect(treeVm.getCheckedNodes().length).toEqual(0)
+    expect(treeVm.getCheckedNodes(true).length).toEqual(0)
   })
 
   test('no checkbox and check on click node', async () => {

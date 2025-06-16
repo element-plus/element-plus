@@ -6,6 +6,7 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
+
 import type { ExtractPropTypes } from 'vue'
 import type InputNumber from './input-number.vue'
 
@@ -45,7 +46,9 @@ export const inputNumberProps = buildProps({
   /**
    * @description binding value
    */
-  modelValue: Number,
+  modelValue: {
+    type: [Number, null],
+  },
   /**
    * @description same as `readonly` in native input
    */
@@ -121,4 +124,4 @@ export const inputNumberEmits = {
 }
 export type InputNumberEmits = typeof inputNumberEmits
 
-export type InputNumberInstance = InstanceType<typeof InputNumber>
+export type InputNumberInstance = InstanceType<typeof InputNumber> & unknown

@@ -1,6 +1,7 @@
 import { placements } from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
+import { popperArrowProps } from './arrow'
 
 import type { PopperEffect } from './popper'
 import type { ExtractPropTypes, StyleValue } from 'vue'
@@ -66,6 +67,7 @@ export type PopperCoreConfigProps = ExtractPropTypes<
 
 export const popperContentProps = buildProps({
   ...popperCoreConfigProps,
+  ...popperArrowProps,
   id: String,
   style: {
     type: definePropType<StyleValue>([String, Array, Object]),
@@ -122,7 +124,7 @@ export const popperContentEmits = {
 }
 export type PopperContentEmits = typeof popperContentEmits
 
-export type PopperContentInstance = InstanceType<typeof Content>
+export type PopperContentInstance = InstanceType<typeof Content> & unknown
 
 /** @deprecated use `popperCoreConfigProps` instead, and it will be deprecated in the next major version */
 export const usePopperCoreConfigProps = popperCoreConfigProps
