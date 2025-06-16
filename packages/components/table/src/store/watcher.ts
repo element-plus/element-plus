@@ -20,9 +20,9 @@ import type { StoreFilter } from '.'
 const sortData = <T>(
   data: T[],
   states: {
-    sortingColumn: TableColumnCtx<T>
+    sortingColumn: TableColumnCtx<T> | null
     sortProp: string | null
-    sortOrder: string | null
+    sortOrder: string | number | null
   }
 ) => {
   const sortingColumn = states.sortingColumn
@@ -128,7 +128,7 @@ function useWatcher<T>() {
       (column) => column.type === 'selection'
     )
 
-    let selectColFixLeft
+    let selectColFixLeft: boolean
     if (
       selectColumn &&
       selectColumn.fixed !== 'right' &&

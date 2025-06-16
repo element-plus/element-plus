@@ -31,7 +31,7 @@ interface TableColumnCtx<T> {
   renderHeader: (data: CI<T>) => VNode
   sortable: boolean | string
   sortMethod: (a: T, b: T) => number
-  sortBy: string | ((row: T, index: number) => string) | string[]
+  sortBy: string | ((row: T, index: number, array?: T[]) => string) | string[]
   resizable: boolean
   columnKey: string
   rawColumnKey: string

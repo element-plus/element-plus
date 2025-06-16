@@ -50,7 +50,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     return res
   })
 
-  const normalize = (data: any) => {
+  const normalize = (data: T[]) => {
     const rowKey = watcherData.rowKey.value
     const res = new Map<string | number, TreeData>() // 使用 Map 替代 Object，解决 number key 的问题
     walkTreeNode(
