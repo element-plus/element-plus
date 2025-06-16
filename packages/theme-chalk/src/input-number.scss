@@ -68,7 +68,7 @@
   }
 
   @include e(increase) {
-    right: 1px;
+    right: 2px;
     border-radius: 0 getCssVar('border-radius-base')
       getCssVar('border-radius-base') 0;
     border-left: getCssVar('border');
@@ -156,15 +156,15 @@
     }
 
     @include e(increase) {
-      bottom: auto;
+      bottom: 50%;
       left: auto;
       border-radius: 0 getCssVar('border-radius-base') 0 0;
       border-bottom: getCssVar('border');
     }
 
     @include e(decrease) {
-      right: 1px;
-      top: auto;
+      right: 2px;
+      top: 49%;
       left: auto;
       border-right: none;
       border-left: getCssVar('border');
