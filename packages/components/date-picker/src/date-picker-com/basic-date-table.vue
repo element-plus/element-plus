@@ -12,7 +12,7 @@
   >
     <tbody ref="tbodyRef">
       <tr>
-        <th v-if="showWeekNumber" scope="col" class="week" />
+        <th v-if="showWeekNumber" scope="col" :class="weekHeaderClass" />
         <th
           v-for="(week, key) in WEEKS"
           :key="key"
@@ -76,7 +76,7 @@ const {
   handleMouseMove,
   handleFocus,
 } = useBasicDateTable(props, emit)
-const { tableLabel, tableKls, getCellClasses, getRowKls, t } =
+const { tableLabel, tableKls, getCellClasses, getRowKls, weekHeaderClass, t } =
   useBasicDateTableDOM(props, {
     isCurrent,
     isWeekActive,

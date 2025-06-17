@@ -156,9 +156,9 @@
     font-weight: 400;
     border-bottom: solid 1px getCssVar('border-color-lighter');
 
-    &.week {
-      padding: 0;
-      width: 24px;
+    &.#{$namespace}-date-table__week-header {
+        padding: 0;
+        width: 24px;
     }
   }
 }

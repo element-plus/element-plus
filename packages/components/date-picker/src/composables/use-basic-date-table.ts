@@ -416,7 +416,6 @@ export const useBasicDateTableDOM = (
   ])
 
   const tableLabel = computed(() => t('el.datepicker.dateTablePrompt'))
-  const weekLabel = computed(() => t('el.datepicker.week'))
 
   const getCellClasses = (cell: DateCell) => {
     const classes: string[] = []
@@ -471,7 +470,7 @@ export const useBasicDateTableDOM = (
   return {
     tableKls,
     tableLabel,
-    weekLabel,
+    weekHeaderClass: ns.e('week-header'),
 
     getCellClasses,
     getRowKls,
