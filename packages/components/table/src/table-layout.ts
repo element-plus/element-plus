@@ -9,7 +9,7 @@ import type { TableHeader } from './table-header'
 import type { Table } from './table/defaults'
 import type { Store } from './store'
 
-class TableLayout<T> {
+class TableLayout<T extends Record<string, any>> {
   observers: TableHeader[]
   table: Table<T>
   store: Store<T>
@@ -23,11 +23,10 @@ class TableLayout<T> {
   bodyWidth: Ref<null | number>
   fixedWidth: Ref<null | number>
   rightFixedWidth: Ref<null | number>
-  //HACK: should not be normal to comment this ?
-  //tableHeight: Ref<null | number>
-  //headerHeight: Ref<null | number> // Table Header Height
-  //appendHeight: Ref<null | number> // Append Slot Height
-  //footerHeight: Ref<null | number> // Table Footer Height
+  tableHeight!: Ref<null | number>
+  headerHeight!: Ref<null | number> // Table Header Height
+  appendHeight!: Ref<null | number> // Append Slot Height
+  footerHeight!: Ref<null | number> // Table Footer Height
   gutterWidth: number
   constructor(options: Record<string, any>) {
     this.observers = []
@@ -46,7 +45,7 @@ class TableLayout<T> {
     for (const name in options) {
       if (hasOwn(options, name)) {
         if (isRef(this[name])) {
-          ;(this[name] as Ref<any>).value = options[name] as any
+          ;(this[name] as Ref).value = options[name]
         } else {
           this[name as keyof typeof this] = options[name]
         }
@@ -79,7 +78,7 @@ class TableLayout<T> {
     return false
   }
 
-  setHeight(value: string | number | null, prop = 'height'): void {
+  setHeight(value: string | number | null, prop = 'height') {
     if (!isClient) return
     const el = this.table.vnode.el
     value = parseHeight(value)

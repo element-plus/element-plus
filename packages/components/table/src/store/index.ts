@@ -36,7 +36,7 @@ function sortColumn<T>(array: TableColumnCtx<T>[]) {
   array.sort((cur, pre) => cur.no - pre.no)
 }
 
-function useStore<T>() {
+function useStore<T extends Record<string, any>>() {
   const instance = getCurrentInstance() as Table<T>
   const watcher = useWatcher<T>()
   const ns = useNamespace('table')
@@ -198,7 +198,6 @@ function useStore<T>() {
     },
 
     toggleAllSelection() {
-      //TODO: enquete la dessus
       ;(instance.store.toggleAllSelection as any)()
     },
 
@@ -240,10 +239,10 @@ function useStore<T>() {
 
 export default useStore
 
-class HelperStore<T> {
+class HelperStore<T extends Record<string, any>> {
   Return = useStore<T>()
 }
 
 type StoreFilter = Record<string, string[]>
-type Store<T> = HelperStore<T>['Return']
+type Store<T extends Record<string, any>> = HelperStore<T>['Return']
 export type { WatcherPropsData, Store, StoreFilter }

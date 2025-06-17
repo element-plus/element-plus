@@ -51,7 +51,7 @@ const doFlattenColumns = <T>(columns: TableColumnCtx<T>[]) => {
   return result
 }
 
-function useWatcher<T>() {
+function useWatcher<T extends Record<string, any>>() {
   const instance = getCurrentInstance() as Table<T>
   const { size: tableSize } = toRefs(instance.proxy?.$props as any)
   const rowKey: Ref<string | null> = ref(null)
