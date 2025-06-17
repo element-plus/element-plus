@@ -417,7 +417,7 @@
     }
   }
   @include m(left) {
-    flex-direction: row-reverse;
+    flex-direction: row;
 
     .#{$namespace}-tabs__header.is-left {
       margin-bottom: 0;
@@ -499,6 +499,11 @@
         }
       }
     }
+
+    // only for SSR
+    > .#{$namespace}-tabs__content + .#{$namespace}-tabs__header {
+      order: -1;
+    }
   }
   @include m(right) {
     .#{$namespace}-tabs__header.is-right {
@@ -573,7 +578,12 @@
     }
   }
   @include m(top) {
-    flex-direction: column-reverse;
+    flex-direction: column;
+
+    // only for SSR
+    > .#{$namespace}-tabs__content + .#{$namespace}-tabs__header {
+      order: -1;
+    }
   }
 }
 
