@@ -37,6 +37,7 @@
     </el-segmented>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 import {
@@ -47,6 +48,7 @@ import {
   Pear,
   Watermelon,
 } from '@element-plus/icons-vue'
+
 import type { SegmentedProps } from 'element-plus'
 
 const value = ref('Apple')

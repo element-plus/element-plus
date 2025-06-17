@@ -1,13 +1,14 @@
 // @ts-nocheck
 import { inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { isArray, isFunction, isString } from '@element-plus/utils'
+import { isArray, isFunction, isObject, isString } from '@element-plus/utils'
 import {
   ensurePosition,
   getFixedColumnOffset,
   getFixedColumnsClass,
 } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
+
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 
@@ -129,7 +130,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
       if (isArray(result)) {
         rowspan = result[0]
         colspan = result[1]
-      } else if (typeof result === 'object') {
+      } else if (isObject(result)) {
         rowspan = result.rowspan
         colspan = result.colspan
       }

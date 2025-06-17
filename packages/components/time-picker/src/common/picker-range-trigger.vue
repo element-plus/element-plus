@@ -17,6 +17,7 @@
       :placeholder="startPlaceholder"
       :value="modelValue && modelValue[0]"
       :class="nsRange.b('input')"
+      :disabled="disabled"
       @input="handleStartInput"
       @change="handleStartChange"
     />
@@ -29,6 +30,7 @@
       :placeholder="endPlaceholder"
       :value="modelValue && modelValue[1]"
       :class="nsRange.b('input')"
+      :disabled="disabled"
       @input="handleEndInput"
       @change="handleEndChange"
     />
@@ -39,7 +41,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useAttrs, useFocusController, useNamespace } from '@element-plus/hooks'
-import { timePickerRngeTriggerProps } from './props'
+import { timePickerRangeTriggerProps } from './props'
+
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -47,7 +50,7 @@ defineOptions({
   inheritAttrs: false,
 })
 
-defineProps(timePickerRngeTriggerProps)
+defineProps(timePickerRangeTriggerProps)
 const emit = defineEmits([
   'mouseenter',
   'mouseleave',

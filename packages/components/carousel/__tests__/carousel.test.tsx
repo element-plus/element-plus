@@ -210,14 +210,20 @@ describe('Carousel', () => {
         state.val = val
         state.oldVal = prevVal
       },
-      interval: 100,
       'motion-blur': true,
     })
 
     await nextTick()
-    await wait(100)
-    const items = wrapper.vm.$el.querySelectorAll('.el-transitioning')
-    expect(items.length).toBe(1)
+
+    const el = wrapper.vm.$el.querySelector('.el-carousel__container')
+
+    let event = new Event('transitionstart')
+    el.dispatchEvent(event)
+    expect(el.classList.contains('el-transitioning')).toBe(true)
+
+    event = new Event('transitionend')
+    el.dispatchEvent(event)
+    expect(el.classList.contains('el-transitioning')).toBe(false)
   })
 
   it('should guarantee order of indicators', async () => {

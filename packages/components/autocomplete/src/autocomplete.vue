@@ -6,6 +6,7 @@
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass]"
     :teleported="teleported"
+    :append-to="appendTo"
     :gpu-acceleration="false"
     pure
     manual-mode
@@ -127,8 +128,8 @@ import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import { useFormDisabled } from '@element-plus/components/form'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
-import type { AutocompleteData } from './autocomplete'
 
+import type { AutocompleteData } from './autocomplete'
 import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
@@ -251,9 +252,9 @@ const handleFocus = (evt: FocusEvent) => {
   if (!ignoreFocusEvent) {
     activated.value = true
     emit('focus', evt)
-
+    const queryString = props.modelValue ?? ''
     if (props.triggerOnFocus && !readonly) {
-      debouncedGetData(String(props.modelValue))
+      debouncedGetData(String(queryString))
     }
   } else {
     ignoreFocusEvent = false
@@ -357,6 +358,8 @@ const highlight = (index: number) => {
 }
 
 const stopHandle = onClickOutside(listboxRef, () => {
+  // Prevent closing if focus is inside popper content
+  if (popperRef.value?.isFocusInsideContent()) return
   suggestionVisible.value && close()
 })
 

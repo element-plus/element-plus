@@ -8,6 +8,7 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
+
 import type { Component, ExtractPropTypes } from 'vue'
 import type Rate from './rate.vue'
 
@@ -155,4 +156,4 @@ export const rateEmits = {
 }
 export type RateEmits = typeof rateEmits
 
-export type RateInstance = InstanceType<typeof Rate>
+export type RateInstance = InstanceType<typeof Rate> & unknown

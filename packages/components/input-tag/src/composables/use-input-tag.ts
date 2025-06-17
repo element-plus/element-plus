@@ -12,6 +12,7 @@ import {
   useFormDisabled,
   useFormSize,
 } from '@element-plus/components/form'
+
 import type { InputTagEmits, InputTagProps } from '../input-tag'
 
 interface UseInputTagOptions {
@@ -47,6 +48,13 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     }
 
     if (isComposing.value) return
+    if (props.delimiter) {
+      const replacement = inputValue.value?.replace(props.delimiter, '')
+      if (replacement?.length !== inputValue.value?.length) {
+        inputValue.value = replacement
+        handleAddTag()
+      }
+    }
     emit(INPUT_EVENT, (event.target as HTMLInputElement).value)
   }
 
@@ -134,7 +142,12 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       return disabled.value
     },
     afterBlur() {
-      handleAddTag()
+      if (props.saveOnBlur) {
+        handleAddTag()
+      } else {
+        inputValue.value = undefined
+      }
+
       if (props.validateEvent) {
         formItem?.validate?.('blur').catch((err) => debugWarn(err))
       }

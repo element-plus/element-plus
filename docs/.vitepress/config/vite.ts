@@ -8,6 +8,7 @@ import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import { loadEnv } from 'vitepress'
+import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import {
   docPackage,
   epPackage,
@@ -15,6 +16,7 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import { MarkdownTransform } from '../plugins/markdown-transform'
+
 import type { Plugin, UserConfig } from 'vitepress'
 
 type ViteConfig = Required<UserConfig>['vite']
@@ -97,9 +99,14 @@ export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
       Icons({
         autoInstall: true,
       }),
-      UnoCSS(),
+
+      UnoCSS({
+        inspector: false,
+      }),
+
       MarkdownTransform(),
       Inspect(),
+      groupIconVitePlugin(),
       env.HTTPS ? (mkcert() as Plugin) : undefined,
     ],
     optimizeDeps: {

@@ -3,6 +3,7 @@ import { isNil } from 'lodash-unified'
 import { useVModel } from '@vueuse/core'
 import { debugWarn, throwError } from '@element-plus/utils'
 import { genFileId } from './upload'
+
 import type { ShallowRef } from 'vue'
 import type {
   UploadContentInstance,
@@ -53,7 +54,7 @@ export const useHandlers = (
 
   function removeFile(file: UploadFile) {
     uploadFiles.value = uploadFiles.value.filter(
-      (uploadFile) => uploadFile !== file
+      (uploadFile) => uploadFile.uid !== file.uid
     )
   }
 

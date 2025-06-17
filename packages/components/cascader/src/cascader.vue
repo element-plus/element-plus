@@ -42,6 +42,9 @@
           @blur="handleBlur"
           @input="handleInput"
         >
+          <template v-if="$slots.prefix" #prefix>
+            <slot name="prefix" />
+          </template>
           <template #suffix>
             <el-icon
               v-if="clearBtnVisible"
@@ -95,29 +98,31 @@
                   <span>{{ tag.text }}</span>
                 </template>
                 <template #content>
-                  <div :class="nsCascader.e('collapse-tags')">
-                    <div
-                      v-for="(tag2, idx) in allPresentTags.slice(
-                        maxCollapseTags
-                      )"
-                      :key="idx"
-                      :class="nsCascader.e('collapse-tag')"
-                    >
-                      <el-tag
-                        :key="tag2.key"
-                        class="in-tooltip"
-                        :type="tagType"
-                        :size="tagSize"
-                        :effect="tagEffect"
-                        :hit="tag2.hitState"
-                        :closable="tag2.closable"
-                        disable-transitions
-                        @close="deleteTag(tag2)"
+                  <el-scrollbar :max-height="maxCollapseTagsTooltipHeight">
+                    <div :class="nsCascader.e('collapse-tags')">
+                      <div
+                        v-for="(tag2, idx) in allPresentTags.slice(
+                          maxCollapseTags
+                        )"
+                        :key="idx"
+                        :class="nsCascader.e('collapse-tag')"
                       >
-                        <span>{{ tag2.text }}</span>
-                      </el-tag>
+                        <el-tag
+                          :key="tag2.key"
+                          class="in-tooltip"
+                          :type="tagType"
+                          :size="tagSize"
+                          :effect="tagEffect"
+                          :hit="tag2.hitState"
+                          :closable="tag2.closable"
+                          disable-transitions
+                          @close="deleteTag(tag2)"
+                        >
+                          <span>{{ tag2.text }}</span>
+                        </el-tag>
+                      </div>
                     </div>
-                  </div>
+                  </el-scrollbar>
                 </template>
               </el-tooltip>
             </template>
@@ -177,10 +182,12 @@
             :tabindex="-1"
             @click="handleSuggestionClick(item)"
           >
-            <span>{{ item.text }}</span>
-            <el-icon v-if="item.checked">
-              <check />
-            </el-icon>
+            <slot name="suggestion-item" :item="item">
+              <span>{{ item.text }}</span>
+              <el-icon v-if="item.checked">
+                <check />
+              </el-icon>
+            </slot>
           </li>
         </template>
         <slot v-else name="empty">
@@ -247,7 +254,9 @@ const popperOptions: Partial<Options> = {
       fn: ({ state }) => {
         const { modifiersData, placement } = state as any
         if (['right', 'left', 'bottom', 'top'].includes(placement)) return
-        modifiersData.arrow.x = 35
+        if (modifiersData.arrow) {
+          modifiersData.arrow.x = 35
+        }
       },
       requires: ['arrow'],
     },
@@ -300,7 +309,7 @@ const cascaderStyle = computed<StyleValue>(() => {
 
 const isDisabled = computed(() => props.disabled || form?.disabled)
 const inputPlaceholder = computed(
-  () => props.placeholder || t('el.cascader.placeholder')
+  () => props.placeholder ?? t('el.cascader.placeholder')
 )
 const currentPlaceholder = computed(() =>
   searchInputValue.value || presentTags.value.length > 0 || isComposing.value
@@ -601,6 +610,7 @@ const handleSuggestionKeyDown = (e: KeyboardEvent) => {
   switch (code) {
     case EVENT_CODE.up:
     case EVENT_CODE.down: {
+      e.preventDefault()
       const distance = code === EVENT_CODE.up ? -1 : 1
       focusNode(
         getSibling(

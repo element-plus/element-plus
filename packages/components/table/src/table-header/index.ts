@@ -18,9 +18,11 @@ import { TABLE_INJECTION_KEY } from '../tokens'
 import useEvent from './event-helper'
 import useStyle from './style.helper'
 import useUtils from './utils-helper'
+
 import type { ComponentInternalInstance, PropType, Ref } from 'vue'
 import type { DefaultRow, Sort } from '../table/defaults'
 import type { Store } from '../store'
+
 export interface TableHeader extends ComponentInternalInstance {
   state: {
     onColumnsChange
@@ -33,6 +35,7 @@ export interface TableHeaderProps<T> {
   store: Store<T>
   border: boolean
   defaultSort: Sort
+  allowDragLastColumn: boolean
 }
 
 export default defineComponent({
@@ -61,6 +64,9 @@ export default defineComponent({
     },
     appendFilterPanelTo: {
       type: String,
+    },
+    allowDragLastColumn: {
+      type: Boolean,
     },
   },
   setup(props, { emit }) {

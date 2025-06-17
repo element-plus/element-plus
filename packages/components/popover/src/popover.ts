@@ -4,6 +4,7 @@ import {
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
 import { dropdownProps } from '@element-plus/components/dropdown'
+
 import type { ExtractPropTypes, PropType } from 'vue'
 import type Popover from './popover.vue'
 
@@ -12,6 +13,10 @@ export const popoverProps = buildProps({
    * @description how the popover is triggered
    */
   trigger: useTooltipTriggerProps.trigger,
+  /**
+   * @description When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of popover through the keyboard
+   */
+  triggerKeys: useTooltipTriggerProps.triggerKeys,
   /**
    * @description popover placement
    */
@@ -63,6 +68,10 @@ export const popoverProps = buildProps({
    * @description whether popover dropdown is teleported to the body
    */
   teleported: useTooltipContentProps.teleported,
+  /**
+   * @description which select dropdown appends to
+   */
+  appendTo: useTooltipContentProps.appendTo,
   /**
    * @description popover title
    */
@@ -131,4 +140,4 @@ export const popoverEmits = {
 }
 export type PopoverEmits = typeof popoverEmits
 
-export type PopoverInstance = InstanceType<typeof Popover>
+export type PopoverInstance = InstanceType<typeof Popover> & unknown

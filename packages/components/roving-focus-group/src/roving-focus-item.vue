@@ -58,7 +58,7 @@ export default defineComponent({
     )!
 
     const id = useId()
-    const rovingFocusGroupItemRef = ref<HTMLElement | null>(null)
+    const rovingFocusGroupItemRef = ref<HTMLElement>()
 
     const handleMousedown = composeEventHandlers(
       (e: Event) => {

@@ -46,7 +46,6 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
-
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
 import Node from './node'
@@ -63,7 +62,6 @@ import type {
   CascaderValue,
   RenderLabel,
 } from './node'
-
 import type { ElCascaderPanelContext } from './types'
 
 export default defineComponent({
@@ -284,8 +282,9 @@ export default defineComponent({
             `.${ns.namespace.value}-scrollbar__wrap`
           )
           const activeNode =
-            menuElement.querySelector(`.${ns.b('node')}.${ns.is('active')}`) ||
-            menuElement.querySelector(`.${ns.b('node')}.in-active-path`)
+            menuElement.querySelector(
+              `.${ns.b('node')}.${ns.is('active')}:last-child`
+            ) || menuElement.querySelector(`.${ns.b('node')}.in-active-path`)
           scrollIntoView(container, activeNode)
         }
       })

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useSizeProp } from '@element-plus/hooks'
+
 import type {
   CSSProperties,
   ComponentInternalInstance,
@@ -12,7 +13,10 @@ import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
-import type { TableOverflowTooltipOptions } from '../util'
+import type {
+  TableOverflowTooltipFormatter,
+  TableOverflowTooltipOptions,
+} from '../util'
 
 export type DefaultRow = any
 
@@ -149,9 +153,12 @@ interface TableProps<T> {
   scrollbarAlwaysOn?: boolean
   flexible?: boolean
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
+  tooltipFormatter?: TableOverflowTooltipFormatter<T>
   appendFilterPanelTo?: string
   scrollbarTabindex?: number | string
 }
+
+type TableTooltipData<T = any> = Parameters<TableOverflowTooltipFormatter<T>>[0]
 
 interface Sort {
   prop: string
@@ -390,10 +397,30 @@ export default {
   showOverflowTooltip: [Boolean, Object] as PropType<
     TableProps<DefaultRow>['showOverflowTooltip']
   >,
+  /**
+   * @description function that formats cell tooltip content, works when `show-overflow-tooltip` is `true`
+   */
+  tooltipFormatter: Function as PropType<
+    TableProps<DefaultRow>['tooltipFormatter']
+  >,
   appendFilterPanelTo: String,
   scrollbarTabindex: {
     type: [Number, String],
     default: undefined,
+  },
+  /**
+   * @description whether to allow drag the last column
+   */
+  allowDragLastColumn: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether to preserve expanded row content in DOM when collapsed
+   */
+  preserveExpandedContent: {
+    type: Boolean,
+    default: false,
   },
 }
 export type {
@@ -411,4 +438,5 @@ export type {
   Filter,
   TableColumnCtx,
   TreeProps,
+  TableTooltipData,
 }

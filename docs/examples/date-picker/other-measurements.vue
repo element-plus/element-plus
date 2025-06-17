@@ -57,6 +57,7 @@
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -67,6 +68,7 @@ const value4 = ref('')
 const value5 = ref('')
 const value6 = ref('')
 </script>
+
 <style scoped>
 .demo-date-picker {
   display: flex;

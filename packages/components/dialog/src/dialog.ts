@@ -1,5 +1,6 @@
 import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { teleportProps } from '@element-plus/components/teleport'
 import { dialogContentProps } from './dialog-content'
 
 import type { ExtractPropTypes } from 'vue'
@@ -18,7 +19,7 @@ export const dialogProps = buildProps({
    * @description which element the Dialog appends to
    */
   appendTo: {
-    type: definePropType<string | HTMLElement>([String, Object]),
+    type: teleportProps.to.type,
     default: 'body',
   },
   /**
@@ -88,6 +89,18 @@ export const dialogProps = buildProps({
    */
   modalClass: String,
   /**
+   * @description custom class names for header wrapper
+   */
+  headerClass: String,
+  /**
+   * @description custom class names for body wrapper
+   */
+  bodyClass: String,
+  /**
+   * @description custom class names for footer wrapper
+   */
+  footerClass: String,
+  /**
    * @description width of Dialog, default is 50%
    */
   width: {
@@ -121,4 +134,4 @@ export const dialogEmits = {
   closeAutoFocus: () => true,
 }
 export type DialogEmits = typeof dialogEmits
-export type DialogInstance = InstanceType<typeof Dialog>
+export type DialogInstance = InstanceType<typeof Dialog> & unknown

@@ -15,6 +15,8 @@ export const menuItemProps = buildProps({
    */
   index: {
     type: definePropType<string | null>([String, null]),
+    // will be required in the next major version
+    // required: true,
     default: null,
   },
   /**

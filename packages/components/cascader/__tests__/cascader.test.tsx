@@ -1,4 +1,4 @@
-import { nextTick, reactive, ref } from 'vue'
+import { Comment, h, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -7,6 +7,9 @@ import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import ElForm, { ElFormItem } from '@element-plus/components/form'
+import ElScrollbar from '@element-plus/components/scrollbar'
+import ElTag from '@element-plus/components/tag'
+import ElTooltip from '@element-plus/components/tooltip'
 import Cascader from '../src/cascader.vue'
 
 import type { VNode } from 'vue'
@@ -151,6 +154,12 @@ describe('Cascader.vue', () => {
     expect(wrapper.find('input').attributes().placeholder).toBe(AXIOM)
   })
 
+  test('custom placeholder with empty string', async () => {
+    const wrapper = _mount(() => <Cascader placeholder={''} />)
+    expect(wrapper.find('input').attributes().placeholder).toBe('')
+    expect(wrapper.find('input').element.value).toBe('')
+  })
+
   test('clearable', async () => {
     const isClear = ref(false)
 
@@ -291,6 +300,95 @@ describe('Cascader.vue', () => {
       `.el-cascader__collapse-tags ${TAG}`
     )
     expect(tooltipTags.length).toBe(1)
+  })
+
+  test('max collapse tags tooltip height', async () => {
+    const props = { multiple: true }
+    const options = [
+      ...OPTIONS,
+      {
+        value: 'jiangsu',
+        label: 'Jiangsu',
+        children: [
+          {
+            value: 'nanjing',
+            label: 'Nanjing',
+          },
+          {
+            value: 'suzhou',
+            label: 'Suzhou',
+          },
+          {
+            value: 'zhenjiang',
+            label: 'Zhenjiang',
+          },
+          {
+            value: 'wuxi',
+            label: 'Wuxi',
+          },
+        ],
+      },
+      {
+        value: 'guangdong',
+        label: 'Guangdong',
+        children: [
+          {
+            value: 'guangzhou',
+            label: 'Guangzhou',
+          },
+          {
+            value: 'shenzhen',
+            label: 'Shenzhen',
+          },
+          {
+            value: 'zhuhai',
+            label: 'Zhuhai',
+          },
+        ],
+      },
+    ]
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[
+          ['zhejiang', 'hangzhou'],
+          ['zhejiang', 'ningbo'],
+          ['zhejiang', 'wenzhou'],
+          ['jiangsu', 'nanjing'],
+          ['jiangsu', 'suzhou'],
+          ['jiangsu', 'zhenjiang'],
+          ['jiangsu', 'wuxi'],
+          ['guangdong', 'guangzhou'],
+          ['guangdong', 'shenzhen'],
+          ['guangdong', 'zhuhai'],
+        ]}
+        collapseTags
+        collapseTagsTooltip
+        props={props}
+        options={options}
+        maxCollapseTagsTooltipHeight={200}
+      />
+    ))
+    await nextTick()
+    const tagTriggers = wrapper.findAllComponents(ElTag)
+    const collapseTags = tagTriggers.filter((item) => {
+      return !hasClass(item.element, 'is-closable')
+    })
+    expect(collapseTags.length).toBe(1)
+    const collapseTag = collapseTags[0]
+    await collapseTag.trigger('hover')
+    const scrollbars = wrapper.findAllComponents(ElScrollbar).filter((item) => {
+      return !hasClass(item.element, 'el-cascader-menu')
+    })
+    expect(scrollbars.length).toBe(1)
+    const scrollbar = scrollbars[0]
+    expect(scrollbar).toBeDefined()
+    expect(scrollbar?.vm.maxHeight).toBe(200)
+    const tooltip = await collapseTag.getComponent(ElTooltip)
+    expect(tooltip).toBeDefined()
+    await tooltip.trigger('hover')
+    expect(
+      scrollbar?.find('.el-scrollbar__wrap').attributes('style')
+    ).toContain('max-height: 200px;')
   })
 
   test('tag type', async () => {
@@ -557,6 +655,65 @@ describe('Cascader.vue', () => {
         '.el-cascader-menu__empty-text'
       )
       expect(emptySlotEl?.textContent).toBe('-=-empty-=-no-data')
+    })
+  })
+
+  describe('render default slot', () => {
+    it('should render default slot correctly', async () => {
+      const wrapper = _mount(() => (
+        <Cascader options={OPTIONS}>
+          {{
+            default: () => <>default slot!</>,
+          }}
+        </Cascader>
+      ))
+
+      await wrapper.find(TRIGGER).trigger('click')
+      const defaultSlotEl = document.querySelector('.el-cascader-node__label')
+      expect(defaultSlotEl?.textContent).toBe('default slot!')
+    })
+
+    it('should fallback to option label when it has v-if comment', async () => {
+      const wrapper = _mount(() => (
+        <Cascader options={OPTIONS}>
+          {{
+            default: () => false && <div>{AXIOM}</div>,
+          }}
+        </Cascader>
+      ))
+
+      await wrapper.find(TRIGGER).trigger('click')
+      const defaultSlotEl = document.querySelector('.el-cascader-node__label')
+      expect(defaultSlotEl?.textContent).toBe(OPTIONS[0].label)
+    })
+
+    it('should fallback to option label when default has a single comment', async () => {
+      const wrapper = _mount(() => (
+        <Cascader options={OPTIONS}>
+          {{
+            default: () => h(Comment, AXIOM),
+          }}
+        </Cascader>
+      ))
+
+      await wrapper.find(TRIGGER).trigger('click')
+      const defaultSlotEl = document.querySelector('.el-cascader-node__label')
+      expect(defaultSlotEl?.textContent).toBe(OPTIONS[0].label)
+    })
+  })
+
+  describe('render prefix slot', () => {
+    it('correct render prefix slot', async () => {
+      _mount(() => (
+        <Cascader>
+          {{
+            prefix: () => <div>-=-prefix-=-</div>,
+          }}
+        </Cascader>
+      ))
+
+      const prefixSlotEl = document.querySelector('.el-input__prefix-inner')
+      expect(prefixSlotEl?.textContent).toBe('-=-prefix-=-')
     })
   })
 })

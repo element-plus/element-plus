@@ -5,6 +5,7 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
+
 import type { ExtractPropTypes } from 'vue'
 import type { ZIndexProperty } from 'csstype'
 import type Affix from './affix.vue'
@@ -49,4 +50,4 @@ export const affixEmits = {
 }
 export type AffixEmits = typeof affixEmits
 
-export type AffixInstance = InstanceType<typeof Affix>
+export type AffixInstance = InstanceType<typeof Affix> & unknown

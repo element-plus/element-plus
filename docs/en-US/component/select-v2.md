@@ -37,7 +37,7 @@ select-v2/multiple
 
 :::
 
-## Hide extra tags when the selected items are too many.
+## Hide extra tags when the selected items are too many
 
 You can collapse tags to a text by using `collapse-tags` attribute. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
 
@@ -121,7 +121,7 @@ select-v2/custom-footer
 
 Create and select new items that are not included in select options
 
-By using the `allow-create` attribute, users can create new items by typing in the input box. Note that for `allow-create` to work, `filterable` must be `true`.
+By using the `allow-create` attribute, users can create new items by typing in the input box. Note that for `allow-create` to work, `filterable` must be `true`. This example also demonstrates `default-first-option`. When this attribute is set to `true`, you can select the first option in the current option list by hitting enter without having to navigate with mouse or arrow keys.
 
 :::tip
 
@@ -213,6 +213,16 @@ select-v2/custom-label
 
 :::
 
+## Custom Width ^(2.9.2)
+
+The width of dropdown box is calculated by default based on the value of `label`. If you customize the dropdown box options through the `default slot`, it is likely that the text displayed in the options is not equal to the value of `label`, resulting in calculation errors. In this case, you can set the `fit-input-width` attribute to a number to fix its width.
+
+:::demo
+
+select-v2/custom-width
+
+:::
+
 ## API
 
 ### Attributes
@@ -240,14 +250,17 @@ select-v2/custom-label
 | loading                             | whether Select is loading data from server                                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
 | loading-text                        | displayed text while loading data from server, default is 'Loading'                                                                      | ^[string]                                                                                                                                                                   | —                                              |
 | reserve-keyword                     | whether reserve the keyword after select filtered option.                                                                                | ^[boolean]                                                                                                                                                                  | true                                           |
+| default-first-option                | select first matching option on enter key. Use with `filterable` or `remote`                                                             | ^[boolean]                                                                                                                                                                  | false                                          |
 | no-match-text                       | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'                    | ^[string]                                                                                                                                                                   | —                                              |
 | no-data-text                        | displayed text when there is no options, you can also use slot empty                                                                     | ^[string]                                                                                                                                                                   | No Data                                        |
 | popper-class                        | custom class name for Select's dropdown                                                                                                  | ^[string]                                                                                                                                                                   | ''                                             |
 | teleported                          | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                                         | ^[boolean]                                                                                                                                                                  | true                                           |
-| append-to ^(2.8.8)                  | which element the select dropdown appends to                                                                                             | ^[string]                                                                                                                                                                   | —                                              |
+| append-to ^(2.8.8)                  | which element the select dropdown appends to                                                                                             | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                                              |
 | persistent                          | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | ^[boolean]                                                                                                                                                                  | true                                           |
 | popper-options                      | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                   | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                             |
 | automatic-dropdown                  | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                                        | ^[boolean]                                                                                                                                                                  | false                                          |
+| fit-input-width ^(2.9.2)            | whether the width of the dropdown is the same as the input, if the value is `number`, then the width is fixed                            | ^[boolean] / ^[number]                                                                                                                                                      | true                                           |
+| suffix-icon ^(2.9.8)                | custom suffix icon component                                                                                                             | ^[string] / ^[object]`Component`                                                                                                                                            | ArrowDown                                      |
 | height                              | The height of the dropdown panel, 34px for each item                                                                                     | ^[number]                                                                                                                                                                   | 274                                            |
 | item-height                         | The height of the dropdown item                                                                                                          | ^[number]                                                                                                                                                                   | 34                                             |
 | scrollbar-always-on                 | Controls whether the scrollbar is always displayed                                                                                       | ^[boolean]                                                                                                                                                                  | false                                          |

@@ -1,5 +1,6 @@
 import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
+
 import type { ExtractPropTypes, StyleValue } from 'vue'
 import type Scrollbar from './scrollbar.vue'
 
@@ -95,6 +96,8 @@ export const scrollbarProps = buildProps({
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
 
 export const scrollbarEmits = {
+  'end-reached': (direction: ScrollbarDirection) =>
+    ['left', 'right', 'top', 'bottom'].includes(direction),
   scroll: ({
     scrollTop,
     scrollLeft,
@@ -104,5 +107,6 @@ export const scrollbarEmits = {
   }) => [scrollTop, scrollLeft].every(isNumber),
 }
 export type ScrollbarEmits = typeof scrollbarEmits
+export type ScrollbarDirection = 'top' | 'bottom' | 'left' | 'right'
 
-export type ScrollbarInstance = InstanceType<typeof Scrollbar>
+export type ScrollbarInstance = InstanceType<typeof Scrollbar> & unknown

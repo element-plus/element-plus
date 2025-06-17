@@ -1,4 +1,5 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
+
 import type { ExtractPropTypes } from 'vue'
 import type TimelineItem from './timeline-item.vue'
 
@@ -62,4 +63,4 @@ export const timelineItemProps = buildProps({
 } as const)
 export type TimelineItemProps = ExtractPropTypes<typeof timelineItemProps>
 
-export type TimelineItemInstance = InstanceType<typeof TimelineItem>
+export type TimelineItemInstance = InstanceType<typeof TimelineItem> & unknown

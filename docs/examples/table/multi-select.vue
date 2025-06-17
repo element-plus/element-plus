@@ -2,6 +2,7 @@
   <el-table
     ref="multipleTableRef"
     :data="tableData"
+    row-key="id"
     style="width: 100%"
     @selection-change="handleSelectionChange"
   >
@@ -25,6 +26,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TableInstance } from 'element-plus'
 
 interface User {

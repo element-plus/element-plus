@@ -1,4 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils'
+
 import type { ExtractPropTypes, StyleValue } from 'vue'
 
 export const cardProps = buildProps({
@@ -21,9 +22,17 @@ export const cardProps = buildProps({
     default: '',
   },
   /**
+   * @description custom class name of card footer
+   */
+  headerClass: String,
+  /**
    * @description custom class name of card body
    */
   bodyClass: String,
+  /**
+   * @description custom class name of card footer
+   */
+  footerClass: String,
   /**
    * @description when to show card shadows
    */

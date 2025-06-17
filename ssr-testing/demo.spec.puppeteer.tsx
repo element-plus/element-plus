@@ -14,11 +14,15 @@ const demoRoot = path.resolve(testRoot, 'cases')
 describe('Cypress Button', () => {
   let browser: Browser
   beforeAll(async () => {
-    browser = await puppeteer.launch()
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    })
   })
 
   afterAll(() => {
-    browser.close()
+    if (browser) {
+      browser.close()
+    }
   })
 
   describe('when initialized', () => {

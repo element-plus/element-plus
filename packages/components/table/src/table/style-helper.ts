@@ -113,6 +113,10 @@ function useStyle<T>(
       layout.updateElsHeight()
     }
     layout.updateColumnsWidth()
+
+    // When the test case is running, the context environment simulated by jsdom may have been destroyed,
+    // and window.requestAnimationFrame does not exist at this time.
+    if (typeof window === 'undefined') return
     requestAnimationFrame(syncPosition)
   }
   onMounted(async () => {

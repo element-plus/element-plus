@@ -1,4 +1,5 @@
 import { buildProps } from '@element-plus/utils'
+
 import type { ExtractPropTypes } from 'vue'
 import type Pager from './pager.vue'
 
@@ -20,4 +21,4 @@ export const paginationPagerProps = buildProps({
 
 export type PaginationPagerProps = ExtractPropTypes<typeof paginationPagerProps>
 
-export type PagerInstance = InstanceType<typeof Pager>
+export type PagerInstance = InstanceType<typeof Pager> & unknown
