@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
-import { hasOwn, isArray, isString } from '@element-plus/utils'
+import { ensureArray, hasOwn, isArray, isString } from '@element-plus/utils'
 import {
   getColumnById,
   getColumnByKey,
@@ -14,7 +14,12 @@ import useTree from './tree'
 
 import type { Ref } from 'vue'
 import type { TableColumnCtx } from '../table-column/defaults'
-import type { DefaultRow, Table, TableRefs } from '../table/defaults'
+import type {
+  DefaultRow,
+  Table,
+  TableRefs,
+  TableSortOrder,
+} from '../table/defaults'
 import type { StoreFilter } from '.'
 
 const sortData = <T>(
@@ -341,10 +346,10 @@ function useWatcher<T extends Record<string, any>>() {
     if (!instance || !instance.store) return 0
     const { treeData } = instance.store.states
     let count = 0
-    const children = (treeData.value as any)[rowKey]?.children
+    const children = treeData.value[rowKey]?.children
     if (children) {
       count += children.length
-      children.forEach((childKey: string) => {
+      children.forEach((childKey) => {
         count += getChildrenCount(childKey)
       })
     }
@@ -352,19 +357,20 @@ function useWatcher<T extends Record<string, any>>() {
   }
 
   // 过滤与排序
-  const updateFilters = (columns: any, values: any) => {
-    if (!isArray(columns)) {
-      columns = [columns]
-    }
-    const filters_ = {} as any
-    columns.forEach((col: any) => {
+  const updateFilters = (column: TableColumnCtx<T>, values: string[]) => {
+    const filters_: Record<string, string[]> = {}
+    ensureArray(column).forEach((col) => {
       filters.value[col.id] = values
       filters_[col.columnKey || col.id] = values
     })
     return filters_
   }
 
-  const updateSort = (column: any, prop: any, order: any) => {
+  const updateSort = (
+    column: TableColumnCtx<T> | null,
+    prop: string | null,
+    order: TableSortOrder | null
+  ) => {
     if (sortingColumn.value && sortingColumn.value !== column) {
       sortingColumn.value.order = null
     }

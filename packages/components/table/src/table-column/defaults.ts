@@ -55,7 +55,7 @@ interface TableColumnCtx<T> {
   filterMultiple: boolean
   filterClassName: string
   index: number | ((index: number) => number)
-  sortOrders: ('ascending' | 'descending' | null)[]
+  sortOrders: (TableSortOrder | null)[]
   renderCell: (data: any) => void
   colSpan: number
   rowSpan: number

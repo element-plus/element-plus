@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useSizeProp } from '@element-plus/hooks'
 
 import type {
@@ -18,7 +17,7 @@ import type {
   TableOverflowTooltipOptions,
 } from '../util'
 
-export type DefaultRow = any
+type DefaultRow = any
 
 interface TableRefs {
   tableWrapper: HTMLElement
@@ -53,13 +52,18 @@ type HoverState<T> = Nullable<{
   row: T
 }>
 
-type RIS<T> = { row: T; $index: number; store: Store<T>; expanded: boolean }
+type RIS<T extends Record<string, any>> = {
+  row: T
+  $index: number
+  store: Store<T>
+  expanded: boolean
+}
 
-type RenderExpanded<T> = ({
+type RenderExpanded<T extends Record<string, any>> = ({
   row,
   $index,
   store,
-  expanded: boolean,
+  expanded,
 }: RIS<T>) => VNode
 
 type SummaryMethod<T> = (data: {
@@ -67,7 +71,8 @@ type SummaryMethod<T> = (data: {
   data: T[]
 }) => (string | VNode)[]
 
-interface Table<T> extends ComponentInternalInstance {
+interface Table<T extends Record<string, any>>
+  extends ComponentInternalInstance {
   $ready: boolean
   hoverState?: HoverState<T>
   renderExpanded: RenderExpanded<T>
@@ -99,7 +104,7 @@ type CellStyle<T> =
       columnIndex: number
     }) => CSSProperties)
 type Layout = 'fixed' | 'auto'
-interface TableProps<T> {
+interface TableProps<T extends Record<string, any>> {
   data: T[]
   size?: ComponentSize
   width?: string | number
@@ -159,10 +164,11 @@ interface TableProps<T> {
 }
 
 type TableTooltipData<T = any> = Parameters<TableOverflowTooltipFormatter<T>>[0]
+type TableSortOrder = 'ascending' | 'descending'
 
 interface Sort {
   prop: string
-  order: 'ascending' | 'descending'
+  order: TableSortOrder
   init?: any
   silent?: any
 }
@@ -182,7 +188,7 @@ interface TreeNode {
   display?: boolean
 }
 
-interface RenderRowData<T> {
+interface RenderRowData<T extends Record<string, any>> {
   store: Store<T>
   _self: Table<T>
   column: TableColumnCtx<T>
@@ -432,6 +438,7 @@ export type {
   ColumnStyle,
   CellCls,
   CellStyle,
+  DefaultRow,
   TreeNode,
   RenderRowData,
   Sort,
@@ -439,4 +446,5 @@ export type {
   TableColumnCtx,
   TreeProps,
   TableTooltipData,
+  TableSortOrder,
 }
