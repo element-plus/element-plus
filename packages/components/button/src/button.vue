@@ -30,19 +30,26 @@
 import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
-import { useButton } from './use-button'
-import { buttonEmits, buttonProps } from './button'
-import { useButtonCustomStyle } from './button-custom'
+import { useButton } from './use-button' // 引入 useButton hook 处理按钮逻辑
+import { buttonEmits, buttonProps } from './button' // 引入按钮的 props 和 emits 定义
+import { useButtonCustomStyle } from './button-custom' // 引入 useButtonCustomStyle hook 处理自定义样式
 
+// 定义组件名称为ElButton
 defineOptions({
   name: 'ElButton',
 })
 
+// 定义组件的 props 和 emits
 const props = defineProps(buttonProps)
 const emit = defineEmits(buttonEmits)
 
+// 根据传入的 props 使用 useButtonCustomStyle hook 获取自定义样式
 const buttonStyle = useButtonCustomStyle(props)
+
+// 创建命名空间工具，用于生成BEM风格的CSS类名
 const ns = useNamespace('button')
+
+// 使用 useButton hook 获取处理后的按钮状态与行为
 const {
   _ref,
   _size,
@@ -54,6 +61,8 @@ const {
   shouldAddSpace,
   handleClick,
 } = useButton(props, emit)
+
+// 计算按钮的类名，使用BEM命名规范生成类名
 const buttonKls = computed(() => [
   ns.b(),
   ns.m(_type.value),
@@ -68,6 +77,7 @@ const buttonKls = computed(() => [
   ns.is('has-bg', props.bg),
 ])
 
+// 定义 ELButton 组件暴露给父组件的属性和方法
 defineExpose({
   /** @description button html element */
   ref: _ref,

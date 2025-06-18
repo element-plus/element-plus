@@ -20,6 +20,7 @@ export const buttonTypes = [
 ] as const
 export const buttonNativeTypes = ['button', 'submit', 'reset'] as const
 
+// 定义Button组件的props属性与默认值
 export const buttonProps = buildProps({
   /**
    * @description button size
@@ -119,6 +120,7 @@ export const buttonProps = buildProps({
     default: 'button',
   },
 } as const)
+// 定义Button组件的事件
 export const buttonEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,
 }

@@ -5,23 +5,37 @@ import type { InjectionKey, Ref } from 'vue'
 export const defaultNamespace = 'el'
 const statePrefix = 'is-'
 
+// 实际创建 BEM 风格的类名的核心函数
 const _bem = (
-  namespace: string,
-  block: string,
-  blockSuffix: string,
-  element: string,
-  modifier: string
+  namespace: string, // 命名空间前缀，通常是 'el'
+  block: string, // 块名称，如 'button', 'input' 等
+  blockSuffix: string, // 块后缀，用于变体，如 'primary'
+  element: string, // 元素名称，如 'icon', 'text' 等
+  modifier: string // 修饰符，如 'disabled', 'large' 等
 ) => {
-  let cls = `${namespace}-${block}`
+  // 1、起始基础: 从命名空间和块名开始 ${namespace}-${block}
+  let cls = `${namespace}-${block}` // 例如: 'el-button'
+
+  // 2、添加块后缀（如果有）
   if (blockSuffix) {
-    cls += `-${blockSuffix}`
+    cls += `-${blockSuffix}` // 例如: 'el-button-primary'
   }
+
+  // 3、添加元素分隔符和元素名 (如果存在)
   if (element) {
-    cls += `__${element}`
+    cls += `__${element}` // 例如: 'el-button__icon'
   }
+
+  // 4、添加修饰符前缀和修饰符名 (如果存在)
   if (modifier) {
-    cls += `--${modifier}`
+    cls += `--${modifier}` // 例如: 'el-button--disabled'
   }
+
+  // 5、返回最终的类名
+  // 例如: 'el-button__icon--disabled'
+  // 或者 'el-button-primary__icon--large'
+  // 或者 'el-button--primary--large'
+  // 或者 'el-button--primary__icon--large'
   return cls
 }
 
@@ -42,11 +56,14 @@ export const useGetDerivedNamespace = (
   return namespace
 }
 
+// 创建 BEM 风格的类名的方法生成工具函数
+// block: the block name, e.g. 'button'
 export const useNamespace = (
   block: string,
   namespaceOverrides?: Ref<string | undefined>
 ) => {
-  const namespace = useGetDerivedNamespace(namespaceOverrides)
+  const namespace = useGetDerivedNamespace(namespaceOverrides) // 获取默认命名空间（如 'el'）
+
   const b = (blockSuffix = '') =>
     _bem(namespace.value, block, blockSuffix, '', '')
   const e = (element?: string) =>

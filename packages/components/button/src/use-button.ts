@@ -34,10 +34,12 @@ export const useButton = (
   const _ref = ref<HTMLButtonElement>()
   const slots = useSlots()
 
+  // type 属性计算：优先级：接收的 props > 按钮组配置 > 全局配置 > 默认值
   const _type = computed(
     () =>
       props.type || buttonGroupContext?.type || globalConfig.value?.type || ''
   )
+  // autoInsertSpace 属性计算：优先级：接收的 props > 全局配置 > 默认值
   const autoInsertSpace = computed(
     () => props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
   )
@@ -48,6 +50,7 @@ export const useButton = (
     () => props.round ?? globalConfig.value?.round ?? false
   )
 
+  // 动态计算生成针对 button 元素特有的属性
   const _props = computed(() => {
     if (props.tag === 'button') {
       return {
