@@ -233,10 +233,10 @@ export const timePickerDefaultProps = buildProps({
     type: Boolean,
     default: true,
   },
-  showWeekNumber: {
-    type: Boolean,
-    default: false,
-  },
+  /**
+   * @description whether to show the number of the calendar week
+   */
+  showWeekNumber: Boolean,
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<

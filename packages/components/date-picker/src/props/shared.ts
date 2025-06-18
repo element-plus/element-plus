@@ -61,10 +61,7 @@ export const panelSharedProps = buildProps({
     type: Boolean,
     default: true,
   },
-  showWeekNumber: {
-    type: Boolean,
-    default: false,
-  },
+  showWeekNumber: Boolean,
 } as const)
 
 export const panelRangeSharedProps = buildProps({
