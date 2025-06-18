@@ -5,9 +5,9 @@ import useWatcher from './watcher'
 
 import type { Ref } from 'vue'
 import type { TableColumnCtx } from '../table-column/defaults'
-import type { Filter, Sort, Table } from '../table/defaults'
+import type { DefaultRow, Filter, Sort, Table } from '../table/defaults'
 
-interface WatcherPropsData<T> {
+interface WatcherPropsData<T extends DefaultRow> {
   data: Ref<T[]>
   rowKey: Ref<string | null>
 }
@@ -36,7 +36,7 @@ function sortColumn<T>(array: TableColumnCtx<T>[]) {
   array.sort((cur, pre) => cur.no - pre.no)
 }
 
-function useStore<T extends Record<string, any>>() {
+function useStore<T extends DefaultRow>() {
   const instance = getCurrentInstance() as Table<T>
   const watcher = useWatcher<T>()
   const ns = useNamespace('table')
@@ -239,10 +239,10 @@ function useStore<T extends Record<string, any>>() {
 
 export default useStore
 
-class HelperStore<T extends Record<string, any>> {
+class HelperStore<T extends DefaultRow> {
   Return = useStore<T>()
 }
 
 type StoreFilter = Record<string, string[]>
-type Store<T extends Record<string, any>> = HelperStore<T>['Return']
+type Store<T extends DefaultRow> = HelperStore<T>['Return']
 export type { WatcherPropsData, Store, StoreFilter }

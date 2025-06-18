@@ -1,12 +1,11 @@
-// @ts-nocheck
 import { getCurrentInstance, ref } from 'vue'
 import { getKeysMap, getRowIdentity, toggleRowStatus } from '../util'
 
 import type { Ref } from 'vue'
 import type { WatcherPropsData } from '.'
-import type { Table } from '../table/defaults'
+import type { DefaultRow, Table } from '../table/defaults'
 
-function useExpand<T>(watcherData: WatcherPropsData<T>) {
+function useExpand<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
   const instance = getCurrentInstance() as Table<T>
   const defaultExpandAll = ref(false)
   const expandRows: Ref<T[]> = ref([])

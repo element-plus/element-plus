@@ -22,7 +22,7 @@ import type {
 } from '../table/defaults'
 import type { StoreFilter } from '.'
 
-const sortData = <T>(
+const sortData = <T extends DefaultRow>(
   data: T[],
   states: {
     sortingColumn: TableColumnCtx<T> | null
@@ -43,7 +43,9 @@ const sortData = <T>(
   )
 }
 
-const doFlattenColumns = <T>(columns: TableColumnCtx<T>[]) => {
+const doFlattenColumns = <T extends DefaultRow>(
+  columns: TableColumnCtx<T>[]
+) => {
   const result: TableColumnCtx<T>[] = []
   columns.forEach((column) => {
     if (column.children && column.children.length > 0) {
@@ -56,7 +58,7 @@ const doFlattenColumns = <T>(columns: TableColumnCtx<T>[]) => {
   return result
 }
 
-function useWatcher<T extends Record<string, any>>() {
+function useWatcher<T extends DefaultRow>() {
   const instance = getCurrentInstance() as Table<T>
   const { size: tableSize } = toRefs(instance.proxy?.$props as any)
   const rowKey: Ref<string | null> = ref(null)
@@ -186,7 +188,7 @@ function useWatcher<T extends Record<string, any>>() {
   }
 
   // 选择
-  const isSelected = (row: DefaultRow) => {
+  const isSelected = (row: T) => {
     if (selectedMap.value && rowKey.value) {
       return !!selectedMap.value[getRowIdentity(row, rowKey.value)]
     } else {
@@ -314,7 +316,7 @@ function useWatcher<T extends Record<string, any>>() {
     let rowIndex = 0
     let selectedCount = 0
 
-    const checkSelectedStatus = (data: DefaultRow[]) => {
+    const checkSelectedStatus = (data: T[]) => {
       for (const row of data) {
         const isRowSelectable =
           selectable.value && selectable.value.call(null, row, rowIndex)
@@ -532,7 +534,7 @@ function useWatcher<T extends Record<string, any>>() {
     getSelectionRows,
     toggleRowSelection,
     _toggleAllSelection,
-    toggleAllSelection: null,
+    toggleAllSelection: null as (() => void) | null,
     updateAllSelected,
     updateFilters,
     updateCurrentRow,

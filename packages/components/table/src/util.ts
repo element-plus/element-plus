@@ -38,7 +38,7 @@ export type TableOverflowTooltipOptions = Partial<
   >
 >
 
-export type TableOverflowTooltipFormatter<T = any> = (data: {
+export type TableOverflowTooltipFormatter<T extends DefaultRow> = (data: {
   row: T
   column: TableColumnCtx<T>
   cellValue: any
@@ -59,7 +59,7 @@ export const getCell = function (event: Event) {
   return (event.target as HTMLElement)?.closest('td')
 }
 
-export const orderBy = function <T>(
+export const orderBy = function <T extends DefaultRow>(
   array: T[],
   sortKey: string | null,
   reverse: string | number | null,
@@ -93,7 +93,7 @@ export const orderBy = function <T>(
         if (sortBy !== '$key') {
           if (isObject(value) && '$value' in value) value = value.$value
         }
-        return [isObject(value) ? get(value, sortKey) : value]
+        return [isObject(value) ? get(value, sortKey!) : value]
       }
   const compare = function (a: CompareValue<T>, b: CompareValue<T>) {
     if (sortMethod) {
@@ -128,7 +128,7 @@ export const orderBy = function <T>(
     .map((item) => item.value)
 }
 
-export const getColumnById = function <T>(
+export const getColumnById = function <T extends DefaultRow>(
   table: {
     columns: TableColumnCtx<T>[]
   },
@@ -143,7 +143,7 @@ export const getColumnById = function <T>(
   return column
 }
 
-export const getColumnByKey = function <T>(
+export const getColumnByKey = function <T extends DefaultRow>(
   table: {
     columns: TableColumnCtx<T>[]
   },
@@ -162,7 +162,7 @@ export const getColumnByKey = function <T>(
   return column
 }
 
-export const getColumnByCell = function <T>(
+export const getColumnByCell = function <T extends DefaultRow>(
   table: {
     columns: TableColumnCtx<T>[]
   },
@@ -202,7 +202,7 @@ export const getRowIdentity = <T extends DefaultRow>(
 
 export const getKeysMap = function <T extends DefaultRow>(
   array: T[],
-  rowKey: string,
+  rowKey: string | null,
   flatten = false,
   childrenKey = 'children'
 ): Record<string, { row: T; index: number }> {
@@ -513,7 +513,9 @@ export function createTablePopper<T extends DefaultRow>(
   scrollContainer?.addEventListener('scroll', removePopper)
 }
 
-function getCurrentColumns<T>(column: TableColumnCtx<T>): TableColumnCtx<T>[] {
+function getCurrentColumns<T extends DefaultRow>(
+  column: TableColumnCtx<T>
+): TableColumnCtx<T>[] {
   if (column.children) {
     return flatMap(column.children, getCurrentColumns)
   } else {
@@ -521,11 +523,14 @@ function getCurrentColumns<T>(column: TableColumnCtx<T>): TableColumnCtx<T>[] {
   }
 }
 
-function getColSpan<T>(colSpan: number, column: TableColumnCtx<T>) {
+function getColSpan<T extends DefaultRow>(
+  colSpan: number,
+  column: TableColumnCtx<T>
+) {
   return colSpan + column.colSpan
 }
 
-export const isFixedColumn = <T>(
+export const isFixedColumn = <T extends DefaultRow>(
   index: number,
   fixed: string | boolean,
   store: any,
@@ -578,7 +583,7 @@ export const isFixedColumn = <T>(
     : {}
 }
 
-export const getFixedColumnsClass = <T>(
+export const getFixedColumnsClass = <T extends DefaultRow>(
   namespace: string,
   index: number,
   fixed: string | boolean,
@@ -613,7 +618,10 @@ export const getFixedColumnsClass = <T>(
   return classes
 }
 
-function getOffset<T>(offset: number, column: TableColumnCtx<T>) {
+function getOffset<T extends DefaultRow>(
+  offset: number,
+  column: TableColumnCtx<T>
+) {
   return (
     offset +
     (isNull(column.realWidth) || Number.isNaN(column.realWidth)
@@ -622,7 +630,7 @@ function getOffset<T>(offset: number, column: TableColumnCtx<T>) {
   )
 }
 
-export const getFixedColumnOffset = <T>(
+export const getFixedColumnOffset = <T extends DefaultRow>(
   index: number,
   fixed: string | boolean,
   store: any,

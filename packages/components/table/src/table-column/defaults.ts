@@ -17,7 +17,7 @@ type FilterMethods<T> = (value, row: T, column: TableColumnCtx<T>) => void
 
 type ValueOf<T> = T[keyof T]
 
-interface TableColumnCtx<T> {
+interface TableColumnCtx<T extends DefaultRow> {
   id: string
   realWidth: number | null
   type: string
