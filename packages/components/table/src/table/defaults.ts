@@ -8,7 +8,6 @@ import type {
   VNode,
 } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
-import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
@@ -46,11 +45,11 @@ interface TreeProps {
   checkStrictly?: boolean
 }
 
-type HoverState<T> = Nullable<{
-  cell: HTMLElement
-  column: TableColumnCtx<T>
-  row: T
-}>
+type HoverState<T extends DefaultRow> = {
+  cell: HTMLElement | null
+  column: TableColumnCtx<T> | null
+  row: T | null
+}
 
 type RIS<T extends DefaultRow> = {
   row: T
@@ -66,14 +65,15 @@ type RenderExpanded<T extends DefaultRow> = ({
   expanded,
 }: RIS<T>) => VNode
 
-type SummaryMethod<T> = (data: {
+type SummaryMethod<T extends DefaultRow> = (data: {
   columns: TableColumnCtx<T>[]
   data: T[]
 }) => (string | VNode)[]
 
-interface Table<T extends DefaultRow> extends ComponentInternalInstance {
+interface Table<T extends DefaultRow = DefaultRow>
+  extends ComponentInternalInstance {
   $ready: boolean
-  hoverState?: HoverState<T>
+  hoverState?: HoverState<T> | null
   renderExpanded: RenderExpanded<T>
   store: Store<T>
   layout: TableLayout<T>
@@ -86,7 +86,7 @@ type ColumnCls<T> = string | ((data: { row: T; rowIndex: number }) => string)
 type ColumnStyle<T> =
   | CSSProperties
   | ((data: { row: T; rowIndex: number }) => CSSProperties)
-type CellCls<T> =
+type CellCls<T extends DefaultRow> =
   | string
   | ((data: {
       row: T
@@ -94,7 +94,7 @@ type CellCls<T> =
       column: TableColumnCtx<T>
       columnIndex: number
     }) => string)
-type CellStyle<T> =
+type CellStyle<T extends DefaultRow> =
   | CSSProperties
   | ((data: {
       row: T
@@ -162,7 +162,9 @@ interface TableProps<T extends DefaultRow> {
   scrollbarTabindex?: number | string
 }
 
-type TableTooltipData<T = any> = Parameters<TableOverflowTooltipFormatter<T>>[0]
+type TableTooltipData<T extends DefaultRow> = Parameters<
+  TableOverflowTooltipFormatter<T>
+>[0]
 type TableSortOrder = 'ascending' | 'descending'
 
 interface Sort {
@@ -172,7 +174,7 @@ interface Sort {
   silent?: any
 }
 
-interface Filter<T> {
+interface Filter<T extends DefaultRow> {
   column: TableColumnCtx<T>
   values: string[]
   silent: any
@@ -193,6 +195,7 @@ interface RenderRowData<T extends DefaultRow> {
   column: TableColumnCtx<T>
   row: T
   $index: number
+  cellIndex: number
   treeNode?: TreeNode
   expanded: boolean
 }

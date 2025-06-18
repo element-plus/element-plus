@@ -1,4 +1,3 @@
-// @ts-nocheck
 import type { PropType } from 'vue'
 import type { Store } from '../store'
 import type {
@@ -9,7 +8,7 @@ import type {
 } from '../table/defaults'
 import type { TableOverflowTooltipOptions } from '../util'
 
-interface TableBodyProps<T> {
+interface TableBodyProps<T extends DefaultRow> {
   store: Store<T>
   stripe?: boolean
   context: Table<T>

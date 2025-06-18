@@ -1,19 +1,22 @@
-// @ts-nocheck
 import type { ComponentInternalInstance, PropType, Ref, VNode } from 'vue'
-import type { DefaultRow, Table } from '../table/defaults'
+import type { DefaultRow, Table, TableSortOrder } from '../table/defaults'
 import type {
   TableOverflowTooltipFormatter,
   TableOverflowTooltipOptions,
 } from '../util'
 
-type CI<T> = { column: TableColumnCtx<T>; $index: number }
+type CI<T extends DefaultRow> = { column: TableColumnCtx<T>; $index: number }
 
 type Filters = {
   text: string
   value: string
 }[]
 
-type FilterMethods<T> = (value, row: T, column: TableColumnCtx<T>) => void
+type FilterMethods<T extends DefaultRow> = (
+  value: string,
+  row: T,
+  column: TableColumnCtx<T>
+) => void
 
 type ValueOf<T> = T[keyof T]
 
@@ -26,7 +29,7 @@ interface TableColumnCtx<T extends DefaultRow> {
   labelClassName: string
   property: string
   prop: string
-  width: string | number
+  width?: string | number
   minWidth: string | number
   renderHeader: (data: CI<T>) => VNode
   sortable: boolean | string
@@ -43,7 +46,7 @@ interface TableColumnCtx<T extends DefaultRow> {
   formatter: (
     row: T,
     column: TableColumnCtx<T>,
-    cellValue,
+    cellValue: any,
     index: number
   ) => VNode | string
   selectable: (row: T, index: number) => boolean
@@ -69,9 +72,11 @@ interface TableColumnCtx<T extends DefaultRow> {
   getColumnIndex: () => number
   no: number
   filterOpened?: boolean
+  renderFilterIcon?: (scope: any) => VNode
+  renderExpand?: (scope: any) => VNode
 }
 
-interface TableColumn<T> extends ComponentInternalInstance {
+interface TableColumn<T extends DefaultRow> extends ComponentInternalInstance {
   vnode: {
     vParent: TableColumn<T> | Table<T>
   } & VNode
@@ -238,8 +243,8 @@ export default {
     default: () => {
       return ['ascending', 'descending', null]
     },
-    validator: (val: TableColumnCtx<unknown>['sortOrders']) => {
-      return val.every((order: string) =>
+    validator: <T extends DefaultRow>(val: TableColumnCtx<T>['sortOrders']) => {
+      return val.every((order: TableSortOrder | null) =>
         ['ascending', 'descending', null].includes(order)
       )
     },

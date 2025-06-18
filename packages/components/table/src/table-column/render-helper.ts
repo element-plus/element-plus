@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Comment,
   computed,
@@ -13,25 +12,27 @@ import { debugWarn, isArray, isUndefined } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   cellForced,
+  cellStarts,
   defaultRenderCell,
   getDefaultClassName,
   treeCellPrefix,
 } from '../config'
 import { parseMinWidth, parseWidth } from '../util'
 
-import type { ComputedRef } from 'vue'
+import type { ComputedRef, RendererNode, Slots } from 'vue'
 import type { TableColumn, TableColumnCtx } from './defaults'
+import type { DefaultRow, Table } from '../table/defaults'
 
-function useRender<T>(
+function useRender<T extends DefaultRow>(
   props: TableColumnCtx<T>,
-  slots,
+  slots: Slots,
   owner: ComputedRef<any>
 ) {
   const instance = getCurrentInstance() as TableColumn<T>
   const columnId = ref('')
   const isSubColumn = ref(false)
-  const realAlign = ref<string>()
-  const realHeaderAlign = ref<string>()
+  const realAlign = ref<string | null>()
+  const realHeaderAlign = ref<string | null | undefined>()
   const ns = useNamespace('table')
   watchEffect(() => {
     realAlign.value = props.align ? `is-${props.align}` : null
@@ -53,7 +54,7 @@ function useRender<T>(
     return parent
   })
   const hasTreeColumn = computed<boolean>(() => {
-    const { store } = instance.parent
+    const { store } = (instance.parent as Table<T>)!
     if (!store) return false
     const { treeData } = store.states
     const treeDataValue = treeData.value
@@ -80,12 +81,12 @@ function useRender<T>(
   }
   const setColumnForcedProps = (column: TableColumnCtx<T>) => {
     // 对于特定类型的 column，某些属性不允许设置
-    const type = column.type
-    const source = cellForced[type] || {}
+    const type = column.type as keyof typeof cellStarts
+    const source = (cellForced as any)[type] || {}
     Object.keys(source).forEach((prop) => {
       const value = source[prop]
       if (prop !== 'className' && !isUndefined(value)) {
-        column[prop] = value
+        ;(column as any)[prop] = value
       }
     })
     const className = getDefaultClassName(type)
@@ -149,7 +150,7 @@ function useRender<T>(
           },
           [originRenderCell(data)]
         )
-      owner.value.renderExpanded = (data) => {
+      owner.value.renderExpanded = (data: any) => {
         return slots.default ? slots.default(data) : slots.default
       }
     } else {
@@ -168,7 +169,7 @@ function useRender<T>(
 
         const { columns } = owner.value.store.states
         const firstUserColumnIndex = columns.value.findIndex(
-          (item) => item.type === 'default'
+          (item: any) => item.type === 'default'
         )
         const shouldCreatePlaceholder =
           hasTreeColumn.value && data.cellIndex === firstUserColumnIndex
@@ -185,23 +186,23 @@ function useRender<T>(
             }px`,
           }
         }
-        checkSubColumn(children)
+        checkSubColumn(children as any)
         return h('div', props, [prefix, children])
       }
     }
     return column
   }
-  const getPropsData = (...propsKey: unknown[]) => {
+  const getPropsData = (...propsKey: string[][]) => {
     return propsKey.reduce((prev, cur) => {
       if (isArray(cur)) {
         cur.forEach((key) => {
-          prev[key] = props[key]
+          prev[key] = props[key as keyof TableColumnCtx<T>]
         })
       }
       return prev
-    }, {})
+    }, {} as Record<string, any>)
   }
-  const getColumnElIndex = (children, child) => {
+  const getColumnElIndex = (children: T[], child: RendererNode | null) => {
     return Array.prototype.indexOf.call(children, child)
   }
 

@@ -1,6 +1,6 @@
-// @ts-nocheck
 import {
   Fragment,
+  VNode,
   computed,
   defineComponent,
   getCurrentInstance,
@@ -56,7 +56,7 @@ export default defineComponent({
       getColumnElIndex,
       realAlign,
       updateColumnOrder,
-    } = useRender(props as unknown as TableColumnCtx<unknown>, slots, owner)
+    } = useRender(props as unknown as TableColumnCtx<DefaultRow>, slots, owner)
 
     const parent = columnOrTableParent.value
     columnId.value = `${
@@ -65,7 +65,7 @@ export default defineComponent({
     onBeforeMount(() => {
       isSubColumn.value = owner.value !== parent
 
-      const type = props.type || 'default'
+      const type = (props.type as keyof typeof cellStarts) || 'default'
       const sortable = props.sortable === '' ? true : props.sortable
       //The selection column should not be affected by `showOverflowTooltip`.
       const showOverflowTooltip =
@@ -134,7 +134,7 @@ export default defineComponent({
         setColumnWidth,
         setColumnForcedProps
       )
-      column = chains(column)
+      column = chains(column) as any
       columnConfig.value = column
 
       // 注册 watcher
@@ -171,7 +171,7 @@ export default defineComponent({
     })
     instance.columnId = columnId.value
 
-    instance.columnConfig = columnConfig
+    instance.columnConfig = columnConfig as any
     return
   },
   render() {
@@ -185,7 +185,7 @@ export default defineComponent({
       if (isArray(renderDefault)) {
         for (const childNode of renderDefault) {
           if (
-            childNode.type?.name === 'ElTableColumn' ||
+            (childNode.type as any)?.name === 'ElTableColumn' ||
             childNode.shapeFlag & 2
           ) {
             children.push(childNode)
@@ -195,7 +195,10 @@ export default defineComponent({
           ) {
             childNode.children.forEach((vnode) => {
               // No rendering when vnode is dynamic slot or text
-              if (vnode?.patchFlag !== 1024 && !isString(vnode?.children)) {
+              if (
+                (vnode as VNode)?.patchFlag !== 1024 &&
+                !isString((vnode as VNode)?.children)
+              ) {
                 children.push(vnode)
               }
             })
