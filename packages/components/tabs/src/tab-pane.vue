@@ -19,6 +19,7 @@ import {
   inject,
   onMounted,
   onUnmounted,
+  onUpdated,
   reactive,
   ref,
   useSlots,
@@ -74,7 +75,9 @@ tabsRoot.registerPane(pane)
 onMounted(() => {
   tabsRoot.sortPane(pane)
 })
-
+onUpdated(() => {
+  tabsRoot.sortPane(pane)
+})
 onUnmounted(() => {
   tabsRoot.unregisterPane(pane.uid)
 })
