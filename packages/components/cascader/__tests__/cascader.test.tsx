@@ -755,7 +755,11 @@ describe('Cascader.vue', () => {
       expect(firstNode).not.toBeNull()
       firstNode.click()
       await nextTick()
-      value.value = [['zhejiang', 'hangzhou']]
+      value.value = [
+        ['zhejiang', 'hangzhou'],
+        ['zhejiang', 'ningbo'],
+        ['zhejiang', 'wenzhou'],
+      ]
       await nextTick()
       await nextTick()
       const tags = wrapper.findAll('span.el-tag')
