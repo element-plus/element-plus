@@ -69,6 +69,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { ArrowRight, Check, Loading } from '@element-plus/icons-vue'
 import NodeContent from './node-content'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
+
 import type { default as CascaderNode } from './node'
 import type { PropType } from 'vue'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'

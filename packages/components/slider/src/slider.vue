@@ -124,6 +124,7 @@ import {
   useStops,
   useWatch,
 } from './composables'
+
 import type { SliderInitData } from './slider'
 
 defineOptions({

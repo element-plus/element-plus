@@ -145,6 +145,7 @@
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
             :cell-class-name="cellClassName"
+            :show-week-number="showWeekNumber"
             @pick="handleDatePick"
           />
           <year-table

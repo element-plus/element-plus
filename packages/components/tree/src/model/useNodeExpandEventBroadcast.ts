@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { inject, provide } from 'vue'
 import { TREE_NODE_MAP_INJECTION_KEY } from '../tokens'
+
 import type Node from '../model/node'
 
 interface NodeMap {

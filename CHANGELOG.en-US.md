@@ -1,6 +1,25 @@
 ## Changelog
 
 
+### 2.10.2
+
+_2025-06-13_
+
+#### Features
+
+- Components [cascader]add a props to control tooltip maxHeight (#20933 by @upthen)
+- Components [form] export getField (#20981 by @xingyixiang)
+
+#### Bug fixes
+
+- Components [scrollbar] horizontal scroll drag invalid (#20953 by @btea)
+- Theme-chalk [drawer] replace fixed color with CSS var (#19011 by @tolking)
+- Components [date-picker] getting month dates range error (#20932 by @jyp114110)
+- Components [date-picker] yearrange & unlinkPanels causes panels display error (#17822 by @tolking)
+- Components [tree-select] value label rendering error (#20947 by @btea)
+- Locale update ru.ts (#20972 by @btea)
+- Hooks [use-focus-controller] repeatedly trigger focus when clicked (#17148 by @tolking)
+
 ### 2.10.1
 
 _2025-06-07_
