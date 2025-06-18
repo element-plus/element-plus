@@ -4,6 +4,7 @@ import {
   defineComponent,
   getCurrentInstance,
   nextTick,
+  onUpdated,
   provide,
   ref,
   renderSlot,
@@ -114,6 +115,7 @@ const Tabs = defineComponent({
       children: panes,
       addChild: sortPane,
       removeChild: unregisterPane,
+      forceUpdate,
     } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
 
     const nav$ = ref<TabNavInstance>()
@@ -196,6 +198,11 @@ const Tabs = defineComponent({
     watch(currentName, async () => {
       await nextTick()
       nav$.value?.scrollToActiveTab()
+    })
+
+    onUpdated(() => {
+      // Force reorder when component updates (e.g., due to v-for reordering)
+      forceUpdate()
     })
 
     provide(tabsRootContextKey, {
