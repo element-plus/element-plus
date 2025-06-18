@@ -203,6 +203,7 @@ cascader/custom-tag
 | empty                    | content when there is no matched options.                                                      | —                                   |
 | prefix ^(2.9.4)          | content as Input prefix                                                                        | —                                   |
 | suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                              | ^[object]`{ item: CascaderNode }`   |
+| tag ^(2.10.3)            | custom tags style                                                                              | ^[object]`{ data: Tag[] }`          |
 
 ### Cascader Exposes
 
