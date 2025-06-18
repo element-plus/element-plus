@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   computed,
   nextTick,
@@ -11,12 +10,12 @@ import {
 import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { useFormSize } from '@element-plus/components/form'
 
-import type { Table, TableProps } from './defaults'
+import type { DefaultRow, Table, TableProps } from './defaults'
 import type { Store } from '../store'
 import type TableLayout from '../table-layout'
 import type { TableColumnCtx } from '../table-column/defaults'
 
-function useStyle<T>(
+function useStyle<T extends DefaultRow>(
   props: TableProps<T>,
   layout: TableLayout<T>,
   store: Store<T>,
@@ -50,10 +49,10 @@ function useStyle<T>(
   const appendScrollHeight = ref(0)
 
   watchEffect(() => {
-    layout.setHeight(props.height)
+    layout.setHeight(props.height ?? null)
   })
   watchEffect(() => {
-    layout.setMaxHeight(props.maxHeight)
+    layout.setMaxHeight(props.maxHeight ?? null)
   })
   watch(
     () => [props.currentRowKey, store.states.rowKey],
@@ -86,7 +85,7 @@ function useStyle<T>(
     if (table.hoverState) table.hoverState = null
   }
 
-  const handleHeaderFooterMousewheel = (event, data) => {
+  const handleHeaderFooterMousewheel = (_event: WheelEvent, data: any) => {
     const { pixelX, pixelY } = data
     if (Math.abs(pixelX) >= Math.abs(pixelY)) {
       table.refs.bodyWrapper.scrollLeft += data.pixelX / 5
@@ -300,7 +299,7 @@ function useStyle<T>(
       if (!Number.isNaN(Number(props.maxHeight))) {
         return {
           maxHeight: `${
-            props.maxHeight -
+            +props.maxHeight -
             headerScrollHeight.value -
             footerScrollHeight.value
           }px`,
@@ -320,7 +319,7 @@ function useStyle<T>(
   /**
    * fix layout
    */
-  const handleFixedMousewheel = (event, data) => {
+  const handleFixedMousewheel = (event: WheelEvent, data: any) => {
     const bodyWrapper = table.refs.bodyWrapper
     if (Math.abs(data.spinY) > 0) {
       const currentScrollTop = bodyWrapper.scrollTop

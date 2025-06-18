@@ -1,7 +1,6 @@
-// @ts-nocheck
 import type { Store } from '../store'
 
-function useUtils<T>(store: Store<T>) {
+function useUtils<T extends Record<string, any>>(store: Store<T>) {
   const setCurrentRow = (row: T) => {
     store.commit('setCurrentRow', row)
   }

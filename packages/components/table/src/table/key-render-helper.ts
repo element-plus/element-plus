@@ -1,8 +1,8 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 
-import type { Table } from './defaults'
+import type { DefaultRow, Table } from './defaults'
 
-export default function useKeyRender(table: Table<[]>) {
+export default function useKeyRender(table: Table<DefaultRow>) {
   const observer = ref<MutationObserver>()
 
   const initWatchDom = () => {

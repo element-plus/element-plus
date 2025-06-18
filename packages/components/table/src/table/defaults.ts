@@ -17,7 +17,7 @@ import type {
   TableOverflowTooltipOptions,
 } from '../util'
 
-type DefaultRow = any
+type DefaultRow = Record<string, any>
 
 interface TableRefs {
   tableWrapper: HTMLElement
@@ -52,14 +52,14 @@ type HoverState<T> = Nullable<{
   row: T
 }>
 
-type RIS<T extends Record<string, any>> = {
+type RIS<T extends DefaultRow> = {
   row: T
   $index: number
   store: Store<T>
   expanded: boolean
 }
 
-type RenderExpanded<T extends Record<string, any>> = ({
+type RenderExpanded<T extends DefaultRow> = ({
   row,
   $index,
   store,
@@ -71,8 +71,7 @@ type SummaryMethod<T> = (data: {
   data: T[]
 }) => (string | VNode)[]
 
-interface Table<T extends Record<string, any>>
-  extends ComponentInternalInstance {
+interface Table<T extends DefaultRow> extends ComponentInternalInstance {
   $ready: boolean
   hoverState?: HoverState<T>
   renderExpanded: RenderExpanded<T>
@@ -104,7 +103,7 @@ type CellStyle<T> =
       columnIndex: number
     }) => CSSProperties)
 type Layout = 'fixed' | 'auto'
-interface TableProps<T extends Record<string, any>> {
+interface TableProps<T extends DefaultRow> {
   data: T[]
   size?: ComponentSize
   width?: string | number
@@ -188,7 +187,7 @@ interface TreeNode {
   display?: boolean
 }
 
-interface RenderRowData<T extends Record<string, any>> {
+interface RenderRowData<T extends DefaultRow> {
   store: Store<T>
   _self: Table<T>
   column: TableColumnCtx<T>

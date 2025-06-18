@@ -98,7 +98,7 @@ class TableLayout<T extends Record<string, any>> {
     }
   }
 
-  setMaxHeight(value: string | number) {
+  setMaxHeight(value: string | number | null) {
     this.setHeight(value, 'max-height')
   }
 

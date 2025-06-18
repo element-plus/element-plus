@@ -1,11 +1,16 @@
 import normalizeWheel from 'normalize-wheel-es'
 
-import type { DirectiveBinding, ObjectDirective } from 'vue'
+import type { ObjectDirective } from 'vue'
 import type { NormalizedWheelEvent } from 'normalize-wheel-es'
+
+type OnMouseWheelHandler = (
+  e: WheelEvent,
+  normalized: NormalizedWheelEvent
+) => void
 
 const mousewheel = function (
   element: HTMLElement,
-  callback: (e: WheelEvent, normalized: NormalizedWheelEvent) => void
+  callback: OnMouseWheelHandler
 ) {
   if (element && element.addEventListener) {
     const fn = function (this: HTMLElement, event: WheelEvent) {
@@ -16,8 +21,8 @@ const mousewheel = function (
   }
 }
 
-const Mousewheel: ObjectDirective = {
-  beforeMount(el: HTMLElement, binding: DirectiveBinding) {
+const Mousewheel: ObjectDirective<HTMLElement, OnMouseWheelHandler> = {
+  beforeMount(el, binding) {
     mousewheel(el, binding.value)
   },
 }

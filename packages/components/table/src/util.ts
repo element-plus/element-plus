@@ -17,7 +17,7 @@ import ElTooltip, {
   type ElTooltipProps,
 } from '@element-plus/components/tooltip'
 
-import type { Table, TreeProps } from './table/defaults'
+import type { DefaultRow, Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { CSSProperties, VNode } from 'vue'
 
@@ -178,7 +178,7 @@ export const getColumnByCell = function <T>(
   return null
 }
 
-export const getRowIdentity = <T extends Record<string, any>>(
+export const getRowIdentity = <T extends DefaultRow>(
   row: T,
   rowKey: string | ((row: T) => string) | null
   isReturnRawValue: boolean = false
@@ -200,7 +200,7 @@ export const getRowIdentity = <T extends Record<string, any>>(
   return rowKey?.(row) ?? ''
 }
 
-export const getKeysMap = function <T extends Record<string, any>>(
+export const getKeysMap = function <T extends DefaultRow>(
   array: T[],
   rowKey: string,
   flatten = false,
@@ -223,10 +223,10 @@ export const getKeysMap = function <T extends Record<string, any>>(
   return arrayMap
 }
 
-export function mergeOptions<
-  T extends Record<string, any>,
-  K extends Record<string, any>
->(defaults: T, config: K): T & K {
+export function mergeOptions<T extends DefaultRow, K extends DefaultRow>(
+  defaults: T,
+  config: K
+): T & K {
   const options = {} as T & K
   let key: keyof T & keyof K
   for (key in defaults) {
@@ -294,7 +294,7 @@ export function compose(...funcs: ((...args: any[]) => void)[]) {
   )
 }
 
-export function toggleRowStatus<T extends Record<string, any>>(
+export function toggleRowStatus<T extends DefaultRow>(
   statusArr: T[],
   row: T,
   newVal?: boolean,
@@ -329,7 +329,7 @@ export function toggleRowStatus<T extends Record<string, any>>(
     }
     changed = true
   }
-  const getChildrenCount = <T extends Record<string, any>>(row: T) => {
+  const getChildrenCount = <T extends DefaultRow>(row: T) => {
     let count = 0
     const children = tableTreeProps?.children && row[tableTreeProps.children]
     if (children && isArray(children)) {
@@ -377,7 +377,7 @@ export function toggleRowStatus<T extends Record<string, any>>(
   return changed
 }
 
-export function walkTreeNode<T extends Record<string, any>>(
+export function walkTreeNode<T extends DefaultRow>(
   root: T[],
   cb: (parent: any, children: T | null, level: number) => void,
   childrenKey = 'children',
@@ -412,7 +412,7 @@ export function walkTreeNode<T extends Record<string, any>>(
   })
 }
 
-const getTableOverflowTooltipProps = <T extends Record<string, any>>(
+const getTableOverflowTooltipProps = <T extends DefaultRow>(
   props: TableOverflowTooltipOptions,
   innerText: string,
   row: T,
@@ -451,7 +451,7 @@ const getTableOverflowTooltipProps = <T extends Record<string, any>>(
 
 export let removePopper: RemovePopperFn | null = null
 
-export function createTablePopper<T extends Record<string, any>>(
+export function createTablePopper<T extends DefaultRow>(
   props: TableOverflowTooltipOptions,
   popperContent: string,
   row: T,
