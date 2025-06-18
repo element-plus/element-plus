@@ -138,6 +138,16 @@ cascader/panel
 
 :::
 
+## Custom Tag ^(2.10.3)
+
+You can customize tags.
+
+:::demo Insert customized tags into the slot of `el-cascader`. `collapse-tags`, `collapse-tags-tooltip`, `max-collapse-tags` will not work.
+
+cascader/custom-tag
+
+:::
+
 ## Cascader API
 
 ### Cascader Attributes
@@ -193,6 +203,7 @@ cascader/panel
 | empty                    | content when there is no matched options.                                                      | —                                   |
 | prefix ^(2.9.4)          | content as Input prefix                                                                        | —                                   |
 | suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                              | ^[object]`{ item: CascaderNode }`   |
+| tag ^(2.10.3)            | custom tags style                                                                              | ^[object]`{ data: Tag[] }`          |
 
 ### Cascader Exposes
 
