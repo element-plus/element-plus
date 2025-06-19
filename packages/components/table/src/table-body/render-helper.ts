@@ -18,6 +18,7 @@ import type {
   TreeNode,
 } from '../table/defaults'
 import type { TreeData } from '../store/tree'
+import type { TableOverflowTooltipOptions } from '../util'
 
 function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY) as Table<T>
@@ -136,7 +137,11 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
             rowspan,
             colspan,
             onMouseenter: ($event: MouseEvent) =>
-              handleCellMouseEnter($event, row, mergedTooltipOptions as any),
+              handleCellMouseEnter(
+                $event,
+                row,
+                mergedTooltipOptions as TableOverflowTooltipOptions
+              ),
             onMouseleave: handleCellMouseLeave,
           },
           {

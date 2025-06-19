@@ -189,7 +189,7 @@ function useWatcher<T extends DefaultRow>() {
 
   // 选择
   const isSelected = (row: T) => {
-    if (selectedMap.value && rowKey.value) {
+    if (selectedMap.value) {
       return !!selectedMap.value[getRowIdentity(row, rowKey.value)]
     } else {
       return selection.value.includes(row)
@@ -399,8 +399,8 @@ function useWatcher<T extends DefaultRow>() {
           )
         })
       }
-    }) as any
-    ;(filteredData.value as any) = sourceData
+    })
+    filteredData.value = sourceData
   }
 
   const execSort = () => {
@@ -413,7 +413,7 @@ function useWatcher<T extends DefaultRow>() {
 
   // 根据 filters 与 sort 去过滤 data
   const execQuery = (ignore: { filter: boolean } | undefined = undefined) => {
-    if (!(ignore && (ignore as any).filter)) {
+    if (!ignore?.filter) {
       execFilter()
     }
     execSort()

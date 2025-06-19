@@ -28,7 +28,7 @@ export default defineComponent({
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
 
     const hoveredCellList: HTMLTableCellElement[] = []
-    watch(props.store!.states.hoverRow, (newVal: any, oldVal: any) => {
+    watch(props.store?.states.hoverRow, (newVal: any, oldVal: any) => {
       const el = instance?.vnode.el as HTMLElement
       const rows = Array.from(el?.children || []).filter((e) =>
         e?.classList.contains(`${ns.e('row')}`)

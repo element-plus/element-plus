@@ -79,8 +79,8 @@ function useTree<T extends Record<string, any>(watcherData: WatcherPropsData<T>)
 
   const updateTreeData = (
     ifChangeExpandRowKeys = false,
-    ifExpandAll?: boolean //=
-  ): void => {
+    ifExpandAll?: boolean
+  ) => {
     ifExpandAll ||= instance.store?.states.defaultExpandAll.value
     const nested = normalizedData.value
     const normalizedLazyNode_ = normalizedLazyNode.value

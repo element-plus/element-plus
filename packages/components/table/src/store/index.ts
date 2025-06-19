@@ -84,7 +84,7 @@ function useStore<T extends DefaultRow>() {
         if (parent && !parent.children) {
           parent.children = []
         }
-        parent.children!.push(column)
+        parent.children?.push(column)
         newColumns = replaceColumn(array, parent)
       }
       sortColumn(newColumns)
@@ -118,7 +118,7 @@ function useStore<T extends DefaultRow>() {
       updateColumnOrder: () => void
     ) {
       const array = unref(states._columns) || []
-      if (parent && parent.children) {
+      if (parent?.children) {
         parent.children.splice(
           parent.children.findIndex((item) => item.id === column.id),
           1
@@ -198,7 +198,7 @@ function useStore<T extends DefaultRow>() {
     },
 
     toggleAllSelection() {
-      ;(instance.store.toggleAllSelection as any)()
+      instance.store.toggleAllSelection?.()
     },
 
     rowSelectedChanged(_states: StoreStates, row: T) {
@@ -214,7 +214,7 @@ function useStore<T extends DefaultRow>() {
       instance.store.updateCurrentRow(row)
     },
   }
-  const commit = function (name: keyof typeof mutations, ...args: any) {
+  const commit = function (name: keyof typeof mutations, ...args: any[]) {
     const mutations = instance.store.mutations
     if (mutations[name]) {
       ;(mutations[name] as any).apply(

@@ -30,7 +30,7 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     if (cell) {
       column = getColumnByCell(
         {
-          columns: props.store!.states.columns.value,
+          columns: props.store?.states.columns.value ?? [],
         },
         cell,
         namespace
@@ -99,7 +99,7 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     if (cell) {
       column = getColumnByCell(
         {
-          columns: props.store!.states.columns.value,
+          columns: props.store?.states.columns.value ?? [],
         },
         cell,
         namespace
