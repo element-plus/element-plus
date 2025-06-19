@@ -1,4 +1,4 @@
-import { isVNode, shallowRef } from 'vue'
+import { isVNode, nextTick, shallowRef } from 'vue'
 import { flattedChildren } from '@element-plus/utils'
 
 import type { ComponentInternalInstance, VNode } from 'vue'
@@ -25,11 +25,18 @@ export const useOrderedChildren = <T extends { uid: number }>(
   const children: Record<number, T> = {}
   const orderedChildren = shallowRef<T[]>([])
 
+  // 更新子组件顺序的函数
+  const updateOrder = async () => {
+    await nextTick()
+    orderedChildren.value = getOrderedChildren(vm, childComponentName, children)
+  }
+
   // TODO: split into two functions: addChild and sortChildren
   const addChild = (child: T) => {
     children[child.uid] = child
     orderedChildren.value = getOrderedChildren(vm, childComponentName, children)
   }
+
   const removeChild = (uid: number) => {
     delete children[uid]
     orderedChildren.value = orderedChildren.value.filter(
@@ -37,9 +44,15 @@ export const useOrderedChildren = <T extends { uid: number }>(
     )
   }
 
+  // 手动触发重新排序的方法
+  const sortChildren = () => {
+    updateOrder()
+  }
+
   return {
     children: orderedChildren,
     addChild,
     removeChild,
+    sortChildren,
   }
 }

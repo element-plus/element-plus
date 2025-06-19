@@ -114,6 +114,7 @@ const Tabs = defineComponent({
       children: panes,
       addChild: sortPane,
       removeChild: unregisterPane,
+      sortChildren,
     } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
 
     const nav$ = ref<TabNavInstance>()
@@ -175,6 +176,17 @@ const Tabs = defineComponent({
       await nextTick()
       nav$.value?.scrollToActiveTab()
     })
+
+    // 监听slots变化，触发重新排序
+    watch(
+      () => slots.default?.(),
+      () => {
+        nextTick(() => {
+          sortChildren()
+        })
+      },
+      { flush: 'post' }
+    )
 
     provide(tabsRootContextKey, {
       props,
