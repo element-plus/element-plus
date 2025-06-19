@@ -28,7 +28,7 @@
       @update:model-value="handleSelectCheck"
     />
     <el-radio
-      v-else-if="checkStrictly && !panel.props.selectOnClick"
+      v-else-if="checkStrictly && !panel.selectOnClick"
       :model-value="checkedNodeId"
       :label="node.uid"
       :disabled="isDisabled"
@@ -46,7 +46,11 @@
     </el-icon>
 
     <!-- content -->
-    <node-content @handle-select-check="handleSelectCheck" />
+    <node-content
+      :disabled="isDisabled"
+      :select-on-click="panel.selectOnClick"
+      @handle-select-check="handleSelectCheck"
+    />
     <!-- postfix -->
     <template v-if="!isLeaf">
       <el-icon v-if="node.loading" :class="[ns.is('loading'), ns.e('postfix')]">

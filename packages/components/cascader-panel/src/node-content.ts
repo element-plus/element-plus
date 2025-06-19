@@ -1,7 +1,6 @@
 // @ts-nocheck
-import { Comment, defineComponent, h, inject } from 'vue'
+import { Comment, defineComponent, h } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { VNode } from 'vue'
 
@@ -11,12 +10,21 @@ function isVNodeEmpty(vnodes?: VNode[]) {
 
 export default defineComponent({
   name: 'NodeContent',
-  setup(_, { emit }) {
+  props: {
+    selectOnClick: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  setup(props, { emit }) {
     const ns = useNamespace('cascader-node')
-    const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
     return {
       ns,
-      panel,
+      props,
       emit,
     }
   },
@@ -37,9 +45,7 @@ export default defineComponent({
       {
         class: ns.e('label'),
         onclick: () => {
-          if (!this.panel.props.selectOnClick || this.panel.props.disabled) {
-            return
-          }
+          if (!this.props.selectOnClick || this.props.disabled) return
           this.emit('handleSelectCheck', true)
         },
       },

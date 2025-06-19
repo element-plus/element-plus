@@ -341,7 +341,7 @@ export default defineComponent({
         lazyLoad,
         expandNode,
         handleCheckChange,
-        props: props.props,
+        selectOnClick: props.props.selectOnClick,
       })
     )
 
