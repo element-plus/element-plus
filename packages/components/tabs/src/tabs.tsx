@@ -177,7 +177,6 @@ const Tabs = defineComponent({
       nav$.value?.scrollToActiveTab()
     })
 
-    // 监听slots变化，触发重新排序
     watch(
       () => slots.default?.(),
       () => {

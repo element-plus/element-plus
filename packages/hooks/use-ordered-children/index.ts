@@ -25,7 +25,6 @@ export const useOrderedChildren = <T extends { uid: number }>(
   const children: Record<number, T> = {}
   const orderedChildren = shallowRef<T[]>([])
 
-  // 更新子组件顺序的函数
   const updateOrder = async () => {
     await nextTick()
     orderedChildren.value = getOrderedChildren(vm, childComponentName, children)
@@ -44,7 +43,6 @@ export const useOrderedChildren = <T extends { uid: number }>(
     )
   }
 
-  // 手动触发重新排序的方法
   const sortChildren = () => {
     updateOrder()
   }
