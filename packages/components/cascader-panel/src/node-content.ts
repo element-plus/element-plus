@@ -37,7 +37,7 @@ export default defineComponent({
       {
         class: ns.e('label'),
         onclick: () => {
-          if (!this.panel.props.hideRadio || this.panel.props.disabled) {
+          if (!this.panel.props.selectOnClick || this.panel.props.disabled) {
             return
           }
           this.emit('handleSelectCheck', true)

@@ -145,7 +145,7 @@ export const cascaderProps = buildProps({
     type: Boolean,
     default: true,
   },
-  hideRadio: {
+  selectOnClick: {
     type: Boolean,
     default: false,
   },

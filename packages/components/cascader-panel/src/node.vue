@@ -28,7 +28,7 @@
       @update:model-value="handleSelectCheck"
     />
     <el-radio
-      v-else-if="checkStrictly && !panel.props.hideRadio"
+      v-else-if="checkStrictly && !panel.props.selectOnClick"
       :model-value="checkedNodeId"
       :label="node.uid"
       :disabled="isDisabled"
