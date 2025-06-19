@@ -419,7 +419,7 @@ function useWatcher<T extends DefaultRow>() {
     execSort()
   }
 
-  const clearFilter = (columnKeys: any) => {
+  const clearFilter = (columnKeys?: string[] | string) => {
     const { tableHeaderRef } = instance.refs as TableRefs
     if (!tableHeaderRef) return
     const panels = Object.assign({}, tableHeaderRef.filterPanels)

@@ -1,7 +1,8 @@
-import { Ref, getCurrentInstance, ref, unref } from 'vue'
+import { getCurrentInstance, ref, unref } from 'vue'
 import { isNull } from 'lodash-unified'
 import { getRowIdentity } from '../util'
 
+import type { Ref } from 'vue'
 import type { DefaultRow, Table } from '../table/defaults'
 import type { WatcherPropsData } from '.'
 
