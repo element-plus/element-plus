@@ -145,6 +145,10 @@ export const cascaderProps = buildProps({
     type: Boolean,
     default: true,
   },
+  hideRadio: {
+    type: Boolean,
+    default: false,
+  },
   ...useEmptyValuesProps,
 })
 
