@@ -23,6 +23,7 @@ import type { DefaultRow } from '../table/defaults'
 
 let columnIdSeed = 1
 
+//TODO: when vue 3.3 we can set this component a generic: https://github.com/vuejs/core/pull/7963
 export default defineComponent({
   name: 'ElTableColumn',
   components: {

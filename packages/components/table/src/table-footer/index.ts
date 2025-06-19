@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { defineComponent, h, inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import useLayoutObserver from '../layout-observer'
@@ -6,10 +5,10 @@ import { TABLE_INJECTION_KEY } from '../tokens'
 import useStyle from './style-helper'
 
 import type { Store } from '../store'
-import type { PropType } from 'vue'
-import type { DefaultRow, Sort, SummaryMethod } from '../table/defaults'
+import type { PropType, VNode } from 'vue'
+import type { DefaultRow, Sort, SummaryMethod, Table } from '../table/defaults'
 
-export interface TableFooter<T> {
+export interface TableFooter<T extends DefaultRow> {
   fixed: string
   store: Store<T>
   summaryMethod: SummaryMethod<T>
@@ -46,7 +45,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const parent = inject(TABLE_INJECTION_KEY)
+    const parent = inject(TABLE_INJECTION_KEY) as Table<DefaultRow>
     const ns = useNamespace('table')
     const { getCellClasses, getCellStyles, columns } = useStyle(
       props as TableFooter<DefaultRow>
@@ -66,7 +65,7 @@ export default defineComponent({
     const { columns, getCellStyles, getCellClasses, summaryMethod, sumText } =
       this
     const data = this.store.states.data.value
-    let sums = []
+    let sums: (string | VNode | number)[] = []
     if (summaryMethod) {
       sums = summaryMethod({
         columns,
@@ -75,11 +74,11 @@ export default defineComponent({
     } else {
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = sumText
+          sums[index] = sumText!
           return
         }
         const values = data.map((item) => Number(item[column.property]))
-        const precisions = []
+        const precisions: number[] = []
         let notNumber = true
         values.forEach((value) => {
           if (!Number.isNaN(+value)) {
