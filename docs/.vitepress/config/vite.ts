@@ -16,6 +16,7 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import { MarkdownTransform } from '../plugins/markdown-transform'
+
 import type { Plugin, UserConfig } from 'vitepress'
 
 type ViteConfig = Required<UserConfig>['vite']

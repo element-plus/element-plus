@@ -3,6 +3,7 @@ import { useEventListener } from '@vueuse/core'
 import { isElement, isFocusable, isFunction } from '@element-plus/utils'
 // eslint-disable-next-line no-restricted-imports
 import { useFormDisabled } from '@element-plus/components/form/src/hooks/use-form-common-props' // TODO: remove this
+
 import type { ShallowRef } from 'vue'
 
 interface UseFocusControllerOptions {
