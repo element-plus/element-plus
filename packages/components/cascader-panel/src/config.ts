@@ -80,6 +80,10 @@ export const DefaultProps: CascaderConfig = {
    * @description hover threshold of expanding options
    */
   hoverThreshold: 500,
+  /**
+   * @description Hide radio in single mode
+   */
+  selectOnClick: false,
 }
 
 export const useCascaderConfig = (props: { props: CascaderProps }) => {
