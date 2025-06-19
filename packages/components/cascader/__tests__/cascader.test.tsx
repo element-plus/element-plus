@@ -716,4 +716,55 @@ describe('Cascader.vue', () => {
       expect(prefixSlotEl?.textContent).toBe('-=-prefix-=-')
     })
   })
+  describe('Cascader - tag slot displays top-level labels', () => {
+    it('should render tags with only top-level labels', async () => {
+      const value = ref<string[][]>([])
+      const getTopLevelTags = (data: any[]): any[] => {
+        const set: Set<string> = new Set()
+        for (const datum of data) {
+          let parent = datum.node.parent
+          while (parent && parent.level !== 1) {
+            parent = parent.parent
+          }
+          const label = parent?.data?.label
+          label && set.add(label)
+        }
+        return [...set]
+      }
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          options={OPTIONS}
+          props={{ multiple: true }}
+          clearable
+        >
+          {{
+            tag: ({ data }: any) => {
+              const list = getTopLevelTags(data)
+              return list.map((item: string) => (
+                <ElTag key={item}>{item}</ElTag>
+              ))
+            },
+          }}
+        </Cascader>
+      ))
+      const trigger = wrapper.find(TRIGGER)
+      await trigger.trigger('click')
+      await nextTick()
+      const firstNode = document.querySelector(NODE) as HTMLElement
+      expect(firstNode).not.toBeNull()
+      firstNode.click()
+      await nextTick()
+      value.value = [
+        ['zhejiang', 'hangzhou'],
+        ['zhejiang', 'ningbo'],
+        ['zhejiang', 'wenzhou'],
+      ]
+      await nextTick()
+      await nextTick()
+      const tags = wrapper.findAll('span.el-tag')
+      expect(tags.length).toBe(1)
+      expect(tags[0].text()).toContain('Zhejiang')
+    })
+  })
 })
