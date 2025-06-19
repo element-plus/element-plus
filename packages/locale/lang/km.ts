@@ -106,8 +106,8 @@ export default {
     },
     pagination: {
       goto: 'ទៅកាន់',
-      pagesize: 'ធាតុ/ទំព័រ',
-      total: 'សរុប {total} ធាតុ',
+      pagesize: '/ទំព័រ',
+      total: 'សរុប {total}',
       pageClassifier: 'ទំព័រ',
       page: 'ទំព័រ',
       prev: 'មុន',
@@ -116,7 +116,7 @@ export default {
       prevPages: 'ទៅមុខ {pager} ទំព័រ',
       nextPages: 'ថយក្រោយ {pager} ទំព័រ',
       deprecationWarning:
-        'អ្នកបានប្រើប្រាស់របស់ដែលបានផ្អាកឈប់ប្រើ សូមចូលទៅកាន់ឯកសារផ្លូវការរបស់ el-pagination សម្រាប់ព័ត៌មានលម្អិតបន្ថែម',
+        'អ្នកបានប្រើប្រាស់របស់ដែលបានផ្អាកឈប់ប្រើ សូមចូលទៅកាន់ឯកសារផ្លូវការរបស់ el-pagination សម្រាប់ព័ត៌មានបន្ថែម',
     },
     dialog: {
       close: 'បិទ',
@@ -151,7 +151,7 @@ export default {
     },
     tour: {
       next: 'បន្ទាប់',
-      previous: 'មុន',
+      previous: 'ថយក្រោយ',
       finish: 'បញ្ចប់ការណែនាំ',
     },
     tree: {
