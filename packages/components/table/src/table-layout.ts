@@ -6,7 +6,7 @@ import { parseHeight } from './util'
 import type { Ref } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { TableHeader } from './table-header'
-import type { Table } from './table/defaults'
+import type { DefaultRow, Table } from './table/defaults'
 import type { Store } from './store'
 
 class TableLayout<T extends Record<string, any>> {
@@ -246,10 +246,10 @@ class TableLayout<T extends Record<string, any>> {
     observers.forEach((observer) => {
       switch (event) {
         case 'columns':
-          observer.state?.onColumnsChange(this)
+          observer.state?.onColumnsChange(this as TableLayout<DefaultRow>)
           break
         case 'scrollable':
-          observer.state?.onScrollableChange(this)
+          observer.state?.onScrollableChange(this as TableLayout<DefaultRow>)
           break
         default:
           throw new Error(`Table Layout don't have event ${event}.`)

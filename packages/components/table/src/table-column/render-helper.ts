@@ -113,6 +113,7 @@ function useRender<T extends DefaultRow>(
   }
   const setColumnRenders = (column: TableColumnCtx<T>) => {
     // renderHeader 属性不推荐使用。
+    //@ts-expect-error
     if (props.renderHeader) {
       debugWarn(
         'TableColumn',

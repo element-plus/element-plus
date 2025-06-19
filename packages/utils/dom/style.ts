@@ -11,7 +11,7 @@ const SCOPE = 'utils/dom/style'
 export const classNameToArray = (cls = '') =>
   cls.split(' ').filter((item) => !!item.trim())
 
-export const hasClass = (el: Element, cls: string): boolean => {
+export const hasClass = (el: Element | null, cls: string): boolean => {
   if (!el || !cls) return false
   if (cls.includes(' ')) throw new Error('className should not contain space.')
   return el.classList.contains(cls)

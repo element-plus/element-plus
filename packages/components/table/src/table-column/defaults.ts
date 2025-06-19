@@ -4,8 +4,14 @@ import type {
   TableOverflowTooltipFormatter,
   TableOverflowTooltipOptions,
 } from '../util'
+import type { Store } from '../store'
 
-type CI<T extends DefaultRow> = { column: TableColumnCtx<T>; $index: number }
+type CI<T extends DefaultRow> = {
+  column: TableColumnCtx<T>
+  $index: number
+  store: Store<T>
+  _self: any
+}
 
 type Filters = {
   text: string
@@ -65,7 +71,7 @@ interface TableColumnCtx<T extends DefaultRow> {
   children?: TableColumnCtx<T>[]
   level: number
   filterable: boolean | FilterMethods<T> | Filters
-  order: string | null
+  order: TableSortOrder | null
   isColumnGroup: boolean
   isSubColumn: boolean
   columns: TableColumnCtx<T>[]

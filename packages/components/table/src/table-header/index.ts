@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   defineComponent,
   getCurrentInstance,
@@ -15,6 +14,7 @@ import { useNamespace } from '@element-plus/hooks'
 import FilterPanel from '../filter-panel.vue'
 import useLayoutObserver from '../layout-observer'
 import { TABLE_INJECTION_KEY } from '../tokens'
+import TableLayout from '../table-layout'
 import useEvent from './event-helper'
 import useStyle from './style.helper'
 import useUtils from './utils-helper'
@@ -25,12 +25,12 @@ import type { Store } from '../store'
 
 export interface TableHeader extends ComponentInternalInstance {
   state: {
-    onColumnsChange
-    onScrollableChange
+    onColumnsChange: (layout: TableLayout<DefaultRow>) => void
+    onScrollableChange: (layout: TableLayout<DefaultRow>) => void
   }
   filterPanels: Ref<DefaultRow>
 }
-export interface TableHeaderProps<T> {
+export interface TableHeaderProps<T extends DefaultRow> {
   fixed: string
   store: Store<T>
   border: boolean
@@ -117,15 +117,15 @@ export default defineComponent({
       handleMouseOut,
       handleSortClick,
       handleFilterClick,
-    } = useEvent(props as TableHeaderProps<unknown>, emit)
+    } = useEvent(props as TableHeaderProps<DefaultRow>, emit)
     const {
       getHeaderRowStyle,
       getHeaderRowClass,
       getHeaderCellStyle,
       getHeaderCellClass,
-    } = useStyle(props as TableHeaderProps<unknown>)
+    } = useStyle(props as TableHeaderProps<DefaultRow>)
     const { isGroup, toggleAllSelection, columnRows } = useUtils(
-      props as TableHeaderProps<unknown>
+      props as TableHeaderProps<DefaultRow>
     )
 
     instance.state = {
@@ -220,16 +220,22 @@ export default defineComponent({
                   subColumns,
                   column
                 ),
-                onClick: ($event) => {
-                  if ($event.currentTarget.classList.contains('noclick')) {
+                onClick: ($event: MouseEvent) => {
+                  if (
+                    ($event.currentTarget as Element)?.classList.contains(
+                      'noclick'
+                    )
+                  ) {
                     return
                   }
                   handleHeaderClick($event, column)
                 },
-                onContextmenu: ($event) =>
+                onContextmenu: ($event: MouseEvent) =>
                   handleHeaderContextMenu($event, column),
-                onMousedown: ($event) => handleMouseDown($event, column),
-                onMousemove: ($event) => handleMouseMove($event, column),
+                onMousedown: ($event: MouseEvent) =>
+                  handleMouseDown($event, column),
+                onMousemove: ($event: MouseEvent) =>
+                  handleMouseMove($event, column),
                 onMouseout: handleMouseOut,
               },
               [
@@ -256,17 +262,18 @@ export default defineComponent({
                       h(
                         'span',
                         {
-                          onClick: ($event) => handleSortClick($event, column),
+                          onClick: ($event: Event) =>
+                            handleSortClick($event, column),
                           class: 'caret-wrapper',
                         },
                         [
                           h('i', {
-                            onClick: ($event) =>
+                            onClick: ($event: Event) =>
                               handleSortClick($event, column, 'ascending'),
                             class: 'sort-caret ascending',
                           }),
                           h('i', {
-                            onClick: ($event) =>
+                            onClick: ($event: Event) =>
                               handleSortClick($event, column, 'descending'),
                             class: 'sort-caret descending',
                           }),
@@ -274,13 +281,13 @@ export default defineComponent({
                       ),
                     column.filterable &&
                       h(
-                        FilterPanel,
+                        FilterPanel as any,
                         {
                           store,
                           placement: column.filterPlacement || 'bottom-start',
-                          appendTo: $parent.appendFilterPanelTo,
+                          appendTo: ($parent as any)?.appendFilterPanelTo,
                           column,
-                          upDataColumn: (key, value) => {
+                          upDataColumn: (key: never, value: never) => {
                             column[key] = value
                           },
                         },
