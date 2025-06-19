@@ -110,7 +110,11 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
       if (cell.rowSpan > 1) {
         toggleRowClassByCell(cell.rowSpan, event, addClass)
       }
-      const hoverState = (table.hoverState = { cell, column: null, row })
+      const hoverState = (table.hoverState = {
+        cell,
+        column: column as any,
+        row,
+      })
       table?.emit(
         'cell-mouse-enter',
         hoverState.row,

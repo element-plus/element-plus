@@ -135,7 +135,7 @@ function useTree<T extends Record<string, any>(watcherData: WatcherPropsData<T>)
               loading: !!loading,
               expanded: getExpanded(oldValue, key),
               children: lazyNodeChildren,
-              //level: '',
+              level: undefined,
             }
           }
         })

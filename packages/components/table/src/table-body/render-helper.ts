@@ -230,7 +230,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
           if (!(children && children.length && parent)) return
           children.forEach((node) => {
             // 父节点的 display 状态影响子节点的显示状态
-            const innerTreeRowData = {
+            const innerTreeRowData: Partial<Record<string, any>> = {
               display: parent.display && parent.expanded,
               level: parent.level! + 1,
               expanded: false,
@@ -246,7 +246,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
             // 如果包含子节点的，设置 expanded 属性。
             // 对于它子节点的 display 属性由它本身的 expanded 与 display 共同决定。
             if (cur) {
-              innerTreeRowData.expanded = !!cur.expanded
+              innerTreeRowData.expanded = cur.expanded
               // 懒加载的某些节点，level 未知
               cur.level = cur.level || innerTreeRowData.level
               cur.display = !!(cur.expanded && innerTreeRowData.display)
@@ -256,7 +256,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
                     cur.children && cur.children.length
                   )
                 }
-                innerTreeRowData.loading = !!cur.loading
+                innerTreeRowData.loading = cur.loading
               }
             }
             i++
