@@ -90,7 +90,7 @@ export const orderBy = function <T extends DefaultRow>(
             }
           })
         }
-        if (sortBy !== '$key') {
+        if (sortKey !== '$key') {
           if (isObject(value) && '$value' in value) value = value.$value
         }
         return [isObject(value) ? get(value, sortKey!) : value]
@@ -472,8 +472,8 @@ export function createTablePopper<T extends DefaultRow>(
   if (removePopper?.trigger === trigger) {
     const comp = removePopper.vm?.component
     merge(comp?.props, mergedProps)
-    if (tableOverflowTooltipProps.slotContent) {
-      comp!.slots.content = () => [tableOverflowTooltipProps.slotContent]
+    if (comp && tableOverflowTooltipProps.slotContent) {
+      comp.slots.content = () => [tableOverflowTooltipProps.slotContent]
     }
     return
   }

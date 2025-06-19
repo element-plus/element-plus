@@ -12,7 +12,6 @@ import { debugWarn, isArray, isUndefined } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   cellForced,
-  cellStarts,
   defaultRenderCell,
   getDefaultClassName,
   treeCellPrefix,
@@ -81,7 +80,7 @@ function useRender<T extends DefaultRow>(
   }
   const setColumnForcedProps = (column: TableColumnCtx<T>) => {
     // 对于特定类型的 column，某些属性不允许设置
-    const type = column.type as keyof typeof cellStarts
+    const type = column.type
     const source = (cellForced as any)[type] || {}
     Object.keys(source).forEach((prop) => {
       const value = source[prop]

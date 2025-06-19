@@ -220,7 +220,7 @@ export default defineComponent({
                   subColumns,
                   column
                 ),
-                onClick: ($event: MouseEvent) => {
+                onClick: ($event: Event) => {
                   if (
                     ($event.currentTarget as Element)?.classList.contains(
                       'noclick'

@@ -38,8 +38,8 @@ export const cellStarts = {
   },
 }
 
-export const getDefaultClassName = (type: keyof typeof defaultClassNames) => {
-  return defaultClassNames[type] || ''
+export const getDefaultClassName = (type: string) => {
+  return defaultClassNames[type as keyof typeof defaultClassNames] || ''
 }
 
 // 这些选项不应该被覆盖

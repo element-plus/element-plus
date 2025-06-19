@@ -1,6 +1,5 @@
 import {
   Fragment,
-  VNode,
   computed,
   defineComponent,
   getCurrentInstance,
@@ -18,6 +17,7 @@ import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 import defaultProps from './defaults'
 
+import type { VNode } from 'vue'
 import type { TableColumn, TableColumnCtx } from './defaults'
 import type { DefaultRow } from '../table/defaults'
 
@@ -135,7 +135,7 @@ export default defineComponent({
         setColumnWidth,
         setColumnForcedProps
       )
-      column = chains(column) as any
+      column = chains(column) as unknown as TableColumnCtx<DefaultRow>
       columnConfig.value = column
 
       // 注册 watcher

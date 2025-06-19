@@ -1,6 +1,7 @@
 import type { Store } from '../store'
+import type { DefaultRow } from './defaults'
 
-function useUtils<T extends Record<string, any>>(store: Store<T>) {
+function useUtils<T extends DefaultRow>(store: Store<T>) {
   const setCurrentRow = (row: T) => {
     store.commit('setCurrentRow', row)
   }

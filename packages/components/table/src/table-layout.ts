@@ -103,9 +103,9 @@ class TableLayout<T extends Record<string, any>> {
   }
 
   getFlattenColumns(): TableColumnCtx<T>[] {
-    const flattenColumns: any[] = []
+    const flattenColumns: TableColumnCtx<T>[] = []
     const columns = this.table.store.states.columns.value
-    columns.forEach((column: any) => {
+    columns.forEach((column) => {
       if (column.isColumnGroup) {
         // eslint-disable-next-line prefer-spread
         flattenColumns.push.apply(flattenColumns, column.columns)
@@ -211,7 +211,7 @@ class TableLayout<T extends Record<string, any>> {
 
     if (fixedColumns.length > 0) {
       let fixedWidth = 0
-      fixedColumns.forEach((column: any) => {
+      fixedColumns.forEach((column) => {
         fixedWidth += Number(column.realWidth || column.width)
       })
 
@@ -221,7 +221,7 @@ class TableLayout<T extends Record<string, any>> {
     const rightFixedColumns = this.store.states.rightFixedColumns.value
     if (rightFixedColumns.length > 0) {
       let rightFixedWidth = 0
-      rightFixedColumns.forEach((column: any) => {
+      rightFixedColumns.forEach((column) => {
         rightFixedWidth += Number(column.realWidth || column.width)
       })
 

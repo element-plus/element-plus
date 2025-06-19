@@ -65,7 +65,7 @@ export default defineComponent({
     const { columns, getCellStyles, getCellClasses, summaryMethod, sumText } =
       this
     const data = this.store.states.data.value
-    let sums: (string | VNode | number)[] = []
+    let sums: (string | VNode | number | undefined)[] = []
     if (summaryMethod) {
       sums = summaryMethod({
         columns,
@@ -74,7 +74,7 @@ export default defineComponent({
     } else {
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = sumText!
+          sums[index] = sumText
           return
         }
         const values = data.map((item) => Number(item[column.property]))

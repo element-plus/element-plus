@@ -8,6 +8,7 @@ import type {
   VNode,
 } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
+import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
@@ -45,11 +46,11 @@ interface TreeProps {
   checkStrictly?: boolean
 }
 
-type HoverState<T extends DefaultRow> = {
-  cell: HTMLElement | null
-  column: TableColumnCtx<T> | null
-  row: T | null
-}
+type HoverState<T extends DefaultRow> = Nullable<{
+  cell: HTMLElement
+  column: TableColumnCtx<T>
+  row: T
+}>
 
 type RIS<T extends DefaultRow> = {
   row: T

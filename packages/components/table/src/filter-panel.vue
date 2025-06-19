@@ -175,7 +175,7 @@ export default defineComponent({
         if (props.column) {
           return props.column.filteredValue || []
         }
-        return [] as string[]
+        return []
       },
       set(value: string[]) {
         if (props.column) {
