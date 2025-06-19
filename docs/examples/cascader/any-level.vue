@@ -7,6 +7,10 @@
     <p>Select any level of options (Multiple selection)</p>
     <el-cascader :options="options" :props="props2" clearable />
   </div>
+  <div class="m-4">
+    <p>Click any level to select (Single selection)</p>
+    <el-cascader :options="options" :props="props3" clearable />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -19,6 +23,10 @@ const props2 = {
   checkStrictly: true,
 }
 
+const props3 = {
+  checkStrictly: true,
+  selectOnClick: true,
+}
 const options = [
   {
     value: 'guide',
