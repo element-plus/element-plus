@@ -1,4 +1,5 @@
 import { buildProps } from '@element-plus/utils'
+
 import type SkeletonItem from './skeleton-item.vue'
 import type { ExtractPropTypes } from 'vue'
 
@@ -24,4 +25,4 @@ export const skeletonItemProps = buildProps({
 } as const)
 export type SkeletonItemProps = ExtractPropTypes<typeof skeletonItemProps>
 
-export type SkeletonItemInstance = InstanceType<typeof SkeletonItem>
+export type SkeletonItemInstance = InstanceType<typeof SkeletonItem> & unknown

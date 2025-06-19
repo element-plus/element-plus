@@ -2,10 +2,10 @@ import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import { Loading, Search } from '@element-plus/icons-vue'
-
 import Form from '@element-plus/components/form'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
+
 import type { ComponentSize } from '@element-plus/constants'
 
 const AXIOM = 'Rem is the best girl'
@@ -299,5 +299,34 @@ describe('Button Group', () => {
     })
     const btn = wrapper.findComponent(Button)
     expect(btn.classes()).toContain('el-button--small')
+  })
+
+  it('use custom tag disabled click not triggered', async () => {
+    const isLoaing = ref(false)
+    const isDisabled = ref(false)
+    const wrapper = mount(() => (
+      <div>
+        <Button
+          tag="div"
+          loading={isLoaing.value}
+          disabled={isDisabled.value}
+        ></Button>
+      </div>
+    ))
+    const btn = wrapper.findComponent(Button)
+    isDisabled.value = true
+    await nextTick()
+    await btn.trigger('click')
+    expect(wrapper.emitted('click')).toBeUndefined()
+    isLoaing.value = true
+    isDisabled.value = false
+    await nextTick()
+    await btn.trigger('click')
+    expect(wrapper.emitted('click')).toBeUndefined()
+    isLoaing.value = false
+    isDisabled.value = false
+    await nextTick()
+    await btn.trigger('click')
+    expect(wrapper.emitted('click')).toHaveLength(1)
   })
 })

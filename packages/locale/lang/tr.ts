@@ -1,6 +1,9 @@
 export default {
   name: 'tr',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Onayla',
       clear: 'Temizle',
@@ -65,6 +68,9 @@ export default {
       noData: 'Veri yok',
       placeholder: 'Seç',
     },
+    mention: {
+      loading: 'Yükleniyor',
+    },
     cascader: {
       noMatch: 'Eşleşen veri bulunamadı',
       loading: 'Yükleniyor',
@@ -122,6 +128,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Evet',
       cancelButtonText: 'Hayır',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

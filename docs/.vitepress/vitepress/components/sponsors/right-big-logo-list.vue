@@ -9,7 +9,7 @@ const onItemClick = (item: any) => {
 </script>
 
 <template>
-  <div class="m-t-16px">
+  <div class="right-big">
     <a
       v-for="item in rightBigLogoSponsors"
       :key="item.name"
@@ -31,3 +31,9 @@ const onItemClick = (item: any) => {
     </a>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.right-big {
+  margin-top: 16px;
+}
+</style>

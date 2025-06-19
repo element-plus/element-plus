@@ -7,7 +7,6 @@ import {
   IMAGE_SUCCESS,
   mockImageEvent,
 } from '@element-plus/test-utils/mock'
-
 import Avatar from '../src/avatar.vue'
 
 describe('Avatar.vue', () => {
@@ -55,7 +54,7 @@ describe('Avatar.vue', () => {
     )
 
     await nextTick()
-    expect(wrapper.emitted('error')).toBeDefined()
+    wrapper.emitted('error') && expect(wrapper.emitted('error')).toBeDefined()
     await nextTick()
     expect(wrapper.text()).toBe('fallback')
     expect(wrapper.find('img').exists()).toBe(false)

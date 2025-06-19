@@ -2,6 +2,7 @@
   <div class="demo-time-range">
     <el-time-select
       v-model="startTime"
+      style="width: 240px"
       :max-time="endTime"
       class="mr-4"
       placeholder="Start time"
@@ -11,6 +12,7 @@
     />
     <el-time-select
       v-model="endTime"
+      style="width: 240px"
       :min-time="startTime"
       placeholder="End time"
       start="08:30"

@@ -9,6 +9,7 @@
   display: inline-flex;
   width: map.get($input-number-width, 'default');
   line-height: #{map.get($input-height, 'default') - 2};
+  vertical-align: middle;
 
   .#{$namespace}-input {
     &__wrapper {
@@ -19,13 +20,13 @@
     &__inner {
       -webkit-appearance: none;
       -moz-appearance: textfield;
+      text-align: center;
+      line-height: 1;
       &::-webkit-inner-spin-button,
       &::-webkit-outer-spin-button {
         margin: 0;
         -webkit-appearance: none;
       }
-      text-align: center;
-      line-height: 1;
     }
   }
 
@@ -102,9 +103,19 @@
         font-size: map.get($input-font-size, $size);
       }
 
-      .#{$namespace}-input__wrapper {
-        padding-left: #{map.get($input-height, $size) + 7};
-        padding-right: #{map.get($input-height, $size) + 7};
+      @include when(controls-right) {
+        .#{$namespace}-input--#{$size} {
+          .#{$namespace}-input__wrapper {
+            padding-right: #{map.get($input-height, $size) + 7};
+          }
+        }
+      }
+
+      .#{$namespace}-input--#{$size} {
+        .#{$namespace}-input__wrapper {
+          padding-left: #{map.get($input-height, $size) + 7};
+          padding-right: #{map.get($input-height, $size) + 7};
+        }
       }
     }
   }

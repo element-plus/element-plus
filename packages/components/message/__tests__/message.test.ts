@@ -5,6 +5,8 @@ import { rAF } from '@element-plus/test-utils/tick'
 import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import Message from '../src/message.vue'
+import { messageTypes } from '../src/message'
+
 import type { CSSProperties, Component, ComponentPublicInstance } from 'vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -76,7 +78,7 @@ describe('Message.vue', () => {
 
   describe('Message.type', () => {
     test('should be able to render typed messages', () => {
-      for (const type of ['success', 'warning', 'info', 'error'] as const) {
+      for (const type of messageTypes) {
         const wrapper = _mount({ props: { type } })
 
         expect(wrapper.findComponent(TypeComponentsMap[type]).exists()).toBe(

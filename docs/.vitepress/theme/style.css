@@ -64,3 +64,6 @@
     transform: rotate(1turn);
   }
 }
+.doc-content .header-anchor:before {
+  content: '#';
+}

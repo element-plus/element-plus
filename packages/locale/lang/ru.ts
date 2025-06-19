@@ -1,8 +1,11 @@
 export default {
   name: 'ru',
   el: {
+    breadcrumb: {
+      label: 'Хлебные крошки',
+    },
     colorpicker: {
-      confirm: 'OK',
+      confirm: 'Ок',
       clear: 'Очистить',
     },
     datepicker: {
@@ -10,7 +13,7 @@ export default {
       today: 'Сегодня',
       cancel: 'Отмена',
       clear: 'Очистить',
-      confirm: 'OK',
+      confirm: 'Ок',
       selectDate: 'Выбрать дату',
       selectTime: 'Выбрать время',
       startDate: 'Дата начала',
@@ -65,6 +68,9 @@ export default {
       noData: 'Нет данных',
       placeholder: 'Выбрать',
     },
+    mention: {
+      loading: 'Загрузка',
+    },
     cascader: {
       noMatch: 'Совпадений не найдено',
       loading: 'Загрузка',
@@ -76,16 +82,16 @@ export default {
       pagesize: ' на странице',
       total: 'Всего {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Страница',
+      prev: 'Перейти на предыдущую страницу',
+      next: 'Перейти на следующую страницу',
+      currentPage: 'страница {pager}',
+      prevPages: 'Предыдущие {pager} страниц',
+      nextPages: 'Следующие {pager} страниц',
     },
     messagebox: {
       title: 'Сообщение',
-      confirm: 'OK',
+      confirm: 'Ок',
       cancel: 'Отмена',
       error: 'Недопустимый ввод данных',
     },
@@ -97,10 +103,15 @@ export default {
     },
     table: {
       emptyText: 'Нет данных',
-      confirmFilter: 'Подтвердить',
+      confirmFilter: 'Ок',
       resetFilter: 'Сбросить',
       clearFilter: 'Все',
       sumText: 'Сумма',
+    },
+    tour: {
+      next: 'Далее',
+      previous: 'Назад',
+      finish: 'Завершить',
     },
     tree: {
       emptyText: 'Нет данных',
@@ -114,14 +125,19 @@ export default {
       hasCheckedFormat: '{checked}/{total} выбрано',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'ОШИБКА',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Назад',
     },
     popconfirm: {
-      confirmButtonText: 'OK',
+      confirmButtonText: 'Ок',
       cancelButtonText: 'Отмена',
+    },
+    carousel: {
+      leftArrow: 'Слайдер стрелка влево',
+      rightArrow: 'Слайдер стрелка вправо',
+      indicator: 'Слайдер перейти на страницу под номером {index}',
     },
   },
 }

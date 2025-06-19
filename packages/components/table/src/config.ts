@@ -3,7 +3,7 @@ import { h } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowRight, Loading } from '@element-plus/icons-vue'
-import { getProp } from '@element-plus/utils'
+import { getProp, isBoolean, isFunction, isNumber } from '@element-plus/utils'
 
 import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
@@ -102,9 +102,9 @@ export const cellForced = {
       let i = $index + 1
       const index = column.index
 
-      if (typeof index === 'number') {
+      if (isNumber(index)) {
         i = $index + index
-      } else if (typeof index === 'function') {
+      } else if (isFunction(index)) {
         i = index($index)
       }
       return h('div', {}, [i])
@@ -116,17 +116,20 @@ export const cellForced = {
       return column.label || ''
     },
     renderCell<T>({
+      column,
       row,
       store,
       expanded,
     }: {
+      column: TableColumnCtx<T>
       row: T
       store: Store<T>
       expanded: boolean
     }) {
       const { ns } = store
       const classes = [ns.e('expand-icon')]
-      if (expanded) {
+
+      if (!column.renderExpand && expanded) {
         classes.push(ns.em('expand-icon', 'expanded'))
       }
       const callback = function (e: Event) {
@@ -141,6 +144,14 @@ export const cellForced = {
         },
         {
           default: () => {
+            if (column.renderExpand) {
+              return [
+                column.renderExpand({
+                  expanded,
+                }),
+              ]
+            }
+
             return [
               h(ElIcon, null, {
                 default: () => {
@@ -213,7 +224,7 @@ export function treeCellPrefix<T>(
       })
     )
   }
-  if (typeof treeNode.expanded === 'boolean' && !treeNode.noLazyChildren) {
+  if (isBoolean(treeNode.expanded) && !treeNode.noLazyChildren) {
     const expandClasses = [
       ns.e('expand-icon'),
       treeNode.expanded ? ns.em('expand-icon', 'expanded') : '',

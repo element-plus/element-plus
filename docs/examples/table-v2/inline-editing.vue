@@ -15,7 +15,7 @@
 </template>
 
 <script lang="tsx" setup>
-import { ref } from 'vue'
+import { ref, withKeys } from 'vue'
 import { ElInput } from 'element-plus'
 
 import type { FunctionalComponent } from 'vue'
@@ -25,16 +25,26 @@ type SelectionCellProps = {
   value: string
   intermediate?: boolean
   onChange: (value: string) => void
+  onBlur: () => void
+  onKeydownEnter: () => void
   forwardRef: (el: InputInstance) => void
 }
 
 const InputCell: FunctionalComponent<SelectionCellProps> = ({
   value,
   onChange,
+  onBlur,
+  onKeydownEnter,
   forwardRef,
 }) => {
   return (
-    <ElInput ref={forwardRef as any} onInput={onChange} modelValue={value} />
+    <ElInput
+      ref={forwardRef as any}
+      onInput={onChange}
+      onBlur={onBlur}
+      onKeydown={withKeys(onKeydownEnter, ['enter'])}
+      modelValue={value}
+    />
   )
 }
 

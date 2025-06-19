@@ -1,11 +1,13 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 
 import type { ExtractPropTypes } from 'vue'
 import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
 import type { MessageConfigContext } from '@element-plus/components/message'
+import type { LinkConfigContext } from '@element-plus/components/link'
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type ExperimentalFeatures = {
   // TO BE Defined
 }
@@ -33,6 +35,12 @@ export const configProviderProps = buildProps({
    */
   button: {
     type: definePropType<ButtonConfigContext>(Object),
+  },
+  /**
+   * @description link related configuration, [see the following table](link-attributes)
+   */
+  link: {
+    type: definePropType<LinkConfigContext>(Object),
   },
   /**
    * @description features at experimental stage to be added, all features are default to be set to false                                                                                | ^[object]
@@ -64,5 +72,6 @@ export const configProviderProps = buildProps({
     type: String,
     default: 'el',
   },
+  ...useEmptyValuesProps,
 } as const)
 export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>

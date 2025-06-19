@@ -22,10 +22,11 @@
       :gpu-acceleration="gpuAcceleration"
       :offset="offset"
       :persistent="persistent"
-      :popper-class="popperClass"
+      :popper-class="kls"
       :popper-style="popperStyle"
       :placement="placement"
       :popper-options="popperOptions"
+      :arrow-offset="arrowOffset"
       :pure="pure"
       :raw-content="rawContent"
       :reference-el="referenceEl"
@@ -42,7 +43,7 @@
         <span v-if="rawContent" v-html="content" />
         <span v-else>{{ content }}</span>
       </slot>
-      <el-popper-arrow v-if="showArrow" :arrow-offset="arrowOffset" />
+      <el-popper-arrow v-if="showArrow" />
     </el-tooltip-content>
   </el-popper>
 </template>
@@ -59,17 +60,19 @@ import {
   watch,
 } from 'vue'
 import { ElPopper, ElPopperArrow } from '@element-plus/components/popper'
-
 import { isBoolean } from '@element-plus/utils'
 import {
   useDelayedToggle,
   useId,
+  useNamespace,
   usePopperContainer,
 } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
+
+import type { TooltipContentInstance } from './content'
 import type { PopperInstance } from '@element-plus/components/popper'
 
 defineOptions({
@@ -81,10 +84,10 @@ const emit = defineEmits(tooltipEmits)
 
 usePopperContainer()
 
+const ns = useNamespace('tooltip')
 const id = useId()
 const popperRef = ref<PopperInstance>()
-// TODO any is temporary, replace with `TooltipContentInstance` later
-const contentRef = ref<any>()
+const contentRef = ref<TooltipContentInstance>()
 
 const updatePopper = () => {
   const popperComponent = unref(popperRef)
@@ -111,6 +114,10 @@ const { onOpen, onClose } = useDelayedToggle({
 const controlled = computed(
   () => isBoolean(props.visible) && !hasUpdateHandler.value
 )
+
+const kls = computed(() => {
+  return [ns.b(), props.popperClass!]
+})
 
 provide(TOOLTIP_INJECTION_KEY, {
   controlled,
@@ -155,11 +162,7 @@ watch(
 )
 
 const isFocusInsideContent = (event?: FocusEvent) => {
-  const popperContent: HTMLElement | undefined =
-    contentRef.value?.contentRef?.popperContentRef
-  const activeElement = (event?.relatedTarget as Node) || document.activeElement
-
-  return popperContent && popperContent.contains(activeElement)
+  return contentRef.value?.isFocusInsideContent(event)
 }
 
 onDeactivated(() => open.value && hide())

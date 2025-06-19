@@ -1,5 +1,6 @@
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { buildProps, isNumber } from '@element-plus/utils'
+
 import type Steps from './steps.vue'
 import type { ExtractPropTypes } from 'vue'
 
@@ -63,4 +64,4 @@ export const stepsEmits = {
 }
 export type StepsEmits = typeof stepsEmits
 
-export type StepsInstance = InstanceType<typeof Steps>
+export type StepsInstance = InstanceType<typeof Steps> & unknown

@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="value" placeholder="Select">
+  <el-select v-model="value" placeholder="Select" style="width: 240px">
     <el-option
       v-for="item in cities"
       :key="item.value"
@@ -81,7 +81,7 @@ const clear = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style>
 .option-input {
   width: 100%;
   margin-bottom: 8px;

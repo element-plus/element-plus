@@ -1,6 +1,7 @@
 <template>
   <el-tag size="small" effect="plain" hit round class="ml-2">a11y</el-tag>
 </template>
+
 <style scoped>
 .el-tag {
   color: #6222c2;

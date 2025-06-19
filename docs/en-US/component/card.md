@@ -31,7 +31,7 @@ card/simple
 
 Display richer content by adding some configs.
 
-:::demo The `body-style` attribute defines CSS style of custom `body`. This example also uses `el-col` for layout.
+:::demo The `body-style` attribute defines CSS style of custom `body`.
 
 card/with-images
 
@@ -48,15 +48,18 @@ card/shadow
 :::
 
 ## API
+
 ### Attributes
 
-| Name                 | Description                                                   | Type                              | Default |
-| -------------------- | ------------------------------------------------------------- | --------------------------------- | ------- |
-| header               | title of the card. Also accepts a DOM passed by `slot#header` | ^[string]                         | —       |
-| footer ^(2.4.3)      | footer of the card. Also accepts a DOM passed by `slot#footer`| ^[string]                         | —       |
-| body-style           | CSS style of card body                                        | ^[object]`CSSProperties`          | —       |
-| body-class ^(2.3.10) | custom class name of card body                                | ^[string]                         | —       |
-| shadow               | when to show card shadows                                     | ^[enum]`always \| never \| hover` | always  |
+| Name                  | Description                                                    | Type                              | Default |
+| --------------------- | -------------------------------------------------------------- | --------------------------------- | ------- |
+| header                | title of the card. Also accepts a DOM passed by `slot#header`  | ^[string]                         | —       |
+| footer ^(2.4.3)       | footer of the card. Also accepts a DOM passed by `slot#footer` | ^[string]                         | —       |
+| body-style            | CSS style of card body                                         | ^[object]`CSSProperties`          | —       |
+| header-class ^(2.9.8) | custom class name of card header                               | ^[string]                         | —       |
+| body-class ^(2.3.10)  | custom class name of card body                                 | ^[string]                         | —       |
+| footer-class ^(2.9.8) | custom class name of card footer                               | ^[string]                         | —       |
+| shadow                | when to show card shadows                                      | ^[enum]`always \| never \| hover` | always  |
 
 ### Slots
 

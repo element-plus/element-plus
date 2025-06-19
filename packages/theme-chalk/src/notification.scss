@@ -21,7 +21,7 @@
     left getCssVar('transition-duration'),
     right getCssVar('transition-duration'), top 0.4s,
     bottom getCssVar('transition-duration');
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   overflow: hidden;
   z-index: 9999;
 
@@ -34,6 +34,8 @@
   }
 
   @include e(group) {
+    flex: 1;
+    min-width: 0;
     margin-left: getCssVar('notification-group-margin-left');
     margin-right: getCssVar('notification-group-margin-right');
   }
@@ -51,7 +53,6 @@
     line-height: 24px;
     margin: 6px 0 0;
     color: getCssVar('notification-content-color');
-    text-align: justify;
 
     p {
       margin: 0;
@@ -59,6 +60,7 @@
   }
 
   & .#{$namespace}-notification__icon {
+    flex-shrink: 0;
     height: getCssVar('notification-icon-size');
     width: getCssVar('notification-icon-size');
     font-size: getCssVar('notification-icon-size');
@@ -77,7 +79,7 @@
     }
   }
 
-  @each $type in (success, info, warning, error) {
+  @each $type in (primary, success, info, warning, error) {
     & .#{$namespace}-notification--#{$type} {
       @include css-var-from-global(
         ('notification', 'icon-color'),

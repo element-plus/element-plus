@@ -12,7 +12,7 @@
   >
     <tbody ref="tbodyRef">
       <tr>
-        <th v-if="showWeekNumber" scope="col">{{ weekLabel }}</th>
+        <th v-if="showWeekNumber" scope="col" :class="weekHeaderClass" />
         <th
           v-for="(week, key) in WEEKS"
           :key="key"
@@ -30,7 +30,7 @@
         <td
           v-for="(cell, columnKey) in row"
           :key="`${rowKey}.${columnKey}`"
-          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
+          :ref="(el) => !isUnmounting && isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
           :class="getCellClasses(cell)"
           :aria-current="cell.isCurrent ? 'date' : undefined"
           :aria-selected="cell.isCurrent"
@@ -45,6 +45,7 @@
 </template>
 
 <script lang="ts" setup>
+import { onBeforeUnmount } from 'vue'
 import {
   basicDateTableEmits,
   basicDateTableProps,
@@ -75,11 +76,16 @@ const {
   handleMouseMove,
   handleFocus,
 } = useBasicDateTable(props, emit)
-const { tableLabel, tableKls, weekLabel, getCellClasses, getRowKls, t } =
+const { tableLabel, tableKls, getCellClasses, getRowKls, weekHeaderClass, t } =
   useBasicDateTableDOM(props, {
     isCurrent,
     isWeekActive,
   })
+let isUnmounting = false
+
+onBeforeUnmount(() => {
+  isUnmounting = true
+})
 
 defineExpose({
   /**

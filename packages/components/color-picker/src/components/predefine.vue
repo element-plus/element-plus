@@ -6,7 +6,7 @@
         :key="colors[index]"
         :class="[
           ns.e('color-selector'),
-          ns.is('alpha', item._alpha < 100),
+          ns.is('alpha', item.get('alpha') < 100),
           { selected: item.selected },
         ]"
         @click="handleSelect(index)"
@@ -35,6 +35,10 @@ export default defineComponent({
       type: Object as PropType<Color>,
       required: true,
     },
+    enableAlpha: {
+      type: Boolean,
+      required: true,
+    },
   },
   setup(props) {
     const ns = useNamespace('color-predefine')
@@ -47,8 +51,9 @@ export default defineComponent({
     watch(
       () => currentColor.value,
       (val) => {
-        const color = new Color()
-        color.fromString(val)
+        const color = new Color({
+          value: val,
+        })
 
         rgbaColors.value.forEach((item) => {
           item.selected = color.compare(item)
@@ -66,11 +71,10 @@ export default defineComponent({
 
     function parseColors(colors: string[], color: Color) {
       return colors.map((value) => {
-        const c = new Color()
-        c.enableAlpha = true
-        c.format = 'rgba'
-        c.fromString(value)
-        c.selected = c.value === color.value
+        const c = new Color({
+          value,
+        })
+        c.selected = c.compare(color)
         return c
       })
     }

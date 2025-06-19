@@ -4,12 +4,12 @@ import { isClient } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import resourceLocale from '../../../i18n/pages/resource.json'
 import { sendEvent } from '../../../config/analytics'
-
 import AxureComponentsSvg from './resources/axure-components-svg.vue'
 import SketchTemplateSvg from './resources/sketch-template-svg.vue'
 import FigmaTemplateSvg from './resources/figma-template-svg.vue'
 import FigmaVariablesSvg from './resources/figma-variables-svg.vue'
 import FigmaUiKitSvg from './resources/figma-ui-kit-svg.vue'
+import MasterGoUiKitSvg from './resources/master-go-ui-kit-svg.vue'
 
 const mirrorUrl = 'element-plus.gitee.io'
 const isMirrorUrl = () => {
@@ -39,27 +39,18 @@ const onClick = (item: string) => {
 
 const resourceCards = computed(() => [
   {
-    key: 'axure',
-    title: resourceLang.value.axure,
-    description: 'Axure RP 9.0',
-    icon: AxureComponentsSvg,
-    intro: resourceLang.value.axureIntro,
-    url: resourceUrl.axure,
+    key: '2024-master-go-ui-kit',
+    title: resourceLang.value.masterGo2024,
+    icon: MasterGoUiKitSvg,
+    intro: resourceLang.value.masterGo2024Intro,
+    url: 'https://mastergo.com/community/resource/124855257836266',
   },
   {
-    key: 'sketch',
-    title: resourceLang.value.sketch,
-    description: 'Sketch 70.6',
-    icon: SketchTemplateSvg,
-    intro: resourceLang.value.sketchIntro,
-    url: resourceUrl.sketch,
-  },
-  {
-    key: 'figma',
-    title: resourceLang.value.figma,
-    icon: FigmaTemplateSvg,
-    intro: resourceLang.value.figmaIntro,
-    url: 'https://www.figma.com/community/file/1021254029764378306',
+    key: '2023-figma-ui-kit',
+    title: resourceLang.value.figma2023,
+    icon: FigmaUiKitSvg,
+    intro: resourceLang.value.figma2023Intro,
+    url: 'https://www.figma.com/community/file/1305760370797950824/element-plus-design-system-ui-kit',
   },
   {
     key: 'figma-variables',
@@ -69,12 +60,25 @@ const resourceCards = computed(() => [
     url: 'https://www.figma.com/community/file/1256091634199852065',
   },
   {
-    key: '2023-figma-ui-kit',
-    title: resourceLang.value.figma2023,
-    description: '2023 Figma UI Kit',
-    icon: FigmaUiKitSvg,
-    intro: resourceLang.value.figma2023Intro,
-    url: 'https://www.figma.com/community/file/1305760370797950824/element-plus-design-system-ui-kit',
+    key: 'figma',
+    title: resourceLang.value.figma,
+    icon: FigmaTemplateSvg,
+    intro: resourceLang.value.figmaIntro,
+    url: 'https://www.figma.com/community/file/1021254029764378306',
+  },
+  {
+    key: 'sketch',
+    title: resourceLang.value.sketch,
+    icon: SketchTemplateSvg,
+    intro: resourceLang.value.sketchIntro,
+    url: resourceUrl.sketch,
+  },
+  {
+    key: 'axure',
+    title: resourceLang.value.axure,
+    icon: AxureComponentsSvg,
+    intro: resourceLang.value.axureIntro,
+    url: resourceUrl.axure,
   },
 ])
 </script>
@@ -84,26 +88,24 @@ const resourceCards = computed(() => [
     <h1>{{ resourceLang.title }}</h1>
     <p>{{ resourceLang.lineOne }}</p>
     <p v-html="resourceLang.lineTwo" />
-    <div class="flex flex-wrap justify-center mt-32px" m="-2">
-      <div
+    <div class="resource-content">
+      <el-card
         v-for="card in resourceCards"
         :key="card.title"
-        class="inline-flex w-full md:w-1/2 lg:w-1/3 3xl:w-1/4"
-        p="2"
+        class="card"
+        shadow="hover"
       >
-        <el-card class="card" shadow="hover">
-          <div class="w-30 m-auto">
-            <component :is="card.icon" alt="icon" />
-          </div>
-          <h3>{{ card.title }}</h3>
-          <p>
-            {{ card.intro }}
-          </p>
-          <a target="_blank" :href="card.url" @click="onClick(card.title)">
-            <el-button type="primary">{{ resourceLang.download }}</el-button>
-          </a>
-        </el-card>
-      </div>
+        <div class="w-30 m-auto">
+          <component :is="card.icon" alt="icon" />
+        </div>
+        <h3>{{ card.title }}</h3>
+        <p>
+          {{ card.intro }}
+        </p>
+        <a target="_blank" :href="card.url" @click="onClick(card.title)">
+          <el-button type="primary">{{ resourceLang.download }}</el-button>
+        </a>
+      </el-card>
     </div>
   </div>
 </template>
@@ -125,6 +127,13 @@ const resourceCards = computed(() => [
       margin-top: 8px;
     }
   }
+}
+
+.resource-content {
+  margin-top: 32px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
 }
 
 .card {
@@ -149,7 +158,7 @@ const resourceCards = computed(() => [
     color: #99a9bf;
     padding: 0 30px;
     margin: 0;
-    word-break: break-word;
+    overflow-wrap: break-word;
     line-height: 1.8;
     min-height: 75px;
     margin-bottom: 16px;

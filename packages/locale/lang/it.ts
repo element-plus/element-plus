@@ -1,6 +1,9 @@
 export default {
   name: 'it',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Pulisci',
@@ -65,6 +68,9 @@ export default {
       noData: 'Nessun dato',
       placeholder: 'Seleziona',
     },
+    mention: {
+      loading: 'Caricamento',
+    },
     cascader: {
       noMatch: 'Nessuna corrispondenza',
       loading: 'Caricamento',
@@ -121,6 +127,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

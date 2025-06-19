@@ -1,9 +1,11 @@
 import { defineComponent } from 'vue'
+import { columnAlignment } from '@element-plus/constants'
 import { buildProps } from '@element-plus/utils'
+import { COMPONENT_NAME } from './constants'
 
 import type { ExtractPropTypes, Slot, VNode } from 'vue'
 
-const descriptionItemProps = buildProps({
+export const descriptionItemProps = buildProps({
   /**
    * @description label text
    */
@@ -15,6 +17,13 @@ const descriptionItemProps = buildProps({
    * @description colspan of column
    */
   span: {
+    type: Number,
+    default: 1,
+  },
+  /**
+   * @description the number of rows a cell should span
+   */
+  rowspan: {
     type: Number,
     default: 1,
   },
@@ -33,10 +42,18 @@ const descriptionItemProps = buildProps({
     default: '',
   },
   /**
+   * @description column label width, if not set, it will be the same as the width of the column. Higher priority than the `label-width` of `Descriptions`
+   */
+  labelWidth: {
+    type: [String, Number],
+    default: '',
+  },
+  /**
    * @description column content alignment (If no `border`, effective for both label and content)
    */
   align: {
     type: String,
+    values: columnAlignment,
     default: 'left',
   },
   /**
@@ -44,7 +61,7 @@ const descriptionItemProps = buildProps({
    */
   labelAlign: {
     type: String,
-    default: '',
+    values: columnAlignment,
   },
   /**
    * @description column content custom class name
@@ -61,14 +78,15 @@ const descriptionItemProps = buildProps({
     default: '',
   },
 })
+
 const DescriptionItem = defineComponent({
-  name: 'ElDescriptionsItem',
+  name: COMPONENT_NAME,
   props: descriptionItemProps,
 })
 
 export default DescriptionItem
 
-type DescriptionItemProps = ExtractPropTypes<typeof descriptionItemProps>
+export type DescriptionItemProps = ExtractPropTypes<typeof descriptionItemProps>
 export type DescriptionItemVNode = VNode & {
   children: { [name: string]: Slot } | null
   props: Partial<DescriptionItemProps> | null

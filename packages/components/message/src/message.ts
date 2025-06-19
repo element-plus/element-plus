@@ -5,21 +5,32 @@ import {
   isClient,
   mutable,
 } from '@element-plus/utils'
+
 import type { AppContext, ExtractPropTypes, VNode } from 'vue'
 import type { Mutable } from '@element-plus/utils'
 import type MessageConstructor from './message.vue'
 
-export const messageTypes = ['success', 'info', 'warning', 'error'] as const
+export const messageTypes = [
+  'primary',
+  'success',
+  'info',
+  'warning',
+  'error',
+] as const
 
 export type messageType = typeof messageTypes[number]
 
 export interface MessageConfigContext {
   max?: number
+  grouping?: boolean
+  duration?: number
+  offset?: number
+  showClose?: boolean
+  plain?: boolean
 }
 
 export const messageDefaults = mutable({
   customClass: '',
-  center: false,
   dangerouslyUseHTMLString: false,
   duration: 3000,
   icon: undefined,
@@ -28,6 +39,7 @@ export const messageDefaults = mutable({
   onClose: undefined,
   showClose: false,
   type: 'info',
+  plain: false,
   offset: 16,
   zIndex: 0,
   grouping: false,
@@ -42,13 +54,6 @@ export const messageProps = buildProps({
   customClass: {
     type: String,
     default: messageDefaults.customClass,
-  },
-  /**
-   * @description whether to center the text
-   */
-  center: {
-    type: Boolean,
-    default: messageDefaults.center,
   },
   /**
    * @description whether `message` is treated as HTML string
@@ -94,7 +99,7 @@ export const messageProps = buildProps({
    */
   onClose: {
     type: definePropType<() => void>(Function),
-    required: false,
+    default: messageDefaults.onClose,
   },
   /**
    * @description whether to show a close button
@@ -110,6 +115,13 @@ export const messageProps = buildProps({
     type: String,
     values: messageTypes,
     default: messageDefaults.type,
+  },
+  /**
+   * @description whether message is plain
+   */
+  plain: {
+    type: Boolean,
+    default: messageDefaults.plain,
   },
   /**
    * @description set the distance to the top of viewport
@@ -147,7 +159,7 @@ export const messageEmits = {
 }
 export type MessageEmits = typeof messageEmits
 
-export type MessageInstance = InstanceType<typeof MessageConstructor>
+export type MessageInstance = InstanceType<typeof MessageConstructor> & unknown
 
 export type MessageOptions = Partial<
   Mutable<
@@ -184,7 +196,8 @@ export type MessageTypedFn = (
   appContext?: null | AppContext
 ) => MessageHandler
 
-export interface Message extends MessageFn {
+export type Message = MessageFn & {
+  primary: MessageTypedFn
   success: MessageTypedFn
   warning: MessageTypedFn
   info: MessageTypedFn

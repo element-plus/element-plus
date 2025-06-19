@@ -1,6 +1,9 @@
 export default {
   name: 'ca',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'Confirmar',
       clear: 'Netejar',
@@ -65,6 +68,9 @@ export default {
       noData: 'Sense Dades',
       placeholder: 'Seleccionar',
     },
+    mention: {
+      loading: 'Carregant',
+    },
     cascader: {
       noMatch: 'No hi ha dades que coincideixin',
       loading: 'Carregant',
@@ -121,6 +127,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Sí',
       cancelButtonText: 'No',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

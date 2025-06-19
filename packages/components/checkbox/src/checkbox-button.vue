@@ -1,15 +1,15 @@
 <template>
   <label :class="labelKls">
     <input
-      v-if="trueLabel || falseLabel"
+      v-if="trueValue || falseValue || trueLabel || falseLabel"
       v-model="model"
       :class="ns.be('button', 'original')"
       type="checkbox"
       :name="name"
       :tabindex="tabindex"
       :disabled="isDisabled"
-      :true-value="trueLabel"
-      :false-value="falseLabel"
+      :true-value="trueValue ?? trueLabel ?? true"
+      :false-value="falseValue ?? falseLabel ?? false"
       @change="handleChange"
       @focus="isFocused = true"
       @blur="isFocused = false"
@@ -23,7 +23,7 @@
       :name="name"
       :tabindex="tabindex"
       :disabled="isDisabled"
-      :value="label"
+      :value="actualValue"
       @change="handleChange"
       @focus="isFocused = true"
       @blur="isFocused = false"
@@ -63,6 +63,7 @@ const {
   isDisabled,
   checkboxButtonSize,
   model,
+  actualValue,
   handleChange,
 } = useCheckbox(props, slots)
 const checkboxGroup = inject(checkboxGroupContextKey, undefined)

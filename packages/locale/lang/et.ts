@@ -1,6 +1,9 @@
 export default {
   name: 'et',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Tühjenda',
@@ -65,6 +68,9 @@ export default {
       noData: 'Andmed puuduvad',
       placeholder: 'Vali',
     },
+    mention: {
+      loading: 'Laadimine',
+    },
     cascader: {
       noMatch: 'Sobivad andmed puuduvad',
       loading: 'Laadimine',
@@ -122,6 +128,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Jah',
       cancelButtonText: 'Ei',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

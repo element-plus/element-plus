@@ -1,6 +1,9 @@
 export default {
   name: 'pa',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'تایید',
       clear: 'پاکول',
@@ -65,6 +68,9 @@ export default {
       noData: 'هیڅ معلومات نشته',
       placeholder: 'ځای لرونکی',
     },
+    mention: {
+      loading: 'بار کول',
+    },
     cascader: {
       noMatch: 'هیڅه ونه موندل شول',
       loading: 'بار کول',
@@ -122,6 +128,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

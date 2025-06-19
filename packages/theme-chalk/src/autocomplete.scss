@@ -5,6 +5,11 @@
 @use 'common/var' as *;
 
 @include b(autocomplete) {
+  @include set-component-css-var('input', $input);
+}
+
+@include b(autocomplete) {
+  width: getCssVar('input-width');
   position: relative;
   display: inline-block;
 

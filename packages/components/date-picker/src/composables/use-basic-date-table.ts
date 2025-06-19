@@ -2,7 +2,7 @@ import { computed, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { flatten } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { castArray } from '@element-plus/utils'
+import { castArray, isArray } from '@element-plus/utils'
 import { buildPickerTable } from '../utils'
 
 import type { SetupContext } from 'vue'
@@ -133,9 +133,7 @@ export const useBasicDateTable = (
     const shouldIncrement = setDateText(cell, { count, rowIndex, columnIndex })
 
     const cellDate = cell.dayjs!.toDate()
-    cell.selected = _selectedDate.find(
-      (d) => d.valueOf() === cell.dayjs!.valueOf()
-    )
+    cell.selected = _selectedDate.find((d) => d.isSame(cell.dayjs, 'day'))
     cell.isSelected = !!cell.selected
     cell.isCurrent = isCurrent(cell)
     cell.disabled = disabledDate?.(cellDate)
@@ -162,19 +160,6 @@ export const useBasicDateTable = (
     const dateUnit = 'day'
     let count = 1
 
-    if (showWeekNumber) {
-      for (let rowIndex = 0; rowIndex < 6; rowIndex++) {
-        if (!rows_[rowIndex][0]) {
-          rows_[rowIndex][0] = {
-            type: 'week',
-            text: unref(startDate)
-              .add(rowIndex * 7 + 1, dateUnit)
-              .week(),
-          }
-        }
-      }
-    }
-
     buildPickerTable({ row: 6, column: 7 }, rows_, {
       startDate: minDate,
       columnIndexOffset: showWeekNumber ? 1 : 0,
@@ -195,6 +180,17 @@ export const useBasicDateTable = (
 
       setRowMetadata,
     })
+
+    if (showWeekNumber) {
+      for (let rowIndex = 0; rowIndex < 6; rowIndex++) {
+        if (rows_[rowIndex][1].dayjs) {
+          rows_[rowIndex][0] = {
+            type: 'week',
+            text: rows_[rowIndex][1].dayjs!.week(),
+          }
+        }
+      }
+    }
 
     return rows_
   })
@@ -375,7 +371,7 @@ export const useBasicDateTable = (
 
     newDate = newDate.date(Number.parseInt(cell.text as any, 10))
 
-    if (props.parsedValue && !Array.isArray(props.parsedValue)) {
+    if (props.parsedValue && !isArray(props.parsedValue)) {
       const dayOffset = ((props.parsedValue.day() - firstDayOfWeek + 7) % 7) - 1
       const weekDate = props.parsedValue.subtract(dayOffset, 'day')
       return weekDate.isSame(newDate, 'day')
@@ -420,7 +416,6 @@ export const useBasicDateTableDOM = (
   ])
 
   const tableLabel = computed(() => t('el.datepicker.dateTablePrompt'))
-  const weekLabel = computed(() => t('el.datepicker.week'))
 
   const getCellClasses = (cell: DateCell) => {
     const classes: string[] = []
@@ -475,7 +470,7 @@ export const useBasicDateTableDOM = (
   return {
     tableKls,
     tableLabel,
-    weekLabel,
+    weekHeaderClass: ns.e('week-header'),
 
     getCellClasses,
     getRowKls,

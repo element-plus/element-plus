@@ -10,9 +10,9 @@
     />
   </div>
   <div class="block">
-    <span class="demonstration"
-      >Start date time 12:00:00, end date time 08:00:00</span
-    >
+    <span class="demonstration">
+      Start date time 12:00:00, end date time 08:00:00
+    </span>
     <el-date-picker
       v-model="value2"
       type="datetimerange"
@@ -35,6 +35,7 @@ const defaultTime2: [Date, Date] = [
   new Date(2000, 2, 1, 8, 0, 0),
 ] // '12:00:00', '08:00:00'
 </script>
+
 <style scoped>
 .block {
   padding: 30px 0;

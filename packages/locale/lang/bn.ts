@@ -1,6 +1,9 @@
 export default {
   name: 'bn',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'ঠিক আছে',
       clear: 'ক্লিয়ার',
@@ -65,6 +68,9 @@ export default {
       noData: 'কোন ডাটা নেই',
       placeholder: 'নির্বাচন করুন',
     },
+    mention: {
+      loading: 'লোড হচ্ছে',
+    },
     cascader: {
       noMatch: 'কোন মিল পওয়া যায়নি',
       loading: 'লোড হচ্ছে',
@@ -124,6 +130,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'হ্যা',
       cancelButtonText: 'না',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

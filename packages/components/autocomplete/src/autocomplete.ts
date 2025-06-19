@@ -1,11 +1,12 @@
-import { NOOP } from '@vue/shared'
 import {
+  NOOP,
   buildProps,
   definePropType,
   isObject,
   isString,
 } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
+import { useAriaProps } from '@element-plus/hooks'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
@@ -101,12 +102,13 @@ export const autocompleteProps = buildProps({
     default: false,
   },
   /**
-   * @description label text
+   * @description whether select dropdown is teleported to the body
    */
-  label: {
-    type: String,
-  },
   teleported: useTooltipContentProps.teleported,
+  /**
+   * @description which select dropdown appends to
+   */
+  appendTo: useTooltipContentProps.appendTo,
   /**
    * @description whether to highlight first item in remote search suggestions by default
    */
@@ -139,6 +141,7 @@ export const autocompleteProps = buildProps({
    * @description same as `name` in native input
    */
   name: String,
+  ...useAriaProps(['ariaLabel']),
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
 
@@ -153,4 +156,4 @@ export const autocompleteEmits = {
 }
 export type AutocompleteEmits = typeof autocompleteEmits
 
-export type AutocompleteInstance = InstanceType<typeof Autocomplete>
+export type AutocompleteInstance = InstanceType<typeof Autocomplete> & unknown

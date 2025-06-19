@@ -1,7 +1,6 @@
 import {
   computed,
   defineComponent,
-  getCurrentInstance,
   inject,
   nextTick,
   onMounted,
@@ -28,6 +27,7 @@ import { useNamespace } from '@element-plus/hooks'
 import TabBar from './tab-bar.vue'
 import { tabsRootContextKey } from './constants'
 
+import type { TabBarInstance } from './tab-bar'
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { TabsPaneContext } from './constants'
 import type { TabPaneName } from './tabs'
@@ -70,8 +70,6 @@ const TabNav = defineComponent({
   props: tabNavProps,
   emits: tabNavEmits,
   setup(props, { expose, emit }) {
-    const vm = getCurrentInstance()!
-
     const rootTabs = inject(tabsRootContextKey)
     if (!rootTabs) throwError(COMPONENT_NAME, `<el-tabs><tab-nav /></el-tabs>`)
 
@@ -83,7 +81,7 @@ const TabNav = defineComponent({
     const nav$ = ref<HTMLDivElement>()
     const el$ = ref<HTMLDivElement>()
 
-    const tabBarRef = ref<InstanceType<typeof TabBar>>()
+    const tabBarRef = ref<TabBarInstance>()
 
     const scrollable = ref<false | Scrollable>(false)
     const navOffset = ref(0)
@@ -205,38 +203,36 @@ const TabNav = defineComponent({
       }
     }
 
-    const changeTab = (e: KeyboardEvent) => {
-      const code = e.code
+    const changeTab = (event: KeyboardEvent) => {
+      let step = 0
 
-      const { up, down, left, right } = EVENT_CODE
-      if (![up, down, left, right].includes(code)) return
-
-      // 左右上下键更换tab
-      const tabList = Array.from(
-        (e.currentTarget as HTMLDivElement).querySelectorAll<HTMLDivElement>(
-          '[role=tab]:not(.is-disabled)'
-        )
-      )
-      const currentIndex = tabList.indexOf(e.target as HTMLDivElement)
-
-      let nextIndex: number
-      if (code === left || code === up) {
-        // left
-        if (currentIndex === 0) {
-          // first
-          nextIndex = tabList.length - 1
-        } else {
-          nextIndex = currentIndex - 1
-        }
-      } else {
-        // right
-        if (currentIndex < tabList.length - 1) {
-          // not last
-          nextIndex = currentIndex + 1
-        } else {
-          nextIndex = 0
-        }
+      switch (event.code) {
+        case EVENT_CODE.left:
+        case EVENT_CODE.up:
+          step = -1
+          break
+        case EVENT_CODE.right:
+        case EVENT_CODE.down:
+          step = 1
+          break
+        default:
+          return
       }
+
+      const tabList = Array.from(
+        (
+          event.currentTarget as HTMLDivElement
+        ).querySelectorAll<HTMLDivElement>('[role=tab]:not(.is-disabled)')
+      )
+      const currentIndex = tabList.indexOf(event.target as HTMLDivElement)
+      let nextIndex = currentIndex + step
+
+      if (nextIndex < 0) {
+        nextIndex = tabList.length - 1
+      } else if (nextIndex >= tabList.length) {
+        nextIndex = 0
+      }
+
       tabList[nextIndex].focus({ preventScroll: true }) // 改变焦点元素
       tabList[nextIndex].click() // 选中下一个tab
       setFocus()
@@ -270,13 +266,9 @@ const TabNav = defineComponent({
     expose({
       scrollToActiveTab,
       removeFocus,
+      tabListRef: nav$,
+      tabBarRef,
     })
-
-    watch(
-      () => props.panes,
-      () => vm.update(),
-      { flush: 'post', deep: true }
-    )
 
     return () => {
       const scrollBtn = scrollable.value
@@ -377,28 +369,30 @@ const TabNav = defineComponent({
         >
           {scrollBtn}
           <div class={ns.e('nav-scroll')} ref={navScroll$}>
-            <div
-              class={[
-                ns.e('nav'),
-                ns.is(rootTabs.props.tabPosition),
-                ns.is(
-                  'stretch',
-                  props.stretch &&
-                    ['top', 'bottom'].includes(rootTabs.props.tabPosition)
-                ),
-              ]}
-              ref={nav$}
-              style={navStyle.value}
-              role="tablist"
-              onKeydown={changeTab}
-            >
-              {...[
-                !props.type ? (
-                  <TabBar ref={tabBarRef} tabs={[...props.panes]} />
-                ) : null,
-                tabs,
-              ]}
-            </div>
+            {props.panes.length > 0 ? (
+              <div
+                class={[
+                  ns.e('nav'),
+                  ns.is(rootTabs.props.tabPosition),
+                  ns.is(
+                    'stretch',
+                    props.stretch &&
+                      ['top', 'bottom'].includes(rootTabs.props.tabPosition)
+                  ),
+                ]}
+                ref={nav$}
+                style={navStyle.value}
+                role="tablist"
+                onKeydown={changeTab}
+              >
+                {...[
+                  !props.type ? (
+                    <TabBar ref={tabBarRef} tabs={[...props.panes]} />
+                  ) : null,
+                  tabs,
+                ]}
+              </div>
+            ) : null}
           </div>
         </div>
       )
@@ -409,5 +403,8 @@ const TabNav = defineComponent({
 export type TabNavInstance = InstanceType<typeof TabNav> & {
   scrollToActiveTab: () => Promise<void>
   removeFocus: () => void
+  tabListRef: HTMLDivElement | undefined
+  tabBarRef: TabBarInstance | undefined
 }
+
 export default TabNav

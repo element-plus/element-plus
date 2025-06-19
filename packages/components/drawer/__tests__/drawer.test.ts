@@ -229,23 +229,6 @@ describe('Drawer', () => {
     expect(wrapper.find('.el-drawer__close-btn').exists()).toBe(false)
   })
 
-  test('should have custom classes when custom classes were given', async () => {
-    const classes = 'some-custom-class'
-    const wrapper = _mount(
-      `
-      <el-drawer :title='title' v-model='visible' ref='drawer' custom-class='${classes}'>
-        <span>${content}</span>
-      </el-drawer>
-      `,
-      () => ({
-        title,
-        visible: true,
-      })
-    )
-
-    expect(wrapper.find(`.${classes}`).exists()).toBe(true)
-  })
-
   test('drawer header should have slot props', async () => {
     const wrapper = _mount(
       `
@@ -270,6 +253,43 @@ describe('Drawer', () => {
     headerButton.trigger('click')
     await nextTick()
     expect(drawer.emitted()).toHaveProperty('close')
+  })
+
+  test('should render header-class, body-class and footer-class if setted', async () => {
+    const wrapper = _mount(
+      `
+      <el-drawer v-model='visible' :header-class='headerClass' :body-class='bodyClass' :footer-class='footerClass'>
+        <template #header>
+          header desu
+        </template>
+        body desu
+        <template #footer>
+          footer desu
+        </template>
+      </el-drawer>
+      `,
+      () => ({
+        visible: true,
+        headerClass: 'test-header-class',
+        bodyClass: 'test-body-class',
+        footerClass: 'test-footer-class',
+      })
+    )
+
+    await nextTick()
+    expect(wrapper.find('.test-header-class').exists()).toBe(true)
+    expect(wrapper.find('.test-body-class').exists()).toBe(true)
+    expect(wrapper.find('.test-footer-class').exists()).toBe(true)
+
+    await wrapper.setProps({
+      headerClass: undefined,
+      bodyClass: undefined,
+      footerClass: undefined,
+    })
+
+    expect(wrapper.find('.test-header-class').exists()).toBe(false)
+    expect(wrapper.find('.test-body-class').exists()).toBe(false)
+    expect(wrapper.find('.test-footer-class').exists()).toBe(false)
   })
 
   test('should not render header when withHeader attribute is false', async () => {

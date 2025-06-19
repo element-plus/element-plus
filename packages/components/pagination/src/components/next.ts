@@ -1,4 +1,5 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
+
 import type { ExtractPropTypes } from 'vue'
 import type Next from './next.vue'
 
@@ -22,4 +23,4 @@ export const paginationNextProps = buildProps({
 
 export type PaginationNextProps = ExtractPropTypes<typeof paginationNextProps>
 
-export type NextInstance = InstanceType<typeof Next>
+export type NextInstance = InstanceType<typeof Next> & unknown

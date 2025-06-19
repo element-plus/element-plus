@@ -1,6 +1,9 @@
 export default {
   name: 'sr',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Поништи',
@@ -65,6 +68,9 @@ export default {
       noData: 'Нема података',
       placeholder: 'Изабери',
     },
+    mention: {
+      loading: 'Учитавање',
+    },
     cascader: {
       noMatch: 'Нема резултата',
       loading: 'Учитавање',
@@ -122,6 +128,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Да',
       cancelButtonText: 'Не',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

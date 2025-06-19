@@ -1,6 +1,12 @@
 <template>
-  <el-tree-v2 :data="data" :props="props" :height="208" />
+  <el-tree-v2
+    style="max-width: 600px"
+    :data="data"
+    :props="props"
+    :height="208"
+  />
 </template>
+
 <script lang="ts" setup>
 interface Tree {
   id: string

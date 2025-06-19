@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { computed, getCurrentInstance, ref, unref, watch } from 'vue'
+import { isArray, isUndefined } from '@element-plus/utils'
 import { getRowIdentity, walkTreeNode } from '../util'
 
 import type { WatcherPropsData } from '.'
@@ -13,6 +14,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   const lazyTreeNodeMap = ref({})
   const lazyColumnIdentifier = ref('hasChildren')
   const childrenColumnName = ref('children')
+  const checkStrictly = ref(false)
   const instance = getCurrentInstance() as Table<T>
   const normalizedData = computed(() => {
     if (!watcherData.rowKey.value) return {}
@@ -47,7 +49,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       data,
       (parent, children, level) => {
         const parentId = getRowIdentity(parent, rowKey)
-        if (Array.isArray(children)) {
+        if (isArray(children)) {
           res[parentId] = {
             children: children.map((row) => getRowIdentity(row, rowKey)),
             level,
@@ -75,6 +77,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     const normalizedLazyNode_ = normalizedLazyNode.value
     const keys = Object.keys(nested)
     const newTreeData = {}
+
     if (keys.length) {
       const oldTreeData = unref(treeData)
       const rootLazyRowKeys = []
@@ -159,7 +162,9 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     expandRowKeys.value = value
     updateTreeData()
   }
-
+  const isUseLazy = (data): boolean => {
+    return lazy.value && data && 'loaded' in data && !data.loaded
+  }
   const toggleTreeExpansion = (row: T, expanded?: boolean) => {
     instance.store.assertRowKey()
 
@@ -168,11 +173,12 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     const data = id && treeData.value[id]
     if (id && data && 'expanded' in data) {
       const oldExpanded = data.expanded
-      expanded = typeof expanded === 'undefined' ? !data.expanded : expanded
+      expanded = isUndefined(expanded) ? !data.expanded : expanded
       treeData.value[id].expanded = expanded
       if (oldExpanded !== expanded) {
         instance.emit('expand-change', row, expanded)
       }
+      isUseLazy(data) && loadData(row, id, data)
       instance.store.updateTableScrollY()
     }
   }
@@ -182,7 +188,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     const rowKey = watcherData.rowKey.value
     const id = getRowIdentity(row, rowKey)
     const data = treeData.value[id]
-    if (lazy.value && data && 'loaded' in data && !data.loaded) {
+    if (isUseLazy(data)) {
       loadData(row, id, data)
     } else {
       toggleTreeExpansion(row, undefined)
@@ -194,7 +200,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     if (load && !treeData.value[key].loaded) {
       treeData.value[key].loading = true
       load(row, treeNode, (data) => {
-        if (!Array.isArray(data)) {
+        if (!isArray(data)) {
           throw new TypeError('[ElTable] data must be an array')
         }
         treeData.value[key].loading = false
@@ -208,12 +214,23 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     }
   }
 
+  const updateKeyChildren = (key: string, data: T[]) => {
+    const { lazy, rowKey } = instance.props as unknown as TableProps<T>
+    if (!lazy) return
+    if (!rowKey) throw new Error('[Table] rowKey is required in updateKeyChild')
+
+    if (lazyTreeNodeMap.value[key]) {
+      lazyTreeNodeMap.value[key] = data
+    }
+  }
+
   return {
     loadData,
     loadOrToggle,
     toggleTreeExpansion,
     updateTreeExpandKeys,
     updateTreeData,
+    updateKeyChildren,
     normalize,
     states: {
       expandRowKeys,
@@ -223,6 +240,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       lazyTreeNodeMap,
       lazyColumnIdentifier,
       childrenColumnName,
+      checkStrictly,
     },
   }
 }

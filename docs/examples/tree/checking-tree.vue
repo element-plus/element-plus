@@ -1,6 +1,7 @@
 <template>
   <el-tree
     ref="treeRef"
+    style="max-width: 600px"
     :data="data"
     show-checkbox
     default-expand-all
@@ -9,7 +10,7 @@
     :props="defaultProps"
   />
 
-  <div class="buttons">
+  <div class="mt-2">
     <el-button @click="getCheckedNodes">get by node</el-button>
     <el-button @click="getCheckedKeys">get by key</el-button>
     <el-button @click="setCheckedNodes">set by node</el-button>
@@ -20,16 +21,17 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElTree } from 'element-plus'
-import type Node from 'element-plus/es/components/tree/src/model/node'
+
+import type { RenderContentContext, TreeInstance } from 'element-plus'
 
 interface Tree {
   id: number
   label: string
   children?: Tree[]
 }
+type Node = RenderContentContext['node']
 
-const treeRef = ref<InstanceType<typeof ElTree>>()
+const treeRef = ref<TreeInstance>()
 
 const getCheckedNodes = () => {
   console.log(treeRef.value!.getCheckedNodes(false, false))

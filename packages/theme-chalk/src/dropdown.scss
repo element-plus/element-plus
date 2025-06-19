@@ -169,6 +169,7 @@ $dropdown-menu-padding-vertical: map.merge(
     color: getCssVar('text-color', 'regular');
     cursor: pointer;
     outline: none;
+    &:not(.is-disabled):hover,
     &:not(.is-disabled):focus {
       background-color: getCssVar('dropdown-menuItem-hover-fill');
       color: getCssVar('dropdown-menuItem-hover-color');

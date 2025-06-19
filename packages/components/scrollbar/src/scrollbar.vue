@@ -4,6 +4,7 @@
       ref="wrapRef"
       :class="wrapKls"
       :style="wrapStyle"
+      :tabindex="tabindex"
       @scroll="handleScroll"
     >
       <component
@@ -20,21 +21,16 @@
       </component>
     </div>
     <template v-if="!native">
-      <bar
-        ref="barRef"
-        :height="sizeHeight"
-        :width="sizeWidth"
-        :always="always"
-        :ratio-x="ratioX"
-        :ratio-y="ratioY"
-      />
+      <bar ref="barRef" :always="always" :min-size="minSize" />
     </template>
   </div>
 </template>
+
 <script lang="ts" setup>
 import {
   computed,
   nextTick,
+  onActivated,
   onMounted,
   onUpdated,
   provide,
@@ -45,10 +41,11 @@ import {
 import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { addUnit, debugWarn, isNumber, isObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { GAP } from './util'
 import Bar from './bar.vue'
 import { scrollbarContextKey } from './constants'
 import { scrollbarEmits, scrollbarProps } from './scrollbar'
+
+import type { ScrollbarDirection } from './scrollbar'
 import type { BarInstance } from './bar'
 import type { CSSProperties, StyleValue } from 'vue'
 
@@ -65,16 +62,14 @@ const ns = useNamespace('scrollbar')
 
 let stopResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
+let wrapScrollTop = 0
+let wrapScrollLeft = 0
+let direction = '' as ScrollbarDirection
 
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
 const resizeRef = ref<HTMLElement>()
-
-const sizeWidth = ref('0')
-const sizeHeight = ref('0')
 const barRef = ref<BarInstance>()
-const ratioY = ref(1)
-const ratioX = ref(1)
 
 const wrapStyle = computed<StyleValue>(() => {
   const style: CSSProperties = {}
@@ -98,11 +93,34 @@ const resizeKls = computed(() => {
 const handleScroll = () => {
   if (wrapRef.value) {
     barRef.value?.handleScroll(wrapRef.value)
+    const prevTop = wrapScrollTop
+    const prevLeft = wrapScrollLeft
+    wrapScrollTop = wrapRef.value.scrollTop
+    wrapScrollLeft = wrapRef.value.scrollLeft
+
+    const arrivedStates = {
+      bottom:
+        wrapScrollTop + wrapRef.value.clientHeight >=
+        wrapRef.value.scrollHeight,
+      top: wrapScrollTop <= 0 && prevTop !== 0,
+      right:
+        wrapScrollLeft + wrapRef.value.clientWidth >=
+          wrapRef.value.scrollWidth && prevLeft !== wrapScrollLeft,
+      left: wrapScrollLeft <= 0 && prevLeft !== 0,
+    }
+
+    if (prevTop !== wrapScrollTop) {
+      direction = wrapScrollTop > prevTop ? 'bottom' : 'top'
+    }
+    if (prevLeft !== wrapScrollLeft) {
+      direction = wrapScrollLeft > prevLeft ? 'right' : 'left'
+    }
 
     emit('scroll', {
-      scrollTop: wrapRef.value.scrollTop,
-      scrollLeft: wrapRef.value.scrollLeft,
+      scrollTop: wrapScrollTop,
+      scrollLeft: wrapScrollLeft,
     })
+    if (arrivedStates[direction]) emit('end-reached', direction)
   }
 }
 
@@ -135,26 +153,7 @@ const setScrollLeft = (value: number) => {
 }
 
 const update = () => {
-  if (!wrapRef.value) return
-  const offsetHeight = wrapRef.value.offsetHeight - GAP
-  const offsetWidth = wrapRef.value.offsetWidth - GAP
-
-  const originalHeight = offsetHeight ** 2 / wrapRef.value.scrollHeight
-  const originalWidth = offsetWidth ** 2 / wrapRef.value.scrollWidth
-  const height = Math.max(originalHeight, props.minSize)
-  const width = Math.max(originalWidth, props.minSize)
-
-  ratioY.value =
-    originalHeight /
-    (offsetHeight - originalHeight) /
-    (height / (offsetHeight - height))
-  ratioX.value =
-    originalWidth /
-    (offsetWidth - originalWidth) /
-    (width / (offsetWidth - width))
-
-  sizeHeight.value = height + GAP < offsetHeight ? `${height}px` : ''
-  sizeWidth.value = width + GAP < offsetWidth ? `${width}px` : ''
+  barRef.value?.update()
 }
 
 watch(
@@ -191,6 +190,13 @@ provide(
     wrapElement: wrapRef,
   })
 )
+
+onActivated(() => {
+  if (wrapRef.value) {
+    wrapRef.value.scrollTop = wrapScrollTop
+    wrapRef.value.scrollLeft = wrapScrollLeft
+  }
+})
 
 onMounted(() => {
   if (!props.native)

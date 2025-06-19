@@ -9,7 +9,11 @@
       :ref="(item) => (menuList[index] = item)"
       :index="index"
       :nodes="[...menu]"
-    />
+    >
+      <template #empty>
+        <slot name="empty" />
+      </template>
+    </el-cascader-menu>
   </div>
 </template>
 
@@ -42,7 +46,6 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
-
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
 import Node from './node'
@@ -59,7 +62,6 @@ import type {
   CascaderValue,
   RenderLabel,
 } from './node'
-
 import type { ElCascaderPanelContext } from './types'
 
 export default defineComponent({
@@ -265,11 +267,7 @@ export default defineComponent({
       }
 
       oldNodes.forEach((node) => node.doCheck(false))
-      if (props.props.multiple) {
-        reactive(newNodes).forEach((node) => node.doCheck(true))
-      } else {
-        newNodes.forEach((node) => node.doCheck(true))
-      }
+      reactive(newNodes).forEach((node) => node.doCheck(true))
       checkedNodes.value = newNodes
       nextTick(scrollToExpandingNode)
     }
@@ -284,8 +282,9 @@ export default defineComponent({
             `.${ns.namespace.value}-scrollbar__wrap`
           )
           const activeNode =
-            menuElement.querySelector(`.${ns.b('node')}.${ns.is('active')}`) ||
-            menuElement.querySelector(`.${ns.b('node')}.in-active-path`)
+            menuElement.querySelector(
+              `.${ns.b('node')}.${ns.is('active')}:last-child`
+            ) || menuElement.querySelector(`.${ns.b('node')}.in-active-path`)
           scrollIntoView(container, activeNode)
         }
       })
@@ -324,6 +323,7 @@ export default defineComponent({
           break
         }
         case EVENT_CODE.enter:
+        case EVENT_CODE.numpadEnter:
           checkNode(target)
           break
       }
