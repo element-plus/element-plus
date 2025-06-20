@@ -301,7 +301,7 @@ export function toggleRowStatus<T extends DefaultRow>(
   tableTreeProps?: TreeProps,
   selectable?: ((row: T, index: number) => boolean) | null,
   rowIndex?: number,
-  rowKey?: string
+  rowKey?: string | null
 ): boolean {
   let _rowIndex = rowIndex ?? 0
   let changed = false
