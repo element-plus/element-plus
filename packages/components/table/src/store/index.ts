@@ -55,7 +55,9 @@ function useStore<T>() {
       instance.store.updateTreeData(
         instance.store.states.defaultExpandAll.value
       )
-      if (!unref(states.reserveSelection)) {
+      if (unref(states.reserveSelection)) {
+        instance.store.assertRowKey()
+      } else {
         if (dataInstanceChanged) {
           instance.store.clearSelection()
         } else {
