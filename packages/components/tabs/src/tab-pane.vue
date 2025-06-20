@@ -19,6 +19,7 @@ import {
   inject,
   onMounted,
   onUnmounted,
+  onUpdated,
   reactive,
   ref,
   useSlots,
@@ -72,6 +73,10 @@ const pane = reactive({
 
 tabsRoot.registerPane(pane)
 onMounted(() => {
+  tabsRoot.sortPane(pane)
+})
+
+onUpdated(() => {
   tabsRoot.sortPane(pane)
 })
 
