@@ -23,23 +23,21 @@ interface TableBodyProps<T extends DefaultRow> {
 const defaultProps = {
   store: {
     required: true,
-    type: Object as PropType<TableBodyProps<DefaultRow>['store']>,
+    type: Object as PropType<TableBodyProps<any>['store']>,
   },
   stripe: Boolean,
   tooltipEffect: String,
   tooltipOptions: {
-    type: Object as PropType<TableBodyProps<DefaultRow>['tooltipOptions']>,
+    type: Object as PropType<TableBodyProps<any>['tooltipOptions']>,
   },
   context: {
     default: () => ({}),
-    type: Object as PropType<TableBodyProps<DefaultRow>['context']>,
+    type: Object as PropType<TableBodyProps<any>['context']>,
   },
   rowClassName: [String, Function] as PropType<
-    TableBodyProps<DefaultRow>['rowClassName']
+    TableBodyProps<any>['rowClassName']
   >,
-  rowStyle: [Object, Function] as PropType<
-    TableBodyProps<DefaultRow>['rowStyle']
-  >,
+  rowStyle: [Object, Function] as PropType<TableBodyProps<any>['rowStyle']>,
   fixed: {
     type: String,
     default: '',

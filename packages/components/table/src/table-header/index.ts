@@ -50,11 +50,11 @@ export default defineComponent({
     },
     store: {
       required: true,
-      type: Object as PropType<TableHeaderProps<DefaultRow>['store']>,
+      type: Object as PropType<TableHeaderProps<any>['store']>,
     },
     border: Boolean,
     defaultSort: {
-      type: Object as PropType<TableHeaderProps<DefaultRow>['defaultSort']>,
+      type: Object as PropType<TableHeaderProps<any>['defaultSort']>,
       default: () => {
         return {
           prop: '',

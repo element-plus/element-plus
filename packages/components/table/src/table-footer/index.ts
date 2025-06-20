@@ -27,15 +27,13 @@ export default defineComponent({
     },
     store: {
       required: true,
-      type: Object as PropType<TableFooter<DefaultRow>['store']>,
+      type: Object as PropType<TableFooter<any>['store']>,
     },
-    summaryMethod: Function as PropType<
-      TableFooter<DefaultRow>['summaryMethod']
-    >,
+    summaryMethod: Function as PropType<TableFooter<any>['summaryMethod']>,
     sumText: String,
     border: Boolean,
     defaultSort: {
-      type: Object as PropType<TableFooter<DefaultRow>['defaultSort']>,
+      type: Object as PropType<TableFooter<any>['defaultSort']>,
       default: () => {
         return {
           prop: '',
