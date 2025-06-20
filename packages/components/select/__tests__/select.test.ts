@@ -6,7 +6,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -47,6 +47,7 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) =>
         'el-option': Option,
         'el-group-option': Group,
         'el-form-item': ElFormItem,
+        'el-form': ElForm,
       },
       template,
       data,
@@ -3284,5 +3285,82 @@ describe('Select', () => {
     expect(options[1].textContent).toBe('0')
     expect(options[2].textContent).toBe('蚵仔煎')
     expect(options[3].textContent).toBe('北京烤鸭')
+  })
+
+  test('passes disabled prop to custom #tag slot', async () => {
+    const wrapper = _mount(
+      `
+      <el-select
+        v-model="value"
+        multiple
+        :disabled="isDisabled"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+        <template #tag="{ selectDisabled }">
+          <span class="custom-tag">
+            {{ selectDisabled ? 'selectDisabled' : 'enabled' }}
+          </span>
+        </template>
+      </el-select>
+      `,
+      () => ({
+        value: ['a', 'b'],
+        isDisabled: true,
+        options: [
+          { value: 'a', label: 'A' },
+          { value: 'b', label: 'B' },
+          { value: 'c', label: 'C' },
+        ],
+      })
+    )
+
+    await nextTick()
+    expect(wrapper.find('.custom-tag').text()).toBe('selectDisabled')
+
+    // 修改 formDisabled 为 false，验证 disabled 变更
+    await wrapper.setData({ isDisabled: false })
+    expect(wrapper.find('.custom-tag').text()).toBe('enabled')
+  })
+
+  test('disabled prop from el-form is passed to el-select and tag slot', async () => {
+    const wrapper = _mount(
+      `
+      <el-form :disabled="formDisabled">
+        <el-form-item label="Test Select">
+          <el-select v-model="value" multiple>
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+            <template #tag="{ selectDisabled }">
+              <span class="custom-tag">{{ selectDisabled ? 'selectDisabled' : 'enabled' }}</span>
+            </template>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      `,
+      () => ({
+        value: ['a'],
+        formDisabled: true,
+        options: [
+          { value: 'a', label: 'Option A' },
+          { value: 'b', label: 'Option B' },
+        ],
+      })
+    )
+
+    await nextTick()
+    expect(wrapper.find('.custom-tag').text()).toBe('selectDisabled')
+
+    // 修改 formDisabled 为 false，验证 disabled 变更
+    await wrapper.setData({ formDisabled: false })
+    expect(wrapper.find('.custom-tag').text()).toBe('enabled')
   })
 })
