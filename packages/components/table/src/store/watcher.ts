@@ -294,16 +294,6 @@ function useWatcher<T>() {
     instance.emit('select-all', (selection.value || []).slice())
   }
 
-  const updateSelectionByRowKey = () => {
-    data.value.forEach((row) => {
-      const rowId = getRowIdentity(row, rowKey.value)
-      const rowInfo = selectedMap.value![rowId]
-      if (rowInfo) {
-        selection.value[rowInfo.index] = row
-      }
-    })
-  }
-
   const updateAllSelected = () => {
     // data 为 null 时，解构时的默认值会被忽略
     if (data.value?.length === 0) {
@@ -534,7 +524,6 @@ function useWatcher<T>() {
     toggleRowSelection,
     _toggleAllSelection,
     toggleAllSelection: null,
-    updateSelectionByRowKey,
     updateAllSelected,
     updateFilters,
     updateCurrentRow,
