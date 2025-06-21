@@ -43,10 +43,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const parent = inject(TABLE_INJECTION_KEY) as Table<DefaultRow>
+    const parent = inject(TABLE_INJECTION_KEY) as Table<any>
     const ns = useNamespace('table')
     const { getCellClasses, getCellStyles, columns } = useStyle(
-      props as TableFooter<DefaultRow>
+      props as TableFooter<any>
     )
     const { onScrollableChange, onColumnsChange } = useLayoutObserver(parent!)
 

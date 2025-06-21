@@ -25,8 +25,8 @@ import type { Store } from '../store'
 
 export interface TableHeader extends ComponentInternalInstance {
   state: {
-    onColumnsChange: (layout: TableLayout<DefaultRow>) => void
-    onScrollableChange: (layout: TableLayout<DefaultRow>) => void
+    onColumnsChange: (layout: TableLayout<any>) => void
+    onScrollableChange: (layout: TableLayout<any>) => void
   }
   filterPanels: Ref<DefaultRow>
 }
@@ -117,15 +117,15 @@ export default defineComponent({
       handleMouseOut,
       handleSortClick,
       handleFilterClick,
-    } = useEvent(props as TableHeaderProps<DefaultRow>, emit)
+    } = useEvent(props as TableHeaderProps<any>, emit)
     const {
       getHeaderRowStyle,
       getHeaderRowClass,
       getHeaderCellStyle,
       getHeaderCellClass,
-    } = useStyle(props as TableHeaderProps<DefaultRow>)
+    } = useStyle(props as TableHeaderProps<any>)
     const { isGroup, toggleAllSelection, columnRows } = useUtils(
-      props as TableHeaderProps<DefaultRow>
+      props as TableHeaderProps<any>
     )
 
     instance.state = {

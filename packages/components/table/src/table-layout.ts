@@ -9,7 +9,7 @@ import type { TableHeader } from './table-header'
 import type { DefaultRow, Table } from './table/defaults'
 import type { Store } from './store'
 
-class TableLayout<T extends Record<string, any>> {
+class TableLayout<T extends DefaultRow> {
   observers: TableHeader[]
   table: Table<T>
   store: Store<T>

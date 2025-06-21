@@ -26,7 +26,7 @@ type FilterMethods<T extends DefaultRow> = (
 
 type ValueOf<T> = T[keyof T]
 
-interface TableColumnCtx<T extends DefaultRow> {
+type TableColumnCtx<T extends DefaultRow = DefaultRow> = {
   id: string
   realWidth: number | null
   type: string
@@ -243,7 +243,7 @@ export default {
     default: () => {
       return ['ascending', 'descending', null]
     },
-    validator: <T extends DefaultRow>(val: TableColumnCtx<T>['sortOrders']) => {
+    validator: (val: TableColumnCtx<any>['sortOrders']) => {
       return val.every((order: TableSortOrder | null) =>
         ['ascending', 'descending', null].includes(order)
       )
