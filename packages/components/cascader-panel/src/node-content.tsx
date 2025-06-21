@@ -1,8 +1,15 @@
-import { defineComponent } from 'vue'
+import { Comment, defineComponent } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { isArray } from '@element-plus/utils'
 
-import type { PropType } from 'vue'
+import type { PropType, VNode } from 'vue'
 import type { CascaderNode, RenderLabel } from './types'
+
+function isVNodeEmpty(vnodes?: VNode[] | VNode) {
+  return !!(isArray(vnodes)
+    ? vnodes.every(({ type }) => type === Comment)
+    : vnodes?.type === Comment)
+}
 
 export default defineComponent({
   name: 'NodeContent',
@@ -16,12 +23,13 @@ export default defineComponent({
   setup(props) {
     const ns = useNamespace('cascader-node')
     const { renderLabelFn, node } = props
-    const { data, label } = node
+    const { data, label: nodeLabel } = node
 
-    return () => (
-      <span class={ns.e('label')}>
-        {renderLabelFn ? renderLabelFn({ node, data }) : label}
-      </span>
-    )
+    const label = () => {
+      const renderLabel = renderLabelFn?.({ node, data })
+      return isVNodeEmpty(renderLabel) ? nodeLabel : renderLabel ?? nodeLabel
+    }
+
+    return () => <span class={ns.e('label')}>{label()}</span>
   },
 })
