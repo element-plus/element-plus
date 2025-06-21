@@ -4,11 +4,16 @@ import { TREE_NODE_MAP_INJECTION_KEY } from '../tokens'
 import type Node from '../model/node'
 
 interface NodeMap {
-  treeNodeExpand(node: Node): void
+  treeNodeExpand(node?: Node): void
   children: NodeMap[]
 }
 
-export function useNodeExpandEventBroadcast(props: any) {
+interface Props {
+  node?: Node
+  accordion: boolean
+}
+
+export function useNodeExpandEventBroadcast(props: Props) {
   const parentNodeMap = inject(
     TREE_NODE_MAP_INJECTION_KEY,
     null
@@ -16,7 +21,7 @@ export function useNodeExpandEventBroadcast(props: any) {
   const currentNodeMap: NodeMap = {
     treeNodeExpand: (node) => {
       if (props.node !== node) {
-        props.node.collapse()
+        props.node?.collapse()
       }
     },
     children: [],
@@ -29,7 +34,7 @@ export function useNodeExpandEventBroadcast(props: any) {
   provide(TREE_NODE_MAP_INJECTION_KEY, currentNodeMap)
 
   return {
-    broadcastExpanded: (node: Node): void => {
+    broadcastExpanded: (node?: Node): void => {
       if (!props.accordion) return
       for (const childNode of currentNodeMap.children) {
         childNode.treeNodeExpand(node)

@@ -162,7 +162,7 @@ export default defineComponent({
     'node-drag-leave',
     'node-drag-enter',
     'node-drag-over',
-  ],
+  ] as string[],
   setup(props, ctx) {
     const { t } = useLocale()
     const ns = useNamespace('tree')
@@ -261,7 +261,7 @@ export default defineComponent({
     }
 
     const getNodeKey = (node: Node) => {
-      return getNodeKeyUtil(props.nodeKey, node.data)
+      return getNodeKeyUtil(props.nodeKey, node.data!)
     }
 
     const getNodePath = (data: TreeKey | TreeNodeData) => {
@@ -400,7 +400,7 @@ export default defineComponent({
       root,
       currentNode,
       instance: getCurrentInstance(),
-    } as any)
+    })
 
     provide(formItemContextKey, undefined)
 

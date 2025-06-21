@@ -8,7 +8,7 @@ import type { Ref } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 
 interface UseKeydownOption {
-  el$: Ref<HTMLElement>
+  el$: Ref<HTMLElement | null>
 }
 export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
   const ns = useNamespace('tree')
@@ -101,6 +101,7 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
   useEventListener(el$, 'keydown', handleKeydown)
 
   const initTabIndex = (): void => {
+    if (!el$.value) return
     const treeItems = Array.from(
       el$.value.querySelectorAll(`.${ns.is('focusable')}[role=treeitem]`)
     )
