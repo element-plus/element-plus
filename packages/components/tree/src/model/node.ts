@@ -167,7 +167,12 @@ class Node {
     const defaultExpandedKeys = store.defaultExpandedKeys
     const key = store.key
 
-    if (key && defaultExpandedKeys && defaultExpandedKeys.includes(this.key)) {
+    if (
+      key &&
+      this.key &&
+      defaultExpandedKeys &&
+      defaultExpandedKeys.includes(this.key)
+    ) {
       this.expand(null, store.autoExpandParent)
     }
 
@@ -212,7 +217,7 @@ class Node {
     return getPropertyFromData(this, 'label')
   }
 
-  get key() {
+  get key(): TreeKey | null {
     const nodeKey = this.store.key
     if (this.data) return this.data[nodeKey]
     return null

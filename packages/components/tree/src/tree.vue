@@ -303,14 +303,14 @@ export default defineComponent({
       return currentNode ? currentNode.data : null
     }
 
-    const getCurrentKey = (): any => {
+    const getCurrentKey = (): TreeKey | null => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in getCurrentKey')
       const currentNode = getCurrentNode()
       return currentNode ? currentNode[props.nodeKey] : null
     }
 
-    const setCheckedNodes = (nodes: Node['data'][], leafOnly?: boolean) => {
+    const setCheckedNodes = (nodes: Node[], leafOnly?: boolean) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCheckedNodes')
       store.value.setCheckedNodes(nodes, leafOnly)

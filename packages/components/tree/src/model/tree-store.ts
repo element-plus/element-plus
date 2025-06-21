@@ -183,7 +183,7 @@ export default class TreeStore {
   _initDefaultCheckedNode(node: Node): void {
     const defaultCheckedKeys = this.defaultCheckedKeys || []
 
-    if (defaultCheckedKeys.includes(node.key)) {
+    if (node.key && defaultCheckedKeys.includes(node.key)) {
       node.setChecked(true, !this.checkStrictly)
     }
   }
@@ -203,7 +203,7 @@ export default class TreeStore {
       this.nodesMap[node.id] = node
     } else {
       const nodeKey = node.key
-      if (nodeKey !== undefined) this.nodesMap[node.key] = node
+      if (nodeKey !== null) this.nodesMap[nodeKey] = node
     }
   }
 
@@ -215,7 +215,7 @@ export default class TreeStore {
       this.deregisterNode(child)
     })
 
-    delete this.nodesMap[node.key]
+    delete this.nodesMap[key]
   }
 
   getCheckedNodes(
@@ -354,11 +354,11 @@ export default class TreeStore {
     }
   }
 
-  setCheckedNodes(array: Node['data'][], leafOnly = false): void {
+  setCheckedNodes(array: Node[], leafOnly = false): void {
     const key = this.key
     const checkedKeys: Record<TreeKey, boolean> = {}
     array.forEach((item) => {
-      checkedKeys[item[key]] = true
+      checkedKeys[((item || {}) as any)[key]] = true
     })
 
     this._setCheckedKeys(key, leafOnly, checkedKeys)
@@ -396,8 +396,8 @@ export default class TreeStore {
     }
   }
 
-  getCurrentNode(): Node {
-    return this.currentNode!
+  getCurrentNode() {
+    return this.currentNode
   }
 
   setCurrentNode(currentNode: Node): void {

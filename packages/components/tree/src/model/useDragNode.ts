@@ -51,7 +51,7 @@ export function useDragNodeHandler({
   const ns = useNamespace('tree')
   const dragState = ref<{
     allowDrop: boolean
-    dropType: 'none' | 'inner' | 'before' | 'after' | null
+    dropType: NodeDropType | null
     draggingNode: TreeNode | null
     showDropIndicator: boolean
     dropNode: TreeNode | null
