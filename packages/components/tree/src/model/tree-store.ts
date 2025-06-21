@@ -203,7 +203,7 @@ export default class TreeStore {
       this.nodesMap[node.id] = node
     } else {
       const nodeKey = node.key
-      if (nodeKey !== null) this.nodesMap[nodeKey] = node
+      if (nodeKey) this.nodesMap[nodeKey] = node
     }
   }
 
@@ -215,7 +215,7 @@ export default class TreeStore {
       this.deregisterNode(child)
     })
 
-    delete this.nodesMap[key]
+    delete this.nodesMap[node.key!]
   }
 
   getCheckedNodes(

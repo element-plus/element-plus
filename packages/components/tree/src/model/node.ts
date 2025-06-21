@@ -217,7 +217,7 @@ class Node {
     return getPropertyFromData(this, 'label')
   }
 
-  get key(): TreeKey | null {
+  get key(): TreeKey | null | undefined {
     const nodeKey = this.store.key
     if (this.data) return this.data[nodeKey]
     return null
