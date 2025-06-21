@@ -43,19 +43,19 @@ export interface TreeStoreNodesMap {
   [key: string]: Node
 }
 export interface TreeStoreOptions {
-  key: TreeKey
+  key?: TreeKey
   data: TreeData
   lazy: boolean
   props: TreeOptionProps
-  load: LoadFunction
-  currentNodeKey: TreeKey
+  load?: LoadFunction
+  currentNodeKey?: TreeKey
   checkStrictly: boolean
   checkDescendants: boolean
-  defaultCheckedKeys: TreeKey[]
-  defaultExpandedKeys: TreeKey[]
+  defaultCheckedKeys?: TreeKey[]
+  defaultExpandedKeys?: TreeKey[]
   autoExpandParent: boolean
   defaultExpandAll: boolean
-  filterNodeMethod: FilterNodeMethodFunction
+  filterNodeMethod?: FilterNodeMethodFunction
 }
 export interface TreeOptionProps {
   children?: string
@@ -87,7 +87,7 @@ export type AllowDropFunction = (
 export type LoadFunction = (
   rootNode: Node,
   loadedCallback: (data: TreeData) => void,
-  stopLoading: () => void
+  stopLoading?: () => void
 ) => void
 export type FilterValue = any
 export type FilterNodeMethodFunction = (

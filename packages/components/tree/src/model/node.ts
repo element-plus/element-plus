@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { reactive } from 'vue'
 import {
   hasOwn,
@@ -67,7 +66,7 @@ const reInitChecked = function (node: Node): void {
 const getPropertyFromData = function (node: Node, prop: string): any {
   const props = node.store.props
   const data = node.data || {}
-  const config = props[prop]
+  const config = (props as any)[prop]
 
   if (isFunction(config)) {
     return config(data, node)
@@ -83,17 +82,17 @@ let nodeIdSeed = 0
 
 class Node {
   id: number
-  text: string
+  text: string | null
   checked: boolean
   indeterminate: boolean
-  data: TreeNodeData
+  data: TreeNodeData | null
   expanded: boolean
-  parent: Node
+  parent: Node | null
   visible: boolean
   isCurrent: boolean
-  store: TreeStore
-  isLeafByUser: boolean
-  isLeaf: boolean
+  store!: TreeStore
+  isLeafByUser: boolean | undefined = undefined
+  isLeaf: boolean | undefined = undefined
   canFocus: boolean
 
   level: number
@@ -108,7 +107,7 @@ class Node {
     this.indeterminate = false
     this.data = null
     this.expanded = false
-    this.parent = null
+    this.parent = null as Node | null
     this.visible = true
     this.isCurrent = false
     this.canFocus = false
@@ -214,7 +213,7 @@ class Node {
     return getPropertyFromData(this, 'label')
   }
 
-  get key(): TreeKey {
+  get key() {
     const nodeKey = this.store.key
     if (this.data) return this.data[nodeKey]
     return null
@@ -265,11 +264,11 @@ class Node {
     if (!(child instanceof Node)) {
       if (!batch) {
         const children = this.getChildren(true)
-        if (!children.includes(child.data)) {
+        if (!children?.includes(child.data)) {
           if (isUndefined(index) || index < 0) {
-            children.push(child.data)
+            children?.push(child.data)
           } else {
-            children.splice(index, 0, child.data)
+            children?.splice(index, 0, child.data)
           }
         }
       }
@@ -329,8 +328,8 @@ class Node {
     this.updateLeafState()
   }
 
-  removeChildByData(data: TreeNodeData): void {
-    let targetNode: Node = null
+  removeChildByData(data: TreeNodeData | null): void {
+    let targetNode: Node | null = null
 
     for (let i = 0; i < this.childNodes.length; i++) {
       if (this.childNodes[i].data === data) {
@@ -344,11 +343,11 @@ class Node {
     }
   }
 
-  expand(callback?: () => void, expandParent?: boolean): void {
-    const done = (): void => {
+  expand(callback?: (() => void) | null, expandParent?: boolean): void {
+    const done = () => {
       if (expandParent) {
         let parent = this.parent
-        while (parent.level > 0) {
+        while (parent && parent.level > 0) {
           parent.expanded = true
           parent = parent.parent
         }
@@ -396,8 +395,8 @@ class Node {
     })
   }
 
-  shouldLoadData(): boolean {
-    return this.store.lazy === true && this.store.load && !this.loaded
+  shouldLoadData() {
+    return Boolean(this.store.lazy === true && this.store.load && !this.loaded)
   }
 
   updateLeafState(): void {
@@ -481,7 +480,7 @@ class Node {
     }
   }
 
-  getChildren(forceInit = false): TreeNodeData | TreeNodeData[] {
+  getChildren(forceInit = false): TreeNodeData | TreeNodeData[] | null {
     // this is data
     if (this.level === 0) return this.data
     const data = this.data
@@ -508,13 +507,13 @@ class Node {
     const newData = (this.getChildren() || []) as TreeNodeData[]
     const oldData = this.childNodes.map((node) => node.data)
 
-    const newDataMap = {}
-    const newNodes = []
+    const newDataMap: Record<TreeKey, TreeNodeData> = {}
+    const newNodes: TreeNodeData[] = []
 
     newData.forEach((item, index) => {
       const key = item[NODE_KEY]
       const isNodeExists =
-        !!key && oldData.findIndex((data) => data[NODE_KEY] === key) >= 0
+        !!key && oldData.findIndex((data) => data?.[NODE_KEY] === key) >= 0
       if (isNodeExists) {
         newDataMap[key] = { index, data: item }
       } else {
@@ -524,7 +523,7 @@ class Node {
 
     if (!this.store.lazy) {
       oldData.forEach((item) => {
-        if (!newDataMap[item[NODE_KEY]]) this.removeChildByData(item)
+        if (!newDataMap[item?.[NODE_KEY]]) this.removeChildByData(item)
       })
     }
 
@@ -536,7 +535,7 @@ class Node {
   }
 
   loadData(
-    callback: (node: Node) => void,
+    callback: (data?: TreeNodeData[]) => void,
     defaultProps: TreeNodeLoadedDefaultProps = {}
   ) {
     if (
@@ -547,7 +546,7 @@ class Node {
     ) {
       this.loading = true
 
-      const resolve = (children) => {
+      const resolve = (children: TreeNodeData[]) => {
         this.childNodes = []
 
         this.doCreateChildren(children, defaultProps)

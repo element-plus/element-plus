@@ -9,7 +9,7 @@ import type { Ref } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 
 interface UseKeydownOption {
-  el$: Ref<HTMLElement>
+  el$: Ref<HTMLElement | null>
 }
 export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
   const ns = useNamespace('tree')

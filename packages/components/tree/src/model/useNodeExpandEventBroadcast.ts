@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { inject, provide } from 'vue'
 import { TREE_NODE_MAP_INJECTION_KEY } from '../tokens'
 
@@ -10,7 +9,10 @@ interface NodeMap {
 }
 
 export function useNodeExpandEventBroadcast(props) {
-  const parentNodeMap = inject<NodeMap>(TREE_NODE_MAP_INJECTION_KEY, null)
+  const parentNodeMap = inject(
+    TREE_NODE_MAP_INJECTION_KEY,
+    null
+  ) as NodeMap | null
   const currentNodeMap: NodeMap = {
     treeNodeExpand: (node) => {
       if (props.node !== node) {
