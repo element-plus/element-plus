@@ -1,11 +1,11 @@
 <template>
-  <form :class="formClasses">
+  <form ref="formRef" :class="formClasses">
     <slot />
   </form>
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, reactive, toRefs, watch } from 'vue'
+import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
 import { debugWarn, isFunction } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
@@ -30,7 +30,8 @@ defineOptions({
 const props = defineProps(formProps)
 const emit = defineEmits(formEmits)
 
-const fields: FormItemContext[] = []
+const formRef = ref<HTMLElement>()
+const fields = reactive<FormItemContext[]>([])
 
 const formSize = useFormSize()
 const ns = useNamespace('form')
@@ -38,8 +39,6 @@ const formClasses = computed(() => {
   const { labelPosition, inline } = props
   return [
     ns.b(),
-    // todo: in v2.2.0, we can remove default
-    // in fact, remove it doesn't affect the final style
     ns.m(formSize.value || 'default'),
     {
       [ns.m(`label-${labelPosition}`)]: labelPosition,
@@ -49,7 +48,7 @@ const formClasses = computed(() => {
 })
 
 const getField: FormContext['getField'] = (prop) => {
-  return fields.find((field) => field.prop === prop)
+  return filterFields(fields, [prop])[0]
 }
 
 const addField: FormContext['addField'] = (field) => {
@@ -126,9 +125,10 @@ const validateField: FormContext['validateField'] = async (
   modelProps = [],
   callback
 ) => {
+  let result = false
   const shouldThrow = !isFunction(callback)
   try {
-    const result = await doValidateField(modelProps)
+    result = await doValidateField(modelProps)
     // When result is false meaning that the fields are not validatable
     if (result === true) {
       await callback?.(result)
@@ -140,15 +140,22 @@ const validateField: FormContext['validateField'] = async (
     const invalidFields = e as ValidateFieldsError
 
     if (props.scrollToError) {
-      scrollToField(Object.keys(invalidFields)[0])
+      // form-item may be dynamically rendered based on the judgment conditions, and the order in invalidFields is uncertain.
+      // Therefore, the first form field with an error is determined by directly looking for the rendered element.
+      if (formRef.value) {
+        const formItem = formRef.value!.querySelector(
+          `.${ns.b()}-item.is-error`
+        )
+        formItem?.scrollIntoView(props.scrollIntoViewOptions)
+      }
     }
-    await callback?.(false, invalidFields)
+    !result && (await callback?.(false, invalidFields))
     return shouldThrow && Promise.reject(invalidFields)
   }
 }
 
 const scrollToField = (prop: FormItemProp) => {
-  const field = filterFields(fields, prop)[0]
+  const field = getField(prop)
   if (field) {
     field.$el?.scrollIntoView(props.scrollIntoViewOptions)
   }
@@ -202,6 +209,10 @@ defineExpose({
    * @description Scroll to the specified fields.
    */
   scrollToField,
+  /**
+   * @description Get a field context.
+   */
+  getField,
   /**
    * @description All fields context.
    */

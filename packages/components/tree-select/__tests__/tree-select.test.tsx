@@ -99,6 +99,24 @@ describe('TreeSelect.vue', () => {
     expect(tree.findAll('.el-tree .el-tree-node').length).toBe(1)
   })
 
+  test('render tree-select with default value and persistent is false', async () => {
+    // This is convenient for testing the default value label rendering when persistent is false.
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    const { select, wrapper } = createComponent({
+      props: {
+        persistent: false,
+        modelValue: 1,
+      },
+    })
+
+    await nextTick()
+
+    expect(select.vm.modelValue).toBe(1)
+    expect(select.vm.states.selectedLabel).toBe('一级 1')
+    expect(wrapper.find('.el-select__placeholder').text()).toBe('一级 1')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
+  })
+
   test('render tree-select with dynamic class', async () => {
     const isClass = ref(false)
     const { wrapper } = createComponent({

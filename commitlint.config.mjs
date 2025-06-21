@@ -40,7 +40,9 @@ const subjectComplete = gitStatus
   ?.replace(/\//g, '%%')
   ?.match(/packages%%components%%((\w|-)*)/)?.[1]
 
+/** @type { import('cz-git').UserConfig } */
 export default {
+  extends: '@commitlint/config-conventional',
   rules: {
     /**
      * type[scope]: [function] description

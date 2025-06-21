@@ -5,13 +5,14 @@ import type {
   ExtractPropTypes,
   Ref,
 } from 'vue'
-import type { ISelectProps } from './select'
+import type { SelectProps } from './select'
 import type { optionProps } from './option'
+
 export interface SelectGroupContext {
   disabled: boolean
 }
 export interface SelectContext {
-  props: ISelectProps
+  props: SelectProps
   states: SelectStates
   selectRef: HTMLElement | undefined
   optionsArray: OptionPublicInstance[]

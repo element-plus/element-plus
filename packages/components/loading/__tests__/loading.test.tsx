@@ -1,8 +1,8 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import { Loading } from '../src/service'
-import { vLoading } from '../src/directive'
+import Loading from '../src/service'
+import vLoading from '../src/directive'
 import ElInput from '../../input'
 
 import type { VNode } from 'vue'

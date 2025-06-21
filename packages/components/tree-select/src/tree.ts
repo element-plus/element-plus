@@ -12,6 +12,7 @@ import {
   treeEach,
   treeFind,
 } from './utils'
+
 import type { CacheOption } from './cache-options'
 import type { Ref } from 'vue'
 import type ElSelect from '@element-plus/components/select'
@@ -33,7 +34,7 @@ export const useTree = (
   }
 ) => {
   watch(
-    () => props.modelValue,
+    [() => props.modelValue, tree],
     () => {
       if (props.showCheckbox) {
         nextTick(() => {

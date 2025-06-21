@@ -114,19 +114,24 @@ function useWatcher<T>() {
     _columns.value.forEach((column) => {
       updateChildFixed(column)
     })
-    fixedColumns.value = _columns.value.filter(
-      (column) =>
-        column.type !== 'selection' && [true, 'left'].includes(column.fixed)
+    fixedColumns.value = _columns.value.filter((column) =>
+      [true, 'left'].includes(column.fixed)
+    )
+
+    const selectColumn = _columns.value.find(
+      (column) => column.type === 'selection'
     )
 
     let selectColFixLeft
-    if (_columns.value?.[0]?.type === 'selection') {
-      const selectColumn = _columns.value[0]
-      selectColFixLeft =
-        [true, 'left'].includes(selectColumn.fixed) ||
-        (fixedColumns.value.length && selectColumn.fixed !== 'right')
-      if (selectColFixLeft) {
+    if (
+      selectColumn &&
+      selectColumn.fixed !== 'right' &&
+      !fixedColumns.value.includes(selectColumn)
+    ) {
+      const selectColumnIndex = _columns.value.indexOf(selectColumn)
+      if (selectColumnIndex === 0 && fixedColumns.value.length) {
         fixedColumns.value.unshift(selectColumn)
+        selectColFixLeft = true
       }
     }
 
@@ -193,7 +198,8 @@ function useWatcher<T>() {
     let deleted
     if (rowKey.value) {
       deleted = []
-      const dataMap = getKeysMap(data.value, rowKey.value)
+      const childrenKey = instance?.store?.states?.childrenColumnName.value
+      const dataMap = getKeysMap(data.value, rowKey.value, true, childrenKey)
       for (const key in selectedMap.value) {
         if (hasOwn(selectedMap.value, key) && !dataMap[key]) {
           deleted.push(selectedMap.value[key].row)
@@ -231,7 +237,8 @@ function useWatcher<T>() {
       selected,
       treeProps,
       ignoreSelectable ? undefined : selectable.value,
-      data.value.indexOf(row)
+      data.value.indexOf(row),
+      rowKey.value
     )
     if (changed) {
       const newSelection = (selection.value || []).slice()
@@ -269,7 +276,8 @@ function useWatcher<T>() {
           value,
           treeProps,
           selectable.value,
-          rowIndex
+          rowIndex,
+          rowKey
         )
       ) {
         selectionChanged = true
