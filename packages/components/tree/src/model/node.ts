@@ -185,8 +185,7 @@ class Node {
     }
 
     this.updateLeafState()
-    if (this.parent && (this.level === 1 || this.parent.expanded === true))
-      this.canFocus = true
+    if (this.level === 1 || this.parent?.expanded === true) this.canFocus = true
   }
 
   setData(data: TreeNodeData): void {

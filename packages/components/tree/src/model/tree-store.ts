@@ -354,11 +354,11 @@ export default class TreeStore {
     }
   }
 
-  setCheckedNodes(array: Node[], leafOnly = false): void {
+  setCheckedNodes(array: Node['data'][], leafOnly = false): void {
     const key = this.key
     const checkedKeys: Record<TreeKey, boolean> = {}
     array.forEach((item) => {
-      checkedKeys[((item || {}) as any)[key]] = true
+      checkedKeys[item[key]] = true
     })
 
     this._setCheckedKeys(key, leafOnly, checkedKeys)
