@@ -8,7 +8,7 @@ interface NodeMap {
   children: NodeMap[]
 }
 
-export function useNodeExpandEventBroadcast(props) {
+export function useNodeExpandEventBroadcast(props: any) {
   const parentNodeMap = inject(
     TREE_NODE_MAP_INJECTION_KEY,
     null

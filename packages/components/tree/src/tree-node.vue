@@ -200,7 +200,7 @@ export default defineComponent({
     )
 
     const getNodeKey = (node: Node): any => {
-      return getNodeKeyUtil(tree.props.nodeKey, node.data)
+      return getNodeKeyUtil(tree.props.nodeKey, node.data!)
     }
 
     const getNodeClass = (node: Node) => {
@@ -211,7 +211,7 @@ export default defineComponent({
       let className
       if (isFunction(nodeClassFunc)) {
         const { data } = node
-        className = nodeClassFunc(data, node)
+        className = nodeClassFunc(data!, node)
       } else {
         className = nodeClassFunc
       }
