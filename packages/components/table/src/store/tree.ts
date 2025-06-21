@@ -3,7 +3,7 @@ import { isArray, isUndefined } from '@element-plus/utils'
 import { getRowIdentity, walkTreeNode } from '../util'
 
 import type { WatcherPropsData } from '.'
-import type { Table, TableProps, TreeNode } from '../table/defaults'
+import type { DefaultRow, Table, TableProps, TreeNode } from '../table/defaults'
 
 export interface TreeData extends TreeNode {
   children?: string[]
@@ -11,7 +11,7 @@ export interface TreeData extends TreeNode {
   loaded?: boolean
 }
 
-function useTree<T extends Record<string, any>(watcherData: WatcherPropsData<T>) {
+function useTree<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
   const expandRowKeys = ref<Array<string | number>>([])
   const treeData = ref<Record<string, TreeData>>({})
   const indent = ref(16)
