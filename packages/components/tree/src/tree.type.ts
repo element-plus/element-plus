@@ -87,7 +87,7 @@ export type AllowDropFunction = (
 export type LoadFunction = (
   rootNode: Node,
   loadedCallback: (data: TreeData) => void,
-  stopLoading?: () => void
+  stopLoading: () => void
 ) => void
 export type FilterValue = any
 export type FilterNodeMethodFunction = (

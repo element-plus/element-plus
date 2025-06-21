@@ -1,5 +1,5 @@
 import { nextTick } from 'vue'
-import { hasOwn, isObject, isPropAbsent } from '@element-plus/utils'
+import { NOOP, hasOwn, isObject, isPropAbsent } from '@element-plus/utils'
 import Node from './node'
 import { getNodeKey } from './util'
 
@@ -55,10 +55,14 @@ export default class TreeStore {
 
     if (this.lazy && this.load) {
       const loadFn = this.load
-      loadFn(this.root, (data) => {
-        this.root.doCreateChildren(data)
-        this._initDefaultCheckedNodes()
-      })
+      loadFn(
+        this.root,
+        (data) => {
+          this.root.doCreateChildren(data)
+          this._initDefaultCheckedNodes()
+        },
+        NOOP
+      )
     } else {
       this._initDefaultCheckedNodes()
     }
