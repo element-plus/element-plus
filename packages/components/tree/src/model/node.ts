@@ -85,7 +85,7 @@ class Node {
   text: string | null
   checked: boolean
   indeterminate: boolean
-  data: TreeNodeData | null
+  data: TreeNodeData
   expanded: boolean
   parent: Node | null
   visible: boolean
@@ -105,7 +105,7 @@ class Node {
     this.text = null
     this.checked = false
     this.indeterminate = false
-    this.data = null
+    this.data = null as unknown as TreeNodeData
     this.expanded = false
     this.parent = null as Node | null
     this.visible = true

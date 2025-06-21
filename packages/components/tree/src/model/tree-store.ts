@@ -28,9 +28,9 @@ export default class TreeStore {
   defaultCheckedKeys?: TreeKey[]
   checkStrictly = false
   defaultExpandedKeys?: TreeKey[]
-  autoExpandParent: boolean = false
-  defaultExpandAll: boolean = false
-  checkDescendants: boolean = false
+  autoExpandParent = false
+  defaultExpandAll = false
+  checkDescendants = false
   props!: TreeOptionProps
 
   constructor(options: TreeStoreOptions) {
@@ -76,7 +76,7 @@ export default class TreeStore {
         child.visible = !!filterNodeMethod?.call(
           child,
           value,
-          child.data!,
+          child.data,
           child
         )
 
@@ -227,8 +227,7 @@ export default class TreeStore {
       childNodes.forEach((child) => {
         if (
           (child.checked || (includeHalfChecked && child.indeterminate)) &&
-          (!leafOnly || (leafOnly && child.isLeaf)) &&
-          child.data
+          (!leafOnly || (leafOnly && child.isLeaf))
         ) {
           checkedNodes.push(child.data)
         }
@@ -254,7 +253,7 @@ export default class TreeStore {
         : (node as Node).childNodes
 
       childNodes.forEach((child) => {
-        if (child.indeterminate && child.data) {
+        if (child.indeterminate) {
           nodes.push(child.data)
         }
 
@@ -289,15 +288,11 @@ export default class TreeStore {
     const childNodes = node.childNodes
     for (let i = childNodes.length - 1; i >= 0; i--) {
       const child = childNodes[i]
-      if (child.data) {
-        this.remove(child.data)
-      }
+      this.remove(child.data)
     }
     for (let i = 0, j = data.length; i < j; i++) {
       const child = data[i]
-      if (node.data) {
-        this.append(child, node.data)
-      }
+      this.append(child, node.data)
     }
   }
 
@@ -305,32 +300,28 @@ export default class TreeStore {
     key: TreeKey,
     leafOnly = false,
     checkedKeys: { [key: string]: boolean }
-  ): void {
+  ) {
     const allNodes = this._getAllNodes().sort((a, b) => a.level - b.level)
     const cache: Record<TreeKey, boolean> = Object.create(null)
     const keys = Object.keys(checkedKeys)
     allNodes.forEach((node) => node.setChecked(false, false))
     const cacheCheckedChild = (node: Node) => {
       node.childNodes.forEach((child) => {
-        if (child.data) {
-          cache[child.data[key]] = true
-          if (child.childNodes?.length) {
-            cacheCheckedChild(child)
-          }
+        cache[child.data[key]] = true
+        if (child.childNodes?.length) {
+          cacheCheckedChild(child)
         }
       })
     }
     for (let i = 0, j = allNodes.length; i < j; i++) {
       const node = allNodes[i]
-      const nodeKey: string | null = node.data?.[key].toString()
-      if (nodeKey) {
-        const checked = keys.includes(nodeKey)
-        if (!checked) {
-          if (node.checked && !cache[nodeKey]) {
-            node.setChecked(false, false)
-          }
-          continue
+      const nodeKey: string = node.data[key].toString()
+      const checked = keys.includes(nodeKey)
+      if (!checked) {
+        if (node.checked && !cache[nodeKey]) {
+          node.setChecked(false, false)
         }
+        continue
       }
 
       if (node.childNodes.length) {

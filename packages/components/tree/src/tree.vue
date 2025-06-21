@@ -62,7 +62,10 @@ import type Node from './model/node'
 import type { ComponentInternalInstance, PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type {
+  AllowDragFunction,
+  AllowDropFunction,
   FilterValue,
+  RenderContentFunction,
   TreeComponentProps,
   TreeData,
   TreeKey,
@@ -111,7 +114,9 @@ export default defineComponent({
       TreeComponentProps['defaultExpandedKeys']
     >,
     currentNodeKey: [String, Number] as PropType<string | number>,
-    renderContent: Function,
+    renderContent: {
+      type: definePropType<RenderContentFunction>(Function),
+    },
     showCheckbox: {
       type: Boolean,
       default: false,
@@ -120,8 +125,12 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    allowDrag: Function,
-    allowDrop: Function,
+    allowDrag: {
+      type: definePropType<AllowDragFunction>(Function),
+    },
+    allowDrop: {
+      type: definePropType<AllowDropFunction>(Function),
+    },
     props: {
       type: Object as PropType<TreeComponentProps['props']>,
       default: () => ({
@@ -261,7 +270,7 @@ export default defineComponent({
     }
 
     const getNodeKey = (node: Node) => {
-      return getNodeKeyUtil(props.nodeKey, node.data!)
+      return getNodeKeyUtil(props.nodeKey, node.data)
     }
 
     const getNodePath = (data: TreeKey | TreeNodeData) => {

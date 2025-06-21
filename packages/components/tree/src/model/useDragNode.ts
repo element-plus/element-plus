@@ -2,9 +2,15 @@ import { provide, ref } from 'vue'
 import { addClass, isFunction, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 
-import type { InjectionKey } from 'vue'
+import type { InjectionKey, Ref, SetupContext } from 'vue'
+import type {
+  AllowDragFunction,
+  AllowDropFunction,
+  FakeNode,
+  NodeDropType,
+} from '../tree.type'
+import type TreeStore from './tree-store'
 import type Node from './node'
-import type { FakeNode, NodeDropType } from '../tree.type'
 
 interface TreeNode {
   node: Node
@@ -14,6 +20,17 @@ interface TreeNode {
 interface DragOptions {
   event: DragEvent
   treeNode: TreeNode
+}
+
+interface Props {
+  props: {
+    allowDrag?: AllowDragFunction
+    allowDrop?: AllowDropFunction
+  }
+  ctx: SetupContext<string[]>
+  el$: Ref<HTMLElement | null>
+  dropIndicator$: Ref<HTMLElement | null>
+  store: Ref<TreeStore>
 }
 
 export interface DragEvents {
@@ -30,7 +47,7 @@ export function useDragNodeHandler({
   el$,
   dropIndicator$,
   store,
-}: any) {
+}: Props) {
   const ns = useNamespace('tree')
   const dragState = ref<{
     allowDrop: boolean
@@ -129,7 +146,7 @@ export function useDragNodeHandler({
     const targetPosition = dropEl
       .querySelector(`.${ns.be('node', 'content')}`)!
       .getBoundingClientRect()
-    const treePosition = el$.value.getBoundingClientRect()
+    const treePosition = el$.value!.getBoundingClientRect()
 
     let dropType: NodeDropType
     const prevPercent = dropPrev ? (dropInner ? 0.25 : dropNext ? 0.45 : 1) : -1
@@ -156,8 +173,8 @@ export function useDragNodeHandler({
     } else if (dropType === 'after') {
       indicatorTop = iconPosition.bottom - treePosition.top
     }
-    dropIndicator.style.top = `${indicatorTop}px`
-    dropIndicator.style.left = `${iconPosition.right - treePosition.left}px`
+    dropIndicator!.style.top = `${indicatorTop}px`
+    dropIndicator!.style.left = `${iconPosition.right - treePosition.left}px`
 
     if (dropType === 'inner') {
       addClass(dropEl, ns.is('drop-inner'))
@@ -195,11 +212,11 @@ export function useDragNodeHandler({
         dropNode.node.insertChild(draggingNodeCopy)
       }
       if (dropType !== 'none') {
-        store.value.registerNode(draggingNodeCopy)
+        store.value.registerNode(draggingNodeCopy as any)
         if (store.value.key) {
           //restore checkbox state after dragging
           draggingNode.node.eachNode((node) => {
-            store.value.nodesMap[node.data![store.value.key]]?.setChecked(
+            store.value.nodesMap[node.data[store.value.key]]?.setChecked(
               node.checked,
               !store.value.checkStrictly
             )
