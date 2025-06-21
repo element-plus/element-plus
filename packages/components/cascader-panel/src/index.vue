@@ -119,17 +119,17 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
   node! = node || new Node({}, cfg, undefined, true)
   node.loading = true
 
-  const resolve = (dataList: CascaderOption[]) => {
+  const resolve = (dataList?: CascaderOption[]) => {
     const _node = node as Node
     const parent = _node.root ? null : _node
     dataList && store?.appendNodes(dataList, parent as Node)
     _node.loading = false
     _node.loaded = true
     _node.childrenData = _node.childrenData || []
-    cb?.(dataList)
+    dataList && cb?.(dataList)
   }
 
-  cfg.lazyLoad(node, resolve as any)
+  cfg.lazyLoad(node, resolve)
 }
 
 const expandNode: ElCascaderPanelContext['expandNode'] = (node, silent) => {
@@ -273,9 +273,8 @@ const scrollToExpandingNode = () => {
         `.${ns.namespace.value}-scrollbar__wrap`
       )
       const activeNode =
-        menuElement.querySelector(
-          `.${ns.b('node')}.${ns.is('active')}:last-child`
-        ) || menuElement.querySelector(`.${ns.b('node')}.in-active-path`)
+        menuElement.querySelector(`.${ns.b('node')}.${ns.is('active')}`) ||
+        menuElement.querySelector(`.${ns.b('node')}.in-active-path`)
       scrollIntoView(container, activeNode)
     }
   })
