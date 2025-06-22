@@ -1,4 +1,4 @@
-export const rightRichTextSponsors = []
+export const rightRichTextSponsors: never[] = []
 
 export const rightBigLogoSponsors = [
   {
@@ -73,6 +73,10 @@ export const platinumSponsors = [
   ...rightRichTextSponsors,
 ]
 
-export const leftLogoSponsors = []
+export const leftLogoSponsors: never[] = []
 
 export const goldSponsors = [...rightLogoSmallSponsors, ...leftLogoSponsors]
+
+export type Sponsor =
+  | typeof goldSponsors[number]
+  | typeof platinumSponsors[number]

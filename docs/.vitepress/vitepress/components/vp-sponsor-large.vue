@@ -2,10 +2,12 @@
 import { leftCustomImgSponsors } from '../../config/sponsors'
 import { sendEvent } from '../../config/analytics'
 
-defineProps({
-  itemClass: String,
-  itemStyle: [String, Object, Array],
-})
+import type { StyleValue } from 'vue'
+
+defineProps<{
+  itemClass?: string
+  itemStyle?: StyleValue
+}>()
 
 const onItemClick = (item: any) => {
   sendEvent('sp_click', item.name, 'left_custom_img')
@@ -18,7 +20,7 @@ const onItemClick = (item: any) => {
       v-for="item in leftCustomImgSponsors"
       :key="item.name"
       :href="item.url"
-      :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
+      :title="`${item.name} - ${item.slogan_cn || item.slogan}`"
       :class="['sponsor-large inline-flex', itemClass]"
       :style="itemStyle"
       target="_blank"

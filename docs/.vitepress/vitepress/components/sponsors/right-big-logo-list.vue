@@ -14,7 +14,7 @@ const onItemClick = (item: any) => {
       v-for="item in rightBigLogoSponsors"
       :key="item.name"
       :href="item.url"
-      :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
+      :title="`${item.name} - ${item.slogan_cn || item.slogan}`"
       target="_blank"
       @click="onItemClick(item)"
     >

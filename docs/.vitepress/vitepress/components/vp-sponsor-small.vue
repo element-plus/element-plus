@@ -11,7 +11,7 @@ const onItemClick = (item: any) => {
 <template>
   <div>
     <a
-      v-for="item in leftLogoSponsors"
+      v-for="item in leftLogoSponsors as any"
       :key="item.name"
       :class="[
         'sponsor-each inline-flex items-center',

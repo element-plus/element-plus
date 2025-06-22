@@ -16,7 +16,7 @@ const onItemClick = (item: any) => {
 <template>
   <div class="right-rich">
     <a
-      v-for="item in rightRichTextSponsors"
+      v-for="item in rightRichTextSponsors as any"
       :key="item.name"
       :href="item.url"
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"

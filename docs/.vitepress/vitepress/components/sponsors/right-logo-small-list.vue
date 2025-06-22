@@ -26,9 +26,7 @@ const onItemClick = (item: any) => {
       <a
         v-else
         :href="item.url"
-        :title="`${item.name_cn || item.name} - ${
-          item.slogan_cn || item.slogan
-        }`"
+        :title="`${item.name} - ${item.slogan_cn || item.slogan}`"
         target="_blank"
         @click="onItemClick(item)"
       >

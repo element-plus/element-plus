@@ -93,20 +93,20 @@ export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
 
         // allow auto import and register components used in markdown
         include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-      }),
+      }) as Plugin,
 
       // https://github.com/antfu/unplugin-icons
       Icons({
         autoInstall: true,
-      }),
+      }) as Plugin,
 
       UnoCSS({
         inspector: false,
       }),
 
-      MarkdownTransform(),
+      MarkdownTransform() as Plugin,
       Inspect(),
-      groupIconVitePlugin(),
+      groupIconVitePlugin() as Plugin,
       env.HTTPS ? (mkcert() as Plugin) : undefined,
     ],
     optimizeDeps: {

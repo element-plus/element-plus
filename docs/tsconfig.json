@@ -10,12 +10,13 @@
     "strict": true,
     "noImplicitAny": false,
     "skipLibCheck": true,
-    "lib": ["WebWorker"],
+    "lib": ["ESNext", "DOM", "WebWorker"],
     "paths": {
       "element-plus": ["../packages/element-plus"],
       "~/*": ["./.vitepress/vitepress/*"]
     },
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "types": ["unplugin-icons/types/vue"]
   },
   "include": ["**/*", ".vitepress/**/*", "../typings/global.d.ts"],
   "exclude": ["node_modules"]

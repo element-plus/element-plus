@@ -5,28 +5,30 @@ import { useLang } from '../../composables/lang'
 import sponsorLocale from '../../../i18n/component/sponsor.json'
 import { sendEvent } from '../../../config/analytics'
 
+import type { Sponsor } from '../../../config/sponsors'
+
 const onItemClick = (item: any) => {
   sendEvent('sp_click', item.name, 'index')
 }
-defineProps({
-  sponsors: Array,
-  sponsorType: String,
-})
+defineProps<{
+  sponsors: Sponsor[]
+  sponsorType: string
+}>()
 
 const lang = useLang()
 const sponsorLang = computed(() => sponsorLocale[lang.value])
 
 const langZhCN = 'zh-CN'
 
-const getSponsorName = (sponsor) => {
+const getSponsorName = (sponsor: Sponsor) => {
   if (lang.value === langZhCN) {
-    return sponsor.name_cn || sponsor.name
+    return ('name_cn' in sponsor && sponsor.name_cn) || sponsor.name
   }
   return sponsor.name
 }
-const getSponsorSlogan = (sponsor) => {
+const getSponsorSlogan = (sponsor: Sponsor) => {
   if (lang.value === langZhCN) {
-    if (sponsor.slogan_index) {
+    if ('slogan_index' in sponsor && sponsor.slogan_index) {
       return sponsor.slogan_index
     }
     return sponsor.slogan_cn || sponsor.slogan
@@ -41,13 +43,16 @@ const getSponsorSlogan = (sponsor) => {
     <a
       v-for="(sponsor, i) in sponsors"
       :key="i"
-      :class="['sponsor flex px-4 rounded-md', sponsor.className]"
+      :class="[
+        'sponsor flex px-4 rounded-md',
+        'className' in sponsor && sponsor.className,
+      ]"
       :href="sponsor.url"
       target="_blank"
       @click="onItemClick(sponsor)"
     >
       <img
-        :class="sponsor.isDark && isDark ? 'filter invert' : ''"
+        :class="'isDark' in sponsor && isDark ? 'filter invert' : ''"
         width="45"
         :src="sponsor.img"
         :alt="sponsor.name"
