@@ -20,12 +20,6 @@ const sponsorLang = computed(() => sponsorLocale[lang.value])
 
 const langZhCN = 'zh-CN'
 
-const getSponsorName = (sponsor: Sponsor) => {
-  if (lang.value === langZhCN) {
-    return ('name_cn' in sponsor && sponsor.name_cn) || sponsor.name
-  }
-  return sponsor.name
-}
 const getSponsorSlogan = (sponsor: Sponsor) => {
   if (lang.value === langZhCN) {
     if ('slogan_index' in sponsor && sponsor.slogan_index) {
@@ -59,7 +53,7 @@ const getSponsorSlogan = (sponsor: Sponsor) => {
       />
       <div>
         <p>
-          <span class="name">{{ getSponsorName(sponsor) }}</span>
+          <span class="name">{{ sponsor.name }}</span>
         </p>
         <p>{{ getSponsorSlogan(sponsor) }}</p>
       </div>
