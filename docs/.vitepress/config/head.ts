@@ -106,14 +106,9 @@ export const head: HeadConfig[] = [
     'script',
     {},
     `if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/sw.js')
-        .then(function(registration) {
-          console.log(registration);
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        registrations.forEach(sw => sw.unregister())
+      })
     }`,
   ],
   [
