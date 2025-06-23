@@ -196,13 +196,28 @@ const Space = defineComponent({
         let extractedChildren = extractChildren(children.children)
 
         if (spacer) {
-          // track the current rendering index, when encounters the last element
-          // then no need to add a spacer after it.
-          const len = extractedChildren.length - 1
+          // pre calculate which indices have non-comment nodes
+          const nonCommentIndices = extractedChildren
+            .map((node, i) =>
+              !(isVNode(node) && node.type === Comment) ? i : -1
+            )
+            .filter((i) => i !== -1)
+
           extractedChildren = extractedChildren.reduce<VNode[]>(
             (acc, child, idx) => {
               const children = [...acc, child]
-              if (idx !== len) {
+
+              // Check if current node is a comment
+              const isComment = isVNode(child) && child.type === Comment
+
+              // Check if current index is less than the last non-comment index
+              // This means there's at least one more non-comment node after this one
+              const hasNextNonComment =
+                !isComment &&
+                nonCommentIndices.indexOf(idx) < nonCommentIndices.length - 1
+
+              // Add spacer only if: not a comment AND has next non-comment node
+              if (hasNextNonComment) {
                 children.push(
                   createVNode(
                     'span',
