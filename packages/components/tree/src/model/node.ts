@@ -1,4 +1,5 @@
 import { reactive } from 'vue'
+import { isNil } from 'lodash-unified'
 import {
   hasOwn,
   isArray,
@@ -169,7 +170,7 @@ class Node {
 
     if (
       key &&
-      this.key &&
+      !isNil(this.key) &&
       defaultExpandedKeys &&
       defaultExpandedKeys.includes(this.key)
     ) {

@@ -1,4 +1,5 @@
 import { nextTick } from 'vue'
+import { isNil } from 'lodash-unified'
 import { NOOP, hasOwn, isObject, isPropAbsent } from '@element-plus/utils'
 import Node from './node'
 import { getNodeKey } from './util'
@@ -183,7 +184,7 @@ export default class TreeStore {
   _initDefaultCheckedNode(node: Node): void {
     const defaultCheckedKeys = this.defaultCheckedKeys || []
 
-    if (node.key && defaultCheckedKeys.includes(node.key)) {
+    if (!isNil(node.key) && defaultCheckedKeys.includes(node.key)) {
       node.setChecked(true, !this.checkStrictly)
     }
   }
@@ -203,7 +204,7 @@ export default class TreeStore {
       this.nodesMap[node.id] = node
     } else {
       const nodeKey = node.key
-      if (nodeKey) this.nodesMap[nodeKey] = node
+      if (!isNil(nodeKey)) this.nodesMap[nodeKey] = node
     }
   }
 
