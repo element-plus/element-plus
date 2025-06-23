@@ -61,7 +61,7 @@ const props = defineProps(menuItemProps)
 const emit = defineEmits(menuItemEmits)
 
 const instance = getCurrentInstance()!
-const rootMenu = inject<MenuProvider>(MENU_INJECTION_KEY)
+const rootMenu = inject<MenuProvider>(MENU_INJECTION_KEY)!
 const nsMenu = useNamespace('menu')
 const nsMenuItem = useNamespace('menu-item')
 if (!rootMenu) throwError(COMPONENT_NAME, 'can not inject root menu')
