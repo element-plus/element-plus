@@ -227,11 +227,12 @@ cascader/custom-tag
 
 ### CascaderPanel Events
 
-| Name          | Description                                                             | Type                                                |
-| ------------- | ----------------------------------------------------------------------- | --------------------------------------------------- |
-| change        | triggers when the binding value changes                                 | ^[Function]`(value: CascaderValue) => void`         |
-| expand-change | triggers when expand option changes                                     | ^[Function]`(value: CascaderNodePathValue) => void` |
-| close         | close panel event, provided to Cascader to put away the panel judgment. | ^[Function]`() => void`                             |
+| Name              | Description                                                             | Type                                                     |
+| ----------------- | ----------------------------------------------------------------------- | -------------------------------------------------------- |
+| change            | triggers when the binding value changes                                 | ^[Function]`(value: CascaderValue \| undefined) => void` |
+| update:modelValue | triggers when the binding value changes                                 | ^[Function]`(value: CascaderValue \| undefined) => void` |
+| expand-change     | triggers when expand option changes                                     | ^[Function]`(value: CascaderNodePathValue) => void`      |
+| close             | close panel event, provided to Cascader to put away the panel judgment. | ^[Function]`() => void`                                  |
 
 ### CascaderPanel Slots
 
@@ -350,8 +351,8 @@ class Node {
   // method
   appendChild(childData: CascaderOption): Node
   calcText(allLevels: boolean, separator: string): string
-  broadcast(event: string, ...args: unknown[]): void
-  emit(event: string, ...args: unknown[]): void
+  broadcast(): void
+  emit(): void
   onParentCheck(checked: boolean): void
   onChildCheck(): void
   setCheckState(checked: boolean): void
