@@ -2,8 +2,10 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { debugWarn } from '@element-plus/utils'
+import Input from '../../input/src/input.vue'
 import Collapse from '../src/collapse.vue'
 import CollapseItem from '../src/collapse-item.vue'
+
 import type { VueWrapper } from '@vue/test-utils'
 import type { CollapseItemInstance } from '../src/instance'
 
@@ -338,5 +340,92 @@ describe('Collapse.vue', () => {
     await nextTick()
     expect(collapseItemWrappers[0].vm.isActive).toBe(true)
     expect(collapseItemWrappers[1].vm.isActive).toBe(true)
+  })
+
+  describe('Nested Input Interaction', () => {
+    const createWrapper = (withInput: boolean = false) => {
+      return mount({
+        data: () => ({
+          activeNames: ['1'],
+          inputText: '',
+        }),
+        render() {
+          return (
+            <Collapse v-model={this.activeNames}>
+              <CollapseItem
+                name="1"
+                v-slots={{
+                  title: () => (
+                    <div>
+                      {withInput ? (
+                        <Input
+                          data-testid="test-input"
+                          v-model={this.inputText}
+                        />
+                      ) : (
+                        'title1'
+                      )}
+                    </div>
+                  ),
+                }}
+              >
+                <div class="content">111</div>
+              </CollapseItem>
+              <CollapseItem name="2" title="title2">
+                <div class="content">222</div>
+              </CollapseItem>
+            </Collapse>
+          )
+        },
+      })
+    }
+
+    test('should not toggle collapse when clicking on input', async () => {
+      const wrapper = createWrapper(true)
+      const input = wrapper.find('[data-testid="test-input"]')
+      const header = wrapper.find('.el-collapse-item__header')
+
+      await input.trigger('click')
+      await nextTick()
+
+      const collapseItem = wrapper.findComponent(CollapseItem)
+      expect(collapseItem.vm.isActive).toBe(true)
+
+      await header.trigger('click')
+      await nextTick()
+      expect(collapseItem.vm.isActive).toBe(false)
+    })
+
+    test('should not toggle collapse when pressing enter on input', async () => {
+      const wrapper = createWrapper(true)
+      const input = wrapper.find('[data-testid="test-input"]')
+      const header = wrapper.find('.el-collapse-item__header')
+
+      await input.trigger('keydown.enter')
+      await nextTick()
+
+      const collapseItem = wrapper.findComponent(CollapseItem)
+      expect(collapseItem.vm.isActive).toBe(true)
+
+      await header.trigger('keydown.enter')
+      await nextTick()
+      expect(collapseItem.vm.isActive).toBe(false)
+    })
+
+    test('should not toggle collapse when pressing space on input', async () => {
+      const wrapper = createWrapper(true)
+      const input = wrapper.find('[data-testid="test-input"]')
+      const header = wrapper.find('.el-collapse-item__header')
+
+      await input.trigger('keydown.space')
+      await nextTick()
+
+      const collapseItem = wrapper.findComponent(CollapseItem)
+      expect(collapseItem.vm.isActive).toBe(true)
+
+      await header.trigger('keydown.space')
+      await nextTick()
+      expect(collapseItem.vm.isActive).toBe(false)
+    })
   })
 })

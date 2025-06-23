@@ -1,5 +1,6 @@
 import { triggerEvent } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
+
 import type MenuItem from './menu-item'
 
 class SubMenu {

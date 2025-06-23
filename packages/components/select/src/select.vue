@@ -300,7 +300,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, provide, reactive, toRefs, watch } from 'vue'
+import { computed, defineComponent, getCurrentInstance, provide, reactive, toRefs, watch } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -346,6 +346,16 @@ export default defineComponent({
   ],
 
   setup(props, { emit, slots }) {
+    const instance = getCurrentInstance()!
+    instance.appContext.config.warnHandler = (...args) => {
+      // Overrides warnings about slots not being executable outside of a render function.
+      // We call slot below just to simulate data when persist is false, this warning message should be ignored
+      if (!args[0] || args[0].includes('Slot "default" invoked outside of the render function')) {
+        return
+      }
+      // eslint-disable-next-line no-console
+      console.warn(...args)
+    }
     const modelValue = computed(() => {
       const { modelValue: rawModelValue, multiple } = props
       const fallback = multiple ? [] : undefined
@@ -366,26 +376,51 @@ export default defineComponent({
     const API = useSelect(_props, emit)
     const { calculatorRef, inputStyle } = useCalcInputWidth()
 
-    const manuallyRenderSlots = (defaultSlots: VNode[] | undefined) => {
+    const flatTreeSelectData = (data: any[]) => {
+      return data.reduce((acc, item) => {
+        acc.push(item)
+        if (item.children && item.children.length > 0) {
+          acc.push(...flatTreeSelectData(item.children))
+        }
+        return acc
+      }, [])
+    }
+
+    const manuallyRenderSlots = (vnodes: VNode[] | undefined) => {
       // After option rendering is completed, the useSelect internal state can collect the value of each option.
       // If the persistent value is false, option will not be rendered by default, so in this case,
       // manually render and load option data here.
-      if (!props.persistent && defaultSlots) {
-        const children = flattedChildren(defaultSlots) as VNode[]
-        children.filter((item) => {
+      const children = flattedChildren(vnodes || []) as VNode[]
+      children.forEach((item) => {
+        // @ts-expect-error
+        if (isObject(item) && (item.type.name === 'ElOption' || item.type.name === 'ElTree')) {
           // @ts-expect-error
-          return isObject(item) && item!.type.name === 'ElOption'
-        }).forEach(item => {
-          const obj = { ...item.props } as any
-          obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
-          API.onOptionCreate(obj)
-        })
-      }
+          const _name = item.type.name
+          if (_name === 'ElTree') {
+            // tree-select component is a special case.
+            // So we need to handle it separately.
+            const treeData = item.props?.data || []
+            const flatData = flatTreeSelectData(treeData)
+            flatData.forEach((treeItem: any) => {
+              treeItem.currentLabel = treeItem.label || (isObject(treeItem.value) ? '' : treeItem.value)
+              API.onOptionCreate(treeItem)
+            })
+          } else if (_name === 'ElOption') {
+            const obj = { ...item.props } as any
+            obj.currentLabel = obj.label || (isObject(obj.value) ? '' : obj.value)
+            API.onOptionCreate(obj)
+          }
+        }
+      })
     }
     watch(() => {
-      const currentSlot = slots.default?.()
-      return currentSlot
-    }, (newSlot) => {
+      const slotsContent = slots.default?.()
+      return slotsContent
+    }, newSlot => {
+      if (props.persistent) {
+        // If persistent is true, we don't need to manually render slots.
+        return
+      }
       manuallyRenderSlots(newSlot)
     }, {
       immediate: true,

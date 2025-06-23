@@ -12,7 +12,6 @@ import {
   watchEffect,
   withDirectives,
 } from 'vue'
-
 import { useResizeObserver } from '@vueuse/core'
 import { debounce, isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
@@ -35,8 +34,9 @@ import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
-import type { PopperEffect } from '@element-plus/components/popper'
+import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
+import type { PopperEffect } from '@element-plus/components/popper'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type {
@@ -407,8 +407,9 @@ export default defineComponent({
       const removeMenuItem: MenuProvider['removeMenuItem'] = (item) => {
         delete items.value[item.index]
       }
+
       provide<MenuProvider>(
-        'rootMenu',
+        MENU_INJECTION_KEY,
         reactive({
           props,
           openedMenus,
@@ -427,7 +428,8 @@ export default defineComponent({
           handleSubMenuClick,
         })
       )
-      provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
+
+      provide<SubMenuProvider>(`${SUB_MENU_INJECTION_KEY}${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
         mouseInChild,

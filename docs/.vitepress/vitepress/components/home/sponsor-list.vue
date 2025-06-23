@@ -4,6 +4,7 @@ import { isDark } from '../../composables/dark'
 import { useLang } from '../../composables/lang'
 import sponsorLocale from '../../../i18n/component/sponsor.json'
 import { sendEvent } from '../../../config/analytics'
+
 const onItemClick = (item: any) => {
   sendEvent('sp_click', item.name, 'index')
 }

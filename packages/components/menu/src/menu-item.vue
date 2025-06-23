@@ -49,6 +49,7 @@ import { throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import useMenu from './use-menu'
 import { menuItemEmits, menuItemProps } from './menu-item'
+import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
 import type { MenuItemRegistered, MenuProvider, SubMenuProvider } from './types'
 
@@ -60,14 +61,16 @@ const props = defineProps(menuItemProps)
 const emit = defineEmits(menuItemEmits)
 
 const instance = getCurrentInstance()!
-const rootMenu = inject<MenuProvider>('rootMenu')!
+const rootMenu = inject<MenuProvider>(MENU_INJECTION_KEY)
 const nsMenu = useNamespace('menu')
 const nsMenuItem = useNamespace('menu-item')
 if (!rootMenu) throwError(COMPONENT_NAME, 'can not inject root menu')
 
 const { parentMenu, indexPath } = useMenu(instance, toRef(props, 'index'))
 
-const subMenu = inject<SubMenuProvider>(`subMenu:${parentMenu.value.uid}`)
+const subMenu = inject<SubMenuProvider>(
+  `${SUB_MENU_INJECTION_KEY}${parentMenu.value.uid}`
+)
 if (!subMenu) throwError(COMPONENT_NAME, 'can not inject sub menu')
 
 const active = computed(() => props.index === rootMenu.activeIndex)

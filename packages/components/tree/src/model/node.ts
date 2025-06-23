@@ -9,8 +9,8 @@ import {
   isUndefined,
 } from '@element-plus/utils'
 import { NODE_KEY, markNodeData } from './util'
-import type TreeStore from './tree-store'
 
+import type TreeStore from './tree-store'
 import type { Nullable } from '@element-plus/utils'
 import type {
   FakeNode,
