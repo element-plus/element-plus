@@ -7,8 +7,6 @@ import {
   watch,
 } from 'vue'
 import { useTimeoutFn } from '@vueuse/core'
-
-import { isUndefined } from 'lodash-unified'
 import {
   defaultNamespace,
   useId,
@@ -156,13 +154,20 @@ export const useDialog = (
   }
 
   watch(
+    () => props.zIndex,
+    () => {
+      zIndex.value = props.zIndex ?? nextZIndex()
+    }
+  )
+
+  watch(
     () => props.modelValue,
     (val) => {
       if (val) {
         closed.value = false
         open()
         rendered.value = true // enables lazy rendering
-        zIndex.value = isUndefined(props.zIndex) ? nextZIndex() : zIndex.value++
+        zIndex.value = props.zIndex ?? nextZIndex()
         // this.$el.addEventListener('scroll', this.updatePopper)
         nextTick(() => {
           emit('open')

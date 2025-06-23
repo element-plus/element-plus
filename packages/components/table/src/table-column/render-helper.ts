@@ -18,6 +18,7 @@ import {
   treeCellPrefix,
 } from '../config'
 import { parseMinWidth, parseWidth } from '../util'
+
 import type { ComputedRef } from 'vue'
 import type { TableColumn, TableColumnCtx } from './defaults'
 
@@ -127,6 +128,12 @@ function useRender<T>(
     if (slots['filter-icon']) {
       column.renderFilterIcon = (scope) => {
         return renderSlot(slots, 'filter-icon', scope)
+      }
+    }
+
+    if (slots.expand) {
+      column.renderExpand = (scope) => {
+        return renderSlot(slots, 'expand', scope)
       }
     }
 

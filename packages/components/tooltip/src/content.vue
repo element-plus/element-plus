@@ -21,6 +21,7 @@
         :offset="offset"
         :placement="placement"
         :popper-options="popperOptions"
+        :arrow-offset="arrowOffset"
         :strategy="strategy"
         :effect="effect"
         :enterable="enterable"
@@ -52,6 +53,7 @@ import ElTeleport from '@element-plus/components/teleport'
 import { tryFocus } from '@element-plus/components/focus-trap'
 import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipContentProps } from './content'
+
 import type { PopperContentInstance } from '@element-plus/components/popper'
 
 defineOptions({
@@ -86,7 +88,9 @@ const persistentRef = computed(() => {
   // For testing, we would always want the content to be rendered
   // to the DOM, so we need to return true here.
   if (process.env.NODE_ENV === 'test') {
-    return true
+    if (!process.env.RUN_TEST_WITH_PERSISTENT) {
+      return true
+    }
   }
   return props.persistent
 })
@@ -144,13 +148,6 @@ const onBeforeLeave = () => {
 
 const onAfterShow = () => {
   onShow()
-  stopHandle = onClickOutside(popperContentRef, () => {
-    if (unref(controlled)) return
-    const $trigger = unref(trigger)
-    if ($trigger !== 'hover') {
-      onClose()
-    }
-  })
 }
 
 const onBlur = () => {
@@ -174,6 +171,13 @@ watch(
       stopHandle?.()
     } else {
       ariaHidden.value = false
+      stopHandle = onClickOutside(popperContentRef, () => {
+        if (unref(controlled)) return
+        const $trigger = unref(trigger)
+        if ($trigger !== 'hover') {
+          onClose()
+        }
+      })
     }
   },
   {

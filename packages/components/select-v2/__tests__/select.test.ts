@@ -8,6 +8,7 @@ import { rAF } from '@element-plus/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import Select from '../src/select.vue'
+
 import type { Props } from '../useProps'
 
 vi.mock('lodash-unified', async () => {
@@ -1400,6 +1401,35 @@ describe('Select', () => {
     expect(result).toBeTruthy()
   })
 
+  it('the scroll position of the dropdown should be correct when use props', async () => {
+    const options = Array.from({ length: 1000 }).map((_, idx) => ({
+      value1: 999 - idx,
+      label1: `options ${999 - idx}`,
+    }))
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: 500,
+          options,
+          props: {
+            label: 'label1',
+            value: 'value1',
+          },
+        }
+      },
+    })
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const optionsDoms = Array.from(
+      document.querySelectorAll(`.${OPTION_ITEM_CLASS_NAME}`)
+    )
+    const result = optionsDoms.some((option) => {
+      const text = option.textContent
+      return text === 'options 499'
+    })
+    expect(result).toBeTruthy()
+  })
+
   it('emptyText error show', async () => {
     const wrapper = createSelect({
       data() {
@@ -1737,6 +1767,51 @@ describe('Select', () => {
     await input.trigger('click')
     // filter or remote-search scenarios should be not initialized
     expect(tag.text()).toBe('label:Alabama')
+  })
+
+  it('label display correctly after selecting remote search', async () => {
+    const remoteList = Array.from({ length: 200 }).map((_, idx) => {
+      return {
+        label: `${idx}`,
+        value: `remote${idx}`,
+      }
+    })
+    const options = ref([{ value: `0`, label: `Option1` }])
+    const remoteMethod = (query: string) => {
+      if (query !== '') {
+        options.value = remoteList.filter((item) => {
+          return item.label.toLowerCase().includes(query.toLowerCase())
+        })
+      }
+    }
+
+    const wrapper = createSelect({
+      data() {
+        return {
+          filterable: true,
+          remote: true,
+          options,
+          multiple: true,
+          value: ['0'],
+        }
+      },
+      methods: {
+        remoteMethod,
+      },
+    })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    input.element.value = '1'
+    await input.trigger('input')
+    const optionElements = getOptions()
+    optionElements[0].click()
+    await nextTick()
+    const tags = await vi.waitUntil(() =>
+      wrapper.findAll('.el-select__tags-text')
+    )
+    expect(tags[0].text()).toBe('Option1')
+    expect(tags[1].text()).toBe('1')
   })
 
   it('keyboard operations', async () => {

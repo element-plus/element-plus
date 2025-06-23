@@ -18,7 +18,6 @@ import { EVENT_CODE } from '@element-plus/constants'
 import GroupItem from './group-item.vue'
 import OptionItem from './option-item.vue'
 import { useProps } from './useProps'
-
 import { selectV2InjectionKey } from './token'
 
 import type {
@@ -72,7 +71,7 @@ export default defineComponent({
     watch(
       () => size.value,
       () => {
-        select.tooltipRef.value!.updatePopper?.()
+        select.tooltipRef.value?.updatePopper?.()
       }
     )
 

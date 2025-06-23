@@ -1,4 +1,5 @@
 import type { MarkdownRenderer } from 'vitepress'
+
 export const ApiTableContainer = (md: MarkdownRenderer) => {
   const fence = md.renderer.rules.fence!
 

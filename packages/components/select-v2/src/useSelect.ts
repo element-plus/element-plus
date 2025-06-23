@@ -41,17 +41,16 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
-
 import { useAllowCreate } from './useAllowCreate'
 import { useProps } from './useProps'
 
 import type { Option, OptionType, SelectStates } from './select.types'
-import type { ISelectV2Props } from './token'
-import type { SelectEmitFn } from './defaults'
+import type { SelectV2Props } from './token'
+import type { SelectV2EmitFn } from './defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectDropdownInstance } from './select-dropdown'
 
-const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
+const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   // inject
   const { t } = useLocale()
   const nsSelect = useNamespace('select')
@@ -430,7 +429,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
       expanded.value = true
     }
     createNewOption(states.inputValue)
-    handleQueryChange(states.inputValue)
+    nextTick(() => {
+      handleQueryChange(states.inputValue)
+    })
   }
 
   const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)
@@ -495,8 +496,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
 
     nextTick(() => {
       if (props.multiple && isArray(props.modelValue)) {
+        const cachedOptions = states.cachedOptions.slice()
         const selectedOptions = props.modelValue.map((value) =>
-          getOption(value)
+          getOption(value, cachedOptions)
         )
 
         if (!isEqual(states.cachedOptions, selectedOptions)) {
@@ -533,7 +535,9 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   }
 
   const resetSelectionWidth = () => {
-    states.selectionWidth = selectionRef.value!.getBoundingClientRect().width
+    states.selectionWidth = Number.parseFloat(
+      window.getComputedStyle(selectionRef.value!).width
+    )
   }
 
   const resetCollapseItemWidth = () => {
@@ -735,12 +739,13 @@ const useSelect = (props: ISelectV2Props, emit: SelectEmitFn) => {
   const updateHoveringIndex = () => {
     if (!props.multiple) {
       states.hoveringIndex = filteredOptions.value.findIndex((item) => {
-        return getValueKey(item) === getValueKey(props.modelValue)
+        return getValueKey(getValue(item)) === getValueKey(props.modelValue)
       })
     } else {
       states.hoveringIndex = filteredOptions.value.findIndex((item) =>
         props.modelValue.some(
-          (modelValue: unknown) => getValueKey(modelValue) === getValueKey(item)
+          (modelValue: unknown) =>
+            getValueKey(modelValue) === getValueKey(getValue(item))
         )
       )
     }

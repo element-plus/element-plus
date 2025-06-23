@@ -72,6 +72,9 @@ const normalizeOptions = (params?: MessageParams) => {
   if (isBoolean(messageConfig.showClose) && !normalized.showClose) {
     normalized.showClose = messageConfig.showClose
   }
+  if (isBoolean(messageConfig.plain) && !normalized.plain) {
+    normalized.plain = messageConfig.plain
+  }
 
   return normalized as MessageParamsNormalized
 }

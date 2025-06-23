@@ -47,6 +47,7 @@
           :form="form"
           :autofocus="autofocus"
           :role="containerRole"
+          :inputmode="inputmode"
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
@@ -193,6 +194,7 @@ import {
 } from '@element-plus/constants'
 import { calcTextareaHeight } from './utils'
 import { inputEmits, inputProps } from './input'
+
 import type { StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
@@ -293,11 +295,7 @@ const showClear = computed(
     (isFocused.value || hovering.value)
 )
 const showPwdVisible = computed(
-  () =>
-    props.showPassword &&
-    !inputDisabled.value &&
-    !!nativeInputValue.value &&
-    (!!nativeInputValue.value || isFocused.value)
+  () => props.showPassword && !inputDisabled.value && !!nativeInputValue.value
 )
 const isWordLimitVisible = computed(
   () =>
