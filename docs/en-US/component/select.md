@@ -149,6 +149,18 @@ select/custom-tag
 
 :::
 
+## Custom Tag with Disabled State ^(2.10.3)
+
+Starting from version `2.10.3`, the `#tag` slot of `<el-select>` exposes a new prop `selectDisabled` that reflects the disabled state of the select component.
+
+This enhancement enables developers to implement consistent behavior when customizing tags — for example, disabling tag removal when the select component is disabled, including scenarios where it is used inside a disabled `<el-form>`.
+
+:::demo Custom tag with access to disabled state.
+
+select/tag-disabled
+
+:::
+
 ## Custom Loading ^(2.5.2)
 
 Override loading content.

@@ -3322,7 +3322,6 @@ describe('Select', () => {
     await nextTick()
     expect(wrapper.find('.custom-tag').text()).toBe('selectDisabled')
 
-    // 修改 formDisabled 为 false，验证 disabled 变更
     await wrapper.setData({ isDisabled: false })
     expect(wrapper.find('.custom-tag').text()).toBe('enabled')
   })
@@ -3359,7 +3358,6 @@ describe('Select', () => {
     await nextTick()
     expect(wrapper.find('.custom-tag').text()).toBe('selectDisabled')
 
-    // 修改 formDisabled 为 false，验证 disabled 变更
     await wrapper.setData({ formDisabled: false })
     expect(wrapper.find('.custom-tag').text()).toBe('enabled')
   })
