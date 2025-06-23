@@ -10,6 +10,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+
 import type { CSSProperties, PropType } from 'vue'
 
 export default defineComponent({

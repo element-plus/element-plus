@@ -107,12 +107,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, unref } from 'vue'
+import { computed, inject, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { isArray } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
+import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
 import {
   correctlyParseUserInput,
   getDefaultValue,
@@ -124,6 +125,7 @@ import {
 } from '../props/panel-month-range'
 import { useMonthRangeHeader } from '../composables/use-month-range-header'
 import { useRangePicker } from '../composables/use-range-picker'
+import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import MonthTable from './basic-month-table.vue'
 
 import type { Dayjs } from 'dayjs'
@@ -137,8 +139,10 @@ const emit = defineEmits(panelMonthRangeEmits)
 const unit = 'year'
 
 const { lang } = useLocale()
-const pickerBase = inject('EP_PICKER_BASE') as any
-const isDefaultFormat = inject('ElIsDefaultFormat') as any
+const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
+const isDefaultFormat = inject(
+  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY
+) as any
 const { shortcuts, disabledDate } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -156,6 +160,7 @@ const {
   handleRangeConfirm,
   handleShortcutClick,
   onSelect,
+  onReset,
 } = useRangePicker(props, {
   defaultValue,
   leftDate,
@@ -246,6 +251,16 @@ function onParsedValueChanged(
     rightDate.value = leftDate.value.add(1, unit)
   }
 }
+
+watch(
+  () => props.visible,
+  (visible) => {
+    if (!visible && rangeState.value.selecting) {
+      onReset(props.parsedValue)
+      onSelect(false)
+    }
+  }
+)
 
 emit('set-picker-option', ['isValidValue', isValidRange])
 emit('set-picker-option', ['formatToString', formatToString])

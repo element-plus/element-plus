@@ -1,4 +1,5 @@
 import { buildProps } from '@element-plus/utils'
+
 import type { ExtractPropTypes } from 'vue'
 import type Pager from './pager.vue'
 

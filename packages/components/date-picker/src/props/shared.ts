@@ -61,10 +61,12 @@ export const panelSharedProps = buildProps({
     type: Boolean,
     default: true,
   },
+  showWeekNumber: Boolean,
 } as const)
 
 export const panelRangeSharedProps = buildProps({
   unlinkPanels: Boolean,
+  visible: Boolean,
   parsedValue: {
     type: definePropType<Dayjs[]>(Array),
   },

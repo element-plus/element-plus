@@ -16,6 +16,7 @@ import {
 import ElTooltip, {
   type ElTooltipProps,
 } from '@element-plus/components/tooltip'
+
 import type { Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { VNode } from 'vue'
@@ -197,12 +198,24 @@ export const getRowIdentity = <T>(
 
 export const getKeysMap = function <T>(
   array: T[],
-  rowKey: string
+  rowKey: string,
+  flatten = false,
+  childrenKey = 'children'
 ): Record<string, { row: T; index: number }> {
+  const data = array || []
   const arrayMap = {}
-  ;(array || []).forEach((row, index) => {
+
+  data.forEach((row, index) => {
     arrayMap[getRowIdentity(row, rowKey)] = { row, index }
+
+    if (flatten) {
+      const children = row[childrenKey]
+      if (isArray(children)) {
+        Object.assign(arrayMap, getKeysMap(children, rowKey, true, childrenKey))
+      }
+    }
   })
+
   return arrayMap
 }
 
@@ -280,11 +293,24 @@ export function toggleRowStatus<T>(
   newVal?: boolean,
   tableTreeProps?: TreeProps,
   selectable?: (row: T, index?: number) => boolean,
-  rowIndex?: number
+  rowIndex?: number,
+  rowKey?: string
 ): boolean {
   let _rowIndex = rowIndex ?? 0
   let changed = false
-  const index = statusArr.indexOf(row)
+
+  const getIndex = () => {
+    if (!rowKey) {
+      return statusArr.indexOf(row)
+    }
+
+    const id = getRowIdentity(row, rowKey)
+
+    return statusArr.findIndex((item) => getRowIdentity(item, rowKey) === id)
+  }
+
+  const index = getIndex()
+
   const included = index !== -1
   const isRowSelectable = selectable?.call(null, row, _rowIndex)
 
@@ -332,7 +358,8 @@ export function toggleRowStatus<T>(
         newVal ?? !included,
         tableTreeProps,
         selectable,
-        _rowIndex + 1
+        _rowIndex + 1,
+        rowKey
       )
       _rowIndex += getChildrenCount(item) + 1
       if (childChanged) {
@@ -347,14 +374,15 @@ export function walkTreeNode(
   root,
   cb,
   childrenKey = 'children',
-  lazyKey = 'hasChildren'
+  lazyKey = 'hasChildren',
+  lazy = false
 ) {
   const isNil = (array) => !(isArray(array) && array.length)
 
   function _walker(parent, children, level) {
     cb(parent, children, level)
     children.forEach((item) => {
-      if (item[lazyKey]) {
+      if (item[lazyKey] && lazy) {
         cb(item, null, level + 1)
         return
       }
@@ -366,7 +394,7 @@ export function walkTreeNode(
   }
 
   root.forEach((item) => {
-    if (item[lazyKey]) {
+    if (item[lazyKey] && lazy) {
       cb(item, null, 0)
       return
     }

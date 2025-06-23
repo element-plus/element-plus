@@ -150,8 +150,8 @@ const Tabs = defineComponent({
       event: Event
     ) => {
       if (tab.props.disabled) return
-      setCurrentName(tabName, true)
       emit('tabClick', tab, event)
+      setCurrentName(tabName, true)
     }
 
     const handleTabRemove = (pane: TabsPaneContext, ev: Event) => {
@@ -164,6 +164,28 @@ const Tabs = defineComponent({
     const handleTabAdd = () => {
       emit('edit', undefined, 'add')
       emit('tabAdd')
+    }
+
+    const TabNavRenderer: FunctionalComponent<{ render: () => VNode }> = ({
+      render,
+    }) => {
+      return render()
+    }
+
+    const swapChildren = (
+      vnode: VNode & {
+        el: HTMLDivElement
+        children: VNode<HTMLDivElement>[]
+      }
+    ) => {
+      const actualFirstChild = vnode.el.firstChild!
+      const firstChild = ['bottom', 'right'].includes(props.tabPosition)
+        ? vnode.children[0].el!
+        : vnode.children[1].el!
+
+      if (actualFirstChild !== firstChild) {
+        actualFirstChild.before(firstChild)
+      }
     }
 
     watch(
@@ -188,12 +210,9 @@ const Tabs = defineComponent({
 
     expose({
       currentName,
+      tabNavRef: nav$,
     })
-    const TabNavRenderer: FunctionalComponent<{ render: () => VNode }> = ({
-      render,
-    }) => {
-      return render()
-    }
+
     return () => {
       const addSlot = slots['add-icon']
       const newButton =
@@ -265,6 +284,9 @@ const Tabs = defineComponent({
               [ns.m('border-card')]: props.type === 'border-card',
             },
           ]}
+          // @ts-ignore
+          onVnodeMounted={swapChildren}
+          onVnodeUpdated={swapChildren}
         >
           {panels}
           {header}
@@ -276,6 +298,7 @@ const Tabs = defineComponent({
 
 export type TabsInstance = InstanceType<typeof Tabs> & {
   currentName: TabPaneName
+  tabNavRef: TabNavInstance | undefined
 }
 
 export default Tabs

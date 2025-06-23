@@ -9,6 +9,7 @@ import {
   removePopper,
 } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
+
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
@@ -101,6 +102,9 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
         cell,
         namespace
       )
+      if (!column) {
+        return
+      }
       if (cell.rowSpan > 1) {
         toggleRowClassByCell(cell.rowSpan, event, addClass)
       }

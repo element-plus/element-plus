@@ -1,25 +1,27 @@
 <template>
   <div :class="rootKls">
-    <button
+    <div
       :id="scopedHeadId"
       :class="headKls"
       :aria-expanded="isActive"
       :aria-controls="scopedContentId"
       :aria-describedby="scopedContentId"
       :tabindex="disabled ? -1 : 0"
-      type="button"
+      role="button"
       @click="handleHeaderClick"
-      @keydown.space.enter.stop.prevent="handleEnterClick"
+      @keydown.space.enter.stop="handleEnterClick"
       @focus="handleFocus"
       @blur="focusing = false"
     >
-      <slot name="title">{{ title }}</slot>
+      <span :class="itemTitleKls">
+        <slot name="title" :is-active="isActive">{{ title }}</slot>
+      </span>
       <slot name="icon" :is-active="isActive">
         <el-icon :class="arrowKls">
           <component :is="icon" />
         </el-icon>
       </slot>
-    </button>
+    </div>
 
     <el-collapse-transition>
       <div
@@ -62,6 +64,7 @@ const {
   arrowKls,
   headKls,
   rootKls,
+  itemTitleKls,
   itemWrapperKls,
   itemContentKls,
   scopedContentId,

@@ -5,11 +5,18 @@ import {
   isClient,
   mutable,
 } from '@element-plus/utils'
+
 import type { AppContext, ExtractPropTypes, VNode } from 'vue'
 import type { Mutable } from '@element-plus/utils'
 import type MessageConstructor from './message.vue'
 
-export const messageTypes = ['success', 'info', 'warning', 'error'] as const
+export const messageTypes = [
+  'primary',
+  'success',
+  'info',
+  'warning',
+  'error',
+] as const
 
 export type messageType = typeof messageTypes[number]
 
@@ -19,11 +26,11 @@ export interface MessageConfigContext {
   duration?: number
   offset?: number
   showClose?: boolean
+  plain?: boolean
 }
 
 export const messageDefaults = mutable({
   customClass: '',
-  center: false,
   dangerouslyUseHTMLString: false,
   duration: 3000,
   icon: undefined,
@@ -47,13 +54,6 @@ export const messageProps = buildProps({
   customClass: {
     type: String,
     default: messageDefaults.customClass,
-  },
-  /**
-   * @description whether to center the text
-   */
-  center: {
-    type: Boolean,
-    default: messageDefaults.center,
   },
   /**
    * @description whether `message` is treated as HTML string
@@ -196,7 +196,8 @@ export type MessageTypedFn = (
   appContext?: null | AppContext
 ) => MessageHandler
 
-export interface Message extends MessageFn {
+export type Message = MessageFn & {
+  primary: MessageTypedFn
   success: MessageTypedFn
   warning: MessageTypedFn
   info: MessageTypedFn

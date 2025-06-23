@@ -69,6 +69,7 @@ import {
   treeNodeEmits,
   treeNodeProps,
 } from './virtual-tree'
+
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type { TreeNode } from './types'
 

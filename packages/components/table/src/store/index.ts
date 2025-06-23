@@ -57,7 +57,6 @@ function useStore<T>() {
       )
       if (unref(states.reserveSelection)) {
         instance.store.assertRowKey()
-        instance.store.updateSelectionByRowKey()
       } else {
         if (dataInstanceChanged) {
           instance.store.clearSelection()

@@ -1,6 +1,7 @@
 import { defineComponent, inject, watch } from 'vue'
 import { selectKey } from '@element-plus/components/select'
 import { isClient } from '@element-plus/utils'
+
 import type { SelectContext } from '@element-plus/components/select'
 import type { PropType } from 'vue'
 
@@ -27,6 +28,9 @@ export default defineComponent({
       () => {
         props.data.forEach((item) => {
           if (!select.states.cachedOptions.has(item.value)) {
+            // TODO: the type of 'item' is not compatible with the type of 'cachedOptions',
+            // which may indicate potential runtime issues.
+            // @ts-expect-error
             select.states.cachedOptions.set(item.value, item)
           }
         })

@@ -7,6 +7,7 @@ import { isClient } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 // import type { DefaultTheme } from '../config'
 import searchLocale from '../../../i18n/component/search.json'
+
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 
 const props = defineProps<{

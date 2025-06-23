@@ -6,6 +6,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import Select from '@element-plus/components/select'
 import { ElFormItem } from '@element-plus/components/form'
 import TimeSelect from '../src/time-select.vue'
+
 dayjs.extend(customParseFormat)
 
 const { Option } = Select

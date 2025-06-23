@@ -106,6 +106,7 @@ export const formProps = buildProps({
    */
   scrollIntoViewOptions: {
     type: [Object, Boolean],
+    default: true,
   },
 } as const)
 export type FormProps = ExtractPropTypes<typeof formProps>

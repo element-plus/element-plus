@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue'
+import { columnAlignment } from '@element-plus/constants'
 import { buildProps } from '@element-plus/utils'
 import { COMPONENT_NAME } from './constants'
 
@@ -52,6 +53,7 @@ export const descriptionItemProps = buildProps({
    */
   align: {
     type: String,
+    values: columnAlignment,
     default: 'left',
   },
   /**
@@ -59,7 +61,7 @@ export const descriptionItemProps = buildProps({
    */
   labelAlign: {
     type: String,
-    default: '',
+    values: columnAlignment,
   },
   /**
    * @description column content custom class name
