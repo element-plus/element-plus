@@ -457,6 +457,24 @@ describe('Datetime Picker', () => {
       '2023-10-01 12:01:03'
     )
   })
+
+  it('shows weekNumber', async () => {
+    const value = ref('2025-01-01')
+    _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" show-week-number />
+    ))
+    await nextTick()
+    const weeks = document.querySelectorAll('td.week')
+    expect(weeks.length).toBe(6)
+    expect([...weeks].map((x) => x.textContent?.trim())).toEqual([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+    ])
+  })
 })
 
 describe('Datetimerange', () => {
@@ -935,5 +953,29 @@ describe('Datetimerange', () => {
     expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toStrictEqual(
       '2023-01-01 12:00:00'
     )
+  })
+
+  it('shows weekNumber', async () => {
+    const value = ref([new Date(2025, 0, 1), new Date(2025, 1, 1)])
+    _mount(() => (
+      <DatePicker v-model={value.value} type="datetimerange" show-week-number />
+    ))
+    await nextTick()
+    const weeks = document.querySelectorAll('td.week')
+    expect(weeks.length).toBe(12)
+    expect([...weeks].map((x) => x.textContent?.trim())).toEqual([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+    ])
   })
 })

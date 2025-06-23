@@ -8,7 +8,7 @@ import {
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type { ExtractPropTypes, HTMLAttributes, StyleValue } from 'vue'
 
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
 
@@ -168,6 +168,13 @@ export const inputProps = buildProps({
     default: 2,
   },
   ...useAriaProps(['ariaLabel']),
+  /**
+   * @description native input mode for virtual keyboards
+   */
+  inputmode: {
+    type: definePropType<HTMLAttributes['inputmode']>(String),
+    default: undefined,
+  },
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>
 
