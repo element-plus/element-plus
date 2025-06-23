@@ -15,6 +15,18 @@
     border: getCssVar('cascader-menu', 'border');
     border-radius: getCssVar('cascader-menu', 'radius');
   }
+
+  @include when(oneLevel) {
+    .#{$namespace}-scrollbar__wrap {
+      max-height: 204px;
+    };
+  }
+
+  &:not(.is-oneLevel) {
+    .#{$namespace}-scrollbar__wrap {
+      height: 204px;
+    }
+  }
 }
 
 @include b(cascader-menu) {
@@ -28,13 +40,6 @@
 
     .#{$namespace}-cascader-node {
       padding-right: 20px;
-    }
-  }
-
-  @include e(wrap) {
-    // Raise the priority
-    &.#{$namespace}-scrollbar__wrap {
-      height: 204px;
     }
   }
 
