@@ -119,14 +119,14 @@ datetime-picker/custom-icon
 
 ## Events
 
-| Name            | Description                                                                   | Parameters                                |
-| --------------- | ----------------------------------------------------------------------------- | ----------------------------------------- |
-| change          | triggers when user confirms the value                                         | component's binding value                 |
-| blur            | triggers when Input blurs                                                     | `(e: FocusEvent)`                         |
-| focus           | triggers when Input focuses                                                   | `(e: FocusEvent)`                         |
-| clear ^(2.7.7)  | triggers when the clear icon is clicked in a clearable DateTimePicker         | ^[Function]`() => void`                   |
-| calendar-change | triggers when the calendar selected date is changed. Only for `datetimerange` | [Date, Date]                              |
-| visible-change  | triggers when the DateTimePicker's dropdown appears/disappears                | true when it appears, and false otherwise |
+| Name            | Description                                                                   | Parameters                                       |
+| --------------- | ----------------------------------------------------------------------------- | ------------------------------------------------ |
+| change          | triggers when user confirms the value                                         | ^[Function]`(val: typeof v-model) => void`       |
+| blur            | triggers when Input blurs                                                     | ^[Function]`(e: FocusEvent) => void`             |
+| focus           | triggers when Input focuses                                                   | ^[Function]`(e: FocusEvent) => void`             |
+| clear ^(2.7.7)  | triggers when the clear icon is clicked in a clearable DateTimePicker         | ^[Function]`() => void`                          |
+| calendar-change | triggers when the calendar selected date is changed. Only for `datetimerange` | ^[Function]`(val: Date \| [Date, Date]) => void` |
+| visible-change  | triggers when the DateTimePicker's dropdown appears/disappears                | ^[Function]`(visibility: boolean) => void`       |
 
 ## Slots
 
