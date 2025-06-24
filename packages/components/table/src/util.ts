@@ -93,7 +93,9 @@ export const orderBy = function <T extends DefaultRow>(
         if (sortKey !== '$key') {
           if (isObject(value) && '$value' in value) value = value.$value
         }
-        return [isObject(value) ? get(value, sortKey!) : value]
+        return [
+          isObject(value) ? (sortKey ? get(value, sortKey) : null) : value,
+        ]
       }
   const compare = function (a: CompareValue<T>, b: CompareValue<T>) {
     if (sortMethod) {
