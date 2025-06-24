@@ -152,6 +152,7 @@ import {
   colorPickerEmits,
   colorPickerProps,
 } from './color-picker'
+
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 defineOptions({

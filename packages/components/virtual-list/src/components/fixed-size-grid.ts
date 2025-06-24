@@ -1,6 +1,5 @@
 import { isNumber, throwError } from '@element-plus/utils'
 import createGrid from '../builders/build-grid'
-
 import {
   AUTO_ALIGNMENT,
   CENTERED_ALIGNMENT,

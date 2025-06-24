@@ -1,4 +1,5 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
+
 import type { ExtractPropTypes, PropType } from 'vue'
 import type Link from './link.vue'
 

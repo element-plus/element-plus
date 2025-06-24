@@ -48,7 +48,7 @@ const formClasses = computed(() => {
 })
 
 const getField: FormContext['getField'] = (prop) => {
-  return fields.find((field) => field.prop === prop)
+  return filterFields(fields, [prop])[0]
 }
 
 const addField: FormContext['addField'] = (field) => {
@@ -155,7 +155,7 @@ const validateField: FormContext['validateField'] = async (
 }
 
 const scrollToField = (prop: FormItemProp) => {
-  const field = filterFields(fields, prop)[0]
+  const field = getField(prop)
   if (field) {
     field.$el?.scrollIntoView(props.scrollIntoViewOptions)
   }
@@ -209,6 +209,10 @@ defineExpose({
    * @description Scroll to the specified fields.
    */
   scrollToField,
+  /**
+   * @description Get a field context.
+   */
+  getField,
   /**
    * @description All fields context.
    */
