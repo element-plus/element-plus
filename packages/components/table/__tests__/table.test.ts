@@ -13,6 +13,7 @@ import {
   getTestData,
   mount,
 } from './table-test-common'
+
 import type { VueWrapper } from '@vue/test-utils'
 import type { ComponentPublicInstance } from 'vue'
 

@@ -5,11 +5,6 @@
 <script lang="ts" setup>
 import type { LoadFunction } from 'element-plus'
 
-interface Tree {
-  name: string
-  leaf?: boolean
-}
-
 const props = {
   label: 'name',
   children: 'zones',

@@ -1,5 +1,6 @@
 import { computed, inject } from 'vue'
 import { DROPDOWN_INSTANCE_INJECTION_KEY } from './tokens'
+
 import type { IElDropdownInstance } from './dropdown'
 
 export const useDropdown = () => {

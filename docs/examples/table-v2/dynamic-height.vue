@@ -19,6 +19,7 @@ import {
   TableV2FixedDir,
   TableV2SortOrder,
 } from 'element-plus'
+
 import type { Column, SortBy } from 'element-plus'
 
 const longText =

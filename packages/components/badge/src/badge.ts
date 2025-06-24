@@ -1,4 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils'
+
 import type { ExtractPropTypes, StyleValue } from 'vue'
 
 export const badgeProps = buildProps({

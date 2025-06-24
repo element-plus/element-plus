@@ -6,6 +6,7 @@ import { Checked, CircleClose, Hide, View } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import Switch from '../src/switch.vue'
+
 import type { VueWrapper } from '@vue/test-utils'
 import type { SwitchInstance } from '../src/switch'
 

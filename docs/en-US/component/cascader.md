@@ -138,6 +138,16 @@ cascader/panel
 
 :::
 
+## Custom Tag ^(2.10.3)
+
+You can customize tags.
+
+:::demo Insert customized tags into the slot of `el-cascader`. `collapse-tags`, `collapse-tags-tooltip`, `max-collapse-tags` will not work.
+
+cascader/custom-tag
+
+:::
+
 ## Cascader API
 
 ### Cascader Attributes
@@ -193,6 +203,7 @@ cascader/panel
 | empty                    | content when there is no matched options.                                                      | —                                   |
 | prefix ^(2.9.4)          | content as Input prefix                                                                        | —                                   |
 | suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                              | ^[object]`{ item: CascaderNode }`   |
+| tag ^(2.10.3)            | custom tags style                                                                              | ^[object]`{ data: Tag[] }`          |
 
 ### Cascader Exposes
 
@@ -216,11 +227,12 @@ cascader/panel
 
 ### CascaderPanel Events
 
-| Name          | Description                                                             | Type                                                |
-| ------------- | ----------------------------------------------------------------------- | --------------------------------------------------- |
-| change        | triggers when the binding value changes                                 | ^[Function]`(value: CascaderValue) => void`         |
-| expand-change | triggers when expand option changes                                     | ^[Function]`(value: CascaderNodePathValue) => void` |
-| close         | close panel event, provided to Cascader to put away the panel judgment. | ^[Function]`() => void`                             |
+| Name              | Description                                                             | Type                                                     |
+| ----------------- | ----------------------------------------------------------------------- | -------------------------------------------------------- |
+| change            | triggers when the binding value changes                                 | ^[Function]`(value: CascaderValue \| undefined) => void` |
+| update:modelValue | triggers when the binding value changes                                 | ^[Function]`(value: CascaderValue \| undefined) => void` |
+| expand-change     | triggers when expand option changes                                     | ^[Function]`(value: CascaderNodePathValue) => void`      |
+| close             | close panel event, provided to Cascader to put away the panel judgment. | ^[Function]`() => void`                                  |
 
 ### CascaderPanel Slots
 
@@ -339,8 +351,8 @@ class Node {
   // method
   appendChild(childData: CascaderOption): Node
   calcText(allLevels: boolean, separator: string): string
-  broadcast(event: string, ...args: unknown[]): void
-  emit(event: string, ...args: unknown[]): void
+  broadcast(): void
+  emit(): void
   onParentCheck(checked: boolean): void
   onChildCheck(): void
   setCheckState(checked: boolean): void
