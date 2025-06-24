@@ -3,6 +3,7 @@ import { nextTick, ref, watch } from 'vue'
 import { isDark, toggleDark } from '../../composables/dark'
 import DarkIcon from '../icons/dark.vue'
 import LightIcon from '../icons/light.vue'
+
 import type { SwitchInstance } from 'element-plus'
 
 defineOptions({ inheritAttrs: false })

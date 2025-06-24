@@ -795,6 +795,27 @@ describe('DatePicker', () => {
     expect(text.includes('csw')).toBeFalsy()
   })
 
+  it('shows weekNumber', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        show-week-number
+      />`,
+      () => ({ value: '2025-01-1' })
+    )
+    await nextTick()
+    const weeks = document.querySelectorAll('td.week')
+    expect(weeks.length).toBe(6)
+    expect([...weeks].map((x) => x.textContent.trim())).toEqual([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+    ])
+  })
+
   describe('value-format', () => {
     it('with literal string', async () => {
       const day = dayjs()
@@ -1946,6 +1967,34 @@ describe('DateRangePicker', () => {
     await selectYearAndMonth(panels[1], 1)
     expect(left.textContent).toBe('2025 January')
     expect(right.textContent).toBe('2025 February')
+  })
+
+  it('range, shows weekNumber', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        type="daterange"
+        show-week-number
+      />`,
+      () => ({ value: [new Date(2025, 0, 1), new Date(2025, 1, 1)] })
+    )
+    await nextTick()
+    const weeks = document.querySelectorAll('td.week')
+    expect(weeks.length).toBe(12)
+    expect([...weeks].map((x) => x.textContent.trim())).toEqual([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+    ])
   })
 })
 
