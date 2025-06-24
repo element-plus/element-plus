@@ -68,7 +68,7 @@ const append = (data: Data) => {
 
 const remove = (node: Node, data: Data) => {
   const parent = node.parent
-  const children: Tree[] = parent.data.children || parent.data
+  const children: Tree[] = parent?.data.children || parent?.data
   const index = children.findIndex((d) => d.id === data.id)
   children.splice(index, 1)
   dataSource.value = [...dataSource.value]
