@@ -1,6 +1,7 @@
 <template>
   <div :class="[ns.b(), ns.m(simple ? 'simple' : direction)]">
     <slot />
+    <steps-sorter />
   </div>
 </template>
 
@@ -25,6 +26,7 @@ const {
   children: steps,
   addChild: addStep,
   removeChild: removeStep,
+  ChildrenSorter: StepsSorter,
 } = useOrderedChildren<StepItemState>(getCurrentInstance()!, 'ElStep')
 
 watch(steps, () => {

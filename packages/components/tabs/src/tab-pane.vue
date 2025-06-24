@@ -17,8 +17,7 @@ import {
   computed,
   getCurrentInstance,
   inject,
-  onMounted,
-  onUnmounted,
+  onBeforeUnmount,
   reactive,
   ref,
   useSlots,
@@ -71,11 +70,8 @@ const pane = reactive({
 })
 
 tabsRoot.registerPane(pane)
-onMounted(() => {
-  tabsRoot.sortPane(pane)
-})
 
-onUnmounted(() => {
-  tabsRoot.unregisterPane(pane.uid)
+onBeforeUnmount(() => {
+  tabsRoot.unregisterPane(pane)
 })
 </script>
