@@ -95,7 +95,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         }
       }
       // 合并 expanded 与 display，确保数据刷新后，状态不变
-      nested.forEach((key) => {
+      nested.forEach((_, key) => {
         const oldValue = oldTreeData[key]
         const newValue = { ...nested.get(key) }
         newValue.expanded = getExpanded(oldValue, key)
