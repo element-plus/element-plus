@@ -316,28 +316,6 @@ function useStyle<T extends DefaultRow>(
     return {}
   })
 
-  /**
-   * fix layout
-   */
-  const handleFixedMousewheel = (event: WheelEvent, data: any) => {
-    const bodyWrapper = table.refs.bodyWrapper
-    if (Math.abs(data.spinY) > 0) {
-      const currentScrollTop = bodyWrapper.scrollTop
-      if (data.pixelY < 0 && currentScrollTop !== 0) {
-        event.preventDefault()
-      }
-      if (
-        data.pixelY > 0 &&
-        bodyWrapper.scrollHeight - bodyWrapper.clientHeight > currentScrollTop
-      ) {
-        event.preventDefault()
-      }
-      bodyWrapper.scrollTop += Math.ceil(data.pixelY / 5)
-    } else {
-      bodyWrapper.scrollLeft += Math.ceil(data.pixelX / 5)
-    }
-  }
-
   return {
     isHidden,
     renderExpanded,
@@ -347,7 +325,6 @@ function useStyle<T extends DefaultRow>(
     handleHeaderFooterMousewheel,
     tableSize,
     emptyBlockStyle,
-    handleFixedMousewheel,
     resizeProxyVisible,
     bodyWidth,
     resizeState,
