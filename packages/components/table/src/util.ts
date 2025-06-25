@@ -190,7 +190,7 @@ export const getRowIdentity = <T>(
     for (const element of key) {
       current = current[element]
     }
-    return `${current}`
+    return isReturnRawValue ? current : `${current}`
   } else if (isFunction(rowKey)) {
     return rowKey.call(null, row)
   }

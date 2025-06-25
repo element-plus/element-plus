@@ -1981,6 +1981,39 @@ describe('Table.vue', () => {
       })
     })
 
+    it('expand-row-keys multi-level number and string', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" row-key="test.id" :expand-row-keys="[2, 3, '31']">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: getTestDataNumAndString(),
+          }
+        },
+      })
+      await doubleWait()
+      // 查找所有 level-1 的行
+      const level1Rows = wrapper.findAll('.el-table__row--level-1')
+
+      // 遍历每一行并检查其样式是否不为 display: none;
+      level1Rows.forEach((row) => {
+        const rowStyle = row.attributes('style')
+        if (rowStyle) {
+          expect(rowStyle).not.toContain('display: none;') // 期望样式不包含 display: none;
+        }
+      })
+    })
+
     it('v-if on el-table-column should patch correctly', async () => {
       wrapper = mount({
         components: {
