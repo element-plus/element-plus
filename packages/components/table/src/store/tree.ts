@@ -17,7 +17,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   const checkStrictly = ref(false)
   const instance = getCurrentInstance() as Table<T>
   const normalizedData = computed(() => {
-    if (!watcherData.rowKey.value) return new Map()
+    if (!watcherData.rowKey.value) return {}
     const data = watcherData.data.value || []
     return normalize(data)
   })
@@ -77,7 +77,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     const nested = normalizedData.value
     const normalizedLazyNode_ = normalizedLazyNode.value
     const newTreeData = {}
-    if (nested.size) {
+    if (nested instanceof Map && nested.size) {
       const oldTreeData = unref(treeData)
       const rootLazyRowKeys = []
       const getExpanded = (oldValue, key) => {
