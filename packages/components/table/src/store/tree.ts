@@ -17,7 +17,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   const checkStrictly = ref(false)
   const instance = getCurrentInstance() as Table<T>
   const normalizedData = computed(() => {
-    if (!watcherData.rowKey.value) return {}
+    if (!watcherData.rowKey.value) return new Map()
     const data = watcherData.data.value || []
     return normalize(data)
   })
@@ -78,7 +78,6 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     const normalizedLazyNode_ = normalizedLazyNode.value
     const newTreeData = {}
     if (nested.size) {
-      const keys = Array.from(nested.keys())
       const oldTreeData = unref(treeData)
       const rootLazyRowKeys = []
       const getExpanded = (oldValue, key) => {
@@ -96,7 +95,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         }
       }
       // 合并 expanded 与 display，确保数据刷新后，状态不变
-      keys.forEach((key) => {
+      nested.forEach((key) => {
         const oldValue = oldTreeData[key]
         const newValue = { ...nested.get(key) }
         newValue.expanded = getExpanded(oldValue, key)
