@@ -1,12 +1,11 @@
-// @ts-nocheck
 import { getCurrentInstance, ref } from 'vue'
 import { getKeysMap, getRowIdentity, toggleRowStatus } from '../util'
 
 import type { Ref } from 'vue'
 import type { WatcherPropsData } from '.'
-import type { Table } from '../table/defaults'
+import type { DefaultRow, Table } from '../table/defaults'
 
-function useExpand<T>(watcherData: WatcherPropsData<T>) {
+function useExpand<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
   const instance = getCurrentInstance() as Table<T>
   const defaultExpandAll = ref(false)
   const expandRows: Ref<T[]> = ref([])
@@ -46,13 +45,13 @@ function useExpand<T>(watcherData: WatcherPropsData<T>) {
     }
   }
 
-  const setExpandRowKeys = (rowKeys: string[]) => {
+  const setExpandRowKeys = (rowKeys: (string | number)[]) => {
     instance.store.assertRowKey()
     // TODO：这里的代码可以优化
     const data = watcherData.data.value || []
     const rowKey = watcherData.rowKey.value
     const keysMap = getKeysMap(data, rowKey)
-    expandRows.value = rowKeys.reduce((prev: T[], cur: string) => {
+    expandRows.value = rowKeys.reduce((prev: T[], cur) => {
       const info = keysMap[cur]
       if (info) {
         prev.push(info.row)

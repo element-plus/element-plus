@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useSizeProp } from '@element-plus/hooks'
 
 import type {
@@ -18,7 +17,7 @@ import type {
   TableOverflowTooltipOptions,
 } from '../util'
 
-export type DefaultRow = any
+type DefaultRow = Record<PropertyKey, any>
 
 interface TableRefs {
   tableWrapper: HTMLElement
@@ -47,29 +46,34 @@ interface TreeProps {
   checkStrictly?: boolean
 }
 
-type HoverState<T> = Nullable<{
+type HoverState<T extends DefaultRow> = Nullable<{
   cell: HTMLElement
   column: TableColumnCtx<T>
   row: T
 }>
 
-type RIS<T> = { row: T; $index: number; store: Store<T>; expanded: boolean }
+type RIS<T extends DefaultRow> = {
+  row: T
+  $index: number
+  store: Store<T>
+  expanded: boolean
+}
 
-type RenderExpanded<T> = ({
+type RenderExpanded<T extends DefaultRow> = ({
   row,
   $index,
   store,
-  expanded: boolean,
+  expanded,
 }: RIS<T>) => VNode
 
-type SummaryMethod<T> = (data: {
+type SummaryMethod<T extends DefaultRow> = (data: {
   columns: TableColumnCtx<T>[]
   data: T[]
 }) => (string | VNode)[]
 
-interface Table<T> extends ComponentInternalInstance {
+interface Table<T extends DefaultRow = any> extends ComponentInternalInstance {
   $ready: boolean
-  hoverState?: HoverState<T>
+  hoverState?: HoverState<T> | null
   renderExpanded: RenderExpanded<T>
   store: Store<T>
   layout: TableLayout<T>
@@ -82,7 +86,7 @@ type ColumnCls<T> = string | ((data: { row: T; rowIndex: number }) => string)
 type ColumnStyle<T> =
   | CSSProperties
   | ((data: { row: T; rowIndex: number }) => CSSProperties)
-type CellCls<T> =
+type CellCls<T extends DefaultRow> =
   | string
   | ((data: {
       row: T
@@ -90,7 +94,7 @@ type CellCls<T> =
       column: TableColumnCtx<T>
       columnIndex: number
     }) => string)
-type CellStyle<T> =
+type CellStyle<T extends DefaultRow> =
   | CSSProperties
   | ((data: {
       row: T
@@ -99,7 +103,7 @@ type CellStyle<T> =
       columnIndex: number
     }) => CSSProperties)
 type Layout = 'fixed' | 'auto'
-interface TableProps<T> {
+interface TableProps<T extends DefaultRow> {
   data: T[]
   size?: ComponentSize
   width?: string | number
@@ -158,16 +162,19 @@ interface TableProps<T> {
   scrollbarTabindex?: number | string
 }
 
-type TableTooltipData<T = any> = Parameters<TableOverflowTooltipFormatter<T>>[0]
+type TableTooltipData<T extends DefaultRow> = Parameters<
+  TableOverflowTooltipFormatter<T>
+>[0]
+type TableSortOrder = 'ascending' | 'descending'
 
 interface Sort {
   prop: string
-  order: 'ascending' | 'descending'
+  order: TableSortOrder
   init?: any
   silent?: any
 }
 
-interface Filter<T> {
+interface Filter<T extends DefaultRow> {
   column: TableColumnCtx<T>
   values: string[]
   silent: any
@@ -182,12 +189,13 @@ interface TreeNode {
   display?: boolean
 }
 
-interface RenderRowData<T> {
+interface RenderRowData<T extends DefaultRow> {
   store: Store<T>
   _self: Table<T>
   column: TableColumnCtx<T>
   row: T
   $index: number
+  cellIndex: number
   treeNode?: TreeNode
   expanded: boolean
 }
@@ -197,7 +205,7 @@ export default {
    * @description table data
    */
   data: {
-    type: Array as PropType<DefaultRow[]>,
+    type: Array as PropType<any[]>,
     default: () => [],
   },
   /**
@@ -231,7 +239,7 @@ export default {
   /**
    * @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used
    */
-  rowKey: [String, Function] as PropType<TableProps<DefaultRow>['rowKey']>,
+  rowKey: [String, Function] as PropType<TableProps<any>['rowKey']>,
   /**
    * @description whether Table header is visible
    */
@@ -250,52 +258,48 @@ export default {
   /**
    * @description custom summary method
    */
-  summaryMethod: Function as PropType<TableProps<DefaultRow>['summaryMethod']>,
+  summaryMethod: Function as PropType<TableProps<any>['summaryMethod']>,
   /**
    * @description function that returns custom class names for a row, or a string assigning class names for every row
    */
-  rowClassName: [String, Function] as PropType<
-    TableProps<DefaultRow>['rowClassName']
-  >,
+  rowClassName: [String, Function] as PropType<TableProps<any>['rowClassName']>,
   /**
    * @description function that returns custom style for a row, or an object assigning custom style for every row
    */
-  rowStyle: [Object, Function] as PropType<TableProps<DefaultRow>['rowStyle']>,
+  rowStyle: [Object, Function] as PropType<TableProps<any>['rowStyle']>,
   /**
    * @description function that returns custom class names for a cell, or a string assigning class names for every cell
    */
   cellClassName: [String, Function] as PropType<
-    TableProps<DefaultRow>['cellClassName']
+    TableProps<any>['cellClassName']
   >,
   /**
    * @description function that returns custom style for a cell, or an object assigning custom style for every cell
    */
-  cellStyle: [Object, Function] as PropType<
-    TableProps<DefaultRow>['cellStyle']
-  >,
+  cellStyle: [Object, Function] as PropType<TableProps<any>['cellStyle']>,
   /**
    * @description function that returns custom class names for a row in table header, or a string assigning class names for every row in table header
    */
   headerRowClassName: [String, Function] as PropType<
-    TableProps<DefaultRow>['headerRowClassName']
+    TableProps<any>['headerRowClassName']
   >,
   /**
    * @description function that returns custom style for a row in table header, or an object assigning custom style for every row in table header
    */
   headerRowStyle: [Object, Function] as PropType<
-    TableProps<DefaultRow>['headerRowStyle']
+    TableProps<any>['headerRowStyle']
   >,
   /**
    * @description function that returns custom class names for a cell in table header, or a string assigning class names for every cell in table header
    */
   headerCellClassName: [String, Function] as PropType<
-    TableProps<DefaultRow>['headerCellClassName']
+    TableProps<any>['headerCellClassName']
   >,
   /**
    * @description function that returns custom style for a cell in table header, or an object assigning custom style for every cell in table header
    */
   headerCellStyle: [Object, Function] as PropType<
-    TableProps<DefaultRow>['headerCellStyle']
+    TableProps<any>['headerCellStyle']
   >,
   /**
    * @description whether current row is highlighted
@@ -312,7 +316,7 @@ export default {
   /**
    * @description set expanded rows by this prop, prop's value is the keys of expand rows, you should set row-key before using this prop
    */
-  expandRowKeys: Array as PropType<TableProps<DefaultRow>['expandRowKeys']>,
+  expandRowKeys: Array as PropType<TableProps<any>['expandRowKeys']>,
   /**
    * @description whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data
    */
@@ -320,7 +324,7 @@ export default {
   /**
    * @description set the default sort column and order. property `prop` is used to set default sort column, property `order` is used to set default sort order
    */
-  defaultSort: Object as PropType<TableProps<DefaultRow>['defaultSort']>,
+  defaultSort: Object as PropType<TableProps<any>['defaultSort']>,
   /**
    * @description the `effect` of the overflow tooltip
    */
@@ -328,11 +332,11 @@ export default {
   /**
    * @description the options for the overflow tooltip, [see the following tooltip component](tooltip.html#attributes)
    */
-  tooltipOptions: Object as PropType<TableProps<DefaultRow>['tooltipOptions']>,
+  tooltipOptions: Object as PropType<TableProps<any>['tooltipOptions']>,
   /**
    * @description method that returns rowspan and colspan
    */
-  spanMethod: Function as PropType<TableProps<DefaultRow>['spanMethod']>,
+  spanMethod: Function as PropType<TableProps<any>['spanMethod']>,
   /**
    * @description controls the behavior of master checkbox in multi-select tables when only some rows are selected (but not all). If true, all rows will be selected, else deselected
    */
@@ -351,7 +355,7 @@ export default {
    * @description configuration for rendering nested data
    */
   treeProps: {
-    type: Object as PropType<TableProps<DefaultRow>['treeProps']>,
+    type: Object as PropType<TableProps<any>['treeProps']>,
     default: () => {
       return {
         hasChildren: 'hasChildren',
@@ -367,7 +371,7 @@ export default {
   /**
    * @description method for loading child row data, only works when `lazy` is true
    */
-  load: Function as PropType<TableProps<DefaultRow>['load']>,
+  load: Function as PropType<TableProps<any>['load']>,
   style: {
     type: Object as PropType<CSSProperties>,
     default: () => ({}),
@@ -395,14 +399,12 @@ export default {
    * @description whether to hide extra content and show them in a tooltip when hovering on the cell.It will affect all the table columns
    */
   showOverflowTooltip: [Boolean, Object] as PropType<
-    TableProps<DefaultRow>['showOverflowTooltip']
+    TableProps<any>['showOverflowTooltip']
   >,
   /**
    * @description function that formats cell tooltip content, works when `show-overflow-tooltip` is `true`
    */
-  tooltipFormatter: Function as PropType<
-    TableProps<DefaultRow>['tooltipFormatter']
-  >,
+  tooltipFormatter: Function as PropType<TableProps<any>['tooltipFormatter']>,
   appendFilterPanelTo: String,
   scrollbarTabindex: {
     type: [Number, String],
@@ -432,6 +434,7 @@ export type {
   ColumnStyle,
   CellCls,
   CellStyle,
+  DefaultRow,
   TreeNode,
   RenderRowData,
   Sort,
@@ -439,4 +442,5 @@ export type {
   TableColumnCtx,
   TreeProps,
   TableTooltipData,
+  TableSortOrder,
 }

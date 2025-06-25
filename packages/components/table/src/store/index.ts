@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getCurrentInstance, nextTick, unref } from 'vue'
 import { isNull } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
@@ -6,14 +5,14 @@ import useWatcher from './watcher'
 
 import type { Ref } from 'vue'
 import type { TableColumnCtx } from '../table-column/defaults'
-import type { Filter, Sort, Table } from '../table/defaults'
+import type { DefaultRow, Filter, Sort, Table } from '../table/defaults'
 
-interface WatcherPropsData<T> {
+interface WatcherPropsData<T extends DefaultRow> {
   data: Ref<T[]>
-  rowKey: Ref<string>
+  rowKey: Ref<string | null>
 }
 
-function replaceColumn<T>(
+function replaceColumn<T extends DefaultRow>(
   array: TableColumnCtx<T>[],
   column: TableColumnCtx<T>
 ) {
@@ -27,7 +26,7 @@ function replaceColumn<T>(
   })
 }
 
-function sortColumn<T>(array: TableColumnCtx<T>[]) {
+function sortColumn<T extends DefaultRow>(array: TableColumnCtx<T>[]) {
   array.forEach((item) => {
     item.no = item.getColumnIndex?.()
     if (item.children?.length) {
@@ -37,7 +36,7 @@ function sortColumn<T>(array: TableColumnCtx<T>[]) {
   array.sort((cur, pre) => cur.no - pre.no)
 }
 
-function useStore<T>() {
+function useStore<T extends DefaultRow>() {
   const instance = getCurrentInstance() as Table<T>
   const watcher = useWatcher<T>()
   const ns = useNamespace('table')
@@ -85,7 +84,7 @@ function useStore<T>() {
         if (parent && !parent.children) {
           parent.children = []
         }
-        parent.children.push(column)
+        parent.children?.push(column)
         newColumns = replaceColumn(array, parent)
       }
       sortColumn(newColumns)
@@ -119,7 +118,7 @@ function useStore<T>() {
       updateColumnOrder: () => void
     ) {
       const array = unref(states._columns) || []
-      if (parent) {
+      if (parent?.children) {
         parent.children.splice(
           parent.children.findIndex((item) => item.id === column.id),
           1
@@ -199,10 +198,10 @@ function useStore<T>() {
     },
 
     toggleAllSelection() {
-      instance.store.toggleAllSelection()
+      instance.store.toggleAllSelection?.()
     },
 
-    rowSelectedChanged(_states, row: T) {
+    rowSelectedChanged(_states: StoreStates, row: T) {
       instance.store.toggleRowSelection(row)
       instance.store.updateAllSelected()
     },
@@ -211,14 +210,17 @@ function useStore<T>() {
       states.hoverRow.value = row
     },
 
-    setCurrentRow(_states, row: T) {
+    setCurrentRow(_states: StoreStates, row: T) {
       instance.store.updateCurrentRow(row)
     },
   }
-  const commit = function (name: keyof typeof mutations, ...args) {
+  const commit = function (name: keyof typeof mutations, ...args: any[]) {
     const mutations = instance.store.mutations
     if (mutations[name]) {
-      mutations[name].apply(instance, [instance.store.states].concat(args))
+      ;(mutations[name] as any).apply(
+        instance,
+        [instance.store.states].concat(args)
+      )
     } else {
       throw new Error(`Action not found: ${name}`)
     }
@@ -237,10 +239,10 @@ function useStore<T>() {
 
 export default useStore
 
-class HelperStore<T> {
+class HelperStore<T extends DefaultRow> {
   Return = useStore<T>()
 }
 
 type StoreFilter = Record<string, string[]>
-type Store<T> = HelperStore<T>['Return']
+type Store<T extends DefaultRow> = HelperStore<T>['Return']
 export type { WatcherPropsData, Store, StoreFilter }
