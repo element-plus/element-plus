@@ -50,7 +50,7 @@
       :render-label-fn="panel.renderLabelFn"
       :node="node"
       :disabled="isDisabled"
-      :select-on-click="panel.checkOnClickNode"
+      :check-on-click-node="panel.checkOnClickNode"
       @handle-select-check="handleSelectCheck"
     />
     <!-- postfix -->
