@@ -28,7 +28,7 @@
       @update:model-value="handleSelectCheck"
     />
     <el-radio
-      v-else-if="checkStrictly && !panel.selectOnClick"
+      v-else-if="checkStrictly && !panel.checkOnClickNode"
       :model-value="checkedNodeId"
       :label="node.uid"
       :disabled="isDisabled"
@@ -50,7 +50,7 @@
       :render-label-fn="panel.renderLabelFn"
       :node="node"
       :disabled="isDisabled"
-      :select-on-click="panel.selectOnClick"
+      :select-on-click="panel.checkOnClickNode"
       @handle-select-check="handleSelectCheck"
     />
     <!-- postfix -->

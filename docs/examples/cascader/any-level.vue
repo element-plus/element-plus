@@ -25,7 +25,7 @@ const props2 = {
 
 const props3 = {
   checkStrictly: true,
-  selectOnClick: true,
+  checkOnClickNode: true,
 }
 const options = [
   {

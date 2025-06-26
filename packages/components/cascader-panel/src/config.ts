@@ -87,7 +87,7 @@ export const DefaultProps: CascaderConfig = {
   /**
    * @description Hide radio in single mode
    */
-  selectOnClick: false,
+  checkOnClickNode: false,
 }
 
 export const cascaderPanelProps = buildProps({

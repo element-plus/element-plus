@@ -51,7 +51,7 @@ export interface ElCascaderPanelContext {
     checked: boolean,
     emitClose?: boolean
   ) => void
-  selectOnClick?: boolean
+  checkOnClickNode?: boolean
 }
 
 export const CASCADER_PANEL_INJECTION_KEY: InjectionKey<ElCascaderPanelContext> =

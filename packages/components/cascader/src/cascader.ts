@@ -145,7 +145,7 @@ export const cascaderProps = buildProps({
     type: Boolean,
     default: true,
   },
-  selectOnClick: {
+  checkOnClickNode: {
     type: Boolean,
     default: false,
   },
