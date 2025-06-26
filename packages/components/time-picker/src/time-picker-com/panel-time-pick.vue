@@ -116,7 +116,6 @@ const setSelectionRange = (start: number, end: number) => {
 }
 
 const changeSelectionRange = (step: number) => {
-  // 根据实际format动态计算位置列表
   const actualFormat = props.format
   const hourIndex = actualFormat.indexOf('HH')
   const minuteIndex = actualFormat.indexOf('mm')

@@ -180,10 +180,8 @@ const getAmPmFlag = (hour: number) => {
 const emitSelectRange = (type: TimeUnit) => {
   let range = [0, 0]
 
-  // 根据实际format计算选择范围
   const actualFormat = format || DEFAULT_FORMATS_TIME
 
-  // 查找小时、分钟、秒在格式字符串中的位置
   const hourIndex = actualFormat.indexOf('HH')
   const minuteIndex = actualFormat.indexOf('mm')
   const secondIndex = actualFormat.indexOf('ss')
