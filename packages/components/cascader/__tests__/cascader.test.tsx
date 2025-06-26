@@ -51,6 +51,7 @@ const AXIOM = 'Rem is the best girl'
 
 const TRIGGER = '.el-cascader'
 const NODE = '.el-cascader-node'
+const NODE_LABEL = '.el-cascader-node__label'
 const TAG = '.el-tag'
 const SUGGESTION_ITEM = '.el-cascader__suggestion-item'
 const SUGGESTION_PANEL = '.el-cascader__suggestion-panel'
@@ -765,6 +766,33 @@ describe('Cascader.vue', () => {
       const tags = wrapper.findAll('span.el-tag')
       expect(tags.length).toBe(1)
       expect(tags[0].text()).toContain('Zhejiang')
+    })
+  })
+  describe('Cascader - click to select node', () => {
+    it('selects parent node directly on click', async () => {
+      const value = ref([])
+      const props = { checkStrictly: true, checkOnClickNode: true }
+      const wrapper = _mount(() => (
+        <Cascader v-model={value.value} options={OPTIONS} props={props} />
+      ))
+      const trigger = wrapper.find(TRIGGER)
+      await trigger.trigger('click')
+      await nextTick()
+      const nodes = document.querySelectorAll(NODE_LABEL)
+      await (nodes[0] as HTMLElement).click()
+      await nextTick()
+      const newNodes = document.querySelectorAll(NODE_LABEL)
+      const hangzhouNode = Array.from(newNodes).find((el) =>
+        el.textContent?.includes('Hangzhou')
+      )
+      expect(hangzhouNode).toBeTruthy()
+      await (hangzhouNode as HTMLElement).click()
+      await nextTick()
+      expect(value.value).toEqual(['zhejiang', 'hangzhou'])
+      const input = wrapper.find('input')
+      expect((input.element as HTMLInputElement).value).toBe(
+        'Zhejiang / Hangzhou'
+      )
     })
   })
 })
