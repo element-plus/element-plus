@@ -192,7 +192,7 @@ const calculateCheckedValue = (node?: Node) => {
   const { checkStrictly, multiple } = config.value
   const oldNodes = checkedNodes.value
   let newNodes = getCheckedNodes(!checkStrictly)!
-  if (props.props.checkOnClickNode) {
+  if (checkStrictly && props.props.checkOnClickNode) {
     newNodes = [node!]
   }
   // ensure the original order
