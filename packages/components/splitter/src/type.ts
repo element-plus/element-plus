@@ -21,8 +21,7 @@ export interface SplitterRootContext {
   percentSizes: number[]
   pxSizes: number[]
   registerPanel: (pane: PanelItemState) => void
-  sortPanel: (pane: PanelItemState) => void
-  unregisterPanel: (uid: number) => void
+  unregisterPanel: (pane: PanelItemState) => void
   onCollapse: (index: number, type: 'start' | 'end') => void
   onMoveEnd: () => void
   onMoveStart: (index: number) => void

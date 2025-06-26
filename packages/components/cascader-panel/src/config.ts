@@ -1,11 +1,15 @@
 import { computed } from 'vue'
 import { NOOP, buildProps, definePropType } from '@element-plus/utils'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
+import type { PropType } from 'vue'
 import type {
   CascaderConfig,
+  CascaderNodePathValue,
   CascaderOption,
   CascaderProps,
   CascaderValue,
+  RenderLabel,
 } from './node'
 
 export const CommonProps = buildProps({
@@ -84,6 +88,27 @@ export const DefaultProps: CascaderConfig = {
    * @description Hide radio in single mode
    */
   selectOnClick: false,
+}
+
+export const cascaderPanelProps = buildProps({
+  ...CommonProps,
+  border: {
+    type: Boolean,
+    default: true,
+  },
+  renderLabel: {
+    type: Function as PropType<RenderLabel>,
+  },
+})
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const emitChangeFn = (value: CascaderValue | undefined) => true
+
+export const cascaderPanelEmits = {
+  [UPDATE_MODEL_EVENT]: emitChangeFn,
+  [CHANGE_EVENT]: emitChangeFn,
+  close: () => true,
+  'expand-change': (value: CascaderNodePathValue) => value,
 }
 
 export const useCascaderConfig = (props: { props: CascaderProps }) => {

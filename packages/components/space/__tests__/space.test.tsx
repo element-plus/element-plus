@@ -126,4 +126,34 @@ describe('Space.vue', () => {
       'min-width: 50%'
     )
   })
+
+  it('should handle empty conditional templates correctly', async () => {
+    // Test with a component that uses v-if to simulate empty templates
+    const TestComponent = {
+      template: `
+        <el-space spacer="|">
+          <span>Item 1</span>
+          <template v-if="false"></template>
+          <span>Item 2</span>
+          <template v-if="false"></template>
+        </el-space>
+      `,
+      components: {
+        'el-space': Space,
+      },
+    }
+
+    const wrapper = mount(TestComponent)
+    await nextTick()
+
+    expect(wrapper.text()).toBe('Item 1|Item 2')
+
+    const spacerElements = wrapper
+      .findAll('span')
+      .filter((el) => el.text() === '|')
+    expect(spacerElements.length).toBe(1)
+
+    const spaceChildren = wrapper.find('.el-space').element.children
+    expect(spaceChildren.length).toBe(3)
+  })
 })
