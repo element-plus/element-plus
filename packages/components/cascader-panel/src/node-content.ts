@@ -11,14 +11,8 @@ function isVNodeEmpty(vnodes?: VNode[]) {
 export default defineComponent({
   name: 'NodeContent',
   props: {
-    selectOnClick: {
-      type: Boolean,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+    selectOnClick: Boolean,
+    disabled: Boolean,
   },
   setup(props, { emit }) {
     const ns = useNamespace('cascader-node')
