@@ -36,11 +36,9 @@ function useTree<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
         const item: typeof res[number] = { children: [] }
         lazyTreeNodeMap.value[key].forEach((row) => {
           const currentRowKey = getRowIdentity(row, rowKey)
-          if (currentRowKey) {
-            item.children.push(currentRowKey)
-            if (row[lazyColumnIdentifier.value] && !res[currentRowKey]) {
-              res[currentRowKey] = { children: [] }
-            }
+          item.children.push(currentRowKey)
+          if (row[lazyColumnIdentifier.value] && !res[currentRowKey]) {
+            res[currentRowKey] = { children: [] }
           }
         })
         res[key] = item
