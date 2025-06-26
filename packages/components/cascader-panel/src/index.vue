@@ -162,7 +162,7 @@ const handleCheckChange: ElCascaderPanelContext['handleCheckChange'] = (
 
   !multiple && oldNode?.doCheck(false)
   node.doCheck(checked)
-  calculateCheckedValue()
+  calculateCheckedValue(node)
   emitClose && !multiple && !checkStrictly && emit('close')
   !emitClose && !multiple && !checkStrictly && expandParentNode(node)
 }
@@ -188,15 +188,18 @@ const clearCheckedNodes = () => {
   emit('expand-change', [])
 }
 
-const calculateCheckedValue = () => {
+const calculateCheckedValue = (node?: Node) => {
   const { checkStrictly, multiple } = config.value
   const oldNodes = checkedNodes.value
-  const newNodes = getCheckedNodes(!checkStrictly)!
+  let newNodes = getCheckedNodes(!checkStrictly)!
+  if (props.props.selectOnClick) {
+    newNodes = [node!]
+  }
   // ensure the original order
   const nodes = sortByOriginalOrder(oldNodes, newNodes)
   const values = nodes.map((node) => node.valueByOption)
   checkedNodes.value = nodes
-  checkedValue.value = multiple ? values : values[0]
+  checkedValue.value = multiple ? values : values[0] ?? null
 }
 
 const syncCheckedValue = (loaded = false, forced = false) => {
