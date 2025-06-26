@@ -217,10 +217,10 @@ function useStore<T extends DefaultRow>() {
   const commit = function (name: keyof typeof mutations, ...args: any[]) {
     const mutations = instance.store.mutations
     if (mutations[name]) {
-      ;(mutations[name] as any).apply(
-        instance,
-        [instance.store.states].concat(args)
-      )
+      ;(mutations[name] as any).apply(instance, [
+        instance.store.states,
+        ...args,
+      ])
     } else {
       throw new Error(`Action not found: ${name}`)
     }
