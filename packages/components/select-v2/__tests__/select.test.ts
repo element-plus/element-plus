@@ -84,6 +84,7 @@ const createSelect = (
     slots?: {
       empty?: string
       default?: string
+      tag?: string
     }
   } = {}
 ) => {
@@ -97,6 +98,12 @@ const createSelect = (
       options.slots.default &&
       `<template #default="{item}">${options.slots.default}</template>`) ||
     ''
+  const tagSlot =
+    (options.slots &&
+      options.slots.tag &&
+      `<template #tag="{data}">${options.slots.tag}</template>`) ||
+    ''
+
   return _mount(
     `
       <el-select
@@ -137,6 +144,7 @@ const createSelect = (
         v-model="value">
         ${defaultSlot}
         ${emptySlot}
+        ${tagSlot}
       </el-select>
     `,
     {
@@ -2143,6 +2151,40 @@ describe('Select', () => {
     await nextTick()
     // after deletion, an el-tag still exist
     expect(wrapper.findAll('.el-tag').length).toBe(1)
+  })
+
+  it('should return slot tag data correctly & dont have tag component', async () => {
+    const value = [1, 3, 5]
+    const wrapper = createSelect({
+      data() {
+        return {
+          multiple: true,
+          options: [
+            { label: 'Test 1', value: 1 },
+            { label: 'Test 2', value: 2 },
+            { label: 'Test 3', value: 3 },
+            { label: 'Test 4', value: 4 },
+            { label: 'Test 5', value: 5 },
+          ],
+          value,
+        }
+      },
+      slots: {
+        tag: `
+          <span v-for="option in data" class="no-tag" :key="option.value">
+            {{ option.value }} -  {{ option.label }}
+          </span>
+        `,
+      },
+    })
+    await nextTick()
+    console.log(wrapper.html())
+    const slotTagEls = wrapper.findAll('.no-tag')
+    expect(slotTagEls).toHaveLength(3)
+    expect(wrapper.find('.el-tag').exists()).toBe(false)
+    slotTagEls.forEach((el, idx) => {
+      expect(el.text()).toBe(`${value[idx]} - Test ${value[idx]}`)
+    })
   })
 
   it('should be trigger the click event', async () => {

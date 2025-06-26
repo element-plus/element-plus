@@ -2901,6 +2901,41 @@ describe('Select', () => {
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(1)
   })
+
+  it('should return slot tag data correctly & dont have tag component', async () => {
+    const value = [1, 3, 5]
+    const wrapper = _mount(
+      `
+        <el-select v-model="value" multiple>
+          <el-option v-for="option in options" :value="option.value" :label="option.label"></el-option>
+          <template #tag="{ data }">
+            <span v-for="option in data" class="no-tag" :key="option.value">
+              {{ option.value }} -  {{ option.currentLabel }}
+            </span>
+          </template>
+        </el-select>
+      `,
+      () => ({
+        value,
+        multiple: true,
+        options: [
+          { label: 'Test 1', value: 1 },
+          { label: 'Test 2', value: 2 },
+          { label: 'Test 3', value: 3 },
+          { label: 'Test 4', value: 4 },
+          { label: 'Test 5', value: 5 },
+        ],
+      })
+    )
+    await nextTick()
+    const slotTagEls = wrapper.findAll('.no-tag')
+    expect(slotTagEls).toHaveLength(3)
+    expect(wrapper.find('.el-tag').exists()).toBe(false)
+    slotTagEls.forEach((el, idx) => {
+      expect(el.text()).toBe(`${value[idx]} - Test ${value[idx]}`)
+    })
+  })
+
   it('It should generate accessible attributes', async () => {
     wrapper = _mount(
       `<el-select v-model="value">

@@ -56,7 +56,7 @@
               ),
             ]"
           >
-            <slot v-if="multiple" name="tag">
+            <slot v-if="multiple" name="tag" :data="states.cachedOptions">
               <div
                 v-for="item in showTagList"
                 :key="getValueKey(getValue(item))"
