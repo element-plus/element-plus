@@ -30,10 +30,16 @@
       </div>
     </template>
   </el-upload>
-
+  
+  <!-- Element Plus Version >= 2.9.4 -->
+  <el-image-viewer v-if="dialogVisible" :url-list="[dialogImageUrl]" show-progress
+    @close="dialogVisible = false" />
+  <!-- Element Plus Version >= 2.9.4 -->
+  <!-- Element Plus Version < 2.9.4 -->
   <el-dialog v-model="dialogVisible">
     <img w-full :src="dialogImageUrl" alt="Preview Image" />
   </el-dialog>
+  <!-- Element Plus Version < 2.9.4 -->
 </template>
 
 <script lang="ts" setup>
