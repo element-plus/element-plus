@@ -387,32 +387,30 @@ const TabNav = defineComponent({
         >
           {scrollBtn}
           <div class={ns.e('nav-scroll')} ref={navScroll$}>
-            <div
-              class={[
-                ns.e('nav'),
-                ns.is(rootTabs.props.tabPosition),
-                ns.is(
-                  'stretch',
-                  props.stretch &&
-                    ['top', 'bottom'].includes(rootTabs.props.tabPosition)
-                ),
-              ]}
-              ref={nav$}
-              style={navStyle.value}
-              role="tablist"
-              onKeydown={changeTab}
-            >
-              {...[
-                !props.type ? (
-                  <TabBar
-                    ref={tabBarRef}
-                    tabs={[...props.panes]}
-                    tabRefs={tabRefsMap.value}
-                  />
-                ) : null,
-                tabs,
-              ]}
-            </div>
+            {props.panes.length > 0 ? (
+              <div
+                class={[
+                  ns.e('nav'),
+                  ns.is(rootTabs.props.tabPosition),
+                  ns.is(
+                    'stretch',
+                    props.stretch &&
+                      ['top', 'bottom'].includes(rootTabs.props.tabPosition)
+                  ),
+                ]}
+                ref={nav$}
+                style={navStyle.value}
+                role="tablist"
+                onKeydown={changeTab}
+              >
+                {...[
+                  !props.type ? (
+                    <TabBar ref={tabBarRef} tabs={[...props.panes]} />
+                  ) : null,
+                  tabs,
+                ]}
+              </div>
+            ) : null}
           </div>
         </div>
       )

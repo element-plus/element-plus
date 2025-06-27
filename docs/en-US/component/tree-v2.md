@@ -72,6 +72,16 @@ tree-v2/custom-node-class
 
 :::
 
+## Custom node icon ^(2.10.3)
+
+You can customize icons for different node states. Tree nodes expose the `expanded` property and `isLeaf` property, allowing you to dynamically render different icons based on the node's state: leaf nodes, expanded nodes, or collapsed nodes.
+
+:::demo
+
+tree-v2/custom-icon
+
+:::
+
 ## Tree node filtering ^(2.9.1)
 
 The `filter-method` method can only accept the third parameter after version `2.9.1`.

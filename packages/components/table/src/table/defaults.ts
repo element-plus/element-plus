@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useSizeProp } from '@element-plus/hooks'
+
 import type {
   CSSProperties,
   ComponentInternalInstance,
@@ -124,7 +125,7 @@ interface TableProps<T> {
   highlightCurrentRow?: boolean
   currentRowKey?: string | number
   emptyText?: string
-  expandRowKeys?: string[]
+  expandRowKeys?: Array<string | number>
   defaultExpandAll?: boolean
   defaultSort?: Sort
   tooltipEffect?: string

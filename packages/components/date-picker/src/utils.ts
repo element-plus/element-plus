@@ -25,6 +25,7 @@ export const isValidRange = (range: DayRange): boolean => {
 
 type GetDefaultValueParams = {
   lang: string
+  step?: number
   unit: 'month' | 'year'
   unlinkPanels: boolean
 }
@@ -33,14 +34,14 @@ export type DefaultValue = [Date, Date] | Date | undefined
 
 export const getDefaultValue = (
   defaultValue: DefaultValue,
-  { lang, unit, unlinkPanels }: GetDefaultValueParams
+  { lang, step = 1, unit, unlinkPanels }: GetDefaultValueParams
 ) => {
   let start: Dayjs
 
   if (isArray(defaultValue)) {
     let [left, right] = defaultValue.map((d) => dayjs(d).locale(lang))
     if (!unlinkPanels) {
-      right = left.add(1, unit)
+      right = left.add(step, unit)
     }
     return [left, right]
   } else if (defaultValue) {
@@ -49,7 +50,7 @@ export const getDefaultValue = (
     start = dayjs()
   }
   start = start.locale(lang)
-  return [start, start.add(1, unit)]
+  return [start, start.add(step, unit)]
 }
 
 type Dimension = {
@@ -146,7 +147,15 @@ export const datesInMonth = (
   month: number,
   lang: string
 ) => {
-  const firstDay = dayjs(date).locale(lang).month(month).year(year)
+  const firstDay = dayjs()
+    .locale(lang)
+    .startOf('month')
+    .month(month)
+    .year(year)
+    .hour(date.hour())
+    .minute(date.minute())
+    .second(date.second())
+
   const numOfDays = firstDay.daysInMonth()
   return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())
 }
@@ -158,7 +167,13 @@ export const getValidDateOfMonth = (
   lang: string,
   disabledDate?: DisabledDateType
 ) => {
-  const _value = dayjs(date).year(year).month(month)
+  const _value = dayjs()
+    .year(year)
+    .month(month)
+    .startOf('month')
+    .hour(date.hour())
+    .minute(date.minute())
+    .second(date.second())
   const _date = datesInMonth(date, year, month, lang).find((date) => {
     return !disabledDate?.(date)
   })

@@ -25,13 +25,13 @@ import {
 } from '@element-plus/hooks'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { elPaginationKey } from './constants'
-
 import Prev from './components/prev.vue'
 import Next from './components/next.vue'
 import Sizes from './components/sizes.vue'
 import Jumper from './components/jumper.vue'
 import Total from './components/total.vue'
 import Pager from './components/pager.vue'
+
 import type { ExtractPropTypes, VNode } from 'vue'
 /**
  * It it user's responsibility to guarantee that the value of props.total... is number

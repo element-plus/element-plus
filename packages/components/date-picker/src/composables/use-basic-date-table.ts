@@ -160,19 +160,6 @@ export const useBasicDateTable = (
     const dateUnit = 'day'
     let count = 1
 
-    if (showWeekNumber) {
-      for (let rowIndex = 0; rowIndex < 6; rowIndex++) {
-        if (!rows_[rowIndex][0]) {
-          rows_[rowIndex][0] = {
-            type: 'week',
-            text: unref(startDate)
-              .add(rowIndex * 7 + 1, dateUnit)
-              .week(),
-          }
-        }
-      }
-    }
-
     buildPickerTable({ row: 6, column: 7 }, rows_, {
       startDate: minDate,
       columnIndexOffset: showWeekNumber ? 1 : 0,
@@ -193,6 +180,17 @@ export const useBasicDateTable = (
 
       setRowMetadata,
     })
+
+    if (showWeekNumber) {
+      for (let rowIndex = 0; rowIndex < 6; rowIndex++) {
+        if (rows_[rowIndex][1].dayjs) {
+          rows_[rowIndex][0] = {
+            type: 'week',
+            text: rows_[rowIndex][1].dayjs!.week(),
+          }
+        }
+      }
+    }
 
     return rows_
   })
@@ -418,7 +416,6 @@ export const useBasicDateTableDOM = (
   ])
 
   const tableLabel = computed(() => t('el.datepicker.dateTablePrompt'))
-  const weekLabel = computed(() => t('el.datepicker.week'))
 
   const getCellClasses = (cell: DateCell) => {
     const classes: string[] = []
@@ -473,7 +470,7 @@ export const useBasicDateTableDOM = (
   return {
     tableKls,
     tableLabel,
-    weekLabel,
+    weekHeaderClass: ns.e('week-header'),
 
     getCellClasses,
     getRowKls,

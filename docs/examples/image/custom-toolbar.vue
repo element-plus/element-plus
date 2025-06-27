@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import ElIcon from '@element-plus/components/icon'
+import { ElIcon } from 'element-plus'
 import {
   Back,
   DArrowRight,

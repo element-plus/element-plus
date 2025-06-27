@@ -23,6 +23,8 @@ import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { tabsRootContextKey } from './constants'
 import TabNav from './tab-nav'
 
+import type { ExtractPropTypes, VNode } from 'vue'
+import type { Awaitable } from '@element-plus/utils'
 import type { TabNavInstance } from './tab-nav'
 import type { TabPaneName, TabsPaneContext } from './constants'
 import type { ExtractPropTypes, FunctionalComponent, VNode } from 'vue'
@@ -110,8 +112,9 @@ const Tabs = defineComponent({
 
     const {
       children: panes,
-      addChild: sortPane,
+      addChild: registerPane,
       removeChild: unregisterPane,
+      ChildrenSorter: PanesSorter,
     } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
 
     const nav$ = ref<TabNavInstance>()
@@ -171,6 +174,22 @@ const Tabs = defineComponent({
       emit('tabAdd')
     }
 
+    const swapChildren = (
+      vnode: VNode & {
+        el: HTMLDivElement
+        children: VNode<HTMLDivElement>[]
+      }
+    ) => {
+      const actualFirstChild = vnode.el.firstChild!
+      const firstChild = ['bottom', 'right'].includes(props.tabPosition)
+        ? vnode.children[0].el!
+        : vnode.children[1].el!
+
+      if (actualFirstChild !== firstChild) {
+        actualFirstChild.before(firstChild)
+      }
+    }
+
     watch(
       () => props.modelValue,
       (modelValue) => setCurrentName(modelValue)
@@ -184,10 +203,7 @@ const Tabs = defineComponent({
     provide(tabsRootContextKey, {
       props,
       currentName,
-      registerPane: (pane: TabsPaneContext) => {
-        panes.value.push(pane)
-      },
-      sortPane,
+      registerPane,
       unregisterPane,
     })
 
@@ -195,11 +211,7 @@ const Tabs = defineComponent({
       currentName,
       tabNavRef: nav$,
     })
-    const TabNavRenderer: FunctionalComponent<{ render: () => VNode }> = ({
-      render,
-    }) => {
-      return render()
-    }
+
     return () => {
       const addSlot = slots['add-icon']
       const newButton =
@@ -226,6 +238,24 @@ const Tabs = defineComponent({
           </div>
         ) : null
 
+      const tabNav = () => {
+        const hasLabelSlot = panes.value.some((pane) => pane.slots.label)
+        return createVNode(
+          TabNav,
+          {
+            ref: nav$,
+            currentName: currentName.value,
+            editable: props.editable,
+            type: props.type,
+            panes: panes.value,
+            stretch: props.stretch,
+            onTabClick: handleTabClick,
+            onTabRemove: handleTabRemove,
+          },
+          { $stable: !hasLabelSlot }
+        )
+      }
+
       const header = (
         <div
           class={[
@@ -234,25 +264,10 @@ const Tabs = defineComponent({
             ns.is(props.tabPosition),
           ]}
         >
-          <TabNavRenderer
-            render={() => {
-              const hasLabelSlot = panes.value.some((pane) => pane.slots.label)
-              return createVNode(
-                TabNav,
-                {
-                  ref: nav$,
-                  currentName: currentName.value,
-                  editable: props.editable,
-                  type: props.type,
-                  panes: panes.value,
-                  stretch: props.stretch,
-                  onTabClick: handleTabClick,
-                  onTabRemove: handleTabRemove,
-                },
-                { $stable: !hasLabelSlot }
-              )
-            }}
-          />
+          {createVNode(PanesSorter, null, {
+            default: tabNav,
+            $stable: true,
+          })}
           {newButton}
         </div>
       )
@@ -271,6 +286,9 @@ const Tabs = defineComponent({
               [ns.m('border-card')]: props.type === 'border-card',
             },
           ]}
+          // @ts-ignore
+          onVnodeMounted={swapChildren}
+          onVnodeUpdated={swapChildren}
         >
           {panels}
           {header}

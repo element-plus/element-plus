@@ -16,6 +16,7 @@ import {
 import ElTooltip, {
   type ElTooltipProps,
 } from '@element-plus/components/tooltip'
+
 import type { Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { VNode } from 'vue'
@@ -176,19 +177,20 @@ export const getColumnByCell = function <T>(
 
 export const getRowIdentity = <T>(
   row: T,
-  rowKey: string | ((row: T) => any)
+  rowKey: string | ((row: T) => any),
+  isReturnRawValue: boolean = false
 ): string => {
   if (!row) throw new Error('Row is required when get row identity')
   if (isString(rowKey)) {
     if (!rowKey.includes('.')) {
-      return `${row[rowKey]}`
+      return isReturnRawValue ? row[rowKey] : `${row[rowKey]}`
     }
     const key = rowKey.split('.')
     let current = row
     for (const element of key) {
       current = current[element]
     }
-    return `${current}`
+    return isReturnRawValue ? current : `${current}`
   } else if (isFunction(rowKey)) {
     return rowKey.call(null, row)
   }
@@ -291,11 +293,24 @@ export function toggleRowStatus<T>(
   newVal?: boolean,
   tableTreeProps?: TreeProps,
   selectable?: (row: T, index?: number) => boolean,
-  rowIndex?: number
+  rowIndex?: number,
+  rowKey?: string
 ): boolean {
   let _rowIndex = rowIndex ?? 0
   let changed = false
-  const index = statusArr.indexOf(row)
+
+  const getIndex = () => {
+    if (!rowKey) {
+      return statusArr.indexOf(row)
+    }
+
+    const id = getRowIdentity(row, rowKey)
+
+    return statusArr.findIndex((item) => getRowIdentity(item, rowKey) === id)
+  }
+
+  const index = getIndex()
+
   const included = index !== -1
   const isRowSelectable = selectable?.call(null, row, _rowIndex)
 
@@ -343,7 +358,8 @@ export function toggleRowStatus<T>(
         newVal ?? !included,
         tableTreeProps,
         selectable,
-        _rowIndex + 1
+        _rowIndex + 1,
+        rowKey
       )
       _rowIndex += getChildrenCount(item) + 1
       if (childChanged) {
@@ -358,14 +374,15 @@ export function walkTreeNode(
   root,
   cb,
   childrenKey = 'children',
-  lazyKey = 'hasChildren'
+  lazyKey = 'hasChildren',
+  lazy = false
 ) {
   const isNil = (array) => !(isArray(array) && array.length)
 
   function _walker(parent, children, level) {
     cb(parent, children, level)
     children.forEach((item) => {
-      if (item[lazyKey]) {
+      if (item[lazyKey] && lazy) {
         cb(item, null, level + 1)
         return
       }
@@ -377,7 +394,7 @@ export function walkTreeNode(
   }
 
   root.forEach((item) => {
-    if (item[lazyKey]) {
+    if (item[lazyKey] && lazy) {
       cb(item, null, 0)
       return
     }
