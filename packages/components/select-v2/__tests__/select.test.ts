@@ -7,6 +7,7 @@ import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import Select from '../src/select.vue'
 
 import type { Props } from '../useProps'
@@ -25,6 +26,8 @@ vi.mock('lodash-unified', async () => {
 const _mount = makeMountFunc({
   components: {
     'el-select': Select,
+    'el-form-item': ElFormItem,
+    'el-form': ElForm,
   },
 })
 
@@ -2178,6 +2181,85 @@ describe('Select', () => {
 
       const input = wrapper.find('input')
       expect(input.attributes('tabindex')).toBe('1')
+    })
+  })
+
+  describe('custom tag disabled state', () => {
+    const options = [
+      { value: 'a', label: 'A' },
+      { value: 'b', label: 'B' },
+      { value: 'c', label: 'C' },
+    ]
+
+    const createSelect = ({ disabled = false } = {}) =>
+      _mount(
+        `
+      <el-select
+        v-model="value"
+        :options="options"
+        multiple
+        :disabled="disabled"
+      >
+        <template #tag="{ selectDisabled }">
+          <span class="custom-tag">
+            {{ selectDisabled ? 'selectDisabled' : 'enabled' }}
+          </span>
+        </template>
+      </el-select>
+      `,
+        {
+          data() {
+            return {
+              value: ['a'],
+              disabled,
+              options,
+            }
+          },
+        }
+      )
+
+    it('should expose selectDisabled prop to #tag slot', async () => {
+      const wrapper = createSelect({ disabled: true })
+      await nextTick()
+      expect(wrapper.find('.custom-tag').text()).toBe('selectDisabled')
+
+      await wrapper.setData({ disabled: false })
+      await nextTick()
+      expect(wrapper.find('.custom-tag').text()).toBe('enabled')
+    })
+
+    it('should inherit disabled from el-form', async () => {
+      const wrapper = _mount(
+        `
+      <el-form :disabled="formDisabled">
+        <el-form-item>
+          <el-select v-model="value" multiple :options="options">
+            <template #tag="{ selectDisabled }">
+              <span class="custom-tag">
+                {{ selectDisabled ? 'selectDisabled' : 'enabled' }}
+              </span>
+            </template>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      `,
+        {
+          data() {
+            return {
+              value: ['a'],
+              formDisabled: true,
+              options,
+            }
+          },
+        }
+      )
+
+      await nextTick()
+      expect(wrapper.find('.custom-tag').text()).toBe('selectDisabled')
+
+      await wrapper.setData({ formDisabled: false })
+      await nextTick()
+      expect(wrapper.find('.custom-tag').text()).toBe('enabled')
     })
   })
 })
