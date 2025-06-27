@@ -26,6 +26,7 @@ import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import TabBar from './tab-bar.vue'
 import { tabsRootContextKey } from './constants'
+
 import type {
   CSSProperties,
   ComponentPublicInstance,

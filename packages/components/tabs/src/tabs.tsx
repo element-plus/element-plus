@@ -27,8 +27,6 @@ import type { ExtractPropTypes, VNode } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
 import type { TabNavInstance } from './tab-nav'
 import type { TabPaneName, TabsPaneContext } from './constants'
-import type { ExtractPropTypes, FunctionalComponent, VNode } from 'vue'
-import type { Awaitable } from '@element-plus/utils'
 
 export const tabsProps = buildProps({
   /**
