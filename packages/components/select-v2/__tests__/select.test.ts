@@ -101,7 +101,7 @@ const createSelect = (
   const tagSlot =
     (options.slots &&
       options.slots.tag &&
-      `<template #tag="{data}">${options.slots.tag}</template>`) ||
+      `<template #tag="{ data, deleteTag }">${options.slots.tag}</template>`) ||
     ''
 
   return _mount(
@@ -2184,6 +2184,40 @@ describe('Select', () => {
     slotTagEls.forEach((el, idx) => {
       expect(el.text()).toBe(`${value[idx]} - Test ${value[idx]}`)
     })
+  })
+
+  it('should expose delete-tag through slot & be able to delete a value', async () => {
+    const wrapper = createSelect({
+      data() {
+        return {
+          multiple: true,
+          options: [
+            { label: 'Test 1', value: 1 },
+            { label: 'Test 2', value: 2 },
+            { label: 'Test 3', value: 3 },
+            { label: 'Test 4', value: 4 },
+            { label: 'Test 5', value: 5 },
+          ],
+          value: [2, 3, 5],
+        }
+      },
+      slots: {
+        tag: `
+          <span v-for="option in data" class="no-tag" :key="option.value" @click="deleteTag($event, option)">
+            {{ option.value }} -  {{ option.label }}
+          </span>
+        `,
+      },
+    })
+
+    await nextTick()
+    const slotTagEls = wrapper.findAll('.no-tag')
+    expect(slotTagEls).toHaveLength(3)
+    expect(wrapper.vm.value).toEqual([2, 3, 5])
+
+    await slotTagEls[0].trigger('click')
+    expect(wrapper.findAll('.no-tag')).toHaveLength(2)
+    expect(wrapper.vm.value).toEqual([3, 5])
   })
 
   it('should be trigger the click event', async () => {
