@@ -214,31 +214,33 @@ $form-item-label-top-margin-bottom: map.merge(
   }
 
   @include when(error) {
-    .#{$namespace}-input__wrapper,
-    .#{$namespace}-textarea__inner,
-    .#{$namespace}-select__wrapper,
-    .#{$namespace}-input-tag__wrapper {
-      &,
-      &:hover,
-      &:focus,
-      &.is-focus {
-        box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
+    @include e(content) {
+      .#{$namespace}-input__wrapper,
+      .#{$namespace}-textarea__inner,
+      .#{$namespace}-select__wrapper,
+      .#{$namespace}-input-tag__wrapper {
+        &,
+        &:hover,
+        &:focus,
+        &.is-focus {
+          box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
+        }
       }
-    }
 
-    .#{$namespace}-input-group__append,
-    .#{$namespace}-input-group__prepend {
-      .#{$namespace}-input__wrapper {
-        box-shadow: 0 0 0 1px transparent inset;
+      .#{$namespace}-input-group__append,
+      .#{$namespace}-input-group__prepend {
+        .#{$namespace}-input__wrapper {
+          box-shadow: 0 0 0 1px transparent inset;
+        }
+
+        .#{$namespace}-input__validateIcon {
+          display: none;
+        }
       }
 
       .#{$namespace}-input__validateIcon {
-        display: none;
+        color: getCssVar('color-danger');
       }
-    }
-
-    .#{$namespace}-input__validateIcon {
-      color: getCssVar('color-danger');
     }
   }
 
