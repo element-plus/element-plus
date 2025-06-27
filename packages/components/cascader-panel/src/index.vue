@@ -189,10 +189,10 @@ const clearCheckedNodes = () => {
 }
 
 const calculateCheckedValue = (node?: Node) => {
-  const { checkStrictly, multiple } = config.value
+  const { checkStrictly, multiple, checkOnClickNode } = config.value
   const oldNodes = checkedNodes.value
   let newNodes = getCheckedNodes(!checkStrictly)!
-  if (checkStrictly && props.props.checkOnClickNode) {
+  if (checkStrictly && checkOnClickNode) {
     newNodes = [node!]
   }
   // ensure the original order
@@ -339,7 +339,6 @@ provide(
     lazyLoad,
     expandNode,
     handleCheckChange,
-    checkOnClickNode: props.props.checkOnClickNode,
   })
 )
 

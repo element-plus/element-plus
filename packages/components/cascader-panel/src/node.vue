@@ -28,7 +28,7 @@
       @update:model-value="handleSelectCheck"
     />
     <el-radio
-      v-else-if="checkStrictly && !panel.checkOnClickNode"
+      v-else-if="checkStrictly && !checkOnClickNode"
       :model-value="checkedNodeId"
       :label="node.uid"
       :disabled="isDisabled"
@@ -50,7 +50,7 @@
       :render-label-fn="panel.renderLabelFn"
       :node="node"
       :disabled="isDisabled"
-      :check-on-click-node="panel.checkOnClickNode"
+      :check-on-click-node="checkOnClickNode"
       @handle-select-check="handleSelectCheck"
     />
     <!-- postfix -->
@@ -98,6 +98,7 @@ const ns = useNamespace('cascader-node')
 const isHoverMenu = computed(() => panel.isHoverMenu)
 const multiple = computed(() => panel.config.multiple)
 const checkStrictly = computed(() => panel.config.checkStrictly)
+const checkOnClickNode = computed(() => panel.config.checkOnClickNode)
 const checkedNodeId = computed(() => panel.checkedNodes[0]?.uid)
 const isDisabled = computed(() => props.node.isDisabled)
 const isLeaf = computed(() => props.node.isLeaf)
