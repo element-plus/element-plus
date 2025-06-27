@@ -149,18 +149,6 @@ select/custom-tag
 
 :::
 
-## Custom Tag with Disabled State ^(2.10.3)
-
-Starting from version `2.10.3`, the `#tag` slot of `<el-select>` exposes a new prop `selectDisabled` that reflects the disabled state of the select component.
-
-This enhancement enables developers to implement consistent behavior when customizing tags — for example, disabling tag removal when the select component is disabled, including scenarios where it is used inside a disabled `<el-form>`.
-
-:::demo Custom tag with access to disabled state.
-
-select/tag-disabled
-
-:::
-
 ## Custom Loading ^(2.5.2)
 
 Override loading content.
@@ -267,16 +255,16 @@ select/custom-label
 
 ### Select Slots
 
-| Name             | Description                           | Subtags               |
-| ---------------- | ------------------------------------- | --------------------- |
-| default          | option component list                 | Option Group / Option |
-| header ^(2.4.3)  | content at the top of the dropdown    | —                     |
-| footer ^(2.4.3)  | content at the bottom of the dropdown | —                     |
-| prefix           | content as Select prefix              | —                     |
-| empty            | content when there is no options      | —                     |
-| tag ^(2.5.0)     | content as Select tag                 | —                     |
-| loading ^(2.5.2) | content as Select loading             | —                     |
-| label ^(2.7.4)   | content as Select label               | —                     |
+| Name             | Description                                                       | Subtags                                |
+| ---------------- | ----------------------------------------------------------------- | -------------------------------------- |
+| default          | option component list                                             | Option Group / Option                  |
+| header ^(2.4.3)  | content at the top of the dropdown                                | —                                      |
+| footer ^(2.4.3)  | content at the bottom of the dropdown                             | —                                      |
+| prefix           | content as Select prefix                                          | —                                      |
+| empty            | content when there is no options                                  | —                                      |
+| tag ^(2.5.0)     | content as Select tag, selectDisabled tag introduced in ^(2.10.3) | ^[object]`{ selectDisabled: boolean }` |
+| loading ^(2.5.2) | content as Select loading                                         | —                                      |
+| label ^(2.7.4)   | content as Select label                                           | —                                      |
 
 ### Select Exposes
 

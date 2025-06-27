@@ -181,18 +181,6 @@ select-v2/custom-tag
 
 :::
 
-## Custom Tag with Disabled State ^(2.10.3)
-
-Starting from version `2.10.3`, the `#tag` slot of `<el-select-v2>` exposes a new prop `selectDisabled` that reflects the disabled state of the select component.
-
-This enhancement enables developers to implement consistent behavior when customizing tags — for example, disabling tag removal when the select component is disabled, including scenarios where it is used inside a disabled `<el-form>`.
-
-:::demo Custom tag with access to disabled state.
-
-select-v2/tag-disabled
-
-:::
-
 ## Custom Loading ^(2.5.2)
 
 Override loading content.
@@ -315,16 +303,16 @@ select-v2/custom-width
 
 ### Slots
 
-| Name             | Description                           |
-| ---------------- | ------------------------------------- |
-| default          | Option renderer                       |
-| header ^(2.5.2)  | content at the top of the dropdown    |
-| footer ^(2.5.2)  | content at the bottom of the dropdown |
-| empty            | content when options is empty         |
-| prefix           | prefix content of input               |
-| tag ^(2.5.0)     | content as Select tag                 |
-| loading ^(2.5.2) | content as Select loading             |
-| label ^(2.7.4)   | content as Select label               |
+| Name             | Description                                                       | Subtags                                |
+| ---------------- | ----------------------------------------------------------------- | -------------------------------------- |
+| default          | Option renderer                                                   | —                                      |
+| header ^(2.5.2)  | content at the top of the dropdown                                | —                                      |
+| footer ^(2.5.2)  | content at the bottom of the dropdown                             | —                                      |
+| empty            | content when options is empty                                     | —                                      |
+| prefix           | prefix content of input                                           | —                                      |
+| tag ^(2.5.0)     | content as Select tag, selectDisabled tag introduced in ^(2.10.3) | ^[object]`{ selectDisabled: boolean }` |
+| loading ^(2.5.2) | content as Select loading                                         | —                                      |
+| label ^(2.7.4)   | content as Select label                                           | —                                      |
 
 ### Exposes
 
