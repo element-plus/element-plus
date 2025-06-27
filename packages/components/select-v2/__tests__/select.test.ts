@@ -2178,7 +2178,6 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    console.log(wrapper.html())
     const slotTagEls = wrapper.findAll('.no-tag')
     expect(slotTagEls).toHaveLength(3)
     expect(wrapper.find('.el-tag').exists()).toBe(false)
