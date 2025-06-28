@@ -406,7 +406,11 @@ const TabNav = defineComponent({
               >
                 {...[
                   !props.type ? (
-                    <TabBar ref={tabBarRef} tabs={[...props.panes]} />
+                    <TabBar
+                      ref={tabBarRef}
+                      tabs={[...props.panes]}
+                      tabRefs={tabRefsMap.value}
+                    />
                   ) : null,
                   tabs,
                 ]}
