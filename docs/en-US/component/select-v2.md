@@ -303,16 +303,16 @@ select-v2/custom-width
 
 ### Slots
 
-| Name             | Description                                                       | Subtags                                |
-| ---------------- | ----------------------------------------------------------------- | -------------------------------------- |
-| default          | Option renderer                                                   | —                                      |
-| header ^(2.5.2)  | content at the top of the dropdown                                | —                                      |
-| footer ^(2.5.2)  | content at the bottom of the dropdown                             | —                                      |
-| empty            | content when options is empty                                     | —                                      |
-| prefix           | prefix content of input                                           | —                                      |
-| tag ^(2.5.0)     | content as Select tag, selectDisabled tag introduced in ^(2.10.3) | ^[object]`{ selectDisabled: boolean }` |
-| loading ^(2.5.2) | content as Select loading                                         | —                                      |
-| label ^(2.7.4)   | content as Select label                                           | —                                      |
+| Name             | Description                                                                                     | Subtags                                                                                                        |
+| ---------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| default          | Option renderer                                                                                 | —                                                                                                              |
+| header ^(2.5.2)  | content at the top of the dropdown                                                              | —                                                                                                              |
+| footer ^(2.5.2)  | content at the bottom of the dropdown                                                           | —                                                                                                              |
+| empty            | content when options is empty                                                                   | —                                                                                                              |
+| prefix           | prefix content of input                                                                         | —                                                                                                              |
+| tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: Option[], selectDisabled: boolean, deleteTag: (event: MouseEvent, option: Option) => void }` |
+| loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                              |
+| label ^(2.7.4)   | content as Select label                                                                         | —                                                                                                              |
 
 ### Exposes
 
