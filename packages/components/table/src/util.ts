@@ -646,7 +646,7 @@ export const getFixedColumnOffset = <T extends DefaultRow>(
     after = 0,
   } = isFixedColumn(index, fixed, store, realColumns)
   if (!direction) {
-    return null
+    return
   }
   const styles: CSSProperties = {}
   const isLeft = direction === 'left'
@@ -663,7 +663,7 @@ export const getFixedColumnOffset = <T extends DefaultRow>(
 }
 
 export const ensurePosition = (
-  style: CSSProperties | null,
+  style: CSSProperties | undefined,
   key: keyof CSSProperties
 ) => {
   if (!style) return
