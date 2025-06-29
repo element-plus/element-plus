@@ -31,7 +31,7 @@ export function useTree(
   props: TreeProps,
   emit: SetupContext<typeof treeEmits>['emit']
 ) {
-  const expandedKeySet = ref<Set<TreeKey>>(new Set(props.defaultExpandedKeys))
+  const expandedKeySet = ref<Set<TreeKey>>(new Set())
   const currentKey = ref<TreeKey | undefined>()
   const tree = shallowRef<Tree | undefined>()
   const listRef = ref<typeof FixedSizeList | undefined>()
@@ -293,6 +293,16 @@ export function useTree(
     () => props.currentNodeKey,
     (key) => {
       currentKey.value = key
+    },
+    {
+      immediate: true,
+    }
+  )
+
+  watch(
+    () => props.defaultExpandedKeys,
+    (key) => {
+      expandedKeySet.value = new Set<TreeKey>(key)
     },
     {
       immediate: true,

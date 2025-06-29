@@ -61,6 +61,7 @@
               name="tag"
               :data="states.cachedOptions"
               :delete-tag="deleteTag"
+              :select-disabled="selectDisabled"
             >
               <div
                 v-for="item in showTagList"
