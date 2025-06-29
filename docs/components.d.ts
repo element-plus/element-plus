@@ -171,7 +171,6 @@ declare module 'vue' {
     VpOverlay: typeof import('./.vitepress/vitepress/components/vp-overlay.vue')['default']
     VpPageFooter: typeof import('./.vitepress/vitepress/components/doc-content/vp-page-footer.vue')['default']
     VpPageNav: typeof import('./.vitepress/vitepress/components/doc-content/vp-page-nav.vue')['default']
-    VpReloadPrompt: typeof import('./.vitepress/vitepress/components/vp-reload-prompt.vue')['default']
     VpSearch: typeof import('./.vitepress/vitepress/components/navbar/vp-search.vue')['default']
     VpSidebar: typeof import('./.vitepress/vitepress/components/vp-sidebar.vue')['default']
     VpSidebarLink: typeof import('./.vitepress/vitepress/components/sidebar/vp-sidebar-link.vue')['default']

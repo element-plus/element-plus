@@ -31,7 +31,7 @@ export function useTree(
   props: TreeProps,
   emit: SetupContext<typeof treeEmits>['emit']
 ) {
-  const expandedKeySet = ref<Set<TreeKey>>(new Set(props.defaultExpandedKeys))
+  const expandedKeySet = ref<Set<TreeKey>>(new Set())
   const currentKey = ref<TreeKey | undefined>()
   const tree = shallowRef<Tree | undefined>()
   const listRef = ref<typeof FixedSizeList | undefined>()
@@ -117,6 +117,7 @@ export function useTree(
         const children = getChildren(rawNode)
         node.disabled = getDisabled(rawNode)
         node.isLeaf = !children || children.length === 0
+        node.expanded = expandedKeySet.value.has(value)
         if (children && children.length) {
           node.children = traverse(children, level + 1, node)
         }
@@ -184,6 +185,7 @@ export function useTree(
       let node = nodeMap.get(k)
       while (node && !expandedKeys.has(node.key)) {
         expandedKeys.add(node.key)
+        node.expanded = true
         node = node.parent
       }
     })
@@ -230,20 +232,19 @@ export function useTree(
         const treeNode = treeNodeMap.get(key)
         if (node && node.level === treeNode?.level) {
           keySet.delete(key)
+          treeNode.expanded = false
         }
       })
     }
     keySet.add(node.key)
+    node.expanded = true
     emit(NODE_EXPAND, node.data, node)
   }
 
   function collapseNode(node: TreeNode) {
     expandedKeySet.value.delete(node.key)
+    node.expanded = false
     emit(NODE_COLLAPSE, node.data, node)
-  }
-
-  function isExpanded(node: TreeNode): boolean {
-    return expandedKeySet.value.has(node.key)
   }
 
   function isDisabled(node: TreeNode): boolean {
@@ -299,6 +300,16 @@ export function useTree(
   )
 
   watch(
+    () => props.defaultExpandedKeys,
+    (key) => {
+      expandedKeySet.value = new Set<TreeKey>(key)
+    },
+    {
+      immediate: true,
+    }
+  )
+
+  watch(
     () => props.data,
     (data: TreeData) => {
       setData(data)
@@ -317,7 +328,6 @@ export function useTree(
     getChildren,
     toggleExpand,
     toggleCheckbox,
-    isExpanded,
     isChecked,
     isIndeterminate,
     isDisabled,

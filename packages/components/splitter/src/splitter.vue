@@ -25,7 +25,8 @@ const { containerEl, containerSize } = useContainer(toRef(props, 'layout'))
 const {
   removeChild: unregisterPanel,
   children: panels,
-  addChild: sortPanel,
+  addChild: registerPanel,
+  ChildrenSorter: PanelsSorter,
 } = useOrderedChildren<PanelItemState>(getCurrentInstance()!, 'ElSplitterPanel')
 
 watch(panels, () => {
@@ -75,10 +76,7 @@ provide(
     onMoving: onResize,
     onMoveEnd: onResizeEnd,
     onCollapse: onCollapsible,
-    registerPanel: (panel: PanelItemState) => {
-      panels.value.push(panel)
-    },
-    sortPanel,
+    registerPanel,
     unregisterPanel,
   })
 )
@@ -87,6 +85,7 @@ provide(
 <template>
   <div ref="containerEl" :class="[ns.b(), ns.e(layout)]">
     <slot />
+    <panels-sorter />
     <!-- Prevent iframe touch events from breaking -->
     <div v-if="movingIndex" :class="[ns.e('mask'), ns.e(`mask-${layout}`)]" />
   </div>

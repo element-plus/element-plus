@@ -177,19 +177,20 @@ export const getColumnByCell = function <T>(
 
 export const getRowIdentity = <T>(
   row: T,
-  rowKey: string | ((row: T) => any)
+  rowKey: string | ((row: T) => any),
+  isReturnRawValue: boolean = false
 ): string => {
   if (!row) throw new Error('Row is required when get row identity')
   if (isString(rowKey)) {
     if (!rowKey.includes('.')) {
-      return `${row[rowKey]}`
+      return isReturnRawValue ? row[rowKey] : `${row[rowKey]}`
     }
     const key = rowKey.split('.')
     let current = row
     for (const element of key) {
       current = current[element]
     }
-    return `${current}`
+    return isReturnRawValue ? current : `${current}`
   } else if (isFunction(rowKey)) {
     return rowKey.call(null, row)
   }

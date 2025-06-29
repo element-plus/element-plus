@@ -49,27 +49,29 @@
       <PlaceholderItem />
       <slot />
     </div>
-    <ul v-if="indicatorPosition !== 'none'" :class="indicatorsClasses">
-      <li
-        v-for="(item, index) in items"
-        v-show="isTwoLengthShow(index)"
-        :key="index"
-        :class="[
-          ns.e('indicator'),
-          ns.em('indicator', direction),
-          ns.is('active', index === activeIndex),
-        ]"
-        @mouseenter="throttledIndicatorHover(index)"
-        @click.stop="handleIndicatorClick(index)"
-      >
-        <button
-          :class="ns.e('button')"
-          :aria-label="t('el.carousel.indicator', { index: index + 1 })"
+    <items-sorter>
+      <ul v-if="indicatorPosition !== 'none'" :class="indicatorsClasses">
+        <li
+          v-for="(item, index) in items"
+          v-show="isTwoLengthShow(index)"
+          :key="index"
+          :class="[
+            ns.e('indicator'),
+            ns.em('indicator', direction),
+            ns.is('active', index === activeIndex),
+          ]"
+          @mouseenter="throttledIndicatorHover(index)"
+          @click.stop="handleIndicatorClick(index)"
         >
-          <span v-if="hasLabel">{{ item.props.label }}</span>
-        </button>
-      </li>
-    </ul>
+          <button
+            :class="ns.e('button')"
+            :aria-label="t('el.carousel.indicator', { index: index + 1 })"
+          >
+            <span v-if="hasLabel">{{ item.props.label }}</span>
+          </button>
+        </li>
+      </ul>
+    </items-sorter>
     <svg
       v-if="props.motionBlur"
       xmlns="http://www.w3.org/2000/svg"
@@ -123,6 +125,7 @@ const {
   next,
   PlaceholderItem,
   isTwoLengthShow,
+  ItemsSorter,
   throttledArrowClick,
   throttledIndicatorHover,
 } = useCarousel(props, emit, COMPONENT_NAME)

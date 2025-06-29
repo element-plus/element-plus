@@ -7,7 +7,7 @@ import type { WatcherPropsData } from '.'
 import type { Table, TableProps } from '../table/defaults'
 
 function useTree<T>(watcherData: WatcherPropsData<T>) {
-  const expandRowKeys = ref<string[]>([])
+  const expandRowKeys = ref<Array<string | number>>([])
   const treeData = ref<unknown>({})
   const indent = ref(16)
   const lazy = ref(false)
@@ -44,23 +44,23 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
 
   const normalize = (data) => {
     const rowKey = watcherData.rowKey.value
-    const res = {}
+    const res = new Map<string | number, object>() // 使用 Map 替代 Object，解决 number key 的问题
     walkTreeNode(
       data,
       (parent, children, level) => {
-        const parentId = getRowIdentity(parent, rowKey)
+        const parentId = getRowIdentity(parent, rowKey, true)
         if (isArray(children)) {
-          res[parentId] = {
-            children: children.map((row) => getRowIdentity(row, rowKey)),
+          res.set(parentId, {
+            children: children.map((row) => row[rowKey]),
             level,
-          }
+          })
         } else if (lazy.value) {
           // 当 children 不存在且 lazy 为 true，该节点即为懒加载的节点
-          res[parentId] = {
+          res.set(parentId, {
             children: [],
             lazy: true,
             level,
-          }
+          })
         }
       },
       childrenColumnName.value,
@@ -76,10 +76,8 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   ) => {
     const nested = normalizedData.value
     const normalizedLazyNode_ = normalizedLazyNode.value
-    const keys = Object.keys(nested)
     const newTreeData = {}
-
-    if (keys.length) {
+    if (nested instanceof Map && nested.size) {
       const oldTreeData = unref(treeData)
       const rootLazyRowKeys = []
       const getExpanded = (oldValue, key) => {
@@ -97,9 +95,9 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         }
       }
       // 合并 expanded 与 display，确保数据刷新后，状态不变
-      keys.forEach((key) => {
+      nested.forEach((_, key) => {
         const oldValue = oldTreeData[key]
-        const newValue = { ...nested[key] }
+        const newValue = { ...nested.get(key) }
         newValue.expanded = getExpanded(oldValue, key)
         if (newValue.lazy) {
           const { loaded = false, loading = false } = oldValue || {}

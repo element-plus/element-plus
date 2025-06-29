@@ -22,10 +22,4 @@
         ? toPath
         : toPath.concat('/')
   }
-  if (navigator && navigator.serviceWorker.controller) {
-    navigator.serviceWorker.controller.postMessage({
-      type: 'LANG',
-      lang: userPreferredLang,
-    })
-  }
 })()

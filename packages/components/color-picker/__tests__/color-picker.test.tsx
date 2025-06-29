@@ -107,7 +107,7 @@ describe('Color-picker', () => {
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
     await nextTick()
-    expect(color.value).toEqual('') // should be empty #13239
+    expect(color.value).toBeNull()
     wrapper.unmount()
   })
   it('should pick a color contains alpha when confirm button click', async () => {
@@ -119,7 +119,7 @@ describe('Color-picker', () => {
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
     await nextTick()
-    expect(color.value).toEqual('') // should be empty #13239
+    expect(color.value).toBeNull()
     wrapper.unmount()
   })
   it('should init the right color when open', async () => {
@@ -166,7 +166,18 @@ describe('Color-picker', () => {
       '.el-color-dropdown__link-btn'
     )
     clearBtn!.click()
-    expect(color.value).toEqual(null)
+    expect(color.value).toBeNull()
+    wrapper.unmount()
+  })
+  it("should set '' as null when confirm button click", async () => {
+    const color = ref('')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value} show-alpha={true} />
+    ))
+    await wrapper.find('.el-color-picker__trigger').trigger('click')
+    document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
+
+    expect(color.value).toBeNull()
     wrapper.unmount()
   })
   it('should change hue when clicking the hue bar', async () => {
