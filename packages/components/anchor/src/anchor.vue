@@ -15,12 +15,12 @@
 <script lang="ts" setup>
 import {
   computed,
+  nextTick,
   onMounted,
   provide,
   ref,
   useSlots,
   watch,
-  watchEffect,
 } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { useNamespace } from '@element-plus/hooks'
@@ -171,37 +171,41 @@ const getContainer = () => {
 useEventListener(containerEl, 'scroll', handleScroll)
 
 const updateMarkerStyle = () => {
-  if (!anchorRef.value || !markerRef.value || !currentAnchor.value) {
-    markerStyle.value = {}
-    return
-  }
-  const currentLinkEl = links[currentAnchor.value]
-  if (!currentLinkEl) {
-    markerStyle.value = {}
-    return
-  }
-  const anchorRect = anchorRef.value.getBoundingClientRect()
-  const markerRect = markerRef.value.getBoundingClientRect()
-  const linkRect = currentLinkEl.getBoundingClientRect()
+  nextTick(() => {
+    if (!anchorRef.value || !markerRef.value || !currentAnchor.value) {
+      markerStyle.value = {}
+      return
+    }
+    const currentLinkEl = links[currentAnchor.value]
+    if (!currentLinkEl) {
+      markerStyle.value = {}
+      return
+    }
+    const anchorRect = anchorRef.value.getBoundingClientRect()
+    const markerRect = markerRef.value.getBoundingClientRect()
+    const linkRect = currentLinkEl.getBoundingClientRect()
 
-  if (props.direction === 'horizontal') {
-    const left = linkRect.left - anchorRect.left
-    markerStyle.value = {
-      left: `${left}px`,
-      width: `${linkRect.width}px`,
-      opacity: 1,
+    if (props.direction === 'horizontal') {
+      const left = linkRect.left - anchorRect.left
+      markerStyle.value = {
+        left: `${left}px`,
+        width: `${linkRect.width}px`,
+        opacity: 1,
+      }
+    } else {
+      const top =
+        linkRect.top -
+        anchorRect.top +
+        (linkRect.height - markerRect.height) / 2
+      markerStyle.value = {
+        top: `${top}px`,
+        opacity: 1,
+      }
     }
-  } else {
-    const top =
-      linkRect.top - anchorRect.top + (linkRect.height - markerRect.height) / 2
-    markerStyle.value = {
-      top: `${top}px`,
-      opacity: 1,
-    }
-  }
+  })
 }
 
-watchEffect(updateMarkerStyle)
+watch(currentAnchor, updateMarkerStyle)
 watch(() => slots.default?.(), updateMarkerStyle)
 
 onMounted(() => {
