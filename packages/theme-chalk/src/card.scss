@@ -1,13 +1,17 @@
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
+@use 'sass:map';
 
 @include b(card) {
   @include set-component-css-var('card', $card);
 }
 
 @include b(card) {
-  border-radius: getCssVar('card', 'border-radius');
+  border-radius: getCssVarWithDefault(
+      'card-border-radius',
+      map.get($card, 'border-radius')
+  );
   border: 1px solid getCssVar('card', 'border-color');
   background-color: getCssVar('card', 'bg-color');
   overflow: hidden;
