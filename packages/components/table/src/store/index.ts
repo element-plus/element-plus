@@ -118,8 +118,8 @@ function useStore<T extends DefaultRow>() {
       updateColumnOrder: () => void
     ) {
       const array = unref(states._columns) || []
-      if (parent?.children) {
-        parent.children.splice(
+      if (parent) {
+        parent.children?.splice(
           parent.children.findIndex((item) => item.id === column.id),
           1
         )
