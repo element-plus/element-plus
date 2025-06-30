@@ -18,7 +18,6 @@ import {
   getCurrentInstance,
   inject,
   onBeforeUnmount,
-  onUpdated,
   reactive,
   ref,
   useSlots,
@@ -62,6 +61,7 @@ watch(active, (val) => {
 
 const pane = reactive({
   uid: instance.uid,
+  getVnode: () => instance.vnode,
   slots,
   props,
   paneName,
@@ -71,10 +71,6 @@ const pane = reactive({
 })
 
 tabsRoot.registerPane(pane)
-
-onUpdated(() => {
-  tabsRoot.sortPane(pane)
-})
 
 onBeforeUnmount(() => {
   tabsRoot.unregisterPane(pane)

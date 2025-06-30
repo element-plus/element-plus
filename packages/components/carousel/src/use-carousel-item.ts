@@ -144,6 +144,7 @@ export const useCarouselItem = (props: CarouselItemProps) => {
       animating,
     }),
     uid: instance.uid,
+    getVnode: () => instance.vnode,
     translateItem,
   }
 

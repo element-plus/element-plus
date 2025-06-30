@@ -1,9 +1,17 @@
-import type { ComputedRef, InjectionKey, Ref, Slots, UnwrapRef } from 'vue'
+import type {
+  ComputedRef,
+  InjectionKey,
+  Ref,
+  Slots,
+  UnwrapRef,
+  VNode,
+} from 'vue'
 import type { TabsProps } from './tabs'
 import type { TabPaneProps } from './tab-pane'
 
 export type TabsPaneContext = UnwrapRef<{
   uid: number
+  getVnode: () => VNode
   slots: Slots
   props: TabPaneProps
   paneName: ComputedRef<string | number | undefined>
