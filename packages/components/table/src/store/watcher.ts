@@ -237,7 +237,8 @@ function useWatcher<T>() {
       selected,
       treeProps,
       ignoreSelectable ? undefined : selectable.value,
-      data.value.indexOf(row)
+      data.value.indexOf(row),
+      rowKey.value
     )
     if (changed) {
       const newSelection = (selection.value || []).slice()
@@ -275,7 +276,8 @@ function useWatcher<T>() {
           value,
           treeProps,
           selectable.value,
-          rowIndex
+          rowIndex,
+          rowKey
         )
       ) {
         selectionChanged = true
@@ -290,16 +292,6 @@ function useWatcher<T>() {
       )
     }
     instance.emit('select-all', (selection.value || []).slice())
-  }
-
-  const updateSelectionByRowKey = () => {
-    data.value.forEach((row) => {
-      const rowId = getRowIdentity(row, rowKey.value)
-      const rowInfo = selectedMap.value![rowId]
-      if (rowInfo) {
-        selection.value[rowInfo.index] = row
-      }
-    })
   }
 
   const updateAllSelected = () => {
@@ -532,7 +524,6 @@ function useWatcher<T>() {
     toggleRowSelection,
     _toggleAllSelection,
     toggleAllSelection: null,
-    updateSelectionByRowKey,
     updateAllSelected,
     updateFilters,
     updateCurrentRow,

@@ -16,8 +16,7 @@ export interface TabsRootContext {
   props: TabsProps
   currentName: Ref<string | number>
   registerPane: (pane: TabsPaneContext) => void
-  sortPane: (pane: TabsPaneContext) => void
-  unregisterPane: (uid: number) => void
+  unregisterPane: (pane: TabsPaneContext) => void
 }
 
 export const tabsRootContextKey: InjectionKey<TabsRootContext> =

@@ -56,7 +56,13 @@
               ),
             ]"
           >
-            <slot v-if="multiple" name="tag">
+            <slot
+              v-if="multiple"
+              name="tag"
+              :data="states.selected"
+              :delete-tag="deleteTag"
+              :select-disabled="selectDisabled"
+            >
               <div
                 v-for="item in showTagList"
                 :key="getValueKey(item)"

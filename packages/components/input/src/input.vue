@@ -47,6 +47,7 @@
           :form="form"
           :autofocus="autofocus"
           :role="containerRole"
+          :inputmode="inputmode"
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"

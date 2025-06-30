@@ -51,7 +51,12 @@ import {
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 import type { SelectEmits, SelectProps } from './select'
-import type { OptionPublicInstance, OptionValue, SelectStates } from './type'
+import type {
+  OptionBasic,
+  OptionPublicInstance,
+  OptionValue,
+  SelectStates,
+} from './type'
 
 export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const { t } = useLocale()
@@ -521,7 +526,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const deleteTag = (
     event: MouseEvent,
-    tag: OptionPublicInstance | SelectStates['selected'][0]
+    tag: OptionPublicInstance | OptionBasic
   ) => {
     const index = states.selected.indexOf(tag)
     if (index > -1 && !selectDisabled.value) {

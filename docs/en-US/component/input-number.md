@@ -119,6 +119,7 @@ input-number/with-prefix-suffix
 | value-on-clear ^(2.2.0)     | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —         |
 | validate-event              | whether to trigger form validation               | ^[boolean]                                    | true      |
 | label ^(a11y) ^(deprecated) | same as `aria-label` in native input             | ^[string]                                     | —         |
+| inputmode ^(2.10.3)         | same as `inputmode` in native input              | ^[string]                                     | —         |
 
 ### Slots
 
