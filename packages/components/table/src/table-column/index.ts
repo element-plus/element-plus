@@ -11,7 +11,7 @@ import {
   ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
-import { isArray, isString, isUndefined } from '@element-plus/utils'
+import { isArray, isUndefined } from '@element-plus/utils'
 import { cellStarts } from '../config'
 import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
@@ -175,37 +175,21 @@ export default defineComponent({
     return
   },
   render() {
-    try {
-      const renderDefault = this.$slots.default?.({
-        row: {},
-        column: {},
-        $index: -1,
-      })
-      const children = []
-      if (isArray(renderDefault)) {
-        for (const childNode of renderDefault) {
-          if (
-            childNode.type?.name === 'ElTableColumn' ||
-            childNode.shapeFlag & 2
-          ) {
-            children.push(childNode)
-          } else if (
-            childNode.type === Fragment &&
-            isArray(childNode.children)
-          ) {
-            childNode.children.forEach((vnode) => {
-              // No rendering when vnode is dynamic slot or text
-              if (vnode?.patchFlag !== 1024 && !isString(vnode?.children)) {
-                children.push(vnode)
-              }
-            })
-          }
+    const renderDefault = this.$slots.default?.()
+    const children = []
+    if (isArray(renderDefault)) {
+      for (const childNode of renderDefault) {
+        if (
+          childNode.type?.name === 'ElTableColumn' ||
+          childNode.shapeFlag & 2
+        ) {
+          children.push(childNode)
+        } else if (childNode.type === Fragment && isArray(childNode.children)) {
+          children.push(...childNode.children)
         }
       }
-      const vnode = h('div', children)
-      return vnode
-    } catch {
-      return h('div', [])
     }
+    const vnode = h('div', children)
+    return vnode
   },
 })
