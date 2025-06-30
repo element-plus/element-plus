@@ -396,6 +396,53 @@ describe('Table.vue', () => {
       filter.parentNode.removeChild(filter)
     })
 
+    it('click outside', async () => {
+      const btn = wrapper.find('.el-table__column-filter-trigger')
+      btn.trigger('click')
+
+      await doubleWait()
+      const filter = document.body.querySelector('.el-table-filter')
+      triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
+
+      await doubleWait()
+      triggerEvent(
+        filter.querySelector('.el-table-filter__bottom button'),
+        'click',
+        true,
+        false
+      )
+
+      await doubleWait()
+      expect(
+        (wrapper.vm as ComponentPublicInstance & { filters: any }).filters[
+          'director'
+        ]
+      ).toEqual(['John Lasseter'])
+      expect(
+        wrapper.findAll('.el-table__body-wrapper tbody tr').length
+      ).toEqual(3)
+
+      btn.trigger('click')
+
+      await doubleWait()
+      triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
+
+      await doubleWait()
+      expect(
+        filter.querySelector('.el-table-filter__bottom button').disabled
+      ).toBe(false)
+
+      document.body.click()
+      await new Promise((resolve) => setTimeout(resolve, 300))
+
+      btn.trigger('click')
+      await new Promise((resolve) => setTimeout(resolve, 300))
+      expect(filter.querySelector('.el-checkbox').classList).toContain(
+        'is-checked'
+      )
+      filter.parentNode.removeChild(filter)
+    })
+
     it('clear filter', async () => {
       const btn = wrapper.find('.el-table__column-filter-trigger')
 
