@@ -92,6 +92,15 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const tagMenuRef = ref<HTMLElement>()
   const collapseItemRef = ref<HTMLElement>()
   const scrollbarRef = ref<ScrollbarInstance>()
+  // the controller of the expanded popup
+  const expanded = ref(false)
+  const hoverOption = ref()
+
+  const { form, formItem } = useFormItem()
+  const { inputId } = useFormItemInputId(props, {
+    formItemContext: formItem,
+  })
+  const { valueOnClear, isEmptyValue } = useEmptyValues(props)
 
   const {
     isComposing,
@@ -102,10 +111,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     afterComposition: (e) => onInput(e),
   })
 
+  const selectDisabled = computed(() => props.disabled || !!form?.disabled)
+
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
-    beforeFocus() {
-      return selectDisabled.value
-    },
+    disabled: selectDisabled,
     afterFocus() {
       if (props.automaticDropdown && !expanded.value) {
         expanded.value = true
@@ -126,18 +135,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       }
     },
   })
-
-  // the controller of the expanded popup
-  const expanded = ref(false)
-  const hoverOption = ref()
-
-  const { form, formItem } = useFormItem()
-  const { inputId } = useFormItemInputId(props, {
-    formItemContext: formItem,
-  })
-  const { valueOnClear, isEmptyValue } = useEmptyValues(props)
-
-  const selectDisabled = computed(() => props.disabled || form?.disabled)
 
   const hasModelValue = computed(() => {
     return isArray(props.modelValue)
