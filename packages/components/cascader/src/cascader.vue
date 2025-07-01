@@ -219,7 +219,11 @@ import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { useFormItem, useFormSize } from '@element-plus/components/form'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormSize,
+} from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import {
   useComposition,
@@ -281,7 +285,7 @@ const nsCascader = useNamespace('cascader')
 const nsInput = useNamespace('input')
 
 const { t } = useLocale()
-const { form, formItem } = useFormItem()
+const { formItem } = useFormItem()
 const { valueOnClear } = useEmptyValues(props)
 const { isComposing, handleComposition } = useComposition({
   afterComposition(event) {
@@ -309,7 +313,7 @@ const cascaderStyle = computed<StyleValue>(() => {
   return attrs.style as StyleValue
 })
 
-const isDisabled = computed(() => props.disabled || form?.disabled)
+const isDisabled = useFormDisabled()
 const inputPlaceholder = computed(
   () => props.placeholder ?? t('el.cascader.placeholder')
 )

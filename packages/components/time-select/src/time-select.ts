@@ -21,7 +21,10 @@ export const timeSelectProps = buildProps({
   /**
    * @description whether TimeSelect is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether the input is editable
    */

@@ -72,7 +72,10 @@ export const selectProps = buildProps({
   /**
    * @description whether Select is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether select can be cleared
    */
