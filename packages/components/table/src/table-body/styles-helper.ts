@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { isArray, isFunction, isObject, isString } from '@element-plus/utils'
@@ -11,9 +10,10 @@ import { TABLE_INJECTION_KEY } from '../tokens'
 
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
+import type { DefaultRow, Table } from '../table/defaults'
 
-function useStyles<T>(props: Partial<TableBodyProps<T>>) {
-  const parent = inject(TABLE_INJECTION_KEY)
+function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
+  const parent = inject(TABLE_INJECTION_KEY) as Table<T>
   const ns = useNamespace('table')
 
   const getRowStyle = (row: T, rowIndex: number) => {
@@ -31,7 +31,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     const classes = [ns.e('row')]
     if (
       parent?.props.highlightCurrentRow &&
-      row === props.store.states.currentRow.value
+      row === props.store?.states.currentRow.value
     ) {
       classes.push('current-row')
     }
@@ -143,7 +143,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     index: number
   ): number => {
     if (colspan < 1) {
-      return columns[index].realWidth
+      return columns[index].realWidth!
     }
     const widthArr = columns
       .map(({ realWidth, width }) => realWidth || width)

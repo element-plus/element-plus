@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Fragment,
   computed,
@@ -18,11 +17,13 @@ import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 import defaultProps from './defaults'
 
+import type { VNode } from 'vue'
 import type { TableColumn, TableColumnCtx } from './defaults'
 import type { DefaultRow } from '../table/defaults'
 
 let columnIdSeed = 1
 
+//TODO: when vue 3.3 we can set this component a generic: https://github.com/vuejs/core/pull/7963
 export default defineComponent({
   name: 'ElTableColumn',
   components: {
@@ -56,7 +57,7 @@ export default defineComponent({
       getColumnElIndex,
       realAlign,
       updateColumnOrder,
-    } = useRender(props as unknown as TableColumnCtx<unknown>, slots, owner)
+    } = useRender(props as unknown as TableColumnCtx<DefaultRow>, slots, owner)
 
     const parent = columnOrTableParent.value
     columnId.value = `${
@@ -65,7 +66,7 @@ export default defineComponent({
     onBeforeMount(() => {
       isSubColumn.value = owner.value !== parent
 
-      const type = props.type || 'default'
+      const type = (props.type as keyof typeof cellStarts) || 'default'
       const sortable = props.sortable === '' ? true : props.sortable
       //The selection column should not be affected by `showOverflowTooltip`.
       const showOverflowTooltip =
@@ -134,7 +135,7 @@ export default defineComponent({
         setColumnWidth,
         setColumnForcedProps
       )
-      column = chains(column)
+      column = chains(column) as unknown as TableColumnCtx<DefaultRow>
       columnConfig.value = column
 
       // 注册 watcher
@@ -171,7 +172,7 @@ export default defineComponent({
     })
     instance.columnId = columnId.value
 
-    instance.columnConfig = columnConfig
+    instance.columnConfig = columnConfig as any
     return
   },
   render() {
@@ -185,7 +186,7 @@ export default defineComponent({
       if (isArray(renderDefault)) {
         for (const childNode of renderDefault) {
           if (
-            childNode.type?.name === 'ElTableColumn' ||
+            (childNode.type as any)?.name === 'ElTableColumn' ||
             childNode.shapeFlag & 2
           ) {
             children.push(childNode)
@@ -195,7 +196,10 @@ export default defineComponent({
           ) {
             childNode.children.forEach((vnode) => {
               // No rendering when vnode is dynamic slot or text
-              if (vnode?.patchFlag !== 1024 && !isString(vnode?.children)) {
+              if (
+                (vnode as VNode)?.patchFlag !== 1024 &&
+                !isString((vnode as VNode)?.children)
+              ) {
                 children.push(vnode)
               }
             })
