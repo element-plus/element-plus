@@ -255,4 +255,48 @@ describe('Loading', () => {
     ).display
     expect(maskDisplay).toBe('block')
   })
+
+  test('the reactivity of element-loading-* attributes', async () => {
+    const loading = ref(true)
+    const text = ref()
+    const spinner = ref()
+    const svgViewBox = ref()
+    const background = ref()
+    const customClass = ref()
+
+    const wrapper = _mount(() => (
+      <div
+        v-loading={loading.value}
+        element-loading-text={text.value}
+        element-loading-spinner={spinner.value}
+        element-loading-svg-view-box={svgViewBox.value}
+        element-loading-background={background.value}
+        element-loading-custom-class={customClass.value}
+      />
+    ))
+
+    text.value = 'foo'
+    await nextTick()
+    expect(wrapper.find('.el-loading-text').text()).toEqual('foo')
+
+    spinner.value = 'foo'
+    await nextTick()
+    expect(wrapper.find('svg').text()).toEqual('foo')
+
+    svgViewBox.value = 'foo'
+    await nextTick()
+    expect(wrapper.find('svg').attributes('viewBox')).toEqual('foo')
+
+    background.value = 'rgba(255, 255, 255, 0.5)'
+    await nextTick()
+    expect(
+      getComputedStyle(wrapper.find('.el-loading-mask').element).background
+    ).toEqual('rgba(255, 255, 255, 0.5)')
+
+    customClass.value = 'foo'
+    await nextTick()
+    expect(
+      wrapper.find('.el-loading-mask').element.classList.contains('foo')
+    ).toEqual(true)
+  })
 })
