@@ -18,7 +18,7 @@ import {
 } from '../config'
 import { parseMinWidth, parseWidth } from '../util'
 
-import type { ComputedRef, RendererNode, Slots } from 'vue'
+import type { ComputedRef, RendererNode, Slots, VNode } from 'vue'
 import type { TableColumn, TableColumnCtx } from './defaults'
 import type { DefaultRow, Table } from '../table/defaults'
 
@@ -45,7 +45,7 @@ function useRender<T extends DefaultRow>(
     // nextline help render
     realHeaderAlign.value
   })
-  const columnOrTableParent = computed(() => {
+  const columnOrTableParent = computed<Table<T> | TableColumn<T>>(() => {
     let parent: any = instance.vnode.vParent || instance.parent
     while (parent && !parent.tableId && !parent.columnId) {
       parent = parent.vnode.vParent || parent.parent
@@ -81,9 +81,9 @@ function useRender<T extends DefaultRow>(
   const setColumnForcedProps = (column: TableColumnCtx<T>) => {
     // 对于特定类型的 column，某些属性不允许设置
     const type = column.type
-    const source = (cellForced as any)[type] || {}
+    const source = cellForced[type as keyof typeof cellForced] || {}
     Object.keys(source).forEach((prop) => {
-      const value = source[prop]
+      const value = source[prop as keyof typeof source]
       if (prop !== 'className' && !isUndefined(value)) {
         ;(column as any)[prop] = value
       }
@@ -98,13 +98,13 @@ function useRender<T extends DefaultRow>(
     return column
   }
 
-  const checkSubColumn = (children: TableColumn<T> | TableColumn<T>[]) => {
+  const checkSubColumn = (children: VNode | VNode[]) => {
     if (isArray(children)) {
       children.forEach((child) => check(child))
     } else {
       check(children)
     }
-    function check(item: TableColumn<T>) {
+    function check(item: any) {
       if (item?.type?.name === 'ElTableColumn') {
         item.vParent = instance
       }
@@ -157,7 +157,7 @@ function useRender<T extends DefaultRow>(
       originRenderCell = originRenderCell || defaultRenderCell
       // 对 renderCell 进行包装
       column.renderCell = (data) => {
-        let children = null
+        let children: VNode | VNode[] | null = null
         if (slots.default) {
           const vnodes = slots.default(data)
           children = vnodes.some((v) => v.type !== Comment)
@@ -169,7 +169,7 @@ function useRender<T extends DefaultRow>(
 
         const { columns } = owner.value.store.states
         const firstUserColumnIndex = columns.value.findIndex(
-          (item: any) => item.type === 'default'
+          (item) => item.type === 'default'
         )
         const shouldCreatePlaceholder =
           hasTreeColumn.value && data.cellIndex === firstUserColumnIndex
@@ -186,7 +186,7 @@ function useRender<T extends DefaultRow>(
             }px`,
           }
         }
-        checkSubColumn(children as any)
+        checkSubColumn(children)
         return h('div', props, [prefix, children])
       }
     }

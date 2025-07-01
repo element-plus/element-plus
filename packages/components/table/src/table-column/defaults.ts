@@ -65,7 +65,7 @@ type TableColumnCtx<T extends DefaultRow = DefaultRow> = {
   filterClassName: string
   index: number | ((index: number) => number)
   sortOrders: (TableSortOrder | null)[]
-  renderCell: (data: any) => void
+  renderCell: (data: any) => VNode | VNode[]
   colSpan: number
   rowSpan: number
   children?: TableColumnCtx<T>[]

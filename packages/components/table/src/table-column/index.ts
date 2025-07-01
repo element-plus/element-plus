@@ -61,7 +61,8 @@ export default defineComponent({
 
     const parent = columnOrTableParent.value
     columnId.value = `${
-      parent.tableId || parent.columnId
+      ('tableId' in parent && parent.tableId) ||
+      ('columnId' in parent && parent.columnId)
     }_column_${columnIdSeed++}`
     onBeforeMount(() => {
       isSubColumn.value = owner.value !== parent
@@ -145,7 +146,7 @@ export default defineComponent({
     onMounted(() => {
       const parent = columnOrTableParent.value
       const children = isSubColumn.value
-        ? parent.vnode.el.children
+        ? parent.vnode.el?.children
         : parent.refs.hiddenColumns?.children
       const getColumnIndex = () =>
         getColumnElIndex(children || [], instance.vnode.el)
@@ -155,7 +156,9 @@ export default defineComponent({
         owner.value.store.commit(
           'insertColumn',
           columnConfig.value,
-          isSubColumn.value ? parent.columnConfig.value : null,
+          isSubColumn.value
+            ? 'columnConfig' in parent && parent.columnConfig.value
+            : null,
           updateColumnOrder
         )
     })
@@ -166,7 +169,9 @@ export default defineComponent({
         owner.value.store.commit(
           'removeColumn',
           columnConfig.value,
-          isSubColumn.value ? parent.columnConfig.value : null,
+          isSubColumn.value
+            ? 'columnConfig' in parent && parent.columnConfig.value
+            : null,
           updateColumnOrder
         )
     })
