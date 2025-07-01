@@ -64,7 +64,7 @@ type RenderExpanded<T extends DefaultRow> = ({
   $index,
   store,
   expanded,
-}: RIS<T>) => VNode
+}: RIS<T>) => VNode[] | undefined
 
 type SummaryMethod<T extends DefaultRow> = (data: {
   columns: TableColumnCtx<T>[]
@@ -443,4 +443,5 @@ export type {
   TreeProps,
   TableTooltipData,
   TableSortOrder,
+  RenderExpanded,
 }

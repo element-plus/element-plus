@@ -25,7 +25,7 @@ import type { DefaultRow, Table } from '../table/defaults'
 function useRender<T extends DefaultRow>(
   props: TableColumnCtx<T>,
   slots: Slots,
-  owner: ComputedRef<any>
+  owner: ComputedRef<Table<T>>
 ) {
   const instance = getCurrentInstance() as TableColumn<T>
   const columnId = ref('')
@@ -150,8 +150,8 @@ function useRender<T extends DefaultRow>(
           },
           [originRenderCell(data)]
         )
-      owner.value.renderExpanded = (data: any) => {
-        return slots.default ? slots.default(data) : slots.default
+      owner.value.renderExpanded = (row) => {
+        return slots.default ? slots.default(row) : slots.default
       }
     } else {
       originRenderCell = originRenderCell || defaultRenderCell
