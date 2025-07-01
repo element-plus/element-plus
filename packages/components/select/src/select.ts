@@ -15,6 +15,7 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { type OptionValue, type Props, defaultProps } from './type'
 
 import type { ExtractPropTypes } from 'vue'
 import type Select from './select.vue'
@@ -23,7 +24,6 @@ import type {
   Placement,
   PopperEffect,
 } from '@element-plus/components/popper'
-import type { OptionValue } from './type'
 
 export const selectProps = buildProps({
   /**
@@ -266,6 +266,14 @@ export const selectProps = buildProps({
    * @description which element the selection dropdown appends to
    */
   appendTo: useTooltipContentProps.appendTo,
+  options: {
+    type: definePropType<Record<string, any>[]>(Array),
+    default: () => [],
+  },
+  props: {
+    type: definePropType<Props>(Object),
+    default: () => defaultProps,
+  },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 })

@@ -71,3 +71,14 @@ export type OptionBasic = {
   currentLabel: OptionPublicInstance['currentLabel']
   isDisabled?: OptionPublicInstance['isDisabled']
 }
+export interface Props {
+  label?: string
+  value?: string
+  disabled?: string
+}
+
+export const defaultProps: Required<Props> = {
+  label: 'label',
+  value: 'value',
+  disabled: 'disabled',
+}
