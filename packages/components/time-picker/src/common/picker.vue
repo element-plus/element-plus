@@ -143,6 +143,7 @@
         :type="type"
         :default-value="defaultValue"
         :show-now="showNow"
+        :show-week-number="showWeekNumber"
         @pick="onPick"
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
@@ -192,8 +193,8 @@ import {
 } from '../constants'
 import { timePickerDefaultProps } from './props'
 import PickerRangeTrigger from './picker-range-trigger.vue'
-import type { InputInstance } from '@element-plus/components/input'
 
+import type { InputInstance } from '@element-plus/components/input'
 import type { Dayjs } from 'dayjs'
 import type { ComponentPublicInstance, Ref } from 'vue'
 import type { Options } from '@popperjs/core'

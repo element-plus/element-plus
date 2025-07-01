@@ -1,8 +1,8 @@
 import { defineComponent, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-
 import { useModelToggle, useModelToggleProps } from '../use-model-toggle'
+
 import type { VueWrapper } from '@vue/test-utils'
 
 const AXIOM = 'Rem is the best girl'

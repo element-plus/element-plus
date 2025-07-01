@@ -6,6 +6,11 @@
     :height="208"
   >
     <template #default="{ node }">
+      <el-icon class="el-icon--left">
+        <Document v-if="node.isLeaf" />
+        <Folder v-else-if="!node.expanded" />
+        <FolderOpened v-else />
+      </el-icon>
       <span class="prefix" :class="{ 'is-leaf': node.isLeaf }"
         >[ElementPlus]</span
       >
@@ -15,6 +20,8 @@
 </template>
 
 <script lang="ts" setup>
+import { Document, Folder, FolderOpened } from '@element-plus/icons-vue'
+
 interface Tree {
   id: string
   label: string

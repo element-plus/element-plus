@@ -1,5 +1,6 @@
 import { renderSlot } from 'vue'
 import ElEmpty from '@element-plus/components/empty'
+
 import type { CSSProperties, FunctionalComponent } from 'vue'
 
 type EmptyRendererProps = {

@@ -18,7 +18,7 @@
           :key="data[index].key"
           :style="style"
           :node="data[index]"
-          :expanded="isExpanded(data[index])"
+          :expanded="data[index].expanded"
           :show-checkbox="showCheckbox"
           :checked="isChecked(data[index])"
           :indeterminate="isIndeterminate(data[index])"
@@ -79,7 +79,6 @@ const {
   isNotEmpty,
   listRef,
   toggleExpand,
-  isExpanded,
   isIndeterminate,
   isChecked,
   isDisabled,
