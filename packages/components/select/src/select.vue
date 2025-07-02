@@ -96,6 +96,7 @@
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 :effect="effect"
                 placement="bottom"
+                :popper-class="popperClass"
                 :teleported="teleported"
               >
                 <template #default>
