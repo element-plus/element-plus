@@ -34,6 +34,7 @@
           ref="input"
           :class="nsInput.e('inner')"
           v-bind="attrs"
+          :name="name"
           :minlength="minlength"
           :maxlength="maxlength"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
