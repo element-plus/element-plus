@@ -175,6 +175,10 @@ export const inputProps = buildProps({
     type: definePropType<HTMLAttributes['inputmode']>(String),
     default: undefined,
   },
+  /**
+   * @description same as `name` in native input
+   */
+  name: String,
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>
 

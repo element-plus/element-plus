@@ -6,12 +6,12 @@ import {
   isString,
 } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
-import { useAriaProps } from '@element-plus/hooks'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
+import { inputProps } from '@element-plus/components/input'
 
 import type { ExtractPropTypes } from 'vue'
 import type Autocomplete from './autocomplete.vue'
@@ -30,6 +30,7 @@ export type AutocompleteFetchSuggestions =
   | AutocompleteData
 
 export const autocompleteProps = buildProps({
+  ...inputProps,
   /**
    * @description key name of the input suggestion object for display
    */
@@ -123,31 +124,6 @@ export const autocompleteProps = buildProps({
     type: Boolean,
     default: false,
   },
-  /**
-   * @description whether to show clear button
-   */
-  clearable: {
-    type: Boolean,
-    default: false,
-  },
-  /**
-   * @description whether to disable
-   */
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  /**
-   * @description same as `name` in native input
-   */
-  name: String,
-  /**
-   * @description placeholder of input
-   */
-  placeholder: {
-    type: String,
-  },
-  ...useAriaProps(['ariaLabel']),
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
 
