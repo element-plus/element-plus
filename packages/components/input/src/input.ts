@@ -108,7 +108,7 @@ export const inputProps = buildProps({
    */
   readonly: Boolean,
   /**
-   * @description native input readonly
+   * @description whether to show clear button
    */
   clearable: Boolean,
   /**
