@@ -10,7 +10,7 @@ import {
 import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { useFormSize } from '@element-plus/components/form'
 
-import type { DefaultRow, Table, TableProps } from './defaults'
+import type { DefaultRow, RenderExpanded, Table, TableProps } from './defaults'
 import type { Store } from '../store'
 import type TableLayout from '../table-layout'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -22,7 +22,7 @@ function useStyle<T extends DefaultRow>(
   table: Table<T>
 ) {
   const isHidden = ref(false)
-  const renderExpanded = ref(null)
+  const renderExpanded = ref<RenderExpanded<T> | null>(null)
   const resizeProxyVisible = ref(false)
   const setDragVisible = (visible: boolean) => {
     resizeProxyVisible.value = visible
