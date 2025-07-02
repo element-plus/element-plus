@@ -30,6 +30,8 @@
       <el-input
         ref="inputRef"
         v-bind="mergeProps(passInputProps, $attrs)"
+        :model-value="modelValue"
+        :disabled="disabled"
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
