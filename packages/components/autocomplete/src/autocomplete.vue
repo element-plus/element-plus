@@ -33,6 +33,7 @@
         :clearable="clearable"
         :disabled="disabled"
         :name="name"
+        :size="inputSize"
         :model-value="modelValue"
         :aria-label="ariaLabel"
         @input="handleInput"
@@ -126,7 +127,7 @@ import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
-import { useFormDisabled } from '@element-plus/components/form'
+import { useFormDisabled, useFormSize } from '@element-plus/components/form'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
 
 import type { AutocompleteData } from './autocomplete'
@@ -161,6 +162,7 @@ const dropdownWidth = ref('')
 const activated = ref(false)
 const suggestionDisabled = ref(false)
 const loading = ref(false)
+const inputSize = useFormSize()
 
 const listboxId = useId()
 const styles = computed(() => rawAttrs.style as StyleValue)

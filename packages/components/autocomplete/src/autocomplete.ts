@@ -6,7 +6,7 @@ import {
   isString,
 } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
-import { useAriaProps } from '@element-plus/hooks'
+import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
@@ -141,6 +141,10 @@ export const autocompleteProps = buildProps({
    * @description same as `name` in native input
    */
   name: String,
+  /**
+   * @description input box size
+   */
+  size: useSizeProp,
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
