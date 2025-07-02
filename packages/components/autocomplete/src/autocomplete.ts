@@ -141,6 +141,12 @@ export const autocompleteProps = buildProps({
    * @description same as `name` in native input
    */
   name: String,
+  /**
+   * @description placeholder of input
+   */
+  placeholder: {
+    type: String,
+  },
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
