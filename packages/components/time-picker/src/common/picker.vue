@@ -28,7 +28,7 @@
         ref="inputRef"
         container-role="combobox"
         :model-value="(displayValue as string)"
-        :name="name"
+        :name="(name as string | undefined)"
         :size="pickerSize"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
