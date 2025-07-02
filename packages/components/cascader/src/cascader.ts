@@ -173,7 +173,7 @@ export const cascaderProps = buildProps({
 })
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const emitChangeFn = (value: CascaderValue) => true
+const emitChangeFn = (value: CascaderValue | null | undefined) => true
 
 export const cascaderEmits = {
   [UPDATE_MODEL_EVENT]: emitChangeFn,

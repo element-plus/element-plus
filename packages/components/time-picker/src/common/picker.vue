@@ -403,7 +403,11 @@ const parsedValue = computed(() => {
         parseDate(d, props.valueFormat, lang.value)
       ) as [Dayjs, Dayjs]
     } else {
-      dayOrDays = parseDate(props.modelValue, props.valueFormat, lang.value)!
+      dayOrDays = parseDate(
+        props.modelValue ?? '',
+        props.valueFormat,
+        lang.value
+      )!
     }
   }
 
