@@ -26,7 +26,7 @@ function useMapState() {
     columnsCount,
     leftFixedCount,
     rightFixedCount,
-    columns: store?.states.columns ?? [],
+    columns: computed(() => store?.states.columns.value ?? []),
   }
 }
 

@@ -27,10 +27,13 @@ import { useNamespace } from '@element-plus/hooks'
 import TabBar from './tab-bar.vue'
 import { tabsRootContextKey } from './constants'
 
+import type {
+  CSSProperties,
+  ComponentPublicInstance,
+  ExtractPropTypes,
+} from 'vue'
 import type { TabBarInstance } from './tab-bar'
-import type { CSSProperties, ExtractPropTypes } from 'vue'
-import type { TabsPaneContext } from './constants'
-import type { TabPaneName } from './tabs'
+import type { TabPaneName, TabsPaneContext } from './constants'
 
 interface Scrollable {
   next?: boolean
@@ -80,6 +83,7 @@ const TabNav = defineComponent({
     const navScroll$ = ref<HTMLDivElement>()
     const nav$ = ref<HTMLDivElement>()
     const el$ = ref<HTMLDivElement>()
+    const tabRefsMap = ref<{ [key: TabPaneName]: HTMLDivElement }>({})
 
     const tabBarRef = ref<TabBarInstance>()
 
@@ -139,7 +143,7 @@ const TabNav = defineComponent({
 
       await nextTick()
 
-      const activeTab = el$.value.querySelector('.is-active')
+      const activeTab = tabRefsMap.value[props.currentName]
       if (!activeTab) return
 
       const navScroll = navScroll$.value
@@ -243,6 +247,20 @@ const TabNav = defineComponent({
     }
     const removeFocus = () => (isFocus.value = false)
 
+    const setRefs = (
+      el: Element | ComponentPublicInstance | null,
+      key: TabPaneName
+    ) => {
+      tabRefsMap.value[key] = el as HTMLDivElement
+    }
+
+    const focusActiveTab = async () => {
+      await nextTick()
+
+      const activeTab = tabRefsMap.value[props.currentName]
+      activeTab?.focus({ preventScroll: true })
+    }
+
     watch(visibility, (visibility) => {
       if (visibility === 'hidden') {
         focusable.value = false
@@ -266,6 +284,7 @@ const TabNav = defineComponent({
     expose({
       scrollToActiveTab,
       removeFocus,
+      focusActiveTab,
       tabListRef: nav$,
       tabBarRef,
     })
@@ -322,7 +341,7 @@ const TabNav = defineComponent({
 
         return (
           <div
-            ref={`tab-${uid}`}
+            ref={(el) => setRefs(el, tabName)}
             class={[
               ns.e('item'),
               ns.is(rootTabs.props.tabPosition),
@@ -387,7 +406,11 @@ const TabNav = defineComponent({
               >
                 {...[
                   !props.type ? (
-                    <TabBar ref={tabBarRef} tabs={[...props.panes]} />
+                    <TabBar
+                      ref={tabBarRef}
+                      tabs={[...props.panes]}
+                      tabRefs={tabRefsMap.value}
+                    />
                   ) : null,
                   tabs,
                 ]}
@@ -403,6 +426,7 @@ const TabNav = defineComponent({
 export type TabNavInstance = InstanceType<typeof TabNav> & {
   scrollToActiveTab: () => Promise<void>
   removeFocus: () => void
+  focusActiveTab: () => void
   tabListRef: HTMLDivElement | undefined
   tabBarRef: TabBarInstance | undefined
 }

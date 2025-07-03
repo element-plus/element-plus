@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useAttrs, useFocusController, useNamespace } from '@element-plus/hooks'
 import { timePickerRangeTriggerProps } from './props'
 
@@ -50,7 +50,7 @@ defineOptions({
   inheritAttrs: false,
 })
 
-defineProps(timePickerRangeTriggerProps)
+const props = defineProps(timePickerRangeTriggerProps)
 const emit = defineEmits([
   'mouseenter',
   'mouseleave',
@@ -71,7 +71,9 @@ const nsRange = useNamespace('range')
 const inputRef = ref<HTMLInputElement>()
 const endInputRef = ref<HTMLInputElement>()
 
-const { wrapperRef, isFocused } = useFocusController(inputRef)
+const { wrapperRef, isFocused } = useFocusController(inputRef, {
+  disabled: computed(() => props.disabled),
+})
 
 const handleClick = (evt: MouseEvent) => {
   emit('click', evt)

@@ -170,7 +170,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -234,7 +233,7 @@ export default defineComponent({
     'scroll',
   ],
   setup(props) {
-    type Row = typeof props.data[number]
+    type Row = (typeof props.data)[number]
     const { t } = useLocale()
     const ns = useNamespace('table')
     const table = getCurrentInstance() as Table<Row>
@@ -275,7 +274,6 @@ export default defineComponent({
       handleHeaderFooterMousewheel,
       tableSize,
       emptyBlockStyle,
-      handleFixedMousewheel,
       resizeProxyVisible,
       bodyWidth,
       resizeState,
@@ -336,7 +334,6 @@ export default defineComponent({
       tableBodyStyles,
       emptyBlockStyle,
       debouncedUpdateLayout,
-      handleFixedMousewheel,
       /**
        * @description used in single selection Table, set a certain row selected. If called without any parameter, it will clear selection
        */

@@ -26,9 +26,7 @@ import TabNav from './tab-nav'
 import type { ExtractPropTypes, VNode } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
 import type { TabNavInstance } from './tab-nav'
-import type { TabsPaneContext } from './constants'
-
-export type TabPaneName = string | number
+import type { TabPaneName, TabsPaneContext } from './constants'
 
 export const tabsProps = buildProps({
   /**
@@ -134,6 +132,10 @@ const Tabs = defineComponent({
         }
 
         if (canLeave !== false) {
+          const isFocusInsidePane = panes.value
+            .find((item) => item.paneName === currentName.value)
+            ?.isFocusInsidePane()
+
           currentName.value = value
           if (trigger) {
             emit(UPDATE_MODEL_EVENT, value)
@@ -141,6 +143,9 @@ const Tabs = defineComponent({
           }
 
           nav$.value?.removeFocus?.()
+          if (isFocusInsidePane) {
+            nav$.value?.focusActiveTab()
+          }
         }
       } catch {}
     }
