@@ -277,15 +277,13 @@
             />
             <el-options>
               <slot>
-                <template v-if="options?.length">
-                  <el-option
-                    v-for="item in options"
-                    :key="item[optionProps.value]"
-                    :label="item[optionProps.label]"
-                    :value="item[optionProps.value]"
-                    :disabled="item[optionProps.disabled]"
-                  />
-                </template>
+	              <el-option
+	                v-for="item in options"
+	                :key="item[optionProps.value]"
+	                :label="item[optionProps.label]"
+	                :value="item[optionProps.value]"
+	                :disabled="item[optionProps.disabled]"
+	              />
               </slot>
             </el-options>
           </el-scrollbar>
