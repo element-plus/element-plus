@@ -53,7 +53,7 @@ describe('InputNumber.vue', () => {
   // fix: #10328
   test('Make sure the input action can trigger the modelValue update', async () => {
     const num = ref<number>(0)
-    const handleUpdate = (data: number | undefined) => {
+    const handleUpdate = (data: number | null) => {
       num.value = data!
     }
     const wrapper = mount(() => (
