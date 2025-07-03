@@ -242,6 +242,7 @@ select/custom-label
 | value-on-clear ^(2.7.0)         | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)               | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
 | suffix-transition ^(deprecated) | animation when dropdown appears/disappears icon                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | tabindex ^(2.9.0)               | tabindex for input                                                                                                    | ^[string] / ^[number]                                                                                                                                                       | —                                              |
+| options                         | data of the options, the key of `value` and `label` and `disabled` can be customize by `props`                        | ^[array]                                                                                                                                                                    |
 
 :::warning
 
