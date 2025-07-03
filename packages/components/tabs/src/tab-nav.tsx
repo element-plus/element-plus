@@ -1,6 +1,7 @@
 import {
   computed,
   defineComponent,
+  getCurrentInstance,
   inject,
   nextTick,
   onMounted,
@@ -75,6 +76,8 @@ const TabNav = defineComponent({
   setup(props, { expose, emit }) {
     const rootTabs = inject(tabsRootContextKey)
     if (!rootTabs) throwError(COMPONENT_NAME, `<el-tabs><tab-nav /></el-tabs>`)
+
+    const instance = getCurrentInstance()!
 
     const ns = useNamespace('tabs')
     const visibility = useDocumentVisibility()
@@ -287,6 +290,7 @@ const TabNav = defineComponent({
       focusActiveTab,
       tabListRef: nav$,
       tabBarRef,
+      scheduleRender: () => instance.effect.scheduler!(),
     })
 
     return () => {
@@ -427,6 +431,7 @@ export type TabNavInstance = InstanceType<typeof TabNav> & {
   scrollToActiveTab: () => Promise<void>
   removeFocus: () => void
   focusActiveTab: () => void
+  scheduleRender: () => void
   tabListRef: HTMLDivElement | undefined
   tabBarRef: TabBarInstance | undefined
 }

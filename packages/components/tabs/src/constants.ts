@@ -8,6 +8,7 @@ import type {
 } from 'vue'
 import type { TabsProps } from './tabs'
 import type { TabPaneProps } from './tab-pane'
+import type { TabNavInstance } from './tab-nav'
 
 export type TabPaneName = string | number
 
@@ -28,6 +29,7 @@ export interface TabsRootContext {
   currentName: Ref<TabPaneName>
   registerPane: (pane: TabsPaneContext) => void
   unregisterPane: (pane: TabsPaneContext) => void
+  nav$: Ref<TabNavInstance | undefined>
 }
 
 export const tabsRootContextKey: InjectionKey<TabsRootContext> =
