@@ -1,4 +1,4 @@
-import { isNil } from 'lodash-unified'
+import { isNull } from 'lodash-unified'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import {
@@ -120,14 +120,12 @@ export const inputNumberProps = buildProps({
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
 
 export const inputNumberEmits = {
-  [CHANGE_EVENT]: (cur: number | undefined, prev: number | undefined) =>
+  [CHANGE_EVENT]: (cur: number | null, prev: number | null | undefined) =>
     prev !== cur,
   blur: (e: FocusEvent) => e instanceof FocusEvent,
   focus: (e: FocusEvent) => e instanceof FocusEvent,
-  [INPUT_EVENT]: (val: number | null | undefined) =>
-    isNumber(val) || isNil(val),
-  [UPDATE_MODEL_EVENT]: (val: number | undefined) =>
-    isNumber(val) || isNil(val),
+  [INPUT_EVENT]: (val: number | null) => isNumber(val) || isNull(val),
+  [UPDATE_MODEL_EVENT]: (val: number | null) => isNumber(val) || isNull(val),
 }
 export type InputNumberEmits = typeof inputNumberEmits
 

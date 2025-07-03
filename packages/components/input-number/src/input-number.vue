@@ -113,7 +113,7 @@ const ns = useNamespace('input-number')
 const input = ref<InputInstance>()
 
 interface Data {
-  currentValue: number | null | undefined
+  currentValue: number | null
   userInput: null | number | string
 }
 const data = reactive<Data>({
@@ -214,7 +214,7 @@ const decrease = () => {
 const verifyValue = (
   value: number | string | null | undefined,
   update?: boolean
-): number | null | undefined => {
+): number | null => {
   const { max, min, step, precision, stepStrictly, valueOnClear } = props
   if (max < min) {
     throwError('InputNumber', 'min should not be greater than max.')
