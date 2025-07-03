@@ -422,6 +422,52 @@ describe('Cascader.vue', () => {
     expect(wrapper.find('.el-tag').classes()).toContain('el-tag--dark')
   })
 
+  test('should expose delete-tag through slot & be able to delete a value', async () => {
+    const value = ref(['hangzhou', 'wenzhou'])
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        options={[
+          {
+            value: 'zhejiang',
+            label: 'Zhejiang',
+          },
+          {
+            value: 'hangzhou',
+            label: 'Hangzhou',
+          },
+          {
+            value: 'ningbo',
+            label: 'Ningbo',
+          },
+          {
+            value: 'wenzhou',
+            label: 'Wenzhou',
+          },
+        ]}
+        props={{ multiple: true }}
+      >
+        {{
+          tag: ({ data, deleteTag }: any) =>
+            data.map((option: any) => (
+              <div class="no-tag" onClick={() => deleteTag(option)}>
+                {option.text}
+              </div>
+            )),
+        }}
+      </Cascader>
+    ))
+    await nextTick()
+    const cascader = wrapper.findComponent(Cascader)
+    const tags = wrapper.findAll('.no-tag')
+    expect(tags).toHaveLength(2)
+    expect(cascader.vm.modelValue).toEqual(['hangzhou', 'wenzhou'])
+
+    await tags[0].trigger('click')
+    expect(wrapper.findAll('.no-tag')).toHaveLength(1)
+    expect(cascader.vm.modelValue).toEqual([['wenzhou']])
+  })
+
   test('filterable', async () => {
     const value = ref([])
     const wrapper = _mount(() => (

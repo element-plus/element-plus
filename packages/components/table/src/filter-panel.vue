@@ -79,7 +79,7 @@
       >
         <el-icon>
           <slot name="filter-icon">
-            <arrow-up v-if="column.filterOpened" />
+            <arrow-up v-if="column?.filterOpened" />
             <arrow-down v-else />
           </slot>
         </el-icon>
@@ -89,7 +89,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
@@ -102,6 +101,7 @@ import ElTooltip, {
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { isPropAbsent } from '@element-plus/utils'
 
+import type { DefaultRow } from './table/defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { Placement } from '@element-plus/components/popper'
 import type { PropType, WritableComputedRef } from 'vue'
@@ -129,10 +129,10 @@ export default defineComponent({
       default: 'bottom-start',
     },
     store: {
-      type: Object as PropType<Store<unknown>>,
+      type: Object as PropType<Store<DefaultRow>>,
     },
     column: {
-      type: Object as PropType<TableColumnCtx<unknown>>,
+      type: Object as PropType<TableColumnCtx<DefaultRow>>,
     },
     upDataColumn: {
       type: Function,
@@ -144,7 +144,7 @@ export default defineComponent({
     const { t } = useLocale()
     const ns = useNamespace('table-filter')
     const parent = instance?.parent as TableHeader
-    if (!parent.filterPanels.value[props.column.id]) {
+    if (props.column && !parent.filterPanels.value[props.column.id]) {
       parent.filterPanels.value[props.column.id] = instance
     }
     const tooltipVisible = ref(false)
@@ -153,14 +153,14 @@ export default defineComponent({
       return props.column && props.column.filters
     })
     const filterClassName = computed(() => {
-      if (props.column.filterClassName) {
+      if (props.column && props.column.filterClassName) {
         return `${ns.b()} ${props.column.filterClassName}`
       }
       return ns.b()
     })
     const filterValue = computed({
       get: () => (props.column?.filteredValue || [])[0],
-      set: (value: string) => {
+      set: (value?: string | null) => {
         if (filteredValue.value) {
           if (!isPropAbsent(value)) {
             filteredValue.value.splice(0, 1, value)
@@ -170,16 +170,16 @@ export default defineComponent({
         }
       },
     })
-    const filteredValue: WritableComputedRef<unknown[]> = computed({
+    const filteredValue: WritableComputedRef<string[]> = computed({
       get() {
         if (props.column) {
           return props.column.filteredValue || []
         }
         return []
       },
-      set(value: unknown[]) {
+      set(value: string[]) {
         if (props.column) {
-          props.upDataColumn('filteredValue', value)
+          props.upDataColumn?.('filteredValue', value)
         }
       },
     })
@@ -189,7 +189,7 @@ export default defineComponent({
       }
       return true
     })
-    const isActive = (filter) => {
+    const isActive = (filter: { value: string; text: string }) => {
       return filter.value === filterValue.value
     }
     const hidden = () => {
@@ -211,8 +211,8 @@ export default defineComponent({
       confirmFilter(filteredValue.value)
       hidden()
     }
-    const handleSelect = (_filterValue?: string) => {
-      filterValue.value = _filterValue
+    const handleSelect = (_filterValue?: string | null) => {
+      filterValue.value = _filterValue!
       if (!isPropAbsent(_filterValue)) {
         confirmFilter(filteredValue.value)
       } else {
@@ -221,17 +221,17 @@ export default defineComponent({
       hidden()
     }
     const confirmFilter = (filteredValue: unknown[]) => {
-      props.store.commit('filterChange', {
+      props.store?.commit('filterChange', {
         column: props.column,
         values: filteredValue,
       })
-      props.store.updateAllSelected()
+      props.store?.updateAllSelected()
     }
     watch(
       tooltipVisible,
       (value) => {
         if (props.column) {
-          props.upDataColumn('filterOpened', value)
+          props.upDataColumn?.('filterOpened', value)
         }
       },
       {

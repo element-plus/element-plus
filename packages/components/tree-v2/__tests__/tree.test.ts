@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { describe, expect, test, vi } from 'vitest'
 import { NOOP } from '@element-plus/utils'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
@@ -710,6 +710,7 @@ describe('Virtual Tree', () => {
   })
 
   test('defaultExpandedKeys', async () => {
+    const defaultExpandedKeys = ref([])
     const { wrapper } = createTree({
       data() {
         return {
@@ -754,10 +755,12 @@ describe('Virtual Tree', () => {
               label: 'node-2',
             },
           ],
-          defaultExpandedKeys: ['1'],
+          defaultExpandedKeys,
         }
       },
     })
+    await nextTick()
+    defaultExpandedKeys.value = ['1']
     await nextTick()
     const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
     expect(nodes.length).toBe(5)

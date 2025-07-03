@@ -197,13 +197,13 @@ cascader/custom-tag
 
 ### Cascader Slots
 
-| Name                     | Description                                                                                    | Scope                               |
-| ------------------------ | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
-| default                  | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
-| empty                    | content when there is no matched options.                                                      | —                                   |
-| prefix ^(2.9.4)          | content as Input prefix                                                                        | —                                   |
-| suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                              | ^[object]`{ item: CascaderNode }`   |
-| tag ^(2.10.3)            | custom tags style                                                                              | ^[object]`{ data: Tag[] }`          |
+| Name                     | Description                                                                                    | Scope                                                     |
+| ------------------------ | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| default                  | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }`                       |
+| empty                    | content when there is no matched options.                                                      | —                                                         |
+| prefix ^(2.9.4)          | content as Input prefix                                                                        | —                                                         |
+| suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                              | ^[object]`{ item: CascaderNode }`                         |
+| tag ^(2.10.3)            | custom tags style                                                                              | ^[object]`{ data: Tag[], deleteTag: (tag: Tag) => void }` |
 
 ### Cascader Exposes
 

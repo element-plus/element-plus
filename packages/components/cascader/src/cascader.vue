@@ -73,7 +73,7 @@
             nsCascader.is('validate', Boolean(validateState)),
           ]"
         >
-          <slot name="tag" :data="allPresentTags">
+          <slot name="tag" :data="allPresentTags" :delete-tag="deleteTag">
             <el-tag
               v-for="tag in presentTags"
               :key="tag.key"
