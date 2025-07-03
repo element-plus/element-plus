@@ -468,8 +468,6 @@ export default defineComponent({
       selectedLabel,
       calculatorRef,
       inputStyle,
-      options: props.options,
-      optionProps,
     }
   },
 })
