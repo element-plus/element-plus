@@ -31,6 +31,7 @@ import type {
   CSSProperties,
   ComponentPublicInstance,
   ExtractPropTypes,
+  __ExtractPublicPropTypes,
 } from 'vue'
 import type { TabBarInstance } from './tab-bar'
 import type { TabPaneName, TabsPaneContext } from './constants'
@@ -65,6 +66,7 @@ export const tabNavEmits = {
 }
 
 export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
+export type TabNavPropsPublic = __ExtractPublicPropTypes<typeof tabNavProps>
 export type TabNavEmits = typeof tabNavEmits
 
 const COMPONENT_NAME = 'ElTabNav'

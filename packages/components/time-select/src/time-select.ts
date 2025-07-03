@@ -4,7 +4,7 @@ import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 
 import type { PopperEffect } from '@element-plus/components/popper'
 import type TimeSelect from './time-select.vue'
-import type { Component, ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 
 export const timeSelectProps = buildProps({
   /**
@@ -109,5 +109,8 @@ export const timeSelectProps = buildProps({
 } as const)
 
 export type TimeSelectProps = ExtractPropTypes<typeof timeSelectProps>
+export type TimeSelectPropsPublic = __ExtractPublicPropTypes<
+  typeof timeSelectProps
+>
 
 export type TimeSelectInstance = InstanceType<typeof TimeSelect> & unknown

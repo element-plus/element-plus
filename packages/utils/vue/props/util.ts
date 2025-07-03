@@ -9,9 +9,8 @@ export type IfUnknown<T, Y, N> = [unknown] extends [T] ? Y : N
 
 export type UnknownToNever<T> = IfUnknown<T, never, T>
 
-// ExtractPublicPropTypes copy from vue 3.3
 // delete when upgrade to vue 3.3 : start
-
+// __ExtractPublicPropTypes copy from vue 3.3
 // If the type T accepts type "any", output type Y, otherwise output type N.
 // https://stackoverflow.com/questions/49927523/disallow-call-with-any/49928360#49928360
 export type IfAny<T, Y, N> = 0 extends 1 & T ? Y : N
@@ -53,12 +52,12 @@ type PublicOptionalKeys<T> = Exclude<keyof T, PublicRequiredKeys<T>>
  */
 
 declare module 'vue' {
-  export type ExtractPublicPropTypes<O> = {
+  // compatible with higher versions of Vue
+  export type __ExtractPublicPropTypes<O> = {
     [K in keyof Pick<O, PublicRequiredKeys<O>>]: InferPropType<O[K]>
   } & {
     [K in keyof Pick<O, PublicOptionalKeys<O>>]?: InferPropType<O[K]>
   }
 }
 // delete when upgrade to vue 3.3 : end
-
 export {}

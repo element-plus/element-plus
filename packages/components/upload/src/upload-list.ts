@@ -1,7 +1,7 @@
 import { NOOP, buildProps, definePropType, mutable } from '@element-plus/utils'
 import { uploadListTypes } from './upload'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type { UploadFile, UploadFiles, UploadHooks } from './upload'
 import type UploadList from './upload-list.vue'
 
@@ -32,6 +32,9 @@ export const uploadListProps = buildProps({
 } as const)
 
 export type UploadListProps = ExtractPropTypes<typeof uploadListProps>
+export type UploadListPropsPublic = __ExtractPublicPropTypes<
+  typeof uploadListProps
+>
 export const uploadListEmits = {
   remove: (file: UploadFile) => !!file,
 }

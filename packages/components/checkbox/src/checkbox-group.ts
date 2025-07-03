@@ -2,7 +2,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, isArray } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type checkboxGroup from './checkbox-group.vue'
 import type { CheckboxValueType } from './checkbox'
 
@@ -63,5 +63,8 @@ export const checkboxGroupEmits = {
 }
 
 export type CheckboxGroupProps = ExtractPropTypes<typeof checkboxGroupProps>
+export type CheckboxGroupPropsPublic = __ExtractPublicPropTypes<
+  typeof checkboxGroupProps
+>
 export type CheckboxGroupEmits = typeof checkboxGroupEmits
 export type CheckboxGroupInstance = InstanceType<typeof checkboxGroup> & unknown

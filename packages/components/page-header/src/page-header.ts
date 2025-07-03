@@ -1,7 +1,7 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 import { Back } from '@element-plus/icons-vue'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
 import type PageHeader from './page-header.vue'
 
 export const pageHeaderProps = buildProps({
@@ -25,6 +25,9 @@ export const pageHeaderProps = buildProps({
   },
 } as const)
 export type PageHeaderProps = ExtractPropTypes<typeof pageHeaderProps>
+export type PageHeaderPropsPublic = __ExtractPublicPropTypes<
+  typeof pageHeaderProps
+>
 
 export const pageHeaderEmits = {
   back: () => true,

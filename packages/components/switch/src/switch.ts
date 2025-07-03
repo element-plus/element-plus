@@ -16,7 +16,7 @@ import { useAriaProps } from '@element-plus/hooks'
 
 import type { ComponentSize } from '@element-plus/constants'
 import type Switch from './switch.vue'
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes, PropType, __ExtractPublicPropTypes } from 'vue'
 
 export const switchProps = buildProps({
   /**
@@ -138,6 +138,7 @@ export const switchProps = buildProps({
 } as const)
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>
+export type SwitchPropsPublic = __ExtractPublicPropTypes<typeof switchProps>
 
 export const switchEmits = {
   [UPDATE_MODEL_EVENT]: (val: boolean | string | number) =>
