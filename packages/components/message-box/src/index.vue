@@ -101,7 +101,7 @@
                   :placeholder="inputPlaceholder"
                   :aria-invalid="validateError"
                   :class="{ invalid: validateError }"
-                  @keydown.enter="handleInputEnter"
+                  @keydown.prevent.enter="handleInputEnter"
                 />
                 <div
                   :class="ns.e('errormsg')"
