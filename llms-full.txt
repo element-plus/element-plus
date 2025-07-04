@@ -1221,7 +1221,6 @@ import vue from '@vitejs/plugin-vue'
 // You can also use unplugin-vue-components
 // import Components from 'unplugin-vue-components/vite'
 // import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-
 // or use unplugin-element-plus
 import ElementPlus from 'unplugin-element-plus/vite'
 
@@ -2365,27 +2364,28 @@ Override loading content.
 
 ### Attributes
 
-| Name                                | Description                                                                                                                | Type                                                                                      | Default      |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------ |
-| model-value / v-model               | binding value                                                                                                              | ^[string]                                                                                 | —            |
-| placeholder                         | the placeholder of Autocomplete                                                                                            | ^[string]                                                                                 | —            |
-| clearable                           | whether to show clear button                                                                                               | ^[boolean]                                                                                | false        |
-| disabled                            | whether Autocomplete is disabled                                                                                           | ^[boolean]                                                                                | false        |
-| value-key                           | key name of the input suggestion object for display                                                                        | ^[string]                                                                                 | value        |
-| debounce                            | debounce delay when typing, in milliseconds                                                                                | ^[number]                                                                                 | 300          |
-| placement                           | placement of the popup menu                                                                                                | ^[enum]`'top' \| 'top- start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'` | bottom-start |
-| fetch-suggestions                   | a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete | ^[Array] / ^[Function]`(queryString: string, callback: callbackfn) => void`               | —            |
-| trigger-on-focus                    | whether show suggestions when input focus                                                                                  | ^[boolean]                                                                                | true         |
-| select-when-unmatched               | whether to emit a `select` event on enter when there is no autocomplete match                                              | ^[boolean]                                                                                | false        |
-| name                                | same as `name` in native input                                                                                             | ^[string]                                                                                 | —            |
-| aria-label ^(a11y) ^(2.7.2)         | native `aria-label` attribute                                                                                              | ^[string]                                                                                 | —            |
-| hide-loading                        | whether to hide the loading icon in remote search                                                                          | ^[boolean]                                                                                | false        |
-| popper-class                        | custom class name for autocomplete's dropdown                                                                              | ^[string]                                                                                 | —            |
-| teleported                          | whether select dropdown is teleported to the body                                                                          | ^[boolean]                                                                                | true         |
-| append-to ^(2.9.9)                  | which select dropdown appends to                                                                                           | ^[CSSSelector] / ^[HTMLElement]                                                           | —            |
-| highlight-first-item                | whether to highlight first item in remote search suggestions by default                                                    | ^[boolean]                                                                                | false        |
-| fit-input-width                     | whether the width of the dropdown is the same as the input                                                                 | ^[boolean]                                                                                | false        |
-| popper-append-to-body ^(deprecated) | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | ^[boolean]                                                                                | false        |
+| Name                                 | Description                                                                                                                | Type                                                                                      | Default      |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------ |
+| model-value / v-model                | binding value                                                                                                              | ^[string]                                                                                 | —            |
+| placeholder                          | the placeholder of Autocomplete                                                                                            | ^[string]                                                                                 | —            |
+| clearable                            | whether to show clear button                                                                                               | ^[boolean]                                                                                | false        |
+| disabled                             | whether Autocomplete is disabled                                                                                           | ^[boolean]                                                                                | false        |
+| value-key                            | key name of the input suggestion object for display                                                                        | ^[string]                                                                                 | value        |
+| debounce                             | debounce delay when typing, in milliseconds                                                                                | ^[number]                                                                                 | 300          |
+| placement                            | placement of the popup menu                                                                                                | ^[enum]`'top' \| 'top- start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'` | bottom-start |
+| fetch-suggestions                    | a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete | ^[Array] / ^[Function]`(queryString: string, callback: callbackfn) => void`               | —            |
+| trigger-on-focus                     | whether show suggestions when input focus                                                                                  | ^[boolean]                                                                                | true         |
+| select-when-unmatched                | whether to emit a `select` event on enter when there is no autocomplete match                                              | ^[boolean]                                                                                | false        |
+| name                                 | same as `name` in native input                                                                                             | ^[string]                                                                                 | —            |
+| aria-label ^(a11y) ^(2.7.2)          | native `aria-label` attribute                                                                                              | ^[string]                                                                                 | —            |
+| hide-loading                         | whether to hide the loading icon in remote search                                                                          | ^[boolean]                                                                                | false        |
+| popper-class                         | custom class name for autocomplete's dropdown                                                                              | ^[string]                                                                                 | —            |
+| teleported                           | whether select dropdown is teleported to the body                                                                          | ^[boolean]                                                                                | true         |
+| append-to ^(2.9.9)                   | which select dropdown appends to                                                                                           | ^[CSSSelector] / ^[HTMLElement]                                                           | —            |
+| highlight-first-item                 | whether to highlight first item in remote search suggestions by default                                                    | ^[boolean]                                                                                | false        |
+| fit-input-width                      | whether the width of the dropdown is the same as the input                                                                 | ^[boolean]                                                                                | false        |
+| popper-append-to-body ^(deprecated)  | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | ^[boolean]                                                                                | false        |
+| [input props](./input.md#attributes) | —                                                                                                                          | —                                                                                         | —            |
 
 ### Events
 
@@ -3003,6 +3003,7 @@ const errorHandler = () => true
 
 <script lang="ts" setup>
 import { reactive, toRefs } from 'vue'
+
 import type { ObjectFitProperty } from 'csstype'
 
 const state = reactive({
@@ -4291,6 +4292,7 @@ const value = ref(new Date())
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { CalendarDateType, CalendarInstance } from 'element-plus'
 
 const calendar = ref<CalendarInstance>()
@@ -4900,6 +4902,12 @@ You can customize the filter suggestion item by `suggestion-item` slot. You'll h
 
 
 
+## Custom Tag ^(2.10.3)
+
+You can customize tags.
+
+
+
 ## Cascader API
 
 ### Cascader Attributes
@@ -4949,12 +4957,13 @@ You can customize the filter suggestion item by `suggestion-item` slot. You'll h
 
 ### Cascader Slots
 
-| Name                     | Description                                                                                    | Scope                               |
-| ------------------------ | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
-| default                  | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
-| empty                    | content when there is no matched options.                                                      | —                                   |
-| prefix ^(2.9.4)          | content as Input prefix                                                                        | —                                   |
-| suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                              | ^[object]`{ item: CascaderNode }`   |
+| Name                     | Description                                                                                    | Scope                                                     |
+| ------------------------ | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| default                  | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }`                       |
+| empty                    | content when there is no matched options.                                                      | —                                                         |
+| prefix ^(2.9.4)          | content as Input prefix                                                                        | —                                                         |
+| suggestion-item ^(2.9.5) | custom content for suggestion item when searching                                              | ^[object]`{ item: CascaderNode }`                         |
+| tag ^(2.10.3)            | custom tags style                                                                              | ^[object]`{ data: Tag[], deleteTag: (tag: Tag) => void }` |
 
 ### Cascader Exposes
 
@@ -4978,11 +4987,12 @@ You can customize the filter suggestion item by `suggestion-item` slot. You'll h
 
 ### CascaderPanel Events
 
-| Name          | Description                                                             | Type                                                |
-| ------------- | ----------------------------------------------------------------------- | --------------------------------------------------- |
-| change        | triggers when the binding value changes                                 | ^[Function]`(value: CascaderValue) => void`         |
-| expand-change | triggers when expand option changes                                     | ^[Function]`(value: CascaderNodePathValue) => void` |
-| close         | close panel event, provided to Cascader to put away the panel judgment. | ^[Function]`() => void`                             |
+| Name              | Description                                                             | Type                                                     |
+| ----------------- | ----------------------------------------------------------------------- | -------------------------------------------------------- |
+| change            | triggers when the binding value changes                                 | ^[Function]`(value: CascaderValue \| undefined) => void` |
+| update:modelValue | triggers when the binding value changes                                 | ^[Function]`(value: CascaderValue \| undefined) => void` |
+| expand-change     | triggers when expand option changes                                     | ^[Function]`(value: CascaderNodePathValue) => void`      |
+| close             | close panel event, provided to Cascader to put away the panel judgment. | ^[Function]`() => void`                                  |
 
 ### CascaderPanel Slots
 
@@ -5101,8 +5111,8 @@ class Node {
   // method
   appendChild(childData: CascaderOption): Node
   calcText(allLevels: boolean, separator: string): string
-  broadcast(event: string, ...args: unknown[]): void
-  emit(event: string, ...args: unknown[]): void
+  broadcast(): void
+  emit(): void
   onParentCheck(checked: boolean): void
   onChildCheck(): void
   setCheckState(checked: boolean): void
@@ -6556,6 +6566,139 @@ const options = [
     ],
   },
 ]
+</script>
+
+```
+
+### custom-tag.vue
+```vue
+<template>
+  <div class="m-4">
+    <p>Using slots allows for more flexible control over the display.</p>
+    <el-cascader :options="options" :props="props" clearable>
+      <template #tag="{ data }">
+        <el-tag
+          v-for="(item, index) in getTags(data)"
+          :key="item"
+          :color="index % 2 === 0 ? '#FFDE0A' : ''"
+        >
+          {{ item }}
+        </el-tag>
+      </template>
+    </el-cascader>
+    <p>Display top-level tags only</p>
+    <el-cascader :options="options" :props="props" clearable>
+      <template #tag="{ data }">
+        <el-tag v-for="item in getTopLevelTags(data)" :key="item">
+          {{ item }}
+        </el-tag>
+      </template>
+    </el-cascader>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import type { Tag } from 'element-plus'
+
+const props = { multiple: true }
+const options = [
+  {
+    value: 1,
+    label: 'Asia',
+    children: [
+      {
+        value: 2,
+        label: 'China',
+        children: [
+          { value: 3, label: 'Beijing' },
+          { value: 4, label: 'Shanghai' },
+          { value: 5, label: 'Hangzhou' },
+        ],
+      },
+      {
+        value: 6,
+        label: 'Japan',
+        children: [
+          { value: 7, label: 'Tokyo' },
+          { value: 8, label: 'Osaka' },
+          { value: 9, label: 'Kyoto' },
+        ],
+      },
+      {
+        value: 10,
+        label: 'Korea',
+        children: [
+          { value: 11, label: 'Seoul' },
+          { value: 12, label: 'Busan' },
+          { value: 13, label: 'Taegu' },
+        ],
+      },
+    ],
+  },
+  {
+    value: 14,
+    label: 'Europe',
+    children: [
+      {
+        value: 15,
+        label: 'France',
+        children: [
+          { value: 16, label: 'Paris' },
+          { value: 17, label: 'Marseille' },
+          { value: 18, label: 'Lyon' },
+        ],
+      },
+      {
+        value: 19,
+        label: 'UK',
+        children: [
+          { value: 20, label: 'London' },
+          { value: 21, label: 'Birmingham' },
+          { value: 22, label: 'Manchester' },
+        ],
+      },
+    ],
+  },
+  {
+    value: 23,
+    label: 'North America',
+    children: [
+      {
+        value: 24,
+        label: 'US',
+        children: [
+          { value: 25, label: 'New York' },
+          { value: 26, label: 'Los Angeles' },
+          { value: 27, label: 'Washington' },
+        ],
+      },
+      {
+        value: 28,
+        label: 'Canada',
+        children: [
+          { value: 29, label: 'Toronto' },
+          { value: 30, label: 'Montreal' },
+          { value: 31, label: 'Ottawa' },
+        ],
+      },
+    ],
+  },
+]
+const getTags = (data: Tag[]) => {
+  return data.map((item) => item.text)
+}
+const getTopLevelTags = (data: Tag[]) => {
+  const set: Set<string> = new Set()
+  for (const datum of data) {
+    let parent = datum.node?.parent
+    while (parent && parent.level !== 1) {
+      parent = parent.parent
+    }
+    const label = parent?.data?.label
+    label && set.add(label)
+  }
+  return [...set]
+}
 </script>
 
 ```
@@ -8154,6 +8297,7 @@ const checkList = ref(['Value selected and disabled', 'Value A'])
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { CheckboxValueType } from 'element-plus'
 
 const checkAll = ref(false)
@@ -8451,6 +8595,7 @@ const activeName = ref('1')
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { CollapseModelValue } from 'element-plus'
 
 const activeNames = ref(['1'])
@@ -8517,6 +8662,7 @@ const handleChange = (val: CollapseModelValue) => {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { CollapseIconPositionType } from 'element-plus'
 
 const position = ref<CollapseIconPositionType>('left')
@@ -8585,6 +8731,7 @@ const position = ref<CollapseIconPositionType>('left')
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { CaretRight } from '@element-plus/icons-vue'
+
 import type { CollapseModelValue } from 'element-plus'
 
 const activeNames = ref(['1'])
@@ -8795,21 +8942,23 @@ ColorPicker is a color selector supporting multiple color formats.
 
 ### Attributes
 
-| Name                        | Description                                           | Type                                                                                                             | Default |
-| --------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------- |
-| model-value / v-model       | binding value                                         | ^[string]                                                                                                        | —       |
-| disabled                    | whether to disable the ColorPicker                    | ^[boolean]                                                                                                       | false   |
-| size                        | size of ColorPicker                                   | ^[enum]`'large' \| 'default' \| 'small'`                                                                         | —       |
-| show-alpha                  | whether to display the alpha slider                   | ^[boolean]                                                                                                       | false   |
-| color-format                | color format of v-model                               | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
-| popper-class                | custom class name for ColorPicker's dropdown          | ^[string]                                                                                                        | —       |
-| predefine                   | predefined color options                              | ^[object]`string[]`                                                                                              | —       |
-| validate-event              | whether to trigger form validation                    | ^[boolean]                                                                                                       | true    |
-| tabindex                    | ColorPicker tabindex                                  | ^[string] / ^[number]                                                                                            | 0       |
-| aria-label ^(a11y) ^(2.7.2) | ColorPicker aria-label                                | ^[string]                                                                                                        | —       |
-| id                          | ColorPicker id                                        | ^[string]                                                                                                        | —       |
-| teleported ^(2.7.2)         | whether color-picker popper is teleported to the body | ^[boolean]                                                                                                       | true    |
-| label ^(a11y) ^(deprecated) | ColorPicker aria-label                                | ^[string]                                                                                                        | —       |
+| Name                        | Description                                                                                                    | Type                                                                                                             | Default |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------- |
+| model-value / v-model       | binding value                                                                                                  | ^[string]                                                                                                        | —       |
+| disabled                    | whether to disable the ColorPicker                                                                             | ^[boolean]                                                                                                       | false   |
+| size                        | size of ColorPicker                                                                                            | ^[enum]`'large' \| 'default' \| 'small'`                                                                         | —       |
+| show-alpha                  | whether to display the alpha slider                                                                            | ^[boolean]                                                                                                       | false   |
+| color-format                | color format of v-model                                                                                        | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
+| popper-class                | custom class name for ColorPicker's dropdown                                                                   | ^[string]                                                                                                        | —       |
+| predefine                   | predefined color options                                                                                       | ^[object]`string[]`                                                                                              | —       |
+| validate-event              | whether to trigger form validation                                                                             | ^[boolean]                                                                                                       | true    |
+| tabindex                    | ColorPicker tabindex                                                                                           | ^[string] / ^[number]                                                                                            | 0       |
+| aria-label ^(a11y) ^(2.7.2) | ColorPicker aria-label                                                                                         | ^[string]                                                                                                        | —       |
+| empty-values ^(2.10.3)      | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                                         | —       |
+| value-on-clear ^(2.10.3)    | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                 | —       |
+| id                          | ColorPicker id                                                                                                 | ^[string]                                                                                                        | —       |
+| teleported ^(2.7.2)         | whether color-picker popper is teleported to the body                                                          | ^[boolean]                                                                                                       | true    |
+| label ^(a11y) ^(deprecated) | ColorPicker aria-label                                                                                         | ^[string]                                                                                                        | —       |
 
 ### Events
 
@@ -9838,18 +9987,19 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | value-on-clear ^(2.7.0)      | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                      | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                               | —             |
 | fallback-placements ^(2.8.4) | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)         | ^[arrary]`Placement[]`                                                                                                                                         | —             |
 | placement ^(2.8.4)           | position of dropdown                                                                                                         | `Placement`                                                                                                                                                    | bottom        |
+| show-week-number ^(2.10.3)   | show the week number besides the week                                                                                        | `boolean`                                                                                                                                                      | false         |
 
 ### Events
 
-| Name            | Description                                                       | Type                                                                                      |
-| --------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| change          | triggers when user confirms the value                             | ^[Function]`(val: typeof v-model) => void`                                                |
-| blur            | triggers when Input blurs                                         | ^[Function]`(e: FocusEvent) => void`                                                      |
-| focus           | triggers when Input focuses                                       | ^[Function]`(e: FocusEvent) => void`                                                      |
-| clear ^(2.7.7)  | triggers when the clear icon is clicked in a clearable DatePicker | ^[Function]`() => void`                                                                   |
-| calendar-change | triggers when the calendar selected date is changed.              | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
-| panel-change    | triggers when the navigation button click.                        | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
-| visible-change  | triggers when the DatePicker's dropdown appears/disappears        | ^[Function]`(visibility: boolean) => void`                                                |
+| Name            | Description                                                           | Type                                                                                      |
+| --------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| change          | triggers when user confirms the value                                 | ^[Function]`(val: typeof v-model) => void`                                                |
+| blur            | triggers when Input blurs                                             | ^[Function]`(e: FocusEvent) => void`                                                      |
+| focus           | triggers when Input focuses                                           | ^[Function]`(e: FocusEvent) => void`                                                      |
+| clear ^(2.7.7)  | triggers when the clear icon is clicked in a clearable DatePicker     | ^[Function]`() => void`                                                                   |
+| calendar-change | triggers when the calendar selected date is changed. Only for `range` | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
+| panel-change    | triggers when the navigation button click.                            | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
+| visible-change  | triggers when the DatePicker's dropdown appears/disappears            | ^[Function]`(visibility: boolean) => void`                                                |
 
 ### Slots
 
@@ -11050,50 +11200,55 @@ Custom icons available with slots.
 
 ## Attributes
 
-| Name                    | Description                                                                                                    | Type                                                                                           | Default             |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------- |
-| model-value / v-model   | binding value, if it is an array, the length should be 2                                                       | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [string, string]`                    | —                   |
-| readonly                | whether DatePicker is read only                                                                                | ^[boolean]                                                                                     | false               |
-| disabled                | whether DatePicker is disabled                                                                                 | ^[boolean]                                                                                     | false               |
-| editable                | whether the input is editable                                                                                  | ^[boolean]                                                                                     | true                |
-| clearable               | whether to show clear button                                                                                   | ^[boolean]                                                                                     | true                |
-| size                    | size of Input                                                                                                  | ^[enum]`'large' \| 'default' \| 'small'`                                                       | default             |
-| placeholder             | placeholder in non-range mode                                                                                  | ^[string]                                                                                      | —                   |
-| start-placeholder       | placeholder for the start date in range mode                                                                   | ^[string]                                                                                      | —                   |
-| end-placeholder         | placeholder for the end date in range mode                                                                     | ^[string]                                                                                      | —                   |
-| arrow-control           | whether to pick time using arrow buttons                                                                       | ^[boolean]                                                                                     | false               |
-| type                    | type of the picker                                                                                             | ^[enum]`'year' \| 'month' \| 'date' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange'` | date                |
-| format                  | format of the displayed value in the input box                                                                 | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                        | YYYY-MM-DD HH:mm:ss |
-| popper-class            | custom class name for DateTimePicker's dropdown                                                                | ^[string]                                                                                      | —                   |
-| range-separator         | range separator                                                                                                | ^[string]                                                                                      | '-'                 |
-| default-value           | optional, default date of the calendar                                                                         | ^[object]`Date \| [Date, Date]`                                                                | —                   |
-| default-time            | the default time value after picking a date. Time `00:00:00` will be used if not specified                     | ^[object]`Date \| [Date, Date]`                                                                | —                   |
-| value-format            | optional, format of binding value. If not specified, the binding value will be a Date object                   | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | —                   |
-| date-format ^(2.4.0)    | optional, format of the date displayed value in TimePicker's dropdown                                          | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | —                   |
-| time-format ^(2.4.0)    | optional, format of the time displayed value in TimePicker's dropdown                                          | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | —                   |
-| id                      | same as `id` in native input                                                                                   | ^[string] / ^[object]`[string, string]`                                                        | —                   |
-| name                    | same as `name` in native input                                                                                 | ^[string]                                                                                      | —                   |
-| unlink-panels           | unlink two date-panels in range-picker                                                                         | ^[boolean]                                                                                     | false               |
-| prefix-icon             | Custom prefix icon component                                                                                   | ^[string] / `Component`                                                                        | Date                |
-| clear-icon              | Custom clear icon component                                                                                    | ^[string] / `Component`                                                                        | CircleClose         |
-| shortcuts               | an object array to set shortcut options                                                                        | ^[object]`Array<{ text: string, value: Date \| Function }>`                                    | —                   |
-| disabled-date           | a function determining if a date is disabled with that date as its parameter. Should return a Boolean          | ^[Function]`(data: Date) => boolean`                                                           | —                   |
-| cell-class-name         | set custom className                                                                                           | ^[Function]`(data: Date) => string`                                                            | —                   |
-| teleported              | whether datetime-picker dropdown is teleported to the body                                                     | ^[boolean]                                                                                     | true                |
-| empty-values ^(2.7.0)   | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                       | —                   |
-| value-on-clear ^(2.7.0) | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                               | —                   |
-| show-now ^(2.8.7)       | whether to show the now button                                                                                 | ^[boolean]                                                                                     | true                |
+| Name                       | Description                                                                                                    | Type                                                                                           | Default             |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------- |
+| model-value / v-model      | binding value, if it is an array, the length should be 2                                                       | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [string, string]`                    | —                   |
+| readonly                   | whether DatePicker is read only                                                                                | ^[boolean]                                                                                     | false               |
+| disabled                   | whether DatePicker is disabled                                                                                 | ^[boolean]                                                                                     | false               |
+| editable                   | whether the input is editable                                                                                  | ^[boolean]                                                                                     | true                |
+| clearable                  | whether to show clear button                                                                                   | ^[boolean]                                                                                     | true                |
+| size                       | size of Input                                                                                                  | ^[enum]`'large' \| 'default' \| 'small'`                                                       | default             |
+| placeholder                | placeholder in non-range mode                                                                                  | ^[string]                                                                                      | —                   |
+| start-placeholder          | placeholder for the start date in range mode                                                                   | ^[string]                                                                                      | —                   |
+| end-placeholder            | placeholder for the end date in range mode                                                                     | ^[string]                                                                                      | —                   |
+| arrow-control              | whether to pick time using arrow buttons                                                                       | ^[boolean]                                                                                     | false               |
+| type                       | type of the picker                                                                                             | ^[enum]`'year' \| 'month' \| 'date' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange'` | date                |
+| format                     | format of the displayed value in the input box                                                                 | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                        | YYYY-MM-DD HH:mm:ss |
+| popper-class               | custom class name for DateTimePicker's dropdown                                                                | ^[string]                                                                                      | —                   |
+| range-separator            | range separator                                                                                                | ^[string]                                                                                      | '-'                 |
+| default-value              | optional, default date of the calendar                                                                         | ^[object]`Date \| [Date, Date]`                                                                | —                   |
+| default-time               | the default time value after picking a date. Time `00:00:00` will be used if not specified                     | ^[object]`Date \| [Date, Date]`                                                                | —                   |
+| value-format               | optional, format of binding value. If not specified, the binding value will be a Date object                   | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | —                   |
+| date-format ^(2.4.0)       | optional, format of the date displayed value in TimePicker's dropdown                                          | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | —                   |
+| time-format ^(2.4.0)       | optional, format of the time displayed value in TimePicker's dropdown                                          | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                        | —                   |
+| id                         | same as `id` in native input                                                                                   | ^[string] / ^[object]`[string, string]`                                                        | —                   |
+| name                       | same as `name` in native input                                                                                 | ^[string]                                                                                      | —                   |
+| unlink-panels              | unlink two date-panels in range-picker                                                                         | ^[boolean]                                                                                     | false               |
+| prefix-icon                | Custom prefix icon component                                                                                   | ^[string] / `Component`                                                                        | Date                |
+| clear-icon                 | Custom clear icon component                                                                                    | ^[string] / `Component`                                                                        | CircleClose         |
+| shortcuts                  | an object array to set shortcut options                                                                        | ^[object]`Array<{ text: string, value: Date \| Function }>`                                    | —                   |
+| disabled-date              | a function determining if a date is disabled with that date as its parameter. Should return a Boolean          | ^[Function]`(data: Date) => boolean`                                                           | —                   |
+| disabled-hours             | To specify the array of hours that cannot be selected                                                          | ^[Function]`(role: string, comparingDate?: Dayjs) => number[]`                                 | —                   |
+| disabled-minutes           | To specify the array of minutes that cannot be selected                                                        | ^[Function]`(hour: number, role: string, comparingDate?: Dayjs) => number[]`                   | —                   |
+| disabled-seconds           | To specify the array of seconds that cannot be selected                                                        | ^[Function]`(hour: number, minute: number, role: string, comparingDate?: Dayjs) => number[]`   | —                   |
+| cell-class-name            | set custom className                                                                                           | ^[Function]`(data: Date) => string`                                                            | —                   |
+| teleported                 | whether datetime-picker dropdown is teleported to the body                                                     | ^[boolean]                                                                                     | true                |
+| empty-values ^(2.7.0)      | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations) | ^[array]                                                                                       | —                   |
+| value-on-clear ^(2.7.0)    | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)        | ^[string] / ^[number] / ^[boolean] / ^[Function]                                               | —                   |
+| show-now ^(2.8.7)          | whether to show the now button                                                                                 | ^[boolean]                                                                                     | true                |
+| show-week-number ^(2.10.3) | show the week number besides the week                                                                          | `boolean`                                                                                      | false               |
 
 ## Events
 
-| Name            | Description                                                                   | Parameters                                |
-| --------------- | ----------------------------------------------------------------------------- | ----------------------------------------- |
-| change          | triggers when user confirms the value                                         | component's binding value                 |
-| blur            | triggers when Input blurs                                                     | `(e: FocusEvent)`                         |
-| focus           | triggers when Input focuses                                                   | `(e: FocusEvent)`                         |
-| clear ^(2.7.7)  | triggers when the clear icon is clicked in a clearable DateTimePicker         | ^[Function]`() => void`                   |
-| calendar-change | triggers when the calendar selected date is changed. Only for `datetimerange` | [Date, Date]                              |
-| visible-change  | triggers when the DateTimePicker's dropdown appears/disappears                | true when it appears, and false otherwise |
+| Name            | Description                                                           | Parameters                                                                                |
+| --------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| change          | triggers when user confirms the value                                 | ^[Function]`(val: typeof v-model) => void`                                                |
+| blur            | triggers when Input blurs                                             | ^[Function]`(e: FocusEvent) => void`                                                      |
+| focus           | triggers when Input focuses                                           | ^[Function]`(e: FocusEvent) => void`                                                      |
+| clear ^(2.7.7)  | triggers when the clear icon is clicked in a clearable DateTimePicker | ^[Function]`() => void`                                                                   |
+| calendar-change | triggers when the calendar selected date is changed. Only for `range` | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
+| panel-change    | triggers when the navigation button click.                            | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
+| visible-change  | triggers when the DateTimePicker's dropdown appears/disappears        | ^[Function]`(visibility: boolean) => void`                                                |
 
 ## Slots
 
@@ -11923,6 +12078,7 @@ import {
   Tickets,
   User,
 } from '@element-plus/icons-vue'
+
 import type { ComponentSize } from 'element-plus'
 
 const size = ref<ComponentSize>('default')
@@ -12012,6 +12168,7 @@ const blockMargin = computed(() => {
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+
 import type { ComponentSize } from 'element-plus'
 
 const size = ref<ComponentSize>('default')
@@ -12940,6 +13097,7 @@ You can also have multiple layer of `Drawer` just like `Dialog`.
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
+
 import type { DrawerProps } from 'element-plus'
 
 const drawer = ref(false)
@@ -13442,6 +13600,7 @@ const handleCommand = (command: string | number | object) => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import type { DropdownInstance } from 'element-plus'
 
 const dropdown1 = ref<DropdownInstance>()
@@ -14222,6 +14381,7 @@ const formAccessibility = reactive({
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { FormItemProps, FormProps } from 'element-plus'
 
 const labelPosition = ref<FormProps['labelPosition']>('right')
@@ -14361,6 +14521,7 @@ const onSubmit = () => {
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { FormInstance, FormRules } from 'element-plus'
 
 const ruleFormRef = ref<FormInstance>()
@@ -14488,6 +14649,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { FormInstance } from 'element-plus'
 
 const formRef = ref<FormInstance>()
@@ -14632,6 +14794,7 @@ const onSubmit = () => {
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { FormInstance } from 'element-plus'
 
 const formRef = ref<FormInstance>()
@@ -14739,6 +14902,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { ComponentSize, FormProps } from 'element-plus'
 
 const size = ref<ComponentSize>('default')
@@ -14862,6 +15026,7 @@ function onSubmit() {
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { FormInstance, FormRules } from 'element-plus'
 
 interface RuleForm {
@@ -15694,6 +15859,7 @@ import { Picture as IconPicture } from '@element-plus/icons-vue'
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { ImageInstance } from 'element-plus'
 
 const url =
@@ -15990,6 +16156,7 @@ Use attribute `size` to set additional sizes with `large` or `small`.
 | value-on-clear ^(2.2.0)     | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —         |
 | validate-event              | whether to trigger form validation               | ^[boolean]                                    | true      |
 | label ^(a11y) ^(deprecated) | same as `aria-label` in native input             | ^[string]                                     | —         |
+| inputmode ^(2.10.3)         | same as `inputmode` in native input              | ^[string]                                     | —         |
 
 ### Slots
 
@@ -16507,6 +16674,7 @@ const input = ref<string[]>()
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElementPlus } from '@element-plus/icons-vue'
+
 import type { TagProps } from 'element-plus'
 
 const type: Array<TagProps['type']> = [
@@ -16648,16 +16816,23 @@ Prepend or append an element, generally a label or a button.
 | validate-event              | whether to trigger form validation                                                                                                     | ^[boolean]                                                                                                                                                                                                                   | true    |
 | input-style                 | the style of the input element or textarea element                                                                                     | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]`                                                                                                                                                          | {}      |
 | label ^(a11y) ^(deprecated) | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                                                                                                                                                    | —       |
+| inputmode ^(2.10.3)         | same as `inputmode` in native input                                                                                                    | ^[string]                                                                                                                                                                                                                    | —       |
 
 ### Events
 
-| Name   | Description                                                                                           | Type                                           |
-| ------ | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| blur   | triggers when Input blurs                                                                             | ^[Function]`(event: FocusEvent) => void`       |
-| focus  | triggers when Input focuses                                                                           | ^[Function]`(event: FocusEvent) => void`       |
-| change | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | ^[Function]`(value: string \| number) => void` |
-| input  | triggers when the Input value change                                                                  | ^[Function]`(value: string \| number) => void` |
-| clear  | triggers when the Input is cleared by clicking the clear button                                       | ^[Function]`() => void`                        |
+| Name              | Description                                                                                           | Type                                                 |
+| ----------------- | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| blur              | triggers when Input blurs                                                                             | ^[Function]`(event: FocusEvent) => void`             |
+| focus             | triggers when Input focuses                                                                           | ^[Function]`(event: FocusEvent) => void`             |
+| change            | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | ^[Function]`(value: string \| number) => void`       |
+| input             | triggers when the Input value change                                                                  | ^[Function]`(value: string \| number) => void`       |
+| clear             | triggers when the Input is cleared by clicking the clear button                                       | ^[Function]`() => void`                              |
+| keydown           | triggers when a key is pressed down                                                                   | ^[Function]`(event: KeyboardEvent \| Event) => void` |
+| mouseleave        | triggers when the mouse leaves the Input element                                                      | ^[Function]`(event: MouseEvent) => void`             |
+| mouseenter        | triggers when the mouse enters the Input element                                                      | ^[Function]`(event: MouseEvent) => void`             |
+| compositionstart  | triggers when the composition starts                                                                  | ^[Function]`(event: CompositionEvent) => void`       |
+| compositionupdate | triggers when the composition is updated                                                              | ^[Function]`(event: CompositionEvent) => void`       |
+| compositionend    | triggers when the composition ends                                                                    | ^[Function]`(event: CompositionEvent) => void`       |
 
 ### Slots
 
@@ -18086,6 +18261,7 @@ const options = ref([
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { FormInstance, FormRules } from 'element-plus'
 
 interface RuleForm {
@@ -18201,6 +18377,7 @@ const options = ref([
 
 <script setup lang="ts">
 import { onBeforeUnmount, ref } from 'vue'
+
 import type { MentionOption } from 'element-plus'
 
 const value = ref('')
@@ -18245,6 +18422,7 @@ onBeforeUnmount(() => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import type { MentionOption } from 'element-plus'
 
 const MOCK_DATA: Record<string, string[]> = {
@@ -18327,6 +18505,7 @@ const options = ref([
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import type { MentionOption } from 'element-plus'
 
 const MOCK_DATA: Record<string, string[]> = {
@@ -19057,6 +19236,7 @@ The corresponding methods are: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 
 <script lang="ts" setup>
 import { ElMessage, ElMessageBox } from 'element-plus'
+
 import type { Action } from 'element-plus'
 
 const open = () => {
@@ -19227,6 +19407,7 @@ const open = () => {
 
 <script lang="ts" setup>
 import { ElMessage, ElMessageBox } from 'element-plus'
+
 import type { Action } from 'element-plus'
 
 const open = () => {
@@ -20622,6 +20803,7 @@ const value = ref(false)
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { ComponentSize } from 'element-plus'
 
 const currentPage1 = ref(5)
@@ -22820,6 +23002,7 @@ const loadMore = (direction: ScrollbarDirection) => {
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
+
 import type { ScrollbarInstance } from 'element-plus'
 
 type Arrayable<T> = T | T[]
@@ -23171,6 +23354,7 @@ import {
   Pear,
   Watermelon,
 } from '@element-plus/icons-vue'
+
 import type { SegmentedProps } from 'element-plus'
 
 const value = ref('Apple')
@@ -23569,16 +23753,16 @@ The width of dropdown box is calculated by default based on the value of `label`
 
 ### Slots
 
-| Name             | Description                           |
-| ---------------- | ------------------------------------- |
-| default          | Option renderer                       |
-| header ^(2.5.2)  | content at the top of the dropdown    |
-| footer ^(2.5.2)  | content at the bottom of the dropdown |
-| empty            | content when options is empty         |
-| prefix           | prefix content of input               |
-| tag ^(2.5.0)     | content as Select tag                 |
-| loading ^(2.5.2) | content as Select loading             |
-| label ^(2.7.4)   | content as Select label               |
+| Name             | Description                                                                                     | Subtags                                                                                                        |
+| ---------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| default          | Option renderer                                                                                 | —                                                                                                              |
+| header ^(2.5.2)  | content at the top of the dropdown                                                              | —                                                                                                              |
+| footer ^(2.5.2)  | content at the bottom of the dropdown                                                           | —                                                                                                              |
+| empty            | content when options is empty                                                                   | —                                                                                                              |
+| prefix           | prefix content of input                                                                         | —                                                                                                              |
+| tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: Option[], selectDisabled: boolean, deleteTag: (event: MouseEvent, option: Option) => void }` |
+| loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                              |
+| label ^(2.7.4)   | content as Select label                                                                         | —                                                                                                              |
 
 ### Exposes
 
@@ -23770,6 +23954,7 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
 <script lang="ts" setup>
 import { nextTick, ref } from 'vue'
 import { ElSelectV2 } from 'element-plus'
+
 import type { CheckboxValueType } from 'element-plus'
 
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
@@ -23849,6 +24034,7 @@ const clear = () => {
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
+
 import type { CheckboxValueType } from 'element-plus'
 
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
@@ -24894,16 +25080,16 @@ You can customize label.
 
 ### Select Slots
 
-| Name             | Description                           | Subtags               |
-| ---------------- | ------------------------------------- | --------------------- |
-| default          | option component list                 | Option Group / Option |
-| header ^(2.4.3)  | content at the top of the dropdown    | —                     |
-| footer ^(2.4.3)  | content at the bottom of the dropdown | —                     |
-| prefix           | content as Select prefix              | —                     |
-| empty            | content when there is no options      | —                     |
-| tag ^(2.5.0)     | content as Select tag                 | —                     |
-| loading ^(2.5.2) | content as Select loading             | —                     |
-| label ^(2.7.4)   | content as Select label               | —                     |
+| Name             | Description                                                                                     | Subtags                                                                                                                                       |
+| ---------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| default          | option component list                                                                           | Option Group / Option                                                                                                                         |
+| header ^(2.4.3)  | content at the top of the dropdown                                                              | —                                                                                                                                             |
+| footer ^(2.4.3)  | content at the bottom of the dropdown                                                           | —                                                                                                                                             |
+| prefix           | content as Select prefix                                                                        | —                                                                                                                                             |
+| empty            | content when there is no options                                                                | —                                                                                                                                             |
+| tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: OptionBasic[], selectDisabled: boolean, deleteTag: (event: MouseEvent, tag: OptionPublicInstance \| OptionBasic) => void }` |
+| loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                                                             |
+| label ^(2.7.4)   | content as Select label                                                                         | —                                                                                                                                             |
 
 ### Select Exposes
 
@@ -25142,6 +25328,7 @@ const options = [
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { CheckboxValueType } from 'element-plus'
 
 const isAdding = ref(false)
@@ -25236,6 +25423,7 @@ const clear = () => {
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
+
 import type { CheckboxValueType } from 'element-plus'
 
 const checkAll = ref(false)
@@ -27079,6 +27267,7 @@ const value = ref([4, 8])
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { CSSProperties } from 'vue'
 
 interface Mark {
@@ -27413,6 +27602,7 @@ It should be noted that the expression of horizontal layout and vertical layout 
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { ComponentSize } from 'element-plus'
 
 const size = ref<ComponentSize>('default')
@@ -27483,6 +27673,7 @@ const size = ref(20)
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { SpaceInstance } from 'element-plus'
 
 const direction = ref<SpaceInstance['direction']>('horizontal')
@@ -27628,11 +27819,12 @@ When either panel disables `resizable`, dragging will be disabled.
 
 ### Splitter Events
 
-| Name         | Description                                                              | type                                                  |
-| ------------ | ------------------------------------------------------------------------ | ----------------------------------------------------- |
-| resize-start | Triggered when starting to resize a panel, `index` is the drag bar index | ^[Function]`(index: number, sizes: number[]) => void` |
-| resize       | Triggered while resizing a panel, `index` is the drag bar index          | ^[Function]`(index: number, sizes: number[]) => void` |
-| resize-end   | Triggered when panel resizing ends, `index` is the drag bar index        | ^[Function]`(index: number, sizes: number[]) => void` |
+| Name               | Description                                                              | type                                                                          |
+| ------------------ | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| resize-start       | Triggered when starting to resize a panel, `index` is the drag bar index | ^[Function]`(index: number, sizes: number[]) => void`                         |
+| resize             | Triggered while resizing a panel, `index` is the drag bar index          | ^[Function]`(index: number, sizes: number[]) => void`                         |
+| resize-end         | Triggered when panel resizing ends, `index` is the drag bar index        | ^[Function]`(index: number, sizes: number[]) => void`                         |
+| collapse ^(2.10.3) | Triggered when a panel is collapsed, `index` is the drag bar index       | ^[Function]`(index: number, type: 'start' \| 'end', sizes: number[]) => void` |
 
 ## SplitterPanel API
 
@@ -29394,6 +29586,7 @@ import {
   TableV2FixedDir,
 } from 'element-plus'
 import { Timer } from '@element-plus/icons-vue'
+
 import type { Column } from 'element-plus'
 
 let id = 0
@@ -29539,6 +29732,7 @@ const Row = ({ rowData, rowIndex, cells, columns }) => {
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { TableV2SortOrder } from 'element-plus'
+
 import type { SortBy, SortState } from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
@@ -29800,6 +29994,7 @@ import {
   TableV2FixedDir,
   TableV2SortOrder,
 } from 'element-plus'
+
 import type { Column, SortBy } from 'element-plus'
 
 const longText =
@@ -29936,6 +30131,7 @@ import {
   TableV2FixedDir,
 } from 'element-plus'
 import { Filter } from '@element-plus/icons-vue'
+
 import type { HeaderCellSlotProps } from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
@@ -30055,6 +30251,7 @@ const fixedColumns = columns.map((column, columnIndex) => {
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { TableV2FixedDir, TableV2SortOrder } from 'element-plus'
+
 import type { SortBy } from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
@@ -30187,6 +30384,7 @@ const data = generateData(columns, 200)
 
 <script lang="tsx" setup>
 import { TableV2FixedDir, TableV2Placeholder } from 'element-plus'
+
 import type { FunctionalComponent } from 'vue'
 import type {
   HeaderClassNameGetter,
@@ -30323,6 +30521,7 @@ const headerClass = ({
 <script lang="tsx" setup>
 import { ref, withKeys } from 'vue'
 import { ElInput } from 'element-plus'
+
 import type { FunctionalComponent } from 'vue'
 import type { Column, InputInstance } from 'element-plus'
 
@@ -30467,6 +30666,7 @@ const data = ref(generateData(columns, 200))
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TableV2Instance } from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
@@ -30601,6 +30801,7 @@ import {
   TableV2FixedDir,
 } from 'element-plus'
 import { Timer } from '@element-plus/icons-vue'
+
 import type { Column, RowClassNameGetter } from 'element-plus'
 
 let id = 0
@@ -30757,6 +30958,7 @@ const Row = ({ rowData, rowIndex, cells, columns }) => {
 <script lang="tsx" setup>
 import { ref, unref } from 'vue'
 import { ElCheckbox } from 'element-plus'
+
 import type { FunctionalComponent } from 'vue'
 import type { CheckboxValueType, Column } from 'element-plus'
 
@@ -30859,6 +31061,7 @@ const data = ref(generateData(columns, 200))
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { TableV2SortOrder } from 'element-plus'
+
 import type { SortBy } from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
@@ -31093,6 +31296,7 @@ const onScroll = ({ scrollTop }) => {
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { TableV2FixedDir } from 'element-plus'
+
 import type { ExpandedRowsChangeHandler, RowExpandHandler } from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
@@ -31391,7 +31595,7 @@ You can use `tooltip-formatter` to customize the tooltip content.
 | row-key                            | key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used | ^[function]`(row: any) => string` / ^[string]                                                                                                                        | —                                                                                                                       |
 | empty-text                         | displayed text when data is empty. You can customize this area with `#empty`                                                                                                                                                                                               | ^[string]                                                                                                                                                            | No Data                                                                                                                 |
 | default-expand-all                 | whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data                                                                                                                                                        | ^[boolean]                                                                                                                                                           | false                                                                                                                   |
-| expand-row-keys                    | set expanded rows by this prop, prop's value is the keys of expand rows, you should set row-key before using this prop                                                                                                                                                     | ^[array]`string[]`                                                                                                                                                   | —                                                                                                                       |
+| expand-row-keys                    | set expanded rows by this prop, prop's value is the keys of expand rows, you should set row-key before using this prop. starting from version ^(2.10.3), keys of type number are supported.                                                                                | ^[object]`Array<string \| number>`                                                                                                                                   | —                                                                                                                       |
 | default-sort                       | set the default sort column and order. property `prop` is used to set default sort column, property `order` is used to set default sort order                                                                                                                              | ^[object]`Sort`                                                                                                                                                      | if `prop` is set, and `order` is not set, then `order` is default to ascending                                          |
 | tooltip-effect                     | the `effect` of the overflow tooltip                                                                                                                                                                                                                                       | ^[enum]`'dark' \| 'light'`                                                                                                                                           | dark                                                                                                                    |
 | tooltip-options ^(2.2.28)          | the options for the overflow tooltip, [see the following tooltip component](tooltip.html#attributes)                                                                                                                                                                       | ^[object]`Pick<ElTooltipProps, 'effect' \| 'enterable' \| 'hideAfter' \| 'offset' \| 'placement' \| 'popperClass' \| 'popperOptions' \| 'showAfter' \| 'showArrow'>` | ^[object]`{ enterable: true, placement: 'top', showArrow: true, hideAfter: 200, popperOptions: { strategy: 'fixed' } }` |
@@ -31432,7 +31636,7 @@ You can use `tooltip-formatter` to customize the tooltip content.
 | header-click       | triggers when clicking a column header                                                                                                       | ^[Function]`(column: any, event: Event) => void`                                             |
 | header-contextmenu | triggers when user right clicks on a column header                                                                                           | ^[Function]`(column: any, event: Event) => void`                                             |
 | sort-change        | triggers when Table's sorting changes                                                                                                        | ^[Function]`(data: {column: any, prop: string, order: any }) => void`                        |
-| filter-change      | column's key. If you need to use the filter-change event, this attribute is mandatory to identify which column is being filtered             | ^[Function]`(newFilters: any) => void`                                                       |
+| filter-change      | triggers when the table's filter changes                                                                                                     | ^[Function]`(newFilters: any) => void`                                                       |
 | current-change     | triggers when current row changes                                                                                                            | ^[Function]`(currentRow: any, oldCurrentRow: any) => void`                                   |
 | header-dragend     | triggers after changing a column's width by dragging the column header's border                                                              | ^[Function]`(newWidth: number, oldWidth: number, column: any, event: MouseEvent) => void`    |
 | expand-change      | triggers when user expands or collapses a row (for expandable table, second param is expandedRows; for tree Table, second param is expanded) | ^[Function]`(row: any, expandedRows: any[]) => void & (row: any, expanded: boolean) => void` |
@@ -31505,7 +31709,7 @@ You can use `tooltip-formatter` to customize the tooltip content.
 ### Table-column Slots
 
 | Name                 | Description                       | Type                                                 |
-|----------------------|-----------------------------------| ---------------------------------------------------- |
+| -------------------- | --------------------------------- | ---------------------------------------------------- |
 | default              | Custom content for table columns  | ^[object]`{ row: any, column: any, $index: number }` |
 | header               | Custom content for table header   | ^[object]`{ column: any, $index: number }`           |
 | filter-icon ^(2.7.8) | Custom content for filter icon    | ^[object]`{ filterOpened: boolean }`                 |
@@ -32207,6 +32411,7 @@ const tableData = [
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TableColumnCtx, TableInstance } from 'element-plus'
 
 interface User {
@@ -32733,6 +32938,7 @@ const tableData = [
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TableInstance } from 'element-plus'
 
 interface User {
@@ -33012,6 +33218,7 @@ const tableData: User[] = [
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TableInstance } from 'element-plus'
 
 interface User {
@@ -33174,6 +33381,7 @@ const tableData = [
 
 <script lang="ts" setup>
 import { h } from 'vue'
+
 import type { VNode } from 'vue'
 import type { TableColumnCtx } from 'element-plus'
 
@@ -33275,6 +33483,7 @@ const tableData: Product[] = [
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TableInstance } from 'element-plus'
 
 const tableLayout = ref<TableInstance['tableLayout']>('fixed')
@@ -33801,6 +34010,7 @@ type TabBarInstance = InstanceType<typeof TabBar> & {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TabsPaneContext } from 'element-plus'
 
 const activeName = ref('first')
@@ -33852,6 +34062,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TabsPaneContext } from 'element-plus'
 
 const activeName = ref('first')
@@ -33941,6 +34152,7 @@ addIcon
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Select } from '@element-plus/icons-vue'
+
 import type { TabPaneName } from 'element-plus'
 
 let tabIndex = 2
@@ -34029,6 +34241,7 @@ const handleTabsEdit = (
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TabPaneName } from 'element-plus'
 
 let tabIndex = 2
@@ -34108,6 +34321,7 @@ const removeTab = (targetName: TabPaneName) => {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TabPaneName } from 'element-plus'
 
 let tabIndex = 2
@@ -34188,6 +34402,7 @@ const handleTabsEdit = (
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TabsInstance } from 'element-plus'
 
 const tabPosition = ref<TabsInstance['tabPosition']>('left')
@@ -34430,6 +34645,7 @@ const onChange6 = (status: boolean) => {
 
 <script lang="ts" setup>
 import { nextTick, ref } from 'vue'
+
 import type { InputInstance } from 'element-plus'
 
 const inputValue = ref('')
@@ -34471,6 +34687,7 @@ const handleInputConfirm = () => {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TagProps } from 'element-plus'
 
 interface TagsItem {
@@ -34529,6 +34746,7 @@ const tags = ref<TagsItem[]>([
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TagProps } from 'element-plus'
 
 type Item = { type: TagProps['type']; label: string }
@@ -34596,6 +34814,7 @@ const items = ref<Array<Item>>([
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TagProps } from 'element-plus'
 
 type Item = { type: TagProps['type']; label: string }
@@ -35273,6 +35492,7 @@ const activities = [
 
 <script lang="ts" setup>
 import { MoreFilled } from '@element-plus/icons-vue'
+
 import type { TimelineItemProps } from 'element-plus'
 
 interface ActivityType extends Partial<TimelineItemProps> {
@@ -36237,6 +36457,7 @@ Various parameter passing types of target. The string and Function types are sup
 <script setup lang="ts">
 import { ref } from 'vue'
 import { MoreFilled } from '@element-plus/icons-vue'
+
 import type { ButtonInstance } from 'element-plus'
 
 const ref1 = ref<ButtonInstance>()
@@ -36286,6 +36507,7 @@ const open = ref(false)
 <script setup lang="ts">
 import { ref } from 'vue'
 import { MoreFilled } from '@element-plus/icons-vue'
+
 import type { ButtonInstance } from 'element-plus'
 
 const ref1 = ref<ButtonInstance>()
@@ -36349,6 +36571,7 @@ const open = ref(false)
 <script setup lang="ts">
 import { ref } from 'vue'
 import { MoreFilled } from '@element-plus/icons-vue'
+
 import type { ButtonInstance } from 'element-plus'
 
 const ref1 = ref<ButtonInstance>()
@@ -36395,6 +36618,7 @@ const open = ref(false)
 <script setup lang="ts">
 import { ref } from 'vue'
 import { MoreFilled } from '@element-plus/icons-vue'
+
 import type { ButtonInstance } from 'element-plus'
 
 const ref1 = ref<ButtonInstance>()
@@ -36435,6 +36659,7 @@ const open = ref(false)
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import type { ButtonInstance } from 'element-plus'
 
 const btnRef = ref<ButtonInstance>()
@@ -36475,6 +36700,7 @@ const open = ref(false)
 <script setup lang="ts">
 import { ref } from 'vue'
 import { MoreFilled } from '@element-plus/icons-vue'
+
 import type { ButtonInstance } from 'element-plus'
 
 const el = () => document.querySelector<HTMLElement>('#btn2')
@@ -36706,6 +36932,7 @@ const value = ref([])
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type {
   TransferDirection,
   TransferKey,
@@ -37726,6 +37953,12 @@ The class of tree nodes can be customized
 
 
 
+## Custom node icon ^(2.10.3)
+
+You can customize icons for different node states. Tree nodes expose the `expanded` property and `isLeaf` property, allowing you to dynamically render different icons based on the node's state: leaf nodes, expanded nodes, or collapsed nodes.
+
+
+
 ## Tree node filtering ^(2.9.1)
 
 The `filter-method` method can only accept the third parameter after version `2.9.1`.
@@ -37865,6 +38098,80 @@ const data = createData(4, 30, 40)
 
 ```
 
+### custom-icon.vue
+```vue
+<template>
+  <el-tree-v2
+    style="max-width: 600px"
+    :data="data"
+    :props="props"
+    :height="208"
+  >
+    <template #default="{ node }">
+      <el-icon class="node-icon" :class="{ 'is-leaf': node.isLeaf }">
+        <Document v-if="node.isLeaf" />
+        <Folder v-else-if="!node.expanded" />
+        <FolderOpened v-else />
+      </el-icon>
+      <span>{{ node.label }}</span>
+    </template>
+  </el-tree-v2>
+</template>
+
+<script lang="ts" setup>
+import { Document, Folder, FolderOpened } from '@element-plus/icons-vue'
+
+interface Tree {
+  id: string
+  label: string
+  children?: Tree[]
+}
+
+const getKey = (prefix: string, id: number) => {
+  return `${prefix}-${id}`
+}
+
+const createData = (
+  maxDeep: number,
+  maxChildren: number,
+  minNodesNumber: number,
+  deep = 1,
+  key = 'node'
+): Tree[] => {
+  let id = 0
+  return Array.from({ length: minNodesNumber })
+    .fill(deep)
+    .map(() => {
+      const childrenNumber =
+        deep === maxDeep ? 0 : Math.round(Math.random() * maxChildren)
+      const nodeKey = getKey(key, ++id)
+      return {
+        id: nodeKey,
+        label: nodeKey,
+        children: childrenNumber
+          ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, nodeKey)
+          : undefined,
+      }
+    })
+}
+
+const props = {
+  value: 'id',
+  label: 'label',
+  children: 'children',
+}
+const data = createData(4, 30, 40)
+</script>
+
+<style scoped>
+.node-icon {
+  margin-right: 5px;
+  color: var(--el-color-warning);
+}
+</style>
+
+```
+
 ### custom-node-class.vue
 ```vue
 <template>
@@ -37964,6 +38271,11 @@ const data: Tree[] = [
     :height="208"
   >
     <template #default="{ node }">
+      <el-icon class="el-icon--left">
+        <Document v-if="node.isLeaf" />
+        <Folder v-else-if="!node.expanded" />
+        <FolderOpened v-else />
+      </el-icon>
       <span class="prefix" :class="{ 'is-leaf': node.isLeaf }"
         >[ElementPlus]</span
       >
@@ -37973,6 +38285,8 @@ const data: Tree[] = [
 </template>
 
 <script lang="ts" setup>
+import { Document, Folder, FolderOpened } from '@element-plus/icons-vue'
+
 interface Tree {
   id: string
   label: string
@@ -38183,6 +38497,7 @@ const data = createData(4, 30, 40)
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElTreeV2 } from 'element-plus'
+
 import type { TreeNodeData } from 'element-plus'
 
 interface Tree {
@@ -38661,6 +38976,7 @@ const defaultProps = {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { RenderContentContext, TreeInstance } from 'element-plus'
 
 interface Tree {
@@ -38960,6 +39276,7 @@ const data: Tree[] = [
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElButton } from 'element-plus'
+
 import type { RenderContentContext, RenderContentFunction } from 'element-plus'
 
 interface Tree {
@@ -38983,7 +39300,7 @@ const append = (data: Data) => {
 
 const remove = (node: Node, data: Data) => {
   const parent = node.parent
-  const children: Tree[] = parent.data.children || parent.data
+  const children: Tree[] = parent?.data.children || parent?.data
   const index = children.findIndex((d) => d.id === data.id)
   children.splice(index, 1)
   dataSource.value = [...dataSource.value]
@@ -39382,6 +39699,7 @@ const data = [
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
+
 import type { FilterNodeMethodFunction, TreeInstance } from 'element-plus'
 
 interface Tree {
@@ -39467,11 +39785,6 @@ const data: Tree[] = [
 
 <script lang="ts" setup>
 import type { LoadFunction } from 'element-plus'
-
-interface Tree {
-  name: string
-  leaf?: boolean
-}
 
 const props = {
   label: 'name',
@@ -39917,6 +40230,7 @@ interface UploadRequestOptions {
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
+
 import type { UploadProps } from 'element-plus'
 
 const imageUrl = ref('')
@@ -39999,6 +40313,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+
 import type { UploadProps, UploadUserFile } from 'element-plus'
 
 const fileList = ref<UploadUserFile[]>([
@@ -40083,6 +40398,7 @@ const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'
+
 import type { UploadFile } from 'element-plus'
 
 const dialogImageUrl = ref('')
@@ -40154,6 +40470,7 @@ import { UploadFilled } from '@element-plus/icons-vue'
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { UploadProps, UploadUserFile } from 'element-plus'
 
 const fileList = ref<UploadUserFile[]>([
@@ -40198,6 +40515,7 @@ const handlePreview: UploadProps['onPreview'] = (file) => {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { UploadProps, UploadUserFile } from 'element-plus'
 
 const fileList = ref<UploadUserFile[]>([
@@ -40246,6 +40564,7 @@ const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
 <script setup lang="ts">
 import { ref } from 'vue'
 import { genFileId } from 'element-plus'
+
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 
 const upload = ref<UploadInstance>()
@@ -40291,6 +40610,7 @@ const submitUpload = () => {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { UploadInstance } from 'element-plus'
 
 const uploadRef = ref<UploadInstance>()
@@ -40323,6 +40643,7 @@ const submitUpload = () => {
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
+
 import type { UploadProps, UploadUserFile } from 'element-plus'
 
 const fileList = ref<UploadUserFile[]>([
