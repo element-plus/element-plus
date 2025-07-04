@@ -1,6 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
+import sleep from '@element-plus/test-utils/sleep'
 import { ComponentSize, EVENT_CODE } from '@element-plus/constants'
 import { InputTagInstance } from '@element-plus/components/input-tag'
 import FormItem from '@element-plus/components/form/src/form-item.vue'
@@ -252,6 +253,23 @@ describe('InputTag.vue', () => {
       expect(wrapper.findAll('.el-tag').length).toBe(1)
       expect(wrapper.find('.el-tag').text()).toBe(AXIOM)
       expect(inputValue.value).toEqual([AXIOM])
+    })
+    test('paste multiple delimiter', async () => {
+      const inputValue = ref<string[]>()
+      const wrapper = mount(() => (
+        <InputTag v-model={inputValue.value} delimiter={/\./} />
+      ))
+
+      console.log('val', `${AXIOM}.${AXIOM}.${AXIOM}.${AXIOM}.`)
+      await wrapper
+        .find('input')
+        .setValue(`${AXIOM}.${AXIOM}.${AXIOM}.${AXIOM}.`)
+      await sleep()
+      expect(wrapper.findAll('.el-tag').length).toBe(4)
+      wrapper
+        .findAll('.el-tag')
+        .forEach((tag) => expect(tag.text()).toBe(AXIOM))
+      expect(inputValue.value).toEqual([AXIOM, AXIOM, AXIOM, AXIOM])
     })
   })
 

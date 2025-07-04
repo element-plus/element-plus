@@ -1,11 +1,16 @@
-import { computed, ref, shallowRef, watch } from 'vue'
+import { computed, nextTick, ref, shallowRef, watch } from 'vue'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { type EmitFn, debugWarn, isUndefined } from '@element-plus/utils'
+import {
+  type EmitFn,
+  debugWarn,
+  escapeStringRegexp,
+  isUndefined,
+} from '@element-plus/utils'
 import { useComposition, useFocusController } from '@element-plus/hooks'
 import {
   type FormItemContext,
@@ -41,7 +46,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       : (props.modelValue?.length ?? 0) >= props.max
   })
 
-  const handleInput = (event: Event) => {
+  const handleInput = async (event: Event) => {
     if (inputLimit.value) {
       inputValue.value = undefined
       return
@@ -49,10 +54,19 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
     if (isComposing.value) return
     if (props.delimiter) {
-      const replacement = inputValue.value?.replace(props.delimiter, '')
-      if (replacement?.length !== inputValue.value?.length) {
-        inputValue.value = replacement
-        handleAddTag()
+      const regexp =
+        props.delimiter instanceof RegExp
+          ? props.delimiter
+          : new RegExp(escapeStringRegexp(props.delimiter), 'i')
+      const tags = inputValue?.value?.split(regexp) ?? []
+
+      for (let i = 0; i < tags.length; i++) {
+        const tag = tags[i]
+        if (tag.length !== inputValue.value?.length) {
+          inputValue.value = tag
+          handleAddTag()
+          if (i < tags.length - 1) await nextTick()
+        }
       }
     }
     emit(INPUT_EVENT, (event.target as HTMLInputElement).value)
