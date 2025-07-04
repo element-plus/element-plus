@@ -428,17 +428,17 @@ export default defineComponent({
         }
       })
     }
-    watch(() => {
-        const slotsContent = slots.default?.()
-        return slotsContent
+   watch(() => {
+      const slotsContent = slots.default?.()
+      return slotsContent
     }, newSlot => {
-        if (props.persistent) {
-          // If persistent is true, we don't need to manually render slots.
-          return
-        }
-        manuallyRenderSlots(newSlot)
+      if (props.persistent) {
+        // If persistent is true, we don't need to manually render slots.
+        return
+      }
+      manuallyRenderSlots(newSlot)
     }, {
-        immediate: true,
+      immediate: true,
     })
 
     provide(
