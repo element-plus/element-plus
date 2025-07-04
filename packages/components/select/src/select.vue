@@ -280,9 +280,9 @@
                 <el-option
                   v-for="(item, index) in options"
                   :key="index"
-                  :label="item.label"
-                  :value="item.value"
-                  :disabled="item.disabled"
+                  :label="item[optionProps.label]"
+                  :value="item[optionProps.value]"
+                  :disabled="item[optionProps.disabled]"
                 />
               </slot>
             </el-options>
@@ -428,7 +428,7 @@ export default defineComponent({
         }
       })
     }
-   watch(() => {
+    watch(() => {
       const slotsContent = slots.default?.()
       return slotsContent
     }, newSlot => {
