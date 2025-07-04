@@ -189,10 +189,10 @@ const clearCheckedNodes = () => {
 }
 
 const calculateCheckedValue = (node?: Node) => {
-  const { checkStrictly, multiple, checkOnClickNode } = config.value
+  const { checkStrictly, multiple, showRadio } = config.value
   const oldNodes = checkedNodes.value
   let newNodes = getCheckedNodes(!checkStrictly)!
-  if (checkStrictly && checkOnClickNode) {
+  if (checkStrictly && !showRadio) {
     newNodes = [node!]
   }
   // ensure the original order

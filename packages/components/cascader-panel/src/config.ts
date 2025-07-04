@@ -85,9 +85,13 @@ export const DefaultProps: CascaderConfig = {
    */
   hoverThreshold: 500,
   /**
-   * @description Hide radio in single mode
+   * @description Whether to check the node when the node is clicked
    */
   checkOnClickNode: false,
+  /**
+   * @description Whether to show the radio button
+   */
+  showRadio: true,
 }
 
 export const cascaderPanelProps = buildProps({
