@@ -71,6 +71,3 @@ export type OptionBasic = {
   currentLabel: OptionPublicInstance['currentLabel']
   isDisabled?: OptionPublicInstance['isDisabled']
 }
-export type OptionFieldMap = {
-  [K in keyof OptionProps]?: string
-}

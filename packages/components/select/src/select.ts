@@ -15,15 +15,15 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { OptionFieldMap, type OptionValue } from './type'
 
 import type { ExtractPropTypes } from 'vue'
-import type Select from './select.vue'
 import type {
   Options,
   Placement,
   PopperEffect,
 } from '@element-plus/components/popper'
+import type Select from './select.vue'
+import type { OptionValue } from './type'
 
 export const selectProps = buildProps({
   /**
@@ -268,10 +268,9 @@ export const selectProps = buildProps({
   appendTo: useTooltipContentProps.appendTo,
   options: {
     type: definePropType<Record<string, any>[]>(Array),
-    default: () => [],
   },
   props: {
-    type: definePropType<OptionFieldMap>(Object),
+    type: definePropType<SelectOptionProps>(Object),
   },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
@@ -292,3 +291,8 @@ export const selectEmits = {
 export type SelectProps = ExtractPropTypes<typeof selectProps>
 export type SelectEmits = EmitFn<typeof selectEmits>
 export type SelectInstance = InstanceType<typeof Select> & unknown
+export type SelectOptionProps = {
+  value?: string
+  label?: string
+  disabled?: string
+}
