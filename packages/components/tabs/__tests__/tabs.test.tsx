@@ -991,4 +991,38 @@ describe('Tabs.vue', () => {
     expect(navItemsWrapper[2].text()).toContain('B')
     expect(navItemsWrapper[3].text()).toContain('A')
   })
+
+  test('label slot references an element in array', async () => {
+    const tabs = ref(['foo'])
+    const Comp = () =>
+      tabs.value.map((tab) => (
+        <TabPane>
+          {{
+            label: () => tab,
+          }}
+        </TabPane>
+      ))
+    const wrapper = mount(() => [
+      <Tabs>
+        {tabs.value.map((tab) => (
+          <TabPane>
+            {{
+              label: () => tab,
+            }}
+          </TabPane>
+        ))}
+      </Tabs>,
+      <Tabs>{Comp}</Tabs>,
+    ])
+
+    tabs.value = await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(['bar'])
+      })
+    })
+    await nextTick()
+    wrapper
+      .findAll('.el-tabs__item')
+      .forEach((item) => expect(item.text()).toBe('bar'))
+  })
 })
