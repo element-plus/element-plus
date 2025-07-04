@@ -1,12 +1,10 @@
 <template>
-  <el-select v-model="value" placeholder="Select" style="width: 240px">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-    />
-  </el-select>
+  <el-select
+    v-model="value"
+    :options="options"
+    placeholder="Select"
+    style="width: 240px"
+  />
 </template>
 
 <script lang="ts" setup>
