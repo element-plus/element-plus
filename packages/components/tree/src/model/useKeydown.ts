@@ -26,7 +26,17 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     })
   })
 
-  const handleNode = (node, currentItem, code = '') => {
+  const handleNode = (currentItem: HTMLDivElement, code: string = '') => {
+    const key = currentItem.dataset.key
+    const node = key !== undefined ? store.value.getNode(key) : null
+    if (!node) {
+      // 处理节点未找到的情况，例如 key 属性不存在
+      console.error(
+        'The node was not found, possibly because the key property does not exist.'
+      )
+      return
+    }
+
     // Check whether it is a leaf node or the last child node
     if (
       (!node.childNodes.length && !node.store.lazy) ||
@@ -98,10 +108,7 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     }
     if ([EVENT_CODE.left, EVENT_CODE.right].includes(code)) {
       ev.preventDefault()
-
-      const node = store.value.getNode(currentItem.dataset.key)
-
-      handleNode(node, currentItem, ev.code)
+      handleNode(currentItem, ev.code)
     }
     const hasInput = currentItem.querySelector(
       '[type="checkbox"]'
@@ -116,8 +123,7 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
       hasInput.click()
     } else if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(code)) {
       ev.preventDefault()
-      const node = store.value.getNode(currentItem.dataset.key)
-      handleNode(node, currentItem)
+      handleNode(currentItem)
     }
   }
 
