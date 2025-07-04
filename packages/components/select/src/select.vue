@@ -461,6 +461,7 @@ export default defineComponent({
       }
       return API.states.selected.map((i) => i.currentLabel as string)
     })
+
     return {
       ...API,
       modelValue,
