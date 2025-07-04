@@ -280,6 +280,10 @@ const handleClear = () => {
 }
 
 const handleKeyEnter = async () => {
+  if (inputRef.value?.isComposing) {
+    return
+  }
+
   if (
     suggestionVisible.value &&
     highlightedIndex.value >= 0 &&
