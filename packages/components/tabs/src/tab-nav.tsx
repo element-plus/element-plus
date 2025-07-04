@@ -1,12 +1,13 @@
 import {
   computed,
   defineComponent,
-  getCurrentInstance,
   inject,
   nextTick,
   onMounted,
   onUpdated,
   ref,
+  shallowRef,
+  triggerRef,
   watch,
 } from 'vue'
 import {
@@ -77,8 +78,6 @@ const TabNav = defineComponent({
     const rootTabs = inject(tabsRootContextKey)
     if (!rootTabs) throwError(COMPONENT_NAME, `<el-tabs><tab-nav /></el-tabs>`)
 
-    const instance = getCurrentInstance()!
-
     const ns = useNamespace('tabs')
     const visibility = useDocumentVisibility()
     const focused = useWindowFocus()
@@ -94,6 +93,7 @@ const TabNav = defineComponent({
     const navOffset = ref(0)
     const isFocus = ref(false)
     const focusable = ref(true)
+    const tracker = shallowRef()
 
     const sizeName = computed(() =>
       ['top', 'bottom'].includes(rootTabs.props.tabPosition)
@@ -290,7 +290,7 @@ const TabNav = defineComponent({
       focusActiveTab,
       tabListRef: nav$,
       tabBarRef,
-      scheduleRender: () => instance.effect.scheduler!(),
+      scheduleRender: () => triggerRef(tracker),
     })
 
     return () => {
@@ -380,6 +380,8 @@ const TabNav = defineComponent({
           </div>
         )
       })
+
+      tracker.value
 
       return (
         <div
