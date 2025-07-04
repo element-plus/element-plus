@@ -35,6 +35,7 @@ import {
   RTL_OFFSET_POS_DESC,
   SCROLL_EVT,
 } from '../defaults'
+
 import type {
   CSSProperties,
   Ref,

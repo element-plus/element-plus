@@ -192,9 +192,7 @@ const handleInputKeyDown = (event: KeyboardEvent | Event) => {
 }
 
 const { wrapperRef } = useFocusController(elInputRef, {
-  beforeFocus() {
-    return disabled.value
-  },
+  disabled,
   afterFocus() {
     syncAfterCursorMove()
   },

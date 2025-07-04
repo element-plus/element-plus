@@ -54,6 +54,7 @@
       :name="name"
       :aria-label="ariaLabel"
       :validate-event="false"
+      :inputmode="inputmode"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
       @blur="handleBlur"

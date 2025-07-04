@@ -1,11 +1,19 @@
-import { getCurrentInstance, onMounted, ref, shallowRef, watch } from 'vue'
+import {
+  getCurrentInstance,
+  onMounted,
+  ref,
+  shallowRef,
+  unref,
+  watch,
+} from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { isElement, isFocusable, isFunction } from '@element-plus/utils'
-// eslint-disable-next-line no-restricted-imports
-import { useFormDisabled } from '@element-plus/components/form/src/hooks/use-form-common-props' // TODO: remove this
+
 import type { ShallowRef } from 'vue'
+import type { MaybeRef } from '@vueuse/core'
 
 interface UseFocusControllerOptions {
+  disabled?: MaybeRef<boolean>
   /**
    * return true to cancel focus
    * @param event FocusEvent
@@ -23,6 +31,7 @@ interface UseFocusControllerOptions {
 export function useFocusController<T extends { focus: () => void }>(
   target: ShallowRef<T | undefined>,
   {
+    disabled,
     beforeFocus,
     afterFocus,
     beforeBlur,
@@ -32,12 +41,12 @@ export function useFocusController<T extends { focus: () => void }>(
   const instance = getCurrentInstance()!
   const { emit } = instance
   const wrapperRef = shallowRef<HTMLElement>()
-  const disabled = useFormDisabled()
   const isFocused = ref(false)
 
   const handleFocus = (event: FocusEvent) => {
     const cancelFocus = isFunction(beforeFocus) ? beforeFocus(event) : false
-    if (cancelFocus || isFocused.value) return
+    if (unref(disabled) || isFocused.value || cancelFocus) return
+
     isFocused.value = true
     emit('focus', event)
     afterFocus?.()
@@ -46,9 +55,10 @@ export function useFocusController<T extends { focus: () => void }>(
   const handleBlur = (event: FocusEvent) => {
     const cancelBlur = isFunction(beforeBlur) ? beforeBlur(event) : false
     if (
-      cancelBlur ||
+      unref(disabled) ||
       (event.relatedTarget &&
-        wrapperRef.value?.contains(event.relatedTarget as Node))
+        wrapperRef.value?.contains(event.relatedTarget as Node)) ||
+      cancelBlur
     )
       return
 
@@ -59,17 +69,17 @@ export function useFocusController<T extends { focus: () => void }>(
 
   const handleClick = (event: Event) => {
     if (
-      (wrapperRef.value?.contains(document.activeElement) &&
-        wrapperRef.value !== document.activeElement) ||
+      unref(disabled) ||
       isFocusable(event.target as HTMLElement) ||
-      disabled.value
+      (wrapperRef.value?.contains(document.activeElement) &&
+        wrapperRef.value !== document.activeElement)
     )
       return
 
     target.value?.focus()
   }
 
-  watch([wrapperRef, disabled], ([el, disabled]) => {
+  watch([wrapperRef, () => unref(disabled)], ([el, disabled]) => {
     if (!el) return
     if (disabled) {
       el.removeAttribute('tabindex')

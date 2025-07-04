@@ -12,6 +12,7 @@ import {
   useFormDisabled,
   useFormSize,
 } from '@element-plus/components/form'
+
 import type { InputTagEmits, InputTagProps } from '../input-tag'
 
 interface UseInputTagOptions {
@@ -137,9 +138,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   }
 
   const { wrapperRef, isFocused } = useFocusController(inputRef, {
-    beforeFocus() {
-      return disabled.value
-    },
+    disabled,
     afterBlur() {
       if (props.saveOnBlur) {
         handleAddTag()
