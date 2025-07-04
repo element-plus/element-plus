@@ -272,7 +272,6 @@ export const selectProps = buildProps({
   },
   props: {
     type: definePropType<OptionFieldMap>(Object),
-    default: () => defaultProps,
   },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
