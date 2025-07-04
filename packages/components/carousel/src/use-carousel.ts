@@ -33,6 +33,7 @@ export const useCarousel = (
     children: items,
     addChild: addItem,
     removeChild: removeItem,
+    ChildrenSorter: ItemsSorter,
   } = useOrderedChildren<CarouselItemContext>(
     getCurrentInstance()!,
     CAROUSEL_ITEM_NAME
@@ -47,8 +48,6 @@ export const useCarousel = (
   const root = ref<HTMLDivElement>()
   const containerHeight = ref<number>(0)
   const isItemsTwoLength = ref(true)
-  const isFirstCall = ref(true)
-  const isTransitioning = ref(false)
 
   // computed
   const arrowDisplay = computed(
@@ -105,26 +104,14 @@ export const useCarousel = (
   }
 
   const playSlides = () => {
-    if (!isFirstCall.value) {
-      isTransitioning.value = true
-    }
-    isFirstCall.value = false
-
     if (activeIndex.value < items.value.length - 1) {
       activeIndex.value = activeIndex.value + 1
     } else if (props.loop) {
       activeIndex.value = 0
-    } else {
-      isTransitioning.value = false
     }
   }
 
   function setActiveItem(index: number | string) {
-    if (!isFirstCall.value) {
-      isTransitioning.value = true
-    }
-    isFirstCall.value = false
-
     if (isString(index)) {
       const filteredItems = items.value.filter(
         (item) => item.props.name === index
@@ -191,10 +178,6 @@ export const useCarousel = (
     startTimer()
   }
 
-  function handleTransitionEnd() {
-    isTransitioning.value = false
-  }
-
   function handleButtonEnter(arrow: 'left' | 'right') {
     if (unref(isVertical)) return
     items.value.forEach((item, index) => {
@@ -212,20 +195,12 @@ export const useCarousel = (
   }
 
   function handleIndicatorClick(index: number) {
-    if (index !== activeIndex.value) {
-      if (!isFirstCall.value) {
-        isTransitioning.value = true
-      }
-    }
     activeIndex.value = index
   }
 
   function handleIndicatorHover(index: number) {
     if (props.trigger === 'hover' && index !== activeIndex.value) {
       activeIndex.value = index
-      if (!isFirstCall.value) {
-        isTransitioning.value = true
-      }
     }
   }
 
@@ -345,13 +320,11 @@ export const useCarousel = (
     hasLabel,
     hover,
     isCardType,
-    isTransitioning,
     items,
     isVertical,
     containerStyle,
     isItemsTwoLength,
     handleButtonEnter,
-    handleTransitionEnd,
     handleButtonLeave,
     handleIndicatorClick,
     handleMouseEnter,
@@ -361,6 +334,7 @@ export const useCarousel = (
     next,
     PlaceholderItem,
     isTwoLengthShow,
+    ItemsSorter,
     throttledArrowClick,
     throttledIndicatorHover,
   }

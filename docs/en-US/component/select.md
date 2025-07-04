@@ -214,7 +214,7 @@ select/custom-label
 | reserve-keyword                 | when `multiple` and `filterable` is true, whether to reserve current keyword after selecting an option                | ^[boolean]                                                                                                                                                                  | true                                           |
 | default-first-option            | select first matching option on enter key. Use with `filterable` or `remote`                                          | ^[boolean]                                                                                                                                                                  | false                                          |
 | teleported                      | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                      | ^[boolean]                                                                                                                                                                  | true                                           |
-| append-to ^(2.8.4)              | which element the select dropdown appends to                                                                          | ^[string]                                                                                                                                                                   | —                                              |
+| append-to ^(2.8.4)              | which element the select dropdown appends to                                                                          | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                                              |
 | persistent                      | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                       | ^[boolean]                                                                                                                                                                  | true                                           |
 | automatic-dropdown              | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                     | ^[boolean]                                                                                                                                                                  | false                                          |
 | clear-icon                      | custom clear icon component                                                                                           | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose                                    |
@@ -255,16 +255,16 @@ select/custom-label
 
 ### Select Slots
 
-| Name             | Description                           | Subtags               |
-| ---------------- | ------------------------------------- | --------------------- |
-| default          | option component list                 | Option Group / Option |
-| header ^(2.4.3)  | content at the top of the dropdown    | —                     |
-| footer ^(2.4.3)  | content at the bottom of the dropdown | —                     |
-| prefix           | content as Select prefix              | —                     |
-| empty            | content when there is no options      | —                     |
-| tag ^(2.5.0)     | content as Select tag                 | —                     |
-| loading ^(2.5.2) | content as Select loading             | —                     |
-| label ^(2.7.4)   | content as Select label               | —                     |
+| Name             | Description                                                                                     | Subtags                                                                                                                                       |
+| ---------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| default          | option component list                                                                           | Option Group / Option                                                                                                                         |
+| header ^(2.4.3)  | content at the top of the dropdown                                                              | —                                                                                                                                             |
+| footer ^(2.4.3)  | content at the bottom of the dropdown                                                           | —                                                                                                                                             |
+| prefix           | content as Select prefix                                                                        | —                                                                                                                                             |
+| empty            | content when there is no options                                                                | —                                                                                                                                             |
+| tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: OptionBasic[], selectDisabled: boolean, deleteTag: (event: MouseEvent, tag: OptionPublicInstance \| OptionBasic) => void }` |
+| loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                                                             |
+| label ^(2.7.4)   | content as Select label                                                                         | —                                                                                                                                             |
 
 ### Select Exposes
 

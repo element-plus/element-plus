@@ -54,6 +54,7 @@ import { useGlobalComponentSettings } from '@element-plus/components/config-prov
 import { ElIcon } from '@element-plus/components/icon'
 import { messageEmits, messageProps } from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
+
 import type { BadgeProps } from '@element-plus/components/badge'
 import type { CSSProperties } from 'vue'
 
@@ -92,7 +93,7 @@ const lastOffset = computed(() => getLastOffset(props.id))
 const offset = computed(
   () => getOffsetOrSpace(props.id, props.offset) + lastOffset.value
 )
-const bottom = computed((): number => height.value + offset.value)
+const bottom = computed(() => height.value + offset.value)
 const customStyle = computed<CSSProperties>(() => ({
   top: `${offset.value}px`,
   zIndex: currentZIndex.value,

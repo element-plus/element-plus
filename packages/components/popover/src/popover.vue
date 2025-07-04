@@ -22,6 +22,7 @@
     :popper-class="kls"
     :popper-style="style"
     :teleported="teleported"
+    :append-to="appendTo"
     :persistent="persistent"
     :gpu-acceleration="gpuAcceleration"
     @update:visible="onUpdateVisible"
@@ -51,6 +52,7 @@ import { ElTooltip } from '@element-plus/components/tooltip'
 import { addUnit } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { popoverEmits, popoverProps } from './popover'
+
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 defineOptions({

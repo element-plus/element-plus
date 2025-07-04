@@ -4,6 +4,7 @@ import {
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
 import { dropdownProps } from '@element-plus/components/dropdown'
+
 import type { ExtractPropTypes, PropType } from 'vue'
 import type Popover from './popover.vue'
 
@@ -67,6 +68,10 @@ export const popoverProps = buildProps({
    * @description whether popover dropdown is teleported to the body
    */
   teleported: useTooltipContentProps.teleported,
+  /**
+   * @description which select dropdown appends to
+   */
+  appendTo: useTooltipContentProps.appendTo,
   /**
    * @description popover title
    */

@@ -1,5 +1,4 @@
 <script lang="ts">
-// @ts-nocheck
 import { computed, defineComponent, h, onMounted, reactive, ref } from 'vue'
 import { pick } from 'lodash-unified'
 import ElSelect from '@element-plus/components/select'
@@ -7,6 +6,9 @@ import ElTree from '@element-plus/components/tree'
 import { useSelect } from './select'
 import { useTree } from './tree'
 import CacheOptions from './cache-options'
+
+import type { TreeInstance } from '@element-plus/components/tree'
+import type { SelectInstance } from '@element-plus/components/select'
 
 export default defineComponent({
   name: 'ElTreeSelect',
@@ -26,8 +28,8 @@ export default defineComponent({
   setup(props, context) {
     const { slots, expose } = context
 
-    const select = ref<InstanceType<typeof ElSelect>>()
-    const tree = ref<InstanceType<typeof ElTree>>()
+    const select = ref<SelectInstance>()
+    const tree = ref<TreeInstance>()
 
     const key = computed(() => props.nodeKey || props.valueKey || 'value')
 
@@ -78,7 +80,7 @@ export default defineComponent({
          */
         reactive({
           ...selectProps,
-          ref: (ref) => (select.value = ref),
+          ref: (ref: SelectInstance) => (select.value = ref),
         }),
         {
           ...slots,
@@ -90,7 +92,7 @@ export default defineComponent({
               ElTree,
               reactive({
                 ...treeProps,
-                ref: (ref) => (tree.value = ref),
+                ref: (ref: TreeInstance) => (tree.value = ref),
               })
             ),
           ],

@@ -7,11 +7,14 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+
 import type { ExtractPropTypes } from 'vue'
-import type { Arrayable } from '@element-plus/utils'
+import type { Arrayable, Awaitable } from '@element-plus/utils'
 
 export type CollapseActiveName = string | number
 export type CollapseModelValue = Arrayable<CollapseActiveName>
+
+export type CollapseIconPositionType = 'left' | 'right'
 
 export const emitChangeFn = (value: CollapseModelValue) =>
   isNumber(value) || isString(value) || isArray(value)
@@ -27,6 +30,21 @@ export const collapseProps = buildProps({
   modelValue: {
     type: definePropType<CollapseModelValue>([Array, String, Number]),
     default: () => mutable([] as const),
+  },
+  /**
+   * @description set expand icon position
+   */
+  expandIconPosition: {
+    type: definePropType<CollapseIconPositionType>([String]),
+    default: 'right',
+  },
+  /**
+   * @description before-collapse hook before the collapse state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop collapsing
+   */
+  beforeCollapse: {
+    type: definePropType<(name: CollapseActiveName) => Awaitable<boolean>>(
+      Function
+    ),
   },
 } as const)
 export type CollapseProps = ExtractPropTypes<typeof collapseProps>

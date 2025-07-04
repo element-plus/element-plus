@@ -16,6 +16,7 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '../../tag'
 import { defaultProps } from './useProps'
+import SelectV2 from './select.vue'
 
 import type { Option, OptionType } from './select.types'
 import type { Props } from './useProps'
@@ -27,7 +28,7 @@ import type {
   PopperEffect,
 } from '@element-plus/components/popper'
 
-export const SelectProps = buildProps({
+export const selectV2Props = buildProps({
   /**
    * @description whether creating new items is allowed. To use this, `filterable` must be true
    */
@@ -129,6 +130,7 @@ export const SelectProps = buildProps({
    * @description biding value
    */
   modelValue: {
+    // eslint-disable-next-line prettier/prettier
     type: definePropType<
       any[] | string | number | boolean | Record<string, any> | any
     >([Array, String, Number, Boolean, Object]),
@@ -285,7 +287,7 @@ export const SelectProps = buildProps({
   /**
    * @description which element the select dropdown appends to
    */
-  appendTo: String,
+  appendTo: useTooltipContentProps.appendTo,
   /**
    * @description if it is `true`, the width of the dropdown panel is the same as the input box.
    * if it is `false`, the width is automatically calculated based on the value of `label`,
@@ -306,7 +308,7 @@ export const SelectProps = buildProps({
   ...useAriaProps(['ariaLabel']),
 } as const)
 
-export const OptionProps = buildProps({
+export const optionV2Props = buildProps({
   data: Array,
   disabled: Boolean,
   hovering: Boolean,
@@ -321,22 +323,24 @@ export const OptionProps = buildProps({
 } as const)
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-export const selectEmits = {
-  [UPDATE_MODEL_EVENT]: (val: ISelectV2Props['modelValue']) => true,
-  [CHANGE_EVENT]: (val: ISelectV2Props['modelValue']) => true,
+export const selectV2Emits = {
+  [UPDATE_MODEL_EVENT]: (val: SelectV2Props['modelValue']) => true,
+  [CHANGE_EVENT]: (val: SelectV2Props['modelValue']) => true,
   'remove-tag': (val: unknown) => true,
   'visible-change': (visible: boolean) => true,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,
 }
-export const optionEmits = {
+export const optionV2Emits = {
   hover: (index?: number) => isNumber(index),
   select: (val: Option, index?: number) => true,
 }
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
-export type ISelectV2Props = ExtractPropTypes<typeof SelectProps>
-export type IOptionV2Props = ExtractPropTypes<typeof OptionProps>
-export type SelectEmitFn = EmitFn<typeof selectEmits>
-export type OptionEmitFn = EmitFn<typeof optionEmits>
+export type SelectV2Props = ExtractPropTypes<typeof selectV2Props>
+export type OptionV2Props = ExtractPropTypes<typeof optionV2Props>
+export type SelectV2EmitFn = EmitFn<typeof selectV2Emits>
+export type OptionV2EmitFn = EmitFn<typeof optionV2Emits>
+
+export type SelectV2Instance = InstanceType<typeof SelectV2> & unknown

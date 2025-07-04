@@ -50,10 +50,15 @@ import {
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
-import type { ISelectProps, SelectEmits } from './select'
-import type { OptionPublicInstance, OptionValue, SelectStates } from './type'
+import type { SelectEmits, SelectProps } from './select'
+import type {
+  OptionBasic,
+  OptionPublicInstance,
+  OptionValue,
+  SelectStates,
+} from './type'
 
-export const useSelect = (props: ISelectProps, emit: SelectEmits) => {
+export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const { t } = useLocale()
   const contentId = useId()
   const nsSelect = useNamespace('select')
@@ -88,6 +93,15 @@ export const useSelect = (props: ISelectProps, emit: SelectEmits) => {
   const tagMenuRef = ref<HTMLElement>()
   const collapseItemRef = ref<HTMLElement>()
   const scrollbarRef = ref<ScrollbarInstance>()
+  // the controller of the expanded popup
+  const expanded = ref(false)
+  const hoverOption = ref()
+
+  const { form, formItem } = useFormItem()
+  const { inputId } = useFormItemInputId(props, {
+    formItemContext: formItem,
+  })
+  const { valueOnClear, isEmptyValue } = useEmptyValues(props)
 
   const {
     isComposing,
@@ -98,10 +112,10 @@ export const useSelect = (props: ISelectProps, emit: SelectEmits) => {
     afterComposition: (e) => onInput(e),
   })
 
+  const selectDisabled = computed(() => props.disabled || !!form?.disabled)
+
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
-    beforeFocus() {
-      return selectDisabled.value
-    },
+    disabled: selectDisabled,
     afterFocus() {
       if (props.automaticDropdown && !expanded.value) {
         expanded.value = true
@@ -122,18 +136,6 @@ export const useSelect = (props: ISelectProps, emit: SelectEmits) => {
       }
     },
   })
-
-  // the controller of the expanded popup
-  const expanded = ref(false)
-  const hoverOption = ref()
-
-  const { form, formItem } = useFormItem()
-  const { inputId } = useFormItemInputId(props, {
-    formItemContext: formItem,
-  })
-  const { valueOnClear, isEmptyValue } = useEmptyValues(props)
-
-  const selectDisabled = computed(() => props.disabled || form?.disabled)
 
   const hasModelValue = computed(() => {
     return isArray(props.modelValue)
@@ -455,7 +457,9 @@ export const useSelect = (props: ISelectProps, emit: SelectEmits) => {
   }
 
   const resetSelectionWidth = () => {
-    states.selectionWidth = selectionRef.value!.getBoundingClientRect().width
+    states.selectionWidth = Number.parseFloat(
+      window.getComputedStyle(selectionRef.value!).width
+    )
   }
 
   const resetCollapseItemWidth = () => {
@@ -520,7 +524,7 @@ export const useSelect = (props: ISelectProps, emit: SelectEmits) => {
 
   const deleteTag = (
     event: MouseEvent,
-    tag: OptionPublicInstance | SelectStates['selected'][0]
+    tag: OptionPublicInstance | OptionBasic
   ) => {
     const index = states.selected.indexOf(tag)
     if (index > -1 && !selectDisabled.value) {

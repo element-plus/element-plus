@@ -39,8 +39,7 @@
               v-model="customInput"
               :validate-event="false"
               size="small"
-              @keyup.enter="handleConfirm"
-              @blur="handleConfirm"
+              @change="handleConfirm"
             />
           </span>
           <el-button
@@ -80,7 +79,6 @@
         @focus="handleFocus"
         @blur="handleBlur"
       >
-        <div v-if="colorDisabled" :class="ns.be('picker', 'mask')" />
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
           <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
             <span
@@ -132,6 +130,7 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 import {
+  useEmptyValues,
   useFocusController,
   useLocale,
   useNamespace,
@@ -153,6 +152,7 @@ import {
   colorPickerEmits,
   colorPickerProps,
 } from './color-picker'
+
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 defineOptions({
@@ -166,6 +166,7 @@ const ns = useNamespace('color')
 const { formItem } = useFormItem()
 const colorSize = useFormSize()
 const colorDisabled = useFormDisabled()
+const { valueOnClear, isEmptyValue } = useEmptyValues(props, null)
 
 const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
@@ -179,9 +180,7 @@ const triggerRef = ref()
 const inputRef = ref()
 
 const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
-  beforeFocus() {
-    return colorDisabled.value
-  },
+  disabled: colorDisabled,
   beforeBlur(event) {
     return popper.value?.isFocusInsideContent(event)
   },
@@ -237,14 +236,8 @@ const btnKls = computed(() => {
 })
 
 function displayedRgb(color: Color, showAlpha: boolean) {
-  if (!(color instanceof Color)) {
-    throw new TypeError('color should be instance of _color Class')
-  }
-
-  const { r, g, b } = color.toRgb()
-  return showAlpha
-    ? `rgba(${r}, ${g}, ${b}, ${color.get('alpha') / 100})`
-    : `rgb(${r}, ${g}, ${b})`
+  const { r, g, b, a } = color.toRgb()
+  return showAlpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`
 }
 
 function setShowPicker(value: boolean) {
@@ -268,6 +261,9 @@ function resetColor() {
       color.fromString(props.modelValue)
     } else {
       color.value = ''
+      if (!currentColor.value && customInput.value) {
+        customInput.value = ''
+      }
       nextTick(() => {
         showPanelColor.value = false
       })
@@ -285,10 +281,13 @@ function handleTrigger() {
 
 function handleConfirm() {
   color.fromString(customInput.value)
+  if (color.value !== customInput.value) {
+    customInput.value = color.value
+  }
 }
 
 function confirmValue() {
-  const value = color.value
+  const value = isEmptyValue(color.value) ? valueOnClear.value : color.value
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
   if (props.validateEvent) {
@@ -310,9 +309,9 @@ function confirmValue() {
 
 function clear() {
   debounceSetShowPicker(false)
-  emit(UPDATE_MODEL_EVENT, null)
-  emit(CHANGE_EVENT, null)
-  if (props.modelValue !== null && props.validateEvent) {
+  emit(UPDATE_MODEL_EVENT, valueOnClear.value)
+  emit(CHANGE_EVENT, valueOnClear.value)
+  if (props.modelValue !== valueOnClear.value && props.validateEvent) {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
   resetColor()

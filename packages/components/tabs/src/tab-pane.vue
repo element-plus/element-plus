@@ -3,6 +3,7 @@
     v-if="shouldBeRender"
     v-show="active"
     :id="`pane-${paneName}`"
+    ref="paneRef"
     :class="ns.b()"
     role="tabpanel"
     :aria-hidden="!active"
@@ -17,8 +18,7 @@ import {
   computed,
   getCurrentInstance,
   inject,
-  onMounted,
-  onUnmounted,
+  onBeforeUnmount,
   reactive,
   ref,
   useSlots,
@@ -45,6 +45,7 @@ if (!tabsRoot)
 
 const ns = useNamespace('tab-pane')
 
+const paneRef = ref<HTMLDivElement>()
 const index = ref<string>()
 const isClosable = computed(() => props.closable || tabsRoot.props.closable)
 const active = eagerComputed(
@@ -55,6 +56,10 @@ const paneName = computed(() => props.name ?? index.value)
 const shouldBeRender = eagerComputed(
   () => !props.lazy || loaded.value || active.value
 )
+
+const isFocusInsidePane = () => {
+  return paneRef.value?.contains(document.activeElement)
+}
 
 watch(active, (val) => {
   if (val) loaded.value = true
@@ -68,14 +73,12 @@ const pane = reactive({
   active,
   index,
   isClosable,
+  isFocusInsidePane,
 })
 
 tabsRoot.registerPane(pane)
-onMounted(() => {
-  tabsRoot.sortPane(pane)
-})
 
-onUnmounted(() => {
-  tabsRoot.unregisterPane(pane.uid)
+onBeforeUnmount(() => {
+  tabsRoot.unregisterPane(pane)
 })
 </script>

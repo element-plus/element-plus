@@ -37,7 +37,7 @@ select-v2/multiple
 
 :::
 
-## Hide extra tags when the selected items are too many.
+## Hide extra tags when the selected items are too many
 
 You can collapse tags to a text by using `collapse-tags` attribute. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
 
@@ -121,7 +121,7 @@ select-v2/custom-footer
 
 Create and select new items that are not included in select options
 
-By using the `allow-create` attribute, users can create new items by typing in the input box. Note that for `allow-create` to work, `filterable` must be `true`.
+By using the `allow-create` attribute, users can create new items by typing in the input box. Note that for `allow-create` to work, `filterable` must be `true`. This example also demonstrates `default-first-option`. When this attribute is set to `true`, you can select the first option in the current option list by hitting enter without having to navigate with mouse or arrow keys.
 
 :::tip
 
@@ -250,11 +250,12 @@ select-v2/custom-width
 | loading                             | whether Select is loading data from server                                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
 | loading-text                        | displayed text while loading data from server, default is 'Loading'                                                                      | ^[string]                                                                                                                                                                   | —                                              |
 | reserve-keyword                     | whether reserve the keyword after select filtered option.                                                                                | ^[boolean]                                                                                                                                                                  | true                                           |
+| default-first-option                | select first matching option on enter key. Use with `filterable` or `remote`                                                             | ^[boolean]                                                                                                                                                                  | false                                          |
 | no-match-text                       | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'                    | ^[string]                                                                                                                                                                   | —                                              |
 | no-data-text                        | displayed text when there is no options, you can also use slot empty                                                                     | ^[string]                                                                                                                                                                   | No Data                                        |
 | popper-class                        | custom class name for Select's dropdown                                                                                                  | ^[string]                                                                                                                                                                   | ''                                             |
 | teleported                          | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                                         | ^[boolean]                                                                                                                                                                  | true                                           |
-| append-to ^(2.8.8)                  | which element the select dropdown appends to                                                                                             | ^[string]                                                                                                                                                                   | —                                              |
+| append-to ^(2.8.8)                  | which element the select dropdown appends to                                                                                             | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                                              |
 | persistent                          | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | ^[boolean]                                                                                                                                                                  | true                                           |
 | popper-options                      | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                   | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                             |
 | automatic-dropdown                  | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                                        | ^[boolean]                                                                                                                                                                  | false                                          |
@@ -302,16 +303,16 @@ select-v2/custom-width
 
 ### Slots
 
-| Name             | Description                           |
-| ---------------- | ------------------------------------- |
-| default          | Option renderer                       |
-| header ^(2.5.2)  | content at the top of the dropdown    |
-| footer ^(2.5.2)  | content at the bottom of the dropdown |
-| empty            | content when options is empty         |
-| prefix           | prefix content of input               |
-| tag ^(2.5.0)     | content as Select tag                 |
-| loading ^(2.5.2) | content as Select loading             |
-| label ^(2.7.4)   | content as Select label               |
+| Name             | Description                                                                                     | Subtags                                                                                                        |
+| ---------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| default          | Option renderer                                                                                 | —                                                                                                              |
+| header ^(2.5.2)  | content at the top of the dropdown                                                              | —                                                                                                              |
+| footer ^(2.5.2)  | content at the bottom of the dropdown                                                           | —                                                                                                              |
+| empty            | content when options is empty                                                                   | —                                                                                                              |
+| prefix           | prefix content of input                                                                         | —                                                                                                              |
+| tag ^(2.5.0)     | content as Select tag, subTags `data`, `selectDisabled` and `deleteTag` introduced in ^(2.10.3) | ^[object]`{ data: Option[], selectDisabled: boolean, deleteTag: (event: MouseEvent, option: Option) => void }` |
+| loading ^(2.5.2) | content as Select loading                                                                       | —                                                                                                              |
+| label ^(2.7.4)   | content as Select label                                                                         | —                                                                                                              |
 
 ### Exposes
 

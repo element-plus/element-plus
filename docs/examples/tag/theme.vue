@@ -36,6 +36,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { TagProps } from 'element-plus'
 
 type Item = { type: TagProps['type']; label: string }

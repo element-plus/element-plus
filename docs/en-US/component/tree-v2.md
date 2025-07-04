@@ -27,6 +27,11 @@ tree-v2/selectable
 
 :::
 
+:::warning
+When using show-checkbox, since `check-on-click-leaf` is true by default,
+last tree children's can be checked by clicking their nodes.
+:::
+
 ## Disabled checkbox
 
 The checkbox of a node can be set as disabled.
@@ -64,6 +69,16 @@ The class of tree nodes can be customized
 :::demo
 
 tree-v2/custom-node-class
+
+:::
+
+## Custom node icon ^(2.10.3)
+
+You can customize icons for different node states. Tree nodes expose the `expanded` property and `isLeaf` property, allowing you to dynamically render different icons based on the node's state: leaf nodes, expanded nodes, or collapsed nodes.
+
+:::demo
+
+tree-v2/custom-icon
 
 :::
 

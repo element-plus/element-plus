@@ -182,12 +182,16 @@ const copyCode = async () => {
 .example {
   border: 1px solid var(--border-color);
   border-radius: var(--el-border-radius-base);
-  overflow: hidden;
 
   .example-showcase {
     padding: 1.5rem;
     margin: 0.5px;
     background-color: var(--bg-color);
+    border-radius: var(--el-border-radius-base);
+    overflow: auto;
+    &:has(.el-affix) {
+      overflow: visible;
+    }
   }
 
   .op-btns {
