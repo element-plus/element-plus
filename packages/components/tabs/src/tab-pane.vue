@@ -67,6 +67,7 @@ watch(active, (val) => {
 
 const pane = reactive({
   uid: instance.uid,
+  getVnode: () => instance.vnode,
   slots,
   props,
   paneName,

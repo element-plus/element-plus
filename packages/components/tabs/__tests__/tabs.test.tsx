@@ -950,4 +950,45 @@ describe('Tabs.vue', () => {
     // Verify the model value has been updated
     expect(activeName.value).toBe('tab2')
   })
+
+  test('tab order should update when v-for array is reordered', async () => {
+    const itemList = ref([
+      { key: 'a', value: 'A' },
+      { key: 'b', value: 'B' },
+      { key: 'c', value: 'C' },
+      { key: 'd', value: 'D' },
+    ])
+
+    const wrapper = mount(() => (
+      <Tabs>
+        {itemList.value.map((item) => (
+          <TabPane key={item.key} label={item.value}></TabPane>
+        ))}
+      </Tabs>
+    ))
+
+    await nextTick()
+
+    const navWrapper = wrapper.findComponent(TabNav)
+    let navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+
+    // Check initial order
+    expect(navItemsWrapper[0].text()).toContain('A')
+    expect(navItemsWrapper[1].text()).toContain('B')
+    expect(navItemsWrapper[2].text()).toContain('C')
+    expect(navItemsWrapper[3].text()).toContain('D')
+
+    // Reverse the array
+    itemList.value.reverse()
+
+    await nextTick()
+
+    navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+
+    // Check that the order has updated
+    expect(navItemsWrapper[0].text()).toContain('D')
+    expect(navItemsWrapper[1].text()).toContain('C')
+    expect(navItemsWrapper[2].text()).toContain('B')
+    expect(navItemsWrapper[3].text()).toContain('A')
+  })
 })
