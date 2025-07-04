@@ -381,6 +381,8 @@ const TabNav = defineComponent({
         )
       })
 
+      // By tracking the value property, we can schedule a job to re-render `TabNav` when needed.
+      // Unlike `instance.update`, the scheduler ensures the job is queued only once even if we trigger it multiple times.
       tracker.value
 
       return (
