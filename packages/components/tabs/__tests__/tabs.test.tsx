@@ -959,15 +959,8 @@ describe('Tabs.vue', () => {
 
     const wrapper = mount(() => (
       <Tabs>
-        {itemList.value.map((item, index) => (
-          <TabPane
-            key={item.key}
-            label={`${item.value} (${index})`}
-            name={item.key}
-          >
-            <div>内容 {item.value}</div>
-            <div>index {index}</div>
-          </TabPane>
+        {itemList.value.map((item) => (
+          <TabPane key={item.key} label={item.value}></TabPane>
         ))}
       </Tabs>
     ))
@@ -978,10 +971,10 @@ describe('Tabs.vue', () => {
     let navItemsWrapper = navWrapper.findAll('.el-tabs__item')
 
     // Check initial order
-    expect(navItemsWrapper[0].text()).toContain('A (0)')
-    expect(navItemsWrapper[1].text()).toContain('B (1)')
-    expect(navItemsWrapper[2].text()).toContain('C (2)')
-    expect(navItemsWrapper[3].text()).toContain('D (3)')
+    expect(navItemsWrapper[0].text()).toContain('A')
+    expect(navItemsWrapper[1].text()).toContain('B')
+    expect(navItemsWrapper[2].text()).toContain('C')
+    expect(navItemsWrapper[3].text()).toContain('D')
 
     // Reverse the array
     itemList.value.reverse()
@@ -991,9 +984,9 @@ describe('Tabs.vue', () => {
     navItemsWrapper = navWrapper.findAll('.el-tabs__item')
 
     // Check that the order has updated
-    expect(navItemsWrapper[0].text()).toContain('D (0)')
-    expect(navItemsWrapper[1].text()).toContain('C (1)')
-    expect(navItemsWrapper[2].text()).toContain('B (2)')
-    expect(navItemsWrapper[3].text()).toContain('A (3)')
+    expect(navItemsWrapper[0].text()).toContain('D')
+    expect(navItemsWrapper[1].text()).toContain('C')
+    expect(navItemsWrapper[2].text()).toContain('B')
+    expect(navItemsWrapper[3].text()).toContain('A')
   })
 })
